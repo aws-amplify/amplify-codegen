@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@graphql-codegen/testing": "^1.13.1",
+    "eslint": "^7.12.0",
     "graphql": "^14.5.8",
     "java-ast": "^0.1.0"
   },

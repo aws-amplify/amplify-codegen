@@ -9,4 +9,8 @@ coverage:
     changes:
       default:
         target: 80%
+<<<<<<< HEAD
         if_not_found: success
+=======
+        if_not_found: success
+>>>>>>> feat(repo-setup): bootstrap dev environment and repo setup

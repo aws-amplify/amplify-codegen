@@ -15,7 +15,10 @@
 </p>
 
 ### Reporting Bugs/Feature Requests
+<<<<<<< HEAD
 
+=======
+>>>>>>> feat(repo-setup): bootstrap dev environment and repo setup
 [![Open Bugs](https://img.shields.io/github/issues/aws-amplify/amplify-codegen/bug?color=d73a4a&label=bugs)](https://github.com/aws-amplify/amplify-codegen/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
 [![Feature Requests](https://img.shields.io/github/issues/aws-amplify/amplify-codegen/feature-request?color=ff9001&label=feature%20requests)](https://github.com/aws-amplify/amplify-codegen/issues?q=is%3Aissue+label%3Afeature-request+is%3Aopen)
 [![Enhancements](https://img.shields.io/github/issues/aws-amplify/amplify-codegen/enhancement?color=4287f5&label=enhancement)](https://github.com/aws-amplify/amplify-codegen/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement)

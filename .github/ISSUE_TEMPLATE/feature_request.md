@@ -1,4 +1,5 @@
 ---
+<<<<<<< HEAD
 
 name: Feature request
 about: Suggest an idea for this project
@@ -6,6 +7,15 @@ about: Suggest an idea for this project
 
 > [official AWS Amplify CLI repo](https://github.com/aws-amplify/amplify-cli/issues). We value your feedback and will
 > take them seriously.
+=======
+name: Feature request
+about: Suggest an idea for this project
+
+---
+>**Note**: If your feature-request is not related to `appsync-modelgen-plugin`, please log it in the 
+[official AWS Amplify CLI repo](https://github.com/aws-amplify/amplify-cli/issues). We value your feedback and will 
+take them seriously.
+>>>>>>> feat(repo-setup): bootstrap dev environment and repo setup
 
 **Is your feature request related to a problem? Please describe.**
 A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
