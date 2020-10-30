@@ -5,7 +5,7 @@ machine:
 defaults: &defaults
   working_directory: ~/repo
   docker:
-    - image: circleci/node:10.18
+    - image: circleci/node:14.15
   resource_class: large
 
 jobs:
@@ -17,7 +17,7 @@ jobs:
       - run: yarn cache clean --force
       - run: yarn run production-build
       - save_cache:
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - ~/.cache
       - save_cache:
@@ -34,7 +34,7 @@ jobs:
       - attach_workspace:
           at: ./
       - restore_cache:
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run:
           name: Update OS Packages
           command: sudo apt-get update
@@ -66,7 +66,7 @@ jobs:
       - restore_cache:
           keys:
             - amplify-codegen-ssh-deps-{{ .Branch }}
-            - amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run:
           name: Authenticate with npm
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
