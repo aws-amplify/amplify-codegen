@@ -5,7 +5,7 @@ machine:
 defaults: &defaults
   working_directory: ~/repo
   docker:
-    - image: circleci/node:14.15
+    - image: circleci/node:15.0
   resource_class: large
 
 jobs:
