@@ -5,11 +5,7 @@ machine:
 defaults: &defaults
   working_directory: ~/repo
   docker:
-<<<<<<< HEAD
     - image: circleci/node:15.0
-=======
-    - image: circleci/node:10.18
->>>>>>> feat(repo-setup): bootstrap dev environment and repo setup
   resource_class: large
 
 jobs:
@@ -21,11 +17,7 @@ jobs:
       - run: yarn cache clean --force
       - run: yarn run production-build
       - save_cache:
-<<<<<<< HEAD
           key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
-=======
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
->>>>>>> feat(repo-setup): bootstrap dev environment and repo setup
           paths:
             - ~/.cache
       - save_cache:
@@ -42,11 +34,7 @@ jobs:
       - attach_workspace:
           at: ./
       - restore_cache:
-<<<<<<< HEAD
           key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
-=======
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
->>>>>>> feat(repo-setup): bootstrap dev environment and repo setup
       - run:
           name: Update OS Packages
           command: sudo apt-get update
@@ -78,11 +66,7 @@ jobs:
       - restore_cache:
           keys:
             - amplify-codegen-ssh-deps-{{ .Branch }}
-<<<<<<< HEAD
             - amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
-=======
-            - amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
->>>>>>> feat(repo-setup): bootstrap dev environment and repo setup
       - run:
           name: Authenticate with npm
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
