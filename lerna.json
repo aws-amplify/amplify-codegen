@@ -1,12 +1,4 @@
 {
-<<<<<<< HEAD
-  "lerna": "3.22.1",
-  "packages": ["packages/*"],
-  "version": "independent",
-  "npmClient": "yarn",
-  "useWorkspaces": true
-}
-=======
     "lerna": "3.22.1",
     "packages": ["packages/*"],
     "version": "independent",
@@ -14,4 +6,3 @@
     "useWorkspaces": true
   }
   
->>>>>>> feat(repo-setup): bootstrap dev environment and repo setup
