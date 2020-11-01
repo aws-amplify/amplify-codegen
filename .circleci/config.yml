@@ -15,7 +15,7 @@ jobs:
       - checkout
       - run: yarn config set workspaces-experimental true
       - run: yarn cache clean --force
-      - run: yarn run production-build
+      - run: yarn run build
       - save_cache:
           key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
