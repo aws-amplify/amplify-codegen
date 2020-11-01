@@ -9,7 +9,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --quiet",
     "lint-fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "clean": "lerna run clean && lerna exec yarn rimraf tsconfig.tsbuildinfo && lerna clean --yes && yarn rimraf node_modules",
-    "build": "lerna run build --concurrency 3 --stream",
+    "build": "yarn && lerna run build --concurrency 3 --stream",
     "publish:master": "lerna publish --canary --exact --force-publish --preid=alpha --include-merged-tags --conventional-prerelease --yes",
     "publish:release": "lerna publish --exact --conventional-commits --message 'chore(release): Publish [ci skip]' --yes",
     "publish-to-verdaccio": "lerna publish --exact --force-publish --preid=verdaccio --no-git-tag-version --no-commit-hooks --no-push --dist-tag=latest --conventional-commits --conventional-prerelease  --yes",
