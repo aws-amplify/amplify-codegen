@@ -1,3 +1,20 @@
+# Development Process
+
+Our work is done directly on Github and PR's are sent to the github repo by core team members and contributors. Everyone undergoes the same review process to get their changes into the repo.
+
+# Setting up for local development
+
+This section should get you running with **Amplify Codegen**. You will need the latest version of [nodejs](https://nodejs.org/en/) on your system and developing locally also requires `yarn` workspaces. You can install it [here](https://classic.yarnpkg.com/en/docs/install#mac-stable).
+
+Start by, [Forking](https://help.github.com/en/github/getting-started-with-github/fork-a-repo) the main branch of [amplify-codegen](https://github.com/aws-amplify/amplify-codegen).
+
+```
+$ git clone git@github.com:[username]/amplify-codegen.git
+$ cd amplify-codegen
+
+$ yarn run setup-dev
+```
+
 # Bugs
 
 Bug reports and feature suggestions are welcome. When filing a bug, try to include as much information as you can. Details like these are incredibly useful:
@@ -34,7 +51,7 @@ Make sure you follow [conventional commits](https://www.conventionalcommits.org/
 
 ## Tests
 
-Please ensure that your change still passes unit tests, and ideally integration/UI tests. It's OK if you're still working on tests at the time that you submit, but be prepared to be asked about them. Wherever possible, pull requests should contain tests as appropriate. Bugfixes should contain tests that exercise the corrected behavior (i.e., the test should fail without the bugfix and pass with it), and new features should be accompanied by tests exercising the feature.
+Please ensure that your change still passes unit tests, and ideally integration/UI tests. Use `yarn run test-ci` to run the test suite like it would in our CI environment. It's OK if you're still working on tests at the time that you submit, but be prepared to be asked about them. Wherever possible, pull requests should contain tests as appropriate. Bugfixes should contain tests that exercise the corrected behavior (i.e., the test should fail without the bugfix and pass with it), and new features should be accompanied by tests exercising the feature.
 
 ## Code Style
 

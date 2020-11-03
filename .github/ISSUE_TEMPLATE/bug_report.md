@@ -2,7 +2,7 @@
 
 name: Bug report
 about: Create a report to help us improve
----> **Note**: If your bug does not result from `amplify codegen models`, please log it in the
+---> **Note**: If your bug does not result from running `amplify codegen models`, please log it in the
 
 > [Amplify CLI GitHub Issue Tracker](https://github.com/aws-amplify/amplify-cli/issues)
 

@@ -22,15 +22,16 @@
 
 ## Developing
 
-To set up your local dev environment, go to the `amplify-codegen` directory and then run the following:<br>
-`yarn config set workspaces-experimental true`<br>
-`npm run setup-dev`
+This section should get you running with **Amplify Codegen**. You will need the latest version of [nodejs](https://nodejs.org/en/) on your system and developing locally also requires `yarn` workspaces. You can install it [here](https://classic.yarnpkg.com/en/docs/install#mac-stable).
 
-To test your category, do the following:<br>
-`cd <your test front-end project>` <br>
-`amplify-dev init` <br>
-`amplify-dev <your category> <subcommand>`<br>
+Start by, [Forking](https://help.github.com/en/github/getting-started-with-github/fork-a-repo) the main branch of [amplify-codegen](https://github.com/aws-amplify/amplify-codegen).
 
+```
+$ git clone git@github.com:[username]/amplify-codegen.git
+$ cd amplify-codegen
+
+$ yarn run setup-dev
+```
 Before pushing code or sending a pull request, do the following:
 
 - At the command line, run `npm run lint` at the top-level directory. This invokes lerna to check for lint errors in all of our packages.
