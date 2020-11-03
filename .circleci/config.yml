@@ -38,16 +38,16 @@ jobs:
       - run:
           name: Update OS Packages
           command: sudo apt-get update
-      - run:
-          name: Install Java
-          command: |
-            curl -O https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_linux-x64_bin.tar.gz
-            tar zxvf openjdk-11.0.2_linux-x64_bin.tar.gz
-            sudo mv jdk-11* /usr/local/
-            echo "export JAVA_HOME=/usr/local/jdk-11.0.2" >> $BASH_ENV
-            echo "export PATH=$PATH:/usr/local/jdk-11.0.2/bin" >> $BASH_ENV
-            source $BASH_ENV
-            java -version
+      # - run:
+      #     name: Install Java
+      #     command: |
+      #       curl -O https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_linux-x64_bin.tar.gz
+      #       tar zxvf openjdk-11.0.2_linux-x64_bin.tar.gz
+      #       sudo mv jdk-11* /usr/local/
+      #       echo "export JAVA_HOME=/usr/local/jdk-11.0.2" >> $BASH_ENV
+      #       echo "export PATH=$PATH:/usr/local/jdk-11.0.2/bin" >> $BASH_ENV
+      #       source $BASH_ENV
+      #       java -version
       - run:
           name: Lint
           command: yarn lint
