@@ -1,0 +1,93 @@
+{
+  "name": "amplify-codegen",
+  "version": "0.1.0",
+  "description": "amplify-codegen",
+  "scripts": {
+    "test-changed": "lerna run test --since master",
+    "test": "lerna run test",
+    "test-ci": "lerna run test --concurrency 1 -- --ci -i",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx --quiet",
+    "lint-fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "clean": "lerna run clean && lerna exec yarn rimraf tsconfig.tsbuildinfo && lerna clean --yes && yarn rimraf node_modules",
+    "build": "yarn && lerna run build --concurrency 3 --stream",
+    "publish:master": "lerna publish --canary --exact --force-publish --preid=dev --dist-tag=dev --include-merged-tags --conventional-prerelease --yes",
+    "publish:release": "lerna publish --exact --conventional-commits --message 'chore(release): Publish [ci skip]' --yes",
+    "publish-to-verdaccio": "lerna publish --exact --force-publish --preid=unstable --no-git-tag-version --no-commit-hooks --no-push --dist-tag=unstable --conventional-commits --conventional-prerelease  --yes",
+    "postpublish:release": "git fetch . release:master && git push origin master",
+    "setup-dev": "yarn && yarn bootstrap && yarn link-all && yarn build",
+    "bootstrap": "lerna bootstrap",
+    "link-all": "yarn unlink-all && lerna exec --no-bail --parallel yarn link",
+    "unlink-all": "lerna exec --no-bail --parallel -- yarn unlink; exit 0",
+    "commit": "git-cz",
+    "coverage": "codecov || exit 0"
+  },
+  "bugs": {
+    "url": "https://github.com/aws-amplify/amplify-codegen/issues"
+  },
+  "private": true,
+  "homepage": "https://github.com/aws-amplify/amplify-codegen#readme",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aws-amplify/amplify-codegen.git"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-push": "npm run lint && npm run test-changed",
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "author": "Amazon Web Services",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "lerna": "^3.22.1"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@commitlint/cli": "^8.1.0",
+    "@commitlint/config-conventional": "^8.1.0",
+    "@commitlint/config-lerna-scopes": "^8.1.0",
+    "@types/jest": "^25.2.1",
+    "@types/js-yaml": "^3.12.3",
+    "@typescript-eslint/eslint-plugin": "^2.16.0",
+    "@typescript-eslint/parser": "^2.16.0",
+    "cmd-shim": "^3.0.3",
+    "codecov": "^3.7.0",
+    "commitizen": "^3.1.2",
+    "copyfiles": "^2.2.0",
+    "cz-conventional-changelog": "^3.0.2",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-import-resolver-typescript": "^2.0.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-jest": "^23.6.0",
+    "eslint-plugin-json": "^2.0.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-spellcheck": "^0.0.17",
+    "glob": "^7.1.6",
+    "husky": "^3.0.3",
+    "jest": "^25.5.4",
+    "jest-circus": "^25.5.4",
+    "jest-junit": "^10.0.0",
+    "js-yaml": "3.13.1",
+    "lnk": "1.1.0",
+    "prettier": "^1.19.1",
+    "prettier-eslint": "^9.0.1",
+    "pretty-quick": "^2.0.1",
+    "rimraf": "^3.0.0",
+    "ts-jest": "^25.5.0",
+    "ts-node": "^8.10.1",
+    "typescript": "^3.8.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

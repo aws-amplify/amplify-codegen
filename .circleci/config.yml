@@ -1,0 +1,87 @@
+version: 2.1
+machine:
+  environment:
+    PATH: '${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin'
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:15.0
+  resource_class: large
+
+jobs:
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: yarn config set workspaces-experimental true
+      - run: yarn cache clean --force
+      - run: yarn run build
+      - save_cache:
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache
+      - save_cache:
+          key: amplify-codegen-ssh-deps-{{ .Branch }}
+          paths:
+            - ~/.ssh
+      - persist_to_workspace:
+          root: .
+          paths: .
+
+  test:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ./
+      - restore_cache:
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - run:
+          name: Lint
+          command: yarn lint
+      - run:
+          name: Run tests
+          command: yarn test-ci
+      - run:
+          name: Collect code coverage
+          command: yarn coverage
+
+  deploy:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ./
+      - restore_cache:
+          keys:
+            - amplify-codegen-ssh-deps-{{ .Branch }}
+            - amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - run:
+          name: Authenticate with npm
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+      - run:
+          name: Publish Amplify Codegen
+          command: |
+            if [ -z "$CIRCLE_PULL_REQUEST" ]; then
+              git config --global user.email $GITHUB_EMAIL
+              git config --global user.name $GITHUB_USER
+              npm run publish:$CIRCLE_BRANCH
+            else
+              echo "Skipping deploy."
+            fi
+
+workflows:
+  version: 2
+  build_test_deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - build
+            - test
+          filters:
+            branches:
+              only:
+                # - release
+                - master
