@@ -47,6 +47,9 @@
   "typescript": {
     "definition": "lib/index.d.ts"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "jest": {
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
