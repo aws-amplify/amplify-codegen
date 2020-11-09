@@ -1,6 +1,6 @@
 {
   "name": "@aws-amplify/appsync-modelgen-plugin",
-  "version": "1.20.11",
+  "version": "1.20.12-dev.135+f780dbf",
   "repository": {
     "type": "git",
     "url": "https://github.com/aws-amplify/amplify-codegen.git",
@@ -27,8 +27,8 @@
     "@graphql-codegen/plugin-helpers": "^1.12.2",
     "@graphql-codegen/visitor-plugin-common": "1.12.2",
     "@graphql-tools/utils": "^6.0.18",
-    "@types/pluralize": "0.0.29",
     "@types/node": "^14.14.6",
+    "@types/pluralize": "0.0.29",
     "chalk": "^3.0.0",
     "change-case": "^4.1.1",
     "lower-case-first": "^2.0.1",
@@ -68,5 +68,6 @@
       "ts",
       "js"
     ]
-  }
+  },
+  "gitHead": "f780dbf4f134ddf6f8cea4291750a157a9677113"
 }
