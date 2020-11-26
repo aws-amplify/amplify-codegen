@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 1.21.0-dev.0 (2020-11-26)
+
+
+### Bug Fixes
+
+* **modelgen:** add dart-style package dependency ([6bd1386](https://github.com/aws-amplify/amplify-codegen/commit/6bd1386b945d90061ab129dca2be8805668ea39e))
+* **modelgen:** resolve conflicts in amplify-codegen package.json ([044af39](https://github.com/aws-amplify/amplify-codegen/commit/044af398767dc7317b3cecfbd19ff26efd609296))
+* add setup-dev script ([ab2c548](https://github.com/aws-amplify/amplify-codegen/commit/ab2c54856b0ab2e941cee8f6aada3af38ef16032))
+* set --access public for first time publishing ([f12fab9](https://github.com/aws-amplify/amplify-codegen/commit/f12fab9db9ef851e07a596889c22747d37257e03))
+* set --access public for first time publishing ([f780dbf](https://github.com/aws-amplify/amplify-codegen/commit/f780dbf4f134ddf6f8cea4291750a157a9677113))
+* use scoped package name ([8bf28a4](https://github.com/aws-amplify/amplify-codegen/commit/8bf28a44d5d67c2989c0e56bf664cd6cec7591bf))
+
+
+### Features
+
+* **repo-setup:** bootstrap dev environment and repo setup ([8008ef2](https://github.com/aws-amplify/amplify-codegen/commit/8008ef28bbbcf9b0af6becd27aef62888a574eec))
+* **repo-setup:** bootstrap dev environment and repo setup ([3b57f45](https://github.com/aws-amplify/amplify-codegen/commit/3b57f45f73c0617bb93594e88dd5277fc0ec0580))
+* move contents to new package named appsync-modelgen-plugin ([d070b93](https://github.com/aws-amplify/amplify-codegen/commit/d070b93477cc4c3d63805b35dc06daf588a593ad))
+
+
+
+
+
 ## [1.21.1](https://github.com/aws-amplify/amplify-cli/compare/amplify-codegen-appsync-model-plugin@1.20.10...amplify-codegen-appsync-model-plugin@1.21.1) (2020-11-22)
 
 **Note:** Version bump only for package amplify-codegen-appsync-model-plugin
