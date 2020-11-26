@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.22.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.21.0-dev.0...@aws-amplify/appsync-modelgen-plugin@1.22.0) (2020-11-26)
+
+
+### Features
+
+* **setup:** add postpublish:release ([0e9c9c5](https://github.com/aws-amplify/amplify-codegen/commit/0e9c9c594cf033c1a444e84d1e4e1f4802959b46))
+
+
+
+
+
 # 1.21.0-dev.0 (2020-11-26)
 
 
