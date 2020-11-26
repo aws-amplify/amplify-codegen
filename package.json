@@ -13,7 +13,6 @@
     "publish:master": "lerna publish --exact --force-publish --preid=dev --dist-tag=dev --include-merged-tags --conventional-prerelease --yes",
     "publish:release": "lerna publish --exact --conventional-commits --message 'chore(release): Publish [ci skip]' --yes",
     "publish-to-verdaccio": "lerna publish --exact --force-publish --preid=unstable --no-git-tag-version --no-commit-hooks --no-push --dist-tag=unstable --conventional-commits --conventional-prerelease  --yes",
-    "postpublish:release": "git fetch . release:master && git push origin master",
     "setup-dev": "yarn && yarn bootstrap && yarn link-all && yarn build",
     "bootstrap": "lerna bootstrap",
     "link-all": "yarn unlink-all && lerna exec --no-bail --parallel yarn link",
