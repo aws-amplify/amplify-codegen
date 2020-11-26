@@ -85,3 +85,4 @@ workflows:
               only:
                 - release
                 - master
+                - beta
