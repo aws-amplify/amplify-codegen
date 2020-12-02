@@ -6,11 +6,13 @@ Our work is done directly on Github and PR's are sent to the github repo by core
 
 This section should get you running with **Amplify Codegen**. You will need the latest version of [nodejs](https://nodejs.org/en/) on your system and developing locally also requires `yarn` workspaces. You can install it [here](https://classic.yarnpkg.com/en/docs/install#mac-stable).
 
-Start by, [Forking](https://help.github.com/en/github/getting-started-with-github/fork-a-repo) the main branch of [amplify-codegen](https://github.com/aws-amplify/amplify-codegen).
+Start by, [Forking](https://help.github.com/en/github/getting-started-with-github/fork-a-repo) the master branch of [amplify-codegen](https://github.com/aws-amplify/amplify-codegen).
+It is recommended to create a feature branch from the **master** branch.
 
 ```
 $ git clone git@github.com:[username]/amplify-codegen.git
 $ cd amplify-codegen
+$ git checkout -b <feature/fix_name>
 
 $ yarn run setup-dev
 ```
@@ -49,9 +51,24 @@ Make sure you follow [conventional commits](https://www.conventionalcommits.org/
 
 ```
 
+It is also strongly recommended to run through the **tests** section described below before creating a Pull Request.
+
 ## Tests
 
-Please ensure that your change still passes unit tests, and ideally integration/UI tests. Use `yarn run test-ci` to run the test suite like it would in our CI environment. It's OK if you're still working on tests at the time that you submit, but be prepared to be asked about them. Wherever possible, pull requests should contain tests as appropriate. Bugfixes should contain tests that exercise the corrected behavior (i.e., the test should fail without the bugfix and pass with it), and new features should be accompanied by tests exercising the feature.
+Please ensure that your change still passes unit tests, and ideally integration/UI tests. 
+It's OK if you're still working on tests at the time that you submit, but be prepared to be asked about them. Wherever possible, pull requests should contain tests as appropriate. Bugfixes should contain tests that exercise the corrected behavior (i.e., the test should fail without the bugfix and pass with it), and new features should be accompanied by tests exercising the feature.
+
+### Test using AWS Codebuild
+
+We made our CI/CD pipeline public for you to take advantage of it and help us to get your changes merged in quickly.
+In order to replicate the setup in your AWS account, please follow the instructions listed [here](https://github.com/aws-amplify/amplify-codegen/amplify-codegen-ci-support/src/ci_cd_pipeline/README.md).
+Once you setup this architecture, each commit to your feature/fix branch as mentioned in **Setting up for local development** section above, should trigger a build and test wokflow in `AWS Codebuild`. Make sure that this is successfull before creating a Pull Request.
+
+**Note:** Please create a new branch for your feature/fix as mentioned in **Setting up for local development** section above.
+
+### Test locally without using AWS Codebuild
+
+Use `yarn lint` and `yarn run test-ci` to run the test suite like it would in our CI environment. 
 
 ## Code Style
 

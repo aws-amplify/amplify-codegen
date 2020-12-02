@@ -1,0 +1,45 @@
+version: 0.2
+
+env:
+  shell: /bin/sh
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+
+  pre_build:
+    commands:
+      - echo 'Pre_build phase starting'
+      - yarn config set workspaces-experimental true
+      - yarn cache clean --force
+    finally:
+      - echo 'Pre_build phase completed'
+  build:
+    commands:
+      - echo 'Build phase starting'
+      - echo 'Building packages'
+      - yarn run build
+      - echo 'Linting packages'
+      - yarn lint
+      - echo 'Testing packages'
+      - yarn test-ci
+      - echo 'Checking test coverage'
+      - yarn coverage
+    finally:
+      - echo 'Build phase completed'
+  post_build:
+    commands:
+      - echo 'Post_build phase started'
+      - echo $CODEBUILD_WEBHOOK_BASE_REF
+      - echo $CODEBUILD_WEBHOOK_HEAD_REF
+#      - echo 'Authenticating with NPM'
+#      - echo '//registry.npmjs.org/:_authToken=$NPM_TOKEN' > ~/.npmrc
+#      - echo 'Publishing Amplify Codegen'
+#      - npm run publish:master
+    finally:
+      - echo 'Post_build phase completed'
+      
+cache:
+  paths:
+    - './node_modules/**/*'
