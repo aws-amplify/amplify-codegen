@@ -6,7 +6,7 @@ with open("README.md") as fp:
 
 
 setuptools.setup(
-    name="ci_cd_pipeline",
+    name="ci_cd_resources",
     version="0.0.1",
 
     description="Amplify Codegen CI/CD pipeline infrastructure",
@@ -15,11 +15,12 @@ setuptools.setup(
 
     author="author",
 
-    package_dir={"": "ci_cd_pipeline"},
-    packages=setuptools.find_packages(where="ci_cd_pipeline"),
+    package_dir={"": "ci_cd_resources"},
+    packages=setuptools.find_packages(where="ci_cd_resources"),
 
     install_requires=[
-        "aws-cdk.core==1.74.0",
+        "aws-cdk.core>=1.74.0",
+        "aws_cdk.aws_codebuild"
         "boto3"
     ],
 

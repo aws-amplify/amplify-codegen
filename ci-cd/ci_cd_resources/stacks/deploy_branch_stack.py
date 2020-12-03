@@ -1,6 +1,6 @@
 from aws_cdk import core
-from build_unittest_deploy_builder import BuildUnitTestDeployBuilder
-from common_branch_stack import CommonBranchStack
+from stacks.build_unittest_deploy_builder import BuildUnitTestDeployBuilder
+from stacks.common_branch_stack import CommonBranchStack
 
 
 class DeployBranchStack(CommonBranchStack):

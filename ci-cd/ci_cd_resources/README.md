@@ -5,15 +5,15 @@ This CDK app is contains the stacks that manage the AWS components responsible f
 
 ## Stacks
 
-**DeployBranchStack:**
+**DeployBranchStack:**\
 Contains the resources necessary to run the build, test and deploy operations for a branch.\
 Currently, *master* and *release* branches are configured for deployment.\
 This stack sets up a codebuild project with appropriate webhooks for each of the deployment branches. The workflow for each of these branches can be individually configured
 from the `<deployment_branch_name>-branch-buildspec.yml` files in `codebuild_specs` directory.
 
-**CommonBranchStack:**
+**CommonBranchStack:**\
 Contains the resources necessary to run the build and test operations for any branch other than the deployment branches.\
-This stack sets up a cdebuild project with appropriate webhooks common to all branches other than the deployment branches.\
+This stack sets up a codebuild project with appropriate webhooks common to all branches other than the deployment branches.\
 The workflow can be found at `codebuild_specs/common-branch-buildspec.yml`.
 
 ## Setup
@@ -59,28 +59,19 @@ $ pip install -r requirements.txt
 ```
 
 ### AWS configuration
-In order to deploy the CI/CD architecture, you should have the appropriate AWS credentials set in your environment.
-```console
-export AWS_ACCESS_KEY_ID=<value>
-export AWS_SECRET_ACCESS_KEY=<value>
-export AWS_SESSION_TOKEN=<value> (if you're using temporary credentials, which is recommended)
-```
-In addition, you should set the region to which this architecture would be deployed.
-```console
-export AWS_DEFAULT_REGION=<value>
-```
+In order to deploy the CI/CD architecture, you should have the appropriate AWS credentials set.\
+Instructions to setup can be found **[here](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html#getting_started_prerequisites)**
 
 ### Connecting AWS Codebuild with Github
-Please follow the instructions **[here](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-access-tokens.html#sample-access-tokens-cli)** to connect your authenticate `AWS Codebuild` service to connect to your Github account.
+Please follow the instructions **[here](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-access-tokens.html#sample-access-tokens-cli)** to authenticate `AWS Codebuild` service to connect to your Github account.
 It is recommended to use `AWS CLI` to import the source credentials with appropriate permissions.
 
 ## Operations
 
 ### Deploying the stacks
-Once you have the above setup, you need to make sure `AWS Codebuild` is connected to your Github account.
-
-Once the `AWS Codebuild` service is connected to your github account, from the root of the CDK app (`amplify-codegen/amplify-codegen-ci-support/src/ci_cd_pipeline`), you can run:
+Once you have the above setup and your `AWS Codebuild` service is connected to your github account, from the root of the CDK app (`amplify-codegen/ci-cd/ci_cd_resources`), you can run:
 ```console
 cdk deploy --all -c github_owner=<your_github_username>
 ```
 This will create the necessary `codebuild` projects for CI/CD workflows of `amplify-codegen`.
+You should see that each subsequent commit to your `<feature/fix branch>` triggers the build and test workflow in Codebuild. 

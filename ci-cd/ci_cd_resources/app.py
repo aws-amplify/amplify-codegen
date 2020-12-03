@@ -11,7 +11,7 @@ app = core.App()
 
 # Get github repository related information
 # These are required to create a codebuild project
-REPO = 'Modelgen'
+REPO = 'amplify-codegen'
 github_owner = app.node.try_get_context("github_owner")
 if github_owner is None:
     raise ValueError(
