@@ -5,6 +5,8 @@ export const BASE_IMPORT_PACKAGES = [
 ];
 export const COLLECTION_PACKAGE = 'package:collection/collection.dart';
 
+export const IGNORE_FOR_FILE = '// ignore_for_file: public_member_api_docs'
+
 export const typeToEnumMap: Record<string, string> = {
   String: '.string',
   Int: '.int',

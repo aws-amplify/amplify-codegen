@@ -10,6 +10,7 @@ import {
   COLLECTION_PACKAGE,
   DART_RESERVED_KEYWORDS,
   typeToEnumMap,
+  IGNORE_FOR_FILE,
 } from '../configs/dart-config';
 import dartStyle from 'dart-style';
 import { generateLicense } from '../utils/generateLicense';
@@ -62,6 +63,8 @@ export class AppSyncModelDartVisitor<
     //License
     const license = generateLicense();
     result.push(license);
+    //Ignore for file
+    result.push(IGNORE_FOR_FILE);
     //Packages for import
     const packageImports: string[] = [
       'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface',
@@ -113,6 +116,8 @@ export class AppSyncModelDartVisitor<
     //License
     const license = generateLicense();
     result.push(license);
+    //Ignore for file
+    result.push(IGNORE_FOR_FILE);
     //Enum
     Object.entries(this.getSelectedEnums()).forEach(([name, enumVal]) => {
       const body = Object.values(enumVal.values).join(',\n');
@@ -133,6 +138,8 @@ export class AppSyncModelDartVisitor<
     //License
     const license = generateLicense();
     result.push(license);
+    //Ignore for file
+    result.push(IGNORE_FOR_FILE);
     //Imports
     const packageImports = this.generatePackageHeader();
     result.push(packageImports);
@@ -264,7 +271,7 @@ export class AppSyncModelDartVisitor<
   protected generateConstructor(model: CodeGenModel, declarationBlock: DartDeclarationBlock) : void {
     //Model._internal
     const args = `{${model.fields.map(f =>
-      `${f.isNullable ? '' : '@required '}this.${this.getFieldName(f)}`
+      `${this.isFieldRequired(f) ? '@required ' : ''}this.${this.getFieldName(f)}`
     ).join(', ')}}`
     declarationBlock.addClassMethod(
       `${this.getModelName(model)}._internal`,
@@ -289,7 +296,7 @@ export class AppSyncModelDartVisitor<
       indentMultiline(`${returnParamStr});`)
     ].join('\n');
     const factoryParam = `{${model.fields.map(f =>
-      `${f.isNullable ? '' : '@required '}${this.getNativeType(f)} ${this.getFieldName(f)}`
+      `${this.isFieldRequired(f) ? '@required ' : ''}${this.getNativeType(f)} ${this.getFieldName(f)}`
     ).join(', ')}}`
     declarationBlock.addClassMethod(
       this.getModelName(model),
@@ -389,7 +396,7 @@ export class AppSyncModelDartVisitor<
   protected generateCopyWithMethod(model: CodeGenModel, declarationBlock: DartDeclarationBlock) : void {
     //copyWith
     const copyParam = `{${model.fields.map(f =>
-      `${f.isNullable ? '' : '@required '}${this.getNativeType(f)} ${this.getFieldName(f)}`
+      `${this.getNativeType(f)} ${this.getFieldName(f)}`
     ).join(', ')}}`
     declarationBlock.addClassMethod(
       'copyWith',
@@ -427,6 +434,15 @@ export class AppSyncModelDartVisitor<
           ].join('\n');
         }
         if (this.isEnumType(field)) {
+          if (field.isList) {
+            return [
+              `${fieldName} = json['${fieldName}'] is List`,
+              indent(`? (json['${fieldName}'] as List)`),
+              indent(`.map((e) => enumFromString<${field.type}>(e, ${field.type}.values))`, 2),
+              indent(`.toList()`, 2),
+              indent(`: null`)
+            ].join('\n');
+          }
           return `${fieldName} = enumFromString<${field.type}>(json['${fieldName}'], ${field.type}.values)`
         }
         const fieldNativeType = this.getNativeType(field);
@@ -458,6 +474,9 @@ export class AppSyncModelDartVisitor<
         return `'${fieldName}': ${fieldName}?.toJson()`;
       }
       if (this.isEnumType(field)) {
+        if (field.isList) {
+          return `'${fieldName}': ${fieldName}?.map((e) => enumToString(e))?.toList()`;
+        }
         return `'${fieldName}': enumToString(${fieldName})`;
       }
       const fieldNativeType = this.getNativeType(field);
@@ -638,9 +657,10 @@ export class AppSyncModelDartVisitor<
               : '.string' );
           fieldParam = [
             `key: ${modelName}.${queryFieldName}`,
-            `isRequired: ${!field.isNullable}`,
+            `isRequired: ${this.isFieldRequired(field)}`,
+            field.isList ? 'isArray: true' : '',
             `ofType: ModelFieldType(ModelFieldTypeEnum${ofType})`
-          ].join(',\n');
+          ].filter(f => f).join(',\n');
           fieldsToAdd.push(['ModelFieldDefinition.field(', indentMultiline(fieldParam), ')'].join('\n'));
         }
       });
@@ -675,5 +695,9 @@ export class AppSyncModelDartVisitor<
       throw new Error(result.error);
     }
     return result.code || '';
+  }
+
+  protected isFieldRequired(field: CodeGenField) : boolean {
+    return !((field.isNullable && !field.isList) || field.isListNullable);
   }
 }
