@@ -363,7 +363,11 @@ export class AppSyncModelDartVisitor<
           const fieldName = this.getFieldName(field);
           let toStringVal = '';
           if (this.isEnumType(field)) {
-            toStringVal = `enumToString(${fieldName})`
+            if (field.isList) {
+              toStringVal = `${fieldName}?.map((e) => enumToString(e)).toString()`
+            } else {
+              toStringVal = `enumToString(${fieldName})`;
+            }
           } else {
             const fieldNativeType = this.getNativeType(field);
             switch (fieldNativeType) {
@@ -417,6 +421,7 @@ export class AppSyncModelDartVisitor<
     const serializationImpl = `\n: ${indentMultiline(
       model.fields.map(field => {
         const fieldName = this.getFieldName(field);
+        //model type
         if (this.isModelType(field)){
           if (field.isList) {
             return [
@@ -433,6 +438,7 @@ export class AppSyncModelDartVisitor<
             indent(`: null`)
           ].join('\n');
         }
+        //enum type
         if (this.isEnumType(field)) {
           if (field.isList) {
             return [
@@ -444,6 +450,10 @@ export class AppSyncModelDartVisitor<
             ].join('\n');
           }
           return `${fieldName} = enumFromString<${field.type}>(json['${fieldName}'], ${field.type}.values)`
+        }
+        //regular type
+        if (field.isList) {
+          return `${fieldName} = json['${fieldName}']?.cast<${this.getNativeType({...field, isList: false})}>()`;
         }
         const fieldNativeType = this.getNativeType(field);
         switch (fieldNativeType) {
@@ -655,11 +665,14 @@ export class AppSyncModelDartVisitor<
             : ( field.type in typeToEnumMap
               ? typeToEnumMap[field.type]
               : '.string' );
+          const ofTypeStr = field.isList
+            ? `ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum${ofType}))`
+            : `ofType: ModelFieldType(ModelFieldTypeEnum${ofType})`;
           fieldParam = [
             `key: ${modelName}.${queryFieldName}`,
             `isRequired: ${this.isFieldRequired(field)}`,
             field.isList ? 'isArray: true' : '',
-            `ofType: ModelFieldType(ModelFieldTypeEnum${ofType})`
+            ofTypeStr
           ].filter(f => f).join(',\n');
           fieldsToAdd.push(['ModelFieldDefinition.field(', indentMultiline(fieldParam), ')'].join('\n'));
         }

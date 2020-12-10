@@ -270,11 +270,16 @@ class TestEnumModel extends Model {
     buffer.write(\\"id=\\" + id + \\", \\");
     buffer.write(\\"enumVal=\\" + enumToString(enumVal) + \\", \\");
     buffer.write(\\"nullableEnumVal=\\" + enumToString(nullableEnumVal) + \\", \\");
-    buffer.write(\\"enumList=\\" + enumToString(enumList) + \\", \\");
-    buffer.write(\\"enumNullableList=\\" + enumToString(enumNullableList) + \\", \\");
-    buffer.write(\\"nullableEnumList=\\" + enumToString(nullableEnumList) + \\", \\");
     buffer.write(
-        \\"nullableEnumNullableList=\\" + enumToString(nullableEnumNullableList));
+        \\"enumList=\\" + enumList?.map((e) => enumToString(e)).toString() + \\", \\");
+    buffer.write(\\"enumNullableList=\\" +
+        enumNullableList?.map((e) => enumToString(e)).toString() +
+        \\", \\");
+    buffer.write(\\"nullableEnumList=\\" +
+        nullableEnumList?.map((e) => enumToString(e)).toString() +
+        \\", \\");
+    buffer.write(\\"nullableEnumNullableList=\\" +
+        nullableEnumNullableList?.map((e) => enumToString(e)).toString());
     buffer.write(\\"}\\");
 
     return buffer.toString();
@@ -370,25 +375,29 @@ class TestEnumModel extends Model {
         key: TestEnumModel.ENUMLIST,
         isRequired: true,
         isArray: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.enumeration)));
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.enumeration))));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
         key: TestEnumModel.ENUMNULLABLELIST,
         isRequired: false,
         isArray: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.enumeration)));
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.enumeration))));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
         key: TestEnumModel.NULLABLEENUMLIST,
         isRequired: true,
         isArray: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.enumeration)));
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.enumeration))));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
         key: TestEnumModel.NULLABLEENUMNULLABLELIST,
         isRequired: false,
         isArray: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.enumeration)));
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.enumeration))));
   });
 }
 
@@ -553,10 +562,11 @@ class TestModel extends Model {
       : id = json['id'],
         floatVal = json['floatVal'],
         floatNullableVal = json['floatNullableVal'],
-        floatList = json['floatList'],
-        floatNullableList = json['floatNullableList'],
-        nullableFloatList = json['nullableFloatList'],
-        nullableFloatNullableList = json['nullableFloatNullableList'];
+        floatList = json['floatList']?.cast<double>(),
+        floatNullableList = json['floatNullableList']?.cast<double>(),
+        nullableFloatList = json['nullableFloatList']?.cast<double>(),
+        nullableFloatNullableList =
+            json['nullableFloatNullableList']?.cast<double>();
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -600,25 +610,29 @@ class TestModel extends Model {
         key: TestModel.FLOATLIST,
         isRequired: true,
         isArray: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.double)));
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.double))));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
         key: TestModel.FLOATNULLABLELIST,
         isRequired: false,
         isArray: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.double)));
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.double))));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
         key: TestModel.NULLABLEFLOATLIST,
         isRequired: true,
         isArray: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.double)));
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.double))));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
         key: TestModel.NULLABLEFLOATNULLABLELIST,
         isRequired: false,
         isArray: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.double)));
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.double))));
   });
 }
 
@@ -2563,7 +2577,7 @@ class Blog extends Model {
                 .map((e) => Post.fromJson(new Map<String, dynamic>.from(e)))
                 .toList()
             : null,
-        test = json['test'];
+        test = json['test']?.cast<String>();
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -2601,7 +2615,8 @@ class Blog extends Model {
         key: Blog.TEST,
         isRequired: false,
         isArray: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.string))));
   });
 }
 
