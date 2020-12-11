@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.22.2...@aws-amplify/appsync-modelgen-plugin@1.22.3) (2020-12-11)
+
+
+### Bug Fixes
+
+* **modelgen:** reduce the @types/node dependency to 12.12.6 ([e2a6047](https://github.com/aws-amplify/amplify-codegen/commit/e2a60475a62d1c6c981601d8de2a79d7ddc69ca3))
+
+
+
+
+
 ## [1.22.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.22.1...@aws-amplify/appsync-modelgen-plugin@1.22.2) (2020-12-04)
 
 **Note:** Version bump only for package @aws-amplify/appsync-modelgen-plugin
