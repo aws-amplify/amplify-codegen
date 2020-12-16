@@ -6,9 +6,6 @@
   <a href="https://discord.gg/jWVbPfC" target="_blank">
     <img src="https://img.shields.io/discord/308323056592486420?logo=discord"" alt="Discord Chat" />  
   </a>
-  <a href="https://www.npmjs.com/package/appsync-modelgen-plugin">
-    <img src="https://img.shields.io/npm/v/appsync-modelgen-plugin.svg" />
-  </a>
   <a href="https://circleci.com/gh/aws-amplify/amplify-codegen">
     <img src="https://img.shields.io/circleci/project/github/aws-amplify/amplify-codegen/master.svg" alt="build:started">
   </a>
@@ -20,6 +17,11 @@
 [![Enhancements](https://img.shields.io/github/issues/aws-amplify/amplify-codegen/enhancement?color=4287f5&label=enhancement)](https://github.com/aws-amplify/amplify-codegen/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement)
 [![Closed Issues](https://img.shields.io/github/issues-closed/aws-amplify/amplify-codegen?color=%2325CC00&label=issues%20closed)](https://github.com/aws-amplify/amplify-codegen/issues?q=is%3Aissue+is%3Aclosed+)
 
+# Amplify Codegen
+Amplify Codegen is a JavaScript toolkit library for frontend and mobile developers building amplify applications. Packages are mainly used for frontend code generation including:
+| Package                                                                | Description                                                                                                                                                                                                          |
+| ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| appsync-modelgen-plugin                                                | Model generator for Amplify Datastore                                                                                                                               |
 ## Developing
 
 This section should get you running with **Amplify Codegen**. You will need the latest version of [nodejs](https://nodejs.org/en/) on your system and developing locally also requires `yarn` workspaces. You can install it [here](https://classic.yarnpkg.com/en/docs/install#mac-stable).
@@ -30,7 +32,7 @@ Start by, [Forking](https://help.github.com/en/github/getting-started-with-githu
 $ git clone git@github.com:[username]/amplify-codegen.git
 $ cd amplify-codegen
 
-$ yarn run setup-dev
+$ yarn setup-dev
 ```
 Before pushing code or sending a pull request, do the following:
 
