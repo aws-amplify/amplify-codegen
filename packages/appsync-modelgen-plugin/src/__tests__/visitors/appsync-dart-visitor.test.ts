@@ -278,6 +278,50 @@ describe('AppSync Dart Visitor', () => {
     })
   });
 
+  describe('Field tests', () => {
+    it('should generate correct output for regular field w/o list or nullable', () => {
+      const schema = /* GraphQL */ `
+        type TestModel @model {
+          id: ID!
+          floatVal: Float!
+          floatNullableVal: Float
+          floatList: [Float!]!
+          floatNullableList: [Float!]
+          nullableFloatList: [Float]!
+          nullableFloatNullableList: [Float]
+        }
+      `;
+      const visitor = getVisitor(schema);
+      const generatedCode = visitor.generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+
+    it('should generate correct output for enum field w/o list or nullable', () => {
+      const schema = /* GraphQL */ `
+        type TestEnumModel @model {
+          id: ID!
+        
+          enumVal: TestEnum!
+        
+          nullableEnumVal: TestEnum
+        
+          enumList: [TestEnum!]!
+          enumNullableList: [TestEnum!]
+          nullableEnumList: [TestEnum]!
+          nullableEnumNullableList: [TestEnum]
+        }
+        
+        enum TestEnum {
+          VALUE_ONE
+          VALUE_TWO
+        }
+      `;
+      const visitor = getVisitor(schema, 'TestEnumModel');
+      const generatedCode = visitor.generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+  });
+
   describe('Dart Specific Tests', () => {
     it('should generate the model provider', () => {
       const schema = /* GraphQL */ `

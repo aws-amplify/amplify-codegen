@@ -16,6 +16,8 @@ exports[`AppSync Dart Visitor Dart Specific Tests should generate the model prov
 * permissions and limitations under the License.
 */
 
+// ignore_for_file: public_member_api_docs
+
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'SimpleModel.dart';
 
@@ -29,6 +31,22 @@ class ModelProvider implements ModelProviderInterface {
   static final ModelProvider _instance = ModelProvider();
 
   static ModelProvider get instance => _instance;
+
+  ModelType getModelTypeByModelName(String modelName) {
+    switch (modelName) {
+      case \\"SimpleModel\\":
+        {
+          return SimpleModel.classType;
+        }
+        break;
+      default:
+        {
+          throw Exception(
+              \\"Failed to find model in model provider for model name: \\" +
+                  modelName);
+        }
+    }
+  }
 }
 "
 `;
@@ -48,6 +66,8 @@ exports[`AppSync Dart Visitor Enum Generation should generate a class for enum t
 * express or implied. See the License for the specific language governing
 * permissions and limitations under the License.
 */
+
+// ignore_for_file: public_member_api_docs
 
 import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
@@ -100,7 +120,7 @@ class SimpleModel extends Model {
     return buffer.toString();
   }
 
-  SimpleModel copyWith({@required String id, Status status}) {
+  SimpleModel copyWith({String id, Status status}) {
     return SimpleModel(id: id ?? this.id, status: status ?? this.status);
   }
 
@@ -153,7 +173,493 @@ exports[`AppSync Dart Visitor Enum Generation should generate a class for enum t
 * permissions and limitations under the License.
 */
 
+// ignore_for_file: public_member_api_docs
+
 enum Status { yes, no, maybe }
+"
+`;
+
+exports[`AppSync Dart Visitor Field tests should generate correct output for enum field w/o list or nullable 1`] = `
+"/*
+* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// ignore_for_file: public_member_api_docs
+
+import 'ModelProvider.dart';
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
+
+/** This is an auto generated class representing the TestEnumModel type in your schema. */
+@immutable
+class TestEnumModel extends Model {
+  static const classType = const TestEnumModelType();
+  final String id;
+  final TestEnum enumVal;
+  final TestEnum nullableEnumVal;
+  final List<TestEnum> enumList;
+  final List<TestEnum> enumNullableList;
+  final List<TestEnum> nullableEnumList;
+  final List<TestEnum> nullableEnumNullableList;
+
+  @override
+  getInstanceType() => classType;
+
+  @override
+  String getId() {
+    return id;
+  }
+
+  const TestEnumModel._internal(
+      {@required this.id,
+      @required this.enumVal,
+      this.nullableEnumVal,
+      @required this.enumList,
+      this.enumNullableList,
+      @required this.nullableEnumList,
+      this.nullableEnumNullableList});
+
+  factory TestEnumModel(
+      {@required String id,
+      @required TestEnum enumVal,
+      TestEnum nullableEnumVal,
+      @required List<TestEnum> enumList,
+      List<TestEnum> enumNullableList,
+      @required List<TestEnum> nullableEnumList,
+      List<TestEnum> nullableEnumNullableList}) {
+    return TestEnumModel._internal(
+        id: id == null ? UUID.getUUID() : id,
+        enumVal: enumVal,
+        nullableEnumVal: nullableEnumVal,
+        enumList: enumList != null ? List.unmodifiable(enumList) : enumList,
+        enumNullableList: enumNullableList != null
+            ? List.unmodifiable(enumNullableList)
+            : enumNullableList,
+        nullableEnumList: nullableEnumList != null
+            ? List.unmodifiable(nullableEnumList)
+            : nullableEnumList,
+        nullableEnumNullableList: nullableEnumNullableList != null
+            ? List.unmodifiable(nullableEnumNullableList)
+            : nullableEnumNullableList);
+  }
+
+  bool equals(Object other) {
+    return this == other;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is TestEnumModel &&
+        id == other.id &&
+        enumVal == other.enumVal &&
+        nullableEnumVal == other.nullableEnumVal &&
+        DeepCollectionEquality().equals(enumList, other.enumList) &&
+        DeepCollectionEquality()
+            .equals(enumNullableList, other.enumNullableList) &&
+        DeepCollectionEquality()
+            .equals(nullableEnumList, other.nullableEnumList) &&
+        DeepCollectionEquality()
+            .equals(nullableEnumNullableList, other.nullableEnumNullableList);
+  }
+
+  @override
+  int get hashCode => toString().hashCode;
+
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+
+    buffer.write(\\"TestEnumModel {\\");
+    buffer.write(\\"id=\\" + id + \\", \\");
+    buffer.write(\\"enumVal=\\" + enumToString(enumVal) + \\", \\");
+    buffer.write(\\"nullableEnumVal=\\" + enumToString(nullableEnumVal) + \\", \\");
+    buffer.write(
+        \\"enumList=\\" + enumList?.map((e) => enumToString(e)).toString() + \\", \\");
+    buffer.write(\\"enumNullableList=\\" +
+        enumNullableList?.map((e) => enumToString(e)).toString() +
+        \\", \\");
+    buffer.write(\\"nullableEnumList=\\" +
+        nullableEnumList?.map((e) => enumToString(e)).toString() +
+        \\", \\");
+    buffer.write(\\"nullableEnumNullableList=\\" +
+        nullableEnumNullableList?.map((e) => enumToString(e)).toString());
+    buffer.write(\\"}\\");
+
+    return buffer.toString();
+  }
+
+  TestEnumModel copyWith(
+      {String id,
+      TestEnum enumVal,
+      TestEnum nullableEnumVal,
+      List<TestEnum> enumList,
+      List<TestEnum> enumNullableList,
+      List<TestEnum> nullableEnumList,
+      List<TestEnum> nullableEnumNullableList}) {
+    return TestEnumModel(
+        id: id ?? this.id,
+        enumVal: enumVal ?? this.enumVal,
+        nullableEnumVal: nullableEnumVal ?? this.nullableEnumVal,
+        enumList: enumList ?? this.enumList,
+        enumNullableList: enumNullableList ?? this.enumNullableList,
+        nullableEnumList: nullableEnumList ?? this.nullableEnumList,
+        nullableEnumNullableList:
+            nullableEnumNullableList ?? this.nullableEnumNullableList);
+  }
+
+  TestEnumModel.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        enumVal = enumFromString<TestEnum>(json['enumVal'], TestEnum.values),
+        nullableEnumVal =
+            enumFromString<TestEnum>(json['nullableEnumVal'], TestEnum.values),
+        enumList = json['enumList'] is List
+            ? (json['enumList'] as List)
+                .map((e) => enumFromString<TestEnum>(e, TestEnum.values))
+                .toList()
+            : null,
+        enumNullableList = json['enumNullableList'] is List
+            ? (json['enumNullableList'] as List)
+                .map((e) => enumFromString<TestEnum>(e, TestEnum.values))
+                .toList()
+            : null,
+        nullableEnumList = json['nullableEnumList'] is List
+            ? (json['nullableEnumList'] as List)
+                .map((e) => enumFromString<TestEnum>(e, TestEnum.values))
+                .toList()
+            : null,
+        nullableEnumNullableList = json['nullableEnumNullableList'] is List
+            ? (json['nullableEnumNullableList'] as List)
+                .map((e) => enumFromString<TestEnum>(e, TestEnum.values))
+                .toList()
+            : null;
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'enumVal': enumToString(enumVal),
+        'nullableEnumVal': enumToString(nullableEnumVal),
+        'enumList': enumList?.map((e) => enumToString(e))?.toList(),
+        'enumNullableList':
+            enumNullableList?.map((e) => enumToString(e))?.toList(),
+        'nullableEnumList':
+            nullableEnumList?.map((e) => enumToString(e))?.toList(),
+        'nullableEnumNullableList':
+            nullableEnumNullableList?.map((e) => enumToString(e))?.toList()
+      };
+
+  static final QueryField ID = QueryField(fieldName: \\"testEnumModel.id\\");
+  static final QueryField ENUMVAL = QueryField(fieldName: \\"enumVal\\");
+  static final QueryField NULLABLEENUMVAL =
+      QueryField(fieldName: \\"nullableEnumVal\\");
+  static final QueryField ENUMLIST = QueryField(fieldName: \\"enumList\\");
+  static final QueryField ENUMNULLABLELIST =
+      QueryField(fieldName: \\"enumNullableList\\");
+  static final QueryField NULLABLEENUMLIST =
+      QueryField(fieldName: \\"nullableEnumList\\");
+  static final QueryField NULLABLEENUMNULLABLELIST =
+      QueryField(fieldName: \\"nullableEnumNullableList\\");
+  static var schema =
+      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"TestEnumModel\\";
+    modelSchemaDefinition.pluralName = \\"TestEnumModels\\";
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TestEnumModel.ENUMVAL,
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.enumeration)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TestEnumModel.NULLABLEENUMVAL,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.enumeration)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TestEnumModel.ENUMLIST,
+        isRequired: true,
+        isArray: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.enumeration))));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TestEnumModel.ENUMNULLABLELIST,
+        isRequired: false,
+        isArray: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.enumeration))));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TestEnumModel.NULLABLEENUMLIST,
+        isRequired: true,
+        isArray: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.enumeration))));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TestEnumModel.NULLABLEENUMNULLABLELIST,
+        isRequired: false,
+        isArray: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.enumeration))));
+  });
+}
+
+class TestEnumModelType extends ModelType<TestEnumModel> {
+  const TestEnumModelType();
+
+  @override
+  TestEnumModel fromJson(Map<String, dynamic> jsonData) {
+    return TestEnumModel.fromJson(jsonData);
+  }
+}
+"
+`;
+
+exports[`AppSync Dart Visitor Field tests should generate correct output for regular field w/o list or nullable 1`] = `
+"/*
+* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// ignore_for_file: public_member_api_docs
+
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
+
+/** This is an auto generated class representing the TestModel type in your schema. */
+@immutable
+class TestModel extends Model {
+  static const classType = const TestModelType();
+  final String id;
+  final double floatVal;
+  final double floatNullableVal;
+  final List<double> floatList;
+  final List<double> floatNullableList;
+  final List<double> nullableFloatList;
+  final List<double> nullableFloatNullableList;
+
+  @override
+  getInstanceType() => classType;
+
+  @override
+  String getId() {
+    return id;
+  }
+
+  const TestModel._internal(
+      {@required this.id,
+      @required this.floatVal,
+      this.floatNullableVal,
+      @required this.floatList,
+      this.floatNullableList,
+      @required this.nullableFloatList,
+      this.nullableFloatNullableList});
+
+  factory TestModel(
+      {@required String id,
+      @required double floatVal,
+      double floatNullableVal,
+      @required List<double> floatList,
+      List<double> floatNullableList,
+      @required List<double> nullableFloatList,
+      List<double> nullableFloatNullableList}) {
+    return TestModel._internal(
+        id: id == null ? UUID.getUUID() : id,
+        floatVal: floatVal,
+        floatNullableVal: floatNullableVal,
+        floatList: floatList != null ? List.unmodifiable(floatList) : floatList,
+        floatNullableList: floatNullableList != null
+            ? List.unmodifiable(floatNullableList)
+            : floatNullableList,
+        nullableFloatList: nullableFloatList != null
+            ? List.unmodifiable(nullableFloatList)
+            : nullableFloatList,
+        nullableFloatNullableList: nullableFloatNullableList != null
+            ? List.unmodifiable(nullableFloatNullableList)
+            : nullableFloatNullableList);
+  }
+
+  bool equals(Object other) {
+    return this == other;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is TestModel &&
+        id == other.id &&
+        floatVal == other.floatVal &&
+        floatNullableVal == other.floatNullableVal &&
+        DeepCollectionEquality().equals(floatList, other.floatList) &&
+        DeepCollectionEquality()
+            .equals(floatNullableList, other.floatNullableList) &&
+        DeepCollectionEquality()
+            .equals(nullableFloatList, other.nullableFloatList) &&
+        DeepCollectionEquality()
+            .equals(nullableFloatNullableList, other.nullableFloatNullableList);
+  }
+
+  @override
+  int get hashCode => toString().hashCode;
+
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+
+    buffer.write(\\"TestModel {\\");
+    buffer.write(\\"id=\\" + id + \\", \\");
+    buffer.write(
+        \\"floatVal=\\" + (floatVal != null ? floatVal.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"floatNullableVal=\\" +
+        (floatNullableVal != null ? floatNullableVal.toString() : \\"null\\") +
+        \\", \\");
+    buffer.write(\\"floatList=\\" +
+        (floatList != null ? floatList.toString() : \\"null\\") +
+        \\", \\");
+    buffer.write(\\"floatNullableList=\\" +
+        (floatNullableList != null ? floatNullableList.toString() : \\"null\\") +
+        \\", \\");
+    buffer.write(\\"nullableFloatList=\\" +
+        (nullableFloatList != null ? nullableFloatList.toString() : \\"null\\") +
+        \\", \\");
+    buffer.write(\\"nullableFloatNullableList=\\" +
+        (nullableFloatNullableList != null
+            ? nullableFloatNullableList.toString()
+            : \\"null\\"));
+    buffer.write(\\"}\\");
+
+    return buffer.toString();
+  }
+
+  TestModel copyWith(
+      {String id,
+      double floatVal,
+      double floatNullableVal,
+      List<double> floatList,
+      List<double> floatNullableList,
+      List<double> nullableFloatList,
+      List<double> nullableFloatNullableList}) {
+    return TestModel(
+        id: id ?? this.id,
+        floatVal: floatVal ?? this.floatVal,
+        floatNullableVal: floatNullableVal ?? this.floatNullableVal,
+        floatList: floatList ?? this.floatList,
+        floatNullableList: floatNullableList ?? this.floatNullableList,
+        nullableFloatList: nullableFloatList ?? this.nullableFloatList,
+        nullableFloatNullableList:
+            nullableFloatNullableList ?? this.nullableFloatNullableList);
+  }
+
+  TestModel.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        floatVal = json['floatVal'],
+        floatNullableVal = json['floatNullableVal'],
+        floatList = json['floatList']?.cast<double>(),
+        floatNullableList = json['floatNullableList']?.cast<double>(),
+        nullableFloatList = json['nullableFloatList']?.cast<double>(),
+        nullableFloatNullableList =
+            json['nullableFloatNullableList']?.cast<double>();
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'floatVal': floatVal,
+        'floatNullableVal': floatNullableVal,
+        'floatList': floatList,
+        'floatNullableList': floatNullableList,
+        'nullableFloatList': nullableFloatList,
+        'nullableFloatNullableList': nullableFloatNullableList
+      };
+
+  static final QueryField ID = QueryField(fieldName: \\"testModel.id\\");
+  static final QueryField FLOATVAL = QueryField(fieldName: \\"floatVal\\");
+  static final QueryField FLOATNULLABLEVAL =
+      QueryField(fieldName: \\"floatNullableVal\\");
+  static final QueryField FLOATLIST = QueryField(fieldName: \\"floatList\\");
+  static final QueryField FLOATNULLABLELIST =
+      QueryField(fieldName: \\"floatNullableList\\");
+  static final QueryField NULLABLEFLOATLIST =
+      QueryField(fieldName: \\"nullableFloatList\\");
+  static final QueryField NULLABLEFLOATNULLABLELIST =
+      QueryField(fieldName: \\"nullableFloatNullableList\\");
+  static var schema =
+      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"TestModel\\";
+    modelSchemaDefinition.pluralName = \\"TestModels\\";
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TestModel.FLOATVAL,
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.double)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TestModel.FLOATNULLABLEVAL,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.double)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TestModel.FLOATLIST,
+        isRequired: true,
+        isArray: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.double))));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TestModel.FLOATNULLABLELIST,
+        isRequired: false,
+        isArray: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.double))));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TestModel.NULLABLEFLOATLIST,
+        isRequired: true,
+        isArray: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.double))));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TestModel.NULLABLEFLOATNULLABLELIST,
+        isRequired: false,
+        isArray: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.double))));
+  });
+}
+
+class TestModelType extends ModelType<TestModel> {
+  const TestModelType();
+
+  @override
+  TestModel fromJson(Map<String, dynamic> jsonData) {
+    return TestModel.fromJson(jsonData);
+  }
+}
 "
 `;
 
@@ -172,6 +678,8 @@ exports[`AppSync Dart Visitor Model Directive should generate a class for a Simp
 * express or implied. See the License for the specific language governing
 * permissions and limitations under the License.
 */
+
+// ignore_for_file: public_member_api_docs
 
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
@@ -228,7 +736,7 @@ class SimpleModel extends Model {
     return buffer.toString();
   }
 
-  SimpleModel copyWith({@required String id, String name, String bar}) {
+  SimpleModel copyWith({String id, String name, String bar}) {
     return SimpleModel(
         id: id ?? this.id, name: name ?? this.name, bar: bar ?? this.bar);
   }
@@ -289,6 +797,8 @@ exports[`AppSync Dart Visitor Model Directive should generate a class for a mode
 * permissions and limitations under the License.
 */
 
+// ignore_for_file: public_member_api_docs
+
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
@@ -344,7 +854,7 @@ class SimpleModel extends Model {
     return buffer.toString();
   }
 
-  SimpleModel copyWith({@required String id, String name, String bar}) {
+  SimpleModel copyWith({String id, String name, String bar}) {
     return SimpleModel(
         id: id ?? this.id, name: name ?? this.name, bar: bar ?? this.bar);
   }
@@ -405,6 +915,8 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 * permissions and limitations under the License.
 */
 
+// ignore_for_file: public_member_api_docs
+
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
@@ -460,7 +972,7 @@ class customClaim extends Model {
     return buffer.toString();
   }
 
-  customClaim copyWith({@required String id, String name, String bar}) {
+  customClaim copyWith({String id, String name, String bar}) {
     return customClaim(
         id: id ?? this.id, name: name ?? this.name, bar: bar ?? this.bar);
   }
@@ -534,6 +1046,8 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 * permissions and limitations under the License.
 */
 
+// ignore_for_file: public_member_api_docs
+
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
@@ -589,7 +1103,7 @@ class customClaim extends Model {
     return buffer.toString();
   }
 
-  customClaim copyWith({@required String id, String name, String bar}) {
+  customClaim copyWith({String id, String name, String bar}) {
     return customClaim(
         id: id ?? this.id, name: name ?? this.name, bar: bar ?? this.bar);
   }
@@ -665,6 +1179,8 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 * permissions and limitations under the License.
 */
 
+// ignore_for_file: public_member_api_docs
+
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
@@ -720,7 +1236,7 @@ class dynamicGroups extends Model {
     return buffer.toString();
   }
 
-  dynamicGroups copyWith({@required String id, String name, String bar}) {
+  dynamicGroups copyWith({String id, String name, String bar}) {
     return dynamicGroups(
         id: id ?? this.id, name: name ?? this.name, bar: bar ?? this.bar);
   }
@@ -794,6 +1310,8 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 * permissions and limitations under the License.
 */
 
+// ignore_for_file: public_member_api_docs
+
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
@@ -849,7 +1367,7 @@ class simpleOwnerAuth extends Model {
     return buffer.toString();
   }
 
-  simpleOwnerAuth copyWith({@required String id, String name, String bar}) {
+  simpleOwnerAuth copyWith({String id, String name, String bar}) {
     return simpleOwnerAuth(
         id: id ?? this.id, name: name ?? this.name, bar: bar ?? this.bar);
   }
@@ -923,6 +1441,8 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 * permissions and limitations under the License.
 */
 
+// ignore_for_file: public_member_api_docs
+
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
@@ -978,7 +1498,7 @@ class allowRead extends Model {
     return buffer.toString();
   }
 
-  allowRead copyWith({@required String id, String name, String bar}) {
+  allowRead copyWith({String id, String name, String bar}) {
     return allowRead(
         id: id ?? this.id, name: name ?? this.name, bar: bar ?? this.bar);
   }
@@ -1051,6 +1571,8 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 * permissions and limitations under the License.
 */
 
+// ignore_for_file: public_member_api_docs
+
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
@@ -1106,7 +1628,7 @@ class privateType extends Model {
     return buffer.toString();
   }
 
-  privateType copyWith({@required String id, String name, String bar}) {
+  privateType copyWith({String id, String name, String bar}) {
     return privateType(
         id: id ?? this.id, name: name ?? this.name, bar: bar ?? this.bar);
   }
@@ -1176,6 +1698,8 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 * permissions and limitations under the License.
 */
 
+// ignore_for_file: public_member_api_docs
+
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
@@ -1231,7 +1755,7 @@ class publicType extends Model {
     return buffer.toString();
   }
 
-  publicType copyWith({@required String id, String name, String bar}) {
+  publicType copyWith({String id, String name, String bar}) {
     return publicType(
         id: id ?? this.id, name: name ?? this.name, bar: bar ?? this.bar);
   }
@@ -1301,6 +1825,8 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 * permissions and limitations under the License.
 */
 
+// ignore_for_file: public_member_api_docs
+
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
@@ -1356,7 +1882,7 @@ class staticGroups extends Model {
     return buffer.toString();
   }
 
-  staticGroups copyWith({@required String id, String name, String bar}) {
+  staticGroups copyWith({String id, String name, String bar}) {
     return staticGroups(
         id: id ?? this.id, name: name ?? this.name, bar: bar ?? this.bar);
   }
@@ -1432,6 +1958,8 @@ exports[`AppSync Dart Visitor Model with Auth Directive should include authRules
 * permissions and limitations under the License.
 */
 
+// ignore_for_file: public_member_api_docs
+
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
@@ -1489,8 +2017,7 @@ class Post extends Model {
     return buffer.toString();
   }
 
-  Post copyWith(
-      {@required String id, @required String title, @required String author}) {
+  Post copyWith({String id, String title, String author}) {
     return Post(
         id: id ?? this.id,
         title: title ?? this.title,
@@ -1566,6 +2093,8 @@ exports[`AppSync Dart Visitor Model with Auth Directive should support multiple 
 * permissions and limitations under the License.
 */
 
+// ignore_for_file: public_member_api_docs
+
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
@@ -1623,8 +2152,7 @@ class Post extends Model {
     return buffer.toString();
   }
 
-  Post copyWith(
-      {@required String id, @required String title, @required String owner}) {
+  Post copyWith({String id, String title, String owner}) {
     return Post(
         id: id ?? this.id,
         title: title ?? this.title,
@@ -1713,6 +2241,8 @@ exports[`AppSync Dart Visitor Model with Connection Directive should generate cl
 * permissions and limitations under the License.
 */
 
+// ignore_for_file: public_member_api_docs
+
 import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:collection/collection.dart';
@@ -1767,7 +2297,7 @@ class Todo extends Model {
     return buffer.toString();
   }
 
-  Todo copyWith({@required String id, List<Task> tasks}) {
+  Todo copyWith({String id, List<Task> tasks}) {
     return Todo(id: id ?? this.id, tasks: tasks ?? this.tasks);
   }
 
@@ -1828,6 +2358,8 @@ exports[`AppSync Dart Visitor Model with Connection Directive should generate cl
 * express or implied. See the License for the specific language governing
 * permissions and limitations under the License.
 */
+
+// ignore_for_file: public_member_api_docs
 
 import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
@@ -1894,7 +2426,7 @@ class Task extends Model {
     return buffer.toString();
   }
 
-  Task copyWith({@required String id, Todo todo, Time time, Date createdOn}) {
+  Task copyWith({String id, Todo todo, Time time, Date createdOn}) {
     return Task(
         id: id ?? this.id,
         todo: todo ?? this.todo,
@@ -1976,6 +2508,8 @@ exports[`AppSync Dart Visitor Model with Connection Directive should support con
 * permissions and limitations under the License.
 */
 
+// ignore_for_file: public_member_api_docs
+
 import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:collection/collection.dart';
@@ -2043,11 +2577,7 @@ class Blog extends Model {
     return buffer.toString();
   }
 
-  Blog copyWith(
-      {@required String id,
-      @required String name,
-      List<Post> posts,
-      List<String> test}) {
+  Blog copyWith({String id, String name, List<Post> posts, List<String> test}) {
     return Blog(
         id: id ?? this.id,
         name: name ?? this.name,
@@ -2063,7 +2593,7 @@ class Blog extends Model {
                 .map((e) => Post.fromJson(new Map<String, dynamic>.from(e)))
                 .toList()
             : null,
-        test = json['test'];
+        test = json['test']?.cast<String>();
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -2100,7 +2630,9 @@ class Blog extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
         key: Blog.TEST,
         isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+        isArray: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.string))));
   });
 }
 
@@ -2130,6 +2662,8 @@ exports[`AppSync Dart Visitor Model with Connection Directive should support con
 * express or implied. See the License for the specific language governing
 * permissions and limitations under the License.
 */
+
+// ignore_for_file: public_member_api_docs
 
 import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
@@ -2188,7 +2722,7 @@ class Comment extends Model {
     return buffer.toString();
   }
 
-  Comment copyWith({@required String id, Post post, @required String content}) {
+  Comment copyWith({String id, Post post, String content}) {
     return Comment(
         id: id ?? this.id,
         post: post ?? this.post,
@@ -2258,6 +2792,8 @@ exports[`AppSync Dart Visitor Model with Connection Directive should support con
 * permissions and limitations under the License.
 */
 
+// ignore_for_file: public_member_api_docs
+
 import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:collection/collection.dart';
@@ -2325,11 +2861,7 @@ class Post extends Model {
     return buffer.toString();
   }
 
-  Post copyWith(
-      {@required String id,
-      @required String title,
-      Blog blog,
-      List<Comment> comments}) {
+  Post copyWith({String id, String title, Blog blog, List<Comment> comments}) {
     return Post(
         id: id ?? this.id,
         title: title ?? this.title,
@@ -2419,6 +2951,8 @@ exports[`AppSync Dart Visitor Model with Key Directive should generate a class f
 * permissions and limitations under the License.
 */
 
+// ignore_for_file: public_member_api_docs
+
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
@@ -2495,9 +3029,9 @@ class authorBook extends Model {
   }
 
   authorBook copyWith(
-      {@required String id,
-      @required String author_id,
-      @required String book_id,
+      {String id,
+      String author_id,
+      String book_id,
       String author,
       String book}) {
     return authorBook(
