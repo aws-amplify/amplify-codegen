@@ -104,6 +104,30 @@ export class AppSyncModelDartVisitor<
         ' => _instance;',
         { isBlock: false, isGetter: true, static: true }
       );
+      //getModelTypeByModelName
+      if (modelNames.length) {
+        const getModelTypeImplStr = [
+          'switch(modelName) {',
+          ...modelNames.map(modelName => {
+            return [
+              `case "${modelName}": {`,
+              `return ${modelName}.classType;`,
+              '}',
+              'break;'
+            ].join('\n')
+          }),
+          'default: {',
+          'throw Exception("Failed to find model in model provider for model name: " + modelName);',
+          '}',
+          '}'
+        ].join('\n');
+        classDeclarationBlock.addClassMethod(
+          'getModelTypeByModelName',
+          'ModelType',
+          [{type: 'String', name: 'modelName'}],
+          getModelTypeImplStr
+        );
+      }
 
     result.push(packageImports.map(p => `import '${p}.dart';`).join('\n'));
     result.push(packageExports.map(p => `export '${p}.dart';`).join('\n'));
