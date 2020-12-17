@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.4](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.22.3...@aws-amplify/appsync-modelgen-plugin@1.22.4) (2020-12-17)
+
+
+### Bug Fixes
+
+* **appsync-modelgen-plugin:** add get modeltype method in model provider ([b3daebb](https://github.com/aws-amplify/amplify-codegen/commit/b3daebb5b1425ca51fe6f85ff671960d6696510a))
+* **appsync-modelgen-plugin:** generate correct output for field/enum w/o list or nullable ([129ed4c](https://github.com/aws-amplify/amplify-codegen/commit/129ed4c79adf7b9c89da53c14bf0ba024b3b57d9))
+* **modelgen:** add targetName in hasOne relation ([16ff6c3](https://github.com/aws-amplify/amplify-codegen/commit/16ff6c3992ef3cd5c94a5ba016d127106ef34a5d))
+
+
+
+
+
 ## [1.22.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.22.2...@aws-amplify/appsync-modelgen-plugin@1.22.3) (2020-12-11)
 
 
