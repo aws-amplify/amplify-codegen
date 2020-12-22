@@ -1,0 +1,34 @@
+version: 0.2
+
+env:
+  shell: /bin/sh
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+
+  pre_build:
+    commands:
+      - echo 'Pre_build phase starting'
+      - yarn config set workspaces-experimental true
+      - yarn cache clean --force
+    finally:
+      - echo 'Pre_build phase completed'
+  build:
+    commands:
+      - echo 'Build phase starting'
+      - echo 'Building packages'
+      - yarn run build
+      - echo 'Linting packages'
+      - yarn lint
+      - echo 'Testing packages'
+      - yarn test-ci
+      - echo 'Checking test coverage'
+      - yarn coverage
+    finally:
+      - echo 'Build phase completed'
+      
+cache:
+  paths:
+    - './node_modules/**/*'

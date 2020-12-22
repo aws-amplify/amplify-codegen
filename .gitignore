@@ -19,3 +19,4 @@ test.out.log
 *.tsbuildinfo
 yarn.lock
 package-lock.json
+amplify-codegen-ci-support/.idea/*
