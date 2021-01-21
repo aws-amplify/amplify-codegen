@@ -388,7 +388,7 @@ export class AppSyncModelDartVisitor<
           let toStringVal = '';
           if (this.isEnumType(field)) {
             if (field.isList) {
-              toStringVal = `${fieldName}?.map((e) => enumToString(e)).toString()`
+              toStringVal = `${fieldName}?.map((e) => enumToString(e)).toString()`;
             } else {
               toStringVal = `enumToString(${fieldName})`;
             }
@@ -476,7 +476,7 @@ export class AppSyncModelDartVisitor<
               indent(`: null`)
             ].join('\n');
           }
-          return `${fieldName} = enumFromString<${field.type}>(json['${fieldName}'], ${field.type}.values)`
+          return `${fieldName} = enumFromString<${field.type}>(json['${fieldName}'], ${field.type}.values)`;
         }
         //regular type
         if (field.isList) {
