@@ -1,11 +1,11 @@
 {
-  "name": "amplify-graphql-docs-generator",
+  "name": "@aws-amplify/graphql-docs-generator",
   "version": "2.2.1",
   "description": "amplify graphql docs generator plugin",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aws-amplify/amplify-cli.git",
-    "directory": "packages/amplify-graphql-docs-generator"
+    "url": "https://github.com/aws-amplify/amplify-codegen.git",
+    "directory": "packages/graphql-docs-generator"
   },
   "author": "Amazon Web Services",
   "license": "Apache-2.0",
@@ -19,7 +19,7 @@
     "node": ">=10.0.0"
   },
   "bin": {
-    "amplify-graphql-docs-generator": "./bin/cli"
+    "graphql-docs-generator": "./bin/cli"
   },
   "directories": {
     "test": "tests"

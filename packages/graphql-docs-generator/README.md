@@ -3,8 +3,8 @@ GraphQL document generator takes a schema and generates all possible statements(
 
 ## Installation and execution
 ```
-$ npm install -g amplify-graphql-docs-generator
-$ amplify-graphql-docs-generator --schema test-data/schema.json --output all-operations.graphql --language graphql
+$ npm install -g @aws-amplify/graphql-docs-generator
+$ graphql-docs-generator --schema test-data/schema.json --output all-operations.graphql --language graphql
 ``` 
 
 ## Todo:
