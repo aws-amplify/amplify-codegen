@@ -216,8 +216,6 @@ describe('AppSync Dart Visitor', () => {
         type Task @model {
           id: ID
           todo: Todo @connection(name: "TodoTasks")
-          time: AWSTime
-          createdOn: AWSDate
         }
       `;
       const outputModels: string[] = ['Todo', 'Task'];
@@ -320,6 +318,22 @@ describe('AppSync Dart Visitor', () => {
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
+
+    it('should generate correct output for appsync scalar types for time', () => {
+      const schema = /* GraphQL */ `
+        type TemporalTime @model {
+          id: ID!
+          date: AWSDate
+          time: AWSTime
+          datetime: AWSDateTime
+          timestamp: AWSTimestamp
+        }
+      `;
+      const visitor = getVisitor(schema);
+      const generatedCode = visitor.generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+
   });
 
   describe('Dart Specific Tests', () => {

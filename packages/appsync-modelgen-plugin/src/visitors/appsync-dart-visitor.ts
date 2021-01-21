@@ -398,10 +398,13 @@ export class AppSyncModelDartVisitor<
               case 'String':
                 toStringVal = `${fieldName}`;
                 break;
-              case 'Date':
-              case 'Time':
-              case 'DateTime':
-                toStringVal = `(${fieldName} != null ? ${fieldName}.to${fieldNativeType}Iso8601String() : "null")`;
+              case this.scalars['AWSDate']:
+              case this.scalars['AWSTime']:
+              case this.scalars['AWSDateTime']:
+                toStringVal = `(${fieldName} != null ? ${fieldName}.format() : "null")`;
+                break;
+              case this.scalars['AWSTimestamp']:
+                toStringVal = `(${fieldName} != null ? ${fieldName}.toInt() : "null")`;
                 break;
               default:
                 toStringVal = `(${fieldName} != null ? ${fieldName}.toString() : "null")`;
@@ -481,11 +484,12 @@ export class AppSyncModelDartVisitor<
         }
         const fieldNativeType = this.getNativeType(field);
         switch (fieldNativeType) {
-          case 'Date':
-          case 'Time':
+          case this.scalars['AWSDate']:
+          case this.scalars['AWSTime']:
+          case this.scalars['AWSDateTime']:
             return `${fieldName} = ${fieldNativeType}.fromString(json['${fieldName}'])`;
-          case 'DateTime':
-            return `${fieldName} = ${fieldNativeType}Parse.fromString(json['${fieldName}'])`;
+          case this.scalars['AWSTimestamp']:
+            return `${fieldName} = ${fieldNativeType}.fromSeconds(json['${fieldName}'])`;
           default:
             return `${fieldName} = json['${fieldName}']`;
         }
@@ -515,10 +519,12 @@ export class AppSyncModelDartVisitor<
       }
       const fieldNativeType = this.getNativeType(field);
       switch (fieldNativeType) {
-        case 'Date':
-        case 'Time':
-        case 'DateTime':
-          return `'${fieldName}': ${fieldName}?.to${fieldNativeType}Iso8601String()`;
+        case this.scalars['AWSDate']:
+        case this.scalars['AWSTime']:
+        case this.scalars['AWSDateTime']:
+          return `'${fieldName}': ${fieldName}?.format()`;
+        case this.scalars['AWSTimestamp']:
+          return `'${fieldName}': ${fieldName}?.toInt()`;
         default:
           return `'${fieldName}': ${fieldName}`;
       }
