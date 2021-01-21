@@ -14,6 +14,7 @@ module.exports = {
   collectCoverageFrom: ['src/**/.(ts|tsx|js|jsx)$', '!src/**/*.test.(ts|tsx|js|jsx)$', '!src/**/*.d.ts'],
   coverageDirectory: 'coverage',
   projects: [
-    '<rootDir>/packages/appsync-modelgen-plugin'
+    '<rootDir>/packages/appsync-modelgen-plugin',
+    '<rootDir>/packages/graphql-docs-generator'
   ],
 };

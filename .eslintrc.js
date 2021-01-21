@@ -231,6 +231,7 @@ module.exports = {
 
     // Ignore output directories of typescript project until move to tsc and fixing src locations
     '/packages/appsync-modelgen-plugin/lib',
+    '/packages/graphql-docs-generator/lib',
 
     // Ignore CHANGELOG.md files
     '/packages/*/CHANGELOG.md'
