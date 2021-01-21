@@ -42,6 +42,9 @@
     "@types/node": "^10.17.13",
     "@types/prettier": "^1.19.0"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "jest": {
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
