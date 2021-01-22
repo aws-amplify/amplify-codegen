@@ -403,9 +403,6 @@ export class AppSyncModelDartVisitor<
               case this.scalars['AWSDateTime']:
                 toStringVal = `(${fieldName} != null ? ${fieldName}.format() : "null")`;
                 break;
-              case this.scalars['AWSTimestamp']:
-                toStringVal = `(${fieldName} != null ? ${fieldName}.toInt() : "null")`;
-                break;
               default:
                 toStringVal = `(${fieldName} != null ? ${fieldName}.toString() : "null")`;
             }

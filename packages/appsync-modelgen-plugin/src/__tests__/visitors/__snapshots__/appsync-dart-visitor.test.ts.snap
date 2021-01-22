@@ -263,8 +263,8 @@ class TemporalTime extends Model {
     buffer.write(\\"time=\\" + (time != null ? time.format() : \\"null\\") + \\", \\");
     buffer.write(
         \\"datetime=\\" + (datetime != null ? datetime.format() : \\"null\\") + \\", \\");
-    buffer
-        .write(\\"timestamp=\\" + (timestamp != null ? timestamp.toInt() : \\"null\\"));
+    buffer.write(
+        \\"timestamp=\\" + (timestamp != null ? timestamp.toString() : \\"null\\"));
     buffer.write(\\"}\\");
 
     return buffer.toString();
