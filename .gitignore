@@ -11,6 +11,8 @@ package-lock.json
 !.vscode/settings.json
 !.vscode/extensions.json
 packages/appsync-modelgen-plugin/lib
+packages/graphql-docs-generator/lib
+packages/graphql-types-generator/lib
 packages/*/node_modules
 packages/*/package-lock.json
 **/.env
