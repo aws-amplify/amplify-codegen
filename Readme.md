@@ -22,6 +22,8 @@ Amplify Codegen is a JavaScript toolkit library for frontend and mobile develope
 | Package                                                                | Description                                                                                                                                                                                                          |
 | ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | appsync-modelgen-plugin                                                | Model generator for Amplify Datastore                                                                                                                               |
+| graphql-docs-generator                                                | Generates statements from GraphQL schema                                                                                                                               |
+| graphql-types-generator                                                | Generates type annotations from GraphQL schema and statements                                                                                                                               |
 ## Developing
 
 This section should get you running with **Amplify Codegen**. You will need the latest version of [nodejs](https://nodejs.org/en/) on your system and developing locally also requires `yarn` workspaces. You can install it [here](https://classic.yarnpkg.com/en/docs/install#mac-stable).
