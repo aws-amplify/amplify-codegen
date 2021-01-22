@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 2.3.0 (2021-01-22)
+
+
+### Bug Fixes
+
+* **release-docs-generator:** set package access to public ([55bb623](https://github.com/aws-amplify/amplify-codegen/commit/55bb62374c21a36d8e07803763504e338e7cc82f))
+
+
+### Features
+
+* **docs-generator-migration:** rename package to @aws-amplify/graphql-docs-generator ([9b9c7f3](https://github.com/aws-amplify/amplify-codegen/commit/9b9c7f3b8a717060130ce3450a2ea54bcb1948cb))
+
+
+
+
+
 ## [2.2.1](https://github.com/aws-amplify/amplify-cli/compare/amplify-graphql-docs-generator@2.1.16...amplify-graphql-docs-generator@2.2.1) (2020-11-22)
 
 **Note:** Version bump only for package amplify-graphql-docs-generator

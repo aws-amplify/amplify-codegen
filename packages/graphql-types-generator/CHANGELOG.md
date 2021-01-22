@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 2.7.0 (2021-01-22)
+
+
+### Bug Fixes
+
+* **graphql-types-generator:** add missing @types/fs-extra dependency ([649bc07](https://github.com/aws-amplify/amplify-codegen/commit/649bc07e47b46a236b94e604c50237f9c4225691))
+
+
+### Features
+
+* **types-generator-migration:** rename package to @aws-amplify/graphql-types-generator ([9f11cfe](https://github.com/aws-amplify/amplify-codegen/commit/9f11cfe396bacc603df84233a1b75feabcadaae6))
+
+
+
+
+
 ## [2.6.1](https://github.com/aws-amplify/amplify-cli/compare/amplify-graphql-types-generator@2.5.2...amplify-graphql-types-generator@2.6.1) (2020-11-22)
 
 **Note:** Version bump only for package amplify-graphql-types-generator
