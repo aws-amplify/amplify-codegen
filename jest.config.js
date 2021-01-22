@@ -15,6 +15,7 @@ module.exports = {
   coverageDirectory: 'coverage',
   projects: [
     '<rootDir>/packages/appsync-modelgen-plugin',
-    '<rootDir>/packages/graphql-docs-generator'
+    '<rootDir>/packages/graphql-docs-generator',
+    '<rootDir>/packages/graphql-types-generator'
   ],
 };

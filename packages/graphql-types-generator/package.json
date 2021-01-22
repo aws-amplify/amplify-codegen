@@ -1,11 +1,11 @@
 {
-  "name": "amplify-graphql-types-generator",
+  "name": "@aws-amplify/graphql-types-generator",
   "version": "2.6.1",
   "description": "Generate API code or type annotations based on a GraphQL schema and statements",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aws-amplify/amplify-cli.git",
-    "directory": "packages/amplify-graphql-types-generator"
+    "url":"https://github.com/aws-amplify/amplify-codegen.git",
+    "directory": "packages/graphql-types-generator"
   },
   "author": "Amazon Web Services",
   "license": "(MIT OR Apache-2.0)",
@@ -58,6 +58,9 @@
     "@types/inflected": "^1.1.29",
     "@types/node": "^10.17.13",
     "@types/yargs": "^15.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "jest": {
     "setupFiles": [
