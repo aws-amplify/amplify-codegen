@@ -181,7 +181,7 @@ export class AppSyncModelJavaVisitor<
     classDeclarationBlock.annotate(annotations);
 
     const nonConnectedFields = this.getNonConnectedField(model);
-    nonConnectedFields.forEach(field => this.generateQueryFields(field, classDeclarationBlock));
+    nonConnectedFields.forEach(field => this.generateQueryFields(model, field, classDeclarationBlock));
     model.fields.forEach(field => {
       const value = nonConnectedFields.includes(field) ? '' : 'null';
       this.generateModelField(field, value, classDeclarationBlock);
@@ -295,14 +295,14 @@ export class AppSyncModelJavaVisitor<
   /**
    * Add query field used for construction of conditions by SyncEngine
    */
-  protected generateQueryFields(field: CodeGenField, classDeclarationBlock: JavaDeclarationBlock): void {
+  protected generateQueryFields(model: CodeGenModel, field: CodeGenField, classDeclarationBlock: JavaDeclarationBlock): void {
     const queryFieldName = constantCase(field.name);
     // belongsTo field is computed field. the value needed to query the field is in targetName
     const fieldName =
       field.connectionInfo && field.connectionInfo.kind === CodeGenConnectionType.BELONGS_TO
         ? field.connectionInfo.targetName
         : this.getFieldName(field);
-    classDeclarationBlock.addClassMember(queryFieldName, 'QueryField', `field("${fieldName}")`, [], 'public', {
+    classDeclarationBlock.addClassMember(queryFieldName, 'QueryField', `field("${this.getModelName(model)}", "${fieldName}")`, [], 'public', {
       final: true,
       static: true,
     });

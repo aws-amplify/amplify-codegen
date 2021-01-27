@@ -27,9 +27,9 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
   @AuthRule(allow = AuthStrategy.OWNER, ownerField = \\"owner\\", identityClaim = \\"user_id\\", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class customClaim implements Model {
-  public static final QueryField ID = field(\\"id\\");
-  public static final QueryField NAME = field(\\"name\\");
-  public static final QueryField BAR = field(\\"bar\\");
+  public static final QueryField ID = field(\\"customClaim\\", \\"id\\");
+  public static final QueryField NAME = field(\\"customClaim\\", \\"name\\");
+  public static final QueryField BAR = field(\\"customClaim\\", \\"bar\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\") String bar;
@@ -226,9 +226,9 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
   @AuthRule(allow = AuthStrategy.GROUPS, groupClaim = \\"user_groups\\", groups = { \\"Moderator\\" }, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class customClaim implements Model {
-  public static final QueryField ID = field(\\"id\\");
-  public static final QueryField NAME = field(\\"name\\");
-  public static final QueryField BAR = field(\\"bar\\");
+  public static final QueryField ID = field(\\"customClaim\\", \\"id\\");
+  public static final QueryField NAME = field(\\"customClaim\\", \\"name\\");
+  public static final QueryField BAR = field(\\"customClaim\\", \\"bar\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\") String bar;
@@ -426,10 +426,10 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
   @AuthRule(allow = AuthStrategy.GROUPS, groupClaim = \\"cognito:groups\\", groups = { \\"Admins\\" }, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class Employee implements Model {
-  public static final QueryField ID = field(\\"id\\");
-  public static final QueryField NAME = field(\\"name\\");
-  public static final QueryField ADDRESS = field(\\"address\\");
-  public static final QueryField SSN = field(\\"ssn\\");
+  public static final QueryField ID = field(\\"Employee\\", \\"id\\");
+  public static final QueryField NAME = field(\\"Employee\\", \\"name\\");
+  public static final QueryField ADDRESS = field(\\"Employee\\", \\"address\\");
+  public static final QueryField SSN = field(\\"Employee\\", \\"ssn\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String address;
@@ -664,9 +664,9 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
   @AuthRule(allow = AuthStrategy.GROUPS, groupClaim = \\"cognito:groups\\", groupsField = \\"groups\\", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class dynamicGroups implements Model {
-  public static final QueryField ID = field(\\"id\\");
-  public static final QueryField NAME = field(\\"name\\");
-  public static final QueryField BAR = field(\\"bar\\");
+  public static final QueryField ID = field(\\"dynamicGroups\\", \\"id\\");
+  public static final QueryField NAME = field(\\"dynamicGroups\\", \\"name\\");
+  public static final QueryField BAR = field(\\"dynamicGroups\\", \\"bar\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\") String bar;
@@ -863,9 +863,9 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
   @AuthRule(allow = AuthStrategy.OWNER, ownerField = \\"owner\\", identityClaim = \\"cognito:username\\", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class simpleOwnerAuth implements Model {
-  public static final QueryField ID = field(\\"id\\");
-  public static final QueryField NAME = field(\\"name\\");
-  public static final QueryField BAR = field(\\"bar\\");
+  public static final QueryField ID = field(\\"simpleOwnerAuth\\", \\"id\\");
+  public static final QueryField NAME = field(\\"simpleOwnerAuth\\", \\"name\\");
+  public static final QueryField BAR = field(\\"simpleOwnerAuth\\", \\"bar\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\") String bar;
@@ -1062,9 +1062,9 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
   @AuthRule(allow = AuthStrategy.OWNER, ownerField = \\"owner\\", identityClaim = \\"cognito:username\\", operations = { ModelOperation.CREATE, ModelOperation.DELETE, ModelOperation.UPDATE })
 })
 public final class allowRead implements Model {
-  public static final QueryField ID = field(\\"id\\");
-  public static final QueryField NAME = field(\\"name\\");
-  public static final QueryField BAR = field(\\"bar\\");
+  public static final QueryField ID = field(\\"allowRead\\", \\"id\\");
+  public static final QueryField NAME = field(\\"allowRead\\", \\"name\\");
+  public static final QueryField BAR = field(\\"allowRead\\", \\"bar\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\") String bar;
@@ -1261,9 +1261,9 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
   @AuthRule(allow = AuthStrategy.PRIVATE, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class privateType implements Model {
-  public static final QueryField ID = field(\\"id\\");
-  public static final QueryField NAME = field(\\"name\\");
-  public static final QueryField BAR = field(\\"bar\\");
+  public static final QueryField ID = field(\\"privateType\\", \\"id\\");
+  public static final QueryField NAME = field(\\"privateType\\", \\"name\\");
+  public static final QueryField BAR = field(\\"privateType\\", \\"bar\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\") String bar;
@@ -1460,9 +1460,9 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
   @AuthRule(allow = AuthStrategy.PRIVATE, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class privateType implements Model {
-  public static final QueryField ID = field(\\"id\\");
-  public static final QueryField NAME = field(\\"name\\");
-  public static final QueryField BAR = field(\\"bar\\");
+  public static final QueryField ID = field(\\"privateType\\", \\"id\\");
+  public static final QueryField NAME = field(\\"privateType\\", \\"name\\");
+  public static final QueryField BAR = field(\\"privateType\\", \\"bar\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\", authRules = {
@@ -1661,9 +1661,9 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
   @AuthRule(allow = AuthStrategy.PUBLIC, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class publicType implements Model {
-  public static final QueryField ID = field(\\"id\\");
-  public static final QueryField NAME = field(\\"name\\");
-  public static final QueryField BAR = field(\\"bar\\");
+  public static final QueryField ID = field(\\"publicType\\", \\"id\\");
+  public static final QueryField NAME = field(\\"publicType\\", \\"name\\");
+  public static final QueryField BAR = field(\\"publicType\\", \\"bar\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\") String bar;
@@ -1860,9 +1860,9 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
   @AuthRule(allow = AuthStrategy.GROUPS, groupClaim = \\"cognito:groups\\", groups = { \\"Admin\\" }, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class staticGroups implements Model {
-  public static final QueryField ID = field(\\"id\\");
-  public static final QueryField NAME = field(\\"name\\");
-  public static final QueryField BAR = field(\\"bar\\");
+  public static final QueryField ID = field(\\"staticGroups\\", \\"id\\");
+  public static final QueryField NAME = field(\\"staticGroups\\", \\"name\\");
+  public static final QueryField BAR = field(\\"staticGroups\\", \\"bar\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\") String bar;
@@ -2054,11 +2054,11 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @SuppressWarnings(\\"all\\")
 @ModelConfig(pluralName = \\"Landmarks\\")
 public final class Landmark implements Model {
-  public static final QueryField ID = field(\\"id\\");
-  public static final QueryField NAME = field(\\"name\\");
-  public static final QueryField RATING = field(\\"rating\\");
-  public static final QueryField LOCATION = field(\\"location\\");
-  public static final QueryField PARKING = field(\\"parking\\");
+  public static final QueryField ID = field(\\"Landmark\\", \\"id\\");
+  public static final QueryField NAME = field(\\"Landmark\\", \\"name\\");
+  public static final QueryField RATING = field(\\"Landmark\\", \\"rating\\");
+  public static final QueryField LOCATION = field(\\"Landmark\\", \\"location\\");
+  public static final QueryField PARKING = field(\\"Landmark\\", \\"parking\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
   private final @ModelField(targetType=\\"Int\\", isRequired = true) Integer rating;
@@ -2438,10 +2438,10 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @SuppressWarnings(\\"all\\")
 @ModelConfig(pluralName = \\"tasks\\")
 public final class task implements Model {
-  public static final QueryField ID = field(\\"id\\");
-  public static final QueryField TODO = field(\\"taskTodoId\\");
-  public static final QueryField TIME = field(\\"time\\");
-  public static final QueryField CREATED_ON = field(\\"createdOn\\");
+  public static final QueryField ID = field(\\"task\\", \\"id\\");
+  public static final QueryField TODO = field(\\"task\\", \\"taskTodoId\\");
+  public static final QueryField TIME = field(\\"task\\", \\"time\\");
+  public static final QueryField CREATED_ON = field(\\"task\\", \\"createdOn\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"Todo\\") @BelongsTo(targetName = \\"taskTodoId\\", type = Todo.class) Todo todo;
   private final @ModelField(targetType=\\"AWSTime\\") Temporal.Time time;
@@ -2660,7 +2660,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @SuppressWarnings(\\"all\\")
 @ModelConfig(pluralName = \\"Todos\\")
 public final class Todo implements Model {
-  public static final QueryField ID = field(\\"id\\");
+  public static final QueryField ID = field(\\"Todo\\", \\"id\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"task\\") @HasMany(associatedWith = \\"todo\\", type = task.class) List<task> tasks = null;
   public String getId() {
@@ -2806,9 +2806,9 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @SuppressWarnings(\\"all\\")
 @ModelConfig(pluralName = \\"SimpleModels\\")
 public final class SimpleModel implements Model {
-  public static final QueryField ID = field(\\"id\\");
-  public static final QueryField NAME = field(\\"name\\");
-  public static final QueryField BAR = field(\\"bar\\");
+  public static final QueryField ID = field(\\"SimpleModel\\", \\"id\\");
+  public static final QueryField NAME = field(\\"SimpleModel\\", \\"name\\");
+  public static final QueryField BAR = field(\\"SimpleModel\\", \\"bar\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\") String bar;
@@ -3000,9 +3000,9 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @SuppressWarnings(\\"all\\")
 @ModelConfig(pluralName = \\"SimpleModels\\")
 public final class SimpleModel implements Model {
-  public static final QueryField ID = field(\\"id\\");
-  public static final QueryField NAME = field(\\"name\\");
-  public static final QueryField BAR = field(\\"bar\\");
+  public static final QueryField ID = field(\\"SimpleModel\\", \\"id\\");
+  public static final QueryField NAME = field(\\"SimpleModel\\", \\"name\\");
+  public static final QueryField BAR = field(\\"SimpleModel\\", \\"bar\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\") String bar;
@@ -3194,9 +3194,9 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @SuppressWarnings(\\"all\\")
 @ModelConfig(pluralName = \\"SimpleModels\\")
 public final class SimpleModel implements Model {
-  public static final QueryField ID = field(\\"id\\");
-  public static final QueryField NAME = field(\\"name\\");
-  public static final QueryField BAR = field(\\"bar\\");
+  public static final QueryField ID = field(\\"SimpleModel\\", \\"id\\");
+  public static final QueryField NAME = field(\\"SimpleModel\\", \\"name\\");
+  public static final QueryField BAR = field(\\"SimpleModel\\", \\"bar\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\") String bar;
@@ -3390,12 +3390,12 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @SuppressWarnings(\\"all\\")
 @ModelConfig(pluralName = \\"tasks\\")
 public final class task implements Model {
-  public static final QueryField ID = field(\\"id\\");
-  public static final QueryField TITLE = field(\\"title\\");
-  public static final QueryField DONE = field(\\"done\\");
-  public static final QueryField TODO = field(\\"taskTodoId\\");
-  public static final QueryField TIME = field(\\"time\\");
-  public static final QueryField CREATED_ON = field(\\"createdOn\\");
+  public static final QueryField ID = field(\\"task\\", \\"id\\");
+  public static final QueryField TITLE = field(\\"task\\", \\"title\\");
+  public static final QueryField DONE = field(\\"task\\", \\"done\\");
+  public static final QueryField TODO = field(\\"task\\", \\"taskTodoId\\");
+  public static final QueryField TIME = field(\\"task\\", \\"time\\");
+  public static final QueryField CREATED_ON = field(\\"task\\", \\"createdOn\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String title;
   private final @ModelField(targetType=\\"Boolean\\", isRequired = true) Boolean done;
@@ -3676,13 +3676,13 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @SuppressWarnings(\\"all\\")
 @ModelConfig(pluralName = \\"Todos\\")
 public final class Todo implements Model {
-  public static final QueryField ID = field(\\"id\\");
-  public static final QueryField TITLE = field(\\"title\\");
-  public static final QueryField DONE = field(\\"done\\");
-  public static final QueryField DESCRIPTION = field(\\"description\\");
-  public static final QueryField DUE_DATE = field(\\"due_date\\");
-  public static final QueryField VERSION = field(\\"version\\");
-  public static final QueryField VALUE = field(\\"value\\");
+  public static final QueryField ID = field(\\"Todo\\", \\"id\\");
+  public static final QueryField TITLE = field(\\"Todo\\", \\"title\\");
+  public static final QueryField DONE = field(\\"Todo\\", \\"done\\");
+  public static final QueryField DESCRIPTION = field(\\"Todo\\", \\"description\\");
+  public static final QueryField DUE_DATE = field(\\"Todo\\", \\"due_date\\");
+  public static final QueryField VERSION = field(\\"Todo\\", \\"version\\");
+  public static final QueryField VALUE = field(\\"Todo\\", \\"value\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String title;
   private final @ModelField(targetType=\\"Boolean\\", isRequired = true) Boolean done;
@@ -3999,11 +3999,11 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @SuppressWarnings(\\"all\\")
 @ModelConfig(pluralName = \\"TypeWithAWSDateScalars\\")
 public final class TypeWithAWSDateScalars implements Model {
-  public static final QueryField ID = field(\\"id\\");
-  public static final QueryField DATE = field(\\"date\\");
-  public static final QueryField CREATED_AT = field(\\"createdAt\\");
-  public static final QueryField TIME = field(\\"time\\");
-  public static final QueryField TIMESTAMP = field(\\"timestamp\\");
+  public static final QueryField ID = field(\\"TypeWithAWSDateScalars\\", \\"id\\");
+  public static final QueryField DATE = field(\\"TypeWithAWSDateScalars\\", \\"date\\");
+  public static final QueryField CREATED_AT = field(\\"TypeWithAWSDateScalars\\", \\"createdAt\\");
+  public static final QueryField TIME = field(\\"TypeWithAWSDateScalars\\", \\"time\\");
+  public static final QueryField TIMESTAMP = field(\\"TypeWithAWSDateScalars\\", \\"timestamp\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"AWSDate\\") Temporal.Date date;
   private final @ModelField(targetType=\\"AWSDateTime\\") Temporal.DateTime createdAt;
@@ -4260,11 +4260,11 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @Index(name = \\"byAuthor\\", fields = {\\"author_id\\"})
 @Index(name = \\"byBook\\", fields = {\\"book_id\\"})
 public final class authorBook implements Model {
-  public static final QueryField ID = field(\\"id\\");
-  public static final QueryField AUTHOR_ID = field(\\"author_id\\");
-  public static final QueryField BOOK_ID = field(\\"book_id\\");
-  public static final QueryField AUTHOR = field(\\"author\\");
-  public static final QueryField BOOK = field(\\"book\\");
+  public static final QueryField ID = field(\\"authorBook\\", \\"id\\");
+  public static final QueryField AUTHOR_ID = field(\\"authorBook\\", \\"author_id\\");
+  public static final QueryField BOOK_ID = field(\\"authorBook\\", \\"book_id\\");
+  public static final QueryField AUTHOR = field(\\"authorBook\\", \\"author\\");
+  public static final QueryField BOOK = field(\\"authorBook\\", \\"book\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String author_id;
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String book_id;
@@ -4518,8 +4518,8 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @SuppressWarnings(\\"all\\")
 @ModelConfig(pluralName = \\"NonCamelCaseFields\\")
 public final class NonCamelCaseField implements Model {
-  public static final QueryField ID = field(\\"id\\");
-  public static final QueryField EMPLOYEE_PID = field(\\"employeePID\\");
+  public static final QueryField ID = field(\\"NonCamelCaseField\\", \\"id\\");
+  public static final QueryField EMPLOYEE_PID = field(\\"NonCamelCaseField\\", \\"employeePID\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String employeePID;
   public String getId() {
@@ -4685,8 +4685,8 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @SuppressWarnings(\\"all\\")
 @ModelConfig(pluralName = \\"snake_cases\\")
 public final class snake_case implements Model {
-  public static final QueryField ID = field(\\"id\\");
-  public static final QueryField NAME = field(\\"name\\");
+  public static final QueryField ID = field(\\"snake_case\\", \\"id\\");
+  public static final QueryField NAME = field(\\"snake_case\\", \\"name\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   public String getId() {
@@ -4852,8 +4852,8 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @SuppressWarnings(\\"all\\")
 @ModelConfig(pluralName = \\"SnakeCaseFields\\")
 public final class SnakeCaseField implements Model {
-  public static final QueryField ID = field(\\"id\\");
-  public static final QueryField FIRST_NAME = field(\\"first_name\\");
+  public static final QueryField ID = field(\\"SnakeCaseField\\", \\"id\\");
+  public static final QueryField FIRST_NAME = field(\\"SnakeCaseField\\", \\"first_name\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String first_name;
   public String getId() {
