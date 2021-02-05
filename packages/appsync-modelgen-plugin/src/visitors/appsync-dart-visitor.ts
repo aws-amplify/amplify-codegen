@@ -320,7 +320,7 @@ export class AppSyncModelDartVisitor<
       indentMultiline(`${returnParamStr});`)
     ].join('\n');
     const factoryParam = `{${model.fields.map(f =>
-      `${this.isFieldRequired(f) ? '@required ' : ''}${this.getNativeType(f)} ${this.getFieldName(f)}`
+      `${this.getFieldName(f) !== 'id' && this.isFieldRequired(f) ? '@required ' : ''}${this.getNativeType(f)} ${this.getFieldName(f)}`
     ).join(', ')}}`
     declarationBlock.addClassMethod(
       this.getModelName(model),

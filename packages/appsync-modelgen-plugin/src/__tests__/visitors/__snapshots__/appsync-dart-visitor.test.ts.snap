@@ -90,7 +90,7 @@ class SimpleModel extends Model {
 
   const SimpleModel._internal({@required this.id, this.status});
 
-  factory SimpleModel({@required String id, Status status}) {
+  factory SimpleModel({String id, Status status}) {
     return SimpleModel._internal(
         id: id == null ? UUID.getUUID() : id, status: status);
   }
@@ -222,7 +222,7 @@ class TemporalTime extends Model {
       {@required this.id, this.date, this.time, this.datetime, this.timestamp});
 
   factory TemporalTime(
-      {@required String id,
+      {String id,
       TemporalDate date,
       TemporalTime time,
       TemporalDateTime datetime,
@@ -397,7 +397,7 @@ class TestEnumModel extends Model {
       this.nullableEnumNullableList});
 
   factory TestEnumModel(
-      {@required String id,
+      {String id,
       @required TestEnum enumVal,
       TestEnum nullableEnumVal,
       @required List<TestEnum> enumList,
@@ -645,7 +645,7 @@ class TestModel extends Model {
       this.nullableFloatNullableList});
 
   factory TestModel(
-      {@required String id,
+      {String id,
       @required double floatVal,
       double floatNullableVal,
       @required List<double> floatList,
@@ -867,7 +867,7 @@ class SimpleModel extends Model {
 
   const SimpleModel._internal({@required this.id, this.name, this.bar});
 
-  factory SimpleModel({@required String id, String name, String bar}) {
+  factory SimpleModel({String id, String name, String bar}) {
     return SimpleModel._internal(
         id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
@@ -985,7 +985,7 @@ class SimpleModel extends Model {
 
   const SimpleModel._internal({@required this.id, this.name, this.bar});
 
-  factory SimpleModel({@required String id, String name, String bar}) {
+  factory SimpleModel({String id, String name, String bar}) {
     return SimpleModel._internal(
         id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
@@ -1103,7 +1103,7 @@ class customClaim extends Model {
 
   const customClaim._internal({@required this.id, this.name, this.bar});
 
-  factory customClaim({@required String id, String name, String bar}) {
+  factory customClaim({String id, String name, String bar}) {
     return customClaim._internal(
         id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
@@ -1234,7 +1234,7 @@ class customClaim extends Model {
 
   const customClaim._internal({@required this.id, this.name, this.bar});
 
-  factory customClaim({@required String id, String name, String bar}) {
+  factory customClaim({String id, String name, String bar}) {
     return customClaim._internal(
         id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
@@ -1367,7 +1367,7 @@ class dynamicGroups extends Model {
 
   const dynamicGroups._internal({@required this.id, this.name, this.bar});
 
-  factory dynamicGroups({@required String id, String name, String bar}) {
+  factory dynamicGroups({String id, String name, String bar}) {
     return dynamicGroups._internal(
         id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
@@ -1498,7 +1498,7 @@ class simpleOwnerAuth extends Model {
 
   const simpleOwnerAuth._internal({@required this.id, this.name, this.bar});
 
-  factory simpleOwnerAuth({@required String id, String name, String bar}) {
+  factory simpleOwnerAuth({String id, String name, String bar}) {
     return simpleOwnerAuth._internal(
         id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
@@ -1629,7 +1629,7 @@ class allowRead extends Model {
 
   const allowRead._internal({@required this.id, this.name, this.bar});
 
-  factory allowRead({@required String id, String name, String bar}) {
+  factory allowRead({String id, String name, String bar}) {
     return allowRead._internal(
         id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
@@ -1759,7 +1759,7 @@ class privateType extends Model {
 
   const privateType._internal({@required this.id, this.name, this.bar});
 
-  factory privateType({@required String id, String name, String bar}) {
+  factory privateType({String id, String name, String bar}) {
     return privateType._internal(
         id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
@@ -1886,7 +1886,7 @@ class publicType extends Model {
 
   const publicType._internal({@required this.id, this.name, this.bar});
 
-  factory publicType({@required String id, String name, String bar}) {
+  factory publicType({String id, String name, String bar}) {
     return publicType._internal(
         id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
@@ -2013,7 +2013,7 @@ class staticGroups extends Model {
 
   const staticGroups._internal({@required this.id, this.name, this.bar});
 
-  factory staticGroups({@required String id, String name, String bar}) {
+  factory staticGroups({String id, String name, String bar}) {
     return staticGroups._internal(
         id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
@@ -2147,8 +2147,7 @@ class Post extends Model {
   const Post._internal(
       {@required this.id, @required this.title, @required this.author});
 
-  factory Post(
-      {@required String id, @required String title, @required String author}) {
+  factory Post({String id, @required String title, @required String author}) {
     return Post._internal(
         id: id == null ? UUID.getUUID() : id, title: title, author: author);
   }
@@ -2282,8 +2281,7 @@ class Post extends Model {
   const Post._internal(
       {@required this.id, @required this.title, @required this.owner});
 
-  factory Post(
-      {@required String id, @required String title, @required String owner}) {
+  factory Post({String id, @required String title, @required String owner}) {
     return Post._internal(
         id: id == null ? UUID.getUUID() : id, title: title, owner: owner);
   }
@@ -2430,7 +2428,7 @@ class Todo extends Model {
 
   const Todo._internal({@required this.id, this.tasks});
 
-  factory Todo({@required String id, List<Task> tasks}) {
+  factory Todo({String id, List<Task> tasks}) {
     return Todo._internal(
         id: id == null ? UUID.getUUID() : id,
         tasks: tasks != null ? List.unmodifiable(tasks) : tasks);
@@ -2547,7 +2545,7 @@ class Task extends Model {
 
   const Task._internal({@required this.id, this.todo});
 
-  factory Task({@required String id, Todo todo}) {
+  factory Task({String id, Todo todo}) {
     return Task._internal(id: id == null ? UUID.getUUID() : id, todo: todo);
   }
 
@@ -2663,10 +2661,7 @@ class Blog extends Model {
       {@required this.id, @required this.name, this.posts, this.test});
 
   factory Blog(
-      {@required String id,
-      @required String name,
-      List<Post> posts,
-      List<String> test}) {
+      {String id, @required String name, List<Post> posts, List<String> test}) {
     return Blog._internal(
         id: id == null ? UUID.getUUID() : id,
         name: name,
@@ -2815,7 +2810,7 @@ class Comment extends Model {
   const Comment._internal(
       {@required this.id, this.post, @required this.content});
 
-  factory Comment({@required String id, Post post, @required String content}) {
+  factory Comment({String id, Post post, @required String content}) {
     return Comment._internal(
         id: id == null ? UUID.getUUID() : id, post: post, content: content);
   }
@@ -2947,10 +2942,7 @@ class Post extends Model {
       {@required this.id, @required this.title, this.blog, this.comments});
 
   factory Post(
-      {@required String id,
-      @required String title,
-      Blog blog,
-      List<Comment> comments}) {
+      {String id, @required String title, Blog blog, List<Comment> comments}) {
     return Post._internal(
         id: id == null ? UUID.getUUID() : id,
         title: title,
@@ -3109,7 +3101,7 @@ class authorBook extends Model {
       this.book});
 
   factory authorBook(
-      {@required String id,
+      {String id,
       @required String author_id,
       @required String book_id,
       String author,
