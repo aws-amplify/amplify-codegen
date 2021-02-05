@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@2.7.0...@aws-amplify/graphql-types-generator@2.7.2) (2021-02-05)
+
+
+### Bug Fixes
+
+* **patch-release:** override previous patch release ([f2fe6e7](https://github.com/aws-amplify/amplify-codegen/commit/f2fe6e7bc3afa9a5fc634292564b9a97bf6bbc04))
+
+
+
+
+
 # 2.7.0 (2021-01-22)
 
 
