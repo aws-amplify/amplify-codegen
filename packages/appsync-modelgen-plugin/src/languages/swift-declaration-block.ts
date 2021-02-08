@@ -395,7 +395,7 @@ export class SwiftDeclarationBlock {
 
   private getListType(typeDeclaration: MethodArgument): string {
     const listMemberType = typeDeclaration.flags.optional ?
-     `${escapeKeywords(typeDeclaration.type)}?` : 
+     `${escapeKeywords(typeDeclaration.type)}?`:
      `${escapeKeywords(typeDeclaration.type)}`
 
     if (typeDeclaration.flags.listType === ListType.LIST) {
