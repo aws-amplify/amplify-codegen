@@ -275,6 +275,29 @@ describe('AppSyncSwiftVisitor', () => {
     `);
   });
 
+  it('Should handle nullability of lists appropriately', () => {
+    const schema = /* GraphQL */ `
+      type ListContainer
+      @model
+      {
+        id: ID!
+        name: String
+        list: [String]
+        requiredList: [String]!
+        requiredListOfRequired: [String!]!
+        listOfRequired: [String!]
+      }
+    `;
+
+    const visitor = getVisitor(schema, 'ListContainer');
+    const generatedCode = visitor.generate();
+    expect(generatedCode).toMatchSnapshot();
+    
+    const metadataVisitor = getVisitor(schema, 'ListContainer', CodeGenGenerateEnum.metadata);
+    const generatedMetadata = metadataVisitor.generate();
+    expect(generatedMetadata).toMatchSnapshot();
+  });
+
   describe('connection', () => {
     describe('One to Many connection', () => {
       const schema = /* GraphQL */ `
@@ -314,7 +337,7 @@ describe('AppSyncSwiftVisitor', () => {
             public var due_date: String?
             public var version: Int
             public var value: Double?
-            public var tasks: List<task>?
+            public var tasks: List<task?>?
             
             public init(id: String = UUID().uuidString,
                 title: String,
@@ -323,7 +346,7 @@ describe('AppSyncSwiftVisitor', () => {
                 due_date: String? = nil,
                 version: Int,
                 value: Double? = nil,
-                tasks: List<task>? = []) {
+                tasks: List<task?>? = []) {
                 self.id = id
                 self.title = title
                 self.done = done
@@ -520,11 +543,11 @@ describe('AppSyncSwiftVisitor', () => {
           public struct Post: Model {
             public let id: String
             public var title: String
-            public var editors: List<PostEditor>?
+            public var editors: List<PostEditor?>?
             
             public init(id: String = UUID().uuidString,
                 title: String,
-                editors: List<PostEditor>? = []) {
+                editors: List<PostEditor?>? = []) {
                 self.id = id
                 self.title = title
                 self.editors = editors
@@ -572,11 +595,11 @@ describe('AppSyncSwiftVisitor', () => {
           public struct Post: Model {
             public let id: String
             public var title: String
-            public var editors: List<PostEditor>?
+            public var editors: List<PostEditor?>?
             
             public init(id: String = UUID().uuidString,
                 title: String,
-                editors: List<PostEditor>? = []) {
+                editors: List<PostEditor?>? = []) {
                 self.id = id
                 self.title = title
                 self.editors = editors
@@ -642,20 +665,20 @@ describe('AppSyncSwiftVisitor', () => {
 
       public struct ObjectWithNativeTypes: Model {
         public let id: String
-        public var intArr: [Int]?
-        public var strArr: [String]?
-        public var floatArr: [Double]?
-        public var boolArr: [Bool]?
-        public var dateArr: [Temporal.Date]?
-        public var enumArr: [EnumType]?
+        public var intArr: [Int?]?
+        public var strArr: [String?]?
+        public var floatArr: [Double?]?
+        public var boolArr: [Bool?]?
+        public var dateArr: [Temporal.Date?]?
+        public var enumArr: [EnumType?]?
         
         public init(id: String = UUID().uuidString,
-            intArr: [Int]? = [],
-            strArr: [String]? = [],
-            floatArr: [Double]? = [],
-            boolArr: [Bool]? = [],
-            dateArr: [Temporal.Date]? = [],
-            enumArr: [EnumType]? = []) {
+            intArr: [Int?]? = [],
+            strArr: [String?]? = [],
+            floatArr: [Double?]? = [],
+            boolArr: [Bool?]? = [],
+            dateArr: [Temporal.Date?]? = [],
+            enumArr: [EnumType?]? = []) {
             self.id = id
             self.intArr = intArr
             self.strArr = strArr
@@ -740,18 +763,18 @@ describe('AppSyncSwiftVisitor', () => {
         public let id: String
         public var name: String
         public var location: Location
-        public var nearByLocations: [Location]?
+        public var nearByLocations: [Location?]?
         public var status: Status
-        public var statusHistory: [Status]?
-        public var tags: [String]?
+        public var statusHistory: [Status?]?
+        public var tags: [String?]?
         
         public init(id: String = UUID().uuidString,
             name: String,
             location: Location,
-            nearByLocations: [Location]? = [],
+            nearByLocations: [Location?]? = [],
             status: Status,
-            statusHistory: [Status]? = [],
-            tags: [String]? = []) {
+            statusHistory: [Status?]? = [],
+            tags: [String?]? = []) {
             self.id = id
             self.name = name
             self.location = location
@@ -823,7 +846,7 @@ describe('AppSyncSwiftVisitor', () => {
       public struct Location: Embeddable {
         var lat: String
         var lang: String
-        var tags: [String]?
+        var tags: [String?]?
       }"
     `);
 
@@ -959,13 +982,13 @@ describe('AppSyncSwiftVisitor', () => {
           public let id: String
           public var \`Class\`: Class?
           public var nonNullClass: Class
-          public var classes: [\`Class\`]?
+          public var classes: [\`Class\`?]?
           public var nonNullClasses: [\`Class\`]
           
           public init(id: String = UUID().uuidString,
               \`Class\`: \`Class\`? = nil,
               nonNullClass: \`Class\`,
-              classes: [\`Class\`]? = [],
+              classes: [\`Class\`?]? = [],
               nonNullClasses: [\`Class\`] = []) {
               self.id = id
               self.\`Class\` = \`Class\`
@@ -1289,7 +1312,7 @@ describe('AppSyncSwiftVisitor', () => {
                 .id(),
                 .field(post.title, is: .required, ofType: .string),
                 .field(post.author, is: .required, ofType: .string),
-                .field(post.editors, is: .required, ofType: .embeddedCollection(of: String.self))
+                .field(post.editors, is: .optional, ofType: .embeddedCollection(of: String.self))
               )
               }
           }"
