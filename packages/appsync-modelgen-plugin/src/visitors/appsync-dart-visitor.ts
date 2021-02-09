@@ -511,7 +511,7 @@ export class AppSyncModelDartVisitor<
       const fieldName = this.getFieldName(field);
       if (this.isModelType(field)) {
         if (field.isList) {
-          return `'${fieldName}': ${fieldName}?.map((e) => e?.toJson())`
+          return `'${fieldName}': ${fieldName}?.map((e) => e?.toJson()).toList()`
         }
         return `'${fieldName}': ${fieldName}?.toJson()`;
       }
