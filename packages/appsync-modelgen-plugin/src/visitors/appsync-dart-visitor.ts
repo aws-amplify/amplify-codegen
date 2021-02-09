@@ -488,6 +488,10 @@ export class AppSyncModelDartVisitor<
             return field.isList
               ? `${fieldName} = (json['${fieldName}'] as List)?.map((e) => ${fieldNativeType}.fromSeconds(e)).toList()`
               : `${fieldName} = ${fieldNativeType}.fromSeconds(json['${fieldName}'])`;
+          case this.scalars['Int']:
+            return field.isList
+              ? `${fieldName} = (json['${fieldName}'] as List<dynamic>).map((dynamic e) => e is double ? e.toInt() : e as int).toList()`
+              : `${fieldName} = json['${fieldName}']`
           default:
             return field.isList
               ? `${fieldName} = json['${fieldName}']?.cast<${this.getNativeType({...field, isList: false})}>()`
