@@ -198,6 +198,7 @@ exports[`AppSync Dart Visitor Field tests should generate correct output for app
 // ignore_for_file: public_member_api_docs
 
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 /** This is an auto generated class representing the TemporalTime type in your schema. */
@@ -207,8 +208,12 @@ class TemporalTime extends Model {
   final String id;
   final TemporalDate date;
   final TemporalTime time;
-  final TemporalDateTime datetime;
+  final TemporalDateTime dateTime;
   final TemporalTimestamp timestamp;
+  final List<TemporalDate> dateList;
+  final List<TemporalTime> timeList;
+  final List<TemporalDateTime> dateTimeList;
+  final List<TemporalTimestamp> timestampList;
 
   @override
   getInstanceType() => classType;
@@ -219,20 +224,40 @@ class TemporalTime extends Model {
   }
 
   const TemporalTime._internal(
-      {@required this.id, this.date, this.time, this.datetime, this.timestamp});
+      {@required this.id,
+      this.date,
+      this.time,
+      this.dateTime,
+      this.timestamp,
+      this.dateList,
+      this.timeList,
+      this.dateTimeList,
+      this.timestampList});
 
   factory TemporalTime(
       {String id,
       TemporalDate date,
       TemporalTime time,
-      TemporalDateTime datetime,
-      TemporalTimestamp timestamp}) {
+      TemporalDateTime dateTime,
+      TemporalTimestamp timestamp,
+      List<TemporalDate> dateList,
+      List<TemporalTime> timeList,
+      List<TemporalDateTime> dateTimeList,
+      List<TemporalTimestamp> timestampList}) {
     return TemporalTime._internal(
         id: id == null ? UUID.getUUID() : id,
         date: date,
         time: time,
-        datetime: datetime,
-        timestamp: timestamp);
+        dateTime: dateTime,
+        timestamp: timestamp,
+        dateList: dateList != null ? List.unmodifiable(dateList) : dateList,
+        timeList: timeList != null ? List.unmodifiable(timeList) : timeList,
+        dateTimeList: dateTimeList != null
+            ? List.unmodifiable(dateTimeList)
+            : dateTimeList,
+        timestampList: timestampList != null
+            ? List.unmodifiable(timestampList)
+            : timestampList);
   }
 
   bool equals(Object other) {
@@ -246,8 +271,12 @@ class TemporalTime extends Model {
         id == other.id &&
         date == other.date &&
         time == other.time &&
-        datetime == other.datetime &&
-        timestamp == other.timestamp;
+        dateTime == other.dateTime &&
+        timestamp == other.timestamp &&
+        DeepCollectionEquality().equals(dateList, other.dateList) &&
+        DeepCollectionEquality().equals(timeList, other.timeList) &&
+        DeepCollectionEquality().equals(dateTimeList, other.dateTimeList) &&
+        DeepCollectionEquality().equals(timestampList, other.timestampList);
   }
 
   @override
@@ -262,9 +291,19 @@ class TemporalTime extends Model {
     buffer.write(\\"date=\\" + (date != null ? date.format() : \\"null\\") + \\", \\");
     buffer.write(\\"time=\\" + (time != null ? time.format() : \\"null\\") + \\", \\");
     buffer.write(
-        \\"datetime=\\" + (datetime != null ? datetime.format() : \\"null\\") + \\", \\");
+        \\"dateTime=\\" + (dateTime != null ? dateTime.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"timestamp=\\" +
+        (timestamp != null ? timestamp.toString() : \\"null\\") +
+        \\", \\");
     buffer.write(
-        \\"timestamp=\\" + (timestamp != null ? timestamp.toString() : \\"null\\"));
+        \\"dateList=\\" + (dateList != null ? dateList.toString() : \\"null\\") + \\", \\");
+    buffer.write(
+        \\"timeList=\\" + (timeList != null ? timeList.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"dateTimeList=\\" +
+        (dateTimeList != null ? dateTimeList.toString() : \\"null\\") +
+        \\", \\");
+    buffer.write(\\"timestampList=\\" +
+        (timestampList != null ? timestampList.toString() : \\"null\\"));
     buffer.write(\\"}\\");
 
     return buffer.toString();
@@ -274,36 +313,65 @@ class TemporalTime extends Model {
       {String id,
       TemporalDate date,
       TemporalTime time,
-      TemporalDateTime datetime,
-      TemporalTimestamp timestamp}) {
+      TemporalDateTime dateTime,
+      TemporalTimestamp timestamp,
+      List<TemporalDate> dateList,
+      List<TemporalTime> timeList,
+      List<TemporalDateTime> dateTimeList,
+      List<TemporalTimestamp> timestampList}) {
     return TemporalTime(
         id: id ?? this.id,
         date: date ?? this.date,
         time: time ?? this.time,
-        datetime: datetime ?? this.datetime,
-        timestamp: timestamp ?? this.timestamp);
+        dateTime: dateTime ?? this.dateTime,
+        timestamp: timestamp ?? this.timestamp,
+        dateList: dateList ?? this.dateList,
+        timeList: timeList ?? this.timeList,
+        dateTimeList: dateTimeList ?? this.dateTimeList,
+        timestampList: timestampList ?? this.timestampList);
   }
 
   TemporalTime.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         date = TemporalDate.fromString(json['date']),
         time = TemporalTime.fromString(json['time']),
-        datetime = TemporalDateTime.fromString(json['datetime']),
-        timestamp = TemporalTimestamp.fromSeconds(json['timestamp']);
+        dateTime = TemporalDateTime.fromString(json['dateTime']),
+        timestamp = TemporalTimestamp.fromSeconds(json['timestamp']),
+        dateList = (json['dateList'] as List)
+            ?.map((e) => TemporalDate.fromString(e))
+            .toList(),
+        timeList = (json['timeList'] as List)
+            ?.map((e) => TemporalTime.fromString(e))
+            .toList(),
+        dateTimeList = (json['dateTimeList'] as List)
+            ?.map((e) => TemporalDateTime.fromString(e))
+            .toList(),
+        timestampList = (json['timestampList'] as List)
+            ?.map((e) => TemporalTimestamp.fromSeconds(e))
+            .toList();
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'date': date?.format(),
         'time': time?.format(),
-        'datetime': datetime?.format(),
-        'timestamp': timestamp?.toInt()
+        'dateTime': dateTime?.format(),
+        'timestamp': timestamp?.toSeconds(),
+        'dateList': dateList?.map((e) => e.format()).toList(),
+        'timeList': timeList?.map((e) => e.format()).toList(),
+        'dateTimeList': dateTimeList?.map((e) => e.format()).toList(),
+        'timestampList': timestampList?.map((e) => e.toSeconds()).toList()
       };
 
   static final QueryField ID = QueryField(fieldName: \\"temporalTime.id\\");
   static final QueryField DATE = QueryField(fieldName: \\"date\\");
   static final QueryField TIME = QueryField(fieldName: \\"time\\");
-  static final QueryField DATETIME = QueryField(fieldName: \\"datetime\\");
+  static final QueryField DATETIME = QueryField(fieldName: \\"dateTime\\");
   static final QueryField TIMESTAMP = QueryField(fieldName: \\"timestamp\\");
+  static final QueryField DATELIST = QueryField(fieldName: \\"dateList\\");
+  static final QueryField TIMELIST = QueryField(fieldName: \\"timeList\\");
+  static final QueryField DATETIMELIST = QueryField(fieldName: \\"dateTimeList\\");
+  static final QueryField TIMESTAMPLIST =
+      QueryField(fieldName: \\"timestampList\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"TemporalTime\\";
@@ -330,6 +398,34 @@ class TemporalTime extends Model {
         key: TemporalTime.TIMESTAMP,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.timestamp)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TemporalTime.DATELIST,
+        isRequired: false,
+        isArray: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.date))));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TemporalTime.TIMELIST,
+        isRequired: false,
+        isArray: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.time))));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TemporalTime.DATETIMELIST,
+        isRequired: false,
+        isArray: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.dateTime))));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TemporalTime.TIMESTAMPLIST,
+        isRequired: false,
+        isArray: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.timestamp))));
   });
 }
 

@@ -476,19 +476,22 @@ export class AppSyncModelDartVisitor<
           return `${fieldName} = enumFromString<${field.type}>(json['${fieldName}'], ${field.type}.values)`;
         }
         //regular type
-        if (field.isList) {
-          return `${fieldName} = json['${fieldName}']?.cast<${this.getNativeType({...field, isList: false})}>()`;
-        }
-        const fieldNativeType = this.getNativeType(field);
+        const fieldNativeType = this.getNativeType({...field, isList: false});
         switch (fieldNativeType) {
           case this.scalars['AWSDate']:
           case this.scalars['AWSTime']:
           case this.scalars['AWSDateTime']:
-            return `${fieldName} = ${fieldNativeType}.fromString(json['${fieldName}'])`;
+            return field.isList
+              ? `${fieldName} = (json['${fieldName}'] as List)?.map((e) => ${fieldNativeType}.fromString(e)).toList()`
+              : `${fieldName} = ${fieldNativeType}.fromString(json['${fieldName}'])`;
           case this.scalars['AWSTimestamp']:
-            return `${fieldName} = ${fieldNativeType}.fromSeconds(json['${fieldName}'])`;
+            return field.isList
+              ? `${fieldName} = (json['${fieldName}'] as List)?.map((e) => ${fieldNativeType}.fromSeconds(e)).toList()`
+              : `${fieldName} = ${fieldNativeType}.fromSeconds(json['${fieldName}'])`;
           default:
-            return `${fieldName} = json['${fieldName}']`;
+            return field.isList
+              ? `${fieldName} = json['${fieldName}']?.cast<${this.getNativeType({...field, isList: false})}>()`
+              : `${fieldName} = json['${fieldName}']`;
         }
       }).join(',\n')
     ).trim()};`;
@@ -514,14 +517,18 @@ export class AppSyncModelDartVisitor<
         }
         return `'${fieldName}': enumToString(${fieldName})`;
       }
-      const fieldNativeType = this.getNativeType(field);
+      const fieldNativeType = this.getNativeType({...field, isList: false});
       switch (fieldNativeType) {
         case this.scalars['AWSDate']:
         case this.scalars['AWSTime']:
         case this.scalars['AWSDateTime']:
-          return `'${fieldName}': ${fieldName}?.format()`;
+          return field.isList
+            ? `'${fieldName}': ${fieldName}?.map((e) => e.format()).toList()`
+            : `'${fieldName}': ${fieldName}?.format()`;
         case this.scalars['AWSTimestamp']:
-          return `'${fieldName}': ${fieldName}?.toInt()`;
+          return field.isList
+            ? `'${fieldName}': ${fieldName}?.map((e) => e.toSeconds()).toList()`
+            : `'${fieldName}': ${fieldName}?.toSeconds()`;
         default:
           return `'${fieldName}': ${fieldName}`;
       }

@@ -325,8 +325,12 @@ describe('AppSync Dart Visitor', () => {
           id: ID!
           date: AWSDate
           time: AWSTime
-          datetime: AWSDateTime
+          dateTime: AWSDateTime
           timestamp: AWSTimestamp
+          dateList: [AWSDate]
+          timeList: [AWSTime]
+          dateTimeList: [AWSDateTime]
+          timestampList: [AWSTimestamp]
         }
       `;
       const visitor = getVisitor(schema);
