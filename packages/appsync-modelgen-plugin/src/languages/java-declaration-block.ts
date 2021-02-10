@@ -1,4 +1,4 @@
-import { transformComment, indent, indentMultiline } from '@graphql-codegen/visitor-plugin-common';
+import { transformComment, indentMultiline } from '@graphql-codegen/visitor-plugin-common';
 import { StringValueNode, NameNode } from 'graphql';
 import stripIndent from 'strip-indent';
 
