@@ -90,7 +90,7 @@ class SimpleModel extends Model {
 
   const SimpleModel._internal({@required this.id, this.status});
 
-  factory SimpleModel({@required String id, Status status}) {
+  factory SimpleModel({String id, Status status}) {
     return SimpleModel._internal(
         id: id == null ? UUID.getUUID() : id, status: status);
   }
@@ -179,6 +179,288 @@ enum Status { yes, no, maybe }
 "
 `;
 
+exports[`AppSync Dart Visitor Field tests should generate correct output for appsync scalar types of time and int 1`] = `
+"/*
+* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// ignore_for_file: public_member_api_docs
+
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
+
+/** This is an auto generated class representing the TemporalTime type in your schema. */
+@immutable
+class TemporalTime extends Model {
+  static const classType = const TemporalTimeType();
+  final String id;
+  final TemporalDate date;
+  final TemporalTime time;
+  final TemporalDateTime dateTime;
+  final TemporalTimestamp timestamp;
+  final List<TemporalDate> dateList;
+  final List<TemporalTime> timeList;
+  final List<TemporalDateTime> dateTimeList;
+  final List<TemporalTimestamp> timestampList;
+  final List<int> intList;
+
+  @override
+  getInstanceType() => classType;
+
+  @override
+  String getId() {
+    return id;
+  }
+
+  const TemporalTime._internal(
+      {@required this.id,
+      this.date,
+      this.time,
+      this.dateTime,
+      this.timestamp,
+      this.dateList,
+      this.timeList,
+      this.dateTimeList,
+      this.timestampList,
+      this.intList});
+
+  factory TemporalTime(
+      {String id,
+      TemporalDate date,
+      TemporalTime time,
+      TemporalDateTime dateTime,
+      TemporalTimestamp timestamp,
+      List<TemporalDate> dateList,
+      List<TemporalTime> timeList,
+      List<TemporalDateTime> dateTimeList,
+      List<TemporalTimestamp> timestampList,
+      List<int> intList}) {
+    return TemporalTime._internal(
+        id: id == null ? UUID.getUUID() : id,
+        date: date,
+        time: time,
+        dateTime: dateTime,
+        timestamp: timestamp,
+        dateList: dateList != null ? List.unmodifiable(dateList) : dateList,
+        timeList: timeList != null ? List.unmodifiable(timeList) : timeList,
+        dateTimeList: dateTimeList != null
+            ? List.unmodifiable(dateTimeList)
+            : dateTimeList,
+        timestampList: timestampList != null
+            ? List.unmodifiable(timestampList)
+            : timestampList,
+        intList: intList != null ? List.unmodifiable(intList) : intList);
+  }
+
+  bool equals(Object other) {
+    return this == other;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is TemporalTime &&
+        id == other.id &&
+        date == other.date &&
+        time == other.time &&
+        dateTime == other.dateTime &&
+        timestamp == other.timestamp &&
+        DeepCollectionEquality().equals(dateList, other.dateList) &&
+        DeepCollectionEquality().equals(timeList, other.timeList) &&
+        DeepCollectionEquality().equals(dateTimeList, other.dateTimeList) &&
+        DeepCollectionEquality().equals(timestampList, other.timestampList) &&
+        DeepCollectionEquality().equals(intList, other.intList);
+  }
+
+  @override
+  int get hashCode => toString().hashCode;
+
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+
+    buffer.write(\\"TemporalTime {\\");
+    buffer.write(\\"id=\\" + id + \\", \\");
+    buffer.write(\\"date=\\" + (date != null ? date.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"time=\\" + (time != null ? time.format() : \\"null\\") + \\", \\");
+    buffer.write(
+        \\"dateTime=\\" + (dateTime != null ? dateTime.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"timestamp=\\" +
+        (timestamp != null ? timestamp.toString() : \\"null\\") +
+        \\", \\");
+    buffer.write(
+        \\"dateList=\\" + (dateList != null ? dateList.toString() : \\"null\\") + \\", \\");
+    buffer.write(
+        \\"timeList=\\" + (timeList != null ? timeList.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"dateTimeList=\\" +
+        (dateTimeList != null ? dateTimeList.toString() : \\"null\\") +
+        \\", \\");
+    buffer.write(\\"timestampList=\\" +
+        (timestampList != null ? timestampList.toString() : \\"null\\") +
+        \\", \\");
+    buffer.write(\\"intList=\\" + (intList != null ? intList.toString() : \\"null\\"));
+    buffer.write(\\"}\\");
+
+    return buffer.toString();
+  }
+
+  TemporalTime copyWith(
+      {String id,
+      TemporalDate date,
+      TemporalTime time,
+      TemporalDateTime dateTime,
+      TemporalTimestamp timestamp,
+      List<TemporalDate> dateList,
+      List<TemporalTime> timeList,
+      List<TemporalDateTime> dateTimeList,
+      List<TemporalTimestamp> timestampList,
+      List<int> intList}) {
+    return TemporalTime(
+        id: id ?? this.id,
+        date: date ?? this.date,
+        time: time ?? this.time,
+        dateTime: dateTime ?? this.dateTime,
+        timestamp: timestamp ?? this.timestamp,
+        dateList: dateList ?? this.dateList,
+        timeList: timeList ?? this.timeList,
+        dateTimeList: dateTimeList ?? this.dateTimeList,
+        timestampList: timestampList ?? this.timestampList,
+        intList: intList ?? this.intList);
+  }
+
+  TemporalTime.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        date = TemporalDate.fromString(json['date']),
+        time = TemporalTime.fromString(json['time']),
+        dateTime = TemporalDateTime.fromString(json['dateTime']),
+        timestamp = TemporalTimestamp.fromSeconds(json['timestamp']),
+        dateList = (json['dateList'] as List)
+            ?.map((e) => TemporalDate.fromString(e))
+            .toList(),
+        timeList = (json['timeList'] as List)
+            ?.map((e) => TemporalTime.fromString(e))
+            .toList(),
+        dateTimeList = (json['dateTimeList'] as List)
+            ?.map((e) => TemporalDateTime.fromString(e))
+            .toList(),
+        timestampList = (json['timestampList'] as List)
+            ?.map((e) => TemporalTimestamp.fromSeconds(e))
+            .toList(),
+        intList = (json['intList'] as List<dynamic>)
+            .map((dynamic e) => e is double ? e.toInt() : e as int)
+            .toList();
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'date': date?.format(),
+        'time': time?.format(),
+        'dateTime': dateTime?.format(),
+        'timestamp': timestamp?.toSeconds(),
+        'dateList': dateList?.map((e) => e.format()).toList(),
+        'timeList': timeList?.map((e) => e.format()).toList(),
+        'dateTimeList': dateTimeList?.map((e) => e.format()).toList(),
+        'timestampList': timestampList?.map((e) => e.toSeconds()).toList(),
+        'intList': intList
+      };
+
+  static final QueryField ID = QueryField(fieldName: \\"temporalTime.id\\");
+  static final QueryField DATE = QueryField(fieldName: \\"date\\");
+  static final QueryField TIME = QueryField(fieldName: \\"time\\");
+  static final QueryField DATETIME = QueryField(fieldName: \\"dateTime\\");
+  static final QueryField TIMESTAMP = QueryField(fieldName: \\"timestamp\\");
+  static final QueryField DATELIST = QueryField(fieldName: \\"dateList\\");
+  static final QueryField TIMELIST = QueryField(fieldName: \\"timeList\\");
+  static final QueryField DATETIMELIST = QueryField(fieldName: \\"dateTimeList\\");
+  static final QueryField TIMESTAMPLIST =
+      QueryField(fieldName: \\"timestampList\\");
+  static final QueryField INTLIST = QueryField(fieldName: \\"intList\\");
+  static var schema =
+      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"TemporalTime\\";
+    modelSchemaDefinition.pluralName = \\"TemporalTimes\\";
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TemporalTime.DATE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.date)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TemporalTime.TIME,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.time)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TemporalTime.DATETIME,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TemporalTime.TIMESTAMP,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.timestamp)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TemporalTime.DATELIST,
+        isRequired: false,
+        isArray: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.date))));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TemporalTime.TIMELIST,
+        isRequired: false,
+        isArray: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.time))));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TemporalTime.DATETIMELIST,
+        isRequired: false,
+        isArray: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.dateTime))));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TemporalTime.TIMESTAMPLIST,
+        isRequired: false,
+        isArray: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.timestamp))));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TemporalTime.INTLIST,
+        isRequired: false,
+        isArray: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
+            ofModelName: describeEnum(ModelFieldTypeEnum.int))));
+  });
+}
+
+class TemporalTimeType extends ModelType<TemporalTime> {
+  const TemporalTimeType();
+
+  @override
+  TemporalTime fromJson(Map<String, dynamic> jsonData) {
+    return TemporalTime.fromJson(jsonData);
+  }
+}
+"
+`;
+
 exports[`AppSync Dart Visitor Field tests should generate correct output for enum field w/o list or nullable 1`] = `
 "/*
 * Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
@@ -232,7 +514,7 @@ class TestEnumModel extends Model {
       this.nullableEnumNullableList});
 
   factory TestEnumModel(
-      {@required String id,
+      {String id,
       @required TestEnum enumVal,
       TestEnum nullableEnumVal,
       @required List<TestEnum> enumList,
@@ -480,7 +762,7 @@ class TestModel extends Model {
       this.nullableFloatNullableList});
 
   factory TestModel(
-      {@required String id,
+      {String id,
       @required double floatVal,
       double floatNullableVal,
       @required List<double> floatList,
@@ -702,7 +984,7 @@ class SimpleModel extends Model {
 
   const SimpleModel._internal({@required this.id, this.name, this.bar});
 
-  factory SimpleModel({@required String id, String name, String bar}) {
+  factory SimpleModel({String id, String name, String bar}) {
     return SimpleModel._internal(
         id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
@@ -820,7 +1102,7 @@ class SimpleModel extends Model {
 
   const SimpleModel._internal({@required this.id, this.name, this.bar});
 
-  factory SimpleModel({@required String id, String name, String bar}) {
+  factory SimpleModel({String id, String name, String bar}) {
     return SimpleModel._internal(
         id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
@@ -938,7 +1220,7 @@ class customClaim extends Model {
 
   const customClaim._internal({@required this.id, this.name, this.bar});
 
-  factory customClaim({@required String id, String name, String bar}) {
+  factory customClaim({String id, String name, String bar}) {
     return customClaim._internal(
         id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
@@ -1069,7 +1351,7 @@ class customClaim extends Model {
 
   const customClaim._internal({@required this.id, this.name, this.bar});
 
-  factory customClaim({@required String id, String name, String bar}) {
+  factory customClaim({String id, String name, String bar}) {
     return customClaim._internal(
         id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
@@ -1202,7 +1484,7 @@ class dynamicGroups extends Model {
 
   const dynamicGroups._internal({@required this.id, this.name, this.bar});
 
-  factory dynamicGroups({@required String id, String name, String bar}) {
+  factory dynamicGroups({String id, String name, String bar}) {
     return dynamicGroups._internal(
         id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
@@ -1333,7 +1615,7 @@ class simpleOwnerAuth extends Model {
 
   const simpleOwnerAuth._internal({@required this.id, this.name, this.bar});
 
-  factory simpleOwnerAuth({@required String id, String name, String bar}) {
+  factory simpleOwnerAuth({String id, String name, String bar}) {
     return simpleOwnerAuth._internal(
         id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
@@ -1464,7 +1746,7 @@ class allowRead extends Model {
 
   const allowRead._internal({@required this.id, this.name, this.bar});
 
-  factory allowRead({@required String id, String name, String bar}) {
+  factory allowRead({String id, String name, String bar}) {
     return allowRead._internal(
         id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
@@ -1594,7 +1876,7 @@ class privateType extends Model {
 
   const privateType._internal({@required this.id, this.name, this.bar});
 
-  factory privateType({@required String id, String name, String bar}) {
+  factory privateType({String id, String name, String bar}) {
     return privateType._internal(
         id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
@@ -1721,7 +2003,7 @@ class publicType extends Model {
 
   const publicType._internal({@required this.id, this.name, this.bar});
 
-  factory publicType({@required String id, String name, String bar}) {
+  factory publicType({String id, String name, String bar}) {
     return publicType._internal(
         id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
@@ -1848,7 +2130,7 @@ class staticGroups extends Model {
 
   const staticGroups._internal({@required this.id, this.name, this.bar});
 
-  factory staticGroups({@required String id, String name, String bar}) {
+  factory staticGroups({String id, String name, String bar}) {
     return staticGroups._internal(
         id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
@@ -1982,8 +2264,7 @@ class Post extends Model {
   const Post._internal(
       {@required this.id, @required this.title, @required this.author});
 
-  factory Post(
-      {@required String id, @required String title, @required String author}) {
+  factory Post({String id, @required String title, @required String author}) {
     return Post._internal(
         id: id == null ? UUID.getUUID() : id, title: title, author: author);
   }
@@ -2117,8 +2398,7 @@ class Post extends Model {
   const Post._internal(
       {@required this.id, @required this.title, @required this.owner});
 
-  factory Post(
-      {@required String id, @required String title, @required String owner}) {
+  factory Post({String id, @required String title, @required String owner}) {
     return Post._internal(
         id: id == null ? UUID.getUUID() : id, title: title, owner: owner);
   }
@@ -2265,7 +2545,7 @@ class Todo extends Model {
 
   const Todo._internal({@required this.id, this.tasks});
 
-  factory Todo({@required String id, List<Task> tasks}) {
+  factory Todo({String id, List<Task> tasks}) {
     return Todo._internal(
         id: id == null ? UUID.getUUID() : id,
         tasks: tasks != null ? List.unmodifiable(tasks) : tasks);
@@ -2310,7 +2590,7 @@ class Todo extends Model {
             : null;
 
   Map<String, dynamic> toJson() =>
-      {'id': id, 'tasks': tasks?.map((e) => e?.toJson())};
+      {'id': id, 'tasks': tasks?.map((e) => e?.toJson()).toList()};
 
   static final QueryField ID = QueryField(fieldName: \\"todo.id\\");
   static final QueryField TASKS = QueryField(
@@ -2371,8 +2651,6 @@ class Task extends Model {
   static const classType = const TaskType();
   final String id;
   final Todo todo;
-  final Time time;
-  final Date createdOn;
 
   @override
   getInstanceType() => classType;
@@ -2382,15 +2660,10 @@ class Task extends Model {
     return id;
   }
 
-  const Task._internal(
-      {@required this.id, this.todo, this.time, this.createdOn});
+  const Task._internal({@required this.id, this.todo});
 
-  factory Task({@required String id, Todo todo, Time time, Date createdOn}) {
-    return Task._internal(
-        id: id == null ? UUID.getUUID() : id,
-        todo: todo,
-        time: time,
-        createdOn: createdOn);
+  factory Task({String id, Todo todo}) {
+    return Task._internal(id: id == null ? UUID.getUUID() : id, todo: todo);
   }
 
   bool equals(Object other) {
@@ -2400,11 +2673,7 @@ class Task extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Task &&
-        id == other.id &&
-        todo == other.todo &&
-        time == other.time &&
-        createdOn == other.createdOn;
+    return other is Task && id == other.id && todo == other.todo;
   }
 
   @override
@@ -2416,46 +2685,29 @@ class Task extends Model {
 
     buffer.write(\\"Task {\\");
     buffer.write(\\"id=\\" + id + \\", \\");
-    buffer.write(\\"todo=\\" + (todo != null ? todo.toString() : \\"null\\") + \\", \\");
-    buffer.write(
-        \\"time=\\" + (time != null ? time.toTimeIso8601String() : \\"null\\") + \\", \\");
-    buffer.write(\\"createdOn=\\" +
-        (createdOn != null ? createdOn.toDateIso8601String() : \\"null\\"));
+    buffer.write(\\"todo=\\" + (todo != null ? todo.toString() : \\"null\\"));
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  Task copyWith({String id, Todo todo, Time time, Date createdOn}) {
-    return Task(
-        id: id ?? this.id,
-        todo: todo ?? this.todo,
-        time: time ?? this.time,
-        createdOn: createdOn ?? this.createdOn);
+  Task copyWith({String id, Todo todo}) {
+    return Task(id: id ?? this.id, todo: todo ?? this.todo);
   }
 
   Task.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         todo = json['todo'] != null
             ? Todo.fromJson(new Map<String, dynamic>.from(json['todo']))
-            : null,
-        time = Time.fromString(json['time']),
-        createdOn = Date.fromString(json['createdOn']);
+            : null;
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'todo': todo?.toJson(),
-        'time': time?.toTimeIso8601String(),
-        'createdOn': createdOn?.toDateIso8601String()
-      };
+  Map<String, dynamic> toJson() => {'id': id, 'todo': todo?.toJson()};
 
   static final QueryField ID = QueryField(fieldName: \\"task.id\\");
   static final QueryField TODO = QueryField(
       fieldName: \\"todo\\",
       fieldType: ModelFieldType(ModelFieldTypeEnum.model,
           ofModelName: (Todo).toString()));
-  static final QueryField TIME = QueryField(fieldName: \\"time\\");
-  static final QueryField CREATEDON = QueryField(fieldName: \\"createdOn\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Task\\";
@@ -2468,16 +2720,6 @@ class Task extends Model {
         isRequired: false,
         targetName: \\"taskTodoId\\",
         ofModelName: (Todo).toString()));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Task.TIME,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.time)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Task.CREATEDON,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.date)));
   });
 }
 
@@ -2536,10 +2778,7 @@ class Blog extends Model {
       {@required this.id, @required this.name, this.posts, this.test});
 
   factory Blog(
-      {@required String id,
-      @required String name,
-      List<Post> posts,
-      List<String> test}) {
+      {String id, @required String name, List<Post> posts, List<String> test}) {
     return Blog._internal(
         id: id == null ? UUID.getUUID() : id,
         name: name,
@@ -2598,7 +2837,7 @@ class Blog extends Model {
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
-        'posts': posts?.map((e) => e?.toJson()),
+        'posts': posts?.map((e) => e?.toJson()).toList(),
         'test': test
       };
 
@@ -2688,7 +2927,7 @@ class Comment extends Model {
   const Comment._internal(
       {@required this.id, this.post, @required this.content});
 
-  factory Comment({@required String id, Post post, @required String content}) {
+  factory Comment({String id, Post post, @required String content}) {
     return Comment._internal(
         id: id == null ? UUID.getUUID() : id, post: post, content: content);
   }
@@ -2820,10 +3059,7 @@ class Post extends Model {
       {@required this.id, @required this.title, this.blog, this.comments});
 
   factory Post(
-      {@required String id,
-      @required String title,
-      Blog blog,
-      List<Comment> comments}) {
+      {String id, @required String title, Blog blog, List<Comment> comments}) {
     return Post._internal(
         id: id == null ? UUID.getUUID() : id,
         title: title,
@@ -2885,7 +3121,7 @@ class Post extends Model {
         'id': id,
         'title': title,
         'blog': blog?.toJson(),
-        'comments': comments?.map((e) => e?.toJson())
+        'comments': comments?.map((e) => e?.toJson()).toList()
       };
 
   static final QueryField ID = QueryField(fieldName: \\"post.id\\");
@@ -2982,7 +3218,7 @@ class authorBook extends Model {
       this.book});
 
   factory authorBook(
-      {@required String id,
+      {String id,
       @required String author_id,
       @required String book_id,
       String author,

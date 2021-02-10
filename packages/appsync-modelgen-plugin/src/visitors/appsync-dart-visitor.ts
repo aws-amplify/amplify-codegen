@@ -320,7 +320,7 @@ export class AppSyncModelDartVisitor<
       indentMultiline(`${returnParamStr});`)
     ].join('\n');
     const factoryParam = `{${model.fields.map(f =>
-      `${this.isFieldRequired(f) ? '@required ' : ''}${this.getNativeType(f)} ${this.getFieldName(f)}`
+      `${this.getFieldName(f) !== 'id' && this.isFieldRequired(f) ? '@required ' : ''}${this.getNativeType(f)} ${this.getFieldName(f)}`
     ).join(', ')}}`
     declarationBlock.addClassMethod(
       this.getModelName(model),
@@ -388,7 +388,7 @@ export class AppSyncModelDartVisitor<
           let toStringVal = '';
           if (this.isEnumType(field)) {
             if (field.isList) {
-              toStringVal = `${fieldName}?.map((e) => enumToString(e)).toString()`
+              toStringVal = `${fieldName}?.map((e) => enumToString(e)).toString()`;
             } else {
               toStringVal = `enumToString(${fieldName})`;
             }
@@ -398,10 +398,10 @@ export class AppSyncModelDartVisitor<
               case 'String':
                 toStringVal = `${fieldName}`;
                 break;
-              case 'Date':
-              case 'Time':
-              case 'DateTime':
-                toStringVal = `(${fieldName} != null ? ${fieldName}.to${fieldNativeType}Iso8601String() : "null")`;
+              case this.scalars['AWSDate']:
+              case this.scalars['AWSTime']:
+              case this.scalars['AWSDateTime']:
+                toStringVal = `(${fieldName} != null ? ${fieldName}.format() : "null")`;
                 break;
               default:
                 toStringVal = `(${fieldName} != null ? ${fieldName}.toString() : "null")`;
@@ -473,21 +473,29 @@ export class AppSyncModelDartVisitor<
               indent(`: null`)
             ].join('\n');
           }
-          return `${fieldName} = enumFromString<${field.type}>(json['${fieldName}'], ${field.type}.values)`
+          return `${fieldName} = enumFromString<${field.type}>(json['${fieldName}'], ${field.type}.values)`;
         }
         //regular type
-        if (field.isList) {
-          return `${fieldName} = json['${fieldName}']?.cast<${this.getNativeType({...field, isList: false})}>()`;
-        }
-        const fieldNativeType = this.getNativeType(field);
+        const fieldNativeType = this.getNativeType({...field, isList: false});
         switch (fieldNativeType) {
-          case 'Date':
-          case 'Time':
-            return `${fieldName} = ${fieldNativeType}.fromString(json['${fieldName}'])`;
-          case 'DateTime':
-            return `${fieldName} = ${fieldNativeType}Parse.fromString(json['${fieldName}'])`;
+          case this.scalars['AWSDate']:
+          case this.scalars['AWSTime']:
+          case this.scalars['AWSDateTime']:
+            return field.isList
+              ? `${fieldName} = (json['${fieldName}'] as List)?.map((e) => ${fieldNativeType}.fromString(e)).toList()`
+              : `${fieldName} = ${fieldNativeType}.fromString(json['${fieldName}'])`;
+          case this.scalars['AWSTimestamp']:
+            return field.isList
+              ? `${fieldName} = (json['${fieldName}'] as List)?.map((e) => ${fieldNativeType}.fromSeconds(e)).toList()`
+              : `${fieldName} = ${fieldNativeType}.fromSeconds(json['${fieldName}'])`;
+          case this.scalars['Int']:
+            return field.isList
+              ? `${fieldName} = (json['${fieldName}'] as List<dynamic>).map((dynamic e) => e is double ? e.toInt() : e as int).toList()`
+              : `${fieldName} = json['${fieldName}']`
           default:
-            return `${fieldName} = json['${fieldName}']`;
+            return field.isList
+              ? `${fieldName} = json['${fieldName}']?.cast<${this.getNativeType({...field, isList: false})}>()`
+              : `${fieldName} = json['${fieldName}']`;
         }
       }).join(',\n')
     ).trim()};`;
@@ -503,7 +511,7 @@ export class AppSyncModelDartVisitor<
       const fieldName = this.getFieldName(field);
       if (this.isModelType(field)) {
         if (field.isList) {
-          return `'${fieldName}': ${fieldName}?.map((e) => e?.toJson())`
+          return `'${fieldName}': ${fieldName}?.map((e) => e?.toJson()).toList()`
         }
         return `'${fieldName}': ${fieldName}?.toJson()`;
       }
@@ -513,12 +521,18 @@ export class AppSyncModelDartVisitor<
         }
         return `'${fieldName}': enumToString(${fieldName})`;
       }
-      const fieldNativeType = this.getNativeType(field);
+      const fieldNativeType = this.getNativeType({...field, isList: false});
       switch (fieldNativeType) {
-        case 'Date':
-        case 'Time':
-        case 'DateTime':
-          return `'${fieldName}': ${fieldName}?.to${fieldNativeType}Iso8601String()`;
+        case this.scalars['AWSDate']:
+        case this.scalars['AWSTime']:
+        case this.scalars['AWSDateTime']:
+          return field.isList
+            ? `'${fieldName}': ${fieldName}?.map((e) => e.format()).toList()`
+            : `'${fieldName}': ${fieldName}?.format()`;
+        case this.scalars['AWSTimestamp']:
+          return field.isList
+            ? `'${fieldName}': ${fieldName}?.map((e) => e.toSeconds()).toList()`
+            : `'${fieldName}': ${fieldName}?.toSeconds()`;
         default:
           return `'${fieldName}': ${fieldName}`;
       }
