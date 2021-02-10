@@ -396,7 +396,7 @@ export class AppSyncModelDartVisitor<
             const fieldNativeType = this.getNativeType(field);
             switch (fieldNativeType) {
               case 'String':
-                toStringVal = `${fieldName}`;
+                toStringVal = `"$${fieldName}"`;
                 break;
               case this.scalars['AWSDate']:
               case this.scalars['AWSTime']:

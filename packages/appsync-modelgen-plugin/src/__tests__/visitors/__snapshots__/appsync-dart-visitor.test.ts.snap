@@ -113,7 +113,7 @@ class SimpleModel extends Model {
     var buffer = new StringBuffer();
 
     buffer.write(\\"SimpleModel {\\");
-    buffer.write(\\"id=\\" + id + \\", \\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"status=\\" + enumToString(status));
     buffer.write(\\"}\\");
 
@@ -292,7 +292,7 @@ class TemporalTime extends Model {
     var buffer = new StringBuffer();
 
     buffer.write(\\"TemporalTime {\\");
-    buffer.write(\\"id=\\" + id + \\", \\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"date=\\" + (date != null ? date.format() : \\"null\\") + \\", \\");
     buffer.write(\\"time=\\" + (time != null ? time.format() : \\"null\\") + \\", \\");
     buffer.write(
@@ -565,7 +565,7 @@ class TestEnumModel extends Model {
     var buffer = new StringBuffer();
 
     buffer.write(\\"TestEnumModel {\\");
-    buffer.write(\\"id=\\" + id + \\", \\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"enumVal=\\" + enumToString(enumVal) + \\", \\");
     buffer.write(\\"nullableEnumVal=\\" + enumToString(nullableEnumVal) + \\", \\");
     buffer.write(
@@ -813,7 +813,7 @@ class TestModel extends Model {
     var buffer = new StringBuffer();
 
     buffer.write(\\"TestModel {\\");
-    buffer.write(\\"id=\\" + id + \\", \\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(
         \\"floatVal=\\" + (floatVal != null ? floatVal.toString() : \\"null\\") + \\", \\");
     buffer.write(\\"floatNullableVal=\\" +
@@ -1010,9 +1010,9 @@ class SimpleModel extends Model {
     var buffer = new StringBuffer();
 
     buffer.write(\\"SimpleModel {\\");
-    buffer.write(\\"id=\\" + id + \\", \\");
-    buffer.write(\\"name=\\" + name + \\", \\");
-    buffer.write(\\"bar=\\" + bar);
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
+    buffer.write(\\"bar=\\" + \\"$bar\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
@@ -1128,9 +1128,9 @@ class SimpleModel extends Model {
     var buffer = new StringBuffer();
 
     buffer.write(\\"SimpleModel {\\");
-    buffer.write(\\"id=\\" + id + \\", \\");
-    buffer.write(\\"name=\\" + name + \\", \\");
-    buffer.write(\\"bar=\\" + bar);
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
+    buffer.write(\\"bar=\\" + \\"$bar\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
@@ -1246,9 +1246,9 @@ class customClaim extends Model {
     var buffer = new StringBuffer();
 
     buffer.write(\\"customClaim {\\");
-    buffer.write(\\"id=\\" + id + \\", \\");
-    buffer.write(\\"name=\\" + name + \\", \\");
-    buffer.write(\\"bar=\\" + bar);
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
+    buffer.write(\\"bar=\\" + \\"$bar\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
@@ -1377,9 +1377,9 @@ class customClaim extends Model {
     var buffer = new StringBuffer();
 
     buffer.write(\\"customClaim {\\");
-    buffer.write(\\"id=\\" + id + \\", \\");
-    buffer.write(\\"name=\\" + name + \\", \\");
-    buffer.write(\\"bar=\\" + bar);
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
+    buffer.write(\\"bar=\\" + \\"$bar\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
@@ -1510,9 +1510,9 @@ class dynamicGroups extends Model {
     var buffer = new StringBuffer();
 
     buffer.write(\\"dynamicGroups {\\");
-    buffer.write(\\"id=\\" + id + \\", \\");
-    buffer.write(\\"name=\\" + name + \\", \\");
-    buffer.write(\\"bar=\\" + bar);
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
+    buffer.write(\\"bar=\\" + \\"$bar\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
@@ -1641,9 +1641,9 @@ class simpleOwnerAuth extends Model {
     var buffer = new StringBuffer();
 
     buffer.write(\\"simpleOwnerAuth {\\");
-    buffer.write(\\"id=\\" + id + \\", \\");
-    buffer.write(\\"name=\\" + name + \\", \\");
-    buffer.write(\\"bar=\\" + bar);
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
+    buffer.write(\\"bar=\\" + \\"$bar\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
@@ -1772,9 +1772,9 @@ class allowRead extends Model {
     var buffer = new StringBuffer();
 
     buffer.write(\\"allowRead {\\");
-    buffer.write(\\"id=\\" + id + \\", \\");
-    buffer.write(\\"name=\\" + name + \\", \\");
-    buffer.write(\\"bar=\\" + bar);
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
+    buffer.write(\\"bar=\\" + \\"$bar\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
@@ -1902,9 +1902,9 @@ class privateType extends Model {
     var buffer = new StringBuffer();
 
     buffer.write(\\"privateType {\\");
-    buffer.write(\\"id=\\" + id + \\", \\");
-    buffer.write(\\"name=\\" + name + \\", \\");
-    buffer.write(\\"bar=\\" + bar);
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
+    buffer.write(\\"bar=\\" + \\"$bar\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
@@ -2029,9 +2029,9 @@ class publicType extends Model {
     var buffer = new StringBuffer();
 
     buffer.write(\\"publicType {\\");
-    buffer.write(\\"id=\\" + id + \\", \\");
-    buffer.write(\\"name=\\" + name + \\", \\");
-    buffer.write(\\"bar=\\" + bar);
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
+    buffer.write(\\"bar=\\" + \\"$bar\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
@@ -2156,9 +2156,9 @@ class staticGroups extends Model {
     var buffer = new StringBuffer();
 
     buffer.write(\\"staticGroups {\\");
-    buffer.write(\\"id=\\" + id + \\", \\");
-    buffer.write(\\"name=\\" + name + \\", \\");
-    buffer.write(\\"bar=\\" + bar);
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
+    buffer.write(\\"bar=\\" + \\"$bar\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
@@ -2290,9 +2290,9 @@ class Post extends Model {
     var buffer = new StringBuffer();
 
     buffer.write(\\"Post {\\");
-    buffer.write(\\"id=\\" + id + \\", \\");
-    buffer.write(\\"title=\\" + title + \\", \\");
-    buffer.write(\\"author=\\" + author);
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"title=\\" + \\"$title\\" + \\", \\");
+    buffer.write(\\"author=\\" + \\"$author\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
@@ -2424,9 +2424,9 @@ class Post extends Model {
     var buffer = new StringBuffer();
 
     buffer.write(\\"Post {\\");
-    buffer.write(\\"id=\\" + id + \\", \\");
-    buffer.write(\\"title=\\" + title + \\", \\");
-    buffer.write(\\"owner=\\" + owner);
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"title=\\" + \\"$title\\" + \\", \\");
+    buffer.write(\\"owner=\\" + \\"$owner\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
@@ -2571,7 +2571,7 @@ class Todo extends Model {
     var buffer = new StringBuffer();
 
     buffer.write(\\"Todo {\\");
-    buffer.write(\\"id=\\" + id);
+    buffer.write(\\"id=\\" + \\"$id\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
@@ -2684,7 +2684,7 @@ class Task extends Model {
     var buffer = new StringBuffer();
 
     buffer.write(\\"Task {\\");
-    buffer.write(\\"id=\\" + id + \\", \\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"todo=\\" + (todo != null ? todo.toString() : \\"null\\"));
     buffer.write(\\"}\\");
 
@@ -2808,8 +2808,8 @@ class Blog extends Model {
     var buffer = new StringBuffer();
 
     buffer.write(\\"Blog {\\");
-    buffer.write(\\"id=\\" + id + \\", \\");
-    buffer.write(\\"name=\\" + name + \\", \\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
     buffer.write(\\"test=\\" + (test != null ? test.toString() : \\"null\\"));
     buffer.write(\\"}\\");
 
@@ -2953,9 +2953,9 @@ class Comment extends Model {
     var buffer = new StringBuffer();
 
     buffer.write(\\"Comment {\\");
-    buffer.write(\\"id=\\" + id + \\", \\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"post=\\" + (post != null ? post.toString() : \\"null\\") + \\", \\");
-    buffer.write(\\"content=\\" + content);
+    buffer.write(\\"content=\\" + \\"$content\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
@@ -3089,8 +3089,8 @@ class Post extends Model {
     var buffer = new StringBuffer();
 
     buffer.write(\\"Post {\\");
-    buffer.write(\\"id=\\" + id + \\", \\");
-    buffer.write(\\"title=\\" + title + \\", \\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"title=\\" + \\"$title\\" + \\", \\");
     buffer.write(\\"blog=\\" + (blog != null ? blog.toString() : \\"null\\"));
     buffer.write(\\"}\\");
 
@@ -3254,11 +3254,11 @@ class authorBook extends Model {
     var buffer = new StringBuffer();
 
     buffer.write(\\"authorBook {\\");
-    buffer.write(\\"id=\\" + id + \\", \\");
-    buffer.write(\\"author_id=\\" + author_id + \\", \\");
-    buffer.write(\\"book_id=\\" + book_id + \\", \\");
-    buffer.write(\\"author=\\" + author + \\", \\");
-    buffer.write(\\"book=\\" + book);
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"author_id=\\" + \\"$author_id\\" + \\", \\");
+    buffer.write(\\"book_id=\\" + \\"$book_id\\" + \\", \\");
+    buffer.write(\\"author=\\" + \\"$author\\" + \\", \\");
+    buffer.write(\\"book=\\" + \\"$book\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
