@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.7](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.22.6...@aws-amplify/appsync-modelgen-plugin@1.22.7) (2021-02-10)
+
+
+### Bug Fixes
+
+* **appsync-modelgen-plugin:** change the time native type mapping and tostring method ([3d0d852](https://github.com/aws-amplify/amplify-codegen/commit/3d0d852a189938ddaa9fc282ce79732950605918))
+* **modelgen:** add additional param to query fields ([0ce8cf3](https://github.com/aws-amplify/amplify-codegen/commit/0ce8cf387e70497cb7f2d23ee59a94f4da009b39))
+* **modelgen-android:** add additional param to query fields ([46485a9](https://github.com/aws-amplify/amplify-codegen/commit/46485a93d7f2964a4b56d1418fbd7a6459a24769))
+* **modelgen-flutter:** change the time native type mapping and tostring method ([526839d](https://github.com/aws-amplify/amplify-codegen/commit/526839d724d5d3bd8dcf07f2a52b024d0b82afa5))
+
+
+
+
+
 ## [1.22.6](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.22.4...@aws-amplify/appsync-modelgen-plugin@1.22.6) (2021-02-05)
 
 
