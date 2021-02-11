@@ -150,7 +150,7 @@ function generateSubscriptionOperation(generator: CodeGenerator, op: LegacyOpera
       const params = ['statement'];
       variableAssignmentToInput(generator, vars);
       params.push('gqlAPIServiceArguments');
-      generator.printOnNewline(`return API.graphql(graphqlOperation(${params.join(', ')})) as Observable<SubscriptionResponse<OnCreateRestaurantSubscription>>;`);
+      generator.printOnNewline(`return API.graphql(graphqlOperation(${params.join(', ')})) as Observable<SubscriptionResponse<${returnType}>>;`);
       generator.printOnNewline('}');
     });
   }
