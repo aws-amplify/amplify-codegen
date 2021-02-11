@@ -132,12 +132,28 @@ function generateAngularService(generator: CodeGenerator, context: LegacyCompile
 function generateSubscriptionOperation(generator: CodeGenerator, op: LegacyOperation) {
   const statement = formatTemplateString(generator, op.source);
   const { operationName } = op;
+  const vars = variablesFromField(generator.context, op.variables);
   const returnType = getReturnTypeName(generator, op);
   generator.printNewline();
   const subscriptionName = `${operationName}Listener`;
-  generator.print(
-    `${subscriptionName}: Observable<SubscriptionResponse<${returnType}>> = API.graphql(graphqlOperation(\n\`${statement}\`)) as Observable<SubscriptionResponse<${returnType}>>`,
-  );
+  if (!vars.length) {
+    generator.print(
+      `${subscriptionName}: Observable<SubscriptionResponse<${returnType}>> = API.graphql(graphqlOperation(\n\`${statement}\`)) as Observable<SubscriptionResponse<${returnType}>>`,
+    );
+  } else {
+    generator.print(`${subscriptionName}(`);
+    variableDeclaration(generator, vars);
+    generator.print(`) : Observable<SubscriptionResponse<${returnType}>> {`);
+    generator.withIndent(() => {
+      generator.printNewlineIfNeeded();
+      generator.print(`const statement = \`${statement}\``);
+      const params = ['statement'];
+      variableAssignmentToInput(generator, vars);
+      params.push('gqlAPIServiceArguments');
+      generator.printOnNewline(`return API.graphql(graphqlOperation(${params.join(', ')})) as Observable<SubscriptionResponse<OnCreateRestaurantSubscription>>;`);
+      generator.printOnNewline('}');
+    });
+  }
   generator.printNewline();
 }
 
