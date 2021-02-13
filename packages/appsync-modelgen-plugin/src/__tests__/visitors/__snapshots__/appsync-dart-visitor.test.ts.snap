@@ -2590,7 +2590,7 @@ class Todo extends Model {
             : null;
 
   Map<String, dynamic> toJson() =>
-      {'id': id, 'tasks': tasks?.map((e) => e?.toJson()).toList()};
+      {'id': id, 'tasks': tasks?.map((e) => e?.toJson())?.toList()};
 
   static final QueryField ID = QueryField(fieldName: \\"todo.id\\");
   static final QueryField TASKS = QueryField(
@@ -2837,7 +2837,7 @@ class Blog extends Model {
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
-        'posts': posts?.map((e) => e?.toJson()).toList(),
+        'posts': posts?.map((e) => e?.toJson())?.toList(),
         'test': test
       };
 
@@ -3121,7 +3121,7 @@ class Post extends Model {
         'id': id,
         'title': title,
         'blog': blog?.toJson(),
-        'comments': comments?.map((e) => e?.toJson()).toList()
+        'comments': comments?.map((e) => e?.toJson())?.toList()
       };
 
   static final QueryField ID = QueryField(fieldName: \\"post.id\\");
