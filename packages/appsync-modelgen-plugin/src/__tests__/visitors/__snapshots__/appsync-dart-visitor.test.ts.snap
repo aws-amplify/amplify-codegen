@@ -342,25 +342,25 @@ class TemporalTime extends Model {
 
   TemporalTime.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        date = TemporalDate.fromString(json['date']),
-        time = TemporalTime.fromString(json['time']),
-        dateTime = TemporalDateTime.fromString(json['dateTime']),
-        timestamp = TemporalTimestamp.fromSeconds(json['timestamp']),
+        date = json['date'] != null ? TemporalDate.fromString(json['date']) : null,
+        time = json['time'] != null ? TemporalTime.fromString(json['time']) : null,
+        dateTime = json['date'] != null ? TemporalDateTime.fromString(json['dateTime']) : null,
+        timestamp = json['timestamp'] != null ? TemporalTimestamp.fromSeconds(json['timestamp']) : null,
         dateList = (json['dateList'] as List)
             ?.map((e) => TemporalDate.fromString(e))
-            .toList(),
+            ?.toList(),
         timeList = (json['timeList'] as List)
             ?.map((e) => TemporalTime.fromString(e))
-            .toList(),
+            ?.toList(),
         dateTimeList = (json['dateTimeList'] as List)
             ?.map((e) => TemporalDateTime.fromString(e))
-            .toList(),
+            ?.toList(),
         timestampList = (json['timestampList'] as List)
             ?.map((e) => TemporalTimestamp.fromSeconds(e))
-            .toList(),
+            ?.toList(),
         intList = (json['intList'] as List<dynamic>)
-            .map((dynamic e) => e is double ? e.toInt() : e as int)
-            .toList();
+            ?.map((dynamic e) => e is double ? e.toInt() : e as int)
+            ?.toList();
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -566,8 +566,8 @@ class TestEnumModel extends Model {
 
     buffer.write(\\"TestEnumModel {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"enumVal=\\" + enumToString(enumVal) + \\", \\");
-    buffer.write(\\"nullableEnumVal=\\" + enumToString(nullableEnumVal) + \\", \\");
+    buffer.write(\\"enumVal=\\" + enumVal != null ? enumToString(enumVal) : \\"null\\", \\");
+    buffer.write(\\"nullableEnumVal=\\" + nullableEnumVal != null ? enumToString(nullableEnumVal) + \\"null\\", \\");
     buffer.write(
         \\"enumList=\\" + enumList?.map((e) => enumToString(e)).toString() + \\", \\");
     buffer.write(\\"enumNullableList=\\" +
