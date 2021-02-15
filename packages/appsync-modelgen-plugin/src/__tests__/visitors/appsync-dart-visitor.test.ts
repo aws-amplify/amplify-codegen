@@ -321,7 +321,7 @@ describe('AppSync Dart Visitor', () => {
 
     it('should generate correct output for appsync scalar types of time and int', () => {
       const schema = /* GraphQL */ `
-        type TemporalTime @model {
+        type TemporalTimeModel @model {
           id: ID!
           date: AWSDate
           time: AWSTime

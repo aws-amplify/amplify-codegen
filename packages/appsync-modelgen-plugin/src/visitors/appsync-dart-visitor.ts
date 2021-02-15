@@ -390,7 +390,7 @@ export class AppSyncModelDartVisitor<
             if (field.isList) {
               toStringVal = `${fieldName}?.map((e) => enumToString(e)).toString()`;
             } else {
-              toStringVal = `enumToString(${fieldName})`;
+              toStringVal = `(${fieldName} != null ? enumToString(${fieldName}) : "null")`;
             }
           } else {
             const fieldNativeType = this.getNativeType(field);
@@ -482,15 +482,15 @@ export class AppSyncModelDartVisitor<
           case this.scalars['AWSTime']:
           case this.scalars['AWSDateTime']:
             return field.isList
-              ? `${fieldName} = (json['${fieldName}'] as List)?.map((e) => ${fieldNativeType}.fromString(e)).toList()`
-              : `${fieldName} = ${fieldNativeType}.fromString(json['${fieldName}'])`;
+              ? `${fieldName} = (json['${fieldName}'] as List)?.map((e) => ${fieldNativeType}.fromString(e))?.toList()`
+              : `${fieldName} = json['${fieldName}'] != null ? ${fieldNativeType}.fromString(json['${fieldName}']) : null`;
           case this.scalars['AWSTimestamp']:
             return field.isList
-              ? `${fieldName} = (json['${fieldName}'] as List)?.map((e) => ${fieldNativeType}.fromSeconds(e)).toList()`
-              : `${fieldName} = ${fieldNativeType}.fromSeconds(json['${fieldName}'])`;
+              ? `${fieldName} = (json['${fieldName}'] as List)?.map((e) => ${fieldNativeType}.fromSeconds(e))?.toList()`
+              : `${fieldName} = json['${fieldName}'] != null ? ${fieldNativeType}.fromSeconds(json['${fieldName}']) : null`;
           case this.scalars['Int']:
             return field.isList
-              ? `${fieldName} = (json['${fieldName}'] as List<dynamic>).map((dynamic e) => e is double ? e.toInt() : e as int).toList()`
+              ? `${fieldName} = (json['${fieldName}'] as List<dynamic>)?.map((dynamic e) => e is double ? e.toInt() : e as int)?.toList()`
               : `${fieldName} = json['${fieldName}']`
           default:
             return field.isList
