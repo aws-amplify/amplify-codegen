@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.8](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.22.7...@aws-amplify/appsync-modelgen-plugin@1.22.8) (2021-02-15)
+
+
+### Bug Fixes
+
+* **amplify-flutter:** correctly serialize empty model lists ([0b724ee](https://github.com/aws-amplify/amplify-codegen/commit/0b724eee6b1bf23c67381c7c4923b51c3a0179ef))
+* **modelgen-dart:** rename test model called TemporalTime to avoid conflicts with dart type ([aa72032](https://github.com/aws-amplify/amplify-codegen/commit/aa720325bd37bced33e589445145823a62ab824e))
+* **modelgen-dart-optionals-fix:** fix rendering optionals in dart modelgen ([a64177f](https://github.com/aws-amplify/amplify-codegen/commit/a64177f0bdd5fe151b64e72fdd045f3544a6430e))
+* **modelgen-flutter:** correctly handle nullable strings in dart toString ([434c024](https://github.com/aws-amplify/amplify-codegen/commit/434c024236871aaef5338593eff1649d85a4ada7))
+* **modelgen-flutter:** correctly handle nullable strings in dart toString ([76e1ac6](https://github.com/aws-amplify/amplify-codegen/commit/76e1ac6d048d18d8dc23a2f2a4b0d4d8dc17d499))
+* **modelgen-flutter:** Fix Optional ([d335b17](https://github.com/aws-amplify/amplify-codegen/commit/d335b17ec7e10ed4c0974940974603400d898855))
+* **modelgen-java:** change float type mapping to double ([5e7f0a7](https://github.com/aws-amplify/amplify-codegen/commit/5e7f0a77a55de9142b61780752d8e47f22b42e6e))
+* **modelgen-java:** change float type mapping to double ([fa1da80](https://github.com/aws-amplify/amplify-codegen/commit/fa1da80f032b7f95e3274cc03c52b5323e821245))
+
+
+
+
+
 ## [1.22.7](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.22.6...@aws-amplify/appsync-modelgen-plugin@1.22.7) (2021-02-10)
 
 
