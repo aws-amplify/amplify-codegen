@@ -201,10 +201,10 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
-/** This is an auto generated class representing the TemporalTime type in your schema. */
+/** This is an auto generated class representing the TemporalTimeModel type in your schema. */
 @immutable
-class TemporalTime extends Model {
-  static const classType = const TemporalTimeType();
+class TemporalTimeModel extends Model {
+  static const classType = const TemporalTimeModelType();
   final String id;
   final TemporalDate date;
   final TemporalTime time;
@@ -224,7 +224,7 @@ class TemporalTime extends Model {
     return id;
   }
 
-  const TemporalTime._internal(
+  const TemporalTimeModel._internal(
       {@required this.id,
       this.date,
       this.time,
@@ -236,7 +236,7 @@ class TemporalTime extends Model {
       this.timestampList,
       this.intList});
 
-  factory TemporalTime(
+  factory TemporalTimeModel(
       {String id,
       TemporalDate date,
       TemporalTime time,
@@ -247,7 +247,7 @@ class TemporalTime extends Model {
       List<TemporalDateTime> dateTimeList,
       List<TemporalTimestamp> timestampList,
       List<int> intList}) {
-    return TemporalTime._internal(
+    return TemporalTimeModel._internal(
         id: id == null ? UUID.getUUID() : id,
         date: date,
         time: time,
@@ -271,7 +271,7 @@ class TemporalTime extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is TemporalTime &&
+    return other is TemporalTimeModel &&
         id == other.id &&
         date == other.date &&
         time == other.time &&
@@ -291,7 +291,7 @@ class TemporalTime extends Model {
   String toString() {
     var buffer = new StringBuffer();
 
-    buffer.write(\\"TemporalTime {\\");
+    buffer.write(\\"TemporalTimeModel {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"date=\\" + (date != null ? date.format() : \\"null\\") + \\", \\");
     buffer.write(\\"time=\\" + (time != null ? time.format() : \\"null\\") + \\", \\");
@@ -316,7 +316,7 @@ class TemporalTime extends Model {
     return buffer.toString();
   }
 
-  TemporalTime copyWith(
+  TemporalTimeModel copyWith(
       {String id,
       TemporalDate date,
       TemporalTime time,
@@ -327,7 +327,7 @@ class TemporalTime extends Model {
       List<TemporalDateTime> dateTimeList,
       List<TemporalTimestamp> timestampList,
       List<int> intList}) {
-    return TemporalTime(
+    return TemporalTimeModel(
         id: id ?? this.id,
         date: date ?? this.date,
         time: time ?? this.time,
@@ -340,7 +340,7 @@ class TemporalTime extends Model {
         intList: intList ?? this.intList);
   }
 
-  TemporalTime.fromJson(Map<String, dynamic> json)
+  TemporalTimeModel.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         date =
             json['date'] != null ? TemporalDate.fromString(json['date']) : null,
@@ -381,7 +381,7 @@ class TemporalTime extends Model {
         'intList': intList
       };
 
-  static final QueryField ID = QueryField(fieldName: \\"temporalTime.id\\");
+  static final QueryField ID = QueryField(fieldName: \\"temporalTimeModel.id\\");
   static final QueryField DATE = QueryField(fieldName: \\"date\\");
   static final QueryField TIME = QueryField(fieldName: \\"time\\");
   static final QueryField DATETIME = QueryField(fieldName: \\"dateTime\\");
@@ -394,61 +394,61 @@ class TemporalTime extends Model {
   static final QueryField INTLIST = QueryField(fieldName: \\"intList\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"TemporalTime\\";
-    modelSchemaDefinition.pluralName = \\"TemporalTimes\\";
+    modelSchemaDefinition.name = \\"TemporalTimeModel\\";
+    modelSchemaDefinition.pluralName = \\"TemporalTimeModels\\";
 
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TemporalTime.DATE,
+        key: TemporalTimeModel.DATE,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.date)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TemporalTime.TIME,
+        key: TemporalTimeModel.TIME,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.time)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TemporalTime.DATETIME,
+        key: TemporalTimeModel.DATETIME,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TemporalTime.TIMESTAMP,
+        key: TemporalTimeModel.TIMESTAMP,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.timestamp)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TemporalTime.DATELIST,
+        key: TemporalTimeModel.DATELIST,
         isRequired: false,
         isArray: true,
         ofType: ModelFieldType(ModelFieldTypeEnum.collection,
             ofModelName: describeEnum(ModelFieldTypeEnum.date))));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TemporalTime.TIMELIST,
+        key: TemporalTimeModel.TIMELIST,
         isRequired: false,
         isArray: true,
         ofType: ModelFieldType(ModelFieldTypeEnum.collection,
             ofModelName: describeEnum(ModelFieldTypeEnum.time))));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TemporalTime.DATETIMELIST,
+        key: TemporalTimeModel.DATETIMELIST,
         isRequired: false,
         isArray: true,
         ofType: ModelFieldType(ModelFieldTypeEnum.collection,
             ofModelName: describeEnum(ModelFieldTypeEnum.dateTime))));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TemporalTime.TIMESTAMPLIST,
+        key: TemporalTimeModel.TIMESTAMPLIST,
         isRequired: false,
         isArray: true,
         ofType: ModelFieldType(ModelFieldTypeEnum.collection,
             ofModelName: describeEnum(ModelFieldTypeEnum.timestamp))));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TemporalTime.INTLIST,
+        key: TemporalTimeModel.INTLIST,
         isRequired: false,
         isArray: true,
         ofType: ModelFieldType(ModelFieldTypeEnum.collection,
@@ -456,12 +456,12 @@ class TemporalTime extends Model {
   });
 }
 
-class TemporalTimeType extends ModelType<TemporalTime> {
-  const TemporalTimeType();
+class TemporalTimeModelType extends ModelType<TemporalTimeModel> {
+  const TemporalTimeModelType();
 
   @override
-  TemporalTime fromJson(Map<String, dynamic> jsonData) {
-    return TemporalTime.fromJson(jsonData);
+  TemporalTimeModel fromJson(Map<String, dynamic> jsonData) {
+    return TemporalTimeModel.fromJson(jsonData);
   }
 }
 "
