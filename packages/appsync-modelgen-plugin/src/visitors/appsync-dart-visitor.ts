@@ -487,7 +487,7 @@ export class AppSyncModelDartVisitor<
           case this.scalars['AWSTimestamp']:
             return field.isList
               ? `${fieldName} = (json['${fieldName}'] as List)?.map((e) => ${fieldNativeType}.fromSeconds(e))?.toList()`
-              : `${fieldName} = json['${fieldName}'] != null ? ${fieldNativeType}.fromSeconds(json['${fieldName}']) :`;
+              : `${fieldName} = json['${fieldName}'] != null ? ${fieldNativeType}.fromSeconds(json['${fieldName}']) : null`;
           case this.scalars['Int']:
             return field.isList
               ? `${fieldName} = (json['${fieldName}'] as List<dynamic>)?.map((dynamic e) => e is double ? e.toInt() : e as int)?.toList()`
