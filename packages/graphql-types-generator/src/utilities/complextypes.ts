@@ -1,6 +1,6 @@
 import { GraphQLType, isInputObjectType, getNamedType, isObjectType, isNonNullType } from 'graphql';
 
-// These fields are required for AWSAppsync iOS SDK to create/update 
+// These fields are required for AWSAppsync iOS SDK to create/update
 // S3 objects referenced in the API.
 const S3_FIELD_NAMES = ['bucket', 'key', 'region', 'localUri', 'mimeType'];
 
