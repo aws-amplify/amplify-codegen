@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<<<<<<< HEAD
 ## 2.22.1 (2021-02-22)
 
 **Note:** Version bump only for package amplify-codegen
@@ -11,6 +12,8 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+=======
+>>>>>>> 0c07e89... Migrate amplify-codegen package (#76)
 ## [2.21.2](https://github.com/aws-amplify/amplify-cli/compare/amplify-codegen@2.21.1...amplify-codegen@2.21.2) (2021-02-17)
 
 **Note:** Version bump only for package amplify-codegen
