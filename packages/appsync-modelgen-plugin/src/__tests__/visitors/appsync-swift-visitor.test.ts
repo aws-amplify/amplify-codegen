@@ -867,7 +867,7 @@ describe('AppSyncSwiftVisitor', () => {
       // Contains the set of classes that conforms to the \`Model\` protocol. 
 
       final public class AmplifyModels: AmplifyModelRegistration {
-        public let version: String = \\"7ad0a5459a63e207a3c53b584eac6a58\\"
+        public let version: String = \\"11dddb282be1f7ba4eabda5ee4c56430\\"
         
         public func registerModels(registry: ModelRegistry.Type) {
           ModelRegistry.register(modelType: Attraction.self)

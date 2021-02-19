@@ -338,7 +338,7 @@ describe('Metadata visitor', () => {
                 "name": "SimpleNonModelType",
               },
             },
-            "version": "25c4cd8292ab7a24eb7810bf1244c416",
+            "version": "bc1b6d35e990f16a49dbb447a8876025",
           }
         `);
         expect(generateModelSpy).toHaveBeenCalledTimes(1);
@@ -422,7 +422,7 @@ describe('Metadata visitor', () => {
                     }
                 }
             },
-            \\"version\\": \\"25c4cd8292ab7a24eb7810bf1244c416\\"
+            \\"version\\": \\"bc1b6d35e990f16a49dbb447a8876025\\"
         };"
       `);
     });
@@ -499,7 +499,7 @@ describe('Metadata visitor', () => {
                     }
                 }
             },
-            \\"version\\": \\"25c4cd8292ab7a24eb7810bf1244c416\\"
+            \\"version\\": \\"bc1b6d35e990f16a49dbb447a8876025\\"
         };"
       `);
     });
@@ -642,7 +642,7 @@ describe('Metadata visitor', () => {
                     }
                 }
             },
-            \\"version\\": \\"25c4cd8292ab7a24eb7810bf1244c416\\"
+            \\"version\\": \\"bc1b6d35e990f16a49dbb447a8876025\\"
         };"
       `);
     });
@@ -750,7 +750,7 @@ describe('Metadata visitor', () => {
                     }
                 }
             },
-            \\"version\\": \\"25c4cd8292ab7a24eb7810bf1244c416\\"
+            \\"version\\": \\"bc1b6d35e990f16a49dbb447a8876025\\"
         };"
       `);
     });
