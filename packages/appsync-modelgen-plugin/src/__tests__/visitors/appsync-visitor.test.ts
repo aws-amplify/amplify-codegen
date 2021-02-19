@@ -198,6 +198,29 @@ describe('AppSyncModelVisitor', () => {
     expect(notRequiredVersion).not.toBe(requiredVersion);
   });
 
+  it('should generate different version if field array changes to required', () => {
+    const schemaNotRequired = /* GraphQL */ `
+      type Post @model {
+        id: ID!
+        title: [String]
+      }
+    `;
+    const visitorNotRequired = createAndGenerateVisitor(schemaNotRequired);
+
+    const schemaRequired = /* GraphQL */ `
+      type Post @model {
+        id: ID!
+        title: [String]!
+      }
+    `;
+    const visitorRequired = createAndGenerateVisitor(schemaRequired);
+
+    const notRequiredVersion = (visitorNotRequired as any).computeVersion();
+    const requiredVersion = (visitorRequired as any).computeVersion();
+
+    expect(notRequiredVersion).not.toBe(requiredVersion);
+  });
+
   describe(' 2 Way Connection', () => {
     describe('with connection name', () => {
       const schema = /* GraphQL */ `

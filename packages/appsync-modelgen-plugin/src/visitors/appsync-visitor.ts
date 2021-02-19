@@ -393,6 +393,7 @@ export class AppSyncModelVisitor<
             type: field.type,
             isNullable: field.isNullable,
             isList: field.isList,
+            isListNullable: field.isListNullable,
           };
         })
         .sort((a, b) => sortFields(a, b));
