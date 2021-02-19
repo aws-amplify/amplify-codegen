@@ -6,6 +6,16 @@ import { AppSyncModelVisitor, CodeGenGenerateEnum } from '../../visitors/appsync
 const buildSchemaWithDirectives = (schema: String) => {
   return buildSchema([schema, directives].join('\n'));
 };
+
+const createAndGenerateVisitor = (schema: string) => {
+  const ast = parse(schema);
+  const builtSchema = buildSchemaWithDirectives(schema);
+  const visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+  visit(ast, { leave: visitor });
+  visitor.generate();
+  return visitor;
+};
+
 describe('AppSyncModelVisitor', () => {
   it('should support schema without id', () => {
     const schema = /* GraphQL */ `
@@ -117,6 +127,75 @@ describe('AppSyncModelVisitor', () => {
     expect(postFields[0].type).toEqual('ID');
     expect(postFields[0].isNullable).toEqual(false);
     expect(postFields[0].isList).toEqual(false);
+  });
+
+  it('should generate different version if field required attribute is different', () => {
+    const schemaNotRequired = /* GraphQL */ `
+      type Post @model {
+        id: ID!
+        title: String
+      }
+    `;
+    const visitorNotRequired = createAndGenerateVisitor(schemaNotRequired);
+
+    const schemaRequired = /* GraphQL */ `
+      type Post @model {
+        id: ID!
+        title: String!
+      }
+    `;
+    const visitorRequired = createAndGenerateVisitor(schemaRequired);
+
+    const notRequiredVersion = (visitorNotRequired as any).computeVersion();
+    const requiredVersion = (visitorRequired as any).computeVersion();
+
+    expect(notRequiredVersion).not.toBe(requiredVersion);
+  });
+
+  it('should generate different version if field array attribute is different', () => {
+    const schemaNoArray = /* GraphQL */ `
+      type Post @model {
+        id: ID!
+        title: String
+      }
+    `;
+    const visitorNoArray = createAndGenerateVisitor(schemaNoArray);
+
+    const schemaWithArray = /* GraphQL */ `
+      type Post @model {
+        id: ID!
+        title: [String]
+      }
+    `;
+    const visitorWithArray = createAndGenerateVisitor(schemaWithArray);
+
+    const noArrayVersion = (visitorNoArray as any).computeVersion();
+    const withArrayVersion = (visitorWithArray as any).computeVersion();
+
+    expect(noArrayVersion).not.toBe(withArrayVersion);
+  });
+
+  it('should generate different version if field array has required items', () => {
+    const schemaNotRequired = /* GraphQL */ `
+      type Post @model {
+        id: ID!
+        title: [String]
+      }
+    `;
+    const visitorNotRequired = createAndGenerateVisitor(schemaNotRequired);
+
+    const schemaRequired = /* GraphQL */ `
+      type Post @model {
+        id: ID!
+        title: [String!]
+      }
+    `;
+    const visitorRequired = createAndGenerateVisitor(schemaRequired);
+
+    const notRequiredVersion = (visitorNotRequired as any).computeVersion();
+    const requiredVersion = (visitorRequired as any).computeVersion();
+
+    expect(notRequiredVersion).not.toBe(requiredVersion);
   });
 
   describe(' 2 Way Connection', () => {

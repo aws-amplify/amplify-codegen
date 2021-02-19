@@ -392,6 +392,7 @@ export class AppSyncModelVisitor<
             directives: fieldDirectives,
             type: field.type,
             isNullable: field.isNullable,
+            isList: field.isList,
           };
         })
         .sort((a, b) => sortFields(a, b));
