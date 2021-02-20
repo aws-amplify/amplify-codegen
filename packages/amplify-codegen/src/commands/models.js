@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs-extra');
 const { parse } = require('graphql');
+const glob  = require('glob-all');
 const { FeatureFlags, pathManager } = require('amplify-cli-core');
 const gqlCodeGen = require('@graphql-codegen/core');
 const { getModelgenPackage } = require('../utils/getModelgenPackage');
@@ -104,12 +105,11 @@ function loadSchema(apiResourcePath) {
     return fs.readFileSync(schemaFilePath, 'utf8');
   }
   if (fs.pathExistsSync(schemaDirectory) && fs.lstatSync(schemaDirectory).isDirectory()) {
-    return fs
-      .readdirSync(schemaDirectory)
-      .map(file => path.join(schemaDirectory, file))
-      .filter(file => file.endsWith('.graphql') && fs.lstatSync(file).isFile())
-      .map(file => fs.readFileSync(file, 'utf8'))
-      .join('\n');
+    // search recursively for graphql schema files inside `schema` directory
+    const schemas = glob.sync([
+      path.join(schemaDirectory, '**/*.graphql')
+    ]);
+    return schemas.map(file => fs.readFileSync(file, 'utf8')).join('\n');
   }
 
   throw new Error('Could not load the schema');
