@@ -1,6 +1,8 @@
-import { GraphQLType, isInputObjectType, getNamedType, isObjectType } from 'graphql';
+import { GraphQLType, isInputObjectType, getNamedType, isObjectType, isNonNullType } from 'graphql';
 
-const S3_FIELD_NAMES = ['bucket', 'key', 'region'];
+// These fields are required for AWSAppsync iOS SDK to create/update
+// S3 objects referenced in the API.
+const S3_FIELD_NAMES = ['bucket', 'key', 'region', 'localUri', 'mimeType'];
 
 export function hasS3Fields(input: GraphQLType): boolean {
   if (isObjectType(input) || isInputObjectType(input)) {
@@ -17,8 +19,9 @@ export function isS3Field(field: GraphQLType): boolean {
   if (isObjectType(field) || isInputObjectType(field)) {
     const fields = field.getFields();
     const stringFields = Object.keys(fields).filter(f => {
-      const typeName = getNamedType(fields[f].type);
-      return typeName.name === 'String';
+      const fieldType = fields[f].type;
+      const typeName = getNamedType(fieldType);
+      return (typeName.name === 'String' && isNonNullType(fieldType));
     });
     const isS3FileField = S3_FIELD_NAMES.every(fieldName => stringFields.includes(fieldName));
     if (isS3FileField) {
