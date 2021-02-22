@@ -1153,6 +1153,70 @@ export class APIService {
 "
 `;
 
+exports[`Angular code generation #generateSource() should generate subscriptions with parameters 1`] = `
+"/* tslint:disable */
+/* eslint-disable */
+//  This file was automatically generated and should not be edited.
+import { Injectable } from \\"@angular/core\\";
+import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
+import { Observable } from \\"zen-observable-ts\\";
+
+export interface SubscriptionResponse<T> {
+  value: GraphQLResult<T>;
+}
+
+export type Restaurant = {
+  __typename: \\"Restaurant\\";
+  id?: string;
+  name?: string;
+  description?: string;
+  city?: string;
+  owner?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type OnCreateRestaurantSubscription = {
+  __typename: \\"Restaurant\\";
+  id: string;
+  name: string;
+  description: string;
+  city: string;
+  owner?: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+@Injectable({
+  providedIn: \\"root\\"
+})
+export class APIService {
+  OnCreateRestaurantListener(
+    owner: string
+  ): Observable<SubscriptionResponse<OnCreateRestaurantSubscription>> {
+    const statement = \`subscription OnCreateRestaurant($owner: String!) {
+        onCreateRestaurant(owner: $owner) {
+          __typename
+          id
+          name
+          description
+          city
+          owner
+          createdAt
+          updatedAt
+        }
+      }\`;
+    const gqlAPIServiceArguments: any = {
+      owner
+    };
+    return API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    ) as Observable<SubscriptionResponse<OnCreateRestaurantSubscription>>;
+  }
+}
+"
+`;
+
 exports[`Angular code generation #generateSource() should handle comments in enums 1`] = `
 "/* tslint:disable */
 /* eslint-disable */

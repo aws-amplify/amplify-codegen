@@ -1,0 +1,162 @@
+type Restaurant {
+  id: ID!
+  name: String!
+  description: String!
+  city: String!
+  owner: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelRestaurantConnection {
+  items: [Restaurant]
+  nextToken: String
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+input ModelRestaurantFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  description: ModelStringInput
+  city: ModelStringInput
+  owner: ModelStringInput
+  and: [ModelRestaurantFilterInput]
+  or: [ModelRestaurantFilterInput]
+  not: ModelRestaurantFilterInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+type Query {
+  getRestaurant(id: ID!): Restaurant
+  listRestaurants(filter: ModelRestaurantFilterInput, limit: Int, nextToken: String): ModelRestaurantConnection
+}
+
+input CreateRestaurantInput {
+  id: ID
+  name: String!
+  description: String!
+  city: String!
+  owner: String
+}
+
+input UpdateRestaurantInput {
+  id: ID!
+  name: String
+  description: String
+  city: String
+  owner: String
+}
+
+input DeleteRestaurantInput {
+  id: ID
+}
+
+type Mutation {
+  createRestaurant(input: CreateRestaurantInput!, condition: ModelRestaurantConditionInput): Restaurant
+  updateRestaurant(input: UpdateRestaurantInput!, condition: ModelRestaurantConditionInput): Restaurant
+  deleteRestaurant(input: DeleteRestaurantInput!, condition: ModelRestaurantConditionInput): Restaurant
+}
+
+input ModelRestaurantConditionInput {
+  name: ModelStringInput
+  description: ModelStringInput
+  city: ModelStringInput
+  and: [ModelRestaurantConditionInput]
+  or: [ModelRestaurantConditionInput]
+  not: ModelRestaurantConditionInput
+}
+
+type Subscription {
+  onCreateRestaurant(owner: String!): Restaurant @aws_subscribe(mutations: ["createRestaurant"])
+  onUpdateRestaurant(owner: String!): Restaurant @aws_subscribe(mutations: ["updateRestaurant"])
+  onDeleteRestaurant(owner: String!): Restaurant @aws_subscribe(mutations: ["deleteRestaurant"])
+}

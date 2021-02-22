@@ -371,5 +371,25 @@ describe('Angular code generation', function() {
       const source = generateSource(context);
       expect(source).toMatchSnapshot();
     });
+
+    test(`should generate subscriptions with parameters`, function() {
+      const { compileFromSource } = setup(loadSchema(require.resolve('../fixtures/misc/subscriptionSchemaWithParameters.graphql')));
+      const context = compileFromSource(`
+      subscription OnCreateRestaurant($owner: String!) {
+        onCreateRestaurant(owner: $owner) {
+          id
+          name
+          description
+          city
+          owner
+          createdAt
+          updatedAt
+        }
+      }
+      `);
+
+      const source = generateSource(context);
+      expect(source).toMatchSnapshot();
+    });
   });
 });
