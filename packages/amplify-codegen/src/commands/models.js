@@ -78,6 +78,12 @@ async function generateModels(context) {
 
   const generatedCode = await Promise.all(codeGenPromises);
 
+  // clean the output directory before re-generating models
+  const cleanOutputPath = FeatureFlags.getBoolean('codegen.cleanGeneratedModelsDirectory');
+  if (cleanOutputPath) {
+    await fs.emptyDir(outputPath);
+  }
+
   appsyncLocalConfig.forEach((cfg, idx) => {
     const outPutPath = cfg.filename;
     fs.ensureFileSync(outPutPath);
