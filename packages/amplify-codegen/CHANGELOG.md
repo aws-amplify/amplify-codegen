@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.22.2](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.22.1...amplify-codegen@2.22.2) (2021-02-23)
+
+
+### Reverts
+
+* Revert "Migrate amplify-codegen package (#76)" (#79) ([74f85ac](https://github.com/aws-amplify/amplify-codegen/commit/74f85ac9f89090f1497b0418cb7866cadab72f02)), closes [#76](https://github.com/aws-amplify/amplify-codegen/issues/76) [#79](https://github.com/aws-amplify/amplify-codegen/issues/79)
+
+
+
+
+
 ## 2.22.1 (2021-02-22)
 
 **Note:** Version bump only for package amplify-codegen
