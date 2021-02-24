@@ -40,7 +40,7 @@ describe('end 2 end tests', () => {
   });
 });
 
-describe('end 2 end tests to check naming types with different cases', () => {
+describe('end 2 end tests to test if the case style is retained for type names', () => {
   const schemaPath = resolve(__dirname, '../fixtures/caseTypes.graphql');
   const outputpath = resolve(__dirname, './output.graphql');
 
