@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.22.3](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.22.2...amplify-codegen@2.22.3) (2021-02-25)
+
+
+### Bug Fixes
+
+* **amplify-codegen:** use correct array type for includePattern ([ac0bc6d](https://github.com/aws-amplify/amplify-codegen/commit/ac0bc6de56b549fb5b3bc65fd5dd8b7978e451ee))
+
+
+
+
+
 ## [2.22.2](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.22.1...amplify-codegen@2.22.2) (2021-02-23)
 
 

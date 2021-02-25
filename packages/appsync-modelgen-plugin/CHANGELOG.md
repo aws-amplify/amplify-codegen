@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.22.10](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.22.9...@aws-amplify/appsync-modelgen-plugin@1.22.10) (2021-02-25)
+
+
+### Bug Fixes
+
+* **@aws-amplify/appsync-modelgen-plugin:** JS targetName for hasOne ([#93](https://github.com/aws-amplify/amplify-codegen/issues/93)) ([3a5c4a5](https://github.com/aws-amplify/amplify-codegen/commit/3a5c4a5e020ee3444c775dfee93547353ce0ed8c))
+
+
+
+
+
 ## [1.22.9](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.22.8...@aws-amplify/appsync-modelgen-plugin@1.22.9) (2021-02-22)
 
 **Note:** Version bump only for package @aws-amplify/appsync-modelgen-plugin
