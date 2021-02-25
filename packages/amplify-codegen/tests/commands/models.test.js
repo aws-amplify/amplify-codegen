@@ -109,5 +109,5 @@ describe('command-models-generates models in expected output path', () => {
         });
     };
 
-    afterEach(mock.restore);
+    afterEach(mockFs.restore);
   });
