@@ -949,3 +949,200 @@ describe('Metadata visitor for auth process in field level', () => {
     });
   });
 });
+
+describe('Metadata visitor has one relation', () => {
+  const schema = /* GraphQL */ `
+    type Project @model {
+      id: ID!
+      name: String
+      teamID: ID!
+      team: Team @connection(fields: ["teamID"])
+    }
+    type Team @model {
+      id: ID!
+      name: String!
+    }
+  `;
+  let visitor: AppSyncJSONVisitor;
+  beforeEach(() => {
+    visitor = getVisitor(schema);
+  });
+
+  it('should generate for Javascript', () => {
+    const jsVisitor = getVisitor(schema, 'javascript');
+    expect(jsVisitor.generate()).toMatchInlineSnapshot(`
+      "export const schema = {
+          \\"models\\": {
+              \\"Project\\": {
+                  \\"name\\": \\"Project\\",
+                  \\"fields\\": {
+                      \\"id\\": {
+                          \\"name\\": \\"id\\",
+                          \\"isArray\\": false,
+                          \\"type\\": \\"ID\\",
+                          \\"isRequired\\": true,
+                          \\"attributes\\": []
+                      },
+                      \\"name\\": {
+                          \\"name\\": \\"name\\",
+                          \\"isArray\\": false,
+                          \\"type\\": \\"String\\",
+                          \\"isRequired\\": false,
+                          \\"attributes\\": []
+                      },
+                      \\"teamID\\": {
+                          \\"name\\": \\"teamID\\",
+                          \\"isArray\\": false,
+                          \\"type\\": \\"ID\\",
+                          \\"isRequired\\": true,
+                          \\"attributes\\": []
+                      },
+                      \\"team\\": {
+                          \\"name\\": \\"team\\",
+                          \\"isArray\\": false,
+                          \\"type\\": {
+                              \\"model\\": \\"Team\\"
+                          },
+                          \\"isRequired\\": false,
+                          \\"attributes\\": [],
+                          \\"association\\": {
+                              \\"connectionType\\": \\"HAS_ONE\\",
+                              \\"associatedWith\\": \\"id\\",
+                              \\"targetName\\": \\"teamID\\"
+                          }
+                      }
+                  },
+                  \\"syncable\\": true,
+                  \\"pluralName\\": \\"Projects\\",
+                  \\"attributes\\": [
+                      {
+                          \\"type\\": \\"model\\",
+                          \\"properties\\": {}
+                      }
+                  ]
+              },
+              \\"Team\\": {
+                  \\"name\\": \\"Team\\",
+                  \\"fields\\": {
+                      \\"id\\": {
+                          \\"name\\": \\"id\\",
+                          \\"isArray\\": false,
+                          \\"type\\": \\"ID\\",
+                          \\"isRequired\\": true,
+                          \\"attributes\\": []
+                      },
+                      \\"name\\": {
+                          \\"name\\": \\"name\\",
+                          \\"isArray\\": false,
+                          \\"type\\": \\"String\\",
+                          \\"isRequired\\": true,
+                          \\"attributes\\": []
+                      }
+                  },
+                  \\"syncable\\": true,
+                  \\"pluralName\\": \\"Teams\\",
+                  \\"attributes\\": [
+                      {
+                          \\"type\\": \\"model\\",
+                          \\"properties\\": {}
+                      }
+                  ]
+              }
+          },
+          \\"enums\\": {},
+          \\"nonModels\\": {},
+          \\"version\\": \\"4de4b90e612a2203db7d8911d9f41f36\\"
+      };"
+    `);
+  });
+
+  it('should generate for TypeScript', () => {
+    const tsVisitor = getVisitor(schema, 'typescript');
+    expect(tsVisitor.generate()).toMatchInlineSnapshot(`
+      "import { Schema } from \\"@aws-amplify/datastore\\";
+
+      export const schema: Schema = {
+          \\"models\\": {
+              \\"Project\\": {
+                  \\"name\\": \\"Project\\",
+                  \\"fields\\": {
+                      \\"id\\": {
+                          \\"name\\": \\"id\\",
+                          \\"isArray\\": false,
+                          \\"type\\": \\"ID\\",
+                          \\"isRequired\\": true,
+                          \\"attributes\\": []
+                      },
+                      \\"name\\": {
+                          \\"name\\": \\"name\\",
+                          \\"isArray\\": false,
+                          \\"type\\": \\"String\\",
+                          \\"isRequired\\": false,
+                          \\"attributes\\": []
+                      },
+                      \\"teamID\\": {
+                          \\"name\\": \\"teamID\\",
+                          \\"isArray\\": false,
+                          \\"type\\": \\"ID\\",
+                          \\"isRequired\\": true,
+                          \\"attributes\\": []
+                      },
+                      \\"team\\": {
+                          \\"name\\": \\"team\\",
+                          \\"isArray\\": false,
+                          \\"type\\": {
+                              \\"model\\": \\"Team\\"
+                          },
+                          \\"isRequired\\": false,
+                          \\"attributes\\": [],
+                          \\"association\\": {
+                              \\"connectionType\\": \\"HAS_ONE\\",
+                              \\"associatedWith\\": \\"id\\",
+                              \\"targetName\\": \\"teamID\\"
+                          }
+                      }
+                  },
+                  \\"syncable\\": true,
+                  \\"pluralName\\": \\"Projects\\",
+                  \\"attributes\\": [
+                      {
+                          \\"type\\": \\"model\\",
+                          \\"properties\\": {}
+                      }
+                  ]
+              },
+              \\"Team\\": {
+                  \\"name\\": \\"Team\\",
+                  \\"fields\\": {
+                      \\"id\\": {
+                          \\"name\\": \\"id\\",
+                          \\"isArray\\": false,
+                          \\"type\\": \\"ID\\",
+                          \\"isRequired\\": true,
+                          \\"attributes\\": []
+                      },
+                      \\"name\\": {
+                          \\"name\\": \\"name\\",
+                          \\"isArray\\": false,
+                          \\"type\\": \\"String\\",
+                          \\"isRequired\\": true,
+                          \\"attributes\\": []
+                      }
+                  },
+                  \\"syncable\\": true,
+                  \\"pluralName\\": \\"Teams\\",
+                  \\"attributes\\": [
+                      {
+                          \\"type\\": \\"model\\",
+                          \\"properties\\": {}
+                      }
+                  ]
+              }
+          },
+          \\"enums\\": {},
+          \\"nonModels\\": {},
+          \\"version\\": \\"4de4b90e612a2203db7d8911d9f41f36\\"
+      };"
+    `);
+  });
+});
