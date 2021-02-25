@@ -1,5 +1,5 @@
 const generateModels = require('../../src/commands/models');
-const mock = require('mock-fs');
+const mockFs = require('mock-fs');
 const graphqlCodegen = require('@graphql-codegen/core');
 const fs = require('fs');
 const path = require('path');
@@ -47,7 +47,7 @@ jest.mock('amplify-cli-core', (MOCK_PROJECT_ROOT) => {
   };
 });
 
-describe('command - models', () => {
+describe('command-models-generates models in expected output path', () => {
     beforeEach(() => {
       jest.resetAllMocks();
       MOCK_CONTEXT.amplify.getEnvInfo.mockReturnValue({projectPath: MOCK_PROJECT_ROOT});
@@ -76,7 +76,7 @@ describe('command - models', () => {
                 'schema.graphql': ' type SimpleModel { id: ID! status: String } '
             };
             mockedFiles[path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend])] = {}
-            mock(mockedFiles);
+            mockFs(mockedFiles);
             MOCK_CONTEXT.amplify.getProjectConfig.mockReturnValue({frontend: frontend});
             const outputDirectory = path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend]);
             // assert empty folder before generation
@@ -96,7 +96,7 @@ describe('command - models', () => {
                 'myschema.graphql': ' type SimpleModel { id: ID! status: String } '
             };
             mockedFiles[path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend])] = {}
-            mock(mockedFiles);
+            mockFs(mockedFiles);
             MOCK_CONTEXT.amplify.getProjectConfig.mockReturnValue({frontend: frontend});
             const outputDirectory = path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend]);
             // assert empty folder before generation
