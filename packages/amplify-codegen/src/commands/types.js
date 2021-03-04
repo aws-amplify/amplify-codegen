@@ -8,9 +8,6 @@ const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails } = 
 const { FeatureFlags } = require('amplify-cli-core');
 const { getTypesgenPackage } = require('../utils/getTypesgenPackage');
 
-const typesgenPackageMigrationflag = 'codegen.useTypesGeneratorPlugin';
-const { generate } = getTypesgenPackage(FeatureFlags.getBoolean(typesgenPackageMigrationflag));
-
 async function generateTypes(context, forceDownloadSchema, withoutInit = false, decoupleFrontend = '') {
   let frontend = decoupleFrontend;
   try {
@@ -39,7 +36,9 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
     if (!withoutInit) {
       ({ projectPath } = context.amplify.getEnvInfo());
     }
-
+    const typesgenPackageMigrationflag = 'codegen.useTypesGeneratorPlugin';
+    const { generate } = getTypesgenPackage(FeatureFlags.getBoolean(typesgenPackageMigrationflag));
+    
     try {
       projects.forEach(async cfg => {
         const { generatedFileName } = cfg.amplifyExtension || {};
