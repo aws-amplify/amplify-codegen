@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.22.4](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.22.3...amplify-codegen@2.22.4) (2021-03-04)
+
+
+### Bug Fixes
+
+* **amplify-codegen:** minor linting fixes ([4c3d980](https://github.com/aws-amplify/amplify-codegen/commit/4c3d980b8d4edcb3714f11e3b6f45bcf4ee8447d))
+* **amplify-codegen:** move upstream CLI dependencies as peerDependencies ([83b0ce8](https://github.com/aws-amplify/amplify-codegen/commit/83b0ce87f517c5836fe0aae3b1e3ab590234f9b5))
+* **amplify-codegen:** moving the constant back ([1611ee8](https://github.com/aws-amplify/amplify-codegen/commit/1611ee8cc7a19b2beebfe08883fd91e0a935aa64))
+* **amplify-codegen:** use feature flag instances inside a method and not top level ([695b7a6](https://github.com/aws-amplify/amplify-codegen/commit/695b7a646c91656d917e437b2e767d333f93a6df))
+
+
+
+
+
 ## [2.22.3](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.22.2...amplify-codegen@2.22.3) (2021-02-25)
 
 
