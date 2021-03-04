@@ -7,9 +7,7 @@ const constants = require('../constants');
 const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails } = require('../utils');
 const { FeatureFlags } = require('amplify-cli-core');
 const { getDocsgenPackage } = require('../utils/getDocsgenPackage');
-
 const docsgenPackageMigrationflag = 'codegen.useDocsGeneratorPlugin';
-const { generate } = getDocsgenPackage(FeatureFlags.getBoolean(docsgenPackageMigrationflag));
 
 async function generateStatements(context, forceDownloadSchema, maxDepth, withoutInit = false, decoupleFrontend = '') {
   try {
@@ -37,6 +35,9 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
     context.print.info(constants.ERROR_CODEGEN_NO_API_CONFIGURED);
     return;
   }
+
+  const { generate } = getDocsgenPackage(FeatureFlags.getBoolean(docsgenPackageMigrationflag));
+
   for (const cfg of projects) {
     const includeFiles = path.join(projectPath, cfg.includes[0]);
     const opsGenDirectory = cfg.amplifyExtension.docsFilePath
@@ -55,6 +56,7 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
     const language = frontend === 'javascript' ? cfg.amplifyExtension.codeGenTarget : 'graphql';
     const opsGenSpinner = new Ora(constants.INFO_MESSAGE_OPS_GEN);
     opsGenSpinner.start();
+
     try {
       fs.ensureDirSync(opsGenDirectory);
       generate(schemaPath, opsGenDirectory, {

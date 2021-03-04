@@ -7,9 +7,7 @@ const loadConfig = require('../codegen-config');
 const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails } = require('../utils');
 const { FeatureFlags } = require('amplify-cli-core');
 const { getTypesgenPackage } = require('../utils/getTypesgenPackage');
-
 const typesgenPackageMigrationflag = 'codegen.useTypesGeneratorPlugin';
-const { generate } = getTypesgenPackage(FeatureFlags.getBoolean(typesgenPackageMigrationflag));
 
 async function generateTypes(context, forceDownloadSchema, withoutInit = false, decoupleFrontend = '') {
   let frontend = decoupleFrontend;
@@ -39,6 +37,8 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
     if (!withoutInit) {
       ({ projectPath } = context.amplify.getEnvInfo());
     }
+
+    const { generate } = getTypesgenPackage(FeatureFlags.getBoolean(typesgenPackageMigrationflag));
 
     try {
       projects.forEach(async cfg => {
