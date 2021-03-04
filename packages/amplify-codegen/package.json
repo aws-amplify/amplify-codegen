@@ -24,7 +24,6 @@
     "@aws-amplify/graphql-docs-generator": "2.3.2",
     "@aws-amplify/graphql-types-generator": "2.7.3",
     "@graphql-codegen/core": "1.8.3",
-    "amplify-cli-core": "^1.17.0",
     "amplify-codegen-appsync-model-plugin": "^1.22.3",
     "amplify-graphql-docs-generator": "^2.2.1",
     "amplify-graphql-types-generator": "^2.7.0",
@@ -34,10 +33,13 @@
     "glob-parent": "^5.1.1",
     "graphql": "^14.5.8",
     "graphql-config": "^2.2.1",
-    "graphql-transformer-core": "^6.26.2",
     "inquirer": "^7.3.3",
     "ora": "^4.0.3",
     "slash": "^3.0.0"
+  },
+  "peerDependencies": {
+    "amplify-cli-core": "^1.17.2",
+    "graphql-transformer-core": "^6.26.2"
   },
   "jest": {
     "collectCoverage": true,
