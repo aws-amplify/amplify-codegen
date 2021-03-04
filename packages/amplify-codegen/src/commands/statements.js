@@ -7,6 +7,7 @@ const constants = require('../constants');
 const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails } = require('../utils');
 const { FeatureFlags } = require('amplify-cli-core');
 const { getDocsgenPackage } = require('../utils/getDocsgenPackage');
+const docsgenPackageMigrationflag = 'codegen.useDocsGeneratorPlugin';
 
 async function generateStatements(context, forceDownloadSchema, maxDepth, withoutInit = false, decoupleFrontend = '') {
   try {
@@ -35,7 +36,6 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
     return;
   }
 
-  const docsgenPackageMigrationflag = 'codegen.useDocsGeneratorPlugin';
   const { generate } = getDocsgenPackage(FeatureFlags.getBoolean(docsgenPackageMigrationflag));
 
   for (const cfg of projects) {
