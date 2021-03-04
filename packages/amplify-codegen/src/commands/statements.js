@@ -37,7 +37,7 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
 
   const docsgenPackageMigrationflag = 'codegen.useDocsGeneratorPlugin';
   const { generate } = getDocsgenPackage(FeatureFlags.getBoolean(docsgenPackageMigrationflag));
-    
+
   for (const cfg of projects) {
     const includeFiles = path.join(projectPath, cfg.includes[0]);
     const opsGenDirectory = cfg.amplifyExtension.docsFilePath
@@ -56,7 +56,7 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
     const language = frontend === 'javascript' ? cfg.amplifyExtension.codeGenTarget : 'graphql';
     const opsGenSpinner = new Ora(constants.INFO_MESSAGE_OPS_GEN);
     opsGenSpinner.start();
-    
+
     try {
       fs.ensureDirSync(opsGenDirectory);
       generate(schemaPath, opsGenDirectory, {

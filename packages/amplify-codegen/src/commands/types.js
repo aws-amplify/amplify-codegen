@@ -36,9 +36,10 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
     if (!withoutInit) {
       ({ projectPath } = context.amplify.getEnvInfo());
     }
+
     const typesgenPackageMigrationflag = 'codegen.useTypesGeneratorPlugin';
     const { generate } = getTypesgenPackage(FeatureFlags.getBoolean(typesgenPackageMigrationflag));
-    
+
     try {
       projects.forEach(async cfg => {
         const { generatedFileName } = cfg.amplifyExtension || {};
