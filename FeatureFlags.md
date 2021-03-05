@@ -16,7 +16,9 @@ In order to shield the existing customers from any complications as a result of 
 The package implementations in this repository will be actively maintained going forward while the implementations in [Amplify CLI repository](https://github.com/aws-amplify/amplify-cli/tree/master/packages) will be deprecated on May 1st, 2021. 
 The package implementations in this repository will support all the APIs that are supported by their counterparts in the CLI repository. 
 
-Hence, we recommend setting the above Feature Flags to `true` in your `cli.json` file to consume the package implementations from this repository and take advtange of bug fixes, enhancements etc being made to these generators.
+These Feature Flags are set to `true` by default for new projects created using Amplify CLI and `false` for existing projects.
+We recommend setting the above Feature Flags to `true` in your `cli.json` file to consume the package implementations from this repository and take advtange of bug fixes, enhancements etc being made to these generators.
+
 Some examples of recent enhacements include, `cleanGeneratedModelsDirectory` and `retainCaseStyle` features that are only supported when the above Feature Flags are set to true. 
 Please refer to the individual package changelogs in this repository for a comprehensive list of changes. 
 
