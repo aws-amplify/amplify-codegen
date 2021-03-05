@@ -51,20 +51,7 @@ jest.mock('amplify-cli-core', (MOCK_PROJECT_ROOT) => {
 describe('command-models-generates models in expected output path', () => {
     beforeEach(() => {
       jest.resetAllMocks();
-      MOCK_CONTEXT.amplify.getEnvInfo.mockReturnValue({projectPath: MOCK_PROJECT_ROOT});
-      MOCK_CONTEXT.amplify.getResourceStatus.mockReturnValue(
-           {
-              allResources: [
-                  {
-                      service: 'AppSync', 
-                      providerPlugin: 'awscloudformation',
-                      resourceName: MOCK_PROJECT_NAME
-                    }
-                ]
-            }
-        );
-      MOCK_CONTEXT.amplify.executeProviderUtils.mockReturnValue([]);
-      MOCK_CONTEXT.amplify.pathManager.getBackendDirPath.mockReturnValue(MOCK_BACKEND_DIRECTORY);
+      addMocksToContext();
       graphqlCodegen.codegen.mockReturnValue(MOCK_GENERATED_CODE);
     });
 
@@ -124,20 +111,7 @@ describe('command-models-generates models in expected output path', () => {
 describe('codegen models respects cleanGeneratedModelsDirectory', () => {
   beforeEach(() => {
     jest.resetAllMocks();
-    MOCK_CONTEXT.amplify.getEnvInfo.mockReturnValue({projectPath: MOCK_PROJECT_ROOT});
-    MOCK_CONTEXT.amplify.getResourceStatus.mockReturnValue(
-          {
-            allResources: [
-                {
-                    service: 'AppSync', 
-                    providerPlugin: 'awscloudformation',
-                    resourceName: MOCK_PROJECT_NAME
-                  }
-              ]
-          }
-      );
-    MOCK_CONTEXT.amplify.executeProviderUtils.mockReturnValue([]);
-    MOCK_CONTEXT.amplify.pathManager.getBackendDirPath.mockReturnValue(MOCK_BACKEND_DIRECTORY);
+    addMocksToContext();
     graphqlCodegen.codegen.mockReturnValue(MOCK_GENERATED_CODE);
   });
 
@@ -217,3 +191,21 @@ describe('codegen models respects cleanGeneratedModelsDirectory', () => {
   
   afterEach(mockFs.restore);
 }); 
+
+// Add models generation specific mocks to Amplify Context
+function addMocksToContext() {
+  MOCK_CONTEXT.amplify.getEnvInfo.mockReturnValue({projectPath: MOCK_PROJECT_ROOT});
+  MOCK_CONTEXT.amplify.getResourceStatus.mockReturnValue(
+        {
+          allResources: [
+              {
+                  service: 'AppSync', 
+                  providerPlugin: 'awscloudformation',
+                  resourceName: MOCK_PROJECT_NAME
+                }
+            ]
+        }
+    );
+  MOCK_CONTEXT.amplify.executeProviderUtils.mockReturnValue([]);
+  MOCK_CONTEXT.amplify.pathManager.getBackendDirPath.mockReturnValue(MOCK_BACKEND_DIRECTORY);
+}
