@@ -97,7 +97,7 @@ async function validateSchema(context) {
       disableResolverOverrides: true,
     });
   } catch (err) {
-    context.print.error(err);
+    context.print.error(err.toString());
   }
 }
 
