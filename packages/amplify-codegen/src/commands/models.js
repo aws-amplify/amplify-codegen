@@ -89,12 +89,16 @@ async function generateModels(context) {
 }
 
 async function validateSchema(context) {
-  await context.amplify.executeProviderUtils(context, 'awscloudformation', 'compileSchema', {
-    noConfig: true,
-    forceCompile: true,
-    dryRun: true,
-    disableResolverOverrides: true,
-  });
+  try {
+    await context.amplify.executeProviderUtils(context, 'awscloudformation', 'compileSchema', {
+      noConfig: true,
+      forceCompile: true,
+      dryRun: true,
+      disableResolverOverrides: true,
+    });
+  } catch (err) {
+    context.print.error(err);
+  }
 }
 
 function loadSchema(apiResourcePath) {
