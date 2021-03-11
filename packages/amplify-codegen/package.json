@@ -50,5 +50,8 @@
       "jsx",
       "node"
     ]
+  },
+  "devDependencies": {
+    "mock-fs": "^4.13.0"
   }
 }
