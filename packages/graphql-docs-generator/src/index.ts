@@ -5,7 +5,7 @@ import * as prettier from 'prettier';
 import { camelCase } from 'change-case';
 const DEFAULT_MAX_DEPTH = 3;
 
-import generateAllOps, { GQLTemplateOp, GQLAllOperations, GQLTemplateFragment } from './generator';
+import generateAllOps, { GQLTemplateOp, GQLAllOperations, GQLTemplateFragment, lowerCaseFirstLetter } from './generator';
 import { loadSchema } from './generator/utils/loading';
 const TEMPLATE_DIR = path.resolve(path.join(__dirname, '../templates'));
 const FILE_EXTENSION_MAP = {
@@ -19,7 +19,7 @@ const FILE_EXTENSION_MAP = {
 export function generate(
   schemaPath: string,
   outputPath: string,
-  options: { separateFiles: boolean; language: string; maxDepth: number },
+  options: { separateFiles: boolean; language: string; maxDepth: number, retainCaseStyle: boolean },
 ): void {
   const language = options.language || 'graphql';
   const schemaData = loadSchema(schemaPath);
@@ -29,11 +29,13 @@ export function generate(
 
   const maxDepth = options.maxDepth || DEFAULT_MAX_DEPTH;
   const useExternalFragmentForS3Object = options.language === 'graphql';
+  const retainCaseStyle = options.retainCaseStyle || true;
   const gqlOperations: GQLAllOperations = generateAllOps(schemaData, maxDepth, {
     useExternalFragmentForS3Object,
+    retainCaseStyle
   });
   registerPartials();
-  registerHelpers();
+  registerHelpers(retainCaseStyle);
 
   const fileExtension = FILE_EXTENSION_MAP[language];
   if (options.separateFiles) {
@@ -91,13 +93,14 @@ function registerPartials() {
   });
 }
 
-function registerHelpers() {
+function registerHelpers(retainCaseStyle: boolean) {
   handlebars.registerHelper('format', function(options: any) {
     const result = options.fn(this);
     return format(result);
   });
 
-  handlebars.registerHelper('camelCase', camelCase);
+  const formatNameHelper = retainCaseStyle ? lowerCaseFirstLetter : camelCase;
+  handlebars.registerHelper('formatName', formatNameHelper);
 }
 
 function format(str: string, language: string = 'graphql'): string {

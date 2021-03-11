@@ -63,6 +63,7 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
         separateFiles: true,
         language,
         maxDepth: maxDepth || cfg.amplifyExtension.maxDepth,
+        retainCaseStyle: FeatureFlags.getBoolean('codegen.retainCaseStyle')
       });
       opsGenSpinner.succeed(constants.INFO_MESSAGE_OPS_GEN_SUCCESS + path.relative(path.resolve('.'), opsGenDirectory));
     } finally {
