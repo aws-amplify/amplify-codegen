@@ -22,7 +22,7 @@ export function generateQueries(
     const processedQueries: Array<GQLTemplateOp> = Object.keys(allQueries).map(queryName => {
       const type: GQLOperationTypeEnum = GQLOperationTypeEnum.QUERY;
       const op = generateOperation(allQueries[queryName], schema, maxDepth, options);
-      const name: string = pascalCase(queryName);
+      const name: string = options.retainCaseStyle ? capitalizeFirstLetter(queryName) : pascalCase(queryName);
       return { type, name, ...op };
     });
     return processedQueries;
@@ -40,7 +40,7 @@ export function generateMutations(
     const processedMutations = Object.keys(allMutations).map(mutationName => {
       const type: GQLOperationTypeEnum = GQLOperationTypeEnum.MUTATION;
       const op = generateOperation(allMutations[mutationName], schema, maxDepth, options);
-      const name = pascalCase(mutationName);
+      const name: string = options.retainCaseStyle ? capitalizeFirstLetter(mutationName) : pascalCase(mutationName);
       return { type, name, ...op };
     });
     return processedMutations;
@@ -58,7 +58,7 @@ export function generateSubscriptions(
     const processedMutations = Object.keys(allSubscriptions).map(subscriptionName => {
       const type: GQLOperationTypeEnum = GQLOperationTypeEnum.SUBSCRIPTION;
       const op = generateOperation(allSubscriptions[subscriptionName], schema, maxDepth, options);
-      const name = pascalCase(subscriptionName);
+      const name: string = options.retainCaseStyle ? capitalizeFirstLetter(subscriptionName) : pascalCase(subscriptionName);
       return { type, name, ...op };
     });
     return processedMutations;
@@ -85,4 +85,12 @@ function getExternalFragment(field: GQLTemplateField, externalFragments: object 
   });
 
   return externalFragments;
+}
+
+export function capitalizeFirstLetter(string: string): string {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export function lowerCaseFirstLetter(string: string): string {
+  return string.charAt(0).toLocaleLowerCase() + string.slice(1);
 }

@@ -1,0 +1,442 @@
+type UPPERCASE {
+  id: ID!
+  owner: String!
+  createdAt: String
+  updatedAt: String
+}
+
+type lowercase {
+  id: ID!
+  owner: String!
+  createdAt: String
+  updatedAt: String
+}
+
+type camelCase {
+  id: ID!
+  owner: String!
+  createdAt: String
+  updatedAt: String
+}
+
+type PascalCase {
+  id: ID!
+  owner: String!
+  createdAt: String
+  updatedAt: String
+}
+
+type snake_case {
+  id: ID!
+  owner: String!
+  createdAt: String
+  updatedAt: String
+}
+
+type UPPER_SNAKE_CASE {
+  id: ID!
+  owner: String!
+  createdAt: String
+  updatedAt: String
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelUPPERCASEConnection {
+  items: [UPPERCASE]
+  nextToken: String
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+input ModelUPPERCASEFilterInput {
+  id: ModelIDInput
+  owner: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelUPPERCASEFilterInput]
+  or: [ModelUPPERCASEFilterInput]
+  not: ModelUPPERCASEFilterInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+type Query {
+  getUPPERCASE(id: ID!): UPPERCASE
+  listUPPERCASEs(filter: ModelUPPERCASEFilterInput, limit: Int, nextToken: String): ModelUPPERCASEConnection
+  getLowercase(id: ID!): lowercase
+  listLowercases(filter: ModellowercaseFilterInput, limit: Int, nextToken: String): ModellowercaseConnection
+  getCamelCase(id: ID!): camelCase
+  listCamelCases(filter: ModelcamelCaseFilterInput, limit: Int, nextToken: String): ModelcamelCaseConnection
+  getPascalCase(id: ID!): PascalCase
+  listPascalCases(filter: ModelPascalCaseFilterInput, limit: Int, nextToken: String): ModelPascalCaseConnection
+  getSnake_case(id: ID!): snake_case
+  listSnake_cases(filter: Modelsnake_caseFilterInput, limit: Int, nextToken: String): Modelsnake_caseConnection
+  getUPPER_SNAKE_CASE(id: ID!): UPPER_SNAKE_CASE
+  listUPPER_SNAKE_CASEs(filter: ModelUPPER_SNAKE_CASEFilterInput, limit: Int, nextToken: String): ModelUPPER_SNAKE_CASEConnection
+  queryByOwner(owner: String, sortDirection: ModelSortDirection, filter: ModelUPPERCASEFilterInput, limit: Int, nextToken: String): ModelUPPERCASEConnection
+}
+
+input CreateUPPERCASEInput {
+  id: ID
+  owner: String!
+  createdAt: String
+  updatedAt: String
+}
+
+input UpdateUPPERCASEInput {
+  id: ID!
+  owner: String
+  createdAt: String
+  updatedAt: String
+}
+
+input DeleteUPPERCASEInput {
+  id: ID
+}
+
+type Mutation {
+  createUPPERCASE(input: CreateUPPERCASEInput!, condition: ModelUPPERCASEConditionInput): UPPERCASE
+  updateUPPERCASE(input: UpdateUPPERCASEInput!, condition: ModelUPPERCASEConditionInput): UPPERCASE
+  deleteUPPERCASE(input: DeleteUPPERCASEInput!, condition: ModelUPPERCASEConditionInput): UPPERCASE
+  createLowercase(input: CreateLowercaseInput!, condition: ModellowercaseConditionInput): lowercase
+  updateLowercase(input: UpdateLowercaseInput!, condition: ModellowercaseConditionInput): lowercase
+  deleteLowercase(input: DeleteLowercaseInput!, condition: ModellowercaseConditionInput): lowercase
+  createCamelCase(input: CreateCamelCaseInput!, condition: ModelcamelCaseConditionInput): camelCase
+  updateCamelCase(input: UpdateCamelCaseInput!, condition: ModelcamelCaseConditionInput): camelCase
+  deleteCamelCase(input: DeleteCamelCaseInput!, condition: ModelcamelCaseConditionInput): camelCase
+  createPascalCase(input: CreatePascalCaseInput!, condition: ModelPascalCaseConditionInput): PascalCase
+  updatePascalCase(input: UpdatePascalCaseInput!, condition: ModelPascalCaseConditionInput): PascalCase
+  deletePascalCase(input: DeletePascalCaseInput!, condition: ModelPascalCaseConditionInput): PascalCase
+  createSnake_case(input: CreateSnake_caseInput!, condition: Modelsnake_caseConditionInput): snake_case
+  updateSnake_case(input: UpdateSnake_caseInput!, condition: Modelsnake_caseConditionInput): snake_case
+  deleteSnake_case(input: DeleteSnake_caseInput!, condition: Modelsnake_caseConditionInput): snake_case
+  createUPPER_SNAKE_CASE(input: CreateUPPER_SNAKE_CASEInput!, condition: ModelUPPER_SNAKE_CASEConditionInput): UPPER_SNAKE_CASE
+  updateUPPER_SNAKE_CASE(input: UpdateUPPER_SNAKE_CASEInput!, condition: ModelUPPER_SNAKE_CASEConditionInput): UPPER_SNAKE_CASE
+  deleteUPPER_SNAKE_CASE(input: DeleteUPPER_SNAKE_CASEInput!, condition: ModelUPPER_SNAKE_CASEConditionInput): UPPER_SNAKE_CASE
+}
+
+input ModelUPPERCASEConditionInput {
+  owner: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelUPPERCASEConditionInput]
+  or: [ModelUPPERCASEConditionInput]
+  not: ModelUPPERCASEConditionInput
+}
+
+type Subscription {
+  onCreateUPPERCASE: UPPERCASE @aws_subscribe(mutations: ["createUPPERCASE"])
+  onUpdateUPPERCASE: UPPERCASE @aws_subscribe(mutations: ["updateUPPERCASE"])
+  onDeleteUPPERCASE: UPPERCASE @aws_subscribe(mutations: ["deleteUPPERCASE"])
+  onCreateLowercase: lowercase @aws_subscribe(mutations: ["createLowercase"])
+  onUpdateLowercase: lowercase @aws_subscribe(mutations: ["updateLowercase"])
+  onDeleteLowercase: lowercase @aws_subscribe(mutations: ["deleteLowercase"])
+  onCreateCamelCase: camelCase @aws_subscribe(mutations: ["createCamelCase"])
+  onUpdateCamelCase: camelCase @aws_subscribe(mutations: ["updateCamelCase"])
+  onDeleteCamelCase: camelCase @aws_subscribe(mutations: ["deleteCamelCase"])
+  onCreatePascalCase: PascalCase @aws_subscribe(mutations: ["createPascalCase"])
+  onUpdatePascalCase: PascalCase @aws_subscribe(mutations: ["updatePascalCase"])
+  onDeletePascalCase: PascalCase @aws_subscribe(mutations: ["deletePascalCase"])
+  onCreateSnake_case: snake_case @aws_subscribe(mutations: ["createSnake_case"])
+  onUpdateSnake_case: snake_case @aws_subscribe(mutations: ["updateSnake_case"])
+  onDeleteSnake_case: snake_case @aws_subscribe(mutations: ["deleteSnake_case"])
+  onCreateUPPER_SNAKE_CASE: UPPER_SNAKE_CASE @aws_subscribe(mutations: ["createUPPER_SNAKE_CASE"])
+  onUpdateUPPER_SNAKE_CASE: UPPER_SNAKE_CASE @aws_subscribe(mutations: ["updateUPPER_SNAKE_CASE"])
+  onDeleteUPPER_SNAKE_CASE: UPPER_SNAKE_CASE @aws_subscribe(mutations: ["deleteUPPER_SNAKE_CASE"])
+}
+
+type ModellowercaseConnection {
+  items: [lowercase]
+  nextToken: String
+}
+
+input ModellowercaseFilterInput {
+  id: ModelIDInput
+  owner: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModellowercaseFilterInput]
+  or: [ModellowercaseFilterInput]
+  not: ModellowercaseFilterInput
+}
+
+input CreateLowercaseInput {
+  id: ID
+  owner: String!
+  createdAt: String
+  updatedAt: String
+}
+
+input UpdateLowercaseInput {
+  id: ID!
+  owner: String
+  createdAt: String
+  updatedAt: String
+}
+
+input DeleteLowercaseInput {
+  id: ID
+}
+
+input ModellowercaseConditionInput {
+  owner: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModellowercaseConditionInput]
+  or: [ModellowercaseConditionInput]
+  not: ModellowercaseConditionInput
+}
+
+type ModelcamelCaseConnection {
+  items: [camelCase]
+  nextToken: String
+}
+
+input ModelcamelCaseFilterInput {
+  id: ModelIDInput
+  owner: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelcamelCaseFilterInput]
+  or: [ModelcamelCaseFilterInput]
+  not: ModelcamelCaseFilterInput
+}
+
+input CreateCamelCaseInput {
+  id: ID
+  owner: String!
+  createdAt: String
+  updatedAt: String
+}
+
+input UpdateCamelCaseInput {
+  id: ID!
+  owner: String
+  createdAt: String
+  updatedAt: String
+}
+
+input DeleteCamelCaseInput {
+  id: ID
+}
+
+input ModelcamelCaseConditionInput {
+  owner: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelcamelCaseConditionInput]
+  or: [ModelcamelCaseConditionInput]
+  not: ModelcamelCaseConditionInput
+}
+
+type ModelPascalCaseConnection {
+  items: [PascalCase]
+  nextToken: String
+}
+
+input ModelPascalCaseFilterInput {
+  id: ModelIDInput
+  owner: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelPascalCaseFilterInput]
+  or: [ModelPascalCaseFilterInput]
+  not: ModelPascalCaseFilterInput
+}
+
+input CreatePascalCaseInput {
+  id: ID
+  owner: String!
+  createdAt: String
+  updatedAt: String
+}
+
+input UpdatePascalCaseInput {
+  id: ID!
+  owner: String
+  createdAt: String
+  updatedAt: String
+}
+
+input DeletePascalCaseInput {
+  id: ID
+}
+
+input ModelPascalCaseConditionInput {
+  owner: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelPascalCaseConditionInput]
+  or: [ModelPascalCaseConditionInput]
+  not: ModelPascalCaseConditionInput
+}
+
+type Modelsnake_caseConnection {
+  items: [snake_case]
+  nextToken: String
+}
+
+input Modelsnake_caseFilterInput {
+  id: ModelIDInput
+  owner: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [Modelsnake_caseFilterInput]
+  or: [Modelsnake_caseFilterInput]
+  not: Modelsnake_caseFilterInput
+}
+
+input CreateSnake_caseInput {
+  id: ID
+  owner: String!
+  createdAt: String
+  updatedAt: String
+}
+
+input UpdateSnake_caseInput {
+  id: ID!
+  owner: String
+  createdAt: String
+  updatedAt: String
+}
+
+input DeleteSnake_caseInput {
+  id: ID
+}
+
+input Modelsnake_caseConditionInput {
+  owner: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [Modelsnake_caseConditionInput]
+  or: [Modelsnake_caseConditionInput]
+  not: Modelsnake_caseConditionInput
+}
+
+type ModelUPPER_SNAKE_CASEConnection {
+  items: [UPPER_SNAKE_CASE]
+  nextToken: String
+}
+
+input ModelUPPER_SNAKE_CASEFilterInput {
+  id: ModelIDInput
+  owner: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelUPPER_SNAKE_CASEFilterInput]
+  or: [ModelUPPER_SNAKE_CASEFilterInput]
+  not: ModelUPPER_SNAKE_CASEFilterInput
+}
+
+input CreateUPPER_SNAKE_CASEInput {
+  id: ID
+  owner: String!
+  createdAt: String
+  updatedAt: String
+}
+
+input UpdateUPPER_SNAKE_CASEInput {
+  id: ID!
+  owner: String
+  createdAt: String
+  updatedAt: String
+}
+
+input DeleteUPPER_SNAKE_CASEInput {
+  id: ID
+}
+
+input ModelUPPER_SNAKE_CASEConditionInput {
+  owner: ModelStringInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelUPPER_SNAKE_CASEConditionInput]
+  or: [ModelUPPER_SNAKE_CASEConditionInput]
+  not: ModelUPPER_SNAKE_CASEConditionInput
+}
