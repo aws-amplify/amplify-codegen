@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.23.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.22.4...amplify-codegen@2.23.0) (2021-03-11)
+
+
+### Bug Fixes
+
+* **amplify-codegen:** re-arrange models cmd tests ([0c970d5](https://github.com/aws-amplify/amplify-codegen/commit/0c970d54538e42f1fc480bbb72aeaf143b92a6be))
+* **amplify-codegen:** rebase and fix merge conflicts ([69ca760](https://github.com/aws-amplify/amplify-codegen/commit/69ca760db6bc032eb105710cdfa91b35bcaf1c7b))
+* **amplify-codegen:** refactor test setup into a common method ([825136d](https://github.com/aws-amplify/amplify-codegen/commit/825136de3799bce2accc9cc2a7414cdf9f6e7590))
+* **amplify-codegen:** remove references to mock variable ([56ef92d](https://github.com/aws-amplify/amplify-codegen/commit/56ef92d0a555d3a27e3803a1299d4300584b2874))
+* **amplify-codegen:** rename imported module mockFs ([0525dc5](https://github.com/aws-amplify/amplify-codegen/commit/0525dc5ff004dbf482052bc573c70e5e0f2b5553))
+* **amplify-codegen:** rename mock to mockFs ([b146457](https://github.com/aws-amplify/amplify-codegen/commit/b1464578269ec94b334e6c6123959549d51fd428))
+* **docsgen:** change FF name to codegen.retainCaseStyle ([caee85f](https://github.com/aws-amplify/amplify-codegen/commit/caee85f4378f009cdf3bb8d2dec88e11659a637a))
+* **docsgen:** update to use FeatureFlag retainCaseStyle ([5b100f4](https://github.com/aws-amplify/amplify-codegen/commit/5b100f406e245388fe2d219ea809cbaa8b3c4c7c))
+
+
+### Features
+
+* **modelgen:** fetch graphql schemas from nested input folder ([8e2e009](https://github.com/aws-amplify/amplify-codegen/commit/8e2e009a36a3871fa6f9ddf282cd287d70396f1a))
+* **modelgen:** support clearing outdated models using a feature flag ([f2bfce0](https://github.com/aws-amplify/amplify-codegen/commit/f2bfce0f6834c3f78cf01b0748868c2d8b8d0836))
+* **modelgen:** support clearing outdated models using a feature flag ([6810541](https://github.com/aws-amplify/amplify-codegen/commit/681054112e3499ae11ccd0dd87109b80e1deaf2f))
+
+
+
+
+
 ## [2.22.4](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.22.3...amplify-codegen@2.22.4) (2021-03-04)
 
 

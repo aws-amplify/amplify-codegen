@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-docs-generator@2.3.2...@aws-amplify/graphql-docs-generator@2.3.3) (2021-03-11)
+
+
+### Bug Fixes
+
+* **docsgen:** update args in cli.ts ([e8a0054](https://github.com/aws-amplify/amplify-codegen/commit/e8a00540bad13e0e359993da2b556dab774f5a95))
+* **docsgen:** update to use FeatureFlag retainCaseStyle ([5b100f4](https://github.com/aws-amplify/amplify-codegen/commit/5b100f406e245388fe2d219ea809cbaa8b3c4c7c))
+
+
+
+
+
 ## [2.3.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-docs-generator@2.3.0...@aws-amplify/graphql-docs-generator@2.3.2) (2021-02-05)
 
 
