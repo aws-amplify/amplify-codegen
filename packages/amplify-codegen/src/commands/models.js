@@ -79,10 +79,10 @@ async function generateModels(context) {
   const generatedCode = await Promise.all(codeGenPromises);
 
   // clean the output directory before re-generating models
-  const cleanOutputPath = FeatureFlags.getBoolean('codegen.cleanGeneratedModelsDirectory');
-  if (cleanOutputPath) {
-    await fs.emptyDir(outputPath);
-  }
+  // const cleanOutputPath = FeatureFlags.getBoolean('codegen.cleanGeneratedModelsDirectory');
+  // if (cleanOutputPath) {
+  //   await fs.emptyDir(outputPath);
+  // }
 
   appsyncLocalConfig.forEach((cfg, idx) => {
     const outPutPath = cfg.filename;
@@ -96,12 +96,16 @@ async function generateModels(context) {
 }
 
 async function validateSchema(context) {
-  await context.amplify.executeProviderUtils(context, 'awscloudformation', 'compileSchema', {
-    noConfig: true,
-    forceCompile: true,
-    dryRun: true,
-    disableResolverOverrides: true,
-  });
+  try {
+    await context.amplify.executeProviderUtils(context, 'awscloudformation', 'compileSchema', {
+      noConfig: true,
+      forceCompile: true,
+      dryRun: true,
+      disableResolverOverrides: true,
+    });
+  } catch (err) {
+    context.print.error(err.toString());
+  }
 }
 
 function loadSchema(apiResourcePath) {
