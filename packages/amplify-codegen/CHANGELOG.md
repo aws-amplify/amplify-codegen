@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.23.1](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.23.0...amplify-codegen@2.23.1) (2021-03-12)
+
+
+### Bug Fixes
+
+* **amplify-codegen:** disable cleanGeneratedModels FF ([3b3ca86](https://github.com/aws-amplify/amplify-codegen/commit/3b3ca869bd57558793b86e0e3469a0362960fcd4))
+* **amplify-codegen:** print syntax error in a readable output ([#105](https://github.com/aws-amplify/amplify-codegen/issues/105)) ([3f87faa](https://github.com/aws-amplify/amplify-codegen/commit/3f87faa6995388ba2f22db0b986f2a6caadda49d))
+
+
+
+
+
 # [2.23.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.22.4...amplify-codegen@2.23.0) (2021-03-11)
 
 
