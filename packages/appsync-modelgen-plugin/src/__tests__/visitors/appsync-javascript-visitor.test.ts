@@ -114,12 +114,16 @@ describe('Javascript visitor', () => {
           readonly name?: string;
           readonly bar?: string;
           readonly foo?: Bar[];
+          readonly createdAt?: string;
+          readonly updatedAt?: string;
           constructor(init: ModelInit<SimpleModel>);
           static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
         }
 
         export declare class Bar {
           readonly id: string;
+          readonly createdAt?: string;
+          readonly updatedAt?: string;
           readonly simpleModelFooId?: string;
           constructor(init: ModelInit<Bar>);
           static copyOf(source: Bar, mutator: (draft: MutableModel<Bar>) => MutableModel<Bar> | void): Bar;
@@ -233,6 +237,8 @@ describe('Javascript visitor with default owner auth', () => {
           readonly id: string;
           readonly name?: string;
           readonly bar?: string;
+          readonly createdAt?: string;
+          readonly updatedAt?: string;
           constructor(init: ModelInit<SimpleModel>);
           static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
         }"
@@ -302,6 +308,8 @@ describe('Javascript visitor with custom owner field auth', () => {
           readonly id: string;
           readonly name?: string;
           readonly bar?: string;
+          readonly createdAt?: string;
+          readonly updatedAt?: string;
           constructor(init: ModelInit<SimpleModel>);
           static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
         }"
@@ -373,6 +381,8 @@ describe('Javascript visitor with multiple owner field auth', () => {
           readonly id: string;
           readonly name?: string;
           readonly bar?: string;
+          readonly createdAt?: string;
+          readonly updatedAt?: string;
           constructor(init: ModelInit<SimpleModel>);
           static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
         }"
@@ -428,6 +438,8 @@ describe('Javascript visitor with auth directives in field level', () => {
           readonly name: string;
           readonly address: string;
           readonly ssn?: string;
+          readonly createdAt?: string;
+          readonly updatedAt?: string;
           constructor(init: ModelInit<Employee>);
           static copyOf(source: Employee, mutator: (draft: MutableModel<Employee>) => MutableModel<Employee> | void): Employee;
         }"

@@ -143,6 +143,9 @@ export type CodeGenEnumValueMap = { [enumConvertedName: string]: string };
 
 export type CodeGenEnumMap = Record<string, CodeGenEnum>;
 
+const DEFAULT_CREATED_TIME = 'createdAt';
+const DEFAULT_UPDATED_TIME = 'updatedAt';
+
 export class AppSyncModelVisitor<
   TRawConfig extends RawAppSyncModelConfig = RawAppSyncModelConfig,
   TPluginConfig extends ParsedAppSyncModelConfig = ParsedAppSyncModelConfig
@@ -187,7 +190,8 @@ export class AppSyncModelVisitor<
     }
     const directives = this.getDirectives(node.directives);
     const fields = (node.fields as unknown) as CodeGenField[];
-    if (directives.find(directive => directive.name === 'model')) {
+    const modelDirective = directives.find(directive => directive.name === 'model');
+    if (modelDirective) {
       // Todo: Add validation for each directives
       // @model would add the id: ID! if missing or throw error if there is an id of different type
       // @key check if fields listed in directives are present in the Object
@@ -199,6 +203,7 @@ export class AppSyncModelVisitor<
         fields,
       };
       this.ensureIdField(model);
+      this.addTimestampFields(model, modelDirective);
       this.sortFields(model);
       this.modelMap[node.name.value] = model;
     } else {
@@ -210,6 +215,32 @@ export class AppSyncModelVisitor<
       };
       this.nonModelMap[node.name.value] = nonModel;
     }
+  }
+  /**
+   * Add timestamp fields createdAt, updatedAt(or equivalent fields) to model fields
+   * @param model
+   */
+  protected addTimestampFields(model: CodeGenModel, directive: CodeGenDirective): void {
+    if (directive.name !== 'model') {
+      return;
+    }
+    const timestamps = directive.arguments.timestamps;
+    const createdAtField: CodeGenField = {
+      name: timestamps?.createdAt || DEFAULT_CREATED_TIME,
+      directives: [],
+      type: 'AWSDateTime',
+      isList: false,
+      isNullable: true,
+    };
+    const updatedAtField: CodeGenField = {
+      name: timestamps?.updatedAt || DEFAULT_UPDATED_TIME,
+      directives: [],
+      type: 'AWSDateTime',
+      isList: false,
+      isNullable: true
+    };
+    addFieldToModel(model, createdAtField);
+    addFieldToModel(model, updatedAtField);
   }
   FieldDefinition(node: FieldDefinitionNode): CodeGenField {
     const directive = this.getDirectives(node.directives);

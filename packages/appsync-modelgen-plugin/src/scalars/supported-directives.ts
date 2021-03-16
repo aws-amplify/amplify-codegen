@@ -3,7 +3,12 @@
 // prettier-ignore
 export const directives = /* GraphQL */ `
   # model directive
-  directive @model(queries: ModelQueryMap, mutations: ModelMutationMap, subscriptions: ModelSubscriptionMap) on OBJECT
+  directive @model(
+    queries: ModelQueryMap
+    mutations: ModelMutationMap
+    subscriptions: ModelSubscriptionMap
+    timestamps: TimestampConfiguration
+  ) on OBJECT
   input ModelMutationMap {
     create: String
     update: String
@@ -23,6 +28,10 @@ export const directives = /* GraphQL */ `
     off
     public
     on
+  }
+  input TimestampConfiguration {
+    createdAt: String
+    updatedAt: String
   }
 
   # Key directive

@@ -41,13 +41,19 @@ describe('AppSyncSwiftVisitor', () => {
         public let id: String
         public var name: String?
         public var bar: String?
+        public var createdAt: Temporal.DateTime?
+        public var updatedAt: Temporal.DateTime?
         
         public init(id: String = UUID().uuidString,
             name: String? = nil,
-            bar: String? = nil) {
+            bar: String? = nil,
+            createdAt: Temporal.DateTime? = nil,
+            updatedAt: Temporal.DateTime? = nil) {
             self.id = id
             self.name = name
             self.bar = bar
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
         }
       }"
     `);
@@ -64,6 +70,8 @@ describe('AppSyncSwiftVisitor', () => {
           case id
           case name
           case bar
+          case createdAt
+          case updatedAt
         }
         
         public static let keys = CodingKeys.self
@@ -77,7 +85,9 @@ describe('AppSyncSwiftVisitor', () => {
           model.fields(
             .id(),
             .field(simpleModel.name, is: .optional, ofType: .string),
-            .field(simpleModel.bar, is: .optional, ofType: .string)
+            .field(simpleModel.bar, is: .optional, ofType: .string),
+            .field(simpleModel.createdAt, is: .optional, ofType: .dateTime),
+            .field(simpleModel.updatedAt, is: .optional, ofType: .dateTime)
           )
           }
       }"
@@ -132,11 +142,17 @@ describe('AppSyncSwiftVisitor', () => {
       public struct snake_case: Model {
         public let id: String
         public var name: String?
+        public var createdAt: Temporal.DateTime?
+        public var updatedAt: Temporal.DateTime?
         
         public init(id: String = UUID().uuidString,
-            name: String? = nil) {
+            name: String? = nil,
+            createdAt: Temporal.DateTime? = nil,
+            updatedAt: Temporal.DateTime? = nil) {
             self.id = id
             self.name = name
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
         }
       }"
     `);
@@ -153,6 +169,8 @@ describe('AppSyncSwiftVisitor', () => {
          public enum CodingKeys: String, ModelKey {
           case id
           case name
+          case createdAt
+          case updatedAt
         }
         
         public static let keys = CodingKeys.self
@@ -165,7 +183,9 @@ describe('AppSyncSwiftVisitor', () => {
           
           model.fields(
             .id(),
-            .field(snake_case.name, is: .optional, ofType: .string)
+            .field(snake_case.name, is: .optional, ofType: .string),
+            .field(snake_case.createdAt, is: .optional, ofType: .dateTime),
+            .field(snake_case.updatedAt, is: .optional, ofType: .dateTime)
           )
           }
       }"
@@ -190,11 +210,17 @@ describe('AppSyncSwiftVisitor', () => {
       public struct SnakeCaseField: Model {
         public let id: String
         public var first_name: String?
+        public var createdAt: Temporal.DateTime?
+        public var updatedAt: Temporal.DateTime?
         
         public init(id: String = UUID().uuidString,
-            first_name: String? = nil) {
+            first_name: String? = nil,
+            createdAt: Temporal.DateTime? = nil,
+            updatedAt: Temporal.DateTime? = nil) {
             self.id = id
             self.first_name = first_name
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
         }
       }"
     `);
@@ -223,17 +249,23 @@ describe('AppSyncSwiftVisitor', () => {
         public var book_id: String
         public var author: String?
         public var book: String?
+        public var createdAt: Temporal.DateTime?
+        public var updatedAt: Temporal.DateTime?
         
         public init(id: String = UUID().uuidString,
             author_id: String,
             book_id: String,
             author: String? = nil,
-            book: String? = nil) {
+            book: String? = nil,
+            createdAt: Temporal.DateTime? = nil,
+            updatedAt: Temporal.DateTime? = nil) {
             self.id = id
             self.author_id = author_id
             self.book_id = book_id
             self.author = author
             self.book = book
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
         }
       }"
     `);
@@ -253,6 +285,8 @@ describe('AppSyncSwiftVisitor', () => {
           case book_id
           case author
           case book
+          case createdAt
+          case updatedAt
         }
         
         public static let keys = CodingKeys.self
@@ -268,7 +302,9 @@ describe('AppSyncSwiftVisitor', () => {
             .field(authorBook.author_id, is: .required, ofType: .string),
             .field(authorBook.book_id, is: .required, ofType: .string),
             .field(authorBook.author, is: .optional, ofType: .string),
-            .field(authorBook.book, is: .optional, ofType: .string)
+            .field(authorBook.book, is: .optional, ofType: .string),
+            .field(authorBook.createdAt, is: .optional, ofType: .dateTime),
+            .field(authorBook.updatedAt, is: .optional, ofType: .dateTime)
           )
           }
       }"
@@ -315,6 +351,8 @@ describe('AppSyncSwiftVisitor', () => {
             public var version: Int
             public var value: Double?
             public var tasks: List<task>?
+            public var createdAt: Temporal.DateTime?
+            public var updatedAt: Temporal.DateTime?
             
             public init(id: String = UUID().uuidString,
                 title: String,
@@ -323,7 +361,9 @@ describe('AppSyncSwiftVisitor', () => {
                 due_date: String? = nil,
                 version: Int,
                 value: Double? = nil,
-                tasks: List<task>? = []) {
+                tasks: List<task>? = [],
+                createdAt: Temporal.DateTime? = nil,
+                updatedAt: Temporal.DateTime? = nil) {
                 self.id = id
                 self.title = title
                 self.done = done
@@ -332,6 +372,8 @@ describe('AppSyncSwiftVisitor', () => {
                 self.version = version
                 self.value = value
                 self.tasks = tasks
+                self.createdAt = createdAt
+                self.updatedAt = updatedAt
             }
           }"
         `);
@@ -354,6 +396,8 @@ describe('AppSyncSwiftVisitor', () => {
               case version
               case value
               case tasks
+              case createdAt
+              case updatedAt
             }
             
             public static let keys = CodingKeys.self
@@ -372,7 +416,9 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(todo.due_date, is: .optional, ofType: .string),
                 .field(todo.version, is: .required, ofType: .int),
                 .field(todo.value, is: .optional, ofType: .double),
-                .hasMany(todo.tasks, is: .optional, ofType: task.self, associatedWith: task.keys.todo)
+                .hasMany(todo.tasks, is: .optional, ofType: task.self, associatedWith: task.keys.todo),
+                .field(todo.createdAt, is: .optional, ofType: .dateTime),
+                .field(todo.updatedAt, is: .optional, ofType: .dateTime)
               )
               }
           }"
@@ -394,19 +440,25 @@ describe('AppSyncSwiftVisitor', () => {
             public var todo: Todo?
             public var time: Temporal.Time?
             public var createdOn: Temporal.Date?
+            public var createdAt: Temporal.DateTime?
+            public var updatedAt: Temporal.DateTime?
             
             public init(id: String = UUID().uuidString,
                 title: String,
                 done: Bool,
                 todo: Todo? = nil,
                 time: Temporal.Time? = nil,
-                createdOn: Temporal.Date? = nil) {
+                createdOn: Temporal.Date? = nil,
+                createdAt: Temporal.DateTime? = nil,
+                updatedAt: Temporal.DateTime? = nil) {
                 self.id = id
                 self.title = title
                 self.done = done
                 self.todo = todo
                 self.time = time
                 self.createdOn = createdOn
+                self.createdAt = createdAt
+                self.updatedAt = updatedAt
             }
           }"
         `);
@@ -427,6 +479,8 @@ describe('AppSyncSwiftVisitor', () => {
               case todo
               case time
               case createdOn
+              case createdAt
+              case updatedAt
             }
             
             public static let keys = CodingKeys.self
@@ -443,7 +497,9 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(task.done, is: .required, ofType: .bool),
                 .belongsTo(task.todo, is: .optional, ofType: Todo.self, targetName: \\"taskTodoId\\"),
                 .field(task.time, is: .optional, ofType: .time),
-                .field(task.createdOn, is: .optional, ofType: .date)
+                .field(task.createdOn, is: .optional, ofType: .date),
+                .field(task.createdAt, is: .optional, ofType: .dateTime),
+                .field(task.updatedAt, is: .optional, ofType: .dateTime)
               )
               }
           }"
@@ -521,13 +577,19 @@ describe('AppSyncSwiftVisitor', () => {
             public let id: String
             public var title: String
             public var editors: List<PostEditor>?
+            public var createdAt: Temporal.DateTime?
+            public var updatedAt: Temporal.DateTime?
             
             public init(id: String = UUID().uuidString,
                 title: String,
-                editors: List<PostEditor>? = []) {
+                editors: List<PostEditor>? = [],
+                createdAt: Temporal.DateTime? = nil,
+                updatedAt: Temporal.DateTime? = nil) {
                 self.id = id
                 self.title = title
                 self.editors = editors
+                self.createdAt = createdAt
+                self.updatedAt = updatedAt
             }
           }"
         `);
@@ -544,6 +606,8 @@ describe('AppSyncSwiftVisitor', () => {
               case id
               case title
               case editors
+              case createdAt
+              case updatedAt
             }
             
             public static let keys = CodingKeys.self
@@ -557,7 +621,9 @@ describe('AppSyncSwiftVisitor', () => {
               model.fields(
                 .id(),
                 .field(post.title, is: .required, ofType: .string),
-                .hasMany(post.editors, is: .optional, ofType: PostEditor.self, associatedWith: PostEditor.keys.id)
+                .hasMany(post.editors, is: .optional, ofType: PostEditor.self, associatedWith: PostEditor.keys.id),
+                .field(post.createdAt, is: .optional, ofType: .dateTime),
+                .field(post.updatedAt, is: .optional, ofType: .dateTime)
               )
               }
           }"
@@ -573,13 +639,19 @@ describe('AppSyncSwiftVisitor', () => {
             public let id: String
             public var title: String
             public var editors: List<PostEditor>?
+            public var createdAt: Temporal.DateTime?
+            public var updatedAt: Temporal.DateTime?
             
             public init(id: String = UUID().uuidString,
                 title: String,
-                editors: List<PostEditor>? = []) {
+                editors: List<PostEditor>? = [],
+                createdAt: Temporal.DateTime? = nil,
+                updatedAt: Temporal.DateTime? = nil) {
                 self.id = id
                 self.title = title
                 self.editors = editors
+                self.createdAt = createdAt
+                self.updatedAt = updatedAt
             }
           }"
         `);
@@ -596,6 +668,8 @@ describe('AppSyncSwiftVisitor', () => {
               case id
               case title
               case editors
+              case createdAt
+              case updatedAt
             }
             
             public static let keys = CodingKeys.self
@@ -609,7 +683,9 @@ describe('AppSyncSwiftVisitor', () => {
               model.fields(
                 .id(),
                 .field(post.title, is: .required, ofType: .string),
-                .hasMany(post.editors, is: .optional, ofType: PostEditor.self, associatedWith: PostEditor.keys.id)
+                .hasMany(post.editors, is: .optional, ofType: PostEditor.self, associatedWith: PostEditor.keys.id),
+                .field(post.createdAt, is: .optional, ofType: .dateTime),
+                .field(post.updatedAt, is: .optional, ofType: .dateTime)
               )
               }
           }"
@@ -648,6 +724,8 @@ describe('AppSyncSwiftVisitor', () => {
         public var boolArr: [Bool]?
         public var dateArr: [Temporal.Date]?
         public var enumArr: [EnumType]?
+        public var createdAt: Temporal.DateTime?
+        public var updatedAt: Temporal.DateTime?
         
         public init(id: String = UUID().uuidString,
             intArr: [Int]? = [],
@@ -655,7 +733,9 @@ describe('AppSyncSwiftVisitor', () => {
             floatArr: [Double]? = [],
             boolArr: [Bool]? = [],
             dateArr: [Temporal.Date]? = [],
-            enumArr: [EnumType]? = []) {
+            enumArr: [EnumType]? = [],
+            createdAt: Temporal.DateTime? = nil,
+            updatedAt: Temporal.DateTime? = nil) {
             self.id = id
             self.intArr = intArr
             self.strArr = strArr
@@ -663,6 +743,8 @@ describe('AppSyncSwiftVisitor', () => {
             self.boolArr = boolArr
             self.dateArr = dateArr
             self.enumArr = enumArr
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
         }
       }"
     `);
@@ -684,6 +766,8 @@ describe('AppSyncSwiftVisitor', () => {
           case boolArr
           case dateArr
           case enumArr
+          case createdAt
+          case updatedAt
         }
         
         public static let keys = CodingKeys.self
@@ -701,7 +785,9 @@ describe('AppSyncSwiftVisitor', () => {
             .field(objectWithNativeTypes.floatArr, is: .optional, ofType: .embeddedCollection(of: Double.self)),
             .field(objectWithNativeTypes.boolArr, is: .optional, ofType: .embeddedCollection(of: Bool.self)),
             .field(objectWithNativeTypes.dateArr, is: .optional, ofType: .embeddedCollection(of: Temporal.Date.self)),
-            .field(objectWithNativeTypes.enumArr, is: .optional, ofType: .embeddedCollection(of: EnumType.self))
+            .field(objectWithNativeTypes.enumArr, is: .optional, ofType: .embeddedCollection(of: EnumType.self)),
+            .field(objectWithNativeTypes.createdAt, is: .optional, ofType: .dateTime),
+            .field(objectWithNativeTypes.updatedAt, is: .optional, ofType: .dateTime)
           )
           }
       }"
@@ -744,6 +830,8 @@ describe('AppSyncSwiftVisitor', () => {
         public var status: Status
         public var statusHistory: [Status]?
         public var tags: [String]?
+        public var createdAt: Temporal.DateTime?
+        public var updatedAt: Temporal.DateTime?
         
         public init(id: String = UUID().uuidString,
             name: String,
@@ -751,7 +839,9 @@ describe('AppSyncSwiftVisitor', () => {
             nearByLocations: [Location]? = [],
             status: Status,
             statusHistory: [Status]? = [],
-            tags: [String]? = []) {
+            tags: [String]? = [],
+            createdAt: Temporal.DateTime? = nil,
+            updatedAt: Temporal.DateTime? = nil) {
             self.id = id
             self.name = name
             self.location = location
@@ -759,6 +849,8 @@ describe('AppSyncSwiftVisitor', () => {
             self.status = status
             self.statusHistory = statusHistory
             self.tags = tags
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
         }
       }"
     `);
@@ -779,6 +871,8 @@ describe('AppSyncSwiftVisitor', () => {
           case status
           case statusHistory
           case tags
+          case createdAt
+          case updatedAt
         }
         
         public static let keys = CodingKeys.self
@@ -796,7 +890,9 @@ describe('AppSyncSwiftVisitor', () => {
             .field(attraction.nearByLocations, is: .optional, ofType: .embeddedCollection(of: Location.self)),
             .field(attraction.status, is: .required, ofType: .enum(type: Status.self)),
             .field(attraction.statusHistory, is: .optional, ofType: .embeddedCollection(of: Status.self)),
-            .field(attraction.tags, is: .optional, ofType: .embeddedCollection(of: String.self))
+            .field(attraction.tags, is: .optional, ofType: .embeddedCollection(of: String.self)),
+            .field(attraction.createdAt, is: .optional, ofType: .dateTime),
+            .field(attraction.updatedAt, is: .optional, ofType: .dateTime)
           )
           }
       }"
@@ -867,7 +963,7 @@ describe('AppSyncSwiftVisitor', () => {
       // Contains the set of classes that conforms to the \`Model\` protocol. 
 
       final public class AmplifyModels: AmplifyModelRegistration {
-        public let version: String = \\"11dddb282be1f7ba4eabda5ee4c56430\\"
+        public let version: String = \\"fcfad0bb5cf954c935899c0102689995\\"
         
         public func registerModels(registry: ModelRegistry.Type) {
           ModelRegistry.register(modelType: Attraction.self)
@@ -961,17 +1057,23 @@ describe('AppSyncSwiftVisitor', () => {
           public var nonNullClass: Class
           public var classes: [\`Class\`]?
           public var nonNullClasses: [\`Class\`]
+          public var createdAt: Temporal.DateTime?
+          public var updatedAt: Temporal.DateTime?
           
           public init(id: String = UUID().uuidString,
               \`Class\`: \`Class\`? = nil,
               nonNullClass: \`Class\`,
               classes: [\`Class\`]? = [],
-              nonNullClasses: [\`Class\`] = []) {
+              nonNullClasses: [\`Class\`] = [],
+              createdAt: Temporal.DateTime? = nil,
+              updatedAt: Temporal.DateTime? = nil) {
               self.id = id
               self.\`Class\` = \`Class\`
               self.nonNullClass = nonNullClass
               self.classes = classes
               self.nonNullClasses = nonNullClasses
+              self.createdAt = createdAt
+              self.updatedAt = updatedAt
           }
         }"
       `);
@@ -1000,6 +1102,8 @@ describe('AppSyncSwiftVisitor', () => {
               case id
               case title
               case owner
+              case createdAt
+              case updatedAt
             }
             
             public static let keys = CodingKeys.self
@@ -1017,7 +1121,9 @@ describe('AppSyncSwiftVisitor', () => {
               model.fields(
                 .id(),
                 .field(post.title, is: .required, ofType: .string),
-                .field(post.owner, is: .required, ofType: .string)
+                .field(post.owner, is: .required, ofType: .string),
+                .field(post.createdAt, is: .optional, ofType: .dateTime),
+                .field(post.updatedAt, is: .optional, ofType: .dateTime)
               )
               }
           }"
@@ -1045,6 +1151,8 @@ describe('AppSyncSwiftVisitor', () => {
               case id
               case title
               case author
+              case createdAt
+              case updatedAt
             }
             
             public static let keys = CodingKeys.self
@@ -1062,7 +1170,9 @@ describe('AppSyncSwiftVisitor', () => {
               model.fields(
                 .id(),
                 .field(post.title, is: .required, ofType: .string),
-                .field(post.author, is: .required, ofType: .string)
+                .field(post.author, is: .required, ofType: .string),
+                .field(post.createdAt, is: .optional, ofType: .dateTime),
+                .field(post.updatedAt, is: .optional, ofType: .dateTime)
               )
               }
           }"
@@ -1091,6 +1201,8 @@ describe('AppSyncSwiftVisitor', () => {
               case id
               case title
               case author
+              case createdAt
+              case updatedAt
             }
             
             public static let keys = CodingKeys.self
@@ -1108,7 +1220,9 @@ describe('AppSyncSwiftVisitor', () => {
               model.fields(
                 .id(),
                 .field(post.title, is: .required, ofType: .string),
-                .field(post.author, is: .required, ofType: .string)
+                .field(post.author, is: .required, ofType: .string),
+                .field(post.createdAt, is: .optional, ofType: .dateTime),
+                .field(post.updatedAt, is: .optional, ofType: .dateTime)
               )
               }
           }"
@@ -1137,6 +1251,8 @@ describe('AppSyncSwiftVisitor', () => {
               case id
               case title
               case author
+              case createdAt
+              case updatedAt
             }
             
             public static let keys = CodingKeys.self
@@ -1154,7 +1270,9 @@ describe('AppSyncSwiftVisitor', () => {
               model.fields(
                 .id(),
                 .field(post.title, is: .required, ofType: .string),
-                .field(post.author, is: .required, ofType: .string)
+                .field(post.author, is: .required, ofType: .string),
+                .field(post.createdAt, is: .optional, ofType: .dateTime),
+                .field(post.updatedAt, is: .optional, ofType: .dateTime)
               )
               }
           }"
@@ -1180,6 +1298,8 @@ describe('AppSyncSwiftVisitor', () => {
              public enum CodingKeys: String, ModelKey {
               case id
               case title
+              case createdAt
+              case updatedAt
             }
             
             public static let keys = CodingKeys.self
@@ -1196,7 +1316,9 @@ describe('AppSyncSwiftVisitor', () => {
               
               model.fields(
                 .id(),
-                .field(post.title, is: .required, ofType: .string)
+                .field(post.title, is: .required, ofType: .string),
+                .field(post.createdAt, is: .optional, ofType: .dateTime),
+                .field(post.updatedAt, is: .optional, ofType: .dateTime)
               )
               }
           }"
@@ -1222,6 +1344,8 @@ describe('AppSyncSwiftVisitor', () => {
              public enum CodingKeys: String, ModelKey {
               case id
               case title
+              case createdAt
+              case updatedAt
             }
             
             public static let keys = CodingKeys.self
@@ -1238,7 +1362,9 @@ describe('AppSyncSwiftVisitor', () => {
               
               model.fields(
                 .id(),
-                .field(post.title, is: .required, ofType: .string)
+                .field(post.title, is: .required, ofType: .string),
+                .field(post.createdAt, is: .optional, ofType: .dateTime),
+                .field(post.updatedAt, is: .optional, ofType: .dateTime)
               )
               }
           }"
@@ -1270,6 +1396,8 @@ describe('AppSyncSwiftVisitor', () => {
               case title
               case author
               case editors
+              case createdAt
+              case updatedAt
             }
             
             public static let keys = CodingKeys.self
@@ -1289,7 +1417,9 @@ describe('AppSyncSwiftVisitor', () => {
                 .id(),
                 .field(post.title, is: .required, ofType: .string),
                 .field(post.author, is: .required, ofType: .string),
-                .field(post.editors, is: .required, ofType: .embeddedCollection(of: String.self))
+                .field(post.editors, is: .required, ofType: .embeddedCollection(of: String.self)),
+                .field(post.createdAt, is: .optional, ofType: .dateTime),
+                .field(post.updatedAt, is: .optional, ofType: .dateTime)
               )
               }
           }"
@@ -1319,6 +1449,8 @@ describe('AppSyncSwiftVisitor', () => {
               case name
               case address
               case ssn
+              case createdAt
+              case updatedAt
             }
             
             public static let keys = CodingKeys.self
@@ -1338,7 +1470,9 @@ describe('AppSyncSwiftVisitor', () => {
                 .id(),
                 .field(employee.name, is: .required, ofType: .string),
                 .field(employee.address, is: .required, ofType: .string),
-                .field(employee.ssn, is: .optional, ofType: .string)
+                .field(employee.ssn, is: .optional, ofType: .string),
+                .field(employee.createdAt, is: .optional, ofType: .dateTime),
+                .field(employee.updatedAt, is: .optional, ofType: .dateTime)
               )
               }
           }"
@@ -1367,6 +1501,8 @@ describe('AppSyncSwiftVisitor', () => {
            public enum CodingKeys: String, ModelKey {
             case id
             case title
+            case createdAt
+            case updatedAt
           }
           
           public static let keys = CodingKeys.self
@@ -1383,7 +1519,9 @@ describe('AppSyncSwiftVisitor', () => {
             
             model.fields(
               .id(),
-              .field(post.title, is: .required, ofType: .string)
+              .field(post.title, is: .required, ofType: .string),
+              .field(post.createdAt, is: .optional, ofType: .dateTime),
+              .field(post.updatedAt, is: .optional, ofType: .dateTime)
             )
             }
         }"
@@ -1411,6 +1549,8 @@ describe('AppSyncSwiftVisitor', () => {
             case id
             case title
             case groups
+            case createdAt
+            case updatedAt
           }
           
           public static let keys = CodingKeys.self
@@ -1428,7 +1568,9 @@ describe('AppSyncSwiftVisitor', () => {
             model.fields(
               .id(),
               .field(post.title, is: .required, ofType: .string),
-              .field(post.groups, is: .required, ofType: .embeddedCollection(of: String.self))
+              .field(post.groups, is: .required, ofType: .embeddedCollection(of: String.self)),
+              .field(post.createdAt, is: .optional, ofType: .dateTime),
+              .field(post.updatedAt, is: .optional, ofType: .dateTime)
             )
             }
         }"
@@ -1455,6 +1597,8 @@ describe('AppSyncSwiftVisitor', () => {
            public enum CodingKeys: String, ModelKey {
             case id
             case title
+            case createdAt
+            case updatedAt
           }
           
           public static let keys = CodingKeys.self
@@ -1471,7 +1615,9 @@ describe('AppSyncSwiftVisitor', () => {
             
             model.fields(
               .id(),
-              .field(post.title, is: .required, ofType: .string)
+              .field(post.title, is: .required, ofType: .string),
+              .field(post.createdAt, is: .optional, ofType: .dateTime),
+              .field(post.updatedAt, is: .optional, ofType: .dateTime)
             )
             }
         }"
@@ -1498,6 +1644,8 @@ describe('AppSyncSwiftVisitor', () => {
            public enum CodingKeys: String, ModelKey {
             case id
             case title
+            case createdAt
+            case updatedAt
           }
           
           public static let keys = CodingKeys.self
@@ -1514,7 +1662,9 @@ describe('AppSyncSwiftVisitor', () => {
             
             model.fields(
               .id(),
-              .field(post.title, is: .required, ofType: .string)
+              .field(post.title, is: .required, ofType: .string),
+              .field(post.createdAt, is: .optional, ofType: .dateTime),
+              .field(post.updatedAt, is: .optional, ofType: .dateTime)
             )
             }
         }"
@@ -1551,6 +1701,8 @@ describe('AppSyncSwiftVisitor', () => {
           case id
           case title
           case owner
+          case createdAt
+          case updatedAt
         }
         
         public static let keys = CodingKeys.self
@@ -1569,7 +1721,9 @@ describe('AppSyncSwiftVisitor', () => {
           model.fields(
             .id(),
             .field(post.title, is: .required, ofType: .string),
-            .field(post.owner, is: .required, ofType: .string)
+            .field(post.owner, is: .required, ofType: .string),
+            .field(post.createdAt, is: .optional, ofType: .dateTime),
+            .field(post.updatedAt, is: .optional, ofType: .dateTime)
           )
           }
       }"
