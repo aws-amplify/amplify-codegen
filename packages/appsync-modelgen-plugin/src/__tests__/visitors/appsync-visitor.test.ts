@@ -575,5 +575,36 @@ describe('AppSyncModelVisitor', () => {
       const updatedAtField = postFields.find(field => field.name === 'updatedAt');
       expect(updatedAtField).toMatchObject(updatedAtFieldObj);
     });
+    it('should not override original fields if users define them explicitly in schema and use timestamps params in @model', () => {
+      const schema = /* GraphQL */ `
+        type Post 
+          @model(timestamps: {createdAt: "createdOn", updatedAt: "updatedOn"})
+        {
+          id: ID!
+          createdOn: AWSDateTime!
+          updatedOn: AWSDateTime!
+        }
+      `;
+      const createdAtFieldObj = {
+        name: 'createdOn',
+        type: 'AWSDateTime',
+        isList: false,
+        isNullable: false,
+      };
+      const updatedAtFieldObj = {
+        name: 'updatedOn',
+        type: 'AWSDateTime',
+        isList: false,
+        isNullable: false,
+      };
+      const visitor = createAndGenerateVisitor(schema);
+      expect(visitor.models.Post).toBeDefined();
+
+      const postFields = visitor.models.Post.fields;
+      const createdAtField = postFields.find(field => field.name === 'createdOn');
+      expect(createdAtField).toMatchObject(createdAtFieldObj);
+      const updatedAtField = postFields.find(field => field.name === 'updatedOn');
+      expect(updatedAtField).toMatchObject(updatedAtFieldObj);
+    });
   });
 });

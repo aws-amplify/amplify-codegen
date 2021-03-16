@@ -216,32 +216,7 @@ export class AppSyncModelVisitor<
       this.nonModelMap[node.name.value] = nonModel;
     }
   }
-  /**
-   * Add timestamp fields createdAt, updatedAt(or equivalent fields) to model fields
-   * @param model
-   */
-  protected addTimestampFields(model: CodeGenModel, directive: CodeGenDirective): void {
-    if (directive.name !== 'model') {
-      return;
-    }
-    const timestamps = directive.arguments.timestamps;
-    const createdAtField: CodeGenField = {
-      name: timestamps?.createdAt || DEFAULT_CREATED_TIME,
-      directives: [],
-      type: 'AWSDateTime',
-      isList: false,
-      isNullable: true,
-    };
-    const updatedAtField: CodeGenField = {
-      name: timestamps?.updatedAt || DEFAULT_UPDATED_TIME,
-      directives: [],
-      type: 'AWSDateTime',
-      isList: false,
-      isNullable: true
-    };
-    addFieldToModel(model, createdAtField);
-    addFieldToModel(model, updatedAtField);
-  }
+
   FieldDefinition(node: FieldDefinitionNode): CodeGenField {
     const directive = this.getDirectives(node.directives);
     return {
@@ -527,6 +502,33 @@ export class AppSyncModelVisitor<
 
   protected pluralizeModelName(model: CodeGenModel): string {
     return plural(model.name);
+  }
+
+    /**
+   * Add timestamp fields createdAt, updatedAt(or equivalent fields) to model fields
+   * @param model
+   */
+  protected addTimestampFields(model: CodeGenModel, directive: CodeGenDirective): void {
+    if (directive.name !== 'model') {
+      return;
+    }
+    const timestamps = directive.arguments.timestamps;
+    const createdAtField: CodeGenField = {
+      name: timestamps?.createdAt || DEFAULT_CREATED_TIME,
+      directives: [],
+      type: 'AWSDateTime',
+      isList: false,
+      isNullable: true,
+    };
+    const updatedAtField: CodeGenField = {
+      name: timestamps?.updatedAt || DEFAULT_UPDATED_TIME,
+      directives: [],
+      type: 'AWSDateTime',
+      isList: false,
+      isNullable: true
+    };
+    addFieldToModel(model, createdAtField);
+    addFieldToModel(model, updatedAtField);
   }
 
   get models() {
