@@ -108,14 +108,12 @@ export class AppSyncModelDartVisitor<
       if (modelNames.length) {
         const getModelTypeImplStr = [
           'switch(modelName) {',
-          ...modelNames.map(modelName => {
-            return [
+          ...modelNames.map(modelName => [
               `case "${modelName}": {`,
               `return ${modelName}.classType;`,
               '}',
               'break;'
-            ].join('\n')
-          }),
+            ].join('\n')),
           'default: {',
           'throw Exception("Failed to find model in model provider for model name: " + modelName);',
           '}',
@@ -210,7 +208,7 @@ export class AppSyncModelDartVisitor<
     classDeclarationBlock.addClassMember(
       'classType',
       '',
-      `const ${this.getModelName(model)}Type()`,
+      `const ${this.getModelName(model)}ModelType()`,
       { static: true, const: true }
     );
     //model fields
@@ -249,10 +247,10 @@ export class AppSyncModelDartVisitor<
     const modelName = this.getModelName(model);
     const classDeclarationBlock = new DartDeclarationBlock()
       .asKind('class')
-      .withName(`${modelName}Type`)
+      .withName(`${modelName}ModelType`)
       .extends([`ModelType<${modelName}>`]);
     classDeclarationBlock.addClassMethod(
-      `${modelName}Type`,
+      `${modelName}ModelType`,
       '',
       [],
       ';',
