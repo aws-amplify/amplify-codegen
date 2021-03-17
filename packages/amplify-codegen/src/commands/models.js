@@ -150,7 +150,7 @@ function getAmplifyCLIVersionComment(context) {
   if (context.usageData == null || !context.usageData.version) {
     return null
   }
-  return '// Generated using Amplify CLI version: ' + context.usageData.version;
+  return 'Generated using amplify-cli-version: ' + context.usageData.version;
 }
 
 function generateEslintIgnore(context) {

@@ -138,7 +138,7 @@ describe('command-models adds Amplify CLI version comment', () => {
         fs.readdirSync(outputDirectory).forEach(filename => {
           const data = fs.readFileSync(path.resolve(outputDirectory, filename), {encoding:'utf8', flag:'r'}); 
           // assert version is appended to each of the generated files
-          expect(data === '// Generated using Amplify CLI version: 0.0.0\n\nThis code is auto-generated!');
+          expect(data === '// Generated using amplify-cli-version: 0.0.0\n\nThis code is auto-generated!');
         });
     });
 
