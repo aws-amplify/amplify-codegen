@@ -58,7 +58,7 @@ async function generateModels(context) {
     schema,
     config: {
       target: platformToLanguageMap[projectConfig.frontend] || projectConfig.frontend,
-      directives: directiveDefinitions,
+      directives: directiveDefinitions
     },
   });
 
@@ -87,7 +87,8 @@ async function generateModels(context) {
   appsyncLocalConfig.forEach((cfg, idx) => {
     const outPutPath = cfg.filename;
     fs.ensureFileSync(outPutPath);
-    fs.writeFileSync(outPutPath, generatedCode[idx]);
+    const contentToWrite = [getAmplifyCLIVersionComment(context), generatedCode[idx]].join('\n\n');
+    fs.writeFileSync(outPutPath, contentToWrite);
   });
 
   generateEslintIgnore(context);
@@ -143,6 +144,13 @@ function getModelOutputPath(context) {
     default:
       return '.';
   }
+}
+
+function getAmplifyCLIVersionComment(context) {
+  if (context.usageData == null || !context.usageData.version) {
+    return null
+  }
+  return '// Generated using Amplify CLI version: ' + context.usageData.version;
 }
 
 function generateEslintIgnore(context) {

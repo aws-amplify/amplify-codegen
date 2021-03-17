@@ -19,10 +19,13 @@ const MOCK_CONTEXT = {
     },
     getProjectConfig: jest.fn()
   },
+  usageData: {
+    version: '0.0.0'
+  }
 };
 const OUTPUT_PATHS = {
-    javascript: 'src',
-    android: 'app/src/main/java',
+    javascript: 'src/models',
+    android: 'app/src/main/java/com/amplifyframework/datastore/generated/model',
     ios: 'amplify/generated/models',
     flutter: 'lib/models'
 };
@@ -108,13 +111,132 @@ describe('command-models-generates models in expected output path', () => {
     afterEach(mockFs.restore);
 });
 
-describe('codegen models respects cleanGeneratedModelsDirectory', () => {
+describe('command-models adds Amplify CLI version comment', () => {
   beforeEach(() => {
     jest.resetAllMocks();
     addMocksToContext();
     graphqlCodegen.codegen.mockReturnValue(MOCK_GENERATED_CODE);
   });
 
+  for (const frontend in OUTPUT_PATHS) {
+    it(frontend + ': Should append cli version comment to generated files', async () => {
+        const outputDirectory = path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend]);
+        createMockFS(outputDirectory);
+        MOCK_CONTEXT.amplify.getProjectConfig.mockReturnValue({frontend: frontend});
+
+        // assert empty folder before generation
+        expect(fs.readdirSync(outputDirectory).length).toEqual(0);
+
+        await generateModels(MOCK_CONTEXT);
+
+        // assert model generation succeeds with a single schema file
+        expect(graphqlCodegen.codegen).toBeCalled();
+
+        // assert model files are generated in expected output directory
+        expect(fs.readdirSync(outputDirectory).length).toBeGreaterThan(0);
+
+        fs.readdirSync(outputDirectory).forEach(filename => {
+          const data = fs.readFileSync(path.resolve(outputDirectory, filename), {encoding:'utf8', flag:'r'}); 
+          // assert version is appended to each of the generated files
+          expect(data === '// Generated using Amplify CLI version: 0.0.0\n\nThis code is auto-generated!');
+        });
+    });
+
+    it(frontend + ': Should not break codegen if cli version is not available', async () => {
+      const outputDirectory = path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend]);
+      createMockFS(outputDirectory);
+      MOCK_CONTEXT.amplify.getProjectConfig.mockReturnValue({frontend: frontend});
+      MOCK_CONTEXT.usageData = null;
+
+      // assert empty folder before generation
+      expect(fs.readdirSync(outputDirectory).length).toEqual(0);
+
+      await generateModels(MOCK_CONTEXT);
+
+      // assert model generation succeeds with a single schema file
+      expect(graphqlCodegen.codegen).toBeCalled();
+
+      // assert model files are generated in expected output directory
+      expect(fs.readdirSync(outputDirectory).length).toBeGreaterThan(0);
+
+      fs.readdirSync(outputDirectory).forEach(filename => {
+        const data = fs.readFileSync(path.resolve(outputDirectory, filename), {encoding:'utf8', flag:'r'}); 
+        // assert version is not appended to any of the generated files
+        expect(data === 'This code is auto-generated!');
+      });
+    });
+
+    it(frontend + ': Handle empty cli version string', async () => {
+      const outputDirectory = path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend]);
+      createMockFS(outputDirectory);
+      MOCK_CONTEXT.amplify.getProjectConfig.mockReturnValue({frontend: frontend});
+      MOCK_CONTEXT.usageData = {version: ''};
+
+      // assert empty folder before generation
+      expect(fs.readdirSync(outputDirectory).length).toEqual(0);
+
+      await generateModels(MOCK_CONTEXT);
+
+      // assert model generation succeeds with a single schema file
+      expect(graphqlCodegen.codegen).toBeCalled();
+
+      // assert model files are generated in expected output directory
+      expect(fs.readdirSync(outputDirectory).length).toBeGreaterThan(0);
+
+      fs.readdirSync(outputDirectory).forEach(filename => {
+        const data = fs.readFileSync(path.resolve(outputDirectory, filename), {encoding:'utf8', flag:'r'}); 
+        // assert version is not appended to any of the generated files
+        expect(data === 'This code is auto-generated!');
+      });
+    });
+
+    it(frontend + ': Handle undefined cli version string', async () => {
+      const outputDirectory = path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend]);
+      createMockFS(outputDirectory);
+      MOCK_CONTEXT.amplify.getProjectConfig.mockReturnValue({frontend: frontend});
+      MOCK_CONTEXT.usageData = {version: undefined};
+
+      // assert empty folder before generation
+      expect(fs.readdirSync(outputDirectory).length).toEqual(0);
+
+      await generateModels(MOCK_CONTEXT);
+
+      // assert model generation succeeds with a single schema file
+      expect(graphqlCodegen.codegen).toBeCalled();
+
+      // assert model files are generated in expected output directory
+      expect(fs.readdirSync(outputDirectory).length).toBeGreaterThan(0);
+
+      fs.readdirSync(outputDirectory).forEach(filename => {
+        const data = fs.readFileSync(path.resolve(outputDirectory, filename), {encoding:'utf8', flag:'r'}); 
+        // assert version is not appended to any of the generated files
+        expect(data === 'This code is auto-generated!');
+      });
+    });
+
+    function createMockFS(outputDirectory) {
+      // mock the input and output file structure
+      const schemaFilePath = path.join(MOCK_BACKEND_DIRECTORY, 'api', MOCK_PROJECT_NAME);
+      const mockedFiles = {};
+      mockedFiles[schemaFilePath] = {
+          'schema.graphql': ' type SimpleModel { id: ID! status: String } '
+      };
+      mockedFiles[outputDirectory] = {};
+      mockFs(mockedFiles);
+    }
+  };
+
+  afterEach(mockFs.restore);
+});
+
+/*
+describe('codegen models respects cleanGeneratedModelsDirectory', () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+    addMocksToContext();
+    graphqlCodegen.codegen.mockReturnValue(MOCK_GENERATED_CODE);
+  });
+ 
   for (const frontend in OUTPUT_PATHS) {
     it(frontend + ': Should clear the output directory before generation if cleanGeneratedModelsDirectory is true', async () => {
       MOCK_CONTEXT.amplify.getProjectConfig.mockReturnValue({frontend: frontend});
@@ -165,13 +287,13 @@ describe('codegen models respects cleanGeneratedModelsDirectory', () => {
       expect(fs.existsSync(preExistingFilePath));
 
       await generateModels(MOCK_CONTEXT);
-
+ 
       // assert model generation succeeds
       expect(graphqlCodegen.codegen).toBeCalled();
-
+ 
       // assert that codegen generated in correct place
       expect(fs.readdirSync(outputDirectory).length).toBeGreaterThan(1);
-
+ 
       // assert that the pre-existing file is retained
       expect(fs.existsSync(preExistingFilePath)).toBeTruthy;
     });
@@ -191,8 +313,10 @@ describe('codegen models respects cleanGeneratedModelsDirectory', () => {
   
   afterEach(mockFs.restore);
 }); 
+*/
 
 // Add models generation specific mocks to Amplify Context
+
 function addMocksToContext() {
   MOCK_CONTEXT.amplify.getEnvInfo.mockReturnValue({projectPath: MOCK_PROJECT_ROOT});
   MOCK_CONTEXT.amplify.getResourceStatus.mockReturnValue(
