@@ -76,7 +76,7 @@ import 'package:flutter/foundation.dart';
 /** This is an auto generated class representing the SimpleModel type in your schema. */
 @immutable
 class SimpleModel extends Model {
-  static const classType = const SimpleModelModelType();
+  static const classType = const _SimpleModelModelType();
   final String id;
   final Status status;
 
@@ -146,8 +146,8 @@ class SimpleModel extends Model {
   });
 }
 
-class SimpleModelModelType extends ModelType<SimpleModel> {
-  const SimpleModelModelType();
+class _SimpleModelModelType extends ModelType<SimpleModel> {
+  const _SimpleModelModelType();
 
   @override
   SimpleModel fromJson(Map<String, dynamic> jsonData) {
@@ -204,7 +204,7 @@ import 'package:flutter/foundation.dart';
 /** This is an auto generated class representing the TemporalTimeModel type in your schema. */
 @immutable
 class TemporalTimeModel extends Model {
-  static const classType = const TemporalTimeModelModelType();
+  static const classType = const _TemporalTimeModelModelType();
   final String id;
   final TemporalDate date;
   final TemporalTime time;
@@ -456,8 +456,8 @@ class TemporalTimeModel extends Model {
   });
 }
 
-class TemporalTimeModelModelType extends ModelType<TemporalTimeModel> {
-  const TemporalTimeModelModelType();
+class _TemporalTimeModelModelType extends ModelType<TemporalTimeModel> {
+  const _TemporalTimeModelModelType();
 
   @override
   TemporalTimeModel fromJson(Map<String, dynamic> jsonData) {
@@ -493,7 +493,7 @@ import 'package:flutter/foundation.dart';
 /** This is an auto generated class representing the TestEnumModel type in your schema. */
 @immutable
 class TestEnumModel extends Model {
-  static const classType = const TestEnumModelModelType();
+  static const classType = const _TestEnumModelModelType();
   final String id;
   final TestEnum enumVal;
   final TestEnum nullableEnumVal;
@@ -708,8 +708,8 @@ class TestEnumModel extends Model {
   });
 }
 
-class TestEnumModelModelType extends ModelType<TestEnumModel> {
-  const TestEnumModelModelType();
+class _TestEnumModelModelType extends ModelType<TestEnumModel> {
+  const _TestEnumModelModelType();
 
   @override
   TestEnumModel fromJson(Map<String, dynamic> jsonData) {
@@ -744,7 +744,7 @@ import 'package:flutter/foundation.dart';
 /** This is an auto generated class representing the TestModel type in your schema. */
 @immutable
 class TestModel extends Model {
-  static const classType = const TestModelModelType();
+  static const classType = const _TestModelModelType();
   final String id;
   final double floatVal;
   final double floatNullableVal;
@@ -943,8 +943,8 @@ class TestModel extends Model {
   });
 }
 
-class TestModelModelType extends ModelType<TestModel> {
-  const TestModelModelType();
+class _TestModelModelType extends ModelType<TestModel> {
+  const _TestModelModelType();
 
   @override
   TestModel fromJson(Map<String, dynamic> jsonData) {
@@ -978,7 +978,7 @@ import 'package:flutter/foundation.dart';
 /** This is an auto generated class representing the SimpleModel type in your schema. */
 @immutable
 class SimpleModel extends Model {
-  static const classType = const SimpleModelModelType();
+  static const classType = const _SimpleModelModelType();
   final String id;
   final String name;
   final String bar;
@@ -1061,8 +1061,8 @@ class SimpleModel extends Model {
   });
 }
 
-class SimpleModelModelType extends ModelType<SimpleModel> {
-  const SimpleModelModelType();
+class _SimpleModelModelType extends ModelType<SimpleModel> {
+  const _SimpleModelModelType();
 
   @override
   SimpleModel fromJson(Map<String, dynamic> jsonData) {
@@ -1096,7 +1096,7 @@ import 'package:flutter/foundation.dart';
 /** This is an auto generated class representing the SimpleModel type in your schema. */
 @immutable
 class SimpleModel extends Model {
-  static const classType = const SimpleModelModelType();
+  static const classType = const _SimpleModelModelType();
   final String id;
   final String name;
   final String bar;
@@ -1179,8 +1179,8 @@ class SimpleModel extends Model {
   });
 }
 
-class SimpleModelModelType extends ModelType<SimpleModel> {
-  const SimpleModelModelType();
+class _SimpleModelModelType extends ModelType<SimpleModel> {
+  const _SimpleModelModelType();
 
   @override
   SimpleModel fromJson(Map<String, dynamic> jsonData) {
@@ -1214,7 +1214,7 @@ import 'package:flutter/foundation.dart';
 /** This is an auto generated class representing the customClaim type in your schema. */
 @immutable
 class customClaim extends Model {
-  static const classType = const customClaimModelType();
+  static const classType = const _customClaimModelType();
   final String id;
   final String name;
   final String bar;
@@ -1310,8 +1310,8 @@ class customClaim extends Model {
   });
 }
 
-class customClaimModelType extends ModelType<customClaim> {
-  const customClaimModelType();
+class _customClaimModelType extends ModelType<customClaim> {
+  const _customClaimModelType();
 
   @override
   customClaim fromJson(Map<String, dynamic> jsonData) {
@@ -1345,7 +1345,7 @@ import 'package:flutter/foundation.dart';
 /** This is an auto generated class representing the customClaim type in your schema. */
 @immutable
 class customClaim extends Model {
-  static const classType = const customClaimModelType();
+  static const classType = const _customClaimModelType();
   final String id;
   final String name;
   final String bar;
@@ -1443,8 +1443,8 @@ class customClaim extends Model {
   });
 }
 
-class customClaimModelType extends ModelType<customClaim> {
-  const customClaimModelType();
+class _customClaimModelType extends ModelType<customClaim> {
+  const _customClaimModelType();
 
   @override
   customClaim fromJson(Map<String, dynamic> jsonData) {
@@ -1478,7 +1478,7 @@ import 'package:flutter/foundation.dart';
 /** This is an auto generated class representing the dynamicGroups type in your schema. */
 @immutable
 class dynamicGroups extends Model {
-  static const classType = const dynamicGroupsModelType();
+  static const classType = const _dynamicGroupsModelType();
   final String id;
   final String name;
   final String bar;
@@ -1574,8 +1574,8 @@ class dynamicGroups extends Model {
   });
 }
 
-class dynamicGroupsModelType extends ModelType<dynamicGroups> {
-  const dynamicGroupsModelType();
+class _dynamicGroupsModelType extends ModelType<dynamicGroups> {
+  const _dynamicGroupsModelType();
 
   @override
   dynamicGroups fromJson(Map<String, dynamic> jsonData) {
@@ -1609,7 +1609,7 @@ import 'package:flutter/foundation.dart';
 /** This is an auto generated class representing the simpleOwnerAuth type in your schema. */
 @immutable
 class simpleOwnerAuth extends Model {
-  static const classType = const simpleOwnerAuthModelType();
+  static const classType = const _simpleOwnerAuthModelType();
   final String id;
   final String name;
   final String bar;
@@ -1705,8 +1705,8 @@ class simpleOwnerAuth extends Model {
   });
 }
 
-class simpleOwnerAuthModelType extends ModelType<simpleOwnerAuth> {
-  const simpleOwnerAuthModelType();
+class _simpleOwnerAuthModelType extends ModelType<simpleOwnerAuth> {
+  const _simpleOwnerAuthModelType();
 
   @override
   simpleOwnerAuth fromJson(Map<String, dynamic> jsonData) {
@@ -1740,7 +1740,7 @@ import 'package:flutter/foundation.dart';
 /** This is an auto generated class representing the allowRead type in your schema. */
 @immutable
 class allowRead extends Model {
-  static const classType = const allowReadModelType();
+  static const classType = const _allowReadModelType();
   final String id;
   final String name;
   final String bar;
@@ -1835,8 +1835,8 @@ class allowRead extends Model {
   });
 }
 
-class allowReadModelType extends ModelType<allowRead> {
-  const allowReadModelType();
+class _allowReadModelType extends ModelType<allowRead> {
+  const _allowReadModelType();
 
   @override
   allowRead fromJson(Map<String, dynamic> jsonData) {
@@ -1870,7 +1870,7 @@ import 'package:flutter/foundation.dart';
 /** This is an auto generated class representing the privateType type in your schema. */
 @immutable
 class privateType extends Model {
-  static const classType = const privateTypeModelType();
+  static const classType = const _privateTypeModelType();
   final String id;
   final String name;
   final String bar;
@@ -1962,8 +1962,8 @@ class privateType extends Model {
   });
 }
 
-class privateTypeModelType extends ModelType<privateType> {
-  const privateTypeModelType();
+class _privateTypeModelType extends ModelType<privateType> {
+  const _privateTypeModelType();
 
   @override
   privateType fromJson(Map<String, dynamic> jsonData) {
@@ -1997,7 +1997,7 @@ import 'package:flutter/foundation.dart';
 /** This is an auto generated class representing the publicType type in your schema. */
 @immutable
 class publicType extends Model {
-  static const classType = const publicTypeModelType();
+  static const classType = const _publicTypeModelType();
   final String id;
   final String name;
   final String bar;
@@ -2089,8 +2089,8 @@ class publicType extends Model {
   });
 }
 
-class publicTypeModelType extends ModelType<publicType> {
-  const publicTypeModelType();
+class _publicTypeModelType extends ModelType<publicType> {
+  const _publicTypeModelType();
 
   @override
   publicType fromJson(Map<String, dynamic> jsonData) {
@@ -2124,7 +2124,7 @@ import 'package:flutter/foundation.dart';
 /** This is an auto generated class representing the staticGroups type in your schema. */
 @immutable
 class staticGroups extends Model {
-  static const classType = const staticGroupsModelType();
+  static const classType = const _staticGroupsModelType();
   final String id;
   final String name;
   final String bar;
@@ -2222,8 +2222,8 @@ class staticGroups extends Model {
   });
 }
 
-class staticGroupsModelType extends ModelType<staticGroups> {
-  const staticGroupsModelType();
+class _staticGroupsModelType extends ModelType<staticGroups> {
+  const _staticGroupsModelType();
 
   @override
   staticGroups fromJson(Map<String, dynamic> jsonData) {
@@ -2257,7 +2257,7 @@ import 'package:flutter/foundation.dart';
 /** This is an auto generated class representing the Post type in your schema. */
 @immutable
 class Post extends Model {
-  static const classType = const PostModelType();
+  static const classType = const _PostModelType();
   final String id;
   final String title;
   final String author;
@@ -2356,8 +2356,8 @@ class Post extends Model {
   });
 }
 
-class PostModelType extends ModelType<Post> {
-  const PostModelType();
+class _PostModelType extends ModelType<Post> {
+  const _PostModelType();
 
   @override
   Post fromJson(Map<String, dynamic> jsonData) {
@@ -2391,7 +2391,7 @@ import 'package:flutter/foundation.dart';
 /** This is an auto generated class representing the Post type in your schema. */
 @immutable
 class Post extends Model {
-  static const classType = const PostModelType();
+  static const classType = const _PostModelType();
   final String id;
   final String title;
   final String owner;
@@ -2503,8 +2503,8 @@ class Post extends Model {
   });
 }
 
-class PostModelType extends ModelType<Post> {
-  const PostModelType();
+class _PostModelType extends ModelType<Post> {
+  const _PostModelType();
 
   @override
   Post fromJson(Map<String, dynamic> jsonData) {
@@ -2540,7 +2540,7 @@ import 'package:flutter/foundation.dart';
 /** This is an auto generated class representing the Todo type in your schema. */
 @immutable
 class Todo extends Model {
-  static const classType = const TodoModelType();
+  static const classType = const _TodoModelType();
   final String id;
   final List<Task> tasks;
 
@@ -2621,8 +2621,8 @@ class Todo extends Model {
   });
 }
 
-class TodoModelType extends ModelType<Todo> {
-  const TodoModelType();
+class _TodoModelType extends ModelType<Todo> {
+  const _TodoModelType();
 
   @override
   Todo fromJson(Map<String, dynamic> jsonData) {
@@ -2657,7 +2657,7 @@ import 'package:flutter/foundation.dart';
 /** This is an auto generated class representing the Task type in your schema. */
 @immutable
 class Task extends Model {
-  static const classType = const TaskModelType();
+  static const classType = const _TaskModelType();
   final String id;
   final Todo todo;
 
@@ -2732,8 +2732,8 @@ class Task extends Model {
   });
 }
 
-class TaskModelType extends ModelType<Task> {
-  const TaskModelType();
+class _TaskModelType extends ModelType<Task> {
+  const _TaskModelType();
 
   @override
   Task fromJson(Map<String, dynamic> jsonData) {
@@ -2769,7 +2769,7 @@ import 'package:flutter/foundation.dart';
 /** This is an auto generated class representing the Blog type in your schema. */
 @immutable
 class Blog extends Model {
-  static const classType = const BlogModelType();
+  static const classType = const _BlogModelType();
   final String id;
   final String name;
   final List<Post> posts;
@@ -2884,8 +2884,8 @@ class Blog extends Model {
   });
 }
 
-class BlogModelType extends ModelType<Blog> {
-  const BlogModelType();
+class _BlogModelType extends ModelType<Blog> {
+  const _BlogModelType();
 
   @override
   Blog fromJson(Map<String, dynamic> jsonData) {
@@ -2920,7 +2920,7 @@ import 'package:flutter/foundation.dart';
 /** This is an auto generated class representing the Comment type in your schema. */
 @immutable
 class Comment extends Model {
-  static const classType = const CommentModelType();
+  static const classType = const _CommentModelType();
   final String id;
   final Post post;
   final String content;
@@ -3013,8 +3013,8 @@ class Comment extends Model {
   });
 }
 
-class CommentModelType extends ModelType<Comment> {
-  const CommentModelType();
+class _CommentModelType extends ModelType<Comment> {
+  const _CommentModelType();
 
   @override
   Comment fromJson(Map<String, dynamic> jsonData) {
@@ -3050,7 +3050,7 @@ import 'package:flutter/foundation.dart';
 /** This is an auto generated class representing the Post type in your schema. */
 @immutable
 class Post extends Model {
-  static const classType = const PostModelType();
+  static const classType = const _PostModelType();
   final String id;
   final String title;
   final Blog blog;
@@ -3169,8 +3169,8 @@ class Post extends Model {
   });
 }
 
-class PostModelType extends ModelType<Post> {
-  const PostModelType();
+class _PostModelType extends ModelType<Post> {
+  const _PostModelType();
 
   @override
   Post fromJson(Map<String, dynamic> jsonData) {
@@ -3204,7 +3204,7 @@ import 'package:flutter/foundation.dart';
 /** This is an auto generated class representing the authorBook type in your schema. */
 @immutable
 class authorBook extends Model {
-  static const classType = const authorBookModelType();
+  static const classType = const _authorBookModelType();
   final String id;
   final String author_id;
   final String book_id;
@@ -3336,8 +3336,8 @@ class authorBook extends Model {
   });
 }
 
-class authorBookModelType extends ModelType<authorBook> {
-  const authorBookModelType();
+class _authorBookModelType extends ModelType<authorBook> {
+  const _authorBookModelType();
 
   @override
   authorBook fromJson(Map<String, dynamic> jsonData) {

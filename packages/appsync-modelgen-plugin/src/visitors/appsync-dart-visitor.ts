@@ -208,7 +208,7 @@ export class AppSyncModelDartVisitor<
     classDeclarationBlock.addClassMember(
       'classType',
       '',
-      `const ${this.getModelName(model)}ModelType()`,
+      `const _${this.getModelName(model)}ModelType()`,
       { static: true, const: true }
     );
     //model fields
@@ -247,10 +247,10 @@ export class AppSyncModelDartVisitor<
     const modelName = this.getModelName(model);
     const classDeclarationBlock = new DartDeclarationBlock()
       .asKind('class')
-      .withName(`${modelName}ModelType`)
+      .withName(`_${modelName}ModelType`)
       .extends([`ModelType<${modelName}>`]);
     classDeclarationBlock.addClassMethod(
-      `${modelName}ModelType`,
+      `_${modelName}ModelType`,
       '',
       [],
       ';',
