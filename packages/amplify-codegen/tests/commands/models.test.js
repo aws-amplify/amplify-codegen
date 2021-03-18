@@ -74,9 +74,7 @@ describe('command-models-generates models in expected output path', () => {
 
       // assert empty folder before generation
       expect(fs.readdirSync(outputDirectory).length).toEqual(0);
-
       await generateModels(MOCK_CONTEXT);
-
       // assert model generation succeeds with a single schema file
       expect(graphqlCodegen.codegen).toBeCalled();
 
@@ -115,20 +113,20 @@ describe('command-models-generates models in expected output path', () => {
 describe('command-models adds Amplify CLI version comment', () => {
   beforeEach(() => {
     jest.resetAllMocks();
-    addMocksToContext();
     graphqlCodegen.codegen.mockReturnValue(MOCK_GENERATED_CODE);
   });
 
   for (const frontend in OUTPUT_PATHS) {
-    it(frontend + ': Should append cli version comment to generated files', async () => {
+    it(frontend + ': Should append version metadata comment to generated files', async () => {
         const outputDirectory = path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend]);
         createMockFS(outputDirectory);
-        MOCK_CONTEXT.amplify.getProjectConfig.mockReturnValue({frontend: frontend});
-
+        const context = createMockContext();
+        addMocksToContext(context, frontend);
+        
         // assert empty folder before generation
         expect(fs.readdirSync(outputDirectory).length).toEqual(0);
 
-        await generateModels(MOCK_CONTEXT);
+        await generateModels(context);
 
         // assert model generation succeeds with a single schema file
         expect(graphqlCodegen.codegen).toBeCalled();
@@ -139,20 +137,22 @@ describe('command-models adds Amplify CLI version comment', () => {
         fs.readdirSync(outputDirectory).forEach(filename => {
           const data = fs.readFileSync(path.resolve(outputDirectory, filename), {encoding:'utf8', flag:'r'}); 
           // assert version is appended to each of the generated files
-          expect(data === '// Generated using amplify-cli-version: 0.0.0\n\nThis code is auto-generated!');
+          expect(data).toEqual('// Generated using amplify-cli-version: 0.0.0, amplify-codegen-version: 100.100.100\n\nThis code is auto-generated!');
         });
     });
 
-    it(frontend + ': Should not break codegen if cli version is not available', async () => {
+    it(frontend + ': Should not break codegen if no version metadata is available', async () => {
       const outputDirectory = path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend]);
       createMockFS(outputDirectory);
-      MOCK_CONTEXT.amplify.getProjectConfig.mockReturnValue({frontend: frontend});
-      MOCK_CONTEXT.usageData = null;
+      const context = createMockContext();
+      addMocksToContext(context, frontend);
+      context.usageData = null;
+      context.pluginPlatform = null;
 
       // assert empty folder before generation
       expect(fs.readdirSync(outputDirectory).length).toEqual(0);
 
-      await generateModels(MOCK_CONTEXT);
+      await generateModels(context);
 
       // assert model generation succeeds with a single schema file
       expect(graphqlCodegen.codegen).toBeCalled();
@@ -163,20 +163,21 @@ describe('command-models adds Amplify CLI version comment', () => {
       fs.readdirSync(outputDirectory).forEach(filename => {
         const data = fs.readFileSync(path.resolve(outputDirectory, filename), {encoding:'utf8', flag:'r'}); 
         // assert version is not appended to any of the generated files
-        expect(data === 'This code is auto-generated!');
+        expect(data).toEqual('This code is auto-generated!');
       });
     });
 
     it(frontend + ': Handle empty cli version string', async () => {
       const outputDirectory = path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend]);
       createMockFS(outputDirectory);
-      MOCK_CONTEXT.amplify.getProjectConfig.mockReturnValue({frontend: frontend});
-      MOCK_CONTEXT.usageData = {version: ''};
+      const context = createMockContext();
+      addMocksToContext(context, frontend);
+      context.usageData = {version: ''};
 
       // assert empty folder before generation
       expect(fs.readdirSync(outputDirectory).length).toEqual(0);
 
-      await generateModels(MOCK_CONTEXT);
+      await generateModels(context);
 
       // assert model generation succeeds with a single schema file
       expect(graphqlCodegen.codegen).toBeCalled();
@@ -187,20 +188,21 @@ describe('command-models adds Amplify CLI version comment', () => {
       fs.readdirSync(outputDirectory).forEach(filename => {
         const data = fs.readFileSync(path.resolve(outputDirectory, filename), {encoding:'utf8', flag:'r'}); 
         // assert version is not appended to any of the generated files
-        expect(data === 'This code is auto-generated!');
+        expect(data).toEqual('// Generated using amplify-codegen-version: 100.100.100\n\nThis code is auto-generated!');
       });
     });
 
     it(frontend + ': Handle undefined cli version string', async () => {
       const outputDirectory = path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend]);
       createMockFS(outputDirectory);
-      MOCK_CONTEXT.amplify.getProjectConfig.mockReturnValue({frontend: frontend});
-      MOCK_CONTEXT.usageData = {version: undefined};
+      const context = createMockContext();
+      addMocksToContext(context, frontend);
+      context.usageData = {version: undefined};
 
       // assert empty folder before generation
       expect(fs.readdirSync(outputDirectory).length).toEqual(0);
 
-      await generateModels(MOCK_CONTEXT);
+      await generateModels(context);
 
       // assert model generation succeeds with a single schema file
       expect(graphqlCodegen.codegen).toBeCalled();
@@ -211,7 +213,90 @@ describe('command-models adds Amplify CLI version comment', () => {
       fs.readdirSync(outputDirectory).forEach(filename => {
         const data = fs.readFileSync(path.resolve(outputDirectory, filename), {encoding:'utf8', flag:'r'}); 
         // assert version is not appended to any of the generated files
-        expect(data === 'This code is auto-generated!');
+        expect(data).toEqual('// Generated using amplify-codegen-version: 100.100.100\n\nThis code is auto-generated!');
+      });
+    });
+
+    it(frontend + ': Handle empty codegen version string', async () => {
+      const outputDirectory = path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend]);
+      createMockFS(outputDirectory);
+      const context = createMockContext();
+      addMocksToContext(context, frontend);
+      context.pluginPlatform.plugins.codegen = {
+        packageName: 'amplify-codegen',
+        packageVersion: '',
+        packageLocation: '/path/to/global/node/modules'
+      };
+
+      // assert empty folder before generation
+      expect(fs.readdirSync(outputDirectory).length).toEqual(0);
+
+      await generateModels(context);
+
+      // assert model generation succeeds with a single schema file
+      expect(graphqlCodegen.codegen).toBeCalled();
+
+      // assert model files are generated in expected output directory
+      expect(fs.readdirSync(outputDirectory).length).toBeGreaterThan(0);
+
+      fs.readdirSync(outputDirectory).forEach(filename => {
+        const data = fs.readFileSync(path.resolve(outputDirectory, filename), {encoding:'utf8', flag:'r'}); 
+        // assert version is not appended to any of the generated files
+        expect(data).toEqual('// Generated using amplify-cli-version: 0.0.0\n\nThis code is auto-generated!');
+      });
+    });
+
+    it(frontend + ': Handle undefined codegen version string', async () => {
+      const outputDirectory = path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend]);
+      createMockFS(outputDirectory);
+      const context = createMockContext();
+      addMocksToContext(context, frontend);
+      context.pluginPlatform.plugins.codegen = {
+        packageName: 'amplify-codegen',
+        packageVersion: undefined,
+        packageLocation: '/path/to/global/node/modules'
+      };
+
+      // assert empty folder before generation
+      expect(fs.readdirSync(outputDirectory).length).toEqual(0);
+
+      await generateModels(context);
+
+      // assert model generation succeeds with a single schema file
+      expect(graphqlCodegen.codegen).toBeCalled();
+
+      // assert model files are generated in expected output directory
+      expect(fs.readdirSync(outputDirectory).length).toBeGreaterThan(0);
+
+      fs.readdirSync(outputDirectory).forEach(filename => {
+        const data = fs.readFileSync(path.resolve(outputDirectory, filename), {encoding:'utf8', flag:'r'}); 
+        // assert version is not appended to any of the generated files
+        expect(data).toEqual('// Generated using amplify-cli-version: 0.0.0\n\nThis code is auto-generated!');
+      });
+    });
+
+    it(frontend + ': Handle empty codegen plugins array in context', async () => {
+      const outputDirectory = path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend]);
+      createMockFS(outputDirectory);
+      const context = createMockContext();
+      addMocksToContext(context, frontend);
+      context.pluginPlatform.plugins.codegen = [];
+
+      // assert empty folder before generation
+      expect(fs.readdirSync(outputDirectory).length).toEqual(0);
+
+      await generateModels(context);
+
+      // assert model generation succeeds with a single schema file
+      expect(graphqlCodegen.codegen).toBeCalled();
+
+      // assert model files are generated in expected output directory
+      expect(fs.readdirSync(outputDirectory).length).toBeGreaterThan(0);
+
+      fs.readdirSync(outputDirectory).forEach(filename => {
+        const data = fs.readFileSync(path.resolve(outputDirectory, filename), {encoding:'utf8', flag:'r'}); 
+        // assert version is not appended to any of the generated files
+        expect(data).toEqual('// Generated using amplify-cli-version: 0.0.0\n\nThis code is auto-generated!');
       });
     });
 
@@ -316,18 +401,54 @@ describe('codegen models respects cleanGeneratedModelsDirectory', () => {
 */
 
 // Add models generation specific mocks to Amplify Context
+function addMocksToContext(context, frontend) {
+  context.amplify.getEnvInfo.mockReturnValue({projectPath: MOCK_PROJECT_ROOT});
+  context.amplify.getResourceStatus.mockReturnValue(
+        {
+          allResources: [
+              {
+                  service: 'AppSync', 
+                  providerPlugin: 'awscloudformation',
+                  resourceName: MOCK_PROJECT_NAME
+                }
+            ]
+        }
+    );
+  context.amplify.executeProviderUtils.mockReturnValue([]);
+  context.amplify.pathManager.getBackendDirPath.mockReturnValue(MOCK_BACKEND_DIRECTORY);
+  context.amplify.getProjectConfig.mockReturnValue({frontend: frontend});
+}
 
-function addMocksToContext() {
-  MOCK_CONTEXT.amplify.getEnvInfo.mockReturnValue({ projectPath: MOCK_PROJECT_ROOT });
-  MOCK_CONTEXT.amplify.getResourceStatus.mockReturnValue({
-    allResources: [
-      {
-        service: 'AppSync',
-        providerPlugin: 'awscloudformation',
-        resourceName: MOCK_PROJECT_NAME,
+// Create a mock Amplify context which can be customized by each test
+function createMockContext() {
+  const MOCK_CONTEXT = {
+    print: {
+      info: jest.fn(),
+    },
+    amplify: {
+      getProjectMeta: jest.fn(),
+      getEnvInfo: jest.fn(),
+      getResourceStatus: jest.fn(),
+      executeProviderUtils: jest.fn(),
+      pathManager: {
+          getBackendDirPath: jest.fn()
       },
-    ],
-  });
-  MOCK_CONTEXT.amplify.executeProviderUtils.mockReturnValue([]);
-  MOCK_CONTEXT.amplify.pathManager.getBackendDirPath.mockReturnValue(MOCK_BACKEND_DIRECTORY);
+      getProjectConfig: jest.fn()
+    },
+    usageData: {
+      version: '0.0.0'
+    },
+    pluginPlatform: {
+      plugins: {
+        codegen: [
+          {
+            packageName: 'amplify-codegen',
+            packageVersion: '100.100.100',
+            packageLocation: '/path/to/global/node/modules'
+          }
+        ]
+      }
+    }
+  };
+  return MOCK_CONTEXT;
 }
