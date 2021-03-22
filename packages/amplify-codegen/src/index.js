@@ -1,4 +1,5 @@
 const generateTypes = require('./commands/types');
+const generateTypesWithPlugin = require('@aws-amplify/amplify-codegen-core');
 const generateStatements = require('./commands/statements');
 const generate = require('./commands/generateStatementsAndType');
 const add = require('./commands/add');
@@ -12,6 +13,7 @@ const postPushGraphQLCodegenHook = require('./callbacks/postPushCallback');
 const { executeAmplifyCommand, handleAmplifyEvent } = require('./amplify-plugin-index');
 
 module.exports = {
+  generateTypesWithPlugin,
   configure,
   generate,
   generateTypes,
