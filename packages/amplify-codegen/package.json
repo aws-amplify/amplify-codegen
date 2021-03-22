@@ -20,6 +20,7 @@
     "test-watch": "jest --watch"
   },
   "dependencies": {
+    "@aws-amplify/amplify-codegen-core": "1.22.10",
     "@aws-amplify/appsync-modelgen-plugin": "1.22.10",
     "@aws-amplify/graphql-docs-generator": "2.3.3",
     "@aws-amplify/graphql-types-generator": "2.7.3",
