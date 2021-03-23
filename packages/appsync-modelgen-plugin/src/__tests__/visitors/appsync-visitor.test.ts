@@ -17,7 +17,7 @@ const createAndGenerateVisitor = (schema: string) => {
 };
 
 describe('AppSyncModelVisitor', () => {
-  it('should support schema without id', () => {
+  it('should throw error when model has no id field', () => {
     const schema = /* GraphQL */ `
       enum Status {
         draft
@@ -39,41 +39,7 @@ describe('AppSyncModelVisitor', () => {
     const ast = parse(schema);
     const builtSchema = buildSchemaWithDirectives(schema);
     const visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
-    visit(ast, { leave: visitor });
-    expect(visitor.models.Post).toBeDefined();
-    const postFields = visitor.models.Post.fields;
-    // ID
-    expect(postFields[0].name).toEqual('id');
-    expect(postFields[0].type).toEqual('ID');
-    expect(postFields[0].isNullable).toEqual(false);
-    expect(postFields[0].isList).toEqual(false);
-
-    // title
-    expect(postFields[1].name).toEqual('title');
-    expect(postFields[1].type).toEqual('String');
-    expect(postFields[1].isNullable).toEqual(false);
-    expect(postFields[1].isList).toEqual(false);
-
-    // content
-    expect(postFields[2].name).toEqual('content');
-    expect(postFields[2].type).toEqual('String');
-    expect(postFields[2].isNullable).toEqual(true);
-    expect(postFields[2].isList).toEqual(false);
-    // comments
-    expect(postFields[3].name).toEqual('comments');
-    expect(postFields[3].type).toEqual('Comment');
-    expect(postFields[3].isNullable).toEqual(true);
-    expect(postFields[3].isList).toEqual(true);
-
-    // Status
-    expect(postFields[4].name).toEqual('status');
-    expect(postFields[4].type).toEqual('Status');
-    expect(postFields[4].isNullable).toEqual(false);
-    expect(postFields[4].isList).toEqual(false);
-
-    // Enums
-    expect(visitor.enums.Status).toBeDefined();
-    expect(visitor.enums.Status.values).toEqual({ DRAFT: 'draft', IN_REVIEW: 'inReview', PUBLISHED: 'published' });
+    expect(() => visit(ast, { leave: visitor })).toThrowError();
   });
 
   it('should support schema with id', () => {
@@ -225,12 +191,14 @@ describe('AppSyncModelVisitor', () => {
     describe('with connection name', () => {
       const schema = /* GraphQL */ `
         type Post @model {
+          id: ID!,
           title: String!
           content: String
           comments: [Comment] @connection(name: "PostComment")
         }
 
         type Comment @model {
+          id: ID!,
           comment: String!
           post: Post @connection(name: "PostComment")
         }
@@ -269,12 +237,14 @@ describe('AppSyncModelVisitor', () => {
     describe('connection with fields argument', () => {
       const schema = /* GraphQL */ `
         type Post @model {
+          id: ID!,
           title: String!
           content: String
           comments: [Comment] @connection(fields: ["id"])
         }
 
         type Comment @model {
+          id: ID!,
           comment: String!
           postId: ID!
           post: Post @connection(fields: ["postId"])
@@ -319,12 +289,14 @@ describe('AppSyncModelVisitor', () => {
     it('should not include a comments in Post when comments field does not have connection directive', () => {
       const schema = /* GraphQL */ `
         type Post @model {
+          id: ID!,
           title: String!
           content: String
           comments: [Comment]
         }
 
         type Comment @model {
+          id: ID!,
           comment: String!
           post: Post @connection
         }
@@ -341,12 +313,14 @@ describe('AppSyncModelVisitor', () => {
     it('should not include a post when post field in Comment when post does not have connection directive', () => {
       const schema = /* GraphQL */ `
         type Post @model {
+          id: ID!,
           title: String!
           content: String
           comments: [Comment] @connection
         }
 
         type Comment @model {
+          id: ID!,
           comment: String!
           post: Post
         }
@@ -365,6 +339,7 @@ describe('AppSyncModelVisitor', () => {
     it('should process auth with owner authorization', () => {
       const schema = /* GraphQL */ `
         type Post @searchable @model @auth(rules: [{ allow: owner }]) {
+          id: ID!,
           title: String!
           content: String
         }
@@ -392,6 +367,7 @@ describe('AppSyncModelVisitor', () => {
     it('should process group with owner authorization', () => {
       const schema = /* GraphQL */ `
         type Post @model @searchable @auth(rules: [{ allow: groups, groups: ["admin", "moderator"] }]) {
+          id: ID!,
           title: String!
           content: String
         }

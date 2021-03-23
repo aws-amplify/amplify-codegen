@@ -92,9 +92,10 @@ describe('AppSyncModelVisitor', () => {
     expect(generatedCode).toMatchSnapshot();
   });
 
-  it('Should generate a class a model with all optional fields', () => {
+  it('Should generate a class a model with all optional fields except id field', () => {
     const schema = /* GraphQL */ `
       type SimpleModel @model {
+        id: ID!,
         name: String
         bar: String
       }

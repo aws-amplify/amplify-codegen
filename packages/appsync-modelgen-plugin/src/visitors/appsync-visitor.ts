@@ -436,13 +436,14 @@ export class AppSyncModelVisitor<
       // Make id field required
       idField.isNullable = false;
     } else {
-      model.fields.splice(0, 0, {
-        name: 'id',
-        type: 'ID',
-        isNullable: false,
-        isList: false,
-        directives: [],
-      });
+      throw new Error(`${model.name} model does not have the required id field`);
+      // model.fields.splice(0, 0, {
+      //   name: 'id',
+      //   type: 'ID',
+      //   isNullable: false,
+      //   isList: false,
+      //   directives: [],
+      // });
     }
   }
 
