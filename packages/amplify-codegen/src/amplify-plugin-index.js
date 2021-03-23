@@ -8,12 +8,10 @@ async function executeAmplifyCommand(context) {
   commandPath = path.join(commandPath, pluginName, context.input.command);
 
   // Call types plugin:
-  if(context.input.command=='types' && context.input.options!=undefined && 
-  context.input.options['plugin']==true) {
+  if (context.input.command == 'types' && context.input.options != undefined && context.input.options['plugin'] == true) {
     const temp = require(codeModule);
     await temp.run(context);
-  }
-  else {
+  } else {
     const commandModule = require(commandPath);
     await commandModule.run(context);
   }
