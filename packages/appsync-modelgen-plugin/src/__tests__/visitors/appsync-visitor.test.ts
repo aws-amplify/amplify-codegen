@@ -39,7 +39,7 @@ describe('AppSyncModelVisitor', () => {
     const ast = parse(schema);
     const builtSchema = buildSchemaWithDirectives(schema);
     const visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
-    expect(() => visit(ast, { leave: visitor })).toThrowError();
+    expect(() => visit(ast, { leave: visitor })).toThrowErrorMatchingInlineSnapshot('"Post model does not have the required id field"');
   });
 
   it('should support schema with id', () => {
