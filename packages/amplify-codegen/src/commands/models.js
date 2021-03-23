@@ -141,9 +141,7 @@ async function generateModels(context) {
   appsyncLocalConfig.forEach((cfg, idx) => {
     const outPutPath = cfg.filename;
     fs.ensureFileSync(outPutPath);
-    const contentsToWrite = [getVersionsMetadataComment(context), generatedCode[idx]].filter(function (content) {
-      return content != null;
-    });
+    const contentsToWrite = [getVersionsMetadataComment(context), generatedCode[idx]].filter(content => content);
     const contentToWrite = contentsToWrite.join('\n\n');
     fs.writeFileSync(outPutPath, contentToWrite);
   });
@@ -210,9 +208,7 @@ function getVersionsMetadataComment(context) {
 
   const codegenPluginsInfo = context?.pluginPlatform?.plugins?.codegen;
   if (codegenPluginsInfo && codegenPluginsInfo.length > 0) {
-    const amplifyCodegenPluginInfo =  codegenPluginsInfo.filter(function(plugin) {
-      return plugin.packageName == 'amplify-codegen';
-    });
+    const amplifyCodegenPluginInfo =  codegenPluginsInfo.filter(plugin => plugin.packageName == 'amplify-codegen');
     if (amplifyCodegenPluginInfo && amplifyCodegenPluginInfo.length > 0 && amplifyCodegenPluginInfo[0].packageVersion) {
       versionMetadata.push('amplify-codegen-version: ' + amplifyCodegenPluginInfo[0].packageVersion);
     }
