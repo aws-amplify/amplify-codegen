@@ -24,9 +24,10 @@ async function handleAmplifyEvent(context, args) {
 async function executeAmplifyHeadlessCommand(context, headlessPayload) {
   switch (context.input.command) {
     case 'add':
-      await context.amplify.constructExeInfo(context);
+      context.amplify.constructExeInfo(context);
       context.exeInfo.inputParams[constants.Label] = JSON.parse(headlessPayload);
-      await add(context);
+      const apiId = context.exeInfo.inputParams.apiId || null;
+      await add(context, apiId);
       break;
     default:
       context.print.error(`Headless mode for ${context.input.command} codegen is not implemented yet`);
