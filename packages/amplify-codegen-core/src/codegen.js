@@ -48,6 +48,11 @@ async function generateTypesWithPlugin(context) {
   const { generatedFileName } = config[0].amplifyExtension || {};
   const outputPath = path.join(projectRoot, generatedFileName);
 
+  // Absence of this variable doesnt let a call into type generator plugin:
+  const directiveDefinitions = await context.amplify.executeProviderUtils(context, 'awscloudformation', 'getTransformerDirectives', {
+    resourceDir: apiResourcePath,
+  });
+
   const codegenPlugin = getTypesGenPluginPackage();
 
   const appsyncLocalConfig = await codegenPlugin.preset.buildGeneratesSection({
@@ -55,7 +60,7 @@ async function generateTypesWithPlugin(context) {
     schema,
     config: {
       target: platformToLanguageMap[projectConfig.frontend] || projectConfig.frontend,
-      //   directives: directiveDefinitions,
+      directives: directiveDefinitions,
     },
   });
 
