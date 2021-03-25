@@ -182,8 +182,9 @@ export class AppSyncModelJavaVisitor<
 
     const queryFields = this.getWritableField(model);
     queryFields.forEach(field => this.generateQueryFields(model, field, classDeclarationBlock));
+    const nonConnectedFields = this.getNonConnectedField(model);
     model.fields.forEach(field => {
-      const value = queryFields.includes(field) ? '' : 'null';
+      const value = nonConnectedFields.includes(field) ? '' : 'null';
       this.generateModelField(field, value, classDeclarationBlock);
     });
 
