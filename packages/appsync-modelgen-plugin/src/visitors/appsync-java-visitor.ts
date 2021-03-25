@@ -180,10 +180,10 @@ export class AppSyncModelJavaVisitor<
     const annotations = this.generateModelAnnotations(model);
     classDeclarationBlock.annotate(annotations);
 
-    const nonConnectedFields = this.getNonConnectedField(model);
-    nonConnectedFields.forEach(field => this.generateQueryFields(model, field, classDeclarationBlock));
+    const queryFields = this.getWritableField(model);
+    queryFields.forEach(field => this.generateQueryFields(model, field, classDeclarationBlock));
     model.fields.forEach(field => {
-      const value = nonConnectedFields.includes(field) ? '' : 'null';
+      const value = queryFields.includes(field) ? '' : 'null';
       this.generateModelField(field, value, classDeclarationBlock);
     });
 
@@ -317,7 +317,7 @@ export class AppSyncModelJavaVisitor<
     const fieldType = this.getNativeType(field);
     const fieldName = this.getFieldName(field);
     classDeclarationBlock.addClassMember(fieldName, fieldType, value, annotations, 'private', {
-      final: true,
+      final: !field.isReadOnly,
     });
   }
   /**
@@ -336,8 +336,8 @@ export class AppSyncModelJavaVisitor<
    *
    */
   protected generateStepBuilderInterfaces(model: CodeGenModel, isModel: boolean = true): JavaDeclarationBlock[] {
-    const nonNullableFields = this.getNonConnectedField(model).filter(field => !field.isNullable);
-    const nullableFields = this.getNonConnectedField(model).filter(field => field.isNullable);
+    const nonNullableFields = this.getWritableField(model).filter(field => !field.isNullable);
+    const nullableFields = this.getWritableField(model).filter(field => field.isNullable);
     const requiredInterfaces = nonNullableFields.filter((field: CodeGenField) => !this.READ_ONLY_FIELDS.includes(field.name));
     const interfaces = requiredInterfaces.map((field, idx) => {
       const isLastField = requiredInterfaces.length - 1 === idx ? true : false;
@@ -384,12 +384,10 @@ export class AppSyncModelJavaVisitor<
    * @returns JavaDeclarationBlock
    */
   protected generateBuilderClass(model: CodeGenModel, classDeclaration: JavaDeclarationBlock, isModel: boolean = true): void {
-    const nonNullableFields = this.getNonConnectedField(model).filter(field => !field.isNullable);
-    const nullableFields = this.getNonConnectedField(model).filter(field => field.isNullable);
+    const nonNullableFields = this.getWritableField(model).filter(field => !field.isNullable);
+    const nullableFields = this.getWritableField(model).filter(field => field.isNullable);
     const stepFields = nonNullableFields.filter((field: CodeGenField) => !this.READ_ONLY_FIELDS.includes(field.name));
-    const stepInterfaces = stepFields.map((field: CodeGenField) => {
-      return this.getStepInterfaceName(field.name);
-    });
+    const stepInterfaces = stepFields.map((field: CodeGenField) => this.getStepInterfaceName(field.name));
 
     const builderClassDeclaration = new JavaDeclarationBlock()
       .access('public')
@@ -407,7 +405,7 @@ export class AppSyncModelJavaVisitor<
     // methods
     // build();
     const buildImplementation = isModel ? [`String id = this.id != null ? this.id : UUID.randomUUID().toString();`, ''] : [''];
-    const buildParams = this.getNonConnectedField(model)
+    const buildParams = this.getWritableField(model)
       .map(field => this.getFieldName(field))
       .join(',\n');
     buildImplementation.push(`return new ${this.getModelName(model)}(\n${indentMultiline(buildParams)});`);
@@ -514,15 +512,13 @@ export class AppSyncModelJavaVisitor<
       .withName(builderName)
       .extends(['Builder']);
 
-    const nonNullableFields = this.getNonConnectedField(model)
+    const nonNullableFields = this.getWritableField(model)
       .filter(field => !field.isNullable)
       .filter(f => (isModel ? f.name !== 'id' : true));
-    const nullableFields = this.getNonConnectedField(model).filter(field => field.isNullable);
+    const nullableFields = this.getWritableField(model).filter(field => field.isNullable);
 
     // constructor
-    const constructorArguments = this.getNonConnectedField(model).map(field => {
-      return { name: this.getStepFunctionArgumentName(field), type: this.getNativeType(field) };
-    });
+    const constructorArguments = this.getWritableField(model).map(field => ({ name: this.getStepFunctionArgumentName(field), type: this.getNativeType(field) }));
     const stepBuilderInvocation = [...nonNullableFields, ...nullableFields].map(field => {
       const methodName = this.getStepFunctionName(field);
       const argumentName = this.getStepFunctionArgumentName(field);
@@ -563,7 +559,7 @@ export class AppSyncModelJavaVisitor<
    */
   protected generateCopyOfBuilderMethod(model: CodeGenModel, classDeclaration: JavaDeclarationBlock): void {
     const args = indentMultiline(
-      this.getNonConnectedField(model)
+      this.getWritableField(model)
         .map(field => this.getFieldName(field))
         .join(',\n'),
     ).trim();
@@ -618,16 +614,14 @@ export class AppSyncModelJavaVisitor<
    */
   protected generateConstructor(model: CodeGenModel, declarationsBlock: JavaDeclarationBlock): void {
     const name = this.getModelName(model);
-    const body = this.getNonConnectedField(model)
+    const body = this.getWritableField(model)
       .map((field: CodeGenField) => {
         const fieldName = this.getFieldName(field);
         return `this.${fieldName} = ${fieldName};`;
       })
       .join('\n');
 
-    const constructorArguments = this.getNonConnectedField(model).map(field => {
-      return { name: this.getFieldName(field), type: this.getNativeType(field) };
-    });
+    const constructorArguments = this.getWritableField(model).map(field => ({ name: this.getFieldName(field), type: this.getNativeType(field) }));
     declarationsBlock.addClassMethod(name, null, body, constructorArguments, undefined, 'private');
   }
 
@@ -725,7 +719,7 @@ export class AppSyncModelJavaVisitor<
    * @param classDeclaration
    */
   protected generateBuilderMethod(model: CodeGenModel, classDeclaration: JavaDeclarationBlock): void {
-    const requiredFields = this.getNonConnectedField(model).filter(
+    const requiredFields = this.getWritableField(model).filter(
       field => !field.isNullable && !this.READ_ONLY_FIELDS.includes(field.name),
     );
     const returnType = requiredFields.length ? this.getStepInterfaceName(requiredFields[0].name) : this.getStepInterfaceName('Build');
@@ -840,6 +834,7 @@ export class AppSyncModelJavaVisitor<
       `targetType="${field.type}"`,
       !field.isNullable ? 'isRequired = true' : '',
       authRules.length ? `authRules = ${authRules}` : '',
+      field.isReadOnly ? 'isReadOnly = true' : '',
     ].filter(arg => arg);
 
     return `ModelField${annotationArgs.length ? `(${annotationArgs.join(', ')})` : ''}`;
@@ -890,7 +885,7 @@ export class AppSyncModelJavaVisitor<
               "creating a new object, use the standard builder method and leave the ID field blank."
       );
     }`;
-    const initArgs = indentMultiline(['id', ...new Array(this.getNonConnectedField(model).length - 1).fill('null')].join(',\n'));
+    const initArgs = indentMultiline(['id', ...new Array(this.getWritableField(model).length - 1).fill('null')].join(',\n'));
     const initBlock = `return new ${returnType}(\n${initArgs}\n);`;
     classDeclaration.addClassMethod(
       'justId',
@@ -917,5 +912,9 @@ export class AppSyncModelJavaVisitor<
         return true;
       }
     });
+  }
+
+  protected getWritableField(model: CodeGenModel): CodeGenField[] {
+    return this.getNonConnectedField(model).filter(f => !f.isReadOnly);
   }
 }

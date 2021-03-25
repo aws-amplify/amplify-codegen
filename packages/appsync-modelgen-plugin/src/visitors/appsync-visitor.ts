@@ -115,6 +115,7 @@ export type CodeGenField = TypeInfo & {
   name: string;
   directives: CodeGenDirectives;
   connectionInfo?: CodeGenFieldConnection;
+  isReadOnly?: boolean
 };
 export type TypeInfo = {
   type: string;
@@ -519,13 +520,15 @@ export class AppSyncModelVisitor<
       type: 'AWSDateTime',
       isList: false,
       isNullable: true,
+      isReadOnly: true
     };
     const updatedAtField: CodeGenField = {
       name: timestamps?.updatedAt || DEFAULT_UPDATED_TIME,
       directives: [],
       type: 'AWSDateTime',
       isList: false,
-      isNullable: true
+      isNullable: true,
+      isReadOnly: true
     };
     addFieldToModel(model, createdAtField);
     addFieldToModel(model, updatedAtField);
