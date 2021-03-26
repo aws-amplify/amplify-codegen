@@ -38,7 +38,7 @@ async function generateStatementsAndTypes(context, forceDownloadSchema, maxDepth
     apis = getAppSyncAPIDetails(context);
   }
   if (!apis.length && !withoutInit) {
-    throw new NoAppSyncAPIAvailableError(constants.ERROR_CODEGEN_NO_API_CONFIGURED);
+    throw new NoAppSyncAPIAvailableError(constants.ERROR_CODEGEN_NO_API_META);
   }
   const project = projects[0];
   const { frontend } = project.amplifyExtension;

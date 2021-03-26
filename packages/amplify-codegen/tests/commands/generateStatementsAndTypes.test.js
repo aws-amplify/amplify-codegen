@@ -32,11 +32,10 @@ jest.mock('amplify-cli-core', () => {
         if (name === 'codegen.useTypesGeneratorPlugin') {
           return true;
         }
-      })
+      }),
     },
   };
 });
-
 
 const MOCK_INCLUDE_PATH = 'MOCK_INCLUDE';
 const MOCK_STATEMENTS_PATH = 'MOCK_STATEMENTS_PATH';
@@ -90,7 +89,7 @@ describe('command - generateStatementsAndTypes', () => {
       path.join(MOCK_PROJECT_ROOT, MOCK_SCHEMA),
       MOCK_APIS[0],
       MOCK_REGION,
-      forceDownload
+      forceDownload,
     );
   });
 
@@ -99,5 +98,15 @@ describe('command - generateStatementsAndTypes', () => {
       getProjects: jest.fn().mockReturnValue([]),
     });
     await expect(generateStatementsAndTypes(MOCK_CONTEXT, false)).rejects.toBeInstanceOf(AmplifyCodeGenNoAppSyncAPIAvailableError);
+  });
+
+  it('should show a warning if there are no API metadata', async () => {
+    getAppSyncAPIDetails.mockReturnValue([]);
+    const codegenWithoutApiMeta = async () => generateStatementsAndTypes(MOCK_CONTEXT, false);
+    await expect(codegenWithoutApiMeta).rejects.toBeInstanceOf(AmplifyCodeGenNoAppSyncAPIAvailableError)
+    await expect(codegenWithoutApiMeta).rejects.toThrowErrorMatchingInlineSnapshot(`
+            "Cannot find API metadata. Please reset codegen by running 
+            $amplify codegen remove && amplify codegen add --apiId \${YOUR_API_ID}"
+          `);
   });
 });
