@@ -103,10 +103,9 @@ describe('command - generateStatementsAndTypes', () => {
   it('should show a warning if there are no API metadata', async () => {
     getAppSyncAPIDetails.mockReturnValue([]);
     const codegenWithoutApiMeta = async () => generateStatementsAndTypes(MOCK_CONTEXT, false);
-    await expect(codegenWithoutApiMeta).rejects.toBeInstanceOf(AmplifyCodeGenNoAppSyncAPIAvailableError)
-    await expect(codegenWithoutApiMeta).rejects.toThrowErrorMatchingInlineSnapshot(`
-            "Cannot find API metadata. Please reset codegen by running 
-            $amplify codegen remove && amplify codegen add --apiId \${YOUR_API_ID}"
-          `);
+    await expect(codegenWithoutApiMeta).rejects.toBeInstanceOf(AmplifyCodeGenNoAppSyncAPIAvailableError);
+    await expect(codegenWithoutApiMeta).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Cannot find API metadata. Please reset codegen by running $amplify codegen remove && amplify codegen add --apiId YOUR_API_ID"`,
+    );
   });
 });
