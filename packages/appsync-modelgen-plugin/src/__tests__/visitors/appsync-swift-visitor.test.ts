@@ -46,14 +46,10 @@ describe('AppSyncSwiftVisitor', () => {
         
         public init(id: String = UUID().uuidString,
             name: String? = nil,
-            bar: String? = nil,
-            createdAt: Temporal.DateTime? = nil,
-            updatedAt: Temporal.DateTime? = nil) {
+            bar: String? = nil) {
             self.id = id
             self.name = name
             self.bar = bar
-            self.createdAt = createdAt
-            self.updatedAt = updatedAt
         }
       }"
     `);
@@ -146,13 +142,9 @@ describe('AppSyncSwiftVisitor', () => {
         public var updatedAt: Temporal.DateTime?
         
         public init(id: String = UUID().uuidString,
-            name: String? = nil,
-            createdAt: Temporal.DateTime? = nil,
-            updatedAt: Temporal.DateTime? = nil) {
+            name: String? = nil) {
             self.id = id
             self.name = name
-            self.createdAt = createdAt
-            self.updatedAt = updatedAt
         }
       }"
     `);
@@ -214,13 +206,9 @@ describe('AppSyncSwiftVisitor', () => {
         public var updatedAt: Temporal.DateTime?
         
         public init(id: String = UUID().uuidString,
-            first_name: String? = nil,
-            createdAt: Temporal.DateTime? = nil,
-            updatedAt: Temporal.DateTime? = nil) {
+            first_name: String? = nil) {
             self.id = id
             self.first_name = first_name
-            self.createdAt = createdAt
-            self.updatedAt = updatedAt
         }
       }"
     `);
@@ -256,16 +244,12 @@ describe('AppSyncSwiftVisitor', () => {
             author_id: String,
             book_id: String,
             author: String? = nil,
-            book: String? = nil,
-            createdAt: Temporal.DateTime? = nil,
-            updatedAt: Temporal.DateTime? = nil) {
+            book: String? = nil) {
             self.id = id
             self.author_id = author_id
             self.book_id = book_id
             self.author = author
             self.book = book
-            self.createdAt = createdAt
-            self.updatedAt = updatedAt
         }
       }"
     `);
@@ -361,9 +345,7 @@ describe('AppSyncSwiftVisitor', () => {
                 due_date: String? = nil,
                 version: Int,
                 value: Double? = nil,
-                tasks: List<task>? = [],
-                createdAt: Temporal.DateTime? = nil,
-                updatedAt: Temporal.DateTime? = nil) {
+                tasks: List<task>? = []) {
                 self.id = id
                 self.title = title
                 self.done = done
@@ -372,8 +354,6 @@ describe('AppSyncSwiftVisitor', () => {
                 self.version = version
                 self.value = value
                 self.tasks = tasks
-                self.createdAt = createdAt
-                self.updatedAt = updatedAt
             }
           }"
         `);
@@ -448,17 +428,13 @@ describe('AppSyncSwiftVisitor', () => {
                 done: Bool,
                 todo: Todo? = nil,
                 time: Temporal.Time? = nil,
-                createdOn: Temporal.Date? = nil,
-                createdAt: Temporal.DateTime? = nil,
-                updatedAt: Temporal.DateTime? = nil) {
+                createdOn: Temporal.Date? = nil) {
                 self.id = id
                 self.title = title
                 self.done = done
                 self.todo = todo
                 self.time = time
                 self.createdOn = createdOn
-                self.createdAt = createdAt
-                self.updatedAt = updatedAt
             }
           }"
         `);
@@ -582,14 +558,10 @@ describe('AppSyncSwiftVisitor', () => {
             
             public init(id: String = UUID().uuidString,
                 title: String,
-                editors: List<PostEditor>? = [],
-                createdAt: Temporal.DateTime? = nil,
-                updatedAt: Temporal.DateTime? = nil) {
+                editors: List<PostEditor>? = []) {
                 self.id = id
                 self.title = title
                 self.editors = editors
-                self.createdAt = createdAt
-                self.updatedAt = updatedAt
             }
           }"
         `);
@@ -644,14 +616,10 @@ describe('AppSyncSwiftVisitor', () => {
             
             public init(id: String = UUID().uuidString,
                 title: String,
-                editors: List<PostEditor>? = [],
-                createdAt: Temporal.DateTime? = nil,
-                updatedAt: Temporal.DateTime? = nil) {
+                editors: List<PostEditor>? = []) {
                 self.id = id
                 self.title = title
                 self.editors = editors
-                self.createdAt = createdAt
-                self.updatedAt = updatedAt
             }
           }"
         `);
@@ -733,9 +701,7 @@ describe('AppSyncSwiftVisitor', () => {
             floatArr: [Double]? = [],
             boolArr: [Bool]? = [],
             dateArr: [Temporal.Date]? = [],
-            enumArr: [EnumType]? = [],
-            createdAt: Temporal.DateTime? = nil,
-            updatedAt: Temporal.DateTime? = nil) {
+            enumArr: [EnumType]? = []) {
             self.id = id
             self.intArr = intArr
             self.strArr = strArr
@@ -743,8 +709,6 @@ describe('AppSyncSwiftVisitor', () => {
             self.boolArr = boolArr
             self.dateArr = dateArr
             self.enumArr = enumArr
-            self.createdAt = createdAt
-            self.updatedAt = updatedAt
         }
       }"
     `);
@@ -839,9 +803,7 @@ describe('AppSyncSwiftVisitor', () => {
             nearByLocations: [Location]? = [],
             status: Status,
             statusHistory: [Status]? = [],
-            tags: [String]? = [],
-            createdAt: Temporal.DateTime? = nil,
-            updatedAt: Temporal.DateTime? = nil) {
+            tags: [String]? = []) {
             self.id = id
             self.name = name
             self.location = location
@@ -849,8 +811,6 @@ describe('AppSyncSwiftVisitor', () => {
             self.status = status
             self.statusHistory = statusHistory
             self.tags = tags
-            self.createdAt = createdAt
-            self.updatedAt = updatedAt
         }
       }"
     `);
@@ -1064,16 +1024,12 @@ describe('AppSyncSwiftVisitor', () => {
               \`Class\`: \`Class\`? = nil,
               nonNullClass: \`Class\`,
               classes: [\`Class\`]? = [],
-              nonNullClasses: [\`Class\`] = [],
-              createdAt: Temporal.DateTime? = nil,
-              updatedAt: Temporal.DateTime? = nil) {
+              nonNullClasses: [\`Class\`] = []) {
               self.id = id
               self.\`Class\` = \`Class\`
               self.nonNullClass = nonNullClass
               self.classes = classes
               self.nonNullClasses = nonNullClasses
-              self.createdAt = createdAt
-              self.updatedAt = updatedAt
           }
         }"
       `);
