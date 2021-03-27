@@ -59,7 +59,6 @@
       "collectCoverageFrom": [
         "src/**/*.ts"
       ],
-      "testRegex": "(src/__tests__/.*.test.ts)$",
       "globals": {
         "ts-jest": {
           "diagnostics": false

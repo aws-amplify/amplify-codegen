@@ -96,6 +96,8 @@ export interface RawAppSyncTypeConfig extends RawConfig {
    * @descriptions optional string which includes directive definition and types used by directives. The types defined in here won't make it to output
    */
   directives?: string;
+
+  temp: string[];
 }
 
 // Todo: need to figure out how to share config

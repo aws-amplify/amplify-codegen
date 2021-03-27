@@ -55,12 +55,21 @@ async function generateTypesWithPlugin(context) {
 
   const codegenPlugin = getTypesGenPluginPackage();
 
+  // new
+  const includeFiles = config[0].includes;
+  const excludes = config[0].excludes.map(pattern => `!${pattern}`);
+  const queries = glob.sync([...includeFiles, ...excludes], {
+    cwd: projectRoot,
+    absolute: true,
+  });
+
   const appsyncLocalConfig = await codegenPlugin.preset.buildGeneratesSection({
     baseOutputDir: outputPath,
     schema,
     config: {
       target: platformToLanguageMap[projectConfig.frontend] || projectConfig.frontend,
       directives: directiveDefinitions,
+      temp: queries,
     },
   });
 
@@ -79,6 +88,7 @@ async function generateTypesWithPlugin(context) {
   });
 
   const generatedCode = await Promise.all(codeGenPromises);
+  const x = 1;
 }
 
 module.exports = generateTypesWithPlugin;
