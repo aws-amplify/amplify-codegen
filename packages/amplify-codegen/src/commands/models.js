@@ -206,11 +206,14 @@ function getVersionsMetadataComment(context) {
     versionMetadata.push('amplify-cli-version: ' + context.usageData.version);
   }
 
-  const codegenPluginsInfo = context?.pluginPlatform?.plugins?.codegen;
-  if (codegenPluginsInfo && codegenPluginsInfo.length > 0) {
-    const amplifyCodegenPluginInfo =  codegenPluginsInfo.filter(plugin => plugin.packageName == 'amplify-codegen');
-    if (amplifyCodegenPluginInfo && amplifyCodegenPluginInfo.length > 0 && amplifyCodegenPluginInfo[0].packageVersion) {
-      versionMetadata.push('amplify-codegen-version: ' + amplifyCodegenPluginInfo[0].packageVersion);
+  if (context.pluginPlatform && context.pluginPlatform.plugins && 
+    context.pluginPlatform.plugins.codegen) {
+    const codegenPluginsInfo = context.pluginPlatform.plugins.codegen;
+    if (codegenPluginsInfo.length > 0) {
+      const amplifyCodegenPluginInfo =  codegenPluginsInfo.filter(plugin => plugin.packageName == 'amplify-codegen');
+      if (amplifyCodegenPluginInfo && amplifyCodegenPluginInfo.length > 0 && amplifyCodegenPluginInfo[0].packageVersion) {
+        versionMetadata.push('amplify-codegen-version: ' + amplifyCodegenPluginInfo[0].packageVersion);
+      }
     }
   }
 
