@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.23.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.22.10...@aws-amplify/appsync-modelgen-plugin@1.23.0) (2021-03-29)
+
+
+### Bug Fixes
+
+* **modelgen:** match the error message in test ([115a311](https://github.com/aws-amplify/amplify-codegen/commit/115a31182ff3695caa5d651efb908fbdbd38867a))
+* **modelgen:** throw error when id field is not present on models ([d19a317](https://github.com/aws-amplify/amplify-codegen/commit/d19a3179bee56cb40774684d5eeae536ba70ce0b))
+
+
+### Features
+
+* **dart-modelgen:** change the naming pattern for classType ([#115](https://github.com/aws-amplify/amplify-codegen/issues/115)) ([8dfa6a6](https://github.com/aws-amplify/amplify-codegen/commit/8dfa6a64cef62e996300d60a8a9c19691326dc79))
+
+
+
+
+
 ## [1.22.10](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.22.9...@aws-amplify/appsync-modelgen-plugin@1.22.10) (2021-02-25)
 
 

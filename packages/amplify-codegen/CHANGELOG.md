@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.24.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.23.1...amplify-codegen@2.24.0) (2021-03-29)
+
+
+### Bug Fixes
+
+* **amplify-codegen:** add amplify-codegen version to version metadata comment ([bb508e1](https://github.com/aws-amplify/amplify-codegen/commit/bb508e18377909e67990e7be2f1e27d9e2033442))
+* **amplify-codegen:** have correct error msg for api meta not found ([#125](https://github.com/aws-amplify/amplify-codegen/issues/125)) ([2894f43](https://github.com/aws-amplify/amplify-codegen/commit/2894f43d8c5eaea9f04c05ed3508feb162115f60))
+* **amplify-codegen:** minor changes to use lambda functions ([06ba31a](https://github.com/aws-amplify/amplify-codegen/commit/06ba31ac41dc6ec2b92b913ec2a262580defda17))
+* **amplify-codegen:** remove commented test ([11cb697](https://github.com/aws-amplify/amplify-codegen/commit/11cb697a506eeb7d407ef61dfb7101cdfc8aca76))
+* **amplify-codegen:** rephrase the amplify version comment ([c46105e](https://github.com/aws-amplify/amplify-codegen/commit/c46105e9014aa7c3d5c553bbe6d52bce705b3a90))
+
+
+### Features
+
+* **amplify-codegen:** Add Amplify CLI version as a comment for the Modelgen output files ([3ee4728](https://github.com/aws-amplify/amplify-codegen/commit/3ee4728c485e5805cda385ae62edb5db3242cb2b))
+
+
+
+
+
 ## [2.23.1](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.23.0...amplify-codegen@2.23.1) (2021-03-12)
 
 
