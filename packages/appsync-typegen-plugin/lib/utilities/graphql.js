@@ -107,7 +107,8 @@ function isTypeProperSuperTypeOf(schema, maybeSuperType, subType) {
   return (
     graphql_1.isEqualType(maybeSuperType, subType) ||
     (subType instanceof graphql_1.GraphQLObjectType &&
-      graphql_1.isAbstractType(maybeSuperType) && schema.isPossibleType(maybeSuperType, subType))
+      graphql_1.isAbstractType(maybeSuperType) &&
+      schema.isPossibleType(maybeSuperType, subType))
   );
 }
 exports.isTypeProperSuperTypeOf = isTypeProperSuperTypeOf;

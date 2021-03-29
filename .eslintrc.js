@@ -233,6 +233,8 @@ module.exports = {
     '/packages/appsync-modelgen-plugin/lib',
     '/packages/graphql-docs-generator/lib',
     '/packages/graphql-types-generator/lib',
+    '/packages/appsync-typegen-plugin/lib',
+    '/packages/amplify-codegen-core/lib',
 
     // Ignore CHANGELOG.md files
     '/packages/*/CHANGELOG.md'
