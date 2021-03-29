@@ -625,6 +625,7 @@ describe('AppSyncSwiftVisitor', () => {
         val2
       }
       type ObjectWithNativeTypes @model {
+        id: ID!,
         intArr: [Int]
         strArr: [String]
         floatArr: [Float]
@@ -929,6 +930,7 @@ describe('AppSyncSwiftVisitor', () => {
         }
 
         type Foo @model {
+          id: ID!,
           Class: Class
           nonNullClass: Class!
           classes: [Class]

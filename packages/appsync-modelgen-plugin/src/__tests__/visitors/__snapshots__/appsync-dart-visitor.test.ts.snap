@@ -1072,7 +1072,7 @@ class _SimpleModelModelType extends ModelType<SimpleModel> {
 "
 `;
 
-exports[`AppSync Dart Visitor Model Directive should generate a class for a model with all optional fields 1`] = `
+exports[`AppSync Dart Visitor Model Directive should generate a class for a model with all optional fields except id field 1`] = `
 "/*
 * Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
