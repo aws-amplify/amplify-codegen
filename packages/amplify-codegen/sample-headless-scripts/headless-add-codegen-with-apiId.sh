@@ -11,7 +11,7 @@ CODEGEN="{\
 \"maxDepth\":\"2\"\
 }"
 
-echo $CODEGEN | amplify-dev codegen add \
+echo $CODEGEN | amplify codegen add \
 --headless \
 --apiId xxxxxx \
 --yes
