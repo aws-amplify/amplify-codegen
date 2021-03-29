@@ -36,6 +36,7 @@ module.exports = {
   CMD_DESCRIPTION_CONFIGURE: 'Change/Update codegen configuration',
   ERROR_CODEGEN_NO_API_CONFIGURED: 'code generation is not configured. Configure it by running \n$amplify codegen add',
   ERROR_CODEGEN_PENDING_API_PUSH: 'AppSync API is not pushed to the cloud. Did you forget to do \n$amplify api push',
+  ERROR_CODEGEN_NO_API_META: 'Cannot find API metadata. Please reset codegen by running $amplify codegen remove && amplify codegen add --apiId YOUR_API_ID',
   WARNING_CODEGEN_PENDING_API_PUSH: 'The APIs listed below are not pushed to the cloud. Run amplify api push',
   ERROR_APPSYNC_API_NOT_FOUND:
     'Could not find the AppSync API. If you have removed the AppSync API in the console run amplify codegen remove',
