@@ -58,7 +58,7 @@ async function generateModels(context) {
     schema,
     config: {
       target: platformToLanguageMap[projectConfig.frontend] || projectConfig.frontend,
-      directives: directiveDefinitions
+      directives: directiveDefinitions,
     },
   });
 
@@ -78,12 +78,16 @@ async function generateModels(context) {
 
   const generatedCode = await Promise.all(codeGenPromises);
 
+  // clean the output directory before re-generating models
+  // const cleanOutputPath = FeatureFlags.getBoolean('codegen.cleanGeneratedModelsDirectory');
+  // if (cleanOutputPath) {
+  //   await fs.emptyDir(outputPath);
+  // }
+
   appsyncLocalConfig.forEach((cfg, idx) => {
     const outPutPath = cfg.filename;
     fs.ensureFileSync(outPutPath);
-    const contentsToWrite = [getVersionsMetadataComment(context), generatedCode[idx]].filter(content => content);
-    const contentToWrite = contentsToWrite.join('\n\n');
-    fs.writeFileSync(outPutPath, contentToWrite);
+    fs.writeFileSync(outPutPath, generatedCode[idx]);
   });
 
   generateEslintIgnore(context);
@@ -139,27 +143,6 @@ function getModelOutputPath(context) {
     default:
       return '.';
   }
-}
-
-// Generate a Comment string with Amplify CLI and Amplify Codegen version metadata
-function getVersionsMetadataComment(context) {
-  const versionMetadata = [];
-  if (context.usageData && context.usageData.version) {
-    versionMetadata.push('amplify-cli-version: ' + context.usageData.version);
-  }
-
-  const codegenPluginsInfo = context?.pluginPlatform?.plugins?.codegen;
-  if (codegenPluginsInfo && codegenPluginsInfo.length > 0) {
-    const amplifyCodegenPluginInfo =  codegenPluginsInfo.filter(plugin => plugin.packageName == 'amplify-codegen');
-    if (amplifyCodegenPluginInfo && amplifyCodegenPluginInfo.length > 0 && amplifyCodegenPluginInfo[0].packageVersion) {
-      versionMetadata.push('amplify-codegen-version: ' + amplifyCodegenPluginInfo[0].packageVersion);
-    }
-  }
-
-  if (versionMetadata.length > 0) {
-    return '// Generated using ' + versionMetadata.join(', ');
-  }
-  return null;
 }
 
 function generateEslintIgnore(context) {
