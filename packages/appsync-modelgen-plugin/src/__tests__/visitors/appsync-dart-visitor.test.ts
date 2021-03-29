@@ -35,9 +35,10 @@ describe('AppSync Dart Visitor', () => {
       expect(generatedCode).toMatchSnapshot();
     });
 
-    it('should generate a class for a model with all optional fields', () => {
+    it('should generate a class for a model with all optional fields except id field', () => {
       const schema = /* GraphQL */ `
         type SimpleModel @model {
+          id: ID!,
           name: String
           bar: String
         }
@@ -357,6 +358,7 @@ describe('AppSync Dart Visitor', () => {
     it('should throw error when a reserved word of dart is used in graphql schema field name', () => {
       const schema = /* GraphQL */ `
         type ReservedWord @model {
+          id: ID!
           class: String!
         }
       `;
@@ -369,6 +371,7 @@ describe('AppSync Dart Visitor', () => {
     it('should throw error when a reserved word of dart is used in graphql schema type name', () => {
       const schema = /* GraphQL */ `
         type class @model {
+          id: ID!,
           name: String!
         }
       `;
