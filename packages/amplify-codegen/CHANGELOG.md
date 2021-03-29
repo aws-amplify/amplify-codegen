@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.24.1](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.24.0...amplify-codegen@2.24.1) (2021-03-29)
+
+
+### Bug Fixes
+
+* Revert "feat(amplify-codegen): Add Amplify CLI version as a comment for the Modelgen output files" ([#131](https://github.com/aws-amplify/amplify-codegen/issues/131)) ([b813657](https://github.com/aws-amplify/amplify-codegen/commit/b813657c0b7abce67cfe16fcd0f93389ba63120d))
+
+
+
+
+
 # [2.24.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.23.1...amplify-codegen@2.24.0) (2021-03-29)
 
 
