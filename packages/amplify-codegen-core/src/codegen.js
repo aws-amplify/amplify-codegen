@@ -87,6 +87,7 @@ async function generateTypesWithPlugin(context) {
   });
 
   const generatedCode = await Promise.all(codeGenPromises);
+  context.print.info(`Generated types from plugin generator: ${generatedCode}`);
 }
 
 module.exports = generateTypesWithPlugin;
