@@ -1,5 +1,5 @@
 import { Types } from '@graphql-codegen/plugin-helpers';
-import { Kind, TypeDefinitionNode } from 'graphql';
+import { TypeDefinitionNode } from 'graphql';
 import { join } from 'path';
 import { TYPESCRIPT_SCALAR_MAP } from './scalars';
 

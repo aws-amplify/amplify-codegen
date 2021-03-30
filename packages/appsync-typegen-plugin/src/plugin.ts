@@ -1,10 +1,10 @@
 import { PluginFunction, Types } from '@graphql-codegen/plugin-helpers';
-import { GraphQLSchema, parse, visit } from 'graphql';
+import { GraphQLSchema } from 'graphql';
 import { RawAppSyncTypeConfig } from './visitors/appsync-visitor';
 
 import { generateSource as generateTypescriptSource } from './typescript';
 import { compileToLegacyIR } from './compiler/legacyIR';
-import { loadSchema, loadAndMergeQueryDocuments } from './loading';
+import { loadAndMergeQueryDocuments } from './loading';
 
 export const plugin: PluginFunction<RawAppSyncTypeConfig> = (
   schema: GraphQLSchema,

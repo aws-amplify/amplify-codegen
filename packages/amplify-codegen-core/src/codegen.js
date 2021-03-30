@@ -1,6 +1,5 @@
 const glob = require('glob-all');
 const path = require('path');
-const Ora = require('ora');
 const { parse } = require('graphql');
 const loadConfig = require('../../amplify-codegen/src/codegen-config');
 
@@ -88,7 +87,6 @@ async function generateTypesWithPlugin(context) {
   });
 
   const generatedCode = await Promise.all(codeGenPromises);
-  const x = 1;
 }
 
 module.exports = generateTypesWithPlugin;
