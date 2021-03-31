@@ -17,30 +17,6 @@ const createAndGenerateVisitor = (schema: string) => {
 };
 
 describe('AppSyncModelVisitor', () => {
-  it('should throw error when model has no id field', () => {
-    const schema = /* GraphQL */ `
-      enum Status {
-        draft
-        inReview
-        published
-      }
-      type Post @model {
-        title: String!
-        content: String
-        comments: [Comment] @connection
-        status: Status!
-      }
-
-      type Comment @model {
-        comment: String!
-        post: Post @connection
-      }
-    `;
-    const ast = parse(schema);
-    const builtSchema = buildSchemaWithDirectives(schema);
-    const visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
-    expect(() => visit(ast, { leave: visitor })).toThrowErrorMatchingInlineSnapshot('"Post model does not have the required id field"');
-  });
 
   it('should support schema with id', () => {
     const schema = /* GraphQL */ `
