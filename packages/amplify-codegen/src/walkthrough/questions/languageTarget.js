@@ -15,6 +15,12 @@ async function askCodeGenTargetLanguage(context, target, withoutInit = false, de
   if (!withoutInit) {
     frontend = getFrontEndHandler(context);
   }
+  
+  //flutter only supports modelgen but the amplify graphql codegen
+  if (frontend === 'flutter') {
+    throw new AmplifyCodeGenNotSupportedError(constants.ERROR_FLUTTER_CODEGEN_NOT_SUPPORTED);
+  }
+
   const isAngular =
     frontend === 'javascript' && getFrontEndFramework(context, withoutInit, decoupleFrontend, decoupleFramework) === 'angular';
   const isIonic = frontend === 'javascript' && getFrontEndFramework(context, withoutInit, decoupleFrontend, decoupleFramework) === 'ionic';

@@ -41,4 +41,13 @@ describe('askCodegenTargetLanguage', () => {
     expect(questions[0].name).toEqual('target');
     expect(questions[0].choices).toEqual(['javascript', 'typescript', 'flow']);
   });
+
+  it('should throw error if the frontend is flutter which only supports modelgen', async () => {
+    getFrontEndHandler.mockReturnValue('flutter');
+    const codegenWithFlutterFrontend = async () => await askCodegenTargetLanguage(mockContext);
+    expect(codegenWithFlutterFrontend).rejects.toBeInstanceOf(AmplifyCodeGenNotSupportedError);
+    expect(codegenWithFlutterFrontend).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Flutter only supports the command $amplify codegen models. All the other codegen commands are not supported."`,
+    );
+  });
 });

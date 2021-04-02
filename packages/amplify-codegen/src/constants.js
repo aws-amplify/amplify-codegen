@@ -19,6 +19,7 @@ module.exports = {
   PROMPT_MSG_SELECT_PROJECT: 'Choose the AppSync API',
   PROMPT_MSG_SELECT_REGION: 'Choose AWS Region',
   ERROR_CODEGEN_TARGET_NOT_SUPPORTED: 'is not supported by codegen plugin',
+  ERROR_FLUTTER_CODEGEN_NOT_SUPPORTED: 'Flutter only supports the command $amplify codegen models. All the other codegen commands are not supported.',
   ERROR_CODEGEN_FRONTEND_NOT_SUPPORTED: 'The project frontend is not supported by codegen',
   ERROR_MSG_MAX_DEPTH: 'Depth should be a integer greater than 0',
   ERROR_CODEGEN_NO_API_AVAILABLE: 'There are no GraphQL APIs available.\nAdd by running $amplify api add',
