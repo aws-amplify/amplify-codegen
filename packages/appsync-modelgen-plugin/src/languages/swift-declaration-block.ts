@@ -122,7 +122,7 @@ export type VariableFlags = {
   variable?: boolean;
   isEnum?: boolean;
 };
-export type StructFlags = VariableFlags & { optional?: boolean; static?: boolean };
+export type StructFlags = VariableFlags & { optional?: boolean; static?: boolean; isListNullable?: boolean };
 export type PropertyFlags = StructFlags;
 export type MethodFlags = { static?: boolean };
 export type DeclarationFlag = { final?: boolean };
@@ -339,7 +339,8 @@ export class SwiftDeclarationBlock {
     const res: string[] = args.reduce((acc: string[], arg) => {
       const val: string | null = arg.value ? arg.value : arg.flags.isList ? '[]' : arg.flags.optional ? 'nil' : null;
       const type = arg.flags.isList ? this.getListType(arg) : escapeKeywords(arg.type);
-      acc.push([escapeKeywords(arg.name), ': ', type, arg.flags.optional ? '?' : '', val ? ` = ${val}` : ''].join(''));
+      const isArgOptional = arg.flags.isList ? arg.flags.isListNullable : arg.flags.optional
+      acc.push([escapeKeywords(arg.name), ': ', type, isArgOptional ? '?' : '', val ? ` = ${val}` : ''].join(''));
       return acc;
     }, []);
 
@@ -347,8 +348,12 @@ export class SwiftDeclarationBlock {
   }
 
   private generatePropertiesStr(prop: StructProperty): string {
-    const propertyTypeName = prop.flags.isList ? this.getListType(prop) : prop.type;
-    const propertyType = propertyTypeName ? `: ${propertyTypeName}${prop.flags.optional ? '?' : ''}` : '';
+    let propertyTypeName = prop.type;
+    let propertyType = propertyTypeName ? `: ${propertyTypeName}${prop.flags.optional ? '?' : ''}` : '';
+    if (prop.flags.isList) {
+      propertyTypeName = this.getListType(prop);
+      propertyType = propertyTypeName ? `: ${propertyTypeName}${prop.flags.isListNullable ? '?' : ''}` : '';
+    }
     let resultArr: string[] = [
       prop.access === 'DEFAULT' ? '' : prop.access,
       prop.flags.static ? 'static' : '',
@@ -388,10 +393,13 @@ export class SwiftDeclarationBlock {
       .trim();
   }
 
-  private getListType(typeDeclaration: VariableDeclaration): string {
+  private getListType(typeDeclaration: MethodArgument): string {
+    const listMemberType = typeDeclaration.flags.optional ?
+     `${escapeKeywords(typeDeclaration.type)}?`:
+     `${escapeKeywords(typeDeclaration.type)}`
     if (typeDeclaration.flags.listType === ListType.LIST) {
-      return `List<${escapeKeywords(typeDeclaration.type)}>`;
+      return `List<${listMemberType}>`;
     }
-    return `[${escapeKeywords(typeDeclaration.type)}]`;
+    return `[${listMemberType}]`;
   }
 }

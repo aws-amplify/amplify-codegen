@@ -359,6 +359,29 @@ describe('AppSyncSwiftVisitor', () => {
     `);
   });
 
+  it('Should handle nullability of lists appropriately', () => {
+    const schema = /* GraphQL */ `
+      type ListContainer
+      @model
+      {
+        id: ID!
+        name: String
+        list: [String]
+        requiredList: [String]!
+        requiredListOfRequired: [String!]!
+        listOfRequired: [String!]
+      }
+    `;
+
+    const visitor = getVisitor(schema, 'ListContainer');
+    const generatedCode = visitor.generate();
+    expect(generatedCode).toMatchSnapshot();
+
+    const metadataVisitor = getVisitor(schema, 'ListContainer', CodeGenGenerateEnum.metadata);
+    const generatedMetadata = metadataVisitor.generate();
+    expect(generatedMetadata).toMatchSnapshot();
+  });
+
   describe('connection', () => {
     describe('One to Many connection', () => {
       const schema = /* GraphQL */ `
@@ -944,7 +967,7 @@ describe('AppSyncSwiftVisitor', () => {
         public let id: String
         public var name: String
         public var location: Location
-        public var nearByLocations: [Location]?
+        public var nearByLocations: [Location?]?
         public var status: Status
         public var statusHistory: [Status]?
         public var tags: [String]?
@@ -954,7 +977,7 @@ describe('AppSyncSwiftVisitor', () => {
         public init(id: String = UUID().uuidString,
             name: String,
             location: Location,
-            nearByLocations: [Location]? = [],
+            nearByLocations: [Location?]? = [],
             status: Status,
             statusHistory: [Status]? = [],
             tags: [String]? = []) {
@@ -1054,7 +1077,7 @@ describe('AppSyncSwiftVisitor', () => {
       public struct Location: Embeddable {
         var lat: String
         var lang: String
-        var tags: [String]?
+        var tags: [String?]?
       }"
     `);
 
@@ -1191,7 +1214,7 @@ describe('AppSyncSwiftVisitor', () => {
           public let id: String
           public var \`Class\`: Class?
           public var nonNullClass: Class
-          public var classes: [\`Class\`]?
+          public var classes: [\`Class\`?]?
           public var nonNullClasses: [\`Class\`]
           public var createdAt: Temporal.DateTime?
           public var updatedAt: Temporal.DateTime?
@@ -1199,7 +1222,7 @@ describe('AppSyncSwiftVisitor', () => {
           public init(id: String = UUID().uuidString,
               \`Class\`: \`Class\`? = nil,
               nonNullClass: \`Class\`,
-              classes: [\`Class\`]? = [],
+              classes: [\`Class\`?]? = [],
               nonNullClasses: [\`Class\`] = []) {
             self.init(id: id,
               \`Class\`: \`Class\`,
