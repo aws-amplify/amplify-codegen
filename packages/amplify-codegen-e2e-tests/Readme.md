@@ -1,6 +1,6 @@
-# Amplify CLI E2E tests
+# Amplify Codegen E2E tests
 
-This packages contains end to end tests that are run in CircleCI to ensure that your changes are not breaking the CLI. Each test in this package creates resources in the cloud.
+This packages contains end to end tests that are run in CircleCI to ensure that your changes are not breaking the CLI. Some tests in this package might create resources in the cloud.
 
 ## Setup
 
@@ -16,7 +16,7 @@ Amplify E2E tests use Jest. So all the standard Jest comnmads work.
 You can run a single test while adding a new test by running
 
 ```bash
-cd <amplif-cli-root>/packages/amplify-e2e-tests/
+cd <amplif-codegen-root>/packages/amplify-codegen-e2e-tests/
 npm run e2e __tests__/init.test.ts
 ```
 
