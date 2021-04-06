@@ -13,9 +13,14 @@ package-lock.json
 packages/appsync-modelgen-plugin/lib
 packages/graphql-docs-generator/lib
 packages/graphql-types-generator/lib
+packages/amplify-codegen-e2e-core/lib
+packages/amplify-codegen-e2e-tests/lib
+packages/amplify-codegen-e2e-tests/amplify-e2e-reports/
+packages/amplify-codegen-e2e-tests/src/__tests__/amplify-e2e-reports/
 packages/*/node_modules
 packages/*/package-lock.json
 **/.env
+!packages/amplify-e2e-tests/projects-templates/create-react-app-auth-amplify/.env
 packages/**/reports/junit/*
 test.out.log
 *.tsbuildinfo
