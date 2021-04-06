@@ -87,8 +87,8 @@ export async function testMutations(testModule: any, appSyncClient: any) {
 
   if (mutationNames.length > 1) {
     mutationNames = mutationNames.sort((name1, name2) => {
-      const n1 = parseInt(name1.replace(/mutation/, ''));
-      const n2 = parseInt(name2.replace(/mutation/, ''));
+      const n1 = parseInt(name1.replace(/mutation/, ''), 10);
+      const n2 = parseInt(name2.replace(/mutation/, ''), 10);
       return n1 - n2;
     });
   }
@@ -149,8 +149,8 @@ export async function testQueries(testModule: any, appSyncClient: any) {
 
   if (queryNames.length > 1) {
     queryNames = queryNames.sort((name1, name2) => {
-      const n1 = parseInt(name1.replace(/query/, ''));
-      const n2 = parseInt(name2.replace(/query/, ''));
+      const n1 = parseInt(name1.replace(/query/, ''), 10);
+      const n2 = parseInt(name2.replace(/query/, ''), 10);
       return n1 - n2;
     });
   }
@@ -210,8 +210,8 @@ export async function testSubscriptions(testModule: any, appsyncClient: any) {
 
   if (subscriptionNames.length > 1) {
     subscriptionNames = subscriptionNames.sort((name1, name2) => {
-      const n1 = parseInt(name1.replace(/subscription/, ''));
-      const n2 = parseInt(name2.replace(/subscription/, ''));
+      const n1 = parseInt(name1.replace(/subscription/, ''), 10);
+      const n2 = parseInt(name2.replace(/subscription/, ''), 10);
       return n1 - n2;
     });
   }

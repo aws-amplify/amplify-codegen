@@ -55,9 +55,9 @@ export const toHaveValidPolicyConditionMatchingIdpId = async (roleName: string, 
         return false;
       }
     });
-    
+
     message = pass ? 'Found Matching Condition' : 'Matching Condition does not exist';
-   
+
   } catch (e) {
     pass = false;
     message = 'IAM GetRole threw Error: ' + e.message;
