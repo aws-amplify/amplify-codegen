@@ -21,18 +21,13 @@ declare global {
 
 const amplifyTestsDir = 'amplify-e2e-tests';
 
-export function getCLIPath(testingWithLatestCodebase = false) {
-  if (isCI() && !testingWithLatestCodebase) {
-    return process.env.AMPLIFY_PATH || 'amplify';
-  }
-  // TODO: set the path to binary appropriately
-  return '/Users/edupp/Documents/git_repos/amplify-cli/packages/amplify-cli/bin/amplify';
-  // return path.join(__dirname, '..', '..', 'amplify-cli', 'bin', 'amplify');
+export function getCLIPath(testingWithLatestCodebase: boolean = false) {
+  // return testingWithLatestCodebase ? 'amplify-dev' : 'amplify';
+  return 'amplify';
 }
 
 export function isCI(): boolean {
   return process.env.CI && process.env.CIRCLECI ? true : false;
-  return true;
 }
 
 export function npmInstall(cwd: string) {

@@ -92,7 +92,13 @@
     "ts-jest": "^25.5.0",
     "ts-node": "^8.10.1",
     "typescript": "^3.8.3",
+<<<<<<< HEAD
     "@aws-amplify/cli": "^4.46.1"
+=======
+    "amplify-cli-core": "^1.17.2",
+    "graphql-transformer-core": "^6.26.2",
+    "amplify-headless-interface": "^1.5.3"
+>>>>>>> e316938... fix(e2e-testing): remove TODOs for CLI path and schema path
   },
   "config": {
     "commitizen": {
