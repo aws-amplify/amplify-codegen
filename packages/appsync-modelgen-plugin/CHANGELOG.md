@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.23.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.23.0...@aws-amplify/appsync-modelgen-plugin@1.23.1) (2021-03-31)
+
+
+### Bug Fixes
+
+* **modelgen:** revert not adding ID field automatically ([4a3c000](https://github.com/aws-amplify/amplify-codegen/commit/4a3c000adac2be10cc5c648d2d83461b24e35816))
+
+
+
+
+
 # [1.23.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.22.10...@aws-amplify/appsync-modelgen-plugin@1.23.0) (2021-03-29)
 
 
