@@ -3,7 +3,7 @@ import { parse } from 'graphql';
 import { generateSource } from '../typescript/codeGeneration';
 
 import { loadSchema } from '../loading';
-const starWarsSchema = loadSchema(require.resolve('./starWarsSchema.json'));
+const starWarsSchema = loadSchema(require.resolve('./starwarsschema.json'));
 const miscSchema = loadSchema(require.resolve('./miscschema.json'));
 
 import { CodeGenerator } from '../utilities/CodeGenerator';
