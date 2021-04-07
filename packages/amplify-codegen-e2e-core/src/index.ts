@@ -4,9 +4,9 @@ import * as fs from 'fs-extra';
 import { spawnSync, execSync } from 'child_process';
 import { v4 as uuid } from 'uuid';
 
-export * from './configure';
-export * from './init';
-export * from './utils';
+export * from './configure/';
+export * from './init/';
+export * from './utils/';
 export * from './categories';
 export * from './utils/sdk-calls';
 export { addFeatureFlag } from './utils/feature-flags';
@@ -19,11 +19,11 @@ declare global {
   }
 }
 
-const amplifyTestsDir = 'amplify-e2e-tests';
+const amplifyTestsDir = 'amplify-codegen-e2e-tests';
 
-export function getCLIPath(testingWithLatestCodebase: boolean = false) {
+export function getCLIPath(testingWithLatestCodebase = false) {
   // return testingWithLatestCodebase ? 'amplify-dev' : 'amplify';
-  return 'amplify';
+  return 'amplify-dev';
 }
 
 export function isCI(): boolean {
