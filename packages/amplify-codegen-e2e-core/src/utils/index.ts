@@ -11,6 +11,7 @@ export * from './envVars';
 export * from './getAppId';
 export * from './headless';
 export * from './nexpect';
+export * from './pinpoint';
 export * from './projectMeta';
 export * from './readJsonFile';
 export * from './request';
@@ -39,7 +40,7 @@ export function overrideFunctionSrc(root: string, name: string, code: string) {
 
 export function overrideFunctionCode(root: string, name: string, fileName: string) {
   let indexPath = path.join(getPathToFunction(root, name), 'src', 'index.js');
-  let functionPath = path.join(__dirname, '..', '..', '..', 'amplify-e2e-tests', 'functions', fileName);
+  let functionPath = path.join(__dirname, '..', '..', '..', 'amplify-codegen-e2e-tests', 'functions', fileName);
   fs.copySync(functionPath, indexPath);
 }
 

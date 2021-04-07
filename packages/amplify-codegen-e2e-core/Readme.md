@@ -1,3 +1,3 @@
 # Amplify Codegen E2E core
 
-This packages contains the code shared between end to end test packages.
+This package contains the code shared between end to end test packages.
