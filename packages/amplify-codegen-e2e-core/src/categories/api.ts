@@ -4,8 +4,7 @@ import { singleSelect, multiSelect } from '../utils/selectors';
 import _ from 'lodash';
 
 export function getSchemaPath(schemaName: string): string {
-  // TODO get schema from relative path
-  return `/Users/edupp/Desktop/amplify-cli/amplify-codegen/packages/amplify-codegen-e2e-tests/schemas/${schemaName}`;
+  return `${__dirname}/../../../amplify-codegen-e2e-tests/schemas/${schemaName}`;
 }
 
 export function apiGqlCompile(cwd: string, testingWithLatestCodebase: boolean = false) {

@@ -36,7 +36,7 @@
   },
   "peerDependencies": {
     "amplify-cli-core": "^1.18.1",
-    "amplify-headless-interface": "^1.5.3",
-    "graphql-transformer-core": "^6.27.0"
+    "graphql-transformer-core": "^6.27.0",
+    "amplify-headless-interface": "^1.5.3"
   }
 }
