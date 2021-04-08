@@ -8,6 +8,41 @@ defaults: &defaults
     - image: circleci/node:15.0
   resource_class: large
 
+commands:
+  install_cli_with_local_codegen:
+    steps:
+      - run:
+          name: Publish Amplify Codegen to verdaccio
+          command: |
+            yarn verdaccio-start
+            yarn verdaccio-connect
+            git config user.email not@used.com
+            git config user.name "Doesnt Matter"
+            yarn verdaccio-publish
+      - run:
+          name: Install Amplify CLI and Amplify App 
+          command: |
+            npm install -g @aws-amplify/cli
+            npm install -g amplify-app
+            amplify -v
+            amplify-app --version
+      - run:
+          name: Disconnect Verdaccio
+          command: |
+            yarn verdaccio-disconnect
+            yarn verdaccio-stop
+      - save_cache:
+          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - ~/verdaccio-cache/
+  clean_up_e2e_resources:
+    steps:
+      - run:
+          name: Clean up e2e resources
+          command: |
+            cd packages/amplify-e2e-tests
+            yarn clean-e2e-resources job ${CIRCLE_BUILD_NUM}
+
 jobs:
   build:
     <<: *defaults
@@ -80,47 +115,6 @@ jobs:
           command: |
             cd packages/amplify-e2e-tests
             yarn run e2e --maxWorkers=3
-  
-  clean_up_e2e_resources:
-    <<: *defaults
-    steps:
-      - run:
-          name: Clean up e2e resources
-          command: |
-            cd packages/amplify-e2e-tests
-            yarn clean-e2e-resources job ${CIRCLE_BUILD_NUM}
-
-  install_cli_with_local_codegen:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ./
-      - restore_cache:
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
-      - run:
-          name: Publish Amplify Codegen to verdaccio
-          command: |
-            yarn verdaccio-start
-            yarn verdaccio-connect
-            git config user.email not@used.com
-            git config user.name "Doesnt Matter"
-            yarn verdaccio-publish
-      - run:
-          name: Install Amplify CLI and Amplify App 
-          command: |
-            npm install -g @aws-amplify/cli
-            npm install -g amplify-app
-            amplify -v
-            amplify-app --version
-      - run:
-          name: Disconnect Verdaccio
-          command: |
-            yarn verdaccio-disconnect
-            yarn verdaccio-stop
-      - save_cache:
-          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}
-          paths:
-            - ~/verdaccio-cache/
 
 workflows:
   version: 2
