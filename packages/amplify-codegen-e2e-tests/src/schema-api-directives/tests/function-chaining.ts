@@ -1,4 +1,4 @@
-import { addApi, amplifyPush } from 'amplify-e2e-core';
+import { addApi, amplifyPush } from 'amplify-codegen-e2e-core';
 
 import { getApiKey, configureAmplify, getConfiguredAppsyncClientAPIKeyAuth } from '../authHelper';
 
