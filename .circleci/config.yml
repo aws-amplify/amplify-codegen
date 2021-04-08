@@ -102,8 +102,10 @@ jobs:
       - run:
           name: Publish Amplify Codegen to verdaccio
           command: |
-            yarn verdaccio-start
-            yarn verdaccio-connect
+            source .circleci/local_publish_helpers.sh
+            startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
+            setNpmRegistryUrlToLocal
+            loginToLocalRegistry
             git config user.email not@used.com
             git config user.name "Doesnt Matter"
             yarn verdaccio-publish
