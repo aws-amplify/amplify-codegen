@@ -1,4 +1,4 @@
-import { nspawn as spawn, getCLIPath } from 'amplify-e2e-core';
+import { nspawn as spawn, getCLIPath } from 'amplify-codegen-e2e-core';
 
 export function addCodegen(cwd: string, settings: any): Promise<void> {
   return new Promise((resolve, reject) => {
