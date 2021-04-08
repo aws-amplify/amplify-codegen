@@ -11,6 +11,10 @@ defaults: &defaults
 commands:
   install_cli_with_local_codegen:
     steps:
+      - attach_workspace:
+          at: ./
+      - restore_cache:
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
           name: Publish Amplify Codegen to verdaccio
           command: |
@@ -37,6 +41,10 @@ commands:
             - ~/verdaccio-cache/
   clean_up_e2e_resources:
     steps:
+      - attach_workspace:
+          at: ./
+      - restore_cache:
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
           name: Clean up e2e resources
           command: |
