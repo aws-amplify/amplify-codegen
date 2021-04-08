@@ -105,6 +105,7 @@ jobs:
             source .circleci/local_publish_helpers.sh
             startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
             setNpmRegistryUrlToLocal
+            sudo npm install npm-auth-to-token@1.0.0
             loginToLocalRegistry
             git config user.email not@used.com
             git config user.name "Doesnt Matter"
