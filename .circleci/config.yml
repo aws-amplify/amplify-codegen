@@ -124,6 +124,9 @@ workflows:
       - e2e-test:
           post-steps:
             - run: *ref_2
+          requires:
+            - build
+            - test
           filters:
             branches:
               only:
