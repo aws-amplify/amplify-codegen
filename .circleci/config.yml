@@ -118,7 +118,8 @@ jobs:
       - run:
           name: Disconnect Verdaccio
           command: |
-            yarn verdaccio-disconnect
+            source .circleci/local_publish_helpers.sh
+            unsetNpmRegistryUrl
             yarn verdaccio-stop
       - save_cache:
           key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}
