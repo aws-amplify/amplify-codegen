@@ -91,6 +91,10 @@ jobs:
           command: |
             cd packages/amplify-codegen-e2e-tests
             yarn run e2e --maxWorkers=3
+      - store_test_results:
+          path: packages/amplify-codegen-e2e-tests/
+      - store_artifacts:
+          path: ~/repo/packages/amplify-codegen-e2e-tests/amplify-e2e-reports
   
   install_cli_with_local_codegen:
     <<: *defaults
@@ -120,7 +124,6 @@ jobs:
           command: |
             source .circleci/local_publish_helpers.sh
             unsetNpmRegistryUrl
-            yarn verdaccio-stop
       - save_cache:
           key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}
           paths:
