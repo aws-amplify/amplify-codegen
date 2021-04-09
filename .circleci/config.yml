@@ -118,7 +118,7 @@ jobs:
       - run:
           name: Disconnect Verdaccio
           command: |
-            yarn verdaccio-disconnect
+            unsetNpmRegistryUrl
             yarn verdaccio-stop
       - save_cache:
           key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}
