@@ -16,7 +16,7 @@ describe('@skip/@include directives', () => {
 
     const selectionSet = (context.operations['Hero'].selectionSet.selections[0] as Field).selectionSet as SelectionSet;
 
-    // expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], ['name']);
+    expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], ['name']);
     expect(collectAndMergeFields(selectionSet)[0].isConditional).toBeFalsy();
   });
 
@@ -31,7 +31,7 @@ describe('@skip/@include directives', () => {
 
     const selectionSet = (context.operations['Hero'].selectionSet.selections[0] as Field).selectionSet as SelectionSet;
 
-    // expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], ['name']);
+    expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], ['name']);
     expect(collectAndMergeFields(selectionSet)[0].isConditional).toBeTruthy();
 
     expect(selectionSet.selections[0]).toMatchObject({ variableName: 'skipName' });
@@ -48,7 +48,7 @@ describe('@skip/@include directives', () => {
 
     const selectionSet = (context.operations['Hero'].selectionSet.selections[0] as Field).selectionSet as SelectionSet;
 
-    // expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], ['name']);
+    expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], ['name']);
     expect(collectAndMergeFields(selectionSet)[0].isConditional).toBeFalsy();
   });
 
@@ -63,7 +63,7 @@ describe('@skip/@include directives', () => {
 
     const selectionSet = (context.operations['Hero'].selectionSet.selections[0] as Field).selectionSet as SelectionSet;
 
-    // expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], []);
+    expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], []);
   });
 
   it('should mark a field as conditional when it has a @include directive', () => {
@@ -77,7 +77,7 @@ describe('@skip/@include directives', () => {
 
     const selectionSet = (context.operations['Hero'].selectionSet.selections[0] as Field).selectionSet as SelectionSet;
 
-    // expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], ['name']);
+    expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], ['name']);
     expect(collectAndMergeFields(selectionSet)[0].isConditional).toBeTruthy();
 
     expect(selectionSet.selections[0]).toMatchObject({ variableName: 'includeName' });
@@ -94,7 +94,7 @@ describe('@skip/@include directives', () => {
 
     const selectionSet = (context.operations['Hero'].selectionSet.selections[0] as Field).selectionSet as SelectionSet;
 
-    // expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], ['name']);
+    expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], ['name']);
     expect(collectAndMergeFields(selectionSet)[0].isConditional).toBeFalsy();
   });
 
@@ -109,7 +109,7 @@ describe('@skip/@include directives', () => {
 
     const selectionSet = (context.operations['Hero'].selectionSet.selections[0] as Field).selectionSet as SelectionSet;
 
-    // expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], []);
+    expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], []);
   });
 
   it('should mark a field as conditional when it has both a @skip and an @include directive', () => {
@@ -123,7 +123,7 @@ describe('@skip/@include directives', () => {
 
     const selectionSet = (context.operations['Hero'].selectionSet.selections[0] as Field).selectionSet as SelectionSet;
 
-    // expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], ['name']);
+    expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], ['name']);
     expect(collectAndMergeFields(selectionSet)[0].isConditional).toBeTruthy();
 
     expect(selectionSet.selections[0]).toMatchObject({ variableName: 'includeName' });
@@ -144,7 +144,7 @@ describe('@skip/@include directives', () => {
 
     const selectionSet = (context.operations['Hero'].selectionSet.selections[0] as Field).selectionSet as SelectionSet;
 
-    // expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], ['name']);
+    expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], ['name']);
     expect(collectAndMergeFields(selectionSet)[0].isConditional).toBeTruthy();
 
     expect(selectionSet.selections[0]).toMatchObject({ variableName: 'skipName' });
@@ -162,7 +162,7 @@ describe('@skip/@include directives', () => {
 
     const selectionSet = (context.operations['Hero'].selectionSet.selections[0] as Field).selectionSet as SelectionSet;
 
-    // expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], []);
+    expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], []);
   });
 
   it('should not mark a field as conditional when it is included twice, once with and once without an @include directive', () => {
@@ -177,7 +177,7 @@ describe('@skip/@include directives', () => {
 
     const selectionSet = (context.operations['Hero'].selectionSet.selections[0] as Field).selectionSet as SelectionSet;
 
-    // expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], ['name']);
+    expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], ['name']);
     expect(collectAndMergeFields(selectionSet)[0].isConditional).toBeFalsy();
   });
 
@@ -193,7 +193,7 @@ describe('@skip/@include directives', () => {
 
     const selectionSet = (context.operations['Hero'].selectionSet.selections[0] as Field).selectionSet as SelectionSet;
 
-    // expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], ['name']);
+    expect(selectionSet).toMatchSelectionSet(['Human', 'Droid'], ['name']);
     expect(collectAndMergeFields(selectionSet)[0].isConditional).toBeFalsy();
   });
 
@@ -212,11 +212,11 @@ describe('@skip/@include directives', () => {
     const selectionSet = (context.operations['Hero'].selectionSet.selections[0] as Field).selectionSet as SelectionSet;
     const typeCase = typeCaseForSelectionSet(selectionSet);
 
-    // expect(typeCase.default).toMatchSelectionSet(['Human', 'Droid'], ['name']);
+    expect(typeCase.default).toMatchSelectionSet(['Human', 'Droid'], ['name']);
     expect(collectAndMergeFields(typeCase.default)[0].isConditional).toBeTruthy();
 
     expect(typeCase.variants).toHaveLength(1);
-    // expect(typeCase.variants).toContainSelectionSetMatching(['Droid'], ['name']);
+    expect(typeCase.variants).toContainSelectionSetMatching(['Droid'], ['name']);
     expect(collectAndMergeFields(typeCase.variants[0])[0].isConditional).toBeFalsy();
   });
 
@@ -235,11 +235,11 @@ describe('@skip/@include directives', () => {
     const selectionSet = (context.operations['Hero'].selectionSet.selections[0] as Field).selectionSet as SelectionSet;
     const typeCase = typeCaseForSelectionSet(selectionSet);
 
-    // expect(typeCase.default).toMatchSelectionSet(['Human', 'Droid'], ['name']);
+    expect(typeCase.default).toMatchSelectionSet(['Human', 'Droid'], ['name']);
     expect(collectAndMergeFields(typeCase.default)[0].isConditional).toBeFalsy();
 
     expect(typeCase.variants).toHaveLength(1);
-    // expect(typeCase.variants).toContainSelectionSetMatching(['Droid'], ['name']);
+    expect(typeCase.variants).toContainSelectionSetMatching(['Droid'], ['name']);
     expect(collectAndMergeFields(typeCase.variants[0])[0].isConditional).toBeFalsy();
   });
 
@@ -258,7 +258,7 @@ describe('@skip/@include directives', () => {
     const friendsField = collectAndMergeFields(heroField.selectionSet as SelectionSet)[0];
 
     expect(friendsField.isConditional).toBeTruthy();
-    // expect(friendsField.selectionSet as SelectionSet).toMatchSelectionSet(['Human', 'Droid'], ['name']);
+    expect(friendsField.selectionSet as SelectionSet).toMatchSelectionSet(['Human', 'Droid'], ['name']);
     expect(collectAndMergeFields(friendsField.selectionSet as SelectionSet)[0].isConditional).toBeFalsy();
   });
 
@@ -280,7 +280,7 @@ describe('@skip/@include directives', () => {
     const friendsField = collectAndMergeFields(heroField.selectionSet as SelectionSet)[0];
 
     expect(friendsField.isConditional).toBeFalsy();
-    // expect(friendsField.selectionSet).toMatchSelectionSet(['Human', 'Droid'], ['name', 'id']);
+    expect(friendsField.selectionSet).toMatchSelectionSet(['Human', 'Droid'], ['name', 'id']);
     expect(collectAndMergeFields(friendsField.selectionSet as SelectionSet)[0].isConditional).toBeTruthy();
     expect(collectAndMergeFields(friendsField.selectionSet as SelectionSet)[1].isConditional).toBeFalsy();
   });
@@ -303,7 +303,7 @@ describe('@skip/@include directives', () => {
     const friendsField = collectAndMergeFields(heroField.selectionSet as SelectionSet)[0];
 
     expect(friendsField.isConditional).toBeFalsy();
-    // expect(friendsField.selectionSet).toMatchSelectionSet(['Human', 'Droid'], ['id', 'name']);
+    expect(friendsField.selectionSet).toMatchSelectionSet(['Human', 'Droid'], ['id', 'name']);
     expect(collectAndMergeFields(friendsField.selectionSet as SelectionSet)[0].isConditional).toBeFalsy();
     expect(collectAndMergeFields(friendsField.selectionSet as SelectionSet)[1].isConditional).toBeTruthy();
   });

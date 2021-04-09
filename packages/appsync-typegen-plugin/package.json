@@ -55,6 +55,17 @@
       "transform": {
         "^.+\\.tsx?$": "ts-jest"
       },
+      "testMatch": [
+        "**/test/**/*.(js|ts)",
+        "**/test/*.(js|ts)",
+        "**/__tests__/*.(js|ts)"
+      ],
+      "testPathIgnorePatterns": [
+        "<rootDir>/node_modules/",
+        "<rootDir>/lib/",
+        "<rootDir>/test/fixtures/",
+        "<rootDir>/test/test-utils"
+      ],
       "collectCoverage": true,
       "collectCoverageFrom": [
         "src/**/*.ts"
