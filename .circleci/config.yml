@@ -8,13 +8,29 @@ defaults: &defaults
     - image: circleci/node:15.0
   resource_class: large
 
-clean_up_e2e_resources: &ref_1
+install_cli_with_local_codegen: &ref_1
+  name: install Amplify CLI and amplify-app with local Amplify Codegen
+  command: |
+    source .circleci/local_publish_helpers.sh
+    startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
+    setNpmRegistryUrlToLocal
+    git config user.email not@used.com
+    git config user.name "Doesnt Matter"
+    yarn verdaccio-publish || yarn verdaccio-publish
+    sudo npm install -g @aws-amplify/cli
+    sudo npm install -g amplify-app
+    amplify -v
+    amplify-app --version
+    unsetNpmRegistryUrl
+  working_directory: ~/repo
+        
+clean_up_e2e_resources: &ref_2
   name: Clean up e2e resources
   command: |
     pwd
     cd packages/amplify-codegen-e2e-tests
     yarn clean-e2e-resources job ${CIRCLE_BUILD_NUM}
-        
+  working_directory: ~/repo
 
 jobs:
   build:
@@ -86,6 +102,7 @@ jobs:
           at: ./
       - restore_cache:
           key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - run: *ref_1
       - run:
           name: Run e2e tests
           command: |
@@ -95,42 +112,6 @@ jobs:
           path: packages/amplify-codegen-e2e-tests/
       - store_artifacts:
           path: ~/repo/packages/amplify-codegen-e2e-tests/amplify-e2e-reports
-  
-  install_cli_with_local_codegen:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ./
-      - restore_cache:
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
-      - run:
-          name: Publish Amplify Codegen to verdaccio
-          command: |
-            source .circleci/local_publish_helpers.sh
-            startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
-            setNpmRegistryUrlToLocal
-            git config user.email not@used.com
-            git config user.name "Doesnt Matter"
-            yarn verdaccio-publish || yarn verdaccio-publish
-      - run:
-          name: Install Amplify CLI and Amplify App 
-          command: |
-            sudo npm install -g @aws-amplify/cli
-            sudo npm install -g amplify-app
-            amplify -v
-            amplify-app --version
-      - run:
-          name: Disconnect Verdaccio
-          command: |
-            source .circleci/local_publish_helpers.sh
-            unsetNpmRegistryUrl
-      - save_cache:
-          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}
-          paths:
-            - ~/verdaccio-cache/
-      - persist_to_workspace:
-          root: .
-          paths: .
 
 workflows:
   version: 2
@@ -140,19 +121,9 @@ workflows:
       - test:
           requires:
             - build
-      - install_cli_with_local_codegen:
-          requires:
-            - build
-            - test
-          filters:
-            branches:
-              only:
-                - e2e-testing
       - e2e-test:
-          requires:
-            - install_cli_with_local_codegen
           post-steps:
-            - run: *ref_1
+            - run: *ref_2
           filters:
             branches:
               only:
