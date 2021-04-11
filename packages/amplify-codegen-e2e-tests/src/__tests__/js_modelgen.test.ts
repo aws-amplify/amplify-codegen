@@ -10,14 +10,14 @@ import {
   import { existsSync } from 'fs';
   import _ from 'lodash';
   
-  describe('Codegen commands work with Angular JS projects', () => {
+  describe('Codegen commands work with JS projects', () => {
     let projectRoot: string;
     const schema = 'simple_model.graphql';
     const envName = 'devtest';
     
     beforeEach(async () => {
-      projectRoot = await createNewProjectDir('angular-js-sample');
-      const projectSettings = { name: 'simplemodel', envName, framework: 'angular'};
+      projectRoot = await createNewProjectDir('js-sample');
+      const projectSettings = { name: 'simplemodel', envName };
       await initJSProjectWithProfile(projectRoot, projectSettings);
       await addApiWithSchema(projectRoot, schema);
     });
