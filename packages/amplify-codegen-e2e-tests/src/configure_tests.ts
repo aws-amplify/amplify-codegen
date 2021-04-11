@@ -11,7 +11,7 @@ async function setupAmplify() {
     await configure({
       accessKeyId: AWS_ACCESS_KEY_ID,
       secretAccessKey: AWS_SECRET_ACCESS_KEY,
-      profileName: 'amplify-integ-test-user',
+      profileName: 'e2e-test-user',
       region: REGION,
     });
   } else {
