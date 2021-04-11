@@ -84,7 +84,7 @@ export function initJSProjectWithProfile(cwd: string, settings: Object): Promise
           .wait('Please choose the profile you want to use')
           .sendLine(s.profileName);
       }
-      
+
       chain.wait('Try "amplify add api" to create a backend API and then "amplify publish" to deploy everything').run((err: Error) => {
         if (err) {
           reject(err);
