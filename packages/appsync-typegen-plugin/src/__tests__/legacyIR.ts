@@ -2,16 +2,16 @@ import { stripIndent } from 'common-tags';
 
 import { parse, isType, GraphQLID, GraphQLString, GraphQLList, GraphQLNonNull } from 'graphql';
 
-import { loadSchema } from '../../loading';
+import { loadSchema } from '../loading';
 
-import { compileToLegacyIR } from '../../compiler/legacyIR';
-import { serializeAST } from '../../serializeToJSON';
+import { compileToLegacyIR } from '../compiler/legacyIR';
+import { serializeAST } from '../serializeToJSON';
 
 function withStringifiedTypes(ir) {
   return JSON.parse(serializeAST(ir));
 }
 
-const schema = loadSchema(require.resolve('../starwarsschema.json'));
+const schema = loadSchema(require.resolve('./starwarsschema.json'));
 
 describe('Compiling query documents to the legacy IR', () => {
   it(`should include variables defined in operations`, () => {
