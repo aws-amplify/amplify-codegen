@@ -61,9 +61,6 @@
         "**/__tests__/*.(js|ts)"
       ],
       "collectCoverage": true,
-      "collectCoverageFrom": [
-        "src/**/*.ts"
-      ],
       "globals": {
         "ts-jest": {
           "diagnostics": false
