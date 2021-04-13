@@ -1,6 +1,12 @@
+# Contributing to Amplify Codegen
+
+Thank you for your interest in contributing to our project! 💛
+
+Whether it's a bug report, new feature, correction, or additional documentation, we greatly value feedback and contributions from our community. Please read through these guidelines carefully before submitting a PR or issue and let us know if it's not up-to-date (or even better, submit a PR with your proposed corrections 😉).
+
 # Development Process
 
-Our work is done directly on Github and PR's are sent to the github repo by core team members and contributors. Everyone undergoes the same review process to get their changes into the repo.
+Our work is done directly on Github and PR's are sent to the GitHub repo by core team members and contributors. Everyone undergoes the same review process to get their changes into the repo.
 
 # Setting up for local development
 
@@ -17,12 +23,22 @@ $ yarn run setup-dev
 
 # Bugs
 
-Bug reports and feature suggestions are welcome. When filing a bug, try to include as much information as you can. Details like these are incredibly useful:
+Bug reports and feature suggestions are always welcome. Good bug reports are extremely helpful, so thanks in advance!
 
-* A reproducible test case or series of steps
-* The date/commit of the code you're running
-* Any modifications you've made relevant to the bug
-* Anything unusual about your environment or deployment
+When filing a bug, please try to be as detailed as possible. In addition to the bug report form information, details like these are incredibly useful:
+
+- A reproducible test case or series of steps
+- The date/commit/version(s) of the code you're running
+- Any modifications you've made relevant to the bug
+- Anything unusual about your environment or deployment
+
+Guidelines for bug reports:
+
+- Check to see if a [duplicate or closed issue](https://github.com/aws-amplify/amplify-codegen/issues?q=is%3Aissue+) already exists!
+- Provide a short and descriptive issue title
+- Remove any sensitive data from your examples or snippets
+- Format any code snippets using [Markdown](https://docs.github.com/en/github/writing-on-github/creating-and-highlighting-code-blocks) syntax
+- If you're not using the latest version of the CLI, see if the issue still persists after upgrading - this helps to isolate regressions!
 
 # Pull Requests
 
@@ -56,6 +72,26 @@ Please ensure that your change still passes unit tests, and ideally integration/
 ## Code Style
 
 Generally, match the style of the surrounding code. Please ensure your changes don't wildly deviate from those rules. You can run `yarn lint-fix` to identify and automatically fix most style issues.
+
+## Finding Contributions
+
+Looking at the existing issues is a great way to find something to contribute on. As our projects, by default, use the default GitHub issue labels (enhancement/bug/duplicate/help wanted/invalid/question/wontfix), looking at any [`help-wanted`](https://github.com/aws-amplify/amplify-codegen/labels/help-wanted) or [`good first issue`](https://github.com/aws-amplify/amplify-codegen/labels/good%20first%20issue) is a great place to start.
+
+You could also contribute by reporting bugs, reproduction of bugs with sample code, documentation and test improvements.
+
+## Community
+
+Join the [Discord Server](https://discord.com/invite/amplify). If it's your first time contributing, checkout the `#first-time-contributor` channel.
+
+## Code of Conduct
+
+This project has adopted the [Amazon Open Source Code of Conduct](https://aws.github.io/code-of-conduct).
+For more information see the [Code of Conduct FAQ](https://aws.github.io/code-of-conduct-faq) or contact opensource-codeofconduct@amazon.com with any additional questions or comments.
+
+## Security Issue Reporting
+
+If you discover a potential security issue in this project we ask that you notify AWS/Amazon Security via our [vulnerability reporting page](http://aws.amazon.com/security/vulnerability-reporting/). Please do **not** create a public GitHub issue.
+
 
 ## Licensing
 
