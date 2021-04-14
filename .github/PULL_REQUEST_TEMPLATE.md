@@ -28,7 +28,7 @@ the requirements below.
 - [ ] Tests are [changed or added](https://github.com/aws-amplify/amplify-codegen/blob/master/CONTRIBUTING.md#tests)
 - [ ] Relevant documentation is changed or added (and PR referenced)
 - [ ] Breaking changes to existing customers are released behind a feature flag or major version update
-- [ ] Changes are tested using Sample Applications for all relevant platforms (iOS/android/flutter/Javascript)
+- [ ] Changes are tested using sample applications for all relevant platforms (iOS/android/flutter/Javascript) that use the feature added/modified
 
 
 By submitting this pull request, I confirm that my contribution is made under the terms of the Apache 2.0 license.
