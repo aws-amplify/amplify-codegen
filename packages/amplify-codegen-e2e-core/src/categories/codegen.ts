@@ -1,4 +1,4 @@
-import { AmplifyFrontend } from 'amplify-cli-core';
+import { AmplifyFrontend } from '../utils';
 import { getCLIPath, nspawn as spawn } from '..';
 
 export function generateModels(cwd: string): Promise<void> {
