@@ -88,9 +88,6 @@ jobs:
       - run:
           name: Collect code coverage
           command: yarn coverage
-      - persist_to_workspace:
-          root: .
-          paths: .
 
   deploy:
     <<: *defaults
@@ -140,30 +137,35 @@ workflows:
   build_test_deploy:
     jobs:
       - build:
+          name: build-<< matrix.os >>
           matrix:
             parameters:
               os: [linux-node15, win/default]
       - test:
+          name: test-<< matrix.os >>
           matrix:
             parameters:
               os: [linux-node15, win/default]
           requires:
-            - build
+            - build-<< matrix.os >>
       - e2e-test:
+          name: e2e-test-<< matrix.os >>
           matrix:
             parameters:
               os: [linux-node15, win/default]
-          post-steps:
-            - run: *cleanup_e2e
           requires:
-            - build
-            - test
+            - build-<< matrix.os >>
+            - test-<< matrix.os >>
           filters:
             branches:
               only:
                 - e2e-testing
       - deploy:
           os: linux-node15
+          requires:
+            - build
+            - test
+            - e2e-test
           filters:
             branches:
               only:
