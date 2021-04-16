@@ -1,14 +1,32 @@
 version: 2.1
+orbs:
+  aws-ecr: circleci/aws-ecr@6.15.3
+  win: circleci/windows@2.2.0
 machine:
   environment:
     PATH: '${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin'
+executors:
+  linux-node10:
+    docker:
+      - image: circleci/node:10.0
+    resource_class: large
+  linux-node15:
+    docker:
+      - image: circleci/node:15.0
+    resource_class: large
+  macos-node10: 
+    macos:
+      xcode: 11.4
+    resource_class: large
+  windows-node10:
+    name: win/default
+    shell: cmd.exe
+    resource_class: large
+
 defaults: &defaults
   working_directory: ~/repo
-  docker:
-    - image: circleci/node:15.0
-  resource_class: large
 
-install_cli_with_local_codegen: &ref_1
+install_cli_with_local_codegen: &install_cli
   name: install Amplify CLI and amplify-app with local Amplify Codegen
   command: |
     source .circleci/local_publish_helpers.sh
@@ -24,7 +42,7 @@ install_cli_with_local_codegen: &ref_1
     unsetNpmRegistryUrl
   working_directory: ~/repo
         
-clean_up_e2e_resources: &ref_2
+clean_up_e2e_resources: &cleanup_e2e
   name: Clean up e2e resources
   command: |
     pwd
@@ -35,6 +53,7 @@ clean_up_e2e_resources: &ref_2
 jobs:
   build:
     <<: *defaults
+    executor: << parameters.os >>
     steps:
       - checkout
       - run: yarn config set workspaces-experimental true
@@ -54,6 +73,7 @@ jobs:
 
   test:
     <<: *defaults
+    executor: << parameters.os >>
     steps:
       - attach_workspace:
           at: ./
@@ -74,6 +94,7 @@ jobs:
 
   deploy:
     <<: *defaults
+    executor: << parameters.os >>
     steps:
       - attach_workspace:
           at: ./
@@ -97,12 +118,13 @@ jobs:
 
   e2e-test:
     <<: *defaults
+    executor: << parameters.os >>
     steps:
       - attach_workspace:
           at: ./
       - restore_cache:
           key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
-      - run: *ref_1
+      - run: *install_cli
       - run:
           name: Run e2e tests
           command: |
@@ -115,15 +137,18 @@ jobs:
 
 workflows:
   version: 2
-  build_test_deploy:
+  build_test_deploy_linux_node15:
     jobs:
-      - build
+      - build:
+          os: linux_node15
       - test:
+          os: linux_node15
           requires:
             - build
       - e2e-test:
+          os: linux_node15
           post-steps:
-            - run: *ref_2
+            - run: *cleanup_e2e
           requires:
             - build
             - test
@@ -132,6 +157,7 @@ workflows:
               only:
                 - e2e-testing
       - deploy:
+          os: linux_node15
           requires:
             - build
             - test
