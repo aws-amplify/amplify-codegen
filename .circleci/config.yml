@@ -29,13 +29,14 @@ install_cli_with_local_codegen: &install_cli
   name: install Amplify CLI and amplify-app with local Amplify Codegen
   command: |
     source .circleci/local_publish_helpers.sh
+    local_registry=http://localhost:4873
     startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
-    setNpmRegistryUrlToLocal
+    setNpmRegistryUrlToLocal "$local_registry"
     git config user.email not@used.com
     git config user.name "Doesnt Matter"
     yarn verdaccio-publish || yarn verdaccio-publish
-    sudo npm install -g @aws-amplify/cli --registry http://localhost:4873
-    sudo npm install -g amplify-app --registry http://localhost:4873
+    sudo npm install -g @aws-amplify/cli --registry $local_registry
+    sudo npm install -g amplify-app --registry $local_registry
     amplify -v
     amplify-app --version
     unsetNpmRegistryUrl
