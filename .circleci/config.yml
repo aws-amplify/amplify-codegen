@@ -137,16 +137,22 @@ jobs:
 
 workflows:
   version: 2
-  build_test_deploy_linux_node15:
+  build_test_deploy:
     jobs:
       - build:
-          os: linux-node15
+          matrix:
+            parameters:
+              os: [linux-node15, win/default]
       - test:
-          os: linux-node15
+          matrix:
+            parameters:
+              os: [linux-node15, win/default]
           requires:
             - build
       - e2e-test:
-          os: linux-node15
+          matrix:
+            parameters:
+              os: [linux-node15, win/default]
           post-steps:
             - run: *cleanup_e2e
           requires:
@@ -158,10 +164,6 @@ workflows:
                 - e2e-testing
       - deploy:
           os: linux-node15
-          requires:
-            - build
-            - test
-            - e2e-test
           filters:
             branches:
               only:
