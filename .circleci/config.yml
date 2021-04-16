@@ -16,15 +16,14 @@ executors:
     resource_class: large
   macos-node10: 
     macos:
-      xcode: 11.4
-    resource_class: large
-  windows-node10:
-    name: win/default
-    shell: cmd.exe
+      xcode: "11.4"
     resource_class: large
 
 defaults: &defaults
   working_directory: ~/repo
+  parameters:
+      os:
+        type: executor
 
 install_cli_with_local_codegen: &install_cli
   name: install Amplify CLI and amplify-app with local Amplify Codegen
@@ -140,13 +139,13 @@ workflows:
   build_test_deploy_linux_node15:
     jobs:
       - build:
-          os: linux_node15
+          os: linux-node15
       - test:
-          os: linux_node15
+          os: linux-node15
           requires:
             - build
       - e2e-test:
-          os: linux_node15
+          os: linux-node15
           post-steps:
             - run: *cleanup_e2e
           requires:
@@ -157,7 +156,7 @@ workflows:
               only:
                 - e2e-testing
       - deploy:
-          os: linux_node15
+          os: linux-node15
           requires:
             - build
             - test
