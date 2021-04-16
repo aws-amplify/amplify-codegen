@@ -25,6 +25,12 @@ defaults: &defaults
       os:
         type: executor
 
+windows-default:
+  executor: &windows-executor
+      name: win/default
+      shell: bash.exe
+      size: large
+
 install_cli_with_local_codegen: &install_cli
   name: install Amplify CLI and amplify-app with local Amplify Codegen
   command: |
@@ -140,19 +146,19 @@ workflows:
           name: build-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux-node15, win/default]
+              os: [linux-node15, *windows-executor]
       - test:
           name: test-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux-node15, win/default]
+              os: [linux-node15, *windows-executor]
           requires:
             - build-<< matrix.os >>
       - e2e-test:
           name: e2e-test-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux-node15, win/default]
+              os: [linux-node15, *windows-executor]
           requires:
             - build-<< matrix.os >>
             - test-<< matrix.os >>
