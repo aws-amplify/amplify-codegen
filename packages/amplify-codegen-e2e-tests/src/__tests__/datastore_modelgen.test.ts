@@ -1,50 +1,30 @@
 import {
   deleteProject,
-  initJSProjectWithProfile,
-  initAndroidProjectWithProfile,
-  initIosProjectWithProfile,
-  initFlutterProjectWithProfile,
   addApiWithSchemaAndConflictDetection,
   createNewProjectDir,
   deleteProjectDir,
-  generateModels
+  generateModels,
+  AmplifyFrontendConfig,
+  DEFAULT_JS_CONFIG,
+  DEFAULT_ANDROID_CONFIG,
+  DEFAULT_IOS_CONFIG,
+  DEFAULT_FLUTTER_CONFIG,
+  initProjectWithProfile
 } from 'amplify-codegen-e2e-core';
 import path from 'path';
 import { existsSync, writeFileSync, readdirSync } from 'fs';
 
 const schema = 'modelgen/model_gen_schema_with_aws_scalars.graphql';
-const frontendTypes = ['js', 'android', 'ios', 'flutter']
-const defaultSrcDirPath = {
-  js: 'src',
-  android: 'app/src/main/res',
-  ios: '.',
-  flutter: 'lib'
-};
-const defaultModelgenDirPath = {
-  js: 'src/models',
-  android: 'app/src/main/java',
-  ios: 'amplify/generated/models',
-  flutter: 'lib/models'
-}
+const frontendConfigs: AmplifyFrontendConfig[] = [
+  DEFAULT_JS_CONFIG,
+  DEFAULT_ANDROID_CONFIG,
+  DEFAULT_IOS_CONFIG,
+  DEFAULT_FLUTTER_CONFIG
+];
 const userFileData = 'This is a pre-existing file.';
 
 function isNotEmptyDir(dirPath: string) : boolean {
   return existsSync(dirPath) && readdirSync(dirPath).length > 0;
-}
-
-async function initProjectWithProfile(cwd: string, settings: Object, frontend: string) : Promise<void> {
-  switch (frontend) {
-    case 'js':
-      return initJSProjectWithProfile(cwd, settings);
-    case 'android':
-      return initAndroidProjectWithProfile(cwd, settings);
-    case 'ios':
-      return initIosProjectWithProfile(cwd,settings);
-    case 'flutter':
-      return initFlutterProjectWithProfile(cwd,settings);
-    default:
-      throw Error(`${frontend} is an invalid frontend type`);
-  }
 }
 
 describe('Datastore modelgen tests', () => {
@@ -62,21 +42,19 @@ describe('Datastore modelgen tests', () => {
     deleteProjectDir(projectRoot);
   });
 
-  frontendTypes.forEach(frontend => {
-    it(`should generate files at desired location and do not delete src files in ${frontend} project`, async () => {
-      const srcDir = defaultSrcDirPath[frontend];
-      const modelgenOutputDir = defaultModelgenDirPath[frontend];
+  frontendConfigs.forEach(config => {
+    it(`should generate files at desired location and not delete src files in ${config.frontendType} project`, async () => {
       //initialize amplify project
-      await initProjectWithProfile(projectRoot, { srcDir }, frontend)
+      await initProjectWithProfile(projectRoot, { ...config })
       //enable datastore
       await addApiWithSchemaAndConflictDetection(projectRoot, schema);
       //generate pre existing user file
-      const userSourceCodePath = path.join(projectRoot, srcDir, 'sample.txt');
+      const userSourceCodePath = path.join(projectRoot, config.srcDir, 'sample.txt');
       writeFileSync(userSourceCodePath, userFileData);
       //generate models
       await expect(generateModels(projectRoot)).resolves.not.toThrow();
       expect(existsSync(userSourceCodePath)).toBeTruthy();
-      expect(isNotEmptyDir(path.join(projectRoot, modelgenOutputDir))).toBeTruthy();
+      expect(isNotEmptyDir(path.join(projectRoot, config.modelgenDir))).toBeTruthy();
     });
   });
 });

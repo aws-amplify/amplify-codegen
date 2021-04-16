@@ -21,6 +21,7 @@ export * from './selectors';
 export * from './sleep';
 export * from './transformConfig';
 export * from './admin-ui';
+export * from './frontend-config-helper';
 
 // run dotenv config to update env variable
 config();
