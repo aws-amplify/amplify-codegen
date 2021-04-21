@@ -7,10 +7,10 @@ const codegenFeatureFlags = {
     "usedocsgeneratorplugin": true,
     "usetypesgeneratorplugin": true,
     "cleangeneratedmodelsdirectory": true,
-    "retaincasestyle": false
+    "retaincasestyle": true
 };
 
-describe('codegen related feature flags', () => {
+describe('codegen related feature flags - new project', () => {
   let projRoot: string;
 
   beforeEach(async () => {
@@ -32,3 +32,4 @@ describe('codegen related feature flags', () => {
     expect(fs.readJSONSync(cliJSONFilePath).features.codegen).toEqual(codegenFeatureFlags);
   });
 });
+  
