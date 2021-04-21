@@ -116,16 +116,6 @@ jobs:
           at: ./
       - restore_cache:
           key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
-      - run: 
-          name: Install old CLI in separate local folder
-          command: |
-            source .circleci/local_publish_helpers.sh
-            npmGlobalPath = $(npm get prefix)
-            echo $npmGlobalPath
-            changeNpmGlobalPath "~/.my-npm-global"
-            sudo npm i -g @aws-amplify/cli@4.40.0
-            export OLD_CLI_BINARY = "~/.my-npm-global/lib/node_modules/@aws-amplify/cli/bin/amplify"
-            changeNpmGlobalPath "$npmGlobalPath"
       - run: *install_cli
       - run:
           name: Run e2e tests
