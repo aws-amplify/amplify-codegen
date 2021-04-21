@@ -1,7 +1,4 @@
 version: 2.1
-orbs:
-  aws-ecr: circleci/aws-ecr@6.15.3
-  win: circleci/windows@2.2.0
 machine:
   environment:
     PATH: '${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin'
@@ -14,22 +11,12 @@ executors:
     docker:
       - image: circleci/node:15.0
     resource_class: large
-  macos-node10: 
-    macos:
-      xcode: "11.4"
-    resource_class: large
 
 defaults: &defaults
   working_directory: ~/repo
   parameters:
       os:
         type: executor
-
-windows-default:
-  executor: &windows-executor
-      name: win/default
-      shell: bash.exe
-      size: large
 
 install_cli_with_local_codegen: &install_cli
   name: install Amplify CLI and amplify-app with local Amplify Codegen
@@ -146,19 +133,19 @@ workflows:
           name: build-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux-node15, *windows-executor]
+              os: [linux-node15, linux-node10]
       - test:
           name: test-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux-node15, *windows-executor]
+              os: [linux-node15, linux-node10]
           requires:
             - build-<< matrix.os >>
       - e2e-test:
           name: e2e-test-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux-node15, *windows-executor]
+              os: [linux-node15, linux-node10]
           requires:
             - build-<< matrix.os >>
             - test-<< matrix.os >>
