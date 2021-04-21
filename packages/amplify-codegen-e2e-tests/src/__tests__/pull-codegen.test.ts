@@ -6,7 +6,12 @@ import {
   addApiWithSchemaAndConflictDetection,
   amplifyPush,
   amplifyPull,
-  getAppId
+  getAppId,
+  DEFAULT_JS_CONFIG,
+  DEFAULT_ANDROID_CONFIG,
+  DEFAULT_IOS_CONFIG,
+  DEFAULT_FLUTTER_CONFIG,
+  AmplifyFrontendConfig
 } from "amplify-codegen-e2e-core";
 import { existsSync } from "fs";
 import path from 'path';
@@ -14,6 +19,12 @@ import { isNotEmptyDir, generateSourceCode } from '../utils';
 
 const schema = 'simple_model.graphql';
 const envName = 'pulltest';
+const frontendConfigs: AmplifyFrontendConfig[] = [
+  DEFAULT_JS_CONFIG,
+  DEFAULT_ANDROID_CONFIG,
+  DEFAULT_IOS_CONFIG,
+  DEFAULT_FLUTTER_CONFIG
+];
 
 describe('Amplify pull with codegen tests', () => {
   let projectRoot: string;
@@ -52,13 +63,15 @@ describe('Amplify pull with codegen tests', () => {
       deleteProjectDir(emptyProjectRoot);
     });
 
-    it('should generate models and do not delete user files by amplify pull in an empty folder', async () => {
-      //generate pre existing user file
-      const userSourceCodePath = generateSourceCode(emptyProjectRoot, 'src');
-      //amplify pull in a new project
-      await amplifyPull(emptyProjectRoot, {emptyDir: true, appId});
-      expect(existsSync(userSourceCodePath)).toBeTruthy();
-      expect(isNotEmptyDir(path.join(emptyProjectRoot, 'src/models'))).toBeTruthy();
+    frontendConfigs.forEach(config => {
+      it(`should generate models and do not delete user files by amplify pull in an empty folder of ${config.frontendType} app`, async () => {
+        //generate pre existing user file
+        const userSourceCodePath = generateSourceCode(emptyProjectRoot, config.srcDir);
+        //amplify pull in a new project
+        await amplifyPull(emptyProjectRoot, {emptyDir: true, appId, frontendConfig: config});
+        expect(existsSync(userSourceCodePath)).toBeTruthy();
+        expect(isNotEmptyDir(path.join(emptyProjectRoot, config.modelgenDir))).toBeTruthy();
+    });
     });
   });
 
