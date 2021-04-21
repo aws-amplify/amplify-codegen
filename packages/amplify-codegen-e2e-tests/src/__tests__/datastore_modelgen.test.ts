@@ -12,7 +12,8 @@ import {
   initProjectWithProfile
 } from 'amplify-codegen-e2e-core';
 import path from 'path';
-import { existsSync, writeFileSync, readdirSync } from 'fs';
+import { existsSync } from 'fs';
+import { isNotEmptyDir, generateSourceCode } from '../utils';
 
 const schema = 'modelgen/model_gen_schema_with_aws_scalars.graphql';
 const frontendConfigs: AmplifyFrontendConfig[] = [
@@ -21,11 +22,6 @@ const frontendConfigs: AmplifyFrontendConfig[] = [
   DEFAULT_IOS_CONFIG,
   DEFAULT_FLUTTER_CONFIG
 ];
-const userFileData = 'This is a pre-existing file.';
-
-function isNotEmptyDir(dirPath: string) : boolean {
-  return existsSync(dirPath) && readdirSync(dirPath).length > 0;
-}
 
 describe('Datastore modelgen tests', () => {
   let projectRoot: string;
@@ -49,8 +45,7 @@ describe('Datastore modelgen tests', () => {
       //enable datastore
       await addApiWithSchemaAndConflictDetection(projectRoot, schema);
       //generate pre existing user file
-      const userSourceCodePath = path.join(projectRoot, config.srcDir, 'sample.txt');
-      writeFileSync(userSourceCodePath, userFileData);
+      const userSourceCodePath = generateSourceCode(projectRoot, config.srcDir);
       //generate models
       await expect(generateModels(projectRoot)).resolves.not.toThrow();
       expect(existsSync(userSourceCodePath)).toBeTruthy();

@@ -4,30 +4,30 @@ import {
   deleteProject,
   initProjectWithProfile,
   addApiWithSchema,
-  generateStatementsAndTypes,
-  addCodegen,
   DEFAULT_JS_CONFIG,
   DEFAULT_ANDROID_CONFIG,
   DEFAULT_IOS_CONFIG,
   AmplifyFrontendConfig,
+  amplifyPushWithCodegenAdd,
+  amplifyPushWithCodegenUpdate,
+  apiUpdateToggleDataStore
 } from "amplify-codegen-e2e-core";
+import { isNotEmptyDir, generateSourceCode } from '../utils';
 import { existsSync } from "fs";
 import path from 'path';
-import { isNotEmptyDir, generateSourceCode } from '../utils';
 
+const schema = 'simple_model.graphql';
+const graphqlConfigFile = '.graphqlconfig.yml';
 const frontendConfigs: AmplifyFrontendConfig[] = [
   DEFAULT_JS_CONFIG,
   DEFAULT_ANDROID_CONFIG,
   DEFAULT_IOS_CONFIG
 ];
-const schema = 'simple_model.graphql';
-const graphqlConfigFile = '.graphqlconfig.yml';
 
-describe('GraphQL codegen tests', () => {
+describe('Amplify push with codegen tests', () => {
   let projectRoot: string;
-
   beforeEach(async () => {
-    projectRoot = await createNewProjectDir('graphqlCodegen');
+    projectRoot = await createNewProjectDir('pushCodegen');
   });
 
   afterEach(async () => {
@@ -39,20 +39,23 @@ describe('GraphQL codegen tests', () => {
   });
 
   frontendConfigs.forEach(config => {
-    it(`Should generate files in correct place and not delete src files in ${config.frontendType} project`, async () => {
-      await initProjectWithProfile(projectRoot, { ...config });
+    it(`should prompt codegen add/update and not delete user files in ${config.frontendType} project`, async () => {
+      await initProjectWithProfile(projectRoot, {...config});
       await addApiWithSchema(projectRoot, schema);
       //generate pre existing user file
       const userSourceCodePath = generateSourceCode(projectRoot, config.srcDir);
-      //execute codegen add command
-      await expect(addCodegen(projectRoot, { ...config })).resolves.not.toThrow();
+      //push with codegen add
+      await amplifyPushWithCodegenAdd(projectRoot, { ...config });
       expect(existsSync(userSourceCodePath)).toBeTruthy();
       expect(existsSync(path.join(projectRoot, graphqlConfigFile))).toBeTruthy();
       expect(isNotEmptyDir(path.join(projectRoot, config.graphqlCodegenDir))).toBeTruthy();
-      //execute codegen command
-      await expect(generateStatementsAndTypes(projectRoot)).resolves.not.toThrow();
+      //enable datastore
+      await apiUpdateToggleDataStore(projectRoot);
+      //push with codegen update
+      await amplifyPushWithCodegenUpdate(projectRoot);
       expect(existsSync(userSourceCodePath)).toBeTruthy();
-      expect(isNotEmptyDir(path.join(projectRoot, config.graphqlCodegenDir))).toBeTruthy();
+      expect(isNotEmptyDir(path.join(projectRoot, config.modelgenDir))).toBeTruthy();
     });
   });
+
 });
