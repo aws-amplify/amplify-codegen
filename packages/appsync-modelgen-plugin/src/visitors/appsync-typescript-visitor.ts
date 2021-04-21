@@ -30,7 +30,6 @@ export class AppSyncModelTypeScriptVisitor<
     'import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplify/datastore";',
     'import { initSchema } from "@aws-amplify/datastore";',
     '',
-    '// additional imports',
     'import { schema } from "./schema";',
   ];
 
