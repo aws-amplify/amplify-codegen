@@ -115,10 +115,10 @@ export function amplifyPullSandbox(cwd: string, settings: { sandboxId: string; a
 }
 
 function initializeFrontend(chain: ExecutionContext, config: AmplifyFrontendConfig) : void {
+  chain.wait("Choose the type of app that you're building");
   switch (config.frontendType) {
     case AmplifyFrontend.android:
       chain
-        .wait("Choose the type of app that you're building")
         .send('j')
         .sendCarriageReturn()
         .wait('Where is your Res directory')
@@ -126,13 +126,11 @@ function initializeFrontend(chain: ExecutionContext, config: AmplifyFrontendConf
       return;
     case AmplifyFrontend.ios:
       chain
-        .wait("Choose the type of app that you're building")
         .sendKeyDown(3)
         .sendCarriageReturn()
       return;
     case AmplifyFrontend.flutter:
       chain
-        .wait("Choose the type of app that you're building")
         .sendKeyDown(2)
         .sendCarriageReturn()
         .wait('Where do you want to store your configuration file')
@@ -141,7 +139,6 @@ function initializeFrontend(chain: ExecutionContext, config: AmplifyFrontendConf
     case AmplifyFrontend.javascript:
     default:
       chain
-        .wait("Choose the type of app that you're building")
         .sendCarriageReturn()
         .wait('What javascript framework are you using')
         .sendCarriageReturn()

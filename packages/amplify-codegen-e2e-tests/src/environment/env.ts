@@ -50,7 +50,7 @@ export function addEnvironmentWithImportedAuth(cwd: string, settings: { envName:
   });
 }
 
-export function checkoutEnvironment(cwd: string, settings: { envName: string, withRestore?:boolean }): Promise<void> {
+export function checkoutEnvironment(cwd: string, settings: { envName: string, withRestore?: boolean }): Promise<void> {
   const args = ['env', 'checkout', settings.envName];
   if (settings.withRestore) {
     args.push('--restore');
