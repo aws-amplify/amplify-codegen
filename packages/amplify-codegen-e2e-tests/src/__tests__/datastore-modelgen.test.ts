@@ -48,8 +48,8 @@ describe('Datastore modelgen tests', () => {
       const userSourceCodePath = generateSourceCode(projectRoot, config.srcDir);
       //generate models
       await expect(generateModels(projectRoot)).resolves.not.toThrow();
-      expect(existsSync(userSourceCodePath)).toBeTruthy();
-      expect(isNotEmptyDir(path.join(projectRoot, config.modelgenDir))).toBeTruthy();
+      expect(existsSync(userSourceCodePath)).toBe(true);
+      expect(isNotEmptyDir(path.join(projectRoot, config.modelgenDir))).toBe(true);
     });
   });
 });

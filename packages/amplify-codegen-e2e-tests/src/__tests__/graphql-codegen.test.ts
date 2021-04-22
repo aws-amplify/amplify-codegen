@@ -46,13 +46,13 @@ describe('GraphQL codegen tests', () => {
       const userSourceCodePath = generateSourceCode(projectRoot, config.srcDir);
       //execute codegen add command
       await expect(addCodegen(projectRoot, { ...config })).resolves.not.toThrow();
-      expect(existsSync(userSourceCodePath)).toBeTruthy();
-      expect(existsSync(path.join(projectRoot, graphqlConfigFile))).toBeTruthy();
-      expect(isNotEmptyDir(path.join(projectRoot, config.graphqlCodegenDir))).toBeTruthy();
+      expect(existsSync(userSourceCodePath)).toBe(true);
+      expect(existsSync(path.join(projectRoot, graphqlConfigFile))).toBe(true);
+      expect(isNotEmptyDir(path.join(projectRoot, config.graphqlCodegenDir))).toBe(true);
       //execute codegen command
       await expect(generateStatementsAndTypes(projectRoot)).resolves.not.toThrow();
-      expect(existsSync(userSourceCodePath)).toBeTruthy();
-      expect(isNotEmptyDir(path.join(projectRoot, config.graphqlCodegenDir))).toBeTruthy();
+      expect(existsSync(userSourceCodePath)).toBe(true);
+      expect(isNotEmptyDir(path.join(projectRoot, config.graphqlCodegenDir))).toBe(true);
     });
   });
 });

@@ -42,6 +42,7 @@ describe('Amplify pull in amplify app with codegen tests', () => {
     await addApiWithSchemaAndConflictDetection(projectRoot, schema);
     await amplifyPush(projectRoot);
     appId = getAppId(projectRoot);
+    expect(appId).toBeDefined();
   });
 
   afterAll(async () => {
@@ -54,11 +55,11 @@ describe('Amplify pull in amplify app with codegen tests', () => {
 
   it('should generate models and do not delete user src files by amplify pull in original project', async () => {
     //generate pre existing user file
-    const userSourceCodePath = generateSourceCode(projectRoot, 'src');
+    const userSourceCodePath = generateSourceCode(projectRoot, DEFAULT_JS_CONFIG.srcDir);
     //amplify pull in original project
     await amplifyPull(projectRoot, {});
-    expect(existsSync(userSourceCodePath)).toBeTruthy();
-    expect(isNotEmptyDir(path.join(projectRoot, 'src/models'))).toBeTruthy();
+    expect(existsSync(userSourceCodePath)).toBe(true);
+    expect(isNotEmptyDir(path.join(projectRoot, DEFAULT_JS_CONFIG.modelgenDir))).toBe(true);
   });
 
   describe('amplify pull in a new folder', () => {
@@ -76,8 +77,8 @@ describe('Amplify pull in amplify app with codegen tests', () => {
         const userSourceCodePath = generateSourceCode(emptyProjectRoot, config.srcDir);
         //amplify pull in a new project
         await amplifyPull(emptyProjectRoot, {emptyDir: true, appId, frontendConfig: config});
-        expect(existsSync(userSourceCodePath)).toBeTruthy();
-        expect(isNotEmptyDir(path.join(emptyProjectRoot, config.modelgenDir))).toBeTruthy();
+        expect(existsSync(userSourceCodePath)).toBe(true);
+        expect(isNotEmptyDir(path.join(emptyProjectRoot, config.modelgenDir))).toBe(true);
     });
     });
   });
@@ -123,8 +124,8 @@ describe('Amplify pull in sandbox app with codegen tests', () => {
       const projectSchema = getProjectSchema(projectRoot, 'amplifyDatasource');
       expect(projectSchema).toEqual(schemaBody.schema);
       //models should be generated and no user files get deleted
-      expect(existsSync(userSourceCodePath)).toBeTruthy();
-      expect(isNotEmptyDir(path.join(projectRoot, config.modelgenDir))).toBeTruthy();
+      expect(existsSync(userSourceCodePath)).toBe(true);
+      expect(isNotEmptyDir(path.join(projectRoot, config.modelgenDir))).toBe(true);
 
     });
   });

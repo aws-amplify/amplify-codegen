@@ -25,12 +25,16 @@ describe('env codegen tests', () => {
   });
 
   it('should generate models in different environments', async () => {
+    //create amplify project with enva
     await initJSProjectWithProfile(projectRoot, { envName: 'enva' });
     await addApiWithSchema(projectRoot, schema, { apiName });
     await amplifyPush(projectRoot);
+    //create new envb
     await addEnvironment(projectRoot, { envName: 'envb' });
+    //update schema to a invalid one in envb and generate models
     updateApiSchema(projectRoot, apiName, schemaWithError)
     await expect(generateModels(projectRoot)).rejects.toThrowError();
+    //checkout back to enva and generate models
     await checkoutEnvironment(projectRoot, { envName: 'enva', withRestore: true });
     await expect(generateModels(projectRoot)).resolves.not.toThrow();
   });

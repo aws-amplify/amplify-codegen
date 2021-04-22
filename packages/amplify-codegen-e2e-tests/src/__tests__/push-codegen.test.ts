@@ -46,15 +46,15 @@ describe('Amplify push with codegen tests', () => {
       const userSourceCodePath = generateSourceCode(projectRoot, config.srcDir);
       //push with codegen add
       await amplifyPushWithCodegenAdd(projectRoot, { ...config });
-      expect(existsSync(userSourceCodePath)).toBeTruthy();
-      expect(existsSync(path.join(projectRoot, graphqlConfigFile))).toBeTruthy();
-      expect(isNotEmptyDir(path.join(projectRoot, config.graphqlCodegenDir))).toBeTruthy();
+      expect(existsSync(userSourceCodePath)).toBe(true);
+      expect(existsSync(path.join(projectRoot, graphqlConfigFile))).toBe(true);
+      expect(isNotEmptyDir(path.join(projectRoot, config.graphqlCodegenDir))).toBe(true);
       //enable datastore
       await apiUpdateToggleDataStore(projectRoot);
       //push with codegen update
       await amplifyPushWithCodegenUpdate(projectRoot);
-      expect(existsSync(userSourceCodePath)).toBeTruthy();
-      expect(isNotEmptyDir(path.join(projectRoot, config.modelgenDir))).toBeTruthy();
+      expect(existsSync(userSourceCodePath)).toBe(true);
+      expect(isNotEmptyDir(path.join(projectRoot, config.modelgenDir))).toBe(true);
     });
   });
 

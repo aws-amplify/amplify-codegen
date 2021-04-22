@@ -1,7 +1,7 @@
 import { getCLIPath, KEY_DOWN_ARROW, nspawn as spawn } from '..';
 import { AmplifyFrontend } from '../utils';
 
-const pushTimeoutMS = 1000 * 60 * 2; // 20 minutes;
+const pushTimeoutMS = 1000 * 60 * 2; // 2 minutes;
 
 export function amplifyPush(cwd: string, testingWithLatestCodebase: boolean = false): Promise<void> {
   return new Promise((resolve, reject) => {
