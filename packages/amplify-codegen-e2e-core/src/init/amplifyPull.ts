@@ -1,9 +1,19 @@
 import { getCLIPath, nspawn as spawn } from '..';
+import { AmplifyFrontend, AmplifyFrontendConfig, ExecutionContext, DEFAULT_JS_CONFIG } from '../utils';
 
 export function amplifyPull(
   cwd: string,
-  settings: { override?: boolean; emptyDir?: boolean; appId?: string; withRestore?: boolean },
+  settings: {
+    override?: boolean;
+    emptyDir?: boolean;
+    appId?: string;
+    withRestore?: boolean;
+    frontendConfig?: AmplifyFrontendConfig
+  },
 ): Promise<void> {
+  if (!settings.frontendConfig) {
+    settings.frontendConfig = DEFAULT_JS_CONFIG;
+  }
   return new Promise((resolve, reject) => {
     const tableHeaderRegex = /\|\sCategory\s+\|\sResource\sname\s+\|\sOperation\s+\|\sProvider\splugin\s+\|/;
     const tableSeperator = /\|(\s-+\s\|){4}/;
@@ -27,19 +37,9 @@ export function amplifyPull(
         .wait('Please choose the profile you want to use')
         .sendCarriageReturn()
         .wait('Choose your default editor:')
-        .sendCarriageReturn()
-        .wait("Choose the type of app that you're building")
-        .sendCarriageReturn()
-        .wait('What javascript framework are you using')
-        .sendCarriageReturn()
-        .wait('Source Directory Path:')
-        .sendCarriageReturn()
-        .wait('Distribution Directory Path:')
-        .sendCarriageReturn()
-        .wait('Build Command:')
-        .sendCarriageReturn()
-        .wait('Start Command:')
-        .sendCarriageReturn()
+        .sendCarriageReturn();
+      initializeFrontend(chain, settings.frontendConfig);
+      chain
         .wait('Do you plan on modifying this backend?')
         .sendLine('y');
     } else {
@@ -71,16 +71,38 @@ export function amplifyPull(
   });
 }
 
-export function amplifyPullSandbox(cwd: string, settings: { sandboxId: string; appType: string; framework: string }) {
+export function amplifyPullSandbox(cwd: string, settings: { sandboxId: string; appType: AmplifyFrontend; }) {
   return new Promise((resolve, reject) => {
     const args = ['pull', '--sandboxId', settings.sandboxId];
 
-    spawn(getCLIPath(), args, { cwd, stripColors: true })
-      .wait('What type of app are you building')
-      .sendKeyUp()
-      .sendLine(settings.appType)
-      .wait('What javascript framework are you using')
-      .sendLine(settings.framework)
+    const chain = spawn(getCLIPath(), args, { cwd, stripColors: true })
+      .wait('What type of app are you building');
+    switch (settings.appType) {
+      case AmplifyFrontend.javascript:
+        chain
+          .sendCarriageReturn()
+          .wait('What javascript framework are you using')
+          .sendCarriageReturn();
+        break;
+      case AmplifyFrontend.android:
+        chain
+          .sendKeyDown()
+          .sendCarriageReturn();
+        break;
+      case AmplifyFrontend.ios:
+        chain
+          .sendKeyDown(2)
+          .sendCarriageReturn();
+        break;
+      case AmplifyFrontend.flutter:
+        chain
+          .sendKeyDown(3)
+          .sendCarriageReturn();
+        break;
+      default:
+        throw Error(`${settings.appType} is not a supported frontend in sandbox app.`)
+    }
+    chain
       .wait('Successfully generated models.')
       .run((err: Error) => {
         if (!err) {
@@ -90,4 +112,44 @@ export function amplifyPullSandbox(cwd: string, settings: { sandboxId: string; a
         }
       });
   });
+}
+
+function initializeFrontend(chain: ExecutionContext, config: AmplifyFrontendConfig) : void {
+  chain.wait("Choose the type of app that you're building");
+  switch (config.frontendType) {
+    case AmplifyFrontend.android:
+      chain
+        .send('j')
+        .sendCarriageReturn()
+        .wait('Where is your Res directory')
+        .sendCarriageReturn()
+      return;
+    case AmplifyFrontend.ios:
+      chain
+        .sendKeyDown(3)
+        .sendCarriageReturn()
+      return;
+    case AmplifyFrontend.flutter:
+      chain
+        .sendKeyDown(2)
+        .sendCarriageReturn()
+        .wait('Where do you want to store your configuration file')
+        .sendCarriageReturn()
+      return;
+    case AmplifyFrontend.javascript:
+    default:
+      chain
+        .sendCarriageReturn()
+        .wait('What javascript framework are you using')
+        .sendCarriageReturn()
+        .wait('Source Directory Path:')
+        .sendCarriageReturn()
+        .wait('Distribution Directory Path:')
+        .sendCarriageReturn()
+        .wait('Build Command:')
+        .sendCarriageReturn()
+        .wait('Start Command:')
+        .sendCarriageReturn();
+      return;
+  }
 }
