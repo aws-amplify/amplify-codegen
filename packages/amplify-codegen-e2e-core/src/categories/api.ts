@@ -198,7 +198,7 @@ export function updateApiWithMultiAuth(cwd: string, settings: any) {
   });
 }
 
-export function apiUpdateToggleDataStore(cwd: string, settings: any) {
+export function apiUpdateToggleDataStore(cwd: string, settings: any = {}) {
   return new Promise<void>((resolve, reject) => {
     spawn(getCLIPath(settings.testingWithLatestCodebase), ['update', 'api'], { cwd, stripColors: true })
       .wait('Please select from one of the below mentioned services:')

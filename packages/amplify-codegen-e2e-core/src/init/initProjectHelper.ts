@@ -1,5 +1,5 @@
 import { nspawn as spawn, getCLIPath, singleSelect, addCircleCITags } from '..';
-import { KEY_DOWN_ARROW } from '../utils';
+import { KEY_DOWN_ARROW, AmplifyFrontend } from '../utils';
 
 const defaultSettings = {
   name: '\r',
@@ -35,7 +35,7 @@ export const amplifyRegions = [
   'ca-central-1',
 ];
 
-export function initJSProjectWithProfile(cwd: string, settings: Object): Promise<void> {
+export function initJSProjectWithProfile(cwd: string, settings: Object = {}): Promise<void> {
   const s = { ...defaultSettings, ...settings };
   let env;
 
@@ -120,7 +120,7 @@ export function initAndroidProjectWithProfile(cwd: string, settings: Object): Pr
       .send('j')
       .sendCarriageReturn()
       .wait('Where is your Res directory')
-      .sendCarriageReturn()
+      .sendLine(s.srcDir)
       .wait('Select the authentication method you want to use:')
       .sendCarriageReturn()
       .wait('Please choose the profile you want to use')
@@ -198,7 +198,7 @@ export function initFlutterProjectWithProfile(cwd: string, settings: Object): Pr
       .sendKeyDown(2)
       .sendCarriageReturn()
       .wait('Where do you want to store your configuration file')
-      .sendLine('./lib/')
+      .sendLine(s.srcDir)
       .wait('Using default provider  awscloudformation')
       .wait('Select the authentication method you want to use:')
       .sendCarriageReturn()
@@ -428,4 +428,19 @@ export function amplifyStatus(cwd: string, expectedStatus: string, testingWithLa
         }
       });
   });
+}
+
+export async function initProjectWithProfile(cwd: string, settings: any) : Promise<void> {
+  switch (settings.frontendType) {
+    case AmplifyFrontend.javascript:
+      return initJSProjectWithProfile(cwd, settings);
+    case AmplifyFrontend.android:
+      return initAndroidProjectWithProfile(cwd, settings);
+    case AmplifyFrontend.ios:
+      return initIosProjectWithProfile(cwd,settings);
+    case AmplifyFrontend.flutter:
+      return initFlutterProjectWithProfile(cwd,settings);
+    default:
+      throw Error(`${settings.frontendType} is an invalid frontend type`);
+  }
 }

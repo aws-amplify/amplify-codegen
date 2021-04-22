@@ -50,9 +50,13 @@ export function addEnvironmentWithImportedAuth(cwd: string, settings: { envName:
   });
 }
 
-export function checkoutEnvironment(cwd: string, settings: { envName: string }): Promise<void> {
+export function checkoutEnvironment(cwd: string, settings: { envName: string, withRestore?: boolean }): Promise<void> {
+  const args = ['env', 'checkout', settings.envName];
+  if (settings.withRestore) {
+    args.push('--restore');
+  }
   return new Promise((resolve, reject) => {
-    spawn(getCLIPath(), ['env', 'checkout', settings.envName], { cwd, stripColors: true })
+    spawn(getCLIPath(), args, { cwd, stripColors: true })
       .wait('Initialized your environment successfully.')
       .run((err: Error) => {
         if (!err) {
