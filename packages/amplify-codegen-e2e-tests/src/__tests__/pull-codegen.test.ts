@@ -11,11 +11,18 @@ import {
   DEFAULT_ANDROID_CONFIG,
   DEFAULT_IOS_CONFIG,
   DEFAULT_FLUTTER_CONFIG,
-  AmplifyFrontendConfig
+  AmplifyFrontendConfig,
+  getAdminApp,
+  amplifyPullSandbox,
+  getProjectSchema
 } from "amplify-codegen-e2e-core";
 import { existsSync } from "fs";
 import path from 'path';
 import { isNotEmptyDir, generateSourceCode } from '../utils';
+import { JSONUtilities } from 'amplify-cli-core';
+import { SandboxApp } from '../types/SandboxApp';
+
+
 
 const schema = 'simple_model.graphql';
 const envName = 'pulltest';
@@ -26,7 +33,7 @@ const frontendConfigs: AmplifyFrontendConfig[] = [
   DEFAULT_FLUTTER_CONFIG
 ];
 
-describe('Amplify pull with codegen tests', () => {
+describe('Amplify pull in amplify app with codegen tests', () => {
   let projectRoot: string;
   let appId: string;
   beforeAll(async () => {
@@ -75,4 +82,50 @@ describe('Amplify pull with codegen tests', () => {
     });
   });
 
+});
+
+describe('Amplify pull in sandbox app with codegen tests', () => {
+  let projectRoot: string;
+  let sandboxId: string;
+  const schemaBody = {
+    schema:
+      '    type Todo @model @auth(rules: [{allow: public}]) {        id: ID!        name: String!        description: String    }    ',
+    shareable: 'true',
+  };
+  beforeAll(async () => {
+    const sandBoxAppString = await getAdminApp(schemaBody);
+    expect(sandBoxAppString).toBeDefined();
+    const sandboxApp = JSONUtilities.parse<SandboxApp>(sandBoxAppString);
+    expect(sandboxApp.schema).toEqual(schemaBody.schema);
+    sandboxId = sandboxApp.backendManagerAppId;
+    expect(sandboxId).toBeDefined();
+  });
+
+  beforeEach(async () => {
+    projectRoot = await createNewProjectDir('sandboxPull');
+  });
+
+  afterEach(async () => {
+    deleteProjectDir(projectRoot);
+  });
+
+  
+  frontendConfigs.forEach(config => {
+    it(`should pull sandbox, download schema and generate models without deleting user files in ${config.frontendType} project`, async () => {
+      //generate pre existing user file
+      const userSourceCodePath = generateSourceCode(projectRoot, config.srcDir);
+      //pull sandbox app
+      await amplifyPullSandbox(projectRoot, {
+        appType: config.frontendType,
+        sandboxId,
+      });
+      //schema should match with sandbox
+      const projectSchema = getProjectSchema(projectRoot, 'amplifyDatasource');
+      expect(projectSchema).toEqual(schemaBody.schema);
+      //models should be generated and no user files get deleted
+      expect(existsSync(userSourceCodePath)).toBeTruthy();
+      expect(isNotEmptyDir(path.join(projectRoot, config.modelgenDir))).toBeTruthy();
+
+    });
+  });
 });

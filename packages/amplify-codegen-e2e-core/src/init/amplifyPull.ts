@@ -71,16 +71,38 @@ export function amplifyPull(
   });
 }
 
-export function amplifyPullSandbox(cwd: string, settings: { sandboxId: string; appType: string; framework: string }) {
+export function amplifyPullSandbox(cwd: string, settings: { sandboxId: string; appType: AmplifyFrontend; }) {
   return new Promise((resolve, reject) => {
     const args = ['pull', '--sandboxId', settings.sandboxId];
 
-    spawn(getCLIPath(), args, { cwd, stripColors: true })
-      .wait('What type of app are you building')
-      .sendKeyUp()
-      .sendLine(settings.appType)
-      .wait('What javascript framework are you using')
-      .sendLine(settings.framework)
+    const chain = spawn(getCLIPath(), args, { cwd, stripColors: true })
+      .wait('What type of app are you building');
+    switch (settings.appType) {
+      case AmplifyFrontend.javascript:
+        chain
+          .sendCarriageReturn()
+          .wait('What javascript framework are you using')
+          .sendCarriageReturn();
+        break;
+      case AmplifyFrontend.android:
+        chain
+          .sendKeyDown()
+          .sendCarriageReturn();
+        break;
+      case AmplifyFrontend.ios:
+        chain
+          .sendKeyDown(2)
+          .sendCarriageReturn();
+        break;
+      case AmplifyFrontend.flutter:
+        chain
+          .sendKeyDown(3)
+          .sendCarriageReturn();
+        break;
+      default:
+        throw Error(`${settings.appType} is not a supported frontend in sandbox app.`)
+    }
+    chain
       .wait('Successfully generated models.')
       .run((err: Error) => {
         if (!err) {
