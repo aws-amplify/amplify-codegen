@@ -70,7 +70,6 @@ import {
         // previously generated files should still exist
         expect(isNotEmptyDir(path.join(projectRoot, config.graphqlCodegenDir))).toBe(true);
         // graphql configuration should be updated to remove previous configuration
-        console.log(readFileSync(path.join(projectRoot, graphqlConfigFile)));
         expect(readFileSync(path.join(projectRoot, graphqlConfigFile)).toString()).toMatchSnapshot();
       });
     });
