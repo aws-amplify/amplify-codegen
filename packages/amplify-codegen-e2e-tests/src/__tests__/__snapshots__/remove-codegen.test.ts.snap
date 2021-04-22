@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`codegen remove tests Do nothing during remove when codegen is previouly added in android project 1`] = `
+"projects: {}
+extensions:
+  amplify:
+    version: 3
+"
+`;
+
+exports[`codegen remove tests Do nothing during remove when codegen is previouly added in ios project 1`] = `
+"projects: {}
+extensions:
+  amplify:
+    version: 3
+"
+`;
+
+exports[`codegen remove tests Do nothing during remove when codegen is previouly added in javascript project 1`] = `
+"projects: {}
+extensions:
+  amplify:
+    version: 3
+"
+`;
