@@ -30,7 +30,6 @@
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
     "fs-extra": "^8.1.0",
-    "graphql-schema-diff": "^2.2.0",
     "graphql-tag": "^2.10.1",
     "lodash": "^4.17.19",
     "promise-sequential": "^1.1.1",
