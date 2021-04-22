@@ -5,7 +5,7 @@ machine:
 executors:
   linux-node10:
     docker:
-      - image: circleci/node:10.0
+      - image: circleci/node:10
     resource_class: large
   linux-node15:
     docker:
