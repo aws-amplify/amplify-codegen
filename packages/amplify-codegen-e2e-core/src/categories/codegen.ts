@@ -56,3 +56,20 @@ export function addCodegen(cwd: string, settings: any = {}): Promise<void> {
     });
   });
 }
+
+// CLI workflow to remove the configured codegen from the project
+export function removeCodegen(cwd: string, isCodegenAdded: boolean = true): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const chain = spawn(getCLIPath(), ['codegen', 'remove'], { cwd, stripColors: true });
+    if (!isCodegenAdded) {
+      chain.wait("Codegen is not configured");
+    }
+    chain.run((err: Error) => {
+      if (!err) {
+        resolve();
+      } else {
+        reject(err);
+      }
+    });
+  });
+}
