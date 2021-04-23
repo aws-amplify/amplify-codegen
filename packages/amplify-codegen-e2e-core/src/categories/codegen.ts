@@ -110,7 +110,7 @@ export function configureCodegen(cwd: string, settings: any = {}): Promise<void>
     chain
       .wait('Enter maximum statement depth [increase from default if your schema is deeply')
     settings.maxStatementDepth ? chain.sendLine(settings.maxStatementDepth) : chain.sendCarriageReturn();
-    
+
     if (settings.frontendType === AmplifyFrontend.ios && !settings.isCodegenConfigured) {
       chain
         .wait('Enter the file name for the generated code')
