@@ -6,7 +6,7 @@ body:
     value: Thanks for taking the time to fill out this bug report! Try to include as much information as you can. 
 - type: markdown
   attributes:
-    value: For reference, the current version of the Amplify CLI is <img src="https://img.shields.io/npm/v/@aws-amplify/cli.svg" and Amplify Codegen is <img src="https://img.shields.io/npm/v/amplify-codegen.svg" />.
+    value: For reference, the current version of the Amplify CLI is <img src="https://img.shields.io/npm/v/@aws-amplify/cli.svg" /> and Amplify Codegen is <img src="https://img.shields.io/npm/v/amplify-codegen.svg" />.
 - type: markdown
   attributes:
     value: |
