@@ -14,12 +14,12 @@ executors:
   windows_node10:
     machine:
       image: 'windows-server-2019-vs2019:stable'
-      resource_class: large
+      resource_class: windows.large
       shell: bash.exe
   macos_node10:
     macos:
       xcode: "12.4.0"
-    resource_class: large
+      resource_class: large
 
 defaults: &defaults
   working_directory: ~/repo
@@ -59,11 +59,13 @@ setup_node10: &node10_setup
   command: |
     node -v
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-    export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+    echo 'export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"' >> $BASH_ENV
+    echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+    source $BASH_ENV
     nvm install 10.24.1
     nvm use 10.24.1
     node -v
+  shell: bash
 
 jobs:
   build:
