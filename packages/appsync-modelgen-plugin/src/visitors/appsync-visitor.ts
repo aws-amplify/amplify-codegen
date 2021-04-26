@@ -115,7 +115,7 @@ export type CodeGenField = TypeInfo & {
   name: string;
   directives: CodeGenDirectives;
   connectionInfo?: CodeGenFieldConnection;
-  isReadOnly?: boolean
+  isReadOnly?: boolean;
 };
 export type TypeInfo = {
   type: string;
@@ -505,7 +505,7 @@ export class AppSyncModelVisitor<
     return plural(model.name);
   }
 
-    /**
+  /**
    * Add timestamp fields createdAt, updatedAt(or equivalent fields) to model fields
    * @param model
    */
@@ -520,7 +520,7 @@ export class AppSyncModelVisitor<
       type: 'AWSDateTime',
       isList: false,
       isNullable: true,
-      isReadOnly: true
+      isReadOnly: true,
     };
     const updatedAtField: CodeGenField = {
       name: timestamps?.updatedAt || DEFAULT_UPDATED_TIME,
@@ -528,9 +528,11 @@ export class AppSyncModelVisitor<
       type: 'AWSDateTime',
       isList: false,
       isNullable: true,
-      isReadOnly: true
+      isReadOnly: true,
     };
     addFieldToModel(model, createdAtField);
+    //updated field will always be override
+    removeFieldFromModel(model, updatedAtField.name);
     addFieldToModel(model, updatedAtField);
   }
 

@@ -10,11 +10,7 @@ const buildSchemaWithDirectives = (schema: String) => {
 const createAndGenerateVisitor = (schema: string) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
-  const visitor = new AppSyncModelVisitor(
-    builtSchema, 
-    { directives, target: 'general' }, 
-    { generate: CodeGenGenerateEnum.code }
-  );
+  const visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'general' }, { generate: CodeGenGenerateEnum.code });
   visit(ast, { leave: visitor });
   visitor.generate();
   return visitor;
@@ -453,7 +449,7 @@ describe('AppSyncModelVisitor', () => {
     });
   });
   describe('model less type', () => {
-    let visitor : AppSyncModelVisitor;
+    let visitor: AppSyncModelVisitor;
     beforeEach(() => {
       const schema = /* GraphQL */ `
         type Metadata {
@@ -503,12 +499,14 @@ describe('AppSyncModelVisitor', () => {
         type: 'AWSDateTime',
         isList: false,
         isNullable: true,
+        isReadOnly: true,
       };
       const updatedAtFieldObj = {
         name: 'updatedAt',
         type: 'AWSDateTime',
         isList: false,
         isNullable: true,
+        isReadOnly: true,
       };
       const visitor = createAndGenerateVisitor(schema);
       expect(visitor.models.Post).toBeDefined();
@@ -521,7 +519,7 @@ describe('AppSyncModelVisitor', () => {
     });
     it('should add user defined timestamp fields in model directives', () => {
       const schema = /* GraphQL */ `
-        type Post @model(timestamps:{createdAt: "createdOn", updatedAt: "updatedOn"}) {
+        type Post @model(timestamps: { createdAt: "createdOn", updatedAt: "updatedOn" }) {
           id: ID!
         }
       `;
@@ -530,12 +528,14 @@ describe('AppSyncModelVisitor', () => {
         type: 'AWSDateTime',
         isList: false,
         isNullable: true,
+        isReadOnly: true,
       };
       const updatedAtFieldObj = {
         name: 'updatedOn',
         type: 'AWSDateTime',
         isList: false,
         isNullable: true,
+        isReadOnly: true,
       };
       const visitor = createAndGenerateVisitor(schema);
       expect(visitor.models.Post).toBeDefined();
@@ -546,7 +546,7 @@ describe('AppSyncModelVisitor', () => {
       const updatedAtField = postFields.find(field => field.name === 'updatedOn');
       expect(updatedAtField).toMatchObject(updatedAtFieldObj);
     });
-    it('should not override original fields if user define them explicitly in schema', () => {
+    it('should not override original fields if user define them explicitly in schema except for update', () => {
       const schema = /* GraphQL */ `
         type Post @model {
           id: ID!
@@ -564,7 +564,8 @@ describe('AppSyncModelVisitor', () => {
         name: 'updatedAt',
         type: 'AWSDateTime',
         isList: false,
-        isNullable: false,
+        isNullable: true,
+        isReadOnly: true,
       };
       const visitor = createAndGenerateVisitor(schema);
       expect(visitor.models.Post).toBeDefined();
@@ -572,14 +573,13 @@ describe('AppSyncModelVisitor', () => {
       const postFields = visitor.models.Post.fields;
       const createdAtField = postFields.find(field => field.name === 'createdAt');
       expect(createdAtField).toMatchObject(createdAtFieldObj);
+      expect(createdAtField.isReadOnly).not.toBeDefined();
       const updatedAtField = postFields.find(field => field.name === 'updatedAt');
       expect(updatedAtField).toMatchObject(updatedAtFieldObj);
     });
     it('should not override original fields if users define them explicitly in schema and use timestamps params in @model', () => {
       const schema = /* GraphQL */ `
-        type Post 
-          @model(timestamps: {createdAt: "createdOn", updatedAt: "updatedOn"})
-        {
+        type Post @model(timestamps: { createdAt: "createdOn", updatedAt: "updatedOn" }) {
           id: ID!
           createdOn: AWSDateTime!
           updatedOn: AWSDateTime!
@@ -595,7 +595,8 @@ describe('AppSyncModelVisitor', () => {
         name: 'updatedOn',
         type: 'AWSDateTime',
         isList: false,
-        isNullable: false,
+        isNullable: true,
+        isReadOnly: true,
       };
       const visitor = createAndGenerateVisitor(schema);
       expect(visitor.models.Post).toBeDefined();
@@ -603,6 +604,7 @@ describe('AppSyncModelVisitor', () => {
       const postFields = visitor.models.Post.fields;
       const createdAtField = postFields.find(field => field.name === 'createdOn');
       expect(createdAtField).toMatchObject(createdAtFieldObj);
+      expect(createdAtField.isReadOnly).not.toBeDefined();
       const updatedAtField = postFields.find(field => field.name === 'updatedOn');
       expect(updatedAtField).toMatchObject(updatedAtFieldObj);
     });
