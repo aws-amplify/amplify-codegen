@@ -3,13 +3,22 @@ machine:
   environment:
     PATH: '${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin'
 executors:
-  linux-node10:
+  linux_node10:
     docker:
       - image: circleci/node:10
     resource_class: large
-  linux-node15:
+  linux_node15:
     docker:
       - image: circleci/node:15.0
+    resource_class: large
+  windows_node10:
+    machine:
+      image: 'windows-server-2019-vs2019:stable'
+      resource_class: large
+      shell: bash.exe
+  macos_node10:
+    macos:
+      xcode: "12.4.0"
     resource_class: large
 
 defaults: &defaults
@@ -45,12 +54,24 @@ clean_up_e2e_resources: &cleanup_e2e
     yarn clean-e2e-resources job ${CIRCLE_BUILD_NUM}
   working_directory: ~/repo
 
+setup_node10: &node10_setup
+  name: Install and Use node 10
+  command: |
+    node -v
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+    export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+    nvm install 10.24.1
+    nvm use 10.24.1
+    node -v
+
 jobs:
   build:
     <<: *defaults
     executor: << parameters.os >>
     steps:
       - checkout
+      - run: *node10_setup
       - run: yarn config set workspaces-experimental true
       - run: yarn cache clean --force
       - run: yarn run production-build
@@ -135,19 +156,19 @@ workflows:
           name: build-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux-node15, linux-node10]
+              os: [linux_node15, linux_node10, windows_node10, macos_node10]
       - test:
           name: test-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux-node15, linux-node10]
+              os: [linux_node15, linux_node10, windows_node10, macos_node10]
           requires:
             - build-<< matrix.os >>
       - e2e-test:
           name: e2e-test-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux-node15, linux-node10]
+              os: [linux_node15, linux_node10, windows_node10, macos_node10]
           requires:
             - build-<< matrix.os >>
             - test-<< matrix.os >>
@@ -156,7 +177,7 @@ workflows:
               only:
                 - e2e-testing
       - deploy:
-          os: linux-node15
+          os: linux_node15
           requires:
             - build
             - test
