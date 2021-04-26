@@ -44,12 +44,24 @@ describe('AppSyncSwiftVisitor', () => {
         public var createdAt: Temporal.DateTime?
         public var updatedAt: Temporal.DateTime?
         
-        public init(id: String = UUID().uuidString,
-            name: String? = nil,
+        public init(name: String? = nil,
             bar: String? = nil) {
+          self.init(,
+          name: name,
+          bar: bar,
+          createdAt: nil,
+          updatedAt: nil)
+        }
+        internal init(id: String = UUID().uuidString,
+            name: String? = nil,
+            bar: String? = nil,
+            createdAt: Temporal.DateTime? = nil,
+            updatedAt: Temporal.DateTime? = nil) {
             self.id = id
             self.name = name
             self.bar = bar
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
         }
       }"
     `);
@@ -82,8 +94,8 @@ describe('AppSyncSwiftVisitor', () => {
             .id(),
             .field(simpleModel.name, is: .optional, ofType: .string),
             .field(simpleModel.bar, is: .optional, ofType: .string),
-            .field(simpleModel.createdAt, is: .optional, ofType: .dateTime),
-            .field(simpleModel.updatedAt, is: .optional, ofType: .dateTime)
+            .field(simpleModel.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+            .field(simpleModel.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
           )
           }
       }"
@@ -141,10 +153,20 @@ describe('AppSyncSwiftVisitor', () => {
         public var createdAt: Temporal.DateTime?
         public var updatedAt: Temporal.DateTime?
         
-        public init(id: String = UUID().uuidString,
-            name: String? = nil) {
+        public init(name: String? = nil) {
+          self.init(,
+          name: name,
+          createdAt: nil,
+          updatedAt: nil)
+        }
+        internal init(id: String = UUID().uuidString,
+            name: String? = nil,
+            createdAt: Temporal.DateTime? = nil,
+            updatedAt: Temporal.DateTime? = nil) {
             self.id = id
             self.name = name
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
         }
       }"
     `);
@@ -176,8 +198,8 @@ describe('AppSyncSwiftVisitor', () => {
           model.fields(
             .id(),
             .field(snake_case.name, is: .optional, ofType: .string),
-            .field(snake_case.createdAt, is: .optional, ofType: .dateTime),
-            .field(snake_case.updatedAt, is: .optional, ofType: .dateTime)
+            .field(snake_case.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+            .field(snake_case.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
           )
           }
       }"
@@ -205,10 +227,20 @@ describe('AppSyncSwiftVisitor', () => {
         public var createdAt: Temporal.DateTime?
         public var updatedAt: Temporal.DateTime?
         
-        public init(id: String = UUID().uuidString,
-            first_name: String? = nil) {
+        public init(first_name: String? = nil) {
+          self.init(,
+          first_name: first_name,
+          createdAt: nil,
+          updatedAt: nil)
+        }
+        internal init(id: String = UUID().uuidString,
+            first_name: String? = nil,
+            createdAt: Temporal.DateTime? = nil,
+            updatedAt: Temporal.DateTime? = nil) {
             self.id = id
             self.first_name = first_name
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
         }
       }"
     `);
@@ -240,16 +272,32 @@ describe('AppSyncSwiftVisitor', () => {
         public var createdAt: Temporal.DateTime?
         public var updatedAt: Temporal.DateTime?
         
-        public init(id: String = UUID().uuidString,
-            author_id: String,
+        public init(author_id: String,
             book_id: String,
             author: String? = nil,
             book: String? = nil) {
+          self.init(,
+          author_id: author_id,
+          book_id: book_id,
+          author: author,
+          book: book,
+          createdAt: nil,
+          updatedAt: nil)
+        }
+        internal init(id: String = UUID().uuidString,
+            author_id: String,
+            book_id: String,
+            author: String? = nil,
+            book: String? = nil,
+            createdAt: Temporal.DateTime? = nil,
+            updatedAt: Temporal.DateTime? = nil) {
             self.id = id
             self.author_id = author_id
             self.book_id = book_id
             self.author = author
             self.book = book
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
         }
       }"
     `);
@@ -287,8 +335,8 @@ describe('AppSyncSwiftVisitor', () => {
             .field(authorBook.book_id, is: .required, ofType: .string),
             .field(authorBook.author, is: .optional, ofType: .string),
             .field(authorBook.book, is: .optional, ofType: .string),
-            .field(authorBook.createdAt, is: .optional, ofType: .dateTime),
-            .field(authorBook.updatedAt, is: .optional, ofType: .dateTime)
+            .field(authorBook.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+            .field(authorBook.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
           )
           }
       }"
@@ -338,14 +386,34 @@ describe('AppSyncSwiftVisitor', () => {
             public var createdAt: Temporal.DateTime?
             public var updatedAt: Temporal.DateTime?
             
-            public init(id: String = UUID().uuidString,
-                title: String,
+            public init(title: String,
                 done: Bool,
                 description: String? = nil,
                 due_date: String? = nil,
                 version: Int,
                 value: Double? = nil,
                 tasks: List<task>? = []) {
+              self.init(,
+              title: title,
+              done: done,
+              description: description,
+              due_date: due_date,
+              version: version,
+              value: value,
+              tasks: tasks,
+              createdAt: nil,
+              updatedAt: nil)
+            }
+            internal init(id: String = UUID().uuidString,
+                title: String,
+                done: Bool,
+                description: String? = nil,
+                due_date: String? = nil,
+                version: Int,
+                value: Double? = nil,
+                tasks: List<task>? = [],
+                createdAt: Temporal.DateTime? = nil,
+                updatedAt: Temporal.DateTime? = nil) {
                 self.id = id
                 self.title = title
                 self.done = done
@@ -354,6 +422,8 @@ describe('AppSyncSwiftVisitor', () => {
                 self.version = version
                 self.value = value
                 self.tasks = tasks
+                self.createdAt = createdAt
+                self.updatedAt = updatedAt
             }
           }"
         `);
@@ -397,8 +467,8 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(todo.version, is: .required, ofType: .int),
                 .field(todo.value, is: .optional, ofType: .double),
                 .hasMany(todo.tasks, is: .optional, ofType: task.self, associatedWith: task.keys.todo),
-                .field(todo.createdAt, is: .optional, ofType: .dateTime),
-                .field(todo.updatedAt, is: .optional, ofType: .dateTime)
+                .field(todo.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+                .field(todo.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
           }"
@@ -423,18 +493,36 @@ describe('AppSyncSwiftVisitor', () => {
             public var createdAt: Temporal.DateTime?
             public var updatedAt: Temporal.DateTime?
             
-            public init(id: String = UUID().uuidString,
-                title: String,
+            public init(title: String,
                 done: Bool,
                 todo: Todo? = nil,
                 time: Temporal.Time? = nil,
                 createdOn: Temporal.Date? = nil) {
+              self.init(,
+              title: title,
+              done: done,
+              todo: todo,
+              time: time,
+              createdOn: createdOn,
+              createdAt: nil,
+              updatedAt: nil)
+            }
+            internal init(id: String = UUID().uuidString,
+                title: String,
+                done: Bool,
+                todo: Todo? = nil,
+                time: Temporal.Time? = nil,
+                createdOn: Temporal.Date? = nil,
+                createdAt: Temporal.DateTime? = nil,
+                updatedAt: Temporal.DateTime? = nil) {
                 self.id = id
                 self.title = title
                 self.done = done
                 self.todo = todo
                 self.time = time
                 self.createdOn = createdOn
+                self.createdAt = createdAt
+                self.updatedAt = updatedAt
             }
           }"
         `);
@@ -474,8 +562,8 @@ describe('AppSyncSwiftVisitor', () => {
                 .belongsTo(task.todo, is: .optional, ofType: Todo.self, targetName: \\"taskTodoId\\"),
                 .field(task.time, is: .optional, ofType: .time),
                 .field(task.createdOn, is: .optional, ofType: .date),
-                .field(task.createdAt, is: .optional, ofType: .dateTime),
-                .field(task.updatedAt, is: .optional, ofType: .dateTime)
+                .field(task.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+                .field(task.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
           }"
@@ -556,12 +644,24 @@ describe('AppSyncSwiftVisitor', () => {
             public var createdAt: Temporal.DateTime?
             public var updatedAt: Temporal.DateTime?
             
-            public init(id: String = UUID().uuidString,
-                title: String,
+            public init(title: String,
                 editors: List<PostEditor>? = []) {
+              self.init(,
+              title: title,
+              editors: editors,
+              createdAt: nil,
+              updatedAt: nil)
+            }
+            internal init(id: String = UUID().uuidString,
+                title: String,
+                editors: List<PostEditor>? = [],
+                createdAt: Temporal.DateTime? = nil,
+                updatedAt: Temporal.DateTime? = nil) {
                 self.id = id
                 self.title = title
                 self.editors = editors
+                self.createdAt = createdAt
+                self.updatedAt = updatedAt
             }
           }"
         `);
@@ -594,8 +694,8 @@ describe('AppSyncSwiftVisitor', () => {
                 .id(),
                 .field(post.title, is: .required, ofType: .string),
                 .hasMany(post.editors, is: .optional, ofType: PostEditor.self, associatedWith: PostEditor.keys.id),
-                .field(post.createdAt, is: .optional, ofType: .dateTime),
-                .field(post.updatedAt, is: .optional, ofType: .dateTime)
+                .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+                .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
           }"
@@ -614,12 +714,24 @@ describe('AppSyncSwiftVisitor', () => {
             public var createdAt: Temporal.DateTime?
             public var updatedAt: Temporal.DateTime?
             
-            public init(id: String = UUID().uuidString,
-                title: String,
+            public init(title: String,
                 editors: List<PostEditor>? = []) {
+              self.init(,
+              title: title,
+              editors: editors,
+              createdAt: nil,
+              updatedAt: nil)
+            }
+            internal init(id: String = UUID().uuidString,
+                title: String,
+                editors: List<PostEditor>? = [],
+                createdAt: Temporal.DateTime? = nil,
+                updatedAt: Temporal.DateTime? = nil) {
                 self.id = id
                 self.title = title
                 self.editors = editors
+                self.createdAt = createdAt
+                self.updatedAt = updatedAt
             }
           }"
         `);
@@ -652,8 +764,8 @@ describe('AppSyncSwiftVisitor', () => {
                 .id(),
                 .field(post.title, is: .required, ofType: .string),
                 .hasMany(post.editors, is: .optional, ofType: PostEditor.self, associatedWith: PostEditor.keys.id),
-                .field(post.createdAt, is: .optional, ofType: .dateTime),
-                .field(post.updatedAt, is: .optional, ofType: .dateTime)
+                .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+                .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
           }"
@@ -695,13 +807,31 @@ describe('AppSyncSwiftVisitor', () => {
         public var createdAt: Temporal.DateTime?
         public var updatedAt: Temporal.DateTime?
         
-        public init(id: String = UUID().uuidString,
-            intArr: [Int]? = [],
+        public init(intArr: [Int]? = [],
             strArr: [String]? = [],
             floatArr: [Double]? = [],
             boolArr: [Bool]? = [],
             dateArr: [Temporal.Date]? = [],
             enumArr: [EnumType]? = []) {
+          self.init(,
+          intArr: intArr,
+          strArr: strArr,
+          floatArr: floatArr,
+          boolArr: boolArr,
+          dateArr: dateArr,
+          enumArr: enumArr,
+          createdAt: nil,
+          updatedAt: nil)
+        }
+        internal init(id: String = UUID().uuidString,
+            intArr: [Int]? = [],
+            strArr: [String]? = [],
+            floatArr: [Double]? = [],
+            boolArr: [Bool]? = [],
+            dateArr: [Temporal.Date]? = [],
+            enumArr: [EnumType]? = [],
+            createdAt: Temporal.DateTime? = nil,
+            updatedAt: Temporal.DateTime? = nil) {
             self.id = id
             self.intArr = intArr
             self.strArr = strArr
@@ -709,6 +839,8 @@ describe('AppSyncSwiftVisitor', () => {
             self.boolArr = boolArr
             self.dateArr = dateArr
             self.enumArr = enumArr
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
         }
       }"
     `);
@@ -750,8 +882,8 @@ describe('AppSyncSwiftVisitor', () => {
             .field(objectWithNativeTypes.boolArr, is: .optional, ofType: .embeddedCollection(of: Bool.self)),
             .field(objectWithNativeTypes.dateArr, is: .optional, ofType: .embeddedCollection(of: Temporal.Date.self)),
             .field(objectWithNativeTypes.enumArr, is: .optional, ofType: .embeddedCollection(of: EnumType.self)),
-            .field(objectWithNativeTypes.createdAt, is: .optional, ofType: .dateTime),
-            .field(objectWithNativeTypes.updatedAt, is: .optional, ofType: .dateTime)
+            .field(objectWithNativeTypes.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+            .field(objectWithNativeTypes.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
           )
           }
       }"
@@ -797,13 +929,31 @@ describe('AppSyncSwiftVisitor', () => {
         public var createdAt: Temporal.DateTime?
         public var updatedAt: Temporal.DateTime?
         
-        public init(id: String = UUID().uuidString,
-            name: String,
+        public init(name: String,
             location: Location,
             nearByLocations: [Location]? = [],
             status: Status,
             statusHistory: [Status]? = [],
             tags: [String]? = []) {
+          self.init(,
+          name: name,
+          location: location,
+          nearByLocations: nearByLocations,
+          status: status,
+          statusHistory: statusHistory,
+          tags: tags,
+          createdAt: nil,
+          updatedAt: nil)
+        }
+        internal init(id: String = UUID().uuidString,
+            name: String,
+            location: Location,
+            nearByLocations: [Location]? = [],
+            status: Status,
+            statusHistory: [Status]? = [],
+            tags: [String]? = [],
+            createdAt: Temporal.DateTime? = nil,
+            updatedAt: Temporal.DateTime? = nil) {
             self.id = id
             self.name = name
             self.location = location
@@ -811,6 +961,8 @@ describe('AppSyncSwiftVisitor', () => {
             self.status = status
             self.statusHistory = statusHistory
             self.tags = tags
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
         }
       }"
     `);
@@ -851,8 +1003,8 @@ describe('AppSyncSwiftVisitor', () => {
             .field(attraction.status, is: .required, ofType: .enum(type: Status.self)),
             .field(attraction.statusHistory, is: .optional, ofType: .embeddedCollection(of: Status.self)),
             .field(attraction.tags, is: .optional, ofType: .embeddedCollection(of: String.self)),
-            .field(attraction.createdAt, is: .optional, ofType: .dateTime),
-            .field(attraction.updatedAt, is: .optional, ofType: .dateTime)
+            .field(attraction.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+            .field(attraction.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
           )
           }
       }"
@@ -1020,16 +1172,32 @@ describe('AppSyncSwiftVisitor', () => {
           public var createdAt: Temporal.DateTime?
           public var updatedAt: Temporal.DateTime?
           
-          public init(id: String = UUID().uuidString,
-              \`Class\`: \`Class\`? = nil,
+          public init(\`Class\`: \`Class\`? = nil,
               nonNullClass: \`Class\`,
               classes: [\`Class\`]? = [],
               nonNullClasses: [\`Class\`] = []) {
+            self.init(,
+            Class: Class,
+            nonNullClass: nonNullClass,
+            classes: classes,
+            nonNullClasses: nonNullClasses,
+            createdAt: nil,
+            updatedAt: nil)
+          }
+          internal init(id: String = UUID().uuidString,
+              \`Class\`: \`Class\`? = nil,
+              nonNullClass: \`Class\`,
+              classes: [\`Class\`]? = [],
+              nonNullClasses: [\`Class\`] = [],
+              createdAt: Temporal.DateTime? = nil,
+              updatedAt: Temporal.DateTime? = nil) {
               self.id = id
               self.\`Class\` = \`Class\`
               self.nonNullClass = nonNullClass
               self.classes = classes
               self.nonNullClasses = nonNullClasses
+              self.createdAt = createdAt
+              self.updatedAt = updatedAt
           }
         }"
       `);
@@ -1078,8 +1246,8 @@ describe('AppSyncSwiftVisitor', () => {
                 .id(),
                 .field(post.title, is: .required, ofType: .string),
                 .field(post.owner, is: .required, ofType: .string),
-                .field(post.createdAt, is: .optional, ofType: .dateTime),
-                .field(post.updatedAt, is: .optional, ofType: .dateTime)
+                .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+                .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
           }"
@@ -1127,8 +1295,8 @@ describe('AppSyncSwiftVisitor', () => {
                 .id(),
                 .field(post.title, is: .required, ofType: .string),
                 .field(post.author, is: .required, ofType: .string),
-                .field(post.createdAt, is: .optional, ofType: .dateTime),
-                .field(post.updatedAt, is: .optional, ofType: .dateTime)
+                .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+                .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
           }"
@@ -1177,8 +1345,8 @@ describe('AppSyncSwiftVisitor', () => {
                 .id(),
                 .field(post.title, is: .required, ofType: .string),
                 .field(post.author, is: .required, ofType: .string),
-                .field(post.createdAt, is: .optional, ofType: .dateTime),
-                .field(post.updatedAt, is: .optional, ofType: .dateTime)
+                .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+                .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
           }"
@@ -1227,8 +1395,8 @@ describe('AppSyncSwiftVisitor', () => {
                 .id(),
                 .field(post.title, is: .required, ofType: .string),
                 .field(post.author, is: .required, ofType: .string),
-                .field(post.createdAt, is: .optional, ofType: .dateTime),
-                .field(post.updatedAt, is: .optional, ofType: .dateTime)
+                .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+                .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
           }"
@@ -1273,8 +1441,8 @@ describe('AppSyncSwiftVisitor', () => {
               model.fields(
                 .id(),
                 .field(post.title, is: .required, ofType: .string),
-                .field(post.createdAt, is: .optional, ofType: .dateTime),
-                .field(post.updatedAt, is: .optional, ofType: .dateTime)
+                .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+                .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
           }"
@@ -1319,8 +1487,8 @@ describe('AppSyncSwiftVisitor', () => {
               model.fields(
                 .id(),
                 .field(post.title, is: .required, ofType: .string),
-                .field(post.createdAt, is: .optional, ofType: .dateTime),
-                .field(post.updatedAt, is: .optional, ofType: .dateTime)
+                .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+                .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
           }"
@@ -1374,8 +1542,8 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(post.title, is: .required, ofType: .string),
                 .field(post.author, is: .required, ofType: .string),
                 .field(post.editors, is: .required, ofType: .embeddedCollection(of: String.self)),
-                .field(post.createdAt, is: .optional, ofType: .dateTime),
-                .field(post.updatedAt, is: .optional, ofType: .dateTime)
+                .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+                .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
           }"
@@ -1427,8 +1595,8 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(employee.name, is: .required, ofType: .string),
                 .field(employee.address, is: .required, ofType: .string),
                 .field(employee.ssn, is: .optional, ofType: .string),
-                .field(employee.createdAt, is: .optional, ofType: .dateTime),
-                .field(employee.updatedAt, is: .optional, ofType: .dateTime)
+                .field(employee.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+                .field(employee.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
           }"
@@ -1476,8 +1644,8 @@ describe('AppSyncSwiftVisitor', () => {
             model.fields(
               .id(),
               .field(post.title, is: .required, ofType: .string),
-              .field(post.createdAt, is: .optional, ofType: .dateTime),
-              .field(post.updatedAt, is: .optional, ofType: .dateTime)
+              .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+              .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
             )
             }
         }"
@@ -1525,8 +1693,8 @@ describe('AppSyncSwiftVisitor', () => {
               .id(),
               .field(post.title, is: .required, ofType: .string),
               .field(post.groups, is: .required, ofType: .embeddedCollection(of: String.self)),
-              .field(post.createdAt, is: .optional, ofType: .dateTime),
-              .field(post.updatedAt, is: .optional, ofType: .dateTime)
+              .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+              .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
             )
             }
         }"
@@ -1572,8 +1740,8 @@ describe('AppSyncSwiftVisitor', () => {
             model.fields(
               .id(),
               .field(post.title, is: .required, ofType: .string),
-              .field(post.createdAt, is: .optional, ofType: .dateTime),
-              .field(post.updatedAt, is: .optional, ofType: .dateTime)
+              .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+              .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
             )
             }
         }"
@@ -1619,8 +1787,8 @@ describe('AppSyncSwiftVisitor', () => {
             model.fields(
               .id(),
               .field(post.title, is: .required, ofType: .string),
-              .field(post.createdAt, is: .optional, ofType: .dateTime),
-              .field(post.updatedAt, is: .optional, ofType: .dateTime)
+              .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+              .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
             )
             }
         }"
@@ -1678,8 +1846,8 @@ describe('AppSyncSwiftVisitor', () => {
             .id(),
             .field(post.title, is: .required, ofType: .string),
             .field(post.owner, is: .required, ofType: .string),
-            .field(post.createdAt, is: .optional, ofType: .dateTime),
-            .field(post.updatedAt, is: .optional, ofType: .dateTime)
+            .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+            .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
           )
           }
       }"

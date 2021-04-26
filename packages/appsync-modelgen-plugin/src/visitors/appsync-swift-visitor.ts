@@ -47,12 +47,42 @@ export class AppSyncSwiftVisitor extends AppSyncModelVisitor {
         });
       });
       const initParams: CodeGenField[] = this.getWritableFields(obj);
-      const initImpl: string = this.getInitBody(initParams);
+      const initImpl: string = `self.init(${obj.fields
+        .map(field => {
+          const fieldName = this.getFieldName(field);
+          if (field.name !== 'id') {
+            return field.isReadOnly ? `${fieldName}: nil` : `${fieldName}: ${fieldName}`;
+          }
+        })
+        .join(',\n')})`;
+      //public constructor
       structBlock.addClassMethod(
         'init',
         null,
         initImpl,
         initParams.map(field => {
+          const listType: ListType = field.connectionInfo ? ListType.LIST : ListType.ARRAY;
+          return {
+            name: this.getFieldName(field),
+            type: this.getNativeType(field),
+            value: undefined,
+            flags: {
+              optional: field.isNullable,
+              isList: field.isList,
+              isEnum: this.isEnumType(field),
+              listType: field.isList ? listType : undefined,
+            },
+          };
+        }),
+        'public',
+        {},
+      );
+      //internal constructor
+      structBlock.addClassMethod(
+        'init',
+        null,
+        this.getInitBody(obj.fields),
+        obj.fields.map(field => {
           const listType: ListType = field.connectionInfo ? ListType.LIST : ListType.ARRAY;
           return {
             name: this.getFieldName(field),
@@ -66,7 +96,7 @@ export class AppSyncSwiftVisitor extends AppSyncModelVisitor {
             },
           };
         }),
-        'public',
+        'internal',
         {},
       );
       result.push(structBlock.string);
@@ -227,6 +257,7 @@ export class AppSyncSwiftVisitor extends AppSyncModelVisitor {
       return `.id()`;
     }
     let ofType;
+    let isReadOnly: string = '';
     const isEnumType = this.isEnumType(field);
     const isModelType = this.isModelType(field);
     const isNonModelType = this.isNonModelType(field);
@@ -269,7 +300,12 @@ export class AppSyncSwiftVisitor extends AppSyncModelVisitor {
       }
     }
 
-    const args = [`${name}`, `is: ${isRequired}`, `ofType: ${ofType}`].filter(arg => arg).join(', ');
+    //read-only fields
+    if (field.isReadOnly) {
+      isReadOnly = 'isReadOnly: true';
+    }
+
+    const args = [`${name}`, `is: ${isRequired}`, isReadOnly, `ofType: ${ofType}`].filter(arg => arg).join(', ');
     return `.field(${args})`;
   }
 
@@ -348,6 +384,6 @@ export class AppSyncSwiftVisitor extends AppSyncModelVisitor {
   }
 
   protected getWritableFields(model: CodeGenModel): CodeGenField[] {
-    return model.fields.filter(f => !f.isReadOnly);
+    return model.fields.filter(f => f.name !== 'id' && !f.isReadOnly);
   }
 }
