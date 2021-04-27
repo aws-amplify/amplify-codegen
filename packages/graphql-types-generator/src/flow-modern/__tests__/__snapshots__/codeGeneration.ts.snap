@@ -2,7 +2,7 @@
 
 exports[`Flow codeGeneration fragment spreads with inline fragments 1`] = `
 Object {
-  "__generated__/HeroName.js": FlowGeneratedFile {
+  "__generated__\\\\HeroName.js": FlowGeneratedFile {
     "fileContents": "
 
 /* @flow */
@@ -51,7 +51,7 @@ export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 // END Enums and Input Objects
 //==============================================================",
   },
-  "__generated__/droidFragment.js": FlowGeneratedFile {
+  "__generated__\\\\droidFragment.js": FlowGeneratedFile {
     "fileContents": "
 
 /* @flow */
@@ -80,7 +80,7 @@ export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 // END Enums and Input Objects
 //==============================================================",
   },
-  "__generated__/humanFragment.js": FlowGeneratedFile {
+  "__generated__\\\\humanFragment.js": FlowGeneratedFile {
     "fileContents": "
 
 /* @flow */
@@ -123,7 +123,7 @@ export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 
 exports[`Flow codeGeneration fragment with fragment spreads 1`] = `
 Object {
-  "__generated__/anotherFragment.js": FlowGeneratedFile {
+  "__generated__\\\\anotherFragment.js": FlowGeneratedFile {
     "fileContents": "
 
 /* @flow */
@@ -150,7 +150,7 @@ export type anotherFragment = {
 // END Enums and Input Objects
 //==============================================================",
   },
-  "__generated__/simpleFragment.js": FlowGeneratedFile {
+  "__generated__\\\\simpleFragment.js": FlowGeneratedFile {
     "fileContents": "
 
 /* @flow */
@@ -181,7 +181,7 @@ export type simpleFragment = {
 
 exports[`Flow codeGeneration fragment with fragment spreads with inline fragment 1`] = `
 Object {
-  "__generated__/anotherFragment.js": FlowGeneratedFile {
+  "__generated__\\\\anotherFragment.js": FlowGeneratedFile {
     "fileContents": "
 
 /* @flow */
@@ -220,7 +220,7 @@ export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 // END Enums and Input Objects
 //==============================================================",
   },
-  "__generated__/simpleFragment.js": FlowGeneratedFile {
+  "__generated__\\\\simpleFragment.js": FlowGeneratedFile {
     "fileContents": "
 
 /* @flow */
@@ -254,7 +254,7 @@ export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 
 exports[`Flow codeGeneration inline fragment 1`] = `
 Object {
-  "__generated__/HeroInlineFragment.js": FlowGeneratedFile {
+  "__generated__\\\\HeroInlineFragment.js": FlowGeneratedFile {
     "fileContents": "
 
 /* @flow */
@@ -293,7 +293,7 @@ export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 
 exports[`Flow codeGeneration inline fragment on type conditions 1`] = `
 Object {
-  "__generated__/HeroName.js": FlowGeneratedFile {
+  "__generated__\\\\HeroName.js": FlowGeneratedFile {
     "fileContents": "
 
 /* @flow */
@@ -344,7 +344,7 @@ export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 
 exports[`Flow codeGeneration inline fragment on type conditions with differing inner fields 1`] = `
 Object {
-  "__generated__/HeroName.js": FlowGeneratedFile {
+  "__generated__\\\\HeroName.js": FlowGeneratedFile {
     "fileContents": "
 
 /* @flow */
@@ -399,7 +399,7 @@ export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 }
 `;
 
-exports[`Flow codeGeneration multiple files 1`] = `"/some/file/__generated__/HeroName.js"`;
+exports[`Flow codeGeneration multiple files 1`] = `"\\\\some\\\\file\\\\__generated__\\\\HeroName.js"`;
 
 exports[`Flow codeGeneration multiple files 2`] = `
 FlowGeneratedFile {
@@ -452,7 +452,7 @@ type ColorInput = {
 }
 `;
 
-exports[`Flow codeGeneration multiple files 3`] = `"/some/file/__generated__/SomeOther.js"`;
+exports[`Flow codeGeneration multiple files 3`] = `"\\\\some\\\\file\\\\__generated__\\\\SomeOther.js"`;
 
 exports[`Flow codeGeneration multiple files 4`] = `
 FlowGeneratedFile {
@@ -505,7 +505,7 @@ type ColorInput = {
 }
 `;
 
-exports[`Flow codeGeneration multiple files 5`] = `"__generated__/ReviewMovie.js"`;
+exports[`Flow codeGeneration multiple files 5`] = `"__generated__\\\\ReviewMovie.js"`;
 
 exports[`Flow codeGeneration multiple files 6`] = `
 FlowGeneratedFile {
@@ -558,7 +558,7 @@ type ColorInput = {
 }
 `;
 
-exports[`Flow codeGeneration multiple files 7`] = `"/some/file/__generated__/someFragment.js"`;
+exports[`Flow codeGeneration multiple files 7`] = `"\\\\some\\\\file\\\\__generated__\\\\someFragment.js"`;
 
 exports[`Flow codeGeneration multiple files 8`] = `
 FlowGeneratedFile {
@@ -608,7 +608,7 @@ type ColorInput = {
 
 exports[`Flow codeGeneration query with fragment spreads 1`] = `
 Object {
-  "__generated__/HeroFragment.js": FlowGeneratedFile {
+  "__generated__\\\\HeroFragment.js": FlowGeneratedFile {
     "fileContents": "
 
 /* @flow */
@@ -642,7 +642,7 @@ export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 // END Enums and Input Objects
 //==============================================================",
   },
-  "__generated__/simpleFragment.js": FlowGeneratedFile {
+  "__generated__\\\\simpleFragment.js": FlowGeneratedFile {
     "fileContents": "
 
 /* @flow */
@@ -676,7 +676,7 @@ export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 
 exports[`Flow codeGeneration simple fragment 1`] = `
 Object {
-  "__generated__/SimpleFragment.js": FlowGeneratedFile {
+  "__generated__\\\\SimpleFragment.js": FlowGeneratedFile {
     "fileContents": "
 
 /* @flow */
@@ -707,7 +707,7 @@ export type SimpleFragment = {
 
 exports[`Flow codeGeneration simple hero query 1`] = `
 Object {
-  "__generated__/HeroName.js": FlowGeneratedFile {
+  "__generated__\\\\HeroName.js": FlowGeneratedFile {
     "fileContents": "
 
 /* @flow */
@@ -746,7 +746,7 @@ export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 
 exports[`Flow codeGeneration simple mutation 1`] = `
 Object {
-  "__generated__/ReviewMovie.js": FlowGeneratedFile {
+  "__generated__\\\\ReviewMovie.js": FlowGeneratedFile {
     "fileContents": "
 
 /* @flow */
