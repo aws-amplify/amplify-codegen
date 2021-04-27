@@ -1,4 +1,4 @@
-import { 
+import {
     initProjectWithProfile,
     addApiWithSchema,
     addCodegen,
@@ -19,10 +19,10 @@ export async function testGraphQLCodegen(config: AmplifyFrontendConfig, projectR
 
     // Add codegen
     await expect(addCodegen(projectRoot, { ...config })).resolves.not.toThrow();
-    
+
     // Execute GraphQL codegen
     await expect(generateStatementsAndTypes(projectRoot)).resolves.not.toThrow();
-    
+
     // check if the pre-existing user file still exists
     expect(existsSync(userSourceCodePath)).toBe(true);
     // check if the statements are generated

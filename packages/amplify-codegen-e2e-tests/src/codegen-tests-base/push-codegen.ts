@@ -1,4 +1,4 @@
-import { 
+import {
     initProjectWithProfile,
     addApiWithSchema,
     amplifyPushWithCodegenAdd,
@@ -12,13 +12,12 @@ import { isNotEmptyDir } from '../utils';
 import { testSetupBeforeAddCodegen, testValidGraphQLConfig } from "./test-setup";
 
 export async function testPushCodegen(config: AmplifyFrontendConfig, projectRoot: string, schema: string) {
-
     // init project and add API category
     await initProjectWithProfile(projectRoot, { ...config });
     await addApiWithSchema(projectRoot, schema);
 
     const userSourceCodePath = testSetupBeforeAddCodegen(projectRoot, config);
-    
+
     // add codegen succeeds
     await amplifyPushWithCodegenAdd(projectRoot, { ...config });
 

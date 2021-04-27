@@ -14,7 +14,7 @@ async function setupAmplify() {
       profileName: 'e2e-test-user',
       region: REGION,
     });
-  } 
+  }
   else {
     console.log('AWS Profile is already configured');
   }

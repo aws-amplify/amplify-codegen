@@ -1,4 +1,4 @@
-import { 
+import {
     initProjectWithProfile,
     addApiWithSchema,
     addCodegen,
@@ -16,7 +16,7 @@ export async function testRemoveCodegen(config: AmplifyFrontendConfig, projectRo
     await addApiWithSchema(projectRoot, schema);
 
     const userSourceCodePath = testSetupBeforeAddCodegen(projectRoot, config);
-    
+
     // add codegen succeeds
     await expect(addCodegen(projectRoot, { ...config })).resolves.not.toThrow();
 

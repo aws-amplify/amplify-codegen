@@ -1,4 +1,4 @@
-import { 
+import {
     initProjectWithProfile,
     addApiWithSchema,
     addCodegen,
@@ -16,7 +16,7 @@ export async function testConfigureCodegen(config: AmplifyFrontendConfig, projec
     await addApiWithSchema(projectRoot, schema);
 
     const userSourceCodePath = testSetupBeforeAddCodegen(projectRoot, config);
-    
+
     // add codegen succeeds
     await expect(addCodegen(projectRoot, { ...config })).resolves.not.toThrow();
 
@@ -30,7 +30,7 @@ export async function testConfigureCodegen(config: AmplifyFrontendConfig, projec
     expect(existsSync(userSourceCodePath)).toBe(true);
     // previously generated files should still exist
     expect(isNotEmptyDir(path.join(projectRoot, config.graphqlCodegenDir))).toBe(true);
-    
+
     // graphql configuration should be updated to with MaxStatementDepth=4
     testValidGraphQLConfig(projectRoot);
     const updatedCodegenConfiguration = readFileSync(getGraphQLConfigFilePath(projectRoot)).toString();
