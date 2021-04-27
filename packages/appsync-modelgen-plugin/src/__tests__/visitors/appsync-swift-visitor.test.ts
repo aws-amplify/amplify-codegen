@@ -46,11 +46,10 @@ describe('AppSyncSwiftVisitor', () => {
         
         public init(name: String? = nil,
             bar: String? = nil) {
-          self.init(,
-          name: name,
-          bar: bar,
-          createdAt: nil,
-          updatedAt: nil)
+          self.init(name: name,
+            bar: bar,
+            createdAt: nil,
+            updatedAt: nil)
         }
         internal init(id: String = UUID().uuidString,
             name: String? = nil,
@@ -154,10 +153,9 @@ describe('AppSyncSwiftVisitor', () => {
         public var updatedAt: Temporal.DateTime?
         
         public init(name: String? = nil) {
-          self.init(,
-          name: name,
-          createdAt: nil,
-          updatedAt: nil)
+          self.init(name: name,
+            createdAt: nil,
+            updatedAt: nil)
         }
         internal init(id: String = UUID().uuidString,
             name: String? = nil,
@@ -228,10 +226,9 @@ describe('AppSyncSwiftVisitor', () => {
         public var updatedAt: Temporal.DateTime?
         
         public init(first_name: String? = nil) {
-          self.init(,
-          first_name: first_name,
-          createdAt: nil,
-          updatedAt: nil)
+          self.init(first_name: first_name,
+            createdAt: nil,
+            updatedAt: nil)
         }
         internal init(id: String = UUID().uuidString,
             first_name: String? = nil,
@@ -276,13 +273,12 @@ describe('AppSyncSwiftVisitor', () => {
             book_id: String,
             author: String? = nil,
             book: String? = nil) {
-          self.init(,
-          author_id: author_id,
-          book_id: book_id,
-          author: author,
-          book: book,
-          createdAt: nil,
-          updatedAt: nil)
+          self.init(author_id: author_id,
+            book_id: book_id,
+            author: author,
+            book: book,
+            createdAt: nil,
+            updatedAt: nil)
         }
         internal init(id: String = UUID().uuidString,
             author_id: String,
@@ -393,16 +389,15 @@ describe('AppSyncSwiftVisitor', () => {
                 version: Int,
                 value: Double? = nil,
                 tasks: List<task>? = []) {
-              self.init(,
-              title: title,
-              done: done,
-              description: description,
-              due_date: due_date,
-              version: version,
-              value: value,
-              tasks: tasks,
-              createdAt: nil,
-              updatedAt: nil)
+              self.init(title: title,
+                done: done,
+                description: description,
+                due_date: due_date,
+                version: version,
+                value: value,
+                tasks: tasks,
+                createdAt: nil,
+                updatedAt: nil)
             }
             internal init(id: String = UUID().uuidString,
                 title: String,
@@ -498,14 +493,13 @@ describe('AppSyncSwiftVisitor', () => {
                 todo: Todo? = nil,
                 time: Temporal.Time? = nil,
                 createdOn: Temporal.Date? = nil) {
-              self.init(,
-              title: title,
-              done: done,
-              todo: todo,
-              time: time,
-              createdOn: createdOn,
-              createdAt: nil,
-              updatedAt: nil)
+              self.init(title: title,
+                done: done,
+                todo: todo,
+                time: time,
+                createdOn: createdOn,
+                createdAt: nil,
+                updatedAt: nil)
             }
             internal init(id: String = UUID().uuidString,
                 title: String,
@@ -646,11 +640,10 @@ describe('AppSyncSwiftVisitor', () => {
             
             public init(title: String,
                 editors: List<PostEditor>? = []) {
-              self.init(,
-              title: title,
-              editors: editors,
-              createdAt: nil,
-              updatedAt: nil)
+              self.init(title: title,
+                editors: editors,
+                createdAt: nil,
+                updatedAt: nil)
             }
             internal init(id: String = UUID().uuidString,
                 title: String,
@@ -716,11 +709,10 @@ describe('AppSyncSwiftVisitor', () => {
             
             public init(title: String,
                 editors: List<PostEditor>? = []) {
-              self.init(,
-              title: title,
-              editors: editors,
-              createdAt: nil,
-              updatedAt: nil)
+              self.init(title: title,
+                editors: editors,
+                createdAt: nil,
+                updatedAt: nil)
             }
             internal init(id: String = UUID().uuidString,
                 title: String,
@@ -813,15 +805,14 @@ describe('AppSyncSwiftVisitor', () => {
             boolArr: [Bool]? = [],
             dateArr: [Temporal.Date]? = [],
             enumArr: [EnumType]? = []) {
-          self.init(,
-          intArr: intArr,
-          strArr: strArr,
-          floatArr: floatArr,
-          boolArr: boolArr,
-          dateArr: dateArr,
-          enumArr: enumArr,
-          createdAt: nil,
-          updatedAt: nil)
+          self.init(intArr: intArr,
+            strArr: strArr,
+            floatArr: floatArr,
+            boolArr: boolArr,
+            dateArr: dateArr,
+            enumArr: enumArr,
+            createdAt: nil,
+            updatedAt: nil)
         }
         internal init(id: String = UUID().uuidString,
             intArr: [Int]? = [],
@@ -935,15 +926,14 @@ describe('AppSyncSwiftVisitor', () => {
             status: Status,
             statusHistory: [Status]? = [],
             tags: [String]? = []) {
-          self.init(,
-          name: name,
-          location: location,
-          nearByLocations: nearByLocations,
-          status: status,
-          statusHistory: statusHistory,
-          tags: tags,
-          createdAt: nil,
-          updatedAt: nil)
+          self.init(name: name,
+            location: location,
+            nearByLocations: nearByLocations,
+            status: status,
+            statusHistory: statusHistory,
+            tags: tags,
+            createdAt: nil,
+            updatedAt: nil)
         }
         internal init(id: String = UUID().uuidString,
             name: String,
@@ -1176,13 +1166,12 @@ describe('AppSyncSwiftVisitor', () => {
               nonNullClass: \`Class\`,
               classes: [\`Class\`]? = [],
               nonNullClasses: [\`Class\`] = []) {
-            self.init(,
-            Class: Class,
-            nonNullClass: nonNullClass,
-            classes: classes,
-            nonNullClasses: nonNullClasses,
-            createdAt: nil,
-            updatedAt: nil)
+            self.init(\`Class\`: \`Class\`,
+              nonNullClass: nonNullClass,
+              classes: classes,
+              nonNullClasses: nonNullClasses,
+              createdAt: nil,
+              updatedAt: nil)
           }
           internal init(id: String = UUID().uuidString,
               \`Class\`: \`Class\`? = nil,
