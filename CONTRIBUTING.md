@@ -76,7 +76,7 @@ You should open an issue to discuss your pull request, unless it's a trivial cha
 
 Pull requests should generally be opened against **master**.
 
-Only include **src** files in your PR. Don't include any build files i.e. dist/. These will be built upon publish to npm and when a release is created on GitHub.
+Only include **_src_** files in your PR. Don't include any build files i.e. `dist/`. These will be built upon publish to npm and when a release is created on GitHub.
 
 Before submitting PR make sure to run `yarn` on the root of monorepo to ensure that commit lint and husky are installed.
 
