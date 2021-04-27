@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`codegen remove tests - iOS Do nothing during remove when codegen is previouly added 1`] = `
+"projects: {}
+extensions:
+  amplify:
+    version: 3
+"
+`;

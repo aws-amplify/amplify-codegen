@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`codegen configure tests - iOS Updating codegen configuration works as expected 1`] = `
+"projects:
+  configurecodegeniosf:
+    schemaPath: amplify/backend/api/configurecodegeniosf/build/schema.graphql
+    includes:
+      - graphql/**/*.graphql
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: swift
+        generatedFileName: API.swift
+        docsFilePath: graphql
+        region: us-west-2
+        apiId: null
+        maxDepth: 4
+extensions:
+  amplify:
+    version: 3
+"
+`;

@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`codegen configure tests - Android Updating codegen configuration works as expected 1`] = `
+"projects:
+  configurecodegenandr:
+    schemaPath: app/src/main/graphql/schema.json
+    includes:
+      - app/src/main/graphql/**/*.graphql
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: android
+        generatedFileName: ''
+        docsFilePath: app/src/main/graphql/com/amazonaws/amplify/generated/graphql
+        region: us-west-2
+        apiId: null
+        maxDepth: 4
+extensions:
+  amplify:
+    version: 3
+"
+`;

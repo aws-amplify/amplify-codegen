@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`codegen add tests - iOS Adding codegen works as expected 1`] = `
+"projects:
+  addcodegeniosf0e6857:
+    schemaPath: amplify/backend/api/addcodegeniosf0e6857/build/schema.graphql
+    includes:
+      - graphql/**/*.graphql
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: swift
+        generatedFileName: API.swift
+        docsFilePath: graphql
+        region: us-west-2
+        apiId: null
+        maxDepth: 2
+"
+`;

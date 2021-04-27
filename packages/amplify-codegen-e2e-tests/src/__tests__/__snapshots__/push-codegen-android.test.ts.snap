@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Amplify push with codegen tests - Android should prompt codegen add/update and not delete user files 1`] = `
+"projects:
+  pushcodegenandroidf0:
+    schemaPath: app/src/main/graphql/schema.json
+    includes:
+      - app/src/main/graphql/**/*.graphql
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: ''
+        generatedFileName: ''
+        docsFilePath: app/src/main/graphql/com/amazonaws/amplify/generated/graphql
+"
+`;
