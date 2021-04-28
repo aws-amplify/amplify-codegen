@@ -1,7 +1,7 @@
 import { AmplifyFrontendConfig, AmplifyFrontend } from './frontend-config-helper';
 
 export function constructGraphQLConfig(
-    projectName: string, 
+    projectName: string,
     config: AmplifyFrontendConfig,
     maxDepth: number,
     region: string,
@@ -49,4 +49,3 @@ export function constructGraphQLConfig(
         extensions: extensions
     };
   }
-  

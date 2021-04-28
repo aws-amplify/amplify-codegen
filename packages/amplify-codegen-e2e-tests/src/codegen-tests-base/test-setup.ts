@@ -38,7 +38,7 @@ export function testSetupBeforeAddCodegen(projectRoot: string, config: AmplifyFr
 }
 
 export async function testValidGraphQLConfig(
-    projectRoot: string, 
+    projectRoot: string,
     config: AmplifyFrontendConfig,
     maxDepth?: number,
     region: string = REGION,
