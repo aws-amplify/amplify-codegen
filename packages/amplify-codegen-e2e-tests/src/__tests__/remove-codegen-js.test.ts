@@ -20,7 +20,7 @@ describe('codegen remove tests - JS', () => {
         await deleteAmplifyProject(projectRoot);
     });
 
-    it(`Do nothing during remove when codegen is not added in JS project`, async () => {
+    it(`Give appropriate message during remove when codegen is not added in JS project`, async () => {
         // init project and add API category
         await initProjectWithProfile(projectRoot, DEFAULT_JS_CONFIG);
         await addApiWithSchema(projectRoot, schema);
@@ -29,7 +29,7 @@ describe('codegen remove tests - JS', () => {
         await expect(removeCodegen(projectRoot, false)).resolves.not.toThrow();
     });
 
-    it(`Do nothing during remove when codegen is previouly added`, async () => {
+    it(`Does not delete files during codegen remove`, async () => {
         await testRemoveCodegen(DEFAULT_JS_CONFIG, projectRoot, schema);
     });
 });

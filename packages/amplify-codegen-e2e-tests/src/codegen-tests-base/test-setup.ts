@@ -7,7 +7,7 @@ import {
 } from "amplify-codegen-e2e-core";
 import { existsSync, readFileSync } from "fs";
 import path from 'path';
-import { isNotEmptyDir, generateSourceCode } from '../utils';
+import { generateSourceCode } from '../utils';
 import { JSONUtilities } from 'amplify-cli-core';
 import { SandboxApp } from '../types/SandboxApp';
 import { load } from 'js-yaml';
@@ -32,7 +32,7 @@ export function testSetupBeforeAddCodegen(projectRoot: string, config: AmplifyFr
 
     // verify that the pre-existing file exists and codegen output directory is empty
     expect(existsSync(userSourceCodePath)).toBe(true);
-    expect(isNotEmptyDir(path.join(projectRoot, config.graphqlCodegenDir))).toBe(false);
+    expect(existsSync(path.join(projectRoot, config.graphqlCodegenDir))).toBe(false);
 
     return userSourceCodePath;
 }

@@ -14,7 +14,7 @@ describe('codegen remove tests - Android', () => {
         await deleteAmplifyProject(projectRoot);
     });
 
-    it(`Do nothing during remove when codegen is previouly added`, async () => {
+    it(`Does not delete files during codegen remove`, async () => {
         await testRemoveCodegen(DEFAULT_ANDROID_CONFIG, projectRoot, schema);
     });
 });

@@ -5,14 +5,15 @@ export function constructGraphQLConfig(
     config: AmplifyFrontendConfig,
     maxDepth: number,
     region: string,
-    isConfigured: boolean) : any {
+    isConfigured: boolean = false,
+    apiId: string = null) : any {
 
     let schemaPath: string;
     let includes: [string];
     let excludes: [string] = ['./amplify/**'];
     let extensions = {
         amplify: {
-            apiId: null,
+            apiId: apiId,
             codeGenTarget: '',
             docsFilePath: '',
             generatedFileName: '',
