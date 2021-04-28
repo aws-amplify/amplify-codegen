@@ -5,7 +5,7 @@ import {
     AmplifyFrontendConfig,
     generateStatementsAndTypes
 } from "amplify-codegen-e2e-core";
-import { existsSync, readFileSync } from "fs";
+import { existsSync } from "fs";
 import path from 'path';
 import { isNotEmptyDir, generateSourceCode } from '../utils';
 

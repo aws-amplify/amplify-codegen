@@ -9,7 +9,7 @@ import {
 import { existsSync } from "fs";
 import path from 'path';
 import { isNotEmptyDir } from '../utils';
-import { testSetupBeforeAddCodegen, testValidGraphQLConfig } from "./test-setup";
+import { testSetupBeforeAddCodegen } from "./test-setup";
 
 export async function testPushCodegen(config: AmplifyFrontendConfig, projectRoot: string, schema: string) {
     // init project and add API category
@@ -26,7 +26,6 @@ export async function testPushCodegen(config: AmplifyFrontendConfig, projectRoot
 
     // GraphQL statements are generated
     expect(isNotEmptyDir(path.join(projectRoot, config.graphqlCodegenDir))).toBe(true);
-    testValidGraphQLConfig(projectRoot);
 
     //enable datastore
     await apiUpdateToggleDataStore(projectRoot);

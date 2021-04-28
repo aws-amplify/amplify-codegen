@@ -32,7 +32,7 @@ export async function testConfigureCodegen(config: AmplifyFrontendConfig, projec
     expect(isNotEmptyDir(path.join(projectRoot, config.graphqlCodegenDir))).toBe(true);
 
     // graphql configuration should be updated to with MaxStatementDepth=4
-    testValidGraphQLConfig(projectRoot);
+    testValidGraphQLConfig(projectRoot, config, 4, null, true);
     const updatedCodegenConfiguration = readFileSync(getGraphQLConfigFilePath(projectRoot)).toString();
     // the codegen configuration is updated
     expect(addedCodegenConfiguration).not.toMatch(updatedCodegenConfiguration);

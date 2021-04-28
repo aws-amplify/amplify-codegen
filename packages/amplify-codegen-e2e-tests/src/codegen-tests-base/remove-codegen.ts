@@ -5,10 +5,11 @@ import {
     removeCodegen,
     AmplifyFrontendConfig
 } from "amplify-codegen-e2e-core";
-import { existsSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import path from 'path';
 import { isNotEmptyDir } from '../utils';
-import { testSetupBeforeAddCodegen, testValidGraphQLConfig, getGraphQLConfigFilePath } from "./test-setup";
+import { testSetupBeforeAddCodegen, getGraphQLConfigFilePath } from "./test-setup";
+import { load } from 'js-yaml';
 
 export async function testRemoveCodegen(config: AmplifyFrontendConfig, projectRoot: string, schema: string) {
     // init project and add API category
@@ -28,5 +29,6 @@ export async function testRemoveCodegen(config: AmplifyFrontendConfig, projectRo
     // previously generated files should still exist
     expect(isNotEmptyDir(path.join(projectRoot, config.graphqlCodegenDir))).toBe(true);
     // graphql configuration should be updated to remove previous configuration
-    testValidGraphQLConfig(projectRoot);
+    const generatedConfig = load(readFileSync(getGraphQLConfigFilePath(projectRoot)).toString());
+    expect(Object.keys(generatedConfig.projects).length).toEqual(0);
 }

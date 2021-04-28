@@ -62,7 +62,7 @@ describe('codegen add tests - JS', () => {
         expect(existsSync(userSourceCodePath)).toBe(true);
         // previously generated files should still exist
         expect(isNotEmptyDir(path.join(projectRoot, config.graphqlCodegenDir))).toBe(true);
-        testValidGraphQLConfig(projectRoot);
+        testValidGraphQLConfig(projectRoot, config);
     });
 
     it(`Adding codegen works as expected`, async () => {

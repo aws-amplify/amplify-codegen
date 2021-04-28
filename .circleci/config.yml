@@ -121,7 +121,7 @@ jobs:
           name: Run e2e tests
           command: |
             cd packages/amplify-codegen-e2e-tests
-            yarn run e2e --maxWorkers=3
+            yarn run e2e
       - store_test_results:
           path: packages/amplify-codegen-e2e-tests/
       - store_artifacts:

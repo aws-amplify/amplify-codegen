@@ -23,5 +23,5 @@ export async function testAddCodegen(config: AmplifyFrontendConfig, projectRoot:
     expect(existsSync(userSourceCodePath)).toBe(true);
     // GraphQL statements are generated
     expect(isNotEmptyDir(path.join(projectRoot, config.graphqlCodegenDir))).toBe(true);
-    testValidGraphQLConfig(projectRoot);
+    testValidGraphQLConfig(projectRoot, config);
 }

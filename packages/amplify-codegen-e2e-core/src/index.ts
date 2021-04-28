@@ -25,7 +25,7 @@ export function getCLIPath(testingWithLatestCodebase = false) {
   if (isCI() && !testingWithLatestCodebase) {
     return 'amplify';
   }
-  return 'amplify-dev';
+  return 'amplify';
 }
 
 export function isCI(): boolean {
