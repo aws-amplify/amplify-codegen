@@ -22,6 +22,7 @@ export * from './sleep';
 export * from './transformConfig';
 export * from './admin-ui';
 export * from './frontend-config-helper';
+export * from './graphql-config-helper';
 
 // run dotenv config to update env variable
 config();
