@@ -11,14 +11,14 @@ executors:
     docker:
       - image: circleci/node:15.0
     resource_class: large
-  windows_node10:
+  windows_node12:
     machine:
       image: 'windows-server-2019-vs2019:stable'
       resource_class: windows.large
       shell: bash.exe
   macos_node10:
     macos:
-      xcode: "12.4.0"
+      xcode: "10.0.0"
       resource_class: large
 
 defaults: &defaults
@@ -54,22 +54,12 @@ clean_up_e2e_resources: &cleanup_e2e
     yarn clean-e2e-resources job ${CIRCLE_BUILD_NUM}
   working_directory: ~/repo
 
-setup_node10: &node10_setup
-  name: Install and Use node 10
-  command: |
-    node -v
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-    nvm install v10
-    node -v
-  shell: bash
-
 jobs:
   build:
     <<: *defaults
     executor: << parameters.os >>
     steps:
       - checkout
-      - run: *node10_setup
       - run: yarn config set workspaces-experimental true
       - run: yarn cache clean --force
       - run: yarn run production-build
@@ -154,22 +144,24 @@ workflows:
           name: build-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux_node15, linux_node10, windows_node10, macos_node10]
+              os: [linux_node15, linux_node10, windows_node12, macos_node10]
       - test:
           name: test-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux_node15, linux_node10, windows_node10, macos_node10]
+              os: [linux_node15, linux_node10, windows_node12, macos_node10]
           requires:
             - build-<< matrix.os >>
       - e2e-test:
           name: e2e-test-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux_node15, linux_node10, windows_node10, macos_node10]
+              os: [linux_node15, linux_node10, windows_node12, macos_node10]
           requires:
             - build-<< matrix.os >>
             - test-<< matrix.os >>
+          post-steps:
+            - run: *cleanup_e2e
           filters:
             branches:
               only:

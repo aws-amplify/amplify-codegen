@@ -18,6 +18,16 @@ function compile(
   return compileToIR(schema, document, options);
 }
 
+function matchOutputSnapshot(output: any): void {
+  expect(output).toBeInstanceOf(Object);
+
+  Object.keys(output).forEach(filePath => {
+    // convert the windows style path to unix style
+    expect(filePath.replace(/\\/g, "/")).toMatchSnapshot();
+    expect(output[filePath]).toMatchSnapshot();
+  });
+}
+
 describe('Flow codeGeneration', () => {
   test('multiple files', () => {
     const context = compile(`
@@ -50,11 +60,7 @@ describe('Flow codeGeneration', () => {
     context.operations['SomeOther'].filePath = '/some/file/ComponentB.js';
     context.fragments['someFragment'].filePath = '/some/file/ComponentB.js';
     const output = generateSource(context);
-    expect(output).toBeInstanceOf(Object);
-    Object.keys(output).forEach(filePath => {
-      expect(filePath).toMatchSnapshot();
-      expect(output[filePath]).toMatchSnapshot();
-    });
+    matchOutputSnapshot(output);
   });
 
   test('simple hero query', () => {
@@ -68,7 +74,7 @@ describe('Flow codeGeneration', () => {
     `);
 
     const output = generateSource(context);
-    expect(output).toMatchSnapshot();
+    matchOutputSnapshot(output);
   });
 
   test('simple mutation', () => {
@@ -82,7 +88,7 @@ describe('Flow codeGeneration', () => {
     `);
 
     const output = generateSource(context);
-    expect(output).toMatchSnapshot();
+    matchOutputSnapshot(output);
   });
 
   test('simple fragment', () => {
@@ -93,7 +99,7 @@ describe('Flow codeGeneration', () => {
     `);
 
     const output = generateSource(context);
-    expect(output).toMatchSnapshot();
+    matchOutputSnapshot(output);
   });
 
   test('fragment with fragment spreads', () => {
@@ -109,7 +115,7 @@ describe('Flow codeGeneration', () => {
     `);
 
     const output = generateSource(context);
-    expect(output).toMatchSnapshot();
+    matchOutputSnapshot(output);
   });
 
   test('fragment with fragment spreads with inline fragment', () => {
@@ -129,7 +135,7 @@ describe('Flow codeGeneration', () => {
     `);
 
     const output = generateSource(context);
-    expect(output).toMatchSnapshot();
+    matchOutputSnapshot(output);
   });
 
   test('query with fragment spreads', () => {
@@ -147,7 +153,7 @@ describe('Flow codeGeneration', () => {
     `);
 
     const output = generateSource(context);
-    expect(output).toMatchSnapshot();
+    matchOutputSnapshot(output);
   });
 
   test('inline fragment', () => {
@@ -163,7 +169,7 @@ describe('Flow codeGeneration', () => {
     `);
 
     const output = generateSource(context);
-    expect(output).toMatchSnapshot();
+    matchOutputSnapshot(output);
   });
 
   test('inline fragment on type conditions', () => {
@@ -187,7 +193,7 @@ describe('Flow codeGeneration', () => {
       }
     `);
     const output = generateSource(context);
-    expect(output).toMatchSnapshot();
+    matchOutputSnapshot(output);
   });
 
   test('inline fragment on type conditions with differing inner fields', () => {
@@ -215,7 +221,7 @@ describe('Flow codeGeneration', () => {
     `);
 
     const output = generateSource(context);
-    expect(output).toMatchSnapshot();
+    matchOutputSnapshot(output);
   });
 
   test('fragment spreads with inline fragments', () => {
@@ -247,6 +253,6 @@ describe('Flow codeGeneration', () => {
       }
     `);
     const output = generateSource(context);
-    expect(output).toMatchSnapshot();
+    matchOutputSnapshot(output);
   });
 });
