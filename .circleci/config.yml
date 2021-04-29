@@ -31,7 +31,6 @@ install_cli_with_local_codegen: &install_cli
   name: install Amplify CLI and amplify-app with local Amplify Codegen
   command: |
     npm get prefix
-    echo $OLD_CLI_BINARY
     source .circleci/local_publish_helpers.sh
     local_registry=http://localhost:4873
     startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
@@ -43,8 +42,9 @@ install_cli_with_local_codegen: &install_cli
     sudo npm i -g amplify-app --registry $local_registry || npm i -g amplify-app --registry $local_registry
     amplify -v
     amplify-app --version
-    sudo chown -R $USER:$GROUP ~/.config
+    sudo chown -R $USER:$GROUP ~/.config || echo "owning ~/.config did not succeed. Skip"
     unsetNpmRegistryUrl
+    exit 0
   working_directory: ~/repo
         
 clean_up_e2e_resources: &cleanup_e2e
