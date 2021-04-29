@@ -9,16 +9,16 @@ executors:
     resource_class: large
   linux_node15:
     docker:
-      - image: circleci/node:15.0
+      - image: circleci/node:15
     resource_class: large
   windows_node12:
     machine:
       image: 'windows-server-2019-vs2019:stable'
       resource_class: windows.large
       shell: bash.exe
-  macos_node10:
+  macos_node12:
     macos:
-      xcode: "10.0.0"
+      xcode: "11.2.1"
       resource_class: large
 
 defaults: &defaults
@@ -144,19 +144,19 @@ workflows:
           name: build-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux_node15, linux_node10, windows_node12, macos_node10]
+              os: [linux_node15, linux_node10, windows_node12, macos_node12]
       - test:
           name: test-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux_node15, linux_node10, windows_node12, macos_node10]
+              os: [linux_node15, linux_node10, windows_node12, macos_node12]
           requires:
             - build-<< matrix.os >>
       - e2e-test:
           name: e2e-test-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux_node15, linux_node10, windows_node12, macos_node10]
+              os: [linux_node15, linux_node10, windows_node12, macos_node12]
           requires:
             - build-<< matrix.os >>
             - test-<< matrix.os >>
