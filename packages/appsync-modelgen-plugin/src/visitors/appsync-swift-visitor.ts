@@ -384,6 +384,6 @@ export class AppSyncSwiftVisitor extends AppSyncModelVisitor {
   }
 
   protected getWritableFields(model: CodeGenModel): CodeGenField[] {
-    return model.fields.filter(f => f.name !== 'id' && !f.isReadOnly);
+    return model.fields.filter(f => !f.isReadOnly);
   }
 }

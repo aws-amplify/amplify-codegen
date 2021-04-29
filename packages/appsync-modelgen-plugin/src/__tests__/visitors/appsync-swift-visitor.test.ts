@@ -44,7 +44,8 @@ describe('AppSyncSwiftVisitor', () => {
         public var createdAt: Temporal.DateTime?
         public var updatedAt: Temporal.DateTime?
         
-        public init(name: String? = nil,
+        public init(id: String = UUID().uuidString,
+            name: String? = nil,
             bar: String? = nil) {
           self.init(id: id,
             name: name,
@@ -153,7 +154,8 @@ describe('AppSyncSwiftVisitor', () => {
         public var createdAt: Temporal.DateTime?
         public var updatedAt: Temporal.DateTime?
         
-        public init(name: String? = nil) {
+        public init(id: String = UUID().uuidString,
+            name: String? = nil) {
           self.init(id: id,
             name: name,
             createdAt: nil,
@@ -227,7 +229,8 @@ describe('AppSyncSwiftVisitor', () => {
         public var createdAt: Temporal.DateTime?
         public var updatedAt: Temporal.DateTime?
         
-        public init(first_name: String? = nil) {
+        public init(id: String = UUID().uuidString,
+            first_name: String? = nil) {
           self.init(id: id,
             first_name: first_name,
             createdAt: nil,
@@ -272,7 +275,8 @@ describe('AppSyncSwiftVisitor', () => {
         public var createdAt: Temporal.DateTime?
         public var updatedAt: Temporal.DateTime?
         
-        public init(author_id: String,
+        public init(id: String = UUID().uuidString,
+            author_id: String,
             book_id: String,
             author: String? = nil,
             book: String? = nil) {
@@ -386,7 +390,8 @@ describe('AppSyncSwiftVisitor', () => {
             public var createdAt: Temporal.DateTime?
             public var updatedAt: Temporal.DateTime?
             
-            public init(title: String,
+            public init(id: String = UUID().uuidString,
+                title: String,
                 done: Bool,
                 description: String? = nil,
                 due_date: String? = nil,
@@ -493,7 +498,8 @@ describe('AppSyncSwiftVisitor', () => {
             public var createdAt: Temporal.DateTime?
             public var updatedAt: Temporal.DateTime?
             
-            public init(title: String,
+            public init(id: String = UUID().uuidString,
+                title: String,
                 done: Bool,
                 todo: Todo? = nil,
                 time: Temporal.Time? = nil,
@@ -644,7 +650,8 @@ describe('AppSyncSwiftVisitor', () => {
             public var createdAt: Temporal.DateTime?
             public var updatedAt: Temporal.DateTime?
             
-            public init(title: String,
+            public init(id: String = UUID().uuidString,
+                title: String,
                 editors: List<PostEditor>? = []) {
               self.init(id: id,
                 title: title,
@@ -714,7 +721,8 @@ describe('AppSyncSwiftVisitor', () => {
             public var createdAt: Temporal.DateTime?
             public var updatedAt: Temporal.DateTime?
             
-            public init(title: String,
+            public init(id: String = UUID().uuidString,
+                title: String,
                 editors: List<PostEditor>? = []) {
               self.init(id: id,
                 title: title,
@@ -807,7 +815,8 @@ describe('AppSyncSwiftVisitor', () => {
         public var createdAt: Temporal.DateTime?
         public var updatedAt: Temporal.DateTime?
         
-        public init(intArr: [Int]? = [],
+        public init(id: String = UUID().uuidString,
+            intArr: [Int]? = [],
             strArr: [String]? = [],
             floatArr: [Double]? = [],
             boolArr: [Bool]? = [],
@@ -929,7 +938,8 @@ describe('AppSyncSwiftVisitor', () => {
         public var createdAt: Temporal.DateTime?
         public var updatedAt: Temporal.DateTime?
         
-        public init(name: String,
+        public init(id: String = UUID().uuidString,
+            name: String,
             location: Location,
             nearByLocations: [Location]? = [],
             status: Status,
@@ -1172,7 +1182,8 @@ describe('AppSyncSwiftVisitor', () => {
           public var createdAt: Temporal.DateTime?
           public var updatedAt: Temporal.DateTime?
           
-          public init(\`Class\`: \`Class\`? = nil,
+          public init(id: String = UUID().uuidString,
+              \`Class\`: \`Class\`? = nil,
               nonNullClass: \`Class\`,
               classes: [\`Class\`]? = [],
               nonNullClasses: [\`Class\`] = []) {
