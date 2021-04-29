@@ -46,7 +46,8 @@ describe('AppSyncSwiftVisitor', () => {
         
         public init(name: String? = nil,
             bar: String? = nil) {
-          self.init(name: name,
+          self.init(id: id,
+            name: name,
             bar: bar,
             createdAt: nil,
             updatedAt: nil)
@@ -153,7 +154,8 @@ describe('AppSyncSwiftVisitor', () => {
         public var updatedAt: Temporal.DateTime?
         
         public init(name: String? = nil) {
-          self.init(name: name,
+          self.init(id: id,
+            name: name,
             createdAt: nil,
             updatedAt: nil)
         }
@@ -226,7 +228,8 @@ describe('AppSyncSwiftVisitor', () => {
         public var updatedAt: Temporal.DateTime?
         
         public init(first_name: String? = nil) {
-          self.init(first_name: first_name,
+          self.init(id: id,
+            first_name: first_name,
             createdAt: nil,
             updatedAt: nil)
         }
@@ -273,7 +276,8 @@ describe('AppSyncSwiftVisitor', () => {
             book_id: String,
             author: String? = nil,
             book: String? = nil) {
-          self.init(author_id: author_id,
+          self.init(id: id,
+            author_id: author_id,
             book_id: book_id,
             author: author,
             book: book,
@@ -389,7 +393,8 @@ describe('AppSyncSwiftVisitor', () => {
                 version: Int,
                 value: Double? = nil,
                 tasks: List<task>? = []) {
-              self.init(title: title,
+              self.init(id: id,
+                title: title,
                 done: done,
                 description: description,
                 due_date: due_date,
@@ -493,7 +498,8 @@ describe('AppSyncSwiftVisitor', () => {
                 todo: Todo? = nil,
                 time: Temporal.Time? = nil,
                 createdOn: Temporal.Date? = nil) {
-              self.init(title: title,
+              self.init(id: id,
+                title: title,
                 done: done,
                 todo: todo,
                 time: time,
@@ -640,7 +646,8 @@ describe('AppSyncSwiftVisitor', () => {
             
             public init(title: String,
                 editors: List<PostEditor>? = []) {
-              self.init(title: title,
+              self.init(id: id,
+                title: title,
                 editors: editors,
                 createdAt: nil,
                 updatedAt: nil)
@@ -709,7 +716,8 @@ describe('AppSyncSwiftVisitor', () => {
             
             public init(title: String,
                 editors: List<PostEditor>? = []) {
-              self.init(title: title,
+              self.init(id: id,
+                title: title,
                 editors: editors,
                 createdAt: nil,
                 updatedAt: nil)
@@ -805,7 +813,8 @@ describe('AppSyncSwiftVisitor', () => {
             boolArr: [Bool]? = [],
             dateArr: [Temporal.Date]? = [],
             enumArr: [EnumType]? = []) {
-          self.init(intArr: intArr,
+          self.init(id: id,
+            intArr: intArr,
             strArr: strArr,
             floatArr: floatArr,
             boolArr: boolArr,
@@ -926,7 +935,8 @@ describe('AppSyncSwiftVisitor', () => {
             status: Status,
             statusHistory: [Status]? = [],
             tags: [String]? = []) {
-          self.init(name: name,
+          self.init(id: id,
+            name: name,
             location: location,
             nearByLocations: nearByLocations,
             status: status,
@@ -1166,7 +1176,8 @@ describe('AppSyncSwiftVisitor', () => {
               nonNullClass: \`Class\`,
               classes: [\`Class\`]? = [],
               nonNullClasses: [\`Class\`] = []) {
-            self.init(\`Class\`: \`Class\`,
+            self.init(id: id,
+              \`Class\`: \`Class\`,
               nonNullClass: nonNullClass,
               classes: classes,
               nonNullClasses: nonNullClasses,

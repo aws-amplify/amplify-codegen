@@ -49,7 +49,6 @@ export class AppSyncSwiftVisitor extends AppSyncModelVisitor {
       const initParams: CodeGenField[] = this.getWritableFields(obj);
       const initImpl: string = `self.init(${indentMultiline(
         obj.fields
-          .filter(f => f.name !== 'id')
           .map(field => {
             const fieldName = escapeKeywords(this.getFieldName(field));
             return field.isReadOnly ? `${fieldName}: nil` : `${fieldName}: ${fieldName}`;
@@ -66,7 +65,7 @@ export class AppSyncSwiftVisitor extends AppSyncModelVisitor {
           return {
             name: this.getFieldName(field),
             type: this.getNativeType(field),
-            value: undefined,
+            value: field.name === 'id' ? 'UUID().uuidString' : undefined,
             flags: {
               optional: field.isNullable,
               isList: field.isList,
