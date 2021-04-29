@@ -44,7 +44,6 @@ install_cli_with_local_codegen: &install_cli
     amplify-app --version
     sudo chown -R $USER:$GROUP ~/.config || echo "owning ~/.config did not succeed. Skip"
     unsetNpmRegistryUrl
-    exit 0
   working_directory: ~/repo
         
 clean_up_e2e_resources: &cleanup_e2e
@@ -157,7 +156,7 @@ workflows:
           name: e2e-test-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux_node15, linux_node10, windows_node12, macos_node12]
+              os: [linux_node15, linux_node10, macos_node12]
           requires:
             - build-<< matrix.os >>
             - test-<< matrix.os >>
