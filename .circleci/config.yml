@@ -166,7 +166,6 @@ workflows:
             branches:
               only:
                 - e2e-testing
-                - e2e-testing-windows-mac
       - deploy:
           os: linux_node15
           requires:
