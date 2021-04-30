@@ -45,7 +45,7 @@ Amplify Codegen is a monorepo built with [Yarn Workspaces](https://yarnpkg.com/f
 - Make changes to required file.
 - Write unit tests
 - Run `yarn build` to compile your changes
-- Run test suite (#tests)
+- [Run test suite](#tests)
 - Test in sample app using [amplify-dev](#tests)
 - Submit a PR
 
