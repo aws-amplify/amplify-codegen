@@ -296,13 +296,6 @@ describe('Metadata visitor', () => {
                     "name": "bar",
                     "type": "String",
                   },
-                  "createdAt": Object {
-                    "attributes": Array [],
-                    "isArray": false,
-                    "isRequired": false,
-                    "name": "createdAt",
-                    "type": "AWSDateTime",
-                  },
                   "id": Object {
                     "attributes": Array [],
                     "isArray": false,
@@ -316,13 +309,6 @@ describe('Metadata visitor', () => {
                     "isRequired": false,
                     "name": "name",
                     "type": "String",
-                  },
-                  "updatedAt": Object {
-                    "attributes": Array [],
-                    "isArray": false,
-                    "isRequired": false,
-                    "name": "updatedAt",
-                    "type": "AWSDateTime",
                   },
                 },
                 "name": "SimpleModel",
@@ -352,7 +338,7 @@ describe('Metadata visitor', () => {
                 "name": "SimpleNonModelType",
               },
             },
-            "version": "5eb36909e822fd40c657cc69b22c919a",
+            "version": "bc1b6d35e990f16a49dbb447a8876025",
           }
         `);
         expect(generateModelSpy).toHaveBeenCalledTimes(1);
@@ -393,20 +379,6 @@ describe('Metadata visitor', () => {
                             \\"type\\": \\"String\\",
                             \\"isRequired\\": false,
                             \\"attributes\\": []
-                        },
-                        \\"createdAt\\": {
-                            \\"name\\": \\"createdAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": []
-                        },
-                        \\"updatedAt\\": {
-                            \\"name\\": \\"updatedAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": []
                         }
                     },
                     \\"syncable\\": true,
@@ -450,7 +422,7 @@ describe('Metadata visitor', () => {
                     }
                 }
             },
-            \\"version\\": \\"5eb36909e822fd40c657cc69b22c919a\\"
+            \\"version\\": \\"bc1b6d35e990f16a49dbb447a8876025\\"
         };"
       `);
     });
@@ -484,20 +456,6 @@ describe('Metadata visitor', () => {
                             \\"type\\": \\"String\\",
                             \\"isRequired\\": false,
                             \\"attributes\\": []
-                        },
-                        \\"createdAt\\": {
-                            \\"name\\": \\"createdAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": []
-                        },
-                        \\"updatedAt\\": {
-                            \\"name\\": \\"updatedAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": []
                         }
                     },
                     \\"syncable\\": true,
@@ -541,7 +499,7 @@ describe('Metadata visitor', () => {
                     }
                 }
             },
-            \\"version\\": \\"5eb36909e822fd40c657cc69b22c919a\\"
+            \\"version\\": \\"bc1b6d35e990f16a49dbb447a8876025\\"
         };"
       `);
     });
@@ -610,20 +568,6 @@ describe('Metadata visitor', () => {
                             \\"type\\": \\"String\\",
                             \\"isRequired\\": false,
                             \\"attributes\\": []
-                        },
-                        \\"createdAt\\": {
-                            \\"name\\": \\"createdAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": []
-                        },
-                        \\"updatedAt\\": {
-                            \\"name\\": \\"updatedAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": []
                         }
                     },
                     \\"syncable\\": true,
@@ -698,7 +642,7 @@ describe('Metadata visitor', () => {
                     }
                 }
             },
-            \\"version\\": \\"5eb36909e822fd40c657cc69b22c919a\\"
+            \\"version\\": \\"bc1b6d35e990f16a49dbb447a8876025\\"
         };"
       `);
     });
@@ -732,20 +676,6 @@ describe('Metadata visitor', () => {
                             \\"type\\": \\"String\\",
                             \\"isRequired\\": false,
                             \\"attributes\\": []
-                        },
-                        \\"createdAt\\": {
-                            \\"name\\": \\"createdAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": []
-                        },
-                        \\"updatedAt\\": {
-                            \\"name\\": \\"updatedAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": []
                         }
                     },
                     \\"syncable\\": true,
@@ -820,7 +750,7 @@ describe('Metadata visitor', () => {
                     }
                 }
             },
-            \\"version\\": \\"5eb36909e822fd40c657cc69b22c919a\\"
+            \\"version\\": \\"bc1b6d35e990f16a49dbb447a8876025\\"
         };"
       `);
     });
@@ -877,20 +807,6 @@ describe('Metadata visitor for auth process in field level', () => {
                             \\"type\\": \\"String\\",
                             \\"isRequired\\": false,
                             \\"attributes\\": []
-                        },
-                        \\"createdAt\\": {
-                            \\"name\\": \\"createdAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": []
-                        },
-                        \\"updatedAt\\": {
-                            \\"name\\": \\"updatedAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": []
                         }
                     },
                     \\"syncable\\": true,
@@ -938,7 +854,7 @@ describe('Metadata visitor for auth process in field level', () => {
             },
             \\"enums\\": {},
             \\"nonModels\\": {},
-            \\"version\\": \\"0fffb966ea9b8954eb89d00d74d474ac\\"
+            \\"version\\": \\"95acbb25bafac9a5339620c322ea25c7\\"
         };"
       `);
     });
@@ -980,20 +896,6 @@ describe('Metadata visitor for auth process in field level', () => {
                             \\"type\\": \\"String\\",
                             \\"isRequired\\": false,
                             \\"attributes\\": []
-                        },
-                        \\"createdAt\\": {
-                            \\"name\\": \\"createdAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": []
-                        },
-                        \\"updatedAt\\": {
-                            \\"name\\": \\"updatedAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": []
                         }
                     },
                     \\"syncable\\": true,
@@ -1041,7 +943,7 @@ describe('Metadata visitor for auth process in field level', () => {
             },
             \\"enums\\": {},
             \\"nonModels\\": {},
-            \\"version\\": \\"0fffb966ea9b8954eb89d00d74d474ac\\"
+            \\"version\\": \\"95acbb25bafac9a5339620c322ea25c7\\"
         };"
       `);
     });
@@ -1108,20 +1010,6 @@ describe('Metadata visitor has one relation', () => {
                               \\"associatedWith\\": \\"id\\",
                               \\"targetName\\": \\"teamID\\"
                           }
-                      },
-                      \\"createdAt\\": {
-                          \\"name\\": \\"createdAt\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"AWSDateTime\\",
-                          \\"isRequired\\": false,
-                          \\"attributes\\": []
-                      },
-                      \\"updatedAt\\": {
-                          \\"name\\": \\"updatedAt\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"AWSDateTime\\",
-                          \\"isRequired\\": false,
-                          \\"attributes\\": []
                       }
                   },
                   \\"syncable\\": true,
@@ -1149,20 +1037,6 @@ describe('Metadata visitor has one relation', () => {
                           \\"type\\": \\"String\\",
                           \\"isRequired\\": true,
                           \\"attributes\\": []
-                      },
-                      \\"createdAt\\": {
-                          \\"name\\": \\"createdAt\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"AWSDateTime\\",
-                          \\"isRequired\\": false,
-                          \\"attributes\\": []
-                      },
-                      \\"updatedAt\\": {
-                          \\"name\\": \\"updatedAt\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"AWSDateTime\\",
-                          \\"isRequired\\": false,
-                          \\"attributes\\": []
                       }
                   },
                   \\"syncable\\": true,
@@ -1177,7 +1051,7 @@ describe('Metadata visitor has one relation', () => {
           },
           \\"enums\\": {},
           \\"nonModels\\": {},
-          \\"version\\": \\"27c53665371915d89e2b47bb22ec29af\\"
+          \\"version\\": \\"4de4b90e612a2203db7d8911d9f41f36\\"
       };"
     `);
   });
@@ -1226,20 +1100,6 @@ describe('Metadata visitor has one relation', () => {
                               \\"associatedWith\\": \\"id\\",
                               \\"targetName\\": \\"teamID\\"
                           }
-                      },
-                      \\"createdAt\\": {
-                          \\"name\\": \\"createdAt\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"AWSDateTime\\",
-                          \\"isRequired\\": false,
-                          \\"attributes\\": []
-                      },
-                      \\"updatedAt\\": {
-                          \\"name\\": \\"updatedAt\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"AWSDateTime\\",
-                          \\"isRequired\\": false,
-                          \\"attributes\\": []
                       }
                   },
                   \\"syncable\\": true,
@@ -1267,20 +1127,6 @@ describe('Metadata visitor has one relation', () => {
                           \\"type\\": \\"String\\",
                           \\"isRequired\\": true,
                           \\"attributes\\": []
-                      },
-                      \\"createdAt\\": {
-                          \\"name\\": \\"createdAt\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"AWSDateTime\\",
-                          \\"isRequired\\": false,
-                          \\"attributes\\": []
-                      },
-                      \\"updatedAt\\": {
-                          \\"name\\": \\"updatedAt\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"AWSDateTime\\",
-                          \\"isRequired\\": false,
-                          \\"attributes\\": []
                       }
                   },
                   \\"syncable\\": true,
@@ -1295,7 +1141,7 @@ describe('Metadata visitor has one relation', () => {
           },
           \\"enums\\": {},
           \\"nonModels\\": {},
-          \\"version\\": \\"27c53665371915d89e2b47bb22ec29af\\"
+          \\"version\\": \\"4de4b90e612a2203db7d8911d9f41f36\\"
       };"
     `);
   });

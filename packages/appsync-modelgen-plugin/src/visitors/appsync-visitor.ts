@@ -513,7 +513,7 @@ export class AppSyncModelVisitor<
    */
   protected addTimestampFields(model: CodeGenModel, directive: CodeGenDirective): void {
     const target = this.config.target;
-    if (target === 'javascript' || target === 'dart') {
+    if (target === 'javascript' || target === 'dart' || target === 'metadata') {
       return;
     }
     if (directive.name !== 'model') {
