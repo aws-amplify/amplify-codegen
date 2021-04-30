@@ -25,7 +25,7 @@ export 'SimpleModel.dart';
 
 class ModelProvider implements ModelProviderInterface {
   @override
-  String version = \\"7d9c2bb6945570bb4a34fa39ab7a7a4e\\";
+  String version = \\"20078c21a81919792555926e238b194e\\";
   @override
   List<ModelSchema> modelSchemas = [SimpleModel.schema];
   static final ModelProvider _instance = ModelProvider();
@@ -79,8 +79,6 @@ class SimpleModel extends Model {
   static const classType = const SimpleModelType();
   final String id;
   final Status status;
-  final TemporalDateTime createdAt;
-  final TemporalDateTime updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -90,19 +88,11 @@ class SimpleModel extends Model {
     return id;
   }
 
-  const SimpleModel._internal(
-      {@required this.id, this.status, this.createdAt, this.updatedAt});
+  const SimpleModel._internal({@required this.id, this.status});
 
-  factory SimpleModel(
-      {String id,
-      Status status,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  factory SimpleModel({String id, Status status}) {
     return SimpleModel._internal(
-        id: id == null ? UUID.getUUID() : id,
-        status: status,
-        createdAt: createdAt,
-        updatedAt: updatedAt);
+        id: id == null ? UUID.getUUID() : id, status: status);
   }
 
   bool equals(Object other) {
@@ -112,11 +102,7 @@ class SimpleModel extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is SimpleModel &&
-        id == other.id &&
-        status == other.status &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+    return other is SimpleModel && id == other.id && status == other.status;
   }
 
   @override
@@ -128,51 +114,24 @@ class SimpleModel extends Model {
 
     buffer.write(\\"SimpleModel {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(
-        \\"status=\\" + (status != null ? enumToString(status) : \\"null\\") + \\", \\");
-    buffer.write(\\"createdAt=\\" +
-        (createdAt != null ? createdAt.format() : \\"null\\") +
-        \\", \\");
-    buffer.write(
-        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+    buffer.write(\\"status=\\" + (status != null ? enumToString(status) : \\"null\\"));
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  SimpleModel copyWith(
-      {String id,
-      Status status,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
-    return SimpleModel(
-        id: id ?? this.id,
-        status: status ?? this.status,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+  SimpleModel copyWith({String id, Status status}) {
+    return SimpleModel(id: id ?? this.id, status: status ?? this.status);
   }
 
   SimpleModel.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        status = enumFromString<Status>(json['status'], Status.values),
-        createdAt = json['createdAt'] != null
-            ? TemporalDateTime.fromString(json['createdAt'])
-            : null,
-        updatedAt = json['updatedAt'] != null
-            ? TemporalDateTime.fromString(json['updatedAt'])
-            : null;
+        status = enumFromString<Status>(json['status'], Status.values);
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'status': enumToString(status),
-        'createdAt': createdAt?.format(),
-        'updatedAt': updatedAt?.format()
-      };
+  Map<String, dynamic> toJson() => {'id': id, 'status': enumToString(status)};
 
   static final QueryField ID = QueryField(fieldName: \\"simpleModel.id\\");
   static final QueryField STATUS = QueryField(fieldName: \\"status\\");
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"SimpleModel\\";
@@ -184,16 +143,6 @@ class SimpleModel extends Model {
         key: SimpleModel.STATUS,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.enumeration)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: SimpleModel.CREATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: SimpleModel.UPDATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
 }
 
@@ -266,8 +215,6 @@ class TemporalTimeModel extends Model {
   final List<TemporalDateTime> dateTimeList;
   final List<TemporalTimestamp> timestampList;
   final List<int> intList;
-  final TemporalDateTime createdAt;
-  final TemporalDateTime updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -287,9 +234,7 @@ class TemporalTimeModel extends Model {
       this.timeList,
       this.dateTimeList,
       this.timestampList,
-      this.intList,
-      this.createdAt,
-      this.updatedAt});
+      this.intList});
 
   factory TemporalTimeModel(
       {String id,
@@ -301,9 +246,7 @@ class TemporalTimeModel extends Model {
       List<TemporalTime> timeList,
       List<TemporalDateTime> dateTimeList,
       List<TemporalTimestamp> timestampList,
-      List<int> intList,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+      List<int> intList}) {
     return TemporalTimeModel._internal(
         id: id == null ? UUID.getUUID() : id,
         date: date,
@@ -318,9 +261,7 @@ class TemporalTimeModel extends Model {
         timestampList: timestampList != null
             ? List.unmodifiable(timestampList)
             : timestampList,
-        intList: intList != null ? List.unmodifiable(intList) : intList,
-        createdAt: createdAt,
-        updatedAt: updatedAt);
+        intList: intList != null ? List.unmodifiable(intList) : intList);
   }
 
   bool equals(Object other) {
@@ -340,9 +281,7 @@ class TemporalTimeModel extends Model {
         DeepCollectionEquality().equals(timeList, other.timeList) &&
         DeepCollectionEquality().equals(dateTimeList, other.dateTimeList) &&
         DeepCollectionEquality().equals(timestampList, other.timestampList) &&
-        DeepCollectionEquality().equals(intList, other.intList) &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+        DeepCollectionEquality().equals(intList, other.intList);
   }
 
   @override
@@ -371,13 +310,7 @@ class TemporalTimeModel extends Model {
     buffer.write(\\"timestampList=\\" +
         (timestampList != null ? timestampList.toString() : \\"null\\") +
         \\", \\");
-    buffer.write(
-        \\"intList=\\" + (intList != null ? intList.toString() : \\"null\\") + \\", \\");
-    buffer.write(\\"createdAt=\\" +
-        (createdAt != null ? createdAt.format() : \\"null\\") +
-        \\", \\");
-    buffer.write(
-        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+    buffer.write(\\"intList=\\" + (intList != null ? intList.toString() : \\"null\\"));
     buffer.write(\\"}\\");
 
     return buffer.toString();
@@ -393,9 +326,7 @@ class TemporalTimeModel extends Model {
       List<TemporalTime> timeList,
       List<TemporalDateTime> dateTimeList,
       List<TemporalTimestamp> timestampList,
-      List<int> intList,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+      List<int> intList}) {
     return TemporalTimeModel(
         id: id ?? this.id,
         date: date ?? this.date,
@@ -406,9 +337,7 @@ class TemporalTimeModel extends Model {
         timeList: timeList ?? this.timeList,
         dateTimeList: dateTimeList ?? this.dateTimeList,
         timestampList: timestampList ?? this.timestampList,
-        intList: intList ?? this.intList,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+        intList: intList ?? this.intList);
   }
 
   TemporalTimeModel.fromJson(Map<String, dynamic> json)
@@ -437,13 +366,7 @@ class TemporalTimeModel extends Model {
             ?.toList(),
         intList = (json['intList'] as List<dynamic>)
             ?.map((dynamic e) => e is double ? e.toInt() : e as int)
-            ?.toList(),
-        createdAt = json['createdAt'] != null
-            ? TemporalDateTime.fromString(json['createdAt'])
-            : null,
-        updatedAt = json['updatedAt'] != null
-            ? TemporalDateTime.fromString(json['updatedAt'])
-            : null;
+            ?.toList();
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -455,9 +378,7 @@ class TemporalTimeModel extends Model {
         'timeList': timeList?.map((e) => e.format()).toList(),
         'dateTimeList': dateTimeList?.map((e) => e.format()).toList(),
         'timestampList': timestampList?.map((e) => e.toSeconds()).toList(),
-        'intList': intList,
-        'createdAt': createdAt?.format(),
-        'updatedAt': updatedAt?.format()
+        'intList': intList
       };
 
   static final QueryField ID = QueryField(fieldName: \\"temporalTimeModel.id\\");
@@ -471,8 +392,6 @@ class TemporalTimeModel extends Model {
   static final QueryField TIMESTAMPLIST =
       QueryField(fieldName: \\"timestampList\\");
   static final QueryField INTLIST = QueryField(fieldName: \\"intList\\");
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"TemporalTimeModel\\";
@@ -534,16 +453,6 @@ class TemporalTimeModel extends Model {
         isArray: true,
         ofType: ModelFieldType(ModelFieldTypeEnum.collection,
             ofModelName: describeEnum(ModelFieldTypeEnum.int))));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TemporalTimeModel.CREATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TemporalTimeModel.UPDATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
 }
 
@@ -592,8 +501,6 @@ class TestEnumModel extends Model {
   final List<TestEnum> enumNullableList;
   final List<TestEnum> nullableEnumList;
   final List<TestEnum> nullableEnumNullableList;
-  final TemporalDateTime createdAt;
-  final TemporalDateTime updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -610,9 +517,7 @@ class TestEnumModel extends Model {
       @required this.enumList,
       this.enumNullableList,
       @required this.nullableEnumList,
-      this.nullableEnumNullableList,
-      this.createdAt,
-      this.updatedAt});
+      this.nullableEnumNullableList});
 
   factory TestEnumModel(
       {String id,
@@ -621,9 +526,7 @@ class TestEnumModel extends Model {
       @required List<TestEnum> enumList,
       List<TestEnum> enumNullableList,
       @required List<TestEnum> nullableEnumList,
-      List<TestEnum> nullableEnumNullableList,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+      List<TestEnum> nullableEnumNullableList}) {
     return TestEnumModel._internal(
         id: id == null ? UUID.getUUID() : id,
         enumVal: enumVal,
@@ -637,9 +540,7 @@ class TestEnumModel extends Model {
             : nullableEnumList,
         nullableEnumNullableList: nullableEnumNullableList != null
             ? List.unmodifiable(nullableEnumNullableList)
-            : nullableEnumNullableList,
-        createdAt: createdAt,
-        updatedAt: updatedAt);
+            : nullableEnumNullableList);
   }
 
   bool equals(Object other) {
@@ -659,9 +560,7 @@ class TestEnumModel extends Model {
         DeepCollectionEquality()
             .equals(nullableEnumList, other.nullableEnumList) &&
         DeepCollectionEquality()
-            .equals(nullableEnumNullableList, other.nullableEnumNullableList) &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+            .equals(nullableEnumNullableList, other.nullableEnumNullableList);
   }
 
   @override
@@ -687,13 +586,7 @@ class TestEnumModel extends Model {
         nullableEnumList?.map((e) => enumToString(e)).toString() +
         \\", \\");
     buffer.write(\\"nullableEnumNullableList=\\" +
-        nullableEnumNullableList?.map((e) => enumToString(e)).toString() +
-        \\", \\");
-    buffer.write(\\"createdAt=\\" +
-        (createdAt != null ? createdAt.format() : \\"null\\") +
-        \\", \\");
-    buffer.write(
-        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+        nullableEnumNullableList?.map((e) => enumToString(e)).toString());
     buffer.write(\\"}\\");
 
     return buffer.toString();
@@ -706,9 +599,7 @@ class TestEnumModel extends Model {
       List<TestEnum> enumList,
       List<TestEnum> enumNullableList,
       List<TestEnum> nullableEnumList,
-      List<TestEnum> nullableEnumNullableList,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+      List<TestEnum> nullableEnumNullableList}) {
     return TestEnumModel(
         id: id ?? this.id,
         enumVal: enumVal ?? this.enumVal,
@@ -717,9 +608,7 @@ class TestEnumModel extends Model {
         enumNullableList: enumNullableList ?? this.enumNullableList,
         nullableEnumList: nullableEnumList ?? this.nullableEnumList,
         nullableEnumNullableList:
-            nullableEnumNullableList ?? this.nullableEnumNullableList,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+            nullableEnumNullableList ?? this.nullableEnumNullableList);
   }
 
   TestEnumModel.fromJson(Map<String, dynamic> json)
@@ -746,12 +635,6 @@ class TestEnumModel extends Model {
             ? (json['nullableEnumNullableList'] as List)
                 .map((e) => enumFromString<TestEnum>(e, TestEnum.values))
                 .toList()
-            : null,
-        createdAt = json['createdAt'] != null
-            ? TemporalDateTime.fromString(json['createdAt'])
-            : null,
-        updatedAt = json['updatedAt'] != null
-            ? TemporalDateTime.fromString(json['updatedAt'])
             : null;
 
   Map<String, dynamic> toJson() => {
@@ -764,9 +647,7 @@ class TestEnumModel extends Model {
         'nullableEnumList':
             nullableEnumList?.map((e) => enumToString(e))?.toList(),
         'nullableEnumNullableList':
-            nullableEnumNullableList?.map((e) => enumToString(e))?.toList(),
-        'createdAt': createdAt?.format(),
-        'updatedAt': updatedAt?.format()
+            nullableEnumNullableList?.map((e) => enumToString(e))?.toList()
       };
 
   static final QueryField ID = QueryField(fieldName: \\"testEnumModel.id\\");
@@ -780,8 +661,6 @@ class TestEnumModel extends Model {
       QueryField(fieldName: \\"nullableEnumList\\");
   static final QueryField NULLABLEENUMNULLABLELIST =
       QueryField(fieldName: \\"nullableEnumNullableList\\");
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"TestEnumModel\\";
@@ -826,16 +705,6 @@ class TestEnumModel extends Model {
         isArray: true,
         ofType: ModelFieldType(ModelFieldTypeEnum.collection,
             ofModelName: describeEnum(ModelFieldTypeEnum.enumeration))));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TestEnumModel.CREATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TestEnumModel.UPDATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
 }
 
@@ -883,8 +752,6 @@ class TestModel extends Model {
   final List<double> floatNullableList;
   final List<double> nullableFloatList;
   final List<double> nullableFloatNullableList;
-  final TemporalDateTime createdAt;
-  final TemporalDateTime updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -901,9 +768,7 @@ class TestModel extends Model {
       @required this.floatList,
       this.floatNullableList,
       @required this.nullableFloatList,
-      this.nullableFloatNullableList,
-      this.createdAt,
-      this.updatedAt});
+      this.nullableFloatNullableList});
 
   factory TestModel(
       {String id,
@@ -912,9 +777,7 @@ class TestModel extends Model {
       @required List<double> floatList,
       List<double> floatNullableList,
       @required List<double> nullableFloatList,
-      List<double> nullableFloatNullableList,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+      List<double> nullableFloatNullableList}) {
     return TestModel._internal(
         id: id == null ? UUID.getUUID() : id,
         floatVal: floatVal,
@@ -928,9 +791,7 @@ class TestModel extends Model {
             : nullableFloatList,
         nullableFloatNullableList: nullableFloatNullableList != null
             ? List.unmodifiable(nullableFloatNullableList)
-            : nullableFloatNullableList,
-        createdAt: createdAt,
-        updatedAt: updatedAt);
+            : nullableFloatNullableList);
   }
 
   bool equals(Object other) {
@@ -949,10 +810,8 @@ class TestModel extends Model {
             .equals(floatNullableList, other.floatNullableList) &&
         DeepCollectionEquality()
             .equals(nullableFloatList, other.nullableFloatList) &&
-        DeepCollectionEquality().equals(
-            nullableFloatNullableList, other.nullableFloatNullableList) &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+        DeepCollectionEquality()
+            .equals(nullableFloatNullableList, other.nullableFloatNullableList);
   }
 
   @override
@@ -981,13 +840,7 @@ class TestModel extends Model {
     buffer.write(\\"nullableFloatNullableList=\\" +
         (nullableFloatNullableList != null
             ? nullableFloatNullableList.toString()
-            : \\"null\\") +
-        \\", \\");
-    buffer.write(\\"createdAt=\\" +
-        (createdAt != null ? createdAt.format() : \\"null\\") +
-        \\", \\");
-    buffer.write(
-        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+            : \\"null\\"));
     buffer.write(\\"}\\");
 
     return buffer.toString();
@@ -1000,9 +853,7 @@ class TestModel extends Model {
       List<double> floatList,
       List<double> floatNullableList,
       List<double> nullableFloatList,
-      List<double> nullableFloatNullableList,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+      List<double> nullableFloatNullableList}) {
     return TestModel(
         id: id ?? this.id,
         floatVal: floatVal ?? this.floatVal,
@@ -1011,9 +862,7 @@ class TestModel extends Model {
         floatNullableList: floatNullableList ?? this.floatNullableList,
         nullableFloatList: nullableFloatList ?? this.nullableFloatList,
         nullableFloatNullableList:
-            nullableFloatNullableList ?? this.nullableFloatNullableList,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+            nullableFloatNullableList ?? this.nullableFloatNullableList);
   }
 
   TestModel.fromJson(Map<String, dynamic> json)
@@ -1024,13 +873,7 @@ class TestModel extends Model {
         floatNullableList = json['floatNullableList']?.cast<double>(),
         nullableFloatList = json['nullableFloatList']?.cast<double>(),
         nullableFloatNullableList =
-            json['nullableFloatNullableList']?.cast<double>(),
-        createdAt = json['createdAt'] != null
-            ? TemporalDateTime.fromString(json['createdAt'])
-            : null,
-        updatedAt = json['updatedAt'] != null
-            ? TemporalDateTime.fromString(json['updatedAt'])
-            : null;
+            json['nullableFloatNullableList']?.cast<double>();
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -1039,9 +882,7 @@ class TestModel extends Model {
         'floatList': floatList,
         'floatNullableList': floatNullableList,
         'nullableFloatList': nullableFloatList,
-        'nullableFloatNullableList': nullableFloatNullableList,
-        'createdAt': createdAt?.format(),
-        'updatedAt': updatedAt?.format()
+        'nullableFloatNullableList': nullableFloatNullableList
       };
 
   static final QueryField ID = QueryField(fieldName: \\"testModel.id\\");
@@ -1055,8 +896,6 @@ class TestModel extends Model {
       QueryField(fieldName: \\"nullableFloatList\\");
   static final QueryField NULLABLEFLOATNULLABLELIST =
       QueryField(fieldName: \\"nullableFloatNullableList\\");
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"TestModel\\";
@@ -1101,16 +940,6 @@ class TestModel extends Model {
         isArray: true,
         ofType: ModelFieldType(ModelFieldTypeEnum.collection,
             ofModelName: describeEnum(ModelFieldTypeEnum.double))));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TestModel.CREATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TestModel.UPDATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
 }
 
@@ -1153,8 +982,6 @@ class SimpleModel extends Model {
   final String id;
   final String name;
   final String bar;
-  final TemporalDateTime createdAt;
-  final TemporalDateTime updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -1164,21 +991,11 @@ class SimpleModel extends Model {
     return id;
   }
 
-  const SimpleModel._internal(
-      {@required this.id, this.name, this.bar, this.createdAt, this.updatedAt});
+  const SimpleModel._internal({@required this.id, this.name, this.bar});
 
-  factory SimpleModel(
-      {String id,
-      String name,
-      String bar,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  factory SimpleModel({String id, String name, String bar}) {
     return SimpleModel._internal(
-        id: id == null ? UUID.getUUID() : id,
-        name: name,
-        bar: bar,
-        createdAt: createdAt,
-        updatedAt: updatedAt);
+        id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
 
   bool equals(Object other) {
@@ -1191,9 +1008,7 @@ class SimpleModel extends Model {
     return other is SimpleModel &&
         id == other.id &&
         name == other.name &&
-        bar == other.bar &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+        bar == other.bar;
   }
 
   @override
@@ -1206,55 +1021,27 @@ class SimpleModel extends Model {
     buffer.write(\\"SimpleModel {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
-    buffer.write(\\"bar=\\" + \\"$bar\\" + \\", \\");
-    buffer.write(\\"createdAt=\\" +
-        (createdAt != null ? createdAt.format() : \\"null\\") +
-        \\", \\");
-    buffer.write(
-        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+    buffer.write(\\"bar=\\" + \\"$bar\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  SimpleModel copyWith(
-      {String id,
-      String name,
-      String bar,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  SimpleModel copyWith({String id, String name, String bar}) {
     return SimpleModel(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        bar: bar ?? this.bar,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+        id: id ?? this.id, name: name ?? this.name, bar: bar ?? this.bar);
   }
 
   SimpleModel.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
-        bar = json['bar'],
-        createdAt = json['createdAt'] != null
-            ? TemporalDateTime.fromString(json['createdAt'])
-            : null,
-        updatedAt = json['updatedAt'] != null
-            ? TemporalDateTime.fromString(json['updatedAt'])
-            : null;
+        bar = json['bar'];
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'bar': bar,
-        'createdAt': createdAt?.format(),
-        'updatedAt': updatedAt?.format()
-      };
+  Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
   static final QueryField ID = QueryField(fieldName: \\"simpleModel.id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"SimpleModel\\";
@@ -1271,16 +1058,6 @@ class SimpleModel extends Model {
         key: SimpleModel.BAR,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: SimpleModel.CREATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: SimpleModel.UPDATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
 }
 
@@ -1323,8 +1100,6 @@ class SimpleModel extends Model {
   final String id;
   final String name;
   final String bar;
-  final TemporalDateTime createdAt;
-  final TemporalDateTime updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -1334,21 +1109,11 @@ class SimpleModel extends Model {
     return id;
   }
 
-  const SimpleModel._internal(
-      {@required this.id, this.name, this.bar, this.createdAt, this.updatedAt});
+  const SimpleModel._internal({@required this.id, this.name, this.bar});
 
-  factory SimpleModel(
-      {String id,
-      String name,
-      String bar,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  factory SimpleModel({String id, String name, String bar}) {
     return SimpleModel._internal(
-        id: id == null ? UUID.getUUID() : id,
-        name: name,
-        bar: bar,
-        createdAt: createdAt,
-        updatedAt: updatedAt);
+        id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
 
   bool equals(Object other) {
@@ -1361,9 +1126,7 @@ class SimpleModel extends Model {
     return other is SimpleModel &&
         id == other.id &&
         name == other.name &&
-        bar == other.bar &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+        bar == other.bar;
   }
 
   @override
@@ -1376,55 +1139,27 @@ class SimpleModel extends Model {
     buffer.write(\\"SimpleModel {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
-    buffer.write(\\"bar=\\" + \\"$bar\\" + \\", \\");
-    buffer.write(\\"createdAt=\\" +
-        (createdAt != null ? createdAt.format() : \\"null\\") +
-        \\", \\");
-    buffer.write(
-        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+    buffer.write(\\"bar=\\" + \\"$bar\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  SimpleModel copyWith(
-      {String id,
-      String name,
-      String bar,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  SimpleModel copyWith({String id, String name, String bar}) {
     return SimpleModel(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        bar: bar ?? this.bar,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+        id: id ?? this.id, name: name ?? this.name, bar: bar ?? this.bar);
   }
 
   SimpleModel.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
-        bar = json['bar'],
-        createdAt = json['createdAt'] != null
-            ? TemporalDateTime.fromString(json['createdAt'])
-            : null,
-        updatedAt = json['updatedAt'] != null
-            ? TemporalDateTime.fromString(json['updatedAt'])
-            : null;
+        bar = json['bar'];
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'bar': bar,
-        'createdAt': createdAt?.format(),
-        'updatedAt': updatedAt?.format()
-      };
+  Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
   static final QueryField ID = QueryField(fieldName: \\"simpleModel.id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"SimpleModel\\";
@@ -1441,16 +1176,6 @@ class SimpleModel extends Model {
         key: SimpleModel.BAR,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: SimpleModel.CREATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: SimpleModel.UPDATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
 }
 
@@ -1493,8 +1218,6 @@ class customClaim extends Model {
   final String id;
   final String name;
   final String bar;
-  final TemporalDateTime createdAt;
-  final TemporalDateTime updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -1504,21 +1227,11 @@ class customClaim extends Model {
     return id;
   }
 
-  const customClaim._internal(
-      {@required this.id, this.name, this.bar, this.createdAt, this.updatedAt});
+  const customClaim._internal({@required this.id, this.name, this.bar});
 
-  factory customClaim(
-      {String id,
-      String name,
-      String bar,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  factory customClaim({String id, String name, String bar}) {
     return customClaim._internal(
-        id: id == null ? UUID.getUUID() : id,
-        name: name,
-        bar: bar,
-        createdAt: createdAt,
-        updatedAt: updatedAt);
+        id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
 
   bool equals(Object other) {
@@ -1531,9 +1244,7 @@ class customClaim extends Model {
     return other is customClaim &&
         id == other.id &&
         name == other.name &&
-        bar == other.bar &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+        bar == other.bar;
   }
 
   @override
@@ -1546,55 +1257,27 @@ class customClaim extends Model {
     buffer.write(\\"customClaim {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
-    buffer.write(\\"bar=\\" + \\"$bar\\" + \\", \\");
-    buffer.write(\\"createdAt=\\" +
-        (createdAt != null ? createdAt.format() : \\"null\\") +
-        \\", \\");
-    buffer.write(
-        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+    buffer.write(\\"bar=\\" + \\"$bar\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  customClaim copyWith(
-      {String id,
-      String name,
-      String bar,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  customClaim copyWith({String id, String name, String bar}) {
     return customClaim(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        bar: bar ?? this.bar,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+        id: id ?? this.id, name: name ?? this.name, bar: bar ?? this.bar);
   }
 
   customClaim.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
-        bar = json['bar'],
-        createdAt = json['createdAt'] != null
-            ? TemporalDateTime.fromString(json['createdAt'])
-            : null,
-        updatedAt = json['updatedAt'] != null
-            ? TemporalDateTime.fromString(json['updatedAt'])
-            : null;
+        bar = json['bar'];
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'bar': bar,
-        'createdAt': createdAt?.format(),
-        'updatedAt': updatedAt?.format()
-      };
+  Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
   static final QueryField ID = QueryField(fieldName: \\"customClaim.id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"customClaim\\";
@@ -1624,16 +1307,6 @@ class customClaim extends Model {
         key: customClaim.BAR,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: customClaim.CREATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: customClaim.UPDATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
 }
 
@@ -1676,8 +1349,6 @@ class customClaim extends Model {
   final String id;
   final String name;
   final String bar;
-  final TemporalDateTime createdAt;
-  final TemporalDateTime updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -1687,21 +1358,11 @@ class customClaim extends Model {
     return id;
   }
 
-  const customClaim._internal(
-      {@required this.id, this.name, this.bar, this.createdAt, this.updatedAt});
+  const customClaim._internal({@required this.id, this.name, this.bar});
 
-  factory customClaim(
-      {String id,
-      String name,
-      String bar,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  factory customClaim({String id, String name, String bar}) {
     return customClaim._internal(
-        id: id == null ? UUID.getUUID() : id,
-        name: name,
-        bar: bar,
-        createdAt: createdAt,
-        updatedAt: updatedAt);
+        id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
 
   bool equals(Object other) {
@@ -1714,9 +1375,7 @@ class customClaim extends Model {
     return other is customClaim &&
         id == other.id &&
         name == other.name &&
-        bar == other.bar &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+        bar == other.bar;
   }
 
   @override
@@ -1729,55 +1388,27 @@ class customClaim extends Model {
     buffer.write(\\"customClaim {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
-    buffer.write(\\"bar=\\" + \\"$bar\\" + \\", \\");
-    buffer.write(\\"createdAt=\\" +
-        (createdAt != null ? createdAt.format() : \\"null\\") +
-        \\", \\");
-    buffer.write(
-        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+    buffer.write(\\"bar=\\" + \\"$bar\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  customClaim copyWith(
-      {String id,
-      String name,
-      String bar,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  customClaim copyWith({String id, String name, String bar}) {
     return customClaim(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        bar: bar ?? this.bar,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+        id: id ?? this.id, name: name ?? this.name, bar: bar ?? this.bar);
   }
 
   customClaim.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
-        bar = json['bar'],
-        createdAt = json['createdAt'] != null
-            ? TemporalDateTime.fromString(json['createdAt'])
-            : null,
-        updatedAt = json['updatedAt'] != null
-            ? TemporalDateTime.fromString(json['updatedAt'])
-            : null;
+        bar = json['bar'];
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'bar': bar,
-        'createdAt': createdAt?.format(),
-        'updatedAt': updatedAt?.format()
-      };
+  Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
   static final QueryField ID = QueryField(fieldName: \\"customClaim.id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"customClaim\\";
@@ -1809,16 +1440,6 @@ class customClaim extends Model {
         key: customClaim.BAR,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: customClaim.CREATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: customClaim.UPDATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
 }
 
@@ -1861,8 +1482,6 @@ class dynamicGroups extends Model {
   final String id;
   final String name;
   final String bar;
-  final TemporalDateTime createdAt;
-  final TemporalDateTime updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -1872,21 +1491,11 @@ class dynamicGroups extends Model {
     return id;
   }
 
-  const dynamicGroups._internal(
-      {@required this.id, this.name, this.bar, this.createdAt, this.updatedAt});
+  const dynamicGroups._internal({@required this.id, this.name, this.bar});
 
-  factory dynamicGroups(
-      {String id,
-      String name,
-      String bar,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  factory dynamicGroups({String id, String name, String bar}) {
     return dynamicGroups._internal(
-        id: id == null ? UUID.getUUID() : id,
-        name: name,
-        bar: bar,
-        createdAt: createdAt,
-        updatedAt: updatedAt);
+        id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
 
   bool equals(Object other) {
@@ -1899,9 +1508,7 @@ class dynamicGroups extends Model {
     return other is dynamicGroups &&
         id == other.id &&
         name == other.name &&
-        bar == other.bar &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+        bar == other.bar;
   }
 
   @override
@@ -1914,55 +1521,27 @@ class dynamicGroups extends Model {
     buffer.write(\\"dynamicGroups {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
-    buffer.write(\\"bar=\\" + \\"$bar\\" + \\", \\");
-    buffer.write(\\"createdAt=\\" +
-        (createdAt != null ? createdAt.format() : \\"null\\") +
-        \\", \\");
-    buffer.write(
-        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+    buffer.write(\\"bar=\\" + \\"$bar\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  dynamicGroups copyWith(
-      {String id,
-      String name,
-      String bar,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  dynamicGroups copyWith({String id, String name, String bar}) {
     return dynamicGroups(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        bar: bar ?? this.bar,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+        id: id ?? this.id, name: name ?? this.name, bar: bar ?? this.bar);
   }
 
   dynamicGroups.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
-        bar = json['bar'],
-        createdAt = json['createdAt'] != null
-            ? TemporalDateTime.fromString(json['createdAt'])
-            : null,
-        updatedAt = json['updatedAt'] != null
-            ? TemporalDateTime.fromString(json['updatedAt'])
-            : null;
+        bar = json['bar'];
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'bar': bar,
-        'createdAt': createdAt?.format(),
-        'updatedAt': updatedAt?.format()
-      };
+  Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
   static final QueryField ID = QueryField(fieldName: \\"dynamicGroups.id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"dynamicGroups\\";
@@ -1992,16 +1571,6 @@ class dynamicGroups extends Model {
         key: dynamicGroups.BAR,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: dynamicGroups.CREATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: dynamicGroups.UPDATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
 }
 
@@ -2044,8 +1613,6 @@ class simpleOwnerAuth extends Model {
   final String id;
   final String name;
   final String bar;
-  final TemporalDateTime createdAt;
-  final TemporalDateTime updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -2055,21 +1622,11 @@ class simpleOwnerAuth extends Model {
     return id;
   }
 
-  const simpleOwnerAuth._internal(
-      {@required this.id, this.name, this.bar, this.createdAt, this.updatedAt});
+  const simpleOwnerAuth._internal({@required this.id, this.name, this.bar});
 
-  factory simpleOwnerAuth(
-      {String id,
-      String name,
-      String bar,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  factory simpleOwnerAuth({String id, String name, String bar}) {
     return simpleOwnerAuth._internal(
-        id: id == null ? UUID.getUUID() : id,
-        name: name,
-        bar: bar,
-        createdAt: createdAt,
-        updatedAt: updatedAt);
+        id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
 
   bool equals(Object other) {
@@ -2082,9 +1639,7 @@ class simpleOwnerAuth extends Model {
     return other is simpleOwnerAuth &&
         id == other.id &&
         name == other.name &&
-        bar == other.bar &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+        bar == other.bar;
   }
 
   @override
@@ -2097,55 +1652,27 @@ class simpleOwnerAuth extends Model {
     buffer.write(\\"simpleOwnerAuth {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
-    buffer.write(\\"bar=\\" + \\"$bar\\" + \\", \\");
-    buffer.write(\\"createdAt=\\" +
-        (createdAt != null ? createdAt.format() : \\"null\\") +
-        \\", \\");
-    buffer.write(
-        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+    buffer.write(\\"bar=\\" + \\"$bar\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  simpleOwnerAuth copyWith(
-      {String id,
-      String name,
-      String bar,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  simpleOwnerAuth copyWith({String id, String name, String bar}) {
     return simpleOwnerAuth(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        bar: bar ?? this.bar,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+        id: id ?? this.id, name: name ?? this.name, bar: bar ?? this.bar);
   }
 
   simpleOwnerAuth.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
-        bar = json['bar'],
-        createdAt = json['createdAt'] != null
-            ? TemporalDateTime.fromString(json['createdAt'])
-            : null,
-        updatedAt = json['updatedAt'] != null
-            ? TemporalDateTime.fromString(json['updatedAt'])
-            : null;
+        bar = json['bar'];
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'bar': bar,
-        'createdAt': createdAt?.format(),
-        'updatedAt': updatedAt?.format()
-      };
+  Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
   static final QueryField ID = QueryField(fieldName: \\"simpleOwnerAuth.id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"simpleOwnerAuth\\";
@@ -2175,16 +1702,6 @@ class simpleOwnerAuth extends Model {
         key: simpleOwnerAuth.BAR,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: simpleOwnerAuth.CREATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: simpleOwnerAuth.UPDATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
 }
 
@@ -2227,8 +1744,6 @@ class allowRead extends Model {
   final String id;
   final String name;
   final String bar;
-  final TemporalDateTime createdAt;
-  final TemporalDateTime updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -2238,21 +1753,11 @@ class allowRead extends Model {
     return id;
   }
 
-  const allowRead._internal(
-      {@required this.id, this.name, this.bar, this.createdAt, this.updatedAt});
+  const allowRead._internal({@required this.id, this.name, this.bar});
 
-  factory allowRead(
-      {String id,
-      String name,
-      String bar,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  factory allowRead({String id, String name, String bar}) {
     return allowRead._internal(
-        id: id == null ? UUID.getUUID() : id,
-        name: name,
-        bar: bar,
-        createdAt: createdAt,
-        updatedAt: updatedAt);
+        id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
 
   bool equals(Object other) {
@@ -2265,9 +1770,7 @@ class allowRead extends Model {
     return other is allowRead &&
         id == other.id &&
         name == other.name &&
-        bar == other.bar &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+        bar == other.bar;
   }
 
   @override
@@ -2280,55 +1783,27 @@ class allowRead extends Model {
     buffer.write(\\"allowRead {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
-    buffer.write(\\"bar=\\" + \\"$bar\\" + \\", \\");
-    buffer.write(\\"createdAt=\\" +
-        (createdAt != null ? createdAt.format() : \\"null\\") +
-        \\", \\");
-    buffer.write(
-        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+    buffer.write(\\"bar=\\" + \\"$bar\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  allowRead copyWith(
-      {String id,
-      String name,
-      String bar,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  allowRead copyWith({String id, String name, String bar}) {
     return allowRead(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        bar: bar ?? this.bar,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+        id: id ?? this.id, name: name ?? this.name, bar: bar ?? this.bar);
   }
 
   allowRead.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
-        bar = json['bar'],
-        createdAt = json['createdAt'] != null
-            ? TemporalDateTime.fromString(json['createdAt'])
-            : null,
-        updatedAt = json['updatedAt'] != null
-            ? TemporalDateTime.fromString(json['updatedAt'])
-            : null;
+        bar = json['bar'];
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'bar': bar,
-        'createdAt': createdAt?.format(),
-        'updatedAt': updatedAt?.format()
-      };
+  Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
   static final QueryField ID = QueryField(fieldName: \\"allowRead.id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"allowRead\\";
@@ -2357,16 +1832,6 @@ class allowRead extends Model {
         key: allowRead.BAR,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: allowRead.CREATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: allowRead.UPDATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
 }
 
@@ -2409,8 +1874,6 @@ class privateType extends Model {
   final String id;
   final String name;
   final String bar;
-  final TemporalDateTime createdAt;
-  final TemporalDateTime updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -2420,21 +1883,11 @@ class privateType extends Model {
     return id;
   }
 
-  const privateType._internal(
-      {@required this.id, this.name, this.bar, this.createdAt, this.updatedAt});
+  const privateType._internal({@required this.id, this.name, this.bar});
 
-  factory privateType(
-      {String id,
-      String name,
-      String bar,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  factory privateType({String id, String name, String bar}) {
     return privateType._internal(
-        id: id == null ? UUID.getUUID() : id,
-        name: name,
-        bar: bar,
-        createdAt: createdAt,
-        updatedAt: updatedAt);
+        id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
 
   bool equals(Object other) {
@@ -2447,9 +1900,7 @@ class privateType extends Model {
     return other is privateType &&
         id == other.id &&
         name == other.name &&
-        bar == other.bar &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+        bar == other.bar;
   }
 
   @override
@@ -2462,55 +1913,27 @@ class privateType extends Model {
     buffer.write(\\"privateType {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
-    buffer.write(\\"bar=\\" + \\"$bar\\" + \\", \\");
-    buffer.write(\\"createdAt=\\" +
-        (createdAt != null ? createdAt.format() : \\"null\\") +
-        \\", \\");
-    buffer.write(
-        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+    buffer.write(\\"bar=\\" + \\"$bar\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  privateType copyWith(
-      {String id,
-      String name,
-      String bar,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  privateType copyWith({String id, String name, String bar}) {
     return privateType(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        bar: bar ?? this.bar,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+        id: id ?? this.id, name: name ?? this.name, bar: bar ?? this.bar);
   }
 
   privateType.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
-        bar = json['bar'],
-        createdAt = json['createdAt'] != null
-            ? TemporalDateTime.fromString(json['createdAt'])
-            : null,
-        updatedAt = json['updatedAt'] != null
-            ? TemporalDateTime.fromString(json['updatedAt'])
-            : null;
+        bar = json['bar'];
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'bar': bar,
-        'createdAt': createdAt?.format(),
-        'updatedAt': updatedAt?.format()
-      };
+  Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
   static final QueryField ID = QueryField(fieldName: \\"privateType.id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"privateType\\";
@@ -2536,16 +1959,6 @@ class privateType extends Model {
         key: privateType.BAR,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: privateType.CREATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: privateType.UPDATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
 }
 
@@ -2588,8 +2001,6 @@ class publicType extends Model {
   final String id;
   final String name;
   final String bar;
-  final TemporalDateTime createdAt;
-  final TemporalDateTime updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -2599,21 +2010,11 @@ class publicType extends Model {
     return id;
   }
 
-  const publicType._internal(
-      {@required this.id, this.name, this.bar, this.createdAt, this.updatedAt});
+  const publicType._internal({@required this.id, this.name, this.bar});
 
-  factory publicType(
-      {String id,
-      String name,
-      String bar,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  factory publicType({String id, String name, String bar}) {
     return publicType._internal(
-        id: id == null ? UUID.getUUID() : id,
-        name: name,
-        bar: bar,
-        createdAt: createdAt,
-        updatedAt: updatedAt);
+        id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
 
   bool equals(Object other) {
@@ -2626,9 +2027,7 @@ class publicType extends Model {
     return other is publicType &&
         id == other.id &&
         name == other.name &&
-        bar == other.bar &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+        bar == other.bar;
   }
 
   @override
@@ -2641,55 +2040,27 @@ class publicType extends Model {
     buffer.write(\\"publicType {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
-    buffer.write(\\"bar=\\" + \\"$bar\\" + \\", \\");
-    buffer.write(\\"createdAt=\\" +
-        (createdAt != null ? createdAt.format() : \\"null\\") +
-        \\", \\");
-    buffer.write(
-        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+    buffer.write(\\"bar=\\" + \\"$bar\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  publicType copyWith(
-      {String id,
-      String name,
-      String bar,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  publicType copyWith({String id, String name, String bar}) {
     return publicType(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        bar: bar ?? this.bar,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+        id: id ?? this.id, name: name ?? this.name, bar: bar ?? this.bar);
   }
 
   publicType.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
-        bar = json['bar'],
-        createdAt = json['createdAt'] != null
-            ? TemporalDateTime.fromString(json['createdAt'])
-            : null,
-        updatedAt = json['updatedAt'] != null
-            ? TemporalDateTime.fromString(json['updatedAt'])
-            : null;
+        bar = json['bar'];
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'bar': bar,
-        'createdAt': createdAt?.format(),
-        'updatedAt': updatedAt?.format()
-      };
+  Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
   static final QueryField ID = QueryField(fieldName: \\"publicType.id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"publicType\\";
@@ -2715,16 +2086,6 @@ class publicType extends Model {
         key: publicType.BAR,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: publicType.CREATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: publicType.UPDATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
 }
 
@@ -2767,8 +2128,6 @@ class staticGroups extends Model {
   final String id;
   final String name;
   final String bar;
-  final TemporalDateTime createdAt;
-  final TemporalDateTime updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -2778,21 +2137,11 @@ class staticGroups extends Model {
     return id;
   }
 
-  const staticGroups._internal(
-      {@required this.id, this.name, this.bar, this.createdAt, this.updatedAt});
+  const staticGroups._internal({@required this.id, this.name, this.bar});
 
-  factory staticGroups(
-      {String id,
-      String name,
-      String bar,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  factory staticGroups({String id, String name, String bar}) {
     return staticGroups._internal(
-        id: id == null ? UUID.getUUID() : id,
-        name: name,
-        bar: bar,
-        createdAt: createdAt,
-        updatedAt: updatedAt);
+        id: id == null ? UUID.getUUID() : id, name: name, bar: bar);
   }
 
   bool equals(Object other) {
@@ -2805,9 +2154,7 @@ class staticGroups extends Model {
     return other is staticGroups &&
         id == other.id &&
         name == other.name &&
-        bar == other.bar &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+        bar == other.bar;
   }
 
   @override
@@ -2820,55 +2167,27 @@ class staticGroups extends Model {
     buffer.write(\\"staticGroups {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
-    buffer.write(\\"bar=\\" + \\"$bar\\" + \\", \\");
-    buffer.write(\\"createdAt=\\" +
-        (createdAt != null ? createdAt.format() : \\"null\\") +
-        \\", \\");
-    buffer.write(
-        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+    buffer.write(\\"bar=\\" + \\"$bar\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  staticGroups copyWith(
-      {String id,
-      String name,
-      String bar,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  staticGroups copyWith({String id, String name, String bar}) {
     return staticGroups(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        bar: bar ?? this.bar,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+        id: id ?? this.id, name: name ?? this.name, bar: bar ?? this.bar);
   }
 
   staticGroups.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
-        bar = json['bar'],
-        createdAt = json['createdAt'] != null
-            ? TemporalDateTime.fromString(json['createdAt'])
-            : null,
-        updatedAt = json['updatedAt'] != null
-            ? TemporalDateTime.fromString(json['updatedAt'])
-            : null;
+        bar = json['bar'];
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'bar': bar,
-        'createdAt': createdAt?.format(),
-        'updatedAt': updatedAt?.format()
-      };
+  Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
   static final QueryField ID = QueryField(fieldName: \\"staticGroups.id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"staticGroups\\";
@@ -2900,16 +2219,6 @@ class staticGroups extends Model {
         key: staticGroups.BAR,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: staticGroups.CREATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: staticGroups.UPDATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
 }
 
@@ -2952,8 +2261,6 @@ class Post extends Model {
   final String id;
   final String title;
   final String author;
-  final TemporalDateTime createdAt;
-  final TemporalDateTime updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -2964,24 +2271,11 @@ class Post extends Model {
   }
 
   const Post._internal(
-      {@required this.id,
-      @required this.title,
-      @required this.author,
-      this.createdAt,
-      this.updatedAt});
+      {@required this.id, @required this.title, @required this.author});
 
-  factory Post(
-      {String id,
-      @required String title,
-      @required String author,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  factory Post({String id, @required String title, @required String author}) {
     return Post._internal(
-        id: id == null ? UUID.getUUID() : id,
-        title: title,
-        author: author,
-        createdAt: createdAt,
-        updatedAt: updatedAt);
+        id: id == null ? UUID.getUUID() : id, title: title, author: author);
   }
 
   bool equals(Object other) {
@@ -2994,9 +2288,7 @@ class Post extends Model {
     return other is Post &&
         id == other.id &&
         title == other.title &&
-        author == other.author &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+        author == other.author;
   }
 
   @override
@@ -3009,55 +2301,29 @@ class Post extends Model {
     buffer.write(\\"Post {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"title=\\" + \\"$title\\" + \\", \\");
-    buffer.write(\\"author=\\" + \\"$author\\" + \\", \\");
-    buffer.write(\\"createdAt=\\" +
-        (createdAt != null ? createdAt.format() : \\"null\\") +
-        \\", \\");
-    buffer.write(
-        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+    buffer.write(\\"author=\\" + \\"$author\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  Post copyWith(
-      {String id,
-      String title,
-      String author,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  Post copyWith({String id, String title, String author}) {
     return Post(
         id: id ?? this.id,
         title: title ?? this.title,
-        author: author ?? this.author,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+        author: author ?? this.author);
   }
 
   Post.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         title = json['title'],
-        author = json['author'],
-        createdAt = json['createdAt'] != null
-            ? TemporalDateTime.fromString(json['createdAt'])
-            : null,
-        updatedAt = json['updatedAt'] != null
-            ? TemporalDateTime.fromString(json['updatedAt'])
-            : null;
+        author = json['author'];
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'author': author,
-        'createdAt': createdAt?.format(),
-        'updatedAt': updatedAt?.format()
-      };
+  Map<String, dynamic> toJson() => {'id': id, 'title': title, 'author': author};
 
   static final QueryField ID = QueryField(fieldName: \\"post.id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField AUTHOR = QueryField(fieldName: \\"author\\");
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Post\\";
@@ -3087,16 +2353,6 @@ class Post extends Model {
         key: Post.AUTHOR,
         isRequired: true,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Post.CREATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Post.UPDATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
 }
 
@@ -3139,8 +2395,6 @@ class Post extends Model {
   final String id;
   final String title;
   final String owner;
-  final TemporalDateTime createdAt;
-  final TemporalDateTime updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -3151,24 +2405,11 @@ class Post extends Model {
   }
 
   const Post._internal(
-      {@required this.id,
-      @required this.title,
-      @required this.owner,
-      this.createdAt,
-      this.updatedAt});
+      {@required this.id, @required this.title, @required this.owner});
 
-  factory Post(
-      {String id,
-      @required String title,
-      @required String owner,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  factory Post({String id, @required String title, @required String owner}) {
     return Post._internal(
-        id: id == null ? UUID.getUUID() : id,
-        title: title,
-        owner: owner,
-        createdAt: createdAt,
-        updatedAt: updatedAt);
+        id: id == null ? UUID.getUUID() : id, title: title, owner: owner);
   }
 
   bool equals(Object other) {
@@ -3181,9 +2422,7 @@ class Post extends Model {
     return other is Post &&
         id == other.id &&
         title == other.title &&
-        owner == other.owner &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+        owner == other.owner;
   }
 
   @override
@@ -3196,55 +2435,29 @@ class Post extends Model {
     buffer.write(\\"Post {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"title=\\" + \\"$title\\" + \\", \\");
-    buffer.write(\\"owner=\\" + \\"$owner\\" + \\", \\");
-    buffer.write(\\"createdAt=\\" +
-        (createdAt != null ? createdAt.format() : \\"null\\") +
-        \\", \\");
-    buffer.write(
-        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+    buffer.write(\\"owner=\\" + \\"$owner\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  Post copyWith(
-      {String id,
-      String title,
-      String owner,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  Post copyWith({String id, String title, String owner}) {
     return Post(
         id: id ?? this.id,
         title: title ?? this.title,
-        owner: owner ?? this.owner,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+        owner: owner ?? this.owner);
   }
 
   Post.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         title = json['title'],
-        owner = json['owner'],
-        createdAt = json['createdAt'] != null
-            ? TemporalDateTime.fromString(json['createdAt'])
-            : null,
-        updatedAt = json['updatedAt'] != null
-            ? TemporalDateTime.fromString(json['updatedAt'])
-            : null;
+        owner = json['owner'];
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'owner': owner,
-        'createdAt': createdAt?.format(),
-        'updatedAt': updatedAt?.format()
-      };
+  Map<String, dynamic> toJson() => {'id': id, 'title': title, 'owner': owner};
 
   static final QueryField ID = QueryField(fieldName: \\"post.id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField OWNER = QueryField(fieldName: \\"owner\\");
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Post\\";
@@ -3287,16 +2500,6 @@ class Post extends Model {
         key: Post.OWNER,
         isRequired: true,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Post.CREATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Post.UPDATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
 }
 
@@ -3340,8 +2543,6 @@ class Todo extends Model {
   static const classType = const TodoType();
   final String id;
   final List<Task> tasks;
-  final TemporalDateTime createdAt;
-  final TemporalDateTime updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -3351,19 +2552,12 @@ class Todo extends Model {
     return id;
   }
 
-  const Todo._internal(
-      {@required this.id, this.tasks, this.createdAt, this.updatedAt});
+  const Todo._internal({@required this.id, this.tasks});
 
-  factory Todo(
-      {String id,
-      List<Task> tasks,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  factory Todo({String id, List<Task> tasks}) {
     return Todo._internal(
         id: id == null ? UUID.getUUID() : id,
-        tasks: tasks != null ? List.unmodifiable(tasks) : tasks,
-        createdAt: createdAt,
-        updatedAt: updatedAt);
+        tasks: tasks != null ? List.unmodifiable(tasks) : tasks);
   }
 
   bool equals(Object other) {
@@ -3375,9 +2569,7 @@ class Todo extends Model {
     if (identical(other, this)) return true;
     return other is Todo &&
         id == other.id &&
-        DeepCollectionEquality().equals(tasks, other.tasks) &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+        DeepCollectionEquality().equals(tasks, other.tasks);
   }
 
   @override
@@ -3388,27 +2580,14 @@ class Todo extends Model {
     var buffer = new StringBuffer();
 
     buffer.write(\\"Todo {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"createdAt=\\" +
-        (createdAt != null ? createdAt.format() : \\"null\\") +
-        \\", \\");
-    buffer.write(
-        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+    buffer.write(\\"id=\\" + \\"$id\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  Todo copyWith(
-      {String id,
-      List<Task> tasks,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
-    return Todo(
-        id: id ?? this.id,
-        tasks: tasks ?? this.tasks,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+  Todo copyWith({String id, List<Task> tasks}) {
+    return Todo(id: id ?? this.id, tasks: tasks ?? this.tasks);
   }
 
   Todo.fromJson(Map<String, dynamic> json)
@@ -3417,28 +2596,16 @@ class Todo extends Model {
             ? (json['tasks'] as List)
                 .map((e) => Task.fromJson(new Map<String, dynamic>.from(e)))
                 .toList()
-            : null,
-        createdAt = json['createdAt'] != null
-            ? TemporalDateTime.fromString(json['createdAt'])
-            : null,
-        updatedAt = json['updatedAt'] != null
-            ? TemporalDateTime.fromString(json['updatedAt'])
             : null;
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'tasks': tasks?.map((e) => e?.toJson())?.toList(),
-        'createdAt': createdAt?.format(),
-        'updatedAt': updatedAt?.format()
-      };
+  Map<String, dynamic> toJson() =>
+      {'id': id, 'tasks': tasks?.map((e) => e?.toJson())?.toList()};
 
   static final QueryField ID = QueryField(fieldName: \\"todo.id\\");
   static final QueryField TASKS = QueryField(
       fieldName: \\"tasks\\",
       fieldType: ModelFieldType(ModelFieldTypeEnum.model,
           ofModelName: (Task).toString()));
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Todo\\";
@@ -3451,16 +2618,6 @@ class Todo extends Model {
         isRequired: false,
         ofModelName: (Task).toString(),
         associatedKey: Task.TODO));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Todo.CREATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Todo.UPDATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
 }
 
@@ -3503,8 +2660,6 @@ class Task extends Model {
   static const classType = const TaskType();
   final String id;
   final Todo todo;
-  final TemporalDateTime createdAt;
-  final TemporalDateTime updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -3514,19 +2669,10 @@ class Task extends Model {
     return id;
   }
 
-  const Task._internal(
-      {@required this.id, this.todo, this.createdAt, this.updatedAt});
+  const Task._internal({@required this.id, this.todo});
 
-  factory Task(
-      {String id,
-      Todo todo,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
-    return Task._internal(
-        id: id == null ? UUID.getUUID() : id,
-        todo: todo,
-        createdAt: createdAt,
-        updatedAt: updatedAt);
+  factory Task({String id, Todo todo}) {
+    return Task._internal(id: id == null ? UUID.getUUID() : id, todo: todo);
   }
 
   bool equals(Object other) {
@@ -3536,11 +2682,7 @@ class Task extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Task &&
-        id == other.id &&
-        todo == other.todo &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+    return other is Task && id == other.id && todo == other.todo;
   }
 
   @override
@@ -3552,55 +2694,29 @@ class Task extends Model {
 
     buffer.write(\\"Task {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"todo=\\" + (todo != null ? todo.toString() : \\"null\\") + \\", \\");
-    buffer.write(\\"createdAt=\\" +
-        (createdAt != null ? createdAt.format() : \\"null\\") +
-        \\", \\");
-    buffer.write(
-        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+    buffer.write(\\"todo=\\" + (todo != null ? todo.toString() : \\"null\\"));
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  Task copyWith(
-      {String id,
-      Todo todo,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
-    return Task(
-        id: id ?? this.id,
-        todo: todo ?? this.todo,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+  Task copyWith({String id, Todo todo}) {
+    return Task(id: id ?? this.id, todo: todo ?? this.todo);
   }
 
   Task.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         todo = json['todo'] != null
             ? Todo.fromJson(new Map<String, dynamic>.from(json['todo']))
-            : null,
-        createdAt = json['createdAt'] != null
-            ? TemporalDateTime.fromString(json['createdAt'])
-            : null,
-        updatedAt = json['updatedAt'] != null
-            ? TemporalDateTime.fromString(json['updatedAt'])
             : null;
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'todo': todo?.toJson(),
-        'createdAt': createdAt?.format(),
-        'updatedAt': updatedAt?.format()
-      };
+  Map<String, dynamic> toJson() => {'id': id, 'todo': todo?.toJson()};
 
   static final QueryField ID = QueryField(fieldName: \\"task.id\\");
   static final QueryField TODO = QueryField(
       fieldName: \\"todo\\",
       fieldType: ModelFieldType(ModelFieldTypeEnum.model,
           ofModelName: (Todo).toString()));
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Task\\";
@@ -3613,16 +2729,6 @@ class Task extends Model {
         isRequired: false,
         targetName: \\"taskTodoId\\",
         ofModelName: (Todo).toString()));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Task.CREATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Task.UPDATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
 }
 
@@ -3668,8 +2774,6 @@ class Blog extends Model {
   final String name;
   final List<Post> posts;
   final List<String> test;
-  final TemporalDateTime createdAt;
-  final TemporalDateTime updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -3680,27 +2784,15 @@ class Blog extends Model {
   }
 
   const Blog._internal(
-      {@required this.id,
-      @required this.name,
-      this.posts,
-      this.test,
-      this.createdAt,
-      this.updatedAt});
+      {@required this.id, @required this.name, this.posts, this.test});
 
   factory Blog(
-      {String id,
-      @required String name,
-      List<Post> posts,
-      List<String> test,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+      {String id, @required String name, List<Post> posts, List<String> test}) {
     return Blog._internal(
         id: id == null ? UUID.getUUID() : id,
         name: name,
         posts: posts != null ? List.unmodifiable(posts) : posts,
-        test: test != null ? List.unmodifiable(test) : test,
-        createdAt: createdAt,
-        updatedAt: updatedAt);
+        test: test != null ? List.unmodifiable(test) : test);
   }
 
   bool equals(Object other) {
@@ -3714,9 +2806,7 @@ class Blog extends Model {
         id == other.id &&
         name == other.name &&
         DeepCollectionEquality().equals(posts, other.posts) &&
-        DeepCollectionEquality().equals(test, other.test) &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+        DeepCollectionEquality().equals(test, other.test);
   }
 
   @override
@@ -3729,31 +2819,18 @@ class Blog extends Model {
     buffer.write(\\"Blog {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
-    buffer.write(\\"test=\\" + (test != null ? test.toString() : \\"null\\") + \\", \\");
-    buffer.write(\\"createdAt=\\" +
-        (createdAt != null ? createdAt.format() : \\"null\\") +
-        \\", \\");
-    buffer.write(
-        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+    buffer.write(\\"test=\\" + (test != null ? test.toString() : \\"null\\"));
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  Blog copyWith(
-      {String id,
-      String name,
-      List<Post> posts,
-      List<String> test,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  Blog copyWith({String id, String name, List<Post> posts, List<String> test}) {
     return Blog(
         id: id ?? this.id,
         name: name ?? this.name,
         posts: posts ?? this.posts,
-        test: test ?? this.test,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+        test: test ?? this.test);
   }
 
   Blog.fromJson(Map<String, dynamic> json)
@@ -3764,21 +2841,13 @@ class Blog extends Model {
                 .map((e) => Post.fromJson(new Map<String, dynamic>.from(e)))
                 .toList()
             : null,
-        test = json['test']?.cast<String>(),
-        createdAt = json['createdAt'] != null
-            ? TemporalDateTime.fromString(json['createdAt'])
-            : null,
-        updatedAt = json['updatedAt'] != null
-            ? TemporalDateTime.fromString(json['updatedAt'])
-            : null;
+        test = json['test']?.cast<String>();
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
         'posts': posts?.map((e) => e?.toJson())?.toList(),
-        'test': test,
-        'createdAt': createdAt?.format(),
-        'updatedAt': updatedAt?.format()
+        'test': test
       };
 
   static final QueryField ID = QueryField(fieldName: \\"blog.id\\");
@@ -3788,8 +2857,6 @@ class Blog extends Model {
       fieldType: ModelFieldType(ModelFieldTypeEnum.model,
           ofModelName: (Post).toString()));
   static final QueryField TEST = QueryField(fieldName: \\"test\\");
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Blog\\";
@@ -3814,16 +2881,6 @@ class Blog extends Model {
         isArray: true,
         ofType: ModelFieldType(ModelFieldTypeEnum.collection,
             ofModelName: describeEnum(ModelFieldTypeEnum.string))));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Blog.CREATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Blog.UPDATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
 }
 
@@ -3867,8 +2924,6 @@ class Comment extends Model {
   final String id;
   final Post post;
   final String content;
-  final TemporalDateTime createdAt;
-  final TemporalDateTime updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -3879,24 +2934,11 @@ class Comment extends Model {
   }
 
   const Comment._internal(
-      {@required this.id,
-      this.post,
-      @required this.content,
-      this.createdAt,
-      this.updatedAt});
+      {@required this.id, this.post, @required this.content});
 
-  factory Comment(
-      {String id,
-      Post post,
-      @required String content,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  factory Comment({String id, Post post, @required String content}) {
     return Comment._internal(
-        id: id == null ? UUID.getUUID() : id,
-        post: post,
-        content: content,
-        createdAt: createdAt,
-        updatedAt: updatedAt);
+        id: id == null ? UUID.getUUID() : id, post: post, content: content);
   }
 
   bool equals(Object other) {
@@ -3909,9 +2951,7 @@ class Comment extends Model {
     return other is Comment &&
         id == other.id &&
         post == other.post &&
-        content == other.content &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+        content == other.content;
   }
 
   @override
@@ -3924,29 +2964,17 @@ class Comment extends Model {
     buffer.write(\\"Comment {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"post=\\" + (post != null ? post.toString() : \\"null\\") + \\", \\");
-    buffer.write(\\"content=\\" + \\"$content\\" + \\", \\");
-    buffer.write(\\"createdAt=\\" +
-        (createdAt != null ? createdAt.format() : \\"null\\") +
-        \\", \\");
-    buffer.write(
-        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+    buffer.write(\\"content=\\" + \\"$content\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  Comment copyWith(
-      {String id,
-      Post post,
-      String content,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  Comment copyWith({String id, Post post, String content}) {
     return Comment(
         id: id ?? this.id,
         post: post ?? this.post,
-        content: content ?? this.content,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+        content: content ?? this.content);
   }
 
   Comment.fromJson(Map<String, dynamic> json)
@@ -3954,21 +2982,10 @@ class Comment extends Model {
         post = json['post'] != null
             ? Post.fromJson(new Map<String, dynamic>.from(json['post']))
             : null,
-        content = json['content'],
-        createdAt = json['createdAt'] != null
-            ? TemporalDateTime.fromString(json['createdAt'])
-            : null,
-        updatedAt = json['updatedAt'] != null
-            ? TemporalDateTime.fromString(json['updatedAt'])
-            : null;
+        content = json['content'];
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'post': post?.toJson(),
-        'content': content,
-        'createdAt': createdAt?.format(),
-        'updatedAt': updatedAt?.format()
-      };
+  Map<String, dynamic> toJson() =>
+      {'id': id, 'post': post?.toJson(), 'content': content};
 
   static final QueryField ID = QueryField(fieldName: \\"comment.id\\");
   static final QueryField POST = QueryField(
@@ -3976,8 +2993,6 @@ class Comment extends Model {
       fieldType: ModelFieldType(ModelFieldTypeEnum.model,
           ofModelName: (Post).toString()));
   static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Comment\\";
@@ -3995,16 +3010,6 @@ class Comment extends Model {
         key: Comment.CONTENT,
         isRequired: true,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Comment.CREATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Comment.UPDATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
 }
 
@@ -4050,8 +3055,6 @@ class Post extends Model {
   final String title;
   final Blog blog;
   final List<Comment> comments;
-  final TemporalDateTime createdAt;
-  final TemporalDateTime updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -4062,27 +3065,15 @@ class Post extends Model {
   }
 
   const Post._internal(
-      {@required this.id,
-      @required this.title,
-      this.blog,
-      this.comments,
-      this.createdAt,
-      this.updatedAt});
+      {@required this.id, @required this.title, this.blog, this.comments});
 
   factory Post(
-      {String id,
-      @required String title,
-      Blog blog,
-      List<Comment> comments,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+      {String id, @required String title, Blog blog, List<Comment> comments}) {
     return Post._internal(
         id: id == null ? UUID.getUUID() : id,
         title: title,
         blog: blog,
-        comments: comments != null ? List.unmodifiable(comments) : comments,
-        createdAt: createdAt,
-        updatedAt: updatedAt);
+        comments: comments != null ? List.unmodifiable(comments) : comments);
   }
 
   bool equals(Object other) {
@@ -4096,9 +3087,7 @@ class Post extends Model {
         id == other.id &&
         title == other.title &&
         blog == other.blog &&
-        DeepCollectionEquality().equals(comments, other.comments) &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+        DeepCollectionEquality().equals(comments, other.comments);
   }
 
   @override
@@ -4111,31 +3100,18 @@ class Post extends Model {
     buffer.write(\\"Post {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"title=\\" + \\"$title\\" + \\", \\");
-    buffer.write(\\"blog=\\" + (blog != null ? blog.toString() : \\"null\\") + \\", \\");
-    buffer.write(\\"createdAt=\\" +
-        (createdAt != null ? createdAt.format() : \\"null\\") +
-        \\", \\");
-    buffer.write(
-        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+    buffer.write(\\"blog=\\" + (blog != null ? blog.toString() : \\"null\\"));
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  Post copyWith(
-      {String id,
-      String title,
-      Blog blog,
-      List<Comment> comments,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+  Post copyWith({String id, String title, Blog blog, List<Comment> comments}) {
     return Post(
         id: id ?? this.id,
         title: title ?? this.title,
         blog: blog ?? this.blog,
-        comments: comments ?? this.comments,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+        comments: comments ?? this.comments);
   }
 
   Post.fromJson(Map<String, dynamic> json)
@@ -4148,21 +3124,13 @@ class Post extends Model {
             ? (json['comments'] as List)
                 .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e)))
                 .toList()
-            : null,
-        createdAt = json['createdAt'] != null
-            ? TemporalDateTime.fromString(json['createdAt'])
-            : null,
-        updatedAt = json['updatedAt'] != null
-            ? TemporalDateTime.fromString(json['updatedAt'])
             : null;
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'title': title,
         'blog': blog?.toJson(),
-        'comments': comments?.map((e) => e?.toJson())?.toList(),
-        'createdAt': createdAt?.format(),
-        'updatedAt': updatedAt?.format()
+        'comments': comments?.map((e) => e?.toJson())?.toList()
       };
 
   static final QueryField ID = QueryField(fieldName: \\"post.id\\");
@@ -4175,8 +3143,6 @@ class Post extends Model {
       fieldName: \\"comments\\",
       fieldType: ModelFieldType(ModelFieldTypeEnum.model,
           ofModelName: (Comment).toString()));
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Post\\";
@@ -4200,16 +3166,6 @@ class Post extends Model {
         isRequired: false,
         ofModelName: (Comment).toString(),
         associatedKey: Comment.POST));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Post.CREATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Post.UPDATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
 }
 
@@ -4254,8 +3210,6 @@ class authorBook extends Model {
   final String book_id;
   final String author;
   final String book;
-  final TemporalDateTime createdAt;
-  final TemporalDateTime updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -4270,26 +3224,20 @@ class authorBook extends Model {
       @required this.author_id,
       @required this.book_id,
       this.author,
-      this.book,
-      this.createdAt,
-      this.updatedAt});
+      this.book});
 
   factory authorBook(
       {String id,
       @required String author_id,
       @required String book_id,
       String author,
-      String book,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+      String book}) {
     return authorBook._internal(
         id: id == null ? UUID.getUUID() : id,
         author_id: author_id,
         book_id: book_id,
         author: author,
-        book: book,
-        createdAt: createdAt,
-        updatedAt: updatedAt);
+        book: book);
   }
 
   bool equals(Object other) {
@@ -4304,9 +3252,7 @@ class authorBook extends Model {
         author_id == other.author_id &&
         book_id == other.book_id &&
         author == other.author &&
-        book == other.book &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt;
+        book == other.book;
   }
 
   @override
@@ -4321,12 +3267,7 @@ class authorBook extends Model {
     buffer.write(\\"author_id=\\" + \\"$author_id\\" + \\", \\");
     buffer.write(\\"book_id=\\" + \\"$book_id\\" + \\", \\");
     buffer.write(\\"author=\\" + \\"$author\\" + \\", \\");
-    buffer.write(\\"book=\\" + \\"$book\\" + \\", \\");
-    buffer.write(\\"createdAt=\\" +
-        (createdAt != null ? createdAt.format() : \\"null\\") +
-        \\", \\");
-    buffer.write(
-        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+    buffer.write(\\"book=\\" + \\"$book\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
@@ -4337,17 +3278,13 @@ class authorBook extends Model {
       String author_id,
       String book_id,
       String author,
-      String book,
-      TemporalDateTime createdAt,
-      TemporalDateTime updatedAt}) {
+      String book}) {
     return authorBook(
         id: id ?? this.id,
         author_id: author_id ?? this.author_id,
         book_id: book_id ?? this.book_id,
         author: author ?? this.author,
-        book: book ?? this.book,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+        book: book ?? this.book);
   }
 
   authorBook.fromJson(Map<String, dynamic> json)
@@ -4355,22 +3292,14 @@ class authorBook extends Model {
         author_id = json['author_id'],
         book_id = json['book_id'],
         author = json['author'],
-        book = json['book'],
-        createdAt = json['createdAt'] != null
-            ? TemporalDateTime.fromString(json['createdAt'])
-            : null,
-        updatedAt = json['updatedAt'] != null
-            ? TemporalDateTime.fromString(json['updatedAt'])
-            : null;
+        book = json['book'];
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'author_id': author_id,
         'book_id': book_id,
         'author': author,
-        'book': book,
-        'createdAt': createdAt?.format(),
-        'updatedAt': updatedAt?.format()
+        'book': book
       };
 
   static final QueryField ID = QueryField(fieldName: \\"authorBook.id\\");
@@ -4378,8 +3307,6 @@ class authorBook extends Model {
   static final QueryField BOOK_ID = QueryField(fieldName: \\"book_id\\");
   static final QueryField AUTHOR = QueryField(fieldName: \\"author\\");
   static final QueryField BOOK = QueryField(fieldName: \\"book\\");
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"authorBook\\";
@@ -4406,16 +3333,6 @@ class authorBook extends Model {
         key: authorBook.BOOK,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: authorBook.CREATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: authorBook.UPDATEDAT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
 }
 

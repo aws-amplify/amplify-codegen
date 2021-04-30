@@ -102,6 +102,7 @@ export interface RawAppSyncModelConfig extends RawConfig {
 export interface ParsedAppSyncModelConfig extends ParsedConfig {
   selectedType?: string;
   generate?: CodeGenGenerateEnum;
+  target?: string;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
 
@@ -166,6 +167,7 @@ export class AppSyncModelVisitor<
     super(rawConfig, {
       ...additionalConfig,
       scalars: buildScalars(_schema, rawConfig.scalars || '', defaultScalars),
+      target: rawConfig.target,
     });
 
     const typesUsedInDirectives: string[] = [];
@@ -510,6 +512,10 @@ export class AppSyncModelVisitor<
    * @param model
    */
   protected addTimestampFields(model: CodeGenModel, directive: CodeGenDirective): void {
+    const target = this.config.target;
+    if (target === 'javascript' || target === 'dart') {
+      return;
+    }
     if (directive.name !== 'model') {
       return;
     }
