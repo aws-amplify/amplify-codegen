@@ -156,7 +156,7 @@ workflows:
           name: e2e-test-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux_node15, linux_node10, macos_node12]
+              os: [linux_node15, linux_node10]
           requires:
             - build-<< matrix.os >>
             - test-<< matrix.os >>
