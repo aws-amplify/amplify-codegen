@@ -5,11 +5,11 @@ import stripIndent from 'strip-indent';
 // Todo: PR to @graphql-codegen/java-common to support method exceptions and comment
 export type Access = 'private' | 'public' | 'protected';
 export type Kind = 'class' | 'interface' | 'enum';
-export type MemberFlags = { 
-  transient?: boolean; 
-  final?: boolean; 
-  volatile?: boolean; 
-  static?: boolean; 
+export type MemberFlags = {
+  transient?: boolean;
+  final?: boolean;
+  volatile?: boolean;
+  static?: boolean;
   synchronized?: boolean,
   isListNullable?: boolean
 };
