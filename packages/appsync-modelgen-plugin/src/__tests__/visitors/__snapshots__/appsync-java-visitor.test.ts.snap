@@ -3682,7 +3682,7 @@ public final class SimpleModel implements Model {
 "
 `;
 
-exports[`AppSyncModelVisitor Should generate a class for a Model 2`] = `
+exports[`AppSyncModelVisitor Should handle nullability of lists appropriately 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
 import com.amplifyframework.core.model.temporal.Temporal;
@@ -3701,13 +3701,19 @@ import com.amplifyframework.core.model.query.predicate.QueryField;
 
 import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
-/** This is an auto generated class representing the SimpleModel type in your schema. */
+/** This is an auto generated class representing the ListContainer type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"SimpleModels\\")
-public final class SimpleModel implements Model {
-  public static final QueryField ID = field(\\"SimpleModel\\", \\"id\\");
-  public static final QueryField NAME = field(\\"SimpleModel\\", \\"name\\");
-  public static final QueryField BAR = field(\\"SimpleModel\\", \\"bar\\");
+@ModelConfig(pluralName = \\"ListContainers\\")
+public final class ListContainer implements Model {
+  public static final QueryField ID = field(\\"ListContainer\\", \\"id\\");
+  public static final QueryField NAME = field(\\"ListContainer\\", \\"name\\");
+  public static final QueryField LIST = field(\\"ListContainer\\", \\"list\\");
+  public static final QueryField REQUIRED_LIST = field(\\"ListContainer\\", \\"requiredList\\");
+  public static final QueryField REQUIRED_LIST_OF_REQUIRED = field(\\"ListContainer\\", \\"requiredListOfRequired\\");
+  public static final QueryField LIST_OF_REQUIRED = field(\\"ListContainer\\", \\"listOfRequired\\");
+  public static final QueryField REQUIRED_LIST_OF_REQUIRED_DATES = field(\\"ListContainer\\", \\"requiredListOfRequiredDates\\");
+  public static final QueryField LIST_OF_REQUIRED_FLOATS = field(\\"ListContainer\\", \\"listOfRequiredFloats\\");
+  public static final QueryField REQUIRED_LIST_OF_CUSTOM_TYPES = field(\\"ListContainer\\", \\"requiredListOfCustomTypes\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\") String bar;
@@ -3721,8 +3727,8 @@ public final class SimpleModel implements Model {
       return name;
   }
   
-  public String getBar() {
-      return bar;
+  public List<Integer> getList() {
+      return list;
   }
   
   public Temporal.DateTime getCreatedAt() {
@@ -3736,7 +3742,13 @@ public final class SimpleModel implements Model {
   private SimpleModel(String id, String name, String bar) {
     this.id = id;
     this.name = name;
-    this.bar = bar;
+    this.list = list;
+    this.requiredList = requiredList;
+    this.requiredListOfRequired = requiredListOfRequired;
+    this.listOfRequired = listOfRequired;
+    this.requiredListOfRequiredDates = requiredListOfRequiredDates;
+    this.listOfRequiredFloats = listOfRequiredFloats;
+    this.requiredListOfCustomTypes = requiredListOfCustomTypes;
   }
   
   @Override
@@ -3770,7 +3782,7 @@ public final class SimpleModel implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"SimpleModel {\\")
+      .append(\\"ListContainer {\\")
       .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
       .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
       .append(\\"bar=\\" + String.valueOf(getBar()) + \\", \\")
@@ -3780,7 +3792,7 @@ public final class SimpleModel implements Model {
       .toString();
   }
   
-  public static BuildStep builder() {
+  public static RequiredListOfRequiredStep builder() {
       return new Builder();
   }
   
@@ -3793,7 +3805,7 @@ public final class SimpleModel implements Model {
    * @return an instance of this model with only ID populated
    * @throws IllegalArgumentException Checks that ID is in the proper format
    */
-  public static SimpleModel justId(String id) {
+  public static ListContainer justId(String id) {
     try {
       UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
     } catch (Exception exception) {
@@ -3803,8 +3815,14 @@ public final class SimpleModel implements Model {
               \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
       );
     }
-    return new SimpleModel(
+    return new ListContainer(
       id,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
       null,
       null
     );
@@ -3813,28 +3831,96 @@ public final class SimpleModel implements Model {
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       name,
-      bar);
+      list,
+      requiredList,
+      requiredListOfRequired,
+      listOfRequired,
+      requiredListOfRequiredDates,
+      listOfRequiredFloats,
+      requiredListOfCustomTypes);
   }
-  public interface BuildStep {
-    SimpleModel build();
-    BuildStep id(String id) throws IllegalArgumentException;
-    BuildStep name(String name);
-    BuildStep bar(String bar);
+  public interface RequiredListStep {
+    RequiredListOfRequiredStep requiredList(List<String> requiredList);
   }
   
 
-  public static class Builder implements BuildStep {
+  public interface RequiredListOfRequiredStep {
+    RequiredListOfRequiredDatesStep requiredListOfRequired(List<StatusEnum> requiredListOfRequired);
+  }
+  
+
+  public interface RequiredListOfRequiredDatesStep {
+    RequiredListOfCustomTypesStep requiredListOfRequiredDates(List<Temporal.Date> requiredListOfRequiredDates);
+  }
+  
+
+  public interface RequiredListOfCustomTypesStep {
+    BuildStep requiredListOfCustomTypes(List<CustomType> requiredListOfCustomTypes);
+  }
+  
+
+  public interface BuildStep {
+    ListContainer build();
+    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep name(String name);
+    BuildStep list(List<Integer> list);
+    BuildStep listOfRequired(List<Boolean> listOfRequired);
+    BuildStep listOfRequiredFloats(List<Double> listOfRequiredFloats);
+  }
+  
+
+  public static class Builder implements RequiredListStep, RequiredListOfRequiredStep, RequiredListOfRequiredDatesStep, RequiredListOfCustomTypesStep, BuildStep {
     private String id;
+    private List<String> requiredList;
+    private List<StatusEnum> requiredListOfRequired;
+    private List<Temporal.Date> requiredListOfRequiredDates;
+    private List<CustomType> requiredListOfCustomTypes;
     private String name;
-    private String bar;
+    private List<Integer> list;
+    private List<Boolean> listOfRequired;
+    private List<Double> listOfRequiredFloats;
     @Override
-     public SimpleModel build() {
+     public ListContainer build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
         
-        return new SimpleModel(
+        return new ListContainer(
           id,
           name,
-          bar);
+          list,
+          requiredList,
+          requiredListOfRequired,
+          listOfRequired,
+          requiredListOfRequiredDates,
+          listOfRequiredFloats,
+          requiredListOfCustomTypes);
+    }
+    
+    @Override
+     public RequiredListOfRequiredStep requiredList(List<String> requiredList) {
+        Objects.requireNonNull(requiredList);
+        this.requiredList = requiredList;
+        return this;
+    }
+    
+    @Override
+     public RequiredListOfRequiredDatesStep requiredListOfRequired(List<StatusEnum> requiredListOfRequired) {
+        Objects.requireNonNull(requiredListOfRequired);
+        this.requiredListOfRequired = requiredListOfRequired;
+        return this;
+    }
+    
+    @Override
+     public RequiredListOfCustomTypesStep requiredListOfRequiredDates(List<Temporal.Date> requiredListOfRequiredDates) {
+        Objects.requireNonNull(requiredListOfRequiredDates);
+        this.requiredListOfRequiredDates = requiredListOfRequiredDates;
+        return this;
+    }
+    
+    @Override
+     public BuildStep requiredListOfCustomTypes(List<CustomType> requiredListOfCustomTypes) {
+        Objects.requireNonNull(requiredListOfCustomTypes);
+        this.requiredListOfCustomTypes = requiredListOfCustomTypes;
+        return this;
     }
     
     @Override
@@ -3844,8 +3930,20 @@ public final class SimpleModel implements Model {
     }
     
     @Override
-     public BuildStep bar(String bar) {
-        this.bar = bar;
+     public BuildStep list(List<Integer> list) {
+        this.list = list;
+        return this;
+    }
+    
+    @Override
+     public BuildStep listOfRequired(List<Boolean> listOfRequired) {
+        this.listOfRequired = listOfRequired;
+        return this;
+    }
+    
+    @Override
+     public BuildStep listOfRequiredFloats(List<Double> listOfRequiredFloats) {
+        this.listOfRequiredFloats = listOfRequiredFloats;
         return this;
     }
     
@@ -3872,10 +3970,36 @@ public final class SimpleModel implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String name, String bar) {
+    private CopyOfBuilder(String id, String name, List<Integer> list, List<String> requiredList, List<StatusEnum> requiredListOfRequired, List<Boolean> listOfRequired, List<Temporal.Date> requiredListOfRequiredDates, List<Double> listOfRequiredFloats, List<CustomType> requiredListOfCustomTypes) {
       super.id(id);
-      super.name(name)
-        .bar(bar);
+      super.requiredListOfRequired(requiredListOfRequired)
+        .listOfRequired(listOfRequired)
+        .requiredListOfRequiredDates(requiredListOfRequiredDates)
+        .listOfRequiredFloats(listOfRequiredFloats)
+        .name(name)
+        .list(list)
+        .requiredList(requiredList)
+        .requiredListOfCustomTypes(requiredListOfCustomTypes);
+    }
+    
+    @Override
+     public CopyOfBuilder requiredListOfRequired(List<StatusEnum> requiredListOfRequired) {
+      return (CopyOfBuilder) super.requiredListOfRequired(requiredListOfRequired);
+    }
+    
+    @Override
+     public CopyOfBuilder listOfRequired(List<Boolean> listOfRequired) {
+      return (CopyOfBuilder) super.listOfRequired(listOfRequired);
+    }
+    
+    @Override
+     public CopyOfBuilder requiredListOfRequiredDates(List<Temporal.Date> requiredListOfRequiredDates) {
+      return (CopyOfBuilder) super.requiredListOfRequiredDates(requiredListOfRequiredDates);
+    }
+    
+    @Override
+     public CopyOfBuilder listOfRequiredFloats(List<Double> listOfRequiredFloats) {
+      return (CopyOfBuilder) super.listOfRequiredFloats(listOfRequiredFloats);
     }
     
     @Override
@@ -3884,8 +4008,18 @@ public final class SimpleModel implements Model {
     }
     
     @Override
-     public CopyOfBuilder bar(String bar) {
-      return (CopyOfBuilder) super.bar(bar);
+     public CopyOfBuilder list(List<Integer> list) {
+      return (CopyOfBuilder) super.list(list);
+    }
+    
+    @Override
+     public CopyOfBuilder requiredList(List<String> requiredList) {
+      return (CopyOfBuilder) super.requiredList(requiredList);
+    }
+    
+    @Override
+     public CopyOfBuilder requiredListOfCustomTypes(List<CustomType> requiredListOfCustomTypes) {
+      return (CopyOfBuilder) super.requiredListOfCustomTypes(requiredListOfCustomTypes);
     }
   }
   

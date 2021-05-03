@@ -361,15 +361,31 @@ describe('AppSyncSwiftVisitor', () => {
 
   it('Should handle nullability of lists appropriately', () => {
     const schema = /* GraphQL */ `
+      enum StatusEnum {
+        pass
+        fail
+      }
+
+      type CustomType {
+        name: String
+        list: [Int]
+        requiredList: [String]!
+        requiredListOfRequired: [StatusEnum!]!
+        listOfRequired: [Boolean!]
+      }
+
       type ListContainer
       @model
       {
         id: ID!
         name: String
-        list: [String]
+        list: [Int]
         requiredList: [String]!
-        requiredListOfRequired: [String!]!
-        listOfRequired: [String!]
+        requiredListOfRequired: [StatusEnum!]!
+        listOfRequired: [Boolean!]
+        requiredListOfRequiredDates: [AWSDate!]!
+        listOfRequiredFloats: [Float!]
+        requiredListOfCustomTypes: [CustomType]!
       }
     `;
 
@@ -380,6 +396,9 @@ describe('AppSyncSwiftVisitor', () => {
     const metadataVisitor = getVisitor(schema, 'ListContainer', CodeGenGenerateEnum.metadata);
     const generatedMetadata = metadataVisitor.generate();
     expect(generatedMetadata).toMatchSnapshot();
+
+    const customTypeVisitor = getVisitor(schema, 'CustomType');
+    expect(customTypeVisitor.generate()).toMatchSnapshot();
   });
 
   describe('connection', () => {

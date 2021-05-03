@@ -89,7 +89,6 @@ describe('AppSyncModelVisitor', () => {
     const generatedCode = visitor.generate();
     expect(() => validateJava(generatedCode)).not.toThrow();
     expect(generatedCode).toMatchSnapshot();
-    expect(generatedCode).toMatchSnapshot();
   });
 
   it('Should generate a class a model with all optional fields except id field', () => {
@@ -185,6 +184,38 @@ describe('AppSyncModelVisitor', () => {
       }
     `;
     const visitor = getVisitor(schema, 'authorBook');
+    const generatedCode = visitor.generate();
+    expect(() => validateJava(generatedCode)).not.toThrow();
+    expect(generatedCode).toMatchSnapshot();
+  });
+
+  it('Should handle nullability of lists appropriately', () => {
+    const schema = /* GraphQL */ `
+      enum StatusEnum {
+        pass
+        fail
+      }
+
+      type CustomType {
+        name: String
+      }
+
+      type ListContainer
+      @model
+      {
+        id: ID!
+        name: String
+        list: [Int]
+        requiredList: [String]!
+        requiredListOfRequired: [StatusEnum!]!
+        listOfRequired: [Boolean!]
+        requiredListOfRequiredDates: [AWSDate!]!
+        listOfRequiredFloats: [Float!]
+        requiredListOfCustomTypes: [CustomType]!
+      }
+    `;
+
+    const visitor = getVisitor(schema, 'ListContainer');
     const generatedCode = visitor.generate();
     expect(() => validateJava(generatedCode)).not.toThrow();
     expect(generatedCode).toMatchSnapshot();

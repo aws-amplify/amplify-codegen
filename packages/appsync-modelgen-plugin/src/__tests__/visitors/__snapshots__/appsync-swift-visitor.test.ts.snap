@@ -8,23 +8,32 @@ import Foundation
 public struct ListContainer: Model {
   public let id: String
   public var name: String?
-  public var list: [String?]?
+  public var list: [Int?]?
   public var requiredList: [String?]
-  public var requiredListOfRequired: [String]
-  public var listOfRequired: [String]?
+  public var requiredListOfRequired: [StatusEnum]
+  public var listOfRequired: [Bool]?
+  public var requiredListOfRequiredDates: [Temporal.Date]
+  public var listOfRequiredFloats: [Double]?
+  public var requiredListOfCustomTypes: [CustomType?]
   
   public init(id: String = UUID().uuidString,
       name: String? = nil,
-      list: [String?]? = [],
+      list: [Int?]? = [],
       requiredList: [String?] = [],
-      requiredListOfRequired: [String] = [],
-      listOfRequired: [String]? = []) {
+      requiredListOfRequired: [StatusEnum] = [],
+      listOfRequired: [Bool]? = [],
+      requiredListOfRequiredDates: [Temporal.Date] = [],
+      listOfRequiredFloats: [Double]? = [],
+      requiredListOfCustomTypes: [CustomType?] = []) {
       self.id = id
       self.name = name
       self.list = list
       self.requiredList = requiredList
       self.requiredListOfRequired = requiredListOfRequired
       self.listOfRequired = listOfRequired
+      self.requiredListOfRequiredDates = requiredListOfRequiredDates
+      self.listOfRequiredFloats = listOfRequiredFloats
+      self.requiredListOfCustomTypes = requiredListOfCustomTypes
   }
 }"
 `;
@@ -43,6 +52,9 @@ extension ListContainer {
     case requiredList
     case requiredListOfRequired
     case listOfRequired
+    case requiredListOfRequiredDates
+    case listOfRequiredFloats
+    case requiredListOfCustomTypes
   }
   
   public static let keys = CodingKeys.self
@@ -56,11 +68,28 @@ extension ListContainer {
     model.fields(
       .id(),
       .field(listContainer.name, is: .optional, ofType: .string),
-      .field(listContainer.list, is: .optional, ofType: .embeddedCollection(of: String.self)),
+      .field(listContainer.list, is: .optional, ofType: .embeddedCollection(of: Int.self)),
       .field(listContainer.requiredList, is: .required, ofType: .embeddedCollection(of: String.self)),
-      .field(listContainer.requiredListOfRequired, is: .required, ofType: .embeddedCollection(of: String.self)),
-      .field(listContainer.listOfRequired, is: .optional, ofType: .embeddedCollection(of: String.self))
+      .field(listContainer.requiredListOfRequired, is: .required, ofType: .embeddedCollection(of: StatusEnum.self)),
+      .field(listContainer.listOfRequired, is: .optional, ofType: .embeddedCollection(of: Bool.self)),
+      .field(listContainer.requiredListOfRequiredDates, is: .required, ofType: .embeddedCollection(of: Temporal.Date.self)),
+      .field(listContainer.listOfRequiredFloats, is: .optional, ofType: .embeddedCollection(of: Double.self)),
+      .field(listContainer.requiredListOfCustomTypes, is: .required, ofType: .embeddedCollection(of: CustomType.self))
     )
     }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor Should handle nullability of lists appropriately 3`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct CustomType: Embeddable {
+  var name: String?
+  var list: [Int?]?
+  var requiredList: [String?]
+  var requiredListOfRequired: [StatusEnum]
+  var listOfRequired: [Bool]?
 }"
 `;

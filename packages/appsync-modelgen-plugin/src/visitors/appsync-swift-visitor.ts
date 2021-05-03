@@ -338,7 +338,10 @@ export class AppSyncSwiftVisitor<
     const name = `${modelKeysName}.${this.getFieldName(field)}`;
     const typeName = this.getSwiftModelTypeName(field);
     const { connectionInfo } = field;
-    const isOptionalField = field.isList ? field.isListNullable : field.isNullable
+    let isOptionalField = field.isList ? field.isListNullable : field.isNullable
+    if (field.connectionInfo && field.connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
+      isOptionalField = true;
+    }
     const isRequired = !isOptionalField ? '.required' : '.optional';
     // connected field
     if (connectionInfo) {
