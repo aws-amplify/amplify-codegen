@@ -18,23 +18,23 @@ export enum Episode {
 export type Character = {
   __typename: \\"Character\\";
   // The ID of the character
-  id?: string;
+  id: string;
   // The name of the character
-  name?: string;
+  name: string;
   // The friends of the character, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the character exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this character appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
 };
 
 export type Human = {
   __typename: \\"Human\\";
   // The ID of the human
-  id?: string;
+  id: string;
   // What this human calls themselves
-  name?: string;
+  name: string;
   // The home planet of the human, or null if unknown
   homePlanet?: string | null;
   // Height in the preferred unit, default is meters
@@ -44,9 +44,9 @@ export type Human = {
   // This human's friends, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the human exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this human appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
   // A list of starships this person has piloted, or an empty list if none
   starships?: Array<Starship | null> | null;
 };
@@ -60,13 +60,13 @@ export type FriendsConnection = {
   // A list of the friends, as a convenience when edges are not needed.
   friends?: Array<Character | null> | null;
   // Information for paginating this connection
-  pageInfo?: PageInfo;
+  pageInfo: PageInfo;
 };
 
 export type FriendsEdge = {
   __typename: \\"FriendsEdge\\";
   // A cursor used for pagination
-  cursor?: string;
+  cursor: string;
   // The character represented by this friendship edge
   node?: Character;
 };
@@ -75,15 +75,15 @@ export type PageInfo = {
   __typename: \\"PageInfo\\";
   startCursor?: string | null;
   endCursor?: string | null;
-  hasNextPage?: boolean;
+  hasNextPage: boolean;
 };
 
 export type Starship = {
   __typename: \\"Starship\\";
   // The ID of the starship
-  id?: string;
+  id: string;
   // The name of the starship
-  name?: string;
+  name: string;
   // Length of the starship, along the longest axis
   length?: number | null;
   coordinates?: Array<Array<number>> | null;
@@ -92,15 +92,15 @@ export type Starship = {
 export type Droid = {
   __typename: \\"Droid\\";
   // The ID of the droid
-  id?: string;
+  id: string;
   // What others call this droid
-  name?: string;
+  name: string;
   // This droid's friends, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the droid exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this droid appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
   // This droid's primary function
   primaryFunction?: string | null;
 };
@@ -180,23 +180,23 @@ import { Observable } from \\"zen-observable-ts\\";
 export type Character = {
   __typename: \\"Character\\";
   // The ID of the character
-  id?: string;
+  id: string;
   // The name of the character
-  name?: string;
+  name: string;
   // The friends of the character, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the character exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this character appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
 };
 
 export type Human = {
   __typename: \\"Human\\";
   // The ID of the human
-  id?: string;
+  id: string;
   // What this human calls themselves
-  name?: string;
+  name: string;
   // The home planet of the human, or null if unknown
   homePlanet?: string | null;
   // Height in the preferred unit, default is meters
@@ -206,9 +206,9 @@ export type Human = {
   // This human's friends, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the human exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this human appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
   // A list of starships this person has piloted, or an empty list if none
   starships?: Array<Starship | null> | null;
 };
@@ -222,13 +222,13 @@ export type FriendsConnection = {
   // A list of the friends, as a convenience when edges are not needed.
   friends?: Array<Character | null> | null;
   // Information for paginating this connection
-  pageInfo?: PageInfo;
+  pageInfo: PageInfo;
 };
 
 export type FriendsEdge = {
   __typename: \\"FriendsEdge\\";
   // A cursor used for pagination
-  cursor?: string;
+  cursor: string;
   // The character represented by this friendship edge
   node?: Character;
 };
@@ -237,7 +237,7 @@ export type PageInfo = {
   __typename: \\"PageInfo\\";
   startCursor?: string | null;
   endCursor?: string | null;
-  hasNextPage?: boolean;
+  hasNextPage: boolean;
 };
 
 // The episodes in the Star Wars trilogy
@@ -250,9 +250,9 @@ export enum Episode {
 export type Starship = {
   __typename: \\"Starship\\";
   // The ID of the starship
-  id?: string;
+  id: string;
   // The name of the starship
-  name?: string;
+  name: string;
   // Length of the starship, along the longest axis
   length?: number | null;
   coordinates?: Array<Array<number>> | null;
@@ -261,15 +261,15 @@ export type Starship = {
 export type Droid = {
   __typename: \\"Droid\\";
   // The ID of the droid
-  id?: string;
+  id: string;
   // What others call this droid
-  name?: string;
+  name: string;
   // This droid's friends, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the droid exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this droid appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
   // This droid's primary function
   primaryFunction?: string | null;
 };
@@ -388,7 +388,7 @@ export type ColorInput = {
 export type Review = {
   __typename: \\"Review\\";
   // The number of stars this review gave, 1-5
-  stars?: number;
+  stars: number;
   // Comment about the movie
   commentary?: string | null;
 };
@@ -479,23 +479,23 @@ import { Observable } from \\"zen-observable-ts\\";
 export type Character = {
   __typename: \\"Character\\";
   // The ID of the character
-  id?: string;
+  id: string;
   // The name of the character
-  name?: string;
+  name: string;
   // The friends of the character, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the character exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this character appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
 };
 
 export type Human = {
   __typename: \\"Human\\";
   // The ID of the human
-  id?: string;
+  id: string;
   // What this human calls themselves
-  name?: string;
+  name: string;
   // The home planet of the human, or null if unknown
   homePlanet?: string | null;
   // Height in the preferred unit, default is meters
@@ -505,9 +505,9 @@ export type Human = {
   // This human's friends, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the human exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this human appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
   // A list of starships this person has piloted, or an empty list if none
   starships?: Array<Starship | null> | null;
 };
@@ -521,13 +521,13 @@ export type FriendsConnection = {
   // A list of the friends, as a convenience when edges are not needed.
   friends?: Array<Character | null> | null;
   // Information for paginating this connection
-  pageInfo?: PageInfo;
+  pageInfo: PageInfo;
 };
 
 export type FriendsEdge = {
   __typename: \\"FriendsEdge\\";
   // A cursor used for pagination
-  cursor?: string;
+  cursor: string;
   // The character represented by this friendship edge
   node?: Character;
 };
@@ -536,7 +536,7 @@ export type PageInfo = {
   __typename: \\"PageInfo\\";
   startCursor?: string | null;
   endCursor?: string | null;
-  hasNextPage?: boolean;
+  hasNextPage: boolean;
 };
 
 // The episodes in the Star Wars trilogy
@@ -549,9 +549,9 @@ export enum Episode {
 export type Starship = {
   __typename: \\"Starship\\";
   // The ID of the starship
-  id?: string;
+  id: string;
   // The name of the starship
-  name?: string;
+  name: string;
   // Length of the starship, along the longest axis
   length?: number | null;
   coordinates?: Array<Array<number>> | null;
@@ -560,15 +560,15 @@ export type Starship = {
 export type Droid = {
   __typename: \\"Droid\\";
   // The ID of the droid
-  id?: string;
+  id: string;
   // What others call this droid
-  name?: string;
+  name: string;
   // This droid's friends, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the droid exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this droid appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
   // This droid's primary function
   primaryFunction?: string | null;
 };
@@ -628,23 +628,23 @@ export enum Episode {
 export type Character = {
   __typename: \\"Character\\";
   // The ID of the character
-  id?: string;
+  id: string;
   // The name of the character
-  name?: string;
+  name: string;
   // The friends of the character, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the character exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this character appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
 };
 
 export type Human = {
   __typename: \\"Human\\";
   // The ID of the human
-  id?: string;
+  id: string;
   // What this human calls themselves
-  name?: string;
+  name: string;
   // The home planet of the human, or null if unknown
   homePlanet?: string | null;
   // Height in the preferred unit, default is meters
@@ -654,9 +654,9 @@ export type Human = {
   // This human's friends, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the human exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this human appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
   // A list of starships this person has piloted, or an empty list if none
   starships?: Array<Starship | null> | null;
 };
@@ -670,13 +670,13 @@ export type FriendsConnection = {
   // A list of the friends, as a convenience when edges are not needed.
   friends?: Array<Character | null> | null;
   // Information for paginating this connection
-  pageInfo?: PageInfo;
+  pageInfo: PageInfo;
 };
 
 export type FriendsEdge = {
   __typename: \\"FriendsEdge\\";
   // A cursor used for pagination
-  cursor?: string;
+  cursor: string;
   // The character represented by this friendship edge
   node?: Character;
 };
@@ -685,15 +685,15 @@ export type PageInfo = {
   __typename: \\"PageInfo\\";
   startCursor?: string | null;
   endCursor?: string | null;
-  hasNextPage?: boolean;
+  hasNextPage: boolean;
 };
 
 export type Starship = {
   __typename: \\"Starship\\";
   // The ID of the starship
-  id?: string;
+  id: string;
   // The name of the starship
-  name?: string;
+  name: string;
   // Length of the starship, along the longest axis
   length?: number | null;
   coordinates?: Array<Array<number>> | null;
@@ -702,15 +702,15 @@ export type Starship = {
 export type Droid = {
   __typename: \\"Droid\\";
   // The ID of the droid
-  id?: string;
+  id: string;
   // What others call this droid
-  name?: string;
+  name: string;
   // This droid's friends, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the droid exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this droid appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
   // This droid's primary function
   primaryFunction?: string | null;
 };
@@ -778,9 +778,9 @@ import { Observable } from \\"zen-observable-ts\\";
 export type Starship = {
   __typename: \\"Starship\\";
   // The ID of the starship
-  id?: string;
+  id: string;
   // The name of the starship
-  name?: string;
+  name: string;
   // Length of the starship, along the longest axis
   length?: number | null;
   coordinates?: Array<Array<number>> | null;
@@ -849,23 +849,23 @@ import { Observable } from \\"zen-observable-ts\\";
 export type Character = {
   __typename: \\"Character\\";
   // The ID of the character
-  id?: string;
+  id: string;
   // The name of the character
-  name?: string;
+  name: string;
   // The friends of the character, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the character exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this character appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
 };
 
 export type Human = {
   __typename: \\"Human\\";
   // The ID of the human
-  id?: string;
+  id: string;
   // What this human calls themselves
-  name?: string;
+  name: string;
   // The home planet of the human, or null if unknown
   homePlanet?: string | null;
   // Height in the preferred unit, default is meters
@@ -875,9 +875,9 @@ export type Human = {
   // This human's friends, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the human exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this human appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
   // A list of starships this person has piloted, or an empty list if none
   starships?: Array<Starship | null> | null;
 };
@@ -891,13 +891,13 @@ export type FriendsConnection = {
   // A list of the friends, as a convenience when edges are not needed.
   friends?: Array<Character | null> | null;
   // Information for paginating this connection
-  pageInfo?: PageInfo;
+  pageInfo: PageInfo;
 };
 
 export type FriendsEdge = {
   __typename: \\"FriendsEdge\\";
   // A cursor used for pagination
-  cursor?: string;
+  cursor: string;
   // The character represented by this friendship edge
   node?: Character;
 };
@@ -906,7 +906,7 @@ export type PageInfo = {
   __typename: \\"PageInfo\\";
   startCursor?: string | null;
   endCursor?: string | null;
-  hasNextPage?: boolean;
+  hasNextPage: boolean;
 };
 
 // The episodes in the Star Wars trilogy
@@ -919,9 +919,9 @@ export enum Episode {
 export type Starship = {
   __typename: \\"Starship\\";
   // The ID of the starship
-  id?: string;
+  id: string;
   // The name of the starship
-  name?: string;
+  name: string;
   // Length of the starship, along the longest axis
   length?: number | null;
   coordinates?: Array<Array<number>> | null;
@@ -930,15 +930,15 @@ export type Starship = {
 export type Droid = {
   __typename: \\"Droid\\";
   // The ID of the droid
-  id?: string;
+  id: string;
   // What others call this droid
-  name?: string;
+  name: string;
   // This droid's friends, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the droid exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this droid appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
   // This droid's primary function
   primaryFunction?: string | null;
 };
@@ -985,23 +985,23 @@ export enum Episode {
 export type Character = {
   __typename: \\"Character\\";
   // The ID of the character
-  id?: string;
+  id: string;
   // The name of the character
-  name?: string;
+  name: string;
   // The friends of the character, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the character exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this character appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
 };
 
 export type Human = {
   __typename: \\"Human\\";
   // The ID of the human
-  id?: string;
+  id: string;
   // What this human calls themselves
-  name?: string;
+  name: string;
   // The home planet of the human, or null if unknown
   homePlanet?: string | null;
   // Height in the preferred unit, default is meters
@@ -1011,9 +1011,9 @@ export type Human = {
   // This human's friends, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the human exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this human appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
   // A list of starships this person has piloted, or an empty list if none
   starships?: Array<Starship | null> | null;
 };
@@ -1027,13 +1027,13 @@ export type FriendsConnection = {
   // A list of the friends, as a convenience when edges are not needed.
   friends?: Array<Character | null> | null;
   // Information for paginating this connection
-  pageInfo?: PageInfo;
+  pageInfo: PageInfo;
 };
 
 export type FriendsEdge = {
   __typename: \\"FriendsEdge\\";
   // A cursor used for pagination
-  cursor?: string;
+  cursor: string;
   // The character represented by this friendship edge
   node?: Character;
 };
@@ -1042,15 +1042,15 @@ export type PageInfo = {
   __typename: \\"PageInfo\\";
   startCursor?: string | null;
   endCursor?: string | null;
-  hasNextPage?: boolean;
+  hasNextPage: boolean;
 };
 
 export type Starship = {
   __typename: \\"Starship\\";
   // The ID of the starship
-  id?: string;
+  id: string;
   // The name of the starship
-  name?: string;
+  name: string;
   // Length of the starship, along the longest axis
   length?: number | null;
   coordinates?: Array<Array<number>> | null;
@@ -1059,15 +1059,15 @@ export type Starship = {
 export type Droid = {
   __typename: \\"Droid\\";
   // The ID of the droid
-  id?: string;
+  id: string;
   // What others call this droid
-  name?: string;
+  name: string;
   // This droid's friends, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the droid exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this droid appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
   // This droid's primary function
   primaryFunction?: string | null;
 };
@@ -1116,10 +1116,10 @@ export interface SubscriptionResponse<T> {
 
 export type Restaurant = {
   __typename: \\"Restaurant\\";
-  id?: string;
-  name?: string;
-  description?: string;
-  city?: string;
+  id: string;
+  name: string;
+  description: string;
+  city: string;
 };
 
 export type OnCreateRestaurantSubscription = {
@@ -1167,13 +1167,13 @@ export interface SubscriptionResponse<T> {
 
 export type Restaurant = {
   __typename: \\"Restaurant\\";
-  id?: string;
-  name?: string;
-  description?: string;
-  city?: string;
+  id: string;
+  name: string;
+  description: string;
+  city: string;
   owner?: string | null;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type OnCreateRestaurantSubscription = {
@@ -1275,18 +1275,18 @@ import { Observable } from \\"zen-observable-ts\\";
 
 export type InterfaceTestCase = {
   __typename: \\"InterfaceTestCase\\";
-  prop?: string;
+  prop: string;
 };
 
 export type ImplA = {
   __typename: \\"ImplA\\";
-  prop?: string;
-  propA?: string;
+  prop: string;
+  propA: string;
 };
 
 export type ImplB = {
   __typename: \\"ImplB\\";
-  prop?: string;
+  prop: string;
   propB?: number | null;
 };
 
@@ -1430,12 +1430,12 @@ export type UnionTestCase = PartialA | PartialB;
 
 export type PartialA = {
   __typename: \\"PartialA\\";
-  prop?: string;
+  prop: string;
 };
 
 export type PartialB = {
   __typename: \\"PartialB\\";
-  prop?: string;
+  prop: string;
 };
 
 export type CustomScalarQuery = {
@@ -1476,23 +1476,23 @@ import { Observable } from \\"zen-observable-ts\\";
 export type Character = {
   __typename: \\"Character\\";
   // The ID of the character
-  id?: string;
+  id: string;
   // The name of the character
-  name?: string;
+  name: string;
   // The friends of the character, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the character exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this character appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
 };
 
 export type Human = {
   __typename: \\"Human\\";
   // The ID of the human
-  id?: string;
+  id: string;
   // What this human calls themselves
-  name?: string;
+  name: string;
   // The home planet of the human, or null if unknown
   homePlanet?: string | null;
   // Height in the preferred unit, default is meters
@@ -1502,9 +1502,9 @@ export type Human = {
   // This human's friends, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the human exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this human appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
   // A list of starships this person has piloted, or an empty list if none
   starships?: Array<Starship | null> | null;
 };
@@ -1518,13 +1518,13 @@ export type FriendsConnection = {
   // A list of the friends, as a convenience when edges are not needed.
   friends?: Array<Character | null> | null;
   // Information for paginating this connection
-  pageInfo?: PageInfo;
+  pageInfo: PageInfo;
 };
 
 export type FriendsEdge = {
   __typename: \\"FriendsEdge\\";
   // A cursor used for pagination
-  cursor?: string;
+  cursor: string;
   // The character represented by this friendship edge
   node?: Character;
 };
@@ -1533,7 +1533,7 @@ export type PageInfo = {
   __typename: \\"PageInfo\\";
   startCursor?: string | null;
   endCursor?: string | null;
-  hasNextPage?: boolean;
+  hasNextPage: boolean;
 };
 
 // The episodes in the Star Wars trilogy
@@ -1546,9 +1546,9 @@ export enum Episode {
 export type Starship = {
   __typename: \\"Starship\\";
   // The ID of the starship
-  id?: string;
+  id: string;
   // The name of the starship
-  name?: string;
+  name: string;
   // Length of the starship, along the longest axis
   length?: number | null;
   coordinates?: Array<Array<number>> | null;
@@ -1557,15 +1557,15 @@ export type Starship = {
 export type Droid = {
   __typename: \\"Droid\\";
   // The ID of the droid
-  id?: string;
+  id: string;
   // What others call this droid
-  name?: string;
+  name: string;
   // This droid's friends, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the droid exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this droid appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
   // This droid's primary function
   primaryFunction?: string | null;
 };
@@ -1617,15 +1617,15 @@ import { Observable } from \\"zen-observable-ts\\";
 export type Droid = {
   __typename: \\"Droid\\";
   // The ID of the droid
-  id?: string;
+  id: string;
   // What others call this droid
-  name?: string;
+  name: string;
   // This droid's friends, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the droid exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this droid appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
   // This droid's primary function
   primaryFunction?: string | null;
 };
@@ -1633,23 +1633,23 @@ export type Droid = {
 export type Character = {
   __typename: \\"Character\\";
   // The ID of the character
-  id?: string;
+  id: string;
   // The name of the character
-  name?: string;
+  name: string;
   // The friends of the character, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the character exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this character appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
 };
 
 export type Human = {
   __typename: \\"Human\\";
   // The ID of the human
-  id?: string;
+  id: string;
   // What this human calls themselves
-  name?: string;
+  name: string;
   // The home planet of the human, or null if unknown
   homePlanet?: string | null;
   // Height in the preferred unit, default is meters
@@ -1659,9 +1659,9 @@ export type Human = {
   // This human's friends, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the human exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this human appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
   // A list of starships this person has piloted, or an empty list if none
   starships?: Array<Starship | null> | null;
 };
@@ -1675,13 +1675,13 @@ export type FriendsConnection = {
   // A list of the friends, as a convenience when edges are not needed.
   friends?: Array<Character | null> | null;
   // Information for paginating this connection
-  pageInfo?: PageInfo;
+  pageInfo: PageInfo;
 };
 
 export type FriendsEdge = {
   __typename: \\"FriendsEdge\\";
   // A cursor used for pagination
-  cursor?: string;
+  cursor: string;
   // The character represented by this friendship edge
   node?: Character;
 };
@@ -1690,7 +1690,7 @@ export type PageInfo = {
   __typename: \\"PageInfo\\";
   startCursor?: string | null;
   endCursor?: string | null;
-  hasNextPage?: boolean;
+  hasNextPage: boolean;
 };
 
 // The episodes in the Star Wars trilogy
@@ -1703,9 +1703,9 @@ export enum Episode {
 export type Starship = {
   __typename: \\"Starship\\";
   // The ID of the starship
-  id?: string;
+  id: string;
   // The name of the starship
-  name?: string;
+  name: string;
   // Length of the starship, along the longest axis
   length?: number | null;
   coordinates?: Array<Array<number>> | null;
@@ -1752,9 +1752,9 @@ import { Observable } from \\"zen-observable-ts\\";
 export type Human = {
   __typename: \\"Human\\";
   // The ID of the human
-  id?: string;
+  id: string;
   // What this human calls themselves
-  name?: string;
+  name: string;
   // The home planet of the human, or null if unknown
   homePlanet?: string | null;
   // Height in the preferred unit, default is meters
@@ -1764,9 +1764,9 @@ export type Human = {
   // This human's friends, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the human exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this human appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
   // A list of starships this person has piloted, or an empty list if none
   starships?: Array<Starship | null> | null;
 };
@@ -1774,29 +1774,29 @@ export type Human = {
 export type Character = {
   __typename: \\"Character\\";
   // The ID of the character
-  id?: string;
+  id: string;
   // The name of the character
-  name?: string;
+  name: string;
   // The friends of the character, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the character exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this character appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
 };
 
 export type Droid = {
   __typename: \\"Droid\\";
   // The ID of the droid
-  id?: string;
+  id: string;
   // What others call this droid
-  name?: string;
+  name: string;
   // This droid's friends, or an empty list if they have none
   friends?: Array<Character | null> | null;
   // The friends of the droid exposed as a connection with edges
-  friendsConnection?: FriendsConnection;
+  friendsConnection: FriendsConnection;
   // The movies this droid appears in
-  appearsIn?: Array<Episode | null>;
+  appearsIn: Array<Episode | null>;
   // This droid's primary function
   primaryFunction?: string | null;
 };
@@ -1810,13 +1810,13 @@ export type FriendsConnection = {
   // A list of the friends, as a convenience when edges are not needed.
   friends?: Array<Character | null> | null;
   // Information for paginating this connection
-  pageInfo?: PageInfo;
+  pageInfo: PageInfo;
 };
 
 export type FriendsEdge = {
   __typename: \\"FriendsEdge\\";
   // A cursor used for pagination
-  cursor?: string;
+  cursor: string;
   // The character represented by this friendship edge
   node?: Character;
 };
@@ -1825,7 +1825,7 @@ export type PageInfo = {
   __typename: \\"PageInfo\\";
   startCursor?: string | null;
   endCursor?: string | null;
-  hasNextPage?: boolean;
+  hasNextPage: boolean;
 };
 
 // The episodes in the Star Wars trilogy
@@ -1838,9 +1838,9 @@ export enum Episode {
 export type Starship = {
   __typename: \\"Starship\\";
   // The ID of the starship
-  id?: string;
+  id: string;
   // The name of the starship
-  name?: string;
+  name: string;
   // Length of the starship, along the longest axis
   length?: number | null;
   coordinates?: Array<Array<number>> | null;
