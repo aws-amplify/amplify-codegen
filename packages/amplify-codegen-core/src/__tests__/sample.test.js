@@ -47,7 +47,7 @@ jest.mock('amplify-cli-core', () => {
 
 const MOCK_INCLUDE_PATH = 'MOCK_INCLUDE';
 const MOCK_EXCLUDE_PATH = 'MOCK_EXCLUDE';
-const MOCK_QUERIES = ['/Users/sadiredd/amplify-cli-typescript/src/graphql/subscriptions.ts'];
+const MOCK_QUERIES = ['src/subscriptions.ts'];
 const MOCK_SCHEMA = 'INTROSPECTION_SCHEMA.JSON';
 const MOCK_TARGET = 'TYPE_SCRIPT_OR_FLOW_OR_ANY_OTHER_LANGUAGE';
 const MOCK_GENERATED_FILE_NAME = 'API.TS';
