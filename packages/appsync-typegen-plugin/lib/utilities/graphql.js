@@ -64,7 +64,6 @@ function withTypenameFieldAddedWhereNeeded(ast) {
           },
         };
       } else {
-        return undefined;
       }
     },
   });

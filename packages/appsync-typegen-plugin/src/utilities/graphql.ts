@@ -97,7 +97,6 @@ export function withTypenameFieldAddedWhereNeeded(ast: ASTNode) {
           },
         };
       } else {
-        return undefined;
       }
     },
   });

@@ -5,8 +5,6 @@ const { parse } = require('graphql');
 const loadConfig = require('../../amplify-codegen/src/codegen-config');
 
 const { getTypesGenPluginPackage } = require('./utils/getTypesGenPluginPackage');
-// const { loadSchema } = require('./utils/loadSchema');
-// const { validateSchema } = require('./utils/loadSchema');
 const gqlCodeGen = require('@graphql-codegen/core');
 
 const platformToLanguageMap = {
@@ -88,7 +86,7 @@ async function generateTypesWithPlugin(context) {
   });
 
   const generatedCode = await Promise.all(codeGenPromises);
-  // context.print.info(`Generated types from plugin generator: ${generatedCode}`);
+  context.print.info(`Generated types from plugin generator: ${generatedCode}`);
 }
 
 function loadSchema(apiResourcePath) {
