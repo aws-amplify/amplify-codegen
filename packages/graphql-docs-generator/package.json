@@ -52,9 +52,6 @@
     "testURL": "http://localhost",
     "testRegex": "(src/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "collectCoverage": true,
-    "collectCoverageFrom": [
-      "src/**/*.ts"
-    ],
     "moduleFileExtensions": [
       "ts",
       "tsx",
