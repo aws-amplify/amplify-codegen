@@ -361,7 +361,7 @@ export function propertyFromField(
   }
 
   if (isCompositeType(namedType)) {
-    const typeName = namedType.toString();
+    let typeName = namedType.toString();
     let isArray = false;
     let isArrayElementNullable = null;
     if (isListType(fieldType)) {
@@ -370,6 +370,8 @@ export function propertyFromField(
     } else if (isNonNullType(fieldType) && isListType(fieldType.ofType)) {
       isArray = true;
       isArrayElementNullable = !isNonNullType(fieldType.ofType.ofType);
+    } else if (!isNonNullType(fieldType)) {
+      typeName = typeNameFromGraphQLType(context, fieldType, null, isNullable);
     }
 
     return {

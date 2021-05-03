@@ -68,7 +68,7 @@ export type FriendsEdge = {
   // A cursor used for pagination
   cursor: string;
   // The character represented by this friendship edge
-  node?: Character;
+  node?: Character | null;
 };
 
 export type PageInfo = {
@@ -230,7 +230,7 @@ export type FriendsEdge = {
   // A cursor used for pagination
   cursor: string;
   // The character represented by this friendship edge
-  node?: Character;
+  node?: Character | null;
 };
 
 export type PageInfo = {
@@ -529,7 +529,7 @@ export type FriendsEdge = {
   // A cursor used for pagination
   cursor: string;
   // The character represented by this friendship edge
-  node?: Character;
+  node?: Character | null;
 };
 
 export type PageInfo = {
@@ -678,7 +678,7 @@ export type FriendsEdge = {
   // A cursor used for pagination
   cursor: string;
   // The character represented by this friendship edge
-  node?: Character;
+  node?: Character | null;
 };
 
 export type PageInfo = {
@@ -899,7 +899,7 @@ export type FriendsEdge = {
   // A cursor used for pagination
   cursor: string;
   // The character represented by this friendship edge
-  node?: Character;
+  node?: Character | null;
 };
 
 export type PageInfo = {
@@ -1035,7 +1035,7 @@ export type FriendsEdge = {
   // A cursor used for pagination
   cursor: string;
   // The character represented by this friendship edge
-  node?: Character;
+  node?: Character | null;
 };
 
 export type PageInfo = {
@@ -1526,7 +1526,7 @@ export type FriendsEdge = {
   // A cursor used for pagination
   cursor: string;
   // The character represented by this friendship edge
-  node?: Character;
+  node?: Character | null;
 };
 
 export type PageInfo = {
@@ -1683,7 +1683,7 @@ export type FriendsEdge = {
   // A cursor used for pagination
   cursor: string;
   // The character represented by this friendship edge
-  node?: Character;
+  node?: Character | null;
 };
 
 export type PageInfo = {
@@ -1818,7 +1818,7 @@ export type FriendsEdge = {
   // A cursor used for pagination
   cursor: string;
   // The character represented by this friendship edge
-  node?: Character;
+  node?: Character | null;
 };
 
 export type PageInfo = {
