@@ -96,7 +96,6 @@ export function withTypenameFieldAddedWhereNeeded(ast: ASTNode) {
             selections: [typenameField, ...node.selectionSet.selections],
           },
         };
-      } else {
       }
     },
   });

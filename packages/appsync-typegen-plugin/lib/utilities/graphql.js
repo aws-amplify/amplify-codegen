@@ -63,7 +63,6 @@ function withTypenameFieldAddedWhereNeeded(ast) {
             selections: [typenameField, ...node.selectionSet.selections],
           },
         };
-      } else {
       }
     },
   });
