@@ -43,6 +43,7 @@
   },
   "jest": {
     "collectCoverage": true,
+    "testRegex": "(src/__tests__/.*.test.js)$",
     "testURL": "http://localhost",
     "moduleFileExtensions": [
       "js",
