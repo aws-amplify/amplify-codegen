@@ -38,8 +38,8 @@ install_cli_with_local_codegen: &install_cli
     git config user.email not@used.com
     git config user.name "Doesnt Matter"
     yarn verdaccio-publish || yarn verdaccio-publish
-    sudo npm i -g @aws-amplify/cli --registry $local_registry || npm i -g @aws-amplify/cli --registry $local_registry
-    sudo npm i -g amplify-app --registry $local_registry || npm i -g amplify-app --registry $local_registry
+    sudo npm i -g @aws-amplify/cli --registry $local_registry
+    sudo npm i -g amplify-app --registry $local_registry
     amplify -v
     amplify-app --version
     unsetNpmRegistryUrl
