@@ -536,9 +536,8 @@ export class AppSyncModelVisitor<
       isNullable: true,
       isReadOnly: true,
     };
+    //If the field is defined explicitly, the default value will not override
     addFieldToModel(model, createdAtField);
-    //updated field will always be override
-    removeFieldFromModel(model, updatedAtField.name);
     addFieldToModel(model, updatedAtField);
   }
 

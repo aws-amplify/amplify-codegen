@@ -546,7 +546,7 @@ describe('AppSyncModelVisitor', () => {
       const updatedAtField = postFields.find(field => field.name === 'updatedOn');
       expect(updatedAtField).toMatchObject(updatedAtFieldObj);
     });
-    it('should not override original fields if user define them explicitly in schema except for update', () => {
+    it('should not override original fields if user define them explicitly in schema', () => {
       const schema = /* GraphQL */ `
         type Post @model {
           id: ID!
@@ -564,8 +564,7 @@ describe('AppSyncModelVisitor', () => {
         name: 'updatedAt',
         type: 'AWSDateTime',
         isList: false,
-        isNullable: true,
-        isReadOnly: true,
+        isNullable: false,
       };
       const visitor = createAndGenerateVisitor(schema);
       expect(visitor.models.Post).toBeDefined();
@@ -595,8 +594,7 @@ describe('AppSyncModelVisitor', () => {
         name: 'updatedOn',
         type: 'AWSDateTime',
         isList: false,
-        isNullable: true,
-        isReadOnly: true,
+        isNullable: false,
       };
       const visitor = createAndGenerateVisitor(schema);
       expect(visitor.models.Post).toBeDefined();
