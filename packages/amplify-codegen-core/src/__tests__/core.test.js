@@ -1,6 +1,6 @@
 const { sync } = require('glob-all');
 const path = require('path');
-// const { generateSource } = require('@aws-amplify/appsync-typegen-plugin/src/typescript');
+// const coreCodegen = require('@aws-amplify/appsync-typegen-plugin');
 const fs = require('fs-extra');
 
 const loadConfig = require('../../../amplify-codegen/src/codegen-config');
@@ -156,12 +156,12 @@ describe('command - types', () => {
   //   expect(sync).not.toHaveBeenCalled();
   // });
 
-  // it('should not generate type when generatedFileName is missing', async () => {
-  //   MOCK_PROJECT.amplifyExtension.generatedFileName = '';
-  //   await generateTypes(MOCK_CONTEXT, true);
-  //   expect(generate).not.toHaveBeenCalled();
-  //   expect(sync).not.toHaveBeenCalled();
-  // });
+  it('should not generate type when generatedFileName is missing', async () => {
+    MOCK_PROJECT.amplifyExtension.generatedFileName = '';
+    await generateTypes(MOCK_CONTEXT, true);
+    // expect(generate).not.toHaveBeenCalled();
+    expect(sync).not.toHaveBeenCalled();
+  });
 });
 
 function addMocksToContext() {

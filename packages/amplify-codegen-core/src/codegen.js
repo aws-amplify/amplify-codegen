@@ -44,6 +44,9 @@ async function generateTypesWithPlugin(context) {
   // Generated filename:
   const config = loadConfig(context).getProjects();
   const { generatedFileName } = config[0].amplifyExtension || {};
+  if (!generatedFileName || generatedFileName === '') {
+    return;
+  }
   const outputPath = path.join(projectRoot, generatedFileName);
 
   // Absence of this variable doesnt let a call into type generator plugin:
@@ -71,8 +74,8 @@ async function generateTypesWithPlugin(context) {
     },
   });
 
-  const codeGenPromises = appsyncLocalConfig.map(cfg => {
-    return gqlCodeGen.codegen({
+  const codeGenPromises = appsyncLocalConfig.map(cfg =>
+    gqlCodeGen.codegen({
       ...cfg,
       plugins: [
         {
@@ -82,8 +85,8 @@ async function generateTypesWithPlugin(context) {
       pluginMap: {
         appSyncLocalCodeGen: codegenPlugin,
       },
-    });
-  });
+    }),
+  );
 
   const generatedCode = await Promise.all(codeGenPromises);
   context.print.info(`Generated types from plugin generator: ${generatedCode}`);
