@@ -4,11 +4,21 @@ import { lowerCaseFirst } from 'lower-case-first';
 import { schemaTypeMap } from '../configs/swift-config';
 import { SwiftDeclarationBlock, escapeKeywords, ListType } from '../languages/swift-declaration-block';
 import { CodeGenConnectionType } from '../utils/process-connections';
-import { AppSyncModelVisitor, CodeGenField, CodeGenGenerateEnum, CodeGenModel } from './appsync-visitor';
+import {
+  AppSyncModelVisitor,
+  CodeGenField,
+  CodeGenGenerateEnum,
+  CodeGenModel,
+  RawAppSyncModelConfig,
+  ParsedAppSyncModelConfig,
+} from './appsync-visitor';
 import { AuthDirective, AuthStrategy } from '../utils/process-auth';
 import { printWarning } from '../utils/warn';
 
-export class AppSyncSwiftVisitor extends AppSyncModelVisitor {
+export class AppSyncSwiftVisitor<
+  TRawConfig extends RawAppSyncModelConfig = RawAppSyncModelConfig,
+  TPluginConfig extends ParsedAppSyncModelConfig = ParsedAppSyncModelConfig
+> extends AppSyncModelVisitor<TRawConfig, TPluginConfig> {
   protected modelExtensionImports: string[] = ['import Amplify', 'import Foundation'];
   protected imports: string[] = ['import Amplify', 'import Foundation'];
   generate(): string {

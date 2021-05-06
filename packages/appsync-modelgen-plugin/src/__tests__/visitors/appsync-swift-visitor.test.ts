@@ -13,7 +13,7 @@ const getVisitor = (schema: string, selectedType?: string, generate: CodeGenGene
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncSwiftVisitor(
     builtSchema,
-    { directives, target: 'swift', scalars: SWIFT_SCALAR_MAP },
+    { directives, target: 'swift', scalars: SWIFT_SCALAR_MAP, isTimestampFieldsAdded: true },
     { selectedType, generate },
   );
   visit(ast, { leave: visitor });

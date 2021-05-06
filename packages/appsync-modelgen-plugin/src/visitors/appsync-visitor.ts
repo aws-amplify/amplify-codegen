@@ -96,6 +96,12 @@ export interface RawAppSyncModelConfig extends RawConfig {
    * @descriptions optional string which includes directive definition and types used by directives. The types defined in here won't make it to output
    */
   directives?: string;
+  /**
+   * @name directives
+   * @type boolean
+   * @descriptions optional boolean which adds the read-only timestamp fields or not
+   */
+  isTimestampFieldsAdded?: boolean;
 }
 
 // Todo: need to figure out how to share config
@@ -103,6 +109,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   selectedType?: string;
   generate?: CodeGenGenerateEnum;
   target?: string;
+  isTimestampFieldsAdded?: boolean;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
 
@@ -168,6 +175,7 @@ export class AppSyncModelVisitor<
       ...additionalConfig,
       scalars: buildScalars(_schema, rawConfig.scalars || '', defaultScalars),
       target: rawConfig.target,
+      isTimestampFieldsAdded: rawConfig.isTimestampFieldsAdded,
     });
 
     const typesUsedInDirectives: string[] = [];
@@ -512,6 +520,9 @@ export class AppSyncModelVisitor<
    * @param model
    */
   protected addTimestampFields(model: CodeGenModel, directive: CodeGenDirective): void {
+    if (!this.config.isTimestampFieldsAdded) {
+      return;
+    }
     const target = this.config.target;
     if (target === 'javascript' || target === 'dart' || target === 'metadata') {
       return;

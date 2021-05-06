@@ -10,7 +10,11 @@ const buildSchemaWithDirectives = (schema: String) => {
 const createAndGenerateVisitor = (schema: string) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
-  const visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'general' }, { generate: CodeGenGenerateEnum.code });
+  const visitor = new AppSyncModelVisitor(
+    builtSchema,
+    { directives, target: 'general', isTimestampFieldsAdded: true },
+    { generate: CodeGenGenerateEnum.code },
+  );
   visit(ast, { leave: visitor });
   visitor.generate();
   return visitor;

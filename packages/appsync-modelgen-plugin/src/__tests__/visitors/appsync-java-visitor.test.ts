@@ -14,7 +14,7 @@ const getVisitor = (schema: string, selectedType?: string, generate: CodeGenGene
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelJavaVisitor(
     builtSchema,
-    { directives, target: 'android', generate, scalars: JAVA_SCALAR_MAP },
+    { directives, target: 'android', generate, scalars: JAVA_SCALAR_MAP, isTimestampFieldsAdded: true },
     { selectedType },
   );
   visit(ast, { leave: visitor });
@@ -276,15 +276,11 @@ describe('AppSyncModelVisitor', () => {
 
     it('should generate class with default field auth', () => {
       const schema = /* GraphQL */ `
-        type Employee @model
-        @auth(rules: [
-            { allow: owner },
-            { allow: groups, groups: ["Admins"] }
-        ]) {
+        type Employee @model @auth(rules: [{ allow: owner }, { allow: groups, groups: ["Admins"] }]) {
           id: ID!
           name: String!
           address: String!
-          ssn: String @auth(rules: [{allow: owner}])
+          ssn: String @auth(rules: [{ allow: owner }])
         }
       `;
       const visitor = getVisitor(schema, 'Employee');
