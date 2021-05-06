@@ -3,9 +3,9 @@ machine:
   environment:
     PATH: '${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin'
 executors:
-  linux_node10:
+  linux_node12:
     docker:
-      - image: circleci/node:10
+      - image: circleci/node:12
     resource_class: large
   linux_node15:
     docker:
@@ -143,19 +143,19 @@ workflows:
           name: build-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux_node15, linux_node10, windows_node12, macos_node12]
+              os: [linux_node15, linux_node12, windows_node12, macos_node12]
       - test:
           name: test-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux_node15, linux_node10, windows_node12, macos_node12]
+              os: [linux_node15, linux_node12, windows_node12, macos_node12]
           requires:
             - build-<< matrix.os >>
       - e2e-test:
           name: e2e-test-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux_node15, linux_node10]
+              os: [linux_node15, linux_node12]
           requires:
             - build-<< matrix.os >>
             - test-<< matrix.os >>
