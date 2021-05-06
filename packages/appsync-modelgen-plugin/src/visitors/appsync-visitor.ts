@@ -524,7 +524,7 @@ export class AppSyncModelVisitor<
       return;
     }
     const target = this.config.target;
-    if (target === 'javascript' || target === 'dart' || target === 'metadata') {
+    if (target === 'dart') {
       return;
     }
     if (directive.name !== 'model') {
