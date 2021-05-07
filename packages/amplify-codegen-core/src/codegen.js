@@ -58,6 +58,9 @@ async function generateTypesWithPlugin(context) {
 
   // new
   const includeFiles = config[0].includes;
+  if (includeFiles.length === 0) {
+    return;
+  }
   const excludes = config[0].excludes.map(pattern => `!${pattern}`);
   const queries = glob.sync([...includeFiles, ...excludes], {
     cwd: projectRoot,

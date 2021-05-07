@@ -90,7 +90,7 @@ describe('command - types', () => {
     getAppSyncAPIDetails.mockReturnValue(MOCK_APIS);
   });
 
-  it('should generate types in sample', async () => {
+  it('should generate types in codegen core', async () => {
     const forceDownload = false;
     MOCK_CONTEXT.amplify.getProjectConfig.mockReturnValue({ frontend: 'javascript' });
     await generateTypes(MOCK_CONTEXT, forceDownload);
@@ -149,12 +149,12 @@ describe('command - types', () => {
   //   expect(MOCK_CONTEXT.print.info).toHaveBeenCalledWith(constants.ERROR_CODEGEN_NO_API_CONFIGURED);
   // });
 
-  // it('should not generate types when includePattern is empty', async () => {
-  //   MOCK_PROJECT.includes = [];
-  //   await generateTypes(MOCK_CONTEXT, true);
-  //   expect(generate).not.toHaveBeenCalled();
-  //   expect(sync).not.toHaveBeenCalled();
-  // });
+  it('should not generate types when includePattern is empty', async () => {
+    MOCK_PROJECT.includes = [];
+    await generateTypes(MOCK_CONTEXT, true);
+    // expect(generate).not.toHaveBeenCalled();
+    expect(sync).not.toHaveBeenCalled();
+  });
 
   it('should not generate type when generatedFileName is missing', async () => {
     MOCK_PROJECT.amplifyExtension.generatedFileName = '';
