@@ -3,6 +3,7 @@ const glob = require('glob-all');
 const path = require('path');
 const { parse } = require('graphql');
 const loadConfig = require('../../amplify-codegen/src/codegen-config');
+const constants = require('../../amplify-codegen/src/constants');
 
 const { getTypesGenPluginPackage } = require('./utils/getTypesGenPluginPackage');
 const gqlCodeGen = require('@graphql-codegen/core');
@@ -14,7 +15,7 @@ const platformToLanguageMap = {
   javascript: 'javascript',
 };
 
-async function generateTypesWithPlugin(context) {
+async function generateTypesWithPlugin(context, withoutInit = false) {
   let projectRoot;
   try {
     context.amplify.getProjectMeta();
@@ -43,6 +44,12 @@ async function generateTypesWithPlugin(context) {
 
   // Generated filename:
   const config = loadConfig(context).getProjects();
+  if (!config.length) {
+    if (!withoutInit) {
+      context.print.info(constants.ERROR_CODEGEN_NO_API_CONFIGURED);
+      return;
+    }
+  }
   const { generatedFileName } = config[0].amplifyExtension || {};
   if (!generatedFileName || generatedFileName === '') {
     return;

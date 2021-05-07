@@ -1,12 +1,11 @@
 const { sync } = require('glob-all');
 const path = require('path');
-// const coreCodegen = require('@aws-amplify/appsync-typegen-plugin');
 const fs = require('fs-extra');
 
 const loadConfig = require('../../../amplify-codegen/src/codegen-config');
 const generateTypes = require('../codegen');
 const constants = require('../../../amplify-codegen/src/constants');
-const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails } = require('../../../amplify-codegen/src/utils');
+const { getFrontEndHandler, getAppSyncAPIDetails } = require('../../../amplify-codegen/src/utils');
 
 const MOCK_CONTEXT = {
   print: {
@@ -94,72 +93,26 @@ describe('command - types', () => {
     const forceDownload = false;
     MOCK_CONTEXT.amplify.getProjectConfig.mockReturnValue({ frontend: 'javascript' });
     await generateTypes(MOCK_CONTEXT, forceDownload);
-    // expect(getFrontEndHandler).toHaveBeenCalledWith(MOCK_CONTEXT);
-    // expect(loadConfig).toHaveBeenCalledWith(MOCK_CONTEXT, false);
     expect(sync).toHaveBeenCalledWith([MOCK_INCLUDE_PATH, `!${MOCK_EXCLUDE_PATH}`], { cwd: MOCK_PROJECT_ROOT, absolute: true });
-    // expect(plugin).toHaveBeenCalledWith(
-    //   MOCK_QUERIES,
-    //   path.join(MOCK_PROJECT_ROOT, MOCK_SCHEMA),
-    //   path.join(MOCK_PROJECT_ROOT, MOCK_GENERATED_FILE_NAME),
-    //   '',
-    //   MOCK_TARGET,
-    //   '',
-    //   { addTypename: true, complexObjectSupport: 'auto' }
-    // );
-    // expect(generateSource).toHaveBeenCalled();
   });
 
-  // it('should not generate type if the frontend is android', async () => {
-  //   const forceDownload = false;
-  //   getFrontEndHandler.mockReturnValue('android');
-  //   await generateTypes(MOCK_CONTEXT, forceDownload);
-  //   expect(generate).not.toHaveBeenCalled();
-  // });
-
-  // it('should download the schema if forceDownload flag is passed', async () => {
-  //   const forceDownload = true;
-  //   await generateTypes(MOCK_CONTEXT, forceDownload);
-  //   expect(ensureIntrospectionSchema).toHaveBeenCalledWith(
-  //     MOCK_CONTEXT,
-  //     path.join(MOCK_PROJECT_ROOT, MOCK_SCHEMA),
-  //     MOCK_APIS[0],
-  //     MOCK_REGION,
-  //     forceDownload
-  //   );
-  // });
-
-  // it('should download the schema if the schema file is missing', async () => {
-  //   fs.existsSync.mockReturnValue(false);
-  //   const forceDownload = false;
-  //   await generateTypes(MOCK_CONTEXT, forceDownload);
-  //   expect(ensureIntrospectionSchema).toHaveBeenCalledWith(
-  //     MOCK_CONTEXT,
-  //     path.join(MOCK_PROJECT_ROOT, MOCK_SCHEMA),
-  //     MOCK_APIS[0],
-  //     MOCK_REGION,
-  //     forceDownload
-  //   );
-  // });
-
-  // it('should show a warning if there are no projects configured', async () => {
-  //   loadConfig.mockReturnValue({
-  //     getProjects: jest.fn().mockReturnValue([]),
-  //   });
-  //   await generateTypes(MOCK_CONTEXT, false);
-  //   expect(MOCK_CONTEXT.print.info).toHaveBeenCalledWith(constants.ERROR_CODEGEN_NO_API_CONFIGURED);
-  // });
+  it('should show a warning if there are no projects configured', async () => {
+    loadConfig.mockReturnValue({
+      getProjects: jest.fn().mockReturnValue([]),
+    });
+    await generateTypes(MOCK_CONTEXT, false);
+    expect(MOCK_CONTEXT.print.info).toHaveBeenCalledWith(constants.ERROR_CODEGEN_NO_API_CONFIGURED);
+  });
 
   it('should not generate types when includePattern is empty', async () => {
     MOCK_PROJECT.includes = [];
     await generateTypes(MOCK_CONTEXT, true);
-    // expect(generate).not.toHaveBeenCalled();
     expect(sync).not.toHaveBeenCalled();
   });
 
   it('should not generate type when generatedFileName is missing', async () => {
     MOCK_PROJECT.amplifyExtension.generatedFileName = '';
     await generateTypes(MOCK_CONTEXT, true);
-    // expect(generate).not.toHaveBeenCalled();
     expect(sync).not.toHaveBeenCalled();
   });
 });
