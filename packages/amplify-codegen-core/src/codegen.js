@@ -100,6 +100,11 @@ async function generateTypesWithPlugin(context, withoutInit = false) {
 
   const generatedCode = await Promise.all(codeGenPromises);
   context.print.info(`Generated types from plugin generator: ${generatedCode}`);
+
+  /**
+   * TODO: Write to output file in outputPath
+   *
+   */
 }
 
 function loadSchema(apiResourcePath) {
