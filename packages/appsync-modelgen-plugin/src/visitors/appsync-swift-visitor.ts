@@ -4,11 +4,21 @@ import { lowerCaseFirst } from 'lower-case-first';
 import { schemaTypeMap } from '../configs/swift-config';
 import { SwiftDeclarationBlock, escapeKeywords, ListType } from '../languages/swift-declaration-block';
 import { CodeGenConnectionType } from '../utils/process-connections';
-import { AppSyncModelVisitor, CodeGenField, CodeGenGenerateEnum, CodeGenModel } from './appsync-visitor';
+import {
+  AppSyncModelVisitor,
+  CodeGenField,
+  CodeGenGenerateEnum,
+  CodeGenModel,
+  RawAppSyncModelConfig,
+  ParsedAppSyncModelConfig,
+} from './appsync-visitor';
 import { AuthDirective, AuthStrategy } from '../utils/process-auth';
 import { printWarning } from '../utils/warn';
 
-export class AppSyncSwiftVisitor extends AppSyncModelVisitor {
+export class AppSyncSwiftVisitor<
+  TRawConfig extends RawAppSyncModelConfig = RawAppSyncModelConfig,
+  TPluginConfig extends ParsedAppSyncModelConfig = ParsedAppSyncModelConfig
+> extends AppSyncModelVisitor<TRawConfig, TPluginConfig> {
   protected modelExtensionImports: string[] = ['import Amplify', 'import Foundation'];
   protected imports: string[] = ['import Amplify', 'import Foundation'];
   generate(): string {
@@ -46,12 +56,21 @@ export class AppSyncSwiftVisitor extends AppSyncModelVisitor {
           listType: field.isList ? listType : undefined,
         });
       });
-      const initImpl: string = this.getInitBody(obj.fields);
+      const initParams: CodeGenField[] = this.getWritableFields(obj);
+      const initImpl: string = `self.init(${indentMultiline(
+        obj.fields
+          .map(field => {
+            const fieldName = escapeKeywords(this.getFieldName(field));
+            return field.isReadOnly ? `${fieldName}: nil` : `${fieldName}: ${fieldName}`;
+          })
+          .join(',\n'),
+      ).trim()})`;
+      //public constructor
       structBlock.addClassMethod(
         'init',
         null,
         initImpl,
-        obj.fields.map(field => {
+        initParams.map(field => {
           const listType: ListType = field.connectionInfo ? ListType.LIST : ListType.ARRAY;
           return {
             name: this.getFieldName(field),
@@ -66,6 +85,28 @@ export class AppSyncSwiftVisitor extends AppSyncModelVisitor {
           };
         }),
         'public',
+        {},
+      );
+      //internal constructor
+      structBlock.addClassMethod(
+        'init',
+        null,
+        this.getInitBody(obj.fields),
+        obj.fields.map(field => {
+          const listType: ListType = field.connectionInfo ? ListType.LIST : ListType.ARRAY;
+          return {
+            name: this.getFieldName(field),
+            type: this.getNativeType(field),
+            value: field.name === 'id' ? 'UUID().uuidString' : undefined,
+            flags: {
+              optional: field.isNullable,
+              isList: field.isList,
+              isEnum: this.isEnumType(field),
+              listType: field.isList ? listType : undefined,
+            },
+          };
+        }),
+        'internal',
         {},
       );
       result.push(structBlock.string);
@@ -157,9 +198,7 @@ export class AppSyncSwiftVisitor extends AppSyncModelVisitor {
 
   generateModelSchema(name: string, model: CodeGenModel, extensionDeclaration: SwiftDeclarationBlock): void {
     const keysName = lowerCaseFirst(model.name);
-    const fields = model.fields.map(field => {
-      return this.generateFieldSchema(field, keysName);
-    });
+    const fields = model.fields.map(field => this.generateFieldSchema(field, keysName));
     const authRules = this.generateAuthRules(model);
     const closure = [
       '{ model in',
@@ -184,9 +223,7 @@ export class AppSyncSwiftVisitor extends AppSyncModelVisitor {
   }
 
   protected generateClassLoader(): string {
-    const structList = Object.values(this.modelMap).map(typeObj => {
-      return `${this.getModelName(typeObj)}.self`;
-    });
+    const structList = Object.values(this.modelMap).map(typeObj => `${this.getModelName(typeObj)}.self`);
 
     const result: string[] = [...this.modelExtensionImports, ''];
 
@@ -230,6 +267,7 @@ export class AppSyncSwiftVisitor extends AppSyncModelVisitor {
       return `.id()`;
     }
     let ofType;
+    let isReadOnly: string = '';
     const isEnumType = this.isEnumType(field);
     const isModelType = this.isModelType(field);
     const isNonModelType = this.isNonModelType(field);
@@ -272,7 +310,12 @@ export class AppSyncSwiftVisitor extends AppSyncModelVisitor {
       }
     }
 
-    const args = [`${name}`, `is: ${isRequired}`, `ofType: ${ofType}`].filter(arg => arg).join(', ');
+    //read-only fields
+    if (field.isReadOnly) {
+      isReadOnly = 'isReadOnly: true';
+    }
+
+    const args = [`${name}`, `is: ${isRequired}`, isReadOnly, `ofType: ${ofType}`].filter(arg => arg).join(', ');
     return `.field(${args})`;
   }
 
@@ -348,5 +391,9 @@ export class AppSyncSwiftVisitor extends AppSyncModelVisitor {
       return ['[', `${indentMultiline(rules.join(',\n'))}`, ']'].join('\n');
     }
     return '';
+  }
+
+  protected getWritableFields(model: CodeGenModel): CodeGenField[] {
+    return model.fields.filter(f => !f.isReadOnly);
   }
 }

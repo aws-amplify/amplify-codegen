@@ -96,12 +96,20 @@ export interface RawAppSyncModelConfig extends RawConfig {
    * @descriptions optional string which includes directive definition and types used by directives. The types defined in here won't make it to output
    */
   directives?: string;
+  /**
+   * @name directives
+   * @type boolean
+   * @descriptions optional boolean which adds the read-only timestamp fields or not
+   */
+  isTimestampFieldsAdded?: boolean;
 }
 
 // Todo: need to figure out how to share config
 export interface ParsedAppSyncModelConfig extends ParsedConfig {
   selectedType?: string;
   generate?: CodeGenGenerateEnum;
+  target?: string;
+  isTimestampFieldsAdded?: boolean;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
 
@@ -115,6 +123,7 @@ export type CodeGenField = TypeInfo & {
   name: string;
   directives: CodeGenDirectives;
   connectionInfo?: CodeGenFieldConnection;
+  isReadOnly?: boolean;
 };
 export type TypeInfo = {
   type: string;
@@ -143,6 +152,9 @@ export type CodeGenEnumValueMap = { [enumConvertedName: string]: string };
 
 export type CodeGenEnumMap = Record<string, CodeGenEnum>;
 
+const DEFAULT_CREATED_TIME = 'createdAt';
+const DEFAULT_UPDATED_TIME = 'updatedAt';
+
 export class AppSyncModelVisitor<
   TRawConfig extends RawAppSyncModelConfig = RawAppSyncModelConfig,
   TPluginConfig extends ParsedAppSyncModelConfig = ParsedAppSyncModelConfig
@@ -162,6 +174,8 @@ export class AppSyncModelVisitor<
     super(rawConfig, {
       ...additionalConfig,
       scalars: buildScalars(_schema, rawConfig.scalars || '', defaultScalars),
+      target: rawConfig.target,
+      isTimestampFieldsAdded: rawConfig.isTimestampFieldsAdded,
     });
 
     const typesUsedInDirectives: string[] = [];
@@ -187,7 +201,8 @@ export class AppSyncModelVisitor<
     }
     const directives = this.getDirectives(node.directives);
     const fields = (node.fields as unknown) as CodeGenField[];
-    if (directives.find(directive => directive.name === 'model')) {
+    const modelDirective = directives.find(directive => directive.name === 'model');
+    if (modelDirective) {
       // Todo: Add validation for each directives
       // @model would add the id: ID! if missing or throw error if there is an id of different type
       // @key check if fields listed in directives are present in the Object
@@ -199,6 +214,7 @@ export class AppSyncModelVisitor<
         fields,
       };
       this.ensureIdField(model);
+      this.addTimestampFields(model, modelDirective);
       this.sortFields(model);
       this.modelMap[node.name.value] = model;
     } else {
@@ -211,6 +227,7 @@ export class AppSyncModelVisitor<
       this.nonModelMap[node.name.value] = nonModel;
     }
   }
+
   FieldDefinition(node: FieldDefinitionNode): CodeGenField {
     const directive = this.getDirectives(node.directives);
     return {
@@ -496,6 +513,43 @@ export class AppSyncModelVisitor<
 
   protected pluralizeModelName(model: CodeGenModel): string {
     return plural(model.name);
+  }
+
+  /**
+   * Add timestamp fields createdAt, updatedAt(or equivalent fields) to model fields
+   * @param model
+   */
+  protected addTimestampFields(model: CodeGenModel, directive: CodeGenDirective): void {
+    if (!this.config.isTimestampFieldsAdded) {
+      return;
+    }
+    const target = this.config.target;
+    if (target === 'dart') {
+      return;
+    }
+    if (directive.name !== 'model') {
+      return;
+    }
+    const timestamps = directive.arguments.timestamps;
+    const createdAtField: CodeGenField = {
+      name: timestamps?.createdAt || DEFAULT_CREATED_TIME,
+      directives: [],
+      type: 'AWSDateTime',
+      isList: false,
+      isNullable: true,
+      isReadOnly: true,
+    };
+    const updatedAtField: CodeGenField = {
+      name: timestamps?.updatedAt || DEFAULT_UPDATED_TIME,
+      directives: [],
+      type: 'AWSDateTime',
+      isList: false,
+      isNullable: true,
+      isReadOnly: true,
+    };
+    //If the field is defined explicitly, the default value will not override
+    addFieldToModel(model, createdAtField);
+    addFieldToModel(model, updatedAtField);
   }
 
   get models() {

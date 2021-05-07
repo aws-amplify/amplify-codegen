@@ -115,7 +115,7 @@ export enum ListType {
   ARRAY = 'ARRAY',
   LIST = 'LIST',
 }
-export type Access = 'private' | 'public' | 'DEFAULT';
+export type Access = 'private' | 'public' | 'internal' | 'DEFAULT';
 export type VariableFlags = {
   isList?: boolean;
   listType?: ListType;

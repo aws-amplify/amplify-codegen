@@ -1,16 +1,20 @@
 import { buildSchema, parse, visit } from 'graphql';
-import { directives } from '../../scalars/supported-directives';
+import { directives, scalars } from '../../scalars/supported-directives';
 import { CodeGenConnectionType, CodeGenFieldConnectionBelongsTo, CodeGenFieldConnectionHasMany } from '../../utils/process-connections';
-import { AppSyncModelVisitor, CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
+import { AppSyncModelVisitor, CodeGenField, CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
 
 const buildSchemaWithDirectives = (schema: String) => {
-  return buildSchema([schema, directives].join('\n'));
+  return buildSchema([schema, directives, scalars].join('\n'));
 };
 
 const createAndGenerateVisitor = (schema: string) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
-  const visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+  const visitor = new AppSyncModelVisitor(
+    builtSchema,
+    { directives, target: 'general', isTimestampFieldsAdded: true },
+    { generate: CodeGenGenerateEnum.code },
+  );
   visit(ast, { leave: visitor });
   visitor.generate();
   return visitor;
@@ -386,7 +390,7 @@ describe('AppSyncModelVisitor', () => {
       visitor.generate();
 
       const ssnField = visitor.models.Employee.fields.find(f => f.name === 'ssn');
-      const authDirective = ssnField.directives.find(d => d.name === 'auth');
+      const authDirective = ssnField?.directives.find(d => d.name === 'auth');
       expect(authDirective).toBeDefined();
       const authRules = authDirective!.arguments.rules;
       expect(authRules).toBeDefined();
@@ -401,7 +405,7 @@ describe('AppSyncModelVisitor', () => {
     });
   });
   describe('model less type', () => {
-    let visitor;
+    let visitor: AppSyncModelVisitor;
     beforeEach(() => {
       const schema = /* GraphQL */ `
         type Metadata {
@@ -437,6 +441,126 @@ describe('AppSyncModelVisitor', () => {
       expect(metadataFields[2].type).toEqual('Int');
       expect(metadataFields[2].isNullable).toEqual(false);
       expect(metadataFields[2].isList).toEqual(false);
+    });
+  });
+  describe('timestamps for model directive', () => {
+    it('should add timestamps fields in implicit cases', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          id: ID!
+        }
+      `;
+      const createdAtFieldObj = {
+        name: 'createdAt',
+        type: 'AWSDateTime',
+        isList: false,
+        isNullable: true,
+        isReadOnly: true,
+      };
+      const updatedAtFieldObj = {
+        name: 'updatedAt',
+        type: 'AWSDateTime',
+        isList: false,
+        isNullable: true,
+        isReadOnly: true,
+      };
+      const visitor = createAndGenerateVisitor(schema);
+      expect(visitor.models.Post).toBeDefined();
+
+      const postFields = visitor.models.Post.fields;
+      const createdAtField = postFields.find(field => field.name === 'createdAt');
+      expect(createdAtField).toMatchObject(createdAtFieldObj);
+      const updatedAtField = postFields.find(field => field.name === 'updatedAt');
+      expect(updatedAtField).toMatchObject(updatedAtFieldObj);
+    });
+    it('should add user defined timestamp fields in model directives', () => {
+      const schema = /* GraphQL */ `
+        type Post @model(timestamps: { createdAt: "createdOn", updatedAt: "updatedOn" }) {
+          id: ID!
+        }
+      `;
+      const createdAtFieldObj = {
+        name: 'createdOn',
+        type: 'AWSDateTime',
+        isList: false,
+        isNullable: true,
+        isReadOnly: true,
+      };
+      const updatedAtFieldObj = {
+        name: 'updatedOn',
+        type: 'AWSDateTime',
+        isList: false,
+        isNullable: true,
+        isReadOnly: true,
+      };
+      const visitor = createAndGenerateVisitor(schema);
+      expect(visitor.models.Post).toBeDefined();
+
+      const postFields = visitor.models.Post.fields;
+      const createdAtField = postFields.find(field => field.name === 'createdOn');
+      expect(createdAtField).toMatchObject(createdAtFieldObj);
+      const updatedAtField = postFields.find(field => field.name === 'updatedOn');
+      expect(updatedAtField).toMatchObject(updatedAtFieldObj);
+    });
+    it('should not override original fields if user define them explicitly in schema', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          id: ID!
+          createdAt: AWSDateTime!
+          updatedAt: AWSDateTime!
+        }
+      `;
+      const createdAtFieldObj = {
+        name: 'createdAt',
+        type: 'AWSDateTime',
+        isList: false,
+        isNullable: false,
+      };
+      const updatedAtFieldObj = {
+        name: 'updatedAt',
+        type: 'AWSDateTime',
+        isList: false,
+        isNullable: false,
+      };
+      const visitor = createAndGenerateVisitor(schema);
+      expect(visitor.models.Post).toBeDefined();
+
+      const postFields = visitor.models.Post.fields;
+      const createdAtField = postFields.find(field => field.name === 'createdAt');
+      expect(createdAtField).toMatchObject(createdAtFieldObj);
+      expect(createdAtField.isReadOnly).not.toBeDefined();
+      const updatedAtField = postFields.find(field => field.name === 'updatedAt');
+      expect(updatedAtField).toMatchObject(updatedAtFieldObj);
+    });
+    it('should not override original fields if users define them explicitly in schema and use timestamps params in @model', () => {
+      const schema = /* GraphQL */ `
+        type Post @model(timestamps: { createdAt: "createdOn", updatedAt: "updatedOn" }) {
+          id: ID!
+          createdOn: AWSDateTime!
+          updatedOn: AWSDateTime!
+        }
+      `;
+      const createdAtFieldObj = {
+        name: 'createdOn',
+        type: 'AWSDateTime',
+        isList: false,
+        isNullable: false,
+      };
+      const updatedAtFieldObj = {
+        name: 'updatedOn',
+        type: 'AWSDateTime',
+        isList: false,
+        isNullable: false,
+      };
+      const visitor = createAndGenerateVisitor(schema);
+      expect(visitor.models.Post).toBeDefined();
+
+      const postFields = visitor.models.Post.fields;
+      const createdAtField = postFields.find(field => field.name === 'createdOn');
+      expect(createdAtField).toMatchObject(createdAtFieldObj);
+      expect(createdAtField.isReadOnly).not.toBeDefined();
+      const updatedAtField = postFields.find(field => field.name === 'updatedOn');
+      expect(updatedAtField).toMatchObject(updatedAtFieldObj);
     });
   });
 });
