@@ -290,6 +290,21 @@ describe('AppSyncModelVisitor', () => {
       expect(generatedCode).toMatchSnapshot();
     });
 
+    it('should generate class with non-default providers', () => {
+      const schema = /* GraphQL */ `
+        type Employee @model @auth(rules: [{ allow: owner }, { allow: private, provider:"iam" } ]) {
+          id: ID!
+          name: String!
+          address: String!
+          ssn: String @auth(rules: [{ allow: groups, provider:"oidc", groups: ["Admins"] }])
+        }
+      `;
+      const visitor = getVisitor(schema, 'Employee');
+      const generatedCode = visitor.generate();
+      expect(() => validateJava(generatedCode)).not.toThrow();
+      expect(generatedCode).toMatchSnapshot();
+    });
+
     it('should generate class with private authorization and field auth', () => {
       const schema = /* GraphQL */ `
         type privateType @model @auth(rules: [{ allow: private }]) {

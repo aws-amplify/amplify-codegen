@@ -808,6 +808,9 @@ export class AppSyncModelJavaVisitor<
             printWarning(`Model has auth with authStrategy ${rule.allow} of which is not yet supported`);
             return;
         }
+        if (rule.provider != null) {
+            authRule.push(`provider = "${rule.provider}"`)
+        }
         authRule.push(`operations = { ${rule.operations?.map(op => operationMapping[op]).join(', ')} }`);
         rules.push(`@AuthRule(${authRule.join(', ')})`);
       });
