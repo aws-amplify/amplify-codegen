@@ -184,6 +184,7 @@ workflows:
             branches:
               only:
                 - e2e-testing
+                - split-e2e
       - e2e-test:
           os: linux_node15
           requires:
@@ -194,6 +195,7 @@ workflows:
             branches:
               only:
                 - e2e-testing
+                - split-e2e
       - deploy:
           os: linux_node15
           requires:
