@@ -3,14 +3,23 @@ machine:
   environment:
     PATH: '${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin'
 executors:
-  linux-node10:
+  linux_node12:
     docker:
-      - image: circleci/node:10
+      - image: circleci/node:12
     resource_class: large
-  linux-node15:
+  linux_node15:
     docker:
-      - image: circleci/node:15.0
+      - image: circleci/node:15
     resource_class: large
+  windows_node12:
+    machine:
+      image: 'windows-server-2019-vs2019:stable'
+      resource_class: windows.large
+      shell: bash.exe
+  macos_node12:
+    macos:
+      xcode: "11.2.1"
+      resource_class: large
 
 defaults: &defaults
   working_directory: ~/repo
@@ -22,7 +31,6 @@ install_cli_with_local_codegen: &install_cli
   name: install Amplify CLI and amplify-app with local Amplify Codegen
   command: |
     npm get prefix
-    echo $OLD_CLI_BINARY
     source .circleci/local_publish_helpers.sh
     local_registry=http://localhost:4873
     startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
@@ -30,8 +38,8 @@ install_cli_with_local_codegen: &install_cli
     git config user.email not@used.com
     git config user.name "Doesnt Matter"
     yarn verdaccio-publish || yarn verdaccio-publish
-    sudo npm install -g @aws-amplify/cli --registry $local_registry
-    sudo npm install -g amplify-app --registry $local_registry
+    sudo npm i -g @aws-amplify/cli --registry $local_registry
+    sudo npm i -g amplify-app --registry $local_registry
     amplify -v
     amplify-app --version
     unsetNpmRegistryUrl
@@ -55,11 +63,11 @@ jobs:
       - run: yarn cache clean --force
       - run: yarn run production-build
       - save_cache:
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache
       - save_cache:
-          key: amplify-codegen-ssh-deps-{{ .Branch }}
+          key: amplify-codegen-ssh-deps-{{ arch }}-{{ .Branch }}
           paths:
             - ~/.ssh
       - persist_to_workspace:
@@ -73,7 +81,7 @@ jobs:
       - attach_workspace:
           at: ./
       - restore_cache:
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
           name: Lint
           command: yarn lint
@@ -92,8 +100,8 @@ jobs:
           at: ./
       - restore_cache:
           keys:
-            - amplify-codegen-ssh-deps-{{ .Branch }}
-            - amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - amplify-codegen-ssh-deps-{{ arch }}-{{ .Branch }}
+            - amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
           name: Authenticate with npm
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
@@ -115,7 +123,7 @@ jobs:
       - attach_workspace:
           at: ./
       - restore_cache:
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run: *install_cli
       - run:
           name: Run e2e tests
@@ -135,28 +143,30 @@ workflows:
           name: build-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux-node15, linux-node10]
+              os: [linux_node15, linux_node12, windows_node12, macos_node12]
       - test:
           name: test-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux-node15, linux-node10]
+              os: [linux_node15, linux_node12, windows_node12, macos_node12]
           requires:
             - build-<< matrix.os >>
       - e2e-test:
           name: e2e-test-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux-node15, linux-node10]
+              os: [linux_node15, linux_node12]
           requires:
             - build-<< matrix.os >>
             - test-<< matrix.os >>
+          post-steps:
+            - run: *cleanup_e2e
           filters:
             branches:
               only:
                 - e2e-testing
       - deploy:
-          os: linux-node15
+          os: linux_node15
           requires:
             - build
             - test

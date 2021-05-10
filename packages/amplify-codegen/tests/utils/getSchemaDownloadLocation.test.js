@@ -21,7 +21,7 @@ const mockProjectConfig = {
 };
 const mockResDir = 'MOCK_RES_DIR/Res';
 const mockAPIName = 'FooAPI';
-const mockProjectRoot = '/home/user/project/proj1';
+const mockProjectRoot = join('home', 'user', 'project', 'proj1');
 
 const mockGetProjectConfigDefault = jest.fn();
 const mockGetProjectConfig = jest.fn();
