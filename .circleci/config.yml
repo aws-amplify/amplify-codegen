@@ -350,11 +350,7 @@ workflows:
           name: build-<< matrix.os >>
           matrix:
             parameters:
-              os:
-                - linux_node15
-                - linux_node12
-                - windows_node12
-                - macos_node12
+              os: [linux_node15, linux_node12, windows_node12, macos_node12]
       - test:
           name: test-<< matrix.os >>
           matrix:
