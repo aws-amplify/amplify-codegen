@@ -41,7 +41,7 @@ export async function testValidGraphQLConfig(
     projectRoot: string,
     config: AmplifyFrontendConfig,
     maxDepth?: number,
-    region: string = REGION,
+    region: string = process.env.CLI_REGION || REGION,
     isConfigured: boolean = false) {
     // graphql codegen configuration should exist
     expect(existsSync(getGraphQLConfigFilePath(projectRoot))).toBe(true);
