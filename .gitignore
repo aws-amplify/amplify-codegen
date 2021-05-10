@@ -13,6 +13,7 @@ package-lock.json
 packages/appsync-modelgen-plugin/lib
 packages/graphql-docs-generator/lib
 packages/graphql-types-generator/lib
+packages/appsync-typegen-plugin/lib
 packages/*/node_modules
 packages/*/package-lock.json
 **/.env
