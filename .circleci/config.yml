@@ -6,11 +6,11 @@ machine:
 executors:
   linux-node12:
     docker:
-      - image: 'circleci/node:12'
+      - image: circleci/node:12
     resource_class: large
   linux-node15:
     docker:
-      - image: 'circleci/node:15'
+      - image: circleci/node:15
     resource_class: large
   windows_node12:
     machine:
@@ -19,7 +19,7 @@ executors:
       shell: bash.exe
   macos_node12:
     macos:
-      xcode: 11.2.1
+      xcode: "11.2.1"
       resource_class: large
 defaults:
   working_directory: ~/repo
