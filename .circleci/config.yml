@@ -4,13 +4,13 @@ machine:
   environment:
     PATH: '${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin'
 executors:
-  linux-node12:
+  linux_node12:
     docker:
-      - image: circleci/node:12
+      - image: 'circleci/node:12'
     resource_class: large
-  linux-node15:
+  linux_node15:
     docker:
-      - image: circleci/node:15
+      - image: 'circleci/node:15'
     resource_class: large
   windows_node12:
     machine:
@@ -19,7 +19,7 @@ executors:
       shell: bash.exe
   macos_node12:
     macos:
-      xcode: "11.2.1"
+      xcode: 11.2.1
       resource_class: large
 defaults:
   working_directory: ~/repo
@@ -350,7 +350,11 @@ workflows:
           name: build-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux_node15, linux_node12, windows_node12, macos_node12]
+              os:
+                - linux_node15
+                - linux_node12
+                - windows_node12
+                - macos_node12
       - test:
           name: test-<< matrix.os >>
           matrix:

@@ -3,11 +3,11 @@ machine:
   environment:
     PATH: '${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin'
 executors:
-  linux-node12:
+  linux_node12:
     docker:
       - image: circleci/node:12
     resource_class: large
-  linux-node15:
+  linux_node15:
     docker:
       - image: circleci/node:15
     resource_class: large
