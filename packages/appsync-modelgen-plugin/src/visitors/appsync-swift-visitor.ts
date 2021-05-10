@@ -78,7 +78,8 @@ export class AppSyncSwiftVisitor<
       const structBlock: SwiftDeclarationBlock = new SwiftDeclarationBlock()
         .withName(this.getModelName(obj))
         .access('public')
-        .withProtocols(['Model']);
+        .withProtocols(['Model'])
+        .handleListNullabilityTransparently(this.config.handleListNullabilityTransparently);
       Object.entries(obj.fields).forEach(([fieldName, field]) => {
         const fieldType = this.getNativeType(field);
         const isVariable = field.name !== 'id';
@@ -181,7 +182,8 @@ export class AppSyncSwiftVisitor<
         .asKind('enum')
         .access('public')
         .withProtocols(['String', 'EnumPersistable'])
-        .withName(this.getEnumName(enumValue));
+        .withName(this.getEnumName(enumValue))
+        .handleListNullabilityTransparently(this.config.handleListNullabilityTransparently);
 
       Object.entries(enumValue.values).forEach(([name, value]) => {
         enumDeclaration.addEnumValue(name, value);
@@ -197,7 +199,8 @@ export class AppSyncSwiftVisitor<
       const structBlock: SwiftDeclarationBlock = new SwiftDeclarationBlock()
         .withName(this.getModelName(obj))
         .access('public')
-        .withProtocols(['Embeddable']);
+        .withProtocols(['Embeddable'])
+        .handleListNullabilityTransparently(this.config.handleListNullabilityTransparently);
       Object.values(obj.fields).forEach(field => {
         const fieldType = this.getNativeType(field);
         structBlock.addProperty(this.getFieldName(field), fieldType, undefined, 'DEFAULT', {
@@ -220,7 +223,10 @@ export class AppSyncSwiftVisitor<
     Object.values(this.getSelectedModels())
       .filter(m => m.type === 'model')
       .forEach(model => {
-        const schemaDeclarations = new SwiftDeclarationBlock().asKind('extension').withName(this.getModelName(model));
+        const schemaDeclarations = new SwiftDeclarationBlock()
+        .asKind('extension')
+        .withName(this.getModelName(model))
+        .handleListNullabilityTransparently(this.config.handleListNullabilityTransparently);
 
         this.generateCodingKeys(this.getModelName(model), model, schemaDeclarations),
           this.generateModelSchema(this.getModelName(model), model, schemaDeclarations);
@@ -229,7 +235,10 @@ export class AppSyncSwiftVisitor<
       });
 
     Object.values(this.getSelectedNonModels()).forEach(model => {
-      const schemaDeclarations = new SwiftDeclarationBlock().asKind('extension').withName(this.getNonModelName(model));
+      const schemaDeclarations = new SwiftDeclarationBlock()
+      .asKind('extension')
+      .withName(this.getNonModelName(model))
+      .handleListNullabilityTransparently(this.config.handleListNullabilityTransparently);
 
       this.generateCodingKeys(this.getNonModelName(model), model, schemaDeclarations),
         this.generateModelSchema(this.getNonModelName(model), model, schemaDeclarations);
@@ -245,7 +254,8 @@ export class AppSyncSwiftVisitor<
       .access('public')
       .withName('CodingKeys')
       .withProtocols(['String', 'ModelKey'])
-      .withComment('MARK: - CodingKeys');
+      .withComment('MARK: - CodingKeys')
+      .handleListNullabilityTransparently(this.config.handleListNullabilityTransparently);
 
     // AddEnums.name
     model.fields.forEach(field => codingKeyEnum.addEnumValue(this.getFieldName(field), field.name));
@@ -297,7 +307,8 @@ export class AppSyncSwiftVisitor<
       .asKind('class')
       .withProtocols(['AmplifyModelRegistration'])
       .final()
-      .withComment('Contains the set of classes that conforms to the `Model` protocol.');
+      .withComment('Contains the set of classes that conforms to the `Model` protocol.')
+      .handleListNullabilityTransparently(this.config.handleListNullabilityTransparently);
 
     classDeclaration.addProperty('version', 'String', `"${this.computeVersion()}"`, 'public', {});
     const body = structList.map(modelClass => `ModelRegistry.register(modelType: ${modelClass})`).join('\n');
@@ -338,8 +349,7 @@ export class AppSyncSwiftVisitor<
     const name = `${modelKeysName}.${this.getFieldName(field)}`;
     const typeName = this.getSwiftModelTypeName(field);
     const { connectionInfo } = field;
-    let isOptionalField = field.isList ? field.isListNullable : field.isNullable
-    const isRequired = !isOptionalField ? '.required' : '.optional';
+    const isRequired = this.isRequiredField(field) ? '.required' : '.optional';
     // connected field
     if (connectionInfo) {
       if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {

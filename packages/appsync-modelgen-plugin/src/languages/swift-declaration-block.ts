@@ -125,7 +125,7 @@ export type VariableFlags = {
 export type StructFlags = VariableFlags & { optional?: boolean; static?: boolean; isListNullable?: boolean };
 export type PropertyFlags = StructFlags;
 export type MethodFlags = { static?: boolean };
-export type DeclarationFlag = { final?: boolean };
+export type DeclarationFlag = { final?: boolean, handleListNullabilityTransparently?: boolean };
 export type Kind = 'class' | 'struct' | 'extension' | 'enum';
 export type VariableDeclaration = {
   value: string | undefined;
@@ -172,6 +172,11 @@ export class SwiftDeclarationBlock {
 
   final(isFinal: boolean = true): SwiftDeclarationBlock {
     this._flags.final = isFinal;
+    return this;
+  }
+
+  handleListNullabilityTransparently(handleListNullabilityTransparently?: boolean): SwiftDeclarationBlock {
+    this._flags.handleListNullabilityTransparently = handleListNullabilityTransparently;
     return this;
   }
 
@@ -338,9 +343,15 @@ export class SwiftDeclarationBlock {
   private generateArgsStr(args: MethodArgument[]): string {
     const res: string[] = args.reduce((acc: string[], arg) => {
       const type = arg.flags.isList ? this.getListType(arg) : escapeKeywords(arg.type);
-      const isArgOptional = arg.flags.isList ? arg.flags.isListNullable : arg.flags.optional
-      const val: string | null = arg.value ? arg.value : isArgOptional ? 'nil' : arg.flags.isList ? '[]' : null;
-      acc.push([escapeKeywords(arg.name), ': ', type, isArgOptional ? '?' : '', val ? ` = ${val}` : ''].join(''));
+      if (this._flags.handleListNullabilityTransparently) {
+        const isArgOptional = arg.flags.isList ? arg.flags.isListNullable : arg.flags.optional
+        const val: string | null = arg.value ? arg.value : isArgOptional ? 'nil' : arg.flags.isList ? '[]' : null;
+        acc.push([escapeKeywords(arg.name), ': ', type, isArgOptional ? '?' : '', val ? ` = ${val}` : ''].join(''));
+      }
+      else {
+        const val: string | null = arg.value ? arg.value : arg.flags.isList ? '[]' : arg.flags.optional ? 'nil' : null;
+        acc.push([escapeKeywords(arg.name), ': ', type, arg.flags.optional ? '?' : '', val ? ` = ${val}` : ''].join(''));
+      }
       return acc;
     }, []);
 
@@ -348,12 +359,13 @@ export class SwiftDeclarationBlock {
   }
 
   private generatePropertiesStr(prop: StructProperty): string {
-    let propertyTypeName = prop.type;
+    let propertyTypeName = prop.flags.isList ? this.getListType(prop) : prop.type;
     let propertyType = propertyTypeName ? `: ${propertyTypeName}${prop.flags.optional ? '?' : ''}` : '';
-    if (prop.flags.isList) {
-      propertyTypeName = this.getListType(prop);
+
+    if (this._flags.handleListNullabilityTransparently && prop.flags.isList) {
       propertyType = propertyTypeName ? `: ${propertyTypeName}${prop.flags.isListNullable ? '?' : ''}` : '';
     }
+
     let resultArr: string[] = [
       prop.access === 'DEFAULT' ? '' : prop.access,
       prop.flags.static ? 'static' : '',

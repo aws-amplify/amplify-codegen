@@ -99,6 +99,7 @@ async function generateModels(context) {
       emitAuthProvider,
       generateIndexRules,
       enableDartNullSafety,
+      handleListNullabilityTransparently
     },
   });
 

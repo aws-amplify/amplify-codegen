@@ -14,7 +14,7 @@ const getVisitor = (schema: string, selectedType?: string, generate: CodeGenGene
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelJavaVisitor(
     builtSchema,
-    { directives, target: 'android', generate, scalars: JAVA_SCALAR_MAP, isTimestampFieldsAdded: true },
+    { directives, target: 'android', generate, scalars: JAVA_SCALAR_MAP, isTimestampFieldsAdded: true, handleListNullabilityTransparently: true },
     { selectedType },
   );
   visit(ast, { leave: visitor });

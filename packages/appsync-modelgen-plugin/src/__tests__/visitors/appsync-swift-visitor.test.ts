@@ -15,12 +15,13 @@ const getVisitor = (
   isTimestampFieldsAdded: boolean = true,
   emitAuthProvider: boolean = true,
   generateIndexRules: boolean = true,
+  handleListNullabilityTransparently: boolean = true
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncSwiftVisitor(
     builtSchema,
-    { directives, target: 'swift', scalars: SWIFT_SCALAR_MAP, isTimestampFieldsAdded, emitAuthProvider, generateIndexRules },
+    { directives, target: 'swift', scalars: SWIFT_SCALAR_MAP, isTimestampFieldsAdded, emitAuthProvider, generateIndexRules, handleListNullabilityTransparently },
     { selectedType, generate },
   );
   visit(ast, { leave: visitor });

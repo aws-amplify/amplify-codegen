@@ -338,10 +338,10 @@ export class AppSyncModelJavaVisitor<
    */
   protected generateStepBuilderInterfaces(model: CodeGenModel, isModel: boolean = true): JavaDeclarationBlock[] {
     const nonNullableFields = this.getWritableFields(model).filter(
-      field => field.isList ? !field.isListNullable : !field.isNullable
+      field => this.isRequiredField(field)
     );
     const nullableFields = this.getWritableFields(model).filter(
-      field => field.isList ? field.isListNullable : field.isNullable
+      field => !this.isRequiredField(field)
     );
     const requiredInterfaces = nonNullableFields.filter((field: CodeGenField) => !this.READ_ONLY_FIELDS.includes(field.name));
     const interfaces = requiredInterfaces.map((field, idx) => {
@@ -390,10 +390,10 @@ export class AppSyncModelJavaVisitor<
    */
   protected generateBuilderClass(model: CodeGenModel, classDeclaration: JavaDeclarationBlock, isModel: boolean = true): void {
     const nonNullableFields = this.getWritableFields(model).filter(
-      field => field.isList ? !field.isListNullable : !field.isNullable
+      field => this.isRequiredField(field)
     );
     const nullableFields = this.getWritableFields(model).filter(
-      field => field.isList ? field.isListNullable : field.isNullable
+      field => !this.isRequiredField(field)
     );
     const stepFields = nonNullableFields.filter((field: CodeGenField) => !this.READ_ONLY_FIELDS.includes(field.name));
     const stepInterfaces = stepFields.map((field: CodeGenField) => this.getStepInterfaceName(field.name));
@@ -842,10 +842,9 @@ export class AppSyncModelJavaVisitor<
     if (authRules.length) {
       this.usingAuth = true;
     }
-    const isOptionalField = field.isList ? field.isListNullable : field.isNullable;
     const annotationArgs: string[] = [
       `targetType="${field.type}"`,
-      !isOptionalField ? 'isRequired = true' : '',
+      this.isRequiredField(field) ? 'isRequired = true' : '',
       authRules.length ? `authRules = ${authRules}` : '',
       field.isReadOnly ? 'isReadOnly = true' : '',
     ].filter(arg => arg);

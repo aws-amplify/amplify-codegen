@@ -97,11 +97,17 @@ export interface RawAppSyncModelConfig extends RawConfig {
    */
   directives?: string;
   /**
-   * @name directives
+   * @name isTimestampFieldsAdded
    * @type boolean
    * @descriptions optional boolean which adds the read-only timestamp fields or not
    */
   isTimestampFieldsAdded?: boolean;
+  /**
+   * @name handleListNullabilityTransparently
+   * @type boolean
+   * @descriptions optional boolean which generates the list types to respect the nullability as defined in the schema
+   */
+   handleListNullabilityTransparently?: boolean;
 }
 
 // Todo: need to figure out how to share config
@@ -110,6 +116,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   generate?: CodeGenGenerateEnum;
   target?: string;
   isTimestampFieldsAdded?: boolean;
+  handleListNullabilityTransparently?: boolean;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
 
@@ -176,6 +183,7 @@ export class AppSyncModelVisitor<
       scalars: buildScalars(_schema, rawConfig.scalars || '', defaultScalars),
       target: rawConfig.target,
       isTimestampFieldsAdded: rawConfig.isTimestampFieldsAdded,
+      handleListNullabilityTransparently: rawConfig.handleListNullabilityTransparently
     });
 
     const typesUsedInDirectives: string[] = [];
@@ -551,6 +559,14 @@ export class AppSyncModelVisitor<
     addFieldToModel(model, createdAtField);
     addFieldToModel(model, updatedAtField);
   }
+
+  /**
+   * Check if the given field is nullable or required
+   * @param field 
+   */
+   protected isRequiredField(field: CodeGenField): boolean | undefined {
+    return !(this.config.handleListNullabilityTransparently ? (field.isList ? field.isListNullable : field.isNullable) : field.isNullable);
+   }
 
   get models() {
     return this.modelMap;
