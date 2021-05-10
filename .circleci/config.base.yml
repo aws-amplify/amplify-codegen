@@ -189,7 +189,7 @@ workflows:
                 - split-e2e
       - e2e-test:
           context:
-            - clean_e2e_resources
+            - cleanup-resources
           os: linux_node15
           requires:
             - publish_to_local_registry

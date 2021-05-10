@@ -416,7 +416,7 @@ workflows:
             - add-codegen-ios-e2e-test
       - remove-codegen-js-e2e-test:
           context: &ref_4
-            - clean_e2e_resources
+            - cleanup-resources
           os: linux_node15
           requires:
             - publish_to_local_registry
