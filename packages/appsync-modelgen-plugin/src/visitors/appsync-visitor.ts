@@ -562,7 +562,7 @@ export class AppSyncModelVisitor<
 
   /**
    * Check if the given field is nullable or required
-   * @param field 
+   * @param field
    */
    protected isRequiredField(field: CodeGenField): boolean | undefined {
     return !(this.config.handleListNullabilityTransparently ? (field.isList ? field.isListNullable : field.isNullable) : field.isNullable);
