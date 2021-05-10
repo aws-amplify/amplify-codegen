@@ -123,7 +123,7 @@ jobs:
       - attach_workspace:
           at: ./
       - restore_cache:
-          - >-
+          key: >-
             amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum
             "yarn.lock" }}
       - run:
