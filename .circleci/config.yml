@@ -369,7 +369,8 @@ workflows:
       - publish_to_local_registry:
           matrix:
             parameters:
-              os: linux_node15
+              os:
+                - linux_node15
           requires:
             - build-<< matrix.os >>
           filters:
