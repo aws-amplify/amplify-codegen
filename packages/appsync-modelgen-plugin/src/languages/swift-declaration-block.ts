@@ -337,9 +337,9 @@ export class SwiftDeclarationBlock {
 
   private generateArgsStr(args: MethodArgument[]): string {
     const res: string[] = args.reduce((acc: string[], arg) => {
-      const val: string | null = arg.value ? arg.value : arg.flags.isList ? '[]' : arg.flags.optional ? 'nil' : null;
       const type = arg.flags.isList ? this.getListType(arg) : escapeKeywords(arg.type);
       const isArgOptional = arg.flags.isList ? arg.flags.isListNullable : arg.flags.optional
+      const val: string | null = arg.value ? arg.value : isArgOptional ? 'nil' : arg.flags.isList ? '[]' : null;
       acc.push([escapeKeywords(arg.name), ': ', type, isArgOptional ? '?' : '', val ? ` = ${val}` : ''].join(''));
       return acc;
     }, []);

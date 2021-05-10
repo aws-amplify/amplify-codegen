@@ -15,16 +15,41 @@ public struct ListContainer: Model {
   public var requiredListOfRequiredDates: [Temporal.Date]
   public var listOfRequiredFloats: [Double]?
   public var requiredListOfCustomTypes: [CustomType?]
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
   
   public init(id: String = UUID().uuidString,
       name: String? = nil,
-      list: [Int?]? = [],
+      list: [Int?]? = nil,
       requiredList: [String?] = [],
       requiredListOfRequired: [StatusEnum] = [],
-      listOfRequired: [Bool]? = [],
+      listOfRequired: [Bool]? = nil,
       requiredListOfRequiredDates: [Temporal.Date] = [],
-      listOfRequiredFloats: [Double]? = [],
+      listOfRequiredFloats: [Double]? = nil,
       requiredListOfCustomTypes: [CustomType?] = []) {
+    self.init(id: id,
+      name: name,
+      list: list,
+      requiredList: requiredList,
+      requiredListOfRequired: requiredListOfRequired,
+      listOfRequired: listOfRequired,
+      requiredListOfRequiredDates: requiredListOfRequiredDates,
+      listOfRequiredFloats: listOfRequiredFloats,
+      requiredListOfCustomTypes: requiredListOfCustomTypes,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(id: String = UUID().uuidString,
+      name: String? = nil,
+      list: [Int?] = [],
+      requiredList: [String?] = [],
+      requiredListOfRequired: [StatusEnum] = [],
+      listOfRequired: [Bool] = [],
+      requiredListOfRequiredDates: [Temporal.Date] = [],
+      listOfRequiredFloats: [Double] = [],
+      requiredListOfCustomTypes: [CustomType?] = [],
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
       self.id = id
       self.name = name
       self.list = list
@@ -34,6 +59,8 @@ public struct ListContainer: Model {
       self.requiredListOfRequiredDates = requiredListOfRequiredDates
       self.listOfRequiredFloats = listOfRequiredFloats
       self.requiredListOfCustomTypes = requiredListOfCustomTypes
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
   }
 }"
 `;
@@ -55,6 +82,8 @@ extension ListContainer {
     case requiredListOfRequiredDates
     case listOfRequiredFloats
     case requiredListOfCustomTypes
+    case createdAt
+    case updatedAt
   }
   
   public static let keys = CodingKeys.self
@@ -74,7 +103,9 @@ extension ListContainer {
       .field(listContainer.listOfRequired, is: .optional, ofType: .embeddedCollection(of: Bool.self)),
       .field(listContainer.requiredListOfRequiredDates, is: .required, ofType: .embeddedCollection(of: Temporal.Date.self)),
       .field(listContainer.listOfRequiredFloats, is: .optional, ofType: .embeddedCollection(of: Double.self)),
-      .field(listContainer.requiredListOfCustomTypes, is: .required, ofType: .embeddedCollection(of: CustomType.self))
+      .field(listContainer.requiredListOfCustomTypes, is: .required, ofType: .embeddedCollection(of: CustomType.self)),
+      .field(listContainer.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(listContainer.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
 }"
@@ -91,5 +122,143 @@ public struct CustomType: Embeddable {
   var requiredList: [String?]
   var requiredListOfRequired: [StatusEnum]
   var listOfRequired: [Bool]?
+}"
+`;
+
+exports[`AppSyncSwiftVisitor Should render lists with HAS_MANY connection according to the spec 1`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct Todo: Model {
+  public let id: String
+  public var title: String
+  public var tasks: List<task?>
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  
+  public init(id: String = UUID().uuidString,
+      title: String,
+      tasks: List<task?> = []) {
+    self.init(id: id,
+      title: title,
+      tasks: tasks,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(id: String = UUID().uuidString,
+      title: String,
+      tasks: List<task?> = [],
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
+      self.id = id
+      self.title = title
+      self.tasks = tasks
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+  }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor Should render lists with HAS_MANY connection according to the spec 2`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+extension Todo {
+  // MARK: - CodingKeys 
+   public enum CodingKeys: String, ModelKey {
+    case id
+    case title
+    case tasks
+    case createdAt
+    case updatedAt
+  }
+  
+  public static let keys = CodingKeys.self
+  //  MARK: - ModelSchema 
+  
+  public static let schema = defineSchema { model in
+    let todo = Todo.keys
+    
+    model.pluralName = \\"Todos\\"
+    
+    model.fields(
+      .id(),
+      .field(todo.title, is: .required, ofType: .string),
+      .hasMany(todo.tasks, is: .required, ofType: task.self, associatedWith: task.keys.todo),
+      .field(todo.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(todo.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+    )
+    }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor Should render lists with HAS_MANY connection according to the spec 3`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct task: Model {
+  public let id: String
+  public var title: String
+  public var todo: Todo?
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  
+  public init(id: String = UUID().uuidString,
+      title: String,
+      todo: Todo? = nil) {
+    self.init(id: id,
+      title: title,
+      todo: todo,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(id: String = UUID().uuidString,
+      title: String,
+      todo: Todo? = nil,
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
+      self.id = id
+      self.title = title
+      self.todo = todo
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+  }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor Should render lists with HAS_MANY connection according to the spec 4`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+extension task {
+  // MARK: - CodingKeys 
+   public enum CodingKeys: String, ModelKey {
+    case id
+    case title
+    case todo
+    case createdAt
+    case updatedAt
+  }
+  
+  public static let keys = CodingKeys.self
+  //  MARK: - ModelSchema 
+  
+  public static let schema = defineSchema { model in
+    let task = task.keys
+    
+    model.pluralName = \\"tasks\\"
+    
+    model.fields(
+      .id(),
+      .field(task.title, is: .required, ofType: .string),
+      .belongsTo(task.todo, is: .optional, ofType: Todo.self, targetName: \\"taskTodoId\\"),
+      .field(task.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(task.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+    )
+    }
 }"
 `;

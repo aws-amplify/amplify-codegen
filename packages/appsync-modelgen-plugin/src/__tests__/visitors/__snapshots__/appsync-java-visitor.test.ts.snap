@@ -3716,7 +3716,13 @@ public final class ListContainer implements Model {
   public static final QueryField REQUIRED_LIST_OF_CUSTOM_TYPES = field(\\"ListContainer\\", \\"requiredListOfCustomTypes\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
-  private final @ModelField(targetType=\\"String\\") String bar;
+  private final @ModelField(targetType=\\"Int\\") List<Integer> list;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) List<String> requiredList;
+  private final @ModelField(targetType=\\"StatusEnum\\", isRequired = true) List<StatusEnum> requiredListOfRequired;
+  private final @ModelField(targetType=\\"Boolean\\") List<Boolean> listOfRequired;
+  private final @ModelField(targetType=\\"AWSDate\\", isRequired = true) List<Temporal.Date> requiredListOfRequiredDates;
+  private final @ModelField(targetType=\\"Float\\") List<Double> listOfRequiredFloats;
+  private final @ModelField(targetType=\\"CustomType\\", isRequired = true) List<CustomType> requiredListOfCustomTypes;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
@@ -3731,6 +3737,30 @@ public final class ListContainer implements Model {
       return list;
   }
   
+  public List<String> getRequiredList() {
+      return requiredList;
+  }
+  
+  public List<StatusEnum> getRequiredListOfRequired() {
+      return requiredListOfRequired;
+  }
+  
+  public List<Boolean> getListOfRequired() {
+      return listOfRequired;
+  }
+  
+  public List<Temporal.Date> getRequiredListOfRequiredDates() {
+      return requiredListOfRequiredDates;
+  }
+  
+  public List<Double> getListOfRequiredFloats() {
+      return listOfRequiredFloats;
+  }
+  
+  public List<CustomType> getRequiredListOfCustomTypes() {
+      return requiredListOfCustomTypes;
+  }
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
@@ -3739,7 +3769,7 @@ public final class ListContainer implements Model {
       return updatedAt;
   }
   
-  private SimpleModel(String id, String name, String bar) {
+  private ListContainer(String id, String name, List<Integer> list, List<String> requiredList, List<StatusEnum> requiredListOfRequired, List<Boolean> listOfRequired, List<Temporal.Date> requiredListOfRequiredDates, List<Double> listOfRequiredFloats, List<CustomType> requiredListOfCustomTypes) {
     this.id = id;
     this.name = name;
     this.list = list;
@@ -3758,12 +3788,18 @@ public final class ListContainer implements Model {
       } else if(obj == null || getClass() != obj.getClass()) {
         return false;
       } else {
-      SimpleModel simpleModel = (SimpleModel) obj;
-      return ObjectsCompat.equals(getId(), simpleModel.getId()) &&
-              ObjectsCompat.equals(getName(), simpleModel.getName()) &&
-              ObjectsCompat.equals(getBar(), simpleModel.getBar()) &&
-              ObjectsCompat.equals(getCreatedAt(), simpleModel.getCreatedAt()) &&
-              ObjectsCompat.equals(getUpdatedAt(), simpleModel.getUpdatedAt());
+      ListContainer listContainer = (ListContainer) obj;
+      return ObjectsCompat.equals(getId(), listContainer.getId()) &&
+              ObjectsCompat.equals(getName(), listContainer.getName()) &&
+              ObjectsCompat.equals(getList(), listContainer.getList()) &&
+              ObjectsCompat.equals(getRequiredList(), listContainer.getRequiredList()) &&
+              ObjectsCompat.equals(getRequiredListOfRequired(), listContainer.getRequiredListOfRequired()) &&
+              ObjectsCompat.equals(getListOfRequired(), listContainer.getListOfRequired()) &&
+              ObjectsCompat.equals(getRequiredListOfRequiredDates(), listContainer.getRequiredListOfRequiredDates()) &&
+              ObjectsCompat.equals(getListOfRequiredFloats(), listContainer.getListOfRequiredFloats()) &&
+              ObjectsCompat.equals(getRequiredListOfCustomTypes(), listContainer.getRequiredListOfCustomTypes()) &&
+              ObjectsCompat.equals(getCreatedAt(), listContainer.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), listContainer.getUpdatedAt());
       }
   }
   
@@ -3772,7 +3808,13 @@ public final class ListContainer implements Model {
     return new StringBuilder()
       .append(getId())
       .append(getName())
-      .append(getBar())
+      .append(getList())
+      .append(getRequiredList())
+      .append(getRequiredListOfRequired())
+      .append(getListOfRequired())
+      .append(getRequiredListOfRequiredDates())
+      .append(getListOfRequiredFloats())
+      .append(getRequiredListOfCustomTypes())
       .append(getCreatedAt())
       .append(getUpdatedAt())
       .toString()
@@ -3785,7 +3827,13 @@ public final class ListContainer implements Model {
       .append(\\"ListContainer {\\")
       .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
       .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
-      .append(\\"bar=\\" + String.valueOf(getBar()) + \\", \\")
+      .append(\\"list=\\" + String.valueOf(getList()) + \\", \\")
+      .append(\\"requiredList=\\" + String.valueOf(getRequiredList()) + \\", \\")
+      .append(\\"requiredListOfRequired=\\" + String.valueOf(getRequiredListOfRequired()) + \\", \\")
+      .append(\\"listOfRequired=\\" + String.valueOf(getListOfRequired()) + \\", \\")
+      .append(\\"requiredListOfRequiredDates=\\" + String.valueOf(getRequiredListOfRequiredDates()) + \\", \\")
+      .append(\\"listOfRequiredFloats=\\" + String.valueOf(getListOfRequiredFloats()) + \\", \\")
+      .append(\\"requiredListOfCustomTypes=\\" + String.valueOf(getRequiredListOfCustomTypes()) + \\", \\")
       .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
       .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
