@@ -4,13 +4,13 @@ machine:
   environment:
     PATH: '${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin'
 executors:
-  linux_node12:
+  linux-node12:
     docker:
       - image: 'circleci/node:12'
     resource_class: large
-  linux_node15:
+  linux-node15:
     docker:
-      - image: circleci/node:15
+      - image: 'circleci/node:15'
     resource_class: large
   windows_node12:
     machine:
@@ -19,10 +19,9 @@ executors:
       shell: bash.exe
   macos_node12:
     macos:
-      xcode: "11.2.1"
+      xcode: 11.2.1
       resource_class: large
-
-defaults: &defaults
+defaults:
   working_directory: ~/repo
   parameters: &ref_0
     os:
@@ -40,7 +39,7 @@ install_cli_with_local_codegen: &ref_1
     amplify-app --version
     unsetNpmRegistryUrl
   working_directory: ~/repo
-clean_up_e2e_resources:
+clean_up_e2e_resources: &ref_3
   name: Clean up e2e resources
   command: |
     pwd
@@ -58,11 +57,13 @@ jobs:
       - run: yarn cache clean --force
       - run: yarn run production-build
       - save_cache:
-          key: amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: >-
+            amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum
+            "yarn.lock" }}
           paths:
             - ~/.cache
       - save_cache:
-          key: amplify-codegen-ssh-deps-{{ arch }}-{{ .Branch }}
+          key: 'amplify-codegen-ssh-deps-{{ arch }}-{{ .Branch }}'
           paths:
             - ~/.ssh
       - persist_to_workspace:
@@ -76,7 +77,9 @@ jobs:
       - attach_workspace:
           at: ./
       - restore_cache:
-          key: amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: >-
+            amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum
+            "yarn.lock" }}
       - run:
           name: Lint
           command: yarn lint
@@ -95,8 +98,10 @@ jobs:
           at: ./
       - restore_cache:
           keys:
-            - amplify-codegen-ssh-deps-{{ arch }}-{{ .Branch }}
-            - amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - 'amplify-codegen-ssh-deps-{{ arch }}-{{ .Branch }}'
+            - >-
+              amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum
+              "yarn.lock" }}
       - run:
           name: Authenticate with npm
           command: 'echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc'
@@ -118,7 +123,9 @@ jobs:
       - attach_workspace:
           at: ./
       - restore_cache:
-            - amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          - >-
+            amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum
+            "yarn.lock" }}
       - run:
           name: Publish to verdaccio
           command: |
@@ -343,48 +350,32 @@ workflows:
           name: build-<< matrix.os >>
           matrix:
             parameters:
-<<<<<<< HEAD
-              os: [linux_node15, linux_node12, windows_node12, macos_node12]
-=======
               os:
-                - linux-node15
-                - linux-node10
->>>>>>> 951f8a3... test: add split e2e test script
+                - linux_node15
+                - linux_node12
+                - windows_node12
+                - macos_node12
       - test:
           name: test-<< matrix.os >>
           matrix:
             parameters:
-<<<<<<< HEAD
-              os: [linux_node15, linux_node12, windows_node12, macos_node12]
-          requires:
-            - build-<< matrix.os >>
-      - e2e-test:
-          name: e2e-test-<< matrix.os >>
-          matrix:
-            parameters:
-              os: [linux_node15, linux_node12]
-          requires:
-            - build-<< matrix.os >>
-            - test-<< matrix.os >>
-          post-steps:
-            - run: *cleanup_e2e
-=======
               os:
-                - linux-node15
-                - linux-node10
+                - linux_node15
+                - linux_node12
+                - windows_node12
+                - macos_node12
           requires:
             - build-<< matrix.os >>
       - publish_to_local_registry:
           os: linux-node15
           requires:
             - build
->>>>>>> 951f8a3... test: add split e2e test script
           filters:
             branches:
               only:
                 - e2e-testing
       - deploy:
-          os: linux_node15
+          os: linux-node15
           requires:
             - build
             - test
@@ -423,7 +414,9 @@ workflows:
           os: linux-node15
           requires:
             - publish_to_local_registry
-          filters: &ref_3
+          post-steps: &ref_4
+            - run: *ref_3
+          filters: &ref_5
             branches:
               only:
                 - e2e-testing
@@ -431,104 +424,125 @@ workflows:
           os: linux-node15
           requires:
             - publish_to_local_registry
-          filters: *ref_3
+          post-steps: *ref_4
+          filters: *ref_5
       - datastore-modelgen-flutter-e2e-test:
           os: linux-node15
           requires:
             - publish_to_local_registry
-          filters: *ref_3
+          post-steps: *ref_4
+          filters: *ref_5
       - add-codegen-android-e2e-test:
           os: linux-node15
           requires:
             - publish_to_local_registry
-          filters: *ref_3
+          post-steps: *ref_4
+          filters: *ref_5
       - remove-codegen-js-e2e-test:
           os: linux-node15
           requires:
             - publish_to_local_registry
-          filters: *ref_3
+          post-steps: *ref_4
+          filters: *ref_5
       - graphql-codegen-js-e2e-test:
           os: linux-node15
           requires:
             - publish_to_local_registry
-          filters: *ref_3
+          post-steps: *ref_4
+          filters: *ref_5
       - datastore-modelgen-android-e2e-test:
           os: linux-node15
           requires:
             - publish_to_local_registry
-          filters: *ref_3
+          post-steps: *ref_4
+          filters: *ref_5
       - remove-codegen-ios-e2e-test:
           os: linux-node15
           requires:
             - publish_to_local_registry
-          filters: *ref_3
+          post-steps: *ref_4
+          filters: *ref_5
       - graphql-codegen-ios-e2e-test:
           os: linux-node15
           requires:
             - publish_to_local_registry
-          filters: *ref_3
+          post-steps: *ref_4
+          filters: *ref_5
       - configure-codegen-js-e2e-test:
           os: linux-node15
           requires:
             - publish_to_local_registry
-          filters: *ref_3
+          post-steps: *ref_4
+          filters: *ref_5
       - remove-codegen-android-e2e-test:
           os: linux-node15
           requires:
             - publish_to_local_registry
-          filters: *ref_3
+          post-steps: *ref_4
+          filters: *ref_5
       - graphql-codegen-android-e2e-test:
           os: linux-node15
           requires:
             - publish_to_local_registry
-          filters: *ref_3
+          post-steps: *ref_4
+          filters: *ref_5
       - configure-codegen-ios-e2e-test:
           os: linux-node15
           requires:
             - publish_to_local_registry
-          filters: *ref_3
+          post-steps: *ref_4
+          filters: *ref_5
       - push-codegen-js-e2e-test:
           os: linux-node15
           requires:
             - publish_to_local_registry
-          filters: *ref_3
+          post-steps: *ref_4
+          filters: *ref_5
       - env-codegen-e2e-test:
           os: linux-node15
           requires:
             - publish_to_local_registry
-          filters: *ref_3
+          post-steps: *ref_4
+          filters: *ref_5
       - configure-codegen-android-e2e-test:
           os: linux-node15
           requires:
             - publish_to_local_registry
-          filters: *ref_3
+          post-steps: *ref_4
+          filters: *ref_5
       - push-codegen-ios-e2e-test:
           os: linux-node15
           requires:
             - publish_to_local_registry
-          filters: *ref_3
+          post-steps: *ref_4
+          filters: *ref_5
       - datastore-modelgen-js-e2e-test:
           os: linux-node15
           requires:
             - publish_to_local_registry
-          filters: *ref_3
+          post-steps: *ref_4
+          filters: *ref_5
       - add-codegen-js-e2e-test:
           os: linux-node15
           requires:
             - publish_to_local_registry
-          filters: *ref_3
+          post-steps: *ref_4
+          filters: *ref_5
       - push-codegen-android-e2e-test:
           os: linux-node15
           requires:
             - publish_to_local_registry
-          filters: *ref_3
+          post-steps: *ref_4
+          filters: *ref_5
       - datastore-modelgen-ios-e2e-test:
           os: linux-node15
           requires:
             - publish_to_local_registry
-          filters: *ref_3
+          post-steps: *ref_4
+          filters: *ref_5
       - add-codegen-ios-e2e-test:
           os: linux-node15
           requires:
             - publish_to_local_registry
-          filters: *ref_3
+          post-steps: *ref_4
+          filters: *ref_5
