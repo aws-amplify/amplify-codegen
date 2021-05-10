@@ -177,7 +177,7 @@ workflows:
           requires:
             - build-<< matrix.os >>
       - publish_to_local_registry:
-          os: linux-node15
+          os: linux_node15
           requires:
             - build
           filters:
@@ -185,7 +185,7 @@ workflows:
               only:
                 - e2e-testing
       - e2e-test:
-          os: linux-node15
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps:
@@ -195,7 +195,7 @@ workflows:
               only:
                 - e2e-testing
       - deploy:
-          os: linux-node15
+          os: linux_node15
           requires:
             - build
             - test
@@ -206,6 +206,6 @@ workflows:
                 - release
                 - master
       - done_with_node_e2e_tests:
-          os: linux-node15
+          os: linux_node15
           requires:
             - e2e-test

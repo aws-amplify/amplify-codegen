@@ -367,7 +367,7 @@ workflows:
           requires:
             - build-<< matrix.os >>
       - publish_to_local_registry:
-          os: linux-node15
+          os: linux_node15
           requires:
             - build
           filters:
@@ -375,7 +375,7 @@ workflows:
               only:
                 - e2e-testing
       - deploy:
-          os: linux-node15
+          os: linux_node15
           requires:
             - build
             - test
@@ -386,7 +386,7 @@ workflows:
                 - release
                 - master
       - done_with_node_e2e_tests:
-          os: linux-node15
+          os: linux_node15
           requires:
             - feature-flags-e2e-test
             - pull-codegen-e2e-test
@@ -411,7 +411,7 @@ workflows:
             - datastore-modelgen-ios-e2e-test
             - add-codegen-ios-e2e-test
       - feature-flags-e2e-test:
-          os: linux-node15
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps: &ref_4
@@ -421,127 +421,127 @@ workflows:
               only:
                 - e2e-testing
       - pull-codegen-e2e-test:
-          os: linux-node15
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps: *ref_4
           filters: *ref_5
       - datastore-modelgen-flutter-e2e-test:
-          os: linux-node15
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps: *ref_4
           filters: *ref_5
       - add-codegen-android-e2e-test:
-          os: linux-node15
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps: *ref_4
           filters: *ref_5
       - remove-codegen-js-e2e-test:
-          os: linux-node15
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps: *ref_4
           filters: *ref_5
       - graphql-codegen-js-e2e-test:
-          os: linux-node15
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps: *ref_4
           filters: *ref_5
       - datastore-modelgen-android-e2e-test:
-          os: linux-node15
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps: *ref_4
           filters: *ref_5
       - remove-codegen-ios-e2e-test:
-          os: linux-node15
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps: *ref_4
           filters: *ref_5
       - graphql-codegen-ios-e2e-test:
-          os: linux-node15
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps: *ref_4
           filters: *ref_5
       - configure-codegen-js-e2e-test:
-          os: linux-node15
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps: *ref_4
           filters: *ref_5
       - remove-codegen-android-e2e-test:
-          os: linux-node15
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps: *ref_4
           filters: *ref_5
       - graphql-codegen-android-e2e-test:
-          os: linux-node15
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps: *ref_4
           filters: *ref_5
       - configure-codegen-ios-e2e-test:
-          os: linux-node15
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps: *ref_4
           filters: *ref_5
       - push-codegen-js-e2e-test:
-          os: linux-node15
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps: *ref_4
           filters: *ref_5
       - env-codegen-e2e-test:
-          os: linux-node15
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps: *ref_4
           filters: *ref_5
       - configure-codegen-android-e2e-test:
-          os: linux-node15
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps: *ref_4
           filters: *ref_5
       - push-codegen-ios-e2e-test:
-          os: linux-node15
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps: *ref_4
           filters: *ref_5
       - datastore-modelgen-js-e2e-test:
-          os: linux-node15
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps: *ref_4
           filters: *ref_5
       - add-codegen-js-e2e-test:
-          os: linux-node15
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps: *ref_4
           filters: *ref_5
       - push-codegen-android-e2e-test:
-          os: linux-node15
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps: *ref_4
           filters: *ref_5
       - datastore-modelgen-ios-e2e-test:
-          os: linux-node15
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps: *ref_4
           filters: *ref_5
       - add-codegen-ios-e2e-test:
-          os: linux-node15
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps: *ref_4
