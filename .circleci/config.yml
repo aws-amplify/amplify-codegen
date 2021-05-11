@@ -29,7 +29,6 @@ defaults:
 install_cli_with_local_codegen: &ref_1
   name: install Amplify CLI and amplify-app with local Amplify Codegen
   command: |
-    echo $OLD_CLI_BINARY
     source .circleci/local_publish_helpers.sh
     startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
     setNpmRegistryUrlToLocal
@@ -42,7 +41,6 @@ install_cli_with_local_codegen: &ref_1
 clean_up_e2e_resources: &ref_3
   name: Clean up e2e resources
   command: |
-    pwd
     cd packages/amplify-codegen-e2e-tests
     yarn clean-e2e-resources job ${CIRCLE_BUILD_NUM}
   working_directory: ~/repo
@@ -371,7 +369,7 @@ workflows:
           matrix:
             parameters:
               os:
-                - linux_node15
+                - linux_node12
           requires:
             - build-<< matrix.os >>
           filters:
@@ -418,7 +416,7 @@ workflows:
       - remove-codegen-js-e2e-test:
           context: &ref_4
             - cleanup-resources
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps: &ref_5
@@ -430,147 +428,147 @@ workflows:
                 - split-e2e
       - graphql-codegen-js-e2e-test:
           context: *ref_4
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps: *ref_5
           filters: *ref_6
       - datastore-modelgen-flutter-e2e-test:
           context: *ref_4
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps: *ref_5
           filters: *ref_6
       - add-codegen-android-e2e-test:
           context: *ref_4
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps: *ref_5
           filters: *ref_6
       - remove-codegen-ios-e2e-test:
           context: *ref_4
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps: *ref_5
           filters: *ref_6
       - graphql-codegen-ios-e2e-test:
           context: *ref_4
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps: *ref_5
           filters: *ref_6
       - datastore-modelgen-android-e2e-test:
           context: *ref_4
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps: *ref_5
           filters: *ref_6
       - remove-codegen-android-e2e-test:
           context: *ref_4
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps: *ref_5
           filters: *ref_6
       - graphql-codegen-android-e2e-test:
           context: *ref_4
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps: *ref_5
           filters: *ref_6
       - configure-codegen-js-e2e-test:
           context: *ref_4
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps: *ref_5
           filters: *ref_6
       - push-codegen-js-e2e-test:
           context: *ref_4
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps: *ref_5
           filters: *ref_6
       - feature-flags-e2e-test:
           context: *ref_4
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps: *ref_5
           filters: *ref_6
       - configure-codegen-ios-e2e-test:
           context: *ref_4
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps: *ref_5
           filters: *ref_6
       - push-codegen-ios-e2e-test:
           context: *ref_4
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps: *ref_5
           filters: *ref_6
       - env-codegen-e2e-test:
           context: *ref_4
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps: *ref_5
           filters: *ref_6
       - configure-codegen-android-e2e-test:
           context: *ref_4
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps: *ref_5
           filters: *ref_6
       - push-codegen-android-e2e-test:
           context: *ref_4
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps: *ref_5
           filters: *ref_6
       - datastore-modelgen-js-e2e-test:
           context: *ref_4
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps: *ref_5
           filters: *ref_6
       - add-codegen-js-e2e-test:
           context: *ref_4
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps: *ref_5
           filters: *ref_6
       - pull-codegen-e2e-test:
           context: *ref_4
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps: *ref_5
           filters: *ref_6
       - datastore-modelgen-ios-e2e-test:
           context: *ref_4
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps: *ref_5
           filters: *ref_6
       - add-codegen-ios-e2e-test:
           context: *ref_4
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps: *ref_5

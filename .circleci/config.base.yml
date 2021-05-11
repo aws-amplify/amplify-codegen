@@ -30,7 +30,6 @@ defaults: &defaults
 install_cli_with_local_codegen: &install_cli
   name: install Amplify CLI and amplify-app with local Amplify Codegen
   command: |
-    echo $OLD_CLI_BINARY
     source .circleci/local_publish_helpers.sh
     startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
     setNpmRegistryUrlToLocal
@@ -44,7 +43,6 @@ install_cli_with_local_codegen: &install_cli
 clean_up_e2e_resources: &cleanup_e2e
   name: Clean up e2e resources
   command: |
-    pwd
     cd packages/amplify-codegen-e2e-tests
     yarn clean-e2e-resources job ${CIRCLE_BUILD_NUM}
   working_directory: ~/repo
@@ -180,7 +178,7 @@ workflows:
       - publish_to_local_registry:
           matrix:
             parameters:
-              os: [linux_node15]
+              os: [linux_node12]
           requires:
             - build-<< matrix.os >>
           filters:
@@ -191,7 +189,7 @@ workflows:
       - e2e-test:
           context:
             - cleanup-resources
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps:
