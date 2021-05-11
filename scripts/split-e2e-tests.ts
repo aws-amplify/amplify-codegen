@@ -18,8 +18,32 @@ const AWS_REGIONS_TO_RUN_TESTS = [
 // or when a test suite changes drastically
 
 const KNOWN_SUITES_SORTED_ACCORDING_TO_RUNTIME = [
-//TODO: add test suites in ascending order based on total time
-// eg: 'src/__tests__/add-codegen-android'
+  // <7m
+  'src/__tests__/graphql-codegen-ios.test.ts',
+  'src/__tests__/graphql-codegen-js.test.ts',
+  'src/__tests__/graphql-codegen-android.test.ts',
+  'src/__tests__/configure-codegen-js.test.ts',
+  'src/__tests__/configure-codegen-android.test.ts',
+  'src/__tests__/configure-codegen-ios.test.ts',
+  'src/__tests__/feature-flags.test.ts',
+  'src/__tests__/remove-codegen-js.test.ts',
+  'src/__tests__/remove-codegen-ios.test.ts',
+  'src/__tests__/remove-codegen-android.test.ts',
+  'src/__tests__/datastore-modelgen-js.test.ts',
+  'src/__tests__/datastore-modelgen-android.test.ts',
+  'src/__tests__/datastore-modelgen-ios.test.ts',
+  'src/__tests__/datastore-modelgen-flutter.test.ts',
+  'src/__tests__/add-codegen-android.test.ts',
+  'src/__tests__/add-codegen-ios.test.ts',
+  // <11m
+  'src/__tests__/add-codegen-js.test.ts',
+  'src/__tests__/env-codegen.test.ts',
+  // <12m
+  'src/__tests__/pull-codegen.test.ts',
+  // <14m
+  'src/__tests__/push-codegen-android.test.ts',
+  'src/__tests__/push-codegen-js.test.ts',
+  'src/__tests__/push-codegen-ios.test.ts',
 ];
 
 /**
