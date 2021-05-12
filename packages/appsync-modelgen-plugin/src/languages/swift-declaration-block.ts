@@ -122,10 +122,10 @@ export type VariableFlags = {
   variable?: boolean;
   isEnum?: boolean;
 };
-export type StructFlags = VariableFlags & { optional?: boolean; static?: boolean; isListNullable?: boolean };
+export type StructFlags = VariableFlags & { optional?: boolean; static?: boolean; isListNullable?: boolean, handleListNullabilityTransparently?: boolean };
 export type PropertyFlags = StructFlags;
 export type MethodFlags = { static?: boolean };
-export type DeclarationFlag = { final?: boolean, handleListNullabilityTransparently?: boolean };
+export type DeclarationFlag = { final?: boolean };
 export type Kind = 'class' | 'struct' | 'extension' | 'enum';
 export type VariableDeclaration = {
   value: string | undefined;
@@ -172,11 +172,6 @@ export class SwiftDeclarationBlock {
 
   final(isFinal: boolean = true): SwiftDeclarationBlock {
     this._flags.final = isFinal;
-    return this;
-  }
-
-  handleListNullabilityTransparently(handleListNullabilityTransparently?: boolean): SwiftDeclarationBlock {
-    this._flags.handleListNullabilityTransparently = handleListNullabilityTransparently;
     return this;
   }
 
@@ -343,7 +338,7 @@ export class SwiftDeclarationBlock {
   private generateArgsStr(args: MethodArgument[]): string {
     const res: string[] = args.reduce((acc: string[], arg) => {
       const type = arg.flags.isList ? this.getListType(arg) : escapeKeywords(arg.type);
-      if (this._flags.handleListNullabilityTransparently) {
+      if (arg.flags.handleListNullabilityTransparently) {
         const isArgOptional = arg.flags.isList ? arg.flags.isListNullable : arg.flags.optional
         const val: string | null = arg.value ? arg.value : isArgOptional ? 'nil' : arg.flags.isList ? '[]' : null;
         acc.push([escapeKeywords(arg.name), ': ', type, isArgOptional ? '?' : '', val ? ` = ${val}` : ''].join(''));
@@ -362,7 +357,7 @@ export class SwiftDeclarationBlock {
     let propertyTypeName = prop.flags.isList ? this.getListType(prop) : prop.type;
     let propertyType = propertyTypeName ? `: ${propertyTypeName}${prop.flags.optional ? '?' : ''}` : '';
 
-    if (this._flags.handleListNullabilityTransparently && prop.flags.isList) {
+    if (prop.flags.handleListNullabilityTransparently && prop.flags.isList) {
       propertyType = propertyTypeName ? `: ${propertyTypeName}${prop.flags.isListNullable ? '?' : ''}` : '';
     }
 
@@ -406,9 +401,12 @@ export class SwiftDeclarationBlock {
   }
 
   private getListType(typeDeclaration: MethodArgument): string {
-    const listMemberType = typeDeclaration.flags.optional ?
+    let listMemberType = `${escapeKeywords(typeDeclaration.type)}`;
+    if (typeDeclaration.flags.handleListNullabilityTransparently) {
+      listMemberType = typeDeclaration.flags.optional ?
      `${escapeKeywords(typeDeclaration.type)}?`:
      `${escapeKeywords(typeDeclaration.type)}`
+    }
     if (typeDeclaration.flags.listType === ListType.LIST) {
       return `List<${listMemberType}>`;
     }

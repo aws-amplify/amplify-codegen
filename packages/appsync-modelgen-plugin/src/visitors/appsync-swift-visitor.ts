@@ -78,8 +78,7 @@ export class AppSyncSwiftVisitor<
       const structBlock: SwiftDeclarationBlock = new SwiftDeclarationBlock()
         .withName(this.getModelName(obj))
         .access('public')
-        .withProtocols(['Model'])
-        .handleListNullabilityTransparently(this.config.handleListNullabilityTransparently);
+        .withProtocols(['Model']);
       Object.entries(obj.fields).forEach(([fieldName, field]) => {
         const fieldType = this.getNativeType(field);
         const isVariable = field.name !== 'id';
@@ -90,7 +89,8 @@ export class AppSyncSwiftVisitor<
           variable: isVariable,
           isEnum: this.isEnumType(field),
           listType: field.isList ? listType : undefined,
-          isListNullable: field.isListNullable
+          isListNullable: field.isListNullable,
+          handleListNullabilityTransparently: this.isHasManyConnectionField(field) ? false : this.config.handleListNullabilityTransparently
         });
       });
       const initParams: CodeGenField[] = this.getWritableFields(obj);
@@ -182,8 +182,7 @@ export class AppSyncSwiftVisitor<
         .asKind('enum')
         .access('public')
         .withProtocols(['String', 'EnumPersistable'])
-        .withName(this.getEnumName(enumValue))
-        .handleListNullabilityTransparently(this.config.handleListNullabilityTransparently);
+        .withName(this.getEnumName(enumValue));
 
       Object.entries(enumValue.values).forEach(([name, value]) => {
         enumDeclaration.addEnumValue(name, value);
@@ -199,8 +198,7 @@ export class AppSyncSwiftVisitor<
       const structBlock: SwiftDeclarationBlock = new SwiftDeclarationBlock()
         .withName(this.getModelName(obj))
         .access('public')
-        .withProtocols(['Embeddable'])
-        .handleListNullabilityTransparently(this.config.handleListNullabilityTransparently);
+        .withProtocols(['Embeddable']);
       Object.values(obj.fields).forEach(field => {
         const fieldType = this.getNativeType(field);
         structBlock.addProperty(this.getFieldName(field), fieldType, undefined, 'DEFAULT', {
@@ -209,7 +207,8 @@ export class AppSyncSwiftVisitor<
           variable: true,
           isEnum: this.isEnumType(field),
           listType: field.isList ? ListType.ARRAY : undefined,
-          isListNullable: field.isListNullable
+          isListNullable: field.isListNullable,
+          handleListNullabilityTransparently: this.isHasManyConnectionField(field) ? false : this.config.handleListNullabilityTransparently
         });
       });
       result.push(structBlock.string);
@@ -225,8 +224,7 @@ export class AppSyncSwiftVisitor<
       .forEach(model => {
         const schemaDeclarations = new SwiftDeclarationBlock()
         .asKind('extension')
-        .withName(this.getModelName(model))
-        .handleListNullabilityTransparently(this.config.handleListNullabilityTransparently);
+        .withName(this.getModelName(model));
 
         this.generateCodingKeys(this.getModelName(model), model, schemaDeclarations),
           this.generateModelSchema(this.getModelName(model), model, schemaDeclarations);
@@ -237,8 +235,7 @@ export class AppSyncSwiftVisitor<
     Object.values(this.getSelectedNonModels()).forEach(model => {
       const schemaDeclarations = new SwiftDeclarationBlock()
       .asKind('extension')
-      .withName(this.getNonModelName(model))
-      .handleListNullabilityTransparently(this.config.handleListNullabilityTransparently);
+      .withName(this.getNonModelName(model));
 
       this.generateCodingKeys(this.getNonModelName(model), model, schemaDeclarations),
         this.generateModelSchema(this.getNonModelName(model), model, schemaDeclarations);
@@ -254,8 +251,7 @@ export class AppSyncSwiftVisitor<
       .access('public')
       .withName('CodingKeys')
       .withProtocols(['String', 'ModelKey'])
-      .withComment('MARK: - CodingKeys')
-      .handleListNullabilityTransparently(this.config.handleListNullabilityTransparently);
+      .withComment('MARK: - CodingKeys');
 
     // AddEnums.name
     model.fields.forEach(field => codingKeyEnum.addEnumValue(this.getFieldName(field), field.name));
@@ -307,8 +303,7 @@ export class AppSyncSwiftVisitor<
       .asKind('class')
       .withProtocols(['AmplifyModelRegistration'])
       .final()
-      .withComment('Contains the set of classes that conforms to the `Model` protocol.')
-      .handleListNullabilityTransparently(this.config.handleListNullabilityTransparently);
+      .withComment('Contains the set of classes that conforms to the `Model` protocol.');
 
     classDeclaration.addProperty('version', 'String', `"${this.computeVersion()}"`, 'public', {});
     const body = structList.map(modelClass => `ModelRegistry.register(modelType: ${modelClass})`).join('\n');
@@ -349,7 +344,9 @@ export class AppSyncSwiftVisitor<
     const name = `${modelKeysName}.${this.getFieldName(field)}`;
     const typeName = this.getSwiftModelTypeName(field);
     const { connectionInfo } = field;
-    const isRequired = this.isRequiredField(field) ? '.required' : '.optional';
+    const isRequiredField = ((!this.isHasManyConnectionField(field)) && this.config.handleListNullabilityTransparently) ?
+     this.isRequiredField(field) : this.isFieldRequired(field);
+    const isRequired = isRequiredField ? '.required' : '.optional';
     // connected field
     if (connectionInfo) {
       if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
@@ -427,7 +424,7 @@ export class AppSyncSwiftVisitor<
    * @param field field
    */
   protected isFieldRequired(field: CodeGenField): boolean {
-    if (field.connectionInfo && field.connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
+    if (this.isHasManyConnectionField(field)) {
       return false;
     }
     return !field.isNullable;
@@ -442,7 +439,14 @@ export class AppSyncSwiftVisitor<
         return `.index(fields: [${fields}], name: ${name})`;
       });
 
-      return keyDirectives
+    return keyDirectives
+  }
+  
+  protected isHasManyConnectionField(field: CodeGenField): boolean {
+    if (field.connectionInfo && field.connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
+      return true;
+    }
+    return false;
   }
 
   protected generateAuthRules(model: CodeGenModel): string {
