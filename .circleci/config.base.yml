@@ -1,0 +1,216 @@
+version: 2.1
+machine:
+  environment:
+    PATH: '${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin'
+executors:
+  linux_node12:
+    docker:
+      - image: circleci/node:12
+    resource_class: large
+  linux_node15:
+    docker:
+      - image: circleci/node:15
+    resource_class: large
+  windows_node12:
+    machine:
+      image: 'windows-server-2019-vs2019:stable'
+      resource_class: windows.large
+      shell: bash.exe
+  macos_node12:
+    macos:
+      xcode: "11.2.1"
+      resource_class: large
+
+defaults: &defaults
+  working_directory: ~/repo
+  parameters:
+      os:
+        type: executor
+
+install_cli_with_local_codegen: &install_cli
+  name: install Amplify CLI and amplify-app with local Amplify Codegen
+  command: |
+    source .circleci/local_publish_helpers.sh
+    startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
+    setNpmRegistryUrlToLocal
+    sudo npm install -g @aws-amplify/cli
+    sudo npm install -g amplify-app
+    amplify -v
+    amplify-app --version
+    unsetNpmRegistryUrl
+  working_directory: ~/repo
+        
+clean_up_e2e_resources: &cleanup_e2e
+  name: Clean up e2e resources
+  command: |
+    cd packages/amplify-codegen-e2e-tests
+    yarn clean-e2e-resources job ${CIRCLE_BUILD_NUM}
+  working_directory: ~/repo
+
+jobs:
+  build:
+    <<: *defaults
+    executor: << parameters.os >>
+    steps:
+      - checkout
+      - run: yarn config set workspaces-experimental true
+      - run: yarn cache clean --force
+      - run: yarn run production-build
+      - save_cache:
+          key: amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache
+      - save_cache:
+          key: amplify-codegen-ssh-deps-{{ arch }}-{{ .Branch }}
+          paths:
+            - ~/.ssh
+      - persist_to_workspace:
+          root: .
+          paths: .
+
+  test:
+    <<: *defaults
+    executor: << parameters.os >>
+    steps:
+      - attach_workspace:
+          at: ./
+      - restore_cache:
+          key: amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - run:
+          name: Lint
+          command: yarn lint
+      - run:
+          name: Run tests
+          command: yarn test-ci
+      - run:
+          name: Collect code coverage
+          command: yarn coverage
+
+  deploy:
+    <<: *defaults
+    executor: << parameters.os >>
+    steps:
+      - attach_workspace:
+          at: ./
+      - restore_cache:
+          keys:
+            - amplify-codegen-ssh-deps-{{ arch }}-{{ .Branch }}
+            - amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - run:
+          name: Authenticate with npm
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+      - run:
+          name: Publish Amplify Codegen
+          command: |
+            if [ -z "$CIRCLE_PULL_REQUEST" ]; then
+              git config --global user.email $GITHUB_EMAIL
+              git config --global user.name $GITHUB_USER
+              npm run publish:$CIRCLE_BRANCH
+            else
+              echo "Skipping deploy."
+            fi
+
+  publish_to_local_registry:
+    <<: *defaults
+    executor: << parameters.os >>
+    steps:
+      - attach_workspace:
+          at: ./
+      - restore_cache:
+          key: amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - run:
+          name: Publish to verdaccio
+          command: |
+            source .circleci/local_publish_helpers.sh
+            startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
+            setNpmRegistryUrlToLocal
+            loginToLocalRegistry
+            git config user.email not@used.com
+            git config user.name "Doesnt Matter"
+            yarn publish-to-verdaccio
+            unsetNpmRegistryUrl
+      - save_cache:
+          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - ~/verdaccio-cache/
+
+  e2e-test:
+    <<: *defaults
+    executor: << parameters.os >>
+    steps:
+      - attach_workspace:
+          at: ./
+      - restore_cache:
+          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}
+      - run: *install_cli
+      - run:
+          name: Run e2e tests
+          command: |
+            cd packages/amplify-codegen-e2e-tests
+            yarn run e2e --maxWorkers=3 $TEST_SUITE
+          no_output_timeout: 20m
+      - store_test_results:
+          path: packages/amplify-codegen-e2e-tests/
+      - store_artifacts:
+          path: ~/repo/packages/amplify-codegen-e2e-tests/amplify-e2e-reports
+
+  done_with_node_e2e_tests:
+    <<: *defaults
+    executor: << parameters.os >>
+    steps:
+      - run: echo 'Done with Node CLI E2E Tests'
+workflows:
+  version: 2
+  build_test_deploy:
+    jobs:
+      - build:
+          name: build-<< matrix.os >>
+          matrix:
+            parameters:
+              os: [linux_node15, linux_node12, windows_node12, macos_node12]
+      - test:
+          name: test-<< matrix.os >>
+          matrix:
+            parameters:
+              os: [linux_node15, linux_node12, windows_node12, macos_node12]
+          requires:
+            - build-<< matrix.os >>
+      - publish_to_local_registry:
+          matrix:
+            parameters:
+              os: [linux_node12]
+          requires:
+            - build-<< matrix.os >>
+          filters:
+            branches:
+              only:
+                - e2e-testing
+                - split-e2e
+      - e2e-test:
+          context:
+            - cleanup-resources
+          os: linux_node12
+          requires:
+            - publish_to_local_registry
+          post-steps:
+            - run: *cleanup_e2e
+          filters:
+            branches:
+              only:
+                - e2e-testing
+                - split-e2e
+      - deploy:
+          os: linux_node15
+          requires:
+            - build
+            - test
+            - done_with_node_e2e_tests
+          filters:
+            branches:
+              only:
+                - release
+                - master
+      - done_with_node_e2e_tests:
+          os: linux_node15
+          requires:
+            - e2e-test

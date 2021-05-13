@@ -1,3 +1,4 @@
+# auto generated file. Edit config.base.yaml if you want to change
 version: 2.1
 machine:
   environment:
@@ -5,11 +6,11 @@ machine:
 executors:
   linux_node12:
     docker:
-      - image: circleci/node:12
+      - image: 'circleci/node:12'
     resource_class: large
   linux_node15:
     docker:
-      - image: circleci/node:15
+      - image: 'circleci/node:15'
     resource_class: large
   windows_node12:
     machine:
@@ -18,44 +19,35 @@ executors:
       shell: bash.exe
   macos_node12:
     macos:
-      xcode: "11.2.1"
+      xcode: 11.2.1
       resource_class: large
-
-defaults: &defaults
+defaults:
   working_directory: ~/repo
-  parameters:
-      os:
-        type: executor
-
-install_cli_with_local_codegen: &install_cli
+  parameters: &ref_0
+    os:
+      type: executor
+install_cli_with_local_codegen: &ref_1
   name: install Amplify CLI and amplify-app with local Amplify Codegen
   command: |
-    npm get prefix
     source .circleci/local_publish_helpers.sh
-    local_registry=http://localhost:4873
     startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
-    setNpmRegistryUrlToLocal "$local_registry"
-    git config user.email not@used.com
-    git config user.name "Doesnt Matter"
-    yarn verdaccio-publish || yarn verdaccio-publish
-    sudo npm i -g @aws-amplify/cli --registry $local_registry
-    sudo npm i -g amplify-app --registry $local_registry
+    setNpmRegistryUrlToLocal
+    sudo npm install -g @aws-amplify/cli
+    sudo npm install -g amplify-app
     amplify -v
     amplify-app --version
     unsetNpmRegistryUrl
   working_directory: ~/repo
-        
-clean_up_e2e_resources: &cleanup_e2e
+clean_up_e2e_resources: &ref_3
   name: Clean up e2e resources
   command: |
-    pwd
     cd packages/amplify-codegen-e2e-tests
     yarn clean-e2e-resources job ${CIRCLE_BUILD_NUM}
   working_directory: ~/repo
-
 jobs:
   build:
-    <<: *defaults
+    working_directory: ~/repo
+    parameters: *ref_0
     executor: << parameters.os >>
     steps:
       - checkout
@@ -63,25 +55,29 @@ jobs:
       - run: yarn cache clean --force
       - run: yarn run production-build
       - save_cache:
-          key: amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: >-
+            amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum
+            "yarn.lock" }}
           paths:
             - ~/.cache
       - save_cache:
-          key: amplify-codegen-ssh-deps-{{ arch }}-{{ .Branch }}
+          key: 'amplify-codegen-ssh-deps-{{ arch }}-{{ .Branch }}'
           paths:
             - ~/.ssh
       - persist_to_workspace:
           root: .
           paths: .
-
   test:
-    <<: *defaults
+    working_directory: ~/repo
+    parameters: *ref_0
     executor: << parameters.os >>
     steps:
       - attach_workspace:
           at: ./
       - restore_cache:
-          key: amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: >-
+            amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum
+            "yarn.lock" }}
       - run:
           name: Lint
           command: yarn lint
@@ -91,20 +87,22 @@ jobs:
       - run:
           name: Collect code coverage
           command: yarn coverage
-
   deploy:
-    <<: *defaults
+    working_directory: ~/repo
+    parameters: *ref_0
     executor: << parameters.os >>
     steps:
       - attach_workspace:
           at: ./
       - restore_cache:
           keys:
-            - amplify-codegen-ssh-deps-{{ arch }}-{{ .Branch }}
-            - amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - 'amplify-codegen-ssh-deps-{{ arch }}-{{ .Branch }}'
+            - >-
+              amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum
+              "yarn.lock" }}
       - run:
           name: Authenticate with npm
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+          command: 'echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc'
       - run:
           name: Publish Amplify Codegen
           command: |
@@ -115,26 +113,234 @@ jobs:
             else
               echo "Skipping deploy."
             fi
-
-  e2e-test:
-    <<: *defaults
+  publish_to_local_registry:
+    working_directory: ~/repo
+    parameters: *ref_0
     executor: << parameters.os >>
     steps:
       - attach_workspace:
           at: ./
       - restore_cache:
-          key: amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
-      - run: *install_cli
+          key: >-
+            amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum
+            "yarn.lock" }}
+      - run:
+          name: Publish to verdaccio
+          command: |
+            source .circleci/local_publish_helpers.sh
+            startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
+            setNpmRegistryUrlToLocal
+            loginToLocalRegistry
+            git config user.email not@used.com
+            git config user.name "Doesnt Matter"
+            yarn publish-to-verdaccio
+            unsetNpmRegistryUrl
+      - save_cache:
+          key: 'amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}'
+          paths:
+            - ~/verdaccio-cache/
+  e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: &ref_2
+      - attach_workspace:
+          at: ./
+      - restore_cache:
+          key: 'amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}'
+      - run: *ref_1
       - run:
           name: Run e2e tests
           command: |
             cd packages/amplify-codegen-e2e-tests
-            yarn run e2e --maxWorkers=3
+            yarn run e2e --maxWorkers=3 $TEST_SUITE
+          no_output_timeout: 20m
       - store_test_results:
           path: packages/amplify-codegen-e2e-tests/
       - store_artifacts:
           path: ~/repo/packages/amplify-codegen-e2e-tests/amplify-e2e-reports
-
+  done_with_node_e2e_tests:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps:
+      - run: echo 'Done with Node CLI E2E Tests'
+  push-codegen-ios-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_2
+    environment:
+      TEST_SUITE: src/__tests__/push-codegen-ios.test.ts
+      CLI_REGION: us-east-2
+  push-codegen-js-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_2
+    environment:
+      TEST_SUITE: src/__tests__/push-codegen-js.test.ts
+      CLI_REGION: us-west-2
+  push-codegen-android-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_2
+    environment:
+      TEST_SUITE: src/__tests__/push-codegen-android.test.ts
+      CLI_REGION: eu-west-2
+  pull-codegen-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_2
+    environment:
+      TEST_SUITE: src/__tests__/pull-codegen.test.ts
+      CLI_REGION: eu-central-1
+  env-codegen-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_2
+    environment:
+      TEST_SUITE: src/__tests__/env-codegen.test.ts
+      CLI_REGION: ap-northeast-1
+  add-codegen-js-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_2
+    environment:
+      TEST_SUITE: src/__tests__/add-codegen-js.test.ts
+      CLI_REGION: ap-southeast-1
+  add-codegen-ios-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_2
+    environment:
+      TEST_SUITE: src/__tests__/add-codegen-ios.test.ts
+      CLI_REGION: ap-southeast-2
+  add-codegen-android-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_2
+    environment:
+      TEST_SUITE: src/__tests__/add-codegen-android.test.ts
+      CLI_REGION: us-east-2
+  datastore-modelgen-flutter-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_2
+    environment:
+      TEST_SUITE: src/__tests__/datastore-modelgen-flutter.test.ts
+      CLI_REGION: us-west-2
+  datastore-modelgen-ios-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_2
+    environment:
+      TEST_SUITE: src/__tests__/datastore-modelgen-ios.test.ts
+      CLI_REGION: eu-west-2
+  datastore-modelgen-android-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_2
+    environment:
+      TEST_SUITE: src/__tests__/datastore-modelgen-android.test.ts
+      CLI_REGION: eu-central-1
+  datastore-modelgen-js-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_2
+    environment:
+      TEST_SUITE: src/__tests__/datastore-modelgen-js.test.ts
+      CLI_REGION: ap-northeast-1
+  remove-codegen-android-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_2
+    environment:
+      TEST_SUITE: src/__tests__/remove-codegen-android.test.ts
+      CLI_REGION: ap-southeast-1
+  remove-codegen-ios-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_2
+    environment:
+      TEST_SUITE: src/__tests__/remove-codegen-ios.test.ts
+      CLI_REGION: ap-southeast-2
+  remove-codegen-js-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_2
+    environment:
+      TEST_SUITE: src/__tests__/remove-codegen-js.test.ts
+      CLI_REGION: us-east-2
+  feature-flags-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_2
+    environment:
+      TEST_SUITE: src/__tests__/feature-flags.test.ts
+      CLI_REGION: us-west-2
+  configure-codegen-ios-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_2
+    environment:
+      TEST_SUITE: src/__tests__/configure-codegen-ios.test.ts
+      CLI_REGION: eu-west-2
+  configure-codegen-android-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_2
+    environment:
+      TEST_SUITE: src/__tests__/configure-codegen-android.test.ts
+      CLI_REGION: eu-central-1
+  configure-codegen-js-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_2
+    environment:
+      TEST_SUITE: src/__tests__/configure-codegen-js.test.ts
+      CLI_REGION: ap-northeast-1
+  graphql-codegen-android-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_2
+    environment:
+      TEST_SUITE: src/__tests__/graphql-codegen-android.test.ts
+      CLI_REGION: ap-southeast-1
+  graphql-codegen-js-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_2
+    environment:
+      TEST_SUITE: src/__tests__/graphql-codegen-js.test.ts
+      CLI_REGION: ap-southeast-2
+  graphql-codegen-ios-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_2
+    environment:
+      TEST_SUITE: src/__tests__/graphql-codegen-ios.test.ts
+      CLI_REGION: us-east-2
 workflows:
   version: 2
   build_test_deploy:
@@ -143,36 +349,227 @@ workflows:
           name: build-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux_node15, linux_node12, windows_node12, macos_node12]
+              os:
+                - linux_node15
+                - linux_node12
+                - windows_node12
+                - macos_node12
       - test:
           name: test-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux_node15, linux_node12, windows_node12, macos_node12]
+              os:
+                - linux_node15
+                - linux_node12
+                - windows_node12
+                - macos_node12
           requires:
             - build-<< matrix.os >>
-      - e2e-test:
-          name: e2e-test-<< matrix.os >>
+      - publish_to_local_registry:
           matrix:
             parameters:
-              os: [linux_node15, linux_node12]
+              os:
+                - linux_node12
           requires:
             - build-<< matrix.os >>
-            - test-<< matrix.os >>
-          post-steps:
-            - run: *cleanup_e2e
           filters:
             branches:
               only:
                 - e2e-testing
+                - split-e2e
       - deploy:
           os: linux_node15
           requires:
             - build
             - test
-            - e2e-test
+            - done_with_node_e2e_tests
           filters:
             branches:
               only:
                 - release
                 - master
+      - done_with_node_e2e_tests:
+          os: linux_node15
+          requires:
+            - push-codegen-ios-e2e-test
+            - add-codegen-android-e2e-test
+            - remove-codegen-js-e2e-test
+            - graphql-codegen-ios-e2e-test
+            - push-codegen-js-e2e-test
+            - datastore-modelgen-flutter-e2e-test
+            - feature-flags-e2e-test
+            - push-codegen-android-e2e-test
+            - datastore-modelgen-ios-e2e-test
+            - configure-codegen-ios-e2e-test
+            - pull-codegen-e2e-test
+            - datastore-modelgen-android-e2e-test
+            - configure-codegen-android-e2e-test
+            - env-codegen-e2e-test
+            - datastore-modelgen-js-e2e-test
+            - configure-codegen-js-e2e-test
+            - add-codegen-js-e2e-test
+            - remove-codegen-android-e2e-test
+            - graphql-codegen-android-e2e-test
+            - add-codegen-ios-e2e-test
+            - remove-codegen-ios-e2e-test
+            - graphql-codegen-js-e2e-test
+      - push-codegen-ios-e2e-test:
+          context: &ref_4
+            - cleanup-resources
+          os: linux_node12
+          requires:
+            - publish_to_local_registry
+          post-steps: &ref_5
+            - run: *ref_3
+          filters: &ref_6
+            branches:
+              only:
+                - e2e-testing
+                - split-e2e
+      - add-codegen-android-e2e-test:
+          context: *ref_4
+          os: linux_node12
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_5
+          filters: *ref_6
+      - remove-codegen-js-e2e-test:
+          context: *ref_4
+          os: linux_node12
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_5
+          filters: *ref_6
+      - graphql-codegen-ios-e2e-test:
+          context: *ref_4
+          os: linux_node12
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_5
+          filters: *ref_6
+      - push-codegen-js-e2e-test:
+          context: *ref_4
+          os: linux_node12
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_5
+          filters: *ref_6
+      - datastore-modelgen-flutter-e2e-test:
+          context: *ref_4
+          os: linux_node12
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_5
+          filters: *ref_6
+      - feature-flags-e2e-test:
+          context: *ref_4
+          os: linux_node12
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_5
+          filters: *ref_6
+      - push-codegen-android-e2e-test:
+          context: *ref_4
+          os: linux_node12
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_5
+          filters: *ref_6
+      - datastore-modelgen-ios-e2e-test:
+          context: *ref_4
+          os: linux_node12
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_5
+          filters: *ref_6
+      - configure-codegen-ios-e2e-test:
+          context: *ref_4
+          os: linux_node12
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_5
+          filters: *ref_6
+      - pull-codegen-e2e-test:
+          context: *ref_4
+          os: linux_node12
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_5
+          filters: *ref_6
+      - datastore-modelgen-android-e2e-test:
+          context: *ref_4
+          os: linux_node12
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_5
+          filters: *ref_6
+      - configure-codegen-android-e2e-test:
+          context: *ref_4
+          os: linux_node12
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_5
+          filters: *ref_6
+      - env-codegen-e2e-test:
+          context: *ref_4
+          os: linux_node12
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_5
+          filters: *ref_6
+      - datastore-modelgen-js-e2e-test:
+          context: *ref_4
+          os: linux_node12
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_5
+          filters: *ref_6
+      - configure-codegen-js-e2e-test:
+          context: *ref_4
+          os: linux_node12
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_5
+          filters: *ref_6
+      - add-codegen-js-e2e-test:
+          context: *ref_4
+          os: linux_node12
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_5
+          filters: *ref_6
+      - remove-codegen-android-e2e-test:
+          context: *ref_4
+          os: linux_node12
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_5
+          filters: *ref_6
+      - graphql-codegen-android-e2e-test:
+          context: *ref_4
+          os: linux_node12
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_5
+          filters: *ref_6
+      - add-codegen-ios-e2e-test:
+          context: *ref_4
+          os: linux_node12
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_5
+          filters: *ref_6
+      - remove-codegen-ios-e2e-test:
+          context: *ref_4
+          os: linux_node12
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_5
+          filters: *ref_6
+      - graphql-codegen-js-e2e-test:
+          context: *ref_4
+          os: linux_node12
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_5
+          filters: *ref_6
