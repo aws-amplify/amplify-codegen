@@ -3,6 +3,7 @@ import { initJSProjectWithProfile, createNewProjectDir, deleteProject, deletePro
 import { pathManager } from 'amplify-cli-core';
 
 const codegenFeatureFlags = {
+    "addtimestampfields": true,
     "useappsyncmodelgenplugin": true,
     "usedocsgeneratorplugin": true,
     "usetypesgeneratorplugin": true,

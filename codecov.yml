@@ -10,3 +10,6 @@ coverage:
       default:
         target: 80%
         if_not_found: success
+
+ignore:
+  - "packages/amplify-codegen-e2e-tests/src/schema-api-directives/tests"
