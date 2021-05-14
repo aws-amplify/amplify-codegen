@@ -3,6 +3,7 @@
 exports[`AppSyncModelVisitor Model with Auth should generate class with custom claims 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
 import java.util.UUID;
@@ -33,6 +34,8 @@ public final class customClaim implements Model {
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\") String bar;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -43,6 +46,14 @@ public final class customClaim implements Model {
   
   public String getBar() {
       return bar;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
   }
   
   private customClaim(String id, String name, String bar) {
@@ -61,7 +72,9 @@ public final class customClaim implements Model {
       customClaim customClaim = (customClaim) obj;
       return ObjectsCompat.equals(getId(), customClaim.getId()) &&
               ObjectsCompat.equals(getName(), customClaim.getName()) &&
-              ObjectsCompat.equals(getBar(), customClaim.getBar());
+              ObjectsCompat.equals(getBar(), customClaim.getBar()) &&
+              ObjectsCompat.equals(getCreatedAt(), customClaim.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), customClaim.getUpdatedAt());
       }
   }
   
@@ -71,6 +84,8 @@ public final class customClaim implements Model {
       .append(getId())
       .append(getName())
       .append(getBar())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -81,7 +96,9 @@ public final class customClaim implements Model {
       .append(\\"customClaim {\\")
       .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
       .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
-      .append(\\"bar=\\" + String.valueOf(getBar()))
+      .append(\\"bar=\\" + String.valueOf(getBar()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }
@@ -202,6 +219,7 @@ public final class customClaim implements Model {
 exports[`AppSyncModelVisitor Model with Auth should generate class with custom group claims 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
 import java.util.UUID;
@@ -232,6 +250,8 @@ public final class customClaim implements Model {
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\") String bar;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -242,6 +262,14 @@ public final class customClaim implements Model {
   
   public String getBar() {
       return bar;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
   }
   
   private customClaim(String id, String name, String bar) {
@@ -260,7 +288,9 @@ public final class customClaim implements Model {
       customClaim customClaim = (customClaim) obj;
       return ObjectsCompat.equals(getId(), customClaim.getId()) &&
               ObjectsCompat.equals(getName(), customClaim.getName()) &&
-              ObjectsCompat.equals(getBar(), customClaim.getBar());
+              ObjectsCompat.equals(getBar(), customClaim.getBar()) &&
+              ObjectsCompat.equals(getCreatedAt(), customClaim.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), customClaim.getUpdatedAt());
       }
   }
   
@@ -270,6 +300,8 @@ public final class customClaim implements Model {
       .append(getId())
       .append(getName())
       .append(getBar())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -280,7 +312,9 @@ public final class customClaim implements Model {
       .append(\\"customClaim {\\")
       .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
       .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
-      .append(\\"bar=\\" + String.valueOf(getBar()))
+      .append(\\"bar=\\" + String.valueOf(getBar()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }
@@ -401,6 +435,7 @@ public final class customClaim implements Model {
 exports[`AppSyncModelVisitor Model with Auth should generate class with default field auth 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
 import java.util.UUID;
@@ -436,6 +471,8 @@ public final class Employee implements Model {
   private final @ModelField(targetType=\\"String\\", authRules = {
     @AuthRule(allow = AuthStrategy.OWNER, ownerField = \\"owner\\", identityClaim = \\"cognito:username\\", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
   }) String ssn;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -450,6 +487,14 @@ public final class Employee implements Model {
   
   public String getSsn() {
       return ssn;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
   }
   
   private Employee(String id, String name, String address, String ssn) {
@@ -470,7 +515,9 @@ public final class Employee implements Model {
       return ObjectsCompat.equals(getId(), employee.getId()) &&
               ObjectsCompat.equals(getName(), employee.getName()) &&
               ObjectsCompat.equals(getAddress(), employee.getAddress()) &&
-              ObjectsCompat.equals(getSsn(), employee.getSsn());
+              ObjectsCompat.equals(getSsn(), employee.getSsn()) &&
+              ObjectsCompat.equals(getCreatedAt(), employee.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), employee.getUpdatedAt());
       }
   }
   
@@ -481,6 +528,8 @@ public final class Employee implements Model {
       .append(getName())
       .append(getAddress())
       .append(getSsn())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -492,7 +541,9 @@ public final class Employee implements Model {
       .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
       .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
       .append(\\"address=\\" + String.valueOf(getAddress()) + \\", \\")
-      .append(\\"ssn=\\" + String.valueOf(getSsn()))
+      .append(\\"ssn=\\" + String.valueOf(getSsn()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }
@@ -640,6 +691,7 @@ public final class Employee implements Model {
 exports[`AppSyncModelVisitor Model with Auth should generate class with dynamic groups 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
 import java.util.UUID;
@@ -670,6 +722,8 @@ public final class dynamicGroups implements Model {
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\") String bar;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -680,6 +734,14 @@ public final class dynamicGroups implements Model {
   
   public String getBar() {
       return bar;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
   }
   
   private dynamicGroups(String id, String name, String bar) {
@@ -698,7 +760,9 @@ public final class dynamicGroups implements Model {
       dynamicGroups dynamicGroups = (dynamicGroups) obj;
       return ObjectsCompat.equals(getId(), dynamicGroups.getId()) &&
               ObjectsCompat.equals(getName(), dynamicGroups.getName()) &&
-              ObjectsCompat.equals(getBar(), dynamicGroups.getBar());
+              ObjectsCompat.equals(getBar(), dynamicGroups.getBar()) &&
+              ObjectsCompat.equals(getCreatedAt(), dynamicGroups.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), dynamicGroups.getUpdatedAt());
       }
   }
   
@@ -708,6 +772,8 @@ public final class dynamicGroups implements Model {
       .append(getId())
       .append(getName())
       .append(getBar())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -718,7 +784,9 @@ public final class dynamicGroups implements Model {
       .append(\\"dynamicGroups {\\")
       .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
       .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
-      .append(\\"bar=\\" + String.valueOf(getBar()))
+      .append(\\"bar=\\" + String.valueOf(getBar()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }
@@ -839,6 +907,7 @@ public final class dynamicGroups implements Model {
 exports[`AppSyncModelVisitor Model with Auth should generate class with owner auth 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
 import java.util.UUID;
@@ -869,6 +938,8 @@ public final class simpleOwnerAuth implements Model {
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\") String bar;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -879,6 +950,14 @@ public final class simpleOwnerAuth implements Model {
   
   public String getBar() {
       return bar;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
   }
   
   private simpleOwnerAuth(String id, String name, String bar) {
@@ -897,7 +976,9 @@ public final class simpleOwnerAuth implements Model {
       simpleOwnerAuth simpleOwnerAuth = (simpleOwnerAuth) obj;
       return ObjectsCompat.equals(getId(), simpleOwnerAuth.getId()) &&
               ObjectsCompat.equals(getName(), simpleOwnerAuth.getName()) &&
-              ObjectsCompat.equals(getBar(), simpleOwnerAuth.getBar());
+              ObjectsCompat.equals(getBar(), simpleOwnerAuth.getBar()) &&
+              ObjectsCompat.equals(getCreatedAt(), simpleOwnerAuth.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), simpleOwnerAuth.getUpdatedAt());
       }
   }
   
@@ -907,6 +988,8 @@ public final class simpleOwnerAuth implements Model {
       .append(getId())
       .append(getName())
       .append(getBar())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -917,7 +1000,9 @@ public final class simpleOwnerAuth implements Model {
       .append(\\"simpleOwnerAuth {\\")
       .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
       .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
-      .append(\\"bar=\\" + String.valueOf(getBar()))
+      .append(\\"bar=\\" + String.valueOf(getBar()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }
@@ -1038,6 +1123,7 @@ public final class simpleOwnerAuth implements Model {
 exports[`AppSyncModelVisitor Model with Auth should generate class with owner auth allowing others to read 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
 import java.util.UUID;
@@ -1068,6 +1154,8 @@ public final class allowRead implements Model {
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\") String bar;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -1078,6 +1166,14 @@ public final class allowRead implements Model {
   
   public String getBar() {
       return bar;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
   }
   
   private allowRead(String id, String name, String bar) {
@@ -1096,7 +1192,9 @@ public final class allowRead implements Model {
       allowRead allowRead = (allowRead) obj;
       return ObjectsCompat.equals(getId(), allowRead.getId()) &&
               ObjectsCompat.equals(getName(), allowRead.getName()) &&
-              ObjectsCompat.equals(getBar(), allowRead.getBar());
+              ObjectsCompat.equals(getBar(), allowRead.getBar()) &&
+              ObjectsCompat.equals(getCreatedAt(), allowRead.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), allowRead.getUpdatedAt());
       }
   }
   
@@ -1106,6 +1204,8 @@ public final class allowRead implements Model {
       .append(getId())
       .append(getName())
       .append(getBar())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -1116,7 +1216,9 @@ public final class allowRead implements Model {
       .append(\\"allowRead {\\")
       .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
       .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
-      .append(\\"bar=\\" + String.valueOf(getBar()))
+      .append(\\"bar=\\" + String.valueOf(getBar()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }
@@ -1237,6 +1339,7 @@ public final class allowRead implements Model {
 exports[`AppSyncModelVisitor Model with Auth should generate class with private authorization 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
 import java.util.UUID;
@@ -1267,6 +1370,8 @@ public final class privateType implements Model {
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\") String bar;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -1277,6 +1382,14 @@ public final class privateType implements Model {
   
   public String getBar() {
       return bar;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
   }
   
   private privateType(String id, String name, String bar) {
@@ -1295,7 +1408,9 @@ public final class privateType implements Model {
       privateType privateType = (privateType) obj;
       return ObjectsCompat.equals(getId(), privateType.getId()) &&
               ObjectsCompat.equals(getName(), privateType.getName()) &&
-              ObjectsCompat.equals(getBar(), privateType.getBar());
+              ObjectsCompat.equals(getBar(), privateType.getBar()) &&
+              ObjectsCompat.equals(getCreatedAt(), privateType.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), privateType.getUpdatedAt());
       }
   }
   
@@ -1305,6 +1420,8 @@ public final class privateType implements Model {
       .append(getId())
       .append(getName())
       .append(getBar())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -1315,7 +1432,9 @@ public final class privateType implements Model {
       .append(\\"privateType {\\")
       .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
       .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
-      .append(\\"bar=\\" + String.valueOf(getBar()))
+      .append(\\"bar=\\" + String.valueOf(getBar()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }
@@ -1436,6 +1555,7 @@ public final class privateType implements Model {
 exports[`AppSyncModelVisitor Model with Auth should generate class with private authorization and field auth 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
 import java.util.UUID;
@@ -1468,6 +1588,8 @@ public final class privateType implements Model {
   private final @ModelField(targetType=\\"String\\", authRules = {
     @AuthRule(allow = AuthStrategy.PRIVATE, operations = { ModelOperation.CREATE, ModelOperation.UPDATE })
   }) String bar;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -1478,6 +1600,14 @@ public final class privateType implements Model {
   
   public String getBar() {
       return bar;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
   }
   
   private privateType(String id, String name, String bar) {
@@ -1496,7 +1626,9 @@ public final class privateType implements Model {
       privateType privateType = (privateType) obj;
       return ObjectsCompat.equals(getId(), privateType.getId()) &&
               ObjectsCompat.equals(getName(), privateType.getName()) &&
-              ObjectsCompat.equals(getBar(), privateType.getBar());
+              ObjectsCompat.equals(getBar(), privateType.getBar()) &&
+              ObjectsCompat.equals(getCreatedAt(), privateType.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), privateType.getUpdatedAt());
       }
   }
   
@@ -1506,6 +1638,8 @@ public final class privateType implements Model {
       .append(getId())
       .append(getName())
       .append(getBar())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -1516,7 +1650,9 @@ public final class privateType implements Model {
       .append(\\"privateType {\\")
       .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
       .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
-      .append(\\"bar=\\" + String.valueOf(getBar()))
+      .append(\\"bar=\\" + String.valueOf(getBar()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }
@@ -1637,6 +1773,7 @@ public final class privateType implements Model {
 exports[`AppSyncModelVisitor Model with Auth should generate class with public authorization 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
 import java.util.UUID;
@@ -1667,6 +1804,8 @@ public final class publicType implements Model {
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\") String bar;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -1677,6 +1816,14 @@ public final class publicType implements Model {
   
   public String getBar() {
       return bar;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
   }
   
   private publicType(String id, String name, String bar) {
@@ -1695,7 +1842,9 @@ public final class publicType implements Model {
       publicType publicType = (publicType) obj;
       return ObjectsCompat.equals(getId(), publicType.getId()) &&
               ObjectsCompat.equals(getName(), publicType.getName()) &&
-              ObjectsCompat.equals(getBar(), publicType.getBar());
+              ObjectsCompat.equals(getBar(), publicType.getBar()) &&
+              ObjectsCompat.equals(getCreatedAt(), publicType.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), publicType.getUpdatedAt());
       }
   }
   
@@ -1705,6 +1854,8 @@ public final class publicType implements Model {
       .append(getId())
       .append(getName())
       .append(getBar())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -1715,7 +1866,9 @@ public final class publicType implements Model {
       .append(\\"publicType {\\")
       .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
       .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
-      .append(\\"bar=\\" + String.valueOf(getBar()))
+      .append(\\"bar=\\" + String.valueOf(getBar()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }
@@ -1836,6 +1989,7 @@ public final class publicType implements Model {
 exports[`AppSyncModelVisitor Model with Auth should generate class with static groups 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
 import java.util.UUID;
@@ -1866,6 +2020,8 @@ public final class staticGroups implements Model {
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\") String bar;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -1876,6 +2032,14 @@ public final class staticGroups implements Model {
   
   public String getBar() {
       return bar;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
   }
   
   private staticGroups(String id, String name, String bar) {
@@ -1894,7 +2058,9 @@ public final class staticGroups implements Model {
       staticGroups staticGroups = (staticGroups) obj;
       return ObjectsCompat.equals(getId(), staticGroups.getId()) &&
               ObjectsCompat.equals(getName(), staticGroups.getName()) &&
-              ObjectsCompat.equals(getBar(), staticGroups.getBar());
+              ObjectsCompat.equals(getBar(), staticGroups.getBar()) &&
+              ObjectsCompat.equals(getCreatedAt(), staticGroups.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), staticGroups.getUpdatedAt());
       }
   }
   
@@ -1904,6 +2070,8 @@ public final class staticGroups implements Model {
       .append(getId())
       .append(getName())
       .append(getBar())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -1914,7 +2082,9 @@ public final class staticGroups implements Model {
       .append(\\"staticGroups {\\")
       .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
       .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
-      .append(\\"bar=\\" + String.valueOf(getBar()))
+      .append(\\"bar=\\" + String.valueOf(getBar()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }
@@ -2035,6 +2205,7 @@ public final class staticGroups implements Model {
 exports[`AppSyncModelVisitor Non model type should generate class for model types with non model fields 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
 import java.util.UUID;
@@ -2064,6 +2235,8 @@ public final class Landmark implements Model {
   private final @ModelField(targetType=\\"Int\\", isRequired = true) Integer rating;
   private final @ModelField(targetType=\\"Location\\", isRequired = true) Location location;
   private final @ModelField(targetType=\\"Location\\") Location parking;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -2082,6 +2255,14 @@ public final class Landmark implements Model {
   
   public Location getParking() {
       return parking;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
   }
   
   private Landmark(String id, String name, Integer rating, Location location, Location parking) {
@@ -2104,7 +2285,9 @@ public final class Landmark implements Model {
               ObjectsCompat.equals(getName(), landmark.getName()) &&
               ObjectsCompat.equals(getRating(), landmark.getRating()) &&
               ObjectsCompat.equals(getLocation(), landmark.getLocation()) &&
-              ObjectsCompat.equals(getParking(), landmark.getParking());
+              ObjectsCompat.equals(getParking(), landmark.getParking()) &&
+              ObjectsCompat.equals(getCreatedAt(), landmark.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), landmark.getUpdatedAt());
       }
   }
   
@@ -2116,6 +2299,8 @@ public final class Landmark implements Model {
       .append(getRating())
       .append(getLocation())
       .append(getParking())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -2128,7 +2313,9 @@ public final class Landmark implements Model {
       .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
       .append(\\"rating=\\" + String.valueOf(getRating()) + \\", \\")
       .append(\\"location=\\" + String.valueOf(getLocation()) + \\", \\")
-      .append(\\"parking=\\" + String.valueOf(getParking()))
+      .append(\\"parking=\\" + String.valueOf(getParking()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }
@@ -2446,6 +2633,8 @@ public final class task implements Model {
   private final @ModelField(targetType=\\"Todo\\") @BelongsTo(targetName = \\"taskTodoId\\", type = Todo.class) Todo todo;
   private final @ModelField(targetType=\\"AWSTime\\") Temporal.Time time;
   private final @ModelField(targetType=\\"AWSDate\\") Temporal.Date createdOn;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -2460,6 +2649,14 @@ public final class task implements Model {
   
   public Temporal.Date getCreatedOn() {
       return createdOn;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
   }
   
   private task(String id, Todo todo, Temporal.Time time, Temporal.Date createdOn) {
@@ -2480,7 +2677,9 @@ public final class task implements Model {
       return ObjectsCompat.equals(getId(), task.getId()) &&
               ObjectsCompat.equals(getTodo(), task.getTodo()) &&
               ObjectsCompat.equals(getTime(), task.getTime()) &&
-              ObjectsCompat.equals(getCreatedOn(), task.getCreatedOn());
+              ObjectsCompat.equals(getCreatedOn(), task.getCreatedOn()) &&
+              ObjectsCompat.equals(getCreatedAt(), task.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), task.getUpdatedAt());
       }
   }
   
@@ -2491,6 +2690,8 @@ public final class task implements Model {
       .append(getTodo())
       .append(getTime())
       .append(getCreatedOn())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -2502,7 +2703,9 @@ public final class task implements Model {
       .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
       .append(\\"todo=\\" + String.valueOf(getTodo()) + \\", \\")
       .append(\\"time=\\" + String.valueOf(getTime()) + \\", \\")
-      .append(\\"createdOn=\\" + String.valueOf(getCreatedOn()))
+      .append(\\"createdOn=\\" + String.valueOf(getCreatedOn()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }
@@ -2641,6 +2844,7 @@ exports[`AppSyncModelVisitor One to Many connection with no nullable and non nul
 "package com.amplifyframework.datastore.generated.model;
 
 import com.amplifyframework.core.model.annotations.HasMany;
+import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
 import java.util.UUID;
@@ -2663,12 +2867,22 @@ public final class Todo implements Model {
   public static final QueryField ID = field(\\"Todo\\", \\"id\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"task\\") @HasMany(associatedWith = \\"todo\\", type = task.class) List<task> tasks = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
   
   public List<task> getTasks() {
       return tasks;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
   }
   
   private Todo(String id) {
@@ -2683,7 +2897,9 @@ public final class Todo implements Model {
         return false;
       } else {
       Todo todo = (Todo) obj;
-      return ObjectsCompat.equals(getId(), todo.getId());
+      return ObjectsCompat.equals(getId(), todo.getId()) &&
+              ObjectsCompat.equals(getCreatedAt(), todo.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), todo.getUpdatedAt());
       }
   }
   
@@ -2691,6 +2907,8 @@ public final class Todo implements Model {
    public int hashCode() {
     return new StringBuilder()
       .append(getId())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -2699,7 +2917,9 @@ public final class Todo implements Model {
    public String toString() {
     return new StringBuilder()
       .append(\\"Todo {\\")
-      .append(\\"id=\\" + String.valueOf(getId()))
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }
@@ -2787,6 +3007,7 @@ public final class Todo implements Model {
 exports[`AppSyncModelVisitor Should generate a class a model with all optional fields except id field 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
 import java.util.UUID;
@@ -2812,6 +3033,8 @@ public final class SimpleModel implements Model {
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\") String bar;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -2822,6 +3045,14 @@ public final class SimpleModel implements Model {
   
   public String getBar() {
       return bar;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
   }
   
   private SimpleModel(String id, String name, String bar) {
@@ -2840,7 +3071,9 @@ public final class SimpleModel implements Model {
       SimpleModel simpleModel = (SimpleModel) obj;
       return ObjectsCompat.equals(getId(), simpleModel.getId()) &&
               ObjectsCompat.equals(getName(), simpleModel.getName()) &&
-              ObjectsCompat.equals(getBar(), simpleModel.getBar());
+              ObjectsCompat.equals(getBar(), simpleModel.getBar()) &&
+              ObjectsCompat.equals(getCreatedAt(), simpleModel.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), simpleModel.getUpdatedAt());
       }
   }
   
@@ -2850,6 +3083,8 @@ public final class SimpleModel implements Model {
       .append(getId())
       .append(getName())
       .append(getBar())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -2860,7 +3095,9 @@ public final class SimpleModel implements Model {
       .append(\\"SimpleModel {\\")
       .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
       .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
-      .append(\\"bar=\\" + String.valueOf(getBar()))
+      .append(\\"bar=\\" + String.valueOf(getBar()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }
@@ -2981,6 +3218,7 @@ public final class SimpleModel implements Model {
 exports[`AppSyncModelVisitor Should generate a class for a Model 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
 import java.util.UUID;
@@ -3006,6 +3244,8 @@ public final class SimpleModel implements Model {
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\") String bar;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -3016,6 +3256,14 @@ public final class SimpleModel implements Model {
   
   public String getBar() {
       return bar;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
   }
   
   private SimpleModel(String id, String name, String bar) {
@@ -3034,7 +3282,9 @@ public final class SimpleModel implements Model {
       SimpleModel simpleModel = (SimpleModel) obj;
       return ObjectsCompat.equals(getId(), simpleModel.getId()) &&
               ObjectsCompat.equals(getName(), simpleModel.getName()) &&
-              ObjectsCompat.equals(getBar(), simpleModel.getBar());
+              ObjectsCompat.equals(getBar(), simpleModel.getBar()) &&
+              ObjectsCompat.equals(getCreatedAt(), simpleModel.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), simpleModel.getUpdatedAt());
       }
   }
   
@@ -3044,6 +3294,8 @@ public final class SimpleModel implements Model {
       .append(getId())
       .append(getName())
       .append(getBar())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -3054,7 +3306,9 @@ public final class SimpleModel implements Model {
       .append(\\"SimpleModel {\\")
       .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
       .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
-      .append(\\"bar=\\" + String.valueOf(getBar()))
+      .append(\\"bar=\\" + String.valueOf(getBar()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }
@@ -3175,6 +3429,7 @@ public final class SimpleModel implements Model {
 exports[`AppSyncModelVisitor Should generate a class for a Model 2`] = `
 "package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
 import java.util.UUID;
@@ -3200,6 +3455,8 @@ public final class SimpleModel implements Model {
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
   private final @ModelField(targetType=\\"String\\") String bar;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -3210,6 +3467,14 @@ public final class SimpleModel implements Model {
   
   public String getBar() {
       return bar;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
   }
   
   private SimpleModel(String id, String name, String bar) {
@@ -3228,7 +3493,9 @@ public final class SimpleModel implements Model {
       SimpleModel simpleModel = (SimpleModel) obj;
       return ObjectsCompat.equals(getId(), simpleModel.getId()) &&
               ObjectsCompat.equals(getName(), simpleModel.getName()) &&
-              ObjectsCompat.equals(getBar(), simpleModel.getBar());
+              ObjectsCompat.equals(getBar(), simpleModel.getBar()) &&
+              ObjectsCompat.equals(getCreatedAt(), simpleModel.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), simpleModel.getUpdatedAt());
       }
   }
   
@@ -3238,6 +3505,8 @@ public final class SimpleModel implements Model {
       .append(getId())
       .append(getName())
       .append(getBar())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -3248,7 +3517,9 @@ public final class SimpleModel implements Model {
       .append(\\"SimpleModel {\\")
       .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
       .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
-      .append(\\"bar=\\" + String.valueOf(getBar()))
+      .append(\\"bar=\\" + String.valueOf(getBar()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }
@@ -3402,6 +3673,8 @@ public final class task implements Model {
   private final @ModelField(targetType=\\"Todo\\") @BelongsTo(targetName = \\"taskTodoId\\", type = Todo.class) Todo todo;
   private final @ModelField(targetType=\\"AWSTime\\") Temporal.Time time;
   private final @ModelField(targetType=\\"AWSDate\\") Temporal.Date createdOn;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -3426,6 +3699,14 @@ public final class task implements Model {
       return createdOn;
   }
   
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
   private task(String id, String title, Boolean done, Todo todo, Temporal.Time time, Temporal.Date createdOn) {
     this.id = id;
     this.title = title;
@@ -3448,7 +3729,9 @@ public final class task implements Model {
               ObjectsCompat.equals(getDone(), task.getDone()) &&
               ObjectsCompat.equals(getTodo(), task.getTodo()) &&
               ObjectsCompat.equals(getTime(), task.getTime()) &&
-              ObjectsCompat.equals(getCreatedOn(), task.getCreatedOn());
+              ObjectsCompat.equals(getCreatedOn(), task.getCreatedOn()) &&
+              ObjectsCompat.equals(getCreatedAt(), task.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), task.getUpdatedAt());
       }
   }
   
@@ -3461,6 +3744,8 @@ public final class task implements Model {
       .append(getTodo())
       .append(getTime())
       .append(getCreatedOn())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -3474,7 +3759,9 @@ public final class task implements Model {
       .append(\\"done=\\" + String.valueOf(getDone()) + \\", \\")
       .append(\\"todo=\\" + String.valueOf(getTodo()) + \\", \\")
       .append(\\"time=\\" + String.valueOf(getTime()) + \\", \\")
-      .append(\\"createdOn=\\" + String.valueOf(getCreatedOn()))
+      .append(\\"createdOn=\\" + String.valueOf(getCreatedOn()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }
@@ -3657,6 +3944,7 @@ exports[`AppSyncModelVisitor connection One to Many connection should generate o
 "package com.amplifyframework.datastore.generated.model;
 
 import com.amplifyframework.core.model.annotations.HasMany;
+import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
 import java.util.UUID;
@@ -3691,6 +3979,8 @@ public final class Todo implements Model {
   private final @ModelField(targetType=\\"Int\\", isRequired = true) Integer version;
   private final @ModelField(targetType=\\"Float\\") Double value;
   private final @ModelField(targetType=\\"task\\") @HasMany(associatedWith = \\"todo\\", type = task.class) List<task> tasks = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -3723,6 +4013,14 @@ public final class Todo implements Model {
       return tasks;
   }
   
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
   private Todo(String id, String title, Boolean done, String description, String due_date, Integer version, Double value) {
     this.id = id;
     this.title = title;
@@ -3747,7 +4045,9 @@ public final class Todo implements Model {
               ObjectsCompat.equals(getDescription(), todo.getDescription()) &&
               ObjectsCompat.equals(getDueDate(), todo.getDueDate()) &&
               ObjectsCompat.equals(getVersion(), todo.getVersion()) &&
-              ObjectsCompat.equals(getValue(), todo.getValue());
+              ObjectsCompat.equals(getValue(), todo.getValue()) &&
+              ObjectsCompat.equals(getCreatedAt(), todo.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), todo.getUpdatedAt());
       }
   }
   
@@ -3761,6 +4061,8 @@ public final class Todo implements Model {
       .append(getDueDate())
       .append(getVersion())
       .append(getValue())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -3775,7 +4077,9 @@ public final class Todo implements Model {
       .append(\\"description=\\" + String.valueOf(getDescription()) + \\", \\")
       .append(\\"due_date=\\" + String.valueOf(getDueDate()) + \\", \\")
       .append(\\"version=\\" + String.valueOf(getVersion()) + \\", \\")
-      .append(\\"value=\\" + String.valueOf(getValue()))
+      .append(\\"value=\\" + String.valueOf(getValue()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }
@@ -4009,6 +4313,7 @@ public final class TypeWithAWSDateScalars implements Model {
   private final @ModelField(targetType=\\"AWSDateTime\\") Temporal.DateTime createdAt;
   private final @ModelField(targetType=\\"AWSTime\\") Temporal.Time time;
   private final @ModelField(targetType=\\"AWSTimestamp\\") Temporal.Timestamp timestamp;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -4027,6 +4332,10 @@ public final class TypeWithAWSDateScalars implements Model {
   
   public Temporal.Timestamp getTimestamp() {
       return timestamp;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
   }
   
   private TypeWithAWSDateScalars(String id, Temporal.Date date, Temporal.DateTime createdAt, Temporal.Time time, Temporal.Timestamp timestamp) {
@@ -4049,7 +4358,8 @@ public final class TypeWithAWSDateScalars implements Model {
               ObjectsCompat.equals(getDate(), typeWithAwsDateScalars.getDate()) &&
               ObjectsCompat.equals(getCreatedAt(), typeWithAwsDateScalars.getCreatedAt()) &&
               ObjectsCompat.equals(getTime(), typeWithAwsDateScalars.getTime()) &&
-              ObjectsCompat.equals(getTimestamp(), typeWithAwsDateScalars.getTimestamp());
+              ObjectsCompat.equals(getTimestamp(), typeWithAwsDateScalars.getTimestamp()) &&
+              ObjectsCompat.equals(getUpdatedAt(), typeWithAwsDateScalars.getUpdatedAt());
       }
   }
   
@@ -4061,6 +4371,7 @@ public final class TypeWithAWSDateScalars implements Model {
       .append(getCreatedAt())
       .append(getTime())
       .append(getTimestamp())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -4073,7 +4384,8 @@ public final class TypeWithAWSDateScalars implements Model {
       .append(\\"date=\\" + String.valueOf(getDate()) + \\", \\")
       .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
       .append(\\"time=\\" + String.valueOf(getTime()) + \\", \\")
-      .append(\\"timestamp=\\" + String.valueOf(getTimestamp()))
+      .append(\\"timestamp=\\" + String.valueOf(getTimestamp()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }
@@ -4239,6 +4551,7 @@ public enum Status {
 exports[`AppSyncModelVisitor should generate model with key directive 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
 import java.util.UUID;
@@ -4270,6 +4583,8 @@ public final class authorBook implements Model {
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String book_id;
   private final @ModelField(targetType=\\"String\\") String author;
   private final @ModelField(targetType=\\"String\\") String book;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -4288,6 +4603,14 @@ public final class authorBook implements Model {
   
   public String getBook() {
       return book;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
   }
   
   private authorBook(String id, String author_id, String book_id, String author, String book) {
@@ -4310,7 +4633,9 @@ public final class authorBook implements Model {
               ObjectsCompat.equals(getAuthorId(), authorBook.getAuthorId()) &&
               ObjectsCompat.equals(getBookId(), authorBook.getBookId()) &&
               ObjectsCompat.equals(getAuthor(), authorBook.getAuthor()) &&
-              ObjectsCompat.equals(getBook(), authorBook.getBook());
+              ObjectsCompat.equals(getBook(), authorBook.getBook()) &&
+              ObjectsCompat.equals(getCreatedAt(), authorBook.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), authorBook.getUpdatedAt());
       }
   }
   
@@ -4322,6 +4647,8 @@ public final class authorBook implements Model {
       .append(getBookId())
       .append(getAuthor())
       .append(getBook())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -4334,7 +4661,9 @@ public final class authorBook implements Model {
       .append(\\"author_id=\\" + String.valueOf(getAuthorId()) + \\", \\")
       .append(\\"book_id=\\" + String.valueOf(getBookId()) + \\", \\")
       .append(\\"author=\\" + String.valueOf(getAuthor()) + \\", \\")
-      .append(\\"book=\\" + String.valueOf(getBook()))
+      .append(\\"book=\\" + String.valueOf(getBook()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }
@@ -4499,6 +4828,7 @@ public final class authorBook implements Model {
 exports[`AppSyncModelVisitor should generate model with non-camel case field 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
 import java.util.UUID;
@@ -4522,12 +4852,22 @@ public final class NonCamelCaseField implements Model {
   public static final QueryField EMPLOYEE_PID = field(\\"NonCamelCaseField\\", \\"employeePID\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String employeePID;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
   
   public String getEmployeePid() {
       return employeePID;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
   }
   
   private NonCamelCaseField(String id, String employeePID) {
@@ -4544,7 +4884,9 @@ public final class NonCamelCaseField implements Model {
       } else {
       NonCamelCaseField nonCamelCaseField = (NonCamelCaseField) obj;
       return ObjectsCompat.equals(getId(), nonCamelCaseField.getId()) &&
-              ObjectsCompat.equals(getEmployeePid(), nonCamelCaseField.getEmployeePid());
+              ObjectsCompat.equals(getEmployeePid(), nonCamelCaseField.getEmployeePid()) &&
+              ObjectsCompat.equals(getCreatedAt(), nonCamelCaseField.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), nonCamelCaseField.getUpdatedAt());
       }
   }
   
@@ -4553,6 +4895,8 @@ public final class NonCamelCaseField implements Model {
     return new StringBuilder()
       .append(getId())
       .append(getEmployeePid())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -4562,7 +4906,9 @@ public final class NonCamelCaseField implements Model {
     return new StringBuilder()
       .append(\\"NonCamelCaseField {\\")
       .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"employeePID=\\" + String.valueOf(getEmployeePid()))
+      .append(\\"employeePID=\\" + String.valueOf(getEmployeePid()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }
@@ -4666,6 +5012,7 @@ public final class NonCamelCaseField implements Model {
 exports[`AppSyncModelVisitor should generate model with snake case 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
 import java.util.UUID;
@@ -4689,12 +5036,22 @@ public final class snake_case implements Model {
   public static final QueryField NAME = field(\\"snake_case\\", \\"name\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
   
   public String getName() {
       return name;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
   }
   
   private snake_case(String id, String name) {
@@ -4711,7 +5068,9 @@ public final class snake_case implements Model {
       } else {
       snake_case snakeCase = (snake_case) obj;
       return ObjectsCompat.equals(getId(), snakeCase.getId()) &&
-              ObjectsCompat.equals(getName(), snakeCase.getName());
+              ObjectsCompat.equals(getName(), snakeCase.getName()) &&
+              ObjectsCompat.equals(getCreatedAt(), snakeCase.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), snakeCase.getUpdatedAt());
       }
   }
   
@@ -4720,6 +5079,8 @@ public final class snake_case implements Model {
     return new StringBuilder()
       .append(getId())
       .append(getName())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -4729,7 +5090,9 @@ public final class snake_case implements Model {
     return new StringBuilder()
       .append(\\"snake_case {\\")
       .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"name=\\" + String.valueOf(getName()))
+      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }
@@ -4833,6 +5196,7 @@ public final class snake_case implements Model {
 exports[`AppSyncModelVisitor should generate model with with snake_case field 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
 import java.util.UUID;
@@ -4856,12 +5220,22 @@ public final class SnakeCaseField implements Model {
   public static final QueryField FIRST_NAME = field(\\"SnakeCaseField\\", \\"first_name\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String first_name;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
   
   public String getFirstName() {
       return first_name;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
   }
   
   private SnakeCaseField(String id, String first_name) {
@@ -4878,7 +5252,9 @@ public final class SnakeCaseField implements Model {
       } else {
       SnakeCaseField snakeCaseField = (SnakeCaseField) obj;
       return ObjectsCompat.equals(getId(), snakeCaseField.getId()) &&
-              ObjectsCompat.equals(getFirstName(), snakeCaseField.getFirstName());
+              ObjectsCompat.equals(getFirstName(), snakeCaseField.getFirstName()) &&
+              ObjectsCompat.equals(getCreatedAt(), snakeCaseField.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), snakeCaseField.getUpdatedAt());
       }
   }
   
@@ -4887,6 +5263,8 @@ public final class SnakeCaseField implements Model {
     return new StringBuilder()
       .append(getId())
       .append(getFirstName())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -4896,7 +5274,9 @@ public final class SnakeCaseField implements Model {
     return new StringBuilder()
       .append(\\"SnakeCaseField {\\")
       .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"first_name=\\" + String.valueOf(getFirstName()))
+      .append(\\"first_name=\\" + String.valueOf(getFirstName()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }

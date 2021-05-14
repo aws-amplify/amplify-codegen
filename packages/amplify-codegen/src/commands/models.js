@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs-extra');
 const { parse } = require('graphql');
-const glob  = require('glob-all');
+const glob = require('glob-all');
 const { FeatureFlags, pathManager } = require('amplify-cli-core');
 const gqlCodeGen = require('@graphql-codegen/core');
 const { getModelgenPackage } = require('../utils/getModelgenPackage');
@@ -53,12 +53,20 @@ async function generateModels(context) {
 
   const appSyncDataStoreCodeGen = getModelgenPackage(FeatureFlags.getBoolean(modelgenPackageMigrationflag));
 
+  let isTimestampFieldsAdded = false;
+  try {
+    isTimestampFieldsAdded = FeatureFlags.getBoolean('addTimestampFields');
+  } catch (err) {
+    isTimestampFieldsAdded = false;
+  }
+
   const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
     baseOutputDir: outputPath,
     schema,
     config: {
       target: platformToLanguageMap[projectConfig.frontend] || projectConfig.frontend,
       directives: directiveDefinitions,
+      isTimestampFieldsAdded,
     },
   });
 
@@ -77,12 +85,6 @@ async function generateModels(context) {
   });
 
   const generatedCode = await Promise.all(codeGenPromises);
-
-  // clean the output directory before re-generating models
-  // const cleanOutputPath = FeatureFlags.getBoolean('codegen.cleanGeneratedModelsDirectory');
-  // if (cleanOutputPath) {
-  //   await fs.emptyDir(outputPath);
-  // }
 
   appsyncLocalConfig.forEach((cfg, idx) => {
     const outPutPath = cfg.filename;
@@ -116,9 +118,7 @@ function loadSchema(apiResourcePath) {
   }
   if (fs.pathExistsSync(schemaDirectory) && fs.lstatSync(schemaDirectory).isDirectory()) {
     // search recursively for graphql schema files inside `schema` directory
-    const schemas = glob.sync([
-      path.join(schemaDirectory, '**/*.graphql')
-    ]);
+    const schemas = glob.sync([path.join(schemaDirectory, '**/*.graphql')]);
     return schemas.map(file => fs.readFileSync(file, 'utf8')).join('\n');
   }
 

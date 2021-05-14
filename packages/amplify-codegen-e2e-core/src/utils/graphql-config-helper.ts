@@ -18,7 +18,7 @@ export function constructGraphQLConfig(
             docsFilePath: '',
             generatedFileName: '',
             maxDepth: maxDepth ? maxDepth : 2,
-            region: region ? region : 'us-east-1'
+            region: region
         }
     };
 
