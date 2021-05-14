@@ -376,7 +376,7 @@ workflows:
             branches:
               only:
                 - e2e-testing
-                - split-e2e
+                - e2e-testing-fix
       - deploy:
           os: linux_node15
           requires:

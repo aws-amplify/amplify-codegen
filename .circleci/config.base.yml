@@ -185,7 +185,7 @@ workflows:
             branches:
               only:
                 - e2e-testing
-                - split-e2e
+                - e2e-testing-fix
       - e2e-test:
           context:
             - cleanup-resources
