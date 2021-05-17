@@ -375,8 +375,8 @@ workflows:
           filters:
             branches:
               only:
+                - master
                 - e2e-testing
-                - split-e2e
       - deploy:
           os: linux_node15
           requires:
@@ -424,8 +424,8 @@ workflows:
           filters: &ref_6
             branches:
               only:
+                - master
                 - e2e-testing
-                - split-e2e
       - add-codegen-android-e2e-test:
           context: *ref_4
           os: linux_node12

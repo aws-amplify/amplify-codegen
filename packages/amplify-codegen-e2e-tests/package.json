@@ -61,7 +61,7 @@
     ],
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "src/**/*.ts",
+      "src/codegen-tests-base/*.ts",
       "!**/node_modules/**",
       "!src/__tests__/**",
       "!**/*.d.ts"
