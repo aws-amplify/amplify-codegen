@@ -92,7 +92,9 @@
     "rimraf": "^3.0.0",
     "ts-jest": "^25.5.0",
     "ts-node": "^8.10.1",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "amplify-cli-core": "^1.17.2",
+    "graphql-transformer-core": "^6.26.2"
   },
   "config": {
     "commitizen": {
