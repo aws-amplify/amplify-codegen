@@ -178,7 +178,7 @@ workflows:
       - publish_to_local_registry:
           matrix:
             parameters:
-              os: [linux_node12]
+              os: [linux_node15]
           requires:
             - build-<< matrix.os >>
           filters:
@@ -189,7 +189,7 @@ workflows:
       - e2e-test:
           context:
             - cleanup-resources
-          os: linux_node12
+          os: linux_node15
           requires:
             - publish_to_local_registry
           post-steps:
