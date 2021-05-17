@@ -33,8 +33,8 @@ install_cli_with_local_codegen: &install_cli
     source .circleci/local_publish_helpers.sh
     startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
     setNpmRegistryUrlToLocal
-    sudo npm install -g @aws-amplify/cli
-    sudo npm install -g amplify-app
+    npm install -g @aws-amplify/cli
+    npm install -g amplify-app
     amplify -v
     amplify-app --version
     unsetNpmRegistryUrl
@@ -147,6 +147,7 @@ jobs:
           name: Run e2e tests
           command: |
             cd packages/amplify-codegen-e2e-tests
+            node lib/configure_tests.js
             yarn run e2e --maxWorkers=3 $TEST_SUITE
           no_output_timeout: 20m
       - store_test_results:
@@ -178,7 +179,7 @@ workflows:
       - publish_to_local_registry:
           matrix:
             parameters:
-              os: [linux_node15]
+              os: [linux_node12]
           requires:
             - build-<< matrix.os >>
           filters:
@@ -189,7 +190,7 @@ workflows:
       - e2e-test:
           context:
             - cleanup-resources
-          os: linux_node15
+          os: linux_node12
           requires:
             - publish_to_local_registry
           post-steps:
