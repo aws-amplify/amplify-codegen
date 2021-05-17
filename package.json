@@ -94,7 +94,8 @@
     "ts-node": "^8.10.1",
     "typescript": "^3.8.3",
     "amplify-cli-core": "^1.17.2",
-    "graphql-transformer-core": "^6.26.2"
+    "graphql-transformer-core": "^6.26.2",
+    "amplify-headless-interface": "^1.6.0"
   },
   "config": {
     "commitizen": {
