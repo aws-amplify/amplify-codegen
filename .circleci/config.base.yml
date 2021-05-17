@@ -147,7 +147,7 @@ jobs:
           name: Run e2e tests
           command: |
             cd packages/amplify-codegen-e2e-tests
-            yarn run e2e --maxWorkers=3 $TEST_SUITE
+            npm run e2e --maxWorkers=3 $TEST_SUITE
           no_output_timeout: 20m
       - store_test_results:
           path: packages/amplify-codegen-e2e-tests/
