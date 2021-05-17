@@ -92,8 +92,7 @@
     "rimraf": "^3.0.0",
     "ts-jest": "^25.5.0",
     "ts-node": "^8.10.1",
-    "typescript": "^3.8.3",
-    "@aws-amplify/cli": "^4.46.1"
+    "typescript": "^3.8.3"
   },
   "config": {
     "commitizen": {
