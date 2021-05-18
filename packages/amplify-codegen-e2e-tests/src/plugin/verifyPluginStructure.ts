@@ -35,7 +35,7 @@ function verifyAmplifyManifest(pluginDirPath: string, pluginModule: any): boolea
     const manifest = readJsonFile(pluginManifestFilePath);
     return verifyEventHandlers(manifest, pluginModule);
   } catch (err) {
-    false;
+    return false;
   }
 }
 

@@ -177,7 +177,7 @@ export async function signInUser2(username: string, realPw: string) {
     Password: realPw,
   });
   const user = Amplify.Auth.createCognitoUser(username);
-  const authRes: any = await authenticateUser(user, authDetails, realPw);
+  await authenticateUser(user, authDetails, realPw);
   return user;
 }
 
