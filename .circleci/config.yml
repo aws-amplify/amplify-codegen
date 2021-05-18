@@ -71,26 +71,28 @@ jobs:
     executor: << parameters.os >>
     steps:
       - when:
-          or:
-            - equal:
-                - macos_node12
-                - << parameters.os >>
-            - equal:
-                - windows_node12
-                - << parameters.os >>
+          conditions:
+            or:
+              - equal:
+                  - macos_node12
+                  - << parameters.os >>
+              - equal:
+                  - windows_node12
+                  - << parameters.os >>
           steps:
             - checkout
             - run: yarn config set workspaces-experimental true
             - run: yarn cache clean --force
             - run: yarn run production-build
       - when:
-          or:
-            - equal:
-                - linux_node12
-                - << parameters.os >>
-            - equal:
-                - linux_node15
-                - << parameters.os >>
+          conditions:
+            or:
+              - equal:
+                  - linux_node12
+                  - << parameters.os >>
+              - equal:
+                  - linux_node15
+                  - << parameters.os >>
           steps:
             - attach_workspace:
                 at: ./
