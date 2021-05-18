@@ -73,7 +73,7 @@ jobs:
     executor: << parameters.os >>
     steps:
       - when:
-          conditions:
+          condition:
             or:
               - equal: [ macos_node12, << parameters.os >> ]
               - equal: [ windows_node12, << parameters.os >> ]
@@ -83,7 +83,7 @@ jobs:
             - run: yarn cache clean --force
             - run: yarn run production-build
       - when:
-          conditions:
+          condition:
             or:
               - equal: [ linux_node12, << parameters.os >> ]
               - equal: [ linux_node15, << parameters.os >> ]
