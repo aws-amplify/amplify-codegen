@@ -3,15 +3,15 @@ machine:
   environment:
     PATH: '${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin'
 executors:
-  linux_node12:
+  linux_node12: &linux_node12
     docker:
       - image: circleci/node:12
     resource_class: large
-  linux_node15:
+  linux_node15: &linux_node15
     docker:
       - image: circleci/node:15
     resource_class: large
-  windows_node12:
+  windows_node12: &windows_node12
     machine:
       image: 'windows-server-2019-vs2019:stable'
       resource_class: windows.large
@@ -76,7 +76,7 @@ jobs:
           condition:
             or:
               - equal: [ *macos_node12, << parameters.os >> ]
-              - equal: [ windows_node12, << parameters.os >> ]
+              - equal: [ *windows_node12, << parameters.os >> ]
           steps:
             - checkout
             - run: yarn config set workspaces-experimental true
@@ -85,8 +85,8 @@ jobs:
       - when:
           condition:
             or:
-              - equal: [ linux_node12, << parameters.os >> ]
-              - equal: [ linux_node15, << parameters.os >> ]
+              - equal: [ *linux_node12, << parameters.os >> ]
+              - equal: [ *linux_node15, << parameters.os >> ]
           steps:
             - attach_workspace:
                 at: ./
