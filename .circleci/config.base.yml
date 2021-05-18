@@ -57,11 +57,11 @@ jobs:
       - run: yarn cache clean --force
       - run: yarn run production-build
       - save_cache:
-          key: amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache
       - save_cache:
-          key: amplify-codegen-ssh-deps-{{ arch }}-{{ .Branch }}
+          key: amplify-codegen-ssh-deps-{{ .Branch }}
           paths:
             - ~/.ssh
       - persist_to_workspace:
@@ -75,7 +75,7 @@ jobs:
       - attach_workspace:
           at: ./
       - restore_cache:
-          key: amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
           name: Lint
           command: yarn lint
@@ -94,8 +94,8 @@ jobs:
           at: ./
       - restore_cache:
           keys:
-            - amplify-codegen-ssh-deps-{{ arch }}-{{ .Branch }}
-            - amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - amplify-codegen-ssh-deps-{{ .Branch }}
+            - amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
           name: Authenticate with npm
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
@@ -117,7 +117,7 @@ jobs:
       - attach_workspace:
           at: ./
       - restore_cache:
-          key: amplify-codegen-yarn-deps-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
           name: Publish to verdaccio
           command: |
