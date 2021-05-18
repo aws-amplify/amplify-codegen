@@ -1,4 +1,5 @@
 const getOutputFileName = require('../../src/utils/getOutputFileName');
+const { join } = require('path');
 
 describe('getOutputFileName', () => {
   it('should return the file name with by adding extension based on the language target', () => {
@@ -14,7 +15,7 @@ describe('getOutputFileName', () => {
   });
 
   it('should return api.service.ts when input name is missing and target is angular', () => {
-    expect(getOutputFileName(null, 'angular')).toEqual('src/app/api.service.ts');
+    expect(getOutputFileName(null, 'angular')).toEqual(join('src', 'app', 'api.service.ts'));
   });
 
   it('should not add any extension if the code generation target is unknown', () => {
