@@ -340,8 +340,8 @@ describe('AppSyncSwiftVisitor', () => {
           model.pluralName = \\"authorBooks\\"
           
           model.attributes(
-            .index(name: \\"byAuthor\\", fields: [\\"author_id\\"]),
-            .index(name: \\"byBook\\", fields: [\\"book_id\\"])
+            .index(fields: [\\"author_id\\"], name: \\"byAuthor\\"),
+            .index(fields: [\\"book_id\\"], name: \\"byBook\\")
           )
           
           model.fields(

@@ -417,7 +417,7 @@ export class AppSyncSwiftVisitor<
       .map((directive) => {
         const name = directive.arguments.name ? `"${directive.arguments.name}"` : 'nil';
         const fields: string = directive.arguments.fields.map((field: string) => `"${field}"`).join(', ');
-        return `.index(name: ${name}, fields: [${fields}])`;
+        return `.index(fields: [${fields}], name: ${name})`;
       });
 
       return keyDirectives
