@@ -251,6 +251,7 @@ export class AppSyncSwiftVisitor<
     const keysName = lowerCaseFirst(model.name);
     const fields = model.fields.map(field => this.generateFieldSchema(field, keysName));
     const authRules = this.generateAuthRules(model);
+    const keyDirectives = this.generateKeyRules(model);
     const closure = [
       '{ model in',
       `let ${keysName} = ${this.getModelName(model)}.keys`,
@@ -258,6 +259,7 @@ export class AppSyncSwiftVisitor<
       ...(authRules.length ? [`model.authRules = ${authRules}`, ''] : []),
       `model.pluralName = "${this.pluralizeModelName(model)}"`,
       '',
+      ...(keyDirectives.length ? ['model.attributes(', indentMultiline(keyDirectives.join(',\n')), ')', ''] : []),
       'model.fields(',
       indentMultiline(fields.join(',\n')),
       ')',
@@ -407,6 +409,18 @@ export class AppSyncSwiftVisitor<
       return false;
     }
     return !field.isNullable;
+  }
+
+  protected generateKeyRules(model: CodeGenModel): string[] {
+    const keyDirectives = model.directives
+      .filter((directive) => directive.name === 'key')
+      .map((directive) => {
+        const name = directive.arguments.name ? `"${directive.arguments.name}"` : 'nil';
+        const fields: string = directive.arguments.fields.map((field: string) => `"${field}"`).join(', ');
+        return `.index(name: ${name}, fields: [${fields}])`;
+      });
+
+      return keyDirectives
   }
 
   protected generateAuthRules(model: CodeGenModel): string {
