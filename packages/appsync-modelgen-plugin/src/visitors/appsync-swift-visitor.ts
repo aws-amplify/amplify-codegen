@@ -87,28 +87,30 @@ export class AppSyncSwiftVisitor<
         'public',
         {},
       );
-      //internal constructor
-      structBlock.addClassMethod(
-        'init',
-        null,
-        this.getInitBody(obj.fields),
-        obj.fields.map(field => {
-          const listType: ListType = field.connectionInfo ? ListType.LIST : ListType.ARRAY;
-          return {
-            name: this.getFieldName(field),
-            type: this.getNativeType(field),
-            value: field.name === 'id' ? 'UUID().uuidString' : undefined,
-            flags: {
-              optional: field.isNullable,
-              isList: field.isList,
-              isEnum: this.isEnumType(field),
-              listType: field.isList ? listType : undefined,
-            },
-          };
-        }),
-        'internal',
-        {},
-      );
+      // internal constructor to support timestamp fields
+      if (this.config.isTimestampFieldsAdded) {
+        structBlock.addClassMethod(
+          'init',
+          null,
+          this.getInitBody(obj.fields),
+          obj.fields.map(field => {
+            const listType: ListType = field.connectionInfo ? ListType.LIST : ListType.ARRAY;
+            return {
+              name: this.getFieldName(field),
+              type: this.getNativeType(field),
+              value: field.name === 'id' ? 'UUID().uuidString' : undefined,
+              flags: {
+                optional: field.isNullable,
+                isList: field.isList,
+                isEnum: this.isEnumType(field),
+                listType: field.isList ? listType : undefined,
+              },
+            };
+          }),
+          'internal',
+          {},
+        );
+      }
       result.push(structBlock.string);
     });
     return result.join('\n');

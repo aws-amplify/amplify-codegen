@@ -55,7 +55,7 @@ async function generateModels(context) {
 
   let isTimestampFieldsAdded = false;
   try {
-    isTimestampFieldsAdded = FeatureFlags.getBoolean('addTimestampFields');
+    isTimestampFieldsAdded = FeatureFlags.getBoolean('codegen.addTimestampFields');
   } catch (err) {
     isTimestampFieldsAdded = false;
   }
