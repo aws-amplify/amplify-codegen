@@ -251,7 +251,7 @@ export class AppSyncSwiftVisitor<
     const keysName = lowerCaseFirst(model.name);
     const fields = model.fields.map(field => this.generateFieldSchema(field, keysName));
     const authRules = this.generateAuthRules(model);
-    const keyDirectives = this.generateKeyRules(model);
+    const keyDirectives = this.config.generateIndexRules ? this.generateKeyRules(model) : [];
     const closure = [
       '{ model in',
       `let ${keysName} = ${this.getModelName(model)}.keys`,

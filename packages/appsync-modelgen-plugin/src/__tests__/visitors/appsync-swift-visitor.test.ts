@@ -14,12 +14,13 @@ const getVisitor = (
   generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
   isTimestampFieldsAdded: boolean = true,
   emitAuthProvider: boolean = true,
+  generateIndexRules: boolean = true,
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncSwiftVisitor(
     builtSchema,
-    { directives, target: 'swift', scalars: SWIFT_SCALAR_MAP, isTimestampFieldsAdded, emitAuthProvider },
+    { directives, target: 'swift', scalars: SWIFT_SCALAR_MAP, isTimestampFieldsAdded, emitAuthProvider, generateIndexRules },
     { selectedType, generate },
   );
   visit(ast, { leave: visitor });

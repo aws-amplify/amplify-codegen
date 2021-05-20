@@ -13,6 +13,21 @@ const platformToLanguageMap = {
   javascript: 'javascript',
 };
 
+/**
+ * Returns feature flag value, default to `false`
+ * @param {string} key feature flag id
+ * @returns
+ */
+const readFeatureFlag = (key) => {
+  let flagValue = false;
+  try {
+    flagValue = FeatureFlags.getBoolean(key);
+  } catch (err) {
+    flagValue = false;
+  }
+  return flagValue;
+}
+
 async function generateModels(context) {
   // steps:
   // 1. Load the schema and validate using transformer
@@ -51,13 +66,10 @@ async function generateModels(context) {
   //get modelgen package
   const modelgenPackageMigrationflag = 'codegen.useAppSyncModelgenPlugin';
   const appSyncDataStoreCodeGen = getModelgenPackage(FeatureFlags.getBoolean(modelgenPackageMigrationflag));
-  //get timestamp config value
-  let isTimestampFieldsAdded = false;
-  try {
-    isTimestampFieldsAdded = FeatureFlags.getBoolean('codegen.addTimestampFields');
-  } catch (err) {
-    isTimestampFieldsAdded = false;
-  }
+
+  const isTimestampFieldsAdded = readFeatureFlag('codegen.addTimestampFields');
+
+  const generateIndexRules = readFeatureFlag('codegen.generateIndexRules');
 
   //get timestamp config value
   let emitAuthProvider = false;
@@ -74,7 +86,11 @@ async function generateModels(context) {
       target: platformToLanguageMap[projectConfig.frontend] || projectConfig.frontend,
       directives: directiveDefinitions,
       isTimestampFieldsAdded,
+<<<<<<< HEAD
       emitAuthProvider,
+=======
+      generateIndexRules,
+>>>>>>> cb97552 (feat(modelgen): generateIndexRules feature flag)
     },
   });
 
