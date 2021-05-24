@@ -6,7 +6,7 @@ const CONCURRENCY = 4;
 // Ensure to update packages/amplify-codegen-e2e-tests/src/cleanup-e2e-resources.ts is also updated this gets updated
 const AWS_REGIONS_TO_RUN_TESTS = [
   'us-east-2',
-  'us-west-2',
+  'us-west-1',
   'eu-west-2',
   'eu-central-1',
   'ap-northeast-1',
@@ -41,8 +41,8 @@ const KNOWN_SUITES_SORTED_ACCORDING_TO_RUNTIME = [
   // <12m
   'src/__tests__/pull-codegen.test.ts',
   // <14m
-  'src/__tests__/push-codegen-android.test.ts',
   'src/__tests__/push-codegen-js.test.ts',
+  'src/__tests__/push-codegen-android.test.ts',
   'src/__tests__/push-codegen-ios.test.ts',
 ];
 
