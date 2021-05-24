@@ -191,14 +191,6 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/push-codegen-ios.test.ts
       CLI_REGION: us-east-2
-  push-codegen-js-e2e-test:
-    working_directory: ~/repo
-    parameters: *ref_0
-    executor: << parameters.os >>
-    steps: *ref_6
-    environment:
-      TEST_SUITE: src/__tests__/push-codegen-js.test.ts
-      CLI_REGION: us-west-2
   push-codegen-android-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -206,7 +198,7 @@ jobs:
     steps: *ref_6
     environment:
       TEST_SUITE: src/__tests__/push-codegen-android.test.ts
-      CLI_REGION: eu-west-2
+      CLI_REGION: us-west-2
   pull-codegen-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -214,7 +206,7 @@ jobs:
     steps: *ref_6
     environment:
       TEST_SUITE: src/__tests__/pull-codegen.test.ts
-      CLI_REGION: eu-central-1
+      CLI_REGION: eu-west-2
   env-codegen-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -222,7 +214,7 @@ jobs:
     steps: *ref_6
     environment:
       TEST_SUITE: src/__tests__/env-codegen.test.ts
-      CLI_REGION: ap-northeast-1
+      CLI_REGION: eu-central-1
   add-codegen-js-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -230,6 +222,14 @@ jobs:
     steps: *ref_6
     environment:
       TEST_SUITE: src/__tests__/add-codegen-js.test.ts
+      CLI_REGION: ap-northeast-1
+  push-codegen-js-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_6
+    environment:
+      TEST_SUITE: src/__tests__/push-codegen-js.test.ts
       CLI_REGION: ap-southeast-1
   add-codegen-ios-e2e-test:
     working_directory: ~/repo
@@ -407,19 +407,19 @@ workflows:
             - add-codegen-android-e2e-test
             - remove-codegen-js-e2e-test
             - graphql-codegen-ios-e2e-test
-            - push-codegen-js-e2e-test
+            - push-codegen-android-e2e-test
             - datastore-modelgen-flutter-e2e-test
             - feature-flags-e2e-test
-            - push-codegen-android-e2e-test
+            - pull-codegen-e2e-test
             - datastore-modelgen-ios-e2e-test
             - configure-codegen-ios-e2e-test
-            - pull-codegen-e2e-test
+            - env-codegen-e2e-test
             - datastore-modelgen-android-e2e-test
             - configure-codegen-android-e2e-test
-            - env-codegen-e2e-test
+            - add-codegen-js-e2e-test
             - datastore-modelgen-js-e2e-test
             - configure-codegen-js-e2e-test
-            - add-codegen-js-e2e-test
+            - push-codegen-js-e2e-test
             - remove-codegen-android-e2e-test
             - graphql-codegen-android-e2e-test
             - add-codegen-ios-e2e-test
@@ -459,7 +459,7 @@ workflows:
             - approval_for_e2e_test
           post-steps: *ref_9
           filters: *ref_10
-      - push-codegen-js-e2e-test:
+      - push-codegen-android-e2e-test:
           context: *ref_8
           os: linux_node12
           requires:
@@ -480,7 +480,7 @@ workflows:
             - approval_for_e2e_test
           post-steps: *ref_9
           filters: *ref_10
-      - push-codegen-android-e2e-test:
+      - pull-codegen-e2e-test:
           context: *ref_8
           os: linux_node12
           requires:
@@ -501,7 +501,7 @@ workflows:
             - approval_for_e2e_test
           post-steps: *ref_9
           filters: *ref_10
-      - pull-codegen-e2e-test:
+      - env-codegen-e2e-test:
           context: *ref_8
           os: linux_node12
           requires:
@@ -522,7 +522,7 @@ workflows:
             - approval_for_e2e_test
           post-steps: *ref_9
           filters: *ref_10
-      - env-codegen-e2e-test:
+      - add-codegen-js-e2e-test:
           context: *ref_8
           os: linux_node12
           requires:
@@ -543,7 +543,7 @@ workflows:
             - approval_for_e2e_test
           post-steps: *ref_9
           filters: *ref_10
-      - add-codegen-js-e2e-test:
+      - push-codegen-js-e2e-test:
           context: *ref_8
           os: linux_node12
           requires:
