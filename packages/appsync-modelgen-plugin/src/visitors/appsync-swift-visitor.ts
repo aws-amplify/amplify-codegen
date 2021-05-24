@@ -65,50 +65,75 @@ export class AppSyncSwiftVisitor<
           })
           .join(',\n'),
       ).trim()})`;
-      //public constructor
-      structBlock.addClassMethod(
-        'init',
-        null,
-        initImpl,
-        initParams.map(field => {
-          const listType: ListType = field.connectionInfo ? ListType.LIST : ListType.ARRAY;
-          return {
-            name: this.getFieldName(field),
-            type: this.getNativeType(field),
-            value: field.name === 'id' ? 'UUID().uuidString' : undefined,
-            flags: {
-              optional: field.isNullable,
-              isList: field.isList,
-              isEnum: this.isEnumType(field),
-              listType: field.isList ? listType : undefined,
-            },
-          };
-        }),
-        'public',
-        {},
-      );
-      //internal constructor
-      structBlock.addClassMethod(
-        'init',
-        null,
-        this.getInitBody(obj.fields),
-        obj.fields.map(field => {
-          const listType: ListType = field.connectionInfo ? ListType.LIST : ListType.ARRAY;
-          return {
-            name: this.getFieldName(field),
-            type: this.getNativeType(field),
-            value: field.name === 'id' ? 'UUID().uuidString' : undefined,
-            flags: {
-              optional: field.isNullable,
-              isList: field.isList,
-              isEnum: this.isEnumType(field),
-              listType: field.isList ? listType : undefined,
-            },
-          };
-        }),
-        'internal',
-        {},
-      );
+      if (this.config.isTimestampFieldsAdded) {
+        //public constructor
+        structBlock.addClassMethod(
+          'init',
+          null,
+          initImpl,
+          initParams.map(field => {
+            const listType: ListType = field.connectionInfo ? ListType.LIST : ListType.ARRAY;
+            return {
+              name: this.getFieldName(field),
+              type: this.getNativeType(field),
+              value: field.name === 'id' ? 'UUID().uuidString' : undefined,
+              flags: {
+                optional: field.isNullable,
+                isList: field.isList,
+                isEnum: this.isEnumType(field),
+                listType: field.isList ? listType : undefined,
+              },
+            };
+          }),
+          'public',
+          {},
+        );
+        //internal constructor
+        structBlock.addClassMethod(
+          'init',
+          null,
+          this.getInitBody(obj.fields),
+          obj.fields.map(field => {
+            const listType: ListType = field.connectionInfo ? ListType.LIST : ListType.ARRAY;
+            return {
+              name: this.getFieldName(field),
+              type: this.getNativeType(field),
+              value: field.name === 'id' ? 'UUID().uuidString' : undefined,
+              flags: {
+                optional: field.isNullable,
+                isList: field.isList,
+                isEnum: this.isEnumType(field),
+                listType: field.isList ? listType : undefined,
+              },
+            };
+          }),
+          'internal',
+          {},
+        );
+      } else {
+        //old constructor
+        structBlock.addClassMethod(
+          'init',
+          null,
+          this.getInitBody(obj.fields),
+          obj.fields.map(field => {
+            const listType: ListType = field.connectionInfo ? ListType.LIST : ListType.ARRAY;
+            return {
+              name: this.getFieldName(field),
+              type: this.getNativeType(field),
+              value: field.name === 'id' ? 'UUID().uuidString' : undefined,
+              flags: {
+                optional: field.isNullable,
+                isList: field.isList,
+                isEnum: this.isEnumType(field),
+                listType: field.isList ? listType : undefined,
+              },
+            };
+          }),
+          'public',
+          {},
+        );
+      }
       result.push(structBlock.string);
     });
     return result.join('\n');
