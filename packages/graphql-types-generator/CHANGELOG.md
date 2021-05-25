@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.8.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@2.7.3...@aws-amplify/graphql-types-generator@2.8.0) (2021-05-25)
+
+
+### Bug Fixes
+
+* **graphql-types-generator:** correct required types and inconsistent types ([#159](https://github.com/aws-amplify/amplify-codegen/issues/159)) ([2805bb6](https://github.com/aws-amplify/amplify-codegen/commit/2805bb6159298e0cb40ac629bc117c586af49e1f))
+
+
+### Features
+
+* add E2e testing ([#169](https://github.com/aws-amplify/amplify-codegen/issues/169)) ([19e17df](https://github.com/aws-amplify/amplify-codegen/commit/19e17df3c04bf5c18341efa1a53a5ecf4a7cc42e)), closes [#151](https://github.com/aws-amplify/amplify-codegen/issues/151) [#156](https://github.com/aws-amplify/amplify-codegen/issues/156) [#157](https://github.com/aws-amplify/amplify-codegen/issues/157) [#163](https://github.com/aws-amplify/amplify-codegen/issues/163)
+
+
+
+
+
 ## [2.7.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@2.7.2...@aws-amplify/graphql-types-generator@2.7.3) (2021-02-22)
 
 **Note:** Version bump only for package @aws-amplify/graphql-types-generator

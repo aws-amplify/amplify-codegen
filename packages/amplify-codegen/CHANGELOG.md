@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.25.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.24.2...amplify-codegen@2.25.0) (2021-05-25)
+
+
+### Bug Fixes
+
+* **amplify-codegen:** add correct error msg for flutter codegen ([#140](https://github.com/aws-amplify/amplify-codegen/issues/140)) ([a99d67c](https://github.com/aws-amplify/amplify-codegen/commit/a99d67c1053896cc62f9cfc1898fff3c992907da))
+* **amplify-codegen:** Correct cli help re: codegen `--maxDepth` flag ([#138](https://github.com/aws-amplify/amplify-codegen/issues/138)) ([960b900](https://github.com/aws-amplify/amplify-codegen/commit/960b900f1f7de5f232bfd96cf673de93fae1643c))
+* **appsync-modelgen-plugin:** restore the old init if timestamp disabled ([#177](https://github.com/aws-amplify/amplify-codegen/issues/177)) ([f923e14](https://github.com/aws-amplify/amplify-codegen/commit/f923e144e9cf51f904d792a5c01ceffca685d0ea))
+
+
+### Features
+
+* add E2e testing ([#169](https://github.com/aws-amplify/amplify-codegen/issues/169)) ([19e17df](https://github.com/aws-amplify/amplify-codegen/commit/19e17df3c04bf5c18341efa1a53a5ecf4a7cc42e)), closes [#151](https://github.com/aws-amplify/amplify-codegen/issues/151) [#156](https://github.com/aws-amplify/amplify-codegen/issues/156) [#157](https://github.com/aws-amplify/amplify-codegen/issues/157) [#163](https://github.com/aws-amplify/amplify-codegen/issues/163)
+* **modelgen:** add timestamp fields createdAt & updatedAt for [@model](https://github.com/model) ([#114](https://github.com/aws-amplify/amplify-codegen/issues/114)) ([f611e94](https://github.com/aws-amplify/amplify-codegen/commit/f611e94ef8cbd37cf8e8f356df83adcb9a8d3465))
+
+
+
+
+
 ## [2.24.2](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.24.1...amplify-codegen@2.24.2) (2021-03-31)
 
 **Note:** Version bump only for package amplify-codegen

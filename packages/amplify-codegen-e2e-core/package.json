@@ -1,6 +1,6 @@
 {
   "name": "amplify-codegen-e2e-core",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "repository": {
     "type": "git",
@@ -36,7 +36,7 @@
   },
   "peerDependencies": {
     "amplify-cli-core": "^1.18.1",
-    "graphql-transformer-core": "^6.27.0",
-    "amplify-headless-interface": "^1.5.3"
+    "amplify-headless-interface": "^1.5.3",
+    "graphql-transformer-core": "^6.27.0"
   }
 }

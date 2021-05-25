@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.4](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-docs-generator@2.3.3...@aws-amplify/graphql-docs-generator@2.3.4) (2021-05-25)
+
+
+### Bug Fixes
+
+* **graphql-docs-generator:** change handler dependency version ([#164](https://github.com/aws-amplify/amplify-codegen/issues/164)) ([f7de414](https://github.com/aws-amplify/amplify-codegen/commit/f7de41409aa610c1b013830e977c12ef33711ec5))
+
+
+
+
+
 ## [2.3.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-docs-generator@2.3.2...@aws-amplify/graphql-docs-generator@2.3.3) (2021-03-11)
 
 
