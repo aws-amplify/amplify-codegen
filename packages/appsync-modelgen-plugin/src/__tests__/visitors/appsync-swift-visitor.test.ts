@@ -8,12 +8,17 @@ const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-const getVisitor = (schema: string, selectedType?: string, generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code) => {
+const getVisitor = (
+  schema: string,
+  selectedType?: string,
+  generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
+  isTimestampFieldsAdded: boolean = true,
+) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncSwiftVisitor(
     builtSchema,
-    { directives, target: 'swift', scalars: SWIFT_SCALAR_MAP, isTimestampFieldsAdded: true },
+    { directives, target: 'swift', scalars: SWIFT_SCALAR_MAP, isTimestampFieldsAdded },
     { selectedType, generate },
   );
   visit(ast, { leave: visitor });
@@ -789,7 +794,7 @@ describe('AppSyncSwiftVisitor', () => {
         val2
       }
       type ObjectWithNativeTypes @model {
-        id: ID!,
+        id: ID!
         intArr: [Int]
         strArr: [String]
         floatArr: [Float]
@@ -1148,7 +1153,7 @@ describe('AppSyncSwiftVisitor', () => {
         }
 
         type Foo @model {
-          id: ID!,
+          id: ID!
           Class: Class
           nonNullClass: Class!
           classes: [Class]
@@ -1865,5 +1870,75 @@ describe('AppSyncSwiftVisitor', () => {
           }
       }"
     `);
+  });
+  describe('timestamp fields', () => {
+    const schema = /* GraphQL */ `
+      type SimpleModel @model {
+        id: ID!
+        name: String
+        bar: String
+      }
+    `;
+    it('should generate timestamp fields if timestamp is enabled', () => {
+      const visitor = getVisitor(schema, 'SimpleModel', CodeGenGenerateEnum.code, true);
+      const generatedCode = visitor.generate();
+      expect(generatedCode).toMatchInlineSnapshot(`
+        "// swiftlint:disable all
+        import Amplify
+        import Foundation
+
+        public struct SimpleModel: Model {
+          public let id: String
+          public var name: String?
+          public var bar: String?
+          public var createdAt: Temporal.DateTime?
+          public var updatedAt: Temporal.DateTime?
+          
+          public init(id: String = UUID().uuidString,
+              name: String? = nil,
+              bar: String? = nil) {
+            self.init(id: id,
+              name: name,
+              bar: bar,
+              createdAt: nil,
+              updatedAt: nil)
+          }
+          internal init(id: String = UUID().uuidString,
+              name: String? = nil,
+              bar: String? = nil,
+              createdAt: Temporal.DateTime? = nil,
+              updatedAt: Temporal.DateTime? = nil) {
+              self.id = id
+              self.name = name
+              self.bar = bar
+              self.createdAt = createdAt
+              self.updatedAt = updatedAt
+          }
+        }"
+      `);
+    });
+    it('should keep the original init method if timestamp is disabled', () => {
+      const visitor = getVisitor(schema, 'SimpleModel', CodeGenGenerateEnum.code, false);
+      const generatedCode = visitor.generate();
+      expect(generatedCode).toMatchInlineSnapshot(`
+        "// swiftlint:disable all
+        import Amplify
+        import Foundation
+
+        public struct SimpleModel: Model {
+          public let id: String
+          public var name: String?
+          public var bar: String?
+          
+          public init(id: String = UUID().uuidString,
+              name: String? = nil,
+              bar: String? = nil) {
+              self.id = id
+              self.name = name
+              self.bar = bar
+          }
+        }"
+      `);
+    });
   });
 });

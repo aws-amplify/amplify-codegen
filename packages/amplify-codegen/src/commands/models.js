@@ -48,14 +48,13 @@ async function generateModels(context) {
   const outputPath = path.join(projectRoot, getModelOutputPath(context));
   const schema = parse(schemaContent);
   const projectConfig = context.amplify.getProjectConfig();
-
+  //get modelgen package
   const modelgenPackageMigrationflag = 'codegen.useAppSyncModelgenPlugin';
-
   const appSyncDataStoreCodeGen = getModelgenPackage(FeatureFlags.getBoolean(modelgenPackageMigrationflag));
-
+  //get timestamp config value
   let isTimestampFieldsAdded = false;
   try {
-    isTimestampFieldsAdded = FeatureFlags.getBoolean('addTimestampFields');
+    isTimestampFieldsAdded = FeatureFlags.getBoolean('codegen.addTimestampFields');
   } catch (err) {
     isTimestampFieldsAdded = false;
   }
