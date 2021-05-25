@@ -1,7 +1,7 @@
   #!/bin/bash
 
-custom_registry_url=http://localhost:4873
 default_verdaccio_package=verdaccio@4.5.1
+custom_registry_url=http://localhost:4873
 
 function startLocalRegistry {
   # Start local registry
@@ -14,19 +14,13 @@ function startLocalRegistry {
 
 function loginToLocalRegistry {
   # Login so we can publish packages
-  (cd && npx npm-auth-to-token@1.0.0 -u user -p password -e user@example.com -r "$custom_registry_url")
+  (cd && npm_config_yes=true npx npm-auth-to-token@1.0.0 -u user -p password -e user@example.com -r "$custom_registry_url")
 }
 
 function unsetNpmRegistryUrl {
   # Restore the original NPM and Yarn registry URLs and stop Verdaccio
   npm set registry "https://registry.npmjs.org/"
   yarn config set registry "https://registry.npmjs.org/"
-}
-
-function changeNpmGlobalPath {
-  mkdir -p ~/.npm-global
-  npm config set prefix '~/.npm-global'
-  export PATH=~/.npm-global/bin:$PATH
 }
 
 function setNpmRegistryUrlToLocal {

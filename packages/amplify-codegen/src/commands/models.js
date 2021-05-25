@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs-extra');
 const { parse } = require('graphql');
-const glob  = require('glob-all');
+const glob = require('glob-all');
 const { FeatureFlags, pathManager } = require('amplify-cli-core');
 const gqlCodeGen = require('@graphql-codegen/core');
 const { getModelgenPackage } = require('../utils/getModelgenPackage');
@@ -48,10 +48,16 @@ async function generateModels(context) {
   const outputPath = path.join(projectRoot, getModelOutputPath(context));
   const schema = parse(schemaContent);
   const projectConfig = context.amplify.getProjectConfig();
-
+  //get modelgen package
   const modelgenPackageMigrationflag = 'codegen.useAppSyncModelgenPlugin';
-
   const appSyncDataStoreCodeGen = getModelgenPackage(FeatureFlags.getBoolean(modelgenPackageMigrationflag));
+  //get timestamp config value
+  let isTimestampFieldsAdded = false;
+  try {
+    isTimestampFieldsAdded = FeatureFlags.getBoolean('codegen.addTimestampFields');
+  } catch (err) {
+    isTimestampFieldsAdded = false;
+  }
 
   const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
     baseOutputDir: outputPath,
@@ -59,6 +65,7 @@ async function generateModels(context) {
     config: {
       target: platformToLanguageMap[projectConfig.frontend] || projectConfig.frontend,
       directives: directiveDefinitions,
+      isTimestampFieldsAdded,
     },
   });
 
@@ -78,12 +85,6 @@ async function generateModels(context) {
 
   const generatedCode = await Promise.all(codeGenPromises);
 
-  // clean the output directory before re-generating models
-  // const cleanOutputPath = FeatureFlags.getBoolean('codegen.cleanGeneratedModelsDirectory');
-  // if (cleanOutputPath) {
-  //   await fs.emptyDir(outputPath);
-  // }
-
   appsyncLocalConfig.forEach((cfg, idx) => {
     const outPutPath = cfg.filename;
     fs.ensureFileSync(outPutPath);
@@ -92,7 +93,7 @@ async function generateModels(context) {
 
   generateEslintIgnore(context);
 
-  context.print.info(`Successfully generated models. Generated models can be found in ${outputPath}`);
+  context.print.info(`Successfully generated models... Generated models can be found in ${outputPath}`);
 }
 
 async function validateSchema(context) {
@@ -116,9 +117,7 @@ function loadSchema(apiResourcePath) {
   }
   if (fs.pathExistsSync(schemaDirectory) && fs.lstatSync(schemaDirectory).isDirectory()) {
     // search recursively for graphql schema files inside `schema` directory
-    const schemas = glob.sync([
-      path.join(schemaDirectory, '**/*.graphql')
-    ]);
+    const schemas = glob.sync([path.join(schemaDirectory, '**/*.graphql')]);
     return schemas.map(file => fs.readFileSync(file, 'utf8')).join('\n');
   }
 

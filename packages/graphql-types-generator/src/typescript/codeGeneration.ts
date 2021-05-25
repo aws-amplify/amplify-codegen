@@ -129,7 +129,7 @@ function structDeclarationForObjectType(generator: CodeGenerator, type: GraphQLO
     () => {
       const properties = propertiesFromFields(generator.context, Object.values(type.getFields()));
       propertyDeclaration(generator, { fieldName: '__typename', typeName: `"${interfaceName}"` });
-      properties.forEach(property => propertyDeclaration(generator, { ...property, isOptional: true }));
+      properties.forEach(property => propertyDeclaration(generator, { ...property }));
     },
   );
 }
@@ -144,7 +144,7 @@ function structDeclarationForInterfaceType(generator: CodeGenerator, type: Graph
     () => {
       const properties = propertiesFromFields(generator.context, Object.values(type.getFields()));
       propertyDeclaration(generator, { fieldName: '__typename', typeName: `"${interfaceName}"` });
-      properties.forEach(property => propertyDeclaration(generator, { ...property, isOptional: true }));
+      properties.forEach(property => propertyDeclaration(generator, { ...property }));
     },
   );
 }
@@ -181,7 +181,7 @@ export function interfaceVariablesDeclarationForOperation(
     },
     () => {
       const properties = propertiesFromFields(generator.context, variables);
-      pickedPropertyDeclarations(generator, properties, true);
+      pickedPropertyDeclarations(generator, properties);
     },
   );
 }
@@ -361,7 +361,7 @@ export function propertyFromField(
   }
 
   if (isCompositeType(namedType)) {
-    const typeName = namedType.toString();
+    let typeName = namedType.toString();
     let isArray = false;
     let isArrayElementNullable = null;
     if (isListType(fieldType)) {
@@ -370,6 +370,8 @@ export function propertyFromField(
     } else if (isNonNullType(fieldType) && isListType(fieldType.ofType)) {
       isArray = true;
       isArrayElementNullable = !isNonNullType(fieldType.ofType.ofType);
+    } else if (!isNonNullType(fieldType)) {
+      typeName = typeNameFromGraphQLType(context, fieldType, null, isNullable);
     }
 
     return {

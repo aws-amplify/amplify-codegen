@@ -64,6 +64,7 @@ type JSONModelField = {
   isArray: boolean;
   isRequired?: boolean;
   isArrayNullable?: boolean;
+  isReadOnly?: boolean;
   attributes?: JSONModelFieldAttributes;
   association?: AssociationType;
 };
@@ -210,6 +211,10 @@ export class AppSyncJSONVisitor<
 
         if (field.isListNullable !== undefined) {
           fieldMeta.isArrayNullable = field.isListNullable;
+        }
+
+        if (field.isReadOnly !== undefined) {
+          fieldMeta.isReadOnly = field.isReadOnly;
         }
 
         const association: AssociationType | void = this.getFieldAssociation(field);
