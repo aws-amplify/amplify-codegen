@@ -220,9 +220,11 @@ const generateDartPreset = (
 export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
   buildGeneratesSection: (options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>): Types.GenerateOptions[] => {
     const codeGenTarget = options.config.target;
-
+    const typesToSkip: string[] = ['Query', 'Mutation', 'Subscription'];
     const models: TypeDefinitionNode[] = options.schema.definitions.filter(
-      t => t.kind === 'ObjectTypeDefinition' || (t.kind === 'EnumTypeDefinition' && !t.name.value.startsWith('__')),
+      t =>
+        (t.kind === 'ObjectTypeDefinition' && !typesToSkip.includes(t.name.value)) ||
+        (t.kind === 'EnumTypeDefinition' && !t.name.value.startsWith('__')),
     ) as any;
 
     switch (codeGenTarget) {
