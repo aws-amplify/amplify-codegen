@@ -395,6 +395,12 @@ export class AppSyncSwiftVisitor<
             authRule.push(`ownerField: "${rule.ownerField}"`);
             authRule.push(`identityClaim: "${rule.identityClaim}"`);
             break;
+          case AuthStrategy.private:
+            authRule.push('allow: .private');
+            break;
+          case AuthStrategy.public:
+              authRule.push('allow: .public');
+              break;
           case AuthStrategy.groups:
             authRule.push('allow: .groups');
             authRule.push(`groupClaim: "${rule.groupClaim}"`);
