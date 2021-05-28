@@ -709,6 +709,7 @@ export class AppSyncModelDartVisitor<
             `key: ${modelName}.${queryFieldName}`,
             `isRequired: ${this.isFieldRequired(field)}`,
             field.isList ? 'isArray: true' : '',
+            field.isReadOnly ? 'isReadOnly: true' : '',
             ofTypeStr,
           ]
             .filter(f => f)
