@@ -845,6 +845,7 @@ export class AppSyncModelDartVisitor<
             ...(ofType === '.embedded' ? [`fieldName: '${fieldName}'`] : [`key: ${modelName}.${queryFieldName}`]),
             `isRequired: ${this.isFieldRequired(field)}`,
             field.isList ? 'isArray: true' : '',
+            field.isReadOnly ? 'isReadOnly: true' : '',
             ofTypeStr,
           ]
             .filter(f => f)
