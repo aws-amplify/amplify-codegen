@@ -1812,6 +1812,52 @@ describe('AppSyncSwiftVisitor', () => {
         }"
       `);
     });
+
+    it('should generate class with private authorization', () => {
+      const schema = /* GraphQL */ `
+        type Post @model @auth(rules: [{ allow: private }]) {
+          id: ID!
+          title: String!
+        }
+      `;
+      const visitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.metadata);
+      const generatedCode = visitor.generate();
+      expect(generatedCode).toMatchInlineSnapshot(`
+        "// swiftlint:disable all
+        import Amplify
+        import Foundation
+
+        extension Post {
+          // MARK: - CodingKeys 
+           public enum CodingKeys: String, ModelKey {
+            case id
+            case title
+            case createdAt
+            case updatedAt
+          }
+          
+          public static let keys = CodingKeys.self
+          //  MARK: - ModelSchema 
+          
+          public static let schema = defineSchema { model in
+            let post = Post.keys
+            
+            model.authRules = [
+              rule(allow: .private, operations: [.create, .update, .delete, .read])
+            ]
+            
+            model.pluralName = \\"Posts\\"
+            
+            model.fields(
+              .id(),
+              .field(post.title, is: .required, ofType: .string),
+              .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+              .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+            )
+            }
+        }"
+      `);
+    });
   });
   it('should support multiple auth rules', () => {
     const schema = /* GraphQL */ `
@@ -1821,7 +1867,7 @@ describe('AppSyncSwiftVisitor', () => {
           rules: [
             { allow: groups, groups: ["admin"] }
             { allow: owner, operations: ["create", "update"] }
-            { allow: public, operation: ["read"] }
+            { allow: public, operations: ["read"] }
           ]
         ) {
         id: ID!
@@ -1855,7 +1901,8 @@ describe('AppSyncSwiftVisitor', () => {
           
           model.authRules = [
             rule(allow: .groups, groupClaim: \\"cognito:groups\\", groups: [\\"admin\\"], operations: [.create, .update, .delete, .read]),
-            rule(allow: .owner, ownerField: \\"owner\\", identityClaim: \\"cognito:username\\", operations: [.create, .update])
+            rule(allow: .owner, ownerField: \\"owner\\", identityClaim: \\"cognito:username\\", operations: [.create, .update]),
+            rule(allow: .public, operations: [.read])
           ]
           
           model.pluralName = \\"Posts\\"

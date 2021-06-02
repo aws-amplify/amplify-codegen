@@ -10,7 +10,7 @@ import { deleteS3Bucket } from 'amplify-codegen-e2e-core';
 // Ensure to update scripts/split-e2e-tests.ts is also updated this gets updated
 const AWS_REGIONS_TO_RUN_TESTS = [
   'us-east-2',
-  'us-west-2',
+  'us-west-1',
   'eu-west-2',
   'eu-central-1',
   'ap-northeast-1',
