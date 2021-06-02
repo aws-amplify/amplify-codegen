@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.25.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.24.0...@aws-amplify/appsync-modelgen-plugin@1.25.0) (2021-06-02)
+
+
+### Bug Fixes
+
+* **appsync-modelgen-plugin:** include auth rule provider in the Java models, if available ([#168](https://github.com/aws-amplify/amplify-codegen/issues/168)) ([69cd61a](https://github.com/aws-amplify/amplify-codegen/commit/69cd61a4fe111d4950896c0debfb64415e14b512))
+* **appsync-modelgen-plugin:** skip query/mutation/sub types ([#180](https://github.com/aws-amplify/amplify-codegen/issues/180)) ([aa0dbb3](https://github.com/aws-amplify/amplify-codegen/commit/aa0dbb31e9ebe285ec643ef98335021561dd2168))
+
+
+### Features
+
+* **modelgen:** ios - support public/private [@auth](https://github.com/auth) rules ([#181](https://github.com/aws-amplify/amplify-codegen/issues/181)) ([a649136](https://github.com/aws-amplify/amplify-codegen/commit/a6491366e84c9b7ef07da0e9678d6ad1194e88d7))
+
+
+
+
+
 # [1.24.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.23.1...@aws-amplify/appsync-modelgen-plugin@1.24.0) (2021-05-25)
 
 

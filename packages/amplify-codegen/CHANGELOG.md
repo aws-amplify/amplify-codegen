@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.25.1](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.25.0...amplify-codegen@2.25.1) (2021-06-02)
+
+
+### Bug Fixes
+
+* **appsync-modelgen-plugin:** skip query/mutation/sub types ([#180](https://github.com/aws-amplify/amplify-codegen/issues/180)) ([aa0dbb3](https://github.com/aws-amplify/amplify-codegen/commit/aa0dbb31e9ebe285ec643ef98335021561dd2168))
+
+
+
+
+
 # [2.25.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.24.2...amplify-codegen@2.25.0) (2021-05-25)
 
 
