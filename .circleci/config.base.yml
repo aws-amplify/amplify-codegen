@@ -175,8 +175,46 @@ jobs:
     executor: << parameters.os >>
     steps:
       - run: echo 'Done with Node CLI E2E Tests'
+  
+  cleanup_resources:
+    <<: *defaults
+    executor: << parameters.os >>
+    steps:
+      - attach_workspace:
+          at: ./
+      - restore_cache:
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - run:
+          name: 'Run cleanup script'
+          command: |
+            cd packages/amplify-codegen-e2e-tests
+            yarn clean-e2e-resources
+          no_output_timeout: 20m
+      - store_artifacts:
+          path: ~/repo/packages/amplify-e2e-tests/amplify-e2e-reports
+    working_directory: ~/repo
+
 workflows:
   version: 2
+  e2e_resource_cleanup:
+    triggers:
+      - schedule:
+          cron: '0 0 * * *'
+          filters:
+            branches:
+              only:
+                - master
+                - e2e-testing
+    jobs:
+      - build:
+          os: linux_node12
+      - cleanup_resources:
+          context:
+            - cleanup-resources
+          os: linux_node12
+          requires:
+            - build
+
   build_test_deploy:
     jobs:
       - build:
@@ -197,16 +235,12 @@ workflows:
               only:
                 - master
                 - e2e-testing
-      - approval_for_e2e_test:
-          type: approval
-          requires:
-            - publish_to_local_registry
       - e2e-test:
           context:
             - cleanup-resources
           os: linux_node12
           requires:
-            - approval_for_e2e_test
+            - publish_to_local_registry
           post-steps:
             - run: *cleanup_e2e
           filters:
