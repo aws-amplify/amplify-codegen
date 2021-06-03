@@ -414,6 +414,9 @@ export class AppSyncSwiftVisitor<
             printWarning(`Model ${model.name} has auth with authStrategy ${rule.allow} of which is not yet supported in DataStore.`);
             return;
         }
+        if (rule.provider != null && this.config.emitAuthProvider) {
+          authRule.push(`provider: .${rule.provider}`);
+        }
         authRule.push(`operations: [${rule.operations?.map(op => `.${op}`).join(', ')}]`);
         rules.push(`rule(${authRule.join(', ')})`);
       });

@@ -12,7 +12,7 @@ const createAndGenerateVisitor = (schema: string) => {
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelVisitor(
     builtSchema,
-    { directives, target: 'general', isTimestampFieldsAdded: true },
+    { directives, target: 'general', isTimestampFieldsAdded: true, emitAuthProvider: true },
     { generate: CodeGenGenerateEnum.code },
   );
   visit(ast, { leave: visitor });

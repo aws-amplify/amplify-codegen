@@ -59,6 +59,14 @@ async function generateModels(context) {
     isTimestampFieldsAdded = false;
   }
 
+  //get timestamp config value
+  let emitAuthProvider = false;
+  try {
+    emitAuthProvider = FeatureFlags.getBoolean('codegen.emitAuthProvider');
+  } catch (err) {
+    emitAuthProvider = false;
+  }
+
   const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
     baseOutputDir: outputPath,
     schema,
@@ -66,6 +74,7 @@ async function generateModels(context) {
       target: platformToLanguageMap[projectConfig.frontend] || projectConfig.frontend,
       directives: directiveDefinitions,
       isTimestampFieldsAdded,
+      emitAuthProvider,
     },
   });
 
