@@ -102,13 +102,6 @@ export interface RawAppSyncModelConfig extends RawConfig {
    * @descriptions optional boolean which adds the read-only timestamp fields or not
    */
   isTimestampFieldsAdded?: boolean;
-
-  /**
-   * @name directives
-   * @type boolean
-   * @descriptions optional boolean, if true emits the provider value of @auth directives
-   */
-   emitAuthProvider?: boolean;
 }
 
 // Todo: need to figure out how to share config
@@ -184,7 +177,6 @@ export class AppSyncModelVisitor<
       scalars: buildScalars(_schema, rawConfig.scalars || '', defaultScalars),
       target: rawConfig.target,
       isTimestampFieldsAdded: rawConfig.isTimestampFieldsAdded,
-      emitAuthProvider: rawConfig.emitAuthProvider,
     });
 
     const typesUsedInDirectives: string[] = [];
