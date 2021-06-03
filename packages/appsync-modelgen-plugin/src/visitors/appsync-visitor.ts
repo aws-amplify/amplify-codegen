@@ -110,7 +110,6 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   generate?: CodeGenGenerateEnum;
   target?: string;
   isTimestampFieldsAdded?: boolean;
-  emitAuthProvider?: boolean;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
 
