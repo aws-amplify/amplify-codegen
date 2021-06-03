@@ -13,12 +13,13 @@ const getVisitor = (
   selectedType?: string,
   generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
   isTimestampFieldsAdded: boolean = true,
+  emitAuthProvider: boolean = true,
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncSwiftVisitor(
     builtSchema,
-    { directives, target: 'swift', scalars: SWIFT_SCALAR_MAP, isTimestampFieldsAdded },
+    { directives, target: 'swift', scalars: SWIFT_SCALAR_MAP, isTimestampFieldsAdded, emitAuthProvider },
     { selectedType, generate },
   );
   visit(ast, { leave: visitor });
@@ -1255,7 +1256,7 @@ describe('AppSyncSwiftVisitor', () => {
               let post = Post.keys
               
               model.authRules = [
-                rule(allow: .owner, ownerField: \\"owner\\", identityClaim: \\"cognito:username\\", operations: [.create, .update, .delete, .read])
+                rule(allow: .owner, ownerField: \\"owner\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.create, .update, .delete, .read])
               ]
               
               model.pluralName = \\"Posts\\"
@@ -1304,7 +1305,7 @@ describe('AppSyncSwiftVisitor', () => {
               let post = Post.keys
               
               model.authRules = [
-                rule(allow: .owner, ownerField: \\"author\\", identityClaim: \\"cognito:username\\", operations: [.create, .update, .delete, .read])
+                rule(allow: .owner, ownerField: \\"author\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.create, .update, .delete, .read])
               ]
               
               model.pluralName = \\"Posts\\"
@@ -1354,7 +1355,7 @@ describe('AppSyncSwiftVisitor', () => {
               let post = Post.keys
               
               model.authRules = [
-                rule(allow: .owner, ownerField: \\"author\\", identityClaim: \\"cognito:username\\", operations: [.create, .update, .delete])
+                rule(allow: .owner, ownerField: \\"author\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.create, .update, .delete])
               ]
               
               model.pluralName = \\"Posts\\"
@@ -1404,7 +1405,7 @@ describe('AppSyncSwiftVisitor', () => {
               let post = Post.keys
               
               model.authRules = [
-                rule(allow: .owner, ownerField: \\"author\\", identityClaim: \\"sub\\", operations: [.create, .update, .delete, .read])
+                rule(allow: .owner, ownerField: \\"author\\", identityClaim: \\"sub\\", provider: .userPools, operations: [.create, .update, .delete, .read])
               ]
               
               model.pluralName = \\"Posts\\"
@@ -1451,7 +1452,7 @@ describe('AppSyncSwiftVisitor', () => {
               let post = Post.keys
               
               model.authRules = [
-                rule(allow: .owner, ownerField: \\"owner\\", identityClaim: \\"cognito:username\\", operations: [.create, .update, .delete, .read])
+                rule(allow: .owner, ownerField: \\"owner\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.create, .update, .delete, .read])
               ]
               
               model.pluralName = \\"Posts\\"
@@ -1497,7 +1498,7 @@ describe('AppSyncSwiftVisitor', () => {
               let post = Post.keys
               
               model.authRules = [
-                rule(allow: .owner, ownerField: \\"customField\\", identityClaim: \\"cognito:username\\", operations: [.create, .update, .delete, .read])
+                rule(allow: .owner, ownerField: \\"customField\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.create, .update, .delete, .read])
               ]
               
               model.pluralName = \\"Posts\\"
@@ -1549,8 +1550,8 @@ describe('AppSyncSwiftVisitor', () => {
               let post = Post.keys
               
               model.authRules = [
-                rule(allow: .owner, ownerField: \\"author\\", identityClaim: \\"cognito:username\\", operations: [.create, .update, .delete, .read]),
-                rule(allow: .owner, ownerField: \\"editors\\", identityClaim: \\"cognito:username\\", operations: [.update, .read])
+                rule(allow: .owner, ownerField: \\"author\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.create, .update, .delete, .read]),
+                rule(allow: .owner, ownerField: \\"editors\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.update, .read])
               ]
               
               model.pluralName = \\"Posts\\"
@@ -1602,8 +1603,8 @@ describe('AppSyncSwiftVisitor', () => {
               let employee = Employee.keys
               
               model.authRules = [
-                rule(allow: .owner, ownerField: \\"owner\\", identityClaim: \\"cognito:username\\", operations: [.create, .update, .delete, .read]),
-                rule(allow: .groups, groupClaim: \\"cognito:groups\\", groups: [\\"Admins\\"], operations: [.create, .update, .delete, .read])
+                rule(allow: .owner, ownerField: \\"owner\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.create, .update, .delete, .read]),
+                rule(allow: .groups, groupClaim: \\"cognito:groups\\", groups: [\\"Admins\\"], provider: .userPools, operations: [.create, .update, .delete, .read])
               ]
               
               model.pluralName = \\"Employees\\"
@@ -1654,7 +1655,7 @@ describe('AppSyncSwiftVisitor', () => {
             let post = Post.keys
             
             model.authRules = [
-              rule(allow: .groups, groupClaim: \\"cognito:groups\\", groups: [\\"admin\\", \\"editors\\"], operations: [.create, .update, .delete, .read])
+              rule(allow: .groups, groupClaim: \\"cognito:groups\\", groups: [\\"admin\\", \\"editors\\"], provider: .userPools, operations: [.create, .update, .delete, .read])
             ]
             
             model.pluralName = \\"Posts\\"
@@ -1702,7 +1703,7 @@ describe('AppSyncSwiftVisitor', () => {
             let post = Post.keys
             
             model.authRules = [
-              rule(allow: .groups, groupClaim: \\"cognito:groups\\", groupsField: \\"groups\\", operations: [.create, .update, .delete, .read])
+              rule(allow: .groups, groupClaim: \\"cognito:groups\\", groupsField: \\"groups\\", provider: .userPools, operations: [.create, .update, .delete, .read])
             ]
             
             model.pluralName = \\"Posts\\"
@@ -1750,7 +1751,7 @@ describe('AppSyncSwiftVisitor', () => {
             let post = Post.keys
             
             model.authRules = [
-              rule(allow: .groups, groupClaim: \\"cognito:groups\\", groups: [\\"admin\\"], operations: [.create, .update, .delete])
+              rule(allow: .groups, groupClaim: \\"cognito:groups\\", groups: [\\"admin\\"], provider: .userPools, operations: [.create, .update, .delete])
             ]
             
             model.pluralName = \\"Posts\\"
@@ -1797,7 +1798,7 @@ describe('AppSyncSwiftVisitor', () => {
             let post = Post.keys
             
             model.authRules = [
-              rule(allow: .groups, groupClaim: \\"custom:groups\\", groups: [\\"admin\\"], operations: [.create, .update, .delete, .read])
+              rule(allow: .groups, groupClaim: \\"custom:groups\\", groups: [\\"admin\\"], provider: .userPools, operations: [.create, .update, .delete, .read])
             ]
             
             model.pluralName = \\"Posts\\"
@@ -1900,8 +1901,8 @@ describe('AppSyncSwiftVisitor', () => {
           let post = Post.keys
           
           model.authRules = [
-            rule(allow: .groups, groupClaim: \\"cognito:groups\\", groups: [\\"admin\\"], operations: [.create, .update, .delete, .read]),
-            rule(allow: .owner, ownerField: \\"owner\\", identityClaim: \\"cognito:username\\", operations: [.create, .update]),
+            rule(allow: .groups, groupClaim: \\"cognito:groups\\", groups: [\\"admin\\"], provider: .userPools, operations: [.create, .update, .delete, .read]),
+            rule(allow: .owner, ownerField: \\"owner\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.create, .update]),
             rule(allow: .public, operations: [.read])
           ]
           
@@ -1918,6 +1919,67 @@ describe('AppSyncSwiftVisitor', () => {
       }"
     `);
   });
+
+  it('should add provider to auth rules', () => {
+    const schema = /* GraphQL */ `
+      type Post
+        @model
+        @auth(
+          rules: [
+            { allow: groups, groups: ["admin"] }
+            { allow: owner, operations: ["create", "update"] }
+            { allow: public, operations: ["read"], provider: "apiKey" }
+          ]
+        ) {
+        id: ID!
+        title: String!
+        owner: String!
+      }
+    `;
+
+    const visitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.metadata);
+    const generatedCode = visitor.generate();
+    expect(generatedCode).toMatchInlineSnapshot(`
+      "// swiftlint:disable all
+      import Amplify
+      import Foundation
+
+      extension Post {
+        // MARK: - CodingKeys 
+         public enum CodingKeys: String, ModelKey {
+          case id
+          case title
+          case owner
+          case createdAt
+          case updatedAt
+        }
+        
+        public static let keys = CodingKeys.self
+        //  MARK: - ModelSchema 
+        
+        public static let schema = defineSchema { model in
+          let post = Post.keys
+          
+          model.authRules = [
+            rule(allow: .groups, groupClaim: \\"cognito:groups\\", groups: [\\"admin\\"], provider: .userPools, operations: [.create, .update, .delete, .read]),
+            rule(allow: .owner, ownerField: \\"owner\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.create, .update]),
+            rule(allow: .public, provider: .apiKey, operations: [.read])
+          ]
+          
+          model.pluralName = \\"Posts\\"
+          
+          model.fields(
+            .id(),
+            .field(post.title, is: .required, ofType: .string),
+            .field(post.owner, is: .required, ofType: .string),
+            .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+            .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+          )
+          }
+      }"
+    `);
+  });
+
   describe('timestamp fields', () => {
     const schema = /* GraphQL */ `
       type SimpleModel @model {

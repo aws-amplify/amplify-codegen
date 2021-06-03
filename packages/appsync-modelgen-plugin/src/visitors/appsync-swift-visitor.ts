@@ -1,5 +1,6 @@
-import { indent, indentMultiline } from '@graphql-codegen/visitor-plugin-common';
+import { indent, indentMultiline, NormalizedScalarsMap } from '@graphql-codegen/visitor-plugin-common';
 import { camelCase } from 'change-case';
+import { GraphQLSchema } from 'graphql';
 import { lowerCaseFirst } from 'lower-case-first';
 import { schemaTypeMap } from '../configs/swift-config';
 import { SwiftDeclarationBlock, escapeKeywords, ListType } from '../languages/swift-declaration-block';
@@ -14,13 +15,38 @@ import {
 } from './appsync-visitor';
 import { AuthDirective, AuthStrategy } from '../utils/process-auth';
 import { printWarning } from '../utils/warn';
+import { SWIFT_SCALAR_MAP } from '../scalars';
+
+export interface RawAppSyncModelSwiftConfig extends RawAppSyncModelConfig {
+  /**
+   * @name directives
+   * @type boolean
+   * @descriptions optional boolean, if true emits the provider value of @auth directives
+   */
+   emitAuthProvider?: boolean;
+}
+
+export interface ParsedAppSyncModelSwiftConfig extends ParsedAppSyncModelConfig {
+  emitAuthProvider?: boolean;
+}
 
 export class AppSyncSwiftVisitor<
-  TRawConfig extends RawAppSyncModelConfig = RawAppSyncModelConfig,
-  TPluginConfig extends ParsedAppSyncModelConfig = ParsedAppSyncModelConfig
+  TRawConfig extends RawAppSyncModelSwiftConfig = RawAppSyncModelSwiftConfig,
+  TPluginConfig extends ParsedAppSyncModelSwiftConfig = ParsedAppSyncModelSwiftConfig
 > extends AppSyncModelVisitor<TRawConfig, TPluginConfig> {
   protected modelExtensionImports: string[] = ['import Amplify', 'import Foundation'];
   protected imports: string[] = ['import Amplify', 'import Foundation'];
+
+  constructor(
+    schema: GraphQLSchema,
+    rawConfig: TRawConfig,
+    additionalConfig: Partial<TPluginConfig>,
+    defaultScalars: NormalizedScalarsMap = SWIFT_SCALAR_MAP,
+  ) {
+    super(schema, rawConfig, additionalConfig, defaultScalars);
+    this._parsedConfig.emitAuthProvider = rawConfig.emitAuthProvider || false;
+  }
+
   generate(): string {
     this.processDirectives();
     const code = [`// swiftlint:disable all`];
@@ -413,6 +439,9 @@ export class AppSyncSwiftVisitor<
           default:
             printWarning(`Model ${model.name} has auth with authStrategy ${rule.allow} of which is not yet supported in DataStore.`);
             return;
+        }
+        if (rule.provider != null && this.config.emitAuthProvider) {
+          authRule.push(`provider: .${rule.provider}`);
         }
         authRule.push(`operations: [${rule.operations?.map(op => `.${op}`).join(', ')}]`);
         rules.push(`rule(${authRule.join(', ')})`);
