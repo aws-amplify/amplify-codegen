@@ -102,14 +102,6 @@ export interface RawAppSyncModelConfig extends RawConfig {
    * @descriptions optional boolean which adds the read-only timestamp fields or not
    */
   isTimestampFieldsAdded?: boolean;
-
-
-  /**
-   * @name directives
-   * @type boolean
-   * @description optional, defines if custom indexes defined by @key directive should be generated.
-   */
-  generateIndexRules?: boolean;
 }
 
 // Todo: need to figure out how to share config
@@ -118,7 +110,6 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   generate?: CodeGenGenerateEnum;
   target?: string;
   isTimestampFieldsAdded?: boolean;
-  generateIndexRules?: boolean;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
 
@@ -185,7 +176,6 @@ export class AppSyncModelVisitor<
       scalars: buildScalars(_schema, rawConfig.scalars || '', defaultScalars),
       target: rawConfig.target,
       isTimestampFieldsAdded: rawConfig.isTimestampFieldsAdded,
-      generateIndexRules: rawConfig.generateIndexRules,
     });
 
     const typesUsedInDirectives: string[] = [];

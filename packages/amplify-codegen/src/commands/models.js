@@ -70,14 +70,7 @@ async function generateModels(context) {
   const isTimestampFieldsAdded = readFeatureFlag('codegen.addTimestampFields');
 
   const generateIndexRules = readFeatureFlag('codegen.generateIndexRules');
-
-  //get timestamp config value
-  let emitAuthProvider = false;
-  try {
-    emitAuthProvider = FeatureFlags.getBoolean('codegen.emitAuthProvider');
-  } catch (err) {
-    emitAuthProvider = false;
-  }
+  const emitAuthProvider = readFeatureFlag('codegen.emitAuthProvider');
 
   const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
     baseOutputDir: outputPath,
@@ -86,11 +79,8 @@ async function generateModels(context) {
       target: platformToLanguageMap[projectConfig.frontend] || projectConfig.frontend,
       directives: directiveDefinitions,
       isTimestampFieldsAdded,
-<<<<<<< HEAD
       emitAuthProvider,
-=======
       generateIndexRules,
->>>>>>> cb97552 (feat(modelgen): generateIndexRules feature flag)
     },
   });
 

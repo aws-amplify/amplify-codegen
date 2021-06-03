@@ -24,10 +24,18 @@ export interface RawAppSyncModelSwiftConfig extends RawAppSyncModelConfig {
    * @descriptions optional boolean, if true emits the provider value of @auth directives
    */
    emitAuthProvider?: boolean;
+
+   /**
+   * @name directives
+   * @type boolean
+   * @description optional, defines if custom indexes defined by @key directive should be generated.
+   */
+  generateIndexRules?: boolean;
 }
 
 export interface ParsedAppSyncModelSwiftConfig extends ParsedAppSyncModelConfig {
   emitAuthProvider?: boolean;
+  generateIndexRules?: boolean;
 }
 
 export class AppSyncSwiftVisitor<
@@ -45,6 +53,7 @@ export class AppSyncSwiftVisitor<
   ) {
     super(schema, rawConfig, additionalConfig, defaultScalars);
     this._parsedConfig.emitAuthProvider = rawConfig.emitAuthProvider || false;
+    this._parsedConfig.generateIndexRules = rawConfig.generateIndexRules || false;
   }
 
   generate(): string {
