@@ -116,8 +116,8 @@ describe('Javascript visitor', () => {
           readonly foo?: Bar[];
           readonly createdAt?: string;
           readonly updatedAt?: string;
-          constructor(init: ModelInit<SimpleModel>);
-          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
+          constructor(init: ModelInit<SimpleModel, {readOnlyFields: 'createdAt' | 'updatedAt'}>);
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel, {readOnlyFields: 'createdAt' | 'updatedAt'}>) => MutableModel<SimpleModel, {readOnlyFields: 'createdAt' | 'updatedAt'}> | void): SimpleModel;
         }
 
         export declare class Bar {
@@ -125,8 +125,8 @@ describe('Javascript visitor', () => {
           readonly createdAt?: string;
           readonly updatedAt?: string;
           readonly simpleModelFooId?: string;
-          constructor(init: ModelInit<Bar>);
-          static copyOf(source: Bar, mutator: (draft: MutableModel<Bar>) => MutableModel<Bar> | void): Bar;
+          constructor(init: ModelInit<Bar, {readOnlyFields: 'createdAt' | 'updatedAt'}>);
+          static copyOf(source: Bar, mutator: (draft: MutableModel<Bar, {readOnlyFields: 'createdAt' | 'updatedAt'}>) => MutableModel<Bar, {readOnlyFields: 'createdAt' | 'updatedAt'}> | void): Bar;
         }"
       `);
       expect(generateImportSpy).toBeCalledTimes(1);
@@ -239,8 +239,8 @@ describe('Javascript visitor with default owner auth', () => {
           readonly bar?: string;
           readonly createdAt?: string;
           readonly updatedAt?: string;
-          constructor(init: ModelInit<SimpleModel>);
-          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
+          constructor(init: ModelInit<SimpleModel, {readOnlyFields: 'createdAt' | 'updatedAt'}>);
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel, {readOnlyFields: 'createdAt' | 'updatedAt'}>) => MutableModel<SimpleModel, {readOnlyFields: 'createdAt' | 'updatedAt'}> | void): SimpleModel;
         }"
       `);
       expect(generateImportSpy).toBeCalledTimes(1);
@@ -310,8 +310,8 @@ describe('Javascript visitor with custom owner field auth', () => {
           readonly bar?: string;
           readonly createdAt?: string;
           readonly updatedAt?: string;
-          constructor(init: ModelInit<SimpleModel>);
-          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
+          constructor(init: ModelInit<SimpleModel, {readOnlyFields: 'createdAt' | 'updatedAt'}>);
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel, {readOnlyFields: 'createdAt' | 'updatedAt'}>) => MutableModel<SimpleModel, {readOnlyFields: 'createdAt' | 'updatedAt'}> | void): SimpleModel;
         }"
       `);
       expect(generateImportSpy).toBeCalledTimes(1);
@@ -383,8 +383,8 @@ describe('Javascript visitor with multiple owner field auth', () => {
           readonly bar?: string;
           readonly createdAt?: string;
           readonly updatedAt?: string;
-          constructor(init: ModelInit<SimpleModel>);
-          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
+          constructor(init: ModelInit<SimpleModel, {readOnlyFields: 'createdAt' | 'updatedAt'}>);
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel, {readOnlyFields: 'createdAt' | 'updatedAt'}>) => MutableModel<SimpleModel, {readOnlyFields: 'createdAt' | 'updatedAt'}> | void): SimpleModel;
         }"
       `);
       expect(generateImportSpy).toBeCalledTimes(1);
@@ -440,8 +440,8 @@ describe('Javascript visitor with auth directives in field level', () => {
           readonly ssn?: string;
           readonly createdAt?: string;
           readonly updatedAt?: string;
-          constructor(init: ModelInit<Employee>);
-          static copyOf(source: Employee, mutator: (draft: MutableModel<Employee>) => MutableModel<Employee> | void): Employee;
+          constructor(init: ModelInit<Employee, {readOnlyFields: 'createdAt' | 'updatedAt'}>);
+          static copyOf(source: Employee, mutator: (draft: MutableModel<Employee, {readOnlyFields: 'createdAt' | 'updatedAt'}>) => MutableModel<Employee, {readOnlyFields: 'createdAt' | 'updatedAt'}> | void): Employee;
         }"
       `);
 

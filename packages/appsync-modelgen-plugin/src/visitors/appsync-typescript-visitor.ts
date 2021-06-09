@@ -82,12 +82,20 @@ export class AppSyncModelTypeScriptVisitor<
       .withName(modelName)
       .export(true);
 
+    let readOnlyFieldNames: string[] = [];
+
     modelObj.fields.forEach((field: CodeGenField) => {
       modelDeclarations.addProperty(this.getFieldName(field), this.getNativeType(field), undefined, 'DEFAULT', {
         readonly: true,
         optional: field.isList ? field.isListNullable : field.isNullable,
       });
+      if (field.isReadOnly) {
+        readOnlyFieldNames.push(`'${field.name}'`);
+      }
     });
+
+    const readOnlyTypesFormatted: string = `, {readOnlyFields: ${readOnlyFieldNames.join(' | ')}}`;
+    const readOnlyTypeLabels: string | null = readOnlyFieldNames.length > 0 ? readOnlyTypesFormatted : null;
 
     // Constructor
     modelDeclarations.addClassMethod(
@@ -97,7 +105,7 @@ export class AppSyncModelTypeScriptVisitor<
       [
         {
           name: 'init',
-          type: `ModelInit<${modelName}>`,
+          type: `ModelInit<${modelName}${readOnlyTypeLabels ? readOnlyTypeLabels : ''}>`,
         },
       ],
       'DEFAULT',
@@ -117,7 +125,9 @@ export class AppSyncModelTypeScriptVisitor<
           },
           {
             name: 'mutator',
-            type: `(draft: MutableModel<${modelName}>) => MutableModel<${modelName}> | void`,
+            type: `(draft: MutableModel<${modelName}${readOnlyTypeLabels ? readOnlyTypeLabels : ''}>) => MutableModel<${modelName}${
+              readOnlyTypeLabels ? readOnlyTypeLabels : ''
+            }> | void`,
           },
         ],
         'DEFAULT',
