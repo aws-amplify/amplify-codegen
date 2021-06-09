@@ -95,7 +95,7 @@ export class AppSyncModelTypeScriptVisitor<
     });
 
     const readOnlyTypesFormatted: string = `, {readOnlyFields: ${readOnlyFieldNames.join(' | ')}}`;
-    const readOnlyTypeLabels: string | null = readOnlyFieldNames.length > 0 ? readOnlyTypesFormatted : null;
+    const readOnlyTypeLabels: string = readOnlyFieldNames.length > 0 ? readOnlyTypesFormatted : '';
 
     // Constructor
     modelDeclarations.addClassMethod(
@@ -105,7 +105,7 @@ export class AppSyncModelTypeScriptVisitor<
       [
         {
           name: 'init',
-          type: `ModelInit<${modelName}${readOnlyTypeLabels ? readOnlyTypeLabels : ''}>`,
+          type: `ModelInit<${modelName}${readOnlyTypeLabels}>`,
         },
       ],
       'DEFAULT',
@@ -125,9 +125,7 @@ export class AppSyncModelTypeScriptVisitor<
           },
           {
             name: 'mutator',
-            type: `(draft: MutableModel<${modelName}${readOnlyTypeLabels ? readOnlyTypeLabels : ''}>) => MutableModel<${modelName}${
-              readOnlyTypeLabels ? readOnlyTypeLabels : ''
-            }> | void`,
+            type: `(draft: MutableModel<${modelName}${readOnlyTypeLabels}>) => MutableModel<${modelName}${readOnlyTypeLabels}> | void`,
           },
         ],
         'DEFAULT',
