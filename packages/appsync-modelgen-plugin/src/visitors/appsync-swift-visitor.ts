@@ -24,10 +24,18 @@ export interface RawAppSyncModelSwiftConfig extends RawAppSyncModelConfig {
    * @descriptions optional boolean, if true emits the provider value of @auth directives
    */
    emitAuthProvider?: boolean;
+
+   /**
+   * @name directives
+   * @type boolean
+   * @description optional, defines if custom indexes defined by @key directive should be generated.
+   */
+  generateIndexRules?: boolean;
 }
 
 export interface ParsedAppSyncModelSwiftConfig extends ParsedAppSyncModelConfig {
   emitAuthProvider?: boolean;
+  generateIndexRules?: boolean;
 }
 
 export class AppSyncSwiftVisitor<
@@ -45,6 +53,7 @@ export class AppSyncSwiftVisitor<
   ) {
     super(schema, rawConfig, additionalConfig, defaultScalars);
     this._parsedConfig.emitAuthProvider = rawConfig.emitAuthProvider || false;
+    this._parsedConfig.generateIndexRules = rawConfig.generateIndexRules || false;
   }
 
   generate(): string {
@@ -251,6 +260,7 @@ export class AppSyncSwiftVisitor<
     const keysName = lowerCaseFirst(model.name);
     const fields = model.fields.map(field => this.generateFieldSchema(field, keysName));
     const authRules = this.generateAuthRules(model);
+    const keyDirectives = this.config.generateIndexRules ? this.generateKeyRules(model) : [];
     const closure = [
       '{ model in',
       `let ${keysName} = ${this.getModelName(model)}.keys`,
@@ -258,6 +268,7 @@ export class AppSyncSwiftVisitor<
       ...(authRules.length ? [`model.authRules = ${authRules}`, ''] : []),
       `model.pluralName = "${this.pluralizeModelName(model)}"`,
       '',
+      ...(keyDirectives.length ? ['model.attributes(', indentMultiline(keyDirectives.join(',\n')), ')', ''] : []),
       'model.fields(',
       indentMultiline(fields.join(',\n')),
       ')',
@@ -407,6 +418,18 @@ export class AppSyncSwiftVisitor<
       return false;
     }
     return !field.isNullable;
+  }
+
+  protected generateKeyRules(model: CodeGenModel): string[] {
+    const keyDirectives = model.directives
+      .filter((directive) => directive.name === 'key')
+      .map((directive) => {
+        const name = directive.arguments.name ? `"${directive.arguments.name}"` : 'nil';
+        const fields: string = directive.arguments.fields.map((field: string) => `"${field}"`).join(', ');
+        return `.index(fields: [${fields}], name: ${name})`;
+      });
+
+      return keyDirectives
   }
 
   protected generateAuthRules(model: CodeGenModel): string {

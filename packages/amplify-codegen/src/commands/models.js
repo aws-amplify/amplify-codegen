@@ -13,6 +13,21 @@ const platformToLanguageMap = {
   javascript: 'javascript',
 };
 
+/**
+ * Returns feature flag value, default to `false`
+ * @param {string} key feature flag id
+ * @returns
+ */
+const readFeatureFlag = (key) => {
+  let flagValue = false;
+  try {
+    flagValue = FeatureFlags.getBoolean(key);
+  } catch (err) {
+    flagValue = false;
+  }
+  return flagValue;
+}
+
 async function generateModels(context) {
   // steps:
   // 1. Load the schema and validate using transformer
@@ -51,21 +66,11 @@ async function generateModels(context) {
   //get modelgen package
   const modelgenPackageMigrationflag = 'codegen.useAppSyncModelgenPlugin';
   const appSyncDataStoreCodeGen = getModelgenPackage(FeatureFlags.getBoolean(modelgenPackageMigrationflag));
-  //get timestamp config value
-  let isTimestampFieldsAdded = false;
-  try {
-    isTimestampFieldsAdded = FeatureFlags.getBoolean('codegen.addTimestampFields');
-  } catch (err) {
-    isTimestampFieldsAdded = false;
-  }
 
-  //get timestamp config value
-  let emitAuthProvider = false;
-  try {
-    emitAuthProvider = FeatureFlags.getBoolean('codegen.emitAuthProvider');
-  } catch (err) {
-    emitAuthProvider = false;
-  }
+  const isTimestampFieldsAdded = readFeatureFlag('codegen.addTimestampFields');
+
+  const generateIndexRules = readFeatureFlag('codegen.generateIndexRules');
+  const emitAuthProvider = readFeatureFlag('codegen.emitAuthProvider');
 
   const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
     baseOutputDir: outputPath,
@@ -75,6 +80,7 @@ async function generateModels(context) {
       directives: directiveDefinitions,
       isTimestampFieldsAdded,
       emitAuthProvider,
+      generateIndexRules,
     },
   });
 
