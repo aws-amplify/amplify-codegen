@@ -82,20 +82,25 @@ export class AppSyncModelTypeScriptVisitor<
       .withName(modelName)
       .export(true);
 
+    const isTimestampFeatureFlagEnabled = this.config.isTimestampFieldsAdded;
     let readOnlyFieldNames: string[] = [];
+    let readOnlyTypesFormatted: string | undefined;
+    let readOnlyTypeLabels: string = '';
 
     modelObj.fields.forEach((field: CodeGenField) => {
       modelDeclarations.addProperty(this.getFieldName(field), this.getNativeType(field), undefined, 'DEFAULT', {
         readonly: true,
         optional: field.isList ? field.isListNullable : field.isNullable,
       });
-      if (field.isReadOnly) {
+      if (isTimestampFeatureFlagEnabled && field.isReadOnly) {
         readOnlyFieldNames.push(`'${field.name}'`);
       }
     });
 
-    const readOnlyTypesFormatted: string = `, {readOnlyFields: ${readOnlyFieldNames.join(' | ')}}`;
-    const readOnlyTypeLabels: string = readOnlyFieldNames.length > 0 ? readOnlyTypesFormatted : '';
+    if (isTimestampFeatureFlagEnabled) {
+      readOnlyTypesFormatted = `, {readOnlyFields: ${readOnlyFieldNames.join(' | ')}}`;
+      readOnlyTypeLabels = readOnlyFieldNames.length > 0 ? readOnlyTypesFormatted : '';
+    }
 
     // Constructor
     modelDeclarations.addClassMethod(
