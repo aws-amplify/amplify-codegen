@@ -5,7 +5,7 @@ const semver = require('semver');
 
 const pubspecFile = 'pubspec.yaml';
 
-export function validateDartSDK(context, projectRoot) {
+function validateDartSDK(context, projectRoot) {
   try {
     const config = yaml.load(fs.readFileSync(path.join(projectRoot, pubspecFile), 'utf8'));
     const version = semver.minVersion(config.environment.sdk);
@@ -22,3 +22,5 @@ export function validateDartSDK(context, projectRoot) {
     return false;
   }
 }
+
+module.exports = validateDartSDK;
