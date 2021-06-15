@@ -119,6 +119,8 @@ export class AppSyncSwiftVisitor<
                 isList: field.isList,
                 isEnum: this.isEnumType(field),
                 listType: field.isList ? listType : undefined,
+                isListNullable: field.isListNullable,
+                handleListNullabilityTransparently: this.isHasManyConnectionField(field) ? false : this.config.handleListNullabilityTransparently
               },
             };
           }),
@@ -141,6 +143,8 @@ export class AppSyncSwiftVisitor<
                 isList: field.isList,
                 isEnum: this.isEnumType(field),
                 listType: field.isList ? listType : undefined,
+                isListNullable: field.isListNullable,
+                handleListNullabilityTransparently: this.isHasManyConnectionField(field) ? false : this.config.handleListNullabilityTransparently
               },
             };
           }),
@@ -164,6 +168,8 @@ export class AppSyncSwiftVisitor<
                 isList: field.isList,
                 isEnum: this.isEnumType(field),
                 listType: field.isList ? listType : undefined,
+                isListNullable: field.isListNullable,
+                handleListNullabilityTransparently: this.isHasManyConnectionField(field) ? false : this.config.handleListNullabilityTransparently
               },
             };
           }),
@@ -441,7 +447,7 @@ export class AppSyncSwiftVisitor<
 
     return keyDirectives
   }
-  
+
   protected isHasManyConnectionField(field: CodeGenField): boolean {
     if (field.connectionInfo && field.connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
       return true;
