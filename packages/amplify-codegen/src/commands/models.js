@@ -5,7 +5,6 @@ const glob = require('glob-all');
 const { FeatureFlags, pathManager } = require('amplify-cli-core');
 const gqlCodeGen = require('@graphql-codegen/core');
 const { getModelgenPackage } = require('../utils/getModelgenPackage');
-const yaml = require('js-yaml');
 const { validateDartSDK } = require('../utils/validateDartSDK');
 
 const platformToLanguageMap = {

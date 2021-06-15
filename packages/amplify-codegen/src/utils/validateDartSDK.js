@@ -23,4 +23,4 @@ function validateDartSDK(context, projectRoot) {
   }
 }
 
-module.exports = validateDartSDK;
+module.exports = { validateDartSDK };
