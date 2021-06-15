@@ -285,7 +285,7 @@ export class AppSyncModelDartVisitor<
     //Model._internal
     const args = this._parsedConfig.withNullSafety
       ? `{${model.fields
-          .map(f => `${this.isFieldRequired(f) ? '@required ' : ''}${this.getFieldName(f) === 'id' ? 'this.' : ''}${this.getFieldName(f)}`)
+          .map(f => `${this.isFieldRequired(f) ? 'required ' : ''}${this.getFieldName(f) === 'id' ? 'this.' : ''}${this.getFieldName(f)}`)
           .join(', ')}}`
       : `{${model.fields.map(f => `${this.isFieldRequired(f) ? '@required ' : ''}this.${this.getFieldName(f)}`).join(', ')}}`;
     const internalImpl = this._parsedConfig.withNullSafety
@@ -318,7 +318,7 @@ export class AppSyncModelDartVisitor<
             if (this.getFieldName(f) === 'id' || !this.isFieldRequired(f)) {
               return `${this.getNativeType(f)}? ${this.getFieldName(f)}`;
             }
-            return `@required ${this.getNativeType(f)} ${this.getFieldName(f)}`;
+            return `required ${this.getNativeType(f)} ${this.getFieldName(f)}`;
           })
           .join(', ')}}`
       : `{${model.fields

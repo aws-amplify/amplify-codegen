@@ -5,6 +5,8 @@ const glob = require('glob-all');
 const { FeatureFlags, pathManager } = require('amplify-cli-core');
 const gqlCodeGen = require('@graphql-codegen/core');
 const { getModelgenPackage } = require('../utils/getModelgenPackage');
+const yaml = require('js-yaml');
+const { validateDartSDK } = require('../utils/validateDartSDK');
 
 const platformToLanguageMap = {
   android: 'java',
@@ -18,7 +20,7 @@ const platformToLanguageMap = {
  * @param {string} key feature flag id
  * @returns
  */
-const readFeatureFlag = (key) => {
+const readFeatureFlag = key => {
   let flagValue = false;
   try {
     flagValue = FeatureFlags.getBoolean(key);
@@ -26,7 +28,7 @@ const readFeatureFlag = (key) => {
     flagValue = false;
   }
   return flagValue;
-}
+};
 
 async function generateModels(context) {
   // steps:
@@ -72,6 +74,9 @@ async function generateModels(context) {
   const generateIndexRules = readFeatureFlag('codegen.generateIndexRules');
   const emitAuthProvider = readFeatureFlag('codegen.emitAuthProvider');
 
+  const withNullSafety =
+    projectConfig.frontend === 'flutter' ? validateDartSDK(context, projectRoot) && readFeatureFlag('codegen.withNullSafety') : false;
+
   const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
     baseOutputDir: outputPath,
     schema,
@@ -81,6 +86,7 @@ async function generateModels(context) {
       isTimestampFieldsAdded,
       emitAuthProvider,
       generateIndexRules,
+      withNullSafety,
     },
   });
 
