@@ -31,11 +31,11 @@ export interface RawAppSyncModelDartConfig extends RawAppSyncModelConfig {
    * @type boolean
    * @description optional, defines if dart model files are generated with null safety feature.
    */
-  withNullSafety?: boolean;
+  enableDartNullSafety?: boolean;
 }
 
 export interface ParsedAppSyncModelDartConfig extends ParsedAppSyncModelConfig {
-  withNullSafety: boolean;
+  enableDartNullSafety: boolean;
 }
 export class AppSyncModelDartVisitor<
   TRawConfig extends RawAppSyncModelDartConfig = RawAppSyncModelDartConfig,
@@ -48,7 +48,7 @@ export class AppSyncModelDartVisitor<
     defaultScalars: NormalizedScalarsMap = DART_SCALAR_MAP,
   ) {
     super(schema, rawConfig, additionalConfig, defaultScalars);
-    this._parsedConfig.withNullSafety = rawConfig.withNullSafety || false;
+    this._parsedConfig.enableDartNullSafety = rawConfig.enableDartNullSafety || false;
   }
 
   generate(): string {
@@ -257,7 +257,7 @@ export class AppSyncModelDartVisitor<
   protected generateModelField(field: CodeGenField, value: string, classDeclarationBlock: DartDeclarationBlock): void {
     const fieldType = this.getNativeType(field);
     const fieldName = this.getFieldName(field);
-    if (this._parsedConfig.withNullSafety && fieldName !== 'id') {
+    if (this.isNullSafety() && fieldName !== 'id') {
       classDeclarationBlock.addClassMember(`_${fieldName}`, `${fieldType}?`, value, { final: true });
     } else {
       classDeclarationBlock.addClassMember(fieldName, fieldType, value, { final: true });
@@ -268,7 +268,7 @@ export class AppSyncModelDartVisitor<
     //getId
     declarationBlock.addClassMethod('getId', 'String', [], 'return id;', {}, ['override']);
     //other getters
-    if (this._parsedConfig.withNullSafety) {
+    if (this.isNullSafety()) {
       model.fields.forEach(field => {
         const fieldName = this.getFieldName(field);
         const fieldType = this.getNativeType(field);
@@ -283,12 +283,12 @@ export class AppSyncModelDartVisitor<
 
   protected generateConstructor(model: CodeGenModel, declarationBlock: DartDeclarationBlock): void {
     //Model._internal
-    const args = this._parsedConfig.withNullSafety
+    const args = this.isNullSafety()
       ? `{${model.fields
           .map(f => `${this.isFieldRequired(f) ? 'required ' : ''}${this.getFieldName(f) === 'id' ? 'this.' : ''}${this.getFieldName(f)}`)
           .join(', ')}}`
       : `{${model.fields.map(f => `${this.isFieldRequired(f) ? '@required ' : ''}this.${this.getFieldName(f)}`).join(', ')}}`;
-    const internalImpl = this._parsedConfig.withNullSafety
+    const internalImpl = this.isNullSafety()
       ? `: ${model.fields
           .filter(f => this.getFieldName(f) !== 'id')
           .map(f => `_${this.getFieldName(f)} = ${this.getFieldName(f)}`)
@@ -312,7 +312,7 @@ export class AppSyncModelDartVisitor<
       })
       .join(',\n');
     const factoryImpl = [`return ${this.getModelName(model)}._internal(`, indentMultiline(`${returnParamStr});`)].join('\n');
-    const factoryParam = this._parsedConfig.withNullSafety
+    const factoryParam = this.isNullSafety()
       ? `{${model.fields
           .map(f => {
             if (this.getFieldName(f) === 'id' || !this.isFieldRequired(f)) {
@@ -342,7 +342,7 @@ export class AppSyncModelDartVisitor<
       indentMultiline(
         `${model.fields
           .map(f => {
-            const fieldName = `${this._parsedConfig.withNullSafety && f.name !== 'id' ? '_' : ''}${this.getFieldName(f)}`;
+            const fieldName = `${this.isNullSafety() && f.name !== 'id' ? '_' : ''}${this.getFieldName(f)}`;
             const otherFieldName = this.getFieldName(f);
             return f.isList
               ? `DeepCollectionEquality().equals(${fieldName}, other.${otherFieldName})`
@@ -375,7 +375,7 @@ export class AppSyncModelDartVisitor<
         ...fields.map((field, index) => {
           const fieldDelimiter = ', ';
           const varName = this.getFieldName(field);
-          const fieldName = `${this._parsedConfig.withNullSafety && field.name !== 'id' ? '_' : ''}${this.getFieldName(field)}`;
+          const fieldName = `${this.isNullSafety() && field.name !== 'id' ? '_' : ''}${this.getFieldName(field)}`;
           let toStringVal = '';
           if (this.isEnumType(field)) {
             if (field.isList) {
@@ -415,7 +415,7 @@ export class AppSyncModelDartVisitor<
   protected generateCopyWithMethod(model: CodeGenModel, declarationBlock: DartDeclarationBlock): void {
     //copyWith
     const copyParam = `{${model.fields
-      .map(f => `${this.getNativeType(f)}${this._parsedConfig.withNullSafety ? '?' : ''} ${this.getFieldName(f)}`)
+      .map(f => `${this.getNativeType(f)}${this.isNullSafety() ? '?' : ''} ${this.getFieldName(f)}`)
       .join(', ')}}`;
     declarationBlock.addClassMethod(
       'copyWith',
@@ -441,7 +441,7 @@ export class AppSyncModelDartVisitor<
       model.fields
         .map(field => {
           const varName = this.getFieldName(field);
-          const fieldName = `${this._parsedConfig.withNullSafety && field.name !== 'id' ? '_' : ''}${this.getFieldName(field)}`;
+          const fieldName = `${this.isNullSafety() && field.name !== 'id' ? '_' : ''}${this.getFieldName(field)}`;
           //model type
           if (this.isModelType(field)) {
             if (field.isList) {
@@ -508,7 +508,7 @@ export class AppSyncModelDartVisitor<
     const toJsonFields = model.fields
       .map(field => {
         const varName = this.getFieldName(field);
-        const fieldName = `${this._parsedConfig.withNullSafety && field.name !== 'id' ? '_' : ''}${this.getFieldName(field)}`;
+        const fieldName = `${this.isNullSafety() && field.name !== 'id' ? '_' : ''}${this.getFieldName(field)}`;
         if (this.isModelType(field)) {
           if (field.isList) {
             return `'${varName}': ${fieldName}?.map((e) => e?.toJson())?.toList()`;
@@ -732,5 +732,9 @@ export class AppSyncModelDartVisitor<
 
   protected isFieldRequired(field: CodeGenField): boolean {
     return !((field.isNullable && !field.isList) || field.isListNullable);
+  }
+
+  protected isNullSafety(): boolean {
+    return this._parsedConfig.enableDartNullSafety;
   }
 }

@@ -73,7 +73,7 @@ async function generateModels(context) {
   const generateIndexRules = readFeatureFlag('codegen.generateIndexRules');
   const emitAuthProvider = readFeatureFlag('codegen.emitAuthProvider');
 
-  const withNullSafety =
+  const enableDartNullSafety =
     projectConfig.frontend === 'flutter' ? validateDartSDK(context, projectRoot) && readFeatureFlag('codegen.withNullSafety') : false;
 
   const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
@@ -85,7 +85,7 @@ async function generateModels(context) {
       isTimestampFieldsAdded,
       emitAuthProvider,
       generateIndexRules,
-      withNullSafety,
+      enableDartNullSafety,
     },
   });
 

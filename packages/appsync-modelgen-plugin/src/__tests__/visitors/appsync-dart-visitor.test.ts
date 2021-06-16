@@ -12,13 +12,13 @@ const getVisitor = (
   schema: string,
   selectedType?: string,
   generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
-  withNullSafety: boolean = false,
+  enableDartNullSafety: boolean = false,
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelDartVisitor(
     builtSchema,
-    { directives, target: 'dart', scalars: DART_SCALAR_MAP, withNullSafety },
+    { directives, target: 'dart', scalars: DART_SCALAR_MAP, enableDartNullSafety },
     { selectedType, generate },
   );
   visit(ast, { leave: visitor });
