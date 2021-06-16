@@ -11,11 +11,11 @@ function validateDartSDK(context, projectRoot) {
     const version = semver.minVersion(config.environment.sdk);
     if (semver.satisfies(version, '>= 2.12.0')) {
       context.print.warning(
-        '\nDetect dart SDK satisfies the minimum version of 2.12.0. Null safety feature will be applied depending on feature flag value(default enabled for new projects and disabled for old ones).',
+        '\nDetected dart SDK satisfies the minimum version of 2.12.0. Null safety feature will be applied depending on feature flag value(default enabled for new projects and disabled for old ones).',
       );
       return true;
     }
-    context.print.warning('\nDetect dart SDK does not satisfy the minimum version of 2.12.0. Null safety feature will be disabled.');
+    context.print.warning('\nDetected dart SDK does not satisfy the minimum version of 2.12.0. Null safety feature will be disabled.');
     return false;
   } catch (e) {
     context.print.warning(
