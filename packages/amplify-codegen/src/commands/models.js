@@ -74,7 +74,7 @@ async function generateModels(context) {
   const emitAuthProvider = readFeatureFlag('codegen.emitAuthProvider');
 
   const enableDartNullSafety =
-    projectConfig.frontend === 'flutter' ? validateDartSDK(context, projectRoot) && readFeatureFlag('codegen.withNullSafety') : false;
+    projectConfig.frontend === 'flutter' ? validateDartSDK(context, projectRoot) && readFeatureFlag('codegen.enableDartNullSafety') : false;
 
   const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
     baseOutputDir: outputPath,
