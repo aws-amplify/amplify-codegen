@@ -3414,8 +3414,8 @@ class Blog extends Model {
     if (identical(other, this)) return true;
     return other is Blog &&
         id == other.id &&
-        _name == other.name &&
-        DeepCollectionEquality().equals(_posts, other.posts);
+        _name == other._name &&
+        DeepCollectionEquality().equals(_posts, other._posts);
   }
 
   @override
@@ -3554,8 +3554,8 @@ class Comment extends Model {
     if (identical(other, this)) return true;
     return other is Comment &&
         id == other.id &&
-        _post == other.post &&
-        _content == other.content;
+        _post == other._post &&
+        _content == other._content;
   }
 
   @override
@@ -3706,9 +3706,9 @@ class Post extends Model {
     if (identical(other, this)) return true;
     return other is Post &&
         id == other.id &&
-        _title == other.title &&
-        _blog == other.blog &&
-        DeepCollectionEquality().equals(_comments, other.comments);
+        _title == other._title &&
+        _blog == other._blog &&
+        DeepCollectionEquality().equals(_comments, other._comments);
   }
 
   @override

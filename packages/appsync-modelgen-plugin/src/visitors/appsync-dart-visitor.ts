@@ -343,10 +343,7 @@ export class AppSyncModelDartVisitor<
         `${model.fields
           .map(f => {
             const fieldName = `${this.isNullSafety() && f.name !== 'id' ? '_' : ''}${this.getFieldName(f)}`;
-            const otherFieldName = this.getFieldName(f);
-            return f.isList
-              ? `DeepCollectionEquality().equals(${fieldName}, other.${otherFieldName})`
-              : `${fieldName} == other.${otherFieldName}`;
+            return f.isList ? `DeepCollectionEquality().equals(${fieldName}, other.${fieldName})` : `${fieldName} == other.${fieldName}`;
           })
           .join(' &&\n')};`,
       ),
