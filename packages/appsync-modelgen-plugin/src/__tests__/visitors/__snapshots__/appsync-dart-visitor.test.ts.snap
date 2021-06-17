@@ -2,7 +2,7 @@
 
 exports[`AppSync Dart Visitor Dart Specific Tests should generate the model provider 1`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -53,7 +53,7 @@ class ModelProvider implements ModelProviderInterface {
 
 exports[`AppSync Dart Visitor Enum Generation should generate a class for enum type 1`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -159,7 +159,7 @@ class _SimpleModelModelType extends ModelType<SimpleModel> {
 
 exports[`AppSync Dart Visitor Enum Generation should generate a class for enum type 2`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -181,7 +181,7 @@ enum Status { yes, no, maybe }
 
 exports[`AppSync Dart Visitor Field tests should generate correct output for appsync scalar types of time and int 1`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -469,7 +469,7 @@ class _TemporalTimeModelModelType extends ModelType<TemporalTimeModel> {
 
 exports[`AppSync Dart Visitor Field tests should generate correct output for enum field w/o list or nullable 1`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -721,7 +721,7 @@ class _TestEnumModelModelType extends ModelType<TestEnumModel> {
 
 exports[`AppSync Dart Visitor Field tests should generate correct output for regular field w/o list or nullable 1`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -956,7 +956,7 @@ class _TestModelModelType extends ModelType<TestModel> {
 
 exports[`AppSync Dart Visitor Model Directive should generate a class for a Simple Model 1`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -1074,7 +1074,7 @@ class _SimpleModelModelType extends ModelType<SimpleModel> {
 
 exports[`AppSync Dart Visitor Model Directive should generate a class for a model with all optional fields except id field 1`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -1192,7 +1192,7 @@ class _SimpleModelModelType extends ModelType<SimpleModel> {
 
 exports[`AppSync Dart Visitor Model with Auth Directive should generate class with custom claims 1`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -1323,7 +1323,7 @@ class _customClaimModelType extends ModelType<customClaim> {
 
 exports[`AppSync Dart Visitor Model with Auth Directive should generate class with custom group claims 1`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -1456,7 +1456,7 @@ class _customClaimModelType extends ModelType<customClaim> {
 
 exports[`AppSync Dart Visitor Model with Auth Directive should generate class with dynamic groups 1`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -1587,7 +1587,7 @@ class _dynamicGroupsModelType extends ModelType<dynamicGroups> {
 
 exports[`AppSync Dart Visitor Model with Auth Directive should generate class with owner auth 1`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -1718,7 +1718,7 @@ class _simpleOwnerAuthModelType extends ModelType<simpleOwnerAuth> {
 
 exports[`AppSync Dart Visitor Model with Auth Directive should generate class with owner auth allowing others to read: 1`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -1848,7 +1848,7 @@ class _allowReadModelType extends ModelType<allowRead> {
 
 exports[`AppSync Dart Visitor Model with Auth Directive should generate class with private authorization 1`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -1975,7 +1975,7 @@ class _privateTypeModelType extends ModelType<privateType> {
 
 exports[`AppSync Dart Visitor Model with Auth Directive should generate class with public authorization 1`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -2102,7 +2102,7 @@ class _publicTypeModelType extends ModelType<publicType> {
 
 exports[`AppSync Dart Visitor Model with Auth Directive should generate class with static groups 1`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -2235,7 +2235,7 @@ class _staticGroupsModelType extends ModelType<staticGroups> {
 
 exports[`AppSync Dart Visitor Model with Auth Directive should include authRules in schema when owner auth is used with ownerField 1`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -2369,7 +2369,7 @@ class _PostModelType extends ModelType<Post> {
 
 exports[`AppSync Dart Visitor Model with Auth Directive should support multiple auth rules 1`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -2516,7 +2516,7 @@ class _PostModelType extends ModelType<Post> {
 
 exports[`AppSync Dart Visitor Model with Connection Directive should generate classes for models with one to many connection 1`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -2634,7 +2634,7 @@ class _TodoModelType extends ModelType<Todo> {
 
 exports[`AppSync Dart Visitor Model with Connection Directive should generate classes for models with one to many connection 2`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -2745,7 +2745,7 @@ class _TaskModelType extends ModelType<Task> {
 
 exports[`AppSync Dart Visitor Model with Connection Directive should support connection directive with keyName and fields 1`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -2897,7 +2897,7 @@ class _BlogModelType extends ModelType<Blog> {
 
 exports[`AppSync Dart Visitor Model with Connection Directive should support connection directive with keyName and fields 2`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -3026,7 +3026,7 @@ class _CommentModelType extends ModelType<Comment> {
 
 exports[`AppSync Dart Visitor Model with Connection Directive should support connection directive with keyName and fields 3`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -3182,7 +3182,7 @@ class _PostModelType extends ModelType<Post> {
 
 exports[`AppSync Dart Visitor Model with Key Directive should generate a class for model with key directive 1`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -3349,7 +3349,7 @@ class _authorBookModelType extends ModelType<authorBook> {
 
 exports[`AppSync Dart Visitor Null Safety Tests should generate correct model files if the null safety is enabled 1`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -3492,7 +3492,7 @@ class _BlogModelType extends ModelType<Blog> {
 
 exports[`AppSync Dart Visitor Null Safety Tests should generate correct model files if the null safety is enabled 2`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
@@ -3630,7 +3630,7 @@ class _CommentModelType extends ModelType<Comment> {
 
 exports[`AppSync Dart Visitor Null Safety Tests should generate correct model files if the null safety is enabled 3`] = `
 "/*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the \\"License\\").
 * You may not use this file except in compliance with the License.
