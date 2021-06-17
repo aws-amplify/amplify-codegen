@@ -3567,7 +3567,7 @@ class Comment extends Model {
 
     buffer.write(\\"Comment {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"post=\\" + (_post != null ? _post.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"post=\\" + (_post != null ? _post!.toString() : \\"null\\") + \\", \\");
     buffer.write(\\"content=\\" + \\"$_content\\");
     buffer.write(\\"}\\");
 
@@ -3721,7 +3721,7 @@ class Post extends Model {
     buffer.write(\\"Post {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"title=\\" + \\"$_title\\" + \\", \\");
-    buffer.write(\\"blog=\\" + (_blog != null ? _blog.toString() : \\"null\\"));
+    buffer.write(\\"blog=\\" + (_blog != null ? _blog!.toString() : \\"null\\"));
     buffer.write(\\"}\\");
 
     return buffer.toString();
