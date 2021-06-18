@@ -3443,7 +3443,8 @@ class Blog extends Model {
         _name = json['name'],
         _posts = json['posts'] is List
             ? (json['posts'] as List)
-                .map((e) => Post.fromJson(new Map<String, dynamic>.from(e)))
+                .map((e) => Post.fromJson(
+                    new Map<String, dynamic>.from(e['serializedData'])))
                 .toList()
             : null;
 
@@ -3584,7 +3585,8 @@ class Comment extends Model {
   Comment.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         _post = json['post'] != null
-            ? Post.fromJson(new Map<String, dynamic>.from(json['post']))
+            ? Post.fromJson(
+                new Map<String, dynamic>.from(json['post']['serializedData']))
             : null,
         _content = json['content'];
 
@@ -3740,11 +3742,13 @@ class Post extends Model {
       : id = json['id'],
         _title = json['title'],
         _blog = json['blog'] != null
-            ? Blog.fromJson(new Map<String, dynamic>.from(json['blog']))
+            ? Blog.fromJson(
+                new Map<String, dynamic>.from(json['blog']['serializedData']))
             : null,
         _comments = json['comments'] is List
             ? (json['comments'] as List)
-                .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e)))
+                .map((e) => Comment.fromJson(
+                    new Map<String, dynamic>.from(e['serializedData'])))
                 .toList()
             : null;
 
