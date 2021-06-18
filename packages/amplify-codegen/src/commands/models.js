@@ -85,7 +85,7 @@ async function generateModels(context) {
     } else {
       enableDartNullSafety = false;
       context.print.warning(
-        'Generating Dart Models without null safety. To generate null safe data models, turn on the “enabledartnullsafety” feature flag and need to set your Dart SDK version to “>= 2.12.0”.',
+        'Generating Dart Models without null safety. To generate null safe data models, turn on the “enabledartnullsafety” feature flag and set your Dart SDK version to “>= 2.12.0”.',
       );
     }
   }
