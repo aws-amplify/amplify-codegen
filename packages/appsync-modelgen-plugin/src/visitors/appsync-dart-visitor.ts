@@ -376,7 +376,9 @@ export class AppSyncModelDartVisitor<
           let toStringVal = '';
           if (this.isEnumType(field)) {
             if (field.isList) {
-              toStringVal = `${fieldName}?.map((e) => enumToString(e)).toString()`;
+              toStringVal = this.isNullSafety()
+                ? `(${fieldName} != null ? ${fieldName}!.map((e) => enumToString(e)).toString() : "null")`
+                : `${fieldName}?.map((e) => enumToString(e)).toString()`;
             } else {
               toStringVal = `(${fieldName} != null ? enumToString(${fieldName})${this.isNullSafety() ? '!' : ''} : "null")`;
             }
@@ -462,7 +464,7 @@ export class AppSyncModelDartVisitor<
               return [
                 `${fieldName} = json['${varName}'] is List`,
                 indent(`? (json['${varName}'] as List)`),
-                indent(`.map((e) => enumFromString<${field.type}>(e, ${field.type}.values))`, 2),
+                indent(`.map((e) => enumFromString<${field.type}>(e, ${field.type}.values)${this.isNullSafety() ? '!' : ''})`, 2),
                 indent(`.toList()`, 2),
                 indent(`: null`),
               ].join('\n');
