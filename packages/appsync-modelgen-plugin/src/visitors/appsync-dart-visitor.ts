@@ -378,7 +378,7 @@ export class AppSyncModelDartVisitor<
             if (field.isList) {
               toStringVal = `${fieldName}?.map((e) => enumToString(e)).toString()`;
             } else {
-              toStringVal = `(${fieldName} != null ? enumToString(${fieldName}) : "null")`;
+              toStringVal = `(${fieldName} != null ? enumToString(${fieldName})${this.isNullSafety() ? '!' : ''} : "null")`;
             }
           } else {
             const fieldNativeType = this.getNativeType(field);

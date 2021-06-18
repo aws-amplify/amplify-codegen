@@ -73,9 +73,22 @@ async function generateModels(context) {
   const generateIndexRules = readFeatureFlag('codegen.generateIndexRules');
   const emitAuthProvider = readFeatureFlag('codegen.emitAuthProvider');
 
-  const enableDartNullSafety =
-    projectConfig.frontend === 'flutter' ? validateDartSDK(context, projectRoot) && readFeatureFlag('codegen.enableDartNullSafety') : false;
+  let enableDartNullSafety = readFeatureFlag('codegen.enableDartNullSafety');
 
+  if (projectConfig.frontend === 'flutter') {
+    const isMinimumDartVersionSatisfied = validateDartSDK(context, projectRoot);
+    context.print.warning(`Detected feature flag: “enabledartnullsafety : ${enableDartNullSafety}”`);
+    if (isMinimumDartVersionSatisfied && enableDartNullSafety) {
+      context.print.warning(
+        'Generating Dart Models with null safety. To opt out of null safe models, turn off the “enabledartnullsafety” feature flag.',
+      );
+    } else {
+      enableDartNullSafety = false;
+      context.print.warning(
+        'Generating Dart Models without null safety. To generate null safe data models, turn on the “enabledartnullsafety” feature flag and need to set your Dart SDK version to “>= 2.12.0”.',
+      );
+    }
+  }
   const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
     baseOutputDir: outputPath,
     schema,

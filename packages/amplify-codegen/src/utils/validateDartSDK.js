@@ -10,17 +10,13 @@ function validateDartSDK(context, projectRoot) {
     const config = yaml.load(fs.readFileSync(path.join(projectRoot, PUBSPEC_FILE_NAME), 'utf8'));
     const version = semver.minVersion(config.environment.sdk);
     if (semver.satisfies(version, '>= 2.12.0')) {
-      context.print.warning(
-        '\nDetected dart SDK satisfies the minimum version of 2.12.0. Null safety feature will be applied depending on feature flag value(default enabled for new projects and disabled for old ones).',
-      );
+      context.print.warning('\nDetected Dart SDK version: “>= 2.12.0” is “true”');
       return true;
     }
-    context.print.warning('\nDetected dart SDK does not satisfy the minimum version of 2.12.0. Null safety feature will be disabled.');
+    context.print.warning('\nDetected Dart SDK version: “>= 2.12.0” is “false”.');
     return false;
   } catch (e) {
-    context.print.warning(
-      '\nCannot find dart sdk version. Null safety feature will be applied depending on feature flag value(default enabled for new projects and disabled for old ones).',
-    );
+    context.print.warning('\nCould not detect Dart SDK version, defaulting to “>= 2.12.0”.');
     return true;
   }
 }
