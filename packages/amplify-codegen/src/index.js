@@ -9,7 +9,7 @@ const { isCodegenConfigured, switchToSDLSchema } = require('./utils');
 const prePushAddGraphQLCodegenHook = require('./callbacks/prePushAddCallback');
 const prePushUpdateGraphQLCodegenHook = require('./callbacks/prePushUpdateCallback');
 const postPushGraphQLCodegenHook = require('./callbacks/postPushCallback');
-const { executeAmplifyCommand, handleAmplifyEvent } = require('./amplify-plugin-index');
+const { executeAmplifyCommand, executeAmplifyHeadlessCommand, handleAmplifyEvent } = require('./amplify-plugin-index');
 
 module.exports = {
   configure,
@@ -24,6 +24,7 @@ module.exports = {
   isCodegenConfigured,
   switchToSDLSchema,
   executeAmplifyCommand,
+  executeAmplifyHeadlessCommand,
   handleAmplifyEvent,
   generateModels,
 };

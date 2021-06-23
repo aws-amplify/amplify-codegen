@@ -1,4 +1,6 @@
 const path = require('path');
+const constants = require('./constants');
+const add = require('./commands/add');
 
 const pluginName = 'codegen';
 
@@ -14,7 +16,26 @@ async function handleAmplifyEvent(context, args) {
   context.print.info(`Received event args ${args}`);
 }
 
+/**
+ * Entry point for headless commands
+ * @param {any} context The amplify context object
+ * @param {string} headlessPayload The serialized payload from the platform
+ */
+async function executeAmplifyHeadlessCommand(context, headlessPayload) {
+  switch (context.input.command) {
+    case 'add':
+      context.amplify.constructExeInfo(context);
+      context.exeInfo.inputParams[constants.Label] = JSON.parse(headlessPayload);
+      const apiId = context.exeInfo.inputParams.apiId || null;
+      await add(context, apiId);
+      break;
+    default:
+      context.print.error(`Headless mode for ${context.input.command} codegen is not implemented yet`);
+  }
+};
+
 module.exports = {
   executeAmplifyCommand,
+  executeAmplifyHeadlessCommand,
   handleAmplifyEvent,
 };
