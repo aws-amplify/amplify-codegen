@@ -272,10 +272,33 @@ export class AppSyncModelDartVisitor<
       model.fields.forEach(field => {
         const fieldName = this.getFieldName(field);
         const fieldType = this.getNativeType(field);
-        const returnType = this.isFieldRequired(field) ? fieldType : `${fieldType}?`;
-        const getterImpl = this.isFieldRequired(field) ? `return _${fieldName}!;` : `return _${fieldName};`;
+        const returnType = this.isFieldRequired(field) && !this.isModelType(field) ? fieldType : `${fieldType}?`;
+        const getterImpl =
+          this.isFieldRequired(field) && !this.isModelType(field)
+            ? [
+                `try {`,
+                indent(`return _${fieldName}!;`),
+                '} catch(e) {',
+                indent(
+                  'throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());',
+                ),
+                '}',
+              ].join('\n')
+            : `return _${fieldName};`;
+        const comment =
+          this.isModelType(field) && this.isFieldRequired(field)
+            ? 'The following field was marked as required in your schema.graphql but still resolves to nullable as this model can be modified or deleted separately from this parent model.'
+            : '';
         if (fieldName !== 'id') {
-          declarationBlock.addClassMethod(`get ${fieldName}`, returnType, undefined, getterImpl, { isGetter: true, isBlock: true });
+          declarationBlock.addClassMethod(
+            `get ${fieldName}`,
+            returnType,
+            undefined,
+            getterImpl,
+            { isGetter: true, isBlock: true },
+            undefined,
+            comment,
+          );
         }
       });
     }
@@ -449,7 +472,7 @@ export class AppSyncModelDartVisitor<
                 indent(`? (json['${varName}'] as List)`),
                 indent(
                   `.map((e) => ${this.getNativeType({ ...field, isList: false })}.fromJson(new Map<String, dynamic>.from(e${
-                    this.isNullSafety() ? `['serializedData']` : ''
+                    this.isNullSafety() ? `?['serializedData']` : ''
                   })))`,
                   2,
                 ),
@@ -461,7 +484,7 @@ export class AppSyncModelDartVisitor<
               `${fieldName} = json['${varName}'] != null`,
               indent(
                 `? ${this.getNativeType(field)}.fromJson(new Map<String, dynamic>.from(json['${varName}']${
-                  this.isNullSafety() ? `['serializedData']` : ''
+                  this.isNullSafety() ? `?['serializedData']` : ''
                 }))`,
               ),
               indent(`: null`),
@@ -731,6 +754,9 @@ export class AppSyncModelDartVisitor<
    * @param dartCode
    */
   protected formatDartCode(dartCode: string): string {
+    if (this.isNullSafety()) {
+      return dartCode;
+    }
     const result = dartStyle.formatCode(dartCode);
     if (result.error) {
       throw new Error(result.error);
