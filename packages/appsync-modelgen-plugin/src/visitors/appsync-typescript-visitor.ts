@@ -69,6 +69,26 @@ export class AppSyncModelTypeScriptVisitor<
     return enumDeclarations.string;
   }
 
+  protected generateModelMetaData(modelObj: CodeGenModel): string {
+    const modelName = this.generateModelTypeDeclarationName(modelObj);
+    const modelDeclarations = new TypeScriptDeclarationBlock()
+      .asKind('type')
+      .withName(`${modelName}MetaData`)
+      .export(false);
+
+    const isTimestampFeatureFlagEnabled = this.config.isTimestampFieldsAdded;
+    let readOnlyFieldNames: string[] = [];
+
+    modelObj.fields.forEach((field: CodeGenField) => {
+      if (isTimestampFeatureFlagEnabled && field.isReadOnly) {
+        readOnlyFieldNames.push(`'${field.name}'`);
+      }
+    });
+    modelDeclarations.addProperty('readOnlyFields', readOnlyFieldNames.join(' | '));
+
+    return modelDeclarations.string;
+  }
+
   /**
    *
    * @param modelObj CodeGenModel object
@@ -98,7 +118,7 @@ export class AppSyncModelTypeScriptVisitor<
     });
 
     if (isTimestampFeatureFlagEnabled) {
-      readOnlyTypesFormatted = `, {readOnlyFields: ${readOnlyFieldNames.join(' | ')}}`;
+      readOnlyTypesFormatted = `, ${modelName}MetaData`;
       readOnlyTypeLabels = readOnlyFieldNames.length > 0 ? readOnlyTypesFormatted : '';
     }
 
