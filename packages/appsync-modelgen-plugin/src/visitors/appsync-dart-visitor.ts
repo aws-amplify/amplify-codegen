@@ -273,7 +273,17 @@ export class AppSyncModelDartVisitor<
         const fieldName = this.getFieldName(field);
         const fieldType = this.getNativeType(field);
         const returnType = this.isFieldRequired(field) ? fieldType : `${fieldType}?`;
-        const getterImpl = this.isFieldRequired(field) ? `return _${fieldName}!;` : `return _${fieldName};`;
+        const getterImpl = this.isFieldRequired(field)
+          ? [
+              `try {`,
+              indent(`return _${fieldName}!;`),
+              '} catch(e) {',
+              indent(
+                'throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());',
+              ),
+              '}',
+            ].join('\n')
+          : `return _${fieldName};`;
         if (fieldName !== 'id') {
           declarationBlock.addClassMethod(`get ${fieldName}`, returnType, undefined, getterImpl, { isGetter: true, isBlock: true });
         }

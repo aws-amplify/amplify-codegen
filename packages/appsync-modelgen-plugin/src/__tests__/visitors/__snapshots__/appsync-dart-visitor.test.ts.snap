@@ -3388,7 +3388,11 @@ class Blog extends Model {
   }
   
   String get name {
-    return _name!;
+    try {
+      return _name!;
+    } catch(e) {
+      throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
+    }
   }
   
   List<Post>? get posts {
@@ -3532,7 +3536,11 @@ class Comment extends Model {
   }
   
   String get content {
-    return _content!;
+    try {
+      return _content!;
+    } catch(e) {
+      throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
+    }
   }
   
   const Comment._internal({required this.id, post, required content}): _post = post, _content = content;
@@ -3669,7 +3677,11 @@ class Post extends Model {
   }
   
   String get title {
-    return _title!;
+    try {
+      return _title!;
+    } catch(e) {
+      throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
+    }
   }
   
   Blog? get blog {
