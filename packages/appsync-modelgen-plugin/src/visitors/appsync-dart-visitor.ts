@@ -272,7 +272,7 @@ export class AppSyncModelDartVisitor<
       model.fields.forEach(field => {
         const fieldName = this.getFieldName(field);
         const fieldType = this.getNativeType(field);
-        const returnType = this.isFieldRequired(field) && !this.isModelType(field) ? fieldType : `${fieldType}?`;
+        const returnType = this.isFieldRequired(field) ? fieldType : `${fieldType}?`;
         const getterImpl = this.isFieldRequired(field) ? `return _${fieldName}!;` : `return _${fieldName};`;
         if (fieldName !== 'id') {
           declarationBlock.addClassMethod(`get ${fieldName}`, returnType, undefined, getterImpl, { isGetter: true, isBlock: true });
