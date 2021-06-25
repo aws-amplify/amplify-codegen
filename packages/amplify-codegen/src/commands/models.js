@@ -80,12 +80,12 @@ async function generateModels(context) {
     context.print.warning(`Detected feature flag: “enabledartnullsafety : ${enableDartNullSafety}”`);
     if (isMinimumDartVersionSatisfied && enableDartNullSafety) {
       context.print.warning(
-        'Generating Dart Models with null safety. To opt out of null safe models, turn off the “enabledartnullsafety” feature flag.',
+        'Generating Dart Models with null safety. To opt out of null safe models, turn off the “enabledartnullsafety” feature flag. Learn more: https://docs.amplify.aws/lib/project-setup/null-safety/q/platform/flutter',
       );
     } else {
       enableDartNullSafety = false;
       context.print.warning(
-        'Generating Dart Models without null safety. To generate null safe data models, turn on the “enabledartnullsafety” feature flag and set your Dart SDK version to “>= 2.12.0”.',
+        'Generating Dart Models without null safety. To generate null safe data models, turn on the “enabledartnullsafety” feature flag and set your Dart SDK version to “>= 2.12.0”. Learn more: https://docs.amplify.aws/lib/project-setup/null-safety/q/platform/flutter',
       );
     }
   }
