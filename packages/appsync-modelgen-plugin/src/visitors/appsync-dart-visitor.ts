@@ -273,32 +273,9 @@ export class AppSyncModelDartVisitor<
         const fieldName = this.getFieldName(field);
         const fieldType = this.getNativeType(field);
         const returnType = this.isFieldRequired(field) && !this.isModelType(field) ? fieldType : `${fieldType}?`;
-        const getterImpl =
-          this.isFieldRequired(field) && !this.isModelType(field)
-            ? [
-                `try {`,
-                indent(`return _${fieldName}!;`),
-                '} catch(e) {',
-                indent(
-                  'throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());',
-                ),
-                '}',
-              ].join('\n')
-            : `return _${fieldName};`;
-        const comment =
-          this.isModelType(field) && this.isFieldRequired(field)
-            ? 'The following field was marked as required in your schema.graphql but still resolves to nullable as this model can be modified or deleted separately from this parent model.'
-            : '';
+        const getterImpl = this.isFieldRequired(field) ? `return _${fieldName}!;` : `return _${fieldName};`;
         if (fieldName !== 'id') {
-          declarationBlock.addClassMethod(
-            `get ${fieldName}`,
-            returnType,
-            undefined,
-            getterImpl,
-            { isGetter: true, isBlock: true },
-            undefined,
-            comment,
-          );
+          declarationBlock.addClassMethod(`get ${fieldName}`, returnType, undefined, getterImpl, { isGetter: true, isBlock: true });
         }
       });
     }
