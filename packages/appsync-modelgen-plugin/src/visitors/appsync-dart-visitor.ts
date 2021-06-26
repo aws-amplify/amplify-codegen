@@ -273,7 +273,17 @@ export class AppSyncModelDartVisitor<
         const fieldName = this.getFieldName(field);
         const fieldType = this.getNativeType(field);
         const returnType = this.isFieldRequired(field) ? fieldType : `${fieldType}?`;
-        const getterImpl = this.isFieldRequired(field) ? `return _${fieldName}!;` : `return _${fieldName};`;
+        const getterImpl = this.isFieldRequired(field)
+          ? [
+              `try {`,
+              indent(`return _${fieldName}!;`),
+              '} catch(e) {',
+              indent(
+                'throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());',
+              ),
+              '}',
+            ].join('\n')
+          : `return _${fieldName};`;
         if (fieldName !== 'id') {
           declarationBlock.addClassMethod(`get ${fieldName}`, returnType, undefined, getterImpl, { isGetter: true, isBlock: true });
         }
@@ -449,7 +459,7 @@ export class AppSyncModelDartVisitor<
                 indent(`? (json['${varName}'] as List)`),
                 indent(
                   `.map((e) => ${this.getNativeType({ ...field, isList: false })}.fromJson(new Map<String, dynamic>.from(e${
-                    this.isNullSafety() ? `['serializedData']` : ''
+                    this.isNullSafety() ? `?['serializedData']` : ''
                   })))`,
                   2,
                 ),
@@ -461,7 +471,7 @@ export class AppSyncModelDartVisitor<
               `${fieldName} = json['${varName}'] != null`,
               indent(
                 `? ${this.getNativeType(field)}.fromJson(new Map<String, dynamic>.from(json['${varName}']${
-                  this.isNullSafety() ? `['serializedData']` : ''
+                  this.isNullSafety() ? `?['serializedData']` : ''
                 }))`,
               ),
               indent(`: null`),
@@ -731,6 +741,9 @@ export class AppSyncModelDartVisitor<
    * @param dartCode
    */
   protected formatDartCode(dartCode: string): string {
+    if (this.isNullSafety()) {
+      return dartCode;
+    }
     const result = dartStyle.formatCode(dartCode);
     if (result.error) {
       throw new Error(result.error);
