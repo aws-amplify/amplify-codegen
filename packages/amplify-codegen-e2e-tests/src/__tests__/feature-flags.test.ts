@@ -9,7 +9,9 @@ const codegenFeatureFlags = {
     "usedocsgeneratorplugin": true,
     "usetypesgeneratorplugin": true,
     "cleangeneratedmodelsdirectory": true,
-    "retaincasestyle": true
+    "retaincasestyle": true,
+    "generateindexrules": true,
+    "emitauthprovider": true,
 };
 
 describe('codegen related feature flags - new project', () => {
