@@ -253,15 +253,17 @@ class TemporalTimeModel extends Model {
         time: time,
         dateTime: dateTime,
         timestamp: timestamp,
-        dateList: dateList != null ? List.unmodifiable(dateList) : dateList,
-        timeList: timeList != null ? List.unmodifiable(timeList) : timeList,
+        dateList:
+            dateList != null ? List<AWSDate>.unmodifiable(dateList) : dateList,
+        timeList:
+            timeList != null ? List<AWSTime>.unmodifiable(timeList) : timeList,
         dateTimeList: dateTimeList != null
-            ? List.unmodifiable(dateTimeList)
+            ? List<AWSDateTime>.unmodifiable(dateTimeList)
             : dateTimeList,
         timestampList: timestampList != null
-            ? List.unmodifiable(timestampList)
+            ? List<AWSTimestamp>.unmodifiable(timestampList)
             : timestampList,
-        intList: intList != null ? List.unmodifiable(intList) : intList);
+        intList: intList != null ? List<Int>.unmodifiable(intList) : intList);
   }
 
   bool equals(Object other) {
@@ -531,15 +533,16 @@ class TestEnumModel extends Model {
         id: id == null ? UUID.getUUID() : id,
         enumVal: enumVal,
         nullableEnumVal: nullableEnumVal,
-        enumList: enumList != null ? List.unmodifiable(enumList) : enumList,
+        enumList:
+            enumList != null ? List<TestEnum>.unmodifiable(enumList) : enumList,
         enumNullableList: enumNullableList != null
-            ? List.unmodifiable(enumNullableList)
+            ? List<TestEnum>.unmodifiable(enumNullableList)
             : enumNullableList,
         nullableEnumList: nullableEnumList != null
-            ? List.unmodifiable(nullableEnumList)
+            ? List<TestEnum>.unmodifiable(nullableEnumList)
             : nullableEnumList,
         nullableEnumNullableList: nullableEnumNullableList != null
-            ? List.unmodifiable(nullableEnumNullableList)
+            ? List<TestEnum>.unmodifiable(nullableEnumNullableList)
             : nullableEnumNullableList);
   }
 
@@ -782,15 +785,16 @@ class TestModel extends Model {
         id: id == null ? UUID.getUUID() : id,
         floatVal: floatVal,
         floatNullableVal: floatNullableVal,
-        floatList: floatList != null ? List.unmodifiable(floatList) : floatList,
+        floatList:
+            floatList != null ? List<Float>.unmodifiable(floatList) : floatList,
         floatNullableList: floatNullableList != null
-            ? List.unmodifiable(floatNullableList)
+            ? List<Float>.unmodifiable(floatNullableList)
             : floatNullableList,
         nullableFloatList: nullableFloatList != null
-            ? List.unmodifiable(nullableFloatList)
+            ? List<Float>.unmodifiable(nullableFloatList)
             : nullableFloatList,
         nullableFloatNullableList: nullableFloatNullableList != null
-            ? List.unmodifiable(nullableFloatNullableList)
+            ? List<Float>.unmodifiable(nullableFloatNullableList)
             : nullableFloatNullableList);
   }
 
@@ -2557,7 +2561,7 @@ class Todo extends Model {
   factory Todo({String id, List<Task> tasks}) {
     return Todo._internal(
         id: id == null ? UUID.getUUID() : id,
-        tasks: tasks != null ? List.unmodifiable(tasks) : tasks);
+        tasks: tasks != null ? List<Task>.unmodifiable(tasks) : tasks);
   }
 
   bool equals(Object other) {
@@ -2791,8 +2795,8 @@ class Blog extends Model {
     return Blog._internal(
         id: id == null ? UUID.getUUID() : id,
         name: name,
-        posts: posts != null ? List.unmodifiable(posts) : posts,
-        test: test != null ? List.unmodifiable(test) : test);
+        posts: posts != null ? List<Post>.unmodifiable(posts) : posts,
+        test: test != null ? List<String>.unmodifiable(test) : test);
   }
 
   bool equals(Object other) {
@@ -3073,7 +3077,8 @@ class Post extends Model {
         id: id == null ? UUID.getUUID() : id,
         title: title,
         blog: blog,
-        comments: comments != null ? List.unmodifiable(comments) : comments);
+        comments:
+            comments != null ? List<Comment>.unmodifiable(comments) : comments);
   }
 
   bool equals(Object other) {
@@ -3405,7 +3410,7 @@ class Blog extends Model {
     return Blog._internal(
       id: id == null ? UUID.getUUID() : id,
       name: name,
-      posts: posts != null ? List.unmodifiable(posts) : posts);
+      posts: posts != null ? List<Post>.unmodifiable(posts) : posts);
   }
   
   bool equals(Object other) {
@@ -3700,7 +3705,7 @@ class Post extends Model {
       id: id == null ? UUID.getUUID() : id,
       title: title,
       blog: blog,
-      comments: comments != null ? List.unmodifiable(comments) : comments);
+      comments: comments != null ? List<Comment>.unmodifiable(comments) : comments);
   }
   
   bool equals(Object other) {
