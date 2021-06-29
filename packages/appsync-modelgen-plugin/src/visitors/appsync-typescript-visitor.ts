@@ -150,7 +150,7 @@ export class AppSyncModelTypeScriptVisitor<
           },
           {
             name: 'mutator',
-            type: `(draft: MutableModel<${modelName}${readOnlyTypeLabels}>) => MutableModel<${modelName}${readOnlyTypeLabels}> | void`,
+            type: `(draft: MutableModel<${modelName}${modelMetaDataDeclaration}>) => MutableModel<${modelName}${modelMetaDataDeclaration}> | void`,
           },
         ],
         'DEFAULT',
