@@ -457,21 +457,22 @@ export class AppSyncModelDartVisitor<
               return [
                 `${fieldName} = json['${varName}'] is List`,
                 indent(`? (json['${varName}'] as List)`),
+                this.isNullSafety() ? indent(`.where((e) => e?['serializedData'] != null)`, 2) : undefined,
                 indent(
                   `.map((e) => ${this.getNativeType({ ...field, isList: false })}.fromJson(new Map<String, dynamic>.from(e${
-                    this.isNullSafety() ? `?['serializedData']` : ''
+                    this.isNullSafety() ? `['serializedData']` : ''
                   })))`,
                   2,
                 ),
                 indent(`.toList()`, 2),
                 indent(`: null`),
-              ].join('\n');
+              ].filter((e) => e !== undefined).join('\n');
             }
             return [
-              `${fieldName} = json['${varName}'] != null`,
+              `${fieldName} = json['${varName}']${this.isNullSafety() ? `?['serializedData']`:''} != null`,
               indent(
                 `? ${this.getNativeType(field)}.fromJson(new Map<String, dynamic>.from(json['${varName}']${
-                  this.isNullSafety() ? `?['serializedData']` : ''
+                  this.isNullSafety() ? `['serializedData']` : ''
                 }))`,
               ),
               indent(`: null`),
