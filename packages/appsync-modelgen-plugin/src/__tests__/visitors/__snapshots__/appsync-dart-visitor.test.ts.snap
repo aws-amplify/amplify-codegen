@@ -3448,7 +3448,7 @@ class Blog extends Model {
       _name = json['name'],
       _posts = json['posts'] is List
         ? (json['posts'] as List)
-        .where((e) => e?['serializedData'] != null)
+          .where((e) => e?['serializedData'] != null)
           .map((e) => Post.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null;
@@ -3749,7 +3749,7 @@ class Post extends Model {
         : null,
       _comments = json['comments'] is List
         ? (json['comments'] as List)
-        .where((e) => e?['serializedData'] != null)
+          .where((e) => e?['serializedData'] != null)
           .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null;

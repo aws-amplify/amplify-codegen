@@ -457,7 +457,7 @@ export class AppSyncModelDartVisitor<
               return [
                 `${fieldName} = json['${varName}'] is List`,
                 indent(`? (json['${varName}'] as List)`),
-                this.isNullSafety() ? indent(`.where((e) => e?['serializedData'] != null)`) : undefined,
+                this.isNullSafety() ? indent(`.where((e) => e?['serializedData'] != null)`, 2) : undefined,
                 indent(
                   `.map((e) => ${this.getNativeType({ ...field, isList: false })}.fromJson(new Map<String, dynamic>.from(e${
                     this.isNullSafety() ? `['serializedData']` : ''
