@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.26.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.25.1...amplify-codegen@2.26.0) (2021-06-30)
+
+
+### Features
+
+* **codegen:** iOS index directive support ([#174](https://github.com/aws-amplify/amplify-codegen/issues/174)) ([abb966c](https://github.com/aws-amplify/amplify-codegen/commit/abb966c647b08537564f85314a4266a5cbe33ffd))
+* **modelgen:** ios - emit provider in [@auth](https://github.com/auth) rules ([#184](https://github.com/aws-amplify/amplify-codegen/issues/184)) ([f9c1b1a](https://github.com/aws-amplify/amplify-codegen/commit/f9c1b1af89a837ed4b705e21085f6c8402e94283))
+
+
+
+
+
 ## [2.25.1](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.25.0...amplify-codegen@2.25.1) (2021-06-02)
 
 

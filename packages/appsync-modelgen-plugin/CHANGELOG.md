@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.26.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.25.0...@aws-amplify/appsync-modelgen-plugin@1.26.0) (2021-06-30)
+
+
+### Features
+
+* **codegen:** iOS index directive support ([#174](https://github.com/aws-amplify/amplify-codegen/issues/174)) ([abb966c](https://github.com/aws-amplify/amplify-codegen/commit/abb966c647b08537564f85314a4266a5cbe33ffd))
+* **modelgen:** ios - emit provider in [@auth](https://github.com/auth) rules ([#184](https://github.com/aws-amplify/amplify-codegen/issues/184)) ([f9c1b1a](https://github.com/aws-amplify/amplify-codegen/commit/f9c1b1af89a837ed4b705e21085f6c8402e94283))
+
+
+
+
+
 # [1.25.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.24.0...@aws-amplify/appsync-modelgen-plugin@1.25.0) (2021-06-02)
 
 

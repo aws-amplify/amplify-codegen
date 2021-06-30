@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.39.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen-e2e-tests@2.38.1...amplify-codegen-e2e-tests@2.39.0) (2021-06-30)
+
+
+### Features
+
+* **codegen:** iOS index directive support ([#174](https://github.com/aws-amplify/amplify-codegen/issues/174)) ([abb966c](https://github.com/aws-amplify/amplify-codegen/commit/abb966c647b08537564f85314a4266a5cbe33ffd))
+
+
+
+
+
 ## [2.38.1](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen-e2e-tests@2.38.0...amplify-codegen-e2e-tests@2.38.1) (2021-06-02)
 
 **Note:** Version bump only for package amplify-codegen-e2e-tests
