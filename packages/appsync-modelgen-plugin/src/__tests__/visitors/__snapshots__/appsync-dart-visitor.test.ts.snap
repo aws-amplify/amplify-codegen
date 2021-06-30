@@ -253,15 +253,19 @@ class TemporalTimeModel extends Model {
         time: time,
         dateTime: dateTime,
         timestamp: timestamp,
-        dateList: dateList != null ? List.unmodifiable(dateList) : dateList,
-        timeList: timeList != null ? List.unmodifiable(timeList) : timeList,
+        dateList: dateList != null
+            ? List<TemporalDate>.unmodifiable(dateList)
+            : dateList,
+        timeList: timeList != null
+            ? List<TemporalTime>.unmodifiable(timeList)
+            : timeList,
         dateTimeList: dateTimeList != null
-            ? List.unmodifiable(dateTimeList)
+            ? List<TemporalDateTime>.unmodifiable(dateTimeList)
             : dateTimeList,
         timestampList: timestampList != null
-            ? List.unmodifiable(timestampList)
+            ? List<TemporalTimestamp>.unmodifiable(timestampList)
             : timestampList,
-        intList: intList != null ? List.unmodifiable(intList) : intList);
+        intList: intList != null ? List<int>.unmodifiable(intList) : intList);
   }
 
   bool equals(Object other) {
@@ -531,15 +535,16 @@ class TestEnumModel extends Model {
         id: id == null ? UUID.getUUID() : id,
         enumVal: enumVal,
         nullableEnumVal: nullableEnumVal,
-        enumList: enumList != null ? List.unmodifiable(enumList) : enumList,
+        enumList:
+            enumList != null ? List<TestEnum>.unmodifiable(enumList) : enumList,
         enumNullableList: enumNullableList != null
-            ? List.unmodifiable(enumNullableList)
+            ? List<TestEnum>.unmodifiable(enumNullableList)
             : enumNullableList,
         nullableEnumList: nullableEnumList != null
-            ? List.unmodifiable(nullableEnumList)
+            ? List<TestEnum>.unmodifiable(nullableEnumList)
             : nullableEnumList,
         nullableEnumNullableList: nullableEnumNullableList != null
-            ? List.unmodifiable(nullableEnumNullableList)
+            ? List<TestEnum>.unmodifiable(nullableEnumNullableList)
             : nullableEnumNullableList);
   }
 
@@ -782,15 +787,17 @@ class TestModel extends Model {
         id: id == null ? UUID.getUUID() : id,
         floatVal: floatVal,
         floatNullableVal: floatNullableVal,
-        floatList: floatList != null ? List.unmodifiable(floatList) : floatList,
+        floatList: floatList != null
+            ? List<double>.unmodifiable(floatList)
+            : floatList,
         floatNullableList: floatNullableList != null
-            ? List.unmodifiable(floatNullableList)
+            ? List<double>.unmodifiable(floatNullableList)
             : floatNullableList,
         nullableFloatList: nullableFloatList != null
-            ? List.unmodifiable(nullableFloatList)
+            ? List<double>.unmodifiable(nullableFloatList)
             : nullableFloatList,
         nullableFloatNullableList: nullableFloatNullableList != null
-            ? List.unmodifiable(nullableFloatNullableList)
+            ? List<double>.unmodifiable(nullableFloatNullableList)
             : nullableFloatNullableList);
   }
 
@@ -2557,7 +2564,7 @@ class Todo extends Model {
   factory Todo({String id, List<Task> tasks}) {
     return Todo._internal(
         id: id == null ? UUID.getUUID() : id,
-        tasks: tasks != null ? List.unmodifiable(tasks) : tasks);
+        tasks: tasks != null ? List<Task>.unmodifiable(tasks) : tasks);
   }
 
   bool equals(Object other) {
@@ -2791,8 +2798,8 @@ class Blog extends Model {
     return Blog._internal(
         id: id == null ? UUID.getUUID() : id,
         name: name,
-        posts: posts != null ? List.unmodifiable(posts) : posts,
-        test: test != null ? List.unmodifiable(test) : test);
+        posts: posts != null ? List<Post>.unmodifiable(posts) : posts,
+        test: test != null ? List<String>.unmodifiable(test) : test);
   }
 
   bool equals(Object other) {
@@ -3073,7 +3080,8 @@ class Post extends Model {
         id: id == null ? UUID.getUUID() : id,
         title: title,
         blog: blog,
-        comments: comments != null ? List.unmodifiable(comments) : comments);
+        comments:
+            comments != null ? List<Comment>.unmodifiable(comments) : comments);
   }
 
   bool equals(Object other) {
@@ -3405,7 +3413,7 @@ class Blog extends Model {
     return Blog._internal(
       id: id == null ? UUID.getUUID() : id,
       name: name,
-      posts: posts != null ? List.unmodifiable(posts) : posts);
+      posts: posts != null ? List<Post>.unmodifiable(posts) : posts);
   }
   
   bool equals(Object other) {
@@ -3700,7 +3708,7 @@ class Post extends Model {
       id: id == null ? UUID.getUUID() : id,
       title: title,
       blog: blog,
-      comments: comments != null ? List.unmodifiable(comments) : comments);
+      comments: comments != null ? List<Comment>.unmodifiable(comments) : comments);
   }
   
   bool equals(Object other) {
@@ -3800,6 +3808,224 @@ class _PostModelType extends ModelType<Post> {
   @override
   Post fromJson(Map<String, dynamic> jsonData) {
     return Post.fromJson(jsonData);
+  }
+}"
+`;
+
+exports[`AppSync Dart Visitor Null Safety Tests should generate correct null safe output for regular field w/o list or nullable 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// ignore_for_file: public_member_api_docs
+
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
+
+
+/** This is an auto generated class representing the TestModel type in your schema. */
+@immutable
+class TestModel extends Model {
+  static const classType = const _TestModelModelType();
+  final String id;
+  final double? _floatVal;
+  final double? _floatNullableVal;
+  final List<double>? _floatList;
+  final List<double>? _floatNullableList;
+  final List<double>? _nullableFloatList;
+  final List<double>? _nullableFloatNullableList;
+
+  @override
+  getInstanceType() => classType;
+  
+  @override
+  String getId() {
+    return id;
+  }
+  
+  double get floatVal {
+    try {
+      return _floatVal!;
+    } catch(e) {
+      throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
+    }
+  }
+  
+  double? get floatNullableVal {
+    return _floatNullableVal;
+  }
+  
+  List<double> get floatList {
+    try {
+      return _floatList!;
+    } catch(e) {
+      throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
+    }
+  }
+  
+  List<double>? get floatNullableList {
+    return _floatNullableList;
+  }
+  
+  List<double> get nullableFloatList {
+    try {
+      return _nullableFloatList!;
+    } catch(e) {
+      throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
+    }
+  }
+  
+  List<double>? get nullableFloatNullableList {
+    return _nullableFloatNullableList;
+  }
+  
+  const TestModel._internal({required this.id, required floatVal, floatNullableVal, required floatList, floatNullableList, required nullableFloatList, nullableFloatNullableList}): _floatVal = floatVal, _floatNullableVal = floatNullableVal, _floatList = floatList, _floatNullableList = floatNullableList, _nullableFloatList = nullableFloatList, _nullableFloatNullableList = nullableFloatNullableList;
+  
+  factory TestModel({String? id, required double floatVal, double? floatNullableVal, required List<double> floatList, List<double>? floatNullableList, required List<double> nullableFloatList, List<double>? nullableFloatNullableList}) {
+    return TestModel._internal(
+      id: id == null ? UUID.getUUID() : id,
+      floatVal: floatVal,
+      floatNullableVal: floatNullableVal,
+      floatList: floatList != null ? List<double>.unmodifiable(floatList) : floatList,
+      floatNullableList: floatNullableList != null ? List<double>.unmodifiable(floatNullableList) : floatNullableList,
+      nullableFloatList: nullableFloatList != null ? List<double>.unmodifiable(nullableFloatList) : nullableFloatList,
+      nullableFloatNullableList: nullableFloatNullableList != null ? List<double>.unmodifiable(nullableFloatNullableList) : nullableFloatNullableList);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is TestModel &&
+      id == other.id &&
+      _floatVal == other._floatVal &&
+      _floatNullableVal == other._floatNullableVal &&
+      DeepCollectionEquality().equals(_floatList, other._floatList) &&
+      DeepCollectionEquality().equals(_floatNullableList, other._floatNullableList) &&
+      DeepCollectionEquality().equals(_nullableFloatList, other._nullableFloatList) &&
+      DeepCollectionEquality().equals(_nullableFloatNullableList, other._nullableFloatNullableList);
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"TestModel {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"floatVal=\\" + (_floatVal != null ? _floatVal!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"floatNullableVal=\\" + (_floatNullableVal != null ? _floatNullableVal!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"floatList=\\" + (_floatList != null ? _floatList!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"floatNullableList=\\" + (_floatNullableList != null ? _floatNullableList!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"nullableFloatList=\\" + (_nullableFloatList != null ? _nullableFloatList!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"nullableFloatNullableList=\\" + (_nullableFloatNullableList != null ? _nullableFloatNullableList!.toString() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  TestModel copyWith({String? id, double? floatVal, double? floatNullableVal, List<double>? floatList, List<double>? floatNullableList, List<double>? nullableFloatList, List<double>? nullableFloatNullableList}) {
+    return TestModel(
+      id: id ?? this.id,
+      floatVal: floatVal ?? this.floatVal,
+      floatNullableVal: floatNullableVal ?? this.floatNullableVal,
+      floatList: floatList ?? this.floatList,
+      floatNullableList: floatNullableList ?? this.floatNullableList,
+      nullableFloatList: nullableFloatList ?? this.nullableFloatList,
+      nullableFloatNullableList: nullableFloatNullableList ?? this.nullableFloatNullableList);
+  }
+  
+  TestModel.fromJson(Map<String, dynamic> json)  
+    : id = json['id'],
+      _floatVal = json['floatVal'],
+      _floatNullableVal = json['floatNullableVal'],
+      _floatList = json['floatList']?.cast<double>(),
+      _floatNullableList = json['floatNullableList']?.cast<double>(),
+      _nullableFloatList = json['nullableFloatList']?.cast<double>(),
+      _nullableFloatNullableList = json['nullableFloatNullableList']?.cast<double>();
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'floatVal': _floatVal, 'floatNullableVal': _floatNullableVal, 'floatList': _floatList, 'floatNullableList': _floatNullableList, 'nullableFloatList': _nullableFloatList, 'nullableFloatNullableList': _nullableFloatNullableList
+  };
+
+  static final QueryField ID = QueryField(fieldName: \\"testModel.id\\");
+  static final QueryField FLOATVAL = QueryField(fieldName: \\"floatVal\\");
+  static final QueryField FLOATNULLABLEVAL = QueryField(fieldName: \\"floatNullableVal\\");
+  static final QueryField FLOATLIST = QueryField(fieldName: \\"floatList\\");
+  static final QueryField FLOATNULLABLELIST = QueryField(fieldName: \\"floatNullableList\\");
+  static final QueryField NULLABLEFLOATLIST = QueryField(fieldName: \\"nullableFloatList\\");
+  static final QueryField NULLABLEFLOATNULLABLELIST = QueryField(fieldName: \\"nullableFloatNullableList\\");
+  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"TestModel\\";
+    modelSchemaDefinition.pluralName = \\"TestModels\\";
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: TestModel.FLOATVAL,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.double)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: TestModel.FLOATNULLABLEVAL,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.double)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: TestModel.FLOATLIST,
+      isRequired: true,
+      isArray: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum.double))
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: TestModel.FLOATNULLABLELIST,
+      isRequired: false,
+      isArray: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum.double))
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: TestModel.NULLABLEFLOATLIST,
+      isRequired: true,
+      isArray: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum.double))
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: TestModel.NULLABLEFLOATNULLABLELIST,
+      isRequired: false,
+      isArray: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum.double))
+    ));
+  });
+}
+
+class _TestModelModelType extends ModelType<TestModel> {
+  const _TestModelModelType();
+  
+  @override
+  TestModel fromJson(Map<String, dynamic> jsonData) {
+    return TestModel.fromJson(jsonData);
   }
 }"
 `;

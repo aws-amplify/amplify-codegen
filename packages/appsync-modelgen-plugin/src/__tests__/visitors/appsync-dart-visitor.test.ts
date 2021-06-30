@@ -414,5 +414,21 @@ describe('AppSync Dart Visitor', () => {
         expect(generatedCode).toMatchSnapshot();
       });
     });
+
+    it('should generate correct null safe output for regular field w/o list or nullable', () => {
+      const schema = /* GraphQL */ `
+        type TestModel @model {
+          id: ID!
+          floatVal: Float!
+          floatNullableVal: Float
+          floatList: [Float!]!
+          floatNullableList: [Float!]
+          nullableFloatList: [Float]!
+          nullableFloatNullableList: [Float]
+        }
+      `;
+      const generatedCode = getVisitor(schema, 'TestModel', CodeGenGenerateEnum.code, true).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
   });
 });
