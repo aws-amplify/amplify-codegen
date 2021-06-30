@@ -235,6 +235,7 @@ workflows:
               only:
                 - master
                 - e2e-testing
+                - dart-modelgen-null-safety
       - e2e-test:
           context:
             - cleanup-resources
@@ -248,6 +249,7 @@ workflows:
               only:
                 - master
                 - e2e-testing
+                - dart-modelgen-null-safety
       - deploy:
           os: linux_node12
           requires:
@@ -259,6 +261,7 @@ workflows:
               only:
                 - release
                 - master
+                - dart-modelgen-null-safety
       - done_with_node_e2e_tests:
           os: linux_node12
           requires:

@@ -5,6 +5,7 @@ const glob = require('glob-all');
 const { FeatureFlags, pathManager } = require('amplify-cli-core');
 const gqlCodeGen = require('@graphql-codegen/core');
 const { getModelgenPackage } = require('../utils/getModelgenPackage');
+const { validateDartSDK } = require('../utils/validateDartSDK');
 
 const platformToLanguageMap = {
   android: 'java',
@@ -18,7 +19,7 @@ const platformToLanguageMap = {
  * @param {string} key feature flag id
  * @returns
  */
-const readFeatureFlag = (key) => {
+const readFeatureFlag = key => {
   let flagValue = false;
   try {
     flagValue = FeatureFlags.getBoolean(key);
@@ -26,7 +27,7 @@ const readFeatureFlag = (key) => {
     flagValue = false;
   }
   return flagValue;
-}
+};
 
 async function generateModels(context) {
   // steps:
@@ -72,6 +73,22 @@ async function generateModels(context) {
   const generateIndexRules = readFeatureFlag('codegen.generateIndexRules');
   const emitAuthProvider = readFeatureFlag('codegen.emitAuthProvider');
 
+  let enableDartNullSafety = readFeatureFlag('codegen.enableDartNullSafety');
+
+  if (projectConfig.frontend === 'flutter') {
+    const isMinimumDartVersionSatisfied = validateDartSDK(context, projectRoot);
+    context.print.warning(`Detected feature flag: “enableDartNullSafety : ${enableDartNullSafety}”`);
+    if (isMinimumDartVersionSatisfied && enableDartNullSafety) {
+      context.print.warning(
+        'Generating Dart Models with null safety. To opt out of null safe models, turn off the “enableDartNullSafety” feature flag. Learn more: https://docs.amplify.aws/lib/project-setup/null-safety/q/platform/flutter',
+      );
+    } else {
+      enableDartNullSafety = false;
+      context.print.warning(
+        'Generating Dart Models without null safety. To generate null safe data models, turn on the “enableDartNullSafety” feature flag and set your Dart SDK version to “>= 2.12.0”. Learn more: https://docs.amplify.aws/lib/project-setup/null-safety/q/platform/flutter',
+      );
+    }
+  }
   const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
     baseOutputDir: outputPath,
     schema,
@@ -81,6 +98,7 @@ async function generateModels(context) {
       isTimestampFieldsAdded,
       emitAuthProvider,
       generateIndexRules,
+      enableDartNullSafety,
     },
   });
 

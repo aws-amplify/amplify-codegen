@@ -420,6 +420,7 @@ workflows:
               only:
                 - master
                 - e2e-testing
+                - dart-modelgen-null-safety
       - deploy:
           os: linux_node12
           requires:
@@ -431,6 +432,7 @@ workflows:
               only:
                 - release
                 - master
+                - dart-modelgen-null-safety
       - done_with_node_e2e_tests:
           os: linux_node12
           requires:
@@ -469,6 +471,7 @@ workflows:
               only:
                 - master
                 - e2e-testing
+                - dart-modelgen-null-safety
       - add-codegen-android-e2e-test:
           context: *ref_8
           os: linux_node12
