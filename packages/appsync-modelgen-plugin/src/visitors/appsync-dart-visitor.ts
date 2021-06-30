@@ -315,7 +315,7 @@ export class AppSyncModelDartVisitor<
         if (fieldName === 'id') {
           return 'id: id == null ? UUID.getUUID() : id';
         } else if (field.isList) {
-          return `${fieldName}: ${fieldName} != null ? List<${field.baseType}>.unmodifiable(${fieldName}) : ${fieldName}`;
+          return `${fieldName}: ${fieldName} != null ? ${this.getNativeType(field)}.unmodifiable(${fieldName}) : ${fieldName}`;
         } else {
           return `${fieldName}: ${fieldName}`;
         }

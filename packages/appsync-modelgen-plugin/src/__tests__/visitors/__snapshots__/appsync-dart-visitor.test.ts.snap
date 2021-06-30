@@ -253,17 +253,19 @@ class TemporalTimeModel extends Model {
         time: time,
         dateTime: dateTime,
         timestamp: timestamp,
-        dateList:
-            dateList != null ? List<AWSDate>.unmodifiable(dateList) : dateList,
-        timeList:
-            timeList != null ? List<AWSTime>.unmodifiable(timeList) : timeList,
+        dateList: dateList != null
+            ? List<TemporalDate>.unmodifiable(dateList)
+            : dateList,
+        timeList: timeList != null
+            ? List<TemporalTime>.unmodifiable(timeList)
+            : timeList,
         dateTimeList: dateTimeList != null
-            ? List<AWSDateTime>.unmodifiable(dateTimeList)
+            ? List<TemporalDateTime>.unmodifiable(dateTimeList)
             : dateTimeList,
         timestampList: timestampList != null
-            ? List<AWSTimestamp>.unmodifiable(timestampList)
+            ? List<TemporalTimestamp>.unmodifiable(timestampList)
             : timestampList,
-        intList: intList != null ? List<Int>.unmodifiable(intList) : intList);
+        intList: intList != null ? List<int>.unmodifiable(intList) : intList);
   }
 
   bool equals(Object other) {
@@ -785,16 +787,17 @@ class TestModel extends Model {
         id: id == null ? UUID.getUUID() : id,
         floatVal: floatVal,
         floatNullableVal: floatNullableVal,
-        floatList:
-            floatList != null ? List<Float>.unmodifiable(floatList) : floatList,
+        floatList: floatList != null
+            ? List<double>.unmodifiable(floatList)
+            : floatList,
         floatNullableList: floatNullableList != null
-            ? List<Float>.unmodifiable(floatNullableList)
+            ? List<double>.unmodifiable(floatNullableList)
             : floatNullableList,
         nullableFloatList: nullableFloatList != null
-            ? List<Float>.unmodifiable(nullableFloatList)
+            ? List<double>.unmodifiable(nullableFloatList)
             : nullableFloatList,
         nullableFloatNullableList: nullableFloatNullableList != null
-            ? List<Float>.unmodifiable(nullableFloatNullableList)
+            ? List<double>.unmodifiable(nullableFloatNullableList)
             : nullableFloatNullableList);
   }
 
@@ -3895,10 +3898,10 @@ class TestModel extends Model {
       id: id == null ? UUID.getUUID() : id,
       floatVal: floatVal,
       floatNullableVal: floatNullableVal,
-      floatList: floatList != null ? List<Float>.unmodifiable(floatList) : floatList,
-      floatNullableList: floatNullableList != null ? List<Float>.unmodifiable(floatNullableList) : floatNullableList,
-      nullableFloatList: nullableFloatList != null ? List<Float>.unmodifiable(nullableFloatList) : nullableFloatList,
-      nullableFloatNullableList: nullableFloatNullableList != null ? List<Float>.unmodifiable(nullableFloatNullableList) : nullableFloatNullableList);
+      floatList: floatList != null ? List<double>.unmodifiable(floatList) : floatList,
+      floatNullableList: floatNullableList != null ? List<double>.unmodifiable(floatNullableList) : floatNullableList,
+      nullableFloatList: nullableFloatList != null ? List<double>.unmodifiable(nullableFloatList) : nullableFloatList,
+      nullableFloatNullableList: nullableFloatNullableList != null ? List<double>.unmodifiable(nullableFloatNullableList) : nullableFloatNullableList);
   }
   
   bool equals(Object other) {
