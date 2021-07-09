@@ -60,7 +60,15 @@ export class AppSyncModelJavascriptVisitor<
         .map(typeObj => this.generateModelDeclaration(typeObj, true))
         .join('\n\n');
 
-      return [imports, enumDeclarations, nonModelDeclarations, modelDeclarations].join('\n\n');
+      if (!this.config.isTimestampFieldsAdded) {
+        return [imports, enumDeclarations, nonModelDeclarations, modelDeclarations].join('\n\n');
+      } else {
+        const modelMetaData = Object.values(this.modelMap)
+          .map(typeObj => this.generateModelMetaData(typeObj))
+          .join('\n\n');
+
+        return [imports, enumDeclarations, nonModelDeclarations, modelMetaData, modelDeclarations].join('\n\n');
+      }
     } else {
       const imports = this.generateImportsJavaScriptImplementation();
       const enumDeclarations = Object.values(this.enumMap)

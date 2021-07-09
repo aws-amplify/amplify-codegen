@@ -69,6 +69,26 @@ export class AppSyncModelTypeScriptVisitor<
     return enumDeclarations.string;
   }
 
+  protected generateModelMetaData(modelObj: CodeGenModel): string {
+    const modelName = this.generateModelTypeDeclarationName(modelObj);
+    const modelDeclarations = new TypeScriptDeclarationBlock()
+      .asKind('type')
+      .withName(`${modelName}MetaData`)
+      .export(false);
+
+    const isTimestampFeatureFlagEnabled = this.config.isTimestampFieldsAdded;
+    let readOnlyFieldNames: string[] = [];
+
+    modelObj.fields.forEach((field: CodeGenField) => {
+      if (isTimestampFeatureFlagEnabled && field.isReadOnly) {
+        readOnlyFieldNames.push(`'${field.name}'`);
+      }
+    });
+    modelDeclarations.addProperty('readOnlyFields', readOnlyFieldNames.join(' | '));
+
+    return modelDeclarations.string;
+  }
+
   /**
    *
    * @param modelObj CodeGenModel object
@@ -82,12 +102,25 @@ export class AppSyncModelTypeScriptVisitor<
       .withName(modelName)
       .export(true);
 
+    const isTimestampFeatureFlagEnabled = this.config.isTimestampFieldsAdded;
+    let readOnlyFieldNames: string[] = [];
+    let modelMetaDataFormatted: string | undefined;
+    let modelMetaDataDeclaration: string = '';
+
     modelObj.fields.forEach((field: CodeGenField) => {
       modelDeclarations.addProperty(this.getFieldName(field), this.getNativeType(field), undefined, 'DEFAULT', {
         readonly: true,
         optional: field.isList ? field.isListNullable : field.isNullable,
       });
+      if (isTimestampFeatureFlagEnabled && field.isReadOnly) {
+        readOnlyFieldNames.push(`'${field.name}'`);
+      }
     });
+
+    if (isTimestampFeatureFlagEnabled) {
+      modelMetaDataFormatted = `, ${modelName}MetaData`;
+      modelMetaDataDeclaration = readOnlyFieldNames.length > 0 ? modelMetaDataFormatted : '';
+    }
 
     // Constructor
     modelDeclarations.addClassMethod(
@@ -97,7 +130,7 @@ export class AppSyncModelTypeScriptVisitor<
       [
         {
           name: 'init',
-          type: `ModelInit<${modelName}>`,
+          type: `ModelInit<${modelName}${modelMetaDataDeclaration}>`,
         },
       ],
       'DEFAULT',
@@ -117,7 +150,7 @@ export class AppSyncModelTypeScriptVisitor<
           },
           {
             name: 'mutator',
-            type: `(draft: MutableModel<${modelName}>) => MutableModel<${modelName}> | void`,
+            type: `(draft: MutableModel<${modelName}${modelMetaDataDeclaration}>) => MutableModel<${modelName}${modelMetaDataDeclaration}> | void`,
           },
         ],
         'DEFAULT',

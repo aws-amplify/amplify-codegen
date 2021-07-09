@@ -8,12 +8,16 @@ const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-const getVisitor = (schema: string, isDeclaration: boolean = false): AppSyncModelJavascriptVisitor => {
+const getVisitor = (
+  schema: string,
+  isDeclaration: boolean = false,
+  isTimestampFieldsAdded: boolean = false,
+): AppSyncModelJavascriptVisitor => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelJavascriptVisitor(
     builtSchema,
-    { directives, target: 'javascript', scalars: TYPESCRIPT_SCALAR_MAP, isDeclaration, isTimestampFieldsAdded: true },
+    { directives, target: 'javascript', scalars: TYPESCRIPT_SCALAR_MAP, isDeclaration, isTimestampFieldsAdded },
     {},
   );
   visit(ast, { leave: visitor });
@@ -114,10 +118,67 @@ describe('Javascript visitor', () => {
           readonly name?: string;
           readonly bar?: string;
           readonly foo?: Bar[];
-          readonly createdAt?: string;
-          readonly updatedAt?: string;
           constructor(init: ModelInit<SimpleModel>);
           static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
+        }
+
+        export declare class Bar {
+          readonly id: string;
+          readonly simpleModelFooId?: string;
+          constructor(init: ModelInit<Bar>);
+          static copyOf(source: Bar, mutator: (draft: MutableModel<Bar>) => MutableModel<Bar> | void): Bar;
+        }"
+      `);
+      expect(generateImportSpy).toBeCalledTimes(1);
+      expect(generateImportSpy).toBeCalledWith();
+
+      expect(generateEnumDeclarationsSpy).toBeCalledTimes(1);
+      expect(generateEnumDeclarationsSpy).toBeCalledWith((declarationVisitor as any).enumMap['SimpleEnum'], true);
+
+      expect(generateModelDeclarationSpy).toBeCalledTimes(3);
+      expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(1, (declarationVisitor as any).modelMap['SimpleModel'], true);
+      expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(2, (declarationVisitor as any).modelMap['Bar'], true);
+      expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(3, (declarationVisitor as any).nonModelMap['SimpleNonModelType'], true);
+    });
+
+    it('should generate Javascript declaration with model metadata types', () => {
+      const declarationVisitor = getVisitor(schema, true, true);
+      const generateImportSpy = jest.spyOn(declarationVisitor as any, 'generateImports');
+      const generateEnumDeclarationsSpy = jest.spyOn(declarationVisitor as any, 'generateEnumDeclarations');
+      const generateModelDeclarationSpy = jest.spyOn(declarationVisitor as any, 'generateModelDeclaration');
+      const declarations = declarationVisitor.generate();
+      validateTs(declarations);
+      expect(declarations).toMatchInlineSnapshot(`
+        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+
+        export enum SimpleEnum {
+          ENUM_VAL1 = \\"enumVal1\\",
+          ENUM_VAL2 = \\"enumVal2\\"
+        }
+
+        export declare class SimpleNonModelType {
+          readonly id: string;
+          readonly names?: (string | null)[];
+          constructor(init: ModelInit<SimpleNonModelType>);
+        }
+
+        type SimpleModelMetaData = {
+          readOnlyFields: 'createdAt' | 'updatedAt';
+        }
+
+        type BarMetaData = {
+          readOnlyFields: 'createdAt' | 'updatedAt';
+        }
+
+        export declare class SimpleModel {
+          readonly id: string;
+          readonly name?: string;
+          readonly bar?: string;
+          readonly foo?: Bar[];
+          readonly createdAt?: string;
+          readonly updatedAt?: string;
+          constructor(init: ModelInit<SimpleModel, SimpleModelMetaData>);
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel, SimpleModelMetaData>) => MutableModel<SimpleModel, SimpleModelMetaData> | void): SimpleModel;
         }
 
         export declare class Bar {
@@ -125,8 +186,8 @@ describe('Javascript visitor', () => {
           readonly createdAt?: string;
           readonly updatedAt?: string;
           readonly simpleModelFooId?: string;
-          constructor(init: ModelInit<Bar>);
-          static copyOf(source: Bar, mutator: (draft: MutableModel<Bar>) => MutableModel<Bar> | void): Bar;
+          constructor(init: ModelInit<Bar, BarMetaData>);
+          static copyOf(source: Bar, mutator: (draft: MutableModel<Bar, BarMetaData>) => MutableModel<Bar, BarMetaData> | void): Bar;
         }"
       `);
       expect(generateImportSpy).toBeCalledTimes(1);
@@ -237,8 +298,6 @@ describe('Javascript visitor with default owner auth', () => {
           readonly id: string;
           readonly name?: string;
           readonly bar?: string;
-          readonly createdAt?: string;
-          readonly updatedAt?: string;
           constructor(init: ModelInit<SimpleModel>);
           static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
         }"
@@ -308,8 +367,6 @@ describe('Javascript visitor with custom owner field auth', () => {
           readonly id: string;
           readonly name?: string;
           readonly bar?: string;
-          readonly createdAt?: string;
-          readonly updatedAt?: string;
           constructor(init: ModelInit<SimpleModel>);
           static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
         }"
@@ -381,8 +438,6 @@ describe('Javascript visitor with multiple owner field auth', () => {
           readonly id: string;
           readonly name?: string;
           readonly bar?: string;
-          readonly createdAt?: string;
-          readonly updatedAt?: string;
           constructor(init: ModelInit<SimpleModel>);
           static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
         }"
@@ -438,8 +493,6 @@ describe('Javascript visitor with auth directives in field level', () => {
           readonly name: string;
           readonly address: string;
           readonly ssn?: string;
-          readonly createdAt?: string;
-          readonly updatedAt?: string;
           constructor(init: ModelInit<Employee>);
           static copyOf(source: Employee, mutator: (draft: MutableModel<Employee>) => MutableModel<Employee> | void): Employee;
         }"
