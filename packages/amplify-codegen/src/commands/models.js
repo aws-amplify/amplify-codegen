@@ -89,6 +89,8 @@ async function generateModels(context) {
       );
     }
   }
+  const handleListNullabilityTransparently = readFeatureFlag('codegen.handleListNullabilityTransparently');
+
   const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
     baseOutputDir: outputPath,
     schema,
@@ -99,6 +101,7 @@ async function generateModels(context) {
       emitAuthProvider,
       generateIndexRules,
       enableDartNullSafety,
+      handleListNullabilityTransparently
     },
   });
 

@@ -337,8 +337,12 @@ export class AppSyncModelJavaVisitor<
    *
    */
   protected generateStepBuilderInterfaces(model: CodeGenModel, isModel: boolean = true): JavaDeclarationBlock[] {
-    const nonNullableFields = this.getWritableFields(model).filter(field => !field.isNullable);
-    const nullableFields = this.getWritableFields(model).filter(field => field.isNullable);
+    const nonNullableFields = this.getWritableFields(model).filter(
+      field => this.isRequiredField(field)
+    );
+    const nullableFields = this.getWritableFields(model).filter(
+      field => !this.isRequiredField(field)
+    );
     const requiredInterfaces = nonNullableFields.filter((field: CodeGenField) => !this.READ_ONLY_FIELDS.includes(field.name));
     const interfaces = requiredInterfaces.map((field, idx) => {
       const isLastField = requiredInterfaces.length - 1 === idx ? true : false;
@@ -385,8 +389,12 @@ export class AppSyncModelJavaVisitor<
    * @returns JavaDeclarationBlock
    */
   protected generateBuilderClass(model: CodeGenModel, classDeclaration: JavaDeclarationBlock, isModel: boolean = true): void {
-    const nonNullableFields = this.getWritableFields(model).filter(field => !field.isNullable);
-    const nullableFields = this.getWritableFields(model).filter(field => field.isNullable);
+    const nonNullableFields = this.getWritableFields(model).filter(
+      field => this.isRequiredField(field)
+    );
+    const nullableFields = this.getWritableFields(model).filter(
+      field => !this.isRequiredField(field)
+    );
     const stepFields = nonNullableFields.filter((field: CodeGenField) => !this.READ_ONLY_FIELDS.includes(field.name));
     const stepInterfaces = stepFields.map((field: CodeGenField) => this.getStepInterfaceName(field.name));
 
@@ -836,7 +844,7 @@ export class AppSyncModelJavaVisitor<
     }
     const annotationArgs: string[] = [
       `targetType="${field.type}"`,
-      !field.isNullable ? 'isRequired = true' : '',
+      this.isRequiredField(field) ? 'isRequired = true' : '',
       authRules.length ? `authRules = ${authRules}` : '',
       field.isReadOnly ? 'isReadOnly = true' : '',
     ].filter(arg => arg);
