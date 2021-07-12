@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.27.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.26.0...@aws-amplify/appsync-modelgen-plugin@1.27.0) (2021-07-12)
+
+
+### Features
+
+* **appsync-modelgen-plugin:** expose readonly labels to model ts output ([#185](https://github.com/aws-amplify/amplify-codegen/issues/185)) ([368a7c0](https://github.com/aws-amplify/amplify-codegen/commit/368a7c002e3aa56d2dcb03764490eead6df3b9bb))
+
+
+
+
+
 # [1.26.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.25.0...@aws-amplify/appsync-modelgen-plugin@1.26.0) (2021-06-30)
 
 
