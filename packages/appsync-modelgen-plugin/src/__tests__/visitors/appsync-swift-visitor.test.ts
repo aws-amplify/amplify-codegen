@@ -15,12 +15,13 @@ const getVisitor = (
   isTimestampFieldsAdded: boolean = true,
   emitAuthProvider: boolean = true,
   generateIndexRules: boolean = true,
+  handleListNullabilityTransparently: boolean = true
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncSwiftVisitor(
     builtSchema,
-    { directives, target: 'swift', scalars: SWIFT_SCALAR_MAP, isTimestampFieldsAdded, emitAuthProvider, generateIndexRules },
+    { directives, target: 'swift', scalars: SWIFT_SCALAR_MAP, isTimestampFieldsAdded, emitAuthProvider, generateIndexRules, handleListNullabilityTransparently },
     { selectedType, generate },
   );
   visit(ast, { leave: visitor });
@@ -357,6 +358,81 @@ describe('AppSyncSwiftVisitor', () => {
           }
       }"
     `);
+  });
+
+  it('Should handle nullability of lists appropriately', () => {
+    const schema = /* GraphQL */ `
+      enum StatusEnum {
+        pass
+        fail
+      }
+
+      type CustomType {
+        name: String
+        list: [Int]
+        requiredList: [String]!
+        requiredListOfRequired: [StatusEnum!]!
+        listOfRequired: [Boolean!]
+      }
+
+      type ListContainer @model {
+        id: ID!
+        name: String
+        list: [Int]
+        requiredList: [String]!
+        requiredListOfRequired: [StatusEnum!]!
+        listOfRequired: [Boolean!]
+        requiredListOfRequiredDates: [AWSDate!]!
+        listOfRequiredFloats: [Float!]
+        requiredListOfCustomTypes: [CustomType]!
+      }
+    `;
+
+    const visitor = getVisitor(schema, 'ListContainer');
+    const generatedCode = visitor.generate();
+    expect(generatedCode).toMatchSnapshot();
+
+    const metadataVisitor = getVisitor(schema, 'ListContainer', CodeGenGenerateEnum.metadata);
+    const generatedMetadata = metadataVisitor.generate();
+    expect(generatedMetadata).toMatchSnapshot();
+
+    const customTypeVisitor = getVisitor(schema, 'CustomType');
+    expect(customTypeVisitor.generate()).toMatchSnapshot();
+  });
+
+  it('Should render lists with HAS_MANY connection as optional fields', () => {
+    // This behavior for iOS differs from JS and will be addressed later.
+    const schema = /* GraphQL */ `
+      type Todo @model {
+        id: ID!
+        title: String!
+        requiredListOfTasks: [task]! @connection(name: "TodoTasks")
+        listOfRequiredTasks: [task!] @connection(name: "TodoTasks")
+        listOfTasks: [task] @connection(name: "TodoTasks")
+        requiredListOfRequiredTasks: [task!]! @connection(name: "TodoTasks")
+      }
+
+      type task @model {
+        id: ID
+        title: String!
+        todo: Todo @connection(name: "TodoTasks")
+      }
+    `;
+
+    const visitor = getVisitor(schema, 'Todo');
+    const generatedCode = visitor.generate();
+    expect(generatedCode).toMatchSnapshot();
+
+    const metadataVisitor = getVisitor(schema, 'Todo', CodeGenGenerateEnum.metadata);
+    const generatedMetadata = metadataVisitor.generate();
+    expect(generatedMetadata).toMatchSnapshot();
+
+    const taskVisitor = getVisitor(schema, 'task');
+    expect(taskVisitor.generate()).toMatchSnapshot();
+
+    const taskMetadataVisitor = getVisitor(schema, 'task', CodeGenGenerateEnum.metadata);
+    const generatedTaskMetadata = taskMetadataVisitor.generate();
+    expect(generatedTaskMetadata).toMatchSnapshot();
   });
 
   describe('connection', () => {
@@ -819,22 +895,22 @@ describe('AppSyncSwiftVisitor', () => {
 
       public struct ObjectWithNativeTypes: Model {
         public let id: String
-        public var intArr: [Int]?
-        public var strArr: [String]?
-        public var floatArr: [Double]?
-        public var boolArr: [Bool]?
-        public var dateArr: [Temporal.Date]?
-        public var enumArr: [EnumType]?
+        public var intArr: [Int?]?
+        public var strArr: [String?]?
+        public var floatArr: [Double?]?
+        public var boolArr: [Bool?]?
+        public var dateArr: [Temporal.Date?]?
+        public var enumArr: [EnumType?]?
         public var createdAt: Temporal.DateTime?
         public var updatedAt: Temporal.DateTime?
         
         public init(id: String = UUID().uuidString,
-            intArr: [Int]? = [],
-            strArr: [String]? = [],
-            floatArr: [Double]? = [],
-            boolArr: [Bool]? = [],
-            dateArr: [Temporal.Date]? = [],
-            enumArr: [EnumType]? = []) {
+            intArr: [Int?]? = nil,
+            strArr: [String?]? = nil,
+            floatArr: [Double?]? = nil,
+            boolArr: [Bool?]? = nil,
+            dateArr: [Temporal.Date?]? = nil,
+            enumArr: [EnumType?]? = nil) {
           self.init(id: id,
             intArr: intArr,
             strArr: strArr,
@@ -846,12 +922,12 @@ describe('AppSyncSwiftVisitor', () => {
             updatedAt: nil)
         }
         internal init(id: String = UUID().uuidString,
-            intArr: [Int]? = [],
-            strArr: [String]? = [],
-            floatArr: [Double]? = [],
-            boolArr: [Bool]? = [],
-            dateArr: [Temporal.Date]? = [],
-            enumArr: [EnumType]? = [],
+            intArr: [Int?]? = nil,
+            strArr: [String?]? = nil,
+            floatArr: [Double?]? = nil,
+            boolArr: [Bool?]? = nil,
+            dateArr: [Temporal.Date?]? = nil,
+            enumArr: [EnumType?]? = nil,
             createdAt: Temporal.DateTime? = nil,
             updatedAt: Temporal.DateTime? = nil) {
             self.id = id
@@ -944,20 +1020,20 @@ describe('AppSyncSwiftVisitor', () => {
         public let id: String
         public var name: String
         public var location: Location
-        public var nearByLocations: [Location]?
+        public var nearByLocations: [Location?]?
         public var status: Status
-        public var statusHistory: [Status]?
-        public var tags: [String]?
+        public var statusHistory: [Status?]?
+        public var tags: [String?]?
         public var createdAt: Temporal.DateTime?
         public var updatedAt: Temporal.DateTime?
         
         public init(id: String = UUID().uuidString,
             name: String,
             location: Location,
-            nearByLocations: [Location]? = [],
+            nearByLocations: [Location?]? = nil,
             status: Status,
-            statusHistory: [Status]? = [],
-            tags: [String]? = []) {
+            statusHistory: [Status?]? = nil,
+            tags: [String?]? = nil) {
           self.init(id: id,
             name: name,
             location: location,
@@ -971,10 +1047,10 @@ describe('AppSyncSwiftVisitor', () => {
         internal init(id: String = UUID().uuidString,
             name: String,
             location: Location,
-            nearByLocations: [Location]? = [],
+            nearByLocations: [Location?]? = nil,
             status: Status,
-            statusHistory: [Status]? = [],
-            tags: [String]? = [],
+            statusHistory: [Status?]? = nil,
+            tags: [String?]? = nil,
             createdAt: Temporal.DateTime? = nil,
             updatedAt: Temporal.DateTime? = nil) {
             self.id = id
@@ -1054,7 +1130,7 @@ describe('AppSyncSwiftVisitor', () => {
       public struct Location: Embeddable {
         var lat: String
         var lang: String
-        var tags: [String]?
+        var tags: [String?]?
       }"
     `);
 
@@ -1191,7 +1267,7 @@ describe('AppSyncSwiftVisitor', () => {
           public let id: String
           public var \`Class\`: Class?
           public var nonNullClass: Class
-          public var classes: [\`Class\`]?
+          public var classes: [\`Class\`?]?
           public var nonNullClasses: [\`Class\`]
           public var createdAt: Temporal.DateTime?
           public var updatedAt: Temporal.DateTime?
@@ -1199,7 +1275,7 @@ describe('AppSyncSwiftVisitor', () => {
           public init(id: String = UUID().uuidString,
               \`Class\`: \`Class\`? = nil,
               nonNullClass: \`Class\`,
-              classes: [\`Class\`]? = [],
+              classes: [\`Class\`?]? = nil,
               nonNullClasses: [\`Class\`] = []) {
             self.init(id: id,
               \`Class\`: \`Class\`,
@@ -1212,7 +1288,7 @@ describe('AppSyncSwiftVisitor', () => {
           internal init(id: String = UUID().uuidString,
               \`Class\`: \`Class\`? = nil,
               nonNullClass: \`Class\`,
-              classes: [\`Class\`]? = [],
+              classes: [\`Class\`?]? = nil,
               nonNullClasses: [\`Class\`] = [],
               createdAt: Temporal.DateTime? = nil,
               updatedAt: Temporal.DateTime? = nil) {
@@ -1566,7 +1642,7 @@ describe('AppSyncSwiftVisitor', () => {
                 .id(),
                 .field(post.title, is: .required, ofType: .string),
                 .field(post.author, is: .required, ofType: .string),
-                .field(post.editors, is: .required, ofType: .embeddedCollection(of: String.self)),
+                .field(post.editors, is: .optional, ofType: .embeddedCollection(of: String.self)),
                 .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )

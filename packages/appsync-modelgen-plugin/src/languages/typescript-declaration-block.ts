@@ -66,7 +66,7 @@ export type Method = {
 export type EnumValues = {
   [name: string]: string;
 };
-export type DeclarationKind = 'class' | 'enum' | 'interface';
+export type DeclarationKind = 'class' | 'enum' | 'interface' | 'type';
 export type DeclarationFlags = {
   isDeclaration?: boolean;
   shouldExport?: boolean;
@@ -149,7 +149,7 @@ export class TypeScriptDeclarationBlock {
     args: MethodArguments[] = [],
     access: Access = 'DEFAULT',
     flags: MethodFlag = {},
-    comment: string = ''
+    comment: string = '',
   ): void {
     if (this._kind === 'enum') {
       throw new Error('Can not add method to enum kind');
@@ -173,6 +173,8 @@ export class TypeScriptDeclarationBlock {
         return this.generateClass();
       case 'enum':
         return this.generateEnum();
+      case 'type':
+        return this.generateType();
     }
   }
 
@@ -255,6 +257,23 @@ export class TypeScriptDeclarationBlock {
   protected generateInterface(): string {
     throw new Error('Not implemented yet');
   }
+
+  protected generateType(): string {
+    const header: string[] = [
+      this._flags.shouldExport ? 'export' : '',
+      this._flags.isDeclaration ? 'declare' : '',
+      'type',
+      this._name,
+      '= {',
+    ];
+    if (this._extends.length) {
+      header.push(['extends', this._extends.join(', ')].join(' '));
+    }
+    const body: string[] = [this.generateProperties()];
+
+    return [`${header.filter(h => h).join(' ')}`, indentMultiline(body.join('\n')), '}'].join('\n');
+  }
+
   protected generatePropertyName(property: Property): string {
     let propertyName: string = property.name;
     if (property.flags.optional) {

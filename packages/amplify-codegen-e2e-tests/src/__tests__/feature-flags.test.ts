@@ -12,6 +12,7 @@ const codegenFeatureFlags = {
     "retaincasestyle": true,
     "generateindexrules": true,
     "emitauthprovider": true,
+    "enabledartnullsafety": true,
 };
 
 describe('codegen related feature flags - new project', () => {

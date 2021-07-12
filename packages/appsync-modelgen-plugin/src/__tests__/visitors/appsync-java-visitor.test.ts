@@ -14,7 +14,7 @@ const getVisitor = (schema: string, selectedType?: string, generate: CodeGenGene
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelJavaVisitor(
     builtSchema,
-    { directives, target: 'android', generate, scalars: JAVA_SCALAR_MAP, isTimestampFieldsAdded: true },
+    { directives, target: 'android', generate, scalars: JAVA_SCALAR_MAP, isTimestampFieldsAdded: true, handleListNullabilityTransparently: true },
     { selectedType },
   );
   visit(ast, { leave: visitor });
@@ -88,7 +88,6 @@ describe('AppSyncModelVisitor', () => {
     const visitor = getVisitor(schema, 'SimpleModel');
     const generatedCode = visitor.generate();
     expect(() => validateJava(generatedCode)).not.toThrow();
-    expect(generatedCode).toMatchSnapshot();
     expect(generatedCode).toMatchSnapshot();
   });
 
@@ -185,6 +184,38 @@ describe('AppSyncModelVisitor', () => {
       }
     `;
     const visitor = getVisitor(schema, 'authorBook');
+    const generatedCode = visitor.generate();
+    expect(() => validateJava(generatedCode)).not.toThrow();
+    expect(generatedCode).toMatchSnapshot();
+  });
+
+  it('Should handle nullability of lists appropriately', () => {
+    const schema = /* GraphQL */ `
+      enum StatusEnum {
+        pass
+        fail
+      }
+
+      type CustomType {
+        name: String
+      }
+
+      type ListContainer
+      @model
+      {
+        id: ID!
+        name: String
+        list: [Int]
+        requiredList: [String]!
+        requiredListOfRequired: [StatusEnum!]!
+        listOfRequired: [Boolean!]
+        requiredListOfRequiredDates: [AWSDate!]!
+        listOfRequiredFloats: [Float!]
+        requiredListOfCustomTypes: [CustomType]!
+      }
+    `;
+
+    const visitor = getVisitor(schema, 'ListContainer');
     const generatedCode = visitor.generate();
     expect(() => validateJava(generatedCode)).not.toThrow();
     expect(generatedCode).toMatchSnapshot();
