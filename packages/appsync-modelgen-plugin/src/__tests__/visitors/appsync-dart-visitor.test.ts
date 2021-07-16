@@ -13,12 +13,13 @@ const getVisitor = (
   selectedType?: string,
   generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
   enableDartNullSafety: boolean = false,
+  isTimestampFieldsAdded: boolean = false,
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelDartVisitor(
     builtSchema,
-    { directives, target: 'dart', scalars: DART_SCALAR_MAP, enableDartNullSafety },
+    { directives, target: 'dart', scalars: DART_SCALAR_MAP, enableDartNullSafety, isTimestampFieldsAdded },
     { selectedType, generate },
   );
   visit(ast, { leave: visitor });
@@ -428,6 +429,34 @@ describe('AppSync Dart Visitor', () => {
         }
       `;
       const generatedCode = getVisitor(schema, 'TestModel', CodeGenGenerateEnum.code, true).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+  });
+
+  describe('read-only field tests', () => {
+    it('should generate the read-only timestamp fields when isTimestampFields is true', () => {
+      const schema = /* GraphQL */ `
+        type SimpleModel @model {
+          id: ID!
+          name: String
+        }
+      `;
+      const visitor = getVisitor(schema, undefined, CodeGenGenerateEnum.code, false, true);
+      const generatedCode = visitor.generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+  });
+
+  describe('read-only and null safety combined tests', () => {
+    it('should generate the read-only timestamp fields when isTimestampFields is true and with null safety', () => {
+      const schema = /* GraphQL */ `
+        type SimpleModel @model {
+          id: ID!
+          name: String
+        }
+      `;
+      const visitor = getVisitor(schema, undefined, CodeGenGenerateEnum.code, true, true);
+      const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
   });
