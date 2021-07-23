@@ -2146,7 +2146,7 @@ describe('AppSyncSwiftVisitor', () => {
         }"
       `);
     });
-    it('should keep the original init method if timestamp is enabled but no read-only fields found', () => {
+    it('should keep the original init method if timestamp ff is enabled and schema has explicit timestamp fields', () => {
       const schema = /* GraphQL */ `
         type SimpleModel @model {
           id: ID!
