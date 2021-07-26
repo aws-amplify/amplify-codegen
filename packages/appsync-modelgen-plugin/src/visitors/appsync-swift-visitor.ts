@@ -23,9 +23,9 @@ export interface RawAppSyncModelSwiftConfig extends RawAppSyncModelConfig {
    * @type boolean
    * @descriptions optional boolean, if true emits the provider value of @auth directives
    */
-   emitAuthProvider?: boolean;
+  emitAuthProvider?: boolean;
 
-   /**
+  /**
    * @name directives
    * @type boolean
    * @description optional, defines if custom indexes defined by @key directive should be generated.
@@ -90,7 +90,7 @@ export class AppSyncSwiftVisitor<
           isEnum: this.isEnumType(field),
           listType: field.isList ? listType : undefined,
           isListNullable: field.isListNullable,
-          handleListNullabilityTransparently: this.isHasManyConnectionField(field) ? false : this.config.handleListNullabilityTransparently
+          handleListNullabilityTransparently: this.isHasManyConnectionField(field) ? false : this.config.handleListNullabilityTransparently,
         });
       });
       const initParams: CodeGenField[] = this.getWritableFields(obj);
@@ -102,7 +102,7 @@ export class AppSyncSwiftVisitor<
           })
           .join(',\n'),
       ).trim()})`;
-      if (this.config.isTimestampFieldsAdded) {
+      if (this.config.isTimestampFieldsAdded && this.hasReadOnlyFields(obj)) {
         //public constructor
         structBlock.addClassMethod(
           'init',
@@ -120,7 +120,9 @@ export class AppSyncSwiftVisitor<
                 isEnum: this.isEnumType(field),
                 listType: field.isList ? listType : undefined,
                 isListNullable: field.isListNullable,
-                handleListNullabilityTransparently: this.isHasManyConnectionField(field) ? false : this.config.handleListNullabilityTransparently
+                handleListNullabilityTransparently: this.isHasManyConnectionField(field)
+                  ? false
+                  : this.config.handleListNullabilityTransparently,
               },
             };
           }),
@@ -144,7 +146,9 @@ export class AppSyncSwiftVisitor<
                 isEnum: this.isEnumType(field),
                 listType: field.isList ? listType : undefined,
                 isListNullable: field.isListNullable,
-                handleListNullabilityTransparently: this.isHasManyConnectionField(field) ? false : this.config.handleListNullabilityTransparently
+                handleListNullabilityTransparently: this.isHasManyConnectionField(field)
+                  ? false
+                  : this.config.handleListNullabilityTransparently,
               },
             };
           }),
@@ -169,7 +173,9 @@ export class AppSyncSwiftVisitor<
                 isEnum: this.isEnumType(field),
                 listType: field.isList ? listType : undefined,
                 isListNullable: field.isListNullable,
-                handleListNullabilityTransparently: this.isHasManyConnectionField(field) ? false : this.config.handleListNullabilityTransparently
+                handleListNullabilityTransparently: this.isHasManyConnectionField(field)
+                  ? false
+                  : this.config.handleListNullabilityTransparently,
               },
             };
           }),
@@ -214,7 +220,7 @@ export class AppSyncSwiftVisitor<
           isEnum: this.isEnumType(field),
           listType: field.isList ? ListType.ARRAY : undefined,
           isListNullable: field.isListNullable,
-          handleListNullabilityTransparently: this.isHasManyConnectionField(field) ? false : this.config.handleListNullabilityTransparently
+          handleListNullabilityTransparently: this.isHasManyConnectionField(field) ? false : this.config.handleListNullabilityTransparently,
         });
       });
       result.push(structBlock.string);
@@ -228,9 +234,7 @@ export class AppSyncSwiftVisitor<
     Object.values(this.getSelectedModels())
       .filter(m => m.type === 'model')
       .forEach(model => {
-        const schemaDeclarations = new SwiftDeclarationBlock()
-        .asKind('extension')
-        .withName(this.getModelName(model));
+        const schemaDeclarations = new SwiftDeclarationBlock().asKind('extension').withName(this.getModelName(model));
 
         this.generateCodingKeys(this.getModelName(model), model, schemaDeclarations),
           this.generateModelSchema(this.getModelName(model), model, schemaDeclarations);
@@ -239,9 +243,7 @@ export class AppSyncSwiftVisitor<
       });
 
     Object.values(this.getSelectedNonModels()).forEach(model => {
-      const schemaDeclarations = new SwiftDeclarationBlock()
-      .asKind('extension')
-      .withName(this.getNonModelName(model));
+      const schemaDeclarations = new SwiftDeclarationBlock().asKind('extension').withName(this.getNonModelName(model));
 
       this.generateCodingKeys(this.getNonModelName(model), model, schemaDeclarations),
         this.generateModelSchema(this.getNonModelName(model), model, schemaDeclarations);
@@ -350,8 +352,10 @@ export class AppSyncSwiftVisitor<
     const name = `${modelKeysName}.${this.getFieldName(field)}`;
     const typeName = this.getSwiftModelTypeName(field);
     const { connectionInfo } = field;
-    const isRequiredField = ((!this.isHasManyConnectionField(field)) && this.config.handleListNullabilityTransparently) ?
-     this.isRequiredField(field) : this.isFieldRequired(field);
+    const isRequiredField =
+      !this.isHasManyConnectionField(field) && this.config.handleListNullabilityTransparently
+        ? this.isRequiredField(field)
+        : this.isFieldRequired(field);
     const isRequired = isRequiredField ? '.required' : '.optional';
     // connected field
     if (connectionInfo) {
@@ -438,14 +442,14 @@ export class AppSyncSwiftVisitor<
 
   protected generateKeyRules(model: CodeGenModel): string[] {
     const keyDirectives = model.directives
-      .filter((directive) => directive.name === 'key')
-      .map((directive) => {
+      .filter(directive => directive.name === 'key')
+      .map(directive => {
         const name = directive.arguments.name ? `"${directive.arguments.name}"` : 'nil';
         const fields: string = directive.arguments.fields.map((field: string) => `"${field}"`).join(', ');
         return `.index(fields: [${fields}], name: ${name})`;
       });
 
-    return keyDirectives
+    return keyDirectives;
   }
 
   protected isHasManyConnectionField(field: CodeGenField): boolean {
@@ -471,8 +475,8 @@ export class AppSyncSwiftVisitor<
             authRule.push('allow: .private');
             break;
           case AuthStrategy.public:
-              authRule.push('allow: .public');
-              break;
+            authRule.push('allow: .public');
+            break;
           case AuthStrategy.groups:
             authRule.push('allow: .groups');
             authRule.push(`groupClaim: "${rule.groupClaim}"`);
@@ -501,5 +505,9 @@ export class AppSyncSwiftVisitor<
 
   protected getWritableFields(model: CodeGenModel): CodeGenField[] {
     return model.fields.filter(f => !f.isReadOnly);
+  }
+
+  protected hasReadOnlyFields(model: CodeGenModel): boolean {
+    return model.fields.filter(f => f.isReadOnly).length !== 0;
   }
 }
