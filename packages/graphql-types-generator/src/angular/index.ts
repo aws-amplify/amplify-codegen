@@ -14,6 +14,7 @@ import {
 import { typeNameFromGraphQLType } from '../typescript/types';
 import { Property, interfaceDeclaration } from '../typescript/language';
 import { isList } from '../utilities/graphql';
+import { propertyDeclarations } from '../flow/codeGeneration';
 
 export function generateSource(context: LegacyCompilerContext) {
   const generator = new CodeGenerator<LegacyCompilerContext>(context);
@@ -39,11 +40,8 @@ function generateTypes(generator: CodeGenerator, context: LegacyCompilerContext)
   // if subscription operations exist create subscriptionResponse interface
   // https://github.com/aws-amplify/amplify-cli/issues/5284
   if (context.schema.getSubscriptionType()) {
-    generator.printOnNewline(`
-    export interface SubscriptionResponse<T> {
-      value: GraphQLResult<T>;
-    }`);
-    generator.printNewline();
+    generateSubscriptionResponseWrapper(generator);
+    generateSubscriptionOperationTypes(generator, context);
   }
   context.typesUsed.forEach(type => typeDeclarationForGraphQLType(generator, type));
 
@@ -52,6 +50,38 @@ function generateTypes(generator: CodeGenerator, context: LegacyCompilerContext)
   });
 
   Object.values(context.fragments).forEach(operation => interfaceDeclarationForFragment(generator, operation));
+}
+
+function generateSubscriptionResponseWrapper(generator: CodeGenerator) {
+  generator.printOnNewline(`
+  export interface SubscriptionResponse<T> {
+    value: GraphQLResult<T>;
+  }`);
+  generator.printNewline();
+}
+function generateSubscriptionOperationTypes(generator: CodeGenerator, context: LegacyCompilerContext) {
+  const typeName = 'Subscription';
+  const properties: Property[] = [];
+  Object.values(context.operations)
+    .filter(operation => operation.operationType === 'subscription')
+    .forEach(operation => {
+      const { operationName, operationType } = operation;
+      const typeName = interfaceNameFromOperation({ operationName, operationType });
+      if (operation.fields.length) {
+        properties.push({
+          fieldName: operation.fields[0].responseName,
+          typeName,
+        });
+      }
+    });
+  if (properties.length) {
+    generator.printOnNewline('export type Subscription = ');
+    generator.pushScope({ typeName });
+    generator.withinBlock(() => propertyDeclarations(generator, properties), '{', '}');
+    generator.popScope();
+    generator.print(';');
+    generator.printNewline();
+  }
 }
 
 function interfaceDeclarationForOperation(generator: CodeGenerator, { operationName, operationType, fields }: LegacyOperation) {
@@ -102,6 +132,9 @@ function getReturnTypeName(generator: CodeGenerator, op: LegacyOperation): Strin
     return typeNameFromGraphQLType(generator.context, type);
   } else {
     let returnType = interfaceNameFromOperation({ operationName, operationType });
+    if (op.operationType === 'subscription' && op.fields.length) {
+      returnType = `Pick<Subscription, "${op.fields[0].responseName}">`;
+    }
     if (isList(type)) {
       returnType = `Array<${returnType}>`;
     }
@@ -150,7 +183,9 @@ function generateSubscriptionOperation(generator: CodeGenerator, op: LegacyOpera
       const params = ['statement'];
       variableAssignmentToInput(generator, vars);
       params.push('gqlAPIServiceArguments');
-      generator.printOnNewline(`return API.graphql(graphqlOperation(${params.join(', ')})) as Observable<SubscriptionResponse<${returnType}>>;`);
+      generator.printOnNewline(
+        `return API.graphql(graphqlOperation(${params.join(', ')})) as Observable<SubscriptionResponse<${returnType}>>;`,
+      );
       generator.printOnNewline('}');
     });
   }
