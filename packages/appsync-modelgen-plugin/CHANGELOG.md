@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.27.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.27.0...@aws-amplify/appsync-modelgen-plugin@1.27.1) (2021-07-28)
+
+
+### Bug Fixes
+
+* **appsync-modelgen-plugin:** fix init when no read-only fields found ([#205](https://github.com/aws-amplify/amplify-codegen/issues/205)) ([7265f3a](https://github.com/aws-amplify/amplify-codegen/commit/7265f3a4214e107b88346181329c30c64dbca5a0))
+
+
+
+
+
 # [1.27.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.26.0...@aws-amplify/appsync-modelgen-plugin@1.27.0) (2021-07-12)
 
 
