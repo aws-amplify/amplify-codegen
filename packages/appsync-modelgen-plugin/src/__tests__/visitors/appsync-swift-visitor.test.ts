@@ -15,13 +15,21 @@ const getVisitor = (
   isTimestampFieldsAdded: boolean = true,
   emitAuthProvider: boolean = true,
   generateIndexRules: boolean = true,
-  handleListNullabilityTransparently: boolean = true
+  handleListNullabilityTransparently: boolean = true,
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncSwiftVisitor(
     builtSchema,
-    { directives, target: 'swift', scalars: SWIFT_SCALAR_MAP, isTimestampFieldsAdded, emitAuthProvider, generateIndexRules, handleListNullabilityTransparently },
+    {
+      directives,
+      target: 'swift',
+      scalars: SWIFT_SCALAR_MAP,
+      isTimestampFieldsAdded,
+      emitAuthProvider,
+      generateIndexRules,
+      handleListNullabilityTransparently,
+    },
     { selectedType, generate },
   );
   visit(ast, { leave: visitor });
@@ -2063,14 +2071,14 @@ describe('AppSyncSwiftVisitor', () => {
   });
 
   describe('timestamp fields', () => {
-    const schema = /* GraphQL */ `
-      type SimpleModel @model {
-        id: ID!
-        name: String
-        bar: String
-      }
-    `;
     it('should generate timestamp fields if timestamp is enabled', () => {
+      const schema = /* GraphQL */ `
+        type SimpleModel @model {
+          id: ID!
+          name: String
+          bar: String
+        }
+      `;
       const visitor = getVisitor(schema, 'SimpleModel', CodeGenGenerateEnum.code, true);
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchInlineSnapshot(`
@@ -2109,6 +2117,13 @@ describe('AppSyncSwiftVisitor', () => {
       `);
     });
     it('should keep the original init method if timestamp is disabled', () => {
+      const schema = /* GraphQL */ `
+        type SimpleModel @model {
+          id: ID!
+          name: String
+          bar: String
+        }
+      `;
       const visitor = getVisitor(schema, 'SimpleModel', CodeGenGenerateEnum.code, false);
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchInlineSnapshot(`
@@ -2127,6 +2142,36 @@ describe('AppSyncSwiftVisitor', () => {
               self.id = id
               self.name = name
               self.bar = bar
+          }
+        }"
+      `);
+    });
+    it('should keep the original init method if timestamp ff is enabled and schema has explicit timestamp fields', () => {
+      const schema = /* GraphQL */ `
+        type SimpleModel @model {
+          id: ID!
+          createdAt: AWSDateTime
+          updatedAt: AWSDateTime
+        }
+      `;
+      const visitor = getVisitor(schema, 'SimpleModel', CodeGenGenerateEnum.code, true);
+      const generatedCode = visitor.generate();
+      expect(generatedCode).toMatchInlineSnapshot(`
+        "// swiftlint:disable all
+        import Amplify
+        import Foundation
+
+        public struct SimpleModel: Model {
+          public let id: String
+          public var createdAt: Temporal.DateTime?
+          public var updatedAt: Temporal.DateTime?
+          
+          public init(id: String = UUID().uuidString,
+              createdAt: Temporal.DateTime? = nil,
+              updatedAt: Temporal.DateTime? = nil) {
+              self.id = id
+              self.createdAt = createdAt
+              self.updatedAt = updatedAt
           }
         }"
       `);
