@@ -430,5 +430,15 @@ describe('AppSync Dart Visitor', () => {
       const generatedCode = getVisitor(schema, 'TestModel', CodeGenGenerateEnum.code, true).generate();
       expect(generatedCode).toMatchSnapshot();
     });
+
+    it('should generate correct internal constructor for a model has only ID field', () => {
+      const schema = /* GraphQL */ `
+        type TestModel @model {
+          id: ID!
+        }
+      `;
+      const generatedCode = getVisitor(schema, 'TestModel', CodeGenGenerateEnum.code, true).generate();
+      expect(generatedCode).toMatchSnapshot();
+    })
   });
 });

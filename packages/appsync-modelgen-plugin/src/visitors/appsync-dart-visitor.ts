@@ -298,11 +298,13 @@ export class AppSyncModelDartVisitor<
           .map(f => `${this.isFieldRequired(f) ? 'required ' : ''}${this.getFieldName(f) === 'id' ? 'this.' : ''}${this.getFieldName(f)}`)
           .join(', ')}}`
       : `{${model.fields.map(f => `${this.isFieldRequired(f) ? '@required ' : ''}this.${this.getFieldName(f)}`).join(', ')}}`;
+    const internalFields = model.fields.filter(f => this.getFieldName(f) !== 'id');
     const internalImpl = this.isNullSafety()
-      ? `: ${model.fields
-          .filter(f => this.getFieldName(f) !== 'id')
+      ? internalFields.length ? `: ${
+        internalFields
           .map(f => `_${this.getFieldName(f)} = ${this.getFieldName(f)}`)
-          .join(', ')};`
+          .join(', ')
+      };` : ';'
       : ';';
     declarationBlock.addClassMethod(`${this.getModelName(model)}._internal`, '', [{ name: args }], internalImpl, {
       const: true,
