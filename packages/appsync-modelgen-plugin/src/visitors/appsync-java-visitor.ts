@@ -763,7 +763,7 @@ export class AppSyncModelJavaVisitor<
 
   protected generateModelAnnotations(model: CodeGenModel): string[] {
     // TODO: Remove the use of the pipelined transformer feature flag once the new transformer is fully released
-    let usePipelinedTransformer: Boolean = FeatureFlags.getBoolean('graphQLTransformer.useExperimentalPipelinedTransformer');
+    const usePipelinedTransformer: Boolean = FeatureFlags.getBoolean('graphQLTransformer.useExperimentalPipelinedTransformer');
     const annotations: string[] = model.directives.map(directive => {
       switch (directive.name) {
         case 'model':
