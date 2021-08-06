@@ -442,6 +442,7 @@ export class AppSyncSwiftVisitor<
   }
 
   protected generateKeyRules(model: CodeGenModel): string[] {
+    // TODO: Remove the use of the pipelined transformer feature flag once the new transformer is fully released
     const usePipelinedTransformer: Boolean = FeatureFlags.getBoolean('graphQLTransformer.useExperimentalPipelinedTransformer');
     let keyDirectives: string[];
 
@@ -457,7 +458,7 @@ export class AppSyncSwiftVisitor<
       });
 
       keyDirectives = fieldDirectiveList
-        .filter(directiveObj => directiveObj.directive.name === "primaryKey" || directiveObj.directive.name === "index")
+        .filter(directiveObj => directiveObj.directive.name === 'primaryKey' || directiveObj.directive.name === 'index')
         .map(directiveObj => {
           switch(directiveObj.directive.name) {
             case 'primaryKey':

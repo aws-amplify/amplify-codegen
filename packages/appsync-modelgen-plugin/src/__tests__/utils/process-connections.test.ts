@@ -8,6 +8,11 @@ import {
   getConnectedField,
 } from '../../utils/process-connections';
 import { CodeGenModelMap, CodeGenModel } from '../../visitors/appsync-visitor';
+import { beforeEach } from 'jest-circus';
+import { FeatureFlags } from 'amplify-cli-core';
+
+jest.mock("amplify-cli-core");
+const FeatureFlags_mock = FeatureFlags as jest.Mocked<typeof FeatureFlags>;
 
 describe('process connection', () => {
   describe('Bi-Directional connection (named connection)', () => {
@@ -461,6 +466,137 @@ describe('process connection', () => {
       const employeeModel = modelMap.Employee;
       expect(getConnectedField(supervisorField, employeeModel, employeeModel)).toEqual(subordinateField);
       expect(getConnectedField(subordinateField, employeeModel, employeeModel)).toEqual(supervisorField);
+    });
+  });
+
+  describe('GraphQL vNext getConnectedField tests with @primaryKey and @index', () => {
+    let modelMap: CodeGenModelMap;
+    let v2ModelMap: CodeGenModelMap;
+
+    beforeEach(() => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
+        }
+
+        type Comment @model @key(name: "byPost", fields: ["postID", "content"]) {
+          postID: ID!
+          content: String!
+          post: Post @connection(fields:['postID'])
+        }
+      `;
+
+      const v2Schema = /* GraphQL */ `
+        type Post @model {
+          comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
+        }
+        
+        type Comment @model {
+          postID: ID! @primaryKey(sortKeyFields: ["content"])
+          content: String!
+          post: Post @connection(fields:["postID"])
+        }
+      `;
+      modelMap = {
+        Post: {
+          name: 'Post',
+          type: 'model',
+          directives: [],
+          fields: [
+            {
+              type: 'Comment',
+              isNullable: true,
+              isList: true,
+              name: 'comments',
+              directives: [{ name: 'connection', arguments: { keyName: 'byPost', fields: ['id'] } }],
+            },
+          ],
+        },
+        Comment: {
+          name: 'Comment',
+          type: 'model',
+          directives: [{ name: 'key', arguments: { name: 'byPost', fields: ['postID', 'content'] } }],
+          fields: [
+            {
+              type: 'id',
+              isNullable: false,
+              isList: false,
+              name: 'postID',
+              directives: [],
+            },
+            {
+              type: 'String',
+              isNullable: false,
+              isList: false,
+              name: 'content',
+              directives: [],
+            },
+            {
+              type: 'Post',
+              isNullable: false,
+              isList: false,
+              name: 'post',
+              directives: [{ name: 'connection', arguments: { fields: ['postID'] } }],
+            },
+          ],
+        },
+      };
+
+      v2ModelMap = {
+        Post: {
+          name: 'Post',
+          type: 'model',
+          directives: [],
+          fields: [
+            {
+              type: 'Comment',
+              isNullable: true,
+              isList: true,
+              name: 'comments',
+              directives: [{ name: 'connection', arguments: { keyName: 'byPost', fields: ['id'] } }],
+            },
+          ],
+        },
+        Comment: {
+          name: 'Comment',
+          type: 'model',
+          directives: [],
+          fields: [
+            {
+              type: 'id',
+              isNullable: false,
+              isList: false,
+              name: 'postID',
+              directives: [{name: 'primaryKey', arguments: { name: 'byPost', sortKeyFields: ['content'] } }],
+            },
+            {
+              type: 'String',
+              isNullable: false,
+              isList: false,
+              name: 'content',
+              directives: [],
+            },
+            {
+              type: 'Post',
+              isNullable: false,
+              isList: false,
+              name: 'post',
+              directives: [{ name: 'connection', arguments: { fields: ['postID'] } }],
+            },
+          ],
+        },
+      };
+    });
+
+    describe('Has many comparison', () => {
+      it('should support connection with @primaryKey on BELONGS_TO side', () => {
+        const postField = v2ModelMap.Comment.fields[2];
+        const connectionInfo = (processConnections(postField, v2ModelMap.Post, v2ModelMap) as any) as CodeGenFieldConnectionBelongsTo;
+        expect(connectionInfo).toBeDefined();
+        expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
+        expect(connectionInfo.targetName).toEqual(v2ModelMap.Comment.fields[0].name);
+        expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(false);
+      });
     });
   });
 });

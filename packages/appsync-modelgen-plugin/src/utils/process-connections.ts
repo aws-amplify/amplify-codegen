@@ -1,5 +1,6 @@
 import { CodeGenModel, CodeGenModelMap, CodeGenField, CodeGenDirective } from '../visitors/appsync-visitor';
 import { camelCase } from 'change-case';
+import { FeatureFlags } from 'amplify-cli-core';
 
 export enum CodeGenConnectionType {
   HAS_ONE = 'HAS_ONE',
@@ -46,6 +47,15 @@ export function getConnectedField(field: CodeGenField, model: CodeGenModel, conn
   if (!connectionInfo) {
     throw new Error(`The ${field.name} on model ${model.name} is not connected`);
   }
+  // TODO: Remove the use of the pipelined transformer feature flag once the new transformer is fully released
+  let usePipelinedTransformer: Boolean;
+  try {
+    usePipelinedTransformer = FeatureFlags.getBoolean('graphQLTransformer.useExperimentalPipelinedTransformer');
+  }
+  catch (e) {
+    usePipelinedTransformer = false;
+  }
+
   const connectionName = connectionInfo.arguments.name;
   const keyName = connectionInfo.arguments.keyName;
   const connectionFields = connectionInfo.arguments.fields;
@@ -53,7 +63,7 @@ export function getConnectedField(field: CodeGenField, model: CodeGenModel, conn
     let keyDirective;
     if (keyName) {
       keyDirective = connectedModel.directives.find(dir => {
-        return dir.name === 'key' && dir.arguments.name === keyName;
+        return usePipelinedTransformer ? (dir.name === 'index' && dir.arguments.name === keyName) : dir.name === 'key' && dir.arguments.name === keyName;
       });
       if (!keyDirective) {
         throw new Error(
@@ -62,7 +72,7 @@ export function getConnectedField(field: CodeGenField, model: CodeGenModel, conn
       }
     } else {
       keyDirective = connectedModel.directives.find(dir => {
-        return dir.name === 'key' && typeof dir.arguments.name === 'undefined';
+        return usePipelinedTransformer ? (dir.name === 'primaryKey') : dir.name === 'key' && typeof dir.arguments.name === 'undefined';
       });
     }
 
