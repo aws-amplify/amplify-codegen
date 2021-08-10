@@ -125,6 +125,10 @@ export type CodeGenDirective = {
   arguments: CodeGenArgumentsMap;
 };
 
+export type CodeGenFieldDirective = CodeGenDirective & {
+  fieldName: string;
+}
+
 export type CodeGenDirectives = CodeGenDirective[];
 export type CodeGenField = TypeInfo & {
   name: string;
