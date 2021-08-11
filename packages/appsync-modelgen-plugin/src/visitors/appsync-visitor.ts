@@ -27,6 +27,7 @@ import { CodeGenConnectionType, CodeGenFieldConnection, processConnections } fro
 import { sortFields } from '../utils/sort';
 import { printWarning } from '../utils/warn';
 import { processAuthDirective } from '../utils/process-auth';
+import { FeatureFlags } from 'amplify-cli-core';
 
 export enum CodeGenGenerateEnum {
   metadata = 'metadata',
@@ -407,11 +408,13 @@ export class AppSyncModelVisitor<
   }
 
   protected computeVersion(): string {
+    // TODO: Remove v2 transformer feature flag after release
+    const usePipelinedTransformer: boolean = FeatureFlags.getBoolean('graphQLTransformer.useExperimentalPipelinedTransformer');
     // Sort types
     const typeArr: any[] = [];
     Object.values({ ...this.modelMap, ...this.nonModelMap }).forEach((obj: CodeGenModel) => {
       // include only key directive as we don't care about others for versioning
-      const directives = obj.directives.filter(dir => dir.name === 'key');
+      const directives = usePipelinedTransformer ? obj.directives.filter(dir => dir.name === 'primaryKey' || dir.name === 'index') : obj.directives.filter(dir => dir.name === 'key');
       const fields = obj.fields
         .map((field: CodeGenField) => {
           // include only connection field and type
