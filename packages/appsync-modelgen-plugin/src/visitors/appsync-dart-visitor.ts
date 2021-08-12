@@ -300,11 +300,9 @@ export class AppSyncModelDartVisitor<
       : `{${model.fields.map(f => `${this.isFieldRequired(f) ? '@required ' : ''}this.${this.getFieldName(f)}`).join(', ')}}`;
     const internalFields = model.fields.filter(f => this.getFieldName(f) !== 'id');
     const internalImpl = this.isNullSafety()
-      ? internalFields.length ? `: ${
-        internalFields
-          .map(f => `_${this.getFieldName(f)} = ${this.getFieldName(f)}`)
-          .join(', ')
-      };` : ';'
+      ? internalFields.length
+        ? `: ${internalFields.map(f => `_${this.getFieldName(f)} = ${this.getFieldName(f)}`).join(', ')};`
+        : ';'
       : ';';
     declarationBlock.addClassMethod(`${this.getModelName(model)}._internal`, '', [{ name: args }], internalImpl, {
       const: true,
@@ -468,10 +466,12 @@ export class AppSyncModelDartVisitor<
                 ),
                 indent(`.toList()`, 2),
                 indent(`: null`),
-              ].filter((e) => e !== undefined).join('\n');
+              ]
+                .filter(e => e !== undefined)
+                .join('\n');
             }
             return [
-              `${fieldName} = json['${varName}']${this.isNullSafety() ? `?['serializedData']`:''} != null`,
+              `${fieldName} = json['${varName}']${this.isNullSafety() ? `?['serializedData']` : ''} != null`,
               indent(
                 `? ${this.getNativeType(field)}.fromJson(new Map<String, dynamic>.from(json['${varName}']${
                   this.isNullSafety() ? `['serializedData']` : ''
@@ -510,6 +510,10 @@ export class AppSyncModelDartVisitor<
               return field.isList
                 ? `${fieldName} = (json['${varName}'] as List<dynamic>)?.map((dynamic e) => e is double ? e.toInt() : e as int)?.toList()`
                 : `${fieldName} = json['${varName}']`;
+            case this.scalars['Float']:
+              return field.isList
+                ? `${fieldName} = json['${varName}']?.cast<${this.getNativeType({ ...field, isList: false })}>()`
+                : `${fieldName} = (json['${varName}'] as num?)?.toDouble()`;
             default:
               return field.isList
                 ? `${fieldName} = json['${varName}']?.cast<${this.getNativeType({ ...field, isList: false })}>()`

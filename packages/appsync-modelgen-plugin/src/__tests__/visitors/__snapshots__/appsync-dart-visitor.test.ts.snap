@@ -874,8 +874,8 @@ class TestModel extends Model {
 
   TestModel.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        floatVal = json['floatVal'],
-        floatNullableVal = json['floatNullableVal'],
+        floatVal = (json['floatVal'] as num?)?.toDouble(),
+        floatNullableVal = (json['floatNullableVal'] as num?)?.toDouble(),
         floatList = json['floatList']?.cast<double>(),
         floatNullableList = json['floatNullableList']?.cast<double>(),
         nullableFloatList = json['nullableFloatList']?.cast<double>(),
@@ -4053,8 +4053,8 @@ class TestModel extends Model {
   
   TestModel.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _floatVal = json['floatVal'],
-      _floatNullableVal = json['floatNullableVal'],
+      _floatVal = (json['floatVal'] as num?)?.toDouble(),
+      _floatNullableVal = (json['floatNullableVal'] as num?)?.toDouble(),
       _floatList = json['floatList']?.cast<double>(),
       _floatNullableList = json['floatNullableList']?.cast<double>(),
       _nullableFloatList = json['nullableFloatList']?.cast<double>(),
