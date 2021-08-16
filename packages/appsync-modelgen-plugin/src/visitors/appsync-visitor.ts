@@ -418,7 +418,7 @@ export class AppSyncModelVisitor<
       const fields = obj.fields
         .map((field: CodeGenField) => {
           // include only connection field and type
-          const fieldDirectives = field.directives.filter(field => field.name === 'connection');
+          const fieldDirectives = usePipelinedTransformer ? field.directives.filter(field => field.name === 'hasOne' || field.name === 'belongsTo' || field.name === 'hasMany' || field.name === 'manyToMany') : field.directives.filter(field => field.name === 'connection');
           return {
             name: field.name,
             directives: fieldDirectives,
