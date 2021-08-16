@@ -109,6 +109,12 @@ export interface RawAppSyncModelConfig extends RawConfig {
    * @descriptions optional boolean which generates the list types to respect the nullability as defined in the schema
    */
    handleListNullabilityTransparently?: boolean;
+  /**
+   * @name usePipelinedTransformer
+   * @type boolean
+   * @descriptions optional boolean which determines whether to use the new pipelined GraphQL transformer
+   */
+  usePipelinedTransformer?: boolean;
 }
 
 // Todo: need to figure out how to share config
@@ -118,6 +124,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   target?: string;
   isTimestampFieldsAdded?: boolean;
   handleListNullabilityTransparently?: boolean;
+  usePipelinedTransformer?: boolean;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
 
@@ -188,7 +195,8 @@ export class AppSyncModelVisitor<
       scalars: buildScalars(_schema, rawConfig.scalars || '', defaultScalars),
       target: rawConfig.target,
       isTimestampFieldsAdded: rawConfig.isTimestampFieldsAdded,
-      handleListNullabilityTransparently: rawConfig.handleListNullabilityTransparently
+      handleListNullabilityTransparently: rawConfig.handleListNullabilityTransparently,
+      usePipelinedTransformer: rawConfig.usePipelinedTransformer,
     });
 
     const typesUsedInDirectives: string[] = [];
