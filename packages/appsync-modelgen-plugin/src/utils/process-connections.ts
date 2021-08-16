@@ -6,6 +6,7 @@ export enum CodeGenConnectionType {
   HAS_ONE = 'HAS_ONE',
   BELONGS_TO = 'BELONGS_TO',
   HAS_MANY = 'HAS_MANY',
+  MANY_TO_MANY = 'MANY_TO_MANY',
 }
 export const DEFAULT_HASH_KEY_FIELD = 'id';
 
@@ -31,7 +32,7 @@ export type CodeGenFieldConnectionHasMany = CodeGenConnectionTypeBase & {
 
 export type CodeGenFieldConnection = CodeGenFieldConnectionBelongsTo | CodeGenFieldConnectionHasOne | CodeGenFieldConnectionHasMany;
 
-function getDirective(fieldOrModel: CodeGenField | CodeGenModel) {
+export function getDirective(fieldOrModel: CodeGenField | CodeGenModel) {
   return (directiveName: string): CodeGenDirective | undefined => {
     return fieldOrModel.directives.find(d => d.name === directiveName);
   };
@@ -45,7 +46,7 @@ export function usingV2Transformer(): boolean {
   return FeatureFlags.getBoolean('graphQLTransformer.useExperimentalPipelinedTransformer');
 }
 
-function flattenFieldDirectives(model: CodeGenModel) {
+export function flattenFieldDirectives(model: CodeGenModel) {
   let totalDirectives: CodeGenFieldDirective[] = new Array<CodeGenFieldDirective>();
   model.fields.forEach(field => {
     field.directives.forEach(dir => {
