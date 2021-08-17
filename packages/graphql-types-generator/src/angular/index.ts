@@ -60,7 +60,7 @@ function generateSubscriptionResponseWrapper(generator: CodeGenerator) {
   generator.printNewline();
 }
 function generateSubscriptionOperationTypes(generator: CodeGenerator, context: LegacyCompilerContext) {
-  const typeName = 'Subscription';
+  const typeName = '__SubscriptionContainer';
   const properties: Property[] = [];
   Object.values(context.operations)
     .filter(operation => operation.operationType === 'subscription')
@@ -75,7 +75,7 @@ function generateSubscriptionOperationTypes(generator: CodeGenerator, context: L
       }
     });
   if (properties.length) {
-    generator.printOnNewline('export type Subscription = ');
+    generator.printOnNewline(`export type ${typeName} = `);
     generator.pushScope({ typeName });
     generator.withinBlock(() => propertyDeclarations(generator, properties), '{', '}');
     generator.popScope();
@@ -133,7 +133,7 @@ function getReturnTypeName(generator: CodeGenerator, op: LegacyOperation): Strin
   } else {
     let returnType = interfaceNameFromOperation({ operationName, operationType });
     if (op.operationType === 'subscription' && op.fields.length) {
-      returnType = `Pick<Subscription, "${op.fields[0].responseName}">`;
+      returnType = `Pick<__SubscriptionContainer, "${op.fields[0].responseName}">`;
     }
     if (isList(type)) {
       returnType = `Array<${returnType}>`;

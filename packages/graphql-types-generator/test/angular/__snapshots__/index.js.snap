@@ -1114,7 +1114,7 @@ export interface SubscriptionResponse<T> {
   value: GraphQLResult<T>;
 }
 
-export type Subscription = {
+export type __SubscriptionContainer = {
   onCreateRestaurant: OnCreateRestaurantSubscription;
 };
 
@@ -1139,7 +1139,7 @@ export type OnCreateRestaurantSubscription = {
 })
 export class APIService {
   OnCreateRestaurantListener: Observable<
-    SubscriptionResponse<Pick<Subscription, \\"onCreateRestaurant\\">>
+    SubscriptionResponse<Pick<__SubscriptionContainer, \\"onCreateRestaurant\\">>
   > = API.graphql(
     graphqlOperation(
       \`subscription OnCreateRestaurant {
@@ -1153,7 +1153,7 @@ export class APIService {
       }\`
     )
   ) as Observable<
-    SubscriptionResponse<Pick<Subscription, \\"onCreateRestaurant\\">>
+    SubscriptionResponse<Pick<__SubscriptionContainer, \\"onCreateRestaurant\\">>
   >;
 }
 "
@@ -1171,7 +1171,7 @@ export interface SubscriptionResponse<T> {
   value: GraphQLResult<T>;
 }
 
-export type Subscription = {
+export type __SubscriptionContainer = {
   onCreateRestaurant: OnCreateRestaurantSubscription;
 };
 
@@ -1204,7 +1204,7 @@ export class APIService {
   OnCreateRestaurantListener(
     owner: string
   ): Observable<
-    SubscriptionResponse<Pick<Subscription, \\"onCreateRestaurant\\">>
+    SubscriptionResponse<Pick<__SubscriptionContainer, \\"onCreateRestaurant\\">>
   > {
     const statement = \`subscription OnCreateRestaurant($owner: String!) {
         onCreateRestaurant(owner: $owner) {
@@ -1224,7 +1224,7 @@ export class APIService {
     return API.graphql(
       graphqlOperation(statement, gqlAPIServiceArguments)
     ) as Observable<
-      SubscriptionResponse<Pick<Subscription, \\"onCreateRestaurant\\">>
+      SubscriptionResponse<Pick<__SubscriptionContainer, \\"onCreateRestaurant\\">>
     >;
   }
 }
