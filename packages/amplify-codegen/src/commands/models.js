@@ -72,6 +72,7 @@ async function generateModels(context) {
 
   const generateIndexRules = readFeatureFlag('codegen.generateIndexRules');
   const emitAuthProvider = readFeatureFlag('codegen.emitAuthProvider');
+  const usePipelinedTransformer = readFeatureFlag('graphQLTransformer.useExperimentalPipelinedTransformer')
 
   let enableDartNullSafety = readFeatureFlag('codegen.enableDartNullSafety');
 
@@ -101,7 +102,8 @@ async function generateModels(context) {
       emitAuthProvider,
       generateIndexRules,
       enableDartNullSafety,
-      handleListNullabilityTransparently
+      handleListNullabilityTransparently,
+      usePipelinedTransformer
     },
   });
 

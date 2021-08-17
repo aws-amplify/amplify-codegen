@@ -133,6 +133,11 @@ export const directives = /* GraphQL */ `
   }
 
   directive @deprecated(reason: String) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION | ENUM | ENUM_VALUE
+  
+  # GraphQL vNext Directives
+  # primaryKey directive
+  directive @primaryKey(sortKeyFields: [String!], queryField: String) on FIELD_DEFINITION
+  directive @index(name: String!, sortKeyFields: [String], queryField: String) on FIELD_DEFINITION
 `;
 
 export const scalars = [

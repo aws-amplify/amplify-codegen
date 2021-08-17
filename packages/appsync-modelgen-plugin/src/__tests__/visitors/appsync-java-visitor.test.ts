@@ -4,6 +4,10 @@ import { directives, scalars } from '../../scalars/supported-directives';
 import { AppSyncModelJavaVisitor } from '../../visitors/appsync-java-visitor';
 import { CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
 import { JAVA_SCALAR_MAP } from '../../scalars';
+import { FeatureFlags } from 'amplify-cli-core';
+
+jest.mock("amplify-cli-core");
+const FeatureFlags_mock = FeatureFlags as jest.Mocked<typeof FeatureFlags>;
 
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
@@ -187,6 +191,72 @@ describe('AppSyncModelVisitor', () => {
     const generatedCode = visitor.generate();
     expect(() => validateJava(generatedCode)).not.toThrow();
     expect(generatedCode).toMatchSnapshot();
+  });
+
+  describe('vNext transformer feature parity tests', () => {
+    it('should produce the same result for @primaryKey as the primary key variant of @key', async () => {
+      const schemaV1 = /* GraphQL */ `
+      type authorBook @model @key(fields: ["author_id"]) {
+        id: ID!
+        author_id: ID!
+        book_id: ID!
+        author: String
+        book: String
+      }
+    `;
+      const schemaV2 = /* GraphQL */ `
+      type authorBook @model {
+        id: ID!
+        author_id: ID! @primaryKey
+        book_id: ID!
+        author: String
+        book: String
+      }
+    `;
+      FeatureFlags_mock.getBoolean.mockImplementationOnce((flagName: String): boolean => {
+        return false;
+      }).mockImplementationOnce((flagName: String): boolean => {
+        return "graphQLTransformer.useExperimentalPipelinedTransformer" == flagName;
+      });
+      const visitorV1 = getVisitor(schemaV1, 'authorBook');
+      const visitorV2 = getVisitor(schemaV2, 'authorBook');
+      const version1Code = visitorV1.generate();
+      const version2Code = visitorV2.generate();
+
+      expect(version1Code).toMatch(version2Code);
+    });
+
+    it('should produce the same result for @index as the secondary index variant of @key', async () => {
+      const schemaV1 = /* GraphQL */ `
+      type authorBook @model @key(fields: ["id"]) @key(name: "authorSecondary", fields: ["author_id", "author"]) {
+        id: ID!
+        author_id: ID!
+        book_id: ID!
+        author: String
+        book: String
+      }
+    `;
+      const schemaV2 = /* GraphQL */ `
+      type authorBook @model {
+        id: ID! @primaryKey
+        author_id: ID! @index(name: "authorSecondary", sortKeyFields: ["author"])
+        book_id: ID!
+        author: String
+        book: String
+      }
+    `;
+      FeatureFlags_mock.getBoolean.mockImplementationOnce((flagName: String): boolean => {
+        return false;
+      }).mockImplementationOnce((flagName: String): boolean => {
+        return "graphQLTransformer.useExperimentalPipelinedTransformer" == flagName;
+      });
+      const visitorV1 = getVisitor(schemaV1, 'authorBook');
+      const visitorV2 = getVisitor(schemaV2, 'authorBook');
+      const version1Code = visitorV1.generate();
+      const version2Code = visitorV2.generate();
+
+      expect(version1Code).toMatch(version2Code);
+    });
   });
 
   it('Should handle nullability of lists appropriately', () => {

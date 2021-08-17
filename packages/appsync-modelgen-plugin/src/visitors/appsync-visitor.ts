@@ -27,6 +27,7 @@ import { CodeGenConnectionType, CodeGenFieldConnection, processConnections } fro
 import { sortFields } from '../utils/sort';
 import { printWarning } from '../utils/warn';
 import { processAuthDirective } from '../utils/process-auth';
+import { FeatureFlags } from 'amplify-cli-core';
 
 export enum CodeGenGenerateEnum {
   metadata = 'metadata',
@@ -108,6 +109,12 @@ export interface RawAppSyncModelConfig extends RawConfig {
    * @descriptions optional boolean which generates the list types to respect the nullability as defined in the schema
    */
    handleListNullabilityTransparently?: boolean;
+  /**
+   * @name usePipelinedTransformer
+   * @type boolean
+   * @descriptions optional boolean which determines whether to use the new pipelined GraphQL transformer
+   */
+  usePipelinedTransformer?: boolean;
 }
 
 // Todo: need to figure out how to share config
@@ -117,6 +124,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   target?: string;
   isTimestampFieldsAdded?: boolean;
   handleListNullabilityTransparently?: boolean;
+  usePipelinedTransformer?: boolean;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
 
@@ -124,6 +132,10 @@ export type CodeGenDirective = {
   name: string;
   arguments: CodeGenArgumentsMap;
 };
+
+export type CodeGenFieldDirective = CodeGenDirective & {
+  fieldName: string;
+}
 
 export type CodeGenDirectives = CodeGenDirective[];
 export type CodeGenField = TypeInfo & {
@@ -183,7 +195,8 @@ export class AppSyncModelVisitor<
       scalars: buildScalars(_schema, rawConfig.scalars || '', defaultScalars),
       target: rawConfig.target,
       isTimestampFieldsAdded: rawConfig.isTimestampFieldsAdded,
-      handleListNullabilityTransparently: rawConfig.handleListNullabilityTransparently
+      handleListNullabilityTransparently: rawConfig.handleListNullabilityTransparently,
+      usePipelinedTransformer: rawConfig.usePipelinedTransformer,
     });
 
     const typesUsedInDirectives: string[] = [];
@@ -403,11 +416,13 @@ export class AppSyncModelVisitor<
   }
 
   protected computeVersion(): string {
+    // TODO: Remove v2 transformer feature flag after release
+    const usePipelinedTransformer: boolean = FeatureFlags.getBoolean('graphQLTransformer.useExperimentalPipelinedTransformer');
     // Sort types
     const typeArr: any[] = [];
     Object.values({ ...this.modelMap, ...this.nonModelMap }).forEach((obj: CodeGenModel) => {
       // include only key directive as we don't care about others for versioning
-      const directives = obj.directives.filter(dir => dir.name === 'key');
+      const directives = usePipelinedTransformer ? obj.directives.filter(dir => dir.name === 'primaryKey' || dir.name === 'index') : obj.directives.filter(dir => dir.name === 'key');
       const fields = obj.fields
         .map((field: CodeGenField) => {
           // include only connection field and type
