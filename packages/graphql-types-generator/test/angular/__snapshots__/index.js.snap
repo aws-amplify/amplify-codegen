@@ -1114,6 +1114,10 @@ export interface SubscriptionResponse<T> {
   value: GraphQLResult<T>;
 }
 
+export type __SubscriptionContainer = {
+  onCreateRestaurant: OnCreateRestaurantSubscription;
+};
+
 export type Restaurant = {
   __typename: \\"Restaurant\\";
   id: string;
@@ -1135,7 +1139,7 @@ export type OnCreateRestaurantSubscription = {
 })
 export class APIService {
   OnCreateRestaurantListener: Observable<
-    SubscriptionResponse<OnCreateRestaurantSubscription>
+    SubscriptionResponse<Pick<__SubscriptionContainer, \\"onCreateRestaurant\\">>
   > = API.graphql(
     graphqlOperation(
       \`subscription OnCreateRestaurant {
@@ -1148,7 +1152,9 @@ export class APIService {
         }
       }\`
     )
-  ) as Observable<SubscriptionResponse<OnCreateRestaurantSubscription>>;
+  ) as Observable<
+    SubscriptionResponse<Pick<__SubscriptionContainer, \\"onCreateRestaurant\\">>
+  >;
 }
 "
 `;
@@ -1164,6 +1170,10 @@ import { Observable } from \\"zen-observable-ts\\";
 export interface SubscriptionResponse<T> {
   value: GraphQLResult<T>;
 }
+
+export type __SubscriptionContainer = {
+  onCreateRestaurant: OnCreateRestaurantSubscription;
+};
 
 export type Restaurant = {
   __typename: \\"Restaurant\\";
@@ -1193,7 +1203,9 @@ export type OnCreateRestaurantSubscription = {
 export class APIService {
   OnCreateRestaurantListener(
     owner: string
-  ): Observable<SubscriptionResponse<OnCreateRestaurantSubscription>> {
+  ): Observable<
+    SubscriptionResponse<Pick<__SubscriptionContainer, \\"onCreateRestaurant\\">>
+  > {
     const statement = \`subscription OnCreateRestaurant($owner: String!) {
         onCreateRestaurant(owner: $owner) {
           __typename
@@ -1211,7 +1223,9 @@ export class APIService {
     };
     return API.graphql(
       graphqlOperation(statement, gqlAPIServiceArguments)
-    ) as Observable<SubscriptionResponse<OnCreateRestaurantSubscription>>;
+    ) as Observable<
+      SubscriptionResponse<Pick<__SubscriptionContainer, \\"onCreateRestaurant\\">>
+    >;
   }
 }
 "
