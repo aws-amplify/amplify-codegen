@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@2.8.0...@aws-amplify/graphql-types-generator@2.8.1) (2021-08-18)
+
+
+### Bug Fixes
+
+* **graphql-types-generator:** add wrapper for sub response in angular ([#209](https://github.com/aws-amplify/amplify-codegen/issues/209)) ([c025bd2](https://github.com/aws-amplify/amplify-codegen/commit/c025bd26fe2c14d56f15a9b8db8b1e4ebbe277d1))
+
+
+
+
+
 # [2.8.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@2.7.3...@aws-amplify/graphql-types-generator@2.8.0) (2021-05-25)
 
 
