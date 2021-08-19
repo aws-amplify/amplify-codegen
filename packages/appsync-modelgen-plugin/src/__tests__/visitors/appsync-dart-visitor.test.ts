@@ -3,10 +3,6 @@ import { directives, scalars } from '../../scalars/supported-directives';
 import { AppSyncModelDartVisitor } from '../../visitors/appsync-dart-visitor';
 import { CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
 import { DART_SCALAR_MAP } from '../../scalars';
-import { FeatureFlags } from 'amplify-cli-core';
-
-jest.mock("amplify-cli-core");
-const FeatureFlags_mock = FeatureFlags as jest.Mocked<typeof FeatureFlags>;
 
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
@@ -30,8 +26,6 @@ const getVisitor = (
 };
 
 describe('AppSync Dart Visitor', () => {
-  // TODO: On release of v2 transformer, this mock is no longer needed
-  FeatureFlags_mock.getBoolean.mockImplementation(() => { return false; });
   describe('Model Directive', () => {
     it('should generate a class for a Simple Model', () => {
       const schema = /* GraphQL */ `

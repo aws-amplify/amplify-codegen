@@ -2,10 +2,6 @@ import { buildSchema, parse, visit } from 'graphql';
 import { directives, scalars } from '../../scalars/supported-directives';
 import { CodeGenConnectionType, CodeGenFieldConnectionBelongsTo, CodeGenFieldConnectionHasMany } from '../../utils/process-connections';
 import { AppSyncModelVisitor, CodeGenField, CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
-import { FeatureFlags } from 'amplify-cli-core';
-
-jest.mock("amplify-cli-core");
-const FeatureFlags_mock = FeatureFlags as jest.Mocked<typeof FeatureFlags>;
 
 const buildSchemaWithDirectives = (schema: String) => {
   return buildSchema([schema, directives, scalars].join('\n'));
@@ -25,8 +21,6 @@ const createAndGenerateVisitor = (schema: string) => {
 };
 
 describe('AppSyncModelVisitor', () => {
-  // TODO: On release of v2 transformer, this mock is no longer needed
-  FeatureFlags_mock.getBoolean.mockImplementation(() => { return false; });
 
   it('should support schema with id', () => {
     const schema = /* GraphQL */ `

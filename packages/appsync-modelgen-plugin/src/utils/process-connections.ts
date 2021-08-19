@@ -5,7 +5,6 @@ export enum CodeGenConnectionType {
   HAS_ONE = 'HAS_ONE',
   BELONGS_TO = 'BELONGS_TO',
   HAS_MANY = 'HAS_MANY',
-  MANY_TO_MANY = 'MANY_TO_MANY',
 }
 export const DEFAULT_HASH_KEY_FIELD = 'id';
 

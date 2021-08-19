@@ -3,10 +3,6 @@ import { validateTs } from '@graphql-codegen/testing';
 import { TYPESCRIPT_SCALAR_MAP } from '../../scalars';
 import { directives, scalars } from '../../scalars/supported-directives';
 import { AppSyncModelJavascriptVisitor } from '../../visitors/appsync-javascript-visitor';
-import { FeatureFlags } from 'amplify-cli-core';
-
-jest.mock("amplify-cli-core");
-const FeatureFlags_mock = FeatureFlags as jest.Mocked<typeof FeatureFlags>;
 
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
@@ -29,8 +25,6 @@ const getVisitor = (
 };
 
 describe('Javascript visitor', () => {
-  // TODO: On release of v2 transformer, this mock is no longer needed
-  FeatureFlags_mock.getBoolean.mockImplementation(() => { return false; });
   const schema = /* GraphQL */ `
     type SimpleModel @model {
       id: ID!
