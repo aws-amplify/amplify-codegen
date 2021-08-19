@@ -4,25 +4,25 @@ import { directives, scalars } from '../../scalars/supported-directives';
 import { AppSyncModelJavaVisitor } from '../../visitors/appsync-java-visitor';
 import { CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
 import { JAVA_SCALAR_MAP } from '../../scalars';
-import { FeatureFlags } from 'amplify-cli-core';
-
-jest.mock("amplify-cli-core");
-const FeatureFlags_mock = FeatureFlags as jest.Mocked<typeof FeatureFlags>;
 
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-const getVisitor = (schema: string, selectedType?: string, generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code) => {
+const getVisitor = (schema: string, selectedType?: string, generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code, usePipelinedTransformer: boolean = false) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelJavaVisitor(
     builtSchema,
-    { directives, target: 'android', generate, scalars: JAVA_SCALAR_MAP, isTimestampFieldsAdded: true, handleListNullabilityTransparently: true },
+    { directives, target: 'android', generate, scalars: JAVA_SCALAR_MAP, isTimestampFieldsAdded: true, handleListNullabilityTransparently: true, usePipelinedTransformer: usePipelinedTransformer },
     { selectedType },
   );
   visit(ast, { leave: visitor });
   return visitor;
+};
+
+const getVisitorPipelinedTransformer = (schema: string, selectedType?: string, generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code) => {
+  return getVisitor(schema, selectedType, generate, true);
 };
 
 describe('AppSyncModelVisitor', () => {
@@ -213,13 +213,8 @@ describe('AppSyncModelVisitor', () => {
         book: String
       }
     `;
-      FeatureFlags_mock.getBoolean.mockImplementationOnce((flagName: String): boolean => {
-        return false;
-      }).mockImplementationOnce((flagName: String): boolean => {
-        return "graphQLTransformer.useExperimentalPipelinedTransformer" == flagName;
-      });
       const visitorV1 = getVisitor(schemaV1, 'authorBook');
-      const visitorV2 = getVisitor(schemaV2, 'authorBook');
+      const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook');
       const version1Code = visitorV1.generate();
       const version2Code = visitorV2.generate();
 
@@ -245,13 +240,8 @@ describe('AppSyncModelVisitor', () => {
         book: String
       }
     `;
-      FeatureFlags_mock.getBoolean.mockImplementationOnce((flagName: String): boolean => {
-        return false;
-      }).mockImplementationOnce((flagName: String): boolean => {
-        return "graphQLTransformer.useExperimentalPipelinedTransformer" == flagName;
-      });
       const visitorV1 = getVisitor(schemaV1, 'authorBook');
-      const visitorV2 = getVisitor(schemaV2, 'authorBook');
+      const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook');
       const version1Code = visitorV1.generate();
       const version2Code = visitorV2.generate();
 

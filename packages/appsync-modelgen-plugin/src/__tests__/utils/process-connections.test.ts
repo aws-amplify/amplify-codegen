@@ -8,16 +8,11 @@ import {
   getConnectedField,
 } from '../../utils/process-connections';
 import { CodeGenModelMap, CodeGenModel } from '../../visitors/appsync-visitor';
-import { FeatureFlags } from 'amplify-cli-core';
-
-jest.mock("amplify-cli-core");
-const FeatureFlags_mock = FeatureFlags as jest.Mocked<typeof FeatureFlags>;
+import { processConnectionsV2 } from '../../utils/process-connections-v2';
 
 
 describe('process connection', () => {
   describe('Bi-Directional connection (named connection)', () => {
-    // TODO: We don't need to leave this mock in place once the V2 transformer is fully released
-    FeatureFlags_mock.getBoolean.mockImplementation(() => { return false; });
     describe('One:Many', () => {
       let modelMap: CodeGenModelMap;
       beforeEach(() => {
@@ -155,8 +150,6 @@ describe('process connection', () => {
     });
   });
   describe('Uni-directional connection (unnamed connection)', () => {
-    // TODO: We don't need to leave this mock in place once the V2 transformer is fully released
-    FeatureFlags_mock.getBoolean.mockImplementation(() => { return false; });
     let modelMap: CodeGenModelMap;
     beforeEach(() => {
       const schema = /* GraphQL */ `
@@ -228,8 +221,6 @@ describe('process connection', () => {
   });
 
   describe('connection v2', () => {
-    // TODO: We don't need to leave this mock in place once the V2 transformer is fully released
-    FeatureFlags_mock.getBoolean.mockImplementation(() => { return false; });
     let modelMap: CodeGenModelMap;
 
     beforeEach(() => {
@@ -305,8 +296,6 @@ describe('process connection', () => {
     });
   });
   describe('getConnectedField', () => {
-    // TODO: We don't need to leave this mock in place once the V2 transformer is fully released
-    FeatureFlags_mock.getBoolean.mockImplementation(() => { return false; });
     describe('One to Many', () => {
       let modelMap: CodeGenModelMap;
       beforeEach(() => {
@@ -426,8 +415,6 @@ describe('process connection', () => {
   });
 
   describe('self referencing models', () => {
-    // TODO: We don't need to leave this mock in place once the V2 transformer is fully released
-    FeatureFlags_mock.getBoolean.mockImplementation(() => { return false; });
     let modelMap: CodeGenModelMap;
     beforeEach(() => {
       const schema = /* GraphQL */ `
@@ -499,25 +486,25 @@ describe('process connection', () => {
 
       const v2Schema = /* GraphQL */ `
         type Post @model {
-          comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
+          comments: [Comment] @hasMany(fields: ["id"])
         }
         
         type Comment @model {
           postID: ID! @primaryKey(sortKeyFields: ["content"])
           content: String!
-          post: Post @connection(fields:["postID"])
+          post: Post @belongsTo(fields:["postID"])
         }
       `;
 
       const v2IndexSchema = /* graphQL */ `
         type Post @model {
-          comments: [Comment] @connection(keyName: "byContent", fields: ["id"])
+          comments: [Comment] @hasMany(indexName: "byContent", fields: ["id"])
         }
         
         type Comment @model {
           postID: ID! @primaryKey
           content: String! @index(name: "byContent")
-          post: Post @connection(fields: ["postID"])
+          post: Post @belongsTo(fields: ["postID"])
       `;
 
       modelMap = {
@@ -576,7 +563,7 @@ describe('process connection', () => {
               isNullable: true,
               isList: true,
               name: 'comments',
-              directives: [{ name: 'connection', arguments: { fields: ['id'] } }],
+              directives: [{ name: 'hasMany', arguments: { fields: ['id'] } }],
             },
           ],
         },
@@ -604,7 +591,7 @@ describe('process connection', () => {
               isNullable: false,
               isList: false,
               name: 'post',
-              directives: [{ name: 'connection', arguments: { fields: ['postID'] } }],
+              directives: [{ name: 'belongsTo', arguments: { fields: ['postID'] } }],
             },
           ],
         },
@@ -621,7 +608,7 @@ describe('process connection', () => {
               isNullable: true,
               isList: true,
               name: 'comments',
-              directives: [{ name: 'connection', arguments: { keyName: 'byContent', fields: ['id'] } }],
+              directives: [{ name: 'hasMany', arguments: { indexName: 'byContent', fields: ['id'] } }],
             },
           ],
         },
@@ -649,7 +636,7 @@ describe('process connection', () => {
               isNullable: false,
               isList: false,
               name: 'post',
-              directives: [{ name: 'connection', arguments: { fields: ['postID'] } }],
+              directives: [{ name: 'belongsTo', arguments: { fields: ['postID'] } }],
             },
           ],
         },
@@ -658,10 +645,8 @@ describe('process connection', () => {
 
     describe('Has many comparison', () => {
       it('should support connection with @primaryKey on BELONGS_TO side', () => {
-        // TODO: We don't need to leave this mock in place once the V2 transformer is fully released
-        FeatureFlags_mock.getBoolean.mockImplementation(() => { return false; });
         const postField = v2ModelMap.Comment.fields[2];
-        const connectionInfo = (processConnections(postField, v2ModelMap.Post, v2ModelMap) as any) as CodeGenFieldConnectionBelongsTo;
+        const connectionInfo = (processConnectionsV2(postField, v2ModelMap.Post, v2ModelMap) as any) as CodeGenFieldConnectionBelongsTo;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
         expect(connectionInfo.targetName).toEqual(v2ModelMap.Comment.fields[0].name);
@@ -669,9 +654,8 @@ describe('process connection', () => {
       });
 
       it('should support connection with @primaryKey on HAS_MANY side', () => {
-        FeatureFlags_mock.getBoolean.mockImplementation(() => { return true; });
         const commentsField = v2ModelMap.Post.fields[0];
-        const connectionInfo = (processConnections(commentsField, v2ModelMap.Comment, v2ModelMap) as any) as CodeGenFieldConnectionHasMany;
+        const connectionInfo = (processConnectionsV2(commentsField, v2ModelMap.Comment, v2ModelMap) as any) as CodeGenFieldConnectionHasMany;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
         expect(connectionInfo.connectedModel).toEqual(v2ModelMap.Comment);
@@ -679,9 +663,8 @@ describe('process connection', () => {
       });
 
       it('Should support connection with @index on BELONGS_TO side', () => {
-        FeatureFlags_mock.getBoolean.mockImplementation(() => { return true; });
         const commentsField = v2ModelMap.Post.fields[0];
-        const connectionInfo = (processConnections(commentsField, v2ModelMap.Comment, v2ModelMap) as any) as CodeGenFieldConnectionHasMany;
+        const connectionInfo = (processConnectionsV2(commentsField, v2ModelMap.Comment, v2ModelMap) as any) as CodeGenFieldConnectionHasMany;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
         expect(connectionInfo.connectedModel).toEqual(v2ModelMap.Comment);

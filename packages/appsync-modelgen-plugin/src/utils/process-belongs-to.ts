@@ -34,15 +34,13 @@ export function processBelongsToConnection(
   const isConnectingFieldAutoCreated = connectionFields.length === 0;
 
   if (!field.isList && otherSideField.isList) {
-    if (connectionFields.length > 1) {
       //  One to Many
-      return {
-        kind: CodeGenConnectionType.BELONGS_TO,
-        connectedModel: otherSide,
-        isConnectingFieldAutoCreated,
-        targetName: connectionFields[0] || makeConnectionAttributeName(model.name, field.name),
-      };
-    }
+    return {
+      kind: CodeGenConnectionType.BELONGS_TO,
+      connectedModel: otherSide,
+      isConnectingFieldAutoCreated,
+      targetName: connectionFields[0] || makeConnectionAttributeName(model.name, field.name),
+    };
   }
   else if (!field.isList && !otherSideField.isList) {
     if (!field.isNullable && otherSideField.isNullable) {
