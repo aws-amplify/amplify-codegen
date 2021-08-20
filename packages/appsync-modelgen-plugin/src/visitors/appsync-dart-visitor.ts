@@ -300,11 +300,9 @@ export class AppSyncModelDartVisitor<
       : `{${model.fields.map(f => `${this.isFieldRequired(f) ? '@required ' : ''}this.${this.getFieldName(f)}`).join(', ')}}`;
     const internalFields = model.fields.filter(f => this.getFieldName(f) !== 'id');
     const internalImpl = this.isNullSafety()
-      ? internalFields.length ? `: ${
-        internalFields
-          .map(f => `_${this.getFieldName(f)} = ${this.getFieldName(f)}`)
-          .join(', ')
-      };` : ';'
+      ? internalFields.length
+        ? `: ${internalFields.map(f => `_${this.getFieldName(f)} = ${this.getFieldName(f)}`).join(', ')};`
+        : ';'
       : ';';
     declarationBlock.addClassMethod(`${this.getModelName(model)}._internal`, '', [{ name: args }], internalImpl, {
       const: true,
@@ -468,10 +466,12 @@ export class AppSyncModelDartVisitor<
                 ),
                 indent(`.toList()`, 2),
                 indent(`: null`),
-              ].filter((e) => e !== undefined).join('\n');
+              ]
+                .filter(e => e !== undefined)
+                .join('\n');
             }
             return [
-              `${fieldName} = json['${varName}']${this.isNullSafety() ? `?['serializedData']`:''} != null`,
+              `${fieldName} = json['${varName}']${this.isNullSafety() ? `?['serializedData']` : ''} != null`,
               indent(
                 `? ${this.getNativeType(field)}.fromJson(new Map<String, dynamic>.from(json['${varName}']${
                   this.isNullSafety() ? `['serializedData']` : ''
@@ -500,15 +500,15 @@ export class AppSyncModelDartVisitor<
             case this.scalars['AWSTime']:
             case this.scalars['AWSDateTime']:
               return field.isList
-                ? `${fieldName} = (json['${varName}'] as List)?.map((e) => ${fieldNativeType}.fromString(e))?.toList()`
+                ? `${fieldName} = (json['${varName}'] as List?)?.map((e) => ${fieldNativeType}.fromString(e)).toList()`
                 : `${fieldName} = json['${varName}'] != null ? ${fieldNativeType}.fromString(json['${varName}']) : null`;
             case this.scalars['AWSTimestamp']:
               return field.isList
-                ? `${fieldName} = (json['${varName}'] as List)?.map((e) => ${fieldNativeType}.fromSeconds(e))?.toList()`
+                ? `${fieldName} = (json['${varName}'] as List?)?.map((e) => ${fieldNativeType}.fromSeconds(e)).toList()`
                 : `${fieldName} = json['${varName}'] != null ? ${fieldNativeType}.fromSeconds(json['${varName}']) : null`;
             case this.scalars['Int']:
               return field.isList
-                ? `${fieldName} = (json['${varName}'] as List<dynamic>)?.map((dynamic e) => e is double ? e.toInt() : e as int)?.toList()`
+                ? `${fieldName} = (json['${varName}'] as List?)?.map((e) => e is double ? e.toInt() : e as int).toList()`
                 : `${fieldName} = json['${varName}']`;
             default:
               return field.isList
@@ -532,13 +532,14 @@ export class AppSyncModelDartVisitor<
         const fieldName = `${this.isNullSafety() && field.name !== 'id' ? '_' : ''}${this.getFieldName(field)}`;
         if (this.isModelType(field)) {
           if (field.isList) {
-            return `'${varName}': ${fieldName}?.map((e) => e?.toJson())?.toList()`;
+            const modelName = this.getNativeType({ ...field, isList: false });
+            return `'${varName}': ${fieldName}?.map((${modelName}? e) => e?.toJson()).toList()`;
           }
           return `'${varName}': ${fieldName}?.toJson()`;
         }
         if (this.isEnumType(field)) {
           if (field.isList) {
-            return `'${varName}': ${fieldName}?.map((e) => enumToString(e))?.toList()`;
+            return `'${varName}': ${fieldName}?.map((e) => enumToString(e)).toList()`;
           }
           return `'${varName}': enumToString(${fieldName})`;
         }
