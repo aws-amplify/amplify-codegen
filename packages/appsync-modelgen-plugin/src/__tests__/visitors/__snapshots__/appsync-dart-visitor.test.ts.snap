@@ -210,6 +210,7 @@ class TemporalTimeModel extends Model {
   final TemporalTime time;
   final TemporalDateTime dateTime;
   final TemporalTimestamp timestamp;
+  final int intNum;
   final List<TemporalDate> dateList;
   final List<TemporalTime> timeList;
   final List<TemporalDateTime> dateTimeList;
@@ -230,6 +231,7 @@ class TemporalTimeModel extends Model {
       this.time,
       this.dateTime,
       this.timestamp,
+      this.intNum,
       this.dateList,
       this.timeList,
       this.dateTimeList,
@@ -242,6 +244,7 @@ class TemporalTimeModel extends Model {
       TemporalTime time,
       TemporalDateTime dateTime,
       TemporalTimestamp timestamp,
+      int intNum,
       List<TemporalDate> dateList,
       List<TemporalTime> timeList,
       List<TemporalDateTime> dateTimeList,
@@ -253,6 +256,7 @@ class TemporalTimeModel extends Model {
         time: time,
         dateTime: dateTime,
         timestamp: timestamp,
+        intNum: intNum,
         dateList: dateList != null
             ? List<TemporalDate>.unmodifiable(dateList)
             : dateList,
@@ -281,6 +285,7 @@ class TemporalTimeModel extends Model {
         time == other.time &&
         dateTime == other.dateTime &&
         timestamp == other.timestamp &&
+        intNum == other.intNum &&
         DeepCollectionEquality().equals(dateList, other.dateList) &&
         DeepCollectionEquality().equals(timeList, other.timeList) &&
         DeepCollectionEquality().equals(dateTimeList, other.dateTimeList) &&
@@ -305,6 +310,8 @@ class TemporalTimeModel extends Model {
         (timestamp != null ? timestamp.toString() : \\"null\\") +
         \\", \\");
     buffer.write(
+        \\"intNum=\\" + (intNum != null ? intNum.toString() : \\"null\\") + \\", \\");
+    buffer.write(
         \\"dateList=\\" + (dateList != null ? dateList.toString() : \\"null\\") + \\", \\");
     buffer.write(
         \\"timeList=\\" + (timeList != null ? timeList.toString() : \\"null\\") + \\", \\");
@@ -326,6 +333,7 @@ class TemporalTimeModel extends Model {
       TemporalTime time,
       TemporalDateTime dateTime,
       TemporalTimestamp timestamp,
+      int intNum,
       List<TemporalDate> dateList,
       List<TemporalTime> timeList,
       List<TemporalDateTime> dateTimeList,
@@ -337,6 +345,7 @@ class TemporalTimeModel extends Model {
         time: time ?? this.time,
         dateTime: dateTime ?? this.dateTime,
         timestamp: timestamp ?? this.timestamp,
+        intNum: intNum ?? this.intNum,
         dateList: dateList ?? this.dateList,
         timeList: timeList ?? this.timeList,
         dateTimeList: dateTimeList ?? this.dateTimeList,
@@ -356,6 +365,7 @@ class TemporalTimeModel extends Model {
         timestamp = json['timestamp'] != null
             ? TemporalTimestamp.fromSeconds(json['timestamp'])
             : null,
+        intNum = (json['intNum'] as num?)?.toInt(),
         dateList = (json['dateList'] as List?)
             ?.map((e) => TemporalDate.fromString(e))
             .toList(),
@@ -368,9 +378,8 @@ class TemporalTimeModel extends Model {
         timestampList = (json['timestampList'] as List?)
             ?.map((e) => TemporalTimestamp.fromSeconds(e))
             .toList(),
-        intList = (json['intList'] as List?)
-            ?.map((e) => e is double ? e.toInt() : e as int)
-            .toList();
+        intList =
+            (json['intList'] as List?)?.map((e) => (e as num).toInt()).toList();
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -378,6 +387,7 @@ class TemporalTimeModel extends Model {
         'time': time?.format(),
         'dateTime': dateTime?.format(),
         'timestamp': timestamp?.toSeconds(),
+        'intNum': intNum,
         'dateList': dateList?.map((e) => e.format()).toList(),
         'timeList': timeList?.map((e) => e.format()).toList(),
         'dateTimeList': dateTimeList?.map((e) => e.format()).toList(),
@@ -390,6 +400,7 @@ class TemporalTimeModel extends Model {
   static final QueryField TIME = QueryField(fieldName: \\"time\\");
   static final QueryField DATETIME = QueryField(fieldName: \\"dateTime\\");
   static final QueryField TIMESTAMP = QueryField(fieldName: \\"timestamp\\");
+  static final QueryField INTNUM = QueryField(fieldName: \\"intNum\\");
   static final QueryField DATELIST = QueryField(fieldName: \\"dateList\\");
   static final QueryField TIMELIST = QueryField(fieldName: \\"timeList\\");
   static final QueryField DATETIMELIST = QueryField(fieldName: \\"dateTimeList\\");
@@ -422,6 +433,11 @@ class TemporalTimeModel extends Model {
         key: TemporalTimeModel.TIMESTAMP,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.timestamp)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TemporalTimeModel.INTNUM,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.int)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
         key: TemporalTimeModel.DATELIST,
@@ -876,11 +892,18 @@ class TestModel extends Model {
       : id = json['id'],
         floatVal = (json['floatVal'] as num?)?.toDouble(),
         floatNullableVal = (json['floatNullableVal'] as num?)?.toDouble(),
-        floatList = json['floatList']?.cast<double>(),
-        floatNullableList = json['floatNullableList']?.cast<double>(),
-        nullableFloatList = json['nullableFloatList']?.cast<double>(),
-        nullableFloatNullableList =
-            json['nullableFloatNullableList']?.cast<double>();
+        floatList = (json['floatList'] as List?)
+            ?.map((e) => (e as num).toDouble())
+            .toList(),
+        floatNullableList = (json['floatNullableList'] as List?)
+            ?.map((e) => (e as num).toDouble())
+            .toList(),
+        nullableFloatList = (json['nullableFloatList'] as List?)
+            ?.map((e) => (e as num).toDouble())
+            .toList(),
+        nullableFloatNullableList = (json['nullableFloatNullableList'] as List?)
+            ?.map((e) => (e as num).toDouble())
+            .toList();
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -4055,10 +4078,10 @@ class TestModel extends Model {
     : id = json['id'],
       _floatVal = (json['floatVal'] as num?)?.toDouble(),
       _floatNullableVal = (json['floatNullableVal'] as num?)?.toDouble(),
-      _floatList = json['floatList']?.cast<double>(),
-      _floatNullableList = json['floatNullableList']?.cast<double>(),
-      _nullableFloatList = json['nullableFloatList']?.cast<double>(),
-      _nullableFloatNullableList = json['nullableFloatNullableList']?.cast<double>();
+      _floatList = (json['floatList'] as List?)?.map((e) => (e as num).toDouble()).toList(),
+      _floatNullableList = (json['floatNullableList'] as List?)?.map((e) => (e as num).toDouble()).toList(),
+      _nullableFloatList = (json['nullableFloatList'] as List?)?.map((e) => (e as num).toDouble()).toList(),
+      _nullableFloatNullableList = (json['nullableFloatNullableList'] as List?)?.map((e) => (e as num).toDouble()).toList();
   
   Map<String, dynamic> toJson() => {
     'id': id, 'floatVal': _floatVal, 'floatNullableVal': _floatNullableVal, 'floatList': _floatList, 'floatNullableList': _floatNullableList, 'nullableFloatList': _nullableFloatList, 'nullableFloatNullableList': _nullableFloatNullableList

@@ -508,11 +508,11 @@ export class AppSyncModelDartVisitor<
                 : `${fieldName} = json['${varName}'] != null ? ${fieldNativeType}.fromSeconds(json['${varName}']) : null`;
             case this.scalars['Int']:
               return field.isList
-                ? `${fieldName} = (json['${varName}'] as List?)?.map((e) => e is double ? e.toInt() : e as int).toList()`
-                : `${fieldName} = json['${varName}']`;
+                ? `${fieldName} = (json['${varName}'] as List?)?.map((e) => (e as num).toInt()).toList()`
+                : `${fieldName} = (json['${varName}'] as num?)?.toInt()`;
             case this.scalars['Float']:
               return field.isList
-                ? `${fieldName} = json['${varName}']?.cast<${this.getNativeType({ ...field, isList: false })}>()`
+                ? `${fieldName} = (json['${varName}'] as List?)?.map((e) => (e as num).toDouble()).toList()`
                 : `${fieldName} = (json['${varName}'] as num?)?.toDouble()`;
             default:
               return field.isList

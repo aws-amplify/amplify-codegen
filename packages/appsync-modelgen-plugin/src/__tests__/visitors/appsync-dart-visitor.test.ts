@@ -333,6 +333,7 @@ describe('AppSync Dart Visitor', () => {
           time: AWSTime
           dateTime: AWSDateTime
           timestamp: AWSTimestamp
+          intNum: Int
           dateList: [AWSDate]
           timeList: [AWSTime]
           dateTimeList: [AWSDateTime]
@@ -439,6 +440,6 @@ describe('AppSync Dart Visitor', () => {
       `;
       const generatedCode = getVisitor(schema, 'TestModel', CodeGenGenerateEnum.code, true).generate();
       expect(generatedCode).toMatchSnapshot();
-    })
+    });
   });
 });
