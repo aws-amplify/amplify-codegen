@@ -16,7 +16,6 @@ import {
 import { AuthDirective, AuthStrategy } from '../utils/process-auth';
 import { printWarning } from '../utils/warn';
 import { SWIFT_SCALAR_MAP } from '../scalars';
-import { FeatureFlags } from 'amplify-cli-core';
 
 export interface RawAppSyncModelSwiftConfig extends RawAppSyncModelConfig {
   /**

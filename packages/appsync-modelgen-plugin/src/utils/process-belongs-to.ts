@@ -2,9 +2,7 @@ import { CodeGenDirective, CodeGenField, CodeGenFieldDirective, CodeGenModel, Co
 import {
   CodeGenConnectionType,
   CodeGenFieldConnection,
-  DEFAULT_HASH_KEY_FIELD,
   flattenFieldDirectives,
-  getDirective,
   makeConnectionAttributeName,
 } from './process-connections';
 import { getConnectedFieldV2 } from './process-connections-v2';

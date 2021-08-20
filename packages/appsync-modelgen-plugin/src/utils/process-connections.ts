@@ -41,18 +41,6 @@ export function makeConnectionAttributeName(type: string, field?: string) {
   return field ? camelCase([type, field, 'id'].join('_')) : camelCase([type, 'id'].join('_'));
 }
 
-function flattenFieldDirectives(model: CodeGenModel) {
-  let totalDirectives: CodeGenFieldDirective[] = new Array<CodeGenFieldDirective>();
-  model.fields.forEach(field => {
-    field.directives.forEach(dir => {
-      let fieldDir = dir as CodeGenFieldDirective;
-      fieldDir.fieldName = field.name;
-      totalDirectives.push(fieldDir);
-    })
-  });
-  return totalDirectives;
-}
-
 export function flattenFieldDirectives(model: CodeGenModel) {
   let totalDirectives: CodeGenFieldDirective[] = new Array<CodeGenFieldDirective>();
   model.fields.forEach(field => {
@@ -77,36 +65,22 @@ export function getConnectedField(field: CodeGenField, model: CodeGenModel, conn
   if (connectionFields) {
     let keyDirective;
     if (keyName) {
-      if (usePipelinedTransformer) {
-        keyDirective = flattenFieldDirectives(connectedModel).find(dir => {
-          return dir.name === 'index' && dir.arguments.name === keyName;
-        });
-      }
-      else {
-        keyDirective = connectedModel.directives.find(dir => {
-          return dir.name === 'key' && dir.arguments.name === keyName;
-        });
-      }
+      keyDirective = connectedModel.directives.find(dir => {
+        return dir.name === 'key' && dir.arguments.name === keyName;
+      });
       if (!keyDirective) {
         throw new Error(
           `Error processing @connection directive on ${model.name}.${field.name}, @key directive with name ${keyName} was not found in connected model ${connectedModel.name}`,
         );
       }
     } else {
-      if (usePipelinedTransformer) {
-        keyDirective = flattenFieldDirectives(connectedModel).find(dir => {
-          return dir.name === 'primaryKey';
-        });
-      }
-      else {
-        keyDirective = connectedModel.directives.find(dir => {
-          return dir.name === 'key' && typeof dir.arguments.name === 'undefined';
-        });
-      }
+      keyDirective = connectedModel.directives.find(dir => {
+        return dir.name === 'key' && typeof dir.arguments.name === 'undefined';
+      });
     }
 
     // when there is a fields argument in the connection
-    const connectedFieldName = keyDirective ? (usePipelinedTransformer ? ((fieldDir: CodeGenFieldDirective) => { return fieldDir.fieldName ;})(keyDirective as CodeGenFieldDirective) : keyDirective.arguments.fields[0]) : DEFAULT_HASH_KEY_FIELD;
+    const connectedFieldName = keyDirective ? keyDirective.arguments.fields[0] : DEFAULT_HASH_KEY_FIELD;
 
     // Find a field on the other side which connected by a @connection and has the same fields[0] as keyName field
     const otherSideConnectedField = connectedModel.fields.find(f => {

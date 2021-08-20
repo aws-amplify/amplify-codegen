@@ -9,10 +9,6 @@ import {
 } from '../../utils/process-connections';
 import { AppSyncJSONVisitor, AssociationHasMany, JSONSchemaNonModel } from '../../visitors/appsync-json-metadata-visitor';
 import { CodeGenEnum, CodeGenField, CodeGenModel } from '../../visitors/appsync-visitor';
-import { FeatureFlags } from 'amplify-cli-core';
-
-jest.mock("amplify-cli-core");
-const FeatureFlags_mock = FeatureFlags as jest.Mocked<typeof FeatureFlags>;
 
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));

@@ -421,8 +421,6 @@ export class AppSyncModelVisitor<
   }
 
   protected computeVersion(): string {
-    // TODO: Remove v2 transformer feature flag after release
-    const usePipelinedTransformer: boolean = FeatureFlags.getBoolean('graphQLTransformer.useExperimentalPipelinedTransformer');
     // Sort types
     const typeArr: any[] = [];
     Object.values({ ...this.modelMap, ...this.nonModelMap }).forEach((obj: CodeGenModel) => {

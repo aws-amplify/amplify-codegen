@@ -12,8 +12,6 @@ import { processConnectionsV2 } from '../../utils/process-connections-v2';
 
 describe('process connection', () => {
   describe('Bi-Directional connection (named connection)', () => {
-    // TODO: We don't need to leave this mock in place once the V2 transformer is fully released
-    FeatureFlags_mock.getBoolean.mockImplementation(() => { return false; });
     describe('One:Many', () => {
       let modelMap: CodeGenModelMap;
       beforeEach(() => {
@@ -151,8 +149,6 @@ describe('process connection', () => {
     });
   });
   describe('Uni-directional connection (unnamed connection)', () => {
-    // TODO: We don't need to leave this mock in place once the V2 transformer is fully released
-    FeatureFlags_mock.getBoolean.mockImplementation(() => { return false; });
     let modelMap: CodeGenModelMap;
     beforeEach(() => {
       const schema = /* GraphQL */ `
@@ -224,8 +220,6 @@ describe('process connection', () => {
   });
 
   describe('connection v2', () => {
-    // TODO: We don't need to leave this mock in place once the V2 transformer is fully released
-    FeatureFlags_mock.getBoolean.mockImplementation(() => { return false; });
     let modelMap: CodeGenModelMap;
 
     beforeEach(() => {
@@ -301,8 +295,6 @@ describe('process connection', () => {
     });
   });
   describe('getConnectedField', () => {
-    // TODO: We don't need to leave this mock in place once the V2 transformer is fully released
-    FeatureFlags_mock.getBoolean.mockImplementation(() => { return false; });
     describe('One to Many', () => {
       let modelMap: CodeGenModelMap;
       beforeEach(() => {
@@ -422,8 +414,6 @@ describe('process connection', () => {
   });
 
   describe('self referencing models', () => {
-    // TODO: We don't need to leave this mock in place once the V2 transformer is fully released
-    FeatureFlags_mock.getBoolean.mockImplementation(() => { return false; });
     let modelMap: CodeGenModelMap;
     beforeEach(() => {
       const schema = /* GraphQL */ `
@@ -487,7 +477,7 @@ describe('process connection', () => {
         }
 
         type PowerSource @model {
-          sourceID: ID!
+          sourceID: ID! @primaryKey
           amps: Float!
           volts: Float!
         }
