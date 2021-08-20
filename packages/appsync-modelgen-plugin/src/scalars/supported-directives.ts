@@ -143,7 +143,6 @@ export const directives = /* GraphQL */ `
   directive @hasMany(indexName: String, fields: [String], limit: Int = 100) on FIELD_DEFINITION
   directive @belongsTo(fields: [String]) on FIELD_DEFINITION
   directive @manyToMany(relationName: String!) on FIELD_DEFINITION
-
 `;
 
 export const scalars = [

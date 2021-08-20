@@ -24,6 +24,7 @@ import { CodeGenConnectionType } from '../utils/process-connections';
 import { AuthDirective, AuthStrategy } from '../utils/process-auth';
 import { printWarning } from '../utils/warn';
 import { validateFieldName } from '../utils/validate-field-name';
+import { FeatureFlags } from 'amplify-cli-core';
 
 export class AppSyncModelJavaVisitor<
   TRawConfig extends RawAppSyncModelConfig = RawAppSyncModelConfig,

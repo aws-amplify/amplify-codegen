@@ -4,6 +4,10 @@ import { directives, scalars } from '../../scalars/supported-directives';
 import { AppSyncModelJavaVisitor } from '../../visitors/appsync-java-visitor';
 import { CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
 import { JAVA_SCALAR_MAP } from '../../scalars';
+import { FeatureFlags } from 'amplify-cli-core';
+
+jest.mock("amplify-cli-core");
+const FeatureFlags_mock = FeatureFlags as jest.Mocked<typeof FeatureFlags>;
 
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));

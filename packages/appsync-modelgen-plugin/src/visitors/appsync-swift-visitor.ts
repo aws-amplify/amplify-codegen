@@ -16,6 +16,7 @@ import {
 import { AuthDirective, AuthStrategy } from '../utils/process-auth';
 import { printWarning } from '../utils/warn';
 import { SWIFT_SCALAR_MAP } from '../scalars';
+import { FeatureFlags } from 'amplify-cli-core';
 
 export interface RawAppSyncModelSwiftConfig extends RawAppSyncModelConfig {
   /**
@@ -441,7 +442,6 @@ export class AppSyncSwiftVisitor<
   }
 
   protected generateKeyRules(model: CodeGenModel): string[] {
-    // TODO: Remove the use of the pipelined transformer feature flag once the new transformer is fully released
     let keyDirectives: string[];
 
     if (this.config.usePipelinedTransformer) {
