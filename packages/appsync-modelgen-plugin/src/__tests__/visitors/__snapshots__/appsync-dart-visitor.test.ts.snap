@@ -356,21 +356,21 @@ class TemporalTimeModel extends Model {
         timestamp = json['timestamp'] != null
             ? TemporalTimestamp.fromSeconds(json['timestamp'])
             : null,
-        dateList = (json['dateList'] as List)
+        dateList = (json['dateList'] as List?)
             ?.map((e) => TemporalDate.fromString(e))
-            ?.toList(),
-        timeList = (json['timeList'] as List)
+            .toList(),
+        timeList = (json['timeList'] as List?)
             ?.map((e) => TemporalTime.fromString(e))
-            ?.toList(),
-        dateTimeList = (json['dateTimeList'] as List)
+            .toList(),
+        dateTimeList = (json['dateTimeList'] as List?)
             ?.map((e) => TemporalDateTime.fromString(e))
-            ?.toList(),
-        timestampList = (json['timestampList'] as List)
+            .toList(),
+        timestampList = (json['timestampList'] as List?)
             ?.map((e) => TemporalTimestamp.fromSeconds(e))
-            ?.toList(),
-        intList = (json['intList'] as List<dynamic>)
-            ?.map((dynamic e) => e is double ? e.toInt() : e as int)
-            ?.toList();
+            .toList(),
+        intList = (json['intList'] as List?)
+            ?.map((e) => e is double ? e.toInt() : e as int)
+            .toList();
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -646,13 +646,13 @@ class TestEnumModel extends Model {
         'id': id,
         'enumVal': enumToString(enumVal),
         'nullableEnumVal': enumToString(nullableEnumVal),
-        'enumList': enumList?.map((e) => enumToString(e))?.toList(),
+        'enumList': enumList?.map((e) => enumToString(e)).toList(),
         'enumNullableList':
-            enumNullableList?.map((e) => enumToString(e))?.toList(),
+            enumNullableList?.map((e) => enumToString(e)).toList(),
         'nullableEnumList':
-            nullableEnumList?.map((e) => enumToString(e))?.toList(),
+            nullableEnumList?.map((e) => enumToString(e)).toList(),
         'nullableEnumNullableList':
-            nullableEnumNullableList?.map((e) => enumToString(e))?.toList()
+            nullableEnumNullableList?.map((e) => enumToString(e)).toList()
       };
 
   static final QueryField ID = QueryField(fieldName: \\"testEnumModel.id\\");
@@ -2606,7 +2606,7 @@ class Todo extends Model {
             : null;
 
   Map<String, dynamic> toJson() =>
-      {'id': id, 'tasks': tasks?.map((e) => e?.toJson())?.toList()};
+      {'id': id, 'tasks': tasks?.map((Task? e) => e?.toJson()).toList()};
 
   static final QueryField ID = QueryField(fieldName: \\"todo.id\\");
   static final QueryField TASKS = QueryField(
@@ -2853,7 +2853,7 @@ class Blog extends Model {
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
-        'posts': posts?.map((e) => e?.toJson())?.toList(),
+        'posts': posts?.map((Post? e) => e?.toJson()).toList(),
         'test': test
       };
 
@@ -3138,7 +3138,7 @@ class Post extends Model {
         'id': id,
         'title': title,
         'blog': blog?.toJson(),
-        'comments': comments?.map((e) => e?.toJson())?.toList()
+        'comments': comments?.map((Comment? e) => e?.toJson()).toList()
       };
 
   static final QueryField ID = QueryField(fieldName: \\"post.id\\");
@@ -3561,7 +3561,7 @@ class Blog extends Model {
         : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'name': _name, 'posts': _posts?.map((e) => e?.toJson())?.toList()
+    'id': id, 'name': _name, 'posts': _posts?.map((Post? e) => e?.toJson()).toList()
   };
 
   static final QueryField ID = QueryField(fieldName: \\"blog.id\\");
@@ -3862,7 +3862,7 @@ class Post extends Model {
         : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'title': _title, 'blog': _blog?.toJson(), 'comments': _comments?.map((e) => e?.toJson())?.toList()
+    'id': id, 'title': _title, 'blog': _blog?.toJson(), 'comments': _comments?.map((Comment? e) => e?.toJson()).toList()
   };
 
   static final QueryField ID = QueryField(fieldName: \\"post.id\\");
