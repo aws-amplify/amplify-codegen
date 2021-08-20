@@ -441,5 +441,27 @@ describe('AppSync Dart Visitor', () => {
       const generatedCode = getVisitor(schema, 'TestModel', CodeGenGenerateEnum.code, true).generate();
       expect(generatedCode).toMatchSnapshot();
     });
+
+    it('should generate correct null safe output for regular scalar/list fields', () => {
+      const schema = /* GraphQL */ `
+        type TestModel @model {
+          id: ID!
+          floatVal: Float!
+          floatNullableVal: Float
+          floatList: [Float!]!
+          floatNullableList: [Float!]
+          nullableFloatList: [Float]!
+          nullableFloatNullableList: [Float]
+          intVal: Int!
+          intNullableVal: Int
+          intList: [Int!]!
+          intNullableList: [Int!]
+          nullableIntList: [Int]!
+          nullableIntNullableList: [Int]
+        }
+      `;
+      const generatedCode = getVisitor(schema, 'TestModel', CodeGenGenerateEnum.code, true).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
   });
 });
