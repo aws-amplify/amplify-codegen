@@ -334,13 +334,10 @@ class ModelProvider implements ModelProviderInterface {
   
   ModelType getModelTypeByModelName(String modelName) {
     switch(modelName) {
-    case \\"Person\\": {
-    return Person.classType;
-    }
-    break;
-    default: {
-    throw Exception(\\"Failed to find model in model provider for model name: \\" + modelName);
-    }
+      case \\"Person\\":
+        return Person.classType;
+      default:
+        throw Exception(\\"Failed to find model in model provider for model name: \\" + modelName);
     }
   }
 }"
@@ -561,16 +558,11 @@ class ModelProvider implements ModelProviderInterface {
   ModelType getModelTypeByModelName(String modelName) {
     switch (modelName) {
       case \\"SimpleModel\\":
-        {
-          return SimpleModel.classType;
-        }
-        break;
+        return SimpleModel.classType;
       default:
-        {
-          throw Exception(
-              \\"Failed to find model in model provider for model name: \\" +
-                  modelName);
-        }
+        throw Exception(
+            \\"Failed to find model in model provider for model name: \\" +
+                modelName);
     }
   }
 }
