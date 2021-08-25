@@ -439,6 +439,44 @@ describe('AppSync Dart Visitor', () => {
       `;
       const generatedCode = getVisitor(schema, 'TestModel', CodeGenGenerateEnum.code, true).generate();
       expect(generatedCode).toMatchSnapshot();
-    })
+    });
+  });
+
+  describe('CustomType (non-model) Tests', () => {
+    const schema = /* GraphQL */ `
+        type Person @model {
+          name: String!
+          phone: Phone!
+          mailingAddresses: [Address]
+        }
+
+        type Contact {
+          contactName: String!
+          phone: Phone!
+          mailingAddresses: [Address]
+        }
+
+        type Phone {
+          countryCode: String!
+          areaCode: String!
+          number: String!
+        }
+
+        type Address {
+          line1: String!
+          line2: String
+          city: String!
+          state: String!
+          postalCode: String!
+        }
+      `;
+
+    [undefined, 'Person', 'Contact', 'Address'].forEach(type => {
+      it(`should generated correct dart class for ${!type ? 'ModelProvider' : type}`, () => {
+        const generatedCode = getVisitor(schema, type, !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code, true).generate();
+
+        expect(generatedCode).toMatchSnapshot();
+      })
+    });
   });
 });
