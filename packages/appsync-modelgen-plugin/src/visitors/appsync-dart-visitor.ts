@@ -500,16 +500,24 @@ export class AppSyncModelDartVisitor<
             case this.scalars['AWSTime']:
             case this.scalars['AWSDateTime']:
               return field.isList
-                ? `${fieldName} = (json['${varName}'] as List?)?.map((e) => ${fieldNativeType}.fromString(e)).toList()`
+                ? `${fieldName} = (json['${varName}'] as ${this.getNullSafetyTypeStr(
+                    'List',
+                  )})?.map((e) => ${fieldNativeType}.fromString(e)).toList()`
                 : `${fieldName} = json['${varName}'] != null ? ${fieldNativeType}.fromString(json['${varName}']) : null`;
             case this.scalars['AWSTimestamp']:
               return field.isList
-                ? `${fieldName} = (json['${varName}'] as List?)?.map((e) => ${fieldNativeType}.fromSeconds(e)).toList()`
+                ? `${fieldName} = (json['${varName}'] as ${this.getNullSafetyTypeStr(
+                    'List',
+                  )})?.map((e) => ${fieldNativeType}.fromSeconds(e)).toList()`
                 : `${fieldName} = json['${varName}'] != null ? ${fieldNativeType}.fromSeconds(json['${varName}']) : null`;
             case this.scalars['Int']:
               return field.isList
-                ? `${fieldName} = (json['${varName}'] as List?)?.map((e) => e is double ? e.toInt() : e as int).toList()`
-                : `${fieldName} = json['${varName}']`;
+                ? `${fieldName} = (json['${varName}'] as ${this.getNullSafetyTypeStr('List')})?.map((e) => (e as num).toInt()).toList()`
+                : `${fieldName} = (json['${varName}'] as ${this.getNullSafetyTypeStr('num')})?.toInt()`;
+            case this.scalars['Float']:
+              return field.isList
+                ? `${fieldName} = (json['${varName}'] as ${this.getNullSafetyTypeStr('List')})?.map((e) => (e as num).toDouble()).toList()`
+                : `${fieldName} = (json['${varName}'] as ${this.getNullSafetyTypeStr('num')})?.toDouble()`;
             default:
               return field.isList
                 ? `${fieldName} = json['${varName}']?.cast<${this.getNativeType({ ...field, isList: false })}>()`
@@ -761,5 +769,9 @@ export class AppSyncModelDartVisitor<
 
   protected isNullSafety(): boolean {
     return this._parsedConfig.enableDartNullSafety;
+  }
+
+  protected getNullSafetyTypeStr(type: string): string {
+    return this.isNullSafety() ? `${type}?` : type;
   }
 }
