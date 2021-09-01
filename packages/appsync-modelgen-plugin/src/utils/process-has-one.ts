@@ -27,7 +27,7 @@ export function processHasOneConnection(
   const isConnectingFieldAutoCreated = connectionFields.length === 0;
 
   if (!field.isList && !otherSideField.isList) {
-    if (field.isNullable && !otherSideField.isNullable) {
+    if (field.isNullable && (!otherSideField.isNullable || connectionFields.length === 0)) {
       return {
         kind: CodeGenConnectionType.HAS_ONE,
         associatedWith: otherSideField,

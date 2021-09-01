@@ -3,7 +3,6 @@ import { directives, scalars } from '../../scalars/supported-directives';
 import { SWIFT_SCALAR_MAP } from '../../scalars';
 import { AppSyncSwiftVisitor } from '../../visitors/appsync-swift-visitor';
 import { CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
-import { emit } from 'cluster';
 
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));

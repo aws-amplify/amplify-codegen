@@ -466,18 +466,31 @@ describe('process connection', () => {
   });
 
   describe('GraphQL vNext getConnectedField tests with @primaryKey and @index', () => {
-    let hasOneModelMap: CodeGenModelMap;
+    let hasOneWithFieldsModelMap: CodeGenModelMap;
+    let hasOneNoFieldsModelMap: CodeGenModelMap;
     let v2ModelMap: CodeGenModelMap;
     let v2IndexModelMap: CodeGenModelMap;
 
     beforeEach(() => {
-      const hasOneSchema = /* GraphQL */ `
+      const hasOneWithFieldsSchema = /* GraphQL */ `
+        type BatteryCharger @model {
+          powerSource: PowerSource @hasOne(fields: ["sourceID"])
+        }
+
+        type PowerSource @model {
+          sourceID: ID! @primaryKey
+          amps: Float!
+          volts: Float!
+        }
+      `;
+
+      const hasOneNoFieldsSchema = /* GraphQL */ `
         type BatteryCharger @model {
           powerSource: PowerSource @hasOne
         }
 
         type PowerSource @model {
-          sourceID: ID! @primaryKey
+          id: ID!
           amps: Float!
           volts: Float!
         }
@@ -497,16 +510,19 @@ describe('process connection', () => {
 
       const v2IndexSchema = /* graphQL */ `
         type Post @model {
-          comments: [Comment] @hasMany(indexName: "byContent", fields: ["id"])
+          id: ID!
+          title: String!
+          comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
         }
         
         type Comment @model {
-          postID: ID! @primaryKey
-          content: String! @index(name: "byContent")
-          post: Post @belongsTo(fields: ["postID"])
+          id: ID!
+          postID: ID! @index(name: "byPost", sortKeyFields: ["content"])
+          content: String!
+        }
       `;
 
-      hasOneModelMap = {
+      hasOneWithFieldsModelMap = {
         BatteryCharger: {
           name: 'BatteryCharger',
           type: 'model',
@@ -532,6 +548,51 @@ describe('process connection', () => {
               isList: false,
               name: 'sourceID',
               directives: [{ name: 'primaryKey', arguments: {} }],
+            },
+            {
+              type: 'Float',
+              isNullable: false,
+              isList: false,
+              name: 'amps',
+              directives: [],
+            },
+            {
+              type: 'Float',
+              isNullable: false,
+              isList: false,
+              name: 'volts',
+              directives: [],
+            },
+          ],
+        },
+      };
+
+      hasOneNoFieldsModelMap = {
+        BatteryCharger: {
+          name: 'BatteryCharger',
+          type: 'model',
+          directives: [],
+          fields: [
+            {
+              type: 'PowerSource',
+              isNullable: true,
+              isList: false,
+              name: 'powerSource',
+              directives: [{ name: 'hasOne', arguments: {} }],
+            },
+          ],
+        },
+        PowerSource: {
+          name: 'PowerSource',
+          type: 'model',
+          directives: [],
+          fields: [
+            {
+              type: 'ID',
+              isNullable: false,
+              isList: false,
+              name: 'id',
+              directives: []
             },
             {
               type: 'Float',
@@ -603,11 +664,25 @@ describe('process connection', () => {
           directives: [],
           fields: [
             {
+              type: 'ID',
+              isNullable: false,
+              isList: false,
+              name: 'id',
+              directives: [],
+            },
+            {
+              type: 'String',
+              isNullable: false,
+              isList: false,
+              name: 'title',
+              directives: [],
+            },
+            {
               type: 'Comment',
               isNullable: true,
               isList: true,
               name: 'comments',
-              directives: [{ name: 'hasMany', arguments: { indexName: 'byContent', fields: ['id'] } }],
+              directives: [{ name: 'hasMany', arguments: { indexName: 'byPost', fields: ['id'] } }],
             },
           ],
         },
@@ -617,25 +692,25 @@ describe('process connection', () => {
           directives: [],
           fields: [
             {
-              type: 'id',
+              type: 'ID',
+              isNullable: false,
+              isList: false,
+              name: 'id',
+              directives: [],
+            },
+            {
+              type: 'ID',
               isNullable: false,
               isList: false,
               name: 'postID',
-              directives: [{name: 'primaryKey', arguments: {} }],
+              directives: [{name: 'index', arguments: { name: 'byPost', sortKeyFields: ['content'] }}],
             },
             {
               type: 'String',
               isNullable: false,
               isList: false,
               name: 'content',
-              directives: [{name: 'index', arguments: { name: 'byContent' }}],
-            },
-            {
-              type: 'Post',
-              isNullable: false,
-              isList: false,
-              name: 'post',
-              directives: [{ name: 'belongsTo', arguments: { fields: ['postID'] } }],
+              directives: [],
             },
           ],
         },
@@ -662,22 +737,30 @@ describe('process connection', () => {
       });
 
       it('Should support connection with @index on BELONGS_TO side', () => {
-        const commentsField = v2ModelMap.Post.fields[0];
-        const connectionInfo = (processConnectionsV2(commentsField, v2ModelMap.Comment, v2ModelMap) as any) as CodeGenFieldConnectionHasMany;
+        const commentsField = v2IndexModelMap.Post.fields[2];
+        const connectionInfo = (processConnectionsV2(commentsField, v2IndexModelMap.Comment, v2IndexModelMap) as any) as CodeGenFieldConnectionHasMany;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
-        expect(connectionInfo.connectedModel).toEqual(v2ModelMap.Comment);
+        expect(connectionInfo.connectedModel).toEqual(v2IndexModelMap.Comment);
         expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(false);
       });
     });
 
     describe('Has one testing', () => {
       it('Should support @hasOne with no explicit primary key', () => {
-        const powerSourceField = hasOneModelMap.BatteryCharger.fields[0];
-        const connectionInfo = (processConnectionsV2(powerSourceField, hasOneModelMap.PowerSource, hasOneModelMap)) as CodeGenFieldConnectionHasOne;
+        const powerSourceField = hasOneNoFieldsModelMap.BatteryCharger.fields[0];
+        const connectionInfo = (processConnectionsV2(powerSourceField, hasOneNoFieldsModelMap.PowerSource, hasOneNoFieldsModelMap)) as CodeGenFieldConnectionHasOne;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
-        expect(connectionInfo.connectedModel).toEqual(hasOneModelMap.PowerSource);
+        expect(connectionInfo.connectedModel).toEqual(hasOneNoFieldsModelMap.PowerSource);
+        expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(true);
+      });
+      it('Should support @hasOne with an explicit primary key', () => {
+        const powerSourceField = hasOneWithFieldsModelMap.BatteryCharger.fields[0];
+        const connectionInfo = (processConnectionsV2(powerSourceField, hasOneWithFieldsModelMap.PowerSource, hasOneWithFieldsModelMap)) as CodeGenFieldConnectionHasOne;
+        expect(connectionInfo).toBeDefined();
+        expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
+        expect(connectionInfo.connectedModel).toEqual(hasOneWithFieldsModelMap.PowerSource);
         expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(false);
       });
     });
