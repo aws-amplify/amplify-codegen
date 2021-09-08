@@ -46,8 +46,21 @@ export function isMetaFieldName(name: string) {
 export function removeConnectionDirectives(ast: ASTNode) {
   return visit(ast, {
     Directive(node: DirectiveNode): DirectiveNode | null {
-      if (node.name.value === 'connection') return null;
-      return node;
+      switch(node.name.value) {
+        // TODO: remove reference to 'connection' on transformer vNext release
+        case 'connection':
+          return null;
+        case 'hasOne':
+          return null;
+        case 'belongsTo':
+          return null;
+        case 'hasMany':
+          return null;
+        case 'manyToMany':
+          return null;
+        default:
+          return node;
+      }
     },
   });
 }

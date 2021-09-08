@@ -3,10 +3,6 @@ import { directives, scalars } from '../../scalars/supported-directives';
 import { SWIFT_SCALAR_MAP } from '../../scalars';
 import { AppSyncSwiftVisitor } from '../../visitors/appsync-swift-visitor';
 import { CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
-import { FeatureFlags } from 'amplify-cli-core';
-
-jest.mock("amplify-cli-core");
-const FeatureFlags_mock = FeatureFlags as jest.Mocked<typeof FeatureFlags>;
 
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
@@ -20,6 +16,7 @@ const getVisitor = (
   emitAuthProvider: boolean = true,
   generateIndexRules: boolean = true,
   handleListNullabilityTransparently: boolean = true,
+  usePipelinedTransformer: boolean = false
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -33,12 +30,25 @@ const getVisitor = (
       emitAuthProvider,
       generateIndexRules,
       handleListNullabilityTransparently,
+      usePipelinedTransformer: usePipelinedTransformer
     },
     { selectedType, generate },
   );
   visit(ast, { leave: visitor });
   return visitor;
 };
+
+const getVisitorPipelinedTransformer = (
+  schema: string,
+  selectedType?: string,
+  generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
+  isTimestampFieldsAdded: boolean = true,
+  emitAuthProvider: boolean = true,
+  generateIndexRules: boolean = true,
+  handleListNullabilityTransparently: boolean = true
+) => {
+  return getVisitor(schema, selectedType, generate, isTimestampFieldsAdded, emitAuthProvider, generateIndexRules, handleListNullabilityTransparently, true);
+}
 
 describe('AppSyncSwiftVisitor', () => {
   it('Should generate a class for a Model', () => {
@@ -391,13 +401,8 @@ describe('AppSyncSwiftVisitor', () => {
         book: String
       }
     `;
-    FeatureFlags_mock.getBoolean.mockImplementationOnce((flagName: String): boolean => {
-      return false;
-    }).mockImplementationOnce((flagName: String): boolean => {
-      return "graphQLTransformer.useExperimentalPipelinedTransformer" == flagName;
-    });
     const visitorV1 = getVisitor(schemaV1, 'authorBook');
-    const visitorV2 = getVisitor(schemaV2, 'authorBook');
+    const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook');
     const version1Code = visitorV1.generate();
     const version2Code = visitorV2.generate();
 
@@ -423,13 +428,8 @@ describe('AppSyncSwiftVisitor', () => {
         book: String
       }
     `;
-    FeatureFlags_mock.getBoolean.mockImplementationOnce((flagName: String): boolean => {
-      return false;
-    }).mockImplementationOnce((flagName: String): boolean => {
-      return "graphQLTransformer.useExperimentalPipelinedTransformer" == flagName;
-    });
     const visitorV1 = getVisitor(schemaV1, 'authorBook');
-    const visitorV2 = getVisitor(schemaV2, 'authorBook');
+    const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook');
     const version1Code = visitorV1.generate();
     const version2Code = visitorV2.generate();
 

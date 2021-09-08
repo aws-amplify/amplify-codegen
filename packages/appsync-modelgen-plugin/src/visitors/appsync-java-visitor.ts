@@ -24,7 +24,6 @@ import { CodeGenConnectionType } from '../utils/process-connections';
 import { AuthDirective, AuthStrategy } from '../utils/process-auth';
 import { printWarning } from '../utils/warn';
 import { validateFieldName } from '../utils/validate-field-name';
-import { FeatureFlags } from 'amplify-cli-core';
 
 export class AppSyncModelJavaVisitor<
   TRawConfig extends RawAppSyncModelConfig = RawAppSyncModelConfig,
@@ -762,8 +761,6 @@ export class AppSyncModelJavaVisitor<
   }
 
   protected generateModelAnnotations(model: CodeGenModel): string[] {
-    // TODO: Remove the use of the pipelined transformer feature flag once the new transformer is fully released
-    const usePipelinedTransformer: Boolean = FeatureFlags.getBoolean('graphQLTransformer.useExperimentalPipelinedTransformer');
     const annotations: string[] = model.directives.map(directive => {
       switch (directive.name) {
         case 'model':
@@ -777,7 +774,7 @@ export class AppSyncModelJavaVisitor<
           }
           return `ModelConfig(${modelArgs.join(', ')})`;
         case 'key':
-          if (!usePipelinedTransformer) {
+          if (!this.config.usePipelinedTransformer) {
             const keyArgs: string[] = [];
             keyArgs.push(`name = "${directive.arguments.name}"`);
             keyArgs.push(`fields = {${(directive.arguments.fields as string[]).map((f: string) => `"${f}"`).join(',')}}`);
@@ -795,7 +792,7 @@ export class AppSyncModelJavaVisitor<
       field.directives.forEach(directive => {
         switch(directive.name) {
           case 'primaryKey':
-            if (usePipelinedTransformer) {
+            if (this.config.usePipelinedTransformer) {
               const keyArgs: string[] = [];
               keyArgs.push(`name = "undefined"`);
               if(!directive.arguments.sortKeyFields) {
@@ -807,7 +804,7 @@ export class AppSyncModelJavaVisitor<
             }
             break;
           case 'index':
-            if (usePipelinedTransformer) {
+            if (this.config.usePipelinedTransformer) {
               const keyArgs: string[] = [];
               keyArgs.push(`name = "${directive.arguments.name}"`);
               if(!directive.arguments.sortKeyFields) {
