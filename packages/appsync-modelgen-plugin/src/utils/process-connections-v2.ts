@@ -16,28 +16,27 @@ export function getConnectedFieldV2(field: CodeGenField, model: CodeGenModel, co
     throw new Error(`The ${field.name} on model ${model.name} is not connected`);
   }
 
-  const connectionName = connectionInfo.arguments.name;
   const indexName = connectionInfo.arguments.indexName;
   const connectionFields = connectionInfo.arguments.fields;
   if (connectionFields) {
-    let keyDirective;
+    let indexDirective;
     if (indexName) {
-      keyDirective = flattenFieldDirectives(connectedModel).find(dir => {
+      indexDirective = flattenFieldDirectives(connectedModel).find(dir => {
         return dir.name === 'index' && dir.arguments.name === indexName;
       });
-      if (!keyDirective) {
+      if (!indexDirective) {
         throw new Error(
           `Error processing @${connectionInfo.name} directive on ${model.name}.${field.name}, @index directive with name ${indexName} was not found in connected model ${connectedModel.name}`,
         );
       }
     } else {
-      keyDirective = flattenFieldDirectives(connectedModel).find(dir => {
+      indexDirective = flattenFieldDirectives(connectedModel).find(dir => {
         return dir.name === 'primaryKey';
       });
     }
 
     // when there is a fields argument in the connection
-    const connectedFieldName = keyDirective ? ((fieldDir: CodeGenFieldDirective) => { return fieldDir.fieldName ;})(keyDirective as CodeGenFieldDirective) : DEFAULT_HASH_KEY_FIELD;
+    const connectedFieldName = indexDirective ? ((fieldDir: CodeGenFieldDirective) => { return fieldDir.fieldName ;})(indexDirective as CodeGenFieldDirective) : DEFAULT_HASH_KEY_FIELD;
 
     // Find a field on the other side which connected by a @connection and has the same fields[0] as indexName field
     const otherSideConnectedField = connectedModel.fields.find(f => {
@@ -53,15 +52,6 @@ export function getConnectedFieldV2(field: CodeGenField, model: CodeGenModel, co
 
     if (!connectedField) {
       throw new Error(`Can not find key field ${connectedFieldName} in ${connectedModel}`);
-    }
-    return connectedField;
-  } else if (connectionName) {
-    // when the connection is named
-    const connectedField = connectedModel.fields.find(f =>
-      f.directives.find(d => (d.name === 'belongsTo' || d.name === 'hasOne' || d.name === 'hasMany') && d.arguments.name === connectionName && f !== field),
-    );
-    if (!connectedField) {
-      throw new Error(`Can not find key field with connection name ${connectionName} in ${connectedModel}`);
     }
     return connectedField;
   }
