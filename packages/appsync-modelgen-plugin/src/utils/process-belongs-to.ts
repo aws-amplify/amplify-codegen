@@ -1,8 +1,7 @@
-import { CodeGenDirective, CodeGenField, CodeGenFieldDirective, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
+import { CodeGenDirective, CodeGenField, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
 import {
   CodeGenConnectionType,
   CodeGenFieldConnection,
-  flattenFieldDirectives,
   makeConnectionAttributeName,
 } from './process-connections';
 import { getConnectedFieldV2 } from './process-connections-v2';
@@ -22,8 +21,6 @@ export function processBelongsToConnection(
     // Todo: Move to a common function and update the error message
     throw new Error('DataStore only support one key in field');
   }
-
-  const isNewField = !otherSide.fields.includes(otherSideField);
 
   // if a type is connected using name, then graphql-connection-transformer adds a field to
   //  track the connection and that field is not part of the selection set

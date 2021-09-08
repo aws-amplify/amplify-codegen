@@ -1,4 +1,4 @@
-import { CodeGenDirective, CodeGenField, CodeGenFieldDirective, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
+import { CodeGenDirective, CodeGenField, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
 import {
   CodeGenConnectionType,
   CodeGenFieldConnection,
