@@ -503,7 +503,7 @@ export class AppSyncModelDartVisitor<
 
   protected generateCopyWithMethod(model: CodeGenModel, declarationBlock: DartDeclarationBlock): void {
     //copyWith
-    const copyParam = `{${model.fields
+    const copyParam = `{${this.getWritableFields(model)
       .map(f => `${this.getNativeType(f)}${this.isNullSafety() ? '?' : ''} ${this.getFieldName(f)}`)
       .join(', ')}}`;
     declarationBlock.addClassMethod(
@@ -513,7 +513,7 @@ export class AppSyncModelDartVisitor<
       [
         `return ${this.getModelName(model)}${this.config.isTimestampFieldsAdded ? '._internal' : ''}(`,
         indentMultiline(
-          `${model.fields
+          `${this.getWritableFields(model)
             .map(field => {
               const fieldName = this.getFieldName(field);
               return `${fieldName}: ${fieldName} ?? this.${fieldName}`;
