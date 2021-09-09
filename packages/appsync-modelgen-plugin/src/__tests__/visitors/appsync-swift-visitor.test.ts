@@ -407,6 +407,13 @@ describe('AppSyncSwiftVisitor', () => {
     const version2Code = visitorV2.generate();
 
     expect(version1Code).toMatch(version2Code);
+
+    const metadataVisitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.metadata);
+    const metadataVisitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook', CodeGenGenerateEnum.metadata);
+    const version1Metadata = metadataVisitorV1.generate();
+    const version2Metadata = metadataVisitorV2.generate();
+
+    expect(version1Metadata).toMatch(version2Metadata);
   });
 
   it('should produce the same result for @index as the secondary index variant of @key', async () => {
@@ -434,6 +441,13 @@ describe('AppSyncSwiftVisitor', () => {
     const version2Code = visitorV2.generate();
 
     expect(version1Code).toMatch(version2Code);
+
+    const metadataVisitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.metadata);
+    const metadataVisitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook', CodeGenGenerateEnum.metadata);
+    const version1Metadata = metadataVisitorV1.generate();
+    const version2Metadata = metadataVisitorV2.generate();
+
+    expect(version1Metadata).toMatch(version2Metadata);
   });
 
   it('Should handle nullability of lists appropriately', () => {
