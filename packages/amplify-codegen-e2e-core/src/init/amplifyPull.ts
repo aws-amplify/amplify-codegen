@@ -15,9 +15,6 @@ export function amplifyPull(
     settings.frontendConfig = DEFAULT_JS_CONFIG;
   }
   return new Promise((resolve, reject) => {
-    const tableHeaderRegex = /\|\sCategory\s+\|\sResource\sname\s+\|\sOperation\s+\|\sProvider\splugin\s+\|/;
-    const tableSeperator = /\|(\s-+\s\|){4}/;
-
     const args = ['pull'];
 
     if (settings.appId) {
@@ -43,7 +40,7 @@ export function amplifyPull(
         .wait('Do you plan on modifying this backend?')
         .sendLine('y');
     } else {
-      chain.wait('Pre-pull status').wait('Current Environment').wait(tableHeaderRegex).wait(tableSeperator);
+      chain.wait('Pre-pull status').wait('Current Environment');
     }
 
     if (settings.override) {
@@ -57,7 +54,7 @@ export function amplifyPull(
     if (settings.emptyDir) {
       chain.wait(/Successfully pulled backend environment .+ from the cloud\./).wait("Run 'amplify pull' to sync future upstream changes.");
     } else {
-      chain.wait('Post-pull status').wait('Current Environment').wait(tableHeaderRegex).wait(tableSeperator);
+      chain.wait('Post-pull status').wait('Current Environment');
     }
 
     chain.run((err: Error) => {
