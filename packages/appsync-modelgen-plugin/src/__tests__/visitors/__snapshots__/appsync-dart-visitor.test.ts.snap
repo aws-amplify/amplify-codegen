@@ -5932,15 +5932,15 @@ class SimpleModel extends Model {
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: SimpleModel.CREATEDAT,
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: \\"createdAt\\",
       isRequired: false,
       isReadOnly: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: SimpleModel.UPDATEDAT,
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: \\"updatedAt\\",
       isRequired: false,
       isReadOnly: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
@@ -5982,7 +5982,6 @@ exports[`AppSync Dart Visitor read-only field tests should generate the read-onl
 
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
-
 
 /** This is an auto generated class representing the SimpleModel type in your schema. */
 @immutable
