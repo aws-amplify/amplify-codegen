@@ -14,7 +14,6 @@ import { JAVA_TYPE_IMPORT_MAP } from '../scalars';
 import { JavaDeclarationBlock } from '../languages/java-declaration-block';
 import {
   AppSyncModelVisitor,
-  CodeGenDirective,
   CodeGenField,
   CodeGenModel,
   ParsedAppSyncModelConfig,
