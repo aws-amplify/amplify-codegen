@@ -494,9 +494,19 @@ describe('AppSync Dart Visitor', () => {
         }
       `;
 
-    [undefined, 'Person', 'Contact', 'Address'].forEach(type => {
-      it(`should generated correct dart class for ${!type ? 'ModelProvider' : type}`, () => {
+    const models = [undefined, 'Person', 'Contact', 'Address'];
+
+    models.forEach(type => {
+      it(`should generated correct dart class for ${!type ? 'ModelProvider' : type} with nullsafety enabled`, () => {
         const generatedCode = getVisitor(schema, type, !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code, true).generate();
+
+        expect(generatedCode).toMatchSnapshot();
+      })
+    });
+
+    models.forEach(type => {
+      it(`should generated correct dart class for ${!type ? 'ModelProvider' : type} with nullsafety disabled`, () => {
+        const generatedCode = getVisitor(schema, type, !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code, false).generate();
 
         expect(generatedCode).toMatchSnapshot();
       })

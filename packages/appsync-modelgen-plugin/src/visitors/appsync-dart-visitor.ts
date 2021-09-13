@@ -279,6 +279,10 @@ export class AppSyncModelDartVisitor<
     this.generateEqualsMethodAndOperator(model, classDeclarationBlock);
     //hashCode
     this.generateHashCodeMethod(model, classDeclarationBlock);
+    //toString
+    this.generateToStringMethod(model, classDeclarationBlock);
+    //copyWith
+    this.generateCopyWithMethod(model, classDeclarationBlock);
     //de/serialization method
     this.generateSerializationMethod(model, classDeclarationBlock);
     //generate non-model schema

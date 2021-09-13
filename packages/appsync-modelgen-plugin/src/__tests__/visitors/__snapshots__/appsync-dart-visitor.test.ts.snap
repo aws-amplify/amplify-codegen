@@ -1,6 +1,153 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated correct dart class for Address 1`] = `
+exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated correct dart class for Address with nullsafety disabled 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// ignore_for_file: public_member_api_docs
+
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:flutter/foundation.dart';
+
+/** This is an auto generated class representing the Address type in your schema. */
+@immutable
+class Address {
+  final String line1;
+  final String line2;
+  final String city;
+  final String state;
+  final String postalCode;
+
+  const Address._internal(
+      {@required this.line1,
+      this.line2,
+      @required this.city,
+      @required this.state,
+      @required this.postalCode});
+
+  factory Address(
+      {@required String line1,
+      String line2,
+      @required String city,
+      @required String state,
+      @required String postalCode}) {
+    return Address._internal(
+        line1: line1,
+        line2: line2,
+        city: city,
+        state: state,
+        postalCode: postalCode);
+  }
+
+  bool equals(Object other) {
+    return this == other;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Address &&
+        line1 == other.line1 &&
+        line2 == other.line2 &&
+        city == other.city &&
+        state == other.state &&
+        postalCode == other.postalCode;
+  }
+
+  @override
+  int get hashCode => toString().hashCode;
+
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+
+    buffer.write(\\"Address {\\");
+    buffer.write(\\"line1=\\" + \\"$line1\\" + \\", \\");
+    buffer.write(\\"line2=\\" + \\"$line2\\" + \\", \\");
+    buffer.write(\\"city=\\" + \\"$city\\" + \\", \\");
+    buffer.write(\\"state=\\" + \\"$state\\" + \\", \\");
+    buffer.write(\\"postalCode=\\" + \\"$postalCode\\");
+    buffer.write(\\"}\\");
+
+    return buffer.toString();
+  }
+
+  Address copyWith(
+      {String line1,
+      String line2,
+      String city,
+      String state,
+      String postalCode}) {
+    return Address(
+        line1: line1 ?? this.line1,
+        line2: line2 ?? this.line2,
+        city: city ?? this.city,
+        state: state ?? this.state,
+        postalCode: postalCode ?? this.postalCode);
+  }
+
+  Address.fromJson(Map<String, dynamic> json)
+      : line1 = json['line1'],
+        line2 = json['line2'],
+        city = json['city'],
+        state = json['state'],
+        postalCode = json['postalCode'];
+
+  Map<String, dynamic> toJson() => {
+        'line1': line1,
+        'line2': line2,
+        'city': city,
+        'state': state,
+        'postalCode': postalCode
+      };
+
+  static var schema =
+      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"Address\\";
+    modelSchemaDefinition.pluralName = \\"Addresses\\";
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.customTypeField(
+        fieldName: 'line1',
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.customTypeField(
+        fieldName: 'line2',
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.customTypeField(
+        fieldName: 'city',
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.customTypeField(
+        fieldName: 'state',
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.customTypeField(
+        fieldName: 'postalCode',
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+  });
+}
+"
+`;
+
+exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated correct dart class for Address with nullsafety enabled 1`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -116,6 +263,30 @@ class Address {
   @override
   int get hashCode => toString().hashCode;
   
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"Address {\\");
+    buffer.write(\\"line1=\\" + \\"$_line1\\" + \\", \\");
+    buffer.write(\\"line2=\\" + \\"$_line2\\" + \\", \\");
+    buffer.write(\\"city=\\" + \\"$_city\\" + \\", \\");
+    buffer.write(\\"state=\\" + \\"$_state\\" + \\", \\");
+    buffer.write(\\"postalCode=\\" + \\"$_postalCode\\");
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  Address copyWith({String? line1, String? line2, String? city, String? state, String? postalCode}) {
+    return Address(
+      line1: line1 ?? this.line1,
+      line2: line2 ?? this.line2,
+      city: city ?? this.city,
+      state: state ?? this.state,
+      postalCode: postalCode ?? this.postalCode);
+  }
+  
   Address.fromJson(Map<String, dynamic> json)  
     : _line1 = json['line1'],
       _line2 = json['line2'],
@@ -164,7 +335,139 @@ class Address {
 }"
 `;
 
-exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated correct dart class for Contact 1`] = `
+exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated correct dart class for Contact with nullsafety disabled 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// ignore_for_file: public_member_api_docs
+
+import 'ModelProvider.dart';
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
+
+/** This is an auto generated class representing the Contact type in your schema. */
+@immutable
+class Contact {
+  final String contactName;
+  final Phone phone;
+  final List<Address> mailingAddresses;
+
+  const Contact._internal(
+      {@required this.contactName,
+      @required this.phone,
+      this.mailingAddresses});
+
+  factory Contact(
+      {@required String contactName,
+      @required Phone phone,
+      List<Address> mailingAddresses}) {
+    return Contact._internal(
+        contactName: contactName,
+        phone: phone,
+        mailingAddresses: mailingAddresses != null
+            ? List<Address>.unmodifiable(mailingAddresses)
+            : mailingAddresses);
+  }
+
+  bool equals(Object other) {
+    return this == other;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Contact &&
+        contactName == other.contactName &&
+        phone == other.phone &&
+        DeepCollectionEquality()
+            .equals(mailingAddresses, other.mailingAddresses);
+  }
+
+  @override
+  int get hashCode => toString().hashCode;
+
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+
+    buffer.write(\\"Contact {\\");
+    buffer.write(\\"contactName=\\" + \\"$contactName\\" + \\", \\");
+    buffer.write(\\"phone=\\" + (phone != null ? phone.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"mailingAddresses=\\" +
+        (mailingAddresses != null ? mailingAddresses.toString() : \\"null\\"));
+    buffer.write(\\"}\\");
+
+    return buffer.toString();
+  }
+
+  Contact copyWith(
+      {String contactName, Phone phone, List<Address> mailingAddresses}) {
+    return Contact(
+        contactName: contactName ?? this.contactName,
+        phone: phone ?? this.phone,
+        mailingAddresses: mailingAddresses ?? this.mailingAddresses);
+  }
+
+  Contact.fromJson(Map<String, dynamic> json)
+      : contactName = json['contactName'],
+        phone = json['phone'] != null
+            ? Phone.fromJson(new Map<String, dynamic>.from(json['phone']))
+            : null,
+        mailingAddresses = json['mailingAddresses'] is List
+            ? (json['mailingAddresses'] as List)
+                .map((e) => Address.fromJson(
+                    new Map<String, dynamic>.from(e['serializedData'])))
+                .toList()
+            : null;
+
+  Map<String, dynamic> toJson() => {
+        'contactName': contactName,
+        'phone': phone?.toJson(),
+        'mailingAddresses':
+            mailingAddresses?.map((Address? e) => e?.toJson()).toList()
+      };
+
+  static var schema =
+      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"Contact\\";
+    modelSchemaDefinition.pluralName = \\"Contacts\\";
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.customTypeField(
+        fieldName: 'contactName',
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.embedded(
+        fieldName: 'phone',
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.embedded,
+            ofCustomTypeName: 'Phone')));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.embedded(
+        fieldName: 'mailingAddresses',
+        isRequired: false,
+        isArray: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.embeddedCollection,
+            ofCustomTypeName: 'Address')));
+  });
+}
+"
+`;
+
+exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated correct dart class for Contact with nullsafety enabled 1`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -250,6 +553,26 @@ class Contact {
   @override
   int get hashCode => toString().hashCode;
   
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"Contact {\\");
+    buffer.write(\\"contactName=\\" + \\"$_contactName\\" + \\", \\");
+    buffer.write(\\"phone=\\" + (_phone != null ? _phone!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"mailingAddresses=\\" + (_mailingAddresses != null ? _mailingAddresses!.toString() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  Contact copyWith({String? contactName, Phone? phone, List<Address>? mailingAddresses}) {
+    return Contact(
+      contactName: contactName ?? this.contactName,
+      phone: phone ?? this.phone,
+      mailingAddresses: mailingAddresses ?? this.mailingAddresses);
+  }
+  
   Contact.fromJson(Map<String, dynamic> json)  
     : _contactName = json['contactName'],
       _phone = json['phone']?['serializedData'] != null
@@ -292,7 +615,65 @@ class Contact {
 }"
 `;
 
-exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated correct dart class for ModelProvider 1`] = `
+exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated correct dart class for ModelProvider with nullsafety disabled 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// ignore_for_file: public_member_api_docs
+
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'Person.dart';
+import 'Address.dart';
+import 'Contact.dart';
+import 'Phone.dart';
+
+export 'Address.dart';
+export 'Contact.dart';
+export 'Person.dart';
+export 'Phone.dart';
+
+class ModelProvider implements ModelProviderInterface {
+  @override
+  String version = \\"b65f704d832381d9985dd162ae40c075\\";
+  @override
+  List<ModelSchema> modelSchemas = [Person.schema];
+  @override
+  List<ModelSchema> customTypeSchemas = [
+    Address.schema,
+    Contact.schema,
+    Phone.schema
+  ];
+  static final ModelProvider _instance = ModelProvider();
+
+  static ModelProvider get instance => _instance;
+
+  ModelType getModelTypeByModelName(String modelName) {
+    switch (modelName) {
+      case \\"Person\\":
+        return Person.classType;
+      default:
+        throw Exception(
+            \\"Failed to find model in model provider for model name: \\" +
+                modelName);
+    }
+  }
+}
+"
+`;
+
+exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated correct dart class for ModelProvider with nullsafety enabled 1`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -343,7 +724,173 @@ class ModelProvider implements ModelProviderInterface {
 }"
 `;
 
-exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated correct dart class for Person 1`] = `
+exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated correct dart class for Person with nullsafety disabled 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// ignore_for_file: public_member_api_docs
+
+import 'ModelProvider.dart';
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
+
+/** This is an auto generated class representing the Person type in your schema. */
+@immutable
+class Person extends Model {
+  static const classType = const _PersonModelType();
+  final String id;
+  final String name;
+  final Phone phone;
+  final List<Address> mailingAddresses;
+
+  @override
+  getInstanceType() => classType;
+
+  @override
+  String getId() {
+    return id;
+  }
+
+  const Person._internal(
+      {@required this.id,
+      @required this.name,
+      @required this.phone,
+      this.mailingAddresses});
+
+  factory Person(
+      {String id,
+      @required String name,
+      @required Phone phone,
+      List<Address> mailingAddresses}) {
+    return Person._internal(
+        id: id == null ? UUID.getUUID() : id,
+        name: name,
+        phone: phone,
+        mailingAddresses: mailingAddresses != null
+            ? List<Address>.unmodifiable(mailingAddresses)
+            : mailingAddresses);
+  }
+
+  bool equals(Object other) {
+    return this == other;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Person &&
+        id == other.id &&
+        name == other.name &&
+        phone == other.phone &&
+        DeepCollectionEquality()
+            .equals(mailingAddresses, other.mailingAddresses);
+  }
+
+  @override
+  int get hashCode => toString().hashCode;
+
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+
+    buffer.write(\\"Person {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
+    buffer.write(\\"phone=\\" + (phone != null ? phone.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"mailingAddresses=\\" +
+        (mailingAddresses != null ? mailingAddresses.toString() : \\"null\\"));
+    buffer.write(\\"}\\");
+
+    return buffer.toString();
+  }
+
+  Person copyWith(
+      {String id, String name, Phone phone, List<Address> mailingAddresses}) {
+    return Person(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        phone: phone ?? this.phone,
+        mailingAddresses: mailingAddresses ?? this.mailingAddresses);
+  }
+
+  Person.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        phone = json['phone'] != null
+            ? Phone.fromJson(new Map<String, dynamic>.from(json['phone']))
+            : null,
+        mailingAddresses = json['mailingAddresses'] is List
+            ? (json['mailingAddresses'] as List)
+                .map((e) => Address.fromJson(
+                    new Map<String, dynamic>.from(e['serializedData'])))
+                .toList()
+            : null;
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'phone': phone?.toJson(),
+        'mailingAddresses':
+            mailingAddresses?.map((Address? e) => e?.toJson()).toList()
+      };
+
+  static final QueryField ID = QueryField(fieldName: \\"person.id\\");
+  static final QueryField NAME = QueryField(fieldName: \\"name\\");
+  static final QueryField PHONE = QueryField(fieldName: \\"phone\\");
+  static final QueryField MAILINGADDRESSES =
+      QueryField(fieldName: \\"mailingAddresses\\");
+  static var schema =
+      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"Person\\";
+    modelSchemaDefinition.pluralName = \\"People\\";
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: Person.NAME,
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.embedded(
+        fieldName: 'phone',
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.embedded,
+            ofCustomTypeName: 'Phone')));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.embedded(
+        fieldName: 'mailingAddresses',
+        isRequired: false,
+        isArray: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.embeddedCollection,
+            ofCustomTypeName: 'Address')));
+  });
+}
+
+class _PersonModelType extends ModelType<Person> {
+  const _PersonModelType();
+
+  @override
+  Person fromJson(Map<String, dynamic> jsonData) {
+    return Person.fromJson(jsonData);
+  }
+}
+"
+`;
+
+exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated correct dart class for Person with nullsafety enabled 1`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
