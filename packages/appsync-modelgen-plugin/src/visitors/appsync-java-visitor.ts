@@ -12,7 +12,13 @@ import {
 } from '../configs/java-config';
 import { JAVA_TYPE_IMPORT_MAP } from '../scalars';
 import { JavaDeclarationBlock } from '../languages/java-declaration-block';
-import { AppSyncModelVisitor, CodeGenField, CodeGenModel, ParsedAppSyncModelConfig, RawAppSyncModelConfig } from './appsync-visitor';
+import {
+  AppSyncModelVisitor,
+  CodeGenField,
+  CodeGenModel,
+  ParsedAppSyncModelConfig,
+  RawAppSyncModelConfig,
+} from './appsync-visitor';
 import { CodeGenConnectionType } from '../utils/process-connections';
 import { AuthDirective, AuthStrategy } from '../utils/process-auth';
 import { printWarning } from '../utils/warn';
@@ -768,16 +774,53 @@ export class AppSyncModelJavaVisitor<
           }
           return `ModelConfig(${modelArgs.join(', ')})`;
         case 'key':
-          const keyArgs: string[] = [];
-          keyArgs.push(`name = "${directive.arguments.name}"`);
-          keyArgs.push(`fields = {${(directive.arguments.fields as string[]).map((f: string) => `"${f}"`).join(',')}}`);
-          return `Index(${keyArgs.join(', ')})`;
-
+          if (!this.config.usePipelinedTransformer) {
+            const keyArgs: string[] = [];
+            keyArgs.push(`name = "${directive.arguments.name}"`);
+            keyArgs.push(`fields = {${(directive.arguments.fields as string[]).map((f: string) => `"${f}"`).join(',')}}`);
+            return `Index(${keyArgs.join(', ')})`;
+          }
+          break;
         default:
           break;
       }
       return '';
     });
+
+    var modelLevelFieldAnnotations: string[] = new Array<string>();
+    model.fields.forEach(field => {
+      field.directives.forEach(directive => {
+        switch(directive.name) {
+          case 'primaryKey':
+            if (this.config.usePipelinedTransformer) {
+              const keyArgs: string[] = [];
+              keyArgs.push(`name = "undefined"`);
+              if(!directive.arguments.sortKeyFields) {
+                directive.arguments.sortKeyFields = new Array<string>();
+              }
+              directive.arguments.sortKeyFields = [field.name, ...directive.arguments.sortKeyFields];
+              keyArgs.push(`fields = {${(directive.arguments.sortKeyFields as string[]).map((f: string) => `"${f}"`).join(',')}}`);
+              modelLevelFieldAnnotations.push(`Index(${keyArgs.join(', ')})`);
+            }
+            break;
+          case 'index':
+            if (this.config.usePipelinedTransformer) {
+              const keyArgs: string[] = [];
+              keyArgs.push(`name = "${directive.arguments.name}"`);
+              if(!directive.arguments.sortKeyFields) {
+                directive.arguments.sortKeyFields = new Array<string>();
+              }
+              directive.arguments.sortKeyFields = [field.name, ...directive.arguments.sortKeyFields];
+              keyArgs.push(`fields = {${(directive.arguments.sortKeyFields as string[]).map((f: string) => `"${f}"`).join(',')}}`);
+              modelLevelFieldAnnotations.push(`Index(${keyArgs.join(', ')})`);
+            }
+            break;
+          default:
+            break;
+        }
+      })
+    })
+    annotations.push(...modelLevelFieldAnnotations);
     return ['SuppressWarnings("all")', ...annotations].filter(annotation => annotation);
   }
 

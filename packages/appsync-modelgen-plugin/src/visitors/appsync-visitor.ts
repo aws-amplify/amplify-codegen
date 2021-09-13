@@ -27,6 +27,7 @@ import { CodeGenConnectionType, CodeGenFieldConnection, processConnections } fro
 import { sortFields } from '../utils/sort';
 import { printWarning } from '../utils/warn';
 import { processAuthDirective } from '../utils/process-auth';
+import { processConnectionsV2 } from '../utils/process-connections-v2';
 
 export enum CodeGenGenerateEnum {
   metadata = 'metadata',
@@ -108,6 +109,12 @@ export interface RawAppSyncModelConfig extends RawConfig {
    * @descriptions optional boolean which generates the list types to respect the nullability as defined in the schema
    */
    handleListNullabilityTransparently?: boolean;
+  /**
+   * @name usePipelinedTransformer
+   * @type boolean
+   * @descriptions optional boolean which determines whether to use the new pipelined GraphQL transformer
+   */
+  usePipelinedTransformer?: boolean;
 }
 
 // Todo: need to figure out how to share config
@@ -117,6 +124,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   target?: string;
   isTimestampFieldsAdded?: boolean;
   handleListNullabilityTransparently?: boolean;
+  usePipelinedTransformer?: boolean;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
 
@@ -124,6 +132,10 @@ export type CodeGenDirective = {
   name: string;
   arguments: CodeGenArgumentsMap;
 };
+
+export type CodeGenFieldDirective = CodeGenDirective & {
+  fieldName: string;
+}
 
 export type CodeGenDirectives = CodeGenDirective[];
 export type CodeGenField = TypeInfo & {
@@ -183,7 +195,8 @@ export class AppSyncModelVisitor<
       scalars: buildScalars(_schema, rawConfig.scalars || '', defaultScalars),
       target: rawConfig.target,
       isTimestampFieldsAdded: rawConfig.isTimestampFieldsAdded,
-      handleListNullabilityTransparently: rawConfig.handleListNullabilityTransparently
+      handleListNullabilityTransparently: rawConfig.handleListNullabilityTransparently,
+      usePipelinedTransformer: rawConfig.usePipelinedTransformer,
     });
 
     const typesUsedInDirectives: string[] = [];
@@ -264,7 +277,12 @@ export class AppSyncModelVisitor<
     };
   }
   processDirectives() {
-    this.processConnectionDirective();
+    if (this.config.usePipelinedTransformer) {
+      this.processConnectionDirectivesV2()
+    }
+    else {
+      this.processConnectionDirective();
+    }
     this.processAuthDirectives();
   }
   generate(): string {
@@ -407,11 +425,11 @@ export class AppSyncModelVisitor<
     const typeArr: any[] = [];
     Object.values({ ...this.modelMap, ...this.nonModelMap }).forEach((obj: CodeGenModel) => {
       // include only key directive as we don't care about others for versioning
-      const directives = obj.directives.filter(dir => dir.name === 'key');
+      const directives = this.config.usePipelinedTransformer ? obj.directives.filter(dir => dir.name === 'primaryKey' || dir.name === 'index') : obj.directives.filter(dir => dir.name === 'key');
       const fields = obj.fields
         .map((field: CodeGenField) => {
           // include only connection field and type
-          const fieldDirectives = field.directives.filter(field => field.name === 'connection');
+          const fieldDirectives = this.config.usePipelinedTransformer ? field.directives.filter(field => field.name === 'hasOne' || field.name === 'belongsTo' || field.name === 'hasMany' || field.name === 'manyToMany') : field.directives.filter(field => field.name === 'connection');
           return {
             name: field.name,
             directives: fieldDirectives,
@@ -475,6 +493,39 @@ export class AppSyncModelVisitor<
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
         const connectionInfo = processConnections(field, model, this.modelMap);
+        if (connectionInfo) {
+          if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY || connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
+            // Need to update the other side of the connection even if there is no connection directive
+            addFieldToModel(connectionInfo.connectedModel, connectionInfo.associatedWith);
+          } else if (connectionInfo.targetName !== 'id') {
+            // Need to remove the field that is targetName
+            removeFieldFromModel(model, connectionInfo.targetName);
+          }
+          field.connectionInfo = connectionInfo;
+        }
+      });
+
+      // Should remove the fields that are of Model type and are not connected to ensure there are no phantom input fields
+      const modelTypes = Object.values(this.modelMap).map(model => model.name);
+      model.fields = model.fields.filter(field => {
+        const fieldType = field.type;
+        const connectionInfo = field.connectionInfo;
+        if (modelTypes.includes(fieldType) && connectionInfo === undefined) {
+          printWarning(
+            `Model ${model.name} has field ${field.name} of type ${field.type} but its not connected. Add a @connection directive if want to connect them.`,
+          );
+          return false;
+        }
+        return true;
+      });
+    });
+  }
+
+  protected processConnectionDirectivesV2(): void {
+    // This function is identical to its predecessor for now but may gain changes with future additions to the transformer, like manyToMany
+    Object.values(this.modelMap).forEach(model => {
+      model.fields.forEach(field => {
+        const connectionInfo = processConnectionsV2(field, model, this.modelMap);
         if (connectionInfo) {
           if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY || connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
             // Need to update the other side of the connection even if there is no connection directive

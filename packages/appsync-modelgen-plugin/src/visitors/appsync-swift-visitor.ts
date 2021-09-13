@@ -441,13 +441,47 @@ export class AppSyncSwiftVisitor<
   }
 
   protected generateKeyRules(model: CodeGenModel): string[] {
-    const keyDirectives = model.directives
-      .filter(directive => directive.name === 'key')
-      .map(directive => {
-        const name = directive.arguments.name ? `"${directive.arguments.name}"` : 'nil';
-        const fields: string = directive.arguments.fields.map((field: string) => `"${field}"`).join(', ');
-        return `.index(fields: [${fields}], name: ${name})`;
+    let keyDirectives: string[];
+
+    if (this.config.usePipelinedTransformer) {
+      let fieldDirectiveList: any[] = new Array<any>();
+      model.fields.forEach(field => {
+        field.directives.forEach(directive => {
+          fieldDirectiveList.push({
+            fieldName: field.name,
+            directive: directive
+          });
+        });
       });
+
+      keyDirectives = fieldDirectiveList
+        .filter(directiveObj => directiveObj.directive.name === 'primaryKey' || directiveObj.directive.name === 'index')
+        .map(directiveObj => {
+          switch(directiveObj.directive.name) {
+            case 'index':
+            case 'primaryKey':
+              const name = directiveObj.directive.arguments.name ? `"${directiveObj.directive.arguments.name}"` : 'nil';
+              if (!directiveObj.directive.arguments.sortKeyFields) {
+                directiveObj.directive.arguments.sortKeyFields = new Array<string>();
+              }
+              directiveObj.directive.arguments.sortKeyFields = [directiveObj.fieldName, ...directiveObj.directive.arguments.sortKeyFields]
+              const fields: string = directiveObj.directive.arguments.sortKeyFields.map((field: string) => `"${field}"`).join(', ');
+              return `.index(fields: [${fields}], name: ${name})`;
+            default:
+              break;
+          }
+          return '';
+      });
+    }
+    else {
+      keyDirectives = model.directives
+        .filter(directive => directive.name === 'key')
+        .map(directive => {
+          const name = directive.arguments.name ? `"${directive.arguments.name}"` : 'nil';
+          const fields: string = directive.arguments.fields.map((field: string) => `"${field}"`).join(', ');
+          return `.index(fields: [${fields}], name: ${name})`;
+        });
+    }
 
     return keyDirectives;
   }

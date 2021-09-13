@@ -16,6 +16,7 @@ const getVisitor = (
   emitAuthProvider: boolean = true,
   generateIndexRules: boolean = true,
   handleListNullabilityTransparently: boolean = true,
+  usePipelinedTransformer: boolean = false
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -29,12 +30,25 @@ const getVisitor = (
       emitAuthProvider,
       generateIndexRules,
       handleListNullabilityTransparently,
+      usePipelinedTransformer: usePipelinedTransformer
     },
     { selectedType, generate },
   );
   visit(ast, { leave: visitor });
   return visitor;
 };
+
+const getVisitorPipelinedTransformer = (
+  schema: string,
+  selectedType?: string,
+  generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
+  isTimestampFieldsAdded: boolean = true,
+  emitAuthProvider: boolean = true,
+  generateIndexRules: boolean = true,
+  handleListNullabilityTransparently: boolean = true
+) => {
+  return getVisitor(schema, selectedType, generate, isTimestampFieldsAdded, emitAuthProvider, generateIndexRules, handleListNullabilityTransparently, true);
+}
 
 describe('AppSyncSwiftVisitor', () => {
   it('Should generate a class for a Model', () => {
@@ -366,6 +380,74 @@ describe('AppSyncSwiftVisitor', () => {
           }
       }"
     `);
+  });
+
+  it('Should produce same result for @primaryKey as when @key is used for a primary key', () => {
+    const schemaV1 = /* GraphQL */ `
+      type authorBook @model @key(fields: ["author_id"]) {
+        id: ID!
+        author_id: ID!
+        book_id: ID!
+        author: String
+        book: String
+      }
+    `;
+    const schemaV2 = /* GraphQL */ `
+      type authorBook @model {
+        id: ID!
+        author_id: ID! @primaryKey
+        book_id: ID!
+        author: String
+        book: String
+      }
+    `;
+    const visitorV1 = getVisitor(schemaV1, 'authorBook');
+    const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook');
+    const version1Code = visitorV1.generate();
+    const version2Code = visitorV2.generate();
+
+    expect(version1Code).toMatch(version2Code);
+
+    const metadataVisitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.metadata);
+    const metadataVisitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook', CodeGenGenerateEnum.metadata);
+    const version1Metadata = metadataVisitorV1.generate();
+    const version2Metadata = metadataVisitorV2.generate();
+
+    expect(version1Metadata).toMatch(version2Metadata);
+  });
+
+  it('should produce the same result for @index as the secondary index variant of @key', async () => {
+    const schemaV1 = /* GraphQL */ `
+      type authorBook @model @key(fields: ["id"]) @key(name: "authorSecondary", fields: ["author_id", "author"]) {
+        id: ID!
+        author_id: ID!
+        book_id: ID!
+        author: String
+        book: String
+      }
+    `;
+    const schemaV2 = /* GraphQL */ `
+      type authorBook @model {
+        id: ID! @primaryKey
+        author_id: ID! @index(name: "authorSecondary", sortKeyFields: ["author"])
+        book_id: ID!
+        author: String
+        book: String
+      }
+    `;
+    const visitorV1 = getVisitor(schemaV1, 'authorBook');
+    const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook');
+    const version1Code = visitorV1.generate();
+    const version2Code = visitorV2.generate();
+
+    expect(version1Code).toMatch(version2Code);
+
+    const metadataVisitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.metadata);
+    const metadataVisitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook', CodeGenGenerateEnum.metadata);
+    const version1Metadata = metadataVisitorV1.generate();
+    const version2Metadata = metadataVisitorV2.generate();
+
+    expect(version1Metadata).toMatch(version2Metadata);
   });
 
   it('Should handle nullability of lists appropriately', () => {
