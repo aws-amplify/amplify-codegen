@@ -1,4 +1,4 @@
-import { CodeGenField, CodeGenFieldDirective, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
+import { CodeGenDirective, CodeGenField, CodeGenFieldDirective, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
 import {
   CodeGenFieldConnection, DEFAULT_HASH_KEY_FIELD, flattenFieldDirectives,
   getDirective,
@@ -10,10 +10,39 @@ import { processHasManyConnection } from './process-has-many';
 
 // TODO: This file holds several references to utility functions in the v1 process connections file, those functions need to go here before that file is removed
 
+function getBelongsToConnectedField(field: CodeGenField, model: CodeGenModel, connectedModel: CodeGenModel, connectionInfo: CodeGenDirective): CodeGenField | undefined {
+  if(connectionInfo.arguments.fields) {
+    let indexDirective = flattenFieldDirectives(model).find(dir => {
+      return dir.name === 'index' && dir.fieldName === connectionInfo.arguments.fields[0];
+    });
+
+    if(indexDirective) {
+      let theIndex = indexDirective;
+      let otherSideConnected = flattenFieldDirectives(connectedModel).find(dir => {
+        return (dir.name === 'hasOne' || dir.name === 'hasMany') && dir.arguments.indexName === theIndex.arguments.name;
+      });
+      if(otherSideConnected) {
+        for(let connField of connectedModel.fields) {
+          if (connField.name === otherSideConnected?.fieldName) {
+            return connField;
+          }
+        }
+      }
+    }
+  }
+}
+
 export function getConnectedFieldV2(field: CodeGenField, model: CodeGenModel, connectedModel: CodeGenModel, directiveName: string): CodeGenField {
   const connectionInfo = getDirective(field)(directiveName);
   if (!connectionInfo) {
     throw new Error(`The ${field.name} on model ${model.name} is not connected`);
+  }
+
+  if(connectionInfo.name === 'belongsTo') {
+    let connectedFieldBelongsTo = getBelongsToConnectedField(field, model, connectedModel, connectionInfo);
+    if (connectedFieldBelongsTo) {
+      return connectedFieldBelongsTo;
+    }
   }
 
   const indexName = connectionInfo.arguments.indexName;

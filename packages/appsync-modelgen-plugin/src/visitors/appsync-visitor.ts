@@ -532,7 +532,7 @@ export class AppSyncModelVisitor<
     let intermediateModel: CodeGenModel = {
       name: relationName,
       type: 'model',
-      directives: [],
+      directives: [{ name: 'model', arguments: {} }],
       fields: [
         {
           type: 'ID',
@@ -553,7 +553,7 @@ export class AppSyncModelVisitor<
           isNullable: false,
           isList: false,
           name: secondModel.name.toLowerCase() + 'ID',
-          directives: [{ name: 'index', arguments: { name: 'by' + firstModel.name, sortKeyFields: [firstModel.name.toLowerCase() + 'ID'] } }]
+          directives: [{ name: 'index', arguments: { name: 'by' + secondModel.name, sortKeyFields: [firstModel.name.toLowerCase() + 'ID'] } }]
         },
         {
           type: firstModel.name,
@@ -576,14 +576,15 @@ export class AppSyncModelVisitor<
   }
 
   protected determinePrimaryKeyFieldname(model: CodeGenModel): string {
+    let primaryKeyFieldName = 'id';
     model.fields.forEach(field => {
       field.directives.forEach(dir => {
         if (dir.name === 'primaryKey') {
-          return field.name;
+          primaryKeyFieldName = field.name;
         }
       });
     });
-    return 'id';
+    return primaryKeyFieldName;
   }
 
   protected convertManyToManyDirectives(contexts: ManyToManyContext[]): void {
@@ -592,6 +593,11 @@ export class AppSyncModelVisitor<
       let directiveIndex = context.field.directives.indexOf(context.directive, 0);
       if (directiveIndex > -1) {
         context.field.directives.splice(directiveIndex, 1);
+        context.field.type = context.directive.arguments.relationName;
+        context.field.directives.push({
+          name: 'hasMany',
+          arguments: { indexName: `by${context.model.name}`, fields: [this.determinePrimaryKeyFieldname(context.model)] }
+        });
       }
       else {
         throw new Error("manyToMany directive not found on manyToMany field...");
@@ -620,17 +626,26 @@ export class AppSyncModelVisitor<
     });
 
     // Validate that each manyToMany directive has a single matching directive, pairs only
-    let relationSet: Set<string> = new Set<string>();
     manyDirectiveMap.forEach((value: ManyToManyContext[], key: string) => {
       if (value.length != 2) {
         throw new Error(`Error for relation: '${value[0].directive.arguments.relationName}', there should be two matching manyToMany directives and found: ${value.length}`);
       }
       let intermediateModel = this.generateIntermediateModel(value[0].model, value[1].model, value[0].field, value[1].field, value[0].directive.arguments.relationName);
+      const modelDirective = intermediateModel.directives.find(directive => directive.name === 'model');
+      if(modelDirective) {
+        this.ensureIdField(intermediateModel);
+        this.addTimestampFields(intermediateModel, modelDirective);
+        this.sortFields(intermediateModel);
+      }
+
       this.modelMap[intermediateModel.name] = intermediateModel;
+      this.convertManyToManyDirectives(value);
     });
   }
 
   protected processConnectionDirectivesV2(): void {
+    this.processManyToManyDirectives();
+
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
         const connectionInfo = processConnectionsV2(field, model, this.modelMap);
