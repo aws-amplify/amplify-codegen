@@ -1,7 +1,7 @@
 import { buildSchema, parse, visit } from 'graphql';
 import { directives, scalars } from '../../scalars/supported-directives';
 import { CodeGenConnectionType, CodeGenFieldConnectionBelongsTo, CodeGenFieldConnectionHasMany } from '../../utils/process-connections';
-import { AppSyncModelVisitor, CodeGenField, CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
+import { AppSyncModelVisitor, CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
 
 const buildSchemaWithDirectives = (schema: String) => {
   return buildSchema([schema, directives, scalars].join('\n'));

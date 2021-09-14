@@ -41,7 +41,7 @@ export interface ParsedAppSyncModelSwiftConfig extends ParsedAppSyncModelConfig 
 export class AppSyncSwiftVisitor<
   TRawConfig extends RawAppSyncModelSwiftConfig = RawAppSyncModelSwiftConfig,
   TPluginConfig extends ParsedAppSyncModelSwiftConfig = ParsedAppSyncModelSwiftConfig
-> extends AppSyncModelVisitor<TRawConfig, TPluginConfig> {
+  > extends AppSyncModelVisitor<TRawConfig, TPluginConfig> {
   protected modelExtensionImports: string[] = ['import Amplify', 'import Foundation'];
   protected imports: string[] = ['import Amplify', 'import Foundation'];
 
@@ -458,6 +458,7 @@ export class AppSyncSwiftVisitor<
         .filter(directiveObj => directiveObj.directive.name === 'primaryKey' || directiveObj.directive.name === 'index')
         .map(directiveObj => {
           switch(directiveObj.directive.name) {
+            case 'index':
             case 'primaryKey':
               const name = directiveObj.directive.arguments.name ? `"${directiveObj.directive.arguments.name}"` : 'nil';
               if (!directiveObj.directive.arguments.sortKeyFields) {
@@ -466,13 +467,11 @@ export class AppSyncSwiftVisitor<
               directiveObj.directive.arguments.sortKeyFields = [directiveObj.fieldName, ...directiveObj.directive.arguments.sortKeyFields]
               const fields: string = directiveObj.directive.arguments.sortKeyFields.map((field: string) => `"${field}"`).join(', ');
               return `.index(fields: [${fields}], name: ${name})`;
-            case 'index':
-              return '';
             default:
               break;
           }
           return '';
-      });
+        });
     }
     else {
       keyDirectives = model.directives

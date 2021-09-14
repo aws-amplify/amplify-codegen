@@ -821,7 +821,7 @@ describe('process connection', () => {
             governmentID: ID! @primaryKey
             pets: [Animal] @manyToMany(relationName: "PetFriend")
           }
-
+          
           type Animal @model {
             animalTag: ID!
             humanFriend: [Human] @manyToMany(relationName: "PetFriend")
