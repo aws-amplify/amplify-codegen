@@ -36,7 +36,7 @@ export class AppSyncModelJavaVisitor<
     if (this._parsedConfig.generate === 'loader') {
       return this.generateClassLoader();
     }
-    validateFieldName({...this.getSelectedModels(), ...this.getSelectedNonModels()});
+    validateFieldName({ ...this.getSelectedModels(), ...this.getSelectedNonModels() });
     if (this.selectedTypeIsEnum()) {
       return this.generateEnums();
     } else if (this.selectedTypeIsNonModel()) {
@@ -309,10 +309,17 @@ export class AppSyncModelJavaVisitor<
       field.connectionInfo && field.connectionInfo.kind === CodeGenConnectionType.BELONGS_TO
         ? field.connectionInfo.targetName
         : this.getFieldName(field);
-    classDeclarationBlock.addClassMember(queryFieldName, 'QueryField', `field("${this.getModelName(model)}", "${fieldName}")`, [], 'public', {
-      final: true,
-      static: true,
-    });
+    classDeclarationBlock.addClassMember(
+      queryFieldName,
+      'QueryField',
+      `field("${this.getModelName(model)}", "${fieldName}")`,
+      [],
+      'public',
+      {
+        final: true,
+        static: true,
+      },
+    );
   }
   /**
    * Add fields as members of the model class
@@ -479,21 +486,11 @@ export class AppSyncModelJavaVisitor<
     if (isModel) {
       // Add id builder
       const idBuildStepBody = dedent`this.id = id;
-
-    try {
-        UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException("Model IDs must be unique in the format of UUID.",
-                exception);
-    }
-
     return this;`;
 
-      const idComment = dedent`WARNING: Do not set ID when creating a new object. Leave this blank and one will be auto generated for you.
-    This should only be set when referring to an already existing object.
+      const idComment = dedent`
     @param id id
-    @return Current Builder instance, for fluent method chaining
-    @throws IllegalArgumentException Checks that ID is in the proper format`;
+    @return Current Builder instance, for fluent method chaining`;
 
       builderClassDeclaration.addClassMethod(
         'id',
@@ -504,7 +501,7 @@ export class AppSyncModelJavaVisitor<
         'public',
         {},
         [],
-        ['IllegalArgumentException'],
+        [],
         idComment,
       );
     }
@@ -533,7 +530,10 @@ export class AppSyncModelJavaVisitor<
     const nullableFields = this.getWritableFields(model).filter(field => field.isNullable);
 
     // constructor
-    const constructorArguments = this.getWritableFields(model).map(field => ({ name: this.getStepFunctionArgumentName(field), type: this.getNativeType(field) }));
+    const constructorArguments = this.getWritableFields(model).map(field => ({
+      name: this.getStepFunctionArgumentName(field),
+      type: this.getNativeType(field),
+    }));
     const stepBuilderInvocation = [...nonNullableFields, ...nullableFields].map(field => {
       const methodName = this.getStepFunctionName(field);
       const argumentName = this.getStepFunctionArgumentName(field);
@@ -636,7 +636,10 @@ export class AppSyncModelJavaVisitor<
       })
       .join('\n');
 
-    const constructorArguments = this.getWritableFields(model).map(field => ({ name: this.getFieldName(field), type: this.getNativeType(field) }));
+    const constructorArguments = this.getWritableFields(model).map(field => ({
+      name: this.getFieldName(field),
+      type: this.getNativeType(field),
+    }));
     declarationsBlock.addClassMethod(name, null, body, constructorArguments, undefined, 'private');
   }
 
@@ -734,9 +737,7 @@ export class AppSyncModelJavaVisitor<
    * @param classDeclaration
    */
   protected generateBuilderMethod(model: CodeGenModel, classDeclaration: JavaDeclarationBlock): void {
-    const requiredFields = this.getWritableFields(model).filter(
-      field => !field.isNullable && !this.READ_ONLY_FIELDS.includes(field.name),
-    );
+    const requiredFields = this.getWritableFields(model).filter(field => !field.isNullable && !this.READ_ONLY_FIELDS.includes(field.name));
     const returnType = requiredFields.length ? this.getStepInterfaceName(requiredFields[0].name) : this.getStepInterfaceName('Build');
     classDeclaration.addClassMethod(
       'builder',
@@ -860,7 +861,7 @@ export class AppSyncModelJavaVisitor<
             return;
         }
         if (rule.provider != null) {
-            authRule.push(`provider = "${rule.provider}"`)
+          authRule.push(`provider = "${rule.provider}"`);
         }
         authRule.push(`operations = { ${rule.operations?.map(op => operationMapping[op]).join(', ')} }`);
         rules.push(`@AuthRule(${authRule.join(', ')})`);

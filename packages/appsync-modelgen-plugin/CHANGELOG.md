@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.27.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.27.2...@aws-amplify/appsync-modelgen-plugin@1.27.3) (2021-08-27)
+
+
+### Bug Fixes
+
+* add null safety ff check ([9940457](https://github.com/aws-amplify/amplify-codegen/commit/994045773bd63d8a192856dbd2c498ddfd4be679))
+* apply toJson changes for float and int ([3d1d7ac](https://github.com/aws-amplify/amplify-codegen/commit/3d1d7ac19c69f23cdf8aa1e2194dc3156f914cf0))
+* **appsync-modelgen-plugin:** add type cast for float fromJson ([7044492](https://github.com/aws-amplify/amplify-codegen/commit/7044492ee5fec8498c235ed69d96190da9f8842b))
+* **appsync-modelgen-plugin:** remove unnecessary null-aware operators ([#227](https://github.com/aws-amplify/amplify-codegen/issues/227)) ([a1c4e34](https://github.com/aws-amplify/amplify-codegen/commit/a1c4e346046f113f9111a6450901b11a48c79c32))
+
+
+
+
+
+## [1.27.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.27.1...@aws-amplify/appsync-modelgen-plugin@1.27.2) (2021-08-18)
+
+
+### Bug Fixes
+
+* **appsync-modelgen-plugin:** dart model internal constructor with no internal fields ([#210](https://github.com/aws-amplify/amplify-codegen/issues/210)) ([4d743b9](https://github.com/aws-amplify/amplify-codegen/commit/4d743b9cf29545591ae7dae0cf13619a1dac9513))
+* **appsync-modelgen-plugin:** remove warning and uuid check for java ([#198](https://github.com/aws-amplify/amplify-codegen/issues/198)) ([6f932d0](https://github.com/aws-amplify/amplify-codegen/commit/6f932d006fb7bd3c19e280acf0d05c3d05f0ae0d))
+
+
+
+
+
 ## [1.27.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.27.0...@aws-amplify/appsync-modelgen-plugin@1.27.1) (2021-07-28)
 
 

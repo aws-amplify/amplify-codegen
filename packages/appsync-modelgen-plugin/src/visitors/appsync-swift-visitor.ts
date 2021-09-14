@@ -471,7 +471,7 @@ export class AppSyncSwiftVisitor<
               break;
           }
           return '';
-        });
+      });
     }
     else {
       keyDirectives = model.directives

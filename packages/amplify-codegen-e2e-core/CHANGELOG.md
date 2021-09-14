@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen-e2e-core@1.1.1...amplify-codegen-e2e-core@1.1.2) (2021-08-27)
+
+
+### Bug Fixes
+
+* **amplify-codegen-e2e-core:** remove pull status table checks ([e70a079](https://github.com/aws-amplify/amplify-codegen/commit/e70a079fecf3baf058c8e86327e743660d80b439))
+
+
+
+
+
 ## [1.1.1](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen-e2e-core@1.1.0...amplify-codegen-e2e-core@1.1.1) (2021-07-28)
 
 
