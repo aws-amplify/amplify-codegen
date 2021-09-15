@@ -7,17 +7,23 @@ const buildSchemaWithDirectives = (schema: String) => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-const createAndGenerateVisitor = (schema: string) => {
+const createAndGenerateVisitor = (schema: string, usePipelinedTransformer: boolean = false) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelVisitor(
     builtSchema,
-    { directives, target: 'general', isTimestampFieldsAdded: true },
+    { directives, target: 'general', isTimestampFieldsAdded: true, usePipelinedTransformer: usePipelinedTransformer },
     { generate: CodeGenGenerateEnum.code },
   );
   visit(ast, { leave: visitor });
   visitor.generate();
   return visitor;
+};
+
+const createAndGeneratePipelinedTransformerVisitor = (
+  schema: string
+) => {
+  return createAndGenerateVisitor(schema, true);
 };
 
 describe('AppSyncModelVisitor', () => {
@@ -561,6 +567,180 @@ describe('AppSyncModelVisitor', () => {
       expect(createdAtField.isReadOnly).not.toBeDefined();
       const updatedAtField = postFields.find(field => field.name === 'updatedOn');
       expect(updatedAtField).toMatchObject(updatedAtFieldObj);
+    });
+  });
+
+  describe('manyToMany testing', () => {
+    let simpleManyToManySchema;
+    let simpleManyModelMap;
+    let transformedSimpleManyModelMap;
+
+    beforeEach(() => {
+      simpleManyToManySchema = /* GraphQL */ `
+          type Human @model {
+            governmentID: ID! @primaryKey
+            pets: [Animal] @manyToMany(relationName: "PetFriend")
+          }
+          
+          type Animal @model {
+            animalTag: ID!
+            humanFriend: [Human] @manyToMany(relationName: "PetFriend")
+          }
+        `;
+
+      simpleManyModelMap = {
+        Human: {
+          name: 'Human',
+          type: 'model',
+          directives: [],
+          fields: [
+            {
+              type: 'ID',
+              isNullable: false,
+              isList: false,
+              name: 'governmentID',
+              directives: [{ name: 'primaryKey', arguments: {} }]
+            },
+            {
+              type: 'Animal',
+              isNullable: true,
+              isList: true,
+              name: 'pets',
+              directives: [{ name: 'manyToMany', arguments: { relationName: 'PetFriend' } }]
+            }
+          ]
+        },
+        Animal: {
+          name: 'Animal',
+          type: 'model',
+          directives: [],
+          fields: [
+            {
+              type: 'ID',
+              isNullable: false,
+              isList: false,
+              name: 'animalTag',
+              directives: [],
+            },
+            {
+              type: 'Human',
+              isNullable: true,
+              isList: true,
+              name: 'postID',
+              directives: [{ name: 'manyToMany', arguments: { relationName: 'PetFriend' } }]
+            }
+          ],
+        }
+      };
+    });
+
+    transformedSimpleManyModelMap = {
+      Human: {
+        name: 'Human',
+        type: 'model',
+        directives: [{name: 'model', arguments: {}}],
+        fields: [
+          {
+            type: 'ID',
+            isNullable: false,
+            isList: false,
+            name: 'governmentID',
+            directives: [{ name: 'primaryKey', arguments: {} }]
+          },
+          {
+            type: 'PetFriend',
+            isNullable: true,
+            isList: true,
+            name: 'pets',
+            directives: [{ name: 'hasMany', arguments: { fields: ['governmentID'] } }]
+          }
+        ]
+      },
+      Animal: {
+        name: 'Animal',
+        type: 'model',
+        directives: [{name: 'model', arguments: {}}],
+        fields: [
+          {
+            type: 'ID',
+            isNullable: false,
+            isList: false,
+            name: 'animalTag',
+            directives: [],
+          },
+          {
+            type: 'PetFriend',
+            isNullable: true,
+            isList: true,
+            name: 'postID',
+            directives: [{ name: 'hasMany', arguments: { fields: ['id'] } }]
+          }
+        ],
+      },
+      PetFriend: {
+        name: 'PetFriend',
+        type: 'model',
+        directives: [{name: 'model', arguments: {}}],
+        fields: [
+          {
+            type: 'ID',
+            isNullable: false,
+            isList: false,
+            name: 'id',
+            directives: []
+          },
+          {
+            type: 'ID',
+            isNullable: false,
+            isList: false,
+            name: 'humanID',
+            directives: [{ name: 'index', arguments: { name: 'byHuman', sortKeyFields: ['animalID'] } }]
+          },
+          {
+            type: 'ID',
+            isNullable: false,
+            isList: false,
+            name: 'animalID',
+            directives: [{ name: 'index', arguments: { name: 'byAnimal', sortKeyFields: ['humanID'] } }]
+          },
+          {
+            type: 'Human',
+            isNullable: false,
+            isList: false,
+            name: 'human',
+            directives: [{ name: 'belongsTo', arguments: { fields: ['humanID'] } }]
+          },
+          {
+            type: 'Animal',
+            isNullable: false,
+            isList: false,
+            name: 'animal',
+            directives: [{ name: 'belongsTo', arguments: { fields: ['humanID'] } }]
+          }
+        ]
+      }
+    };
+
+    it('Should correctly convert the model map of a simple manyToMany', () => {
+      const visitor = createAndGeneratePipelinedTransformerVisitor(simpleManyToManySchema);
+
+      expect(visitor.models.Human.fields.length).toEqual(5);
+      expect(visitor.models.Human.fields[2].directives[0].name).toEqual('hasMany')
+      expect(visitor.models.Human.fields[2].directives[0].arguments.fields.length).toEqual(1)
+      expect(visitor.models.Human.fields[2].directives[0].arguments.fields[0]).toEqual('governmentID')
+      expect(visitor.models.Human.fields[2].directives[0].arguments.indexName).toEqual('byHuman')
+      expect(visitor.models.PetFriend).toBeDefined();
+      expect(visitor.models.PetFriend.fields.length).toEqual(5);
+      expect(visitor.models.PetFriend.fields[2].directives[0].name).toEqual('belongsTo')
+      expect(visitor.models.PetFriend.fields[2].directives[0].arguments.fields.length).toEqual(1)
+      expect(visitor.models.PetFriend.fields[2].directives[0].arguments.fields[0]).toEqual('animalID')
+      expect(visitor.models.Animal.fields.length).toEqual(5);
+      expect(visitor.models.Animal.fields[2].type).toEqual('PetFriend');
+      expect(visitor.models.Animal.fields[2].directives.length).toEqual(1);
+      expect(visitor.models.Animal.fields[2].directives[0].name).toEqual('hasMany');
+      expect(visitor.models.Animal.fields[2].directives[0].arguments.fields.length).toEqual(1)
+      expect(visitor.models.Animal.fields[2].directives[0].arguments.fields[0]).toEqual('id')
+      expect(visitor.models.Animal.fields[2].directives[0].arguments.indexName).toEqual('byAnimal')
     });
   });
 });
