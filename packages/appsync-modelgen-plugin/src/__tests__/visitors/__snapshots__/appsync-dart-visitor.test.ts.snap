@@ -5876,9 +5876,7 @@ class SimpleModel extends Model {
     if (identical(other, this)) return true;
     return other is SimpleModel &&
       id == other.id &&
-      _name == other._name &&
-      _createdAt == other._createdAt &&
-      _updatedAt == other._updatedAt;
+      _name == other._name;
   }
   
   @override

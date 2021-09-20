@@ -430,7 +430,7 @@ export class AppSyncModelDartVisitor<
       'if (identical(other, this)) return true;',
       `return other is ${this.getModelName(model)} &&`,
       indentMultiline(
-        `${model.fields
+        `${this.getWritableFields(model)
           .map(f => {
             const fieldName = `${this.isNullSafety() && f.name !== 'id' ? '_' : ''}${this.getFieldName(f)}`;
             return f.isList ? `DeepCollectionEquality().equals(${fieldName}, other.${fieldName})` : `${fieldName} == other.${fieldName}`;
