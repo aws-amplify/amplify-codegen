@@ -529,8 +529,8 @@ export class AppSyncModelVisitor<
   }
 
   protected generateIntermediateModel(firstModel: CodeGenModel, secondModel: CodeGenModel, firstField: CodeGenField, secondField: CodeGenField, relationName: string) {
-    const firstModelKeyFieldName = `${firstModel.name}ID`;
-    const secondModelKeyFieldName = `${secondModel.name}ID`;
+    const firstModelKeyFieldName = `${firstModel.name.toLowerCase()}ID`;
+    const secondModelKeyFieldName = `${secondModel.name.toLowerCase()}ID`;
     let intermediateModel: CodeGenModel = {
       name: relationName,
       type: 'model',
