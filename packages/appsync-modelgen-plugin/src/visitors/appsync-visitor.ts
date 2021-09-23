@@ -529,6 +529,8 @@ export class AppSyncModelVisitor<
   }
 
   protected generateIntermediateModel(firstModel: CodeGenModel, secondModel: CodeGenModel, firstField: CodeGenField, secondField: CodeGenField, relationName: string) {
+    const firstModelKeyFieldName = `${firstModel.name}ID`;
+    const secondModelKeyFieldName = `${secondModel.name}ID`;
     let intermediateModel: CodeGenModel = {
       name: relationName,
       type: 'model',
@@ -545,29 +547,29 @@ export class AppSyncModelVisitor<
           type: 'ID',
           isNullable: false,
           isList: false,
-          name: firstModel.name.toLowerCase() + 'ID',
-          directives: [{ name: 'index', arguments: { name: 'by' + firstModel.name, sortKeyFields: [secondModel.name.toLowerCase() + 'ID'] } }]
+          name: firstModelKeyFieldName,
+          directives: [{ name: 'index', arguments: { name: 'by' + firstModel.name, sortKeyFields: [secondModelKeyFieldName] } }]
         },
         {
           type: 'ID',
           isNullable: false,
           isList: false,
-          name: secondModel.name.toLowerCase() + 'ID',
-          directives: [{ name: 'index', arguments: { name: 'by' + secondModel.name, sortKeyFields: [firstModel.name.toLowerCase() + 'ID'] } }]
+          name: secondModelKeyFieldName,
+          directives: [{ name: 'index', arguments: { name: 'by' + secondModel.name, sortKeyFields: [firstModelKeyFieldName] } }]
         },
         {
           type: firstModel.name,
           isNullable: false,
           isList: false,
           name: firstModel.name.toLowerCase(),
-          directives: [{ name: 'belongsTo', arguments: { fields: [firstModel.name.toLowerCase() + 'ID'] } }]
+          directives: [{ name: 'belongsTo', arguments: { fields: [firstModelKeyFieldName] } }]
         },
         {
           type: secondModel.name,
           isNullable: false,
           isList: false,
           name: secondModel.name.toLowerCase(),
-          directives: [{ name: 'belongsTo', arguments: { fields: [secondModel.name.toLowerCase() + 'ID'] } }]
+          directives: [{ name: 'belongsTo', arguments: { fields: [secondModelKeyFieldName] } }]
         }
       ]
     }
