@@ -1,13 +1,12 @@
 import {
   processConnections,
   CodeGenConnectionType,
-  CodeGenFieldConnection,
   CodeGenFieldConnectionHasMany,
   CodeGenFieldConnectionBelongsTo,
   CodeGenFieldConnectionHasOne,
   getConnectedField,
 } from '../../utils/process-connections';
-import { CodeGenModelMap, CodeGenModel } from '../../visitors/appsync-visitor';
+import { CodeGenModelMap } from '../../visitors/appsync-visitor';
 import { processConnectionsV2 } from '../../utils/process-connections-v2';
 
 describe('process connection', () => {
@@ -772,5 +771,6 @@ describe('process connection', () => {
         expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(false);
       });
     });
+
   });
 });

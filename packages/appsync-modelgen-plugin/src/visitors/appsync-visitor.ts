@@ -171,6 +171,13 @@ export type CodeGenEnumValueMap = { [enumConvertedName: string]: string };
 
 export type CodeGenEnumMap = Record<string, CodeGenEnum>;
 
+// Used to simplify processing of manyToMany into composing directives hasMany and belongsTo
+type ManyToManyContext = {
+  model: CodeGenModel;
+  field: CodeGenField;
+  directive: CodeGenDirective;
+};
+
 const DEFAULT_CREATED_TIME = 'createdAt';
 const DEFAULT_UPDATED_TIME = 'updatedAt';
 
@@ -521,8 +528,126 @@ export class AppSyncModelVisitor<
     });
   }
 
+  protected generateIntermediateModel(firstModel: CodeGenModel, secondModel: CodeGenModel, firstField: CodeGenField, secondField: CodeGenField, relationName: string) {
+    const firstModelKeyFieldName = `${firstModel.name.toLowerCase()}ID`;
+    const secondModelKeyFieldName = `${secondModel.name.toLowerCase()}ID`;
+    let intermediateModel: CodeGenModel = {
+      name: relationName,
+      type: 'model',
+      directives: [{ name: 'model', arguments: {} }],
+      fields: [
+        {
+          type: 'ID',
+          isNullable: false,
+          isList: false,
+          name: 'id',
+          directives: []
+        },
+        {
+          type: 'ID',
+          isNullable: false,
+          isList: false,
+          name: firstModelKeyFieldName,
+          directives: [{ name: 'index', arguments: { name: 'by' + firstModel.name, sortKeyFields: [secondModelKeyFieldName] } }]
+        },
+        {
+          type: 'ID',
+          isNullable: false,
+          isList: false,
+          name: secondModelKeyFieldName,
+          directives: [{ name: 'index', arguments: { name: 'by' + secondModel.name, sortKeyFields: [firstModelKeyFieldName] } }]
+        },
+        {
+          type: firstModel.name,
+          isNullable: false,
+          isList: false,
+          name: firstModel.name.toLowerCase(),
+          directives: [{ name: 'belongsTo', arguments: { fields: [firstModelKeyFieldName] } }]
+        },
+        {
+          type: secondModel.name,
+          isNullable: false,
+          isList: false,
+          name: secondModel.name.toLowerCase(),
+          directives: [{ name: 'belongsTo', arguments: { fields: [secondModelKeyFieldName] } }]
+        }
+      ]
+    }
+
+    return intermediateModel;
+  }
+
+  protected determinePrimaryKeyFieldname(model: CodeGenModel): string {
+    let primaryKeyFieldName = 'id';
+    model.fields.forEach(field => {
+      field.directives.forEach(dir => {
+        if (dir.name === 'primaryKey') {
+          primaryKeyFieldName = field.name;
+        }
+      });
+    });
+    return primaryKeyFieldName;
+  }
+
+  protected convertManyToManyDirectives(contexts: ManyToManyContext[]): void {
+    // Responsible for stripping the manyToMany directives off provided models and replacing them with hasMany, after intermediate models are added
+    contexts.forEach(context => {
+      let directiveIndex = context.field.directives.indexOf(context.directive, 0);
+      if (directiveIndex > -1) {
+        context.field.directives.splice(directiveIndex, 1);
+        context.field.type = context.directive.arguments.relationName;
+        context.field.directives.push({
+          name: 'hasMany',
+          arguments: { indexName: `by${context.model.name}`, fields: [this.determinePrimaryKeyFieldname(context.model)] }
+        });
+      }
+      else {
+        throw new Error("manyToMany directive not found on manyToMany field...");
+      }
+    });
+  }
+
+  protected processManyToManyDirectives(): void {
+    // Data pattern: key is the name of the model, value is the field that has a manyToMany directive on it
+    let manyDirectiveMap: Map<string, Array<ManyToManyContext>> = new Map<string, Array<ManyToManyContext>>();
+    Object.values(this.modelMap).forEach(model => {
+      model.fields.forEach(field => {
+        field.directives.forEach(dir => {
+          if(dir.name === 'manyToMany') {
+            let relationName = dir.arguments.relationName;
+            let existingRelation = manyDirectiveMap.get(relationName);
+            if (existingRelation) {
+              existingRelation.push({ model: model, field: field, directive: dir });
+            }
+            else {
+              manyDirectiveMap.set(relationName, [{ model: model, field: field, directive: dir }]);
+            }
+          }
+        });
+      });
+    });
+
+    // Validate that each manyToMany directive has a single matching directive, pairs only
+    manyDirectiveMap.forEach((value: ManyToManyContext[], key: string) => {
+      if (value.length != 2) {
+        throw new Error(`Error for relation: '${value[0].directive.arguments.relationName}', there should be two matching manyToMany directives and found: ${value.length}`);
+      }
+      let intermediateModel = this.generateIntermediateModel(value[0].model, value[1].model, value[0].field, value[1].field, value[0].directive.arguments.relationName);
+      const modelDirective = intermediateModel.directives.find(directive => directive.name === 'model');
+      if(modelDirective) {
+        this.ensureIdField(intermediateModel);
+        this.addTimestampFields(intermediateModel, modelDirective);
+        this.sortFields(intermediateModel);
+      }
+
+      this.modelMap[intermediateModel.name] = intermediateModel;
+      this.convertManyToManyDirectives(value);
+    });
+  }
+
   protected processConnectionDirectivesV2(): void {
-    // This function is identical to its predecessor for now but may gain changes with future additions to the transformer, like manyToMany
+    this.processManyToManyDirectives();
+
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
         const connectionInfo = processConnectionsV2(field, model, this.modelMap);

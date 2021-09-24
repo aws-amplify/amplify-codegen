@@ -41,7 +41,7 @@ export interface ParsedAppSyncModelSwiftConfig extends ParsedAppSyncModelConfig 
 export class AppSyncSwiftVisitor<
   TRawConfig extends RawAppSyncModelSwiftConfig = RawAppSyncModelSwiftConfig,
   TPluginConfig extends ParsedAppSyncModelSwiftConfig = ParsedAppSyncModelSwiftConfig
-> extends AppSyncModelVisitor<TRawConfig, TPluginConfig> {
+  > extends AppSyncModelVisitor<TRawConfig, TPluginConfig> {
   protected modelExtensionImports: string[] = ['import Amplify', 'import Foundation'];
   protected imports: string[] = ['import Amplify', 'import Foundation'];
 
