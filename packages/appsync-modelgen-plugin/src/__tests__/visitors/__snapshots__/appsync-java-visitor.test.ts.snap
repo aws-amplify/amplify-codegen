@@ -114,18 +114,8 @@ public final class customClaim implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static customClaim justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new customClaim(
       id,
       null,
@@ -140,7 +130,7 @@ public final class customClaim implements Model {
   }
   public interface BuildStep {
     customClaim build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep name(String name);
     BuildStep bar(String bar);
   }
@@ -319,18 +309,8 @@ public final class customClaim implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static customClaim justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new customClaim(
       id,
       null,
@@ -345,7 +325,7 @@ public final class customClaim implements Model {
   }
   public interface BuildStep {
     customClaim build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep name(String name);
     BuildStep bar(String bar);
   }
@@ -537,18 +517,8 @@ public final class Employee implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static Employee justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new Employee(
       id,
       null,
@@ -575,7 +545,7 @@ public final class Employee implements Model {
 
   public interface BuildStep {
     Employee build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep ssn(String ssn);
   }
   
@@ -769,18 +739,8 @@ public final class dynamicGroups implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static dynamicGroups justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new dynamicGroups(
       id,
       null,
@@ -795,7 +755,7 @@ public final class dynamicGroups implements Model {
   }
   public interface BuildStep {
     dynamicGroups build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep name(String name);
     BuildStep bar(String bar);
   }
@@ -987,18 +947,8 @@ public final class Employee implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static Employee justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new Employee(
       id,
       null,
@@ -1025,7 +975,7 @@ public final class Employee implements Model {
 
   public interface BuildStep {
     Employee build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep ssn(String ssn);
   }
   
@@ -1219,18 +1169,8 @@ public final class simpleOwnerAuth implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static simpleOwnerAuth justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new simpleOwnerAuth(
       id,
       null,
@@ -1245,7 +1185,7 @@ public final class simpleOwnerAuth implements Model {
   }
   public interface BuildStep {
     simpleOwnerAuth build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep name(String name);
     BuildStep bar(String bar);
   }
@@ -1424,18 +1364,8 @@ public final class allowRead implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static allowRead justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new allowRead(
       id,
       null,
@@ -1450,7 +1380,7 @@ public final class allowRead implements Model {
   }
   public interface BuildStep {
     allowRead build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep name(String name);
     BuildStep bar(String bar);
   }
@@ -1629,18 +1559,8 @@ public final class privateType implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static privateType justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new privateType(
       id,
       null,
@@ -1655,7 +1575,7 @@ public final class privateType implements Model {
   }
   public interface BuildStep {
     privateType build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep name(String name);
     BuildStep bar(String bar);
   }
@@ -1836,18 +1756,8 @@ public final class privateType implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static privateType justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new privateType(
       id,
       null,
@@ -1862,7 +1772,7 @@ public final class privateType implements Model {
   }
   public interface BuildStep {
     privateType build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep name(String name);
     BuildStep bar(String bar);
   }
@@ -2041,18 +1951,8 @@ public final class publicType implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static publicType justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new publicType(
       id,
       null,
@@ -2067,7 +1967,7 @@ public final class publicType implements Model {
   }
   public interface BuildStep {
     publicType build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep name(String name);
     BuildStep bar(String bar);
   }
@@ -2246,18 +2146,8 @@ public final class staticGroups implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static staticGroups justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new staticGroups(
       id,
       null,
@@ -2272,7 +2162,7 @@ public final class staticGroups implements Model {
   }
   public interface BuildStep {
     staticGroups build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep name(String name);
     BuildStep bar(String bar);
   }
@@ -2466,18 +2356,8 @@ public final class Landmark implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static Landmark justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new Landmark(
       id,
       null,
@@ -2511,7 +2391,7 @@ public final class Landmark implements Model {
 
   public interface BuildStep {
     Landmark build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep parking(Location parking);
   }
   
@@ -2845,18 +2725,8 @@ public final class task implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static task justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new task(
       id,
       null,
@@ -2873,7 +2743,7 @@ public final class task implements Model {
   }
   public interface BuildStep {
     task build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep todo(Todo todo);
     BuildStep time(Temporal.Time time);
     BuildStep createdOn(Temporal.Date createdOn);
@@ -3048,18 +2918,8 @@ public final class Todo implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static Todo justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new Todo(
       id
     );
@@ -3070,7 +2930,7 @@ public final class Todo implements Model {
   }
   public interface BuildStep {
     Todo build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
   }
   
 
@@ -3215,18 +3075,8 @@ public final class SimpleModel implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static SimpleModel justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new SimpleModel(
       id,
       null,
@@ -3241,7 +3091,7 @@ public final class SimpleModel implements Model {
   }
   public interface BuildStep {
     SimpleModel build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep name(String name);
     BuildStep bar(String bar);
   }
@@ -3415,18 +3265,8 @@ public final class SimpleModel implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static SimpleModel justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new SimpleModel(
       id,
       null,
@@ -3441,7 +3281,7 @@ public final class SimpleModel implements Model {
   }
   public interface BuildStep {
     SimpleModel build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep name(String name);
     BuildStep bar(String bar);
   }
@@ -3675,18 +3515,8 @@ public final class ListContainer implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static ListContainer justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new ListContainer(
       id,
       null,
@@ -3733,7 +3563,7 @@ public final class ListContainer implements Model {
 
   public interface BuildStep {
     ListContainer build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep name(String name);
     BuildStep list(List<Integer> list);
     BuildStep listOfRequired(List<Boolean> listOfRequired);
@@ -4028,18 +3858,8 @@ public final class task implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static task justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new task(
       id,
       null,
@@ -4070,7 +3890,7 @@ public final class task implements Model {
 
   public interface BuildStep {
     task build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep todo(Todo todo);
     BuildStep time(Temporal.Time time);
     BuildStep createdOn(Temporal.Date createdOn);
@@ -4335,18 +4155,8 @@ public final class Todo implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static Todo justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new Todo(
       id,
       null,
@@ -4384,7 +4194,7 @@ public final class Todo implements Model {
 
   public interface BuildStep {
     Todo build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep description(String description);
     BuildStep dueDate(String dueDate);
     BuildStep value(Double value);
@@ -4630,18 +4440,8 @@ public final class TypeWithAWSDateScalars implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static TypeWithAWSDateScalars justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new TypeWithAWSDateScalars(
       id,
       null,
@@ -4660,7 +4460,7 @@ public final class TypeWithAWSDateScalars implements Model {
   }
   public interface BuildStep {
     TypeWithAWSDateScalars build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep date(Temporal.Date date);
     BuildStep createdAt(Temporal.DateTime createdAt);
     BuildStep time(Temporal.Time time);
@@ -4897,18 +4697,8 @@ public final class authorBook implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static authorBook justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new authorBook(
       id,
       null,
@@ -4937,7 +4727,7 @@ public final class authorBook implements Model {
 
   public interface BuildStep {
     authorBook build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep author(String author);
     BuildStep book(String book);
   }
@@ -5131,18 +4921,8 @@ public final class NonCamelCaseField implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static NonCamelCaseField justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new NonCamelCaseField(
       id,
       null
@@ -5155,7 +4935,7 @@ public final class NonCamelCaseField implements Model {
   }
   public interface BuildStep {
     NonCamelCaseField build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep employeePid(String employeePid);
   }
   
@@ -5304,18 +5084,8 @@ public final class snake_case implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static snake_case justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new snake_case(
       id,
       null
@@ -5328,7 +5098,7 @@ public final class snake_case implements Model {
   }
   public interface BuildStep {
     snake_case build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep name(String name);
   }
   
@@ -5477,18 +5247,8 @@ public final class SnakeCaseField implements Model {
    * in a relationship.
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
-   * @throws IllegalArgumentException Checks that ID is in the proper format
    */
   public static SnakeCaseField justId(String id) {
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              \\"Model IDs must be unique in the format of UUID. This method is for creating instances \\" +
-              \\"of an existing object with only its ID field for sending as a mutation parameter. When \\" +
-              \\"creating a new object, use the standard builder method and leave the ID field blank.\\"
-      );
-    }
     return new SnakeCaseField(
       id,
       null
@@ -5501,7 +5261,7 @@ public final class SnakeCaseField implements Model {
   }
   public interface BuildStep {
     SnakeCaseField build();
-    BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep id(String id);
     BuildStep firstName(String firstName);
   }
   
