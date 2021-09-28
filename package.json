@@ -13,7 +13,6 @@
     "production-build": "yarn && lerna run build --concurrency 3 --stream",
     "publish:master": "lerna publish --canary --exact --force-publish --preid=dev --dist-tag=dev --include-merged-tags --conventional-prerelease --yes",
     "publish:release": "lerna publish --exact --conventional-commits --message 'chore(release): Publish [ci skip]' --yes",
-    "publish:dart-modelgen-null-safety": "lerna publish --canary --exact --force-publish --preid=flutter-preview --dist-tag=flutter-preview --include-merged-tags --conventional-prerelease --yes",
     "publish:tag": "lerna publish --exact --dist-tag=$NPM_TAG --preid=$NPM_TAG --conventional-commits --conventional-prerelease --message 'chore(release): Publish tagged release $NPM_TAG [ci skip]' --no-verify-access --yes",
     "postpublish:release": "git fetch . release:master && git push origin master",
     "yarn-use-bash": "yarn config set script-shell /bin/bash",
