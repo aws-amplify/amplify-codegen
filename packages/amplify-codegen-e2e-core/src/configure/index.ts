@@ -52,7 +52,7 @@ export function amplifyConfigure(settings: AmplifyConfiguration): Promise<void> 
       .sendCarriageReturn()
       .wait('Specify the AWS Region');
 
-    singleSelect(chain, s.region, regionOptions);
+    singleSelect(chain, s.region, amplifyRegions);
 
     chain
       .wait('user name:')
