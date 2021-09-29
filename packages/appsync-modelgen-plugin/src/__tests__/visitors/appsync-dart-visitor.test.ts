@@ -13,12 +13,13 @@ const getVisitor = (
   selectedType?: string,
   generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
   enableDartNullSafety: boolean = false,
+  enableDartNonModelGeneration: boolean = true
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelDartVisitor(
     builtSchema,
-    { directives, target: 'dart', scalars: DART_SCALAR_MAP, enableDartNullSafety },
+    { directives, target: 'dart', scalars: DART_SCALAR_MAP, enableDartNullSafety, enableDartNonModelGeneration },
     { selectedType, generate },
   );
   visit(ast, { leave: visitor });
@@ -510,6 +511,11 @@ describe('AppSync Dart Visitor', () => {
 
         expect(generatedCode).toMatchSnapshot();
       })
+    });
+
+    it('should not generate custom type field in model provider if non model feature is disabled', () => {
+      const generatedCode = getVisitor(schema, undefined, CodeGenGenerateEnum.loader, true, false).generate();
+      expect(generatedCode).toMatchSnapshot();
     });
   });
 });
