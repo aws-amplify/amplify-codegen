@@ -12,13 +12,7 @@ import {
 } from '../configs/java-config';
 import { JAVA_TYPE_IMPORT_MAP } from '../scalars';
 import { JavaDeclarationBlock } from '../languages/java-declaration-block';
-import {
-  AppSyncModelVisitor,
-  CodeGenField,
-  CodeGenModel,
-  ParsedAppSyncModelConfig,
-  RawAppSyncModelConfig,
-} from './appsync-visitor';
+import { AppSyncModelVisitor, CodeGenField, CodeGenModel, ParsedAppSyncModelConfig, RawAppSyncModelConfig } from './appsync-visitor';
 import { CodeGenConnectionType } from '../utils/process-connections';
 import { AuthDirective, AuthStrategy } from '../utils/process-auth';
 import { printWarning } from '../utils/warn';
@@ -350,12 +344,8 @@ export class AppSyncModelJavaVisitor<
    *
    */
   protected generateStepBuilderInterfaces(model: CodeGenModel, isModel: boolean = true): JavaDeclarationBlock[] {
-    const nonNullableFields = this.getWritableFields(model).filter(
-      field => this.isRequiredField(field)
-    );
-    const nullableFields = this.getWritableFields(model).filter(
-      field => !this.isRequiredField(field)
-    );
+    const nonNullableFields = this.getWritableFields(model).filter(field => this.isRequiredField(field));
+    const nullableFields = this.getWritableFields(model).filter(field => !this.isRequiredField(field));
     const requiredInterfaces = nonNullableFields.filter((field: CodeGenField) => !this.READ_ONLY_FIELDS.includes(field.name));
     const interfaces = requiredInterfaces.map((field, idx) => {
       const isLastField = requiredInterfaces.length - 1 === idx ? true : false;
@@ -383,7 +373,7 @@ export class AppSyncModelJavaVisitor<
 
     if (isModel) {
       // id method. Special case as this can throw exception
-      builderBody.push(`${this.getStepInterfaceName('Build')} id(String id) throws IllegalArgumentException;`);
+      builderBody.push(`${this.getStepInterfaceName('Build')} id(String id);`);
     }
 
     nullableFields.forEach(field => {
@@ -402,12 +392,8 @@ export class AppSyncModelJavaVisitor<
    * @returns JavaDeclarationBlock
    */
   protected generateBuilderClass(model: CodeGenModel, classDeclaration: JavaDeclarationBlock, isModel: boolean = true): void {
-    const nonNullableFields = this.getWritableFields(model).filter(
-      field => this.isRequiredField(field)
-    );
-    const nullableFields = this.getWritableFields(model).filter(
-      field => !this.isRequiredField(field)
-    );
+    const nonNullableFields = this.getWritableFields(model).filter(field => this.isRequiredField(field));
+    const nullableFields = this.getWritableFields(model).filter(field => !this.isRequiredField(field));
     const stepFields = nonNullableFields.filter((field: CodeGenField) => !this.READ_ONLY_FIELDS.includes(field.name));
     const stepInterfaces = stepFields.map((field: CodeGenField) => this.getStepInterfaceName(field.name));
 
@@ -790,12 +776,12 @@ export class AppSyncModelJavaVisitor<
     var modelLevelFieldAnnotations: string[] = new Array<string>();
     model.fields.forEach(field => {
       field.directives.forEach(directive => {
-        switch(directive.name) {
+        switch (directive.name) {
           case 'primaryKey':
             if (this.config.usePipelinedTransformer) {
               const keyArgs: string[] = [];
               keyArgs.push(`name = "undefined"`);
-              if(!directive.arguments.sortKeyFields) {
+              if (!directive.arguments.sortKeyFields) {
                 directive.arguments.sortKeyFields = new Array<string>();
               }
               directive.arguments.sortKeyFields = [field.name, ...directive.arguments.sortKeyFields];
@@ -807,7 +793,7 @@ export class AppSyncModelJavaVisitor<
             if (this.config.usePipelinedTransformer) {
               const keyArgs: string[] = [];
               keyArgs.push(`name = "${directive.arguments.name}"`);
-              if(!directive.arguments.sortKeyFields) {
+              if (!directive.arguments.sortKeyFields) {
                 directive.arguments.sortKeyFields = new Array<string>();
               }
               directive.arguments.sortKeyFields = [field.name, ...directive.arguments.sortKeyFields];
@@ -818,8 +804,8 @@ export class AppSyncModelJavaVisitor<
           default:
             break;
         }
-      })
-    })
+      });
+    });
     annotations.push(...modelLevelFieldAnnotations);
     return ['SuppressWarnings("all")', ...annotations].filter(annotation => annotation);
   }
@@ -929,24 +915,13 @@ export class AppSyncModelJavaVisitor<
         to be used in the context of a parameter in a delete mutation or referencing a foreign key
         in a relationship.
         @param id the id of the existing item this instance will represent
-        @return an instance of this model with only ID populated
-        @throws IllegalArgumentException Checks that ID is in the proper format`;
-    const exceptionBlock = dedent`
-    try {
-      UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
-    } catch (Exception exception) {
-      throw new IllegalArgumentException(
-              "Model IDs must be unique in the format of UUID. This method is for creating instances " +
-              "of an existing object with only its ID field for sending as a mutation parameter. When " +
-              "creating a new object, use the standard builder method and leave the ID field blank."
-      );
-    }`;
+        @return an instance of this model with only ID populated`;
     const initArgs = indentMultiline(['id', ...new Array(this.getWritableFields(model).length - 1).fill('null')].join(',\n'));
     const initBlock = `return new ${returnType}(\n${initArgs}\n);`;
     classDeclaration.addClassMethod(
       'justId',
       returnType,
-      [exceptionBlock, initBlock].join('\n'),
+      initBlock,
       [{ name: 'id', type: 'String' }],
       [],
       'public',

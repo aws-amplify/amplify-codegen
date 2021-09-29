@@ -126,13 +126,7 @@ jobs:
       - run:
           name: Publish Amplify Codegen
           command: |
-            if [ -z "$CIRCLE_PULL_REQUEST" ]; then
-              git config --global user.email $GITHUB_EMAIL
-              git config --global user.name $GITHUB_USER
-              npm run publish:$CIRCLE_BRANCH
-            else
-              echo "Skipping deploy."
-            fi
+            bash ./.circleci/publish.sh
   publish_to_local_registry:
     working_directory: ~/repo
     parameters: *ref_0
@@ -420,7 +414,7 @@ workflows:
               only:
                 - master
                 - e2e-testing
-                - dart-modelgen-null-safety
+                - /tagged-release\/.*/
       - deploy:
           os: linux_node12
           requires:
@@ -432,7 +426,8 @@ workflows:
               only:
                 - release
                 - master
-                - dart-modelgen-null-safety
+                - /tagged-release\/.*/
+                - /tagged-release-without-e2e-tests\/.*/
       - done_with_node_e2e_tests:
           os: linux_node12
           requires:
@@ -471,7 +466,7 @@ workflows:
               only:
                 - master
                 - e2e-testing
-                - dart-modelgen-null-safety
+                - /tagged-release\/.*/
       - add-codegen-android-e2e-test:
           context: *ref_8
           os: linux_node12
