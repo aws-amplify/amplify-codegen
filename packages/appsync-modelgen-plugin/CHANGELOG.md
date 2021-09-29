@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.28.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.27.4...@aws-amplify/appsync-modelgen-plugin@1.28.0) (2021-09-29)
+
+
+### Bug Fixes
+
+* **appsync-modelgen-plugin:** remove UUID check in java ([#243](https://github.com/aws-amplify/amplify-codegen/issues/243)) ([aa14e86](https://github.com/aws-amplify/amplify-codegen/commit/aa14e86aa8e7704da8cc06842f4b893cb0f22278))
+
+
+### Features
+
+* **appsync-modelgen-plugin:** Many to many directive ([#238](https://github.com/aws-amplify/amplify-codegen/issues/238)) ([cf95f9c](https://github.com/aws-amplify/amplify-codegen/commit/cf95f9ce77e5a5f8701332f87b813b0d6face228)), closes [#217](https://github.com/aws-amplify/amplify-codegen/issues/217)
+
+
+
+
+
 ## [1.27.4](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.27.3...@aws-amplify/appsync-modelgen-plugin@1.27.4) (2021-09-15)
 
 **Note:** Version bump only for package @aws-amplify/appsync-modelgen-plugin

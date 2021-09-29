@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen-e2e-core@1.1.2...amplify-codegen-e2e-core@1.1.3) (2021-09-29)
+
+
+### Bug Fixes
+
+* **e2e:** build error ([6d31ac5](https://github.com/aws-amplify/amplify-codegen/commit/6d31ac57acb28ec1706de48c8206cfc39cbe5e0d))
+* **e2e:** fix export regions ([#244](https://github.com/aws-amplify/amplify-codegen/issues/244)) ([105d06b](https://github.com/aws-amplify/amplify-codegen/commit/105d06bc147d026a3d2fc1772002c00330d28f48))
+* **e2e:** update amplify configure region ([d717041](https://github.com/aws-amplify/amplify-codegen/commit/d71704122a62f584963663db89de932f06115af9))
+
+
+
+
+
 ## [1.1.2](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen-e2e-core@1.1.1...amplify-codegen-e2e-core@1.1.2) (2021-08-27)
 
 
