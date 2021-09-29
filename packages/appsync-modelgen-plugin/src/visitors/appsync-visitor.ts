@@ -27,6 +27,7 @@ import { CodeGenConnectionType, CodeGenFieldConnection, processConnections } fro
 import { sortFields } from '../utils/sort';
 import { printWarning } from '../utils/warn';
 import { processAuthDirective } from '../utils/process-auth';
+import { processConnectionsV2 } from '../utils/process-connections-v2';
 
 export enum CodeGenGenerateEnum {
   metadata = 'metadata',
@@ -108,6 +109,12 @@ export interface RawAppSyncModelConfig extends RawConfig {
    * @descriptions optional boolean which generates the list types to respect the nullability as defined in the schema
    */
    handleListNullabilityTransparently?: boolean;
+  /**
+   * @name usePipelinedTransformer
+   * @type boolean
+   * @descriptions optional boolean which determines whether to use the new pipelined GraphQL transformer
+   */
+  usePipelinedTransformer?: boolean;
 }
 
 // Todo: need to figure out how to share config
@@ -117,6 +124,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   target?: string;
   isTimestampFieldsAdded?: boolean;
   handleListNullabilityTransparently?: boolean;
+  usePipelinedTransformer?: boolean;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
 
@@ -124,6 +132,10 @@ export type CodeGenDirective = {
   name: string;
   arguments: CodeGenArgumentsMap;
 };
+
+export type CodeGenFieldDirective = CodeGenDirective & {
+  fieldName: string;
+}
 
 export type CodeGenDirectives = CodeGenDirective[];
 export type CodeGenField = TypeInfo & {
@@ -159,6 +171,13 @@ export type CodeGenEnumValueMap = { [enumConvertedName: string]: string };
 
 export type CodeGenEnumMap = Record<string, CodeGenEnum>;
 
+// Used to simplify processing of manyToMany into composing directives hasMany and belongsTo
+type ManyToManyContext = {
+  model: CodeGenModel;
+  field: CodeGenField;
+  directive: CodeGenDirective;
+};
+
 const DEFAULT_CREATED_TIME = 'createdAt';
 const DEFAULT_UPDATED_TIME = 'updatedAt';
 
@@ -183,7 +202,8 @@ export class AppSyncModelVisitor<
       scalars: buildScalars(_schema, rawConfig.scalars || '', defaultScalars),
       target: rawConfig.target,
       isTimestampFieldsAdded: rawConfig.isTimestampFieldsAdded,
-      handleListNullabilityTransparently: rawConfig.handleListNullabilityTransparently
+      handleListNullabilityTransparently: rawConfig.handleListNullabilityTransparently,
+      usePipelinedTransformer: rawConfig.usePipelinedTransformer,
     });
 
     const typesUsedInDirectives: string[] = [];
@@ -264,7 +284,12 @@ export class AppSyncModelVisitor<
     };
   }
   processDirectives() {
-    this.processConnectionDirective();
+    if (this.config.usePipelinedTransformer) {
+      this.processConnectionDirectivesV2()
+    }
+    else {
+      this.processConnectionDirective();
+    }
     this.processAuthDirectives();
   }
   generate(): string {
@@ -407,11 +432,11 @@ export class AppSyncModelVisitor<
     const typeArr: any[] = [];
     Object.values({ ...this.modelMap, ...this.nonModelMap }).forEach((obj: CodeGenModel) => {
       // include only key directive as we don't care about others for versioning
-      const directives = obj.directives.filter(dir => dir.name === 'key');
+      const directives = this.config.usePipelinedTransformer ? obj.directives.filter(dir => dir.name === 'primaryKey' || dir.name === 'index') : obj.directives.filter(dir => dir.name === 'key');
       const fields = obj.fields
         .map((field: CodeGenField) => {
           // include only connection field and type
-          const fieldDirectives = field.directives.filter(field => field.name === 'connection');
+          const fieldDirectives = this.config.usePipelinedTransformer ? field.directives.filter(field => field.name === 'hasOne' || field.name === 'belongsTo' || field.name === 'hasMany' || field.name === 'manyToMany') : field.directives.filter(field => field.name === 'connection');
           return {
             name: field.name,
             directives: fieldDirectives,
@@ -475,6 +500,157 @@ export class AppSyncModelVisitor<
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
         const connectionInfo = processConnections(field, model, this.modelMap);
+        if (connectionInfo) {
+          if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY || connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
+            // Need to update the other side of the connection even if there is no connection directive
+            addFieldToModel(connectionInfo.connectedModel, connectionInfo.associatedWith);
+          } else if (connectionInfo.targetName !== 'id') {
+            // Need to remove the field that is targetName
+            removeFieldFromModel(model, connectionInfo.targetName);
+          }
+          field.connectionInfo = connectionInfo;
+        }
+      });
+
+      // Should remove the fields that are of Model type and are not connected to ensure there are no phantom input fields
+      const modelTypes = Object.values(this.modelMap).map(model => model.name);
+      model.fields = model.fields.filter(field => {
+        const fieldType = field.type;
+        const connectionInfo = field.connectionInfo;
+        if (modelTypes.includes(fieldType) && connectionInfo === undefined) {
+          printWarning(
+            `Model ${model.name} has field ${field.name} of type ${field.type} but its not connected. Add a @connection directive if want to connect them.`,
+          );
+          return false;
+        }
+        return true;
+      });
+    });
+  }
+
+  protected generateIntermediateModel(firstModel: CodeGenModel, secondModel: CodeGenModel, firstField: CodeGenField, secondField: CodeGenField, relationName: string) {
+    const firstModelKeyFieldName = `${firstModel.name.toLowerCase()}ID`;
+    const secondModelKeyFieldName = `${secondModel.name.toLowerCase()}ID`;
+    let intermediateModel: CodeGenModel = {
+      name: relationName,
+      type: 'model',
+      directives: [{ name: 'model', arguments: {} }],
+      fields: [
+        {
+          type: 'ID',
+          isNullable: false,
+          isList: false,
+          name: 'id',
+          directives: []
+        },
+        {
+          type: 'ID',
+          isNullable: false,
+          isList: false,
+          name: firstModelKeyFieldName,
+          directives: [{ name: 'index', arguments: { name: 'by' + firstModel.name, sortKeyFields: [secondModelKeyFieldName] } }]
+        },
+        {
+          type: 'ID',
+          isNullable: false,
+          isList: false,
+          name: secondModelKeyFieldName,
+          directives: [{ name: 'index', arguments: { name: 'by' + secondModel.name, sortKeyFields: [firstModelKeyFieldName] } }]
+        },
+        {
+          type: firstModel.name,
+          isNullable: false,
+          isList: false,
+          name: firstModel.name.toLowerCase(),
+          directives: [{ name: 'belongsTo', arguments: { fields: [firstModelKeyFieldName] } }]
+        },
+        {
+          type: secondModel.name,
+          isNullable: false,
+          isList: false,
+          name: secondModel.name.toLowerCase(),
+          directives: [{ name: 'belongsTo', arguments: { fields: [secondModelKeyFieldName] } }]
+        }
+      ]
+    }
+
+    return intermediateModel;
+  }
+
+  protected determinePrimaryKeyFieldname(model: CodeGenModel): string {
+    let primaryKeyFieldName = 'id';
+    model.fields.forEach(field => {
+      field.directives.forEach(dir => {
+        if (dir.name === 'primaryKey') {
+          primaryKeyFieldName = field.name;
+        }
+      });
+    });
+    return primaryKeyFieldName;
+  }
+
+  protected convertManyToManyDirectives(contexts: ManyToManyContext[]): void {
+    // Responsible for stripping the manyToMany directives off provided models and replacing them with hasMany, after intermediate models are added
+    contexts.forEach(context => {
+      let directiveIndex = context.field.directives.indexOf(context.directive, 0);
+      if (directiveIndex > -1) {
+        context.field.directives.splice(directiveIndex, 1);
+        context.field.type = context.directive.arguments.relationName;
+        context.field.directives.push({
+          name: 'hasMany',
+          arguments: { indexName: `by${context.model.name}`, fields: [this.determinePrimaryKeyFieldname(context.model)] }
+        });
+      }
+      else {
+        throw new Error("manyToMany directive not found on manyToMany field...");
+      }
+    });
+  }
+
+  protected processManyToManyDirectives(): void {
+    // Data pattern: key is the name of the model, value is the field that has a manyToMany directive on it
+    let manyDirectiveMap: Map<string, Array<ManyToManyContext>> = new Map<string, Array<ManyToManyContext>>();
+    Object.values(this.modelMap).forEach(model => {
+      model.fields.forEach(field => {
+        field.directives.forEach(dir => {
+          if(dir.name === 'manyToMany') {
+            let relationName = dir.arguments.relationName;
+            let existingRelation = manyDirectiveMap.get(relationName);
+            if (existingRelation) {
+              existingRelation.push({ model: model, field: field, directive: dir });
+            }
+            else {
+              manyDirectiveMap.set(relationName, [{ model: model, field: field, directive: dir }]);
+            }
+          }
+        });
+      });
+    });
+
+    // Validate that each manyToMany directive has a single matching directive, pairs only
+    manyDirectiveMap.forEach((value: ManyToManyContext[], key: string) => {
+      if (value.length != 2) {
+        throw new Error(`Error for relation: '${value[0].directive.arguments.relationName}', there should be two matching manyToMany directives and found: ${value.length}`);
+      }
+      let intermediateModel = this.generateIntermediateModel(value[0].model, value[1].model, value[0].field, value[1].field, value[0].directive.arguments.relationName);
+      const modelDirective = intermediateModel.directives.find(directive => directive.name === 'model');
+      if(modelDirective) {
+        this.ensureIdField(intermediateModel);
+        this.addTimestampFields(intermediateModel, modelDirective);
+        this.sortFields(intermediateModel);
+      }
+
+      this.modelMap[intermediateModel.name] = intermediateModel;
+      this.convertManyToManyDirectives(value);
+    });
+  }
+
+  protected processConnectionDirectivesV2(): void {
+    this.processManyToManyDirectives();
+
+    Object.values(this.modelMap).forEach(model => {
+      model.fields.forEach(field => {
+        const connectionInfo = processConnectionsV2(field, model, this.modelMap);
         if (connectionInfo) {
           if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY || connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
             // Need to update the other side of the connection even if there is no connection directive

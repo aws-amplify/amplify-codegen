@@ -1,4 +1,4 @@
-import { CodeGenModel, CodeGenModelMap, CodeGenField, CodeGenDirective } from '../visitors/appsync-visitor';
+import { CodeGenModel, CodeGenModelMap, CodeGenField, CodeGenDirective, CodeGenFieldDirective } from '../visitors/appsync-visitor';
 import { camelCase } from 'change-case';
 
 export enum CodeGenConnectionType {
@@ -30,7 +30,7 @@ export type CodeGenFieldConnectionHasMany = CodeGenConnectionTypeBase & {
 
 export type CodeGenFieldConnection = CodeGenFieldConnectionBelongsTo | CodeGenFieldConnectionHasOne | CodeGenFieldConnectionHasMany;
 
-function getDirective(fieldOrModel: CodeGenField | CodeGenModel) {
+export function getDirective(fieldOrModel: CodeGenField | CodeGenModel) {
   return (directiveName: string): CodeGenDirective | undefined => {
     return fieldOrModel.directives.find(d => d.name === directiveName);
   };
@@ -41,11 +41,24 @@ export function makeConnectionAttributeName(type: string, field?: string) {
   return field ? camelCase([type, field, 'id'].join('_')) : camelCase([type, 'id'].join('_'));
 }
 
+export function flattenFieldDirectives(model: CodeGenModel) {
+  let totalDirectives: CodeGenFieldDirective[] = new Array<CodeGenFieldDirective>();
+  model.fields.forEach(field => {
+    field.directives.forEach(dir => {
+      let fieldDir = dir as CodeGenFieldDirective;
+      fieldDir.fieldName = field.name;
+      totalDirectives.push(fieldDir);
+    })
+  });
+  return totalDirectives;
+}
+
 export function getConnectedField(field: CodeGenField, model: CodeGenModel, connectedModel: CodeGenModel): CodeGenField {
   const connectionInfo = getDirective(field)('connection');
   if (!connectionInfo) {
     throw new Error(`The ${field.name} on model ${model.name} is not connected`);
   }
+
   const connectionName = connectionInfo.arguments.name;
   const keyName = connectionInfo.arguments.keyName;
   const connectionFields = connectionInfo.arguments.fields;

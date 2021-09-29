@@ -27,6 +27,7 @@ const getVisitor = (schema: string, target: 'typescript' | 'javascript' | 'typeD
 };
 
 describe('Metadata visitor', () => {
+
   const schema = /* GraphQL */ `
     type SimpleModel @model {
       id: ID!
