@@ -18,6 +18,7 @@ import {
   DART_RESERVED_KEYWORDS,
   typeToEnumMap,
   IGNORE_FOR_FILE,
+  CUSTOM_LINTS_MESSAGE,
 } from '../configs/dart-config';
 import dartStyle from 'dart-style';
 import { generateLicense } from '../utils/generateLicense';
@@ -95,6 +96,8 @@ export class AppSyncModelDartVisitor<
     //License
     const license = generateLicense();
     result.push(license);
+    //Custom lints warning
+    result.push(CUSTOM_LINTS_MESSAGE);
     //Ignore for file
     result.push(IGNORE_FOR_FILE);
     //Packages for import
@@ -139,6 +142,8 @@ export class AppSyncModelDartVisitor<
     //License
     const license = generateLicense();
     result.push(license);
+    //Custom lints warning
+    result.push(CUSTOM_LINTS_MESSAGE);
     //Ignore for file
     result.push(IGNORE_FOR_FILE);
     //Enum
@@ -157,6 +162,8 @@ export class AppSyncModelDartVisitor<
     //License
     const license = generateLicense();
     result.push(license);
+    //Custom lints warning
+    result.push(CUSTOM_LINTS_MESSAGE);
     //Ignore for file
     result.push(IGNORE_FOR_FILE);
     //Imports
