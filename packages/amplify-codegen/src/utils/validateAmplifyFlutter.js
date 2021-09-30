@@ -3,9 +3,9 @@ const path = require('path');
 const fs = require('fs-extra');
 const semver = require('semver');
 
-const PUBSPEC_FILE_NAME = require('./validateDartSDK');
+const { PUBSPEC_FILE_NAME } = require('./validateDartSDK');
 
-function validateAmplifyFlutter(context, projectRoot) {
+function validateAmplifyFlutter(projectRoot) {
   try {
     const config = yaml.load(fs.readFileSync(path.join(projectRoot, PUBSPEC_FILE_NAME), 'utf8'));
     const version = semver.minVersion(config.dependencies.amplify_flutter);
@@ -18,4 +18,4 @@ function validateAmplifyFlutter(context, projectRoot) {
   }
 }
 
-module.exports = { PUBSPEC_FILE_NAME, validateAmplifyFlutter };
+module.exports = { validateAmplifyFlutter };

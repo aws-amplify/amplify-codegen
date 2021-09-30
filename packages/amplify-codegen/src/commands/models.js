@@ -92,7 +92,7 @@ async function generateModels(context) {
     }
   }
   const handleListNullabilityTransparently = readFeatureFlag('codegen.handleListNullabilityTransparently');
-  const enableDartNonModelGeneration = validateAmplifyFlutter(context, projectRoot);
+  const enableDartNonModelGeneration = projectConfig.frontend === 'flutter' ? validateAmplifyFlutter(projectRoot) : false;
   const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
     baseOutputDir: outputPath,
     schema,
