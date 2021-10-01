@@ -13,12 +13,13 @@ const getVisitor = (
   selectedType?: string,
   generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
   enableDartNullSafety: boolean = false,
+  enableDartNonModelGeneration: boolean = true
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelDartVisitor(
     builtSchema,
-    { directives, target: 'dart', scalars: DART_SCALAR_MAP, enableDartNullSafety },
+    { directives, target: 'dart', scalars: DART_SCALAR_MAP, enableDartNullSafety, enableDartNonModelGeneration },
     { selectedType, generate },
   );
   visit(ast, { leave: visitor });
@@ -461,6 +462,59 @@ describe('AppSync Dart Visitor', () => {
         }
       `;
       const generatedCode = getVisitor(schema, 'TestModel', CodeGenGenerateEnum.code, true).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+  });
+
+  describe('CustomType (non-model) Tests', () => {
+    const schema = /* GraphQL */ `
+        type Person @model {
+          name: String!
+          phone: Phone!
+          mailingAddresses: [Address]
+        }
+
+        type Contact {
+          contactName: String!
+          phone: Phone!
+          mailingAddresses: [Address]
+        }
+
+        type Phone {
+          countryCode: String!
+          areaCode: String!
+          number: String!
+        }
+
+        type Address {
+          line1: String!
+          line2: String
+          city: String!
+          state: String!
+          postalCode: String!
+        }
+      `;
+
+    const models = [undefined, 'Person', 'Contact', 'Address'];
+
+    models.forEach(type => {
+      it(`should generated correct dart class for ${!type ? 'ModelProvider' : type} with nullsafety enabled`, () => {
+        const generatedCode = getVisitor(schema, type, !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code, true).generate();
+
+        expect(generatedCode).toMatchSnapshot();
+      })
+    });
+
+    models.forEach(type => {
+      it(`should generated correct dart class for ${!type ? 'ModelProvider' : type} with nullsafety disabled`, () => {
+        const generatedCode = getVisitor(schema, type, !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code, false).generate();
+
+        expect(generatedCode).toMatchSnapshot();
+      })
+    });
+
+    it('should not generate custom type field in model provider if non model feature is disabled', () => {
+      const generatedCode = getVisitor(schema, undefined, CodeGenGenerateEnum.loader, true, false).generate();
       expect(generatedCode).toMatchSnapshot();
     });
   });
