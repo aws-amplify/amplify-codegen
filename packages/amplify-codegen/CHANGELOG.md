@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.27.0-custom-type-preview.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.6...amplify-codegen@2.27.0-custom-type-preview.0) (2021-10-01)
+
+
+### Features
+
+* **amplify-codegen:** add amplify flutter library check for non model generation ([#247](https://github.com/aws-amplify/amplify-codegen/issues/247)) ([d436170](https://github.com/aws-amplify/amplify-codegen/commit/d4361708e2e132e49b17b50e7b8aaf43249aa465))
+
+
+
+
+
 ## [2.26.6](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.5...amplify-codegen@2.26.6) (2021-09-29)
 
 **Note:** Version bump only for package amplify-codegen
