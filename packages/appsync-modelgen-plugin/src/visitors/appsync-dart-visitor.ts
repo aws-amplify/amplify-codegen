@@ -39,10 +39,17 @@ export interface RawAppSyncModelDartConfig extends RawAppSyncModelConfig {
    * @description optional, defines if dart model files are generated with null safety feature.
    */
   enableDartNullSafety?: boolean;
+  /**
+   * @name directives
+   * @type boolean
+   * @description optional, defines if dart model files are generated with custom type feature.
+   */
+   enableDartNonModelGeneration?: boolean;
 }
 
 export interface ParsedAppSyncModelDartConfig extends ParsedAppSyncModelConfig {
   enableDartNullSafety: boolean;
+  enableDartNonModelGeneration: boolean;
 }
 export class AppSyncModelDartVisitor<
   TRawConfig extends RawAppSyncModelDartConfig = RawAppSyncModelDartConfig,
@@ -56,6 +63,7 @@ export class AppSyncModelDartVisitor<
   ) {
     super(schema, rawConfig, additionalConfig, defaultScalars);
     this._parsedConfig.enableDartNullSafety = rawConfig.enableDartNullSafety || false;
+    this._parsedConfig.enableDartNonModelGeneration = rawConfig.enableDartNonModelGeneration || false;
   }
 
   generate(): string {
@@ -118,10 +126,12 @@ export class AppSyncModelDartVisitor<
       .implements([`${LOADER_CLASS_NAME}Interface`])
       .addClassMember('version', 'String', `"${this.computeVersion()}"`, undefined, ['override'])
       .addClassMember('modelSchemas', 'List<ModelSchema>', `[${modelNames.map(m => `${m}.schema`).join(', ')}]`, undefined, ['override'])
-      .addClassMember('customTypeSchemas', 'List<ModelSchema>', `[${nonModelNames.map(nm => `${nm}.schema`).join(', ')}]`, undefined, ['override'])
       .addClassMember('_instance', LOADER_CLASS_NAME, `${LOADER_CLASS_NAME}()`, { static: true, final: true })
       .addClassMethod('get instance', LOADER_CLASS_NAME, [], ' => _instance;', { isBlock: false, isGetter: true, static: true });
-    //getModelTypeByModelName
+    if (this.config.enableDartNonModelGeneration) {
+      classDeclarationBlock.addClassMember('customTypeSchemas', 'List<ModelSchema>', `[${nonModelNames.map(nm => `${nm}.schema`).join(', ')}]`, undefined, ['override'])
+    }
+      //getModelTypeByModelName
     if (modelNames.length) {
       const getModelTypeImplStr = [
         'switch(modelName) {',
