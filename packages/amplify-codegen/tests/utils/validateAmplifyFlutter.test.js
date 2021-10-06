@@ -43,7 +43,7 @@ describe('Validate amplify flutter version tests', () => {
     it('with prerelease version', () => {
       const config = {
         dependencies: {
-          amplify_flutter: '0.3.0-rc.1',
+          amplify_flutter: '0.3.0-rc.4',
         },
       };
       mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });

@@ -14,7 +14,7 @@ function validateAmplifyFlutter(projectRoot) {
     }
     //check dependency version
     const version = semver.minVersion(config.dependencies.amplify_flutter);
-    if (semver.satisfies(version, '>= 0.3.0 || >= 0.3.0-rc.1')) {
+    if (semver.satisfies(version, '>= 0.3.0 || >= 0.3.0-rc.2')) {
       return true;
     }
     return false;
