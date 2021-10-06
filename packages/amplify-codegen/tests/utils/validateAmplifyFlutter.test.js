@@ -95,16 +95,4 @@ describe('Validate amplify flutter version tests', () => {
     mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
     expect(validateAmplifyFlutter(MOCK_PROJECT_ROOT)).toBe(false);
   });
-
-  it('should return true if the path is defined in amplify_flutter', () => {
-    const config = {
-      dependencies: {
-        amplify_flutter: {
-          path: '../../amplify_flutter'
-        }
-      },
-    };
-    mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
-    expect(validateAmplifyFlutter(MOCK_PROJECT_ROOT)).toBe(true);
-  });
 });
