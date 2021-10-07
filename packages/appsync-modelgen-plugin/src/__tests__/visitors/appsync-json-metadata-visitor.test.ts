@@ -8,18 +8,18 @@ import {
   CodeGenFieldConnectionHasOne,
 } from '../../utils/process-connections';
 import { AppSyncJSONVisitor, AssociationHasMany, JSONSchemaNonModel } from '../../visitors/appsync-json-metadata-visitor';
-import { CodeGenEnum, CodeGenField, CodeGenModel } from '../../visitors/appsync-visitor';
+import { CodeGenEnum, CodeGenField, CodeGenGenerateEnum, CodeGenModel } from '../../visitors/appsync-visitor';
 
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-const getVisitor = (schema: string, target: 'typescript' | 'javascript' | 'typeDeclaration' = 'javascript'): AppSyncJSONVisitor => {
+const getVisitor = (schema: string, target: 'typescript' | 'javascript' | 'typeDeclaration' = 'javascript', improvePluralization: boolean = false): AppSyncJSONVisitor => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncJSONVisitor(
     builtSchema,
-    { directives, target: 'metadata', scalars: TYPESCRIPT_SCALAR_MAP, metadataTarget: target, isTimestampFieldsAdded: true },
+    { directives, target: 'metadata', scalars: TYPESCRIPT_SCALAR_MAP, metadataTarget: target, isTimestampFieldsAdded: true, improvePluralization: improvePluralization },
     {},
   );
   visit(ast, { leave: visitor });

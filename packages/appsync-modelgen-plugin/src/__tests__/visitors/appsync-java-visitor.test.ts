@@ -9,12 +9,21 @@ const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-const getVisitor = (schema: string, selectedType?: string, generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code, usePipelinedTransformer: boolean = false) => {
+const getVisitor = (schema: string, selectedType?: string, generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
+                    usePipelinedTransformer: boolean = false, improvePluralization: boolean = false) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelJavaVisitor(
     builtSchema,
-    { directives, target: 'android', generate, scalars: JAVA_SCALAR_MAP, isTimestampFieldsAdded: true, handleListNullabilityTransparently: true, usePipelinedTransformer: usePipelinedTransformer },
+    {
+      directives,
+      target: 'android',
+      generate, scalars: JAVA_SCALAR_MAP,
+      isTimestampFieldsAdded: true,
+      handleListNullabilityTransparently: true,
+      usePipelinedTransformer: usePipelinedTransformer,
+      improvePluralization: improvePluralization,
+    },
     { selectedType },
   );
   visit(ast, { leave: visitor });
@@ -515,6 +524,13 @@ describe('AppSyncModelVisitor', () => {
 
       it('should generate many side of the connection', () => {
         const visitor = getVisitor(schema, 'task');
+        const generatedCode = visitor.generate();
+        expect(() => validateJava(generatedCode)).not.toThrow();
+        expect(generatedCode).toMatchSnapshot();
+      });
+
+      it('should generate correct pluralization', () => {
+        const visitor = getVisitor(schema, 'task', CodeGenGenerateEnum.code, false, true);
         const generatedCode = visitor.generate();
         expect(() => validateJava(generatedCode)).not.toThrow();
         expect(generatedCode).toMatchSnapshot();

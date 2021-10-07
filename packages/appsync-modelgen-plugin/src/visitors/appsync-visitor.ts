@@ -115,6 +115,12 @@ export interface RawAppSyncModelConfig extends RawConfig {
    * @descriptions optional boolean which determines whether to use the new pipelined GraphQL transformer
    */
   usePipelinedTransformer?: boolean;
+  /**
+   * @name improvePluralization
+   * @type boolean
+   * @descriptions optional boolean which determines whether improved pluralization logic should be used
+   */
+  improvePluralization?: boolean;
 }
 
 // Todo: need to figure out how to share config
@@ -125,6 +131,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   isTimestampFieldsAdded?: boolean;
   handleListNullabilityTransparently?: boolean;
   usePipelinedTransformer?: boolean;
+  improvePluralization?: boolean;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
 
@@ -204,6 +211,7 @@ export class AppSyncModelVisitor<
       isTimestampFieldsAdded: rawConfig.isTimestampFieldsAdded,
       handleListNullabilityTransparently: rawConfig.handleListNullabilityTransparently,
       usePipelinedTransformer: rawConfig.usePipelinedTransformer,
+      improvePluralization: rawConfig.improvePluralization,
     });
 
     const typesUsedInDirectives: string[] = [];
