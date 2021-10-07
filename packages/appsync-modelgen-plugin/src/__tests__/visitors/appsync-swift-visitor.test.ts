@@ -16,7 +16,12 @@ const getVisitor = (
   emitAuthProvider: boolean = true,
   generateIndexRules: boolean = true,
   handleListNullabilityTransparently: boolean = true,
+<<<<<<< HEAD
   transformerVersion: number = 1
+=======
+  usePipelinedTransformer: boolean = false,
+  improvePluralization: boolean = false,
+>>>>>>> 837817d (Feature: Use improved pluralization)
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -30,7 +35,12 @@ const getVisitor = (
       emitAuthProvider,
       generateIndexRules,
       handleListNullabilityTransparently,
+<<<<<<< HEAD
       transformerVersion: transformerVersion
+=======
+      usePipelinedTransformer: usePipelinedTransformer,
+      improvePluralization: improvePluralization,
+>>>>>>> 837817d (Feature: Use improved pluralization)
     },
     { selectedType, generate },
   );
@@ -2260,6 +2270,7 @@ describe('AppSyncSwiftVisitor', () => {
     });
   });
 
+<<<<<<< HEAD
   describe('Many To Many V2 Tests', () => {
     it('Should generate the intermediate model successfully', () => {
       const schema = /* GraphQL */ `
@@ -2278,6 +2289,52 @@ describe('AppSyncSwiftVisitor', () => {
       `;
       const generatedCode = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.code).generate();
       expect(generatedCode).toMatchSnapshot();
+=======
+  describe('Use Improved Pluralization', () => {
+    let wishSchema: string;
+    beforeEach(() => {
+      wishSchema = /* GraphQL */ `
+        enum StatusEnum {
+          pass
+          fail
+        }
+  
+        type CustomType {
+          name: String
+          list: [Int]
+          requiredList: [String]!
+          requiredListOfRequired: [StatusEnum!]!
+          listOfRequired: [Boolean!]
+        }
+  
+        type ListContainer @model {
+          id: ID!
+          name: String
+          list: [Int]
+          requiredList: [String]!
+          requiredListOfRequired: [StatusEnum!]!
+          listOfRequired: [Boolean!]
+          requiredListOfRequiredDates: [AWSDate!]!
+          listOfRequiredFloats: [Float!]
+          requiredListOfCustomTypes: [CustomType]!
+        }
+      `;
+    });
+    it('Should work with potentially pluralized collision', () => {
+      const visitor = getVisitor(wishSchema, 'ListContainer', CodeGenGenerateEnum.code, true,
+        true,true, true, false, true);
+      const generatedCode = visitor.generate();
+      expect(generatedCode).toMatchSnapshot();
+
+      const metadataVisitor = getVisitor(wishSchema, 'ListContainer', CodeGenGenerateEnum.metadata, true,
+        true, true, true ,false, true);
+      const generatedMetadata = metadataVisitor.generate();
+      expect(generatedMetadata).toMatchSnapshot();
+
+      const customTypeVisitor = getVisitor(wishSchema, 'CustomType', CodeGenGenerateEnum.code, true,
+        true,true, true, false, true);
+      expect(customTypeVisitor.generate()).toMatchSnapshot();
+>>>>>>> 837817d (Feature: Use improved pluralization)
     });
   });
 });

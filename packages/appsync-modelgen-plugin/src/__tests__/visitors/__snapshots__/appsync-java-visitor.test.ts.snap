@@ -3857,7 +3857,1133 @@ public final class ListContainer implements Model {
 "
 `;
 
+exports[`AppSyncModelVisitor Use Improved Pluralization Should work with potentially pluralized collision 1`] = `
+AppSyncModelJavaVisitor {
+  "EnumTypeDefinition": [Function],
+  "FieldDefinition": [Function],
+  "ObjectTypeDefinition": [Function],
+  "READ_ONLY_FIELDS": Array [
+    "id",
+  ],
+  "SCALAR_TYPE_MAP": Object {},
+  "_declarationBlockConfig": Object {},
+  "_parsedConfig": Object {
+    "addTypename": true,
+    "convert": [Function],
+    "externalFragments": Array [],
+    "handleListNullabilityTransparently": true,
+    "improvePluralization": true,
+    "isTimestampFieldsAdded": true,
+    "nonOptionalTypename": false,
+    "scalars": Object {
+      "AWSDate": Object {
+        "isExternal": false,
+        "type": "Temporal.Date",
+      },
+      "AWSDateTime": Object {
+        "isExternal": false,
+        "type": "Temporal.DateTime",
+      },
+      "AWSEmail": Object {
+        "isExternal": false,
+        "type": "String",
+      },
+      "AWSIPAddress": Object {
+        "isExternal": false,
+        "type": "String",
+      },
+      "AWSJSON": Object {
+        "isExternal": false,
+        "type": "String",
+      },
+      "AWSPhone": Object {
+        "isExternal": false,
+        "type": "String",
+      },
+      "AWSTime": Object {
+        "isExternal": false,
+        "type": "Temporal.Time",
+      },
+      "AWSTimestamp": Object {
+        "isExternal": false,
+        "type": "Temporal.Timestamp",
+      },
+      "AWSURL": Object {
+        "isExternal": false,
+        "type": "String",
+      },
+      "Boolean": Object {
+        "isExternal": false,
+        "type": "Boolean",
+      },
+      "Float": Object {
+        "isExternal": false,
+        "type": "Double",
+      },
+      "ID": Object {
+        "isExternal": false,
+        "type": "String",
+      },
+      "Int": Object {
+        "isExternal": false,
+        "type": "Integer",
+      },
+      "String": Object {
+        "isExternal": false,
+        "type": "String",
+      },
+    },
+    "selectedType": "Wish",
+    "target": "android",
+    "typesPrefix": "",
+    "usePipelinedTransformer": false,
+  },
+  "_schema": GraphQLSchema {
+    "__allowedLegacyNames": Array [],
+    "__validationErrors": undefined,
+    "_directives": Array [
+      "@model",
+      "@key",
+      "@connection",
+      "@auth",
+      "@searchable",
+      "@deprecated",
+      "@primaryKey",
+      "@index",
+      "@hasOne",
+      "@hasMany",
+      "@belongsTo",
+      "@manyToMany",
+      "@skip",
+      "@include",
+    ],
+    "_implementations": Object {},
+    "_mutationType": undefined,
+    "_possibleTypeMap": Object {},
+    "_queryType": undefined,
+    "_subscriptionType": undefined,
+    "_typeMap": Object {
+      "AWSDate": "AWSDate",
+      "AWSDateTime": "AWSDateTime",
+      "AWSEmail": "AWSEmail",
+      "AWSIPAddress": "AWSIPAddress",
+      "AWSJSON": "AWSJSON",
+      "AWSPhone": "AWSPhone",
+      "AWSTime": "AWSTime",
+      "AWSTimestamp": "AWSTimestamp",
+      "AWSURL": "AWSURL",
+      "AuthProvider": "AuthProvider",
+      "AuthRule": "AuthRule",
+      "AuthStrategy": "AuthStrategy",
+      "Boolean": "Boolean",
+      "CustomType": "CustomType",
+      "Float": "Float",
+      "ID": "ID",
+      "Int": "Int",
+      "ListContainer": "ListContainer",
+      "ModelMutation": "ModelMutation",
+      "ModelMutationMap": "ModelMutationMap",
+      "ModelOperation": "ModelOperation",
+      "ModelQuery": "ModelQuery",
+      "ModelQueryMap": "ModelQueryMap",
+      "ModelSubscriptionLevel": "ModelSubscriptionLevel",
+      "ModelSubscriptionMap": "ModelSubscriptionMap",
+      "SearchableQueryMap": "SearchableQueryMap",
+      "StatusEnum": "StatusEnum",
+      "String": "String",
+      "TimestampConfiguration": "TimestampConfiguration",
+      "__Directive": "__Directive",
+      "__DirectiveLocation": "__DirectiveLocation",
+      "__EnumValue": "__EnumValue",
+      "__Field": "__Field",
+      "__InputValue": "__InputValue",
+      "__Schema": "__Schema",
+      "__Type": "__Type",
+      "__TypeKind": "__TypeKind",
+    },
+    "astNode": undefined,
+    "extensionASTNodes": undefined,
+    "extensions": undefined,
+  },
+  "addTimestampFields": [Function],
+  "additionalPackages": Set {},
+  "computeVersion": [Function],
+  "convertManyToManyDirectives": [Function],
+  "convertName": [Function],
+  "determinePrimaryKeyFieldname": [Function],
+  "ensureIdField": [Function],
+  "enumMap": Object {
+    "StatusEnum": Object {
+      "name": "StatusEnum",
+      "type": "enum",
+      "values": Object {
+        "FAIL": "fail",
+        "PASS": "pass",
+      },
+    },
+  },
+  "generate": [Function],
+  "generateAuthRules": [Function],
+  "generateBuilderClass": [Function],
+  "generateBuilderMethod": [Function],
+  "generateClassLoader": [Function],
+  "generateConnectionAnnotation": [Function],
+  "generateConstructor": [Function],
+  "generateCopyOfBuilderClass": [Function],
+  "generateCopyOfBuilderMethod": [Function],
+  "generateEnums": [Function],
+  "generateEqualsMethod": [Function],
+  "generateFieldAnnotations": [Function],
+  "generateGetters": [Function],
+  "generateHashCodeMethod": [Function],
+  "generateImportStatements": [Function],
+  "generateIntermediateModel": [Function],
+  "generateJustIdMethod": [Function],
+  "generateModelAnnotations": [Function],
+  "generateModelClass": [Function],
+  "generateModelClasses": [Function],
+  "generateModelField": [Function],
+  "generateModelFieldAnnotation": [Function],
+  "generateNonModelClass": [Function],
+  "generateNonModelClasses": [Function],
+  "generateNonModelField": [Function],
+  "generatePackageHeader": [Function],
+  "generatePackageName": [Function],
+  "generateQueryFields": [Function],
+  "generateStepBuilderInterfaces": [Function],
+  "generateToStringMethod": [Function],
+  "getDirectiveArguments": [Function],
+  "getDirectives": [Function],
+  "getEnumName": [Function],
+  "getEnumValue": [Function],
+  "getFieldGetterName": [Function],
+  "getFieldName": [Function],
+  "getListType": [Function],
+  "getModelName": [Function],
+  "getNativeType": [Function],
+  "getNonConnectedField": [Function],
+  "getNonModelName": [Function],
+  "getSelectedEnums": [Function],
+  "getSelectedModels": [Function],
+  "getSelectedNonModels": [Function],
+  "getStepFunctionArgumentName": [Function],
+  "getStepFunctionName": [Function],
+  "getStepInterfaceName": [Function],
+  "getWritableFields": [Function],
+  "isEnumType": [Function],
+  "isModelType": [Function],
+  "isNonModelType": [Function],
+  "isRequiredField": [Function],
+  "modelMap": Object {
+    "ListContainer": Object {
+      "directives": Array [
+        Object {
+          "arguments": Object {},
+          "name": "model",
+        },
+      ],
+      "fields": Array [
+        Object {
+          "baseType": "ID",
+          "directives": Array [],
+          "isList": false,
+          "isNullable": false,
+          "name": "id",
+          "type": "ID",
+        },
+        Object {
+          "baseType": "String",
+          "directives": Array [],
+          "isList": false,
+          "isNullable": true,
+          "name": "name",
+          "type": "String",
+        },
+        Object {
+          "baseType": "Int",
+          "directives": Array [],
+          "isList": true,
+          "isListNullable": true,
+          "isNullable": true,
+          "name": "list",
+          "type": "Int",
+        },
+        Object {
+          "baseType": "String",
+          "directives": Array [],
+          "isList": true,
+          "isListNullable": false,
+          "isNullable": true,
+          "name": "requiredList",
+          "type": "String",
+        },
+        Object {
+          "baseType": "StatusEnum",
+          "directives": Array [],
+          "isList": true,
+          "isListNullable": false,
+          "isNullable": false,
+          "name": "requiredListOfRequired",
+          "type": "StatusEnum",
+        },
+        Object {
+          "baseType": "Boolean",
+          "directives": Array [],
+          "isList": true,
+          "isListNullable": true,
+          "isNullable": false,
+          "name": "listOfRequired",
+          "type": "Boolean",
+        },
+        Object {
+          "baseType": "AWSDate",
+          "directives": Array [],
+          "isList": true,
+          "isListNullable": false,
+          "isNullable": false,
+          "name": "requiredListOfRequiredDates",
+          "type": "AWSDate",
+        },
+        Object {
+          "baseType": "Float",
+          "directives": Array [],
+          "isList": true,
+          "isListNullable": true,
+          "isNullable": false,
+          "name": "listOfRequiredFloats",
+          "type": "Float",
+        },
+        Object {
+          "baseType": "CustomType",
+          "directives": Array [],
+          "isList": true,
+          "isListNullable": false,
+          "isNullable": true,
+          "name": "requiredListOfCustomTypes",
+          "type": "CustomType",
+        },
+        Object {
+          "directives": Array [],
+          "isList": false,
+          "isNullable": true,
+          "isReadOnly": true,
+          "name": "createdAt",
+          "type": "AWSDateTime",
+        },
+        Object {
+          "directives": Array [],
+          "isList": false,
+          "isNullable": true,
+          "isReadOnly": true,
+          "name": "updatedAt",
+          "type": "AWSDateTime",
+        },
+      ],
+      "name": "ListContainer",
+      "type": "model",
+    },
+  },
+  "nonModelMap": Object {
+    "CustomType": Object {
+      "directives": Array [],
+      "fields": Array [
+        Object {
+          "baseType": "String",
+          "directives": Array [],
+          "isList": false,
+          "isNullable": true,
+          "name": "name",
+          "type": "String",
+        },
+        Object {
+          "baseType": "Int",
+          "directives": Array [],
+          "isList": true,
+          "isListNullable": true,
+          "isNullable": true,
+          "name": "list",
+          "type": "Int",
+        },
+        Object {
+          "baseType": "String",
+          "directives": Array [],
+          "isList": true,
+          "isListNullable": false,
+          "isNullable": true,
+          "name": "requiredList",
+          "type": "String",
+        },
+        Object {
+          "baseType": "StatusEnum",
+          "directives": Array [],
+          "isList": true,
+          "isListNullable": false,
+          "isNullable": false,
+          "name": "requiredListOfRequired",
+          "type": "StatusEnum",
+        },
+        Object {
+          "baseType": "Boolean",
+          "directives": Array [],
+          "isList": true,
+          "isListNullable": true,
+          "isNullable": false,
+          "name": "listOfRequired",
+          "type": "Boolean",
+        },
+      ],
+      "name": "CustomType",
+      "type": "model",
+    },
+  },
+  "pluralizeModelName": [Function],
+  "processAuthDirectives": [Function],
+  "processConnectionDirective": [Function],
+  "processConnectionDirectivesV2": [Function],
+  "processDirectives": [Function],
+  "processManyToManyDirectives": [Function],
+  "scalars": Object {
+    "AWSDate": "Temporal.Date",
+    "AWSDateTime": "Temporal.DateTime",
+    "AWSEmail": "String",
+    "AWSIPAddress": "String",
+    "AWSJSON": "String",
+    "AWSPhone": "String",
+    "AWSTime": "Temporal.Time",
+    "AWSTimestamp": "Temporal.Timestamp",
+    "AWSURL": "String",
+    "Boolean": "Boolean",
+    "Float": "Double",
+    "ID": "String",
+    "Int": "Integer",
+    "String": "String",
+  },
+  "selectedTypeIsEnum": [Function],
+  "selectedTypeIsNonModel": [Function],
+  "sortFields": [Function],
+  "typesToSkip": Array [
+    "ModelMutationMap",
+    "ModelQueryMap",
+    "ModelSubscriptionMap",
+    "ModelSubscriptionLevel",
+    "TimestampConfiguration",
+    "AuthRule",
+    "AuthStrategy",
+    "AuthProvider",
+    "ModelOperation",
+    "ModelQuery",
+    "ModelMutation",
+    "SearchableQueryMap",
+  ],
+  "usingAuth": false,
+}
+`;
+
+exports[`AppSyncModelVisitor Use Improved Pluralization Should work with potentially pluralized collision 2`] = `
+AppSyncModelJavaVisitor {
+  "EnumTypeDefinition": [Function],
+  "FieldDefinition": [Function],
+  "ObjectTypeDefinition": [Function],
+  "READ_ONLY_FIELDS": Array [
+    "id",
+  ],
+  "SCALAR_TYPE_MAP": Object {},
+  "_declarationBlockConfig": Object {},
+  "_parsedConfig": Object {
+    "addTypename": true,
+    "convert": [Function],
+    "externalFragments": Array [],
+    "handleListNullabilityTransparently": true,
+    "improvePluralization": true,
+    "isTimestampFieldsAdded": true,
+    "nonOptionalTypename": false,
+    "scalars": Object {
+      "AWSDate": Object {
+        "isExternal": false,
+        "type": "Temporal.Date",
+      },
+      "AWSDateTime": Object {
+        "isExternal": false,
+        "type": "Temporal.DateTime",
+      },
+      "AWSEmail": Object {
+        "isExternal": false,
+        "type": "String",
+      },
+      "AWSIPAddress": Object {
+        "isExternal": false,
+        "type": "String",
+      },
+      "AWSJSON": Object {
+        "isExternal": false,
+        "type": "String",
+      },
+      "AWSPhone": Object {
+        "isExternal": false,
+        "type": "String",
+      },
+      "AWSTime": Object {
+        "isExternal": false,
+        "type": "Temporal.Time",
+      },
+      "AWSTimestamp": Object {
+        "isExternal": false,
+        "type": "Temporal.Timestamp",
+      },
+      "AWSURL": Object {
+        "isExternal": false,
+        "type": "String",
+      },
+      "Boolean": Object {
+        "isExternal": false,
+        "type": "Boolean",
+      },
+      "Float": Object {
+        "isExternal": false,
+        "type": "Double",
+      },
+      "ID": Object {
+        "isExternal": false,
+        "type": "String",
+      },
+      "Int": Object {
+        "isExternal": false,
+        "type": "Integer",
+      },
+      "String": Object {
+        "isExternal": false,
+        "type": "String",
+      },
+    },
+    "selectedType": "Wish",
+    "target": "android",
+    "typesPrefix": "",
+    "usePipelinedTransformer": false,
+  },
+  "_schema": GraphQLSchema {
+    "__allowedLegacyNames": Array [],
+    "__validationErrors": undefined,
+    "_directives": Array [
+      "@model",
+      "@key",
+      "@connection",
+      "@auth",
+      "@searchable",
+      "@deprecated",
+      "@primaryKey",
+      "@index",
+      "@hasOne",
+      "@hasMany",
+      "@belongsTo",
+      "@manyToMany",
+      "@skip",
+      "@include",
+    ],
+    "_implementations": Object {},
+    "_mutationType": undefined,
+    "_possibleTypeMap": Object {},
+    "_queryType": undefined,
+    "_subscriptionType": undefined,
+    "_typeMap": Object {
+      "AWSDate": "AWSDate",
+      "AWSDateTime": "AWSDateTime",
+      "AWSEmail": "AWSEmail",
+      "AWSIPAddress": "AWSIPAddress",
+      "AWSJSON": "AWSJSON",
+      "AWSPhone": "AWSPhone",
+      "AWSTime": "AWSTime",
+      "AWSTimestamp": "AWSTimestamp",
+      "AWSURL": "AWSURL",
+      "AuthProvider": "AuthProvider",
+      "AuthRule": "AuthRule",
+      "AuthStrategy": "AuthStrategy",
+      "Boolean": "Boolean",
+      "CustomType": "CustomType",
+      "Float": "Float",
+      "ID": "ID",
+      "Int": "Int",
+      "ListContainer": "ListContainer",
+      "ModelMutation": "ModelMutation",
+      "ModelMutationMap": "ModelMutationMap",
+      "ModelOperation": "ModelOperation",
+      "ModelQuery": "ModelQuery",
+      "ModelQueryMap": "ModelQueryMap",
+      "ModelSubscriptionLevel": "ModelSubscriptionLevel",
+      "ModelSubscriptionMap": "ModelSubscriptionMap",
+      "SearchableQueryMap": "SearchableQueryMap",
+      "StatusEnum": "StatusEnum",
+      "String": "String",
+      "TimestampConfiguration": "TimestampConfiguration",
+      "__Directive": "__Directive",
+      "__DirectiveLocation": "__DirectiveLocation",
+      "__EnumValue": "__EnumValue",
+      "__Field": "__Field",
+      "__InputValue": "__InputValue",
+      "__Schema": "__Schema",
+      "__Type": "__Type",
+      "__TypeKind": "__TypeKind",
+    },
+    "astNode": undefined,
+    "extensionASTNodes": undefined,
+    "extensions": undefined,
+  },
+  "addTimestampFields": [Function],
+  "additionalPackages": Set {},
+  "computeVersion": [Function],
+  "convertManyToManyDirectives": [Function],
+  "convertName": [Function],
+  "determinePrimaryKeyFieldname": [Function],
+  "ensureIdField": [Function],
+  "enumMap": Object {
+    "StatusEnum": Object {
+      "name": "StatusEnum",
+      "type": "enum",
+      "values": Object {
+        "FAIL": "fail",
+        "PASS": "pass",
+      },
+    },
+  },
+  "generate": [Function],
+  "generateAuthRules": [Function],
+  "generateBuilderClass": [Function],
+  "generateBuilderMethod": [Function],
+  "generateClassLoader": [Function],
+  "generateConnectionAnnotation": [Function],
+  "generateConstructor": [Function],
+  "generateCopyOfBuilderClass": [Function],
+  "generateCopyOfBuilderMethod": [Function],
+  "generateEnums": [Function],
+  "generateEqualsMethod": [Function],
+  "generateFieldAnnotations": [Function],
+  "generateGetters": [Function],
+  "generateHashCodeMethod": [Function],
+  "generateImportStatements": [Function],
+  "generateIntermediateModel": [Function],
+  "generateJustIdMethod": [Function],
+  "generateModelAnnotations": [Function],
+  "generateModelClass": [Function],
+  "generateModelClasses": [Function],
+  "generateModelField": [Function],
+  "generateModelFieldAnnotation": [Function],
+  "generateNonModelClass": [Function],
+  "generateNonModelClasses": [Function],
+  "generateNonModelField": [Function],
+  "generatePackageHeader": [Function],
+  "generatePackageName": [Function],
+  "generateQueryFields": [Function],
+  "generateStepBuilderInterfaces": [Function],
+  "generateToStringMethod": [Function],
+  "getDirectiveArguments": [Function],
+  "getDirectives": [Function],
+  "getEnumName": [Function],
+  "getEnumValue": [Function],
+  "getFieldGetterName": [Function],
+  "getFieldName": [Function],
+  "getListType": [Function],
+  "getModelName": [Function],
+  "getNativeType": [Function],
+  "getNonConnectedField": [Function],
+  "getNonModelName": [Function],
+  "getSelectedEnums": [Function],
+  "getSelectedModels": [Function],
+  "getSelectedNonModels": [Function],
+  "getStepFunctionArgumentName": [Function],
+  "getStepFunctionName": [Function],
+  "getStepInterfaceName": [Function],
+  "getWritableFields": [Function],
+  "isEnumType": [Function],
+  "isModelType": [Function],
+  "isNonModelType": [Function],
+  "isRequiredField": [Function],
+  "modelMap": Object {
+    "ListContainer": Object {
+      "directives": Array [
+        Object {
+          "arguments": Object {},
+          "name": "model",
+        },
+      ],
+      "fields": Array [
+        Object {
+          "baseType": "ID",
+          "directives": Array [],
+          "isList": false,
+          "isNullable": false,
+          "name": "id",
+          "type": "ID",
+        },
+        Object {
+          "baseType": "String",
+          "directives": Array [],
+          "isList": false,
+          "isNullable": true,
+          "name": "name",
+          "type": "String",
+        },
+        Object {
+          "baseType": "Int",
+          "directives": Array [],
+          "isList": true,
+          "isListNullable": true,
+          "isNullable": true,
+          "name": "list",
+          "type": "Int",
+        },
+        Object {
+          "baseType": "String",
+          "directives": Array [],
+          "isList": true,
+          "isListNullable": false,
+          "isNullable": true,
+          "name": "requiredList",
+          "type": "String",
+        },
+        Object {
+          "baseType": "StatusEnum",
+          "directives": Array [],
+          "isList": true,
+          "isListNullable": false,
+          "isNullable": false,
+          "name": "requiredListOfRequired",
+          "type": "StatusEnum",
+        },
+        Object {
+          "baseType": "Boolean",
+          "directives": Array [],
+          "isList": true,
+          "isListNullable": true,
+          "isNullable": false,
+          "name": "listOfRequired",
+          "type": "Boolean",
+        },
+        Object {
+          "baseType": "AWSDate",
+          "directives": Array [],
+          "isList": true,
+          "isListNullable": false,
+          "isNullable": false,
+          "name": "requiredListOfRequiredDates",
+          "type": "AWSDate",
+        },
+        Object {
+          "baseType": "Float",
+          "directives": Array [],
+          "isList": true,
+          "isListNullable": true,
+          "isNullable": false,
+          "name": "listOfRequiredFloats",
+          "type": "Float",
+        },
+        Object {
+          "baseType": "CustomType",
+          "directives": Array [],
+          "isList": true,
+          "isListNullable": false,
+          "isNullable": true,
+          "name": "requiredListOfCustomTypes",
+          "type": "CustomType",
+        },
+        Object {
+          "directives": Array [],
+          "isList": false,
+          "isNullable": true,
+          "isReadOnly": true,
+          "name": "createdAt",
+          "type": "AWSDateTime",
+        },
+        Object {
+          "directives": Array [],
+          "isList": false,
+          "isNullable": true,
+          "isReadOnly": true,
+          "name": "updatedAt",
+          "type": "AWSDateTime",
+        },
+      ],
+      "name": "ListContainer",
+      "type": "model",
+    },
+  },
+  "nonModelMap": Object {
+    "CustomType": Object {
+      "directives": Array [],
+      "fields": Array [
+        Object {
+          "baseType": "String",
+          "directives": Array [],
+          "isList": false,
+          "isNullable": true,
+          "name": "name",
+          "type": "String",
+        },
+        Object {
+          "baseType": "Int",
+          "directives": Array [],
+          "isList": true,
+          "isListNullable": true,
+          "isNullable": true,
+          "name": "list",
+          "type": "Int",
+        },
+        Object {
+          "baseType": "String",
+          "directives": Array [],
+          "isList": true,
+          "isListNullable": false,
+          "isNullable": true,
+          "name": "requiredList",
+          "type": "String",
+        },
+        Object {
+          "baseType": "StatusEnum",
+          "directives": Array [],
+          "isList": true,
+          "isListNullable": false,
+          "isNullable": false,
+          "name": "requiredListOfRequired",
+          "type": "StatusEnum",
+        },
+        Object {
+          "baseType": "Boolean",
+          "directives": Array [],
+          "isList": true,
+          "isListNullable": true,
+          "isNullable": false,
+          "name": "listOfRequired",
+          "type": "Boolean",
+        },
+      ],
+      "name": "CustomType",
+      "type": "model",
+    },
+  },
+  "pluralizeModelName": [Function],
+  "processAuthDirectives": [Function],
+  "processConnectionDirective": [Function],
+  "processConnectionDirectivesV2": [Function],
+  "processDirectives": [Function],
+  "processManyToManyDirectives": [Function],
+  "scalars": Object {
+    "AWSDate": "Temporal.Date",
+    "AWSDateTime": "Temporal.DateTime",
+    "AWSEmail": "String",
+    "AWSIPAddress": "String",
+    "AWSJSON": "String",
+    "AWSPhone": "String",
+    "AWSTime": "Temporal.Time",
+    "AWSTimestamp": "Temporal.Timestamp",
+    "AWSURL": "String",
+    "Boolean": "Boolean",
+    "Float": "Double",
+    "ID": "String",
+    "Int": "Integer",
+    "String": "String",
+  },
+  "selectedTypeIsEnum": [Function],
+  "selectedTypeIsNonModel": [Function],
+  "sortFields": [Function],
+  "typesToSkip": Array [
+    "ModelMutationMap",
+    "ModelQueryMap",
+    "ModelSubscriptionMap",
+    "ModelSubscriptionLevel",
+    "TimestampConfiguration",
+    "AuthRule",
+    "AuthStrategy",
+    "AuthProvider",
+    "ModelOperation",
+    "ModelQuery",
+    "ModelMutation",
+    "SearchableQueryMap",
+  ],
+  "usingAuth": false,
+}
+`;
+
 exports[`AppSyncModelVisitor connection One to Many connection should generate correct pluralization 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.BelongsTo;
+import com.amplifyframework.core.model.temporal.Temporal;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the task type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(listPluralName = \\"tasks\\", syncPluralName = \\"tasks\\")
+public final class task implements Model {
+  public static final QueryField ID = field(\\"task\\", \\"id\\");
+  public static final QueryField TITLE = field(\\"task\\", \\"title\\");
+  public static final QueryField DONE = field(\\"task\\", \\"done\\");
+  public static final QueryField TODO = field(\\"task\\", \\"taskTodoId\\");
+  public static final QueryField TIME = field(\\"task\\", \\"time\\");
+  public static final QueryField CREATED_ON = field(\\"task\\", \\"createdOn\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String title;
+  private final @ModelField(targetType=\\"Boolean\\", isRequired = true) Boolean done;
+  private final @ModelField(targetType=\\"Todo\\") @BelongsTo(targetName = \\"taskTodoId\\", type = Todo.class) Todo todo;
+  private final @ModelField(targetType=\\"AWSTime\\") Temporal.Time time;
+  private final @ModelField(targetType=\\"AWSDate\\") Temporal.Date createdOn;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+
+  public String getTitle() {
+      return title;
+  }
+
+  public Boolean getDone() {
+      return done;
+  }
+
+  public Todo getTodo() {
+      return todo;
+  }
+
+  public Temporal.Time getTime() {
+      return time;
+  }
+
+  public Temporal.Date getCreatedOn() {
+      return createdOn;
+  }
+
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+
+  private task(String id, String title, Boolean done, Todo todo, Temporal.Time time, Temporal.Date createdOn) {
+    this.id = id;
+    this.title = title;
+    this.done = done;
+    this.todo = todo;
+    this.time = time;
+    this.createdOn = createdOn;
+  }
+
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      task task = (task) obj;
+      return ObjectsCompat.equals(getId(), task.getId()) &&
+              ObjectsCompat.equals(getTitle(), task.getTitle()) &&
+              ObjectsCompat.equals(getDone(), task.getDone()) &&
+              ObjectsCompat.equals(getTodo(), task.getTodo()) &&
+              ObjectsCompat.equals(getTime(), task.getTime()) &&
+              ObjectsCompat.equals(getCreatedOn(), task.getCreatedOn()) &&
+              ObjectsCompat.equals(getCreatedAt(), task.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), task.getUpdatedAt());
+      }
+  }
+
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getTitle())
+      .append(getDone())
+      .append(getTodo())
+      .append(getTime())
+      .append(getCreatedOn())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"task {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"title=\\" + String.valueOf(getTitle()) + \\", \\")
+      .append(\\"done=\\" + String.valueOf(getDone()) + \\", \\")
+      .append(\\"todo=\\" + String.valueOf(getTodo()) + \\", \\")
+      .append(\\"time=\\" + String.valueOf(getTime()) + \\", \\")
+      .append(\\"createdOn=\\" + String.valueOf(getCreatedOn()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+
+  public static TitleStep builder() {
+      return new Builder();
+  }
+
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static task justId(String id) {
+    return new task(
+      id,
+      null,
+      null,
+      null,
+      null,
+      null
+    );
+  }
+
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      title,
+      done,
+      todo,
+      time,
+      createdOn);
+  }
+  public interface TitleStep {
+    DoneStep title(String title);
+  }
+
+
+  public interface DoneStep {
+    BuildStep done(Boolean done);
+  }
+
+
+  public interface BuildStep {
+    task build();
+    BuildStep id(String id);
+    BuildStep todo(Todo todo);
+    BuildStep time(Temporal.Time time);
+    BuildStep createdOn(Temporal.Date createdOn);
+  }
+
+
+  public static class Builder implements TitleStep, DoneStep, BuildStep {
+    private String id;
+    private String title;
+    private Boolean done;
+    private Todo todo;
+    private Temporal.Time time;
+    private Temporal.Date createdOn;
+    @Override
+     public task build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+
+        return new task(
+          id,
+          title,
+          done,
+          todo,
+          time,
+          createdOn);
+    }
+
+    @Override
+     public DoneStep title(String title) {
+        Objects.requireNonNull(title);
+        this.title = title;
+        return this;
+    }
+
+    @Override
+     public BuildStep done(Boolean done) {
+        Objects.requireNonNull(done);
+        this.done = done;
+        return this;
+    }
+
+    @Override
+     public BuildStep todo(Todo todo) {
+        this.todo = todo;
+        return this;
+    }
+
+    @Override
+     public BuildStep time(Temporal.Time time) {
+        this.time = time;
+        return this;
+    }
+
+    @Override
+     public BuildStep createdOn(Temporal.Date createdOn) {
+        this.createdOn = createdOn;
+        return this;
+    }
+
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String title, Boolean done, Todo todo, Temporal.Time time, Temporal.Date createdOn) {
+      super.id(id);
+      super.title(title)
+        .done(done)
+        .todo(todo)
+        .time(time)
+        .createdOn(createdOn);
+    }
+
+    @Override
+     public CopyOfBuilder title(String title) {
+      return (CopyOfBuilder) super.title(title);
+    }
+
+    @Override
+     public CopyOfBuilder done(Boolean done) {
+      return (CopyOfBuilder) super.done(done);
+    }
+
+    @Override
+     public CopyOfBuilder todo(Todo todo) {
+      return (CopyOfBuilder) super.todo(todo);
+    }
+
+    @Override
+     public CopyOfBuilder time(Temporal.Time time) {
+      return (CopyOfBuilder) super.time(time);
+    }
+
+    @Override
+     public CopyOfBuilder createdOn(Temporal.Date createdOn) {
+      return (CopyOfBuilder) super.createdOn(createdOn);
+    }
+  }
+
+}
+"
+`;
+
+exports[`AppSyncModelVisitor connection One to Many connection should generate many side of the connection 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
 import com.amplifyframework.core.model.annotations.BelongsTo;

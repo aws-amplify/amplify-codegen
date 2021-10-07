@@ -122,6 +122,12 @@ export interface RawAppSyncModelConfig extends RawConfig {
    * @descriptions optional number which determines which version of the GraphQL transformer to use
    */
   transformerVersion?: number;
+  /**
+   * @name improvePluralization
+   * @type boolean
+   * @descriptions optional boolean which determines whether improved pluralization logic should be used
+   */
+  improvePluralization?: boolean;
 }
 
 // Todo: need to figure out how to share config
@@ -133,6 +139,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   handleListNullabilityTransparently?: boolean;
   usePipelinedTransformer?: boolean;
   transformerVersion?: number;
+  improvePluralization?: boolean;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
 
@@ -213,6 +220,7 @@ export class AppSyncModelVisitor<
       handleListNullabilityTransparently: rawConfig.handleListNullabilityTransparently,
       usePipelinedTransformer: rawConfig.usePipelinedTransformer,
       transformerVersion: rawConfig.transformerVersion,
+      improvePluralization: rawConfig.improvePluralization,
     });
 
     const typesUsedInDirectives: string[] = [];

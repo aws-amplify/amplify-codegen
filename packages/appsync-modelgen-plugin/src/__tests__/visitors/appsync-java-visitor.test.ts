@@ -15,6 +15,7 @@ const getVisitor = (
   selectedType?: string,
   generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
   transformerVersion: number = 1,
+  improvePluralization: boolean = false,
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -28,6 +29,7 @@ const getVisitor = (
       isTimestampFieldsAdded: true,
       handleListNullabilityTransparently: true,
       transformerVersion: transformerVersion,
+      improvePluralization: improvePluralization,
     },
     { selectedType },
   );
@@ -547,6 +549,13 @@ describe('AppSyncModelVisitor', () => {
 
       it('should generate many side of the connection', () => {
         const visitor = getVisitor(schema, 'task');
+        const generatedCode = visitor.generate();
+        expect(() => validateJava(generatedCode)).not.toThrow();
+        expect(generatedCode).toMatchSnapshot();
+      });
+
+      it('should generate correct pluralization', () => {
+        const visitor = getVisitor(schema, 'task', CodeGenGenerateEnum.code, 1, true);
         const generatedCode = visitor.generate();
         expect(() => validateJava(generatedCode)).not.toThrow();
         expect(generatedCode).toMatchSnapshot();
