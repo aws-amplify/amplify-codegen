@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.27.0-custom-type-preview.1](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.27.0-custom-type-preview.0...amplify-codegen@2.27.0-custom-type-preview.1) (2021-10-07)
+
+
+### Bug Fixes
+
+* add prerelease version and local path check ([c98b983](https://github.com/aws-amplify/amplify-codegen/commit/c98b9838d061a75ebbee81ccd002b15a3451c59e))
+* bump prerelease to rc2 ([9c91fc2](https://github.com/aws-amplify/amplify-codegen/commit/9c91fc20e0b8f751777ccbed0a63e36a7a3b9d2c))
+* remove local path check ([d15504d](https://github.com/aws-amplify/amplify-codegen/commit/d15504d4b995a8e89a6027fe81833390ab6bc92f))
+
+
+
+
+
 # [2.27.0-custom-type-preview.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.6...amplify-codegen@2.27.0-custom-type-preview.0) (2021-10-01)
 
 
