@@ -10,7 +10,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-
 ## [2.26.6](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.5...amplify-codegen@2.26.6) (2021-09-29)
 
 **Note:** Version bump only for package amplify-codegen

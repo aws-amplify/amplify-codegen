@@ -5,11 +5,6 @@ import { pathManager } from 'amplify-cli-core';
 const codegenFeatureFlags = {
     "handlelistnullabilitytransparently": true,
     "addtimestampfields": true,
-    "useappsyncmodelgenplugin": true,
-    "usedocsgeneratorplugin": true,
-    "usetypesgeneratorplugin": true,
-    "cleangeneratedmodelsdirectory": true,
-    "retaincasestyle": true,
     "generateindexrules": true,
     "emitauthprovider": true,
     "enabledartnullsafety": true,

@@ -51,14 +51,10 @@ export function run(argv: Array<String>): void {
         separateFiles: {
           default: false,
           type: 'boolean',
-        },
-        retainCaseStyle: {
-          default: true,
-          type: 'boolean'
         }
       },
       async argv => {
-        generate(argv.schema, argv.output, { separateFiles: argv.separateFiles, language: argv.language, maxDepth: argv.maxDepth, retainCaseStyle: argv.retainCaseStyle });
+        generate(argv.schema, argv.output, { separateFiles: argv.separateFiles, language: argv.language, maxDepth: argv.maxDepth });
       }
     )
     .help()

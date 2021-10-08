@@ -4,8 +4,8 @@ const { parse } = require('graphql');
 const glob = require('glob-all');
 const { FeatureFlags, pathManager } = require('amplify-cli-core');
 const gqlCodeGen = require('@graphql-codegen/core');
-const { getModelgenPackage } = require('../utils/getModelgenPackage');
 const { validateDartSDK } = require('../utils/validateDartSDK');
+const modelgen = require('@aws-amplify/appsync-modelgen-plugin');
 
 const platformToLanguageMap = {
   android: 'java',
@@ -64,9 +64,6 @@ async function generateModels(context) {
   const outputPath = path.join(projectRoot, getModelOutputPath(context));
   const schema = parse(schemaContent);
   const projectConfig = context.amplify.getProjectConfig();
-  //get modelgen package
-  const modelgenPackageMigrationflag = 'codegen.useAppSyncModelgenPlugin';
-  const appSyncDataStoreCodeGen = getModelgenPackage(FeatureFlags.getBoolean(modelgenPackageMigrationflag));
 
   const isTimestampFieldsAdded = readFeatureFlag('codegen.addTimestampFields');
 
@@ -92,7 +89,7 @@ async function generateModels(context) {
   }
   const handleListNullabilityTransparently = readFeatureFlag('codegen.handleListNullabilityTransparently');
 
-  const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
+  const appsyncLocalConfig = await modelgen.preset.buildGeneratesSection({
     baseOutputDir: outputPath,
     schema,
     config: {
@@ -116,7 +113,7 @@ async function generateModels(context) {
         },
       ],
       pluginMap: {
-        appSyncLocalCodeGen: appSyncDataStoreCodeGen,
+        appSyncLocalCodeGen: modelgen,
       },
     });
   });
