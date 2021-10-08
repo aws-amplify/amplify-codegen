@@ -17,7 +17,7 @@ public struct ListContainer: Model {
   public var requiredListOfCustomTypes: [CustomType?]
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
-
+  
   public init(id: String = UUID().uuidString,
       name: String? = nil,
       list: [Int?]? = nil,
@@ -71,7 +71,7 @@ import Amplify
 import Foundation
 
 extension ListContainer {
-  // MARK: - CodingKeys
+  // MARK: - CodingKeys 
    public enum CodingKeys: String, ModelKey {
     case id
     case name
@@ -85,15 +85,15 @@ extension ListContainer {
     case createdAt
     case updatedAt
   }
-
+  
   public static let keys = CodingKeys.self
-  //  MARK: - ModelSchema
-
+  //  MARK: - ModelSchema 
+  
   public static let schema = defineSchema { model in
     let listContainer = ListContainer.keys
-
+    
     model.pluralName = \\"ListContainers\\"
-
+    
     model.fields(
       .id(),
       .field(listContainer.name, is: .optional, ofType: .string),
@@ -139,7 +139,7 @@ public struct Todo: Model {
   public var requiredListOfRequiredTasks: List<task>?
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
-
+  
   public init(id: String = UUID().uuidString,
       title: String,
       requiredListOfTasks: List<task>? = [],
@@ -181,7 +181,7 @@ import Amplify
 import Foundation
 
 extension Todo {
-  // MARK: - CodingKeys
+  // MARK: - CodingKeys 
    public enum CodingKeys: String, ModelKey {
     case id
     case title
@@ -192,15 +192,15 @@ extension Todo {
     case createdAt
     case updatedAt
   }
-
+  
   public static let keys = CodingKeys.self
-  //  MARK: - ModelSchema
-
+  //  MARK: - ModelSchema 
+  
   public static let schema = defineSchema { model in
     let todo = Todo.keys
-
+    
     model.pluralName = \\"Todos\\"
-
+    
     model.fields(
       .id(),
       .field(todo.title, is: .required, ofType: .string),
@@ -226,7 +226,7 @@ public struct task: Model {
   public var todo: Todo?
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
-
+  
   public init(id: String = UUID().uuidString,
       title: String,
       todo: Todo? = nil) {
@@ -256,7 +256,7 @@ import Amplify
 import Foundation
 
 extension task {
-  // MARK: - CodingKeys
+  // MARK: - CodingKeys 
    public enum CodingKeys: String, ModelKey {
     case id
     case title
@@ -264,15 +264,15 @@ extension task {
     case createdAt
     case updatedAt
   }
-
+  
   public static let keys = CodingKeys.self
-  //  MARK: - ModelSchema
-
+  //  MARK: - ModelSchema 
+  
   public static let schema = defineSchema { model in
     let task = task.keys
-
+    
     model.pluralName = \\"tasks\\"
-
+    
     model.fields(
       .id(),
       .field(task.title, is: .required, ofType: .string),
