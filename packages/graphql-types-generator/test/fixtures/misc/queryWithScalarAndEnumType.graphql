@@ -1,0 +1,174 @@
+type Person {
+  id: ID!
+  name: String!
+  items: [String!]
+  contacts: [Phone!]
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Phone {
+  number: String!
+}
+
+type Query {
+  getScalars: [String]
+  getScalar: String
+  getPhones: [Phone]
+  getPhone: Phone
+  getEnums: [Status]
+  getEnum: Status
+  getPerson(id: ID!): Person
+  listPersons(filter: ModelPersonFilterInput, limit: Int, nextToken: String): ModelPersonConnection
+}
+
+enum Status {
+  APPROVED
+  PENDING
+  REJECTED
+}
+
+input PhoneInput {
+  number: String!
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelPersonConnection {
+  items: [Person]
+  nextToken: String
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+input ModelPersonFilterInput {
+  name: ModelStringInput
+  items: ModelStringInput
+  and: [ModelPersonFilterInput]
+  or: [ModelPersonFilterInput]
+  not: ModelPersonFilterInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input CreatePersonInput {
+  id: ID
+  name: String!
+  items: [String!]
+  contacts: [PhoneInput!]
+}
+
+input UpdatePersonInput {
+  name: String
+  items: [String!]
+  contacts: [PhoneInput!]
+}
+
+input DeletePersonInput {
+  id: ID!
+}
+
+type Mutation {
+  createPerson(input: CreatePersonInput!, condition: ModelPersonConditionInput): Person
+  updatePerson(input: UpdatePersonInput!, condition: ModelPersonConditionInput): Person
+  deletePerson(input: DeletePersonInput!, condition: ModelPersonConditionInput): Person
+}
+
+input ModelPersonConditionInput {
+  name: ModelStringInput
+  items: ModelStringInput
+  and: [ModelPersonConditionInput]
+  or: [ModelPersonConditionInput]
+  not: ModelPersonConditionInput
+}
+
+type Subscription {
+  onCreatePerson: Person @aws_subscribe(mutations: ["createPerson"])
+  onUpdatePerson: Person @aws_subscribe(mutations: ["updatePerson"])
+  onDeletePerson: Person @aws_subscribe(mutations: ["deletePerson"])
+}
