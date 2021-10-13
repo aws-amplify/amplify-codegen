@@ -850,26 +850,11 @@ export interface SubscriptionResponse<T> {
   value: GraphQLResult<T>;
 }
 
-export type Phone = {
-  __typename: \\"Phone\\";
-  number: string;
-};
-
 export enum Status {
   APPROVED = \\"APPROVED\\",
   PENDING = \\"PENDING\\",
   REJECTED = \\"REJECTED\\"
 }
-
-export type GetPhonesQuery = {
-  __typename: \\"Phone\\";
-  number: string;
-};
-
-export type GetPhoneQuery = {
-  __typename: \\"Phone\\";
-  number: string;
-};
 
 @Injectable({
   providedIn: \\"root\\"
@@ -888,26 +873,6 @@ export class APIService {
       }\`;
     const response = (await API.graphql(graphqlOperation(statement))) as any;
     return <string | null>response.data.getScalar;
-  }
-  async GetPhones(): Promise<Array<GetPhonesQuery>> {
-    const statement = \`query GetPhones {
-        getPhones {
-          __typename
-          number
-        }
-      }\`;
-    const response = (await API.graphql(graphqlOperation(statement))) as any;
-    return <Array<GetPhonesQuery>>response.data.getPhones;
-  }
-  async GetPhone(): Promise<GetPhoneQuery> {
-    const statement = \`query GetPhone {
-        getPhone {
-          __typename
-          number
-        }
-      }\`;
-    const response = (await API.graphql(graphqlOperation(statement))) as any;
-    return <GetPhoneQuery>response.data.getPhone;
   }
   async GetEnums(): Promise<Array<Status | null>> {
     const statement = \`query GetEnums {

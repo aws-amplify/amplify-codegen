@@ -2,20 +2,13 @@ type Person {
   id: ID!
   name: String!
   items: [String!]
-  contacts: [Phone!]
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
-}
-
-type Phone {
-  number: String!
 }
 
 type Query {
   getScalars: [String]
   getScalar: String
-  getPhones: [Phone]
-  getPhone: Phone
   getEnums: [Status]
   getEnum: Status
   getPerson(id: ID!): Person
@@ -26,10 +19,6 @@ enum Status {
   APPROVED
   PENDING
   REJECTED
-}
-
-input PhoneInput {
-  number: String!
 }
 
 enum ModelSortDirection {
@@ -140,13 +129,11 @@ input CreatePersonInput {
   id: ID
   name: String!
   items: [String!]
-  contacts: [PhoneInput!]
 }
 
 input UpdatePersonInput {
   name: String
   items: [String!]
-  contacts: [PhoneInput!]
 }
 
 input DeletePersonInput {

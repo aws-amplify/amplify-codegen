@@ -401,16 +401,6 @@ describe('Angular code generation', function() {
       query GetScalar {
         getScalar
       }
-      query GetPhones {
-        getPhones {
-          number
-        }
-      }
-      query GetPhone {
-        getPhone {
-          number
-        }
-      }
       query GetEnums {
         getEnums
       }
