@@ -2,7 +2,7 @@ const inquirer = require('inquirer');
 
 const constants = require('../../constants');
 
-async function askMaxDepth(defaultDepth = 2) {
+async function askMaxDepth(defaultDepth = 3) {
   const answer = await inquirer.prompt([
     {
       name: 'maxDepth',
