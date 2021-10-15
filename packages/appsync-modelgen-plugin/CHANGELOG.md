@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.29.0-custom-type-preview.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.0-custom-type-preview.0...@aws-amplify/appsync-modelgen-plugin@1.29.0-custom-type-preview.1) (2021-10-15)
+
+
+### Features
+
+* **appsync-modelgen-plugin:** add readOnly fields in dart ([#263](https://github.com/aws-amplify/amplify-codegen/issues/263)) ([87064c5](https://github.com/aws-amplify/amplify-codegen/commit/87064c5d0a2d300d1b7684743a32d0fbf07df395))
+
+
+
+
+
 # [1.29.0-custom-type-preview.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.28.0...@aws-amplify/appsync-modelgen-plugin@1.29.0-custom-type-preview.0) (2021-10-01)
 
 

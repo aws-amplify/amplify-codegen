@@ -1,6 +1,6 @@
 {
   "name": "@aws-amplify/appsync-modelgen-plugin",
-  "version": "1.29.0-custom-type-preview.0",
+  "version": "1.29.0-custom-type-preview.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/aws-amplify/amplify-codegen.git",
