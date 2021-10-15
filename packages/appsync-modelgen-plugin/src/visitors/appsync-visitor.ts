@@ -707,10 +707,6 @@ export class AppSyncModelVisitor<
     if (!this.config.isTimestampFieldsAdded) {
       return;
     }
-    const target = this.config.target;
-    if (target === 'dart') {
-      return;
-    }
     if (directive.name !== 'model') {
       return;
     }
