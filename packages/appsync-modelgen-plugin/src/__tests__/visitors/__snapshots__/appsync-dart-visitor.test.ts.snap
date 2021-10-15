@@ -5859,12 +5859,10 @@ class SimpleModel extends Model {
   
   const SimpleModel._internal({required this.id, name, createdAt, updatedAt}): _name = name, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory SimpleModel({String? id, String? name, TemporalDateTime? createdAt, TemporalDateTime? updatedAt}) {
+  factory SimpleModel({String? id, String? name}) {
     return SimpleModel._internal(
       id: id == null ? UUID.getUUID() : id,
-      name: name,
-      createdAt: createdAt,
-      updatedAt: updatedAt);
+      name: name);
   }
   
   bool equals(Object other) {
@@ -5896,12 +5894,10 @@ class SimpleModel extends Model {
     return buffer.toString();
   }
   
-  SimpleModel copyWith({String? id, String? name, TemporalDateTime? createdAt, TemporalDateTime? updatedAt}) {
-    return SimpleModel(
+  SimpleModel copyWith({String? id, String? name}) {
+    return SimpleModel._internal(
       id: id ?? this.id,
-      name: name ?? this.name,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt);
+      name: name ?? this.name);
   }
   
   SimpleModel.fromJson(Map<String, dynamic> json)  
@@ -5916,8 +5912,6 @@ class SimpleModel extends Model {
 
   static final QueryField ID = QueryField(fieldName: \\"simpleModel.id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"SimpleModel\\";
     modelSchemaDefinition.pluralName = \\"SimpleModels\\";
@@ -5931,14 +5925,14 @@ class SimpleModel extends Model {
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
-      fieldName: \\"createdAt\\",
+      fieldName: 'createdAt',
       isRequired: false,
       isReadOnly: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
-      fieldName: \\"updatedAt\\",
+      fieldName: 'updatedAt',
       isRequired: false,
       isReadOnly: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
@@ -5986,127 +5980,112 @@ import 'package:flutter/foundation.dart';
 class SimpleModel extends Model {
   static const classType = const _SimpleModelModelType();
   final String id;
-  final String? _name;
-  final TemporalDateTime? _createdAt;
-  final TemporalDateTime? _updatedAt;
+  final String name;
+  final TemporalDateTime createdAt;
+  final TemporalDateTime updatedAt;
 
   @override
   getInstanceType() => classType;
-  
+
   @override
   String getId() {
     return id;
   }
-  
-  String? get name {
-    return _name;
-  }
-  
-  TemporalDateTime? get createdAt {
-    return _createdAt;
-  }
-  
-  TemporalDateTime? get updatedAt {
-    return _updatedAt;
-  }
-  
-  const SimpleModel._internal({required this.id, name, createdAt, updatedAt}): _name = name, _createdAt = createdAt, _updatedAt = updatedAt;
-  
-  factory SimpleModel({String? id, String? name, TemporalDateTime? createdAt, TemporalDateTime? updatedAt}) {
+
+  const SimpleModel._internal(
+      {@required this.id, this.name, this.createdAt, this.updatedAt});
+
+  factory SimpleModel({String id, String name}) {
     return SimpleModel._internal(
-      id: id == null ? UUID.getUUID() : id,
-      name: name,
-      createdAt: createdAt,
-      updatedAt: updatedAt);
+        id: id == null ? UUID.getUUID() : id, name: name);
   }
-  
+
   bool equals(Object other) {
     return this == other;
   }
-  
+
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is SimpleModel &&
-      id == other.id &&
-      _name == other._name &&
-      _createdAt == other._createdAt &&
-      _updatedAt == other._updatedAt;
+    return other is SimpleModel && id == other.id && name == other.name;
   }
-  
+
   @override
   int get hashCode => toString().hashCode;
-  
+
   @override
   String toString() {
     var buffer = new StringBuffer();
-    
+
     buffer.write(\\"SimpleModel {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"name=\\" + \\"$_name\\" + \\", \\");
-    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
-    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\"));
+    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
+    buffer.write(\\"createdAt=\\" +
+        (createdAt != null ? createdAt.format() : \\"null\\") +
+        \\", \\");
+    buffer.write(
+        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
     buffer.write(\\"}\\");
-    
+
     return buffer.toString();
   }
-  
-  SimpleModel copyWith({String? id, String? name, TemporalDateTime? createdAt, TemporalDateTime? updatedAt}) {
-    return SimpleModel(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt);
+
+  SimpleModel copyWith({String id, String name}) {
+    return SimpleModel._internal(id: id ?? this.id, name: name ?? this.name);
   }
-  
-  SimpleModel.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _name = json['name'],
-      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
-      _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
-  
+
+  SimpleModel.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        createdAt = json['createdAt'] != null
+            ? TemporalDateTime.fromString(json['createdAt'])
+            : null,
+        updatedAt = json['updatedAt'] != null
+            ? TemporalDateTime.fromString(json['updatedAt'])
+            : null;
+
   Map<String, dynamic> toJson() => {
-    'id': id, 'name': _name, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
-  };
+        'id': id,
+        'name': name,
+        'createdAt': createdAt?.format(),
+        'updatedAt': updatedAt?.format()
+      };
 
   static final QueryField ID = QueryField(fieldName: \\"simpleModel.id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static final QueryField CREATEDAT = QueryField(fieldName: \\"createdAt\\");
-  static final QueryField UPDATEDAT = QueryField(fieldName: \\"updatedAt\\");
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+  static var schema =
+      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"SimpleModel\\";
     modelSchemaDefinition.pluralName = \\"SimpleModels\\";
-    
+
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
-    
+
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: SimpleModel.NAME,
-      isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
-    ));
-    
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: SimpleModel.CREATEDAT,
-      isRequired: false,
-      isReadOnly: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
-    ));
-    
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: SimpleModel.UPDATEDAT,
-      isRequired: false,
-      isReadOnly: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
-    ));
+        key: SimpleModel.NAME,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+        fieldName: 'createdAt',
+        isRequired: false,
+        isReadOnly: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+        fieldName: 'updatedAt',
+        isRequired: false,
+        isReadOnly: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
   });
 }
 
 class _SimpleModelModelType extends ModelType<SimpleModel> {
   const _SimpleModelModelType();
-  
+
   @override
   SimpleModel fromJson(Map<String, dynamic> jsonData) {
     return SimpleModel.fromJson(jsonData);
   }
-}"
+}
+"
 `;
