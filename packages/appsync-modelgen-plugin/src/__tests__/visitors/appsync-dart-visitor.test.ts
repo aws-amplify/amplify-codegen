@@ -13,13 +13,14 @@ const getVisitor = (
   selectedType?: string,
   generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
   enableDartNullSafety: boolean = false,
-  enableDartNonModelGeneration: boolean = true
+  enableDartNonModelGeneration: boolean = true,
+  isTimestampFieldsAdded: boolean = false,
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelDartVisitor(
     builtSchema,
-    { directives, target: 'dart', scalars: DART_SCALAR_MAP, enableDartNullSafety, enableDartNonModelGeneration },
+    { directives, target: 'dart', scalars: DART_SCALAR_MAP, enableDartNullSafety, enableDartNonModelGeneration, isTimestampFieldsAdded },
     { selectedType, generate },
   );
   visit(ast, { leave: visitor });
@@ -515,6 +516,34 @@ describe('AppSync Dart Visitor', () => {
 
     it('should not generate custom type field in model provider if non model feature is disabled', () => {
       const generatedCode = getVisitor(schema, undefined, CodeGenGenerateEnum.loader, true, false).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+  });
+
+  describe('Read-only Field Tests', () => {
+    it('should generate the read-only timestamp fields when isTimestampFields is true', () => {
+      const schema = /* GraphQL */ `
+        type SimpleModel @model {
+          id: ID!
+          name: String
+        }
+      `;
+      const visitor = getVisitor(schema, undefined, CodeGenGenerateEnum.code, false, false, true);
+      const generatedCode = visitor.generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+  });
+
+  describe('Read-only and Null Safety Combined Tests', () => {
+    it('should generate the read-only timestamp fields when isTimestampFields is true and with null safety', () => {
+      const schema = /* GraphQL */ `
+        type SimpleModel @model {
+          id: ID!
+          name: String
+        }
+      `;
+      const visitor = getVisitor(schema, undefined, CodeGenGenerateEnum.code, true, false, true);
+      const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
   });

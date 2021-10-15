@@ -381,7 +381,8 @@ export class AppSyncModelDartVisitor<
       isBlock: false,
     });
     //factory Model
-    const returnParamStr = model.fields
+    const writableFields: CodeGenField[] = this.getWritableFields(model);
+    const returnParamStr = writableFields
       .map(field => {
         const fieldName = this.getFieldName(field);
         if (fieldName === 'id') {
@@ -395,7 +396,7 @@ export class AppSyncModelDartVisitor<
       .join(',\n');
     const factoryImpl = [`return ${this.getModelName(model)}._internal(`, indentMultiline(`${returnParamStr});`)].join('\n');
     const factoryParam = this.isNullSafety()
-      ? `{${model.fields
+      ? `{${writableFields
           .map(f => {
             if (this.getFieldName(f) === 'id' || !this.isFieldRequired(f)) {
               return `${this.getNativeType(f)}? ${this.getFieldName(f)}`;
@@ -403,7 +404,7 @@ export class AppSyncModelDartVisitor<
             return `required ${this.getNativeType(f)} ${this.getFieldName(f)}`;
           })
           .join(', ')}}`
-      : `{${model.fields
+      : `{${writableFields
           .map(
             f =>
               `${this.getFieldName(f) !== 'id' && this.isFieldRequired(f) ? '@required ' : ''}${this.getNativeType(f)} ${this.getFieldName(
@@ -422,7 +423,7 @@ export class AppSyncModelDartVisitor<
       'if (identical(other, this)) return true;',
       `return other is ${this.getModelName(model)} &&`,
       indentMultiline(
-        `${model.fields
+        `${this.getWritableFields(model)
           .map(f => {
             const fieldName = `${this.isNullSafety() && f.name !== 'id' ? '_' : ''}${this.getFieldName(f)}`;
             return f.isList ? `DeepCollectionEquality().equals(${fieldName}, other.${fieldName})` : `${fieldName} == other.${fieldName}`;
@@ -495,7 +496,7 @@ export class AppSyncModelDartVisitor<
 
   protected generateCopyWithMethod(model: CodeGenModel, declarationBlock: DartDeclarationBlock): void {
     //copyWith
-    const copyParam = `{${model.fields
+    const copyParam = `{${this.getWritableFields(model)
       .map(f => `${this.getNativeType(f)}${this.isNullSafety() ? '?' : ''} ${this.getFieldName(f)}`)
       .join(', ')}}`;
     declarationBlock.addClassMethod(
@@ -503,9 +504,9 @@ export class AppSyncModelDartVisitor<
       this.getModelName(model),
       [{ name: copyParam }],
       [
-        `return ${this.getModelName(model)}(`,
+        `return ${this.getModelName(model)}${this.config.isTimestampFieldsAdded ? '._internal' : ''}(`,
         indentMultiline(
-          `${model.fields
+          `${this.getWritableFields(model)
             .map(field => {
               const fieldName = this.getFieldName(field);
               return `${fieldName}: ${fieldName} ?? this.${fieldName}`;
@@ -672,7 +673,7 @@ export class AppSyncModelDartVisitor<
   protected generateModelSchema(model: CodeGenModel, classDeclarationBlock: DartDeclarationBlock): void {
     const schemaDeclarationBlock = new DartDeclarationBlock();
     //QueryField
-    model.fields.forEach(field => {
+    this.getWritableFields(model).forEach(field => {
       this.generateQueryField(model, field, schemaDeclarationBlock);
     });
     //schema
@@ -835,16 +836,18 @@ export class AppSyncModelDartVisitor<
           }
 
           fieldParam = [
-            ...(ofType === '.embedded' ? [`fieldName: '${fieldName}'`] : [`key: ${modelName}.${queryFieldName}`]),
+            ...(ofType === '.embedded' || field.isReadOnly ? [`fieldName: '${fieldName}'`] : [`key: ${modelName}.${queryFieldName}`]),
             `isRequired: ${this.isFieldRequired(field)}`,
             field.isList ? 'isArray: true' : '',
+            field.isReadOnly ? 'isReadOnly: true' : '',
             ofTypeStr,
           ]
             .filter(f => f)
             .join(',\n');
 
-          fieldsToAdd.push([`ModelFieldDefinition.${ofType === '.embedded' ? 'embedded' : 'field'}(`, indentMultiline(fieldParam), ')'].join('\n'));
-        }
+          fieldsToAdd.push(
+            [`ModelFieldDefinition.${ofType === '.embedded' ? 'embedded' : (field.isReadOnly ? 'nonQueryField' : 'field')}(`, indentMultiline(fieldParam), ')'].join('\n'),
+          );        }
       });
       return fieldsToAdd.map(field => `modelSchemaDefinition.addField(${field});`).join('\n\n');
     }
@@ -944,5 +947,9 @@ export class AppSyncModelDartVisitor<
 
   protected getNullSafetyTypeStr(type: string): string {
     return this.isNullSafety() ? `${type}?` : type;
+  }
+
+  protected getWritableFields(model: CodeGenModel): CodeGenField[] {
+    return model.fields.filter(f => !f.isReadOnly);
   }
 }
