@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.29.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.28.0...@aws-amplify/appsync-modelgen-plugin@1.29.0) (2021-10-05)
+
+
+### Features
+
+* **appsync-modelgen-plugin:** update Flutter ignored rules and add analysis note ([#248](https://github.com/aws-amplify/amplify-codegen/issues/248)) ([1f5e883](https://github.com/aws-amplify/amplify-codegen/commit/1f5e883631352efc17453581dd164bff6f3da1e0))
+
+
+
+
+
 # [1.28.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.27.4...@aws-amplify/appsync-modelgen-plugin@1.28.0) (2021-09-29)
 
 

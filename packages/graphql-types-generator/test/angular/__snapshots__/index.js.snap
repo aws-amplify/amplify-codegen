@@ -838,6 +838,60 @@ export class APIService {
 "
 `;
 
+exports[`Angular code generation #generateSource() should generate simple query operation with scalar/enum field and scalar/enum return type w & w/o list 1`] = `
+"/* tslint:disable */
+/* eslint-disable */
+//  This file was automatically generated and should not be edited.
+import { Injectable } from \\"@angular/core\\";
+import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
+import { Observable } from \\"zen-observable-ts\\";
+
+export interface SubscriptionResponse<T> {
+  value: GraphQLResult<T>;
+}
+
+export enum Status {
+  APPROVED = \\"APPROVED\\",
+  PENDING = \\"PENDING\\",
+  REJECTED = \\"REJECTED\\"
+}
+
+@Injectable({
+  providedIn: \\"root\\"
+})
+export class APIService {
+  async GetScalars(): Promise<Array<string | null>> {
+    const statement = \`query GetScalars {
+        getScalars
+      }\`;
+    const response = (await API.graphql(graphqlOperation(statement))) as any;
+    return <Array<string | null>>response.data.getScalars;
+  }
+  async GetScalar(): Promise<string | null> {
+    const statement = \`query GetScalar {
+        getScalar
+      }\`;
+    const response = (await API.graphql(graphqlOperation(statement))) as any;
+    return <string | null>response.data.getScalar;
+  }
+  async GetEnums(): Promise<Array<Status | null>> {
+    const statement = \`query GetEnums {
+        getEnums
+      }\`;
+    const response = (await API.graphql(graphqlOperation(statement))) as any;
+    return <Array<Status | null>>response.data.getEnums;
+  }
+  async GetEnum(): Promise<Status | null> {
+    const statement = \`query GetEnum {
+        getEnum
+      }\`;
+    const response = (await API.graphql(graphqlOperation(statement))) as any;
+    return <Status | null>response.data.getEnum;
+  }
+}
+"
+`;
+
 exports[`Angular code generation #generateSource() should generate simple query operations 1`] = `
 "/* tslint:disable */
 /* eslint-disable */
