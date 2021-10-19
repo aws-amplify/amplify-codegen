@@ -16,8 +16,7 @@ const getVisitor = (
   emitAuthProvider: boolean = true,
   generateIndexRules: boolean = true,
   handleListNullabilityTransparently: boolean = true,
-  usePipelinedTransformer: boolean = false,
-  improvePluralization: boolean = false,
+  usePipelinedTransformer: boolean = false
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -31,8 +30,7 @@ const getVisitor = (
       emitAuthProvider,
       generateIndexRules,
       handleListNullabilityTransparently,
-      usePipelinedTransformer: usePipelinedTransformer,
-      improvePluralization: improvePluralization,
+      usePipelinedTransformer: usePipelinedTransformer
     },
     { selectedType, generate },
   );
@@ -2259,53 +2257,6 @@ describe('AppSyncSwiftVisitor', () => {
           }
         }"
       `);
-    });
-  });
-
-  describe('Use Improved Pluralization', () => {
-    let wishSchema: string;
-    beforeEach(() => {
-      wishSchema = /* GraphQL */ `
-        enum StatusEnum {
-          pass
-          fail
-        }
-  
-        type CustomType {
-          name: String
-          list: [Int]
-          requiredList: [String]!
-          requiredListOfRequired: [StatusEnum!]!
-          listOfRequired: [Boolean!]
-        }
-  
-        type ListContainer @model {
-          id: ID!
-          name: String
-          list: [Int]
-          requiredList: [String]!
-          requiredListOfRequired: [StatusEnum!]!
-          listOfRequired: [Boolean!]
-          requiredListOfRequiredDates: [AWSDate!]!
-          listOfRequiredFloats: [Float!]
-          requiredListOfCustomTypes: [CustomType]!
-        }
-      `;
-    });
-    it('Should work with potentially pluralized collision', () => {
-      const visitor = getVisitor(wishSchema, 'ListContainer', CodeGenGenerateEnum.code, true,
-        true,true, true, false, true);
-      const generatedCode = visitor.generate();
-      expect(generatedCode).toMatchSnapshot();
-
-      const metadataVisitor = getVisitor(wishSchema, 'ListContainer', CodeGenGenerateEnum.metadata, true,
-        true, true, true ,false, true);
-      const generatedMetadata = metadataVisitor.generate();
-      expect(generatedMetadata).toMatchSnapshot();
-
-      const customTypeVisitor = getVisitor(wishSchema, 'CustomType', CodeGenGenerateEnum.code, true,
-        true,true, true, false, true);
-      expect(customTypeVisitor.generate()).toMatchSnapshot();
     });
   });
 });

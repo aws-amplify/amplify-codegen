@@ -10,7 +10,6 @@ import {
   CodeGenEnum,
 } from './appsync-visitor';
 import { METADATA_SCALAR_MAP } from '../scalars';
-import { plurality } from 'graphql-transformer-common';
 export type JSONSchema = {
   models: JSONSchemaModels;
   enums: JSONSchemaEnums;
@@ -27,9 +26,7 @@ type JSONSchemaModel = {
   name: string;
   attributes?: JSONModelAttributes;
   fields: JSONModelFields;
-  pluralName: String; // Deprecated with improved pluralization
-  listPluralName?: String; // Added with improved pluralization
-  syncPluralName?: String; // Added with improved pluralization
+  pluralName: String;
   syncable?: boolean;
 };
 type JSONSchemaEnums = Record<string, JSONSchemaEnum>;
@@ -192,17 +189,11 @@ export class AppSyncJSONVisitor<
     }));
   }
   private generateModelMetadata(model: CodeGenModel): JSONSchemaModel {
-    const pluralAttributes = this.config.improvePluralization ?
-      {
-        listPluralName: plurality(model.name, this.config.improvePluralization),
-        syncPluralName: this.pluralizeModelName(model)
-      } : {};
     return {
       ...this.generateNonModelMetadata(model),
       syncable: true,
       pluralName: this.pluralizeModelName(model),
       attributes: this.generateModelAttributes(model),
-      ...pluralAttributes
     };
   }
 

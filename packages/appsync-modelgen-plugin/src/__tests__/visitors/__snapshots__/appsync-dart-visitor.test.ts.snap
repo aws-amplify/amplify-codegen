@@ -1008,319 +1008,6 @@ class _TestModelModelType extends ModelType<TestModel> {
 "
 `;
 
-exports[`AppSync Dart Visitor Model Directive Should generate the correct pluralized data with improved pluralization 1`] = `
-"/*
-* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the \\"License\\").
-* You may not use this file except in compliance with the License.
-* A copy of the License is located at
-*
-*  http://aws.amazon.com/apache2.0
-*
-* or in the \\"license\\" file accompanying this file. This file is distributed
-* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-* express or implied. See the License for the specific language governing
-* permissions and limitations under the License.
-*/
-
-// NOTE: This file is generated and may not follow lint rules defined in your app
-// Generated files can be excluded from analysis in analysis_options.yaml
-// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
-
-// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
-
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
-
-/** This is an auto generated class representing the TemporalTimeModel type in your schema. */
-@immutable
-class TemporalTimeModel extends Model {
-  static const classType = const _TemporalTimeModelModelType();
-  final String id;
-  final TemporalDate date;
-  final TemporalTime time;
-  final TemporalDateTime dateTime;
-  final TemporalTimestamp timestamp;
-  final int intNum;
-  final List<TemporalDate> dateList;
-  final List<TemporalTime> timeList;
-  final List<TemporalDateTime> dateTimeList;
-  final List<TemporalTimestamp> timestampList;
-  final List<int> intList;
-
-  @override
-  getInstanceType() => classType;
-
-  @override
-  String getId() {
-    return id;
-  }
-
-  const TemporalTimeModel._internal(
-      {@required this.id,
-      this.date,
-      this.time,
-      this.dateTime,
-      this.timestamp,
-      this.intNum,
-      this.dateList,
-      this.timeList,
-      this.dateTimeList,
-      this.timestampList,
-      this.intList});
-
-  factory TemporalTimeModel(
-      {String id,
-      TemporalDate date,
-      TemporalTime time,
-      TemporalDateTime dateTime,
-      TemporalTimestamp timestamp,
-      int intNum,
-      List<TemporalDate> dateList,
-      List<TemporalTime> timeList,
-      List<TemporalDateTime> dateTimeList,
-      List<TemporalTimestamp> timestampList,
-      List<int> intList}) {
-    return TemporalTimeModel._internal(
-        id: id == null ? UUID.getUUID() : id,
-        date: date,
-        time: time,
-        dateTime: dateTime,
-        timestamp: timestamp,
-        intNum: intNum,
-        dateList: dateList != null
-            ? List<TemporalDate>.unmodifiable(dateList)
-            : dateList,
-        timeList: timeList != null
-            ? List<TemporalTime>.unmodifiable(timeList)
-            : timeList,
-        dateTimeList: dateTimeList != null
-            ? List<TemporalDateTime>.unmodifiable(dateTimeList)
-            : dateTimeList,
-        timestampList: timestampList != null
-            ? List<TemporalTimestamp>.unmodifiable(timestampList)
-            : timestampList,
-        intList: intList != null ? List<int>.unmodifiable(intList) : intList);
-  }
-
-  bool equals(Object other) {
-    return this == other;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is TemporalTimeModel &&
-        id == other.id &&
-        date == other.date &&
-        time == other.time &&
-        dateTime == other.dateTime &&
-        timestamp == other.timestamp &&
-        intNum == other.intNum &&
-        DeepCollectionEquality().equals(dateList, other.dateList) &&
-        DeepCollectionEquality().equals(timeList, other.timeList) &&
-        DeepCollectionEquality().equals(dateTimeList, other.dateTimeList) &&
-        DeepCollectionEquality().equals(timestampList, other.timestampList) &&
-        DeepCollectionEquality().equals(intList, other.intList);
-  }
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() {
-    var buffer = new StringBuffer();
-
-    buffer.write(\\"TemporalTimeModel {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"date=\\" + (date != null ? date.format() : \\"null\\") + \\", \\");
-    buffer.write(\\"time=\\" + (time != null ? time.format() : \\"null\\") + \\", \\");
-    buffer.write(
-        \\"dateTime=\\" + (dateTime != null ? dateTime.format() : \\"null\\") + \\", \\");
-    buffer.write(\\"timestamp=\\" +
-        (timestamp != null ? timestamp.toString() : \\"null\\") +
-        \\", \\");
-    buffer.write(
-        \\"intNum=\\" + (intNum != null ? intNum.toString() : \\"null\\") + \\", \\");
-    buffer.write(
-        \\"dateList=\\" + (dateList != null ? dateList.toString() : \\"null\\") + \\", \\");
-    buffer.write(
-        \\"timeList=\\" + (timeList != null ? timeList.toString() : \\"null\\") + \\", \\");
-    buffer.write(\\"dateTimeList=\\" +
-        (dateTimeList != null ? dateTimeList.toString() : \\"null\\") +
-        \\", \\");
-    buffer.write(\\"timestampList=\\" +
-        (timestampList != null ? timestampList.toString() : \\"null\\") +
-        \\", \\");
-    buffer.write(\\"intList=\\" + (intList != null ? intList.toString() : \\"null\\"));
-    buffer.write(\\"}\\");
-
-    return buffer.toString();
-  }
-
-  TemporalTimeModel copyWith(
-      {String id,
-      TemporalDate date,
-      TemporalTime time,
-      TemporalDateTime dateTime,
-      TemporalTimestamp timestamp,
-      int intNum,
-      List<TemporalDate> dateList,
-      List<TemporalTime> timeList,
-      List<TemporalDateTime> dateTimeList,
-      List<TemporalTimestamp> timestampList,
-      List<int> intList}) {
-    return TemporalTimeModel(
-        id: id ?? this.id,
-        date: date ?? this.date,
-        time: time ?? this.time,
-        dateTime: dateTime ?? this.dateTime,
-        timestamp: timestamp ?? this.timestamp,
-        intNum: intNum ?? this.intNum,
-        dateList: dateList ?? this.dateList,
-        timeList: timeList ?? this.timeList,
-        dateTimeList: dateTimeList ?? this.dateTimeList,
-        timestampList: timestampList ?? this.timestampList,
-        intList: intList ?? this.intList);
-  }
-
-  TemporalTimeModel.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        date =
-            json['date'] != null ? TemporalDate.fromString(json['date']) : null,
-        time =
-            json['time'] != null ? TemporalTime.fromString(json['time']) : null,
-        dateTime = json['dateTime'] != null
-            ? TemporalDateTime.fromString(json['dateTime'])
-            : null,
-        timestamp = json['timestamp'] != null
-            ? TemporalTimestamp.fromSeconds(json['timestamp'])
-            : null,
-        intNum = (json['intNum'] as num)?.toInt(),
-        dateList = (json['dateList'] as List)
-            ?.map((e) => TemporalDate.fromString(e))
-            .toList(),
-        timeList = (json['timeList'] as List)
-            ?.map((e) => TemporalTime.fromString(e))
-            .toList(),
-        dateTimeList = (json['dateTimeList'] as List)
-            ?.map((e) => TemporalDateTime.fromString(e))
-            .toList(),
-        timestampList = (json['timestampList'] as List)
-            ?.map((e) => TemporalTimestamp.fromSeconds(e))
-            .toList(),
-        intList =
-            (json['intList'] as List)?.map((e) => (e as num).toInt()).toList();
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'date': date?.format(),
-        'time': time?.format(),
-        'dateTime': dateTime?.format(),
-        'timestamp': timestamp?.toSeconds(),
-        'intNum': intNum,
-        'dateList': dateList?.map((e) => e.format()).toList(),
-        'timeList': timeList?.map((e) => e.format()).toList(),
-        'dateTimeList': dateTimeList?.map((e) => e.format()).toList(),
-        'timestampList': timestampList?.map((e) => e.toSeconds()).toList(),
-        'intList': intList
-      };
-
-  static final QueryField ID = QueryField(fieldName: \\"temporalTimeModel.id\\");
-  static final QueryField DATE = QueryField(fieldName: \\"date\\");
-  static final QueryField TIME = QueryField(fieldName: \\"time\\");
-  static final QueryField DATETIME = QueryField(fieldName: \\"dateTime\\");
-  static final QueryField TIMESTAMP = QueryField(fieldName: \\"timestamp\\");
-  static final QueryField INTNUM = QueryField(fieldName: \\"intNum\\");
-  static final QueryField DATELIST = QueryField(fieldName: \\"dateList\\");
-  static final QueryField TIMELIST = QueryField(fieldName: \\"timeList\\");
-  static final QueryField DATETIMELIST = QueryField(fieldName: \\"dateTimeList\\");
-  static final QueryField TIMESTAMPLIST =
-      QueryField(fieldName: \\"timestampList\\");
-  static final QueryField INTLIST = QueryField(fieldName: \\"intList\\");
-  static var schema =
-      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"TemporalTimeModel\\";
-    modelSchemaDefinition.listPluralName = \\"TemporalTimeModels\\";
-    modelSchemaDefinition.syncPluralName = \\"TemporalTimeModels\\";
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TemporalTimeModel.DATE,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.date)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TemporalTimeModel.TIME,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.time)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TemporalTimeModel.DATETIME,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TemporalTimeModel.TIMESTAMP,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.timestamp)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TemporalTimeModel.INTNUM,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.int)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TemporalTimeModel.DATELIST,
-        isRequired: false,
-        isArray: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
-            ofModelName: describeEnum(ModelFieldTypeEnum.date))));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TemporalTimeModel.TIMELIST,
-        isRequired: false,
-        isArray: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
-            ofModelName: describeEnum(ModelFieldTypeEnum.time))));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TemporalTimeModel.DATETIMELIST,
-        isRequired: false,
-        isArray: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
-            ofModelName: describeEnum(ModelFieldTypeEnum.dateTime))));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TemporalTimeModel.TIMESTAMPLIST,
-        isRequired: false,
-        isArray: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
-            ofModelName: describeEnum(ModelFieldTypeEnum.timestamp))));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: TemporalTimeModel.INTLIST,
-        isRequired: false,
-        isArray: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.collection,
-            ofModelName: describeEnum(ModelFieldTypeEnum.int))));
-  });
-}
-
-class _TemporalTimeModelModelType extends ModelType<TemporalTimeModel> {
-  const _TemporalTimeModelModelType();
-
-  @override
-  TemporalTimeModel fromJson(Map<String, dynamic> jsonData) {
-    return TemporalTimeModel.fromJson(jsonData);
-  }
-}
-"
-`;
-
 exports[`AppSync Dart Visitor Model Directive should generate a class for a Simple Model 1`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
@@ -3821,52 +3508,52 @@ class TestModel extends Model {
 
   @override
   getInstanceType() => classType;
-
+  
   @override
   String getId() {
     return id;
   }
-
+  
   const TestModel._internal({required this.id});
-
+  
   factory TestModel({String? id}) {
     return TestModel._internal(
       id: id == null ? UUID.getUUID() : id);
   }
-
+  
   bool equals(Object other) {
     return this == other;
   }
-
+  
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is TestModel &&
       id == other.id;
   }
-
+  
   @override
   int get hashCode => toString().hashCode;
-
+  
   @override
   String toString() {
     var buffer = new StringBuffer();
-
+    
     buffer.write(\\"TestModel {\\");
     buffer.write(\\"id=\\" + \\"$id\\");
     buffer.write(\\"}\\");
-
+    
     return buffer.toString();
   }
-
+  
   TestModel copyWith({String? id}) {
     return TestModel(
       id: id ?? this.id);
   }
-
-  TestModel.fromJson(Map<String, dynamic> json)
+  
+  TestModel.fromJson(Map<String, dynamic> json)  
     : id = json['id'];
-
+  
   Map<String, dynamic> toJson() => {
     'id': id
   };
@@ -3875,14 +3562,14 @@ class TestModel extends Model {
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"TestModel\\";
     modelSchemaDefinition.pluralName = \\"TestModels\\";
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
   });
 }
 
 class _TestModelModelType extends ModelType<TestModel> {
   const _TestModelModelType();
-
+  
   @override
   TestModel fromJson(Map<String, dynamic> jsonData) {
     return TestModel.fromJson(jsonData);
@@ -3928,12 +3615,12 @@ class Blog extends Model {
 
   @override
   getInstanceType() => classType;
-
+  
   @override
   String getId() {
     return id;
   }
-
+  
   String get name {
     try {
       return _name!;
@@ -3941,24 +3628,24 @@ class Blog extends Model {
       throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
     }
   }
-
+  
   List<Post>? get posts {
     return _posts;
   }
-
+  
   const Blog._internal({required this.id, required name, posts}): _name = name, _posts = posts;
-
+  
   factory Blog({String? id, required String name, List<Post>? posts}) {
     return Blog._internal(
       id: id == null ? UUID.getUUID() : id,
       name: name,
       posts: posts != null ? List<Post>.unmodifiable(posts) : posts);
   }
-
+  
   bool equals(Object other) {
     return this == other;
   }
-
+  
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
@@ -3967,30 +3654,30 @@ class Blog extends Model {
       _name == other._name &&
       DeepCollectionEquality().equals(_posts, other._posts);
   }
-
+  
   @override
   int get hashCode => toString().hashCode;
-
+  
   @override
   String toString() {
     var buffer = new StringBuffer();
-
+    
     buffer.write(\\"Blog {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"name=\\" + \\"$_name\\");
     buffer.write(\\"}\\");
-
+    
     return buffer.toString();
   }
-
+  
   Blog copyWith({String? id, String? name, List<Post>? posts}) {
     return Blog(
       id: id ?? this.id,
       name: name ?? this.name,
       posts: posts ?? this.posts);
   }
-
-  Blog.fromJson(Map<String, dynamic> json)
+  
+  Blog.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _name = json['name'],
       _posts = json['posts'] is List
@@ -3999,7 +3686,7 @@ class Blog extends Model {
           .map((e) => Post.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null;
-
+  
   Map<String, dynamic> toJson() => {
     'id': id, 'name': _name, 'posts': _posts?.map((Post? e) => e?.toJson()).toList()
   };
@@ -4012,15 +3699,15 @@ class Blog extends Model {
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Blog\\";
     modelSchemaDefinition.pluralName = \\"Blogs\\";
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: Blog.NAME,
       isRequired: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
       key: Blog.POSTS,
       isRequired: false,
@@ -4032,7 +3719,7 @@ class Blog extends Model {
 
 class _BlogModelType extends ModelType<Blog> {
   const _BlogModelType();
-
+  
   @override
   Blog fromJson(Map<String, dynamic> jsonData) {
     return Blog.fromJson(jsonData);
@@ -4077,16 +3764,16 @@ class Comment extends Model {
 
   @override
   getInstanceType() => classType;
-
+  
   @override
   String getId() {
     return id;
   }
-
+  
   Post? get post {
     return _post;
   }
-
+  
   String get content {
     try {
       return _content!;
@@ -4094,20 +3781,20 @@ class Comment extends Model {
       throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
     }
   }
-
+  
   const Comment._internal({required this.id, post, required content}): _post = post, _content = content;
-
+  
   factory Comment({String? id, Post? post, required String content}) {
     return Comment._internal(
       id: id == null ? UUID.getUUID() : id,
       post: post,
       content: content);
   }
-
+  
   bool equals(Object other) {
     return this == other;
   }
-
+  
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
@@ -4116,37 +3803,37 @@ class Comment extends Model {
       _post == other._post &&
       _content == other._content;
   }
-
+  
   @override
   int get hashCode => toString().hashCode;
-
+  
   @override
   String toString() {
     var buffer = new StringBuffer();
-
+    
     buffer.write(\\"Comment {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"post=\\" + (_post != null ? _post!.toString() : \\"null\\") + \\", \\");
     buffer.write(\\"content=\\" + \\"$_content\\");
     buffer.write(\\"}\\");
-
+    
     return buffer.toString();
   }
-
+  
   Comment copyWith({String? id, Post? post, String? content}) {
     return Comment(
       id: id ?? this.id,
       post: post ?? this.post,
       content: content ?? this.content);
   }
-
-  Comment.fromJson(Map<String, dynamic> json)
+  
+  Comment.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _post = json['post']?['serializedData'] != null
         ? Post.fromJson(new Map<String, dynamic>.from(json['post']['serializedData']))
         : null,
       _content = json['content'];
-
+  
   Map<String, dynamic> toJson() => {
     'id': id, 'post': _post?.toJson(), 'content': _content
   };
@@ -4159,16 +3846,16 @@ class Comment extends Model {
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Comment\\";
     modelSchemaDefinition.pluralName = \\"Comments\\";
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
       key: Comment.POST,
       isRequired: false,
       targetName: \\"postID\\",
       ofModelName: (Post).toString()
     ));
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: Comment.CONTENT,
       isRequired: true,
@@ -4179,7 +3866,7 @@ class Comment extends Model {
 
 class _CommentModelType extends ModelType<Comment> {
   const _CommentModelType();
-
+  
   @override
   Comment fromJson(Map<String, dynamic> jsonData) {
     return Comment.fromJson(jsonData);
@@ -4226,12 +3913,12 @@ class Post extends Model {
 
   @override
   getInstanceType() => classType;
-
+  
   @override
   String getId() {
     return id;
   }
-
+  
   String get title {
     try {
       return _title!;
@@ -4239,17 +3926,17 @@ class Post extends Model {
       throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
     }
   }
-
+  
   Blog? get blog {
     return _blog;
   }
-
+  
   List<Comment>? get comments {
     return _comments;
   }
-
+  
   const Post._internal({required this.id, required title, blog, comments}): _title = title, _blog = blog, _comments = comments;
-
+  
   factory Post({String? id, required String title, Blog? blog, List<Comment>? comments}) {
     return Post._internal(
       id: id == null ? UUID.getUUID() : id,
@@ -4257,11 +3944,11 @@ class Post extends Model {
       blog: blog,
       comments: comments != null ? List<Comment>.unmodifiable(comments) : comments);
   }
-
+  
   bool equals(Object other) {
     return this == other;
   }
-
+  
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
@@ -4271,23 +3958,23 @@ class Post extends Model {
       _blog == other._blog &&
       DeepCollectionEquality().equals(_comments, other._comments);
   }
-
+  
   @override
   int get hashCode => toString().hashCode;
-
+  
   @override
   String toString() {
     var buffer = new StringBuffer();
-
+    
     buffer.write(\\"Post {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"title=\\" + \\"$_title\\" + \\", \\");
     buffer.write(\\"blog=\\" + (_blog != null ? _blog!.toString() : \\"null\\"));
     buffer.write(\\"}\\");
-
+    
     return buffer.toString();
   }
-
+  
   Post copyWith({String? id, String? title, Blog? blog, List<Comment>? comments}) {
     return Post(
       id: id ?? this.id,
@@ -4295,8 +3982,8 @@ class Post extends Model {
       blog: blog ?? this.blog,
       comments: comments ?? this.comments);
   }
-
-  Post.fromJson(Map<String, dynamic> json)
+  
+  Post.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _title = json['title'],
       _blog = json['blog']?['serializedData'] != null
@@ -4308,7 +3995,7 @@ class Post extends Model {
           .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null;
-
+  
   Map<String, dynamic> toJson() => {
     'id': id, 'title': _title, 'blog': _blog?.toJson(), 'comments': _comments?.map((Comment? e) => e?.toJson()).toList()
   };
@@ -4324,22 +4011,22 @@ class Post extends Model {
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Post\\";
     modelSchemaDefinition.pluralName = \\"Posts\\";
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: Post.TITLE,
       isRequired: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
       key: Post.BLOG,
       isRequired: false,
       targetName: \\"blogID\\",
       ofModelName: (Blog).toString()
     ));
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
       key: Post.COMMENTS,
       isRequired: false,
@@ -4351,7 +4038,7 @@ class Post extends Model {
 
 class _PostModelType extends ModelType<Post> {
   const _PostModelType();
-
+  
   @override
   Post fromJson(Map<String, dynamic> jsonData) {
     return Post.fromJson(jsonData);
@@ -4400,12 +4087,12 @@ class TestModel extends Model {
 
   @override
   getInstanceType() => classType;
-
+  
   @override
   String getId() {
     return id;
   }
-
+  
   double get floatVal {
     try {
       return _floatVal!;
@@ -4413,11 +4100,11 @@ class TestModel extends Model {
       throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
     }
   }
-
+  
   double? get floatNullableVal {
     return _floatNullableVal;
   }
-
+  
   List<double> get floatList {
     try {
       return _floatList!;
@@ -4425,11 +4112,11 @@ class TestModel extends Model {
       throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
     }
   }
-
+  
   List<double>? get floatNullableList {
     return _floatNullableList;
   }
-
+  
   List<double> get nullableFloatList {
     try {
       return _nullableFloatList!;
@@ -4437,13 +4124,13 @@ class TestModel extends Model {
       throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
     }
   }
-
+  
   List<double>? get nullableFloatNullableList {
     return _nullableFloatNullableList;
   }
-
+  
   const TestModel._internal({required this.id, required floatVal, floatNullableVal, required floatList, floatNullableList, required nullableFloatList, nullableFloatNullableList}): _floatVal = floatVal, _floatNullableVal = floatNullableVal, _floatList = floatList, _floatNullableList = floatNullableList, _nullableFloatList = nullableFloatList, _nullableFloatNullableList = nullableFloatNullableList;
-
+  
   factory TestModel({String? id, required double floatVal, double? floatNullableVal, required List<double> floatList, List<double>? floatNullableList, required List<double> nullableFloatList, List<double>? nullableFloatNullableList}) {
     return TestModel._internal(
       id: id == null ? UUID.getUUID() : id,
@@ -4454,11 +4141,11 @@ class TestModel extends Model {
       nullableFloatList: nullableFloatList != null ? List<double>.unmodifiable(nullableFloatList) : nullableFloatList,
       nullableFloatNullableList: nullableFloatNullableList != null ? List<double>.unmodifiable(nullableFloatNullableList) : nullableFloatNullableList);
   }
-
+  
   bool equals(Object other) {
     return this == other;
   }
-
+  
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
@@ -4471,14 +4158,14 @@ class TestModel extends Model {
       DeepCollectionEquality().equals(_nullableFloatList, other._nullableFloatList) &&
       DeepCollectionEquality().equals(_nullableFloatNullableList, other._nullableFloatNullableList);
   }
-
+  
   @override
   int get hashCode => toString().hashCode;
-
+  
   @override
   String toString() {
     var buffer = new StringBuffer();
-
+    
     buffer.write(\\"TestModel {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"floatVal=\\" + (_floatVal != null ? _floatVal!.toString() : \\"null\\") + \\", \\");
@@ -4488,10 +4175,10 @@ class TestModel extends Model {
     buffer.write(\\"nullableFloatList=\\" + (_nullableFloatList != null ? _nullableFloatList!.toString() : \\"null\\") + \\", \\");
     buffer.write(\\"nullableFloatNullableList=\\" + (_nullableFloatNullableList != null ? _nullableFloatNullableList!.toString() : \\"null\\"));
     buffer.write(\\"}\\");
-
+    
     return buffer.toString();
   }
-
+  
   TestModel copyWith({String? id, double? floatVal, double? floatNullableVal, List<double>? floatList, List<double>? floatNullableList, List<double>? nullableFloatList, List<double>? nullableFloatNullableList}) {
     return TestModel(
       id: id ?? this.id,
@@ -4502,8 +4189,8 @@ class TestModel extends Model {
       nullableFloatList: nullableFloatList ?? this.nullableFloatList,
       nullableFloatNullableList: nullableFloatNullableList ?? this.nullableFloatNullableList);
   }
-
-  TestModel.fromJson(Map<String, dynamic> json)
+  
+  TestModel.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _floatVal = (json['floatVal'] as num?)?.toDouble(),
       _floatNullableVal = (json['floatNullableVal'] as num?)?.toDouble(),
@@ -4511,7 +4198,7 @@ class TestModel extends Model {
       _floatNullableList = (json['floatNullableList'] as List?)?.map((e) => (e as num).toDouble()).toList(),
       _nullableFloatList = (json['nullableFloatList'] as List?)?.map((e) => (e as num).toDouble()).toList(),
       _nullableFloatNullableList = (json['nullableFloatNullableList'] as List?)?.map((e) => (e as num).toDouble()).toList();
-
+  
   Map<String, dynamic> toJson() => {
     'id': id, 'floatVal': _floatVal, 'floatNullableVal': _floatNullableVal, 'floatList': _floatList, 'floatNullableList': _floatNullableList, 'nullableFloatList': _nullableFloatList, 'nullableFloatNullableList': _nullableFloatNullableList
   };
@@ -4526,42 +4213,42 @@ class TestModel extends Model {
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"TestModel\\";
     modelSchemaDefinition.pluralName = \\"TestModels\\";
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: TestModel.FLOATVAL,
       isRequired: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.double)
     ));
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: TestModel.FLOATNULLABLEVAL,
       isRequired: false,
       ofType: ModelFieldType(ModelFieldTypeEnum.double)
     ));
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: TestModel.FLOATLIST,
       isRequired: true,
       isArray: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum.double))
     ));
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: TestModel.FLOATNULLABLELIST,
       isRequired: false,
       isArray: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum.double))
     ));
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: TestModel.NULLABLEFLOATLIST,
       isRequired: true,
       isArray: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum.double))
     ));
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: TestModel.NULLABLEFLOATNULLABLELIST,
       isRequired: false,
@@ -4573,7 +4260,7 @@ class TestModel extends Model {
 
 class _TestModelModelType extends ModelType<TestModel> {
   const _TestModelModelType();
-
+  
   @override
   TestModel fromJson(Map<String, dynamic> jsonData) {
     return TestModel.fromJson(jsonData);
@@ -4628,12 +4315,12 @@ class TestModel extends Model {
 
   @override
   getInstanceType() => classType;
-
+  
   @override
   String getId() {
     return id;
   }
-
+  
   double get floatVal {
     try {
       return _floatVal!;
@@ -4641,11 +4328,11 @@ class TestModel extends Model {
       throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
     }
   }
-
+  
   double? get floatNullableVal {
     return _floatNullableVal;
   }
-
+  
   List<double> get floatList {
     try {
       return _floatList!;
@@ -4653,11 +4340,11 @@ class TestModel extends Model {
       throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
     }
   }
-
+  
   List<double>? get floatNullableList {
     return _floatNullableList;
   }
-
+  
   List<double> get nullableFloatList {
     try {
       return _nullableFloatList!;
@@ -4665,11 +4352,11 @@ class TestModel extends Model {
       throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
     }
   }
-
+  
   List<double>? get nullableFloatNullableList {
     return _nullableFloatNullableList;
   }
-
+  
   int get intVal {
     try {
       return _intVal!;
@@ -4677,11 +4364,11 @@ class TestModel extends Model {
       throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
     }
   }
-
+  
   int? get intNullableVal {
     return _intNullableVal;
   }
-
+  
   List<int> get intList {
     try {
       return _intList!;
@@ -4689,11 +4376,11 @@ class TestModel extends Model {
       throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
     }
   }
-
+  
   List<int>? get intNullableList {
     return _intNullableList;
   }
-
+  
   List<int> get nullableIntList {
     try {
       return _nullableIntList!;
@@ -4701,13 +4388,13 @@ class TestModel extends Model {
       throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
     }
   }
-
+  
   List<int>? get nullableIntNullableList {
     return _nullableIntNullableList;
   }
-
+  
   const TestModel._internal({required this.id, required floatVal, floatNullableVal, required floatList, floatNullableList, required nullableFloatList, nullableFloatNullableList, required intVal, intNullableVal, required intList, intNullableList, required nullableIntList, nullableIntNullableList}): _floatVal = floatVal, _floatNullableVal = floatNullableVal, _floatList = floatList, _floatNullableList = floatNullableList, _nullableFloatList = nullableFloatList, _nullableFloatNullableList = nullableFloatNullableList, _intVal = intVal, _intNullableVal = intNullableVal, _intList = intList, _intNullableList = intNullableList, _nullableIntList = nullableIntList, _nullableIntNullableList = nullableIntNullableList;
-
+  
   factory TestModel({String? id, required double floatVal, double? floatNullableVal, required List<double> floatList, List<double>? floatNullableList, required List<double> nullableFloatList, List<double>? nullableFloatNullableList, required int intVal, int? intNullableVal, required List<int> intList, List<int>? intNullableList, required List<int> nullableIntList, List<int>? nullableIntNullableList}) {
     return TestModel._internal(
       id: id == null ? UUID.getUUID() : id,
@@ -4724,11 +4411,11 @@ class TestModel extends Model {
       nullableIntList: nullableIntList != null ? List<int>.unmodifiable(nullableIntList) : nullableIntList,
       nullableIntNullableList: nullableIntNullableList != null ? List<int>.unmodifiable(nullableIntNullableList) : nullableIntNullableList);
   }
-
+  
   bool equals(Object other) {
     return this == other;
   }
-
+  
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
@@ -4747,14 +4434,14 @@ class TestModel extends Model {
       DeepCollectionEquality().equals(_nullableIntList, other._nullableIntList) &&
       DeepCollectionEquality().equals(_nullableIntNullableList, other._nullableIntNullableList);
   }
-
+  
   @override
   int get hashCode => toString().hashCode;
-
+  
   @override
   String toString() {
     var buffer = new StringBuffer();
-
+    
     buffer.write(\\"TestModel {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"floatVal=\\" + (_floatVal != null ? _floatVal!.toString() : \\"null\\") + \\", \\");
@@ -4770,10 +4457,10 @@ class TestModel extends Model {
     buffer.write(\\"nullableIntList=\\" + (_nullableIntList != null ? _nullableIntList!.toString() : \\"null\\") + \\", \\");
     buffer.write(\\"nullableIntNullableList=\\" + (_nullableIntNullableList != null ? _nullableIntNullableList!.toString() : \\"null\\"));
     buffer.write(\\"}\\");
-
+    
     return buffer.toString();
   }
-
+  
   TestModel copyWith({String? id, double? floatVal, double? floatNullableVal, List<double>? floatList, List<double>? floatNullableList, List<double>? nullableFloatList, List<double>? nullableFloatNullableList, int? intVal, int? intNullableVal, List<int>? intList, List<int>? intNullableList, List<int>? nullableIntList, List<int>? nullableIntNullableList}) {
     return TestModel(
       id: id ?? this.id,
@@ -4790,8 +4477,8 @@ class TestModel extends Model {
       nullableIntList: nullableIntList ?? this.nullableIntList,
       nullableIntNullableList: nullableIntNullableList ?? this.nullableIntNullableList);
   }
-
-  TestModel.fromJson(Map<String, dynamic> json)
+  
+  TestModel.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _floatVal = (json['floatVal'] as num?)?.toDouble(),
       _floatNullableVal = (json['floatNullableVal'] as num?)?.toDouble(),
@@ -4805,7 +4492,7 @@ class TestModel extends Model {
       _intNullableList = (json['intNullableList'] as List?)?.map((e) => (e as num).toInt()).toList(),
       _nullableIntList = (json['nullableIntList'] as List?)?.map((e) => (e as num).toInt()).toList(),
       _nullableIntNullableList = (json['nullableIntNullableList'] as List?)?.map((e) => (e as num).toInt()).toList();
-
+  
   Map<String, dynamic> toJson() => {
     'id': id, 'floatVal': _floatVal, 'floatNullableVal': _floatNullableVal, 'floatList': _floatList, 'floatNullableList': _floatNullableList, 'nullableFloatList': _nullableFloatList, 'nullableFloatNullableList': _nullableFloatNullableList, 'intVal': _intVal, 'intNullableVal': _intNullableVal, 'intList': _intList, 'intNullableList': _intNullableList, 'nullableIntList': _nullableIntList, 'nullableIntNullableList': _nullableIntNullableList
   };
@@ -4826,82 +4513,82 @@ class TestModel extends Model {
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"TestModel\\";
     modelSchemaDefinition.pluralName = \\"TestModels\\";
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: TestModel.FLOATVAL,
       isRequired: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.double)
     ));
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: TestModel.FLOATNULLABLEVAL,
       isRequired: false,
       ofType: ModelFieldType(ModelFieldTypeEnum.double)
     ));
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: TestModel.FLOATLIST,
       isRequired: true,
       isArray: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum.double))
     ));
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: TestModel.FLOATNULLABLELIST,
       isRequired: false,
       isArray: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum.double))
     ));
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: TestModel.NULLABLEFLOATLIST,
       isRequired: true,
       isArray: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum.double))
     ));
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: TestModel.NULLABLEFLOATNULLABLELIST,
       isRequired: false,
       isArray: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum.double))
     ));
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: TestModel.INTVAL,
       isRequired: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.int)
     ));
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: TestModel.INTNULLABLEVAL,
       isRequired: false,
       ofType: ModelFieldType(ModelFieldTypeEnum.int)
     ));
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: TestModel.INTLIST,
       isRequired: true,
       isArray: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum.int))
     ));
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: TestModel.INTNULLABLELIST,
       isRequired: false,
       isArray: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum.int))
     ));
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: TestModel.NULLABLEINTLIST,
       isRequired: true,
       isArray: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum.int))
     ));
-
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: TestModel.NULLABLEINTNULLABLELIST,
       isRequired: false,
@@ -4913,7 +4600,7 @@ class TestModel extends Model {
 
 class _TestModelModelType extends ModelType<TestModel> {
   const _TestModelModelType();
-
+  
   @override
   TestModel fromJson(Map<String, dynamic> jsonData) {
     return TestModel.fromJson(jsonData);
