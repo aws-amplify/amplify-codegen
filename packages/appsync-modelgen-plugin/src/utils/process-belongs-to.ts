@@ -1,7 +1,7 @@
 import { CodeGenDirective, CodeGenField, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
 import {
   CodeGenConnectionType,
-  CodeGenFieldConnection,
+  CodeGenFieldConnection, flattenFieldDirectives,
   makeConnectionAttributeName,
 } from './process-connections';
 import { getConnectedFieldV2 } from './process-connections-v2';
@@ -57,4 +57,36 @@ export function processBelongsToConnection(
     isConnectingFieldAutoCreated,
     targetName: connectionFields[0] || makeConnectionAttributeName(model.name, field.name),
   };
+}
+
+export function getBelongsToConnectedField(field: CodeGenField, model: CodeGenModel, connectedModel: CodeGenModel, connectionInfo: CodeGenDirective): CodeGenField | undefined {
+  if(connectionInfo.arguments.fields) {
+    let indexDirective = flattenFieldDirectives(model).find(dir => {
+      return dir.name === 'index' && dir.fieldName === connectionInfo.arguments.fields[0];
+    });
+
+    if(indexDirective) {
+      let theIndex = indexDirective;
+      let otherSideConnected = flattenFieldDirectives(connectedModel).find(dir => {
+        return (dir.name === 'hasOne' || dir.name === 'hasMany') && dir?.arguments?.indexName === theIndex.arguments.name;
+      });
+      if(otherSideConnected) {
+        for(let connField of connectedModel.fields) {
+          if (connField.name === otherSideConnected?.fieldName) {
+            return connField;
+          }
+        }
+      }
+    }
+  }
+  else {
+    let otherSideDirectives = flattenFieldDirectives(connectedModel).filter(dir => {
+      let fieldType = connectedModel.fields.find(connField => { return connField.name === dir.fieldName; })?.type;
+      return (dir.name === 'hasOne' || dir.name === 'hasMany') && model.name === fieldType;
+    });
+
+    if (otherSideDirectives?.length === 1) {
+      return connectedModel.fields.find(connField => { return connField.name === otherSideDirectives[0].fieldName; });
+    }
+  }
 }
