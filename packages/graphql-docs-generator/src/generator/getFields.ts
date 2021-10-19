@@ -36,7 +36,7 @@ export default function getFields(
   const fields: Array<GQLTemplateField> = Object.keys(subFields)
     .map(fieldName => {
       const subField = subFields[fieldName];
-      return getFields(subField, schema, depth - 1, options);
+      return getFields(subField, schema, adjustDepth(fieldName, depth), options);
     })
     .filter(f => f);
   const fragments: Array<GQLTemplateFragment> = Object.keys(subFragments)
@@ -60,4 +60,11 @@ export default function getFields(
     fragments,
     hasBody: !!(fields.length || fragments.length),
   };
+}
+
+function adjustDepth(fieldName, depth) {
+  if (fieldName == 'aggregateItems') {
+    return depth + 1;
+  }
+  return depth - 1;
 }
