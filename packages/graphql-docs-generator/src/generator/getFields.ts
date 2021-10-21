@@ -64,7 +64,8 @@ export default function getFields(
 }
 
 function adjustDepth(field, depth) {
-  if (isGraphQLAggregateField(field)) {
+  let maxDepth = 100;
+  if (isGraphQLAggregateField(field) && depth < maxDepth) {
     return depth + 1;
   }
   return depth - 1;
