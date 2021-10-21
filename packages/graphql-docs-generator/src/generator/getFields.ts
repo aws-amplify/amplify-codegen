@@ -64,12 +64,19 @@ export default function getFields(
 }
 
 function adjustDepth(field, depth) {
+  if (isGraphQLAggregateField(field)) {
+    return depth + 1;
+  }
+  return depth - 1;
+}
+
+function isGraphQLAggregateField(field) {
   if (
     field &&
     field.name == 'aggregateItems' &&
     field.type?.ofType?.name == 'SearchableAggregateResult'
   ) {
-    return depth + 1;
+    return true;
   }
-  return depth - 1;
+  return false;
 }
