@@ -213,12 +213,12 @@ describe('getField', () => {
     });
     
     const aggregateResult = new GraphQLUnionType({
-      name: 'SearchableAggregateResult',
+      name: 'SearchableAggregateGenericResult',
       types: [aggregateScalarResult, aggregateBucketResult],
     });
 
     const aggregateItemsObject = new GraphQLObjectType({
-      name: 'SearchableAggregateItems',
+      name: 'SearchableAggregateResult',
       fields: {
         name: { type: GraphQLString },
         result: { type: aggregateResult },

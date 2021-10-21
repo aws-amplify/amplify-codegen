@@ -11,6 +11,7 @@ import {
   isUnionType,
   isEnumType,
   isScalarType,
+  isListType,
 } from 'graphql';
 import getFragment from './getFragment';
 import { GQLConcreteType, GQLTemplateField, GQLTemplateFragment, GQLDocsGenOptions } from './types';
@@ -36,7 +37,7 @@ export default function getFields(
   const fields: Array<GQLTemplateField> = Object.keys(subFields)
     .map(fieldName => {
       const subField = subFields[fieldName];
-      return getFields(subField, schema, adjustDepth(fieldName, depth), options);
+      return getFields(subField, schema, adjustDepth(subField, depth), options);
     })
     .filter(f => f);
   const fragments: Array<GQLTemplateFragment> = Object.keys(subFragments)
@@ -62,8 +63,12 @@ export default function getFields(
   };
 }
 
-function adjustDepth(fieldName, depth) {
-  if (fieldName == 'aggregateItems') {
+function adjustDepth(field, depth) {
+  if (
+    field &&
+    field.name == 'aggregateItems' &&
+    field.type?.ofType?.name == 'SearchableAggregateResult'
+  ) {
     return depth + 1;
   }
   return depth - 1;
