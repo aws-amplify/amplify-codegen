@@ -1,11 +1,8 @@
 export const LOADER_CLASS_NAME = 'ModelProvider';
-export const BASE_IMPORT_PACKAGES = [
-  'package:flutter/foundation.dart',
-  'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart'
-];
+export const BASE_IMPORT_PACKAGES = ['package:flutter/foundation.dart', 'package:amplify_core/amplify_core.dart'];
 export const COLLECTION_PACKAGE = 'package:collection/collection.dart';
 
-export const IGNORE_FOR_FILE = '// ignore_for_file: public_member_api_docs'
+export const IGNORE_FOR_FILE = '// ignore_for_file: public_member_api_docs';
 
 export const typeToEnumMap: Record<string, string> = {
   String: '.string',
@@ -84,5 +81,5 @@ export const DART_RESERVED_KEYWORDS = [
   'void',
   'while',
   'with',
-  'yield'
+  'yield',
 ];
