@@ -67,6 +67,8 @@ function adjustDepth(field, depth) {
   const maxDepth = 100;
   if (isGraphQLAggregateField(field) && depth < maxDepth) {
     return depth + 1;
+  } else if (depth >= maxDepth) {
+    throw new Error('Statement generation depth exceeded the maximum allowed limit');
   }
   return depth - 1;
 }
