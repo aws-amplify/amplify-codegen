@@ -15,12 +15,13 @@ const getVisitor = (
   enableDartNullSafety: boolean = false,
   enableDartNonModelGeneration: boolean = true,
   isTimestampFieldsAdded: boolean = false,
+  emitAuthProvider: boolean = false
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelDartVisitor(
     builtSchema,
-    { directives, target: 'dart', scalars: DART_SCALAR_MAP, enableDartNullSafety, enableDartNonModelGeneration, isTimestampFieldsAdded },
+    { directives, target: 'dart', scalars: DART_SCALAR_MAP, enableDartNullSafety, enableDartNonModelGeneration, isTimestampFieldsAdded, emitAuthProvider },
     { selectedType, generate },
   );
   visit(ast, { leave: visitor });
@@ -211,6 +212,31 @@ describe('AppSync Dart Visitor', () => {
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
+
+    describe('should generate AuthRule with provider information when enabled', () => {
+      const schema = /* GraphQL */ `
+        type TodoWithAuth
+          @model
+          @auth(
+            rules: [
+              { allow: groups, groups: ["admin"] }
+              { allow: owner, operations: ["create", "update"] }
+              { allow: public, operations: ["read"], provider: "apiKey" }
+            ]
+          ) {
+          id: ID!
+          name: String!
+        }
+      `;
+      
+      [true, false].forEach(enableNullSafety => {
+        const visitor = getVisitor(schema, 'TodoWithAuth', CodeGenGenerateEnum.code, enableNullSafety, true, true, true);
+        const generatedCode = visitor.generate();
+        it(`inserting auth provider to auth when nullsafety is ${enableNullSafety ? 'enabled' : 'disabled'}`, () => {
+          expect(generatedCode).toMatchSnapshot();
+        });
+      })
+    })
   });
 
   describe('Model with Connection Directive', () => {
