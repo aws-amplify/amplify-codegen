@@ -9,7 +9,7 @@ import {
 import { DartDeclarationBlock } from '../languages/dart-declaration-block';
 import { CodeGenConnectionType } from '../utils/process-connections';
 import { indent, indentMultiline, NormalizedScalarsMap } from '@graphql-codegen/visitor-plugin-common';
-import { AuthDirective, AuthProvider, AuthStrategy } from '../utils/process-auth';
+import { AuthDirective, AuthStrategy } from '../utils/process-auth';
 import { printWarning } from '../utils/warn';
 import {
   LOADER_CLASS_NAME,
