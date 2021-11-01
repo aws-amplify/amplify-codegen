@@ -398,5 +398,157 @@ describe('GraphQL V2 process connections tests', () => {
         expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(true);
       });
     });
+
+    describe('hasMany Testing', () => {
+      const schema = `
+        type Blog @model {
+          id: ID!
+          name: String!
+          posts: [Post] @hasMany
+        }
+        
+        type Post @model {
+          id: ID!
+          title: String!
+          blog: Blog @belongsTo
+          comments: [Comment] @hasMany
+        }
+        
+        type Comment @model {
+          id: ID!
+          post: Post @belongsTo
+          content: String!
+        }`;
+
+      const hasManyModelMap: CodeGenModelMap = {
+        Blog: {
+          name: 'Blog',
+          type: 'model',
+          directives: [],
+          fields: [
+            {
+              type: 'ID',
+              isNullable: false,
+              isList: false,
+              name: 'id',
+              directives: [],
+            },
+            {
+              type: 'String',
+              isNullable: false,
+              isList: false,
+              name: 'name',
+              directives: [],
+            },
+            {
+              type: 'Post',
+              isNullable: true,
+              isList: true,
+              name: 'posts',
+              directives: [{ name: 'hasMany', arguments: {} }],
+            },
+          ],
+        },
+        Post: {
+          name: 'Post',
+          type: 'model',
+          directives: [],
+          fields: [
+            {
+              type: 'ID',
+              isNullable: false,
+              isList: false,
+              name: 'id',
+              directives: [],
+            },
+            {
+              type: 'String',
+              isNullable: false,
+              isList: false,
+              name: 'title',
+              directives: [],
+            },
+            {
+              type: 'Blog',
+              isNullable: true,
+              isList: false,
+              name: 'blog',
+              directives: [{ name: 'belongsTo', arguments: {} }],
+            },
+            {
+              type: 'Comment',
+              isNullable: true,
+              isList: true,
+              name: 'comments',
+              directives: [{ name: 'hasMany', arguments: {} }],
+            },
+          ],
+        },
+        Comment: {
+          name: 'Comment',
+          type: 'model',
+          directives: [],
+          fields: [
+            {
+              type: 'ID',
+              isNullable: false,
+              isList: false,
+              name: 'id',
+              directives: [],
+            },
+            {
+              type: 'Post',
+              isNullable: true,
+              isList: false,
+              name: 'post',
+              directives: [{ name: 'belongsTo', arguments: {} }],
+            },
+            {
+              type: 'String',
+              isNullable: false,
+              isList: false,
+              name: 'content',
+              directives: [],
+            },
+          ],
+        },
+      };
+
+      it('Should detect first has many', () => {
+        const postField = hasManyModelMap.Blog.fields[2];
+        const connectionInfo = (processConnectionsV2(postField, hasManyModelMap.Blog, hasManyModelMap)) as CodeGenFieldConnectionHasOne;
+        expect(connectionInfo).toBeDefined();
+        expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
+        expect(connectionInfo.connectedModel).toEqual(hasManyModelMap.Post);
+        expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(true);
+      });
+
+      it('Should detect second has many', () => {
+        const commentField = hasManyModelMap.Post.fields[3];
+        const connectionInfo = (processConnectionsV2(commentField, hasManyModelMap.Post, hasManyModelMap)) as CodeGenFieldConnectionHasOne;
+        expect(connectionInfo).toBeDefined();
+        expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
+        expect(connectionInfo.connectedModel).toEqual(hasManyModelMap.Comment);
+        expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(true);
+      });
+
+      it('Should detect first belongsTo', () => {
+        const blogField = hasManyModelMap.Post.fields[2];
+        const connectionInfo = (processConnectionsV2(blogField, hasManyModelMap.Post, hasManyModelMap)) as CodeGenFieldConnectionHasOne;
+        expect(connectionInfo).toBeDefined();
+        expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
+        expect(connectionInfo.connectedModel).toEqual(hasManyModelMap.Blog);
+        expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(true);
+      });
+
+      it('Should detect second belongsTo', () => {
+        const postField = hasManyModelMap.Comment.fields[1];
+        const connectionInfo = (processConnectionsV2(postField, hasManyModelMap.Comment, hasManyModelMap)) as CodeGenFieldConnectionHasOne;
+        expect(connectionInfo).toBeDefined();
+        expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
+        expect(connectionInfo.connectedModel).toEqual(hasManyModelMap.Post);
+        expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(true);
+      });
+    });
   });
 });

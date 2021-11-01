@@ -1,4 +1,4 @@
-import { CodeGenDirective, CodeGenField, CodeGenFieldDirective, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
+import { CodeGenField, CodeGenFieldDirective, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
 import {
   CodeGenFieldConnection, DEFAULT_HASH_KEY_FIELD, flattenFieldDirectives,
   getDirective,

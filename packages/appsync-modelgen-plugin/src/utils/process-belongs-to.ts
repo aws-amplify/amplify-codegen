@@ -27,11 +27,6 @@ export function processBelongsToConnection(
       `A list field does not support the 'belongsTo' relation`
     );
   }
-  else if (field.isNullable && otherSideField.isNullable) {
-    throw new Error(
-      `DataStore does not support 1 to 1 connection with both sides of connection as optional field: ${model.name}.${field.name}`,
-    );
-  }
 
   let validOtherSideField = false;
   otherSideField.directives.forEach(dir => {
