@@ -73,20 +73,20 @@ function adjustDepth(field, depth) {
   return depth - 1;
 }
 
-function isGraphQLAggregateField(type) {
+function isGraphQLAggregateField(field) {
   if (
-    type &&
-    type.name == 'aggregateItems' &&
-    getBaseType(type.type) == 'SearchableAggregateResult'
+    field &&
+    field.name == 'aggregateItems' &&
+    getBaseType(field.type) == 'SearchableAggregateResult'
   ) {
     return true;
   }
   return false;
 }
 
-function getBaseType(field) {
-  if(field && field.ofType) {
-    return getBaseType(field.ofType);
+function getBaseType(type) {
+  if(type && type.ofType) {
+    return getBaseType(type.ofType);
   }
-  return field?.name;
+  return type?.name;
 }
