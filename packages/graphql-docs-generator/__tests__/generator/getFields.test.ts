@@ -1,4 +1,4 @@
-import { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLInterfaceType, GraphQLUnionType } from 'graphql';
+import { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLInterfaceType, GraphQLUnionType, GraphQLFloat } from 'graphql';
 
 import getFields from '../../src/generator/getFields';
 import getFragment from '../../src/generator/getFragment';
@@ -182,6 +182,75 @@ describe('getField', () => {
       expect(getFragment.mock.calls[1][0]).toEqual(rectangleType);
       expect(getFragment.mock.calls[1][1]).toEqual(schema);
       expect(getFragment.mock.calls[1][2]).toEqual(maxDepth);
+      expect(getFragment.mock.calls[1][3]).toEqual(commonField);
+    });
+  });
+
+  describe('aggregateItems should generate two additional levels', () => {
+    beforeEach(() => {
+      jest.resetAllMocks();
+    });
+    const aggregateScalarResult = new GraphQLObjectType({
+      name: 'SearchableAggregateScalarResult',
+      fields: {
+        value: { type: GraphQLFloat },
+      },
+    });
+
+    const aggregateBucketResultItem = new GraphQLObjectType({
+      name: 'SearchableAggregateBucketResultItem',
+      fields: {
+        key: { type: GraphQLString },
+        doc_count: { type: GraphQLInt },
+      },
+    });
+
+    const aggregateBucketResult = new GraphQLObjectType({
+      name: 'SearchableAggregateBucketResult',
+      fields: {
+        buckets: { type: aggregateBucketResultItem },
+      },
+    });
+    
+    const aggregateResult = new GraphQLUnionType({
+      name: 'SearchableAggregateGenericResult',
+      types: [aggregateScalarResult, aggregateBucketResult],
+    });
+
+    const aggregateItemsObject = new GraphQLObjectType({
+      name: 'SearchableAggregateResult',
+      fields: {
+        name: { type: GraphQLString },
+        result: { type: aggregateResult },
+      },
+    });
+
+    const schema = new GraphQLSchema({
+      query: new GraphQLObjectType({
+        name: 'Query',
+        fields: {
+          aggregateItems: { type: aggregateItemsObject },
+        },
+      }),
+    });
+
+    it('aggregateItems property should traverse two additional levels to generate required fields with default depth 2', () => {
+      const maxDepth = 2;
+      const getPossibleTypeSpy = jest.spyOn(schema, 'getPossibleTypes');
+      getFields(schema.getQueryType().getFields().aggregateItems, schema, maxDepth, { useExternalFragmentForS3Object: false });
+      expect(getPossibleTypeSpy).toHaveBeenCalled();
+      expect(getFragment).toHaveBeenCalled();
+
+      const commonField = []; // unions don't have to have common field
+
+      expect(getFragment.mock.calls[0][0]).toEqual(aggregateScalarResult);
+      expect(getFragment.mock.calls[0][1]).toEqual(schema);
+      expect(getFragment.mock.calls[0][2]).toEqual(maxDepth - 1);
+      expect(getFragment.mock.calls[0][3]).toEqual(commonField);
+
+      expect(getFragment.mock.calls[1][0]).toEqual(aggregateBucketResult);
+      expect(getFragment.mock.calls[1][1]).toEqual(schema);
+      expect(getFragment.mock.calls[1][2]).toEqual(maxDepth - 1);
       expect(getFragment.mock.calls[1][3]).toEqual(commonField);
     });
   });

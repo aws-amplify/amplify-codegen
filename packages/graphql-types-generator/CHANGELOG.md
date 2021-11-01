@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@2.8.2...@aws-amplify/graphql-types-generator@2.8.3) (2021-10-21)
+
+
+### Bug Fixes
+
+* **graphql-types-generator:** correct scalar and enum type in angular ([#257](https://github.com/aws-amplify/amplify-codegen/issues/257)) ([8c78e97](https://github.com/aws-amplify/amplify-codegen/commit/8c78e9737af95febf1f4dfe83077068d8497744b))
+* **graphql-types-generator:** correct typename for nested fragments ([#262](https://github.com/aws-amplify/amplify-codegen/issues/262)) ([584dbcc](https://github.com/aws-amplify/amplify-codegen/commit/584dbccc585d6f6156e4e6a6a0cde3db60d015ff))
+
+
+
+
+
 ## [2.8.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@2.8.1...@aws-amplify/graphql-types-generator@2.8.2) (2021-09-15)
 
 **Note:** Version bump only for package @aws-amplify/graphql-types-generator

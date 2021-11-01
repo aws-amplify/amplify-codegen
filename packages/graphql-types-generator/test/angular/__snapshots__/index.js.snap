@@ -1938,7 +1938,7 @@ export type humanDetailsFragment = {
   name: string;
   // A list of starships this person has piloted, or an empty list if none
   starships?: Array<{
-    __typename: string;
+    __typename: \\"Starship\\";
     // The ID of the starship
     id: string;
     // The name of the starship
