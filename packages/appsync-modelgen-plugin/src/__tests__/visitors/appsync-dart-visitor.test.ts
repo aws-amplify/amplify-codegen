@@ -483,7 +483,7 @@ describe('AppSync Dart Visitor', () => {
         }
       `;
       const generatedCode = getVisitor(schema, null, CodeGenGenerateEnum.code, false, 2).generate();
-      expect(3).toEqual(3);
+      expect(generatedCode).toMatchSnapshot();
     });
   });
 });
