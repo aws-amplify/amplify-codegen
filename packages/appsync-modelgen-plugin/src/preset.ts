@@ -257,7 +257,7 @@ export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
         (t.kind === 'ObjectTypeDefinition' && !typesToSkip.includes(t.name.value)) ||
         (t.kind === 'EnumTypeDefinition' && !t.name.value.startsWith('__')),
     ) as any;
-    if (options.config.transformerVersion === 2 || false) {
+    if (options.config.usePipelinedTransformer || options.config.transformerVersion === 2) {
       models.push(...generateManyToManyModelStubs(options));
     }
 

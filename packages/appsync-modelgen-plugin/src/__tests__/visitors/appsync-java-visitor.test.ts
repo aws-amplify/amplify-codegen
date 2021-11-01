@@ -22,7 +22,7 @@ const getVisitor = (schema: string, selectedType?: string, generate: CodeGenGene
 };
 
 const getVisitorPipelinedTransformer = (schema: string, selectedType?: string, generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code) => {
-  return getVisitor(schema, selectedType, generate, true);
+  return getVisitor(schema, selectedType, generate, 2);
 };
 
 describe('AppSyncModelVisitor', () => {
