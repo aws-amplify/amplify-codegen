@@ -54,34 +54,14 @@ export function processBelongsToConnection(
   };
 }
 
-export function getBelongsToConnectedField(field: CodeGenField, model: CodeGenModel, connectedModel: CodeGenModel, connectionInfo: CodeGenDirective): CodeGenField | undefined {
-  if(connectionInfo.arguments.fields) {
-    let indexDirective = flattenFieldDirectives(model).find(dir => {
-      return dir.name === 'index' && dir.fieldName === connectionInfo.arguments.fields[0];
-    });
+export function getBelongsToConnectedField(field: CodeGenField, model: CodeGenModel, connectedModel: CodeGenModel): CodeGenField | undefined {
+  let otherSideDirectives = flattenFieldDirectives(connectedModel).filter(dir => {
+    const connectedField = connectedModel.fields.find(connField => { return connField.name === dir.fieldName; });
+    const fieldType = connectedField?.type;
+    return ((dir.name === 'hasOne' && !connectedField?.isList) || (dir.name === 'hasMany' && connectedField?.isList)) && model.name === fieldType;
+  });
 
-    if(indexDirective) {
-      let theIndex = indexDirective;
-      let otherSideConnected = flattenFieldDirectives(connectedModel).find(dir => {
-        return (dir.name === 'hasOne' || dir.name === 'hasMany') && dir?.arguments?.indexName === theIndex.arguments.name;
-      });
-      if(otherSideConnected) {
-        for(let connField of connectedModel.fields) {
-          if (connField.name === otherSideConnected?.fieldName) {
-            return connField;
-          }
-        }
-      }
-    }
-  }
-  else {
-    let otherSideDirectives = flattenFieldDirectives(connectedModel).filter(dir => {
-      let fieldType = connectedModel.fields.find(connField => { return connField.name === dir.fieldName; })?.type;
-      return (dir.name === 'hasOne' || dir.name === 'hasMany') && model.name === fieldType;
-    });
-
-    if (otherSideDirectives?.length === 1) {
-      return connectedModel.fields.find(connField => { return connField.name === otherSideDirectives[0].fieldName; });
-    }
+  if (otherSideDirectives?.length === 1) {
+    return connectedModel.fields.find(connField => { return connField.name === otherSideDirectives[0].fieldName; });
   }
 }
