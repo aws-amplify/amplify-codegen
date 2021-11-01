@@ -17,7 +17,7 @@ export function getConnectedFieldV2(field: CodeGenField, model: CodeGenModel, co
   }
 
   if(connectionInfo.name === 'belongsTo') {
-    let connectedFieldBelongsTo = getBelongsToConnectedField(field, model, connectedModel, connectionInfo);
+    let connectedFieldBelongsTo = getBelongsToConnectedField(field, model, connectedModel);
     if (connectedFieldBelongsTo) {
       return connectedFieldBelongsTo;
     }
