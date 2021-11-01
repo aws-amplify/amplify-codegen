@@ -16,7 +16,7 @@ const getVisitor = (
   emitAuthProvider: boolean = true,
   generateIndexRules: boolean = true,
   handleListNullabilityTransparently: boolean = true,
-  usePipelinedTransformer: boolean = false
+  transformerVersion: number = 1
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -30,7 +30,7 @@ const getVisitor = (
       emitAuthProvider,
       generateIndexRules,
       handleListNullabilityTransparently,
-      usePipelinedTransformer: usePipelinedTransformer
+      transformerVersion: transformerVersion
     },
     { selectedType, generate },
   );
@@ -47,7 +47,7 @@ const getVisitorPipelinedTransformer = (
   generateIndexRules: boolean = true,
   handleListNullabilityTransparently: boolean = true
 ) => {
-  return getVisitor(schema, selectedType, generate, isTimestampFieldsAdded, emitAuthProvider, generateIndexRules, handleListNullabilityTransparently, true);
+  return getVisitor(schema, selectedType, generate, isTimestampFieldsAdded, emitAuthProvider, generateIndexRules, handleListNullabilityTransparently, 2);
 }
 
 describe('AppSyncSwiftVisitor', () => {

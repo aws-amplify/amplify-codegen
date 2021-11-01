@@ -217,6 +217,37 @@ const generateDartPreset = (
   return config;
 };
 
+const generateManyToManyModelStubs = (options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>) : TypeDefinitionNode[] => {
+  let models = new Array<TypeDefinitionNode>();
+  let manyToManySet = new Set<string>();
+  options.schema.definitions.forEach(def => {
+    if (def.kind === 'ObjectTypeDefinition') {
+      def?.fields?.forEach(field => {
+        field?.directives?.forEach(dir => {
+          if (dir?.name?.value === 'manyToMany') {
+            //manyToManySet.add(dir?.arguments?.relationName);
+            dir?.arguments?.forEach(arg => {
+              if(arg.name.value === 'relationName' && arg.value.kind === 'StringValue') {
+                manyToManySet.add(arg?.value?.value);
+              }
+            });
+          }
+        });
+      });
+    }
+  });
+  manyToManySet.forEach(modelName => {
+    models.push({
+      kind: 'ObjectTypeDefinition',
+      name: {
+        kind: 'Name',
+        value: modelName
+      }
+    })
+  });
+  return models;
+}
+
 export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
   buildGeneratesSection: (options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>): Types.GenerateOptions[] => {
     const codeGenTarget = options.config.target;
@@ -226,6 +257,9 @@ export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
         (t.kind === 'ObjectTypeDefinition' && !typesToSkip.includes(t.name.value)) ||
         (t.kind === 'EnumTypeDefinition' && !t.name.value.startsWith('__')),
     ) as any;
+    if (options.config.transformerVersion === 2 || false) {
+      models.push(...generateManyToManyModelStubs(options));
+    }
 
     switch (codeGenTarget) {
       case 'java':

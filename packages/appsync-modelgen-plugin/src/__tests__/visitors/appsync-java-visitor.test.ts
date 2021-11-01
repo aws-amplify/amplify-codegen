@@ -9,12 +9,12 @@ const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-const getVisitor = (schema: string, selectedType?: string, generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code, usePipelinedTransformer: boolean = false) => {
+const getVisitor = (schema: string, selectedType?: string, generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code, transformerVersion: number = 1) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelJavaVisitor(
     builtSchema,
-    { directives, target: 'android', generate, scalars: JAVA_SCALAR_MAP, isTimestampFieldsAdded: true, handleListNullabilityTransparently: true, usePipelinedTransformer: usePipelinedTransformer },
+    { directives, target: 'android', generate, scalars: JAVA_SCALAR_MAP, isTimestampFieldsAdded: true, handleListNullabilityTransparently: true, transformerVersion: transformerVersion },
     { selectedType },
   );
   visit(ast, { leave: visitor });

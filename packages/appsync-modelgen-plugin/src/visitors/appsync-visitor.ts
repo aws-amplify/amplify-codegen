@@ -110,11 +110,11 @@ export interface RawAppSyncModelConfig extends RawConfig {
    */
    handleListNullabilityTransparently?: boolean;
   /**
-   * @name usePipelinedTransformer
-   * @type boolean
-   * @descriptions optional boolean which determines whether to use the new pipelined GraphQL transformer
+   * @name transformerVersion
+   * @type number
+   * @descriptions optional number which determines which version of the GraphQL transformer to use
    */
-  usePipelinedTransformer?: boolean;
+  transformerVersion?: number;
 }
 
 // Todo: need to figure out how to share config
@@ -124,7 +124,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   target?: string;
   isTimestampFieldsAdded?: boolean;
   handleListNullabilityTransparently?: boolean;
-  usePipelinedTransformer?: boolean;
+  transformerVersion?: number;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
 
@@ -203,7 +203,7 @@ export class AppSyncModelVisitor<
       target: rawConfig.target,
       isTimestampFieldsAdded: rawConfig.isTimestampFieldsAdded,
       handleListNullabilityTransparently: rawConfig.handleListNullabilityTransparently,
-      usePipelinedTransformer: rawConfig.usePipelinedTransformer,
+      transformerVersion: rawConfig.transformerVersion,
     });
 
     const typesUsedInDirectives: string[] = [];
@@ -284,7 +284,7 @@ export class AppSyncModelVisitor<
     };
   }
   processDirectives() {
-    if (this.config.usePipelinedTransformer) {
+    if (this.config.transformerVersion === 2) {
       this.processConnectionDirectivesV2()
     }
     else {
@@ -432,11 +432,11 @@ export class AppSyncModelVisitor<
     const typeArr: any[] = [];
     Object.values({ ...this.modelMap, ...this.nonModelMap }).forEach((obj: CodeGenModel) => {
       // include only key directive as we don't care about others for versioning
-      const directives = this.config.usePipelinedTransformer ? obj.directives.filter(dir => dir.name === 'primaryKey' || dir.name === 'index') : obj.directives.filter(dir => dir.name === 'key');
+      const directives = (this.config.transformerVersion === 2) ? obj.directives.filter(dir => dir.name === 'primaryKey' || dir.name === 'index') : obj.directives.filter(dir => dir.name === 'key');
       const fields = obj.fields
         .map((field: CodeGenField) => {
           // include only connection field and type
-          const fieldDirectives = this.config.usePipelinedTransformer ? field.directives.filter(field => field.name === 'hasOne' || field.name === 'belongsTo' || field.name === 'hasMany' || field.name === 'manyToMany') : field.directives.filter(field => field.name === 'connection');
+          const fieldDirectives = (this.config.transformerVersion === 2) ? field.directives.filter(field => field.name === 'hasOne' || field.name === 'belongsTo' || field.name === 'hasMany' || field.name === 'manyToMany') : field.directives.filter(field => field.name === 'connection');
           return {
             name: field.name,
             directives: fieldDirectives,
