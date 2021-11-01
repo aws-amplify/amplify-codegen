@@ -73,11 +73,11 @@ function adjustDepth(field, depth) {
   return depth - 1;
 }
 
-function isGraphQLAggregateField(field) {
+function isGraphQLAggregateField(type) {
   if (
-    field &&
-    field.name == 'aggregateItems' &&
-    getBaseType(field.type) == 'SearchableAggregateResult'
+    type &&
+    type.name == 'aggregateItems' &&
+    getBaseType(type.type) == 'SearchableAggregateResult'
   ) {
     return true;
   }
