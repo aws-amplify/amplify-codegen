@@ -3,6 +3,7 @@ import { Kind, TypeDefinitionNode } from 'graphql';
 import { join } from 'path';
 import { JAVA_SCALAR_MAP, SWIFT_SCALAR_MAP, TYPESCRIPT_SCALAR_MAP, DART_SCALAR_MAP } from './scalars';
 import { LOADER_CLASS_NAME, GENERATED_PACKAGE_NAME } from './configs/java-config';
+import { graphqlName, toUpper } from 'graphql-transformer-common';
 
 const APPSYNC_DATA_STORE_CODEGEN_TARGETS = ['java', 'swift', 'javascript', 'typescript', 'dart'];
 
@@ -225,10 +226,9 @@ const generateManyToManyModelStubs = (options: Types.PresetFnArgs<AppSyncModelCo
       def?.fields?.forEach(field => {
         field?.directives?.forEach(dir => {
           if (dir?.name?.value === 'manyToMany') {
-            //manyToManySet.add(dir?.arguments?.relationName);
             dir?.arguments?.forEach(arg => {
               if(arg.name.value === 'relationName' && arg.value.kind === 'StringValue') {
-                manyToManySet.add(arg.value.value);
+                manyToManySet.add(graphqlName(toUpper(arg.value.value)));
               }
             });
           }

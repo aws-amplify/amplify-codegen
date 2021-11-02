@@ -28,6 +28,7 @@ import { sortFields } from '../utils/sort';
 import { printWarning } from '../utils/warn';
 import { processAuthDirective } from '../utils/process-auth';
 import { processConnectionsV2 } from '../utils/process-connections-v2';
+import { graphqlName, toUpper } from 'graphql-transformer-common';
 
 export enum CodeGenGenerateEnum {
   metadata = 'metadata',
@@ -603,7 +604,7 @@ export class AppSyncModelVisitor<
       let directiveIndex = context.field.directives.indexOf(context.directive, 0);
       if (directiveIndex > -1) {
         context.field.directives.splice(directiveIndex, 1);
-        context.field.type = context.directive.arguments.relationName;
+        context.field.type = graphqlName(toUpper(context.directive.arguments.relationName));
         context.field.directives.push({
           name: 'hasMany',
           arguments: { indexName: `by${context.model.name}`, fields: [this.determinePrimaryKeyFieldname(context.model)] }
@@ -622,7 +623,7 @@ export class AppSyncModelVisitor<
       model.fields.forEach(field => {
         field.directives.forEach(dir => {
           if(dir.name === 'manyToMany') {
-            let relationName = dir.arguments.relationName;
+            let relationName = graphqlName(toUpper(dir.arguments.relationName));
             let existingRelation = manyDirectiveMap.get(relationName);
             if (existingRelation) {
               existingRelation.push({ model: model, field: field, directive: dir });
@@ -640,7 +641,7 @@ export class AppSyncModelVisitor<
       if (value.length != 2) {
         throw new Error(`Error for relation: '${value[0].directive.arguments.relationName}', there should be two matching manyToMany directives and found: ${value.length}`);
       }
-      let intermediateModel = this.generateIntermediateModel(value[0].model, value[1].model, value[0].field, value[1].field, value[0].directive.arguments.relationName);
+      let intermediateModel = this.generateIntermediateModel(value[0].model, value[1].model, value[0].field, value[1].field, graphqlName(toUpper(value[0].directive.arguments.relationName)));
       const modelDirective = intermediateModel.directives.find(directive => directive.name === 'model');
       if(modelDirective) {
         this.ensureIdField(intermediateModel);

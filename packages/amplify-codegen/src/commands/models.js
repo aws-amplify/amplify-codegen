@@ -35,13 +35,11 @@ const readFeatureFlag = key => {
  * @returns
  */
 const readNumericFeatureFlag = key => {
-  let flagValue = false;
   try {
-    flagValue = FeatureFlags.getNumber(key);
+    return FeatureFlags.getNumber(key);
   } catch (err) {
-    flagValue = 1;
+    return 1;
   }
-  return flagValue;
 };
 
 async function generateModels(context) {
