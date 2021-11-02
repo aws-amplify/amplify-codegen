@@ -2259,4 +2259,25 @@ describe('AppSyncSwiftVisitor', () => {
       `);
     });
   });
+
+  describe('Many To Many V2 Tests', () => {
+    it('Should generate the intermediate model successfully', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          id: ID!
+          title: String!
+          content: String
+          tags: [Tag] @manyToMany(relationName: "PostTags")
+        }
+        
+        type Tag @model {
+          id: ID!
+          label: String!
+          posts: [Post] @manyToMany(relationName: "PostTags")
+        }
+      `;
+      const generatedCode = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.code).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+  });
 });
