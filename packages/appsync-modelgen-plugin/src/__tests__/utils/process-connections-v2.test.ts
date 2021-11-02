@@ -18,7 +18,8 @@ describe('GraphQL V2 process connections tests', () => {
       const hasOneWithFieldsSchema = /* GraphQL */ `
           type BatteryCharger @model {
             chargerID: ID!
-            powerSource: PowerSource @hasOne(fields: ["chargerID"])
+            powerSourceID: ID
+            powerSource: PowerSource @hasOne(fields: ["powerSourceID"])
           }
   
           type PowerSource @model {
@@ -80,11 +81,18 @@ describe('GraphQL V2 process connections tests', () => {
               directives: []
             },
             {
+              type: 'ID',
+              isNullable: true,
+              isList: false,
+              name: 'powerSourceID',
+              directives: []
+            },
+            {
               type: 'PowerSource',
               isNullable: true,
               isList: false,
               name: 'powerSource',
-              directives: [{ name: 'hasOne', arguments: { fields: ['chargerID'] } }],
+              directives: [{ name: 'hasOne', arguments: { fields: ['powerSourceID'] } }],
             },
           ],
         },
@@ -307,7 +315,7 @@ describe('GraphQL V2 process connections tests', () => {
         expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(true);
       });
       it('Should support @hasOne with an explicit primary key', () => {
-        const powerSourceField = hasOneWithFieldsModelMap.BatteryCharger.fields[1];
+        const powerSourceField = hasOneWithFieldsModelMap.BatteryCharger.fields[2];
         const connectionInfo = (processConnectionsV2(powerSourceField, hasOneWithFieldsModelMap.BatteryCharger, hasOneWithFieldsModelMap)) as CodeGenFieldConnectionHasOne;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
