@@ -120,7 +120,7 @@ async function generateModels(context) {
       enableDartNullSafety,
       handleListNullabilityTransparently,
       usePipelinedTransformer,
-      transformerVersion
+      transformerVersion,
     },
   });
 

@@ -19,7 +19,7 @@ const getVisitor = (
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelDartVisitor(
     builtSchema,
-    { directives, target: 'dart', scalars: DART_SCALAR_MAP, enableDartNullSafety, transformerVersion: transformerVersion },
+    { directives, target: 'dart', scalars: DART_SCALAR_MAP, enableDartNullSafety, transformerVersion },
     { selectedType, generate },
   );
   visit(ast, { leave: visitor });

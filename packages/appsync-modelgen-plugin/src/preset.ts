@@ -228,7 +228,7 @@ const generateManyToManyModelStubs = (options: Types.PresetFnArgs<AppSyncModelCo
             //manyToManySet.add(dir?.arguments?.relationName);
             dir?.arguments?.forEach(arg => {
               if(arg.name.value === 'relationName' && arg.value.kind === 'StringValue') {
-                manyToManySet.add(arg?.value?.value);
+                manyToManySet.add(arg.value.value);
               }
             });
           }
