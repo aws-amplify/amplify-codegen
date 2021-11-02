@@ -307,7 +307,7 @@ export function interfaceDeclarationForFragment(generator: CodeGenerator, fragme
               type: { name: `"${fragment.typeCondition}"` } as GraphQLType,
             };
           } else {
-            return field;
+            return updateTypeNameField(field);
           }
         });
 

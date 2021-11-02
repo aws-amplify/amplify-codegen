@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.29.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.0...@aws-amplify/appsync-modelgen-plugin@1.29.1) (2021-10-21)
+
+
+### Bug Fixes
+
+* **appsync-modelgen-plugin:** non model type with id field in java ([#260](https://github.com/aws-amplify/amplify-codegen/issues/260)) ([186f8cd](https://github.com/aws-amplify/amplify-codegen/commit/186f8cdc6be4657e8dc061ee19430d0dccbaebdb))
+
+
+
+
+
 # [1.29.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.28.0...@aws-amplify/appsync-modelgen-plugin@1.29.0) (2021-10-05)
 
 
