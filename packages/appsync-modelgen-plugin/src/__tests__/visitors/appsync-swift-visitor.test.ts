@@ -16,7 +16,7 @@ const getVisitor = (
   emitAuthProvider: boolean = true,
   generateIndexRules: boolean = true,
   handleListNullabilityTransparently: boolean = true,
-  usePipelinedTransformer: boolean = false
+  transformerVersion: number = 1
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -30,7 +30,7 @@ const getVisitor = (
       emitAuthProvider,
       generateIndexRules,
       handleListNullabilityTransparently,
-      usePipelinedTransformer: usePipelinedTransformer
+      transformerVersion: transformerVersion
     },
     { selectedType, generate },
   );
@@ -47,7 +47,7 @@ const getVisitorPipelinedTransformer = (
   generateIndexRules: boolean = true,
   handleListNullabilityTransparently: boolean = true
 ) => {
-  return getVisitor(schema, selectedType, generate, isTimestampFieldsAdded, emitAuthProvider, generateIndexRules, handleListNullabilityTransparently, true);
+  return getVisitor(schema, selectedType, generate, isTimestampFieldsAdded, emitAuthProvider, generateIndexRules, handleListNullabilityTransparently, 2);
 }
 
 describe('AppSyncSwiftVisitor', () => {
@@ -2257,6 +2257,27 @@ describe('AppSyncSwiftVisitor', () => {
           }
         }"
       `);
+    });
+  });
+
+  describe('Many To Many V2 Tests', () => {
+    it('Should generate the intermediate model successfully', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          id: ID!
+          title: String!
+          content: String
+          tags: [Tag] @manyToMany(relationName: "PostTags")
+        }
+        
+        type Tag @model {
+          id: ID!
+          label: String!
+          posts: [Post] @manyToMany(relationName: "PostTags")
+        }
+      `;
+      const generatedCode = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.code).generate();
+      expect(generatedCode).toMatchSnapshot();
     });
   });
 });

@@ -391,5 +391,25 @@ describe('Angular code generation', function() {
       const source = generateSource(context);
       expect(source).toMatchSnapshot();
     });
+
+    test(`should generate simple query operation with scalar/enum field and scalar/enum return type w & w/o list`, function() {
+      const { compileFromSource } = setup(loadSchema(require.resolve('../fixtures/misc/queryWithScalarAndEnumType.graphql')));
+      const context = compileFromSource(`
+      query GetScalars {
+        getScalars
+      }
+      query GetScalar {
+        getScalar
+      }
+      query GetEnums {
+        getEnums
+      }
+      query GetEnum {
+        getEnum
+      }
+      `);
+      const source = generateSource(context);
+      expect(source).toMatchSnapshot();
+    });
   });
 });
