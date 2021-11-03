@@ -28,6 +28,7 @@ import { sortFields } from '../utils/sort';
 import { printWarning } from '../utils/warn';
 import { processAuthDirective } from '../utils/process-auth';
 import { processConnectionsV2 } from '../utils/process-connections-v2';
+import { graphqlName, toUpper } from 'graphql-transformer-common';
 
 export enum CodeGenGenerateEnum {
   metadata = 'metadata',
@@ -115,6 +116,12 @@ export interface RawAppSyncModelConfig extends RawConfig {
    * @descriptions optional boolean which determines whether to use the new pipelined GraphQL transformer
    */
   usePipelinedTransformer?: boolean;
+  /**
+   * @name transformerVersion
+   * @type number
+   * @descriptions optional number which determines which version of the GraphQL transformer to use
+   */
+  transformerVersion?: number;
 }
 
 // Todo: need to figure out how to share config
@@ -125,6 +132,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   isTimestampFieldsAdded?: boolean;
   handleListNullabilityTransparently?: boolean;
   usePipelinedTransformer?: boolean;
+  transformerVersion?: number;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
 
@@ -204,6 +212,7 @@ export class AppSyncModelVisitor<
       isTimestampFieldsAdded: rawConfig.isTimestampFieldsAdded,
       handleListNullabilityTransparently: rawConfig.handleListNullabilityTransparently,
       usePipelinedTransformer: rawConfig.usePipelinedTransformer,
+      transformerVersion: rawConfig.transformerVersion,
     });
 
     const typesUsedInDirectives: string[] = [];
@@ -284,9 +293,10 @@ export class AppSyncModelVisitor<
     };
   }
   processDirectives() {
-    if (this.config.usePipelinedTransformer) {
-      this.processConnectionDirectivesV2();
-    } else {
+    if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
+      this.processConnectionDirectivesV2()
+    }
+    else {
       this.processConnectionDirective();
     }
     this.processAuthDirectives();
@@ -431,7 +441,7 @@ export class AppSyncModelVisitor<
     const typeArr: any[] = [];
     Object.values({ ...this.modelMap, ...this.nonModelMap }).forEach((obj: CodeGenModel) => {
       // include only key directive as we don't care about others for versioning
-      const directives = this.config.usePipelinedTransformer
+      const directives = (this.config.usePipelinedTransformer || this.config.transformerVersion === 2)
         ? obj.directives.filter(dir => dir.name === 'primaryKey' || dir.name === 'index')
         : obj.directives.filter(dir => dir.name === 'key');
       const fields = obj.fields
@@ -606,7 +616,7 @@ export class AppSyncModelVisitor<
       let directiveIndex = context.field.directives.indexOf(context.directive, 0);
       if (directiveIndex > -1) {
         context.field.directives.splice(directiveIndex, 1);
-        context.field.type = context.directive.arguments.relationName;
+        context.field.type = graphqlName(toUpper(context.directive.arguments.relationName));
         context.field.directives.push({
           name: 'hasMany',
           arguments: { indexName: `by${context.model.name}`, fields: [this.determinePrimaryKeyFieldname(context.model)] },
@@ -623,8 +633,8 @@ export class AppSyncModelVisitor<
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
         field.directives.forEach(dir => {
-          if (dir.name === 'manyToMany') {
-            let relationName = dir.arguments.relationName;
+          if(dir.name === 'manyToMany') {
+            let relationName = graphqlName(toUpper(dir.arguments.relationName));
             let existingRelation = manyDirectiveMap.get(relationName);
             if (existingRelation) {
               existingRelation.push({ model: model, field: field, directive: dir });
@@ -648,7 +658,7 @@ export class AppSyncModelVisitor<
         value[1].model,
         value[0].field,
         value[1].field,
-        value[0].directive.arguments.relationName,
+        graphqlName(toUpper(value[0].directive.arguments.relationName)),
       );
       const modelDirective = intermediateModel.directives.find(directive => directive.name === 'model');
       if (modelDirective) {

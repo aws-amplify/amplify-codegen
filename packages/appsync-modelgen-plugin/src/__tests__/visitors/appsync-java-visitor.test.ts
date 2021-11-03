@@ -9,11 +9,12 @@ const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
+
 const getVisitor = (
   schema: string,
   selectedType?: string,
   generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
-  usePipelinedTransformer: boolean = false,
+  transformerVersion: number = 1,
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -26,7 +27,7 @@ const getVisitor = (
       scalars: JAVA_SCALAR_MAP,
       isTimestampFieldsAdded: true,
       handleListNullabilityTransparently: true,
-      usePipelinedTransformer: usePipelinedTransformer,
+      transformerVersion: transformerVersion,
     },
     { selectedType },
   );
@@ -39,7 +40,7 @@ const getVisitorPipelinedTransformer = (
   selectedType?: string,
   generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
 ) => {
-  return getVisitor(schema, selectedType, generate, true);
+  return getVisitor(schema, selectedType, generate, 2);
 };
 
 describe('AppSyncModelVisitor', () => {
@@ -578,6 +579,27 @@ describe('AppSyncModelVisitor', () => {
       const visitor = getVisitor(schema, 'task');
       const generatedCode = visitor.generate();
       expect(() => validateJava(generatedCode)).not.toThrow();
+      expect(generatedCode).toMatchSnapshot();
+    });
+  });
+
+  describe('Many To Many V2 Tests', () => {
+    it('Should generate the intermediate model successfully', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          id: ID!
+          title: String!
+          content: String
+          tags: [Tag] @manyToMany(relationName: "PostTags")
+        }
+        
+        type Tag @model {
+          id: ID!
+          label: String!
+          posts: [Post] @manyToMany(relationName: "PostTags")
+        }
+      `;
+      const generatedCode = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.code).generate();
       expect(generatedCode).toMatchSnapshot();
     });
   });

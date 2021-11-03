@@ -1,7 +1,8 @@
 import { CodeGenDirective, CodeGenField, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
 import {
   CodeGenConnectionType,
-  CodeGenFieldConnection, flattenFieldDirectives,
+  CodeGenFieldConnection,
+  flattenFieldDirectives,
   makeConnectionAttributeName,
 } from './process-connections';
 import { getConnectedFieldV2 } from './process-connections-v2';

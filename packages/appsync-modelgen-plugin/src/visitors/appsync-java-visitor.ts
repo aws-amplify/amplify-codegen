@@ -762,7 +762,7 @@ export class AppSyncModelJavaVisitor<
           }
           return `ModelConfig(${modelArgs.join(', ')})`;
         case 'key':
-          if (!this.config.usePipelinedTransformer) {
+          if (!(this.config.usePipelinedTransformer || this.config.transformerVersion === 2)) {
             const keyArgs: string[] = [];
             keyArgs.push(`name = "${directive.arguments.name}"`);
             keyArgs.push(`fields = {${(directive.arguments.fields as string[]).map((f: string) => `"${f}"`).join(',')}}`);
@@ -780,7 +780,7 @@ export class AppSyncModelJavaVisitor<
       field.directives.forEach(directive => {
         switch (directive.name) {
           case 'primaryKey':
-            if (this.config.usePipelinedTransformer) {
+            if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
               const keyArgs: string[] = [];
               keyArgs.push(`name = "undefined"`);
               if (!directive.arguments.sortKeyFields) {
@@ -792,7 +792,7 @@ export class AppSyncModelJavaVisitor<
             }
             break;
           case 'index':
-            if (this.config.usePipelinedTransformer) {
+            if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
               const keyArgs: string[] = [];
               keyArgs.push(`name = "${directive.arguments.name}"`);
               if (!directive.arguments.sortKeyFields) {
