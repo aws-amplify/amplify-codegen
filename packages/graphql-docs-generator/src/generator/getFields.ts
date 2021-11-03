@@ -77,9 +77,16 @@ function isGraphQLAggregateField(field) {
   if (
     field &&
     field.name == 'aggregateItems' &&
-    field.type?.ofType?.name == 'SearchableAggregateResult'
+    getBaseType(field.type) == 'SearchableAggregateResult'
   ) {
     return true;
   }
   return false;
+}
+
+function getBaseType(type) {
+  if(type && type.ofType) {
+    return getBaseType(type.ofType);
+  }
+  return type?.name;
 }
