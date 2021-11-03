@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.29.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.1...@aws-amplify/appsync-modelgen-plugin@1.29.2) (2021-11-03)
+
+
+### Bug Fixes
+
+* **amplify-codegen:** fix v2 has one process connection directive ([fc4046e](https://github.com/aws-amplify/amplify-codegen/commit/fc4046e8ce3da8570a6f1b6a840f9ccff901a4cf))
+
+
+### Reverts
+
+* Revert "Feature: Use improved pluralization" ([a891a4f](https://github.com/aws-amplify/amplify-codegen/commit/a891a4f5820fcdb9610261b01ecc4d1211cf4e9f))
+
+
+
+
+
 ## [1.29.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.0...@aws-amplify/appsync-modelgen-plugin@1.29.1) (2021-10-21)
 
 
