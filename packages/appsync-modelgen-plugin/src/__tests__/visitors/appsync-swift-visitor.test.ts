@@ -16,8 +16,7 @@ const getVisitor = (
   emitAuthProvider: boolean = true,
   generateIndexRules: boolean = true,
   handleListNullabilityTransparently: boolean = true,
-  usePipelinedTransformer: boolean = false,
-  improvePluralization: boolean = false,
+  transformerVersion: number = 1
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -31,8 +30,7 @@ const getVisitor = (
       emitAuthProvider,
       generateIndexRules,
       handleListNullabilityTransparently,
-      usePipelinedTransformer: usePipelinedTransformer,
-      improvePluralization: improvePluralization,
+      transformerVersion: transformerVersion
     },
     { selectedType, generate },
   );
@@ -49,7 +47,7 @@ const getVisitorPipelinedTransformer = (
   generateIndexRules: boolean = true,
   handleListNullabilityTransparently: boolean = true
 ) => {
-  return getVisitor(schema, selectedType, generate, isTimestampFieldsAdded, emitAuthProvider, generateIndexRules, handleListNullabilityTransparently, true);
+  return getVisitor(schema, selectedType, generate, isTimestampFieldsAdded, emitAuthProvider, generateIndexRules, handleListNullabilityTransparently, 2);
 }
 
 describe('AppSyncSwiftVisitor', () => {
@@ -2262,50 +2260,24 @@ describe('AppSyncSwiftVisitor', () => {
     });
   });
 
-  describe('Use Improved Pluralization', () => {
-    let wishSchema: string;
-    beforeEach(() => {
-      wishSchema = /* GraphQL */ `
-        enum StatusEnum {
-          pass
-          fail
-        }
-  
-        type CustomType {
-          name: String
-          list: [Int]
-          requiredList: [String]!
-          requiredListOfRequired: [StatusEnum!]!
-          listOfRequired: [Boolean!]
-        }
-  
-        type ListContainer @model {
+  describe('Many To Many V2 Tests', () => {
+    it('Should generate the intermediate model successfully', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
           id: ID!
-          name: String
-          list: [Int]
-          requiredList: [String]!
-          requiredListOfRequired: [StatusEnum!]!
-          listOfRequired: [Boolean!]
-          requiredListOfRequiredDates: [AWSDate!]!
-          listOfRequiredFloats: [Float!]
-          requiredListOfCustomTypes: [CustomType]!
+          title: String!
+          content: String
+          tags: [Tag] @manyToMany(relationName: "PostTags")
+        }
+        
+        type Tag @model {
+          id: ID!
+          label: String!
+          posts: [Post] @manyToMany(relationName: "PostTags")
         }
       `;
-    });
-    it('Should work with potentially pluralized collision', () => {
-      const visitor = getVisitor(wishSchema, 'ListContainer', CodeGenGenerateEnum.code, true,
-        true,true, true, false, true);
-      const generatedCode = visitor.generate();
+      const generatedCode = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.code).generate();
       expect(generatedCode).toMatchSnapshot();
-
-      const metadataVisitor = getVisitor(wishSchema, 'ListContainer', CodeGenGenerateEnum.metadata, true,
-        true, true, true ,false, true);
-      const generatedMetadata = metadataVisitor.generate();
-      expect(generatedMetadata).toMatchSnapshot();
-
-      const customTypeVisitor = getVisitor(wishSchema, 'CustomType', CodeGenGenerateEnum.code, true,
-        true,true, true, false, true);
-      expect(customTypeVisitor.generate()).toMatchSnapshot();
     });
   });
 });

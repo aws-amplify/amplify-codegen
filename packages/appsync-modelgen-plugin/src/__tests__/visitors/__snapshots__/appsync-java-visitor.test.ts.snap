@@ -1,5 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`AppSyncModelVisitor Many To Many V2 Tests Should generate the intermediate model successfully 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+"
+`;
+
 exports[`AppSyncModelVisitor Model with Auth should generate class with custom claims 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
@@ -2605,6 +2625,125 @@ public final class Location {
 "
 `;
 
+exports[`AppSyncModelVisitor Non model type should generate class for non model types with id field 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+
+import androidx.core.util.ObjectsCompat;
+
+import java.util.Objects;
+import java.util.List;
+
+/** This is an auto generated class representing the Reference type in your schema. */
+public final class Reference {
+  private final String id;
+  private final ReferenceIdTypeEnum idType;
+  public String getId() {
+      return id;
+  }
+  
+  public ReferenceIdTypeEnum getIdType() {
+      return idType;
+  }
+  
+  private Reference(String id, ReferenceIdTypeEnum idType) {
+    this.id = id;
+    this.idType = idType;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Reference reference = (Reference) obj;
+      return ObjectsCompat.equals(getId(), reference.getId()) &&
+              ObjectsCompat.equals(getIdType(), reference.getIdType());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getIdType())
+      .toString()
+      .hashCode();
+  }
+  
+  public static IdStep builder() {
+      return new Builder();
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      idType);
+  }
+  public interface IdStep {
+    IdTypeStep id(String id);
+  }
+  
+
+  public interface IdTypeStep {
+    BuildStep idType(ReferenceIdTypeEnum idType);
+  }
+  
+
+  public interface BuildStep {
+    Reference build();
+  }
+  
+
+  public static class Builder implements IdStep, IdTypeStep, BuildStep {
+    private String id;
+    private ReferenceIdTypeEnum idType;
+    @Override
+     public Reference build() {
+        
+        return new Reference(
+          id,
+          idType);
+    }
+    
+    @Override
+     public IdTypeStep id(String id) {
+        Objects.requireNonNull(id);
+        this.id = id;
+        return this;
+    }
+    
+    @Override
+     public BuildStep idType(ReferenceIdTypeEnum idType) {
+        Objects.requireNonNull(idType);
+        this.idType = idType;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, ReferenceIdTypeEnum idType) {
+      super.id(id)
+        .idType(idType);
+    }
+    
+    @Override
+     public CopyOfBuilder id(String id) {
+      return (CopyOfBuilder) super.id(id);
+    }
+    
+    @Override
+     public CopyOfBuilder idType(ReferenceIdTypeEnum idType) {
+      return (CopyOfBuilder) super.idType(idType);
+    }
+  }
+  
+}
+"
+`;
+
 exports[`AppSyncModelVisitor One to Many connection with no nullable and non nullable fields should generate class for many side of the connection 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
@@ -3740,7 +3879,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the task type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"tasks\\", syncPluralName = \\"tasks\\")
+@ModelConfig(pluralName = \\"tasks\\")
 public final class task implements Model {
   public static final QueryField ID = field(\\"task\\", \\"id\\");
   public static final QueryField TITLE = field(\\"task\\", \\"title\\");
