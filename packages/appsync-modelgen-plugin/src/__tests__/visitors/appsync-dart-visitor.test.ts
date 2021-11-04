@@ -13,13 +13,12 @@ const getVisitor = (
   selectedType?: string,
   generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
   enableDartNullSafety: boolean = false,
-  improvePluralization: boolean = false,
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelDartVisitor(
     builtSchema,
-    { directives, target: 'dart', scalars: DART_SCALAR_MAP, enableDartNullSafety, improvePluralization: improvePluralization },
+    { directives, target: 'dart', scalars: DART_SCALAR_MAP, enableDartNullSafety },
     { selectedType, generate },
   );
   visit(ast, { leave: visitor });
@@ -50,27 +49,6 @@ describe('AppSync Dart Visitor', () => {
         }
       `;
       const visitor = getVisitor(schema);
-      const generatedCode = visitor.generate();
-      expect(generatedCode).toMatchSnapshot();
-    });
-
-    it('Should generate the correct pluralized data with improved pluralization', () => {
-      const schema = /* GraphQL */ `
-      type TemporalTimeModel @model {
-        id: ID!
-        date: AWSDate
-        time: AWSTime
-        dateTime: AWSDateTime
-        timestamp: AWSTimestamp
-        intNum: Int
-        dateList: [AWSDate]
-        timeList: [AWSTime]
-        dateTimeList: [AWSDateTime]
-        timestampList: [AWSTimestamp]
-        intList: [Int]
-      }
-    `;
-      const visitor = getVisitor(schema, null, CodeGenGenerateEnum.code, false, true);
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
