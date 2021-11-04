@@ -25,7 +25,6 @@ import { generateLicense } from '../utils/generateLicense';
 import { lowerCaseFirst } from 'lower-case-first';
 import { GraphQLSchema } from 'graphql';
 import { DART_SCALAR_MAP } from '../scalars';
-import { plurality } from 'graphql-transformer-common';
 
 export interface RawAppSyncModelDartConfig extends RawAppSyncModelConfig {
   /**
@@ -611,18 +610,13 @@ export class AppSyncModelDartVisitor<
   }
 
   protected generateSchemaField(model: CodeGenModel, declarationBlock: DartDeclarationBlock): void {
-    const pluralFields = this.config.improvePluralization ? `modelSchemaDefinition.listPluralName = "${
-        plurality(model.name, this.config.improvePluralization
-      )}";\nmodelSchemaDefinition.syncPluralName = "${this.pluralizeModelName(model)}";` : `modelSchemaDefinition.pluralName = "${
-        this.pluralizeModelName(
-      model,
-    )}";`
-
     const schema = [
       'Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {',
       indentMultiline(
         [
-          `modelSchemaDefinition.name = "${this.getModelName(model)}";\n${pluralFields}`,
+          `modelSchemaDefinition.name = "${this.getModelName(model)}";\nmodelSchemaDefinition.pluralName = "${this.pluralizeModelName(
+            model,
+          )}";`,
           this.generateAuthRules(model),
           this.generateAddFields(model),
         ]

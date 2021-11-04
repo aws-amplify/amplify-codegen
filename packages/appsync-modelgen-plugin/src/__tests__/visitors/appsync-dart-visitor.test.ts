@@ -54,27 +54,6 @@ describe('AppSync Dart Visitor', () => {
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
-
-    it('Should generate the correct pluralized data with improved pluralization', () => {
-      const schema = /* GraphQL */ `
-      type TemporalTimeModel @model {
-        id: ID!
-        date: AWSDate
-        time: AWSTime
-        dateTime: AWSDateTime
-        timestamp: AWSTimestamp
-        intNum: Int
-        dateList: [AWSDate]
-        timeList: [AWSTime]
-        dateTimeList: [AWSDateTime]
-        timestampList: [AWSTimestamp]
-        intList: [Int]
-      }
-    `;
-      const visitor = getVisitor(schema, null, CodeGenGenerateEnum.code, false, 2);
-      const generatedCode = visitor.generate();
-      expect(generatedCode).toMatchSnapshot();
-    });
   });
 
   describe('Model with Key Directive', () => {
