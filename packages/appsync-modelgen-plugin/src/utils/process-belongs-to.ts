@@ -2,6 +2,7 @@ import { CodeGenDirective, CodeGenField, CodeGenModel, CodeGenModelMap } from '.
 import {
   CodeGenConnectionType,
   CodeGenFieldConnection,
+  flattenFieldDirectives,
   makeConnectionAttributeName,
 } from './process-connections';
 import { getConnectedFieldV2 } from './process-connections-v2';
@@ -25,11 +26,6 @@ export function processBelongsToConnection(
   if (field.isList) {
     throw new Error(
       `A list field does not support the 'belongsTo' relation`
-    );
-  }
-  else if (field.isNullable && otherSideField.isNullable) {
-    throw new Error(
-      `DataStore does not support 1 to 1 connection with both sides of connection as optional field: ${model.name}.${field.name}`,
     );
   }
 
@@ -57,4 +53,16 @@ export function processBelongsToConnection(
     isConnectingFieldAutoCreated,
     targetName: connectionFields[0] || makeConnectionAttributeName(model.name, field.name),
   };
+}
+
+export function getBelongsToConnectedField(field: CodeGenField, model: CodeGenModel, connectedModel: CodeGenModel): CodeGenField | undefined {
+  let otherSideDirectives = flattenFieldDirectives(connectedModel).filter(dir => {
+    const connectedField = connectedModel.fields.find(connField => { return connField.name === dir.fieldName; });
+    const fieldType = connectedField?.type;
+    return ((dir.name === 'hasOne' && !connectedField?.isList) || (dir.name === 'hasMany' && connectedField?.isList)) && model.name === fieldType;
+  });
+
+  if (otherSideDirectives?.length === 1) {
+    return connectedModel.fields.find(connField => { return connField.name === otherSideDirectives[0].fieldName; });
+  }
 }

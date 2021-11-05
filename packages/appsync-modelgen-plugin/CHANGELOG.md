@@ -3,24 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [1.29.0-custom-type-preview.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.0-custom-type-preview.0...@aws-amplify/appsync-modelgen-plugin@1.29.0-custom-type-preview.1) (2021-10-15)
+## [1.29.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.1...@aws-amplify/appsync-modelgen-plugin@1.29.2) (2021-11-03)
+
+
+### Bug Fixes
+
+* **amplify-codegen:** fix v2 has one process connection directive ([fc4046e](https://github.com/aws-amplify/amplify-codegen/commit/fc4046e8ce3da8570a6f1b6a840f9ccff901a4cf))
+
+
+### Reverts
+
+* Revert "Feature: Use improved pluralization" ([a891a4f](https://github.com/aws-amplify/amplify-codegen/commit/a891a4f5820fcdb9610261b01ecc4d1211cf4e9f))
+
+
+
+
+
+## [1.29.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.0...@aws-amplify/appsync-modelgen-plugin@1.29.1) (2021-10-21)
+
+
+### Bug Fixes
+
+* **appsync-modelgen-plugin:** non model type with id field in java ([#260](https://github.com/aws-amplify/amplify-codegen/issues/260)) ([186f8cd](https://github.com/aws-amplify/amplify-codegen/commit/186f8cdc6be4657e8dc061ee19430d0dccbaebdb))
+
+
+
+
+
+# [1.29.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.28.0...@aws-amplify/appsync-modelgen-plugin@1.29.0) (2021-10-05)
 
 
 ### Features
 
-* **appsync-modelgen-plugin:** add readOnly fields in dart ([#263](https://github.com/aws-amplify/amplify-codegen/issues/263)) ([87064c5](https://github.com/aws-amplify/amplify-codegen/commit/87064c5d0a2d300d1b7684743a32d0fbf07df395))
-
-
-
-
-
-# [1.29.0-custom-type-preview.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.28.0...@aws-amplify/appsync-modelgen-plugin@1.29.0-custom-type-preview.0) (2021-10-01)
-
-
-### Features
-
-* **amplify-codegen:** add amplify flutter library check for non model generation ([#247](https://github.com/aws-amplify/amplify-codegen/issues/247)) ([d436170](https://github.com/aws-amplify/amplify-codegen/commit/d4361708e2e132e49b17b50e7b8aaf43249aa465))
-* **appsync-modelgen-plugin:** Genearting dart class for CustomType (non-model) ([#234](https://github.com/aws-amplify/amplify-codegen/issues/234)) ([1404a66](https://github.com/aws-amplify/amplify-codegen/commit/1404a6666dbb696fcc5c8c0e535a31aadb401300))
+* **appsync-modelgen-plugin:** update Flutter ignored rules and add analysis note ([#248](https://github.com/aws-amplify/amplify-codegen/issues/248)) ([1f5e883](https://github.com/aws-amplify/amplify-codegen/commit/1f5e883631352efc17453581dd164bff6f3da1e0))
 
 
 

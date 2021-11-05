@@ -261,7 +261,7 @@ export class AppSyncModelJavaVisitor<
     this.generateHashCodeMethod(nonModel, classDeclarationBlock);
 
     // builder
-    this.generateBuilderMethod(nonModel, classDeclarationBlock);
+    this.generateBuilderMethod(nonModel, classDeclarationBlock, false);
 
     // copyBuilder method
     this.generateCopyOfBuilderMethod(nonModel, classDeclarationBlock);
@@ -346,7 +346,7 @@ export class AppSyncModelJavaVisitor<
   protected generateStepBuilderInterfaces(model: CodeGenModel, isModel: boolean = true): JavaDeclarationBlock[] {
     const nonNullableFields = this.getWritableFields(model).filter(field => this.isRequiredField(field));
     const nullableFields = this.getWritableFields(model).filter(field => !this.isRequiredField(field));
-    const requiredInterfaces = nonNullableFields.filter((field: CodeGenField) => !this.READ_ONLY_FIELDS.includes(field.name));
+    const requiredInterfaces = nonNullableFields.filter((field: CodeGenField) => !(isModel && this.READ_ONLY_FIELDS.includes(field.name)));
     const interfaces = requiredInterfaces.map((field, idx) => {
       const isLastField = requiredInterfaces.length - 1 === idx ? true : false;
       const returnType = isLastField ? 'Build' : requiredInterfaces[idx + 1].name;
@@ -394,7 +394,7 @@ export class AppSyncModelJavaVisitor<
   protected generateBuilderClass(model: CodeGenModel, classDeclaration: JavaDeclarationBlock, isModel: boolean = true): void {
     const nonNullableFields = this.getWritableFields(model).filter(field => this.isRequiredField(field));
     const nullableFields = this.getWritableFields(model).filter(field => !this.isRequiredField(field));
-    const stepFields = nonNullableFields.filter((field: CodeGenField) => !this.READ_ONLY_FIELDS.includes(field.name));
+    const stepFields = nonNullableFields.filter((field: CodeGenField) => !(isModel && this.READ_ONLY_FIELDS.includes(field.name)));
     const stepInterfaces = stepFields.map((field: CodeGenField) => this.getStepInterfaceName(field.name));
 
     const builderClassDeclaration = new JavaDeclarationBlock()
@@ -722,8 +722,10 @@ export class AppSyncModelJavaVisitor<
    * @param model
    * @param classDeclaration
    */
-  protected generateBuilderMethod(model: CodeGenModel, classDeclaration: JavaDeclarationBlock): void {
-    const requiredFields = this.getWritableFields(model).filter(field => !field.isNullable && !this.READ_ONLY_FIELDS.includes(field.name));
+  protected generateBuilderMethod(model: CodeGenModel, classDeclaration: JavaDeclarationBlock, isModel: boolean = true): void {
+    const requiredFields = this.getWritableFields(model).filter(
+      field => !field.isNullable && !(isModel && this.READ_ONLY_FIELDS.includes(field.name)),
+    );
     const returnType = requiredFields.length ? this.getStepInterfaceName(requiredFields[0].name) : this.getStepInterfaceName('Build');
     classDeclaration.addClassMethod(
       'builder',
@@ -760,7 +762,7 @@ export class AppSyncModelJavaVisitor<
           }
           return `ModelConfig(${modelArgs.join(', ')})`;
         case 'key':
-          if (!this.config.usePipelinedTransformer) {
+          if (!(this.config.usePipelinedTransformer || this.config.transformerVersion === 2)) {
             const keyArgs: string[] = [];
             keyArgs.push(`name = "${directive.arguments.name}"`);
             keyArgs.push(`fields = {${(directive.arguments.fields as string[]).map((f: string) => `"${f}"`).join(',')}}`);
@@ -778,7 +780,7 @@ export class AppSyncModelJavaVisitor<
       field.directives.forEach(directive => {
         switch (directive.name) {
           case 'primaryKey':
-            if (this.config.usePipelinedTransformer) {
+            if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
               const keyArgs: string[] = [];
               keyArgs.push(`name = "undefined"`);
               if (!directive.arguments.sortKeyFields) {
@@ -790,7 +792,7 @@ export class AppSyncModelJavaVisitor<
             }
             break;
           case 'index':
-            if (this.config.usePipelinedTransformer) {
+            if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
               const keyArgs: string[] = [];
               keyArgs.push(`name = "${directive.arguments.name}"`);
               if (!directive.arguments.sortKeyFields) {

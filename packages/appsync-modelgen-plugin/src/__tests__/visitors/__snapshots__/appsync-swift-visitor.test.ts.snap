@@ -1,5 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`AppSyncSwiftVisitor Many To Many V2 Tests Should generate the intermediate model successfully 1`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+"
+`;
+
 exports[`AppSyncSwiftVisitor Should handle nullability of lists appropriately 1`] = `
 "// swiftlint:disable all
 import Amplify

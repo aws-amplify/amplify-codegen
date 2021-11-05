@@ -3,6 +3,7 @@ import { Kind, TypeDefinitionNode } from 'graphql';
 import { join } from 'path';
 import { JAVA_SCALAR_MAP, SWIFT_SCALAR_MAP, TYPESCRIPT_SCALAR_MAP, DART_SCALAR_MAP } from './scalars';
 import { LOADER_CLASS_NAME, GENERATED_PACKAGE_NAME } from './configs/java-config';
+import { graphqlName, toUpper } from 'graphql-transformer-common';
 
 const APPSYNC_DATA_STORE_CODEGEN_TARGETS = ['java', 'swift', 'javascript', 'typescript', 'dart'];
 
@@ -217,6 +218,36 @@ const generateDartPreset = (
   return config;
 };
 
+const generateManyToManyModelStubs = (options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>) : TypeDefinitionNode[] => {
+  let models = new Array<TypeDefinitionNode>();
+  let manyToManySet = new Set<string>();
+  options.schema.definitions.forEach(def => {
+    if (def.kind === 'ObjectTypeDefinition') {
+      def?.fields?.forEach(field => {
+        field?.directives?.forEach(dir => {
+          if (dir?.name?.value === 'manyToMany') {
+            dir?.arguments?.forEach(arg => {
+              if(arg.name.value === 'relationName' && arg.value.kind === 'StringValue') {
+                manyToManySet.add(graphqlName(toUpper(arg.value.value)));
+              }
+            });
+          }
+        });
+      });
+    }
+  });
+  manyToManySet.forEach(modelName => {
+    models.push({
+      kind: 'ObjectTypeDefinition',
+      name: {
+        kind: 'Name',
+        value: modelName
+      }
+    })
+  });
+  return models;
+}
+
 export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
   buildGeneratesSection: (options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>): Types.GenerateOptions[] => {
     const codeGenTarget = options.config.target;
@@ -226,6 +257,9 @@ export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
         (t.kind === 'ObjectTypeDefinition' && !typesToSkip.includes(t.name.value)) ||
         (t.kind === 'EnumTypeDefinition' && !t.name.value.startsWith('__')),
     ) as any;
+    if (options.config.usePipelinedTransformer || options.config.transformerVersion === 2) {
+      models.push(...generateManyToManyModelStubs(options));
+    }
 
     switch (codeGenTarget) {
       case 'java':

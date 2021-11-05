@@ -28,6 +28,7 @@ import { sortFields } from '../utils/sort';
 import { printWarning } from '../utils/warn';
 import { processAuthDirective } from '../utils/process-auth';
 import { processConnectionsV2 } from '../utils/process-connections-v2';
+import { graphqlName, toUpper } from 'graphql-transformer-common';
 
 export enum CodeGenGenerateEnum {
   metadata = 'metadata',
@@ -108,13 +109,19 @@ export interface RawAppSyncModelConfig extends RawConfig {
    * @type boolean
    * @descriptions optional boolean which generates the list types to respect the nullability as defined in the schema
    */
-   handleListNullabilityTransparently?: boolean;
+  handleListNullabilityTransparently?: boolean;
   /**
    * @name usePipelinedTransformer
    * @type boolean
    * @descriptions optional boolean which determines whether to use the new pipelined GraphQL transformer
    */
   usePipelinedTransformer?: boolean;
+  /**
+   * @name transformerVersion
+   * @type number
+   * @descriptions optional number which determines which version of the GraphQL transformer to use
+   */
+  transformerVersion?: number;
 }
 
 // Todo: need to figure out how to share config
@@ -125,6 +132,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   isTimestampFieldsAdded?: boolean;
   handleListNullabilityTransparently?: boolean;
   usePipelinedTransformer?: boolean;
+  transformerVersion?: number;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
 
@@ -135,7 +143,7 @@ export type CodeGenDirective = {
 
 export type CodeGenFieldDirective = CodeGenDirective & {
   fieldName: string;
-}
+};
 
 export type CodeGenDirectives = CodeGenDirective[];
 export type CodeGenField = TypeInfo & {
@@ -204,6 +212,7 @@ export class AppSyncModelVisitor<
       isTimestampFieldsAdded: rawConfig.isTimestampFieldsAdded,
       handleListNullabilityTransparently: rawConfig.handleListNullabilityTransparently,
       usePipelinedTransformer: rawConfig.usePipelinedTransformer,
+      transformerVersion: rawConfig.transformerVersion,
     });
 
     const typesUsedInDirectives: string[] = [];
@@ -284,7 +293,7 @@ export class AppSyncModelVisitor<
     };
   }
   processDirectives() {
-    if (this.config.usePipelinedTransformer) {
+    if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
       this.processConnectionDirectivesV2()
     }
     else {
@@ -432,11 +441,17 @@ export class AppSyncModelVisitor<
     const typeArr: any[] = [];
     Object.values({ ...this.modelMap, ...this.nonModelMap }).forEach((obj: CodeGenModel) => {
       // include only key directive as we don't care about others for versioning
-      const directives = this.config.usePipelinedTransformer ? obj.directives.filter(dir => dir.name === 'primaryKey' || dir.name === 'index') : obj.directives.filter(dir => dir.name === 'key');
+      const directives = (this.config.usePipelinedTransformer || this.config.transformerVersion === 2)
+        ? obj.directives.filter(dir => dir.name === 'primaryKey' || dir.name === 'index')
+        : obj.directives.filter(dir => dir.name === 'key');
       const fields = obj.fields
         .map((field: CodeGenField) => {
           // include only connection field and type
-          const fieldDirectives = this.config.usePipelinedTransformer ? field.directives.filter(field => field.name === 'hasOne' || field.name === 'belongsTo' || field.name === 'hasMany' || field.name === 'manyToMany') : field.directives.filter(field => field.name === 'connection');
+          const fieldDirectives = this.config.usePipelinedTransformer
+            ? field.directives.filter(
+                field => field.name === 'hasOne' || field.name === 'belongsTo' || field.name === 'hasMany' || field.name === 'manyToMany',
+              )
+            : field.directives.filter(field => field.name === 'connection');
           return {
             name: field.name,
             directives: fieldDirectives,
@@ -528,7 +543,13 @@ export class AppSyncModelVisitor<
     });
   }
 
-  protected generateIntermediateModel(firstModel: CodeGenModel, secondModel: CodeGenModel, firstField: CodeGenField, secondField: CodeGenField, relationName: string) {
+  protected generateIntermediateModel(
+    firstModel: CodeGenModel,
+    secondModel: CodeGenModel,
+    firstField: CodeGenField,
+    secondField: CodeGenField,
+    relationName: string,
+  ) {
     const firstModelKeyFieldName = `${firstModel.name.toLowerCase()}ID`;
     const secondModelKeyFieldName = `${secondModel.name.toLowerCase()}ID`;
     let intermediateModel: CodeGenModel = {
@@ -541,38 +562,38 @@ export class AppSyncModelVisitor<
           isNullable: false,
           isList: false,
           name: 'id',
-          directives: []
+          directives: [],
         },
         {
           type: 'ID',
           isNullable: false,
           isList: false,
           name: firstModelKeyFieldName,
-          directives: [{ name: 'index', arguments: { name: 'by' + firstModel.name, sortKeyFields: [secondModelKeyFieldName] } }]
+          directives: [{ name: 'index', arguments: { name: 'by' + firstModel.name, sortKeyFields: [secondModelKeyFieldName] } }],
         },
         {
           type: 'ID',
           isNullable: false,
           isList: false,
           name: secondModelKeyFieldName,
-          directives: [{ name: 'index', arguments: { name: 'by' + secondModel.name, sortKeyFields: [firstModelKeyFieldName] } }]
+          directives: [{ name: 'index', arguments: { name: 'by' + secondModel.name, sortKeyFields: [firstModelKeyFieldName] } }],
         },
         {
           type: firstModel.name,
           isNullable: false,
           isList: false,
           name: firstModel.name.toLowerCase(),
-          directives: [{ name: 'belongsTo', arguments: { fields: [firstModelKeyFieldName] } }]
+          directives: [{ name: 'belongsTo', arguments: { fields: [firstModelKeyFieldName] } }],
         },
         {
           type: secondModel.name,
           isNullable: false,
           isList: false,
           name: secondModel.name.toLowerCase(),
-          directives: [{ name: 'belongsTo', arguments: { fields: [secondModelKeyFieldName] } }]
-        }
-      ]
-    }
+          directives: [{ name: 'belongsTo', arguments: { fields: [secondModelKeyFieldName] } }],
+        },
+      ],
+    };
 
     return intermediateModel;
   }
@@ -595,14 +616,13 @@ export class AppSyncModelVisitor<
       let directiveIndex = context.field.directives.indexOf(context.directive, 0);
       if (directiveIndex > -1) {
         context.field.directives.splice(directiveIndex, 1);
-        context.field.type = context.directive.arguments.relationName;
+        context.field.type = graphqlName(toUpper(context.directive.arguments.relationName));
         context.field.directives.push({
           name: 'hasMany',
-          arguments: { indexName: `by${context.model.name}`, fields: [this.determinePrimaryKeyFieldname(context.model)] }
+          arguments: { indexName: `by${context.model.name}`, fields: [this.determinePrimaryKeyFieldname(context.model)] },
         });
-      }
-      else {
-        throw new Error("manyToMany directive not found on manyToMany field...");
+      } else {
+        throw new Error('manyToMany directive not found on manyToMany field...');
       }
     });
   }
@@ -614,12 +634,11 @@ export class AppSyncModelVisitor<
       model.fields.forEach(field => {
         field.directives.forEach(dir => {
           if(dir.name === 'manyToMany') {
-            let relationName = dir.arguments.relationName;
+            let relationName = graphqlName(toUpper(dir.arguments.relationName));
             let existingRelation = manyDirectiveMap.get(relationName);
             if (existingRelation) {
               existingRelation.push({ model: model, field: field, directive: dir });
-            }
-            else {
+            } else {
               manyDirectiveMap.set(relationName, [{ model: model, field: field, directive: dir }]);
             }
           }
@@ -630,11 +649,19 @@ export class AppSyncModelVisitor<
     // Validate that each manyToMany directive has a single matching directive, pairs only
     manyDirectiveMap.forEach((value: ManyToManyContext[], key: string) => {
       if (value.length != 2) {
-        throw new Error(`Error for relation: '${value[0].directive.arguments.relationName}', there should be two matching manyToMany directives and found: ${value.length}`);
+        throw new Error(
+          `Error for relation: '${value[0].directive.arguments.relationName}', there should be two matching manyToMany directives and found: ${value.length}`,
+        );
       }
-      let intermediateModel = this.generateIntermediateModel(value[0].model, value[1].model, value[0].field, value[1].field, value[0].directive.arguments.relationName);
+      let intermediateModel = this.generateIntermediateModel(
+        value[0].model,
+        value[1].model,
+        value[0].field,
+        value[1].field,
+        graphqlName(toUpper(value[0].directive.arguments.relationName)),
+      );
       const modelDirective = intermediateModel.directives.find(directive => directive.name === 'model');
-      if(modelDirective) {
+      if (modelDirective) {
         this.ensureIdField(intermediateModel);
         this.addTimestampFields(intermediateModel, modelDirective);
         this.sortFields(intermediateModel);
@@ -652,7 +679,7 @@ export class AppSyncModelVisitor<
       model.fields.forEach(field => {
         const connectionInfo = processConnectionsV2(field, model, this.modelMap);
         if (connectionInfo) {
-          if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY || connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
+          if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
             // Need to update the other side of the connection even if there is no connection directive
             addFieldToModel(connectionInfo.connectedModel, connectionInfo.associatedWith);
           } else if (connectionInfo.targetName !== 'id') {
@@ -736,9 +763,9 @@ export class AppSyncModelVisitor<
    * Check if the given field is nullable or required
    * @param field
    */
-   protected isRequiredField(field: CodeGenField): boolean | undefined {
+  protected isRequiredField(field: CodeGenField): boolean | undefined {
     return !(this.config.handleListNullabilityTransparently ? (field.isList ? field.isListNullable : field.isNullable) : field.isNullable);
-   }
+  }
 
   get models() {
     return this.modelMap;
