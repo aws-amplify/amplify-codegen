@@ -9,20 +9,38 @@ const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-const getVisitor = (schema: string, selectedType?: string, generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code, usePipelinedTransformer: boolean = false) => {
+
+const getVisitor = (
+  schema: string,
+  selectedType?: string,
+  generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
+  transformerVersion: number = 1,
+) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelJavaVisitor(
     builtSchema,
-    { directives, target: 'android', generate, scalars: JAVA_SCALAR_MAP, isTimestampFieldsAdded: true, handleListNullabilityTransparently: true, usePipelinedTransformer: usePipelinedTransformer },
+    {
+      directives,
+      target: 'android',
+      generate,
+      scalars: JAVA_SCALAR_MAP,
+      isTimestampFieldsAdded: true,
+      handleListNullabilityTransparently: true,
+      transformerVersion: transformerVersion,
+    },
     { selectedType },
   );
   visit(ast, { leave: visitor });
   return visitor;
 };
 
-const getVisitorPipelinedTransformer = (schema: string, selectedType?: string, generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code) => {
-  return getVisitor(schema, selectedType, generate, true);
+const getVisitorPipelinedTransformer = (
+  schema: string,
+  selectedType?: string,
+  generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
+) => {
+  return getVisitor(schema, selectedType, generate, 2);
 };
 
 describe('AppSyncModelVisitor', () => {
@@ -98,7 +116,7 @@ describe('AppSyncModelVisitor', () => {
   it('Should generate a class a model with all optional fields except id field', () => {
     const schema = /* GraphQL */ `
       type SimpleModel @model {
-        id: ID!,
+        id: ID!
         name: String
         bar: String
       }
@@ -196,23 +214,23 @@ describe('AppSyncModelVisitor', () => {
   describe('vNext transformer feature parity tests', () => {
     it('should produce the same result for @primaryKey as the primary key variant of @key', async () => {
       const schemaV1 = /* GraphQL */ `
-      type authorBook @model @key(fields: ["author_id"]) {
-        id: ID!
-        author_id: ID!
-        book_id: ID!
-        author: String
-        book: String
-      }
-    `;
+        type authorBook @model @key(fields: ["author_id"]) {
+          id: ID!
+          author_id: ID!
+          book_id: ID!
+          author: String
+          book: String
+        }
+      `;
       const schemaV2 = /* GraphQL */ `
-      type authorBook @model {
-        id: ID!
-        author_id: ID! @primaryKey
-        book_id: ID!
-        author: String
-        book: String
-      }
-    `;
+        type authorBook @model {
+          id: ID!
+          author_id: ID! @primaryKey
+          book_id: ID!
+          author: String
+          book: String
+        }
+      `;
       const visitorV1 = getVisitor(schemaV1, 'authorBook');
       const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook');
       const version1Code = visitorV1.generate();
@@ -223,23 +241,23 @@ describe('AppSyncModelVisitor', () => {
 
     it('should produce the same result for @index as the secondary index variant of @key', async () => {
       const schemaV1 = /* GraphQL */ `
-      type authorBook @model @key(fields: ["id"]) @key(name: "authorSecondary", fields: ["author_id", "author"]) {
-        id: ID!
-        author_id: ID!
-        book_id: ID!
-        author: String
-        book: String
-      }
-    `;
+        type authorBook @model @key(fields: ["id"]) @key(name: "authorSecondary", fields: ["author_id", "author"]) {
+          id: ID!
+          author_id: ID!
+          book_id: ID!
+          author: String
+          book: String
+        }
+      `;
       const schemaV2 = /* GraphQL */ `
-      type authorBook @model {
-        id: ID! @primaryKey
-        author_id: ID! @index(name: "authorSecondary", sortKeyFields: ["author"])
-        book_id: ID!
-        author: String
-        book: String
-      }
-    `;
+        type authorBook @model {
+          id: ID! @primaryKey
+          author_id: ID! @index(name: "authorSecondary", sortKeyFields: ["author"])
+          book_id: ID!
+          author: String
+          book: String
+        }
+      `;
       const visitorV1 = getVisitor(schemaV1, 'authorBook');
       const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook');
       const version1Code = visitorV1.generate();
@@ -260,9 +278,7 @@ describe('AppSyncModelVisitor', () => {
         name: String
       }
 
-      type ListContainer
-      @model
-      {
+      type ListContainer @model {
         id: ID!
         name: String
         list: [Int]
@@ -383,11 +399,11 @@ describe('AppSyncModelVisitor', () => {
 
     it('should generate class with non-default providers', () => {
       const schema = /* GraphQL */ `
-        type Employee @model @auth(rules: [{ allow: owner }, { allow: private, provider:"iam" } ]) {
+        type Employee @model @auth(rules: [{ allow: owner }, { allow: private, provider: "iam" }]) {
           id: ID!
           name: String!
           address: String!
-          ssn: String @auth(rules: [{ allow: groups, provider:"oidc", groups: ["Admins"] }])
+          ssn: String @auth(rules: [{ allow: groups, provider: "oidc", groups: ["Admins"] }])
         }
       `;
       const visitor = getVisitor(schema, 'Employee');
@@ -453,6 +469,16 @@ describe('AppSyncModelVisitor', () => {
         lang: String!
       }
     `;
+    const nonModelwithIdSchema = /* GraphQL */ `
+      enum ReferenceIdTypeEnum {
+        ASIN
+        OBJECT_ID
+      }
+      type Reference {
+        id: String!
+        idType: ReferenceIdTypeEnum!
+      }
+    `;
     it('should generate class for non model types', () => {
       const visitor = getVisitor(schema, 'Location');
       const generatedCode = visitor.generate();
@@ -461,6 +487,12 @@ describe('AppSyncModelVisitor', () => {
     });
     it('should generate class for model types with non model fields', () => {
       const visitor = getVisitor(schema, 'Landmark');
+      const generatedCode = visitor.generate();
+      expect(() => validateJava(generatedCode)).not.toThrow();
+      expect(generatedCode).toMatchSnapshot();
+    });
+    it('should generate class for non model types with id field', () => {
+      const visitor = getVisitor(nonModelwithIdSchema, 'Reference');
       const generatedCode = visitor.generate();
       expect(() => validateJava(generatedCode)).not.toThrow();
       expect(generatedCode).toMatchSnapshot();
@@ -547,6 +579,27 @@ describe('AppSyncModelVisitor', () => {
       const visitor = getVisitor(schema, 'task');
       const generatedCode = visitor.generate();
       expect(() => validateJava(generatedCode)).not.toThrow();
+      expect(generatedCode).toMatchSnapshot();
+    });
+  });
+
+  describe('Many To Many V2 Tests', () => {
+    it('Should generate the intermediate model successfully', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          id: ID!
+          title: String!
+          content: String
+          tags: [Tag] @manyToMany(relationName: "PostTags")
+        }
+        
+        type Tag @model {
+          id: ID!
+          label: String!
+          posts: [Post] @manyToMany(relationName: "PostTags")
+        }
+      `;
+      const generatedCode = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.code).generate();
       expect(generatedCode).toMatchSnapshot();
     });
   });

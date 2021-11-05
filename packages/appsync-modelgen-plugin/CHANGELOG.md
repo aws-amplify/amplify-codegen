@@ -3,6 +3,60 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.29.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.1...@aws-amplify/appsync-modelgen-plugin@1.29.2) (2021-11-03)
+
+
+### Bug Fixes
+
+* **amplify-codegen:** fix v2 has one process connection directive ([fc4046e](https://github.com/aws-amplify/amplify-codegen/commit/fc4046e8ce3da8570a6f1b6a840f9ccff901a4cf))
+
+
+### Reverts
+
+* Revert "Feature: Use improved pluralization" ([a891a4f](https://github.com/aws-amplify/amplify-codegen/commit/a891a4f5820fcdb9610261b01ecc4d1211cf4e9f))
+
+
+
+
+
+## [1.29.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.0...@aws-amplify/appsync-modelgen-plugin@1.29.1) (2021-10-21)
+
+
+### Bug Fixes
+
+* **appsync-modelgen-plugin:** non model type with id field in java ([#260](https://github.com/aws-amplify/amplify-codegen/issues/260)) ([186f8cd](https://github.com/aws-amplify/amplify-codegen/commit/186f8cdc6be4657e8dc061ee19430d0dccbaebdb))
+
+
+
+
+
+# [1.29.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.28.0...@aws-amplify/appsync-modelgen-plugin@1.29.0) (2021-10-05)
+
+
+### Features
+
+* **appsync-modelgen-plugin:** update Flutter ignored rules and add analysis note ([#248](https://github.com/aws-amplify/amplify-codegen/issues/248)) ([1f5e883](https://github.com/aws-amplify/amplify-codegen/commit/1f5e883631352efc17453581dd164bff6f3da1e0))
+
+
+
+
+
+# [1.28.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.27.4...@aws-amplify/appsync-modelgen-plugin@1.28.0) (2021-09-29)
+
+
+### Bug Fixes
+
+* **appsync-modelgen-plugin:** remove UUID check in java ([#243](https://github.com/aws-amplify/amplify-codegen/issues/243)) ([aa14e86](https://github.com/aws-amplify/amplify-codegen/commit/aa14e86aa8e7704da8cc06842f4b893cb0f22278))
+
+
+### Features
+
+* **appsync-modelgen-plugin:** Many to many directive ([#238](https://github.com/aws-amplify/amplify-codegen/issues/238)) ([cf95f9c](https://github.com/aws-amplify/amplify-codegen/commit/cf95f9ce77e5a5f8701332f87b813b0d6face228)), closes [#217](https://github.com/aws-amplify/amplify-codegen/issues/217)
+
+
+
+
+
 ## [1.27.4](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.27.3...@aws-amplify/appsync-modelgen-plugin@1.27.4) (2021-09-15)
 
 **Note:** Version bump only for package @aws-amplify/appsync-modelgen-plugin

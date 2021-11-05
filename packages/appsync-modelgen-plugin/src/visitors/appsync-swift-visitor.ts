@@ -443,7 +443,7 @@ export class AppSyncSwiftVisitor<
   protected generateKeyRules(model: CodeGenModel): string[] {
     let keyDirectives: string[];
 
-    if (this.config.usePipelinedTransformer) {
+    if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
       let fieldDirectiveList: any[] = new Array<any>();
       model.fields.forEach(field => {
         field.directives.forEach(directive => {
