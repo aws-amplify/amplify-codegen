@@ -1,4 +1,4 @@
-import { GraphQLNonNull, GraphQLType, isScalarType } from 'graphql';
+import { GraphQLNonNull, GraphQLType, isScalarType, isEnumType, isListType } from 'graphql';
 import * as prettier from 'prettier';
 import { LegacyCompilerContext, LegacyOperation, LegacyInlineFragment, LegacyField } from '../compiler/legacyIR';
 
@@ -128,9 +128,19 @@ function getOperationResultField(operation: LegacyOperation): LegacyField | void
 function getReturnTypeName(generator: CodeGenerator, op: LegacyOperation): String {
   const { operationName, operationType } = op;
   const { type } = op.fields[0];
-  if (isScalarType(type)) {
+  //List of scalar or enum type
+  if (isListType(type)) {
+    const { ofType } = type;
+    if (isScalarType(ofType) || isEnumType(ofType)) {
+      return `Array<${typeNameFromGraphQLType(generator.context, ofType)}>`;
+    }
+  }
+  //Scalar and enum type
+  if (isScalarType(type) || isEnumType(type)) {
     return typeNameFromGraphQLType(generator.context, type);
-  } else {
+  }
+  //Non scalar type
+  else {
     let returnType = interfaceNameFromOperation({ operationName, operationType });
     if (op.operationType === 'subscription' && op.fields.length) {
       returnType = `Pick<__SubscriptionContainer, "${op.fields[0].responseName}">`;

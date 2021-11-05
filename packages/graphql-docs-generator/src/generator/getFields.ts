@@ -11,6 +11,7 @@ import {
   isUnionType,
   isEnumType,
   isScalarType,
+  isListType,
 } from 'graphql';
 import getFragment from './getFragment';
 import { GQLConcreteType, GQLTemplateField, GQLTemplateFragment, GQLDocsGenOptions } from './types';
@@ -36,7 +37,7 @@ export default function getFields(
   const fields: Array<GQLTemplateField> = Object.keys(subFields)
     .map(fieldName => {
       const subField = subFields[fieldName];
-      return getFields(subField, schema, depth - 1, options);
+      return getFields(subField, schema, adjustDepth(subField, depth), options);
     })
     .filter(f => f);
   const fragments: Array<GQLTemplateFragment> = Object.keys(subFragments)
@@ -60,4 +61,32 @@ export default function getFields(
     fragments,
     hasBody: !!(fields.length || fragments.length),
   };
+}
+
+function adjustDepth(field, depth) {
+  const maxDepth = 100;
+  if (isGraphQLAggregateField(field) && depth < maxDepth) {
+    return depth + 1;
+  } else if (depth >= maxDepth) {
+    throw new Error('Statement generation depth exceeded the maximum allowed limit');
+  }
+  return depth - 1;
+}
+
+function isGraphQLAggregateField(field) {
+  if (
+    field &&
+    field.name == 'aggregateItems' &&
+    getBaseType(field.type) == 'SearchableAggregateResult'
+  ) {
+    return true;
+  }
+  return false;
+}
+
+function getBaseType(type) {
+  if(type && type.ofType) {
+    return getBaseType(type.ofType);
+  }
+  return type?.name;
 }

@@ -15,7 +15,8 @@ const getVisitor = ({
   enableDartNullSafety = false,
   enableDartNonModelGeneration = true,
   isTimestampFieldsAdded = false,
-  emitAuthProvider = false
+  emitAuthProvider = false,
+  transformerVersion = 1
 }: {
   schema: string,
   selectedType?: string,
@@ -23,13 +24,14 @@ const getVisitor = ({
   enableDartNullSafety?: boolean,
   enableDartNonModelGeneration?: boolean,
   isTimestampFieldsAdded?: boolean,
-  emitAuthProvider?: boolean
+  emitAuthProvider?: boolean,
+  transformerVersion?: number
 }) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelDartVisitor(
     builtSchema,
-    { directives, target: 'dart', scalars: DART_SCALAR_MAP, enableDartNullSafety, enableDartNonModelGeneration, isTimestampFieldsAdded, emitAuthProvider },
+    { directives, target: 'dart', scalars: DART_SCALAR_MAP, enableDartNullSafety, enableDartNonModelGeneration, isTimestampFieldsAdded, emitAuthProvider, transformerVersion },
     { selectedType, generate },
   );
   visit(ast, { leave: visitor });
@@ -578,6 +580,27 @@ describe('AppSync Dart Visitor', () => {
       `;
       const visitor = getVisitor({ schema, enableDartNullSafety: true, isTimestampFieldsAdded: true, enableDartNonModelGeneration: false });
       const generatedCode = visitor.generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+  });
+
+  describe('Many To Many V2 Tests', () => {
+    it('Should generate the intermediate model successfully', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          id: ID!
+          title: String!
+          content: String
+          tags: [Tag] @manyToMany(relationName: "PostTags")
+        }
+        
+        type Tag @model {
+          id: ID!
+          label: String!
+          posts: [Post] @manyToMany(relationName: "PostTags")
+        }
+      `;
+      const generatedCode = getVisitor({ schema, transformerVersion: 2 }).generate();
       expect(generatedCode).toMatchSnapshot();
     });
   });

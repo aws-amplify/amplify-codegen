@@ -24,18 +24,13 @@ export function processHasOneConnection(
   const isConnectingFieldAutoCreated = connectionFields.length === 0;
 
   if (!field.isList && !otherSideField.isList) {
-    if (field.isNullable && (!otherSideField.isNullable || connectionFields.length === 0)) {
-      return {
-        kind: CodeGenConnectionType.HAS_ONE,
-        associatedWith: otherSideField,
-        connectedModel: otherSide,
-        isConnectingFieldAutoCreated,
-        targetName: connectionFields[0] || makeConnectionAttributeName(model.name, field.name),
-      };
-    }
-    else {
-      throw new Error("A hasOne relationship should be optional on the owning side and not optional on the owned side");
-    }
+    return {
+      kind: CodeGenConnectionType.HAS_ONE,
+      associatedWith: otherSideField,
+      connectedModel: otherSide,
+      isConnectingFieldAutoCreated,
+      targetName: connectionFields[0] || makeConnectionAttributeName(model.name, field.name),
+    };
   }
   else {
     throw new Error("A hasOne relationship should be 1:1, no lists");
