@@ -679,9 +679,17 @@ export class AppSyncModelVisitor<
       model.fields.forEach(field => {
         const connectionInfo = processConnectionsV2(field, model, this.modelMap);
         if (connectionInfo) {
-          if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY || connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
+          if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
             // Need to update the other side of the connection even if there is no connection directive
             addFieldToModel(connectionInfo.connectedModel, connectionInfo.associatedWith);
+          } else if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
+            addFieldToModel(model, {
+              name: connectionInfo.targetName,
+              directives: [],
+              type: 'ID',
+              isList: false,
+              isNullable: connectionInfo.associatedWith.isNullable,
+            });
           } else if (connectionInfo.targetName !== 'id') {
             // Need to remove the field that is targetName
             removeFieldFromModel(model, connectionInfo.targetName);

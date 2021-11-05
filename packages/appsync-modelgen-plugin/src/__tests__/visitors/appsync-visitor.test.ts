@@ -317,6 +317,31 @@ describe('AppSyncModelVisitor', () => {
       expect(commentsField).not.toContain('post');
       expect(commentsField).toContain('postCommentsId'); // because of connection from Post.comments
     });
+
+    it('should generate projectTeamId connection field for hasOne directive in the parent object', () => {
+      const schema = /* GraphQL */ `
+        type Project @model {
+          id: ID!
+          name: String
+          team: Team @hasOne
+        }
+        type Team @model {
+          id: ID!
+          name: String!
+        }
+      `;
+      const ast = parse(schema);
+      const builtSchema = buildSchemaWithDirectives(schema);
+      const visitor = new AppSyncModelVisitor(
+        builtSchema,
+        { directives, target: 'typescript', generate: CodeGenGenerateEnum.code, usePipelinedTransformer: true },
+        {},
+      );
+      visit(ast, { leave: visitor });
+      visitor.generate();
+      const projectFields = visitor.models.Project.fields.map(field => field.name);
+      expect(projectFields).toContain('projectTeamId');
+    });
   });
 
   describe('auth directive', () => {
