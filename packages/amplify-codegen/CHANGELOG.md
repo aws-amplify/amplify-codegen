@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.27.0-custom-type-preview.3](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.10...amplify-codegen@2.27.0-custom-type-preview.3) (2021-11-05)
+
+
+### Bug Fixes
+
+* add prerelease version and local path check ([c98b983](https://github.com/aws-amplify/amplify-codegen/commit/c98b9838d061a75ebbee81ccd002b15a3451c59e))
+* bump prerelease to rc2 ([9c91fc2](https://github.com/aws-amplify/amplify-codegen/commit/9c91fc20e0b8f751777ccbed0a63e36a7a3b9d2c))
+* change the version to prerelease ([dcfbef5](https://github.com/aws-amplify/amplify-codegen/commit/dcfbef50eab5ed28f35342b1ab7518f14d2b0c2b))
+* remove local path check ([d15504d](https://github.com/aws-amplify/amplify-codegen/commit/d15504d4b995a8e89a6027fe81833390ab6bc92f))
+
+
+### Features
+
+* **amplify-codegen:** add amplify flutter library check for non model generation ([#247](https://github.com/aws-amplify/amplify-codegen/issues/247)) ([d436170](https://github.com/aws-amplify/amplify-codegen/commit/d4361708e2e132e49b17b50e7b8aaf43249aa465))
+
+
+
+
+
 ## [2.26.10](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.9...amplify-codegen@2.26.10) (2021-11-03)
 
 

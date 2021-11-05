@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.29.0-custom-type-preview.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.2...@aws-amplify/appsync-modelgen-plugin@1.29.0-custom-type-preview.2) (2021-11-05)
+
+
+### Bug Fixes
+
+* change the version to prerelease ([dcfbef5](https://github.com/aws-amplify/amplify-codegen/commit/dcfbef50eab5ed28f35342b1ab7518f14d2b0c2b))
+
+
+### Features
+
+* **amplify-codegen:** add amplify flutter library check for non model generation ([#247](https://github.com/aws-amplify/amplify-codegen/issues/247)) ([d436170](https://github.com/aws-amplify/amplify-codegen/commit/d4361708e2e132e49b17b50e7b8aaf43249aa465))
+* **appsync-dart-visitor:** insert auth provider info ([#272](https://github.com/aws-amplify/amplify-codegen/issues/272)) ([699c9b1](https://github.com/aws-amplify/amplify-codegen/commit/699c9b160f6d9666ba5c2bd25d1e6e2a0f918627))
+* **appsync-modelgen-plugin:** add readOnly fields in dart ([#263](https://github.com/aws-amplify/amplify-codegen/issues/263)) ([87064c5](https://github.com/aws-amplify/amplify-codegen/commit/87064c5d0a2d300d1b7684743a32d0fbf07df395))
+* **appsync-modelgen-plugin:** Genearting dart class for CustomType (non-model) ([#234](https://github.com/aws-amplify/amplify-codegen/issues/234)) ([1404a66](https://github.com/aws-amplify/amplify-codegen/commit/1404a6666dbb696fcc5c8c0e535a31aadb401300))
+
+
+
+
+
 ## [1.29.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.1...@aws-amplify/appsync-modelgen-plugin@1.29.2) (2021-11-03)
 
 
