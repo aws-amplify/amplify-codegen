@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.27.0-custom-type-preview.4](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.27.0-custom-type-preview.3...amplify-codegen@2.27.0-custom-type-preview.4) (2021-11-05)
+
+
+### Bug Fixes
+
+* modelgen tag version dependency ([ef885b8](https://github.com/aws-amplify/amplify-codegen/commit/ef885b869663e1d6d28683f399c5675f59ab2ec0))
+
+
+
+
+
 # [2.27.0-custom-type-preview.3](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.10...amplify-codegen@2.27.0-custom-type-preview.3) (2021-11-05)
 
 
