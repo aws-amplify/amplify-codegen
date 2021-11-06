@@ -294,9 +294,8 @@ export class AppSyncModelVisitor<
   }
   processDirectives() {
     if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
-      this.processConnectionDirectivesV2()
-    }
-    else {
+      this.processConnectionDirectivesV2();
+    } else {
       this.processConnectionDirective();
     }
     this.processAuthDirectives();
@@ -441,9 +440,10 @@ export class AppSyncModelVisitor<
     const typeArr: any[] = [];
     Object.values({ ...this.modelMap, ...this.nonModelMap }).forEach((obj: CodeGenModel) => {
       // include only key directive as we don't care about others for versioning
-      const directives = (this.config.usePipelinedTransformer || this.config.transformerVersion === 2)
-        ? obj.directives.filter(dir => dir.name === 'primaryKey' || dir.name === 'index')
-        : obj.directives.filter(dir => dir.name === 'key');
+      const directives =
+        this.config.usePipelinedTransformer || this.config.transformerVersion === 2
+          ? obj.directives.filter(dir => dir.name === 'primaryKey' || dir.name === 'index')
+          : obj.directives.filter(dir => dir.name === 'key');
       const fields = obj.fields
         .map((field: CodeGenField) => {
           // include only connection field and type
@@ -633,7 +633,7 @@ export class AppSyncModelVisitor<
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
         field.directives.forEach(dir => {
-          if(dir.name === 'manyToMany') {
+          if (dir.name === 'manyToMany') {
             let relationName = graphqlName(toUpper(dir.arguments.relationName));
             let existingRelation = manyDirectiveMap.get(relationName);
             if (existingRelation) {
@@ -682,6 +682,14 @@ export class AppSyncModelVisitor<
           if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
             // Need to update the other side of the connection even if there is no connection directive
             addFieldToModel(connectionInfo.connectedModel, connectionInfo.associatedWith);
+          } else if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
+            addFieldToModel(model, {
+              name: connectionInfo.targetName,
+              directives: [],
+              type: 'ID',
+              isList: false,
+              isNullable: connectionInfo.associatedWith.isNullable,
+            });
           } else if (connectionInfo.targetName !== 'id') {
             // Need to remove the field that is targetName
             removeFieldFromModel(model, connectionInfo.targetName);
