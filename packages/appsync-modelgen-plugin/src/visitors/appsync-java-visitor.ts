@@ -762,13 +762,10 @@ export class AppSyncModelJavaVisitor<
           }
           return `ModelConfig(${modelArgs.join(', ')})`;
         case 'key':
-          if (!(this.config.usePipelinedTransformer || this.config.transformerVersion === 2)) {
-            const keyArgs: string[] = [];
-            keyArgs.push(`name = "${directive.arguments.name}"`);
-            keyArgs.push(`fields = {${(directive.arguments.fields as string[]).map((f: string) => `"${f}"`).join(',')}}`);
-            return `Index(${keyArgs.join(', ')})`;
-          }
-          break;
+          const keyArgs: string[] = [];
+          keyArgs.push(`name = "${directive.arguments.name}"`);
+          keyArgs.push(`fields = {${(directive.arguments.fields as string[]).map((f: string) => `"${f}"`).join(',')}}`);
+          return `Index(${keyArgs.join(', ')})`;
         default:
           break;
       }
