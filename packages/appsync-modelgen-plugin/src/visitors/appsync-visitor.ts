@@ -21,7 +21,7 @@ import {
   parse,
   valueFromASTUntyped,
 } from 'graphql';
-import { addFieldToModel, removeFieldFromModel } from '../utils/fieldUtils';
+import { addFieldToModel, getDirective, removeFieldFromModel } from '../utils/fieldUtils';
 import { getTypeInfo } from '../utils/get-type-info';
 import { CodeGenConnectionType, CodeGenFieldConnection, processConnections } from '../utils/process-connections';
 import { sortFields } from '../utils/sort';
@@ -29,6 +29,8 @@ import { printWarning } from '../utils/warn';
 import { processAuthDirective } from '../utils/process-auth';
 import { processConnectionsV2 } from '../utils/process-connections-v2';
 import { graphqlName, toUpper } from 'graphql-transformer-common';
+import { processPrimaryKey } from '../utils/process-primary-key';
+import { processIndex } from '../utils/process-index';
 
 export enum CodeGenGenerateEnum {
   metadata = 'metadata',
@@ -293,10 +295,10 @@ export class AppSyncModelVisitor<
     };
   }
   processDirectives() {
+    this.processV2KeyDirectives();
     if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
-      this.processConnectionDirectivesV2()
-    }
-    else {
+      this.processConnectionDirectivesV2();
+    } else {
       this.processConnectionDirective();
     }
     this.processAuthDirectives();
@@ -441,9 +443,10 @@ export class AppSyncModelVisitor<
     const typeArr: any[] = [];
     Object.values({ ...this.modelMap, ...this.nonModelMap }).forEach((obj: CodeGenModel) => {
       // include only key directive as we don't care about others for versioning
-      const directives = (this.config.usePipelinedTransformer || this.config.transformerVersion === 2)
-        ? obj.directives.filter(dir => dir.name === 'primaryKey' || dir.name === 'index')
-        : obj.directives.filter(dir => dir.name === 'key');
+      const directives =
+        this.config.usePipelinedTransformer || this.config.transformerVersion === 2
+          ? obj.directives.filter(dir => dir.name === 'primaryKey' || dir.name === 'index')
+          : obj.directives.filter(dir => dir.name === 'key');
       const fields = obj.fields
         .map((field: CodeGenField) => {
           // include only connection field and type
@@ -633,7 +636,7 @@ export class AppSyncModelVisitor<
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
         field.directives.forEach(dir => {
-          if(dir.name === 'manyToMany') {
+          if (dir.name === 'manyToMany') {
             let relationName = graphqlName(toUpper(dir.arguments.relationName));
             let existingRelation = manyDirectiveMap.get(relationName);
             if (existingRelation) {
@@ -703,6 +706,13 @@ export class AppSyncModelVisitor<
         }
         return true;
       });
+    });
+  }
+
+  protected processV2KeyDirectives(): void {
+    Object.values(this.modelMap).forEach(model => {
+      processPrimaryKey(model);
+      processIndex(model);
     });
   }
 
