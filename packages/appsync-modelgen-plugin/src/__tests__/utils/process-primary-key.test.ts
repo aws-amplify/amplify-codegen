@@ -2,12 +2,12 @@ import { processPrimaryKey } from '../../utils/process-primary-key';
 import { CodeGenModel } from '../../visitors/appsync-visitor';
 
 describe('processPrimaryKey', () => {
-  it('should add compound @primaryKey directive as model key attributes', () => {
+  it('adds compound @primaryKey directive as model key attributes', () => {
     const model: CodeGenModel = {
       directives: [
         {
           name: 'model',
-          arguments: [],
+          arguments: {},
         },
       ],
       name: 'testModel',
@@ -33,7 +33,7 @@ describe('processPrimaryKey', () => {
     expect(model.directives).toEqual([
       {
         name: 'model',
-        arguments: [],
+        arguments: {},
       },
       {
         name: 'key',
@@ -44,12 +44,12 @@ describe('processPrimaryKey', () => {
     ]);
   });
 
-  it('should add simple @primaryKey directive as model key attributes', () => {
+  it('adds simple @primaryKey directive as model key attributes', () => {
     const model: CodeGenModel = {
       directives: [
         {
           name: 'model',
-          arguments: [],
+          arguments: {},
         },
       ],
       name: 'testModel',
@@ -73,13 +73,42 @@ describe('processPrimaryKey', () => {
     expect(model.directives).toEqual([
       {
         name: 'model',
-        arguments: [],
+        arguments: {},
       },
       {
         name: 'key',
         arguments: {
           fields: ['primaryField'],
         },
+      },
+    ]);
+  });
+
+  it('does nothing if no @primaryKey directive in model', () => {
+    const model: CodeGenModel = {
+      directives: [
+        {
+          name: 'model',
+          arguments: {},
+        },
+      ],
+      name: 'testModel',
+      type: 'model',
+      fields: [
+        {
+          type: 'field',
+          isList: false,
+          isNullable: true,
+          name: 'normalField',
+          directives: [],
+        },
+      ],
+    };
+    processPrimaryKey(model);
+    expect(model.directives).toEqual([
+      {
+        name: 'model',
+        arguments: {},
       },
     ]);
   });

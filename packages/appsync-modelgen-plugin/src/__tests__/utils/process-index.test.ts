@@ -2,12 +2,12 @@ import { processIndex } from '../../utils/process-index';
 import { CodeGenModel } from '../../visitors/appsync-visitor';
 
 describe('processIndex', () => {
-  it('should add multiple compound @index directives as model key attributes', () => {
+  it('adds multiple compound @index directives as model key attributes', () => {
     const model: CodeGenModel = {
       directives: [
         {
           name: 'model',
-          arguments: [],
+          arguments: {},
         },
       ],
       name: 'testModel',
@@ -49,7 +49,7 @@ describe('processIndex', () => {
     expect(model.directives).toEqual([
       {
         name: 'model',
-        arguments: [],
+        arguments: {},
       },
       {
         name: 'key',
@@ -68,12 +68,12 @@ describe('processIndex', () => {
     ]);
   });
 
-  it('should add simple @index directives as model key attributes', () => {
+  it('adds simple @index directives as model key attributes', () => {
     const model: CodeGenModel = {
       directives: [
         {
           name: 'model',
-          arguments: [],
+          arguments: {},
         },
       ],
       name: 'testModel',
@@ -113,7 +113,7 @@ describe('processIndex', () => {
     expect(model.directives).toEqual([
       {
         name: 'model',
-        arguments: [],
+        arguments: {},
       },
       {
         name: 'key',
@@ -128,6 +128,42 @@ describe('processIndex', () => {
           name: 'byAnother',
           fields: ['anotherConnection'],
         },
+      },
+    ]);
+  });
+
+  it('does nothing if no @index directives in model', () => {
+    const model: CodeGenModel = {
+      directives: [
+        {
+          name: 'model',
+          arguments: {},
+        },
+      ],
+      name: 'testModel',
+      type: 'model',
+      fields: [
+        {
+          type: 'field',
+          isList: false,
+          isNullable: true,
+          name: 'aNormalField',
+          directives: [],
+        },
+        {
+          type: 'field',
+          isList: false,
+          isNullable: true,
+          name: 'anotherNormalField',
+          directives: [],
+        },
+      ],
+    };
+    processIndex(model);
+    expect(model.directives).toEqual([
+      {
+        name: 'model',
+        arguments: {},
       },
     ]);
   });
