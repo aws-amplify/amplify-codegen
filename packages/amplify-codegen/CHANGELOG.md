@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.26.11](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.10...amplify-codegen@2.26.11) (2021-11-06)
+
+**Note:** Version bump only for package amplify-codegen
+
+
+
+
+
 ## [2.26.10](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.9...amplify-codegen@2.26.10) (2021-11-03)
 
 
