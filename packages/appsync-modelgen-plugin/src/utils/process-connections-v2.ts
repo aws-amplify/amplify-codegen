@@ -27,7 +27,7 @@ export function getConnectedFieldV2(
 
   const indexName = connectionInfo.arguments.indexName;
   const connectionFields = connectionInfo.arguments.fields;
-  if (connectionFields) {
+  if (connectionFields || directiveName === 'hasOne') {
     let indexDirective;
     if (indexName) {
       indexDirective = flattenFieldDirectives(connectedModel).find(dir => {
