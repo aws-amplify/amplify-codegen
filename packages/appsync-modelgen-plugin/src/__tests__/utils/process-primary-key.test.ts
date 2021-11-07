@@ -112,4 +112,39 @@ describe('processPrimaryKey', () => {
       },
     ]);
   });
+
+  it('does not add duplicate primaryKey', () => {
+    const model: CodeGenModel = {
+      directives: [
+        {
+          name: 'model',
+          arguments: {},
+        },
+        {
+          name: 'key',
+          arguments: {
+            fields: ['primaryField'],
+          },
+        },
+      ],
+      name: 'testModel',
+      type: 'model',
+      fields: [
+        {
+          type: 'field',
+          isList: false,
+          isNullable: true,
+          name: 'primaryField',
+          directives: [
+            {
+              name: 'primaryKey',
+              arguments: {},
+            },
+          ],
+        },
+      ],
+    };
+    processPrimaryKey(model);
+    expect(model.directives.length).toBe(2);
+  });
 });

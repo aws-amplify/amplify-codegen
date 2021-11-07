@@ -167,4 +167,56 @@ describe('processIndex', () => {
       },
     ]);
   });
+
+  it('does not add duplicate indexes', () => {
+    const model: CodeGenModel = {
+      directives: [
+        {
+          name: 'model',
+          arguments: {},
+        },
+        {
+          name: 'key',
+          arguments: {
+            name: 'byItem',
+            fields: ['connectionField'],
+          },
+        },
+      ],
+      name: 'testModel',
+      type: 'model',
+      fields: [
+        {
+          type: 'field',
+          isList: false,
+          isNullable: true,
+          name: 'connectionField',
+          directives: [
+            {
+              name: 'index',
+              arguments: {
+                name: 'byItem',
+              },
+            },
+          ],
+        },
+        {
+          type: 'field',
+          isList: false,
+          isNullable: true,
+          name: 'anotherConnection',
+          directives: [
+            {
+              name: 'index',
+              arguments: {
+                name: 'byAnother',
+              },
+            },
+          ],
+        },
+      ],
+    };
+    processIndex(model);
+    expect(model.directives.length).toBe(3);
+  });
 });

@@ -14,12 +14,16 @@ export const processIndex = (model: CodeGenModel) => {
     return { ...acc, [field.name]: indexDirective };
   }, {} as Record<string, CodeGenDirective>);
 
-  const keyList = Object.entries(indexMap).map(([fieldName, directive]) => ({
+  const keyList: CodeGenDirective[] = Object.entries(indexMap).map(([fieldName, directive]) => ({
     name: 'key',
     arguments: {
       name: directive.arguments.name,
       fields: [fieldName].concat((directive.arguments.sortKeyFields as string[]) ?? []),
     },
-  })) as CodeGenDirective[];
-  model.directives.push(...keyList);
+  }));
+  const existingIndexNames = model.directives
+    .filter(directive => directive.name === 'key' && !!directive.arguments.name)
+    .map(directive => directive.arguments.name);
+  const deDupedKeyList = keyList.filter(key => !existingIndexNames.includes(key.arguments.name));
+  model.directives.push(...deDupedKeyList);
 };

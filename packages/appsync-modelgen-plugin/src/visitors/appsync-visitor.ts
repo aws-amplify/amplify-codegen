@@ -295,8 +295,8 @@ export class AppSyncModelVisitor<
     };
   }
   processDirectives() {
-    this.processV2KeyDirectives();
     if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
+      this.processV2KeyDirectives();
       this.processConnectionDirectivesV2();
     } else {
       this.processConnectionDirective();

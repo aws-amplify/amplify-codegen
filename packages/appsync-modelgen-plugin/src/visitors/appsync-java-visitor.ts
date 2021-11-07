@@ -772,40 +772,6 @@ export class AppSyncModelJavaVisitor<
       return '';
     });
 
-    var modelLevelFieldAnnotations: string[] = new Array<string>();
-    model.fields.forEach(field => {
-      field.directives.forEach(directive => {
-        switch (directive.name) {
-          case 'primaryKey':
-            if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
-              const keyArgs: string[] = [];
-              keyArgs.push(`name = "undefined"`);
-              if (!directive.arguments.sortKeyFields) {
-                directive.arguments.sortKeyFields = new Array<string>();
-              }
-              directive.arguments.sortKeyFields = [field.name, ...directive.arguments.sortKeyFields];
-              keyArgs.push(`fields = {${(directive.arguments.sortKeyFields as string[]).map((f: string) => `"${f}"`).join(',')}}`);
-              modelLevelFieldAnnotations.push(`Index(${keyArgs.join(', ')})`);
-            }
-            break;
-          case 'index':
-            if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
-              const keyArgs: string[] = [];
-              keyArgs.push(`name = "${directive.arguments.name}"`);
-              if (!directive.arguments.sortKeyFields) {
-                directive.arguments.sortKeyFields = new Array<string>();
-              }
-              directive.arguments.sortKeyFields = [field.name, ...directive.arguments.sortKeyFields];
-              keyArgs.push(`fields = {${(directive.arguments.sortKeyFields as string[]).map((f: string) => `"${f}"`).join(',')}}`);
-              modelLevelFieldAnnotations.push(`Index(${keyArgs.join(', ')})`);
-            }
-            break;
-          default:
-            break;
-        }
-      });
-    });
-    annotations.push(...modelLevelFieldAnnotations);
     return ['SuppressWarnings("all")', ...annotations].filter(annotation => annotation);
   }
 
