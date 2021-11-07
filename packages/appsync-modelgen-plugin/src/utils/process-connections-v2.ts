@@ -1,14 +1,9 @@
 import { CodeGenField, CodeGenFieldDirective, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
-import {
-  CodeGenFieldConnection,
-  DEFAULT_HASH_KEY_FIELD,
-  flattenFieldDirectives,
-  getDirective,
-  makeConnectionAttributeName,
-} from './process-connections';
+import { CodeGenFieldConnection, DEFAULT_HASH_KEY_FIELD, flattenFieldDirectives, makeConnectionAttributeName } from './process-connections';
 import { processHasOneConnection } from './process-has-one';
 import { processBelongsToConnection, getBelongsToConnectedField } from './process-belongs-to';
 import { processHasManyConnection } from './process-has-many';
+import { getDirective } from './fieldUtils';
 
 // TODO: This file holds several references to utility functions in the v1 process connections file, those functions need to go here before that file is removed
 

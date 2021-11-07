@@ -21,7 +21,7 @@ import {
   parse,
   valueFromASTUntyped,
 } from 'graphql';
-import { addFieldToModel, removeFieldFromModel } from '../utils/fieldUtils';
+import { addFieldToModel, getDirective, removeFieldFromModel } from '../utils/fieldUtils';
 import { getTypeInfo } from '../utils/get-type-info';
 import { CodeGenConnectionType, CodeGenFieldConnection, processConnections } from '../utils/process-connections';
 import { sortFields } from '../utils/sort';
@@ -29,6 +29,8 @@ import { printWarning } from '../utils/warn';
 import { processAuthDirective } from '../utils/process-auth';
 import { processConnectionsV2 } from '../utils/process-connections-v2';
 import { graphqlName, toUpper } from 'graphql-transformer-common';
+import { processPrimaryKey } from '../utils/process-primary-key';
+import { processIndex } from '../utils/process-index';
 
 export enum CodeGenGenerateEnum {
   metadata = 'metadata',
@@ -294,6 +296,7 @@ export class AppSyncModelVisitor<
   }
   processDirectives() {
     if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
+      this.processV2KeyDirectives();
       this.processConnectionDirectivesV2();
     } else {
       this.processConnectionDirective();
@@ -711,6 +714,13 @@ export class AppSyncModelVisitor<
         }
         return true;
       });
+    });
+  }
+
+  protected processV2KeyDirectives(): void {
+    Object.values(this.modelMap).forEach(model => {
+      processPrimaryKey(model);
+      processIndex(model);
     });
   }
 
