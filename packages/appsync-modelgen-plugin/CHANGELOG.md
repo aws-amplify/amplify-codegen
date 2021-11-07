@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.29.4](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.3...@aws-amplify/appsync-modelgen-plugin@1.29.4) (2021-11-07)
+
+
+### Bug Fixes
+
+* ensure [@index](https://github.com/index) and [@primary](https://github.com/primary)Key are codegen'ed correctly ([488660c](https://github.com/aws-amplify/amplify-codegen/commit/488660cbb4db0417402556693d7242b6ce1ec1d3))
+* missing android indexes ([41084c9](https://github.com/aws-amplify/amplify-codegen/commit/41084c9aa0e0ecf68adb345fa06dc7c4c0f625e3))
+* remove stale android logic, ensure no duplciate keys ([dd7f4d3](https://github.com/aws-amplify/amplify-codegen/commit/dd7f4d3f9a0a268fdff019e53cc3b25f2bcea22b))
+
+
+
+
+
 ## [1.29.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.2...@aws-amplify/appsync-modelgen-plugin@1.29.3) (2021-11-06)
 
 
