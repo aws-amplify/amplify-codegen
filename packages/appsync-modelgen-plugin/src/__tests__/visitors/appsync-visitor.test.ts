@@ -344,6 +344,72 @@ describe('AppSyncModelVisitor', () => {
     });
   });
 
+  describe('index directives', () => {
+    it('processes index directive', () => {
+      const schema = /* GraphQL */ `
+        type Project @model {
+          id: ID!
+          name: String @index(name: "nameIndex", sortKeyFields: ["team"])
+          team: Team
+        }
+
+        type Team @model {
+          id: ID!
+          name: String! @index(name: "teamNameIndex")
+        }
+      `;
+      const visitor = createAndGenerateVisitor(schema, true);
+      visitor.generate();
+      const projectKeyDirective = visitor.models.Project.directives.find(directive => directive.name === 'key');
+      expect(projectKeyDirective).toEqual({
+        name: 'key',
+        arguments: {
+          name: 'nameIndex',
+          fields: ['name', 'team'],
+        },
+      });
+      const teamKeyDirective = visitor.models.Team.directives.find(directive => directive.name === 'key');
+      expect(teamKeyDirective).toEqual({
+        name: 'key',
+        arguments: {
+          name: 'teamNameIndex',
+          fields: ['name'],
+        },
+      });
+    });
+
+    it('processes primaryKey directive', () => {
+      const schema = /* GraphQL */ `
+        type Project @model {
+          id: ID!
+          name: String @primaryKey(sortKeyFields: ["team"])
+          team: Team
+        }
+
+        type Team @model {
+          id: ID!
+          name: String! @primaryKey
+        }
+      `;
+      const visitor = createAndGenerateVisitor(schema, true);
+      visitor.generate();
+      const projectKeyDirective = visitor.models.Project.directives.find(directive => directive.name === 'key');
+      expect(projectKeyDirective).toEqual({
+        name: 'key',
+        arguments: {
+          fields: ['name', 'team'],
+        },
+      });
+      const teamKeyDirective = visitor.models.Team.directives.find(directive => directive.name === 'key');
+      expect(teamKeyDirective).toEqual({
+        name: 'key',
+        arguments: {
+          fields: ['name'],
+        },
+      });
+    });
+  });
+
   describe('auth directive', () => {
     it('should process auth with owner authorization', () => {
       const schema = /* GraphQL */ `
