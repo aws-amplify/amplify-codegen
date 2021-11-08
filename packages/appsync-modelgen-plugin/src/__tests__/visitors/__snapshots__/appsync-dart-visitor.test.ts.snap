@@ -16,7 +16,7 @@ exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated corr
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
@@ -163,7 +163,7 @@ exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated corr
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
@@ -351,7 +351,7 @@ exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated corr
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart';
@@ -483,7 +483,7 @@ exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated corr
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart';
@@ -631,7 +631,11 @@ exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated corr
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'Person.dart';
@@ -689,7 +693,11 @@ exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated corr
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'Person.dart';
@@ -740,7 +748,11 @@ exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated corr
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart';
@@ -906,7 +918,11 @@ exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated corr
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart';
@@ -1084,7 +1100,11 @@ exports[`AppSync Dart Visitor CustomType (non-model) Tests should not generate c
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'Person.dart';
@@ -1133,7 +1153,11 @@ exports[`AppSync Dart Visitor Dart Specific Tests should generate the model prov
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'SimpleModel.dart';
@@ -1181,7 +1205,11 @@ exports[`AppSync Dart Visitor Enum Generation should generate a class for enum t
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart';
@@ -1287,7 +1315,11 @@ exports[`AppSync Dart Visitor Enum Generation should generate a class for enum t
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 enum Status { yes, no, maybe }
 "
@@ -1309,7 +1341,11 @@ exports[`AppSync Dart Visitor Field tests should generate correct output for app
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
@@ -1617,7 +1653,11 @@ exports[`AppSync Dart Visitor Field tests should generate correct output for enu
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart';
@@ -1870,7 +1910,11 @@ exports[`AppSync Dart Visitor Field tests should generate correct output for reg
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
@@ -2098,6 +2142,383 @@ class _TestModelModelType extends ModelType<TestModel> {
 "
 `;
 
+exports[`AppSync Dart Visitor Many To Many V2 Tests Should generate the intermediate model successfully 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
+
+import 'ModelProvider.dart';
+import 'package:amplify_core/amplify_core.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
+
+/** This is an auto generated class representing the Post type in your schema. */
+@immutable
+class Post extends Model {
+  static const classType = const _PostModelType();
+  final String id;
+  final String title;
+  final String content;
+  final List<PostTags> tags;
+
+  @override
+  getInstanceType() => classType;
+
+  @override
+  String getId() {
+    return id;
+  }
+
+  const Post._internal(
+      {@required this.id, @required this.title, this.content, this.tags});
+
+  factory Post(
+      {String id,
+      @required String title,
+      String content,
+      List<PostTags> tags}) {
+    return Post._internal(
+        id: id == null ? UUID.getUUID() : id,
+        title: title,
+        content: content,
+        tags: tags != null ? List<PostTags>.unmodifiable(tags) : tags);
+  }
+
+  bool equals(Object other) {
+    return this == other;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Post &&
+        id == other.id &&
+        title == other.title &&
+        content == other.content &&
+        DeepCollectionEquality().equals(tags, other.tags);
+  }
+
+  @override
+  int get hashCode => toString().hashCode;
+
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+
+    buffer.write(\\"Post {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"title=\\" + \\"$title\\" + \\", \\");
+    buffer.write(\\"content=\\" + \\"$content\\");
+    buffer.write(\\"}\\");
+
+    return buffer.toString();
+  }
+
+  Post copyWith(
+      {String id, String title, String content, List<PostTags> tags}) {
+    return Post(
+        id: id ?? this.id,
+        title: title ?? this.title,
+        content: content ?? this.content,
+        tags: tags ?? this.tags);
+  }
+
+  Post.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        title = json['title'],
+        content = json['content'],
+        tags = json['tags'] is List
+            ? (json['tags'] as List)
+                .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e)))
+                .toList()
+            : null;
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'title': title,
+        'content': content,
+        'tags': tags?.map((PostTags? e) => e?.toJson()).toList()
+      };
+
+  static final QueryField ID = QueryField(fieldName: \\"post.id\\");
+  static final QueryField TITLE = QueryField(fieldName: \\"title\\");
+  static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
+  static final QueryField TAGS = QueryField(
+      fieldName: \\"tags\\",
+      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
+          ofModelName: (PostTags).toString()));
+  static var schema =
+      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"Post\\";
+    modelSchemaDefinition.pluralName = \\"Posts\\";
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: Post.TITLE,
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: Post.CONTENT,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+        key: Post.TAGS,
+        isRequired: false,
+        ofModelName: (PostTags).toString(),
+        associatedKey: PostTags.POST));
+  });
+}
+
+class _PostModelType extends ModelType<Post> {
+  const _PostModelType();
+
+  @override
+  Post fromJson(Map<String, dynamic> jsonData) {
+    return Post.fromJson(jsonData);
+  }
+}
+
+/** This is an auto generated class representing the Tag type in your schema. */
+@immutable
+class Tag extends Model {
+  static const classType = const _TagModelType();
+  final String id;
+  final String label;
+  final List<PostTags> posts;
+
+  @override
+  getInstanceType() => classType;
+
+  @override
+  String getId() {
+    return id;
+  }
+
+  const Tag._internal({@required this.id, @required this.label, this.posts});
+
+  factory Tag({String id, @required String label, List<PostTags> posts}) {
+    return Tag._internal(
+        id: id == null ? UUID.getUUID() : id,
+        label: label,
+        posts: posts != null ? List<PostTags>.unmodifiable(posts) : posts);
+  }
+
+  bool equals(Object other) {
+    return this == other;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Tag &&
+        id == other.id &&
+        label == other.label &&
+        DeepCollectionEquality().equals(posts, other.posts);
+  }
+
+  @override
+  int get hashCode => toString().hashCode;
+
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+
+    buffer.write(\\"Tag {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"label=\\" + \\"$label\\");
+    buffer.write(\\"}\\");
+
+    return buffer.toString();
+  }
+
+  Tag copyWith({String id, String label, List<PostTags> posts}) {
+    return Tag(
+        id: id ?? this.id,
+        label: label ?? this.label,
+        posts: posts ?? this.posts);
+  }
+
+  Tag.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        label = json['label'],
+        posts = json['posts'] is List
+            ? (json['posts'] as List)
+                .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e)))
+                .toList()
+            : null;
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'label': label,
+        'posts': posts?.map((PostTags? e) => e?.toJson()).toList()
+      };
+
+  static final QueryField ID = QueryField(fieldName: \\"tag.id\\");
+  static final QueryField LABEL = QueryField(fieldName: \\"label\\");
+  static final QueryField POSTS = QueryField(
+      fieldName: \\"posts\\",
+      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
+          ofModelName: (PostTags).toString()));
+  static var schema =
+      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"Tag\\";
+    modelSchemaDefinition.pluralName = \\"Tags\\";
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: Tag.LABEL,
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+        key: Tag.POSTS,
+        isRequired: false,
+        ofModelName: (PostTags).toString(),
+        associatedKey: PostTags.TAG));
+  });
+}
+
+class _TagModelType extends ModelType<Tag> {
+  const _TagModelType();
+
+  @override
+  Tag fromJson(Map<String, dynamic> jsonData) {
+    return Tag.fromJson(jsonData);
+  }
+}
+
+/** This is an auto generated class representing the PostTags type in your schema. */
+@immutable
+class PostTags extends Model {
+  static const classType = const _PostTagsModelType();
+  final String id;
+  final Post post;
+  final Tag tag;
+
+  @override
+  getInstanceType() => classType;
+
+  @override
+  String getId() {
+    return id;
+  }
+
+  const PostTags._internal(
+      {@required this.id, @required this.post, @required this.tag});
+
+  factory PostTags({String id, @required Post post, @required Tag tag}) {
+    return PostTags._internal(
+        id: id == null ? UUID.getUUID() : id, post: post, tag: tag);
+  }
+
+  bool equals(Object other) {
+    return this == other;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is PostTags &&
+        id == other.id &&
+        post == other.post &&
+        tag == other.tag;
+  }
+
+  @override
+  int get hashCode => toString().hashCode;
+
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+
+    buffer.write(\\"PostTags {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"post=\\" + (post != null ? post.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"tag=\\" + (tag != null ? tag.toString() : \\"null\\"));
+    buffer.write(\\"}\\");
+
+    return buffer.toString();
+  }
+
+  PostTags copyWith({String id, Post post, Tag tag}) {
+    return PostTags(
+        id: id ?? this.id, post: post ?? this.post, tag: tag ?? this.tag);
+  }
+
+  PostTags.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        post = json['post'] != null
+            ? Post.fromJson(new Map<String, dynamic>.from(json['post']))
+            : null,
+        tag = json['tag'] != null
+            ? Tag.fromJson(new Map<String, dynamic>.from(json['tag']))
+            : null;
+
+  Map<String, dynamic> toJson() =>
+      {'id': id, 'post': post?.toJson(), 'tag': tag?.toJson()};
+
+  static final QueryField ID = QueryField(fieldName: \\"postTags.id\\");
+  static final QueryField POST = QueryField(
+      fieldName: \\"post\\",
+      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
+          ofModelName: (Post).toString()));
+  static final QueryField TAG = QueryField(
+      fieldName: \\"tag\\",
+      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
+          ofModelName: (Tag).toString()));
+  static var schema =
+      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"PostTags\\";
+    modelSchemaDefinition.pluralName = \\"PostTags\\";
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+        key: PostTags.POST,
+        isRequired: true,
+        targetName: \\"postID\\",
+        ofModelName: (Post).toString()));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+        key: PostTags.TAG,
+        isRequired: true,
+        targetName: \\"tagID\\",
+        ofModelName: (Tag).toString()));
+  });
+}
+
+class _PostTagsModelType extends ModelType<PostTags> {
+  const _PostTagsModelType();
+
+  @override
+  PostTags fromJson(Map<String, dynamic> jsonData) {
+    return PostTags.fromJson(jsonData);
+  }
+}
+"
+`;
+
 exports[`AppSync Dart Visitor Model Directive should generate a class for a Simple Model 1`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
@@ -2114,7 +2535,11 @@ exports[`AppSync Dart Visitor Model Directive should generate a class for a Simp
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
@@ -2232,7 +2657,11 @@ exports[`AppSync Dart Visitor Model Directive should generate a class for a mode
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
@@ -2334,6 +2763,356 @@ class _SimpleModelModelType extends ModelType<SimpleModel> {
 "
 `;
 
+exports[`AppSync Dart Visitor Model with Auth Directive should generate AuthRule with provider information when enabled inserting auth provider to auth when nullsafety is disabled 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
+
+import 'package:amplify_core/amplify_core.dart';
+import 'package:flutter/foundation.dart';
+
+/** This is an auto generated class representing the TodoWithAuth type in your schema. */
+@immutable
+class TodoWithAuth extends Model {
+  static const classType = const _TodoWithAuthModelType();
+  final String id;
+  final String name;
+  final TemporalDateTime createdAt;
+  final TemporalDateTime updatedAt;
+
+  @override
+  getInstanceType() => classType;
+
+  @override
+  String getId() {
+    return id;
+  }
+
+  const TodoWithAuth._internal(
+      {@required this.id, @required this.name, this.createdAt, this.updatedAt});
+
+  factory TodoWithAuth({String id, @required String name}) {
+    return TodoWithAuth._internal(
+        id: id == null ? UUID.getUUID() : id, name: name);
+  }
+
+  bool equals(Object other) {
+    return this == other;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is TodoWithAuth && id == other.id && name == other.name;
+  }
+
+  @override
+  int get hashCode => toString().hashCode;
+
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+
+    buffer.write(\\"TodoWithAuth {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
+    buffer.write(\\"createdAt=\\" +
+        (createdAt != null ? createdAt.format() : \\"null\\") +
+        \\", \\");
+    buffer.write(
+        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+    buffer.write(\\"}\\");
+
+    return buffer.toString();
+  }
+
+  TodoWithAuth copyWith({String id, String name}) {
+    return TodoWithAuth._internal(id: id ?? this.id, name: name ?? this.name);
+  }
+
+  TodoWithAuth.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        createdAt = json['createdAt'] != null
+            ? TemporalDateTime.fromString(json['createdAt'])
+            : null,
+        updatedAt = json['updatedAt'] != null
+            ? TemporalDateTime.fromString(json['updatedAt'])
+            : null;
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'createdAt': createdAt?.format(),
+        'updatedAt': updatedAt?.format()
+      };
+
+  static final QueryField ID = QueryField(fieldName: \\"todoWithAuth.id\\");
+  static final QueryField NAME = QueryField(fieldName: \\"name\\");
+  static var schema =
+      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"TodoWithAuth\\";
+    modelSchemaDefinition.pluralName = \\"TodoWithAuths\\";
+
+    modelSchemaDefinition.authRules = [
+      AuthRule(
+          authStrategy: AuthStrategy.GROUPS,
+          groupClaim: \\"cognito:groups\\",
+          groups: [\\"admin\\"],
+          provider: AuthRuleProvider.USERPOOLS,
+          operations: [
+            ModelOperation.CREATE,
+            ModelOperation.UPDATE,
+            ModelOperation.DELETE,
+            ModelOperation.READ
+          ]),
+      AuthRule(
+          authStrategy: AuthStrategy.OWNER,
+          ownerField: \\"owner\\",
+          identityClaim: \\"cognito:username\\",
+          provider: AuthRuleProvider.USERPOOLS,
+          operations: [ModelOperation.CREATE, ModelOperation.UPDATE]),
+      AuthRule(
+          authStrategy: AuthStrategy.PUBLIC,
+          provider: AuthRuleProvider.APIKEY,
+          operations: [ModelOperation.READ])
+    ];
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TodoWithAuth.NAME,
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+        fieldName: 'createdAt',
+        isRequired: false,
+        isReadOnly: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+        fieldName: 'updatedAt',
+        isRequired: false,
+        isReadOnly: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
+  });
+}
+
+class _TodoWithAuthModelType extends ModelType<TodoWithAuth> {
+  const _TodoWithAuthModelType();
+
+  @override
+  TodoWithAuth fromJson(Map<String, dynamic> jsonData) {
+    return TodoWithAuth.fromJson(jsonData);
+  }
+}
+"
+`;
+
+exports[`AppSync Dart Visitor Model with Auth Directive should generate AuthRule with provider information when enabled inserting auth provider to auth when nullsafety is enabled 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
+
+import 'package:amplify_core/amplify_core.dart';
+import 'package:flutter/foundation.dart';
+
+
+/** This is an auto generated class representing the TodoWithAuth type in your schema. */
+@immutable
+class TodoWithAuth extends Model {
+  static const classType = const _TodoWithAuthModelType();
+  final String id;
+  final String? _name;
+  final TemporalDateTime? _createdAt;
+  final TemporalDateTime? _updatedAt;
+
+  @override
+  getInstanceType() => classType;
+  
+  @override
+  String getId() {
+    return id;
+  }
+  
+  String get name {
+    try {
+      return _name!;
+    } catch(e) {
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
+    }
+  }
+  
+  TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  const TodoWithAuth._internal({required this.id, required name, createdAt, updatedAt}): _name = name, _createdAt = createdAt, _updatedAt = updatedAt;
+  
+  factory TodoWithAuth({String? id, required String name}) {
+    return TodoWithAuth._internal(
+      id: id == null ? UUID.getUUID() : id,
+      name: name);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is TodoWithAuth &&
+      id == other.id &&
+      _name == other._name;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"TodoWithAuth {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$_name\\" + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  TodoWithAuth copyWith({String? id, String? name}) {
+    return TodoWithAuth._internal(
+      id: id ?? this.id,
+      name: name ?? this.name);
+  }
+  
+  TodoWithAuth.fromJson(Map<String, dynamic> json)  
+    : id = json['id'],
+      _name = json['name'],
+      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'name': _name, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+
+  static final QueryField ID = QueryField(fieldName: \\"todoWithAuth.id\\");
+  static final QueryField NAME = QueryField(fieldName: \\"name\\");
+  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"TodoWithAuth\\";
+    modelSchemaDefinition.pluralName = \\"TodoWithAuths\\";
+    
+    modelSchemaDefinition.authRules = [
+      AuthRule(
+        authStrategy: AuthStrategy.GROUPS,
+        groupClaim: \\"cognito:groups\\",
+        groups: [ \\"admin\\" ],
+        provider: AuthRuleProvider.USERPOOLS,
+        operations: [
+          ModelOperation.CREATE,
+          ModelOperation.UPDATE,
+          ModelOperation.DELETE,
+          ModelOperation.READ
+        ]),
+      AuthRule(
+        authStrategy: AuthStrategy.OWNER,
+        ownerField: \\"owner\\",
+        identityClaim: \\"cognito:username\\",
+        provider: AuthRuleProvider.USERPOOLS,
+        operations: [
+          ModelOperation.CREATE,
+          ModelOperation.UPDATE
+        ]),
+      AuthRule(
+        authStrategy: AuthStrategy.PUBLIC,
+        provider: AuthRuleProvider.APIKEY,
+        operations: [
+          ModelOperation.READ
+        ])
+    ];
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: TodoWithAuth.NAME,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+    ));
+  });
+}
+
+class _TodoWithAuthModelType extends ModelType<TodoWithAuth> {
+  const _TodoWithAuthModelType();
+  
+  @override
+  TodoWithAuth fromJson(Map<String, dynamic> jsonData) {
+    return TodoWithAuth.fromJson(jsonData);
+  }
+}"
+`;
+
 exports[`AppSync Dart Visitor Model with Auth Directive should generate class with custom claims 1`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
@@ -2350,7 +3129,11 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
@@ -2481,7 +3264,11 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
@@ -2614,7 +3401,11 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
@@ -2745,7 +3536,11 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
@@ -2876,7 +3671,11 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
@@ -3006,7 +3805,11 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
@@ -3133,7 +3936,11 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
@@ -3260,7 +4067,11 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
@@ -3393,7 +4204,11 @@ exports[`AppSync Dart Visitor Model with Auth Directive should include authRules
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
@@ -3527,7 +4342,11 @@ exports[`AppSync Dart Visitor Model with Auth Directive should support multiple 
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
@@ -3674,7 +4493,11 @@ exports[`AppSync Dart Visitor Model with Connection Directive should generate cl
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart';
@@ -3792,7 +4615,11 @@ exports[`AppSync Dart Visitor Model with Connection Directive should generate cl
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart';
@@ -3903,7 +4730,11 @@ exports[`AppSync Dart Visitor Model with Connection Directive should support con
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart';
@@ -4055,7 +4886,11 @@ exports[`AppSync Dart Visitor Model with Connection Directive should support con
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart';
@@ -4184,7 +5019,11 @@ exports[`AppSync Dart Visitor Model with Connection Directive should support con
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart';
@@ -4341,7 +5180,11 @@ exports[`AppSync Dart Visitor Model with Key Directive should generate a class f
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
@@ -4508,7 +5351,11 @@ exports[`AppSync Dart Visitor Null Safety Tests should generate correct internal
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
@@ -4607,7 +5454,11 @@ exports[`AppSync Dart Visitor Null Safety Tests should generate correct model fi
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart';
@@ -4758,7 +5609,11 @@ exports[`AppSync Dart Visitor Null Safety Tests should generate correct model fi
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart';
@@ -4906,7 +5761,11 @@ exports[`AppSync Dart Visitor Null Safety Tests should generate correct model fi
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart';
@@ -5079,7 +5938,11 @@ exports[`AppSync Dart Visitor Null Safety Tests should generate correct null saf
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
@@ -5312,7 +6175,11 @@ exports[`AppSync Dart Visitor Null Safety Tests should generate correct null saf
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
@@ -5678,7 +6545,11 @@ exports[`AppSync Dart Visitor Read-only Field Tests should generate the read-onl
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
@@ -5814,7 +6685,11 @@ exports[`AppSync Dart Visitor Read-only and Null Safety Combined Tests should ge
 * permissions and limitations under the License.
 */
 
-// ignore_for_file: public_member_api_docs
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';

@@ -20,14 +20,11 @@ const createAndGenerateVisitor = (schema: string, usePipelinedTransformer: boole
   return visitor;
 };
 
-const createAndGeneratePipelinedTransformerVisitor = (
-  schema: string
-) => {
+const createAndGeneratePipelinedTransformerVisitor = (schema: string) => {
   return createAndGenerateVisitor(schema, true);
 };
 
 describe('AppSyncModelVisitor', () => {
-
   it('should support schema with id', () => {
     const schema = /* GraphQL */ `
       type Post @model {
@@ -177,14 +174,14 @@ describe('AppSyncModelVisitor', () => {
     describe('with connection name', () => {
       const schema = /* GraphQL */ `
         type Post @model {
-          id: ID!,
+          id: ID!
           title: String!
           content: String
           comments: [Comment] @connection(name: "PostComment")
         }
 
         type Comment @model {
-          id: ID!,
+          id: ID!
           comment: String!
           post: Post @connection(name: "PostComment")
         }
@@ -223,14 +220,14 @@ describe('AppSyncModelVisitor', () => {
     describe('connection with fields argument', () => {
       const schema = /* GraphQL */ `
         type Post @model {
-          id: ID!,
+          id: ID!
           title: String!
           content: String
           comments: [Comment] @connection(fields: ["id"])
         }
 
         type Comment @model {
-          id: ID!,
+          id: ID!
           comment: String!
           postId: ID!
           post: Post @connection(fields: ["postId"])
@@ -275,14 +272,14 @@ describe('AppSyncModelVisitor', () => {
     it('should not include a comments in Post when comments field does not have connection directive', () => {
       const schema = /* GraphQL */ `
         type Post @model {
-          id: ID!,
+          id: ID!
           title: String!
           content: String
           comments: [Comment]
         }
 
         type Comment @model {
-          id: ID!,
+          id: ID!
           comment: String!
           post: Post @connection
         }
@@ -299,14 +296,14 @@ describe('AppSyncModelVisitor', () => {
     it('should not include a post when post field in Comment when post does not have connection directive', () => {
       const schema = /* GraphQL */ `
         type Post @model {
-          id: ID!,
+          id: ID!
           title: String!
           content: String
           comments: [Comment] @connection
         }
 
         type Comment @model {
-          id: ID!,
+          id: ID!
           comment: String!
           post: Post
         }
@@ -320,12 +317,39 @@ describe('AppSyncModelVisitor', () => {
       expect(commentsField).not.toContain('post');
       expect(commentsField).toContain('postCommentsId'); // because of connection from Post.comments
     });
+
+    it('should not generate projectTeamId connection field for hasOne directive', () => {
+      const schema = /* GraphQL */ `
+        type Project @model {
+          id: ID!
+          name: String
+          team: Team @hasOne
+        }
+
+        type Team @model {
+          id: ID!
+          name: String!
+        }
+      `;
+      const ast = parse(schema);
+      const builtSchema = buildSchemaWithDirectives(schema);
+      const visitor = new AppSyncModelVisitor(
+        builtSchema,
+        { directives, target: 'typescript', generate: CodeGenGenerateEnum.code, usePipelinedTransformer: true },
+        {},
+      );
+      visit(ast, { leave: visitor });
+      visitor.generate();
+      const teamFields = visitor.models.Team.fields.map(field => field.name);
+      expect(teamFields).not.toContain('projectTeamId');
+    });
   });
+
   describe('auth directive', () => {
     it('should process auth with owner authorization', () => {
       const schema = /* GraphQL */ `
         type Post @searchable @model @auth(rules: [{ allow: owner }]) {
-          id: ID!,
+          id: ID!
           title: String!
           content: String
         }
@@ -353,7 +377,7 @@ describe('AppSyncModelVisitor', () => {
     it('should process group with owner authorization', () => {
       const schema = /* GraphQL */ `
         type Post @model @searchable @auth(rules: [{ allow: groups, groups: ["admin", "moderator"] }]) {
-          id: ID!,
+          id: ID!
           title: String!
           content: String
         }
@@ -577,16 +601,16 @@ describe('AppSyncModelVisitor', () => {
 
     beforeEach(() => {
       simpleManyToManySchema = /* GraphQL */ `
-          type Human @model {
-            governmentID: ID! @primaryKey
-            pets: [Animal] @manyToMany(relationName: "PetFriend")
-          }
-          
-          type Animal @model {
-            animalTag: ID!
-            humanFriend: [Human] @manyToMany(relationName: "PetFriend")
-          }
-        `;
+        type Human @model {
+          governmentID: ID! @primaryKey
+          pets: [Animal] @manyToMany(relationName: "PetFriend")
+        }
+
+        type Animal @model {
+          animalTag: ID!
+          humanFriend: [Human] @manyToMany(relationName: "PetFriend")
+        }
+      `;
 
       simpleManyModelMap = {
         Human: {
@@ -599,16 +623,16 @@ describe('AppSyncModelVisitor', () => {
               isNullable: false,
               isList: false,
               name: 'governmentID',
-              directives: [{ name: 'primaryKey', arguments: {} }]
+              directives: [{ name: 'primaryKey', arguments: {} }],
             },
             {
               type: 'Animal',
               isNullable: true,
               isList: true,
               name: 'pets',
-              directives: [{ name: 'manyToMany', arguments: { relationName: 'PetFriend' } }]
-            }
-          ]
+              directives: [{ name: 'manyToMany', arguments: { relationName: 'PetFriend' } }],
+            },
+          ],
         },
         Animal: {
           name: 'Animal',
@@ -627,10 +651,10 @@ describe('AppSyncModelVisitor', () => {
               isNullable: true,
               isList: true,
               name: 'postID',
-              directives: [{ name: 'manyToMany', arguments: { relationName: 'PetFriend' } }]
-            }
+              directives: [{ name: 'manyToMany', arguments: { relationName: 'PetFriend' } }],
+            },
           ],
-        }
+        },
       };
     });
 
@@ -638,28 +662,28 @@ describe('AppSyncModelVisitor', () => {
       Human: {
         name: 'Human',
         type: 'model',
-        directives: [{name: 'model', arguments: {}}],
+        directives: [{ name: 'model', arguments: {} }],
         fields: [
           {
             type: 'ID',
             isNullable: false,
             isList: false,
             name: 'governmentID',
-            directives: [{ name: 'primaryKey', arguments: {} }]
+            directives: [{ name: 'primaryKey', arguments: {} }],
           },
           {
             type: 'PetFriend',
             isNullable: true,
             isList: true,
             name: 'pets',
-            directives: [{ name: 'hasMany', arguments: { fields: ['governmentID'] } }]
-          }
-        ]
+            directives: [{ name: 'hasMany', arguments: { fields: ['governmentID'] } }],
+          },
+        ],
       },
       Animal: {
         name: 'Animal',
         type: 'model',
-        directives: [{name: 'model', arguments: {}}],
+        directives: [{ name: 'model', arguments: {} }],
         fields: [
           {
             type: 'ID',
@@ -673,74 +697,74 @@ describe('AppSyncModelVisitor', () => {
             isNullable: true,
             isList: true,
             name: 'postID',
-            directives: [{ name: 'hasMany', arguments: { fields: ['id'] } }]
-          }
+            directives: [{ name: 'hasMany', arguments: { fields: ['id'] } }],
+          },
         ],
       },
       PetFriend: {
         name: 'PetFriend',
         type: 'model',
-        directives: [{name: 'model', arguments: {}}],
+        directives: [{ name: 'model', arguments: {} }],
         fields: [
           {
             type: 'ID',
             isNullable: false,
             isList: false,
             name: 'id',
-            directives: []
+            directives: [],
           },
           {
             type: 'ID',
             isNullable: false,
             isList: false,
             name: 'humanID',
-            directives: [{ name: 'index', arguments: { name: 'byHuman', sortKeyFields: ['animalID'] } }]
+            directives: [{ name: 'index', arguments: { name: 'byHuman', sortKeyFields: ['animalID'] } }],
           },
           {
             type: 'ID',
             isNullable: false,
             isList: false,
             name: 'animalID',
-            directives: [{ name: 'index', arguments: { name: 'byAnimal', sortKeyFields: ['humanID'] } }]
+            directives: [{ name: 'index', arguments: { name: 'byAnimal', sortKeyFields: ['humanID'] } }],
           },
           {
             type: 'Human',
             isNullable: false,
             isList: false,
             name: 'human',
-            directives: [{ name: 'belongsTo', arguments: { fields: ['humanID'] } }]
+            directives: [{ name: 'belongsTo', arguments: { fields: ['humanID'] } }],
           },
           {
             type: 'Animal',
             isNullable: false,
             isList: false,
             name: 'animal',
-            directives: [{ name: 'belongsTo', arguments: { fields: ['humanID'] } }]
-          }
-        ]
-      }
+            directives: [{ name: 'belongsTo', arguments: { fields: ['humanID'] } }],
+          },
+        ],
+      },
     };
 
     it('Should correctly convert the model map of a simple manyToMany', () => {
       const visitor = createAndGeneratePipelinedTransformerVisitor(simpleManyToManySchema);
 
       expect(visitor.models.Human.fields.length).toEqual(5);
-      expect(visitor.models.Human.fields[2].directives[0].name).toEqual('hasMany')
-      expect(visitor.models.Human.fields[2].directives[0].arguments.fields.length).toEqual(1)
-      expect(visitor.models.Human.fields[2].directives[0].arguments.fields[0]).toEqual('governmentID')
-      expect(visitor.models.Human.fields[2].directives[0].arguments.indexName).toEqual('byHuman')
+      expect(visitor.models.Human.fields[2].directives[0].name).toEqual('hasMany');
+      expect(visitor.models.Human.fields[2].directives[0].arguments.fields.length).toEqual(1);
+      expect(visitor.models.Human.fields[2].directives[0].arguments.fields[0]).toEqual('governmentID');
+      expect(visitor.models.Human.fields[2].directives[0].arguments.indexName).toEqual('byHuman');
       expect(visitor.models.PetFriend).toBeDefined();
       expect(visitor.models.PetFriend.fields.length).toEqual(5);
-      expect(visitor.models.PetFriend.fields[2].directives[0].name).toEqual('belongsTo')
-      expect(visitor.models.PetFriend.fields[2].directives[0].arguments.fields.length).toEqual(1)
-      expect(visitor.models.PetFriend.fields[2].directives[0].arguments.fields[0]).toEqual('animalID')
+      expect(visitor.models.PetFriend.fields[2].directives[0].name).toEqual('belongsTo');
+      expect(visitor.models.PetFriend.fields[2].directives[0].arguments.fields.length).toEqual(1);
+      expect(visitor.models.PetFriend.fields[2].directives[0].arguments.fields[0]).toEqual('animalID');
       expect(visitor.models.Animal.fields.length).toEqual(5);
       expect(visitor.models.Animal.fields[2].type).toEqual('PetFriend');
       expect(visitor.models.Animal.fields[2].directives.length).toEqual(1);
       expect(visitor.models.Animal.fields[2].directives[0].name).toEqual('hasMany');
-      expect(visitor.models.Animal.fields[2].directives[0].arguments.fields.length).toEqual(1)
-      expect(visitor.models.Animal.fields[2].directives[0].arguments.fields[0]).toEqual('id')
-      expect(visitor.models.Animal.fields[2].directives[0].arguments.indexName).toEqual('byAnimal')
+      expect(visitor.models.Animal.fields[2].directives[0].arguments.fields.length).toEqual(1);
+      expect(visitor.models.Animal.fields[2].directives[0].arguments.fields[0]).toEqual('id');
+      expect(visitor.models.Animal.fields[2].directives[0].arguments.indexName).toEqual('byAnimal');
     });
   });
 });

@@ -30,6 +30,19 @@ const readFeatureFlag = key => {
   return flagValue;
 };
 
+/**
+ * Returns feature flag value, default to `1`
+ * @param {string} key feature flag id
+ * @returns
+ */
+const readNumericFeatureFlag = key => {
+  try {
+    return FeatureFlags.getNumber(key);
+  } catch (err) {
+    return 1;
+  }
+};
+
 async function generateModels(context) {
   // steps:
   // 1. Load the schema and validate using transformer
@@ -73,7 +86,8 @@ async function generateModels(context) {
 
   const generateIndexRules = readFeatureFlag('codegen.generateIndexRules');
   const emitAuthProvider = readFeatureFlag('codegen.emitAuthProvider');
-  const usePipelinedTransformer = readFeatureFlag('graphQLTransformer.useExperimentalPipelinedTransformer')
+  const usePipelinedTransformer = readFeatureFlag('graphQLTransformer.useExperimentalPipelinedTransformer');
+  const transformerVersion = readNumericFeatureFlag('graphQLTransformer.transformerVersion');
 
   let enableDartNullSafety = readFeatureFlag('codegen.enableDartNullSafety');
 
@@ -105,7 +119,8 @@ async function generateModels(context) {
       enableDartNullSafety,
       handleListNullabilityTransparently,
       usePipelinedTransformer,
-      enableDartNonModelGeneration
+      enableDartNonModelGeneration,
+      transformerVersion,
     },
   });
 

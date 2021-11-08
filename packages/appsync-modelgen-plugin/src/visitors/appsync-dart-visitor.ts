@@ -18,6 +18,7 @@ import {
   DART_RESERVED_KEYWORDS,
   typeToEnumMap,
   IGNORE_FOR_FILE,
+  CUSTOM_LINTS_MESSAGE,
 } from '../configs/dart-config';
 import dartStyle from 'dart-style';
 import { generateLicense } from '../utils/generateLicense';
@@ -36,6 +37,13 @@ export interface RawAppSyncModelDartConfig extends RawAppSyncModelConfig {
   /**
    * @name directives
    * @type boolean
+   * @descriptions optional boolean, if true emits the provider value of @auth directives
+   */
+  emitAuthProvider?: boolean;
+
+  /**
+   * @name directives
+   * @type boolean
    * @description optional, defines if dart model files are generated with null safety feature.
    */
   enableDartNullSafety?: boolean;
@@ -48,6 +56,7 @@ export interface RawAppSyncModelDartConfig extends RawAppSyncModelConfig {
 }
 
 export interface ParsedAppSyncModelDartConfig extends ParsedAppSyncModelConfig {
+  emitAuthProvider?: boolean;
   enableDartNullSafety: boolean;
   enableDartNonModelGeneration: boolean;
 }
@@ -62,6 +71,7 @@ export class AppSyncModelDartVisitor<
     defaultScalars: NormalizedScalarsMap = DART_SCALAR_MAP,
   ) {
     super(schema, rawConfig, additionalConfig, defaultScalars);
+    this._parsedConfig.emitAuthProvider = rawConfig.emitAuthProvider || false;
     this._parsedConfig.enableDartNullSafety = rawConfig.enableDartNullSafety || false;
     this._parsedConfig.enableDartNonModelGeneration = rawConfig.enableDartNonModelGeneration || false;
   }
@@ -113,6 +123,8 @@ export class AppSyncModelDartVisitor<
     //License
     const license = generateLicense();
     result.push(license);
+    //Custom lints warning
+    result.push(CUSTOM_LINTS_MESSAGE);
     //Ignore for file
     result.push(IGNORE_FOR_FILE);
     //Packages for import
@@ -165,6 +177,8 @@ export class AppSyncModelDartVisitor<
     //License
     const license = generateLicense();
     result.push(license);
+    //Custom lints warning
+    result.push(CUSTOM_LINTS_MESSAGE);
     //Ignore for file
     result.push(IGNORE_FOR_FILE);
     //Enum
@@ -183,6 +197,8 @@ export class AppSyncModelDartVisitor<
     //License
     const license = generateLicense();
     result.push(license);
+    //Custom lints warning
+    result.push(CUSTOM_LINTS_MESSAGE);
     //Ignore for file
     result.push(IGNORE_FOR_FILE);
     //Imports
@@ -761,6 +777,9 @@ export class AppSyncModelDartVisitor<
             default:
               printWarning(`Model has auth with authStrategy ${rule.allow} of which is not yet supported`);
               return '';
+          }
+          if (this.config.emitAuthProvider && rule.provider) {
+            authRule.push(`provider: AuthRuleProvider.${rule.provider.toUpperCase()}`);
           }
           authRule.push(
             ['operations: [', indentMultiline(rule.operations.map(op => `ModelOperation.${op.toUpperCase()}`).join(',\n')), ']'].join('\n'),

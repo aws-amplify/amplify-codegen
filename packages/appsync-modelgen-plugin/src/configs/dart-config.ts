@@ -2,7 +2,12 @@ export const LOADER_CLASS_NAME = 'ModelProvider';
 export const BASE_IMPORT_PACKAGES = ['package:flutter/foundation.dart', 'package:amplify_core/amplify_core.dart'];
 export const COLLECTION_PACKAGE = 'package:collection/collection.dart';
 
-export const IGNORE_FOR_FILE = '// ignore_for_file: public_member_api_docs';
+export const CUSTOM_LINTS_MESSAGE = `// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis`;
+
+export const IGNORE_FOR_FILE =
+  '// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code';
 
 export const typeToEnumMap: Record<string, string> = {
   String: '.string',

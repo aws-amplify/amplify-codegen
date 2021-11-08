@@ -41,7 +41,7 @@ export interface ParsedAppSyncModelSwiftConfig extends ParsedAppSyncModelConfig 
 export class AppSyncSwiftVisitor<
   TRawConfig extends RawAppSyncModelSwiftConfig = RawAppSyncModelSwiftConfig,
   TPluginConfig extends ParsedAppSyncModelSwiftConfig = ParsedAppSyncModelSwiftConfig
-  > extends AppSyncModelVisitor<TRawConfig, TPluginConfig> {
+> extends AppSyncModelVisitor<TRawConfig, TPluginConfig> {
   protected modelExtensionImports: string[] = ['import Amplify', 'import Foundation'];
   protected imports: string[] = ['import Amplify', 'import Foundation'];
 
@@ -443,13 +443,13 @@ export class AppSyncSwiftVisitor<
   protected generateKeyRules(model: CodeGenModel): string[] {
     let keyDirectives: string[];
 
-    if (this.config.usePipelinedTransformer) {
+    if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
       let fieldDirectiveList: any[] = new Array<any>();
       model.fields.forEach(field => {
         field.directives.forEach(directive => {
           fieldDirectiveList.push({
             fieldName: field.name,
-            directive: directive
+            directive: directive,
           });
         });
       });
@@ -457,23 +457,22 @@ export class AppSyncSwiftVisitor<
       keyDirectives = fieldDirectiveList
         .filter(directiveObj => directiveObj.directive.name === 'primaryKey' || directiveObj.directive.name === 'index')
         .map(directiveObj => {
-          switch(directiveObj.directive.name) {
+          switch (directiveObj.directive.name) {
             case 'index':
             case 'primaryKey':
               const name = directiveObj.directive.arguments.name ? `"${directiveObj.directive.arguments.name}"` : 'nil';
               if (!directiveObj.directive.arguments.sortKeyFields) {
                 directiveObj.directive.arguments.sortKeyFields = new Array<string>();
               }
-              directiveObj.directive.arguments.sortKeyFields = [directiveObj.fieldName, ...directiveObj.directive.arguments.sortKeyFields]
+              directiveObj.directive.arguments.sortKeyFields = [directiveObj.fieldName, ...directiveObj.directive.arguments.sortKeyFields];
               const fields: string = directiveObj.directive.arguments.sortKeyFields.map((field: string) => `"${field}"`).join(', ');
               return `.index(fields: [${fields}], name: ${name})`;
             default:
               break;
           }
           return '';
-      });
-    }
-    else {
+        });
+    } else {
       keyDirectives = model.directives
         .filter(directive => directive.name === 'key')
         .map(directive => {
