@@ -126,7 +126,7 @@ describe('process connection', () => {
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
         expect(connectionInfo.associatedWith).toEqual(modelMap.License.fields[0]);
         expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(true);
-        expect(connectionInfo.targetName).toEqual("personLicenseId");
+        expect(connectionInfo.targetName).toEqual('personLicenseId');
       });
 
       it('should return BELONGS_TO License.person field', () => {
@@ -500,11 +500,11 @@ describe('process connection', () => {
         type Post @model {
           comments: [Comment] @hasMany(fields: ["id"])
         }
-        
+
         type Comment @model {
           postID: ID! @primaryKey(sortKeyFields: ["content"])
           content: String!
-          post: Post @belongsTo(fields:["postID"])
+          post: Post @belongsTo(fields: ["postID"])
         }
       `;
 
@@ -533,7 +533,7 @@ describe('process connection', () => {
               isNullable: false,
               isList: false,
               name: 'chargerID',
-              directives: []
+              directives: [],
             },
             {
               type: 'PowerSource',
@@ -599,7 +599,7 @@ describe('process connection', () => {
               isNullable: false,
               isList: false,
               name: 'id',
-              directives: []
+              directives: [],
             },
             {
               type: 'Float',
@@ -644,7 +644,7 @@ describe('process connection', () => {
               isNullable: false,
               isList: false,
               name: 'postID',
-              directives: [{name: 'primaryKey', arguments: { sortKeyFields: ['content'] } }],
+              directives: [{ name: 'primaryKey', arguments: { sortKeyFields: ['content'] } }],
             },
             {
               type: 'String',
@@ -710,7 +710,7 @@ describe('process connection', () => {
               isNullable: false,
               isList: false,
               name: 'postID',
-              directives: [{name: 'index', arguments: { name: 'byPost', sortKeyFields: ['content'] }}],
+              directives: [{ name: 'index', arguments: { name: 'byPost', sortKeyFields: ['content'] } }],
             },
             {
               type: 'String',
@@ -727,7 +727,7 @@ describe('process connection', () => {
     describe('Has many comparison', () => {
       it('should support connection with @primaryKey on BELONGS_TO side', () => {
         const postField = v2ModelMap.Comment.fields[2];
-        const connectionInfo = (processConnectionsV2(postField, v2ModelMap.Post, v2ModelMap) as any) as CodeGenFieldConnectionBelongsTo;
+        const connectionInfo = (processConnectionsV2(postField, v2ModelMap.Comment, v2ModelMap) as any) as CodeGenFieldConnectionBelongsTo;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
         expect(connectionInfo.targetName).toEqual(v2ModelMap.Comment.fields[0].name);
@@ -736,7 +736,7 @@ describe('process connection', () => {
 
       it('should support connection with @primaryKey on HAS_MANY side', () => {
         const commentsField = v2ModelMap.Post.fields[0];
-        const connectionInfo = (processConnectionsV2(commentsField, v2ModelMap.Comment, v2ModelMap) as any) as CodeGenFieldConnectionHasMany;
+        const connectionInfo = (processConnectionsV2(commentsField, v2ModelMap.Post, v2ModelMap) as any) as CodeGenFieldConnectionHasMany;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
         expect(connectionInfo.connectedModel).toEqual(v2ModelMap.Comment);
@@ -745,7 +745,11 @@ describe('process connection', () => {
 
       it('Should support connection with @index on BELONGS_TO side', () => {
         const commentsField = v2IndexModelMap.Post.fields[2];
-        const connectionInfo = (processConnectionsV2(commentsField, v2IndexModelMap.Comment, v2IndexModelMap) as any) as CodeGenFieldConnectionHasMany;
+        const connectionInfo = (processConnectionsV2(
+          commentsField,
+          v2IndexModelMap.Post,
+          v2IndexModelMap,
+        ) as any) as CodeGenFieldConnectionHasMany;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
         expect(connectionInfo.connectedModel).toEqual(v2IndexModelMap.Comment);
@@ -756,7 +760,11 @@ describe('process connection', () => {
     describe('Has one testing', () => {
       it('Should support @hasOne with no explicit primary key', () => {
         const powerSourceField = hasOneNoFieldsModelMap.BatteryCharger.fields[0];
-        const connectionInfo = (processConnectionsV2(powerSourceField, hasOneNoFieldsModelMap.PowerSource, hasOneNoFieldsModelMap)) as CodeGenFieldConnectionHasOne;
+        const connectionInfo = processConnectionsV2(
+          powerSourceField,
+          hasOneNoFieldsModelMap.BatteryCharger,
+          hasOneNoFieldsModelMap,
+        ) as CodeGenFieldConnectionHasOne;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
         expect(connectionInfo.connectedModel).toEqual(hasOneNoFieldsModelMap.PowerSource);
@@ -764,13 +772,73 @@ describe('process connection', () => {
       });
       it('Should support @hasOne with an explicit primary key', () => {
         const powerSourceField = hasOneWithFieldsModelMap.BatteryCharger.fields[1];
-        const connectionInfo = (processConnectionsV2(powerSourceField, hasOneWithFieldsModelMap.PowerSource, hasOneWithFieldsModelMap)) as CodeGenFieldConnectionHasOne;
+        const connectionInfo = processConnectionsV2(
+          powerSourceField,
+          hasOneWithFieldsModelMap.BatteryCharger,
+          hasOneWithFieldsModelMap,
+        ) as CodeGenFieldConnectionHasOne;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
         expect(connectionInfo.connectedModel).toEqual(hasOneWithFieldsModelMap.PowerSource);
         expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(false);
       });
+      it('disambiguates multiple connection directives in related type based on field type', () => {
+        const modelMap: CodeGenModelMap = {
+          Post: {
+            name: 'Post',
+            type: 'model',
+            directives: [],
+            fields: [
+              {
+                type: 'Comment',
+                isNullable: true,
+                isList: false,
+                name: 'comment',
+                directives: [{ name: 'hasOne', arguments: {} }],
+              },
+            ],
+          },
+          Comment: {
+            name: 'Comment',
+            type: 'model',
+            directives: [],
+            fields: [
+              {
+                type: 'id',
+                isNullable: false,
+                isList: false,
+                name: 'id',
+                directives: [],
+              },
+              {
+                type: 'Like',
+                isNullable: true,
+                isList: true,
+                name: 'likes',
+                directives: [{ name: 'hasMany', arguments: { indexName: 'byComment', fields: ['id'] } }],
+              },
+            ],
+          },
+          Like: {
+            name: 'Like',
+            type: 'model',
+            directives: [],
+            fields: [
+              {
+                type: 'string',
+                isNullable: true,
+                isList: false,
+                name: 'likeString',
+                directives: [],
+              },
+            ],
+          },
+        };
+        const connectionInfo = processConnectionsV2(modelMap.Post.fields[0], modelMap.Post, modelMap);
+        expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
+        console.log(connectionInfo);
+        expect((connectionInfo as CodeGenFieldConnectionHasOne).associatedWith.name).toEqual('id');
+      });
     });
-
   });
 });

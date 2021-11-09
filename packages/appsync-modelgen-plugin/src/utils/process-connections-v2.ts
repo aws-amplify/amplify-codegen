@@ -52,15 +52,17 @@ export function getConnectedFieldV2(
       : DEFAULT_HASH_KEY_FIELD;
 
     // Find a field on the other side which connected by a @connection and has the same fields[0] as indexName field
-    const otherSideConnectedField = connectedModel.fields.find(f => {
-      return f.directives.find(d => {
-        return (
-          (d.name === 'belongsTo' || d.name === 'hasOne' || d.name === 'hasMany') &&
-          d.arguments.fields &&
-          d.arguments.fields[0] === connectedFieldName
-        );
+    const otherSideConnectedField = connectedModel.fields
+      .filter(f => f.type === model.name)
+      .find(f => {
+        return f.directives.find(d => {
+          return (
+            (d.name === 'belongsTo' || d.name === 'hasOne' || d.name === 'hasMany') &&
+            d.arguments.fields &&
+            d.arguments.fields[0] === connectedFieldName
+          );
+        });
       });
-    });
     if (otherSideConnectedField) {
       return otherSideConnectedField;
     }
@@ -68,7 +70,7 @@ export function getConnectedFieldV2(
     const connectedField = connectedModel.fields.find(f => f.name === connectedFieldName);
 
     if (!connectedField) {
-      throw new Error(`Can not find key field ${connectedFieldName} in ${connectedModel}`);
+      throw new Error(`Can not find key field ${connectedFieldName} in ${connectedModel.name}`);
     }
     return connectedField;
   }
