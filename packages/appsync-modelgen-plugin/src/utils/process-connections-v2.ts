@@ -54,15 +54,14 @@ export function getConnectedFieldV2(
     // Find a field on the other side which connected by a @connection and has the same fields[0] as indexName field
     const otherSideConnectedField = connectedModel.fields
       .filter(f => f.type === model.name)
-      .find(f => {
-        return f.directives.find(d => {
-          return (
+      .find(f =>
+        f.directives.find(
+          d =>
             (d.name === 'belongsTo' || d.name === 'hasOne' || d.name === 'hasMany') &&
             d.arguments.fields &&
-            d.arguments.fields[0] === connectedFieldName
-          );
-        });
-      });
+            d.arguments.fields[0] === connectedFieldName,
+        ),
+      );
     if (otherSideConnectedField) {
       return otherSideConnectedField;
     }
