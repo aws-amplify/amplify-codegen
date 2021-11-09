@@ -9,6 +9,7 @@ const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
+
 const getVisitor = (
   schema: string,
   selectedType?: string,
@@ -591,7 +592,7 @@ describe('AppSyncModelVisitor', () => {
           content: String
           tags: [Tag] @manyToMany(relationName: "PostTags")
         }
-
+        
         type Tag @model {
           id: ID!
           label: String!

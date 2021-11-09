@@ -1,5 +1,9 @@
 import { CodeGenDirective, CodeGenField, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
-import { CodeGenConnectionType, CodeGenFieldConnection, makeConnectionAttributeName } from './process-connections';
+import {
+  CodeGenConnectionType,
+  CodeGenFieldConnection,
+  makeConnectionAttributeName,
+} from './process-connections';
 import { getConnectedFieldV2 } from './process-connections-v2';
 
 export function processHasOneConnection(
@@ -27,7 +31,8 @@ export function processHasOneConnection(
       isConnectingFieldAutoCreated,
       targetName: connectionFields[0] || makeConnectionAttributeName(model.name, field.name),
     };
-  } else {
-    throw new Error('A hasOne relationship should be 1:1, no lists');
+  }
+  else {
+    throw new Error("A hasOne relationship should be 1:1, no lists");
   }
 }

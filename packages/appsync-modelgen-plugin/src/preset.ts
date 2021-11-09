@@ -218,7 +218,7 @@ const generateDartPreset = (
   return config;
 };
 
-const generateManyToManyModelStubs = (options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>): TypeDefinitionNode[] => {
+const generateManyToManyModelStubs = (options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>) : TypeDefinitionNode[] => {
   let models = new Array<TypeDefinitionNode>();
   let manyToManySet = new Set<string>();
   options.schema.definitions.forEach(def => {
@@ -227,7 +227,7 @@ const generateManyToManyModelStubs = (options: Types.PresetFnArgs<AppSyncModelCo
         field?.directives?.forEach(dir => {
           if (dir?.name?.value === 'manyToMany') {
             dir?.arguments?.forEach(arg => {
-              if (arg.name.value === 'relationName' && arg.value.kind === 'StringValue') {
+              if(arg.name.value === 'relationName' && arg.value.kind === 'StringValue') {
                 manyToManySet.add(graphqlName(toUpper(arg.value.value)));
               }
             });
@@ -241,12 +241,12 @@ const generateManyToManyModelStubs = (options: Types.PresetFnArgs<AppSyncModelCo
       kind: 'ObjectTypeDefinition',
       name: {
         kind: 'Name',
-        value: modelName,
-      },
-    });
+        value: modelName
+      }
+    })
   });
   return models;
-};
+}
 
 export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
   buildGeneratesSection: (options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>): Types.GenerateOptions[] => {

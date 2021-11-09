@@ -211,7 +211,7 @@ describe('getField', () => {
         buckets: { type: aggregateBucketResultItem },
       },
     });
-
+    
     const aggregateResult = new GraphQLUnionType({
       name: 'SearchableAggregateGenericResult',
       types: [aggregateScalarResult, aggregateBucketResult],

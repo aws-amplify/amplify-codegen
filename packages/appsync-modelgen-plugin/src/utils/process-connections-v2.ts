@@ -1,8 +1,6 @@
 import { CodeGenField, CodeGenFieldDirective, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
 import {
-  CodeGenFieldConnection,
-  DEFAULT_HASH_KEY_FIELD,
-  flattenFieldDirectives,
+  CodeGenFieldConnection, DEFAULT_HASH_KEY_FIELD, flattenFieldDirectives,
   getDirective,
   makeConnectionAttributeName,
 } from './process-connections';
@@ -12,18 +10,13 @@ import { processHasManyConnection } from './process-has-many';
 
 // TODO: This file holds several references to utility functions in the v1 process connections file, those functions need to go here before that file is removed
 
-export function getConnectedFieldV2(
-  field: CodeGenField,
-  model: CodeGenModel,
-  connectedModel: CodeGenModel,
-  directiveName: string,
-): CodeGenField {
+export function getConnectedFieldV2(field: CodeGenField, model: CodeGenModel, connectedModel: CodeGenModel, directiveName: string): CodeGenField {
   const connectionInfo = getDirective(field)(directiveName);
   if (!connectionInfo) {
     throw new Error(`The ${field.name} on model ${model.name} is not connected`);
   }
 
-  if (connectionInfo.name === 'belongsTo') {
+  if(connectionInfo.name === 'belongsTo') {
     let connectedFieldBelongsTo = getBelongsToConnectedField(field, model, connectedModel);
     if (connectedFieldBelongsTo) {
       return connectedFieldBelongsTo;
@@ -50,20 +43,12 @@ export function getConnectedFieldV2(
     }
 
     // when there is a fields argument in the connection
-    const connectedFieldName = indexDirective
-      ? ((fieldDir: CodeGenFieldDirective) => {
-          return fieldDir.fieldName;
-        })(indexDirective as CodeGenFieldDirective)
-      : DEFAULT_HASH_KEY_FIELD;
+    const connectedFieldName = indexDirective ? ((fieldDir: CodeGenFieldDirective) => { return fieldDir.fieldName ;})(indexDirective as CodeGenFieldDirective) : DEFAULT_HASH_KEY_FIELD;
 
     // Find a field on the other side which connected by a @connection and has the same fields[0] as indexName field
     const otherSideConnectedField = connectedModel.fields.find(f => {
       return f.directives.find(d => {
-        return (
-          (d.name === 'belongsTo' || d.name === 'hasOne' || d.name === 'hasMany') &&
-          d.arguments.fields &&
-          d.arguments.fields[0] === connectedFieldName
-        );
+        return (d.name === 'belongsTo' || d.name === 'hasOne' || d.name === 'hasMany') && d.arguments.fields && d.arguments.fields[0] === connectedFieldName;
       });
     });
     if (otherSideConnectedField) {
@@ -83,13 +68,14 @@ export function getConnectedFieldV2(
   return connectedField
     ? connectedField
     : {
-        name: connectedFieldName,
-        directives: [],
-        type: 'ID',
-        isList: false,
-        isNullable: true,
-      };
+      name: connectedFieldName,
+      directives: [],
+      type: 'ID',
+      isList: false,
+      isNullable: true,
+    };
 }
+
 
 export function processConnectionsV2(
   field: CodeGenField,
@@ -98,8 +84,9 @@ export function processConnectionsV2(
 ): CodeGenFieldConnection | undefined {
   const connectionDirective = field.directives.find(d => d.name === 'hasOne' || d.name === 'hasMany' || d.name === 'belongsTo');
 
-  if (connectionDirective) {
-    switch (connectionDirective.name) {
+  if(connectionDirective) {
+
+    switch(connectionDirective.name) {
       case 'hasOne':
         return processHasOneConnection(field, model, modelMap, connectionDirective);
       case 'belongsTo':
