@@ -8,8 +8,7 @@ module.exports = {
     try {
       await codeGen.generateModels(context);
     } catch (ex) {
-      context.print.info(ex.message);
-      console.log(ex.stack);
+      context.print.error(ex.message);
       await context.usageData.emitError(ex);
       exitOnNextTick(1);
     }
