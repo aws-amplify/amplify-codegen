@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.4](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@2.8.3...@aws-amplify/graphql-types-generator@2.8.4) (2021-11-09)
+
+
+### Bug Fixes
+
+* **graphql:** allow aws_lambda directive ([03ef563](https://github.com/aws-amplify/amplify-codegen/commit/03ef5637488e9514116e83f691656fddae7628b2))
+
+
+
+
+
 ## [2.8.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@2.8.2...@aws-amplify/graphql-types-generator@2.8.3) (2021-10-21)
 
 
