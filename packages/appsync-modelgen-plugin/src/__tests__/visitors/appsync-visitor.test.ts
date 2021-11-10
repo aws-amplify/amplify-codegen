@@ -339,8 +339,9 @@ describe('AppSyncModelVisitor', () => {
       );
       visit(ast, { leave: visitor });
       visitor.generate();
-      const projectFields = visitor.models.Project.fields.map(field => field.name);
-      expect(projectFields).toContain('projectTeamId');
+      const projectTeamIdField = visitor.models.Project.fields.find(field => { return field.name === 'projectTeamId'; });
+      expect(projectTeamIdField).toBeDefined();
+      expect(projectTeamIdField.isNullable).toBeTruthy();
     });
   });
 
