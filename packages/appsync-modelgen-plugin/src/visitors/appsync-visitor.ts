@@ -691,7 +691,7 @@ export class AppSyncModelVisitor<
               directives: [],
               type: 'ID',
               isList: false,
-              isNullable: connectionInfo.associatedWith.isNullable,
+              isNullable: field.isNullable,
             });
           } else if (connectionInfo.targetName !== 'id') {
             // Need to remove the field that is targetName
