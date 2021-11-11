@@ -19,8 +19,7 @@ describe('Swift code generation: Basic language constructs', () => {
       public final class Hero {
         public var name: String
         public var age: Int
-      }
-    `);
+      }`);
   });
 
   it(`should generate a struct declaration`, () => {
@@ -33,8 +32,7 @@ describe('Swift code generation: Basic language constructs', () => {
       public struct Hero {
         public var name: String
         public var age: Int
-      }
-    `);
+      }`);
   });
 
   it(`should generate an escaped struct declaration`, () => {
@@ -47,8 +45,7 @@ describe('Swift code generation: Basic language constructs', () => {
       public struct \`Type\` {
         public var name: String
         public var yearOfBirth: Int
-      }
-    `);
+      }`);
   });
 
   it(`should generate nested struct declarations`, () => {
@@ -69,8 +66,7 @@ describe('Swift code generation: Basic language constructs', () => {
         public struct Friend {
           public var name: String
         }
-      }
-    `);
+      }`);
   });
 
   it(`should generate a protocol declaration`, () => {
@@ -83,8 +79,7 @@ describe('Swift code generation: Basic language constructs', () => {
       public protocol HeroDetails: HasName {
         var name: String { get }
         var age: Int { get }
-      }
-    `);
+      }`);
   });
 
   it(`should handle multi-line descriptions`, () => {

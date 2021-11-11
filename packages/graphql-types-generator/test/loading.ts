@@ -16,7 +16,6 @@ describe('Validation', () => {
       loadAndMergeQueryDocuments(inputPaths);
     }).toThrowError(
       `Could not parse graphql operations in ${path.join(
-        'test',
         'fixtures',
         'misc',
         'invalid-gqlQueries.js',
