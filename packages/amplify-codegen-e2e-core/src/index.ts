@@ -22,7 +22,6 @@ declare global {
 const amplifyTestsDir = 'amplify-codegen-e2e-tests';
 
 export function getCLIPath(testingWithLatestCodebase = false) {
-  testingWithLatestCodebase = true;
   if (isCI() && !testingWithLatestCodebase) {
     return 'amplify';
   }
