@@ -1,6 +1,8 @@
 import {
     initProjectWithProfile,
-    addApiWithSchema,
+    addApiWithoutSchema,
+    updateApiSchema,
+    createRandomName,
     amplifyPushWithCodegenAdd,
     AmplifyFrontendConfig,
     apiUpdateToggleDataStore,
@@ -14,7 +16,9 @@ import { testSetupBeforeAddCodegen } from "./test-setup";
 export async function testPushCodegen(config: AmplifyFrontendConfig, projectRoot: string, schema: string) {
     // init project and add API category
     await initProjectWithProfile(projectRoot, { ...config });
-    await addApiWithSchema(projectRoot, schema);
+    const projectName = createRandomName();
+    await addApiWithoutSchema(projectRoot, { apiName: projectName });
+    await updateApiSchema(projectRoot, projectName, schema);
 
     const userSourceCodePath = testSetupBeforeAddCodegen(projectRoot, config);
 

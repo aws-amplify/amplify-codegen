@@ -1,6 +1,7 @@
 import { nspawn as spawn, getCLIPath, singleSelect, addCircleCITags } from '..';
 import { KEY_DOWN_ARROW, AmplifyFrontend } from '../utils';
 import { amplifyRegions } from '../configure';
+import { v4 as uuid } from 'uuid';
 
 const defaultSettings = {
   name: '\r',
@@ -429,4 +430,10 @@ export async function initProjectWithProfile(cwd: string, settings: any) : Promi
     default:
       throw Error(`${settings.frontendType} is an invalid frontend type`);
   }
+}
+
+export function createRandomName() {
+  const length = 20;
+  const regExp = new RegExp('-', 'g');
+  return uuid().replace(regExp, '').substring(0, length);
 }
