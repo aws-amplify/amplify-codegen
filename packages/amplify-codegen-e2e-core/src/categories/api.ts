@@ -32,14 +32,15 @@ const defaultOptions: AddApiOptions = {
   testingWithLatestCodebase: false
 };
 
-export function addApiWithoutSchema(cwd: string, opts: Partial<AddApiOptions> = {}) {
+export function addApiWithoutSchema(cwd: string, opts: Partial<AddApiOptions & { apiKeyExpirationDays: number }> = {}) {
   const options = _.assign(defaultOptions, opts);
   return new Promise<void>((resolve, reject) => {
-    spawn(getCLIPath(), ['add', 'api'], { cwd, stripColors: true })
+    spawn(getCLIPath(options.testingWithLatestCodebase), ['add', 'api'], { cwd, stripColors: true })
       .wait('Please select from one of the below mentioned services:')
       .sendCarriageReturn()
       .wait(/.*Here is the GraphQL API that we will create. Select a setting to edit or continue.*/)
       .sendKeyUp(3)
+      .sendCarriageReturn()
       .wait('Provide API name:')
       .sendLine(options.apiName)
       .wait(/.*Here is the GraphQL API that we will create. Select a setting to edit or continue.*/)
@@ -48,10 +49,9 @@ export function addApiWithoutSchema(cwd: string, opts: Partial<AddApiOptions> = 
       .sendCarriageReturn()
       .wait('Do you want to edit the schema now?')
       .sendConfirmNo()
-      .wait('Successfully added resource collectionapi locally')
-      // .wait(
-      //   '"amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud',
-      // )
+      .wait(
+        '"amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud',
+      )
       .run((err: Error) => {
         if (!err) {
           resolve();
@@ -113,45 +113,6 @@ export function addApiWithBlankSchemaAndConflictDetection(cwd: string) {
       .sendCarriageReturn()
       .wait('Do you want to edit the schema now?')
       .sendLine('n')
-      .wait(
-        '"amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud',
-      )
-      .run((err: Error) => {
-        if (!err) {
-          resolve();
-        } else {
-          reject(err);
-        }
-      });
-  });
-}
-
-export function addApiWithSchemaAndConflictDetection(cwd: string, schemaFile: string) {
-  const schemaPath = getSchemaPath(schemaFile);
-  return new Promise<void>((resolve, reject) => {
-    spawn(getCLIPath(), ['add', 'api'], { cwd, stripColors: true })
-      .wait('Please select from one of the below mentioned services:')
-      .sendCarriageReturn()
-      .wait('Provide API name:')
-      .sendCarriageReturn()
-      .wait(/.*Choose the default authorization type for the API.*/)
-      .sendCarriageReturn()
-      .wait(/.*Enter a description for the API key.*/)
-      .sendCarriageReturn()
-      .wait(/.*After how many days from now the API key should expire.*/)
-      .sendCarriageReturn()
-      .wait(/.*Do you want to configure advanced settings for the GraphQL API.*/)
-      .sendLine(KEY_DOWN_ARROW) // Down
-      .wait(/.*Configure additional auth types.*/)
-      .sendLine('n')
-      .wait(/.*Enable conflict detection.*/)
-      .sendLine('y')
-      .wait(/.*Select the default resolution strategy.*/)
-      .sendCarriageReturn()
-      .wait(/.*Do you have an annotated GraphQL schema.*/)
-      .sendLine('y')
-      .wait('Provide your schema file path:')
-      .sendLine(schemaPath)
       .wait(
         '"amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud',
       )
@@ -253,26 +214,6 @@ export function apiDisableDataStore(cwd: string, settings: any) {
       .wait(/.*Select a setting to edit.*/)
       .sendKeyDown(2) // Disable conflict detection
       .sendCarriageReturn()
-      .wait(/.*Successfully updated resource.*/)
-      .sendEof()
-      .run((err: Error) => {
-        if (!err) {
-          resolve();
-        } else {
-          reject(err);
-        }
-      });
-  });
-}
-
-export function apiUpdateToggleDataStore(cwd: string, settings: any = {}) {
-  return new Promise<void>((resolve, reject) => {
-    spawn(getCLIPath(settings.testingWithLatestCodebase), ['update', 'api'], { cwd, stripColors: true })
-      .wait('Please select from one of the below mentioned services:')
-      .sendCarriageReturn()
-      .wait('Select from the options below')
-      .send(KEY_DOWN_ARROW)
-      .sendLine(KEY_DOWN_ARROW) // select enable datastore for the api
       .wait(/.*Successfully updated resource.*/)
       .sendEof()
       .run((err: Error) => {

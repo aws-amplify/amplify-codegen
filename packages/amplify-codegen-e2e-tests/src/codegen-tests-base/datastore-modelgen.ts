@@ -1,23 +1,24 @@
 import {
     initProjectWithProfile,
     addApiWithBlankSchemaAndConflictDetection,
-    generateModels,
-    AmplifyFrontendConfig,
+    updateApiSchema,
     createRandomName,
-    updateApiSchema
+    generateModels,
+    AmplifyFrontendConfig
 } from "amplify-codegen-e2e-core";
 import { existsSync } from "fs";
 import path from 'path';
 import { isNotEmptyDir, generateSourceCode } from '../utils';
 
 export async function testCodegenModels(config: AmplifyFrontendConfig, projectRoot: string, schema: string) {
+    const name = createRandomName();
+
     // init project and add API category
-    await initProjectWithProfile(projectRoot, { ...config });
+    await initProjectWithProfile(projectRoot, { name, ...config });
 
     //enable datastore
-    const projectName = createRandomName();
     await addApiWithBlankSchemaAndConflictDetection(projectRoot);
-    await updateApiSchema(projectRoot, projectName, schema);
+    await updateApiSchema(projectRoot, name, schema);
 
     //generate pre existing user file
     const userSourceCodePath = generateSourceCode(projectRoot, config.srcDir);

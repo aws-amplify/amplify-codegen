@@ -2,10 +2,10 @@ import {
   createNewProjectDir, 
   deleteProjectDir,
   deleteProject,
-  addApiWithSchema,
   initJSProjectWithProfile,
   amplifyPush,
   generateModels,
+  addApiWithoutSchema,
   updateApiSchema
 } from "amplify-codegen-e2e-core";
 import { addEnvironment, checkoutEnvironment } from "../environment/env";
@@ -27,7 +27,9 @@ describe('env codegen tests', () => {
   it('should generate models in different environments', async () => {
     //create amplify project with enva
     await initJSProjectWithProfile(projectRoot, { envName: 'enva' });
-    await addApiWithSchema(projectRoot, schema, { apiName });
+    await addApiWithoutSchema(projectRoot, { apiName: apiName });
+    await updateApiSchema(projectRoot, apiName, schema);
+
     await amplifyPush(projectRoot);
     //create new envb
     await addEnvironment(projectRoot, { envName: 'envb' });
