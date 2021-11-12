@@ -4,11 +4,11 @@ import { directives, scalars } from '../../scalars/supported-directives';
 import { AppSyncModelJavaVisitor } from '../../visitors/appsync-java-visitor';
 import { CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
 import { JAVA_SCALAR_MAP } from '../../scalars';
+import { schemaWithDefaultDirective } from './schema-definitions';
 
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
-
 
 const getVisitor = (
   schema: string,
@@ -207,6 +207,12 @@ describe('AppSyncModelVisitor', () => {
     `;
     const visitor = getVisitor(schema, 'authorBook');
     const generatedCode = visitor.generate();
+    expect(() => validateJava(generatedCode)).not.toThrow();
+    expect(generatedCode).toMatchSnapshot();
+  });
+
+  it('Should generate a default values for a Model with @default directives', () => {
+    const generatedCode = getVisitorPipelinedTransformer(schemaWithDefaultDirective, 'SimpleModel').generate();
     expect(() => validateJava(generatedCode)).not.toThrow();
     expect(generatedCode).toMatchSnapshot();
   });
@@ -592,7 +598,7 @@ describe('AppSyncModelVisitor', () => {
           content: String
           tags: [Tag] @manyToMany(relationName: "PostTags")
         }
-        
+
         type Tag @model {
           id: ID!
           label: String!

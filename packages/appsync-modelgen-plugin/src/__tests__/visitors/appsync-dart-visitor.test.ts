@@ -3,6 +3,7 @@ import { directives, scalars } from '../../scalars/supported-directives';
 import { AppSyncModelDartVisitor } from '../../visitors/appsync-dart-visitor';
 import { CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
 import { DART_SCALAR_MAP } from '../../scalars';
+import { schemaWithDefaultDirective } from './schema-definitions';
 
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
@@ -13,7 +14,7 @@ const getVisitor = (
   selectedType?: string,
   generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
   enableDartNullSafety: boolean = false,
-  transformerVersion: number = 1
+  transformerVersion: number = 1,
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -51,6 +52,11 @@ describe('AppSync Dart Visitor', () => {
       `;
       const visitor = getVisitor(schema);
       const generatedCode = visitor.generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+
+    it('Should generate a default values for a Model with @default directives', () => {
+      const generatedCode = getVisitor(schemaWithDefaultDirective, null, CodeGenGenerateEnum.code, false, 2).generate();
       expect(generatedCode).toMatchSnapshot();
     });
   });
@@ -475,7 +481,7 @@ describe('AppSync Dart Visitor', () => {
           content: String
           tags: [Tag] @manyToMany(relationName: "PostTags")
         }
-        
+
         type Tag @model {
           id: ID!
           label: String!

@@ -1385,6 +1385,398 @@ class _PostTagsModelType extends ModelType<PostTags> {
 "
 `;
 
+exports[`AppSync Dart Visitor Model Directive Should generate a default values for a Model with @default directives 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
+
+import 'ModelProvider.dart';
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:flutter/foundation.dart';
+
+/** This is an auto generated class representing the SimpleModel type in your schema. */
+@immutable
+class SimpleModel extends Model {
+  static const classType = const _SimpleModelModelType();
+  final String id;
+  final String stringValue;
+  final int intVal;
+  final double floatValue;
+  final bool booleanValue;
+  final String awsJsonValue;
+  final TemporalDate awsDateValue;
+  final TemporalTimestamp awsTimestampValue;
+  final String awsEmailValue;
+  final String awsURLValue;
+  final String awsPhoneValue;
+  final String awsIPAddressValue1;
+  final String awsIPAddressValue2;
+  final Tag enumValue;
+  final TemporalTime awsTimeValue;
+  final TemporalDateTime awsDateTime;
+
+  @override
+  getInstanceType() => classType;
+
+  @override
+  String getId() {
+    return id;
+  }
+
+  const SimpleModel._internal(
+      {@required this.id,
+      this.stringValue,
+      this.intVal,
+      this.floatValue,
+      this.booleanValue,
+      this.awsJsonValue,
+      this.awsDateValue,
+      this.awsTimestampValue,
+      this.awsEmailValue,
+      this.awsURLValue,
+      this.awsPhoneValue,
+      this.awsIPAddressValue1,
+      this.awsIPAddressValue2,
+      this.enumValue,
+      this.awsTimeValue,
+      this.awsDateTime});
+
+  factory SimpleModel(
+      {String id,
+      String stringValue,
+      int intVal,
+      double floatValue,
+      bool booleanValue,
+      String awsJsonValue,
+      TemporalDate awsDateValue,
+      TemporalTimestamp awsTimestampValue,
+      String awsEmailValue,
+      String awsURLValue,
+      String awsPhoneValue,
+      String awsIPAddressValue1,
+      String awsIPAddressValue2,
+      Tag enumValue,
+      TemporalTime awsTimeValue,
+      TemporalDateTime awsDateTime}) {
+    return SimpleModel._internal(
+        id: id == null ? UUID.getUUID() : id,
+        stringValue: stringValue == null ? \\"hello world\\" : stringValue,
+        intVal: intVal == null ? 10002000 : intVal,
+        floatValue: floatValue == null ? 123456.34565 : floatValue,
+        booleanValue: booleanValue == null ? true : booleanValue,
+        awsJsonValue: awsJsonValue == null
+            ? \\"{\\\\\\"a\\\\\\":1, \\\\\\"b\\\\\\":3, \\\\\\"string\\\\\\": 234}\\"
+            : awsJsonValue,
+        awsDateValue: awsDateValue == null
+            ? TemporalDate.fromString(\\"2016-01-29\\")
+            : awsDateValue,
+        awsTimestampValue: awsTimestampValue == null
+            ? TemporalTimestamp.fromSeconds(545345345)
+            : awsTimestampValue,
+        awsEmailValue:
+            awsEmailValue == null ? \\"local-part@domain-part\\" : awsEmailValue,
+        awsURLValue: awsURLValue == null
+            ? \\"https://www.amazon.com/dp/B000NZW3KC/\\"
+            : awsURLValue,
+        awsPhoneValue:
+            awsPhoneValue == null ? \\"+41 44 668 18 00\\" : awsPhoneValue,
+        awsIPAddressValue1:
+            awsIPAddressValue1 == null ? \\"123.12.34.56\\" : awsIPAddressValue1,
+        awsIPAddressValue2: awsIPAddressValue2 == null
+            ? \\"1a2b:3c4b::1234:4567\\"
+            : awsIPAddressValue2,
+        enumValue: enumValue == null ? Tag.RANDOM : enumValue,
+        awsTimeValue: awsTimeValue == null
+            ? TemporalTime.fromString(\\"12:00:34Z\\")
+            : awsTimeValue,
+        awsDateTime: awsDateTime == null
+            ? TemporalDateTime.fromString(\\"2007-04-05T14:30:34Z\\")
+            : awsDateTime);
+  }
+
+  bool equals(Object other) {
+    return this == other;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is SimpleModel &&
+        id == other.id &&
+        stringValue == other.stringValue &&
+        intVal == other.intVal &&
+        floatValue == other.floatValue &&
+        booleanValue == other.booleanValue &&
+        awsJsonValue == other.awsJsonValue &&
+        awsDateValue == other.awsDateValue &&
+        awsTimestampValue == other.awsTimestampValue &&
+        awsEmailValue == other.awsEmailValue &&
+        awsURLValue == other.awsURLValue &&
+        awsPhoneValue == other.awsPhoneValue &&
+        awsIPAddressValue1 == other.awsIPAddressValue1 &&
+        awsIPAddressValue2 == other.awsIPAddressValue2 &&
+        enumValue == other.enumValue &&
+        awsTimeValue == other.awsTimeValue &&
+        awsDateTime == other.awsDateTime;
+  }
+
+  @override
+  int get hashCode => toString().hashCode;
+
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+
+    buffer.write(\\"SimpleModel {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"stringValue=\\" + \\"$stringValue\\" + \\", \\");
+    buffer.write(
+        \\"intVal=\\" + (intVal != null ? intVal.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"floatValue=\\" +
+        (floatValue != null ? floatValue.toString() : \\"null\\") +
+        \\", \\");
+    buffer.write(\\"booleanValue=\\" +
+        (booleanValue != null ? booleanValue.toString() : \\"null\\") +
+        \\", \\");
+    buffer.write(\\"awsJsonValue=\\" + \\"$awsJsonValue\\" + \\", \\");
+    buffer.write(\\"awsDateValue=\\" +
+        (awsDateValue != null ? awsDateValue.format() : \\"null\\") +
+        \\", \\");
+    buffer.write(\\"awsTimestampValue=\\" +
+        (awsTimestampValue != null ? awsTimestampValue.toString() : \\"null\\") +
+        \\", \\");
+    buffer.write(\\"awsEmailValue=\\" + \\"$awsEmailValue\\" + \\", \\");
+    buffer.write(\\"awsURLValue=\\" + \\"$awsURLValue\\" + \\", \\");
+    buffer.write(\\"awsPhoneValue=\\" + \\"$awsPhoneValue\\" + \\", \\");
+    buffer.write(\\"awsIPAddressValue1=\\" + \\"$awsIPAddressValue1\\" + \\", \\");
+    buffer.write(\\"awsIPAddressValue2=\\" + \\"$awsIPAddressValue2\\" + \\", \\");
+    buffer.write(\\"enumValue=\\" +
+        (enumValue != null ? enumToString(enumValue) : \\"null\\") +
+        \\", \\");
+    buffer.write(\\"awsTimeValue=\\" +
+        (awsTimeValue != null ? awsTimeValue.format() : \\"null\\") +
+        \\", \\");
+    buffer.write(
+        \\"awsDateTime=\\" + (awsDateTime != null ? awsDateTime.format() : \\"null\\"));
+    buffer.write(\\"}\\");
+
+    return buffer.toString();
+  }
+
+  SimpleModel copyWith(
+      {String id,
+      String stringValue,
+      int intVal,
+      double floatValue,
+      bool booleanValue,
+      String awsJsonValue,
+      TemporalDate awsDateValue,
+      TemporalTimestamp awsTimestampValue,
+      String awsEmailValue,
+      String awsURLValue,
+      String awsPhoneValue,
+      String awsIPAddressValue1,
+      String awsIPAddressValue2,
+      Tag enumValue,
+      TemporalTime awsTimeValue,
+      TemporalDateTime awsDateTime}) {
+    return SimpleModel(
+        id: id ?? this.id,
+        stringValue: stringValue ?? this.stringValue,
+        intVal: intVal ?? this.intVal,
+        floatValue: floatValue ?? this.floatValue,
+        booleanValue: booleanValue ?? this.booleanValue,
+        awsJsonValue: awsJsonValue ?? this.awsJsonValue,
+        awsDateValue: awsDateValue ?? this.awsDateValue,
+        awsTimestampValue: awsTimestampValue ?? this.awsTimestampValue,
+        awsEmailValue: awsEmailValue ?? this.awsEmailValue,
+        awsURLValue: awsURLValue ?? this.awsURLValue,
+        awsPhoneValue: awsPhoneValue ?? this.awsPhoneValue,
+        awsIPAddressValue1: awsIPAddressValue1 ?? this.awsIPAddressValue1,
+        awsIPAddressValue2: awsIPAddressValue2 ?? this.awsIPAddressValue2,
+        enumValue: enumValue ?? this.enumValue,
+        awsTimeValue: awsTimeValue ?? this.awsTimeValue,
+        awsDateTime: awsDateTime ?? this.awsDateTime);
+  }
+
+  SimpleModel.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        stringValue = json['stringValue'],
+        intVal = (json['intVal'] as num)?.toInt(),
+        floatValue = (json['floatValue'] as num)?.toDouble(),
+        booleanValue = json['booleanValue'],
+        awsJsonValue = json['awsJsonValue'],
+        awsDateValue = json['awsDateValue'] != null
+            ? TemporalDate.fromString(json['awsDateValue'])
+            : null,
+        awsTimestampValue = json['awsTimestampValue'] != null
+            ? TemporalTimestamp.fromSeconds(json['awsTimestampValue'])
+            : null,
+        awsEmailValue = json['awsEmailValue'],
+        awsURLValue = json['awsURLValue'],
+        awsPhoneValue = json['awsPhoneValue'],
+        awsIPAddressValue1 = json['awsIPAddressValue1'],
+        awsIPAddressValue2 = json['awsIPAddressValue2'],
+        enumValue = enumFromString<Tag>(json['enumValue'], Tag.values),
+        awsTimeValue = json['awsTimeValue'] != null
+            ? TemporalTime.fromString(json['awsTimeValue'])
+            : null,
+        awsDateTime = json['awsDateTime'] != null
+            ? TemporalDateTime.fromString(json['awsDateTime'])
+            : null;
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'stringValue': stringValue,
+        'intVal': intVal,
+        'floatValue': floatValue,
+        'booleanValue': booleanValue,
+        'awsJsonValue': awsJsonValue,
+        'awsDateValue': awsDateValue?.format(),
+        'awsTimestampValue': awsTimestampValue?.toSeconds(),
+        'awsEmailValue': awsEmailValue,
+        'awsURLValue': awsURLValue,
+        'awsPhoneValue': awsPhoneValue,
+        'awsIPAddressValue1': awsIPAddressValue1,
+        'awsIPAddressValue2': awsIPAddressValue2,
+        'enumValue': enumToString(enumValue),
+        'awsTimeValue': awsTimeValue?.format(),
+        'awsDateTime': awsDateTime?.format()
+      };
+
+  static final QueryField ID = QueryField(fieldName: \\"simpleModel.id\\");
+  static final QueryField STRINGVALUE = QueryField(fieldName: \\"stringValue\\");
+  static final QueryField INTVAL = QueryField(fieldName: \\"intVal\\");
+  static final QueryField FLOATVALUE = QueryField(fieldName: \\"floatValue\\");
+  static final QueryField BOOLEANVALUE = QueryField(fieldName: \\"booleanValue\\");
+  static final QueryField AWSJSONVALUE = QueryField(fieldName: \\"awsJsonValue\\");
+  static final QueryField AWSDATEVALUE = QueryField(fieldName: \\"awsDateValue\\");
+  static final QueryField AWSTIMESTAMPVALUE =
+      QueryField(fieldName: \\"awsTimestampValue\\");
+  static final QueryField AWSEMAILVALUE =
+      QueryField(fieldName: \\"awsEmailValue\\");
+  static final QueryField AWSURLVALUE = QueryField(fieldName: \\"awsURLValue\\");
+  static final QueryField AWSPHONEVALUE =
+      QueryField(fieldName: \\"awsPhoneValue\\");
+  static final QueryField AWSIPADDRESSVALUE1 =
+      QueryField(fieldName: \\"awsIPAddressValue1\\");
+  static final QueryField AWSIPADDRESSVALUE2 =
+      QueryField(fieldName: \\"awsIPAddressValue2\\");
+  static final QueryField ENUMVALUE = QueryField(fieldName: \\"enumValue\\");
+  static final QueryField AWSTIMEVALUE = QueryField(fieldName: \\"awsTimeValue\\");
+  static final QueryField AWSDATETIME = QueryField(fieldName: \\"awsDateTime\\");
+  static var schema =
+      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"SimpleModel\\";
+    modelSchemaDefinition.pluralName = \\"SimpleModels\\";
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: SimpleModel.STRINGVALUE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: SimpleModel.INTVAL,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.int)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: SimpleModel.FLOATVALUE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.double)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: SimpleModel.BOOLEANVALUE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.bool)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: SimpleModel.AWSJSONVALUE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: SimpleModel.AWSDATEVALUE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.date)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: SimpleModel.AWSTIMESTAMPVALUE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.timestamp)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: SimpleModel.AWSEMAILVALUE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: SimpleModel.AWSURLVALUE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: SimpleModel.AWSPHONEVALUE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: SimpleModel.AWSIPADDRESSVALUE1,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: SimpleModel.AWSIPADDRESSVALUE2,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: SimpleModel.ENUMVALUE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.enumeration)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: SimpleModel.AWSTIMEVALUE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.time)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: SimpleModel.AWSDATETIME,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
+  });
+}
+
+class _SimpleModelModelType extends ModelType<SimpleModel> {
+  const _SimpleModelModelType();
+
+  @override
+  SimpleModel fromJson(Map<String, dynamic> jsonData) {
+    return SimpleModel.fromJson(jsonData);
+  }
+}
+"
+`;
+
 exports[`AppSync Dart Visitor Model Directive should generate a class for a Simple Model 1`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.

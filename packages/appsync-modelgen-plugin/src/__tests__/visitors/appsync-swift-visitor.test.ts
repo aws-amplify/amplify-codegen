@@ -3,6 +3,7 @@ import { directives, scalars } from '../../scalars/supported-directives';
 import { SWIFT_SCALAR_MAP } from '../../scalars';
 import { AppSyncSwiftVisitor } from '../../visitors/appsync-swift-visitor';
 import { CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
+import { schemaWithDefaultDirective } from './schema-definitions';
 
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
@@ -16,7 +17,7 @@ const getVisitor = (
   emitAuthProvider: boolean = true,
   generateIndexRules: boolean = true,
   handleListNullabilityTransparently: boolean = true,
-  transformerVersion: number = 1
+  transformerVersion: number = 1,
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -30,7 +31,7 @@ const getVisitor = (
       emitAuthProvider,
       generateIndexRules,
       handleListNullabilityTransparently,
-      transformerVersion: transformerVersion
+      transformerVersion: transformerVersion,
     },
     { selectedType, generate },
   );
@@ -45,10 +46,19 @@ const getVisitorPipelinedTransformer = (
   isTimestampFieldsAdded: boolean = true,
   emitAuthProvider: boolean = true,
   generateIndexRules: boolean = true,
-  handleListNullabilityTransparently: boolean = true
+  handleListNullabilityTransparently: boolean = true,
 ) => {
-  return getVisitor(schema, selectedType, generate, isTimestampFieldsAdded, emitAuthProvider, generateIndexRules, handleListNullabilityTransparently, 2);
-}
+  return getVisitor(
+    schema,
+    selectedType,
+    generate,
+    isTimestampFieldsAdded,
+    emitAuthProvider,
+    generateIndexRules,
+    handleListNullabilityTransparently,
+    2,
+  );
+};
 
 describe('AppSyncSwiftVisitor', () => {
   it('Should generate a class for a Model', () => {
@@ -380,6 +390,11 @@ describe('AppSyncSwiftVisitor', () => {
           }
       }"
     `);
+  });
+
+  it('Should generate a default vales for a Model with @default directives', () => {
+    const generatedCode = getVisitorPipelinedTransformer(schemaWithDefaultDirective, 'SimpleModel').generate();
+    expect(generatedCode).toMatchSnapshot();
   });
 
   it('Should produce same result for @primaryKey as when @key is used for a primary key', () => {
@@ -2269,7 +2284,7 @@ describe('AppSyncSwiftVisitor', () => {
           content: String
           tags: [Tag] @manyToMany(relationName: "PostTags")
         }
-        
+
         type Tag @model {
           id: ID!
           label: String!

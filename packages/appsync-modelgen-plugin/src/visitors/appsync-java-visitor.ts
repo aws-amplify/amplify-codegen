@@ -412,7 +412,7 @@ export class AppSyncModelJavaVisitor<
 
     // methods
     // build();
-    const buildImplementation = isModel ? [`String id = this.id != null ? this.id : UUID.randomUUID().toString();`, ''] : [''];
+    const buildImplementation = isModel ? this.getDefaultValues(model) : [''];
     const buildParams = this.getWritableFields(model)
       .map(field => this.getFieldName(field))
       .join(',\n');
@@ -912,5 +912,51 @@ export class AppSyncModelJavaVisitor<
 
   protected getWritableFields(model: CodeGenModel): CodeGenField[] {
     return this.getNonConnectedField(model).filter(f => !f.isReadOnly);
+  }
+
+  private getDefaultValues(model: CodeGenModel): string[] {
+    const statements = [`String id = this.id != null ? this.id : UUID.randomUUID().toString();`];
+
+    Object.entries(model.fields).forEach(([_, field]) => {
+      const defaultValue = this.getDefaultValue(field);
+      if (defaultValue) {
+        statements.push(`${this.getNativeType(field)} ${field.name} = this.${field.name} != null ? this.${field.name} : ${defaultValue};`);
+      }
+    });
+
+    statements.push('');
+    return statements;
+  }
+
+  private getDefaultValue(field: CodeGenField): string | undefined {
+    const defaultDirective = field.directives.find(d => d.name === 'default');
+
+    if (!defaultDirective) {
+      return undefined;
+    }
+
+    const defaultRawValue = defaultDirective.arguments.value;
+    if (field.type in this.scalars) {
+      if (this.scalars[field.type] === 'Integer' || this.scalars[field.type] === 'Double') {
+        return defaultRawValue;
+      } else if (this.scalars[field.type] === 'Boolean') {
+        return defaultRawValue.toLowerCase();
+      } else if (
+        this.scalars[field.type] === 'Temporal.Date' ||
+        this.scalars[field.type] === 'Temporal.Time' ||
+        this.scalars[field.type] === 'Temporal.DateTime'
+      ) {
+        return `new ${this.scalars[field.type]}("${defaultRawValue}")`;
+      } else if (this.scalars[field.type] === 'Temporal.Timestamp') {
+        return `new ${this.scalars[field.type]}(new java.util.Date(${defaultRawValue}))`;
+      } else if (this.scalars[field.type] === 'String') {
+        const escapedDefaultValue = defaultRawValue.replace(/"/g, '\\"');
+        return `"${escapedDefaultValue}"`;
+      }
+    } else if (this.isEnumType(field)) {
+      return `${this.getEnumName(this.enumMap[field.type])}.${defaultRawValue}`;
+    }
+
+    throw new Error(`Unsupported type ${field.type} for @${defaultDirective.name} directive.`);
   }
 }

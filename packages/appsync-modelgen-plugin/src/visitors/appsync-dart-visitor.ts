@@ -324,7 +324,7 @@ export class AppSyncModelDartVisitor<
         } else if (field.isList) {
           return `${fieldName}: ${fieldName} != null ? ${this.getNativeType(field)}.unmodifiable(${fieldName}) : ${fieldName}`;
         } else {
-          return `${fieldName}: ${fieldName}`;
+          return this.getConstructorFieldParameter(field);
         }
       })
       .join(',\n');
@@ -780,5 +780,47 @@ export class AppSyncModelDartVisitor<
 
   protected getNullSafetyTypeStr(type: string): string {
     return this.isNullSafety() ? `${type}?` : type;
+  }
+
+  private getConstructorFieldParameter(field: CodeGenField): string {
+    const defaultValue = this.getDefaultValue(field);
+
+    if (defaultValue) {
+      return `${field.name}: ${field.name} == null ? ${this.getDefaultValue(field)} : ${field.name}`;
+    }
+
+    return `${field.name}: ${field.name}`;
+  }
+
+  private getDefaultValue(field: CodeGenField): string | undefined {
+    const defaultDirective = field.directives.find(d => d.name === 'default');
+
+    if (!defaultDirective) {
+      return undefined;
+    }
+
+    const defaultRawValue = defaultDirective.arguments.value;
+    if (field.type in this.scalars) {
+      if (this.scalars[field.type] === 'int' || this.scalars[field.type] === 'double') {
+        return defaultRawValue;
+      } else if (this.scalars[field.type] === 'bool') {
+        return defaultRawValue.toLowerCase();
+      } else if (
+        this.scalars[field.type] === 'TemporalDate' ||
+        this.scalars[field.type] === 'TemporalTime' ||
+        this.scalars[field.type] === 'TemporalDateTime'
+      ) {
+        return `${this.scalars[field.type]}.fromString("${defaultRawValue}")`;
+      } else if (this.scalars[field.type] === 'TemporalTimestamp') {
+        return `${this.scalars[field.type]}.fromSeconds(${defaultRawValue})`;
+      } else if (this.scalars[field.type] === 'String') {
+        const escapedDefaultValue = defaultRawValue.replace(/"/g, '\\"');
+        return `"${escapedDefaultValue}"`;
+      }
+    } else if (this.isEnumType(field)) {
+      return `${this.getEnumName(this.enumMap[field.type])}.${defaultRawValue}`;
+    }
+
+    throw new Error(`Unsupported type ${field.type} for @${defaultDirective.name} directive.`);
   }
 }

@@ -3485,6 +3485,562 @@ public final class SimpleModel implements Model {
 "
 `;
 
+exports[`AppSyncModelVisitor Should generate a default values for a Model with @default directives 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.temporal.Temporal;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the SimpleModel type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"SimpleModels\\")
+public final class SimpleModel implements Model {
+  public static final QueryField ID = field(\\"SimpleModel\\", \\"id\\");
+  public static final QueryField STRING_VALUE = field(\\"SimpleModel\\", \\"stringValue\\");
+  public static final QueryField INT_VAL = field(\\"SimpleModel\\", \\"intVal\\");
+  public static final QueryField FLOAT_VALUE = field(\\"SimpleModel\\", \\"floatValue\\");
+  public static final QueryField BOOLEAN_VALUE = field(\\"SimpleModel\\", \\"booleanValue\\");
+  public static final QueryField AWS_JSON_VALUE = field(\\"SimpleModel\\", \\"awsJsonValue\\");
+  public static final QueryField AWS_DATE_VALUE = field(\\"SimpleModel\\", \\"awsDateValue\\");
+  public static final QueryField AWS_TIMESTAMP_VALUE = field(\\"SimpleModel\\", \\"awsTimestampValue\\");
+  public static final QueryField AWS_EMAIL_VALUE = field(\\"SimpleModel\\", \\"awsEmailValue\\");
+  public static final QueryField AWS_URL_VALUE = field(\\"SimpleModel\\", \\"awsURLValue\\");
+  public static final QueryField AWS_PHONE_VALUE = field(\\"SimpleModel\\", \\"awsPhoneValue\\");
+  public static final QueryField AWS_IP_ADDRESS_VALUE1 = field(\\"SimpleModel\\", \\"awsIPAddressValue1\\");
+  public static final QueryField AWS_IP_ADDRESS_VALUE2 = field(\\"SimpleModel\\", \\"awsIPAddressValue2\\");
+  public static final QueryField ENUM_VALUE = field(\\"SimpleModel\\", \\"enumValue\\");
+  public static final QueryField AWS_TIME_VALUE = field(\\"SimpleModel\\", \\"awsTimeValue\\");
+  public static final QueryField AWS_DATE_TIME = field(\\"SimpleModel\\", \\"awsDateTime\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\") String stringValue;
+  private final @ModelField(targetType=\\"Int\\") Integer intVal;
+  private final @ModelField(targetType=\\"Float\\") Double floatValue;
+  private final @ModelField(targetType=\\"Boolean\\") Boolean booleanValue;
+  private final @ModelField(targetType=\\"AWSJSON\\") String awsJsonValue;
+  private final @ModelField(targetType=\\"AWSDate\\") Temporal.Date awsDateValue;
+  private final @ModelField(targetType=\\"AWSTimestamp\\") Temporal.Timestamp awsTimestampValue;
+  private final @ModelField(targetType=\\"AWSEmail\\") String awsEmailValue;
+  private final @ModelField(targetType=\\"AWSURL\\") String awsURLValue;
+  private final @ModelField(targetType=\\"AWSPhone\\") String awsPhoneValue;
+  private final @ModelField(targetType=\\"AWSIPAddress\\") String awsIPAddressValue1;
+  private final @ModelField(targetType=\\"AWSIPAddress\\") String awsIPAddressValue2;
+  private final @ModelField(targetType=\\"Tag\\") Tag enumValue;
+  private final @ModelField(targetType=\\"AWSTime\\") Temporal.Time awsTimeValue;
+  private final @ModelField(targetType=\\"AWSDateTime\\") Temporal.DateTime awsDateTime;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getStringValue() {
+      return stringValue;
+  }
+  
+  public Integer getIntVal() {
+      return intVal;
+  }
+  
+  public Double getFloatValue() {
+      return floatValue;
+  }
+  
+  public Boolean getBooleanValue() {
+      return booleanValue;
+  }
+  
+  public String getAwsJsonValue() {
+      return awsJsonValue;
+  }
+  
+  public Temporal.Date getAwsDateValue() {
+      return awsDateValue;
+  }
+  
+  public Temporal.Timestamp getAwsTimestampValue() {
+      return awsTimestampValue;
+  }
+  
+  public String getAwsEmailValue() {
+      return awsEmailValue;
+  }
+  
+  public String getAwsUrlValue() {
+      return awsURLValue;
+  }
+  
+  public String getAwsPhoneValue() {
+      return awsPhoneValue;
+  }
+  
+  public String getAwsIpAddressValue1() {
+      return awsIPAddressValue1;
+  }
+  
+  public String getAwsIpAddressValue2() {
+      return awsIPAddressValue2;
+  }
+  
+  public Tag getEnumValue() {
+      return enumValue;
+  }
+  
+  public Temporal.Time getAwsTimeValue() {
+      return awsTimeValue;
+  }
+  
+  public Temporal.DateTime getAwsDateTime() {
+      return awsDateTime;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private SimpleModel(String id, String stringValue, Integer intVal, Double floatValue, Boolean booleanValue, String awsJsonValue, Temporal.Date awsDateValue, Temporal.Timestamp awsTimestampValue, String awsEmailValue, String awsURLValue, String awsPhoneValue, String awsIPAddressValue1, String awsIPAddressValue2, Tag enumValue, Temporal.Time awsTimeValue, Temporal.DateTime awsDateTime) {
+    this.id = id;
+    this.stringValue = stringValue;
+    this.intVal = intVal;
+    this.floatValue = floatValue;
+    this.booleanValue = booleanValue;
+    this.awsJsonValue = awsJsonValue;
+    this.awsDateValue = awsDateValue;
+    this.awsTimestampValue = awsTimestampValue;
+    this.awsEmailValue = awsEmailValue;
+    this.awsURLValue = awsURLValue;
+    this.awsPhoneValue = awsPhoneValue;
+    this.awsIPAddressValue1 = awsIPAddressValue1;
+    this.awsIPAddressValue2 = awsIPAddressValue2;
+    this.enumValue = enumValue;
+    this.awsTimeValue = awsTimeValue;
+    this.awsDateTime = awsDateTime;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      SimpleModel simpleModel = (SimpleModel) obj;
+      return ObjectsCompat.equals(getId(), simpleModel.getId()) &&
+              ObjectsCompat.equals(getStringValue(), simpleModel.getStringValue()) &&
+              ObjectsCompat.equals(getIntVal(), simpleModel.getIntVal()) &&
+              ObjectsCompat.equals(getFloatValue(), simpleModel.getFloatValue()) &&
+              ObjectsCompat.equals(getBooleanValue(), simpleModel.getBooleanValue()) &&
+              ObjectsCompat.equals(getAwsJsonValue(), simpleModel.getAwsJsonValue()) &&
+              ObjectsCompat.equals(getAwsDateValue(), simpleModel.getAwsDateValue()) &&
+              ObjectsCompat.equals(getAwsTimestampValue(), simpleModel.getAwsTimestampValue()) &&
+              ObjectsCompat.equals(getAwsEmailValue(), simpleModel.getAwsEmailValue()) &&
+              ObjectsCompat.equals(getAwsUrlValue(), simpleModel.getAwsUrlValue()) &&
+              ObjectsCompat.equals(getAwsPhoneValue(), simpleModel.getAwsPhoneValue()) &&
+              ObjectsCompat.equals(getAwsIpAddressValue1(), simpleModel.getAwsIpAddressValue1()) &&
+              ObjectsCompat.equals(getAwsIpAddressValue2(), simpleModel.getAwsIpAddressValue2()) &&
+              ObjectsCompat.equals(getEnumValue(), simpleModel.getEnumValue()) &&
+              ObjectsCompat.equals(getAwsTimeValue(), simpleModel.getAwsTimeValue()) &&
+              ObjectsCompat.equals(getAwsDateTime(), simpleModel.getAwsDateTime()) &&
+              ObjectsCompat.equals(getCreatedAt(), simpleModel.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), simpleModel.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getStringValue())
+      .append(getIntVal())
+      .append(getFloatValue())
+      .append(getBooleanValue())
+      .append(getAwsJsonValue())
+      .append(getAwsDateValue())
+      .append(getAwsTimestampValue())
+      .append(getAwsEmailValue())
+      .append(getAwsUrlValue())
+      .append(getAwsPhoneValue())
+      .append(getAwsIpAddressValue1())
+      .append(getAwsIpAddressValue2())
+      .append(getEnumValue())
+      .append(getAwsTimeValue())
+      .append(getAwsDateTime())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"SimpleModel {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"stringValue=\\" + String.valueOf(getStringValue()) + \\", \\")
+      .append(\\"intVal=\\" + String.valueOf(getIntVal()) + \\", \\")
+      .append(\\"floatValue=\\" + String.valueOf(getFloatValue()) + \\", \\")
+      .append(\\"booleanValue=\\" + String.valueOf(getBooleanValue()) + \\", \\")
+      .append(\\"awsJsonValue=\\" + String.valueOf(getAwsJsonValue()) + \\", \\")
+      .append(\\"awsDateValue=\\" + String.valueOf(getAwsDateValue()) + \\", \\")
+      .append(\\"awsTimestampValue=\\" + String.valueOf(getAwsTimestampValue()) + \\", \\")
+      .append(\\"awsEmailValue=\\" + String.valueOf(getAwsEmailValue()) + \\", \\")
+      .append(\\"awsURLValue=\\" + String.valueOf(getAwsUrlValue()) + \\", \\")
+      .append(\\"awsPhoneValue=\\" + String.valueOf(getAwsPhoneValue()) + \\", \\")
+      .append(\\"awsIPAddressValue1=\\" + String.valueOf(getAwsIpAddressValue1()) + \\", \\")
+      .append(\\"awsIPAddressValue2=\\" + String.valueOf(getAwsIpAddressValue2()) + \\", \\")
+      .append(\\"enumValue=\\" + String.valueOf(getEnumValue()) + \\", \\")
+      .append(\\"awsTimeValue=\\" + String.valueOf(getAwsTimeValue()) + \\", \\")
+      .append(\\"awsDateTime=\\" + String.valueOf(getAwsDateTime()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BuildStep builder() {
+      return new Builder();
+  }
+  
+  /** 
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static SimpleModel justId(String id) {
+    return new SimpleModel(
+      id,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      stringValue,
+      intVal,
+      floatValue,
+      booleanValue,
+      awsJsonValue,
+      awsDateValue,
+      awsTimestampValue,
+      awsEmailValue,
+      awsURLValue,
+      awsPhoneValue,
+      awsIPAddressValue1,
+      awsIPAddressValue2,
+      enumValue,
+      awsTimeValue,
+      awsDateTime);
+  }
+  public interface BuildStep {
+    SimpleModel build();
+    BuildStep id(String id);
+    BuildStep stringValue(String stringValue);
+    BuildStep intVal(Integer intVal);
+    BuildStep floatValue(Double floatValue);
+    BuildStep booleanValue(Boolean booleanValue);
+    BuildStep awsJsonValue(String awsJsonValue);
+    BuildStep awsDateValue(Temporal.Date awsDateValue);
+    BuildStep awsTimestampValue(Temporal.Timestamp awsTimestampValue);
+    BuildStep awsEmailValue(String awsEmailValue);
+    BuildStep awsUrlValue(String awsUrlValue);
+    BuildStep awsPhoneValue(String awsPhoneValue);
+    BuildStep awsIpAddressValue1(String awsIpAddressValue1);
+    BuildStep awsIpAddressValue2(String awsIpAddressValue2);
+    BuildStep enumValue(Tag enumValue);
+    BuildStep awsTimeValue(Temporal.Time awsTimeValue);
+    BuildStep awsDateTime(Temporal.DateTime awsDateTime);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private String stringValue;
+    private Integer intVal;
+    private Double floatValue;
+    private Boolean booleanValue;
+    private String awsJsonValue;
+    private Temporal.Date awsDateValue;
+    private Temporal.Timestamp awsTimestampValue;
+    private String awsEmailValue;
+    private String awsURLValue;
+    private String awsPhoneValue;
+    private String awsIPAddressValue1;
+    private String awsIPAddressValue2;
+    private Tag enumValue;
+    private Temporal.Time awsTimeValue;
+    private Temporal.DateTime awsDateTime;
+    @Override
+     public SimpleModel build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        String stringValue = this.stringValue != null ? this.stringValue : \\"hello world\\";
+        Integer intVal = this.intVal != null ? this.intVal : 10002000;
+        Double floatValue = this.floatValue != null ? this.floatValue : 123456.34565;
+        Boolean booleanValue = this.booleanValue != null ? this.booleanValue : true;
+        String awsJsonValue = this.awsJsonValue != null ? this.awsJsonValue : \\"{\\\\\\"a\\\\\\":1, \\\\\\"b\\\\\\":3, \\\\\\"string\\\\\\": 234}\\";
+        Temporal.Date awsDateValue = this.awsDateValue != null ? this.awsDateValue : new Temporal.Date(\\"2016-01-29\\");
+        Temporal.Timestamp awsTimestampValue = this.awsTimestampValue != null ? this.awsTimestampValue : new Temporal.Timestamp(new java.util.Date(545345345));
+        String awsEmailValue = this.awsEmailValue != null ? this.awsEmailValue : \\"local-part@domain-part\\";
+        String awsURLValue = this.awsURLValue != null ? this.awsURLValue : \\"https://www.amazon.com/dp/B000NZW3KC/\\";
+        String awsPhoneValue = this.awsPhoneValue != null ? this.awsPhoneValue : \\"+41 44 668 18 00\\";
+        String awsIPAddressValue1 = this.awsIPAddressValue1 != null ? this.awsIPAddressValue1 : \\"123.12.34.56\\";
+        String awsIPAddressValue2 = this.awsIPAddressValue2 != null ? this.awsIPAddressValue2 : \\"1a2b:3c4b::1234:4567\\";
+        Tag enumValue = this.enumValue != null ? this.enumValue : Tag.RANDOM;
+        Temporal.Time awsTimeValue = this.awsTimeValue != null ? this.awsTimeValue : new Temporal.Time(\\"12:00:34Z\\");
+        Temporal.DateTime awsDateTime = this.awsDateTime != null ? this.awsDateTime : new Temporal.DateTime(\\"2007-04-05T14:30:34Z\\");
+        
+        return new SimpleModel(
+          id,
+          stringValue,
+          intVal,
+          floatValue,
+          booleanValue,
+          awsJsonValue,
+          awsDateValue,
+          awsTimestampValue,
+          awsEmailValue,
+          awsURLValue,
+          awsPhoneValue,
+          awsIPAddressValue1,
+          awsIPAddressValue2,
+          enumValue,
+          awsTimeValue,
+          awsDateTime);
+    }
+    
+    @Override
+     public BuildStep stringValue(String stringValue) {
+        this.stringValue = stringValue;
+        return this;
+    }
+    
+    @Override
+     public BuildStep intVal(Integer intVal) {
+        this.intVal = intVal;
+        return this;
+    }
+    
+    @Override
+     public BuildStep floatValue(Double floatValue) {
+        this.floatValue = floatValue;
+        return this;
+    }
+    
+    @Override
+     public BuildStep booleanValue(Boolean booleanValue) {
+        this.booleanValue = booleanValue;
+        return this;
+    }
+    
+    @Override
+     public BuildStep awsJsonValue(String awsJsonValue) {
+        this.awsJsonValue = awsJsonValue;
+        return this;
+    }
+    
+    @Override
+     public BuildStep awsDateValue(Temporal.Date awsDateValue) {
+        this.awsDateValue = awsDateValue;
+        return this;
+    }
+    
+    @Override
+     public BuildStep awsTimestampValue(Temporal.Timestamp awsTimestampValue) {
+        this.awsTimestampValue = awsTimestampValue;
+        return this;
+    }
+    
+    @Override
+     public BuildStep awsEmailValue(String awsEmailValue) {
+        this.awsEmailValue = awsEmailValue;
+        return this;
+    }
+    
+    @Override
+     public BuildStep awsUrlValue(String awsUrlValue) {
+        this.awsURLValue = awsUrlValue;
+        return this;
+    }
+    
+    @Override
+     public BuildStep awsPhoneValue(String awsPhoneValue) {
+        this.awsPhoneValue = awsPhoneValue;
+        return this;
+    }
+    
+    @Override
+     public BuildStep awsIpAddressValue1(String awsIpAddressValue1) {
+        this.awsIPAddressValue1 = awsIpAddressValue1;
+        return this;
+    }
+    
+    @Override
+     public BuildStep awsIpAddressValue2(String awsIpAddressValue2) {
+        this.awsIPAddressValue2 = awsIpAddressValue2;
+        return this;
+    }
+    
+    @Override
+     public BuildStep enumValue(Tag enumValue) {
+        this.enumValue = enumValue;
+        return this;
+    }
+    
+    @Override
+     public BuildStep awsTimeValue(Temporal.Time awsTimeValue) {
+        this.awsTimeValue = awsTimeValue;
+        return this;
+    }
+    
+    @Override
+     public BuildStep awsDateTime(Temporal.DateTime awsDateTime) {
+        this.awsDateTime = awsDateTime;
+        return this;
+    }
+    
+    /** 
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String stringValue, Integer intVal, Double floatValue, Boolean booleanValue, String awsJsonValue, Temporal.Date awsDateValue, Temporal.Timestamp awsTimestampValue, String awsEmailValue, String awsUrlValue, String awsPhoneValue, String awsIpAddressValue1, String awsIpAddressValue2, Tag enumValue, Temporal.Time awsTimeValue, Temporal.DateTime awsDateTime) {
+      super.id(id);
+      super.stringValue(stringValue)
+        .intVal(intVal)
+        .floatValue(floatValue)
+        .booleanValue(booleanValue)
+        .awsJsonValue(awsJsonValue)
+        .awsDateValue(awsDateValue)
+        .awsTimestampValue(awsTimestampValue)
+        .awsEmailValue(awsEmailValue)
+        .awsUrlValue(awsUrlValue)
+        .awsPhoneValue(awsPhoneValue)
+        .awsIpAddressValue1(awsIpAddressValue1)
+        .awsIpAddressValue2(awsIpAddressValue2)
+        .enumValue(enumValue)
+        .awsTimeValue(awsTimeValue)
+        .awsDateTime(awsDateTime);
+    }
+    
+    @Override
+     public CopyOfBuilder stringValue(String stringValue) {
+      return (CopyOfBuilder) super.stringValue(stringValue);
+    }
+    
+    @Override
+     public CopyOfBuilder intVal(Integer intVal) {
+      return (CopyOfBuilder) super.intVal(intVal);
+    }
+    
+    @Override
+     public CopyOfBuilder floatValue(Double floatValue) {
+      return (CopyOfBuilder) super.floatValue(floatValue);
+    }
+    
+    @Override
+     public CopyOfBuilder booleanValue(Boolean booleanValue) {
+      return (CopyOfBuilder) super.booleanValue(booleanValue);
+    }
+    
+    @Override
+     public CopyOfBuilder awsJsonValue(String awsJsonValue) {
+      return (CopyOfBuilder) super.awsJsonValue(awsJsonValue);
+    }
+    
+    @Override
+     public CopyOfBuilder awsDateValue(Temporal.Date awsDateValue) {
+      return (CopyOfBuilder) super.awsDateValue(awsDateValue);
+    }
+    
+    @Override
+     public CopyOfBuilder awsTimestampValue(Temporal.Timestamp awsTimestampValue) {
+      return (CopyOfBuilder) super.awsTimestampValue(awsTimestampValue);
+    }
+    
+    @Override
+     public CopyOfBuilder awsEmailValue(String awsEmailValue) {
+      return (CopyOfBuilder) super.awsEmailValue(awsEmailValue);
+    }
+    
+    @Override
+     public CopyOfBuilder awsUrlValue(String awsUrlValue) {
+      return (CopyOfBuilder) super.awsUrlValue(awsUrlValue);
+    }
+    
+    @Override
+     public CopyOfBuilder awsPhoneValue(String awsPhoneValue) {
+      return (CopyOfBuilder) super.awsPhoneValue(awsPhoneValue);
+    }
+    
+    @Override
+     public CopyOfBuilder awsIpAddressValue1(String awsIpAddressValue1) {
+      return (CopyOfBuilder) super.awsIpAddressValue1(awsIpAddressValue1);
+    }
+    
+    @Override
+     public CopyOfBuilder awsIpAddressValue2(String awsIpAddressValue2) {
+      return (CopyOfBuilder) super.awsIpAddressValue2(awsIpAddressValue2);
+    }
+    
+    @Override
+     public CopyOfBuilder enumValue(Tag enumValue) {
+      return (CopyOfBuilder) super.enumValue(enumValue);
+    }
+    
+    @Override
+     public CopyOfBuilder awsTimeValue(Temporal.Time awsTimeValue) {
+      return (CopyOfBuilder) super.awsTimeValue(awsTimeValue);
+    }
+    
+    @Override
+     public CopyOfBuilder awsDateTime(Temporal.DateTime awsDateTime) {
+      return (CopyOfBuilder) super.awsDateTime(awsDateTime);
+    }
+  }
+  
+}
+"
+`;
+
 exports[`AppSyncModelVisitor Should handle nullability of lists appropriately 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 

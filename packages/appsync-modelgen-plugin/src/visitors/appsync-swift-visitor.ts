@@ -113,7 +113,7 @@ export class AppSyncSwiftVisitor<
             return {
               name: this.getFieldName(field),
               type: this.getNativeType(field),
-              value: field.name === 'id' ? 'UUID().uuidString' : undefined,
+              value: this.getFieldValue(field),
               flags: {
                 optional: field.isNullable,
                 isList: field.isList,
@@ -139,7 +139,7 @@ export class AppSyncSwiftVisitor<
             return {
               name: this.getFieldName(field),
               type: this.getNativeType(field),
-              value: field.name === 'id' ? 'UUID().uuidString' : undefined,
+              value: this.getFieldValue(field),
               flags: {
                 optional: field.isNullable,
                 isList: field.isList,
@@ -507,5 +507,39 @@ export class AppSyncSwiftVisitor<
 
   protected hasReadOnlyFields(model: CodeGenModel): boolean {
     return model.fields.filter(f => f.isReadOnly).length !== 0;
+  }
+
+  private getFieldValue(field: CodeGenField): string | undefined {
+    return field.name === 'id' ? 'UUID().uuidString' : this.getDefaultValue(field);
+  }
+
+  private getDefaultValue(field: CodeGenField): string | undefined {
+    const defaultDirective = field.directives.find(d => d.name === 'default');
+
+    if (!defaultDirective) {
+      return undefined;
+    }
+
+    const defaultRawValue = defaultDirective.arguments.value;
+    if (field.type in this.scalars) {
+      if (this.scalars[field.type] === 'Int' || this.scalars[field.type] === 'Double') {
+        return defaultRawValue;
+      } else if (this.scalars[field.type] == 'Bool') {
+        return defaultRawValue.toLowerCase();
+      } else if (
+        this.scalars[field.type] === 'Temporal.Date' ||
+        this.scalars[field.type] === 'Temporal.Time' ||
+        this.scalars[field.type] === 'Temporal.DateTime'
+      ) {
+        return `try? ${this.scalars[field.type]}(iso8601String: "${defaultRawValue}")`;
+      } else if (this.scalars[field.type] === 'String') {
+        const escapedDefaultValue = defaultRawValue.replace(/"/g, '\\"');
+        return `"${escapedDefaultValue}"`;
+      }
+    } else if (this.isEnumType(field)) {
+      return `${this.getEnumName(this.enumMap[field.type])}.${defaultRawValue.toLowerCase()}`;
+    }
+
+    throw new Error(`Unsupported type ${field.type} for @${defaultDirective.name} directive.`);
   }
 }

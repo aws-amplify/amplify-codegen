@@ -7,6 +7,206 @@ import Foundation
 "
 `;
 
+exports[`AppSyncSwiftVisitor Should generate a default vales for a Model with @default directives 1`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct SimpleModel: Model {
+  public let id: String
+  public var stringValue: String?
+  public var intVal: Int?
+  public var floatValue: Double?
+  public var booleanValue: Bool?
+  public var awsJsonValue: String?
+  public var awsDateValue: Temporal.Date?
+  public var awsTimestampValue: Int?
+  public var awsEmailValue: String?
+  public var awsURLValue: String?
+  public var awsPhoneValue: String?
+  public var awsIPAddressValue1: String?
+  public var awsIPAddressValue2: String?
+  public var enumValue: Tag?
+  public var awsTimeValue: Temporal.Time?
+  public var awsDateTime: Temporal.DateTime?
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  
+  public init(id: String = UUID().uuidString,
+      stringValue: String? = \\"hello world\\",
+      intVal: Int? = 10002000,
+      floatValue: Double? = 123456.34565,
+      booleanValue: Bool? = true,
+      awsJsonValue: String? = \\"{\\\\\\"a\\\\\\":1, \\\\\\"b\\\\\\":3, \\\\\\"string\\\\\\": 234}\\",
+      awsDateValue: Temporal.Date? = try? Temporal.Date(iso8601String: \\"2016-01-29\\"),
+      awsTimestampValue: Int? = 545345345,
+      awsEmailValue: String? = \\"local-part@domain-part\\",
+      awsURLValue: String? = \\"https://www.amazon.com/dp/B000NZW3KC/\\",
+      awsPhoneValue: String? = \\"+41 44 668 18 00\\",
+      awsIPAddressValue1: String? = \\"123.12.34.56\\",
+      awsIPAddressValue2: String? = \\"1a2b:3c4b::1234:4567\\",
+      enumValue: Tag? = Tag.random,
+      awsTimeValue: Temporal.Time? = try? Temporal.Time(iso8601String: \\"12:00:34Z\\"),
+      awsDateTime: Temporal.DateTime? = try? Temporal.DateTime(iso8601String: \\"2007-04-05T14:30:34Z\\")) {
+    self.init(id: id,
+      stringValue: stringValue,
+      intVal: intVal,
+      floatValue: floatValue,
+      booleanValue: booleanValue,
+      awsJsonValue: awsJsonValue,
+      awsDateValue: awsDateValue,
+      awsTimestampValue: awsTimestampValue,
+      awsEmailValue: awsEmailValue,
+      awsURLValue: awsURLValue,
+      awsPhoneValue: awsPhoneValue,
+      awsIPAddressValue1: awsIPAddressValue1,
+      awsIPAddressValue2: awsIPAddressValue2,
+      enumValue: enumValue,
+      awsTimeValue: awsTimeValue,
+      awsDateTime: awsDateTime,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(id: String = UUID().uuidString,
+      stringValue: String? = \\"hello world\\",
+      intVal: Int? = 10002000,
+      floatValue: Double? = 123456.34565,
+      booleanValue: Bool? = true,
+      awsJsonValue: String? = \\"{\\\\\\"a\\\\\\":1, \\\\\\"b\\\\\\":3, \\\\\\"string\\\\\\": 234}\\",
+      awsDateValue: Temporal.Date? = try? Temporal.Date(iso8601String: \\"2016-01-29\\"),
+      awsTimestampValue: Int? = 545345345,
+      awsEmailValue: String? = \\"local-part@domain-part\\",
+      awsURLValue: String? = \\"https://www.amazon.com/dp/B000NZW3KC/\\",
+      awsPhoneValue: String? = \\"+41 44 668 18 00\\",
+      awsIPAddressValue1: String? = \\"123.12.34.56\\",
+      awsIPAddressValue2: String? = \\"1a2b:3c4b::1234:4567\\",
+      enumValue: Tag? = Tag.random,
+      awsTimeValue: Temporal.Time? = try? Temporal.Time(iso8601String: \\"12:00:34Z\\"),
+      awsDateTime: Temporal.DateTime? = try? Temporal.DateTime(iso8601String: \\"2007-04-05T14:30:34Z\\"),
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
+      self.id = id
+      self.stringValue = stringValue
+      self.intVal = intVal
+      self.floatValue = floatValue
+      self.booleanValue = booleanValue
+      self.awsJsonValue = awsJsonValue
+      self.awsDateValue = awsDateValue
+      self.awsTimestampValue = awsTimestampValue
+      self.awsEmailValue = awsEmailValue
+      self.awsURLValue = awsURLValue
+      self.awsPhoneValue = awsPhoneValue
+      self.awsIPAddressValue1 = awsIPAddressValue1
+      self.awsIPAddressValue2 = awsIPAddressValue2
+      self.enumValue = enumValue
+      self.awsTimeValue = awsTimeValue
+      self.awsDateTime = awsDateTime
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+  }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor Should generate a default values for a Model with @default directives 1`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct SimpleModel: Model {
+  public let id: String
+  public var stringValue: String?
+  public var intVal: Int?
+  public var floatValue: Double?
+  public var booleanValue: Bool?
+  public var awsJsonValue: String?
+  public var awsDateValue: Temporal.Date?
+  public var awsTimestampValue: Int?
+  public var awsEmailValue: String?
+  public var awsURLValue: String?
+  public var awsPhoneValue: String?
+  public var awsIPAddressValue1: String?
+  public var awsIPAddressValue2: String?
+  public var enumValue: Tag?
+  public var awsTimeValue: Temporal.Time?
+  public var awsDateTime: Temporal.DateTime?
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  
+  public init(id: String = UUID().uuidString,
+      stringValue: String? = \\"hello world\\",
+      intVal: Int? = 10002000,
+      floatValue: Double? = 123456.34565,
+      booleanValue: Bool? = true,
+      awsJsonValue: String? = \\"{\\\\\\"a\\\\\\":1, \\\\\\"b\\\\\\":3, \\\\\\"string\\\\\\": 234}\\",
+      awsDateValue: Temporal.Date? = try? Temporal.Date(iso8601String: \\"2016-01-29\\"),
+      awsTimestampValue: Int? = 545345345,
+      awsEmailValue: String? = \\"local-part@domain-part\\",
+      awsURLValue: String? = \\"https://www.amazon.com/dp/B000NZW3KC/\\",
+      awsPhoneValue: String? = \\"+41 44 668 18 00\\",
+      awsIPAddressValue1: String? = \\"123.12.34.56\\",
+      awsIPAddressValue2: String? = \\"1a2b:3c4b::1234:4567\\",
+      enumValue: Tag? = Tag.random,
+      awsTimeValue: Temporal.Time? = try? Temporal.Time(iso8601String: \\"12:00:34Z\\"),
+      awsDateTime: Temporal.DateTime? = try? Temporal.DateTime(iso8601String: \\"2007-04-05T14:30:34Z\\")) {
+    self.init(id: id,
+      stringValue: stringValue,
+      intVal: intVal,
+      floatValue: floatValue,
+      booleanValue: booleanValue,
+      awsJsonValue: awsJsonValue,
+      awsDateValue: awsDateValue,
+      awsTimestampValue: awsTimestampValue,
+      awsEmailValue: awsEmailValue,
+      awsURLValue: awsURLValue,
+      awsPhoneValue: awsPhoneValue,
+      awsIPAddressValue1: awsIPAddressValue1,
+      awsIPAddressValue2: awsIPAddressValue2,
+      enumValue: enumValue,
+      awsTimeValue: awsTimeValue,
+      awsDateTime: awsDateTime,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(id: String = UUID().uuidString,
+      stringValue: String? = \\"hello world\\",
+      intVal: Int? = 10002000,
+      floatValue: Double? = 123456.34565,
+      booleanValue: Bool? = true,
+      awsJsonValue: String? = \\"{\\\\\\"a\\\\\\":1, \\\\\\"b\\\\\\":3, \\\\\\"string\\\\\\": 234}\\",
+      awsDateValue: Temporal.Date? = try? Temporal.Date(iso8601String: \\"2016-01-29\\"),
+      awsTimestampValue: Int? = 545345345,
+      awsEmailValue: String? = \\"local-part@domain-part\\",
+      awsURLValue: String? = \\"https://www.amazon.com/dp/B000NZW3KC/\\",
+      awsPhoneValue: String? = \\"+41 44 668 18 00\\",
+      awsIPAddressValue1: String? = \\"123.12.34.56\\",
+      awsIPAddressValue2: String? = \\"1a2b:3c4b::1234:4567\\",
+      enumValue: Tag? = Tag.random,
+      awsTimeValue: Temporal.Time? = try? Temporal.Time(iso8601String: \\"12:00:34Z\\"),
+      awsDateTime: Temporal.DateTime? = try? Temporal.DateTime(iso8601String: \\"2007-04-05T14:30:34Z\\"),
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
+      self.id = id
+      self.stringValue = stringValue
+      self.intVal = intVal
+      self.floatValue = floatValue
+      self.booleanValue = booleanValue
+      self.awsJsonValue = awsJsonValue
+      self.awsDateValue = awsDateValue
+      self.awsTimestampValue = awsTimestampValue
+      self.awsEmailValue = awsEmailValue
+      self.awsURLValue = awsURLValue
+      self.awsPhoneValue = awsPhoneValue
+      self.awsIPAddressValue1 = awsIPAddressValue1
+      self.awsIPAddressValue2 = awsIPAddressValue2
+      self.enumValue = enumValue
+      self.awsTimeValue = awsTimeValue
+      self.awsDateTime = awsDateTime
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+  }
+}"
+`;
+
 exports[`AppSyncSwiftVisitor Should handle nullability of lists appropriately 1`] = `
 "// swiftlint:disable all
 import Amplify
