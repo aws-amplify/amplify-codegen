@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.5](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@2.8.4...@aws-amplify/graphql-types-generator@2.8.5) (2021-11-12)
+
+
+### Bug Fixes
+
+* **graphql-types-generator:** indentation fixes ([f5ca0e4](https://github.com/aws-amplify/amplify-codegen/commit/f5ca0e440e6639345d40b15b605ea5a0a89e7c54))
+
+
+
+
+
 ## [2.8.4](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@2.8.3...@aws-amplify/graphql-types-generator@2.8.4) (2021-11-09)
 
 
