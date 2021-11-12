@@ -5,8 +5,8 @@ import {
     createRandomName,
     amplifyPushWithCodegenAdd,
     AmplifyFrontendConfig,
-    apiUpdateToggleDataStore,
-    amplifyPushWithCodegenUpdate
+    amplifyPushWithCodegenUpdate,
+    updateAPIWithResolutionStrategyWithModels
 } from "amplify-codegen-e2e-core";
 import { existsSync } from "fs";
 import path from 'path';
@@ -32,7 +32,7 @@ export async function testPushCodegen(config: AmplifyFrontendConfig, projectRoot
     expect(isNotEmptyDir(path.join(projectRoot, config.graphqlCodegenDir))).toBe(true);
 
     //enable datastore
-    await apiUpdateToggleDataStore(projectRoot);
+    await updateAPIWithResolutionStrategyWithModels(projectRoot, {});
     //push with codegen update
     await amplifyPushWithCodegenUpdate(projectRoot);
     expect(existsSync(userSourceCodePath)).toBe(true);
