@@ -1,6 +1,8 @@
 import {
     initProjectWithProfile,
-    addApiWithSchema,
+    addApiWithoutSchema,
+    updateApiSchema,
+    createRandomName,
     addCodegen,
     removeCodegen,
     AmplifyFrontendConfig
@@ -14,7 +16,9 @@ import { load } from 'js-yaml';
 export async function testRemoveCodegen(config: AmplifyFrontendConfig, projectRoot: string, schema: string) {
     // init project and add API category
     await initProjectWithProfile(projectRoot, { ...config });
-    await addApiWithSchema(projectRoot, schema);
+    const projectName = createRandomName();
+    await addApiWithoutSchema(projectRoot, { apiName: projectName });
+    await updateApiSchema(projectRoot, projectName, schema);
 
     const userSourceCodePath = testSetupBeforeAddCodegen(projectRoot, config);
 

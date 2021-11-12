@@ -899,8 +899,7 @@ describe('Compiling query documents to the legacy IR', () => {
         hero {
           name
         }
-      }
-    `;
+      }`;
     const document = parse(source);
 
     const { operations } = compileToLegacyIR(schema, document);
@@ -912,8 +911,7 @@ describe('Compiling query documents to the legacy IR', () => {
     const source = stripIndent`
       fragment HeroDetails on Character {
         name
-      }
-    `;
+      }`;
     const document = parse(source);
 
     const { fragments } = compileToLegacyIR(schema, document);
@@ -927,8 +925,7 @@ describe('Compiling query documents to the legacy IR', () => {
         hero {
           name
         }
-      }
-    `;
+      }`;
     const document = parse(source);
 
     const { operations } = compileToLegacyIR(schema, document, { addTypename: true });
@@ -939,16 +936,14 @@ describe('Compiling query documents to the legacy IR', () => {
           __typename
           name
         }
-      }
-    `);
+      }`);
   });
 
   it(`should include the source of fragments with __typename added when addTypename is true`, () => {
     const source = stripIndent`
       fragment HeroDetails on Character {
         name
-      }
-    `;
+      }`;
     const document = parse(source);
 
     const { fragments } = compileToLegacyIR(schema, document, { addTypename: true });
@@ -957,8 +952,7 @@ describe('Compiling query documents to the legacy IR', () => {
       fragment HeroDetails on Character {
         __typename
         name
-      }
-    `);
+      }`);
   });
 
   it(`should include the operationType for a query`, () => {
@@ -967,8 +961,7 @@ describe('Compiling query documents to the legacy IR', () => {
         hero {
           name
         }
-      }
-    `;
+      }`;
     const document = parse(source);
 
     const { operations } = compileToLegacyIR(schema, document);
@@ -983,8 +976,7 @@ describe('Compiling query documents to the legacy IR', () => {
           stars
           commentary
         }
-      }
-    `;
+      }`;
     const document = parse(source);
 
     const { operations } = compileToLegacyIR(schema, document);
