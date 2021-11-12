@@ -32,14 +32,15 @@ const defaultOptions: AddApiOptions = {
   testingWithLatestCodebase: false
 };
 
-export function addApiWithoutSchema(cwd: string, opts: Partial<AddApiOptions> = {}) {
+export function addApiWithoutSchema(cwd: string, opts: Partial<AddApiOptions & { apiKeyExpirationDays: number }> = {}) {
   const options = _.assign(defaultOptions, opts);
   return new Promise<void>((resolve, reject) => {
-    spawn(getCLIPath(), ['add', 'api'], { cwd, stripColors: true })
+    spawn(getCLIPath(options.testingWithLatestCodebase), ['add', 'api'], { cwd, stripColors: true })
       .wait('Please select from one of the below mentioned services:')
       .sendCarriageReturn()
       .wait(/.*Here is the GraphQL API that we will create. Select a setting to edit or continue.*/)
       .sendKeyUp(3)
+      .sendCarriageReturn()
       .wait('Provide API name:')
       .sendLine(options.apiName)
       .wait(/.*Here is the GraphQL API that we will create. Select a setting to edit or continue.*/)
@@ -48,10 +49,9 @@ export function addApiWithoutSchema(cwd: string, opts: Partial<AddApiOptions> = 
       .sendCarriageReturn()
       .wait('Do you want to edit the schema now?')
       .sendConfirmNo()
-      .wait('Successfully added resource collectionapi locally')
-      // .wait(
-      //   '"amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud',
-      // )
+      .wait(
+        '"amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud',
+      )
       .run((err: Error) => {
         if (!err) {
           resolve();
