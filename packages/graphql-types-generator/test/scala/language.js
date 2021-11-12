@@ -23,8 +23,7 @@ describe('Scala code generation: Basic language constructs', function() {
         }
         val age: Int = {
         }
-      }
-    `);
+      }`);
   });
 
   test(`should generate a case class declaration`, function() {
@@ -36,8 +35,7 @@ describe('Scala code generation: Basic language constructs', function() {
 
     expect(generator.output).toBe(stripIndent`
       case class Hero(name: String, age: Int) {
-      }
-    `);
+      }`);
   });
 
   test(`should generate nested case class declarations`, function() {
@@ -53,8 +51,7 @@ describe('Scala code generation: Basic language constructs', function() {
       case class Hero(name: String, age: Int) {
         case class Friend(name: String) {
         }
-      }
-    `);
+      }`);
   });
 
   test(`should handle multi-line descriptions`, () => {

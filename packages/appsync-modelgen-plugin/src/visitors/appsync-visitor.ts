@@ -691,7 +691,7 @@ export class AppSyncModelVisitor<
               directives: [],
               type: 'ID',
               isList: false,
-              isNullable: connectionInfo.associatedWith.isNullable,
+              isNullable: field.isNullable,
             });
           } else if (connectionInfo.targetName !== 'id') {
             // Need to remove the field that is targetName
@@ -708,7 +708,7 @@ export class AppSyncModelVisitor<
         const connectionInfo = field.connectionInfo;
         if (modelTypes.includes(fieldType) && connectionInfo === undefined) {
           printWarning(
-            `Model ${model.name} has field ${field.name} of type ${field.type} but its not connected. Add a @connection directive if want to connect them.`,
+            `Model ${model.name} has field ${field.name} of type ${field.type} but its not connected. Add the appropriate ${field.isList ? '@hasMany' : '@hasOne'}/@belongsTo directive if you want to connect them.`,
           );
           return false;
         }

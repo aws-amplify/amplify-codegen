@@ -9,9 +9,11 @@ FlowGeneratedFile {
 /* @flow */
 // This file was automatically generated and should not be edited.
 
+
 // ====================================================
 // GraphQL query operation: HeroName
 // ====================================================
+
 
 export type ?HeroName_hero_Human_friends = {
   __typename: \\"Human\\",
@@ -45,12 +47,14 @@ export type HeroName = {
 // TODO: Link to issue to fix this.
 //==============================================================
 
+
 // The episodes in the Star Wars trilogy
 export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 
 //==============================================================
 // END Enums and Input Objects
-//==============================================================",
+//==============================================================
+",
 }
 `;
 
@@ -63,9 +67,11 @@ FlowGeneratedFile {
 /* @flow */
 // This file was automatically generated and should not be edited.
 
+
 // ====================================================
 // GraphQL fragment: humanFragment
 // ====================================================
+
 
 export type ?humanFragment_friends = {
   __typename: \\"Human\\",
@@ -88,12 +94,14 @@ export type humanFragment = {
 // TODO: Link to issue to fix this.
 //==============================================================
 
+
 // The episodes in the Star Wars trilogy
 export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 
 //==============================================================
 // END Enums and Input Objects
-//==============================================================",
+//==============================================================
+",
 }
 `;
 
@@ -106,9 +114,11 @@ FlowGeneratedFile {
 /* @flow */
 // This file was automatically generated and should not be edited.
 
+
 // ====================================================
 // GraphQL fragment: droidFragment
 // ====================================================
+
 
 export type droidFragment = {
   __typename: \\"Droid\\",
@@ -122,12 +132,14 @@ export type droidFragment = {
 // TODO: Link to issue to fix this.
 //==============================================================
 
+
 // The episodes in the Star Wars trilogy
 export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 
 //==============================================================
 // END Enums and Input Objects
-//==============================================================",
+//==============================================================
+",
 }
 `;
 
@@ -140,9 +152,11 @@ FlowGeneratedFile {
 /* @flow */
 // This file was automatically generated and should not be edited.
 
+
 // ====================================================
 // GraphQL fragment: simpleFragment
 // ====================================================
+
 
 export type simpleFragment = {
   __typename: \\"Human\\" | \\"Droid\\",
@@ -156,9 +170,11 @@ export type simpleFragment = {
 // TODO: Link to issue to fix this.
 //==============================================================
 
+
 //==============================================================
 // END Enums and Input Objects
-//==============================================================",
+//==============================================================
+",
 }
 `;
 
@@ -171,9 +187,11 @@ FlowGeneratedFile {
 /* @flow */
 // This file was automatically generated and should not be edited.
 
+
 // ====================================================
 // GraphQL fragment: anotherFragment
 // ====================================================
+
 
 export type anotherFragment = {
   __typename: \\"Human\\" | \\"Droid\\",
@@ -188,9 +206,11 @@ export type anotherFragment = {
 // TODO: Link to issue to fix this.
 //==============================================================
 
+
 //==============================================================
 // END Enums and Input Objects
-//==============================================================",
+//==============================================================
+",
 }
 `;
 
@@ -203,9 +223,11 @@ FlowGeneratedFile {
 /* @flow */
 // This file was automatically generated and should not be edited.
 
+
 // ====================================================
 // GraphQL fragment: simpleFragment
 // ====================================================
+
 
 export type simpleFragment = {
   __typename: \\"Human\\" | \\"Droid\\",
@@ -219,12 +241,14 @@ export type simpleFragment = {
 // TODO: Link to issue to fix this.
 //==============================================================
 
+
 // The episodes in the Star Wars trilogy
 export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 
 //==============================================================
 // END Enums and Input Objects
-//==============================================================",
+//==============================================================
+",
 }
 `;
 
@@ -237,9 +261,11 @@ FlowGeneratedFile {
 /* @flow */
 // This file was automatically generated and should not be edited.
 
+
 // ====================================================
 // GraphQL fragment: anotherFragment
 // ====================================================
+
 
 export type anotherFragment_Droid = {
   __typename: \\"Droid\\",
@@ -263,12 +289,14 @@ export type anotherFragment = anotherFragment_Droid | anotherFragment_Human;
 // TODO: Link to issue to fix this.
 //==============================================================
 
+
 // The episodes in the Star Wars trilogy
 export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 
 //==============================================================
 // END Enums and Input Objects
-//==============================================================",
+//==============================================================
+",
 }
 `;
 
@@ -281,9 +309,11 @@ FlowGeneratedFile {
 /* @flow */
 // This file was automatically generated and should not be edited.
 
+
 // ====================================================
 // GraphQL query operation: HeroInlineFragment
 // ====================================================
+
 
 export type HeroInlineFragment_hero = {
   __typename: \\"Human\\" | \\"Droid\\",
@@ -302,12 +332,14 @@ export type HeroInlineFragment = {
 // TODO: Link to issue to fix this.
 //==============================================================
 
+
 // The episodes in the Star Wars trilogy
 export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 
 //==============================================================
 // END Enums and Input Objects
-//==============================================================",
+//==============================================================
+",
 }
 `;
 
@@ -320,9 +352,11 @@ FlowGeneratedFile {
 /* @flow */
 // This file was automatically generated and should not be edited.
 
+
 // ====================================================
 // GraphQL query operation: HeroName
 // ====================================================
+
 
 export type HeroName_hero_Human_friends = {
   __typename: \\"Human\\" | \\"Droid\\",
@@ -353,12 +387,14 @@ export type HeroName = {
 // TODO: Link to issue to fix this.
 //==============================================================
 
+
 // The episodes in the Star Wars trilogy
 export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 
 //==============================================================
 // END Enums and Input Objects
-//==============================================================",
+//==============================================================
+",
 }
 `;
 
@@ -371,9 +407,11 @@ FlowGeneratedFile {
 /* @flow */
 // This file was automatically generated and should not be edited.
 
+
 // ====================================================
 // GraphQL query operation: HeroName
 // ====================================================
+
 
 export type HeroName_hero_Human_friends = {
   __typename: \\"Human\\" | \\"Droid\\",
@@ -410,12 +448,14 @@ export type HeroName = {
 // TODO: Link to issue to fix this.
 //==============================================================
 
+
 // The episodes in the Star Wars trilogy
 export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 
 //==============================================================
 // END Enums and Input Objects
-//==============================================================",
+//==============================================================
+",
 }
 `;
 
@@ -428,9 +468,11 @@ FlowGeneratedFile {
 /* @flow */
 // This file was automatically generated and should not be edited.
 
+
 // ====================================================
 // GraphQL query operation: HeroName
 // ====================================================
+
 
 export type HeroName_hero = {
   __typename: \\"Human\\" | \\"Droid\\",
@@ -448,6 +490,7 @@ export type HeroName = {
 // for now, but this will be changed soon.
 // TODO: Link to issue to fix this.
 //==============================================================
+
 
 // The episodes in the Star Wars trilogy
 export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
@@ -468,7 +511,8 @@ type ColorInput = {
 
 //==============================================================
 // END Enums and Input Objects
-//==============================================================",
+//==============================================================
+",
 }
 `;
 
@@ -481,9 +525,11 @@ FlowGeneratedFile {
 /* @flow */
 // This file was automatically generated and should not be edited.
 
+
 // ====================================================
 // GraphQL query operation: SomeOther
 // ====================================================
+
 
 export type SomeOther_hero = {
   __typename: \\"Human\\" | \\"Droid\\",
@@ -502,6 +548,7 @@ export type SomeOther = {
 // TODO: Link to issue to fix this.
 //==============================================================
 
+
 // The episodes in the Star Wars trilogy
 export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 
@@ -521,7 +568,8 @@ type ColorInput = {
 
 //==============================================================
 // END Enums and Input Objects
-//==============================================================",
+//==============================================================
+",
 }
 `;
 
@@ -534,9 +582,11 @@ FlowGeneratedFile {
 /* @flow */
 // This file was automatically generated and should not be edited.
 
+
 // ====================================================
 // GraphQL mutation operation: ReviewMovie
 // ====================================================
+
 
 export type ReviewMovie_createReview = {
   __typename: \\"Review\\",
@@ -555,6 +605,7 @@ export type ReviewMovie = {
 // TODO: Link to issue to fix this.
 //==============================================================
 
+
 // The episodes in the Star Wars trilogy
 export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 
@@ -574,7 +625,8 @@ type ColorInput = {
 
 //==============================================================
 // END Enums and Input Objects
-//==============================================================",
+//==============================================================
+",
 }
 `;
 
@@ -587,9 +639,11 @@ FlowGeneratedFile {
 /* @flow */
 // This file was automatically generated and should not be edited.
 
+
 // ====================================================
 // GraphQL fragment: someFragment
 // ====================================================
+
 
 export type someFragment = {
   __typename: \\"Human\\" | \\"Droid\\",
@@ -603,6 +657,7 @@ export type someFragment = {
 // TODO: Link to issue to fix this.
 //==============================================================
 
+
 // The episodes in the Star Wars trilogy
 export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 
@@ -622,7 +677,8 @@ type ColorInput = {
 
 //==============================================================
 // END Enums and Input Objects
-//==============================================================",
+//==============================================================
+",
 }
 `;
 
@@ -635,9 +691,11 @@ FlowGeneratedFile {
 /* @flow */
 // This file was automatically generated and should not be edited.
 
+
 // ====================================================
 // GraphQL query operation: HeroFragment
 // ====================================================
+
 
 export type HeroFragment_hero = {
   __typename: \\"Human\\" | \\"Droid\\",
@@ -656,12 +714,14 @@ export type HeroFragment = {
 // TODO: Link to issue to fix this.
 //==============================================================
 
+
 // The episodes in the Star Wars trilogy
 export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 
 //==============================================================
 // END Enums and Input Objects
-//==============================================================",
+//==============================================================
+",
 }
 `;
 
@@ -674,9 +734,11 @@ FlowGeneratedFile {
 /* @flow */
 // This file was automatically generated and should not be edited.
 
+
 // ====================================================
 // GraphQL fragment: simpleFragment
 // ====================================================
+
 
 export type simpleFragment = {
   __typename: \\"Human\\" | \\"Droid\\",
@@ -690,12 +752,14 @@ export type simpleFragment = {
 // TODO: Link to issue to fix this.
 //==============================================================
 
+
 // The episodes in the Star Wars trilogy
 export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 
 //==============================================================
 // END Enums and Input Objects
-//==============================================================",
+//==============================================================
+",
 }
 `;
 
@@ -708,9 +772,11 @@ FlowGeneratedFile {
 /* @flow */
 // This file was automatically generated and should not be edited.
 
+
 // ====================================================
 // GraphQL fragment: SimpleFragment
 // ====================================================
+
 
 export type SimpleFragment = {
   __typename: \\"Human\\" | \\"Droid\\",
@@ -724,9 +790,11 @@ export type SimpleFragment = {
 // TODO: Link to issue to fix this.
 //==============================================================
 
+
 //==============================================================
 // END Enums and Input Objects
-//==============================================================",
+//==============================================================
+",
 }
 `;
 
@@ -739,9 +807,11 @@ FlowGeneratedFile {
 /* @flow */
 // This file was automatically generated and should not be edited.
 
+
 // ====================================================
 // GraphQL query operation: HeroName
 // ====================================================
+
 
 export type HeroName_hero = {
   __typename: \\"Human\\" | \\"Droid\\",
@@ -760,12 +830,14 @@ export type HeroName = {
 // TODO: Link to issue to fix this.
 //==============================================================
 
+
 // The episodes in the Star Wars trilogy
 export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
 
 //==============================================================
 // END Enums and Input Objects
-//==============================================================",
+//==============================================================
+",
 }
 `;
 
@@ -778,9 +850,11 @@ FlowGeneratedFile {
 /* @flow */
 // This file was automatically generated and should not be edited.
 
+
 // ====================================================
 // GraphQL mutation operation: ReviewMovie
 // ====================================================
+
 
 export type ReviewMovie_createReview = {
   __typename: \\"Review\\",
@@ -798,6 +872,7 @@ export type ReviewMovie = {
 // for now, but this will be changed soon.
 // TODO: Link to issue to fix this.
 //==============================================================
+
 
 // The episodes in the Star Wars trilogy
 export type Episode = \\"NEWHOPE\\" | \\"EMPIRE\\" | \\"JEDI\\";
@@ -818,6 +893,7 @@ type ColorInput = {
 
 //==============================================================
 // END Enums and Input Objects
-//==============================================================",
+//==============================================================
+",
 }
 `;
