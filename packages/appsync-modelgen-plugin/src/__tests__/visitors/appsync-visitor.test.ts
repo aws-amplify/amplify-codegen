@@ -339,7 +339,9 @@ describe('AppSyncModelVisitor', () => {
       );
       visit(ast, { leave: visitor });
       visitor.generate();
-      const projectTeamIdField = visitor.models.Project.fields.find(field => { return field.name === 'projectTeamId'; });
+      const projectTeamIdField = visitor.models.Project.fields.find(field => {
+        return field.name === 'projectTeamId';
+      });
       expect(projectTeamIdField).toBeDefined();
       expect(projectTeamIdField.isNullable).toBeTruthy();
     });
@@ -664,6 +666,7 @@ describe('AppSyncModelVisitor', () => {
     let simpleManyToManySchema;
     let simpleManyModelMap;
     let transformedSimpleManyModelMap;
+    let manyToManyModelNameSchema;
 
     beforeEach(() => {
       simpleManyToManySchema = /* GraphQL */ `
@@ -675,6 +678,16 @@ describe('AppSyncModelVisitor', () => {
         type Animal @model {
           animalTag: ID!
           humanFriend: [Human] @manyToMany(relationName: "PetFriend")
+        }
+      `;
+
+      manyToManyModelNameSchema = /* GraphQL */ `
+        type ModelA @model {
+          models: [ModelB] @manyToMany(relationName: "Models")
+        }
+
+        type ModelB @model {
+          models: [ModelA] @manyToMany(relationName: "Models")
         }
       `;
 
@@ -831,6 +844,37 @@ describe('AppSyncModelVisitor', () => {
       expect(visitor.models.Animal.fields[2].directives[0].arguments.fields.length).toEqual(1);
       expect(visitor.models.Animal.fields[2].directives[0].arguments.fields[0]).toEqual('id');
       expect(visitor.models.Animal.fields[2].directives[0].arguments.indexName).toEqual('byAnimal');
+    });
+
+    it('Should correctly field names for many to many join table', () => {
+      const visitor = createAndGeneratePipelinedTransformerVisitor(manyToManyModelNameSchema);
+
+      expect(visitor.models.ModelA.fields.length).toEqual(4);
+      expect(visitor.models.ModelA.fields[1].directives[0].name).toEqual('hasMany');
+      expect(visitor.models.ModelA.fields[1].directives[0].arguments.fields.length).toEqual(1);
+      expect(visitor.models.ModelA.fields[1].directives[0].arguments.fields[0]).toEqual('id');
+      expect(visitor.models.ModelA.fields[1].directives[0].arguments.indexName).toEqual('byModelA');
+
+      expect(visitor.models.Models).toBeDefined();
+      expect(visitor.models.Models.fields.length).toEqual(5);
+
+      const modelA = visitor.models.Models.fields.find(f => f.name === 'modelA');
+      expect(modelA).toBeDefined();
+      expect(modelA.directives[0].name).toEqual('belongsTo');
+      expect(modelA.directives[0].arguments.fields.length).toEqual(1);
+      expect(modelA.directives[0].arguments.fields[0]).toEqual('modelAID');
+
+      const modelB = visitor.models.Models.fields.find(f => f.name === 'modelB');
+      expect(modelB).toBeDefined();
+      expect(modelB.directives[0].name).toEqual('belongsTo');
+      expect(modelB.directives[0].arguments.fields.length).toEqual(1);
+      expect(modelB.directives[0].arguments.fields[0]).toEqual('modelBID');
+
+      expect(visitor.models.ModelB.fields.length).toEqual(4);
+      expect(visitor.models.ModelB.fields[1].directives[0].name).toEqual('hasMany');
+      expect(visitor.models.ModelB.fields[1].directives[0].arguments.fields.length).toEqual(1);
+      expect(visitor.models.ModelB.fields[1].directives[0].arguments.fields[0]).toEqual('id');
+      expect(visitor.models.ModelB.fields[1].directives[0].arguments.indexName).toEqual('byModelB');
     });
   });
 });
