@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.39.5](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen-e2e-tests@2.39.4...amplify-codegen-e2e-tests@2.39.5) (2021-11-12)
+
+
+### Bug Fixes
+
+* **amplify-codegen-e2e-core:** API walkthrough changes ([1f125ac](https://github.com/aws-amplify/amplify-codegen/commit/1f125ac4bf3ba64d6f374221c417e7e6e40f6898))
+* **amplify-codegen-e2e-tests:** fix env codegen tests ([f72a9b7](https://github.com/aws-amplify/amplify-codegen/commit/f72a9b758c5cf14df5f4a3e052f94a0735fc7250))
+* **amplify-codegen-e2e-tests:** modelgen test fixes ([0a95ec8](https://github.com/aws-amplify/amplify-codegen/commit/0a95ec88c0df0bd801c3c742c3315323c7b0bb8c))
+
+
+
+
+
 ## [2.39.4](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen-e2e-tests@2.39.3...amplify-codegen-e2e-tests@2.39.4) (2021-09-29)
 
 **Note:** Version bump only for package amplify-codegen-e2e-tests

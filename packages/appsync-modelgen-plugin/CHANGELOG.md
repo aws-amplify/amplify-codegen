@@ -3,6 +3,50 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.29.6](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.5...@aws-amplify/appsync-modelgen-plugin@1.29.6) (2021-11-12)
+
+**Note:** Version bump only for package @aws-amplify/appsync-modelgen-plugin
+
+
+
+
+
+## [1.29.5](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.4...@aws-amplify/appsync-modelgen-plugin@1.29.5) (2021-11-09)
+
+
+### Bug Fixes
+
+* filter related fields by type to avoid finding wrong field ([883c01e](https://github.com/aws-amplify/amplify-codegen/commit/883c01e4cfe97cc7a2f9b616c171fe5d3808b8aa))
+
+
+
+
+
+## [1.29.4](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.3...@aws-amplify/appsync-modelgen-plugin@1.29.4) (2021-11-07)
+
+
+### Bug Fixes
+
+* ensure [@index](https://github.com/index) and [@primary](https://github.com/primary)Key are codegen'ed correctly ([488660c](https://github.com/aws-amplify/amplify-codegen/commit/488660cbb4db0417402556693d7242b6ce1ec1d3))
+* missing android indexes ([41084c9](https://github.com/aws-amplify/amplify-codegen/commit/41084c9aa0e0ecf68adb345fa06dc7c4c0f625e3))
+* remove stale android logic, ensure no duplciate keys ([dd7f4d3](https://github.com/aws-amplify/amplify-codegen/commit/dd7f4d3f9a0a268fdff019e53cc3b25f2bcea22b))
+
+
+
+
+
+## [1.29.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.2...@aws-amplify/appsync-modelgen-plugin@1.29.3) (2021-11-06)
+
+
+### Bug Fixes
+
+* **amplify-codegen:** revert for [#276](https://github.com/aws-amplify/amplify-codegen/issues/276) ([770777e](https://github.com/aws-amplify/amplify-codegen/commit/770777eec3a742a89888448053dcebe154884d15))
+* **amplify-codegen:** updates hasone link location ([98356b0](https://github.com/aws-amplify/amplify-codegen/commit/98356b08d0eacab920076a54c63548636eb7fa8c))
+
+
+
+
+
 ## [1.29.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.1...@aws-amplify/appsync-modelgen-plugin@1.29.2) (2021-11-03)
 
 

@@ -3,6 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.26.15](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.14...amplify-codegen@2.26.15) (2021-11-12)
+
+**Note:** Version bump only for package amplify-codegen
+
+
+
+
+
+## [2.26.14](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.13...amplify-codegen@2.26.14) (2021-11-09)
+
+**Note:** Version bump only for package amplify-codegen
+
+
+
+
+
+## [2.26.13](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.12...amplify-codegen@2.26.13) (2021-11-09)
+
+
+### Bug Fixes
+
+* **graphql:** allow aws_lambda directive ([03ef563](https://github.com/aws-amplify/amplify-codegen/commit/03ef5637488e9514116e83f691656fddae7628b2))
+
+
+
+
+
+## [2.26.12](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.11...amplify-codegen@2.26.12) (2021-11-07)
+
+**Note:** Version bump only for package amplify-codegen
+
+
+
+
+
+## [2.26.11](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.10...amplify-codegen@2.26.11) (2021-11-06)
+
+**Note:** Version bump only for package amplify-codegen
+
+
+
+
+
 ## [2.26.10](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.9...amplify-codegen@2.26.10) (2021-11-03)
 
 

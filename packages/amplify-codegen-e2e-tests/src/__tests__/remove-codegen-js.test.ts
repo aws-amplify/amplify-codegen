@@ -3,7 +3,9 @@ import {
     DEFAULT_JS_CONFIG, 
     removeCodegen,
     initProjectWithProfile,
-    addApiWithSchema
+    addApiWithoutSchema,
+    updateApiSchema,
+    createRandomName
 } from "amplify-codegen-e2e-core";
 import { deleteAmplifyProject, testRemoveCodegen } from '../codegen-tests-base';
 
@@ -23,7 +25,9 @@ describe('codegen remove tests - JS', () => {
     it(`Give appropriate message during remove when codegen is not added in JS project`, async () => {
         // init project and add API category
         await initProjectWithProfile(projectRoot, DEFAULT_JS_CONFIG);
-        await addApiWithSchema(projectRoot, schema);
+        const projectName = createRandomName();
+        await addApiWithoutSchema(projectRoot, { apiName: projectName });
+        await updateApiSchema(projectRoot, projectName, schema);
         
         // remove command should give expected message
         await expect(removeCodegen(projectRoot, false)).resolves.not.toThrow();

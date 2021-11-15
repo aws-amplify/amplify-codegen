@@ -21,7 +21,7 @@ import {
   parse,
   valueFromASTUntyped,
 } from 'graphql';
-import { addFieldToModel, removeFieldFromModel } from '../utils/fieldUtils';
+import { addFieldToModel, getDirective, removeFieldFromModel } from '../utils/fieldUtils';
 import { getTypeInfo } from '../utils/get-type-info';
 import { CodeGenConnectionType, CodeGenFieldConnection, processConnections } from '../utils/process-connections';
 import { sortFields } from '../utils/sort';
@@ -29,6 +29,8 @@ import { printWarning } from '../utils/warn';
 import { processAuthDirective } from '../utils/process-auth';
 import { processConnectionsV2 } from '../utils/process-connections-v2';
 import { graphqlName, toUpper } from 'graphql-transformer-common';
+import { processPrimaryKey } from '../utils/process-primary-key';
+import { processIndex } from '../utils/process-index';
 
 export enum CodeGenGenerateEnum {
   metadata = 'metadata',
@@ -294,9 +296,9 @@ export class AppSyncModelVisitor<
   }
   processDirectives() {
     if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
-      this.processConnectionDirectivesV2()
-    }
-    else {
+      this.processV2KeyDirectives();
+      this.processConnectionDirectivesV2();
+    } else {
       this.processConnectionDirective();
     }
     this.processAuthDirectives();
@@ -441,9 +443,10 @@ export class AppSyncModelVisitor<
     const typeArr: any[] = [];
     Object.values({ ...this.modelMap, ...this.nonModelMap }).forEach((obj: CodeGenModel) => {
       // include only key directive as we don't care about others for versioning
-      const directives = (this.config.usePipelinedTransformer || this.config.transformerVersion === 2)
-        ? obj.directives.filter(dir => dir.name === 'primaryKey' || dir.name === 'index')
-        : obj.directives.filter(dir => dir.name === 'key');
+      const directives =
+        this.config.usePipelinedTransformer || this.config.transformerVersion === 2
+          ? obj.directives.filter(dir => dir.name === 'primaryKey' || dir.name === 'index')
+          : obj.directives.filter(dir => dir.name === 'key');
       const fields = obj.fields
         .map((field: CodeGenField) => {
           // include only connection field and type
@@ -633,7 +636,7 @@ export class AppSyncModelVisitor<
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
         field.directives.forEach(dir => {
-          if(dir.name === 'manyToMany') {
+          if (dir.name === 'manyToMany') {
             let relationName = graphqlName(toUpper(dir.arguments.relationName));
             let existingRelation = manyDirectiveMap.get(relationName);
             if (existingRelation) {
@@ -682,6 +685,14 @@ export class AppSyncModelVisitor<
           if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
             // Need to update the other side of the connection even if there is no connection directive
             addFieldToModel(connectionInfo.connectedModel, connectionInfo.associatedWith);
+          } else if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
+            addFieldToModel(model, {
+              name: connectionInfo.targetName,
+              directives: [],
+              type: 'ID',
+              isList: false,
+              isNullable: field.isNullable,
+            });
           } else if (connectionInfo.targetName !== 'id') {
             // Need to remove the field that is targetName
             removeFieldFromModel(model, connectionInfo.targetName);
@@ -697,12 +708,19 @@ export class AppSyncModelVisitor<
         const connectionInfo = field.connectionInfo;
         if (modelTypes.includes(fieldType) && connectionInfo === undefined) {
           printWarning(
-            `Model ${model.name} has field ${field.name} of type ${field.type} but its not connected. Add a @connection directive if want to connect them.`,
+            `Model ${model.name} has field ${field.name} of type ${field.type} but its not connected. Add the appropriate ${field.isList ? '@hasMany' : '@hasOne'}/@belongsTo directive if you want to connect them.`,
           );
           return false;
         }
         return true;
       });
+    });
+  }
+
+  protected processV2KeyDirectives(): void {
+    Object.values(this.modelMap).forEach(model => {
+      processPrimaryKey(model);
+      processIndex(model);
     });
   }
 

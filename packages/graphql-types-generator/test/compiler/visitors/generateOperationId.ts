@@ -13,8 +13,7 @@ describe(`generateOperationId()`, () => {
       }
       fragment HeroDetails on Character {
         name
-      }
-    `);
+      }`);
 
     const { operationId: id1 } = generateOperationId(context1.operations['Hero'], context1.fragments);
 
@@ -26,8 +25,7 @@ describe(`generateOperationId()`, () => {
       }
       fragment HeroDetails on Character {
         appearsIn
-      }
-    `);
+      }`);
 
     const { operationId: id2 } = generateOperationId(context2.operations['Hero'], context2.fragments);
 
@@ -40,16 +38,14 @@ describe(`generateOperationId()`, () => {
         hero(episode: $episode) {
           name
         }
-      }
-    `);
+      }`);
 
     const { operationId: id1 } = generateOperationId(context1.operations['HeroName'], context1.fragments);
 
     const context2 = compile(`
       # Profound comment
       query HeroName($episode:Episode) { hero(episode: $episode) { name } }
-      # Deeply meaningful comment
-    `);
+      # Deeply meaningful comment`);
 
     const { operationId: id2 } = generateOperationId(context2.operations['HeroName'], context2.fragments);
 
@@ -69,8 +65,7 @@ describe(`generateOperationId()`, () => {
       }
       fragment HeroAppearsIn on Character {
         appearsIn
-      }
-    `);
+      }`);
 
     const { operationId: id1 } = generateOperationId(context1.operations['Hero'], context1.fragments);
 
@@ -86,8 +81,7 @@ describe(`generateOperationId()`, () => {
       }
       fragment HeroName on Character {
         name
-      }
-    `);
+      }`);
 
     const { operationId: id2 } = generateOperationId(context2.operations['Hero'], context2.fragments);
 
@@ -107,8 +101,7 @@ describe(`generateOperationId()`, () => {
       fragment HeroDetails on Character {
         ...HeroName
         appearsIn
-      }
-    `);
+      }`);
 
     const { sourceWithFragments } = generateOperationId(context.operations['Hero'], context.fragments);
 
@@ -124,7 +117,6 @@ describe(`generateOperationId()`, () => {
       }
       fragment HeroName on Character {
         name
-      }
-    `);
+      }`);
   });
 });

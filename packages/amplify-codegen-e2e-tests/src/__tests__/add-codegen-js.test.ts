@@ -1,9 +1,11 @@
 import { 
     createNewProjectDir,
     initProjectWithProfile,
-    addApiWithSchema,
     addCodegen,
-    DEFAULT_JS_CONFIG
+    DEFAULT_JS_CONFIG,
+    createRandomName,
+    addApiWithoutSchema,
+    updateApiSchema
 } from "amplify-codegen-e2e-core";
 import { existsSync } from "fs";
 import path from 'path';
@@ -46,7 +48,9 @@ describe('codegen add tests - JS', () => {
     it(`Adding codegen twice gives appropriate message`, async () => {
         // init project and add API category
         await initProjectWithProfile(projectRoot, { ...config });
-        await addApiWithSchema(projectRoot, schema);
+        const projectName = createRandomName();
+        await addApiWithoutSchema(projectRoot, { apiName: projectName });
+        await updateApiSchema(projectRoot, projectName, schema);
 
         const userSourceCodePath = testSetupBeforeAddCodegen(projectRoot, config);
 

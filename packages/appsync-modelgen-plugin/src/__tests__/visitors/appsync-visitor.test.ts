@@ -318,14 +318,13 @@ describe('AppSyncModelVisitor', () => {
       expect(commentsField).toContain('postCommentsId'); // because of connection from Post.comments
     });
 
-    it('should not generate projectTeamId connection field for hasOne directive', () => {
+    it('should generate projectTeamId connection field for hasOne directive in the parent object', () => {
       const schema = /* GraphQL */ `
         type Project @model {
           id: ID!
           name: String
           team: Team @hasOne
         }
-
         type Team @model {
           id: ID!
           name: String!
@@ -340,8 +339,75 @@ describe('AppSyncModelVisitor', () => {
       );
       visit(ast, { leave: visitor });
       visitor.generate();
-      const teamFields = visitor.models.Team.fields.map(field => field.name);
-      expect(teamFields).not.toContain('projectTeamId');
+      const projectTeamIdField = visitor.models.Project.fields.find(field => { return field.name === 'projectTeamId'; });
+      expect(projectTeamIdField).toBeDefined();
+      expect(projectTeamIdField.isNullable).toBeTruthy();
+    });
+  });
+
+  describe('index directives', () => {
+    it('processes index directive', () => {
+      const schema = /* GraphQL */ `
+        type Project @model {
+          id: ID!
+          name: String @index(name: "nameIndex", sortKeyFields: ["team"])
+          team: Team
+        }
+
+        type Team @model {
+          id: ID!
+          name: String! @index(name: "teamNameIndex")
+        }
+      `;
+      const visitor = createAndGenerateVisitor(schema, true);
+      visitor.generate();
+      const projectKeyDirective = visitor.models.Project.directives.find(directive => directive.name === 'key');
+      expect(projectKeyDirective).toEqual({
+        name: 'key',
+        arguments: {
+          name: 'nameIndex',
+          fields: ['name', 'team'],
+        },
+      });
+      const teamKeyDirective = visitor.models.Team.directives.find(directive => directive.name === 'key');
+      expect(teamKeyDirective).toEqual({
+        name: 'key',
+        arguments: {
+          name: 'teamNameIndex',
+          fields: ['name'],
+        },
+      });
+    });
+
+    it('processes primaryKey directive', () => {
+      const schema = /* GraphQL */ `
+        type Project @model {
+          id: ID!
+          name: String @primaryKey(sortKeyFields: ["team"])
+          team: Team
+        }
+
+        type Team @model {
+          id: ID!
+          name: String! @primaryKey
+        }
+      `;
+      const visitor = createAndGenerateVisitor(schema, true);
+      visitor.generate();
+      const projectKeyDirective = visitor.models.Project.directives.find(directive => directive.name === 'key');
+      expect(projectKeyDirective).toEqual({
+        name: 'key',
+        arguments: {
+          fields: ['name', 'team'],
+        },
+      });
+      const teamKeyDirective = visitor.models.Team.directives.find(directive => directive.name === 'key');
+      expect(teamKeyDirective).toEqual({
+        name: 'key',
+        arguments: {
+          fields: ['name'],
+        },
+      });
     });
   });
 

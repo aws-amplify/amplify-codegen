@@ -1,10 +1,12 @@
 import {
     initProjectWithProfile,
-    addApiWithSchema,
+    addApiWithoutSchema,
+    updateApiSchema,
+    createRandomName,
     amplifyPushWithCodegenAdd,
     AmplifyFrontendConfig,
-    apiUpdateToggleDataStore,
-    amplifyPushWithCodegenUpdate
+    amplifyPushWithCodegenUpdate,
+    updateAPIWithResolutionStrategyWithModels
 } from "amplify-codegen-e2e-core";
 import { existsSync } from "fs";
 import path from 'path';
@@ -14,7 +16,9 @@ import { testSetupBeforeAddCodegen } from "./test-setup";
 export async function testPushCodegen(config: AmplifyFrontendConfig, projectRoot: string, schema: string) {
     // init project and add API category
     await initProjectWithProfile(projectRoot, { ...config });
-    await addApiWithSchema(projectRoot, schema);
+    const projectName = createRandomName();
+    await addApiWithoutSchema(projectRoot, { apiName: projectName });
+    await updateApiSchema(projectRoot, projectName, schema);
 
     const userSourceCodePath = testSetupBeforeAddCodegen(projectRoot, config);
 
@@ -28,7 +32,7 @@ export async function testPushCodegen(config: AmplifyFrontendConfig, projectRoot
     expect(isNotEmptyDir(path.join(projectRoot, config.graphqlCodegenDir))).toBe(true);
 
     //enable datastore
-    await apiUpdateToggleDataStore(projectRoot);
+    await updateAPIWithResolutionStrategyWithModels(projectRoot, {});
     //push with codegen update
     await amplifyPushWithCodegenUpdate(projectRoot);
     expect(existsSync(userSourceCodePath)).toBe(true);
