@@ -3857,6 +3857,169 @@ public final class ListContainer implements Model {
 "
 `;
 
+exports[`AppSyncModelVisitor Should set fields with @default as nullable 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.temporal.Temporal;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Test type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Tests\\")
+public final class Test implements Model {
+  public static final QueryField ID = field(\\"Test\\", \\"id\\");
+  public static final QueryField VALUE = field(\\"Test\\", \\"value\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\") String value;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getValue() {
+      return value;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Test(String id, String value) {
+    this.id = id;
+    this.value = value;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Test test = (Test) obj;
+      return ObjectsCompat.equals(getId(), test.getId()) &&
+              ObjectsCompat.equals(getValue(), test.getValue()) &&
+              ObjectsCompat.equals(getCreatedAt(), test.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), test.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getValue())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Test {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"value=\\" + String.valueOf(getValue()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static ValueStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Test justId(String id) {
+    return new Test(
+      id,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      value);
+  }
+  public interface BuildStep {
+    Test build();
+    BuildStep id(String id);
+    BuildStep value(String value);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private String value;
+    @Override
+     public Test build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Test(
+          id,
+          value);
+    }
+    
+    @Override
+     public BuildStep value(String value) {
+        this.value = value;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String value) {
+      super.id(id);
+      super.value(value);
+    }
+    
+    @Override
+     public CopyOfBuilder value(String value) {
+      return (CopyOfBuilder) super.value(value);
+    }
+  }
+  
+}
+"
+`;
+
 exports[`AppSyncModelVisitor connection One to Many connection should generate many side of the connection 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 

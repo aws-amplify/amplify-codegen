@@ -788,7 +788,16 @@ export class AppSyncModelVisitor<
    * @param field
    */
   protected isRequiredField(field: CodeGenField): boolean | undefined {
-    return !(this.config.handleListNullabilityTransparently ? (field.isList ? field.isListNullable : field.isNullable) : field.isNullable);
+    const hasDefaultDirective = this.hasDefaultDirective(field);
+    return !(this.config.handleListNullabilityTransparently
+      ? field.isList
+        ? field.isListNullable
+        : field.isNullable || hasDefaultDirective
+      : field.isNullable || hasDefaultDirective);
+  }
+
+  protected hasDefaultDirective(field: CodeGenField): boolean {
+    return field.directives.some(directive => directive.name === 'default');
   }
 
   get models() {

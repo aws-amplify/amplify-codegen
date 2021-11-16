@@ -133,7 +133,7 @@ export const directives = /* GraphQL */ `
   }
 
   directive @deprecated(reason: String) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION | ENUM | ENUM_VALUE
-  
+
   # GraphQL vNext Directives
   # primaryKey directive
   directive @primaryKey(sortKeyFields: [String!], queryField: String) on FIELD_DEFINITION
@@ -143,6 +143,8 @@ export const directives = /* GraphQL */ `
   directive @hasMany(indexName: String, fields: [String], limit: Int = 100) on FIELD_DEFINITION
   directive @belongsTo(fields: [String]) on FIELD_DEFINITION
   directive @manyToMany(relationName: String!) on FIELD_DEFINITION
+
+  directive @default(value: String!) on FIELD_DEFINITION
 `;
 
 export const scalars = [

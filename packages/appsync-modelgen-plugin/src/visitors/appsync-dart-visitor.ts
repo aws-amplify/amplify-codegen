@@ -771,7 +771,8 @@ export class AppSyncModelDartVisitor<
   }
 
   protected isFieldRequired(field: CodeGenField): boolean {
-    return !((field.isNullable && !field.isList) || field.isListNullable);
+    const hasDefaultDirective = this.hasDefaultDirective(field);
+    return !(((field.isNullable || hasDefaultDirective) && !field.isList) || field.isListNullable);
   }
 
   protected isNullSafety(): boolean {

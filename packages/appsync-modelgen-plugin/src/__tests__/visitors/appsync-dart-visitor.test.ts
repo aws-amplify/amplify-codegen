@@ -13,7 +13,7 @@ const getVisitor = (
   selectedType?: string,
   generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
   enableDartNullSafety: boolean = false,
-  transformerVersion: number = 1
+  transformerVersion: number = 1,
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -346,6 +346,18 @@ describe('AppSync Dart Visitor', () => {
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
+
+    it('Should set fields with @default as nullable', () => {
+      const schema = /* GraphQL */ `
+        type Test @model {
+          value: String! @default(value: "Default Value")
+        }
+      `;
+
+      const visitor = getVisitor(schema, null, CodeGenGenerateEnum.code, false, 2);
+      const generatedCode = visitor.generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
   });
 
   describe('Dart Specific Tests', () => {
@@ -475,7 +487,7 @@ describe('AppSync Dart Visitor', () => {
           content: String
           tags: [Tag] @manyToMany(relationName: "PostTags")
         }
-        
+
         type Tag @model {
           id: ID!
           label: String!

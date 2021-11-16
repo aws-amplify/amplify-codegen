@@ -205,7 +205,7 @@ export class AppSyncJSONVisitor<
           name: this.getFieldName(field),
           isArray: field.isList,
           type: this.getType(field.type),
-          isRequired: !field.isNullable,
+          isRequired: !(field.isNullable || this.hasDefaultDirective(field)),
           attributes: [],
         };
 

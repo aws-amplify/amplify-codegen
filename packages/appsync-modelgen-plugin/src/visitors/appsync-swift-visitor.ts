@@ -434,7 +434,7 @@ export class AppSyncSwiftVisitor<
    * @param field field
    */
   protected isFieldRequired(field: CodeGenField): boolean {
-    if (this.isHasManyConnectionField(field)) {
+    if (this.isHasManyConnectionField(field) || this.hasDefaultDirective(field)) {
       return false;
     }
     return !field.isNullable;

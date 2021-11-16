@@ -9,7 +9,6 @@ const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-
 const getVisitor = (
   schema: string,
   selectedType?: string,
@@ -294,6 +293,18 @@ describe('AppSyncModelVisitor', () => {
     const visitor = getVisitor(schema, 'ListContainer');
     const generatedCode = visitor.generate();
     expect(() => validateJava(generatedCode)).not.toThrow();
+    expect(generatedCode).toMatchSnapshot();
+  });
+
+  it('Should set fields with @default as nullable', () => {
+    const schema = /* GraphQL */ `
+      type Test @model {
+        value: String! @default(value: "Default Value")
+      }
+    `;
+
+    const visitor = getVisitorPipelinedTransformer(schema, 'Test');
+    const generatedCode = visitor.generate();
     expect(generatedCode).toMatchSnapshot();
   });
 
@@ -592,7 +603,7 @@ describe('AppSyncModelVisitor', () => {
           content: String
           tags: [Tag] @manyToMany(relationName: "PostTags")
         }
-        
+
         type Tag @model {
           id: ID!
           label: String!
