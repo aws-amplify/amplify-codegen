@@ -2,10 +2,11 @@ const yaml = require('js-yaml');
 const path = require('path');
 const fs = require('fs-extra');
 const semver = require('semver');
+const { printer } = require('amplify-prompts');
 
 const { PUBSPEC_FILE_NAME } = require('./validateDartSDK');
 
-function validateAmplifyFlutter(projectRoot) {
+function validateAmplifyFlutterCapableForNonModel(projectRoot) {
   try {
     const config = yaml.load(fs.readFileSync(path.join(projectRoot, PUBSPEC_FILE_NAME), 'utf8'));
     //check dependency version
@@ -15,8 +16,14 @@ function validateAmplifyFlutter(projectRoot) {
     }
     return false;
   } catch (e) {
+    if (e.stack) {
+      printer.error(e.stack);
+      printer.error(e.message);
+    }
+
+    printer.error('An error occurred while parsing ' + PUBSPEC_FILE_NAME + '.');
     return false;
   }
 }
 
-module.exports = { validateAmplifyFlutter };
+module.exports = { validateAmplifyFlutterCapableForNonModel };

@@ -1,11 +1,19 @@
-const { validateDartSDK, PUBSPEC_FILE_NAME } = require('../../src/utils/validateDartSDK');
-const { validateAmplifyFlutter } = require('../../src/utils/validateAmplifyFlutter');
+const { PUBSPEC_FILE_NAME } = require('../../src/utils/validateDartSDK');
+const { validateAmplifyFlutterCapableForNonModel } = require('../../src/utils/validateAmplifyFlutterCapableForNonModel');
 const mockFs = require('mock-fs');
 const { join } = require('path');
 const yaml = require('js-yaml');
+const { printer } = require('amplify-prompts');
+
+jest.mock('amplify-prompts', () => ({
+  printer: {
+    error: jest.fn()
+  },
+}));
 
 const MOCK_PROJECT_ROOT = 'project';
 const MOCK_PUBSPEC_FILE_PATH = join(MOCK_PROJECT_ROOT, PUBSPEC_FILE_NAME);
+const mockErrorPrinter = printer.error;
 
 describe('Validate amplify flutter version tests', () => {
   afterEach(() => {
@@ -20,7 +28,7 @@ describe('Validate amplify flutter version tests', () => {
         },
       };
       mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
-      expect(validateAmplifyFlutter(MOCK_PROJECT_ROOT)).toBe(true);
+      expect(validateAmplifyFlutterCapableForNonModel(MOCK_PROJECT_ROOT)).toBe(true);
     });
     it('with caret version', () => {
       const config = {
@@ -29,7 +37,7 @@ describe('Validate amplify flutter version tests', () => {
         },
       };
       mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
-      expect(validateAmplifyFlutter(MOCK_PROJECT_ROOT)).toBe(true);
+      expect(validateAmplifyFlutterCapableForNonModel(MOCK_PROJECT_ROOT)).toBe(true);
     });
     it('with ranged version', () => {
       const config = {
@@ -38,7 +46,7 @@ describe('Validate amplify flutter version tests', () => {
         },
       };
       mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
-      expect(validateAmplifyFlutter(MOCK_PROJECT_ROOT)).toBe(true);
+      expect(validateAmplifyFlutterCapableForNonModel(MOCK_PROJECT_ROOT)).toBe(true);
     });
     it('with prerelease version', () => {
       const config = {
@@ -47,7 +55,7 @@ describe('Validate amplify flutter version tests', () => {
         },
       };
       mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
-      expect(validateAmplifyFlutter(MOCK_PROJECT_ROOT)).toBe(true);
+      expect(validateAmplifyFlutterCapableForNonModel(MOCK_PROJECT_ROOT)).toBe(true);
     });
   });
 
@@ -59,7 +67,7 @@ describe('Validate amplify flutter version tests', () => {
         },
       };
       mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
-      expect(validateAmplifyFlutter(MOCK_PROJECT_ROOT)).toBe(false);
+      expect(validateAmplifyFlutterCapableForNonModel(MOCK_PROJECT_ROOT)).toBe(false);
     });
     it('with caret version', () => {
       const config = {
@@ -68,7 +76,7 @@ describe('Validate amplify flutter version tests', () => {
         },
       };
       mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
-      expect(validateAmplifyFlutter(MOCK_PROJECT_ROOT)).toBe(false);
+      expect(validateAmplifyFlutterCapableForNonModel(MOCK_PROJECT_ROOT)).toBe(false);
     });
     it('with ranged version', () => {
       const config = {
@@ -77,7 +85,7 @@ describe('Validate amplify flutter version tests', () => {
         },
       };
       mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
-      expect(validateAmplifyFlutter(MOCK_PROJECT_ROOT)).toBe(false);
+      expect(validateAmplifyFlutterCapableForNonModel(MOCK_PROJECT_ROOT)).toBe(false);
     });
     it('with prerelease version', () => {
       const config = {
@@ -86,13 +94,37 @@ describe('Validate amplify flutter version tests', () => {
         },
       };
       mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
-      expect(validateAmplifyFlutter(MOCK_PROJECT_ROOT)).toBe(false);
+      expect(validateAmplifyFlutterCapableForNonModel(MOCK_PROJECT_ROOT)).toBe(false);
     });
   });
 
   it('should return false if the sdk version cannot be found', () => {
     const config = {};
     mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
-    expect(validateAmplifyFlutter(MOCK_PROJECT_ROOT)).toBe(false);
+    expect(validateAmplifyFlutterCapableForNonModel(MOCK_PROJECT_ROOT)).toBe(false);
+  });
+
+  describe('when yaml file cannot be correctly loaded', () => {
+    let loadSpy;
+    beforeAll(() => {
+      mockErrorPrinter.mockClear();
+      loadSpy = jest.spyOn(yaml, 'load');
+      loadSpy.mockImplementation(() => {
+        throw Error("Cannot read yaml file.");
+      });
+    });
+
+    afterAll(() => {
+      loadSpy.mockClear();
+      mockErrorPrinter.mockClear();
+    })
+
+    it('should print error when error is thrown while loading yaml file', () => {
+      const config = {};
+      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
+
+      expect(validateAmplifyFlutterCapableForNonModel(MOCK_PROJECT_ROOT)).toBe(false);
+      expect(mockErrorPrinter).toHaveBeenCalledTimes(3);
+    });
   });
 });

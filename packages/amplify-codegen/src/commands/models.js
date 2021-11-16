@@ -6,7 +6,7 @@ const { FeatureFlags, pathManager } = require('amplify-cli-core');
 const gqlCodeGen = require('@graphql-codegen/core');
 const { getModelgenPackage } = require('../utils/getModelgenPackage');
 const { validateDartSDK } = require('../utils/validateDartSDK');
-const { validateAmplifyFlutter } = require('../utils/validateAmplifyFlutter');
+const { validateAmplifyFlutterCapableForNonModel } = require('../utils/validateAmplifyFlutterCapableForNonModel');
 
 const platformToLanguageMap = {
   android: 'java',
@@ -106,7 +106,7 @@ async function generateModels(context) {
     }
   }
   const handleListNullabilityTransparently = readFeatureFlag('codegen.handleListNullabilityTransparently');
-  const enableDartNonModelGeneration = projectConfig.frontend === 'flutter' ? validateAmplifyFlutter(projectRoot) : false;
+  const enableDartNonModelGeneration = projectConfig.frontend === 'flutter' ? validateAmplifyFlutterCapableForNonModel(projectRoot) : false;
   const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
     baseOutputDir: outputPath,
     schema,
