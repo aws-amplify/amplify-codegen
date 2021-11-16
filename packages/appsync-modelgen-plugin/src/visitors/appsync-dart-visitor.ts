@@ -83,7 +83,7 @@ export class AppSyncModelDartVisitor<
       return this.generateClassLoader();
     } else if (this.selectedTypeIsEnum()) {
       return this.generateEnums();
-    } else if (this.selectedTypeIsNonModel()) {
+    } else if (this.selectedTypeIsNonModel() && this.config.enableDartNonModelGeneration) {
       return this.generateNonModelClasses();
     }
     return this.generateModelClasses();
