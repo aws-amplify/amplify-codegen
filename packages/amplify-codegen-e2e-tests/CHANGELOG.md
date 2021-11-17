@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.39.6](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen-e2e-tests@2.39.5...amplify-codegen-e2e-tests@2.39.6) (2021-11-17)
+
+
+### Bug Fixes
+
+* repo dev dependencies of cli components ([#304](https://github.com/aws-amplify/amplify-codegen/issues/304)) ([e4a7456](https://github.com/aws-amplify/amplify-codegen/commit/e4a745660552b643adfedc91481e4f5798778edc))
+
+
+
+
+
 ## [2.39.5](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen-e2e-tests@2.39.4...amplify-codegen-e2e-tests@2.39.5) (2021-11-12)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.26.16](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.15...amplify-codegen@2.26.16) (2021-11-17)
+
+
+### Bug Fixes
+
+* repo dev dependencies of cli components ([#304](https://github.com/aws-amplify/amplify-codegen/issues/304)) ([e4a7456](https://github.com/aws-amplify/amplify-codegen/commit/e4a745660552b643adfedc91481e4f5798778edc))
+
+
+
+
+
 ## [2.26.15](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.14...amplify-codegen@2.26.15) (2021-11-12)
 
 **Note:** Version bump only for package amplify-codegen

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.5](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen-e2e-core@1.1.4...amplify-codegen-e2e-core@1.1.5) (2021-11-17)
+
+
+### Bug Fixes
+
+* **e2e:** api add walkthrough question ([#305](https://github.com/aws-amplify/amplify-codegen/issues/305)) ([d1e4fe3](https://github.com/aws-amplify/amplify-codegen/commit/d1e4fe33f27196ddbd69fe06bab1a4c0cf6e6900))
+* repo dev dependencies of cli components ([#304](https://github.com/aws-amplify/amplify-codegen/issues/304)) ([e4a7456](https://github.com/aws-amplify/amplify-codegen/commit/e4a745660552b643adfedc91481e4f5798778edc))
+
+
+
+
+
 ## [1.1.4](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen-e2e-core@1.1.3...amplify-codegen-e2e-core@1.1.4) (2021-11-12)
 
 
