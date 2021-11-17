@@ -6,7 +6,7 @@ import {
   ParsedConfig,
   RawConfig,
 } from '@graphql-codegen/visitor-plugin-common';
-import { constantCase, pascalCase } from 'change-case';
+import { camelCase, constantCase, pascalCase } from 'change-case';
 import { plural } from 'pluralize';
 import crypto from 'crypto';
 import {
@@ -553,8 +553,8 @@ export class AppSyncModelVisitor<
     secondField: CodeGenField,
     relationName: string,
   ) {
-    const firstModelKeyFieldName = `${firstModel.name.toLowerCase()}ID`;
-    const secondModelKeyFieldName = `${secondModel.name.toLowerCase()}ID`;
+    const firstModelKeyFieldName = `${camelCase(firstModel.name)}ID`;
+    const secondModelKeyFieldName = `${camelCase(secondModel.name)}ID`;
     let intermediateModel: CodeGenModel = {
       name: relationName,
       type: 'model',
@@ -585,14 +585,14 @@ export class AppSyncModelVisitor<
           type: firstModel.name,
           isNullable: false,
           isList: false,
-          name: firstModel.name.toLowerCase(),
+          name: camelCase(firstModel.name),
           directives: [{ name: 'belongsTo', arguments: { fields: [firstModelKeyFieldName] } }],
         },
         {
           type: secondModel.name,
           isNullable: false,
           isList: false,
-          name: secondModel.name.toLowerCase(),
+          name: camelCase(secondModel.name),
           directives: [{ name: 'belongsTo', arguments: { fields: [secondModelKeyFieldName] } }],
         },
       ],
@@ -708,7 +708,9 @@ export class AppSyncModelVisitor<
         const connectionInfo = field.connectionInfo;
         if (modelTypes.includes(fieldType) && connectionInfo === undefined) {
           printWarning(
-            `Model ${model.name} has field ${field.name} of type ${field.type} but its not connected. Add the appropriate ${field.isList ? '@hasMany' : '@hasOne'}/@belongsTo directive if you want to connect them.`,
+            `Model ${model.name} has field ${field.name} of type ${field.type} but its not connected. Add the appropriate ${
+              field.isList ? '@hasMany' : '@hasOne'
+            }/@belongsTo directive if you want to connect them.`,
           );
           return false;
         }
