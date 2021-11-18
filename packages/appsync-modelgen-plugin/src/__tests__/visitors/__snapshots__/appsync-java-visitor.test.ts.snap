@@ -59,29 +59,29 @@ public final class customClaim implements Model {
   public String getId() {
       return id;
   }
-
+  
   public String getName() {
       return name;
   }
-
+  
   public String getBar() {
       return bar;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private customClaim(String id, String name, String bar) {
     this.id = id;
     this.name = name;
     this.bar = bar;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -97,7 +97,7 @@ public final class customClaim implements Model {
               ObjectsCompat.equals(getUpdatedAt(), customClaim.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -109,7 +109,7 @@ public final class customClaim implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -122,12 +122,12 @@ public final class customClaim implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static BuildStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -142,7 +142,7 @@ public final class customClaim implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       name,
@@ -154,7 +154,7 @@ public final class customClaim implements Model {
     BuildStep name(String name);
     BuildStep bar(String bar);
   }
-
+  
 
   public static class Builder implements BuildStep {
     private String id;
@@ -163,26 +163,26 @@ public final class customClaim implements Model {
     @Override
      public customClaim build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new customClaim(
           id,
           name,
           bar);
     }
-
+    
     @Override
      public BuildStep name(String name) {
         this.name = name;
         return this;
     }
-
+    
     @Override
      public BuildStep bar(String bar) {
         this.bar = bar;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -191,7 +191,7 @@ public final class customClaim implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String bar) {
@@ -199,18 +199,18 @@ public final class customClaim implements Model {
       super.name(name)
         .bar(bar);
     }
-
+    
     @Override
      public CopyOfBuilder name(String name) {
       return (CopyOfBuilder) super.name(name);
     }
-
+    
     @Override
      public CopyOfBuilder bar(String bar) {
       return (CopyOfBuilder) super.bar(bar);
     }
   }
-
+  
 }
 "
 `;
@@ -254,29 +254,29 @@ public final class customClaim implements Model {
   public String getId() {
       return id;
   }
-
+  
   public String getName() {
       return name;
   }
-
+  
   public String getBar() {
       return bar;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private customClaim(String id, String name, String bar) {
     this.id = id;
     this.name = name;
     this.bar = bar;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -292,7 +292,7 @@ public final class customClaim implements Model {
               ObjectsCompat.equals(getUpdatedAt(), customClaim.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -304,7 +304,7 @@ public final class customClaim implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -317,12 +317,12 @@ public final class customClaim implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static BuildStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -337,7 +337,7 @@ public final class customClaim implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       name,
@@ -349,7 +349,7 @@ public final class customClaim implements Model {
     BuildStep name(String name);
     BuildStep bar(String bar);
   }
-
+  
 
   public static class Builder implements BuildStep {
     private String id;
@@ -358,26 +358,26 @@ public final class customClaim implements Model {
     @Override
      public customClaim build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new customClaim(
           id,
           name,
           bar);
     }
-
+    
     @Override
      public BuildStep name(String name) {
         this.name = name;
         return this;
     }
-
+    
     @Override
      public BuildStep bar(String bar) {
         this.bar = bar;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -386,7 +386,7 @@ public final class customClaim implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String bar) {
@@ -394,18 +394,18 @@ public final class customClaim implements Model {
       super.name(name)
         .bar(bar);
     }
-
+    
     @Override
      public CopyOfBuilder name(String name) {
       return (CopyOfBuilder) super.name(name);
     }
-
+    
     @Override
      public CopyOfBuilder bar(String bar) {
       return (CopyOfBuilder) super.bar(bar);
     }
   }
-
+  
 }
 "
 `;
@@ -454,34 +454,34 @@ public final class Employee implements Model {
   public String getId() {
       return id;
   }
-
+  
   public String getName() {
       return name;
   }
-
+  
   public String getAddress() {
       return address;
   }
-
+  
   public String getSsn() {
       return ssn;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private Employee(String id, String name, String address, String ssn) {
     this.id = id;
     this.name = name;
     this.address = address;
     this.ssn = ssn;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -498,7 +498,7 @@ public final class Employee implements Model {
               ObjectsCompat.equals(getUpdatedAt(), employee.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -511,7 +511,7 @@ public final class Employee implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -525,12 +525,12 @@ public final class Employee implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static NameStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -546,7 +546,7 @@ public final class Employee implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       name,
@@ -556,19 +556,19 @@ public final class Employee implements Model {
   public interface NameStep {
     AddressStep name(String name);
   }
-
+  
 
   public interface AddressStep {
     BuildStep address(String address);
   }
-
+  
 
   public interface BuildStep {
     Employee build();
     BuildStep id(String id);
     BuildStep ssn(String ssn);
   }
-
+  
 
   public static class Builder implements NameStep, AddressStep, BuildStep {
     private String id;
@@ -578,35 +578,35 @@ public final class Employee implements Model {
     @Override
      public Employee build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new Employee(
           id,
           name,
           address,
           ssn);
     }
-
+    
     @Override
      public AddressStep name(String name) {
         Objects.requireNonNull(name);
         this.name = name;
         return this;
     }
-
+    
     @Override
      public BuildStep address(String address) {
         Objects.requireNonNull(address);
         this.address = address;
         return this;
     }
-
+    
     @Override
      public BuildStep ssn(String ssn) {
         this.ssn = ssn;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -615,7 +615,7 @@ public final class Employee implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String address, String ssn) {
@@ -624,23 +624,23 @@ public final class Employee implements Model {
         .address(address)
         .ssn(ssn);
     }
-
+    
     @Override
      public CopyOfBuilder name(String name) {
       return (CopyOfBuilder) super.name(name);
     }
-
+    
     @Override
      public CopyOfBuilder address(String address) {
       return (CopyOfBuilder) super.address(address);
     }
-
+    
     @Override
      public CopyOfBuilder ssn(String ssn) {
       return (CopyOfBuilder) super.ssn(ssn);
     }
   }
-
+  
 }
 "
 `;
@@ -684,29 +684,29 @@ public final class dynamicGroups implements Model {
   public String getId() {
       return id;
   }
-
+  
   public String getName() {
       return name;
   }
-
+  
   public String getBar() {
       return bar;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private dynamicGroups(String id, String name, String bar) {
     this.id = id;
     this.name = name;
     this.bar = bar;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -722,7 +722,7 @@ public final class dynamicGroups implements Model {
               ObjectsCompat.equals(getUpdatedAt(), dynamicGroups.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -734,7 +734,7 @@ public final class dynamicGroups implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -747,12 +747,12 @@ public final class dynamicGroups implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static BuildStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -767,7 +767,7 @@ public final class dynamicGroups implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       name,
@@ -779,7 +779,7 @@ public final class dynamicGroups implements Model {
     BuildStep name(String name);
     BuildStep bar(String bar);
   }
-
+  
 
   public static class Builder implements BuildStep {
     private String id;
@@ -788,26 +788,26 @@ public final class dynamicGroups implements Model {
     @Override
      public dynamicGroups build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new dynamicGroups(
           id,
           name,
           bar);
     }
-
+    
     @Override
      public BuildStep name(String name) {
         this.name = name;
         return this;
     }
-
+    
     @Override
      public BuildStep bar(String bar) {
         this.bar = bar;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -816,7 +816,7 @@ public final class dynamicGroups implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String bar) {
@@ -824,18 +824,18 @@ public final class dynamicGroups implements Model {
       super.name(name)
         .bar(bar);
     }
-
+    
     @Override
      public CopyOfBuilder name(String name) {
       return (CopyOfBuilder) super.name(name);
     }
-
+    
     @Override
      public CopyOfBuilder bar(String bar) {
       return (CopyOfBuilder) super.bar(bar);
     }
   }
-
+  
 }
 "
 `;
@@ -884,34 +884,34 @@ public final class Employee implements Model {
   public String getId() {
       return id;
   }
-
+  
   public String getName() {
       return name;
   }
-
+  
   public String getAddress() {
       return address;
   }
-
+  
   public String getSsn() {
       return ssn;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private Employee(String id, String name, String address, String ssn) {
     this.id = id;
     this.name = name;
     this.address = address;
     this.ssn = ssn;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -928,7 +928,7 @@ public final class Employee implements Model {
               ObjectsCompat.equals(getUpdatedAt(), employee.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -941,7 +941,7 @@ public final class Employee implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -955,12 +955,12 @@ public final class Employee implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static NameStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -976,7 +976,7 @@ public final class Employee implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       name,
@@ -986,19 +986,19 @@ public final class Employee implements Model {
   public interface NameStep {
     AddressStep name(String name);
   }
-
+  
 
   public interface AddressStep {
     BuildStep address(String address);
   }
-
+  
 
   public interface BuildStep {
     Employee build();
     BuildStep id(String id);
     BuildStep ssn(String ssn);
   }
-
+  
 
   public static class Builder implements NameStep, AddressStep, BuildStep {
     private String id;
@@ -1008,35 +1008,35 @@ public final class Employee implements Model {
     @Override
      public Employee build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new Employee(
           id,
           name,
           address,
           ssn);
     }
-
+    
     @Override
      public AddressStep name(String name) {
         Objects.requireNonNull(name);
         this.name = name;
         return this;
     }
-
+    
     @Override
      public BuildStep address(String address) {
         Objects.requireNonNull(address);
         this.address = address;
         return this;
     }
-
+    
     @Override
      public BuildStep ssn(String ssn) {
         this.ssn = ssn;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -1045,7 +1045,7 @@ public final class Employee implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String address, String ssn) {
@@ -1054,23 +1054,23 @@ public final class Employee implements Model {
         .address(address)
         .ssn(ssn);
     }
-
+    
     @Override
      public CopyOfBuilder name(String name) {
       return (CopyOfBuilder) super.name(name);
     }
-
+    
     @Override
      public CopyOfBuilder address(String address) {
       return (CopyOfBuilder) super.address(address);
     }
-
+    
     @Override
      public CopyOfBuilder ssn(String ssn) {
       return (CopyOfBuilder) super.ssn(ssn);
     }
   }
-
+  
 }
 "
 `;
@@ -1114,29 +1114,29 @@ public final class simpleOwnerAuth implements Model {
   public String getId() {
       return id;
   }
-
+  
   public String getName() {
       return name;
   }
-
+  
   public String getBar() {
       return bar;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private simpleOwnerAuth(String id, String name, String bar) {
     this.id = id;
     this.name = name;
     this.bar = bar;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -1152,7 +1152,7 @@ public final class simpleOwnerAuth implements Model {
               ObjectsCompat.equals(getUpdatedAt(), simpleOwnerAuth.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -1164,7 +1164,7 @@ public final class simpleOwnerAuth implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -1177,12 +1177,12 @@ public final class simpleOwnerAuth implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static BuildStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -1197,7 +1197,7 @@ public final class simpleOwnerAuth implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       name,
@@ -1209,7 +1209,7 @@ public final class simpleOwnerAuth implements Model {
     BuildStep name(String name);
     BuildStep bar(String bar);
   }
-
+  
 
   public static class Builder implements BuildStep {
     private String id;
@@ -1218,26 +1218,26 @@ public final class simpleOwnerAuth implements Model {
     @Override
      public simpleOwnerAuth build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new simpleOwnerAuth(
           id,
           name,
           bar);
     }
-
+    
     @Override
      public BuildStep name(String name) {
         this.name = name;
         return this;
     }
-
+    
     @Override
      public BuildStep bar(String bar) {
         this.bar = bar;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -1246,7 +1246,7 @@ public final class simpleOwnerAuth implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String bar) {
@@ -1254,18 +1254,18 @@ public final class simpleOwnerAuth implements Model {
       super.name(name)
         .bar(bar);
     }
-
+    
     @Override
      public CopyOfBuilder name(String name) {
       return (CopyOfBuilder) super.name(name);
     }
-
+    
     @Override
      public CopyOfBuilder bar(String bar) {
       return (CopyOfBuilder) super.bar(bar);
     }
   }
-
+  
 }
 "
 `;
@@ -1309,29 +1309,29 @@ public final class allowRead implements Model {
   public String getId() {
       return id;
   }
-
+  
   public String getName() {
       return name;
   }
-
+  
   public String getBar() {
       return bar;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private allowRead(String id, String name, String bar) {
     this.id = id;
     this.name = name;
     this.bar = bar;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -1347,7 +1347,7 @@ public final class allowRead implements Model {
               ObjectsCompat.equals(getUpdatedAt(), allowRead.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -1359,7 +1359,7 @@ public final class allowRead implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -1372,12 +1372,12 @@ public final class allowRead implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static BuildStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -1392,7 +1392,7 @@ public final class allowRead implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       name,
@@ -1404,7 +1404,7 @@ public final class allowRead implements Model {
     BuildStep name(String name);
     BuildStep bar(String bar);
   }
-
+  
 
   public static class Builder implements BuildStep {
     private String id;
@@ -1413,26 +1413,26 @@ public final class allowRead implements Model {
     @Override
      public allowRead build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new allowRead(
           id,
           name,
           bar);
     }
-
+    
     @Override
      public BuildStep name(String name) {
         this.name = name;
         return this;
     }
-
+    
     @Override
      public BuildStep bar(String bar) {
         this.bar = bar;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -1441,7 +1441,7 @@ public final class allowRead implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String bar) {
@@ -1449,18 +1449,18 @@ public final class allowRead implements Model {
       super.name(name)
         .bar(bar);
     }
-
+    
     @Override
      public CopyOfBuilder name(String name) {
       return (CopyOfBuilder) super.name(name);
     }
-
+    
     @Override
      public CopyOfBuilder bar(String bar) {
       return (CopyOfBuilder) super.bar(bar);
     }
   }
-
+  
 }
 "
 `;
@@ -1504,29 +1504,29 @@ public final class privateType implements Model {
   public String getId() {
       return id;
   }
-
+  
   public String getName() {
       return name;
   }
-
+  
   public String getBar() {
       return bar;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private privateType(String id, String name, String bar) {
     this.id = id;
     this.name = name;
     this.bar = bar;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -1542,7 +1542,7 @@ public final class privateType implements Model {
               ObjectsCompat.equals(getUpdatedAt(), privateType.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -1554,7 +1554,7 @@ public final class privateType implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -1567,12 +1567,12 @@ public final class privateType implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static BuildStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -1587,7 +1587,7 @@ public final class privateType implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       name,
@@ -1599,7 +1599,7 @@ public final class privateType implements Model {
     BuildStep name(String name);
     BuildStep bar(String bar);
   }
-
+  
 
   public static class Builder implements BuildStep {
     private String id;
@@ -1608,26 +1608,26 @@ public final class privateType implements Model {
     @Override
      public privateType build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new privateType(
           id,
           name,
           bar);
     }
-
+    
     @Override
      public BuildStep name(String name) {
         this.name = name;
         return this;
     }
-
+    
     @Override
      public BuildStep bar(String bar) {
         this.bar = bar;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -1636,7 +1636,7 @@ public final class privateType implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String bar) {
@@ -1644,18 +1644,18 @@ public final class privateType implements Model {
       super.name(name)
         .bar(bar);
     }
-
+    
     @Override
      public CopyOfBuilder name(String name) {
       return (CopyOfBuilder) super.name(name);
     }
-
+    
     @Override
      public CopyOfBuilder bar(String bar) {
       return (CopyOfBuilder) super.bar(bar);
     }
   }
-
+  
 }
 "
 `;
@@ -1701,29 +1701,29 @@ public final class privateType implements Model {
   public String getId() {
       return id;
   }
-
+  
   public String getName() {
       return name;
   }
-
+  
   public String getBar() {
       return bar;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private privateType(String id, String name, String bar) {
     this.id = id;
     this.name = name;
     this.bar = bar;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -1739,7 +1739,7 @@ public final class privateType implements Model {
               ObjectsCompat.equals(getUpdatedAt(), privateType.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -1751,7 +1751,7 @@ public final class privateType implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -1764,12 +1764,12 @@ public final class privateType implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static BuildStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -1784,7 +1784,7 @@ public final class privateType implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       name,
@@ -1796,7 +1796,7 @@ public final class privateType implements Model {
     BuildStep name(String name);
     BuildStep bar(String bar);
   }
-
+  
 
   public static class Builder implements BuildStep {
     private String id;
@@ -1805,26 +1805,26 @@ public final class privateType implements Model {
     @Override
      public privateType build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new privateType(
           id,
           name,
           bar);
     }
-
+    
     @Override
      public BuildStep name(String name) {
         this.name = name;
         return this;
     }
-
+    
     @Override
      public BuildStep bar(String bar) {
         this.bar = bar;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -1833,7 +1833,7 @@ public final class privateType implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String bar) {
@@ -1841,18 +1841,18 @@ public final class privateType implements Model {
       super.name(name)
         .bar(bar);
     }
-
+    
     @Override
      public CopyOfBuilder name(String name) {
       return (CopyOfBuilder) super.name(name);
     }
-
+    
     @Override
      public CopyOfBuilder bar(String bar) {
       return (CopyOfBuilder) super.bar(bar);
     }
   }
-
+  
 }
 "
 `;
@@ -1896,29 +1896,29 @@ public final class publicType implements Model {
   public String getId() {
       return id;
   }
-
+  
   public String getName() {
       return name;
   }
-
+  
   public String getBar() {
       return bar;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private publicType(String id, String name, String bar) {
     this.id = id;
     this.name = name;
     this.bar = bar;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -1934,7 +1934,7 @@ public final class publicType implements Model {
               ObjectsCompat.equals(getUpdatedAt(), publicType.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -1946,7 +1946,7 @@ public final class publicType implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -1959,12 +1959,12 @@ public final class publicType implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static BuildStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -1979,7 +1979,7 @@ public final class publicType implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       name,
@@ -1991,7 +1991,7 @@ public final class publicType implements Model {
     BuildStep name(String name);
     BuildStep bar(String bar);
   }
-
+  
 
   public static class Builder implements BuildStep {
     private String id;
@@ -2000,26 +2000,26 @@ public final class publicType implements Model {
     @Override
      public publicType build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new publicType(
           id,
           name,
           bar);
     }
-
+    
     @Override
      public BuildStep name(String name) {
         this.name = name;
         return this;
     }
-
+    
     @Override
      public BuildStep bar(String bar) {
         this.bar = bar;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -2028,7 +2028,7 @@ public final class publicType implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String bar) {
@@ -2036,18 +2036,18 @@ public final class publicType implements Model {
       super.name(name)
         .bar(bar);
     }
-
+    
     @Override
      public CopyOfBuilder name(String name) {
       return (CopyOfBuilder) super.name(name);
     }
-
+    
     @Override
      public CopyOfBuilder bar(String bar) {
       return (CopyOfBuilder) super.bar(bar);
     }
   }
-
+  
 }
 "
 `;
@@ -2091,29 +2091,29 @@ public final class staticGroups implements Model {
   public String getId() {
       return id;
   }
-
+  
   public String getName() {
       return name;
   }
-
+  
   public String getBar() {
       return bar;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private staticGroups(String id, String name, String bar) {
     this.id = id;
     this.name = name;
     this.bar = bar;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -2129,7 +2129,7 @@ public final class staticGroups implements Model {
               ObjectsCompat.equals(getUpdatedAt(), staticGroups.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -2141,7 +2141,7 @@ public final class staticGroups implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -2154,12 +2154,12 @@ public final class staticGroups implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static BuildStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -2174,7 +2174,7 @@ public final class staticGroups implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       name,
@@ -2186,7 +2186,7 @@ public final class staticGroups implements Model {
     BuildStep name(String name);
     BuildStep bar(String bar);
   }
-
+  
 
   public static class Builder implements BuildStep {
     private String id;
@@ -2195,26 +2195,26 @@ public final class staticGroups implements Model {
     @Override
      public staticGroups build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new staticGroups(
           id,
           name,
           bar);
     }
-
+    
     @Override
      public BuildStep name(String name) {
         this.name = name;
         return this;
     }
-
+    
     @Override
      public BuildStep bar(String bar) {
         this.bar = bar;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -2223,7 +2223,7 @@ public final class staticGroups implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String bar) {
@@ -2231,18 +2231,18 @@ public final class staticGroups implements Model {
       super.name(name)
         .bar(bar);
     }
-
+    
     @Override
      public CopyOfBuilder name(String name) {
       return (CopyOfBuilder) super.name(name);
     }
-
+    
     @Override
      public CopyOfBuilder bar(String bar) {
       return (CopyOfBuilder) super.bar(bar);
     }
   }
-
+  
 }
 "
 `;
@@ -2285,31 +2285,31 @@ public final class Landmark implements Model {
   public String getId() {
       return id;
   }
-
+  
   public String getName() {
       return name;
   }
-
+  
   public Integer getRating() {
       return rating;
   }
-
+  
   public Location getLocation() {
       return location;
   }
-
+  
   public Location getParking() {
       return parking;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private Landmark(String id, String name, Integer rating, Location location, Location parking) {
     this.id = id;
     this.name = name;
@@ -2317,7 +2317,7 @@ public final class Landmark implements Model {
     this.location = location;
     this.parking = parking;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -2335,7 +2335,7 @@ public final class Landmark implements Model {
               ObjectsCompat.equals(getUpdatedAt(), landmark.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -2349,7 +2349,7 @@ public final class Landmark implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -2364,12 +2364,12 @@ public final class Landmark implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static NameStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -2386,7 +2386,7 @@ public final class Landmark implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       name,
@@ -2397,24 +2397,24 @@ public final class Landmark implements Model {
   public interface NameStep {
     RatingStep name(String name);
   }
-
+  
 
   public interface RatingStep {
     LocationStep rating(Integer rating);
   }
-
+  
 
   public interface LocationStep {
     BuildStep location(Location location);
   }
-
+  
 
   public interface BuildStep {
     Landmark build();
     BuildStep id(String id);
     BuildStep parking(Location parking);
   }
-
+  
 
   public static class Builder implements NameStep, RatingStep, LocationStep, BuildStep {
     private String id;
@@ -2425,7 +2425,7 @@ public final class Landmark implements Model {
     @Override
      public Landmark build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new Landmark(
           id,
           name,
@@ -2433,35 +2433,35 @@ public final class Landmark implements Model {
           location,
           parking);
     }
-
+    
     @Override
      public RatingStep name(String name) {
         Objects.requireNonNull(name);
         this.name = name;
         return this;
     }
-
+    
     @Override
      public LocationStep rating(Integer rating) {
         Objects.requireNonNull(rating);
         this.rating = rating;
         return this;
     }
-
+    
     @Override
      public BuildStep location(Location location) {
         Objects.requireNonNull(location);
         this.location = location;
         return this;
     }
-
+    
     @Override
      public BuildStep parking(Location parking) {
         this.parking = parking;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -2470,7 +2470,7 @@ public final class Landmark implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, Integer rating, Location location, Location parking) {
@@ -2480,28 +2480,28 @@ public final class Landmark implements Model {
         .location(location)
         .parking(parking);
     }
-
+    
     @Override
      public CopyOfBuilder name(String name) {
       return (CopyOfBuilder) super.name(name);
     }
-
+    
     @Override
      public CopyOfBuilder rating(Integer rating) {
       return (CopyOfBuilder) super.rating(rating);
     }
-
+    
     @Override
      public CopyOfBuilder location(Location location) {
       return (CopyOfBuilder) super.location(location);
     }
-
+    
     @Override
      public CopyOfBuilder parking(Location parking) {
       return (CopyOfBuilder) super.parking(parking);
     }
   }
-
+  
 }
 "
 `;
@@ -2522,16 +2522,16 @@ public final class Location {
   public String getLat() {
       return lat;
   }
-
+  
   public String getLang() {
       return lang;
   }
-
+  
   private Location(String lat, String lang) {
     this.lat = lat;
     this.lang = lang;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -2544,7 +2544,7 @@ public final class Location {
               ObjectsCompat.equals(getLang(), location.getLang());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -2553,11 +2553,11 @@ public final class Location {
       .toString()
       .hashCode();
   }
-
+  
   public static LatStep builder() {
       return new Builder();
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(lat,
       lang);
@@ -2565,36 +2565,36 @@ public final class Location {
   public interface LatStep {
     LangStep lat(String lat);
   }
-
+  
 
   public interface LangStep {
     BuildStep lang(String lang);
   }
-
+  
 
   public interface BuildStep {
     Location build();
   }
-
+  
 
   public static class Builder implements LatStep, LangStep, BuildStep {
     private String lat;
     private String lang;
     @Override
      public Location build() {
-
+        
         return new Location(
           lat,
           lang);
     }
-
+    
     @Override
      public LangStep lat(String lat) {
         Objects.requireNonNull(lat);
         this.lat = lat;
         return this;
     }
-
+    
     @Override
      public BuildStep lang(String lang) {
         Objects.requireNonNull(lang);
@@ -2602,25 +2602,25 @@ public final class Location {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String lat, String lang) {
       super.lat(lat)
         .lang(lang);
     }
-
+    
     @Override
      public CopyOfBuilder lat(String lat) {
       return (CopyOfBuilder) super.lat(lat);
     }
-
+    
     @Override
      public CopyOfBuilder lang(String lang) {
       return (CopyOfBuilder) super.lang(lang);
     }
   }
-
+  
 }
 "
 `;
@@ -2641,16 +2641,16 @@ public final class Reference {
   public String getId() {
       return id;
   }
-
+  
   public ReferenceIdTypeEnum getIdType() {
       return idType;
   }
-
+  
   private Reference(String id, ReferenceIdTypeEnum idType) {
     this.id = id;
     this.idType = idType;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -2663,7 +2663,7 @@ public final class Reference {
               ObjectsCompat.equals(getIdType(), reference.getIdType());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -2672,11 +2672,11 @@ public final class Reference {
       .toString()
       .hashCode();
   }
-
+  
   public static IdStep builder() {
       return new Builder();
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       idType);
@@ -2684,36 +2684,36 @@ public final class Reference {
   public interface IdStep {
     IdTypeStep id(String id);
   }
-
+  
 
   public interface IdTypeStep {
     BuildStep idType(ReferenceIdTypeEnum idType);
   }
-
+  
 
   public interface BuildStep {
     Reference build();
   }
-
+  
 
   public static class Builder implements IdStep, IdTypeStep, BuildStep {
     private String id;
     private ReferenceIdTypeEnum idType;
     @Override
      public Reference build() {
-
+        
         return new Reference(
           id,
           idType);
     }
-
+    
     @Override
      public IdTypeStep id(String id) {
         Objects.requireNonNull(id);
         this.id = id;
         return this;
     }
-
+    
     @Override
      public BuildStep idType(ReferenceIdTypeEnum idType) {
         Objects.requireNonNull(idType);
@@ -2721,25 +2721,25 @@ public final class Reference {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, ReferenceIdTypeEnum idType) {
       super.id(id)
         .idType(idType);
     }
-
+    
     @Override
      public CopyOfBuilder id(String id) {
       return (CopyOfBuilder) super.id(id);
     }
-
+    
     @Override
      public CopyOfBuilder idType(ReferenceIdTypeEnum idType) {
       return (CopyOfBuilder) super.idType(idType);
     }
   }
-
+  
 }
 "
 `;
@@ -2781,34 +2781,34 @@ public final class task implements Model {
   public String getId() {
       return id;
   }
-
+  
   public Todo getTodo() {
       return todo;
   }
-
+  
   public Temporal.Time getTime() {
       return time;
   }
-
+  
   public Temporal.Date getCreatedOn() {
       return createdOn;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private task(String id, Todo todo, Temporal.Time time, Temporal.Date createdOn) {
     this.id = id;
     this.todo = todo;
     this.time = time;
     this.createdOn = createdOn;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -2825,7 +2825,7 @@ public final class task implements Model {
               ObjectsCompat.equals(getUpdatedAt(), task.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -2838,7 +2838,7 @@ public final class task implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -2852,12 +2852,12 @@ public final class task implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static BuildStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -2873,7 +2873,7 @@ public final class task implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       todo,
@@ -2887,7 +2887,7 @@ public final class task implements Model {
     BuildStep time(Temporal.Time time);
     BuildStep createdOn(Temporal.Date createdOn);
   }
-
+  
 
   public static class Builder implements BuildStep {
     private String id;
@@ -2897,33 +2897,33 @@ public final class task implements Model {
     @Override
      public task build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new task(
           id,
           todo,
           time,
           createdOn);
     }
-
+    
     @Override
      public BuildStep todo(Todo todo) {
         this.todo = todo;
         return this;
     }
-
+    
     @Override
      public BuildStep time(Temporal.Time time) {
         this.time = time;
         return this;
     }
-
+    
     @Override
      public BuildStep createdOn(Temporal.Date createdOn) {
         this.createdOn = createdOn;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -2932,7 +2932,7 @@ public final class task implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, Todo todo, Temporal.Time time, Temporal.Date createdOn) {
@@ -2941,23 +2941,23 @@ public final class task implements Model {
         .time(time)
         .createdOn(createdOn);
     }
-
+    
     @Override
      public CopyOfBuilder todo(Todo todo) {
       return (CopyOfBuilder) super.todo(todo);
     }
-
+    
     @Override
      public CopyOfBuilder time(Temporal.Time time) {
       return (CopyOfBuilder) super.time(time);
     }
-
+    
     @Override
      public CopyOfBuilder createdOn(Temporal.Date createdOn) {
       return (CopyOfBuilder) super.createdOn(createdOn);
     }
   }
-
+  
 }
 "
 `;
@@ -2994,23 +2994,23 @@ public final class Todo implements Model {
   public String getId() {
       return id;
   }
-
+  
   public List<task> getTasks() {
       return tasks;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private Todo(String id) {
     this.id = id;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -3024,7 +3024,7 @@ public final class Todo implements Model {
               ObjectsCompat.equals(getUpdatedAt(), todo.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -3034,7 +3034,7 @@ public final class Todo implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -3045,12 +3045,12 @@ public final class Todo implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static BuildStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -3063,7 +3063,7 @@ public final class Todo implements Model {
       id
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id);
   }
@@ -3071,19 +3071,19 @@ public final class Todo implements Model {
     Todo build();
     BuildStep id(String id);
   }
-
+  
 
   public static class Builder implements BuildStep {
     private String id;
     @Override
      public Todo build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new Todo(
           id);
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -3092,15 +3092,15 @@ public final class Todo implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id) {
       super.id(id);
-
+      
     }
   }
-
+  
 }
 "
 `;
@@ -3139,29 +3139,29 @@ public final class SimpleModel implements Model {
   public String getId() {
       return id;
   }
-
+  
   public String getName() {
       return name;
   }
-
+  
   public String getBar() {
       return bar;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private SimpleModel(String id, String name, String bar) {
     this.id = id;
     this.name = name;
     this.bar = bar;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -3177,7 +3177,7 @@ public final class SimpleModel implements Model {
               ObjectsCompat.equals(getUpdatedAt(), simpleModel.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -3189,7 +3189,7 @@ public final class SimpleModel implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -3202,12 +3202,12 @@ public final class SimpleModel implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static BuildStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -3222,7 +3222,7 @@ public final class SimpleModel implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       name,
@@ -3234,7 +3234,7 @@ public final class SimpleModel implements Model {
     BuildStep name(String name);
     BuildStep bar(String bar);
   }
-
+  
 
   public static class Builder implements BuildStep {
     private String id;
@@ -3243,26 +3243,26 @@ public final class SimpleModel implements Model {
     @Override
      public SimpleModel build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new SimpleModel(
           id,
           name,
           bar);
     }
-
+    
     @Override
      public BuildStep name(String name) {
         this.name = name;
         return this;
     }
-
+    
     @Override
      public BuildStep bar(String bar) {
         this.bar = bar;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -3271,7 +3271,7 @@ public final class SimpleModel implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String bar) {
@@ -3279,18 +3279,18 @@ public final class SimpleModel implements Model {
       super.name(name)
         .bar(bar);
     }
-
+    
     @Override
      public CopyOfBuilder name(String name) {
       return (CopyOfBuilder) super.name(name);
     }
-
+    
     @Override
      public CopyOfBuilder bar(String bar) {
       return (CopyOfBuilder) super.bar(bar);
     }
   }
-
+  
 }
 "
 `;
@@ -3329,29 +3329,29 @@ public final class SimpleModel implements Model {
   public String getId() {
       return id;
   }
-
+  
   public String getName() {
       return name;
   }
-
+  
   public String getBar() {
       return bar;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private SimpleModel(String id, String name, String bar) {
     this.id = id;
     this.name = name;
     this.bar = bar;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -3367,7 +3367,7 @@ public final class SimpleModel implements Model {
               ObjectsCompat.equals(getUpdatedAt(), simpleModel.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -3379,7 +3379,7 @@ public final class SimpleModel implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -3392,12 +3392,12 @@ public final class SimpleModel implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static BuildStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -3412,7 +3412,7 @@ public final class SimpleModel implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       name,
@@ -3424,7 +3424,7 @@ public final class SimpleModel implements Model {
     BuildStep name(String name);
     BuildStep bar(String bar);
   }
-
+  
 
   public static class Builder implements BuildStep {
     private String id;
@@ -3433,26 +3433,26 @@ public final class SimpleModel implements Model {
     @Override
      public SimpleModel build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new SimpleModel(
           id,
           name,
           bar);
     }
-
+    
     @Override
      public BuildStep name(String name) {
         this.name = name;
         return this;
     }
-
+    
     @Override
      public BuildStep bar(String bar) {
         this.bar = bar;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -3461,7 +3461,7 @@ public final class SimpleModel implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String bar) {
@@ -3469,18 +3469,18 @@ public final class SimpleModel implements Model {
       super.name(name)
         .bar(bar);
     }
-
+    
     @Override
      public CopyOfBuilder name(String name) {
       return (CopyOfBuilder) super.name(name);
     }
-
+    
     @Override
      public CopyOfBuilder bar(String bar) {
       return (CopyOfBuilder) super.bar(bar);
     }
   }
-
+  
 }
 "
 `;
@@ -3531,47 +3531,47 @@ public final class ListContainer implements Model {
   public String getId() {
       return id;
   }
-
+  
   public String getName() {
       return name;
   }
-
+  
   public List<Integer> getList() {
       return list;
   }
-
+  
   public List<String> getRequiredList() {
       return requiredList;
   }
-
+  
   public List<StatusEnum> getRequiredListOfRequired() {
       return requiredListOfRequired;
   }
-
+  
   public List<Boolean> getListOfRequired() {
       return listOfRequired;
   }
-
+  
   public List<Temporal.Date> getRequiredListOfRequiredDates() {
       return requiredListOfRequiredDates;
   }
-
+  
   public List<Double> getListOfRequiredFloats() {
       return listOfRequiredFloats;
   }
-
+  
   public List<CustomType> getRequiredListOfCustomTypes() {
       return requiredListOfCustomTypes;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private ListContainer(String id, String name, List<Integer> list, List<String> requiredList, List<StatusEnum> requiredListOfRequired, List<Boolean> listOfRequired, List<Temporal.Date> requiredListOfRequiredDates, List<Double> listOfRequiredFloats, List<CustomType> requiredListOfCustomTypes) {
     this.id = id;
     this.name = name;
@@ -3583,7 +3583,7 @@ public final class ListContainer implements Model {
     this.listOfRequiredFloats = listOfRequiredFloats;
     this.requiredListOfCustomTypes = requiredListOfCustomTypes;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -3605,7 +3605,7 @@ public final class ListContainer implements Model {
               ObjectsCompat.equals(getUpdatedAt(), listContainer.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -3623,7 +3623,7 @@ public final class ListContainer implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -3642,12 +3642,12 @@ public final class ListContainer implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static RequiredListOfRequiredStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -3668,7 +3668,7 @@ public final class ListContainer implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       name,
@@ -3683,22 +3683,22 @@ public final class ListContainer implements Model {
   public interface RequiredListStep {
     RequiredListOfRequiredStep requiredList(List<String> requiredList);
   }
-
+  
 
   public interface RequiredListOfRequiredStep {
     RequiredListOfRequiredDatesStep requiredListOfRequired(List<StatusEnum> requiredListOfRequired);
   }
-
+  
 
   public interface RequiredListOfRequiredDatesStep {
     RequiredListOfCustomTypesStep requiredListOfRequiredDates(List<Temporal.Date> requiredListOfRequiredDates);
   }
-
+  
 
   public interface RequiredListOfCustomTypesStep {
     BuildStep requiredListOfCustomTypes(List<CustomType> requiredListOfCustomTypes);
   }
-
+  
 
   public interface BuildStep {
     ListContainer build();
@@ -3708,7 +3708,7 @@ public final class ListContainer implements Model {
     BuildStep listOfRequired(List<Boolean> listOfRequired);
     BuildStep listOfRequiredFloats(List<Double> listOfRequiredFloats);
   }
-
+  
 
   public static class Builder implements RequiredListStep, RequiredListOfRequiredStep, RequiredListOfRequiredDatesStep, RequiredListOfCustomTypesStep, BuildStep {
     private String id;
@@ -3723,7 +3723,7 @@ public final class ListContainer implements Model {
     @Override
      public ListContainer build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new ListContainer(
           id,
           name,
@@ -3735,60 +3735,60 @@ public final class ListContainer implements Model {
           listOfRequiredFloats,
           requiredListOfCustomTypes);
     }
-
+    
     @Override
      public RequiredListOfRequiredStep requiredList(List<String> requiredList) {
         Objects.requireNonNull(requiredList);
         this.requiredList = requiredList;
         return this;
     }
-
+    
     @Override
      public RequiredListOfRequiredDatesStep requiredListOfRequired(List<StatusEnum> requiredListOfRequired) {
         Objects.requireNonNull(requiredListOfRequired);
         this.requiredListOfRequired = requiredListOfRequired;
         return this;
     }
-
+    
     @Override
      public RequiredListOfCustomTypesStep requiredListOfRequiredDates(List<Temporal.Date> requiredListOfRequiredDates) {
         Objects.requireNonNull(requiredListOfRequiredDates);
         this.requiredListOfRequiredDates = requiredListOfRequiredDates;
         return this;
     }
-
+    
     @Override
      public BuildStep requiredListOfCustomTypes(List<CustomType> requiredListOfCustomTypes) {
         Objects.requireNonNull(requiredListOfCustomTypes);
         this.requiredListOfCustomTypes = requiredListOfCustomTypes;
         return this;
     }
-
+    
     @Override
      public BuildStep name(String name) {
         this.name = name;
         return this;
     }
-
+    
     @Override
      public BuildStep list(List<Integer> list) {
         this.list = list;
         return this;
     }
-
+    
     @Override
      public BuildStep listOfRequired(List<Boolean> listOfRequired) {
         this.listOfRequired = listOfRequired;
         return this;
     }
-
+    
     @Override
      public BuildStep listOfRequiredFloats(List<Double> listOfRequiredFloats) {
         this.listOfRequiredFloats = listOfRequiredFloats;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -3797,7 +3797,7 @@ public final class ListContainer implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, List<Integer> list, List<String> requiredList, List<StatusEnum> requiredListOfRequired, List<Boolean> listOfRequired, List<Temporal.Date> requiredListOfRequiredDates, List<Double> listOfRequiredFloats, List<CustomType> requiredListOfCustomTypes) {
@@ -3811,894 +3811,50 @@ public final class ListContainer implements Model {
         .requiredList(requiredList)
         .requiredListOfCustomTypes(requiredListOfCustomTypes);
     }
-
+    
     @Override
      public CopyOfBuilder requiredListOfRequired(List<StatusEnum> requiredListOfRequired) {
       return (CopyOfBuilder) super.requiredListOfRequired(requiredListOfRequired);
     }
-
+    
     @Override
      public CopyOfBuilder listOfRequired(List<Boolean> listOfRequired) {
       return (CopyOfBuilder) super.listOfRequired(listOfRequired);
     }
-
+    
     @Override
      public CopyOfBuilder requiredListOfRequiredDates(List<Temporal.Date> requiredListOfRequiredDates) {
       return (CopyOfBuilder) super.requiredListOfRequiredDates(requiredListOfRequiredDates);
     }
-
+    
     @Override
      public CopyOfBuilder listOfRequiredFloats(List<Double> listOfRequiredFloats) {
       return (CopyOfBuilder) super.listOfRequiredFloats(listOfRequiredFloats);
     }
-
+    
     @Override
      public CopyOfBuilder name(String name) {
       return (CopyOfBuilder) super.name(name);
     }
-
+    
     @Override
      public CopyOfBuilder list(List<Integer> list) {
       return (CopyOfBuilder) super.list(list);
     }
-
+    
     @Override
      public CopyOfBuilder requiredList(List<String> requiredList) {
       return (CopyOfBuilder) super.requiredList(requiredList);
     }
-
+    
     @Override
      public CopyOfBuilder requiredListOfCustomTypes(List<CustomType> requiredListOfCustomTypes) {
       return (CopyOfBuilder) super.requiredListOfCustomTypes(requiredListOfCustomTypes);
     }
   }
-
+  
 }
 "
-`;
-
-exports[`AppSyncModelVisitor Use Improved Pluralization Should work with potentially pluralized collision 1`] = `
-AppSyncModelJavaVisitor {
-  "EnumTypeDefinition": [Function],
-  "FieldDefinition": [Function],
-  "ObjectTypeDefinition": [Function],
-  "READ_ONLY_FIELDS": Array [
-    "id",
-  ],
-  "SCALAR_TYPE_MAP": Object {},
-  "_declarationBlockConfig": Object {},
-  "_parsedConfig": Object {
-    "addTypename": true,
-    "convert": [Function],
-    "externalFragments": Array [],
-    "handleListNullabilityTransparently": true,
-    "improvePluralization": true,
-    "isTimestampFieldsAdded": true,
-    "nonOptionalTypename": false,
-    "scalars": Object {
-      "AWSDate": Object {
-        "isExternal": false,
-        "type": "Temporal.Date",
-      },
-      "AWSDateTime": Object {
-        "isExternal": false,
-        "type": "Temporal.DateTime",
-      },
-      "AWSEmail": Object {
-        "isExternal": false,
-        "type": "String",
-      },
-      "AWSIPAddress": Object {
-        "isExternal": false,
-        "type": "String",
-      },
-      "AWSJSON": Object {
-        "isExternal": false,
-        "type": "String",
-      },
-      "AWSPhone": Object {
-        "isExternal": false,
-        "type": "String",
-      },
-      "AWSTime": Object {
-        "isExternal": false,
-        "type": "Temporal.Time",
-      },
-      "AWSTimestamp": Object {
-        "isExternal": false,
-        "type": "Temporal.Timestamp",
-      },
-      "AWSURL": Object {
-        "isExternal": false,
-        "type": "String",
-      },
-      "Boolean": Object {
-        "isExternal": false,
-        "type": "Boolean",
-      },
-      "Float": Object {
-        "isExternal": false,
-        "type": "Double",
-      },
-      "ID": Object {
-        "isExternal": false,
-        "type": "String",
-      },
-      "Int": Object {
-        "isExternal": false,
-        "type": "Integer",
-      },
-      "String": Object {
-        "isExternal": false,
-        "type": "String",
-      },
-    },
-    "selectedType": "Wish",
-    "target": "android",
-    "typesPrefix": "",
-    "usePipelinedTransformer": false,
-  },
-  "_schema": GraphQLSchema {
-    "__allowedLegacyNames": Array [],
-    "__validationErrors": undefined,
-    "_directives": Array [
-      "@model",
-      "@key",
-      "@connection",
-      "@auth",
-      "@searchable",
-      "@deprecated",
-      "@primaryKey",
-      "@index",
-      "@hasOne",
-      "@hasMany",
-      "@belongsTo",
-      "@manyToMany",
-      "@skip",
-      "@include",
-    ],
-    "_implementations": Object {},
-    "_mutationType": undefined,
-    "_possibleTypeMap": Object {},
-    "_queryType": undefined,
-    "_subscriptionType": undefined,
-    "_typeMap": Object {
-      "AWSDate": "AWSDate",
-      "AWSDateTime": "AWSDateTime",
-      "AWSEmail": "AWSEmail",
-      "AWSIPAddress": "AWSIPAddress",
-      "AWSJSON": "AWSJSON",
-      "AWSPhone": "AWSPhone",
-      "AWSTime": "AWSTime",
-      "AWSTimestamp": "AWSTimestamp",
-      "AWSURL": "AWSURL",
-      "AuthProvider": "AuthProvider",
-      "AuthRule": "AuthRule",
-      "AuthStrategy": "AuthStrategy",
-      "Boolean": "Boolean",
-      "CustomType": "CustomType",
-      "Float": "Float",
-      "ID": "ID",
-      "Int": "Int",
-      "ListContainer": "ListContainer",
-      "ModelMutation": "ModelMutation",
-      "ModelMutationMap": "ModelMutationMap",
-      "ModelOperation": "ModelOperation",
-      "ModelQuery": "ModelQuery",
-      "ModelQueryMap": "ModelQueryMap",
-      "ModelSubscriptionLevel": "ModelSubscriptionLevel",
-      "ModelSubscriptionMap": "ModelSubscriptionMap",
-      "SearchableQueryMap": "SearchableQueryMap",
-      "StatusEnum": "StatusEnum",
-      "String": "String",
-      "TimestampConfiguration": "TimestampConfiguration",
-      "__Directive": "__Directive",
-      "__DirectiveLocation": "__DirectiveLocation",
-      "__EnumValue": "__EnumValue",
-      "__Field": "__Field",
-      "__InputValue": "__InputValue",
-      "__Schema": "__Schema",
-      "__Type": "__Type",
-      "__TypeKind": "__TypeKind",
-    },
-    "astNode": undefined,
-    "extensionASTNodes": undefined,
-    "extensions": undefined,
-  },
-  "addTimestampFields": [Function],
-  "additionalPackages": Set {},
-  "computeVersion": [Function],
-  "convertManyToManyDirectives": [Function],
-  "convertName": [Function],
-  "determinePrimaryKeyFieldname": [Function],
-  "ensureIdField": [Function],
-  "enumMap": Object {
-    "StatusEnum": Object {
-      "name": "StatusEnum",
-      "type": "enum",
-      "values": Object {
-        "FAIL": "fail",
-        "PASS": "pass",
-      },
-    },
-  },
-  "generate": [Function],
-  "generateAuthRules": [Function],
-  "generateBuilderClass": [Function],
-  "generateBuilderMethod": [Function],
-  "generateClassLoader": [Function],
-  "generateConnectionAnnotation": [Function],
-  "generateConstructor": [Function],
-  "generateCopyOfBuilderClass": [Function],
-  "generateCopyOfBuilderMethod": [Function],
-  "generateEnums": [Function],
-  "generateEqualsMethod": [Function],
-  "generateFieldAnnotations": [Function],
-  "generateGetters": [Function],
-  "generateHashCodeMethod": [Function],
-  "generateImportStatements": [Function],
-  "generateIntermediateModel": [Function],
-  "generateJustIdMethod": [Function],
-  "generateModelAnnotations": [Function],
-  "generateModelClass": [Function],
-  "generateModelClasses": [Function],
-  "generateModelField": [Function],
-  "generateModelFieldAnnotation": [Function],
-  "generateNonModelClass": [Function],
-  "generateNonModelClasses": [Function],
-  "generateNonModelField": [Function],
-  "generatePackageHeader": [Function],
-  "generatePackageName": [Function],
-  "generateQueryFields": [Function],
-  "generateStepBuilderInterfaces": [Function],
-  "generateToStringMethod": [Function],
-  "getDirectiveArguments": [Function],
-  "getDirectives": [Function],
-  "getEnumName": [Function],
-  "getEnumValue": [Function],
-  "getFieldGetterName": [Function],
-  "getFieldName": [Function],
-  "getListType": [Function],
-  "getModelName": [Function],
-  "getNativeType": [Function],
-  "getNonConnectedField": [Function],
-  "getNonModelName": [Function],
-  "getSelectedEnums": [Function],
-  "getSelectedModels": [Function],
-  "getSelectedNonModels": [Function],
-  "getStepFunctionArgumentName": [Function],
-  "getStepFunctionName": [Function],
-  "getStepInterfaceName": [Function],
-  "getWritableFields": [Function],
-  "isEnumType": [Function],
-  "isModelType": [Function],
-  "isNonModelType": [Function],
-  "isRequiredField": [Function],
-  "modelMap": Object {
-    "ListContainer": Object {
-      "directives": Array [
-        Object {
-          "arguments": Object {},
-          "name": "model",
-        },
-      ],
-      "fields": Array [
-        Object {
-          "baseType": "ID",
-          "directives": Array [],
-          "isList": false,
-          "isNullable": false,
-          "name": "id",
-          "type": "ID",
-        },
-        Object {
-          "baseType": "String",
-          "directives": Array [],
-          "isList": false,
-          "isNullable": true,
-          "name": "name",
-          "type": "String",
-        },
-        Object {
-          "baseType": "Int",
-          "directives": Array [],
-          "isList": true,
-          "isListNullable": true,
-          "isNullable": true,
-          "name": "list",
-          "type": "Int",
-        },
-        Object {
-          "baseType": "String",
-          "directives": Array [],
-          "isList": true,
-          "isListNullable": false,
-          "isNullable": true,
-          "name": "requiredList",
-          "type": "String",
-        },
-        Object {
-          "baseType": "StatusEnum",
-          "directives": Array [],
-          "isList": true,
-          "isListNullable": false,
-          "isNullable": false,
-          "name": "requiredListOfRequired",
-          "type": "StatusEnum",
-        },
-        Object {
-          "baseType": "Boolean",
-          "directives": Array [],
-          "isList": true,
-          "isListNullable": true,
-          "isNullable": false,
-          "name": "listOfRequired",
-          "type": "Boolean",
-        },
-        Object {
-          "baseType": "AWSDate",
-          "directives": Array [],
-          "isList": true,
-          "isListNullable": false,
-          "isNullable": false,
-          "name": "requiredListOfRequiredDates",
-          "type": "AWSDate",
-        },
-        Object {
-          "baseType": "Float",
-          "directives": Array [],
-          "isList": true,
-          "isListNullable": true,
-          "isNullable": false,
-          "name": "listOfRequiredFloats",
-          "type": "Float",
-        },
-        Object {
-          "baseType": "CustomType",
-          "directives": Array [],
-          "isList": true,
-          "isListNullable": false,
-          "isNullable": true,
-          "name": "requiredListOfCustomTypes",
-          "type": "CustomType",
-        },
-        Object {
-          "directives": Array [],
-          "isList": false,
-          "isNullable": true,
-          "isReadOnly": true,
-          "name": "createdAt",
-          "type": "AWSDateTime",
-        },
-        Object {
-          "directives": Array [],
-          "isList": false,
-          "isNullable": true,
-          "isReadOnly": true,
-          "name": "updatedAt",
-          "type": "AWSDateTime",
-        },
-      ],
-      "name": "ListContainer",
-      "type": "model",
-    },
-  },
-  "nonModelMap": Object {
-    "CustomType": Object {
-      "directives": Array [],
-      "fields": Array [
-        Object {
-          "baseType": "String",
-          "directives": Array [],
-          "isList": false,
-          "isNullable": true,
-          "name": "name",
-          "type": "String",
-        },
-        Object {
-          "baseType": "Int",
-          "directives": Array [],
-          "isList": true,
-          "isListNullable": true,
-          "isNullable": true,
-          "name": "list",
-          "type": "Int",
-        },
-        Object {
-          "baseType": "String",
-          "directives": Array [],
-          "isList": true,
-          "isListNullable": false,
-          "isNullable": true,
-          "name": "requiredList",
-          "type": "String",
-        },
-        Object {
-          "baseType": "StatusEnum",
-          "directives": Array [],
-          "isList": true,
-          "isListNullable": false,
-          "isNullable": false,
-          "name": "requiredListOfRequired",
-          "type": "StatusEnum",
-        },
-        Object {
-          "baseType": "Boolean",
-          "directives": Array [],
-          "isList": true,
-          "isListNullable": true,
-          "isNullable": false,
-          "name": "listOfRequired",
-          "type": "Boolean",
-        },
-      ],
-      "name": "CustomType",
-      "type": "model",
-    },
-  },
-  "pluralizeModelName": [Function],
-  "processAuthDirectives": [Function],
-  "processConnectionDirective": [Function],
-  "processConnectionDirectivesV2": [Function],
-  "processDirectives": [Function],
-  "processManyToManyDirectives": [Function],
-  "scalars": Object {
-    "AWSDate": "Temporal.Date",
-    "AWSDateTime": "Temporal.DateTime",
-    "AWSEmail": "String",
-    "AWSIPAddress": "String",
-    "AWSJSON": "String",
-    "AWSPhone": "String",
-    "AWSTime": "Temporal.Time",
-    "AWSTimestamp": "Temporal.Timestamp",
-    "AWSURL": "String",
-    "Boolean": "Boolean",
-    "Float": "Double",
-    "ID": "String",
-    "Int": "Integer",
-    "String": "String",
-  },
-  "selectedTypeIsEnum": [Function],
-  "selectedTypeIsNonModel": [Function],
-  "sortFields": [Function],
-  "typesToSkip": Array [
-    "ModelMutationMap",
-    "ModelQueryMap",
-    "ModelSubscriptionMap",
-    "ModelSubscriptionLevel",
-    "TimestampConfiguration",
-    "AuthRule",
-    "AuthStrategy",
-    "AuthProvider",
-    "ModelOperation",
-    "ModelQuery",
-    "ModelMutation",
-    "SearchableQueryMap",
-  ],
-  "usingAuth": false,
-}
-`;
-
-exports[`AppSyncModelVisitor Use Improved Pluralization Should work with potentially pluralized collision 2`] = `
-AppSyncModelJavaVisitor {
-  "EnumTypeDefinition": [Function],
-  "FieldDefinition": [Function],
-  "ObjectTypeDefinition": [Function],
-  "READ_ONLY_FIELDS": Array [
-    "id",
-  ],
-  "SCALAR_TYPE_MAP": Object {},
-  "_declarationBlockConfig": Object {},
-  "_parsedConfig": Object {
-    "addTypename": true,
-    "convert": [Function],
-    "externalFragments": Array [],
-    "handleListNullabilityTransparently": true,
-    "improvePluralization": true,
-    "isTimestampFieldsAdded": true,
-    "nonOptionalTypename": false,
-    "scalars": Object {
-      "AWSDate": Object {
-        "isExternal": false,
-        "type": "Temporal.Date",
-      },
-      "AWSDateTime": Object {
-        "isExternal": false,
-        "type": "Temporal.DateTime",
-      },
-      "AWSEmail": Object {
-        "isExternal": false,
-        "type": "String",
-      },
-      "AWSIPAddress": Object {
-        "isExternal": false,
-        "type": "String",
-      },
-      "AWSJSON": Object {
-        "isExternal": false,
-        "type": "String",
-      },
-      "AWSPhone": Object {
-        "isExternal": false,
-        "type": "String",
-      },
-      "AWSTime": Object {
-        "isExternal": false,
-        "type": "Temporal.Time",
-      },
-      "AWSTimestamp": Object {
-        "isExternal": false,
-        "type": "Temporal.Timestamp",
-      },
-      "AWSURL": Object {
-        "isExternal": false,
-        "type": "String",
-      },
-      "Boolean": Object {
-        "isExternal": false,
-        "type": "Boolean",
-      },
-      "Float": Object {
-        "isExternal": false,
-        "type": "Double",
-      },
-      "ID": Object {
-        "isExternal": false,
-        "type": "String",
-      },
-      "Int": Object {
-        "isExternal": false,
-        "type": "Integer",
-      },
-      "String": Object {
-        "isExternal": false,
-        "type": "String",
-      },
-    },
-    "selectedType": "Wish",
-    "target": "android",
-    "typesPrefix": "",
-    "usePipelinedTransformer": false,
-  },
-  "_schema": GraphQLSchema {
-    "__allowedLegacyNames": Array [],
-    "__validationErrors": undefined,
-    "_directives": Array [
-      "@model",
-      "@key",
-      "@connection",
-      "@auth",
-      "@searchable",
-      "@deprecated",
-      "@primaryKey",
-      "@index",
-      "@hasOne",
-      "@hasMany",
-      "@belongsTo",
-      "@manyToMany",
-      "@skip",
-      "@include",
-    ],
-    "_implementations": Object {},
-    "_mutationType": undefined,
-    "_possibleTypeMap": Object {},
-    "_queryType": undefined,
-    "_subscriptionType": undefined,
-    "_typeMap": Object {
-      "AWSDate": "AWSDate",
-      "AWSDateTime": "AWSDateTime",
-      "AWSEmail": "AWSEmail",
-      "AWSIPAddress": "AWSIPAddress",
-      "AWSJSON": "AWSJSON",
-      "AWSPhone": "AWSPhone",
-      "AWSTime": "AWSTime",
-      "AWSTimestamp": "AWSTimestamp",
-      "AWSURL": "AWSURL",
-      "AuthProvider": "AuthProvider",
-      "AuthRule": "AuthRule",
-      "AuthStrategy": "AuthStrategy",
-      "Boolean": "Boolean",
-      "CustomType": "CustomType",
-      "Float": "Float",
-      "ID": "ID",
-      "Int": "Int",
-      "ListContainer": "ListContainer",
-      "ModelMutation": "ModelMutation",
-      "ModelMutationMap": "ModelMutationMap",
-      "ModelOperation": "ModelOperation",
-      "ModelQuery": "ModelQuery",
-      "ModelQueryMap": "ModelQueryMap",
-      "ModelSubscriptionLevel": "ModelSubscriptionLevel",
-      "ModelSubscriptionMap": "ModelSubscriptionMap",
-      "SearchableQueryMap": "SearchableQueryMap",
-      "StatusEnum": "StatusEnum",
-      "String": "String",
-      "TimestampConfiguration": "TimestampConfiguration",
-      "__Directive": "__Directive",
-      "__DirectiveLocation": "__DirectiveLocation",
-      "__EnumValue": "__EnumValue",
-      "__Field": "__Field",
-      "__InputValue": "__InputValue",
-      "__Schema": "__Schema",
-      "__Type": "__Type",
-      "__TypeKind": "__TypeKind",
-    },
-    "astNode": undefined,
-    "extensionASTNodes": undefined,
-    "extensions": undefined,
-  },
-  "addTimestampFields": [Function],
-  "additionalPackages": Set {},
-  "computeVersion": [Function],
-  "convertManyToManyDirectives": [Function],
-  "convertName": [Function],
-  "determinePrimaryKeyFieldname": [Function],
-  "ensureIdField": [Function],
-  "enumMap": Object {
-    "StatusEnum": Object {
-      "name": "StatusEnum",
-      "type": "enum",
-      "values": Object {
-        "FAIL": "fail",
-        "PASS": "pass",
-      },
-    },
-  },
-  "generate": [Function],
-  "generateAuthRules": [Function],
-  "generateBuilderClass": [Function],
-  "generateBuilderMethod": [Function],
-  "generateClassLoader": [Function],
-  "generateConnectionAnnotation": [Function],
-  "generateConstructor": [Function],
-  "generateCopyOfBuilderClass": [Function],
-  "generateCopyOfBuilderMethod": [Function],
-  "generateEnums": [Function],
-  "generateEqualsMethod": [Function],
-  "generateFieldAnnotations": [Function],
-  "generateGetters": [Function],
-  "generateHashCodeMethod": [Function],
-  "generateImportStatements": [Function],
-  "generateIntermediateModel": [Function],
-  "generateJustIdMethod": [Function],
-  "generateModelAnnotations": [Function],
-  "generateModelClass": [Function],
-  "generateModelClasses": [Function],
-  "generateModelField": [Function],
-  "generateModelFieldAnnotation": [Function],
-  "generateNonModelClass": [Function],
-  "generateNonModelClasses": [Function],
-  "generateNonModelField": [Function],
-  "generatePackageHeader": [Function],
-  "generatePackageName": [Function],
-  "generateQueryFields": [Function],
-  "generateStepBuilderInterfaces": [Function],
-  "generateToStringMethod": [Function],
-  "getDirectiveArguments": [Function],
-  "getDirectives": [Function],
-  "getEnumName": [Function],
-  "getEnumValue": [Function],
-  "getFieldGetterName": [Function],
-  "getFieldName": [Function],
-  "getListType": [Function],
-  "getModelName": [Function],
-  "getNativeType": [Function],
-  "getNonConnectedField": [Function],
-  "getNonModelName": [Function],
-  "getSelectedEnums": [Function],
-  "getSelectedModels": [Function],
-  "getSelectedNonModels": [Function],
-  "getStepFunctionArgumentName": [Function],
-  "getStepFunctionName": [Function],
-  "getStepInterfaceName": [Function],
-  "getWritableFields": [Function],
-  "isEnumType": [Function],
-  "isModelType": [Function],
-  "isNonModelType": [Function],
-  "isRequiredField": [Function],
-  "modelMap": Object {
-    "ListContainer": Object {
-      "directives": Array [
-        Object {
-          "arguments": Object {},
-          "name": "model",
-        },
-      ],
-      "fields": Array [
-        Object {
-          "baseType": "ID",
-          "directives": Array [],
-          "isList": false,
-          "isNullable": false,
-          "name": "id",
-          "type": "ID",
-        },
-        Object {
-          "baseType": "String",
-          "directives": Array [],
-          "isList": false,
-          "isNullable": true,
-          "name": "name",
-          "type": "String",
-        },
-        Object {
-          "baseType": "Int",
-          "directives": Array [],
-          "isList": true,
-          "isListNullable": true,
-          "isNullable": true,
-          "name": "list",
-          "type": "Int",
-        },
-        Object {
-          "baseType": "String",
-          "directives": Array [],
-          "isList": true,
-          "isListNullable": false,
-          "isNullable": true,
-          "name": "requiredList",
-          "type": "String",
-        },
-        Object {
-          "baseType": "StatusEnum",
-          "directives": Array [],
-          "isList": true,
-          "isListNullable": false,
-          "isNullable": false,
-          "name": "requiredListOfRequired",
-          "type": "StatusEnum",
-        },
-        Object {
-          "baseType": "Boolean",
-          "directives": Array [],
-          "isList": true,
-          "isListNullable": true,
-          "isNullable": false,
-          "name": "listOfRequired",
-          "type": "Boolean",
-        },
-        Object {
-          "baseType": "AWSDate",
-          "directives": Array [],
-          "isList": true,
-          "isListNullable": false,
-          "isNullable": false,
-          "name": "requiredListOfRequiredDates",
-          "type": "AWSDate",
-        },
-        Object {
-          "baseType": "Float",
-          "directives": Array [],
-          "isList": true,
-          "isListNullable": true,
-          "isNullable": false,
-          "name": "listOfRequiredFloats",
-          "type": "Float",
-        },
-        Object {
-          "baseType": "CustomType",
-          "directives": Array [],
-          "isList": true,
-          "isListNullable": false,
-          "isNullable": true,
-          "name": "requiredListOfCustomTypes",
-          "type": "CustomType",
-        },
-        Object {
-          "directives": Array [],
-          "isList": false,
-          "isNullable": true,
-          "isReadOnly": true,
-          "name": "createdAt",
-          "type": "AWSDateTime",
-        },
-        Object {
-          "directives": Array [],
-          "isList": false,
-          "isNullable": true,
-          "isReadOnly": true,
-          "name": "updatedAt",
-          "type": "AWSDateTime",
-        },
-      ],
-      "name": "ListContainer",
-      "type": "model",
-    },
-  },
-  "nonModelMap": Object {
-    "CustomType": Object {
-      "directives": Array [],
-      "fields": Array [
-        Object {
-          "baseType": "String",
-          "directives": Array [],
-          "isList": false,
-          "isNullable": true,
-          "name": "name",
-          "type": "String",
-        },
-        Object {
-          "baseType": "Int",
-          "directives": Array [],
-          "isList": true,
-          "isListNullable": true,
-          "isNullable": true,
-          "name": "list",
-          "type": "Int",
-        },
-        Object {
-          "baseType": "String",
-          "directives": Array [],
-          "isList": true,
-          "isListNullable": false,
-          "isNullable": true,
-          "name": "requiredList",
-          "type": "String",
-        },
-        Object {
-          "baseType": "StatusEnum",
-          "directives": Array [],
-          "isList": true,
-          "isListNullable": false,
-          "isNullable": false,
-          "name": "requiredListOfRequired",
-          "type": "StatusEnum",
-        },
-        Object {
-          "baseType": "Boolean",
-          "directives": Array [],
-          "isList": true,
-          "isListNullable": true,
-          "isNullable": false,
-          "name": "listOfRequired",
-          "type": "Boolean",
-        },
-      ],
-      "name": "CustomType",
-      "type": "model",
-    },
-  },
-  "pluralizeModelName": [Function],
-  "processAuthDirectives": [Function],
-  "processConnectionDirective": [Function],
-  "processConnectionDirectivesV2": [Function],
-  "processDirectives": [Function],
-  "processManyToManyDirectives": [Function],
-  "scalars": Object {
-    "AWSDate": "Temporal.Date",
-    "AWSDateTime": "Temporal.DateTime",
-    "AWSEmail": "String",
-    "AWSIPAddress": "String",
-    "AWSJSON": "String",
-    "AWSPhone": "String",
-    "AWSTime": "Temporal.Time",
-    "AWSTimestamp": "Temporal.Timestamp",
-    "AWSURL": "String",
-    "Boolean": "Boolean",
-    "Float": "Double",
-    "ID": "String",
-    "Int": "Integer",
-    "String": "String",
-  },
-  "selectedTypeIsEnum": [Function],
-  "selectedTypeIsNonModel": [Function],
-  "sortFields": [Function],
-  "typesToSkip": Array [
-    "ModelMutationMap",
-    "ModelQueryMap",
-    "ModelSubscriptionMap",
-    "ModelSubscriptionLevel",
-    "TimestampConfiguration",
-    "AuthRule",
-    "AuthStrategy",
-    "AuthProvider",
-    "ModelOperation",
-    "ModelQuery",
-    "ModelMutation",
-    "SearchableQueryMap",
-  ],
-  "usingAuth": false,
-}
 `;
 
 exports[`AppSyncModelVisitor connection One to Many connection should generate correct pluralization 1`] = `
@@ -4742,35 +3898,35 @@ public final class task implements Model {
   public String getId() {
       return id;
   }
-
+  
   public String getTitle() {
       return title;
   }
-
+  
   public Boolean getDone() {
       return done;
   }
-
+  
   public Todo getTodo() {
       return todo;
   }
-
+  
   public Temporal.Time getTime() {
       return time;
   }
-
+  
   public Temporal.Date getCreatedOn() {
       return createdOn;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private task(String id, String title, Boolean done, Todo todo, Temporal.Time time, Temporal.Date createdOn) {
     this.id = id;
     this.title = title;
@@ -4779,7 +3935,7 @@ public final class task implements Model {
     this.time = time;
     this.createdOn = createdOn;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -4798,7 +3954,7 @@ public final class task implements Model {
               ObjectsCompat.equals(getUpdatedAt(), task.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -4813,7 +3969,7 @@ public final class task implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -4829,12 +3985,12 @@ public final class task implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static TitleStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -4852,7 +4008,7 @@ public final class task implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       title,
@@ -4864,12 +4020,12 @@ public final class task implements Model {
   public interface TitleStep {
     DoneStep title(String title);
   }
-
+  
 
   public interface DoneStep {
     BuildStep done(Boolean done);
   }
-
+  
 
   public interface BuildStep {
     task build();
@@ -4878,7 +4034,7 @@ public final class task implements Model {
     BuildStep time(Temporal.Time time);
     BuildStep createdOn(Temporal.Date createdOn);
   }
-
+  
 
   public static class Builder implements TitleStep, DoneStep, BuildStep {
     private String id;
@@ -4890,7 +4046,7 @@ public final class task implements Model {
     @Override
      public task build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new task(
           id,
           title,
@@ -4899,40 +4055,40 @@ public final class task implements Model {
           time,
           createdOn);
     }
-
+    
     @Override
      public DoneStep title(String title) {
         Objects.requireNonNull(title);
         this.title = title;
         return this;
     }
-
+    
     @Override
      public BuildStep done(Boolean done) {
         Objects.requireNonNull(done);
         this.done = done;
         return this;
     }
-
+    
     @Override
      public BuildStep todo(Todo todo) {
         this.todo = todo;
         return this;
     }
-
+    
     @Override
      public BuildStep time(Temporal.Time time) {
         this.time = time;
         return this;
     }
-
+    
     @Override
      public BuildStep createdOn(Temporal.Date createdOn) {
         this.createdOn = createdOn;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -4941,7 +4097,7 @@ public final class task implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String title, Boolean done, Todo todo, Temporal.Time time, Temporal.Date createdOn) {
@@ -4952,33 +4108,33 @@ public final class task implements Model {
         .time(time)
         .createdOn(createdOn);
     }
-
+    
     @Override
      public CopyOfBuilder title(String title) {
       return (CopyOfBuilder) super.title(title);
     }
-
+    
     @Override
      public CopyOfBuilder done(Boolean done) {
       return (CopyOfBuilder) super.done(done);
     }
-
+    
     @Override
      public CopyOfBuilder todo(Todo todo) {
       return (CopyOfBuilder) super.todo(todo);
     }
-
+    
     @Override
      public CopyOfBuilder time(Temporal.Time time) {
       return (CopyOfBuilder) super.time(time);
     }
-
+    
     @Override
      public CopyOfBuilder createdOn(Temporal.Date createdOn) {
       return (CopyOfBuilder) super.createdOn(createdOn);
     }
   }
-
+  
 }
 "
 `;
@@ -5024,35 +4180,35 @@ public final class task implements Model {
   public String getId() {
       return id;
   }
-
+  
   public String getTitle() {
       return title;
   }
-
+  
   public Boolean getDone() {
       return done;
   }
-
+  
   public Todo getTodo() {
       return todo;
   }
-
+  
   public Temporal.Time getTime() {
       return time;
   }
-
+  
   public Temporal.Date getCreatedOn() {
       return createdOn;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private task(String id, String title, Boolean done, Todo todo, Temporal.Time time, Temporal.Date createdOn) {
     this.id = id;
     this.title = title;
@@ -5061,7 +4217,7 @@ public final class task implements Model {
     this.time = time;
     this.createdOn = createdOn;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -5080,7 +4236,7 @@ public final class task implements Model {
               ObjectsCompat.equals(getUpdatedAt(), task.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -5095,7 +4251,7 @@ public final class task implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -5111,12 +4267,12 @@ public final class task implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static TitleStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -5134,7 +4290,7 @@ public final class task implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       title,
@@ -5146,12 +4302,12 @@ public final class task implements Model {
   public interface TitleStep {
     DoneStep title(String title);
   }
-
+  
 
   public interface DoneStep {
     BuildStep done(Boolean done);
   }
-
+  
 
   public interface BuildStep {
     task build();
@@ -5160,7 +4316,7 @@ public final class task implements Model {
     BuildStep time(Temporal.Time time);
     BuildStep createdOn(Temporal.Date createdOn);
   }
-
+  
 
   public static class Builder implements TitleStep, DoneStep, BuildStep {
     private String id;
@@ -5172,7 +4328,7 @@ public final class task implements Model {
     @Override
      public task build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new task(
           id,
           title,
@@ -5181,40 +4337,40 @@ public final class task implements Model {
           time,
           createdOn);
     }
-
+    
     @Override
      public DoneStep title(String title) {
         Objects.requireNonNull(title);
         this.title = title;
         return this;
     }
-
+    
     @Override
      public BuildStep done(Boolean done) {
         Objects.requireNonNull(done);
         this.done = done;
         return this;
     }
-
+    
     @Override
      public BuildStep todo(Todo todo) {
         this.todo = todo;
         return this;
     }
-
+    
     @Override
      public BuildStep time(Temporal.Time time) {
         this.time = time;
         return this;
     }
-
+    
     @Override
      public BuildStep createdOn(Temporal.Date createdOn) {
         this.createdOn = createdOn;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -5223,7 +4379,7 @@ public final class task implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String title, Boolean done, Todo todo, Temporal.Time time, Temporal.Date createdOn) {
@@ -5234,33 +4390,33 @@ public final class task implements Model {
         .time(time)
         .createdOn(createdOn);
     }
-
+    
     @Override
      public CopyOfBuilder title(String title) {
       return (CopyOfBuilder) super.title(title);
     }
-
+    
     @Override
      public CopyOfBuilder done(Boolean done) {
       return (CopyOfBuilder) super.done(done);
     }
-
+    
     @Override
      public CopyOfBuilder todo(Todo todo) {
       return (CopyOfBuilder) super.todo(todo);
     }
-
+    
     @Override
      public CopyOfBuilder time(Temporal.Time time) {
       return (CopyOfBuilder) super.time(time);
     }
-
+    
     @Override
      public CopyOfBuilder createdOn(Temporal.Date createdOn) {
       return (CopyOfBuilder) super.createdOn(createdOn);
     }
   }
-
+  
 }
 "
 `;
@@ -5309,43 +4465,43 @@ public final class Todo implements Model {
   public String getId() {
       return id;
   }
-
+  
   public String getTitle() {
       return title;
   }
-
+  
   public Boolean getDone() {
       return done;
   }
-
+  
   public String getDescription() {
       return description;
   }
-
+  
   public String getDueDate() {
       return due_date;
   }
-
+  
   public Integer getVersion() {
       return version;
   }
-
+  
   public Double getValue() {
       return value;
   }
-
+  
   public List<task> getTasks() {
       return tasks;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private Todo(String id, String title, Boolean done, String description, String due_date, Integer version, Double value) {
     this.id = id;
     this.title = title;
@@ -5355,7 +4511,7 @@ public final class Todo implements Model {
     this.version = version;
     this.value = value;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -5375,7 +4531,7 @@ public final class Todo implements Model {
               ObjectsCompat.equals(getUpdatedAt(), todo.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -5391,7 +4547,7 @@ public final class Todo implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -5408,12 +4564,12 @@ public final class Todo implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static TitleStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -5432,7 +4588,7 @@ public final class Todo implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       title,
@@ -5445,17 +4601,17 @@ public final class Todo implements Model {
   public interface TitleStep {
     DoneStep title(String title);
   }
-
+  
 
   public interface DoneStep {
     VersionStep done(Boolean done);
   }
-
+  
 
   public interface VersionStep {
     BuildStep version(Integer version);
   }
-
+  
 
   public interface BuildStep {
     Todo build();
@@ -5464,7 +4620,7 @@ public final class Todo implements Model {
     BuildStep dueDate(String dueDate);
     BuildStep value(Double value);
   }
-
+  
 
   public static class Builder implements TitleStep, DoneStep, VersionStep, BuildStep {
     private String id;
@@ -5477,7 +4633,7 @@ public final class Todo implements Model {
     @Override
      public Todo build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new Todo(
           id,
           title,
@@ -5487,47 +4643,47 @@ public final class Todo implements Model {
           version,
           value);
     }
-
+    
     @Override
      public DoneStep title(String title) {
         Objects.requireNonNull(title);
         this.title = title;
         return this;
     }
-
+    
     @Override
      public VersionStep done(Boolean done) {
         Objects.requireNonNull(done);
         this.done = done;
         return this;
     }
-
+    
     @Override
      public BuildStep version(Integer version) {
         Objects.requireNonNull(version);
         this.version = version;
         return this;
     }
-
+    
     @Override
      public BuildStep description(String description) {
         this.description = description;
         return this;
     }
-
+    
     @Override
      public BuildStep dueDate(String dueDate) {
         this.due_date = dueDate;
         return this;
     }
-
+    
     @Override
      public BuildStep value(Double value) {
         this.value = value;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -5536,7 +4692,7 @@ public final class Todo implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String title, Boolean done, String description, String dueDate, Integer version, Double value) {
@@ -5548,38 +4704,38 @@ public final class Todo implements Model {
         .dueDate(dueDate)
         .value(value);
     }
-
+    
     @Override
      public CopyOfBuilder title(String title) {
       return (CopyOfBuilder) super.title(title);
     }
-
+    
     @Override
      public CopyOfBuilder done(Boolean done) {
       return (CopyOfBuilder) super.done(done);
     }
-
+    
     @Override
      public CopyOfBuilder version(Integer version) {
       return (CopyOfBuilder) super.version(version);
     }
-
+    
     @Override
      public CopyOfBuilder description(String description) {
       return (CopyOfBuilder) super.description(description);
     }
-
+    
     @Override
      public CopyOfBuilder dueDate(String dueDate) {
       return (CopyOfBuilder) super.dueDate(dueDate);
     }
-
+    
     @Override
      public CopyOfBuilder value(Double value) {
       return (CopyOfBuilder) super.value(value);
     }
   }
-
+  
 }
 "
 `;
@@ -5621,27 +4777,27 @@ public final class TypeWithAWSDateScalars implements Model {
   public String getId() {
       return id;
   }
-
+  
   public Temporal.Date getDate() {
       return date;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.Time getTime() {
       return time;
   }
-
+  
   public Temporal.Timestamp getTimestamp() {
       return timestamp;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private TypeWithAWSDateScalars(String id, Temporal.Date date, Temporal.DateTime createdAt, Temporal.Time time, Temporal.Timestamp timestamp) {
     this.id = id;
     this.date = date;
@@ -5649,7 +4805,7 @@ public final class TypeWithAWSDateScalars implements Model {
     this.time = time;
     this.timestamp = timestamp;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -5666,7 +4822,7 @@ public final class TypeWithAWSDateScalars implements Model {
               ObjectsCompat.equals(getUpdatedAt(), typeWithAwsDateScalars.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -5679,7 +4835,7 @@ public final class TypeWithAWSDateScalars implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -5693,12 +4849,12 @@ public final class TypeWithAWSDateScalars implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static BuildStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -5715,7 +4871,7 @@ public final class TypeWithAWSDateScalars implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       date,
@@ -5731,7 +4887,7 @@ public final class TypeWithAWSDateScalars implements Model {
     BuildStep time(Temporal.Time time);
     BuildStep timestamp(Temporal.Timestamp timestamp);
   }
-
+  
 
   public static class Builder implements BuildStep {
     private String id;
@@ -5742,7 +4898,7 @@ public final class TypeWithAWSDateScalars implements Model {
     @Override
      public TypeWithAWSDateScalars build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new TypeWithAWSDateScalars(
           id,
           date,
@@ -5750,32 +4906,32 @@ public final class TypeWithAWSDateScalars implements Model {
           time,
           timestamp);
     }
-
+    
     @Override
      public BuildStep date(Temporal.Date date) {
         this.date = date;
         return this;
     }
-
+    
     @Override
      public BuildStep createdAt(Temporal.DateTime createdAt) {
         this.createdAt = createdAt;
         return this;
     }
-
+    
     @Override
      public BuildStep time(Temporal.Time time) {
         this.time = time;
         return this;
     }
-
+    
     @Override
      public BuildStep timestamp(Temporal.Timestamp timestamp) {
         this.timestamp = timestamp;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -5784,7 +4940,7 @@ public final class TypeWithAWSDateScalars implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, Temporal.Date date, Temporal.DateTime createdAt, Temporal.Time time, Temporal.Timestamp timestamp) {
@@ -5794,28 +4950,28 @@ public final class TypeWithAWSDateScalars implements Model {
         .time(time)
         .timestamp(timestamp);
     }
-
+    
     @Override
      public CopyOfBuilder date(Temporal.Date date) {
       return (CopyOfBuilder) super.date(date);
     }
-
+    
     @Override
      public CopyOfBuilder createdAt(Temporal.DateTime createdAt) {
       return (CopyOfBuilder) super.createdAt(createdAt);
     }
-
+    
     @Override
      public CopyOfBuilder time(Temporal.Time time) {
       return (CopyOfBuilder) super.time(time);
     }
-
+    
     @Override
      public CopyOfBuilder timestamp(Temporal.Timestamp timestamp) {
       return (CopyOfBuilder) super.timestamp(timestamp);
     }
   }
-
+  
 }
 "
 `;
@@ -5871,31 +5027,31 @@ public final class authorBook implements Model {
   public String getId() {
       return id;
   }
-
+  
   public String getAuthorId() {
       return author_id;
   }
-
+  
   public String getBookId() {
       return book_id;
   }
-
+  
   public String getAuthor() {
       return author;
   }
-
+  
   public String getBook() {
       return book;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private authorBook(String id, String author_id, String book_id, String author, String book) {
     this.id = id;
     this.author_id = author_id;
@@ -5903,7 +5059,7 @@ public final class authorBook implements Model {
     this.author = author;
     this.book = book;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -5921,7 +5077,7 @@ public final class authorBook implements Model {
               ObjectsCompat.equals(getUpdatedAt(), authorBook.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -5935,7 +5091,7 @@ public final class authorBook implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -5950,12 +5106,12 @@ public final class authorBook implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static AuthorIdStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -5972,7 +5128,7 @@ public final class authorBook implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       author_id,
@@ -5983,12 +5139,12 @@ public final class authorBook implements Model {
   public interface AuthorIdStep {
     BookIdStep authorId(String authorId);
   }
-
+  
 
   public interface BookIdStep {
     BuildStep bookId(String bookId);
   }
-
+  
 
   public interface BuildStep {
     authorBook build();
@@ -5996,7 +5152,7 @@ public final class authorBook implements Model {
     BuildStep author(String author);
     BuildStep book(String book);
   }
-
+  
 
   public static class Builder implements AuthorIdStep, BookIdStep, BuildStep {
     private String id;
@@ -6007,7 +5163,7 @@ public final class authorBook implements Model {
     @Override
      public authorBook build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new authorBook(
           id,
           author_id,
@@ -6015,34 +5171,34 @@ public final class authorBook implements Model {
           author,
           book);
     }
-
+    
     @Override
      public BookIdStep authorId(String authorId) {
         Objects.requireNonNull(authorId);
         this.author_id = authorId;
         return this;
     }
-
+    
     @Override
      public BuildStep bookId(String bookId) {
         Objects.requireNonNull(bookId);
         this.book_id = bookId;
         return this;
     }
-
+    
     @Override
      public BuildStep author(String author) {
         this.author = author;
         return this;
     }
-
+    
     @Override
      public BuildStep book(String book) {
         this.book = book;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -6051,7 +5207,7 @@ public final class authorBook implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String authorId, String bookId, String author, String book) {
@@ -6061,28 +5217,28 @@ public final class authorBook implements Model {
         .author(author)
         .book(book);
     }
-
+    
     @Override
      public CopyOfBuilder authorId(String authorId) {
       return (CopyOfBuilder) super.authorId(authorId);
     }
-
+    
     @Override
      public CopyOfBuilder bookId(String bookId) {
       return (CopyOfBuilder) super.bookId(bookId);
     }
-
+    
     @Override
      public CopyOfBuilder author(String author) {
       return (CopyOfBuilder) super.author(author);
     }
-
+    
     @Override
      public CopyOfBuilder book(String book) {
       return (CopyOfBuilder) super.book(book);
     }
   }
-
+  
 }
 "
 `;
@@ -6119,24 +5275,24 @@ public final class NonCamelCaseField implements Model {
   public String getId() {
       return id;
   }
-
+  
   public String getEmployeePid() {
       return employeePID;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private NonCamelCaseField(String id, String employeePID) {
     this.id = id;
     this.employeePID = employeePID;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -6151,7 +5307,7 @@ public final class NonCamelCaseField implements Model {
               ObjectsCompat.equals(getUpdatedAt(), nonCamelCaseField.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -6162,7 +5318,7 @@ public final class NonCamelCaseField implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -6174,12 +5330,12 @@ public final class NonCamelCaseField implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static BuildStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -6193,7 +5349,7 @@ public final class NonCamelCaseField implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       employeePID);
@@ -6203,7 +5359,7 @@ public final class NonCamelCaseField implements Model {
     BuildStep id(String id);
     BuildStep employeePid(String employeePid);
   }
-
+  
 
   public static class Builder implements BuildStep {
     private String id;
@@ -6211,19 +5367,19 @@ public final class NonCamelCaseField implements Model {
     @Override
      public NonCamelCaseField build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new NonCamelCaseField(
           id,
           employeePID);
     }
-
+    
     @Override
      public BuildStep employeePid(String employeePid) {
         this.employeePID = employeePid;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -6232,20 +5388,20 @@ public final class NonCamelCaseField implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String employeePid) {
       super.id(id);
       super.employeePid(employeePid);
     }
-
+    
     @Override
      public CopyOfBuilder employeePid(String employeePid) {
       return (CopyOfBuilder) super.employeePid(employeePid);
     }
   }
-
+  
 }
 "
 `;
@@ -6282,24 +5438,24 @@ public final class snake_case implements Model {
   public String getId() {
       return id;
   }
-
+  
   public String getName() {
       return name;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private snake_case(String id, String name) {
     this.id = id;
     this.name = name;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -6314,7 +5470,7 @@ public final class snake_case implements Model {
               ObjectsCompat.equals(getUpdatedAt(), snakeCase.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -6325,7 +5481,7 @@ public final class snake_case implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -6337,12 +5493,12 @@ public final class snake_case implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static BuildStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -6356,7 +5512,7 @@ public final class snake_case implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       name);
@@ -6366,7 +5522,7 @@ public final class snake_case implements Model {
     BuildStep id(String id);
     BuildStep name(String name);
   }
-
+  
 
   public static class Builder implements BuildStep {
     private String id;
@@ -6374,19 +5530,19 @@ public final class snake_case implements Model {
     @Override
      public snake_case build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new snake_case(
           id,
           name);
     }
-
+    
     @Override
      public BuildStep name(String name) {
         this.name = name;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -6395,20 +5551,20 @@ public final class snake_case implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name) {
       super.id(id);
       super.name(name);
     }
-
+    
     @Override
      public CopyOfBuilder name(String name) {
       return (CopyOfBuilder) super.name(name);
     }
   }
-
+  
 }
 "
 `;
@@ -6445,24 +5601,24 @@ public final class SnakeCaseField implements Model {
   public String getId() {
       return id;
   }
-
+  
   public String getFirstName() {
       return first_name;
   }
-
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
-
+  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
-
+  
   private SnakeCaseField(String id, String first_name) {
     this.id = id;
     this.first_name = first_name;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -6477,7 +5633,7 @@ public final class SnakeCaseField implements Model {
               ObjectsCompat.equals(getUpdatedAt(), snakeCaseField.getUpdatedAt());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -6488,7 +5644,7 @@ public final class SnakeCaseField implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -6500,12 +5656,12 @@ public final class SnakeCaseField implements Model {
       .append(\\"}\\")
       .toString();
   }
-
+  
   public static BuildStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -6519,7 +5675,7 @@ public final class SnakeCaseField implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       first_name);
@@ -6529,7 +5685,7 @@ public final class SnakeCaseField implements Model {
     BuildStep id(String id);
     BuildStep firstName(String firstName);
   }
-
+  
 
   public static class Builder implements BuildStep {
     private String id;
@@ -6537,19 +5693,19 @@ public final class SnakeCaseField implements Model {
     @Override
      public SnakeCaseField build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new SnakeCaseField(
           id,
           first_name);
     }
-
+    
     @Override
      public BuildStep firstName(String firstName) {
         this.first_name = firstName;
         return this;
     }
-
-    /**
+    
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -6558,20 +5714,20 @@ public final class SnakeCaseField implements Model {
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String firstName) {
       super.id(id);
       super.firstName(firstName);
     }
-
+    
     @Override
      public CopyOfBuilder firstName(String firstName) {
       return (CopyOfBuilder) super.firstName(firstName);
     }
   }
-
+  
 }
 "
 `;
