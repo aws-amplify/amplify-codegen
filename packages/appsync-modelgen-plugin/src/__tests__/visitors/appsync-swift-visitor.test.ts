@@ -16,12 +16,8 @@ const getVisitor = (
   emitAuthProvider: boolean = true,
   generateIndexRules: boolean = true,
   handleListNullabilityTransparently: boolean = true,
-<<<<<<< HEAD
-  transformerVersion: number = 1
-=======
-  usePipelinedTransformer: boolean = false,
+  transformerVersion: number = 1,
   improvePluralization: boolean = false,
->>>>>>> 837817d (Feature: Use improved pluralization)
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -35,12 +31,8 @@ const getVisitor = (
       emitAuthProvider,
       generateIndexRules,
       handleListNullabilityTransparently,
-<<<<<<< HEAD
-      transformerVersion: transformerVersion
-=======
-      usePipelinedTransformer: usePipelinedTransformer,
+      transformerVersion: transformerVersion,
       improvePluralization: improvePluralization,
->>>>>>> 837817d (Feature: Use improved pluralization)
     },
     { selectedType, generate },
   );
@@ -2270,7 +2262,6 @@ describe('AppSyncSwiftVisitor', () => {
     });
   });
 
-<<<<<<< HEAD
   describe('Many To Many V2 Tests', () => {
     it('Should generate the intermediate model successfully', () => {
       const schema = /* GraphQL */ `
@@ -2289,7 +2280,9 @@ describe('AppSyncSwiftVisitor', () => {
       `;
       const generatedCode = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.code).generate();
       expect(generatedCode).toMatchSnapshot();
-=======
+    });
+  });
+  
   describe('Use Improved Pluralization', () => {
     let wishSchema: string;
     beforeEach(() => {
@@ -2320,21 +2313,21 @@ describe('AppSyncSwiftVisitor', () => {
         }
       `;
     });
+
     it('Should work with potentially pluralized collision', () => {
       const visitor = getVisitor(wishSchema, 'ListContainer', CodeGenGenerateEnum.code, true,
-        true,true, true, false, true);
+        true,true, true, 1, true);
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
 
       const metadataVisitor = getVisitor(wishSchema, 'ListContainer', CodeGenGenerateEnum.metadata, true,
-        true, true, true ,false, true);
+        true, true, true, 1, true);
       const generatedMetadata = metadataVisitor.generate();
       expect(generatedMetadata).toMatchSnapshot();
 
       const customTypeVisitor = getVisitor(wishSchema, 'CustomType', CodeGenGenerateEnum.code, true,
-        true,true, true, false, true);
+        true,true, true, 1, true);
       expect(customTypeVisitor.generate()).toMatchSnapshot();
->>>>>>> 837817d (Feature: Use improved pluralization)
     });
   });
 });
