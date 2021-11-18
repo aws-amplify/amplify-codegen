@@ -85,13 +85,9 @@ async function generateModels(context) {
 
   const generateIndexRules = readFeatureFlag('codegen.generateIndexRules');
   const emitAuthProvider = readFeatureFlag('codegen.emitAuthProvider');
-<<<<<<< HEAD
   const usePipelinedTransformer = readFeatureFlag('graphQLTransformer.useExperimentalPipelinedTransformer')
   const transformerVersion = readNumericFeatureFlag('graphQLTransformer.transformerVersion');
-=======
-  const usePipelinedTransformer = readFeatureFlag('graphQLTransformer.useExperimentalPipelinedTransformer');
   const improvePluralization = readFeatureFlag('graphQLTransformer.improvePluralization');
->>>>>>> 837817d (Feature: Use improved pluralization)
 
   let enableDartNullSafety = readFeatureFlag('codegen.enableDartNullSafety');
 
@@ -123,11 +119,8 @@ async function generateModels(context) {
       enableDartNullSafety,
       handleListNullabilityTransparently,
       usePipelinedTransformer,
-<<<<<<< HEAD
       transformerVersion,
-=======
-      improvePluralization
->>>>>>> 837817d (Feature: Use improved pluralization)
+      improvePluralization,
     },
   });
 
