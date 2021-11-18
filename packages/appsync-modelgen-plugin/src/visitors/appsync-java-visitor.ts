@@ -758,7 +758,7 @@ export class AppSyncModelJavaVisitor<
           const authRules = this.generateAuthRules(authDirectives);
           if (this.config.improvePluralization) {
             modelArgs.push(`listPluralName = "${plurality(model.name, this.config.improvePluralization)}"`);
-            modelArgs.push(`syncPluralName = "${plurality(model.name, this.config.improvePluralization)}"`);
+            modelArgs.push(`syncPluralName = "${this.pluralizeModelName(model)}"`);
           }
           else {
             modelArgs.push(`pluralName = "${this.pluralizeModelName(model)}"`);
