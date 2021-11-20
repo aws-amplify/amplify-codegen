@@ -403,7 +403,7 @@ describe('GraphQL V2 process connections tests', () => {
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
         expect(connectionInfo.connectedModel).toEqual(belongsToModelMap.Project2);
-        expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(true);
+        expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(false);
       });
     });
 
@@ -546,7 +546,7 @@ describe('GraphQL V2 process connections tests', () => {
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
         expect(connectionInfo.connectedModel).toEqual(hasManyModelMap.Blog);
-        expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(true);
+        expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(false);
       });
 
       it('Should detect second belongsTo', () => {
@@ -555,7 +555,7 @@ describe('GraphQL V2 process connections tests', () => {
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
         expect(connectionInfo.connectedModel).toEqual(hasManyModelMap.Post);
-        expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(true);
+        expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(false);
       });
     });
   });
