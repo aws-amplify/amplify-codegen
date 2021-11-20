@@ -833,10 +833,10 @@ describe('AppSyncModelVisitor', () => {
       expect(visitor.models.Human.fields[2].directives[0].arguments.fields[0]).toEqual('governmentID');
       expect(visitor.models.Human.fields[2].directives[0].arguments.indexName).toEqual('byHuman');
       expect(visitor.models.PetFriend).toBeDefined();
-      expect(visitor.models.PetFriend.fields.length).toEqual(5);
-      expect(visitor.models.PetFriend.fields[2].directives[0].name).toEqual('belongsTo');
-      expect(visitor.models.PetFriend.fields[2].directives[0].arguments.fields.length).toEqual(1);
-      expect(visitor.models.PetFriend.fields[2].directives[0].arguments.fields[0]).toEqual('animalID');
+      expect(visitor.models.PetFriend.fields.length).toEqual(7);
+      expect(visitor.models.PetFriend.fields[4].directives[0].name).toEqual('belongsTo');
+      expect(visitor.models.PetFriend.fields[4].directives[0].arguments.fields.length).toEqual(1);
+      expect(visitor.models.PetFriend.fields[4].directives[0].arguments.fields[0]).toEqual('animalID');
       expect(visitor.models.Animal.fields.length).toEqual(5);
       expect(visitor.models.Animal.fields[2].type).toEqual('PetFriend');
       expect(visitor.models.Animal.fields[2].directives.length).toEqual(1);
@@ -856,7 +856,7 @@ describe('AppSyncModelVisitor', () => {
       expect(visitor.models.ModelA.fields[1].directives[0].arguments.indexName).toEqual('byModelA');
 
       expect(visitor.models.Models).toBeDefined();
-      expect(visitor.models.Models.fields.length).toEqual(5);
+      expect(visitor.models.Models.fields.length).toEqual(7);
 
       const modelA = visitor.models.Models.fields.find(f => f.name === 'modelA');
       expect(modelA).toBeDefined();
