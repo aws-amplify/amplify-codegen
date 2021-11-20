@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.29.8](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.7...@aws-amplify/appsync-modelgen-plugin@1.29.8) (2021-11-20)
+
+**Note:** Version bump only for package @aws-amplify/appsync-modelgen-plugin
+
+
+
+
+
 ## [1.29.7](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.6...@aws-amplify/appsync-modelgen-plugin@1.29.7) (2021-11-17)
 
 
