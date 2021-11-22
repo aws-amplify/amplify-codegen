@@ -18,6 +18,7 @@ export const processIndex = (model: CodeGenModel) => {
     name: 'key',
     arguments: {
       name: directive.arguments.name,
+      queryField: directive.arguments.queryField,
       fields: [fieldName].concat((directive.arguments.sortKeyFields as string[]) ?? []),
     },
   }));

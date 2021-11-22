@@ -411,6 +411,26 @@ describe('AppSyncModelVisitor', () => {
         },
       });
     });
+
+    it('processes index with queryField', () => {
+      const schema = /* GraphQL */ `
+        type Project @model {
+          id: ID!
+          name: String @index(name: "nameIndex", queryField: "myQuery")
+        }
+      `;
+      const visitor = createAndGenerateVisitor(schema, true);
+      visitor.generate();
+      const projectKeyDirective = visitor.models.Project.directives.find(directive => directive.name === 'key');
+      expect(projectKeyDirective).toEqual({
+        name: 'key',
+        arguments: {
+          name: 'nameIndex',
+          queryField: 'myQuery',
+          fields: ['name'],
+        },
+      });
+    });
   });
 
   describe('auth directive', () => {
