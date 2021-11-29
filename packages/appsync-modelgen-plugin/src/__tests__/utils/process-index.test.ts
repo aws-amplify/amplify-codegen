@@ -219,4 +219,49 @@ describe('processIndex', () => {
     processIndex(model);
     expect(model.directives.length).toBe(3);
   });
+
+  it('adds index with queryFields', () => {
+    const model: CodeGenModel = {
+      directives: [
+        {
+          name: 'model',
+          arguments: {},
+        },
+      ],
+      name: 'testModel',
+      type: 'model',
+      fields: [
+        {
+          type: 'field',
+          isList: false,
+          isNullable: true,
+          name: 'testField',
+          directives: [
+            {
+              name: 'index',
+              arguments: {
+                queryField: 'myQuery',
+                name: 'byItem',
+              },
+            },
+          ],
+        },
+      ],
+    };
+    processIndex(model);
+    expect(model.directives).toEqual([
+      {
+        name: 'model',
+        arguments: {},
+      },
+      {
+        name: 'key',
+        arguments: {
+          name: 'byItem',
+          queryField: 'myQuery',
+          fields: ['testField'],
+        },
+      },
+    ]);
+  });
 });
