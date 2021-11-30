@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.27.0-custom-type-preview.5](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.27.0-custom-type-preview.4...amplify-codegen@2.27.0-custom-type-preview.5) (2021-11-30)
+
+**Note:** Version bump only for package amplify-codegen
+
+
+
+
+
 # [2.27.0-custom-type-preview.4](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.27.0-custom-type-preview.3...amplify-codegen@2.27.0-custom-type-preview.4) (2021-11-05)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.29.0-custom-type-preview.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.0-custom-type-preview.2...@aws-amplify/appsync-modelgen-plugin@1.29.0-custom-type-preview.3) (2021-11-30)
+
+
+### Features
+
+* **amplify-codegen:** change flutter import from datastore to core ([#277](https://github.com/aws-amplify/amplify-codegen/issues/277)) ([06ee64a](https://github.com/aws-amplify/amplify-codegen/commit/06ee64a2fcbfaa37f1ae36677515f260d39e353f))
+
+
+
+
+
 # [1.29.0-custom-type-preview.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.2...@aws-amplify/appsync-modelgen-plugin@1.29.0-custom-type-preview.2) (2021-11-05)
 
 
