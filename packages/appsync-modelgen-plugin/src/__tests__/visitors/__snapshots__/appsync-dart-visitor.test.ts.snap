@@ -1170,8 +1170,6 @@ class ModelProvider implements ModelProviderInterface {
   @override
   List<ModelSchema> modelSchemas = [SimpleModel.schema];
   static final ModelProvider _instance = ModelProvider();
-  @override
-  List<ModelSchema> customTypeSchemas = [];
 
   static ModelProvider get instance => _instance;
 

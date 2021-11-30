@@ -1,5 +1,8 @@
-const { PUBSPEC_FILE_NAME } = require('../../src/utils/validateDartSDK');
-const { validateAmplifyFlutterCapableForNonModel } = require('../../src/utils/validateAmplifyFlutterCapableForNonModel');
+const {
+  validateAmplifyFlutterCapableZeroThreeFeatures,
+  PUBSPEC_LOCK_FILE_NAME,
+  MINIMUM_VERSION_CONSTRAIN,
+} = require('../../src/utils/validateAmplifyFlutterCapableZeroThreeFeatures');
 const mockFs = require('mock-fs');
 const { join } = require('path');
 const yaml = require('js-yaml');
@@ -12,7 +15,7 @@ jest.mock('amplify-prompts', () => ({
 }));
 
 const MOCK_PROJECT_ROOT = 'project';
-const MOCK_PUBSPEC_FILE_PATH = join(MOCK_PROJECT_ROOT, PUBSPEC_FILE_NAME);
+const MOCK_PUBSPEC_FILE_PATH = join(MOCK_PROJECT_ROOT, PUBSPEC_LOCK_FILE_NAME);
 const mockErrorPrinter = printer.error;
 
 describe('Validate amplify flutter version tests', () => {
@@ -20,88 +23,42 @@ describe('Validate amplify flutter version tests', () => {
     mockFs.restore();
   });
 
-  describe('should return true if the minimum version is greater and equal to 0.3.0', () => {
-    it('with fixed version', () => {
-      const config = {
-        dependencies: {
-          amplify_flutter: '0.3.0',
+  describe(`should return true if the resolved version meets the version constrain: ${MINIMUM_VERSION_CONSTRAIN}`, () => {
+    ['0.3.0', '0.3.1', '1.0.0', '0.3.0-rc.2', '0.4.0', '0.4.0-rc.2'].forEach(version => {
+      test(`when the resolved version is ${version}`, () => {
+        const lockFile = {
+        packages: {
+          amplify_flutter: {
+            version,
+          },
         },
       };
-      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
-      expect(validateAmplifyFlutterCapableForNonModel(MOCK_PROJECT_ROOT)).toBe(true);
-    });
-    it('with caret version', () => {
-      const config = {
-        dependencies: {
-          amplify_flutter: '^0.3.0',
-        },
-      };
-      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
-      expect(validateAmplifyFlutterCapableForNonModel(MOCK_PROJECT_ROOT)).toBe(true);
-    });
-    it('with ranged version', () => {
-      const config = {
-        dependencies: {
-          amplify_flutter: '>=0.3.0 <1.0',
-        },
-      };
-      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
-      expect(validateAmplifyFlutterCapableForNonModel(MOCK_PROJECT_ROOT)).toBe(true);
-    });
-    it('with prerelease version', () => {
-      const config = {
-        dependencies: {
-          amplify_flutter: '0.3.0-rc.4',
-        },
-      };
-      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
-      expect(validateAmplifyFlutterCapableForNonModel(MOCK_PROJECT_ROOT)).toBe(true);
+      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(lockFile) });
+      expect(validateAmplifyFlutterCapableZeroThreeFeatures(MOCK_PROJECT_ROOT)).toBe(true);
+      })
     });
   });
 
-  describe('should return false if the minimum version is less than 0.3.0', () => {
-    it('with fixed version', () => {
-      const config = {
-        dependencies: {
-          amplify_flutter: '0.2.0',
-        },
-      };
-      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
-      expect(validateAmplifyFlutterCapableForNonModel(MOCK_PROJECT_ROOT)).toBe(false);
-    });
-    it('with caret version', () => {
-      const config = {
-        dependencies: {
-          amplify_flutter: '^0.2.0',
-        },
-      };
-      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
-      expect(validateAmplifyFlutterCapableForNonModel(MOCK_PROJECT_ROOT)).toBe(false);
-    });
-    it('with ranged version', () => {
-      const config = {
-        dependencies: {
-          amplify_flutter: '>=0.2.0 <1.0',
-        },
-      };
-      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
-      expect(validateAmplifyFlutterCapableForNonModel(MOCK_PROJECT_ROOT)).toBe(false);
-    });
-    it('with prerelease version', () => {
-      const config = {
-        dependencies: {
-          amplify_flutter: '0.3.0-rc.0',
-        },
-      };
-      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
-      expect(validateAmplifyFlutterCapableForNonModel(MOCK_PROJECT_ROOT)).toBe(false);
+  describe(`should return false if the resolved version does NOT meet the version constrain: ${MINIMUM_VERSION_CONSTRAIN}`, () => {
+    ['0.2.0', '0.2.9', '0.3.0-rc.1'].forEach(version => {
+      test(`when the resolved version is ${version}`, () => {
+        const lockFile = {
+          packages: {
+            amplify_flutter: {
+              version,
+            },
+          },
+        };
+        mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(lockFile) });
+        expect(validateAmplifyFlutterCapableZeroThreeFeatures(MOCK_PROJECT_ROOT)).toBe(false);
+      });
     });
   });
 
   it('should return false if the sdk version cannot be found', () => {
-    const config = {};
-    mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
-    expect(validateAmplifyFlutterCapableForNonModel(MOCK_PROJECT_ROOT)).toBe(false);
+    const lockFile = {};
+    mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(lockFile) });
+    expect(validateAmplifyFlutterCapableZeroThreeFeatures(MOCK_PROJECT_ROOT)).toBe(false);
   });
 
   describe('when yaml file cannot be correctly loaded', () => {
@@ -120,10 +77,10 @@ describe('Validate amplify flutter version tests', () => {
     })
 
     it('should print error when error is thrown while loading yaml file', () => {
-      const config = {};
-      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
+      const lockFile = {};
+      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(lockFile) });
 
-      expect(validateAmplifyFlutterCapableForNonModel(MOCK_PROJECT_ROOT)).toBe(false);
+      expect(validateAmplifyFlutterCapableZeroThreeFeatures(MOCK_PROJECT_ROOT)).toBe(false);
       expect(mockErrorPrinter).toHaveBeenCalledTimes(3);
     });
   });

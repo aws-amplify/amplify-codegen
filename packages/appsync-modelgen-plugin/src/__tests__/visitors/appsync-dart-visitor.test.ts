@@ -13,25 +13,31 @@ const getVisitor = ({
   selectedType,
   generate = CodeGenGenerateEnum.code,
   enableDartNullSafety = false,
-  enableDartNonModelGeneration = true,
+  enableDartZeroThreeFeatures = false,
   isTimestampFieldsAdded = false,
-  emitAuthProvider = false,
-  transformerVersion = 1
+  transformerVersion = 1,
 }: {
-  schema: string,
-  selectedType?: string,
-  generate?: CodeGenGenerateEnum,
-  enableDartNullSafety?: boolean,
-  enableDartNonModelGeneration?: boolean,
-  isTimestampFieldsAdded?: boolean,
-  emitAuthProvider?: boolean,
-  transformerVersion?: number
+  schema: string;
+  selectedType?: string;
+  generate?: CodeGenGenerateEnum;
+  enableDartNullSafety?: boolean;
+  enableDartZeroThreeFeatures?: boolean;
+  isTimestampFieldsAdded?: boolean;
+  transformerVersion?: number;
 }) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelDartVisitor(
     builtSchema,
-    { directives, target: 'dart', scalars: DART_SCALAR_MAP, enableDartNullSafety, enableDartNonModelGeneration, isTimestampFieldsAdded, emitAuthProvider, transformerVersion },
+    {
+      directives,
+      target: 'dart',
+      scalars: DART_SCALAR_MAP,
+      enableDartNullSafety,
+      enableDartZeroThreeFeatures,
+      isTimestampFieldsAdded,
+      transformerVersion,
+    },
     { selectedType, generate },
   );
   visit(ast, { leave: visitor });
@@ -240,7 +246,13 @@ describe('AppSync Dart Visitor', () => {
       `;
       
       [true, false].forEach(enableDartNullSafety => {
-        const visitor = getVisitor({schema, selectedType: 'TodoWithAuth', enableDartNullSafety, enableDartNonModelGeneration: true, isTimestampFieldsAdded: true, emitAuthProvider: true });
+        const visitor = getVisitor({
+          schema,
+          selectedType: 'TodoWithAuth',
+          enableDartNullSafety,
+          enableDartZeroThreeFeatures: true,
+          isTimestampFieldsAdded: true,
+        });
         const generatedCode = visitor.generate();
         it(`inserting auth provider to auth when nullsafety is ${enableDartNullSafety ? 'enabled' : 'disabled'}`, () => {
           expect(generatedCode).toMatchSnapshot();
@@ -536,7 +548,7 @@ describe('AppSync Dart Visitor', () => {
 
     models.forEach(type => {
       it(`should generated correct dart class for ${!type ? 'ModelProvider' : type} with nullsafety enabled`, () => {
-        const generatedCode = getVisitor({schema, selectedType: type, generate: !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code, enableDartNullSafety: true }).generate();
+        const generatedCode = getVisitor({schema, selectedType: type, generate: !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code, enableDartNullSafety: true, enableDartZeroThreeFeatures: true }).generate();
 
         expect(generatedCode).toMatchSnapshot();
       })
@@ -544,14 +556,19 @@ describe('AppSync Dart Visitor', () => {
 
     models.forEach(type => {
       it(`should generated correct dart class for ${!type ? 'ModelProvider' : type} with nullsafety disabled`, () => {
-        const generatedCode = getVisitor({ schema, selectedType: type, generate: !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code, enableDartNullSafety: false }).generate();
+        const generatedCode = getVisitor({ schema, selectedType: type, generate: !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code, enableDartNullSafety: false, enableDartZeroThreeFeatures: true }).generate();
 
         expect(generatedCode).toMatchSnapshot();
       })
     });
 
     it('should not generate custom type field in model provider if non model feature is disabled', () => {
-      const generatedCode = getVisitor({ schema, generate: CodeGenGenerateEnum.loader, enableDartNullSafety: true, enableDartNonModelGeneration: false }).generate();
+      const generatedCode = getVisitor({
+        schema,
+        generate: CodeGenGenerateEnum.loader,
+        enableDartNullSafety: true,
+        enableDartZeroThreeFeatures: false,
+      }).generate();
       expect(generatedCode).toMatchSnapshot();
     });
   });
@@ -564,7 +581,7 @@ describe('AppSync Dart Visitor', () => {
           name: String
         }
       `;
-      const visitor = getVisitor({ schema, isTimestampFieldsAdded: true, enableDartNonModelGeneration: false });
+      const visitor = getVisitor({ schema, isTimestampFieldsAdded: true, enableDartZeroThreeFeatures: false });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -578,7 +595,7 @@ describe('AppSync Dart Visitor', () => {
           name: String
         }
       `;
-      const visitor = getVisitor({ schema, enableDartNullSafety: true, isTimestampFieldsAdded: true, enableDartNonModelGeneration: false });
+      const visitor = getVisitor({ schema, enableDartNullSafety: true, isTimestampFieldsAdded: true, enableDartZeroThreeFeatures: false });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
