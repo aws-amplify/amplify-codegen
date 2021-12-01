@@ -214,6 +214,8 @@ export class AppSyncModelDartVisitor<
     //License
     const license = generateLicense();
     result.push(license);
+    //Custom lints warning
+    result.push(CUSTOM_LINTS_MESSAGE);
     //Ignore for file
     result.push(IGNORE_FOR_FILE);
     //Imports
