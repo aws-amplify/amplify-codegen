@@ -49,7 +49,7 @@ export function processBelongsToConnection(
   // we are reusing the field and it should be preserved in selection set
 
   // Note: we have a boolean to separate behavior by platform.
-  if (shouldRevertBreakingKeyChange) {
+  if (shouldRevertBreakingKeyChange && false) {
     const isConnectingFieldAutoCreated = connectionFields.length === 0;
 
     return {
