@@ -26,7 +26,9 @@ export class AppSyncModelJavaVisitor<
   protected usingAuth: boolean = false;
 
   generate(): string {
-    this.processDirectives();
+    // TODO: Remove me, leaving in to be explicit on why this flag is here.
+    const shouldRevertBreakingKeyChange = true;
+    this.processDirectives(shouldRevertBreakingKeyChange);
     if (this._parsedConfig.generate === 'loader') {
       return this.generateClassLoader();
     }

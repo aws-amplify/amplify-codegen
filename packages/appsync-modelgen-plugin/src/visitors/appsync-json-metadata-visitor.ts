@@ -109,7 +109,9 @@ export class AppSyncJSONVisitor<
     this._parsedConfig.metadataTarget = rawConfig.metadataTarget || 'javascript';
   }
   generate(): string {
-    this.processDirectives();
+    // TODO: Remove me, leaving in to be explicit on why this flag is here.
+    const shouldRevertBreakingKeyChange = false;
+    this.processDirectives(shouldRevertBreakingKeyChange);
     if (this._parsedConfig.metadataTarget === 'typescript') {
       return this.generateTypeScriptMetadata();
     } else if (this._parsedConfig.metadataTarget === 'javascript') {

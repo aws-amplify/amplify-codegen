@@ -53,7 +53,9 @@ export class AppSyncModelDartVisitor<
   }
 
   generate(): string {
-    this.processDirectives();
+    // TODO: Remove me, leaving in to be explicit on why this flag is here.
+    const shouldRevertBreakingKeyChange = true;
+    this.processDirectives(shouldRevertBreakingKeyChange);
     this.validateReservedKeywords();
     if (this._parsedConfig.generate === CodeGenGenerateEnum.loader) {
       return this.generateClassLoader();

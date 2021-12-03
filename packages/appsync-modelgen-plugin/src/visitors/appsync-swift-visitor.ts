@@ -57,7 +57,9 @@ export class AppSyncSwiftVisitor<
   }
 
   generate(): string {
-    this.processDirectives();
+    // TODO: Remove me, leaving in to be explicit on why this flag is here.
+    const shouldRevertBreakingKeyChange = true;
+    this.processDirectives(shouldRevertBreakingKeyChange);
     const code = [`// swiftlint:disable all`];
     if (this._parsedConfig.generate === CodeGenGenerateEnum.metadata) {
       code.push(this.generateSchema());

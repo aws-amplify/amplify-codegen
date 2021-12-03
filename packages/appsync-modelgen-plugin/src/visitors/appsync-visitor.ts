@@ -294,17 +294,22 @@ export class AppSyncModelVisitor<
       values,
     };
   }
-  processDirectives() {
+  processDirectives(
+    // TODO: Remove me when we have a fix to roll-forward.
+    shouldRevertBreakingKeyChange: boolean,
+  ) {
     if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
       this.processV2KeyDirectives();
-      this.processConnectionDirectivesV2();
+      this.processConnectionDirectivesV2(shouldRevertBreakingKeyChange);
     } else {
       this.processConnectionDirective();
     }
     this.processAuthDirectives();
   }
   generate(): string {
-    this.processDirectives();
+    // TODO: Remove me, leaving in to be explicit on why this flag is here.
+    const shouldRevertBreakingKeyChange = false;
+    this.processDirectives(shouldRevertBreakingKeyChange);
     return '';
   }
 
@@ -675,12 +680,15 @@ export class AppSyncModelVisitor<
     });
   }
 
-  protected processConnectionDirectivesV2(): void {
+  protected processConnectionDirectivesV2(
+    // TODO: Remove me when we have a fix to roll-forward.
+    shouldRevertBreakingKeyChange: boolean,
+  ): void {
     this.processManyToManyDirectives();
 
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
-        const connectionInfo = processConnectionsV2(field, model, this.modelMap);
+        const connectionInfo = processConnectionsV2(field, model, this.modelMap, shouldRevertBreakingKeyChange);
         if (connectionInfo) {
           if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
             // Need to update the other side of the connection even if there is no connection directive
@@ -693,6 +701,10 @@ export class AppSyncModelVisitor<
               isList: false,
               isNullable: field.isNullable,
             });
+          } else if (shouldRevertBreakingKeyChange && connectionInfo.targetName !== 'id') {
+            // TODO: Remove this branch when we can roll forward.
+            // Need to remove the field that is targetName, only apply if shouldRevertBreakingKeyChange is set
+            removeFieldFromModel(model, connectionInfo.targetName);
           }
           field.connectionInfo = connectionInfo;
         }

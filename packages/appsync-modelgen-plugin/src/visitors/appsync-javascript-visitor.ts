@@ -45,7 +45,9 @@ export class AppSyncModelJavascriptVisitor<
   }
 
   generate(): string {
-    this.processDirectives();
+    // TODO: Remove me, leaving in to be explicit on why this flag is here.
+    const shouldRevertBreakingKeyChange = false;
+    this.processDirectives(shouldRevertBreakingKeyChange);
     if (this._parsedConfig.isDeclaration) {
       const imports = this.generateImports();
       const enumDeclarations = Object.values(this.enumMap)
