@@ -1,0 +1,749 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 1`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Blog7V2, Post7V2, Comment7V2 } = initSchema(schema);
+
+export {
+  Blog7V2,
+  Post7V2,
+  Comment7V2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 2`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Blog7V2, Post7V2, Comment7V2 } = initSchema(schema);
+
+export {
+  Blog7V2,
+  Post7V2,
+  Comment7V2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 3`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Blog7V2, Post7V2, Comment7V2 } = initSchema(schema);
+
+export {
+  Blog7V2,
+  Post7V2,
+  Comment7V2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 4`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Blog7V2, Post7V2, Comment7V2 } = initSchema(schema);
+
+export {
+  Blog7V2,
+  Post7V2,
+  Comment7V2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 5`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Blog7V2, Post7V2, Comment7V2 } = initSchema(schema);
+
+export {
+  Blog7V2,
+  Post7V2,
+  Comment7V2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 6`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Blog7V2, Post7V2, Comment7V2 } = initSchema(schema);
+
+export {
+  Blog7V2,
+  Post7V2,
+  Comment7V2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 7`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Blog7V2, Post7V2, Comment7V2 } = initSchema(schema);
+
+export {
+  Blog7V2,
+  Post7V2,
+  Comment7V2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 8`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Blog7V2, Post7V2, Comment7V2 } = initSchema(schema);
+
+export {
+  Blog7V2,
+  Post7V2,
+  Comment7V2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 1`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Project, Team, Project2, Team2, Post, Comment } = initSchema(schema);
+
+export {
+  Project,
+  Team,
+  Project2,
+  Team2,
+  Post,
+  Comment
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 2`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Project, Team, Project2, Team2, Post, Comment } = initSchema(schema);
+
+export {
+  Project,
+  Team,
+  Project2,
+  Team2,
+  Post,
+  Comment
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 3`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Project, Team, Project2, Team2, Post, Comment } = initSchema(schema);
+
+export {
+  Project,
+  Team,
+  Project2,
+  Team2,
+  Post,
+  Comment
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 4`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Project, Team, Project2, Team2, Post, Comment } = initSchema(schema);
+
+export {
+  Project,
+  Team,
+  Project2,
+  Team2,
+  Post,
+  Comment
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 5`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Project, Team, Project2, Team2, Post, Comment } = initSchema(schema);
+
+export {
+  Project,
+  Team,
+  Project2,
+  Team2,
+  Post,
+  Comment
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 6`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Project, Team, Project2, Team2, Post, Comment } = initSchema(schema);
+
+export {
+  Project,
+  Team,
+  Project2,
+  Team2,
+  Post,
+  Comment
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 7`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Project, Team, Project2, Team2, Post, Comment } = initSchema(schema);
+
+export {
+  Project,
+  Team,
+  Project2,
+  Team2,
+  Post,
+  Comment
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 8`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Project, Team, Project2, Team2, Post, Comment } = initSchema(schema);
+
+export {
+  Project,
+  Team,
+  Project2,
+  Team2,
+  Post,
+  Comment
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 9`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Project, Team, Project2, Team2, Post, Comment } = initSchema(schema);
+
+export {
+  Project,
+  Team,
+  Project2,
+  Team2,
+  Post,
+  Comment
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 10`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Project, Team, Project2, Team2, Post, Comment } = initSchema(schema);
+
+export {
+  Project,
+  Team,
+  Project2,
+  Team2,
+  Post,
+  Comment
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 11`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Project, Team, Project2, Team2, Post, Comment } = initSchema(schema);
+
+export {
+  Project,
+  Team,
+  Project2,
+  Team2,
+  Post,
+  Comment
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 12`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Project, Team, Project2, Team2, Post, Comment } = initSchema(schema);
+
+export {
+  Project,
+  Team,
+  Project2,
+  Team2,
+  Post,
+  Comment
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 1`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Post, Comment, Post2, Comment2 } = initSchema(schema);
+
+export {
+  Post,
+  Comment,
+  Post2,
+  Comment2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 2`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Post, Comment, Post2, Comment2 } = initSchema(schema);
+
+export {
+  Post,
+  Comment,
+  Post2,
+  Comment2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 3`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Post, Comment, Post2, Comment2 } = initSchema(schema);
+
+export {
+  Post,
+  Comment,
+  Post2,
+  Comment2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 4`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Post, Comment, Post2, Comment2 } = initSchema(schema);
+
+export {
+  Post,
+  Comment,
+  Post2,
+  Comment2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 5`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Post, Comment, Post2, Comment2 } = initSchema(schema);
+
+export {
+  Post,
+  Comment,
+  Post2,
+  Comment2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 6`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Post, Comment, Post2, Comment2 } = initSchema(schema);
+
+export {
+  Post,
+  Comment,
+  Post2,
+  Comment2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 7`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Post, Comment, Post2, Comment2 } = initSchema(schema);
+
+export {
+  Post,
+  Comment,
+  Post2,
+  Comment2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 8`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Post, Comment, Post2, Comment2 } = initSchema(schema);
+
+export {
+  Post,
+  Comment,
+  Post2,
+  Comment2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 1`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Project, Team, Project2, Team2 } = initSchema(schema);
+
+export {
+  Project,
+  Team,
+  Project2,
+  Team2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 2`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Project, Team, Project2, Team2 } = initSchema(schema);
+
+export {
+  Project,
+  Team,
+  Project2,
+  Team2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 3`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Project, Team, Project2, Team2 } = initSchema(schema);
+
+export {
+  Project,
+  Team,
+  Project2,
+  Team2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 4`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Project, Team, Project2, Team2 } = initSchema(schema);
+
+export {
+  Project,
+  Team,
+  Project2,
+  Team2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 5`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Project, Team, Project2, Team2 } = initSchema(schema);
+
+export {
+  Project,
+  Team,
+  Project2,
+  Team2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 6`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Project, Team, Project2, Team2 } = initSchema(schema);
+
+export {
+  Project,
+  Team,
+  Project2,
+  Team2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 7`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Project, Team, Project2, Team2 } = initSchema(schema);
+
+export {
+  Project,
+  Team,
+  Project2,
+  Team2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 8`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Project, Team, Project2, Team2 } = initSchema(schema);
+
+export {
+  Project,
+  Team,
+  Project2,
+  Team2
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on many to many relationship @manyToMany 1`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Post, Tag, PostTags } = initSchema(schema);
+
+export {
+  Post,
+  Tag,
+  PostTags
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on many to many relationship @manyToMany 2`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Post, Tag, PostTags } = initSchema(schema);
+
+export {
+  Post,
+  Tag,
+  PostTags
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on many to many relationship @manyToMany 3`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Post, Tag, PostTags } = initSchema(schema);
+
+export {
+  Post,
+  Tag,
+  PostTags
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on many to many relationship @manyToMany 4`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Post, Tag, PostTags } = initSchema(schema);
+
+export {
+  Post,
+  Tag,
+  PostTags
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on record creation and updating timestamp 1`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Todo } = initSchema(schema);
+
+export {
+  Todo
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on record creation and updating timestamp 2`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Todo } = initSchema(schema);
+
+export {
+  Todo
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works when configuring a secondary index 1`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Customer } = initSchema(schema);
+
+export {
+  Customer
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works when configuring a secondary index 2`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Customer } = initSchema(schema);
+
+export {
+  Customer
+};"
+`;

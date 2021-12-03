@@ -16,7 +16,7 @@ const getVisitor = (
   emitAuthProvider: boolean = true,
   generateIndexRules: boolean = true,
   handleListNullabilityTransparently: boolean = true,
-  transformerVersion: number = 1,
+  transformerVersion: number = 1
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -30,7 +30,7 @@ const getVisitor = (
       emitAuthProvider,
       generateIndexRules,
       handleListNullabilityTransparently,
-      transformerVersion: transformerVersion,
+      transformerVersion: transformerVersion
     },
     { selectedType, generate },
   );
@@ -45,19 +45,10 @@ const getVisitorPipelinedTransformer = (
   isTimestampFieldsAdded: boolean = true,
   emitAuthProvider: boolean = true,
   generateIndexRules: boolean = true,
-  handleListNullabilityTransparently: boolean = true,
+  handleListNullabilityTransparently: boolean = true
 ) => {
-  return getVisitor(
-    schema,
-    selectedType,
-    generate,
-    isTimestampFieldsAdded,
-    emitAuthProvider,
-    generateIndexRules,
-    handleListNullabilityTransparently,
-    2,
-  );
-};
+  return getVisitor(schema, selectedType, generate, isTimestampFieldsAdded, emitAuthProvider, generateIndexRules, handleListNullabilityTransparently, 2);
+}
 
 describe('AppSyncSwiftVisitor', () => {
   it('Should generate a class for a Model', () => {
@@ -796,167 +787,82 @@ describe('AppSyncSwiftVisitor', () => {
         expect(() => postVisitor.generate()).not.toThrowError();
       });
 
-      it('should support hasMany and belongsTo directive', () => {
+      it('should support connection directive with fields', () => {
         const schema = /* GraphQL */ `
-          input AMPLIFY {
-            globalAuthRule: AuthRule = { allow: public }
-          } # FOR TESTING ONLY!
-          type Blog6 @model {
-            id: ID!
-            name: String!
-            posts: [Post6] @hasMany
-          }
-
-          type Post6 @model {
+          type Post @model {
             id: ID!
             title: String!
-            blog: Blog6 @belongsTo
-            comments: [Comment] @hasMany
+            editors: [PostEditor] @connection(fields: ["id"])
           }
 
-          type Comment @model {
+          # Create a join model and disable queries as you don't need them
+          # and can query through Post.editors and User.posts
+          type PostEditor
+            @model(queries: null)
+            @key(name: "byPost", fields: ["postID", "editorID"])
+            @key(name: "byEditor", fields: ["editorID", "postID"]) {
             id: ID!
-            post: Post6 @belongsTo
-            content: String!
+            postID: ID!
+            editorID: ID!
+            post: Post! @connection(fields: ["postID"])
+            editor: User! @connection(fields: ["editorID"])
+          }
+
+          type User @model {
+            id: ID!
+            username: String!
+            posts: [PostEditor] @connection(fields: ["id"])
           }
         `;
 
-        const postVisitor = getVisitorPipelinedTransformer(schema, 'Blog6');
+        const postVisitor = getVisitor(schema, 'Post');
         expect(postVisitor.generate()).toMatchInlineSnapshot(`
           "// swiftlint:disable all
           import Amplify
           import Foundation
 
-          public struct Blog6: Model {
-            public let id: String
-            public var name: String
-            public var posts: List<Post6>?
-            public var createdAt: Temporal.DateTime?
-            public var updatedAt: Temporal.DateTime?
-            
-            public init(id: String = UUID().uuidString,
-                name: String,
-                posts: List<Post6>? = []) {
-              self.init(id: id,
-                name: name,
-                posts: posts,
-                createdAt: nil,
-                updatedAt: nil)
-            }
-            internal init(id: String = UUID().uuidString,
-                name: String,
-                posts: List<Post6>? = [],
-                createdAt: Temporal.DateTime? = nil,
-                updatedAt: Temporal.DateTime? = nil) {
-                self.id = id
-                self.name = name
-                self.posts = posts
-                self.createdAt = createdAt
-                self.updatedAt = updatedAt
-            }
-          }"
-        `);
-
-        const postSchemaVisitor = getVisitorPipelinedTransformer(schema, 'Blog6', CodeGenGenerateEnum.metadata);
-        expect(postSchemaVisitor.generate()).toMatchInlineSnapshot(`
-          "// swiftlint:disable all
-          import Amplify
-          import Foundation
-
-          extension Blog6 {
-            // MARK: - CodingKeys 
-             public enum CodingKeys: String, ModelKey {
-              case id
-              case name
-              case posts
-              case createdAt
-              case updatedAt
-            }
-            
-            public static let keys = CodingKeys.self
-            //  MARK: - ModelSchema 
-            
-            public static let schema = defineSchema { model in
-              let blog6 = Blog6.keys
-              
-              model.pluralName = \\"Blog6s\\"
-              
-              model.fields(
-                .id(),
-                .field(blog6.name, is: .required, ofType: .string),
-                .hasMany(blog6.posts, is: .optional, ofType: Post6.self, associatedWith: Post6.keys.blog),
-                .field(blog6.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-                .field(blog6.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
-              )
-              }
-          }"
-        `);
-      });
-
-      it('should support hasMany and belongsTo directive with fields', () => {
-        const schema = /* GraphQL */ `
-          type Post6 @model {
-            id: ID!
-            title: String!
-            comments: [Comment6] @hasMany(indexName: "byPost", fields: ["id"])
-          }
-
-          type Comment6 @model {
-            id: ID!
-            postID: ID! @index(name: "byPost", sortKeyFields: ["content"])
-            content: String!
-            post: Post6 @belongsTo(fields: ["postID"])
-          }
-        `;
-
-        const postVisitor = getVisitorPipelinedTransformer(schema, 'Post6');
-        expect(postVisitor.generate()).toMatchInlineSnapshot(`
-          "// swiftlint:disable all
-          import Amplify
-          import Foundation
-
-          public struct Post6: Model {
+          public struct Post: Model {
             public let id: String
             public var title: String
-            public var comments: List<Comment6>?
+            public var editors: List<PostEditor>?
             public var createdAt: Temporal.DateTime?
             public var updatedAt: Temporal.DateTime?
             
             public init(id: String = UUID().uuidString,
                 title: String,
-                comments: List<Comment6>? = []) {
+                editors: List<PostEditor>? = []) {
               self.init(id: id,
                 title: title,
-                comments: comments,
+                editors: editors,
                 createdAt: nil,
                 updatedAt: nil)
             }
             internal init(id: String = UUID().uuidString,
                 title: String,
-                comments: List<Comment6>? = [],
+                editors: List<PostEditor>? = [],
                 createdAt: Temporal.DateTime? = nil,
                 updatedAt: Temporal.DateTime? = nil) {
                 self.id = id
                 self.title = title
-                self.comments = comments
+                self.editors = editors
                 self.createdAt = createdAt
                 self.updatedAt = updatedAt
             }
           }"
         `);
 
-        const postSchemaVisitor = getVisitorPipelinedTransformer(schema, 'Post6', CodeGenGenerateEnum.metadata);
+        const postSchemaVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.metadata);
         expect(postSchemaVisitor.generate()).toMatchInlineSnapshot(`
           "// swiftlint:disable all
           import Amplify
           import Foundation
 
-          extension Post6 {
+          extension Post {
             // MARK: - CodingKeys 
              public enum CodingKeys: String, ModelKey {
               case id
               case title
-              case comments
+              case editors
               case createdAt
               case updatedAt
             }
@@ -965,192 +871,92 @@ describe('AppSyncSwiftVisitor', () => {
             //  MARK: - ModelSchema 
             
             public static let schema = defineSchema { model in
-              let post6 = Post6.keys
+              let post = Post.keys
               
-              model.pluralName = \\"Post6s\\"
+              model.pluralName = \\"Posts\\"
               
               model.fields(
                 .id(),
-                .field(post6.title, is: .required, ofType: .string),
-                .hasMany(post6.comments, is: .optional, ofType: Comment6.self, associatedWith: Comment6.keys.post),
-                .field(post6.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-                .field(post6.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+                .field(post.title, is: .required, ofType: .string),
+                .hasMany(post.editors, is: .optional, ofType: PostEditor.self, associatedWith: PostEditor.keys.id),
+                .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+                .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+              )
+              }
+          }"
+        `);
+
+        const postEditorVisitor = getVisitor(schema, 'Post');
+        expect(postEditorVisitor.generate()).toMatchInlineSnapshot(`
+          "// swiftlint:disable all
+          import Amplify
+          import Foundation
+
+          public struct Post: Model {
+            public let id: String
+            public var title: String
+            public var editors: List<PostEditor>?
+            public var createdAt: Temporal.DateTime?
+            public var updatedAt: Temporal.DateTime?
+            
+            public init(id: String = UUID().uuidString,
+                title: String,
+                editors: List<PostEditor>? = []) {
+              self.init(id: id,
+                title: title,
+                editors: editors,
+                createdAt: nil,
+                updatedAt: nil)
+            }
+            internal init(id: String = UUID().uuidString,
+                title: String,
+                editors: List<PostEditor>? = [],
+                createdAt: Temporal.DateTime? = nil,
+                updatedAt: Temporal.DateTime? = nil) {
+                self.id = id
+                self.title = title
+                self.editors = editors
+                self.createdAt = createdAt
+                self.updatedAt = updatedAt
+            }
+          }"
+        `);
+
+        const postEditorSchemaVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.metadata);
+        expect(postEditorSchemaVisitor.generate()).toMatchInlineSnapshot(`
+          "// swiftlint:disable all
+          import Amplify
+          import Foundation
+
+          extension Post {
+            // MARK: - CodingKeys 
+             public enum CodingKeys: String, ModelKey {
+              case id
+              case title
+              case editors
+              case createdAt
+              case updatedAt
+            }
+            
+            public static let keys = CodingKeys.self
+            //  MARK: - ModelSchema 
+            
+            public static let schema = defineSchema { model in
+              let post = Post.keys
+              
+              model.pluralName = \\"Posts\\"
+              
+              model.fields(
+                .id(),
+                .field(post.title, is: .required, ofType: .string),
+                .hasMany(post.editors, is: .optional, ofType: PostEditor.self, associatedWith: PostEditor.keys.id),
+                .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+                .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
           }"
         `);
       });
-    });
-
-    it('should support connection directive with fields', () => {
-      const schema = /* GraphQL */ `
-        type Post @model {
-          id: ID!
-          title: String!
-          editors: [PostEditor] @connection(fields: ["id"])
-        }
-
-        # Create a join model and disable queries as you don't need them
-        # and can query through Post.editors and User.posts
-        type PostEditor
-          @model(queries: null)
-          @key(name: "byPost", fields: ["postID", "editorID"])
-          @key(name: "byEditor", fields: ["editorID", "postID"]) {
-          id: ID!
-          postID: ID!
-          editorID: ID!
-          post: Post! @connection(fields: ["postID"])
-          editor: User! @connection(fields: ["editorID"])
-        }
-
-        type User @model {
-          id: ID!
-          username: String!
-          posts: [PostEditor] @connection(fields: ["id"])
-        }
-      `;
-
-      const postVisitor = getVisitor(schema, 'Post');
-      expect(postVisitor.generate()).toMatchInlineSnapshot(`
-        "// swiftlint:disable all
-        import Amplify
-        import Foundation
-
-        public struct Post: Model {
-          public let id: String
-          public var title: String
-          public var editors: List<PostEditor>?
-          public var createdAt: Temporal.DateTime?
-          public var updatedAt: Temporal.DateTime?
-          
-          public init(id: String = UUID().uuidString,
-              title: String,
-              editors: List<PostEditor>? = []) {
-            self.init(id: id,
-              title: title,
-              editors: editors,
-              createdAt: nil,
-              updatedAt: nil)
-          }
-          internal init(id: String = UUID().uuidString,
-              title: String,
-              editors: List<PostEditor>? = [],
-              createdAt: Temporal.DateTime? = nil,
-              updatedAt: Temporal.DateTime? = nil) {
-              self.id = id
-              self.title = title
-              self.editors = editors
-              self.createdAt = createdAt
-              self.updatedAt = updatedAt
-          }
-        }"
-      `);
-
-      const postSchemaVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.metadata);
-      expect(postSchemaVisitor.generate()).toMatchInlineSnapshot(`
-        "// swiftlint:disable all
-        import Amplify
-        import Foundation
-
-        extension Post {
-          // MARK: - CodingKeys 
-           public enum CodingKeys: String, ModelKey {
-            case id
-            case title
-            case editors
-            case createdAt
-            case updatedAt
-          }
-          
-          public static let keys = CodingKeys.self
-          //  MARK: - ModelSchema 
-          
-          public static let schema = defineSchema { model in
-            let post = Post.keys
-            
-            model.pluralName = \\"Posts\\"
-            
-            model.fields(
-              .id(),
-              .field(post.title, is: .required, ofType: .string),
-              .hasMany(post.editors, is: .optional, ofType: PostEditor.self, associatedWith: PostEditor.keys.id),
-              .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-              .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
-            )
-            }
-        }"
-      `);
-
-      const postEditorVisitor = getVisitor(schema, 'Post');
-      expect(postEditorVisitor.generate()).toMatchInlineSnapshot(`
-        "// swiftlint:disable all
-        import Amplify
-        import Foundation
-
-        public struct Post: Model {
-          public let id: String
-          public var title: String
-          public var editors: List<PostEditor>?
-          public var createdAt: Temporal.DateTime?
-          public var updatedAt: Temporal.DateTime?
-          
-          public init(id: String = UUID().uuidString,
-              title: String,
-              editors: List<PostEditor>? = []) {
-            self.init(id: id,
-              title: title,
-              editors: editors,
-              createdAt: nil,
-              updatedAt: nil)
-          }
-          internal init(id: String = UUID().uuidString,
-              title: String,
-              editors: List<PostEditor>? = [],
-              createdAt: Temporal.DateTime? = nil,
-              updatedAt: Temporal.DateTime? = nil) {
-              self.id = id
-              self.title = title
-              self.editors = editors
-              self.createdAt = createdAt
-              self.updatedAt = updatedAt
-          }
-        }"
-      `);
-
-      const postEditorSchemaVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.metadata);
-      expect(postEditorSchemaVisitor.generate()).toMatchInlineSnapshot(`
-        "// swiftlint:disable all
-        import Amplify
-        import Foundation
-
-        extension Post {
-          // MARK: - CodingKeys 
-           public enum CodingKeys: String, ModelKey {
-            case id
-            case title
-            case editors
-            case createdAt
-            case updatedAt
-          }
-          
-          public static let keys = CodingKeys.self
-          //  MARK: - ModelSchema 
-          
-          public static let schema = defineSchema { model in
-            let post = Post.keys
-            
-            model.pluralName = \\"Posts\\"
-            
-            model.fields(
-              .id(),
-              .field(post.title, is: .required, ofType: .string),
-              .hasMany(post.editors, is: .optional, ofType: PostEditor.self, associatedWith: PostEditor.keys.id),
-              .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-              .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
-            )
-            }
-        }"
-      `);
     });
   });
 
@@ -2463,7 +2269,7 @@ describe('AppSyncSwiftVisitor', () => {
           content: String
           tags: [Tag] @manyToMany(relationName: "PostTags")
         }
-
+        
         type Tag @model {
           id: ID!
           label: String!
