@@ -658,7 +658,7 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(todo.due_date, is: .optional, ofType: .string),
                 .field(todo.version, is: .required, ofType: .int),
                 .field(todo.value, is: .optional, ofType: .double),
-                .hasMany(todo.tasks, is: .optional, ofType: task.self, associatedWith: task.keys.function () { [native code] }),
+                .hasMany(todo.tasks, is: .optional, ofType: task.self, associatedWith: task.keys.todo),
                 .field(todo.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
                 .field(todo.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
@@ -887,7 +887,7 @@ describe('AppSyncSwiftVisitor', () => {
               model.fields(
                 .id(),
                 .field(post.title, is: .required, ofType: .string),
-                .hasMany(post.editors, is: .optional, ofType: PostEditor.self, associatedWith: PostEditor.keys.function () { [native code] }),
+                .hasMany(post.editors, is: .optional, ofType: PostEditor.self, associatedWith: PostEditor.keys.post),
                 .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
@@ -958,7 +958,7 @@ describe('AppSyncSwiftVisitor', () => {
               model.fields(
                 .id(),
                 .field(post.title, is: .required, ofType: .string),
-                .hasMany(post.editors, is: .optional, ofType: PostEditor.self, associatedWith: PostEditor.keys.function () { [native code] }),
+                .hasMany(post.editors, is: .optional, ofType: PostEditor.self, associatedWith: PostEditor.keys.post),
                 .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
