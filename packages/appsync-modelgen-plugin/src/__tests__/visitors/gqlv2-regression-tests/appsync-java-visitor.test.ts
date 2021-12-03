@@ -42,8 +42,7 @@ describe('AppSyncSwiftVisitor - GQLv2 Regression Tests', () => {
         accountRepresentativeID: ID! @index(name: "byRepresentative", queryField: "customerByRepresentative")
       }
     `;
-    expect(getGQLv2Visitor(schema, 'Customer').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Customer', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Customer').generate()).toMatchSnapshot();    expect(getGQLv2Visitor(schema, 'Customer', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
   });
 
   it('Works on record creation and updating timestamp', () => {
@@ -51,7 +50,6 @@ describe('AppSyncSwiftVisitor - GQLv2 Regression Tests', () => {
       type Todo @model(timestamps: { createdAt: "createdOn", updatedAt: "updatedOn" }) {content: String}
     `;
     expect(getGQLv2Visitor(schema, 'Todo').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Todo', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
   });
 
   it('Works on has one relationship @hasOne', () => {
@@ -82,13 +80,9 @@ describe('AppSyncSwiftVisitor - GQLv2 Regression Tests', () => {
       }
     `;
     expect(getGQLv2Visitor(schema, 'Project').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Project', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Team').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Team', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Project2').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Project2', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Team2').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Team2', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
   });
 
   it('Works on has many relationship @hasMany', () => {
@@ -119,13 +113,9 @@ describe('AppSyncSwiftVisitor - GQLv2 Regression Tests', () => {
       }
     `;
     expect(getGQLv2Visitor(schema, 'Post').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Post', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Comment').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Comment', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Post2').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Post2', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Comment2').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Comment2', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
   });
 
   it('Works on many to many relationship @manyToMany', () => {
@@ -144,9 +134,7 @@ describe('AppSyncSwiftVisitor - GQLv2 Regression Tests', () => {
       }
     `;
     expect(getGQLv2Visitor(schema, 'Post').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Post', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Tag').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Tag', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
   });
 
   it('Works on belongs to relationship @belongsTo', () => {
@@ -193,17 +181,11 @@ describe('AppSyncSwiftVisitor - GQLv2 Regression Tests', () => {
       }
     `;
     expect(getGQLv2Visitor(schema, 'Project').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Project', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Team').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Team', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Project2').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Project2', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Team2').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Team2', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Post').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Post', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Comment').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Comment', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
   });
 
   it('Works on belongs to relationship @belongsTo (extended)', () => {
@@ -227,12 +209,8 @@ describe('AppSyncSwiftVisitor - GQLv2 Regression Tests', () => {
       }
     `;
     expect(getGQLv2Visitor(schema, 'Blog7V2').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Blog7V2', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Post7V2').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Post7V2', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Project2').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Project2', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Comment7V2').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Comment7V2', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
   });
 });

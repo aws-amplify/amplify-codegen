@@ -164,13 +164,14 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
-/** This is an auto generated class representing the Blog7V2 type in your schema. */
+/** This is an auto generated class representing the Post7V2 type in your schema. */
 @immutable
-class Blog7V2 extends Model {
-  static const classType = const _Blog7V2ModelType();
+class Post7V2 extends Model {
+  static const classType = const _Post7V2ModelType();
   final String id;
-  final String name;
-  final List<Post7V2> posts;
+  final String title;
+  final Blog7V2 blog;
+  final List<Comment7V2> comments;
 
   @override
   getInstanceType() => classType;
@@ -180,13 +181,21 @@ class Blog7V2 extends Model {
     return id;
   }
 
-  const Blog7V2._internal({@required this.id, @required this.name, this.posts});
+  const Post7V2._internal(
+      {@required this.id, @required this.title, this.blog, this.comments});
 
-  factory Blog7V2({String id, @required String name, List<Post7V2> posts}) {
-    return Blog7V2._internal(
+  factory Post7V2(
+      {String id,
+      @required String title,
+      Blog7V2 blog,
+      List<Comment7V2> comments}) {
+    return Post7V2._internal(
         id: id == null ? UUID.getUUID() : id,
-        name: name,
-        posts: posts != null ? List<Post7V2>.unmodifiable(posts) : posts);
+        title: title,
+        blog: blog,
+        comments: comments != null
+            ? List<Comment7V2>.unmodifiable(comments)
+            : comments);
   }
 
   bool equals(Object other) {
@@ -196,10 +205,11 @@ class Blog7V2 extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Blog7V2 &&
+    return other is Post7V2 &&
         id == other.id &&
-        name == other.name &&
-        DeepCollectionEquality().equals(posts, other.posts);
+        title == other.title &&
+        blog == other.blog &&
+        DeepCollectionEquality().equals(comments, other.comments);
   }
 
   @override
@@ -209,66 +219,86 @@ class Blog7V2 extends Model {
   String toString() {
     var buffer = new StringBuffer();
 
-    buffer.write(\\"Blog7V2 {\\");
+    buffer.write(\\"Post7V2 {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"name=\\" + \\"$name\\");
+    buffer.write(\\"title=\\" + \\"$title\\" + \\", \\");
+    buffer.write(\\"blog=\\" + (blog != null ? blog.toString() : \\"null\\"));
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  Blog7V2 copyWith({String id, String name, List<Post7V2> posts}) {
-    return Blog7V2(
-        id: id ?? this.id, name: name ?? this.name, posts: posts ?? this.posts);
+  Post7V2 copyWith(
+      {String id, String title, Blog7V2 blog, List<Comment7V2> comments}) {
+    return Post7V2(
+        id: id ?? this.id,
+        title: title ?? this.title,
+        blog: blog ?? this.blog,
+        comments: comments ?? this.comments);
   }
 
-  Blog7V2.fromJson(Map<String, dynamic> json)
+  Post7V2.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        name = json['name'],
-        posts = json['posts'] is List
-            ? (json['posts'] as List)
-                .map((e) => Post7V2.fromJson(new Map<String, dynamic>.from(e)))
+        title = json['title'],
+        blog = json['blog'] != null
+            ? Blog7V2.fromJson(new Map<String, dynamic>.from(json['blog']))
+            : null,
+        comments = json['comments'] is List
+            ? (json['comments'] as List)
+                .map((e) =>
+                    Comment7V2.fromJson(new Map<String, dynamic>.from(e)))
                 .toList()
             : null;
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'name': name,
-        'posts': posts?.map((Post7V2? e) => e?.toJson()).toList()
+        'title': title,
+        'blog': blog?.toJson(),
+        'comments': comments?.map((Comment7V2? e) => e?.toJson()).toList()
       };
 
-  static final QueryField ID = QueryField(fieldName: \\"blog7V2.id\\");
-  static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static final QueryField POSTS = QueryField(
-      fieldName: \\"posts\\",
+  static final QueryField ID = QueryField(fieldName: \\"post7V2.id\\");
+  static final QueryField TITLE = QueryField(fieldName: \\"title\\");
+  static final QueryField BLOG = QueryField(
+      fieldName: \\"blog\\",
       fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Post7V2).toString()));
+          ofModelName: (Blog7V2).toString()));
+  static final QueryField COMMENTS = QueryField(
+      fieldName: \\"comments\\",
+      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
+          ofModelName: (Comment7V2).toString()));
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Blog7V2\\";
-    modelSchemaDefinition.pluralName = \\"Blog7V2s\\";
+    modelSchemaDefinition.name = \\"Post7V2\\";
+    modelSchemaDefinition.pluralName = \\"Post7V2s\\";
 
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Blog7V2.NAME,
+        key: Post7V2.TITLE,
         isRequired: true,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Blog7V2.POSTS,
+    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+        key: Post7V2.BLOG,
         isRequired: false,
-        ofModelName: (Post7V2).toString(),
-        associatedKey: Post7V2.BLOG7V2POSTSID));
+        targetName: \\"blog7V2PostsId\\",
+        ofModelName: (Blog7V2).toString()));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+        key: Post7V2.COMMENTS,
+        isRequired: false,
+        ofModelName: (Comment7V2).toString(),
+        associatedKey: Comment7V2.POST7V2COMMENTSID));
   });
 }
 
-class _Blog7V2ModelType extends ModelType<Blog7V2> {
-  const _Blog7V2ModelType();
+class _Post7V2ModelType extends ModelType<Post7V2> {
+  const _Post7V2ModelType();
 
   @override
-  Blog7V2 fromJson(Map<String, dynamic> jsonData) {
-    return Blog7V2.fromJson(jsonData);
+  Post7V2 fromJson(Map<String, dynamic> jsonData) {
+    return Post7V2.fromJson(jsonData);
   }
 }
 "
@@ -296,505 +326,12 @@ exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relati
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
-
-/** This is an auto generated class representing the Post7V2 type in your schema. */
-@immutable
-class Post7V2 extends Model {
-  static const classType = const _Post7V2ModelType();
-  final String id;
-  final String title;
-  final Blog7V2 blog;
-  final List<Comment7V2> comments;
-
-  @override
-  getInstanceType() => classType;
-
-  @override
-  String getId() {
-    return id;
-  }
-
-  const Post7V2._internal(
-      {@required this.id, @required this.title, this.blog, this.comments});
-
-  factory Post7V2(
-      {String id,
-      @required String title,
-      Blog7V2 blog,
-      List<Comment7V2> comments}) {
-    return Post7V2._internal(
-        id: id == null ? UUID.getUUID() : id,
-        title: title,
-        blog: blog,
-        comments: comments != null
-            ? List<Comment7V2>.unmodifiable(comments)
-            : comments);
-  }
-
-  bool equals(Object other) {
-    return this == other;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Post7V2 &&
-        id == other.id &&
-        title == other.title &&
-        blog == other.blog &&
-        DeepCollectionEquality().equals(comments, other.comments);
-  }
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() {
-    var buffer = new StringBuffer();
-
-    buffer.write(\\"Post7V2 {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"title=\\" + \\"$title\\" + \\", \\");
-    buffer.write(\\"blog=\\" + (blog != null ? blog.toString() : \\"null\\"));
-    buffer.write(\\"}\\");
-
-    return buffer.toString();
-  }
-
-  Post7V2 copyWith(
-      {String id, String title, Blog7V2 blog, List<Comment7V2> comments}) {
-    return Post7V2(
-        id: id ?? this.id,
-        title: title ?? this.title,
-        blog: blog ?? this.blog,
-        comments: comments ?? this.comments);
-  }
-
-  Post7V2.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        title = json['title'],
-        blog = json['blog'] != null
-            ? Blog7V2.fromJson(new Map<String, dynamic>.from(json['blog']))
-            : null,
-        comments = json['comments'] is List
-            ? (json['comments'] as List)
-                .map((e) =>
-                    Comment7V2.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null;
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'blog': blog?.toJson(),
-        'comments': comments?.map((Comment7V2? e) => e?.toJson()).toList()
-      };
-
-  static final QueryField ID = QueryField(fieldName: \\"post7V2.id\\");
-  static final QueryField TITLE = QueryField(fieldName: \\"title\\");
-  static final QueryField BLOG = QueryField(
-      fieldName: \\"blog\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Blog7V2).toString()));
-  static final QueryField COMMENTS = QueryField(
-      fieldName: \\"comments\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Comment7V2).toString()));
-  static var schema =
-      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Post7V2\\";
-    modelSchemaDefinition.pluralName = \\"Post7V2s\\";
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Post7V2.TITLE,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
-        key: Post7V2.BLOG,
-        isRequired: false,
-        targetName: \\"blog7V2PostsId\\",
-        ofModelName: (Blog7V2).toString()));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Post7V2.COMMENTS,
-        isRequired: false,
-        ofModelName: (Comment7V2).toString(),
-        associatedKey: Comment7V2.POST7V2COMMENTSID));
-  });
-}
-
-class _Post7V2ModelType extends ModelType<Post7V2> {
-  const _Post7V2ModelType();
-
-  @override
-  Post7V2 fromJson(Map<String, dynamic> jsonData) {
-    return Post7V2.fromJson(jsonData);
-  }
-}
 "
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 4`] = `
-"/*
-* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the \\"License\\").
-* You may not use this file except in compliance with the License.
-* A copy of the License is located at
-*
-*  http://aws.amazon.com/apache2.0
-*
-* or in the \\"license\\" file accompanying this file. This file is distributed
-* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-* express or implied. See the License for the specific language governing
-* permissions and limitations under the License.
-*/
-
-// NOTE: This file is generated and may not follow lint rules defined in your app
-// Generated files can be excluded from analysis in analysis_options.yaml
-// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
-
-// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
-
-import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
-
-/** This is an auto generated class representing the Post7V2 type in your schema. */
-@immutable
-class Post7V2 extends Model {
-  static const classType = const _Post7V2ModelType();
-  final String id;
-  final String title;
-  final Blog7V2 blog;
-  final List<Comment7V2> comments;
-
-  @override
-  getInstanceType() => classType;
-
-  @override
-  String getId() {
-    return id;
-  }
-
-  const Post7V2._internal(
-      {@required this.id, @required this.title, this.blog, this.comments});
-
-  factory Post7V2(
-      {String id,
-      @required String title,
-      Blog7V2 blog,
-      List<Comment7V2> comments}) {
-    return Post7V2._internal(
-        id: id == null ? UUID.getUUID() : id,
-        title: title,
-        blog: blog,
-        comments: comments != null
-            ? List<Comment7V2>.unmodifiable(comments)
-            : comments);
-  }
-
-  bool equals(Object other) {
-    return this == other;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Post7V2 &&
-        id == other.id &&
-        title == other.title &&
-        blog == other.blog &&
-        DeepCollectionEquality().equals(comments, other.comments);
-  }
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() {
-    var buffer = new StringBuffer();
-
-    buffer.write(\\"Post7V2 {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"title=\\" + \\"$title\\" + \\", \\");
-    buffer.write(\\"blog=\\" + (blog != null ? blog.toString() : \\"null\\"));
-    buffer.write(\\"}\\");
-
-    return buffer.toString();
-  }
-
-  Post7V2 copyWith(
-      {String id, String title, Blog7V2 blog, List<Comment7V2> comments}) {
-    return Post7V2(
-        id: id ?? this.id,
-        title: title ?? this.title,
-        blog: blog ?? this.blog,
-        comments: comments ?? this.comments);
-  }
-
-  Post7V2.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        title = json['title'],
-        blog = json['blog'] != null
-            ? Blog7V2.fromJson(new Map<String, dynamic>.from(json['blog']))
-            : null,
-        comments = json['comments'] is List
-            ? (json['comments'] as List)
-                .map((e) =>
-                    Comment7V2.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null;
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'blog': blog?.toJson(),
-        'comments': comments?.map((Comment7V2? e) => e?.toJson()).toList()
-      };
-
-  static final QueryField ID = QueryField(fieldName: \\"post7V2.id\\");
-  static final QueryField TITLE = QueryField(fieldName: \\"title\\");
-  static final QueryField BLOG = QueryField(
-      fieldName: \\"blog\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Blog7V2).toString()));
-  static final QueryField COMMENTS = QueryField(
-      fieldName: \\"comments\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Comment7V2).toString()));
-  static var schema =
-      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Post7V2\\";
-    modelSchemaDefinition.pluralName = \\"Post7V2s\\";
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Post7V2.TITLE,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
-        key: Post7V2.BLOG,
-        isRequired: false,
-        targetName: \\"blog7V2PostsId\\",
-        ofModelName: (Blog7V2).toString()));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Post7V2.COMMENTS,
-        isRequired: false,
-        ofModelName: (Comment7V2).toString(),
-        associatedKey: Comment7V2.POST7V2COMMENTSID));
-  });
-}
-
-class _Post7V2ModelType extends ModelType<Post7V2> {
-  const _Post7V2ModelType();
-
-  @override
-  Post7V2 fromJson(Map<String, dynamic> jsonData) {
-    return Post7V2.fromJson(jsonData);
-  }
-}
-"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 5`] = `
-"/*
-* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the \\"License\\").
-* You may not use this file except in compliance with the License.
-* A copy of the License is located at
-*
-*  http://aws.amazon.com/apache2.0
-*
-* or in the \\"license\\" file accompanying this file. This file is distributed
-* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-* express or implied. See the License for the specific language governing
-* permissions and limitations under the License.
-*/
-
-// NOTE: This file is generated and may not follow lint rules defined in your app
-// Generated files can be excluded from analysis in analysis_options.yaml
-// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
-
-// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
-
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:flutter/foundation.dart';
-"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 6`] = `
-"/*
-* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the \\"License\\").
-* You may not use this file except in compliance with the License.
-* A copy of the License is located at
-*
-*  http://aws.amazon.com/apache2.0
-*
-* or in the \\"license\\" file accompanying this file. This file is distributed
-* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-* express or implied. See the License for the specific language governing
-* permissions and limitations under the License.
-*/
-
-// NOTE: This file is generated and may not follow lint rules defined in your app
-// Generated files can be excluded from analysis in analysis_options.yaml
-// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
-
-// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
-
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:flutter/foundation.dart';
-"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 7`] = `
-"/*
-* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the \\"License\\").
-* You may not use this file except in compliance with the License.
-* A copy of the License is located at
-*
-*  http://aws.amazon.com/apache2.0
-*
-* or in the \\"license\\" file accompanying this file. This file is distributed
-* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-* express or implied. See the License for the specific language governing
-* permissions and limitations under the License.
-*/
-
-// NOTE: This file is generated and may not follow lint rules defined in your app
-// Generated files can be excluded from analysis in analysis_options.yaml
-// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
-
-// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
-
-import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:flutter/foundation.dart';
-
-/** This is an auto generated class representing the Comment7V2 type in your schema. */
-@immutable
-class Comment7V2 extends Model {
-  static const classType = const _Comment7V2ModelType();
-  final String id;
-  final String content;
-  final Post7V2 post;
-
-  @override
-  getInstanceType() => classType;
-
-  @override
-  String getId() {
-    return id;
-  }
-
-  const Comment7V2._internal({@required this.id, this.content, this.post});
-
-  factory Comment7V2({String id, String content, Post7V2 post}) {
-    return Comment7V2._internal(
-        id: id == null ? UUID.getUUID() : id, content: content, post: post);
-  }
-
-  bool equals(Object other) {
-    return this == other;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Comment7V2 &&
-        id == other.id &&
-        content == other.content &&
-        post == other.post;
-  }
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() {
-    var buffer = new StringBuffer();
-
-    buffer.write(\\"Comment7V2 {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"content=\\" + \\"$content\\" + \\", \\");
-    buffer.write(\\"post=\\" + (post != null ? post.toString() : \\"null\\"));
-    buffer.write(\\"}\\");
-
-    return buffer.toString();
-  }
-
-  Comment7V2 copyWith({String id, String content, Post7V2 post}) {
-    return Comment7V2(
-        id: id ?? this.id,
-        content: content ?? this.content,
-        post: post ?? this.post);
-  }
-
-  Comment7V2.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        content = json['content'],
-        post = json['post'] != null
-            ? Post7V2.fromJson(new Map<String, dynamic>.from(json['post']))
-            : null;
-
-  Map<String, dynamic> toJson() =>
-      {'id': id, 'content': content, 'post': post?.toJson()};
-
-  static final QueryField ID = QueryField(fieldName: \\"comment7V2.id\\");
-  static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
-  static final QueryField POST = QueryField(
-      fieldName: \\"post\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Post7V2).toString()));
-  static var schema =
-      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Comment7V2\\";
-    modelSchemaDefinition.pluralName = \\"Comment7V2s\\";
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Comment7V2.CONTENT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
-        key: Comment7V2.POST,
-        isRequired: false,
-        targetName: \\"post7V2CommentsId\\",
-        ofModelName: (Post7V2).toString()));
-  });
-}
-
-class _Comment7V2ModelType extends ModelType<Comment7V2> {
-  const _Comment7V2ModelType();
-
-  @override
-  Comment7V2 fromJson(Map<String, dynamic> jsonData) {
-    return Comment7V2.fromJson(jsonData);
-  }
-}
-"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 8`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -1103,14 +640,13 @@ import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/** This is an auto generated class representing the Project type in your schema. */
+/** This is an auto generated class representing the Team type in your schema. */
 @immutable
-class Project extends Model {
-  static const classType = const _ProjectModelType();
+class Team extends Model {
+  static const classType = const _TeamModelType();
   final String id;
   final String name;
-  final Team team;
-  final String projectTeamId;
+  final Project project;
 
   @override
   getInstanceType() => classType;
@@ -1120,15 +656,11 @@ class Project extends Model {
     return id;
   }
 
-  const Project._internal(
-      {@required this.id, this.name, this.team, this.projectTeamId});
+  const Team._internal({@required this.id, @required this.name, this.project});
 
-  factory Project({String id, String name, Team team, String projectTeamId}) {
-    return Project._internal(
-        id: id == null ? UUID.getUUID() : id,
-        name: name,
-        team: team,
-        projectTeamId: projectTeamId);
+  factory Team({String id, @required String name, Project project}) {
+    return Team._internal(
+        id: id == null ? UUID.getUUID() : id, name: name, project: project);
   }
 
   bool equals(Object other) {
@@ -1138,11 +670,10 @@ class Project extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Project &&
+    return other is Team &&
         id == other.id &&
         name == other.name &&
-        team == other.team &&
-        projectTeamId == other.projectTeamId;
+        project == other.project;
   }
 
   @override
@@ -1152,77 +683,64 @@ class Project extends Model {
   String toString() {
     var buffer = new StringBuffer();
 
-    buffer.write(\\"Project {\\");
+    buffer.write(\\"Team {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
-    buffer.write(\\"projectTeamId=\\" + \\"$projectTeamId\\");
+    buffer.write(\\"project=\\" + (project != null ? project.toString() : \\"null\\"));
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  Project copyWith({String id, String name, Team team, String projectTeamId}) {
-    return Project(
+  Team copyWith({String id, String name, Project project}) {
+    return Team(
         id: id ?? this.id,
         name: name ?? this.name,
-        team: team ?? this.team,
-        projectTeamId: projectTeamId ?? this.projectTeamId);
+        project: project ?? this.project);
   }
 
-  Project.fromJson(Map<String, dynamic> json)
+  Team.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
-        team = json['team'] != null
-            ? Team.fromJson(new Map<String, dynamic>.from(json['team']))
-            : null,
-        projectTeamId = json['projectTeamId'];
+        project = json['project'] != null
+            ? Project.fromJson(new Map<String, dynamic>.from(json['project']))
+            : null;
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'team': team?.toJson(),
-        'projectTeamId': projectTeamId
-      };
+  Map<String, dynamic> toJson() =>
+      {'id': id, 'name': name, 'project': project?.toJson()};
 
-  static final QueryField ID = QueryField(fieldName: \\"project.id\\");
+  static final QueryField ID = QueryField(fieldName: \\"team.id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static final QueryField TEAM = QueryField(
-      fieldName: \\"team\\",
+  static final QueryField PROJECT = QueryField(
+      fieldName: \\"project\\",
       fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Team).toString()));
-  static final QueryField PROJECTTEAMID =
-      QueryField(fieldName: \\"projectTeamId\\");
+          ofModelName: (Project).toString()));
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Project\\";
-    modelSchemaDefinition.pluralName = \\"Projects\\";
+    modelSchemaDefinition.name = \\"Team\\";
+    modelSchemaDefinition.pluralName = \\"Teams\\";
 
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Project.NAME,
-        isRequired: false,
+        key: Team.NAME,
+        isRequired: true,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasOne(
-        key: Project.TEAM,
+    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+        key: Team.PROJECT,
         isRequired: false,
-        ofModelName: (Team).toString(),
-        associatedKey: Team.ID));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Project.PROJECTTEAMID,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+        targetName: \\"teamProjectId\\",
+        ofModelName: (Project).toString()));
   });
 }
 
-class _ProjectModelType extends ModelType<Project> {
-  const _ProjectModelType();
+class _TeamModelType extends ModelType<Team> {
+  const _TeamModelType();
 
   @override
-  Project fromJson(Map<String, dynamic> jsonData) {
-    return Project.fromJson(jsonData);
+  Team fromJson(Map<String, dynamic> jsonData) {
+    return Team.fromJson(jsonData);
   }
 }
 "
@@ -1254,13 +772,14 @@ import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/** This is an auto generated class representing the Team type in your schema. */
+/** This is an auto generated class representing the Project2 type in your schema. */
 @immutable
-class Team extends Model {
-  static const classType = const _TeamModelType();
+class Project2 extends Model {
+  static const classType = const _Project2ModelType();
   final String id;
   final String name;
-  final Project project;
+  final Team2 team;
+  final String project2TeamId;
 
   @override
   getInstanceType() => classType;
@@ -1270,11 +789,16 @@ class Team extends Model {
     return id;
   }
 
-  const Team._internal({@required this.id, @required this.name, this.project});
+  const Project2._internal(
+      {@required this.id, this.name, this.team, this.project2TeamId});
 
-  factory Team({String id, @required String name, Project project}) {
-    return Team._internal(
-        id: id == null ? UUID.getUUID() : id, name: name, project: project);
+  factory Project2(
+      {String id, String name, Team2 team, String project2TeamId}) {
+    return Project2._internal(
+        id: id == null ? UUID.getUUID() : id,
+        name: name,
+        team: team,
+        project2TeamId: project2TeamId);
   }
 
   bool equals(Object other) {
@@ -1284,10 +808,11 @@ class Team extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Team &&
+    return other is Project2 &&
         id == other.id &&
         name == other.name &&
-        project == other.project;
+        team == other.team &&
+        project2TeamId == other.project2TeamId;
   }
 
   @override
@@ -1297,64 +822,78 @@ class Team extends Model {
   String toString() {
     var buffer = new StringBuffer();
 
-    buffer.write(\\"Team {\\");
+    buffer.write(\\"Project2 {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
-    buffer.write(\\"project=\\" + (project != null ? project.toString() : \\"null\\"));
+    buffer.write(\\"project2TeamId=\\" + \\"$project2TeamId\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  Team copyWith({String id, String name, Project project}) {
-    return Team(
+  Project2 copyWith(
+      {String id, String name, Team2 team, String project2TeamId}) {
+    return Project2(
         id: id ?? this.id,
         name: name ?? this.name,
-        project: project ?? this.project);
+        team: team ?? this.team,
+        project2TeamId: project2TeamId ?? this.project2TeamId);
   }
 
-  Team.fromJson(Map<String, dynamic> json)
+  Project2.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
-        project = json['project'] != null
-            ? Project.fromJson(new Map<String, dynamic>.from(json['project']))
-            : null;
+        team = json['team'] != null
+            ? Team2.fromJson(new Map<String, dynamic>.from(json['team']))
+            : null,
+        project2TeamId = json['project2TeamId'];
 
-  Map<String, dynamic> toJson() =>
-      {'id': id, 'name': name, 'project': project?.toJson()};
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'team': team?.toJson(),
+        'project2TeamId': project2TeamId
+      };
 
-  static final QueryField ID = QueryField(fieldName: \\"team.id\\");
+  static final QueryField ID = QueryField(fieldName: \\"project2.id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static final QueryField PROJECT = QueryField(
-      fieldName: \\"project\\",
+  static final QueryField TEAM = QueryField(
+      fieldName: \\"team\\",
       fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Project).toString()));
+          ofModelName: (Team2).toString()));
+  static final QueryField PROJECT2TEAMID =
+      QueryField(fieldName: \\"project2TeamId\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Team\\";
-    modelSchemaDefinition.pluralName = \\"Teams\\";
+    modelSchemaDefinition.name = \\"Project2\\";
+    modelSchemaDefinition.pluralName = \\"Project2s\\";
 
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Team.NAME,
-        isRequired: true,
+        key: Project2.NAME,
+        isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
-    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
-        key: Team.PROJECT,
+    modelSchemaDefinition.addField(ModelFieldDefinition.hasOne(
+        key: Project2.TEAM,
         isRequired: false,
-        targetName: \\"teamProjectId\\",
-        ofModelName: (Project).toString()));
+        ofModelName: (Team2).toString(),
+        associatedKey: Team2.ID));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: Project2.PROJECT2TEAMID,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
   });
 }
 
-class _TeamModelType extends ModelType<Team> {
-  const _TeamModelType();
+class _Project2ModelType extends ModelType<Project2> {
+  const _Project2ModelType();
 
   @override
-  Team fromJson(Map<String, dynamic> jsonData) {
-    return Team.fromJson(jsonData);
+  Project2 fromJson(Map<String, dynamic> jsonData) {
+    return Project2.fromJson(jsonData);
   }
 }
 "
@@ -1386,13 +925,13 @@ import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/** This is an auto generated class representing the Team type in your schema. */
+/** This is an auto generated class representing the Team2 type in your schema. */
 @immutable
-class Team extends Model {
-  static const classType = const _TeamModelType();
+class Team2 extends Model {
+  static const classType = const _Team2ModelType();
   final String id;
   final String name;
-  final Project project;
+  final Project2 project;
 
   @override
   getInstanceType() => classType;
@@ -1402,10 +941,10 @@ class Team extends Model {
     return id;
   }
 
-  const Team._internal({@required this.id, @required this.name, this.project});
+  const Team2._internal({@required this.id, @required this.name, this.project});
 
-  factory Team({String id, @required String name, Project project}) {
-    return Team._internal(
+  factory Team2({String id, @required String name, Project2 project}) {
+    return Team2._internal(
         id: id == null ? UUID.getUUID() : id, name: name, project: project);
   }
 
@@ -1416,7 +955,7 @@ class Team extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Team &&
+    return other is Team2 &&
         id == other.id &&
         name == other.name &&
         project == other.project;
@@ -1429,7 +968,7 @@ class Team extends Model {
   String toString() {
     var buffer = new StringBuffer();
 
-    buffer.write(\\"Team {\\");
+    buffer.write(\\"Team2 {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
     buffer.write(\\"project=\\" + (project != null ? project.toString() : \\"null\\"));
@@ -1438,55 +977,55 @@ class Team extends Model {
     return buffer.toString();
   }
 
-  Team copyWith({String id, String name, Project project}) {
-    return Team(
+  Team2 copyWith({String id, String name, Project2 project}) {
+    return Team2(
         id: id ?? this.id,
         name: name ?? this.name,
         project: project ?? this.project);
   }
 
-  Team.fromJson(Map<String, dynamic> json)
+  Team2.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
         project = json['project'] != null
-            ? Project.fromJson(new Map<String, dynamic>.from(json['project']))
+            ? Project2.fromJson(new Map<String, dynamic>.from(json['project']))
             : null;
 
   Map<String, dynamic> toJson() =>
       {'id': id, 'name': name, 'project': project?.toJson()};
 
-  static final QueryField ID = QueryField(fieldName: \\"team.id\\");
+  static final QueryField ID = QueryField(fieldName: \\"team2.id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField PROJECT = QueryField(
       fieldName: \\"project\\",
       fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Project).toString()));
+          ofModelName: (Project2).toString()));
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Team\\";
-    modelSchemaDefinition.pluralName = \\"Teams\\";
+    modelSchemaDefinition.name = \\"Team2\\";
+    modelSchemaDefinition.pluralName = \\"Team2s\\";
 
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Team.NAME,
+        key: Team2.NAME,
         isRequired: true,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
-        key: Team.PROJECT,
+        key: Team2.PROJECT,
         isRequired: false,
-        targetName: \\"teamProjectId\\",
-        ofModelName: (Project).toString()));
+        targetName: \\"projectID\\",
+        ofModelName: (Project2).toString()));
   });
 }
 
-class _TeamModelType extends ModelType<Team> {
-  const _TeamModelType();
+class _Team2ModelType extends ModelType<Team2> {
+  const _Team2ModelType();
 
   @override
-  Team fromJson(Map<String, dynamic> jsonData) {
-    return Team.fromJson(jsonData);
+  Team2 fromJson(Map<String, dynamic> jsonData) {
+    return Team2.fromJson(jsonData);
   }
 }
 "
@@ -1516,16 +1055,16 @@ exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relati
 
 import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
-/** This is an auto generated class representing the Project2 type in your schema. */
+/** This is an auto generated class representing the Post type in your schema. */
 @immutable
-class Project2 extends Model {
-  static const classType = const _Project2ModelType();
+class Post extends Model {
+  static const classType = const _PostModelType();
   final String id;
-  final String name;
-  final Team2 team;
-  final String project2TeamId;
+  final String title;
+  final List<Comment> comments;
 
   @override
   getInstanceType() => classType;
@@ -1535,16 +1074,15 @@ class Project2 extends Model {
     return id;
   }
 
-  const Project2._internal(
-      {@required this.id, this.name, this.team, this.project2TeamId});
+  const Post._internal(
+      {@required this.id, @required this.title, this.comments});
 
-  factory Project2(
-      {String id, String name, Team2 team, String project2TeamId}) {
-    return Project2._internal(
+  factory Post({String id, @required String title, List<Comment> comments}) {
+    return Post._internal(
         id: id == null ? UUID.getUUID() : id,
-        name: name,
-        team: team,
-        project2TeamId: project2TeamId);
+        title: title,
+        comments:
+            comments != null ? List<Comment>.unmodifiable(comments) : comments);
   }
 
   bool equals(Object other) {
@@ -1554,11 +1092,10 @@ class Project2 extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Project2 &&
+    return other is Post &&
         id == other.id &&
-        name == other.name &&
-        team == other.team &&
-        project2TeamId == other.project2TeamId;
+        title == other.title &&
+        DeepCollectionEquality().equals(comments, other.comments);
   }
 
   @override
@@ -1568,916 +1105,74 @@ class Project2 extends Model {
   String toString() {
     var buffer = new StringBuffer();
 
-    buffer.write(\\"Project2 {\\");
+    buffer.write(\\"Post {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
-    buffer.write(\\"project2TeamId=\\" + \\"$project2TeamId\\");
+    buffer.write(\\"title=\\" + \\"$title\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  Project2 copyWith(
-      {String id, String name, Team2 team, String project2TeamId}) {
-    return Project2(
+  Post copyWith({String id, String title, List<Comment> comments}) {
+    return Post(
         id: id ?? this.id,
-        name: name ?? this.name,
-        team: team ?? this.team,
-        project2TeamId: project2TeamId ?? this.project2TeamId);
+        title: title ?? this.title,
+        comments: comments ?? this.comments);
   }
 
-  Project2.fromJson(Map<String, dynamic> json)
+  Post.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        name = json['name'],
-        team = json['team'] != null
-            ? Team2.fromJson(new Map<String, dynamic>.from(json['team']))
-            : null,
-        project2TeamId = json['project2TeamId'];
+        title = json['title'],
+        comments = json['comments'] is List
+            ? (json['comments'] as List)
+                .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e)))
+                .toList()
+            : null;
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'name': name,
-        'team': team?.toJson(),
-        'project2TeamId': project2TeamId
+        'title': title,
+        'comments': comments?.map((Comment? e) => e?.toJson()).toList()
       };
 
-  static final QueryField ID = QueryField(fieldName: \\"project2.id\\");
-  static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static final QueryField TEAM = QueryField(
-      fieldName: \\"team\\",
+  static final QueryField ID = QueryField(fieldName: \\"post.id\\");
+  static final QueryField TITLE = QueryField(fieldName: \\"title\\");
+  static final QueryField COMMENTS = QueryField(
+      fieldName: \\"comments\\",
       fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Team2).toString()));
-  static final QueryField PROJECT2TEAMID =
-      QueryField(fieldName: \\"project2TeamId\\");
+          ofModelName: (Comment).toString()));
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Project2\\";
-    modelSchemaDefinition.pluralName = \\"Project2s\\";
+    modelSchemaDefinition.name = \\"Post\\";
+    modelSchemaDefinition.pluralName = \\"Posts\\";
 
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Project2.NAME,
-        isRequired: false,
+        key: Post.TITLE,
+        isRequired: true,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasOne(
-        key: Project2.TEAM,
+    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+        key: Post.COMMENTS,
         isRequired: false,
-        ofModelName: (Team2).toString(),
-        associatedKey: Team2.ID));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Project2.PROJECT2TEAMID,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+        ofModelName: (Comment).toString(),
+        associatedKey: Comment.POST));
   });
 }
 
-class _Project2ModelType extends ModelType<Project2> {
-  const _Project2ModelType();
+class _PostModelType extends ModelType<Post> {
+  const _PostModelType();
 
   @override
-  Project2 fromJson(Map<String, dynamic> jsonData) {
-    return Project2.fromJson(jsonData);
+  Post fromJson(Map<String, dynamic> jsonData) {
+    return Post.fromJson(jsonData);
   }
 }
 "
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 6`] = `
-"/*
-* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the \\"License\\").
-* You may not use this file except in compliance with the License.
-* A copy of the License is located at
-*
-*  http://aws.amazon.com/apache2.0
-*
-* or in the \\"license\\" file accompanying this file. This file is distributed
-* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-* express or implied. See the License for the specific language governing
-* permissions and limitations under the License.
-*/
-
-// NOTE: This file is generated and may not follow lint rules defined in your app
-// Generated files can be excluded from analysis in analysis_options.yaml
-// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
-
-// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
-
-import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:flutter/foundation.dart';
-
-/** This is an auto generated class representing the Project2 type in your schema. */
-@immutable
-class Project2 extends Model {
-  static const classType = const _Project2ModelType();
-  final String id;
-  final String name;
-  final Team2 team;
-  final String project2TeamId;
-
-  @override
-  getInstanceType() => classType;
-
-  @override
-  String getId() {
-    return id;
-  }
-
-  const Project2._internal(
-      {@required this.id, this.name, this.team, this.project2TeamId});
-
-  factory Project2(
-      {String id, String name, Team2 team, String project2TeamId}) {
-    return Project2._internal(
-        id: id == null ? UUID.getUUID() : id,
-        name: name,
-        team: team,
-        project2TeamId: project2TeamId);
-  }
-
-  bool equals(Object other) {
-    return this == other;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Project2 &&
-        id == other.id &&
-        name == other.name &&
-        team == other.team &&
-        project2TeamId == other.project2TeamId;
-  }
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() {
-    var buffer = new StringBuffer();
-
-    buffer.write(\\"Project2 {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
-    buffer.write(\\"project2TeamId=\\" + \\"$project2TeamId\\");
-    buffer.write(\\"}\\");
-
-    return buffer.toString();
-  }
-
-  Project2 copyWith(
-      {String id, String name, Team2 team, String project2TeamId}) {
-    return Project2(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        team: team ?? this.team,
-        project2TeamId: project2TeamId ?? this.project2TeamId);
-  }
-
-  Project2.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'],
-        team = json['team'] != null
-            ? Team2.fromJson(new Map<String, dynamic>.from(json['team']))
-            : null,
-        project2TeamId = json['project2TeamId'];
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'team': team?.toJson(),
-        'project2TeamId': project2TeamId
-      };
-
-  static final QueryField ID = QueryField(fieldName: \\"project2.id\\");
-  static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static final QueryField TEAM = QueryField(
-      fieldName: \\"team\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Team2).toString()));
-  static final QueryField PROJECT2TEAMID =
-      QueryField(fieldName: \\"project2TeamId\\");
-  static var schema =
-      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Project2\\";
-    modelSchemaDefinition.pluralName = \\"Project2s\\";
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Project2.NAME,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasOne(
-        key: Project2.TEAM,
-        isRequired: false,
-        ofModelName: (Team2).toString(),
-        associatedKey: Team2.ID));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Project2.PROJECT2TEAMID,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-  });
-}
-
-class _Project2ModelType extends ModelType<Project2> {
-  const _Project2ModelType();
-
-  @override
-  Project2 fromJson(Map<String, dynamic> jsonData) {
-    return Project2.fromJson(jsonData);
-  }
-}
-"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 7`] = `
-"/*
-* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the \\"License\\").
-* You may not use this file except in compliance with the License.
-* A copy of the License is located at
-*
-*  http://aws.amazon.com/apache2.0
-*
-* or in the \\"license\\" file accompanying this file. This file is distributed
-* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-* express or implied. See the License for the specific language governing
-* permissions and limitations under the License.
-*/
-
-// NOTE: This file is generated and may not follow lint rules defined in your app
-// Generated files can be excluded from analysis in analysis_options.yaml
-// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
-
-// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
-
-import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:flutter/foundation.dart';
-
-/** This is an auto generated class representing the Team2 type in your schema. */
-@immutable
-class Team2 extends Model {
-  static const classType = const _Team2ModelType();
-  final String id;
-  final String name;
-  final Project2 project;
-
-  @override
-  getInstanceType() => classType;
-
-  @override
-  String getId() {
-    return id;
-  }
-
-  const Team2._internal({@required this.id, @required this.name, this.project});
-
-  factory Team2({String id, @required String name, Project2 project}) {
-    return Team2._internal(
-        id: id == null ? UUID.getUUID() : id, name: name, project: project);
-  }
-
-  bool equals(Object other) {
-    return this == other;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Team2 &&
-        id == other.id &&
-        name == other.name &&
-        project == other.project;
-  }
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() {
-    var buffer = new StringBuffer();
-
-    buffer.write(\\"Team2 {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
-    buffer.write(\\"project=\\" + (project != null ? project.toString() : \\"null\\"));
-    buffer.write(\\"}\\");
-
-    return buffer.toString();
-  }
-
-  Team2 copyWith({String id, String name, Project2 project}) {
-    return Team2(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        project: project ?? this.project);
-  }
-
-  Team2.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'],
-        project = json['project'] != null
-            ? Project2.fromJson(new Map<String, dynamic>.from(json['project']))
-            : null;
-
-  Map<String, dynamic> toJson() =>
-      {'id': id, 'name': name, 'project': project?.toJson()};
-
-  static final QueryField ID = QueryField(fieldName: \\"team2.id\\");
-  static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static final QueryField PROJECT = QueryField(
-      fieldName: \\"project\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Project2).toString()));
-  static var schema =
-      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Team2\\";
-    modelSchemaDefinition.pluralName = \\"Team2s\\";
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Team2.NAME,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
-        key: Team2.PROJECT,
-        isRequired: false,
-        targetName: \\"projectID\\",
-        ofModelName: (Project2).toString()));
-  });
-}
-
-class _Team2ModelType extends ModelType<Team2> {
-  const _Team2ModelType();
-
-  @override
-  Team2 fromJson(Map<String, dynamic> jsonData) {
-    return Team2.fromJson(jsonData);
-  }
-}
-"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 8`] = `
-"/*
-* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the \\"License\\").
-* You may not use this file except in compliance with the License.
-* A copy of the License is located at
-*
-*  http://aws.amazon.com/apache2.0
-*
-* or in the \\"license\\" file accompanying this file. This file is distributed
-* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-* express or implied. See the License for the specific language governing
-* permissions and limitations under the License.
-*/
-
-// NOTE: This file is generated and may not follow lint rules defined in your app
-// Generated files can be excluded from analysis in analysis_options.yaml
-// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
-
-// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
-
-import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:flutter/foundation.dart';
-
-/** This is an auto generated class representing the Team2 type in your schema. */
-@immutable
-class Team2 extends Model {
-  static const classType = const _Team2ModelType();
-  final String id;
-  final String name;
-  final Project2 project;
-
-  @override
-  getInstanceType() => classType;
-
-  @override
-  String getId() {
-    return id;
-  }
-
-  const Team2._internal({@required this.id, @required this.name, this.project});
-
-  factory Team2({String id, @required String name, Project2 project}) {
-    return Team2._internal(
-        id: id == null ? UUID.getUUID() : id, name: name, project: project);
-  }
-
-  bool equals(Object other) {
-    return this == other;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Team2 &&
-        id == other.id &&
-        name == other.name &&
-        project == other.project;
-  }
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() {
-    var buffer = new StringBuffer();
-
-    buffer.write(\\"Team2 {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
-    buffer.write(\\"project=\\" + (project != null ? project.toString() : \\"null\\"));
-    buffer.write(\\"}\\");
-
-    return buffer.toString();
-  }
-
-  Team2 copyWith({String id, String name, Project2 project}) {
-    return Team2(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        project: project ?? this.project);
-  }
-
-  Team2.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'],
-        project = json['project'] != null
-            ? Project2.fromJson(new Map<String, dynamic>.from(json['project']))
-            : null;
-
-  Map<String, dynamic> toJson() =>
-      {'id': id, 'name': name, 'project': project?.toJson()};
-
-  static final QueryField ID = QueryField(fieldName: \\"team2.id\\");
-  static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static final QueryField PROJECT = QueryField(
-      fieldName: \\"project\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Project2).toString()));
-  static var schema =
-      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Team2\\";
-    modelSchemaDefinition.pluralName = \\"Team2s\\";
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Team2.NAME,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
-        key: Team2.PROJECT,
-        isRequired: false,
-        targetName: \\"projectID\\",
-        ofModelName: (Project2).toString()));
-  });
-}
-
-class _Team2ModelType extends ModelType<Team2> {
-  const _Team2ModelType();
-
-  @override
-  Team2 fromJson(Map<String, dynamic> jsonData) {
-    return Team2.fromJson(jsonData);
-  }
-}
-"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 9`] = `
-"/*
-* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the \\"License\\").
-* You may not use this file except in compliance with the License.
-* A copy of the License is located at
-*
-*  http://aws.amazon.com/apache2.0
-*
-* or in the \\"license\\" file accompanying this file. This file is distributed
-* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-* express or implied. See the License for the specific language governing
-* permissions and limitations under the License.
-*/
-
-// NOTE: This file is generated and may not follow lint rules defined in your app
-// Generated files can be excluded from analysis in analysis_options.yaml
-// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
-
-// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
-
-import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
-
-/** This is an auto generated class representing the Post type in your schema. */
-@immutable
-class Post extends Model {
-  static const classType = const _PostModelType();
-  final String id;
-  final String title;
-  final List<Comment> comments;
-
-  @override
-  getInstanceType() => classType;
-
-  @override
-  String getId() {
-    return id;
-  }
-
-  const Post._internal(
-      {@required this.id, @required this.title, this.comments});
-
-  factory Post({String id, @required String title, List<Comment> comments}) {
-    return Post._internal(
-        id: id == null ? UUID.getUUID() : id,
-        title: title,
-        comments:
-            comments != null ? List<Comment>.unmodifiable(comments) : comments);
-  }
-
-  bool equals(Object other) {
-    return this == other;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Post &&
-        id == other.id &&
-        title == other.title &&
-        DeepCollectionEquality().equals(comments, other.comments);
-  }
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() {
-    var buffer = new StringBuffer();
-
-    buffer.write(\\"Post {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"title=\\" + \\"$title\\");
-    buffer.write(\\"}\\");
-
-    return buffer.toString();
-  }
-
-  Post copyWith({String id, String title, List<Comment> comments}) {
-    return Post(
-        id: id ?? this.id,
-        title: title ?? this.title,
-        comments: comments ?? this.comments);
-  }
-
-  Post.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        title = json['title'],
-        comments = json['comments'] is List
-            ? (json['comments'] as List)
-                .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null;
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'comments': comments?.map((Comment? e) => e?.toJson()).toList()
-      };
-
-  static final QueryField ID = QueryField(fieldName: \\"post.id\\");
-  static final QueryField TITLE = QueryField(fieldName: \\"title\\");
-  static final QueryField COMMENTS = QueryField(
-      fieldName: \\"comments\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Comment).toString()));
-  static var schema =
-      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Post\\";
-    modelSchemaDefinition.pluralName = \\"Posts\\";
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Post.TITLE,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Post.COMMENTS,
-        isRequired: false,
-        ofModelName: (Comment).toString(),
-        associatedKey: Comment.POST));
-  });
-}
-
-class _PostModelType extends ModelType<Post> {
-  const _PostModelType();
-
-  @override
-  Post fromJson(Map<String, dynamic> jsonData) {
-    return Post.fromJson(jsonData);
-  }
-}
-"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 10`] = `
-"/*
-* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the \\"License\\").
-* You may not use this file except in compliance with the License.
-* A copy of the License is located at
-*
-*  http://aws.amazon.com/apache2.0
-*
-* or in the \\"license\\" file accompanying this file. This file is distributed
-* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-* express or implied. See the License for the specific language governing
-* permissions and limitations under the License.
-*/
-
-// NOTE: This file is generated and may not follow lint rules defined in your app
-// Generated files can be excluded from analysis in analysis_options.yaml
-// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
-
-// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
-
-import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
-
-/** This is an auto generated class representing the Post type in your schema. */
-@immutable
-class Post extends Model {
-  static const classType = const _PostModelType();
-  final String id;
-  final String title;
-  final List<Comment> comments;
-
-  @override
-  getInstanceType() => classType;
-
-  @override
-  String getId() {
-    return id;
-  }
-
-  const Post._internal(
-      {@required this.id, @required this.title, this.comments});
-
-  factory Post({String id, @required String title, List<Comment> comments}) {
-    return Post._internal(
-        id: id == null ? UUID.getUUID() : id,
-        title: title,
-        comments:
-            comments != null ? List<Comment>.unmodifiable(comments) : comments);
-  }
-
-  bool equals(Object other) {
-    return this == other;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Post &&
-        id == other.id &&
-        title == other.title &&
-        DeepCollectionEquality().equals(comments, other.comments);
-  }
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() {
-    var buffer = new StringBuffer();
-
-    buffer.write(\\"Post {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"title=\\" + \\"$title\\");
-    buffer.write(\\"}\\");
-
-    return buffer.toString();
-  }
-
-  Post copyWith({String id, String title, List<Comment> comments}) {
-    return Post(
-        id: id ?? this.id,
-        title: title ?? this.title,
-        comments: comments ?? this.comments);
-  }
-
-  Post.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        title = json['title'],
-        comments = json['comments'] is List
-            ? (json['comments'] as List)
-                .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null;
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'comments': comments?.map((Comment? e) => e?.toJson()).toList()
-      };
-
-  static final QueryField ID = QueryField(fieldName: \\"post.id\\");
-  static final QueryField TITLE = QueryField(fieldName: \\"title\\");
-  static final QueryField COMMENTS = QueryField(
-      fieldName: \\"comments\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Comment).toString()));
-  static var schema =
-      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Post\\";
-    modelSchemaDefinition.pluralName = \\"Posts\\";
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Post.TITLE,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Post.COMMENTS,
-        isRequired: false,
-        ofModelName: (Comment).toString(),
-        associatedKey: Comment.POST));
-  });
-}
-
-class _PostModelType extends ModelType<Post> {
-  const _PostModelType();
-
-  @override
-  Post fromJson(Map<String, dynamic> jsonData) {
-    return Post.fromJson(jsonData);
-  }
-}
-"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 11`] = `
-"/*
-* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the \\"License\\").
-* You may not use this file except in compliance with the License.
-* A copy of the License is located at
-*
-*  http://aws.amazon.com/apache2.0
-*
-* or in the \\"license\\" file accompanying this file. This file is distributed
-* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-* express or implied. See the License for the specific language governing
-* permissions and limitations under the License.
-*/
-
-// NOTE: This file is generated and may not follow lint rules defined in your app
-// Generated files can be excluded from analysis in analysis_options.yaml
-// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
-
-// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
-
-import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:flutter/foundation.dart';
-
-/** This is an auto generated class representing the Comment type in your schema. */
-@immutable
-class Comment extends Model {
-  static const classType = const _CommentModelType();
-  final String id;
-  final String content;
-  final Post post;
-
-  @override
-  getInstanceType() => classType;
-
-  @override
-  String getId() {
-    return id;
-  }
-
-  const Comment._internal(
-      {@required this.id, @required this.content, this.post});
-
-  factory Comment({String id, @required String content, Post post}) {
-    return Comment._internal(
-        id: id == null ? UUID.getUUID() : id, content: content, post: post);
-  }
-
-  bool equals(Object other) {
-    return this == other;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Comment &&
-        id == other.id &&
-        content == other.content &&
-        post == other.post;
-  }
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() {
-    var buffer = new StringBuffer();
-
-    buffer.write(\\"Comment {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"content=\\" + \\"$content\\" + \\", \\");
-    buffer.write(\\"post=\\" + (post != null ? post.toString() : \\"null\\"));
-    buffer.write(\\"}\\");
-
-    return buffer.toString();
-  }
-
-  Comment copyWith({String id, String content, Post post}) {
-    return Comment(
-        id: id ?? this.id,
-        content: content ?? this.content,
-        post: post ?? this.post);
-  }
-
-  Comment.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        content = json['content'],
-        post = json['post'] != null
-            ? Post.fromJson(new Map<String, dynamic>.from(json['post']))
-            : null;
-
-  Map<String, dynamic> toJson() =>
-      {'id': id, 'content': content, 'post': post?.toJson()};
-
-  static final QueryField ID = QueryField(fieldName: \\"comment.id\\");
-  static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
-  static final QueryField POST = QueryField(
-      fieldName: \\"post\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Post).toString()));
-  static var schema =
-      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Comment\\";
-    modelSchemaDefinition.pluralName = \\"Comments\\";
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Comment.CONTENT,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
-        key: Comment.POST,
-        isRequired: false,
-        targetName: \\"postID\\",
-        ofModelName: (Post).toString()));
-  });
-}
-
-class _CommentModelType extends ModelType<Comment> {
-  const _CommentModelType();
-
-  @override
-  Comment fromJson(Map<String, dynamic> jsonData) {
-    return Comment.fromJson(jsonData);
-  }
-}
-"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 12`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -2773,18 +1468,16 @@ exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relation
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
-/** This is an auto generated class representing the Post type in your schema. */
+/** This is an auto generated class representing the Comment type in your schema. */
 @immutable
-class Post extends Model {
-  static const classType = const _PostModelType();
+class Comment extends Model {
+  static const classType = const _CommentModelType();
   final String id;
-  final String title;
-  final List<Comment> comments;
+  final String content;
+  final String postCommentsId;
 
   @override
   getInstanceType() => classType;
@@ -2794,15 +1487,15 @@ class Post extends Model {
     return id;
   }
 
-  const Post._internal(
-      {@required this.id, @required this.title, this.comments});
+  const Comment._internal(
+      {@required this.id, @required this.content, this.postCommentsId});
 
-  factory Post({String id, @required String title, List<Comment> comments}) {
-    return Post._internal(
+  factory Comment(
+      {String id, @required String content, String postCommentsId}) {
+    return Comment._internal(
         id: id == null ? UUID.getUUID() : id,
-        title: title,
-        comments:
-            comments != null ? List<Comment>.unmodifiable(comments) : comments);
+        content: content,
+        postCommentsId: postCommentsId);
   }
 
   bool equals(Object other) {
@@ -2812,10 +1505,10 @@ class Post extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Post &&
+    return other is Comment &&
         id == other.id &&
-        title == other.title &&
-        DeepCollectionEquality().equals(comments, other.comments);
+        content == other.content &&
+        postCommentsId == other.postCommentsId;
   }
 
   @override
@@ -2825,68 +1518,59 @@ class Post extends Model {
   String toString() {
     var buffer = new StringBuffer();
 
-    buffer.write(\\"Post {\\");
+    buffer.write(\\"Comment {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"title=\\" + \\"$title\\");
+    buffer.write(\\"content=\\" + \\"$content\\" + \\", \\");
+    buffer.write(\\"postCommentsId=\\" + \\"$postCommentsId\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  Post copyWith({String id, String title, List<Comment> comments}) {
-    return Post(
+  Comment copyWith({String id, String content, String postCommentsId}) {
+    return Comment(
         id: id ?? this.id,
-        title: title ?? this.title,
-        comments: comments ?? this.comments);
+        content: content ?? this.content,
+        postCommentsId: postCommentsId ?? this.postCommentsId);
   }
 
-  Post.fromJson(Map<String, dynamic> json)
+  Comment.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        title = json['title'],
-        comments = json['comments'] is List
-            ? (json['comments'] as List)
-                .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null;
+        content = json['content'],
+        postCommentsId = json['postCommentsId'];
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'comments': comments?.map((Comment? e) => e?.toJson()).toList()
-      };
+  Map<String, dynamic> toJson() =>
+      {'id': id, 'content': content, 'postCommentsId': postCommentsId};
 
-  static final QueryField ID = QueryField(fieldName: \\"post.id\\");
-  static final QueryField TITLE = QueryField(fieldName: \\"title\\");
-  static final QueryField COMMENTS = QueryField(
-      fieldName: \\"comments\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Comment).toString()));
+  static final QueryField ID = QueryField(fieldName: \\"comment.id\\");
+  static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
+  static final QueryField POSTCOMMENTSID =
+      QueryField(fieldName: \\"postCommentsId\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Post\\";
-    modelSchemaDefinition.pluralName = \\"Posts\\";
+    modelSchemaDefinition.name = \\"Comment\\";
+    modelSchemaDefinition.pluralName = \\"Comments\\";
 
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Post.TITLE,
+        key: Comment.CONTENT,
         isRequired: true,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Post.COMMENTS,
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: Comment.POSTCOMMENTSID,
         isRequired: false,
-        ofModelName: (Comment).toString(),
-        associatedKey: Comment.POSTCOMMENTSID));
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
   });
 }
 
-class _PostModelType extends ModelType<Post> {
-  const _PostModelType();
+class _CommentModelType extends ModelType<Comment> {
+  const _CommentModelType();
 
   @override
-  Post fromJson(Map<String, dynamic> jsonData) {
-    return Post.fromJson(jsonData);
+  Comment fromJson(Map<String, dynamic> jsonData) {
+    return Comment.fromJson(jsonData);
   }
 }
 "
@@ -2914,16 +1598,18 @@ exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relation
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
+import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
-/** This is an auto generated class representing the Comment type in your schema. */
+/** This is an auto generated class representing the Post2 type in your schema. */
 @immutable
-class Comment extends Model {
-  static const classType = const _CommentModelType();
+class Post2 extends Model {
+  static const classType = const _Post2ModelType();
   final String id;
-  final String content;
-  final String postCommentsId;
+  final String title;
+  final List<Comment2> comments;
 
   @override
   getInstanceType() => classType;
@@ -2933,15 +1619,16 @@ class Comment extends Model {
     return id;
   }
 
-  const Comment._internal(
-      {@required this.id, @required this.content, this.postCommentsId});
+  const Post2._internal(
+      {@required this.id, @required this.title, this.comments});
 
-  factory Comment(
-      {String id, @required String content, String postCommentsId}) {
-    return Comment._internal(
+  factory Post2({String id, @required String title, List<Comment2> comments}) {
+    return Post2._internal(
         id: id == null ? UUID.getUUID() : id,
-        content: content,
-        postCommentsId: postCommentsId);
+        title: title,
+        comments: comments != null
+            ? List<Comment2>.unmodifiable(comments)
+            : comments);
   }
 
   bool equals(Object other) {
@@ -2951,10 +1638,10 @@ class Comment extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Comment &&
+    return other is Post2 &&
         id == other.id &&
-        content == other.content &&
-        postCommentsId == other.postCommentsId;
+        title == other.title &&
+        DeepCollectionEquality().equals(comments, other.comments);
   }
 
   @override
@@ -2964,606 +1651,74 @@ class Comment extends Model {
   String toString() {
     var buffer = new StringBuffer();
 
-    buffer.write(\\"Comment {\\");
+    buffer.write(\\"Post2 {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"content=\\" + \\"$content\\" + \\", \\");
-    buffer.write(\\"postCommentsId=\\" + \\"$postCommentsId\\");
+    buffer.write(\\"title=\\" + \\"$title\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  Comment copyWith({String id, String content, String postCommentsId}) {
-    return Comment(
+  Post2 copyWith({String id, String title, List<Comment2> comments}) {
+    return Post2(
         id: id ?? this.id,
-        content: content ?? this.content,
-        postCommentsId: postCommentsId ?? this.postCommentsId);
+        title: title ?? this.title,
+        comments: comments ?? this.comments);
   }
 
-  Comment.fromJson(Map<String, dynamic> json)
+  Post2.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        content = json['content'],
-        postCommentsId = json['postCommentsId'];
+        title = json['title'],
+        comments = json['comments'] is List
+            ? (json['comments'] as List)
+                .map((e) => Comment2.fromJson(new Map<String, dynamic>.from(e)))
+                .toList()
+            : null;
 
-  Map<String, dynamic> toJson() =>
-      {'id': id, 'content': content, 'postCommentsId': postCommentsId};
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'title': title,
+        'comments': comments?.map((Comment2? e) => e?.toJson()).toList()
+      };
 
-  static final QueryField ID = QueryField(fieldName: \\"comment.id\\");
-  static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
-  static final QueryField POSTCOMMENTSID =
-      QueryField(fieldName: \\"postCommentsId\\");
+  static final QueryField ID = QueryField(fieldName: \\"post2.id\\");
+  static final QueryField TITLE = QueryField(fieldName: \\"title\\");
+  static final QueryField COMMENTS = QueryField(
+      fieldName: \\"comments\\",
+      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
+          ofModelName: (Comment2).toString()));
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Comment\\";
-    modelSchemaDefinition.pluralName = \\"Comments\\";
+    modelSchemaDefinition.name = \\"Post2\\";
+    modelSchemaDefinition.pluralName = \\"Post2s\\";
 
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Comment.CONTENT,
+        key: Post2.TITLE,
         isRequired: true,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Comment.POSTCOMMENTSID,
+    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+        key: Post2.COMMENTS,
         isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+        ofModelName: (Comment2).toString(),
+        associatedKey: Comment2.POSTID));
   });
 }
 
-class _CommentModelType extends ModelType<Comment> {
-  const _CommentModelType();
+class _Post2ModelType extends ModelType<Post2> {
+  const _Post2ModelType();
 
   @override
-  Comment fromJson(Map<String, dynamic> jsonData) {
-    return Comment.fromJson(jsonData);
+  Post2 fromJson(Map<String, dynamic> jsonData) {
+    return Post2.fromJson(jsonData);
   }
 }
 "
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 4`] = `
-"/*
-* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the \\"License\\").
-* You may not use this file except in compliance with the License.
-* A copy of the License is located at
-*
-*  http://aws.amazon.com/apache2.0
-*
-* or in the \\"license\\" file accompanying this file. This file is distributed
-* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-* express or implied. See the License for the specific language governing
-* permissions and limitations under the License.
-*/
-
-// NOTE: This file is generated and may not follow lint rules defined in your app
-// Generated files can be excluded from analysis in analysis_options.yaml
-// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
-
-// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
-
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:flutter/foundation.dart';
-
-/** This is an auto generated class representing the Comment type in your schema. */
-@immutable
-class Comment extends Model {
-  static const classType = const _CommentModelType();
-  final String id;
-  final String content;
-  final String postCommentsId;
-
-  @override
-  getInstanceType() => classType;
-
-  @override
-  String getId() {
-    return id;
-  }
-
-  const Comment._internal(
-      {@required this.id, @required this.content, this.postCommentsId});
-
-  factory Comment(
-      {String id, @required String content, String postCommentsId}) {
-    return Comment._internal(
-        id: id == null ? UUID.getUUID() : id,
-        content: content,
-        postCommentsId: postCommentsId);
-  }
-
-  bool equals(Object other) {
-    return this == other;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Comment &&
-        id == other.id &&
-        content == other.content &&
-        postCommentsId == other.postCommentsId;
-  }
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() {
-    var buffer = new StringBuffer();
-
-    buffer.write(\\"Comment {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"content=\\" + \\"$content\\" + \\", \\");
-    buffer.write(\\"postCommentsId=\\" + \\"$postCommentsId\\");
-    buffer.write(\\"}\\");
-
-    return buffer.toString();
-  }
-
-  Comment copyWith({String id, String content, String postCommentsId}) {
-    return Comment(
-        id: id ?? this.id,
-        content: content ?? this.content,
-        postCommentsId: postCommentsId ?? this.postCommentsId);
-  }
-
-  Comment.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        content = json['content'],
-        postCommentsId = json['postCommentsId'];
-
-  Map<String, dynamic> toJson() =>
-      {'id': id, 'content': content, 'postCommentsId': postCommentsId};
-
-  static final QueryField ID = QueryField(fieldName: \\"comment.id\\");
-  static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
-  static final QueryField POSTCOMMENTSID =
-      QueryField(fieldName: \\"postCommentsId\\");
-  static var schema =
-      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Comment\\";
-    modelSchemaDefinition.pluralName = \\"Comments\\";
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Comment.CONTENT,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Comment.POSTCOMMENTSID,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-  });
-}
-
-class _CommentModelType extends ModelType<Comment> {
-  const _CommentModelType();
-
-  @override
-  Comment fromJson(Map<String, dynamic> jsonData) {
-    return Comment.fromJson(jsonData);
-  }
-}
-"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 5`] = `
-"/*
-* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the \\"License\\").
-* You may not use this file except in compliance with the License.
-* A copy of the License is located at
-*
-*  http://aws.amazon.com/apache2.0
-*
-* or in the \\"license\\" file accompanying this file. This file is distributed
-* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-* express or implied. See the License for the specific language governing
-* permissions and limitations under the License.
-*/
-
-// NOTE: This file is generated and may not follow lint rules defined in your app
-// Generated files can be excluded from analysis in analysis_options.yaml
-// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
-
-// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
-
-import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
-
-/** This is an auto generated class representing the Post2 type in your schema. */
-@immutable
-class Post2 extends Model {
-  static const classType = const _Post2ModelType();
-  final String id;
-  final String title;
-  final List<Comment2> comments;
-
-  @override
-  getInstanceType() => classType;
-
-  @override
-  String getId() {
-    return id;
-  }
-
-  const Post2._internal(
-      {@required this.id, @required this.title, this.comments});
-
-  factory Post2({String id, @required String title, List<Comment2> comments}) {
-    return Post2._internal(
-        id: id == null ? UUID.getUUID() : id,
-        title: title,
-        comments: comments != null
-            ? List<Comment2>.unmodifiable(comments)
-            : comments);
-  }
-
-  bool equals(Object other) {
-    return this == other;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Post2 &&
-        id == other.id &&
-        title == other.title &&
-        DeepCollectionEquality().equals(comments, other.comments);
-  }
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() {
-    var buffer = new StringBuffer();
-
-    buffer.write(\\"Post2 {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"title=\\" + \\"$title\\");
-    buffer.write(\\"}\\");
-
-    return buffer.toString();
-  }
-
-  Post2 copyWith({String id, String title, List<Comment2> comments}) {
-    return Post2(
-        id: id ?? this.id,
-        title: title ?? this.title,
-        comments: comments ?? this.comments);
-  }
-
-  Post2.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        title = json['title'],
-        comments = json['comments'] is List
-            ? (json['comments'] as List)
-                .map((e) => Comment2.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null;
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'comments': comments?.map((Comment2? e) => e?.toJson()).toList()
-      };
-
-  static final QueryField ID = QueryField(fieldName: \\"post2.id\\");
-  static final QueryField TITLE = QueryField(fieldName: \\"title\\");
-  static final QueryField COMMENTS = QueryField(
-      fieldName: \\"comments\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Comment2).toString()));
-  static var schema =
-      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Post2\\";
-    modelSchemaDefinition.pluralName = \\"Post2s\\";
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Post2.TITLE,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Post2.COMMENTS,
-        isRequired: false,
-        ofModelName: (Comment2).toString(),
-        associatedKey: Comment2.POSTID));
-  });
-}
-
-class _Post2ModelType extends ModelType<Post2> {
-  const _Post2ModelType();
-
-  @override
-  Post2 fromJson(Map<String, dynamic> jsonData) {
-    return Post2.fromJson(jsonData);
-  }
-}
-"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 6`] = `
-"/*
-* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the \\"License\\").
-* You may not use this file except in compliance with the License.
-* A copy of the License is located at
-*
-*  http://aws.amazon.com/apache2.0
-*
-* or in the \\"license\\" file accompanying this file. This file is distributed
-* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-* express or implied. See the License for the specific language governing
-* permissions and limitations under the License.
-*/
-
-// NOTE: This file is generated and may not follow lint rules defined in your app
-// Generated files can be excluded from analysis in analysis_options.yaml
-// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
-
-// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
-
-import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
-
-/** This is an auto generated class representing the Post2 type in your schema. */
-@immutable
-class Post2 extends Model {
-  static const classType = const _Post2ModelType();
-  final String id;
-  final String title;
-  final List<Comment2> comments;
-
-  @override
-  getInstanceType() => classType;
-
-  @override
-  String getId() {
-    return id;
-  }
-
-  const Post2._internal(
-      {@required this.id, @required this.title, this.comments});
-
-  factory Post2({String id, @required String title, List<Comment2> comments}) {
-    return Post2._internal(
-        id: id == null ? UUID.getUUID() : id,
-        title: title,
-        comments: comments != null
-            ? List<Comment2>.unmodifiable(comments)
-            : comments);
-  }
-
-  bool equals(Object other) {
-    return this == other;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Post2 &&
-        id == other.id &&
-        title == other.title &&
-        DeepCollectionEquality().equals(comments, other.comments);
-  }
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() {
-    var buffer = new StringBuffer();
-
-    buffer.write(\\"Post2 {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"title=\\" + \\"$title\\");
-    buffer.write(\\"}\\");
-
-    return buffer.toString();
-  }
-
-  Post2 copyWith({String id, String title, List<Comment2> comments}) {
-    return Post2(
-        id: id ?? this.id,
-        title: title ?? this.title,
-        comments: comments ?? this.comments);
-  }
-
-  Post2.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        title = json['title'],
-        comments = json['comments'] is List
-            ? (json['comments'] as List)
-                .map((e) => Comment2.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null;
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'comments': comments?.map((Comment2? e) => e?.toJson()).toList()
-      };
-
-  static final QueryField ID = QueryField(fieldName: \\"post2.id\\");
-  static final QueryField TITLE = QueryField(fieldName: \\"title\\");
-  static final QueryField COMMENTS = QueryField(
-      fieldName: \\"comments\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Comment2).toString()));
-  static var schema =
-      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Post2\\";
-    modelSchemaDefinition.pluralName = \\"Post2s\\";
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Post2.TITLE,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Post2.COMMENTS,
-        isRequired: false,
-        ofModelName: (Comment2).toString(),
-        associatedKey: Comment2.POSTID));
-  });
-}
-
-class _Post2ModelType extends ModelType<Post2> {
-  const _Post2ModelType();
-
-  @override
-  Post2 fromJson(Map<String, dynamic> jsonData) {
-    return Post2.fromJson(jsonData);
-  }
-}
-"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 7`] = `
-"/*
-* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the \\"License\\").
-* You may not use this file except in compliance with the License.
-* A copy of the License is located at
-*
-*  http://aws.amazon.com/apache2.0
-*
-* or in the \\"license\\" file accompanying this file. This file is distributed
-* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-* express or implied. See the License for the specific language governing
-* permissions and limitations under the License.
-*/
-
-// NOTE: This file is generated and may not follow lint rules defined in your app
-// Generated files can be excluded from analysis in analysis_options.yaml
-// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
-
-// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
-
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:flutter/foundation.dart';
-
-/** This is an auto generated class representing the Comment2 type in your schema. */
-@immutable
-class Comment2 extends Model {
-  static const classType = const _Comment2ModelType();
-  final String id;
-  final String postID;
-  final String content;
-
-  @override
-  getInstanceType() => classType;
-
-  @override
-  String getId() {
-    return id;
-  }
-
-  const Comment2._internal(
-      {@required this.id, @required this.postID, @required this.content});
-
-  factory Comment2(
-      {String id, @required String postID, @required String content}) {
-    return Comment2._internal(
-        id: id == null ? UUID.getUUID() : id, postID: postID, content: content);
-  }
-
-  bool equals(Object other) {
-    return this == other;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Comment2 &&
-        id == other.id &&
-        postID == other.postID &&
-        content == other.content;
-  }
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() {
-    var buffer = new StringBuffer();
-
-    buffer.write(\\"Comment2 {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"postID=\\" + \\"$postID\\" + \\", \\");
-    buffer.write(\\"content=\\" + \\"$content\\");
-    buffer.write(\\"}\\");
-
-    return buffer.toString();
-  }
-
-  Comment2 copyWith({String id, String postID, String content}) {
-    return Comment2(
-        id: id ?? this.id,
-        postID: postID ?? this.postID,
-        content: content ?? this.content);
-  }
-
-  Comment2.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        postID = json['postID'],
-        content = json['content'];
-
-  Map<String, dynamic> toJson() =>
-      {'id': id, 'postID': postID, 'content': content};
-
-  static final QueryField ID = QueryField(fieldName: \\"comment2.id\\");
-  static final QueryField POSTID = QueryField(fieldName: \\"postID\\");
-  static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
-  static var schema =
-      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Comment2\\";
-    modelSchemaDefinition.pluralName = \\"Comment2s\\";
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Comment2.POSTID,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Comment2.CONTENT,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-  });
-}
-
-class _Comment2ModelType extends ModelType<Comment2> {
-  const _Comment2ModelType();
-
-  @override
-  Comment2 fromJson(Map<String, dynamic> jsonData) {
-    return Comment2.fromJson(jsonData);
-  }
-}
-"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 8`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -3863,18 +2018,15 @@ exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relations
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/** This is an auto generated class representing the Project type in your schema. */
+/** This is an auto generated class representing the Team type in your schema. */
 @immutable
-class Project extends Model {
-  static const classType = const _ProjectModelType();
+class Team extends Model {
+  static const classType = const _TeamModelType();
   final String id;
   final String name;
-  final Team team;
-  final String projectTeamId;
 
   @override
   getInstanceType() => classType;
@@ -3884,15 +2036,10 @@ class Project extends Model {
     return id;
   }
 
-  const Project._internal(
-      {@required this.id, this.name, this.team, this.projectTeamId});
+  const Team._internal({@required this.id, @required this.name});
 
-  factory Project({String id, String name, Team team, String projectTeamId}) {
-    return Project._internal(
-        id: id == null ? UUID.getUUID() : id,
-        name: name,
-        team: team,
-        projectTeamId: projectTeamId);
+  factory Team({String id, @required String name}) {
+    return Team._internal(id: id == null ? UUID.getUUID() : id, name: name);
   }
 
   bool equals(Object other) {
@@ -3902,11 +2049,7 @@ class Project extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Project &&
-        id == other.id &&
-        name == other.name &&
-        team == other.team &&
-        projectTeamId == other.projectTeamId;
+    return other is Team && id == other.id && name == other.name;
   }
 
   @override
@@ -3916,77 +2059,46 @@ class Project extends Model {
   String toString() {
     var buffer = new StringBuffer();
 
-    buffer.write(\\"Project {\\");
+    buffer.write(\\"Team {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
-    buffer.write(\\"projectTeamId=\\" + \\"$projectTeamId\\");
+    buffer.write(\\"name=\\" + \\"$name\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  Project copyWith({String id, String name, Team team, String projectTeamId}) {
-    return Project(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        team: team ?? this.team,
-        projectTeamId: projectTeamId ?? this.projectTeamId);
+  Team copyWith({String id, String name}) {
+    return Team(id: id ?? this.id, name: name ?? this.name);
   }
 
-  Project.fromJson(Map<String, dynamic> json)
+  Team.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        name = json['name'],
-        team = json['team'] != null
-            ? Team.fromJson(new Map<String, dynamic>.from(json['team']))
-            : null,
-        projectTeamId = json['projectTeamId'];
+        name = json['name'];
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'team': team?.toJson(),
-        'projectTeamId': projectTeamId
-      };
+  Map<String, dynamic> toJson() => {'id': id, 'name': name};
 
-  static final QueryField ID = QueryField(fieldName: \\"project.id\\");
+  static final QueryField ID = QueryField(fieldName: \\"team.id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static final QueryField TEAM = QueryField(
-      fieldName: \\"team\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Team).toString()));
-  static final QueryField PROJECTTEAMID =
-      QueryField(fieldName: \\"projectTeamId\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Project\\";
-    modelSchemaDefinition.pluralName = \\"Projects\\";
+    modelSchemaDefinition.name = \\"Team\\";
+    modelSchemaDefinition.pluralName = \\"Teams\\";
 
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Project.NAME,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasOne(
-        key: Project.TEAM,
-        isRequired: false,
-        ofModelName: (Team).toString(),
-        associatedKey: Team.ID));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Project.PROJECTTEAMID,
-        isRequired: false,
+        key: Team.NAME,
+        isRequired: true,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
   });
 }
 
-class _ProjectModelType extends ModelType<Project> {
-  const _ProjectModelType();
+class _TeamModelType extends ModelType<Team> {
+  const _TeamModelType();
 
   @override
-  Project fromJson(Map<String, dynamic> jsonData) {
-    return Project.fromJson(jsonData);
+  Team fromJson(Map<String, dynamic> jsonData) {
+    return Team.fromJson(jsonData);
   }
 }
 "
@@ -4014,15 +2126,18 @@ exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relations
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
+import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/** This is an auto generated class representing the Team type in your schema. */
+/** This is an auto generated class representing the Project2 type in your schema. */
 @immutable
-class Team extends Model {
-  static const classType = const _TeamModelType();
+class Project2 extends Model {
+  static const classType = const _Project2ModelType();
   final String id;
   final String name;
+  final String teamID;
+  final Team2 team;
 
   @override
   getInstanceType() => classType;
@@ -4032,10 +2147,15 @@ class Team extends Model {
     return id;
   }
 
-  const Team._internal({@required this.id, @required this.name});
+  const Project2._internal(
+      {@required this.id, this.name, this.teamID, this.team});
 
-  factory Team({String id, @required String name}) {
-    return Team._internal(id: id == null ? UUID.getUUID() : id, name: name);
+  factory Project2({String id, String name, String teamID, Team2 team}) {
+    return Project2._internal(
+        id: id == null ? UUID.getUUID() : id,
+        name: name,
+        teamID: teamID,
+        team: team);
   }
 
   bool equals(Object other) {
@@ -4045,7 +2165,11 @@ class Team extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Team && id == other.id && name == other.name;
+    return other is Project2 &&
+        id == other.id &&
+        name == other.name &&
+        teamID == other.teamID &&
+        team == other.team;
   }
 
   @override
@@ -4055,560 +2179,78 @@ class Team extends Model {
   String toString() {
     var buffer = new StringBuffer();
 
-    buffer.write(\\"Team {\\");
+    buffer.write(\\"Project2 {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"name=\\" + \\"$name\\");
+    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
+    buffer.write(\\"teamID=\\" + \\"$teamID\\");
     buffer.write(\\"}\\");
 
     return buffer.toString();
   }
 
-  Team copyWith({String id, String name}) {
-    return Team(id: id ?? this.id, name: name ?? this.name);
+  Project2 copyWith({String id, String name, String teamID, Team2 team}) {
+    return Project2(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        teamID: teamID ?? this.teamID,
+        team: team ?? this.team);
   }
 
-  Team.fromJson(Map<String, dynamic> json)
+  Project2.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        name = json['name'];
+        name = json['name'],
+        teamID = json['teamID'],
+        team = json['team'] != null
+            ? Team2.fromJson(new Map<String, dynamic>.from(json['team']))
+            : null;
 
-  Map<String, dynamic> toJson() => {'id': id, 'name': name};
+  Map<String, dynamic> toJson() =>
+      {'id': id, 'name': name, 'teamID': teamID, 'team': team?.toJson()};
 
-  static final QueryField ID = QueryField(fieldName: \\"team.id\\");
+  static final QueryField ID = QueryField(fieldName: \\"project2.id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
+  static final QueryField TEAMID = QueryField(fieldName: \\"teamID\\");
+  static final QueryField TEAM = QueryField(
+      fieldName: \\"team\\",
+      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
+          ofModelName: (Team2).toString()));
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Team\\";
-    modelSchemaDefinition.pluralName = \\"Teams\\";
+    modelSchemaDefinition.name = \\"Project2\\";
+    modelSchemaDefinition.pluralName = \\"Project2s\\";
 
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Team.NAME,
-        isRequired: true,
+        key: Project2.NAME,
+        isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: Project2.TEAMID,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.hasOne(
+        key: Project2.TEAM,
+        isRequired: false,
+        ofModelName: (Team2).toString(),
+        associatedKey: Team2.ID));
   });
 }
 
-class _TeamModelType extends ModelType<Team> {
-  const _TeamModelType();
+class _Project2ModelType extends ModelType<Project2> {
+  const _Project2ModelType();
 
   @override
-  Team fromJson(Map<String, dynamic> jsonData) {
-    return Team.fromJson(jsonData);
+  Project2 fromJson(Map<String, dynamic> jsonData) {
+    return Project2.fromJson(jsonData);
   }
 }
 "
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 4`] = `
-"/*
-* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the \\"License\\").
-* You may not use this file except in compliance with the License.
-* A copy of the License is located at
-*
-*  http://aws.amazon.com/apache2.0
-*
-* or in the \\"license\\" file accompanying this file. This file is distributed
-* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-* express or implied. See the License for the specific language governing
-* permissions and limitations under the License.
-*/
-
-// NOTE: This file is generated and may not follow lint rules defined in your app
-// Generated files can be excluded from analysis in analysis_options.yaml
-// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
-
-// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
-
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:flutter/foundation.dart';
-
-/** This is an auto generated class representing the Team type in your schema. */
-@immutable
-class Team extends Model {
-  static const classType = const _TeamModelType();
-  final String id;
-  final String name;
-
-  @override
-  getInstanceType() => classType;
-
-  @override
-  String getId() {
-    return id;
-  }
-
-  const Team._internal({@required this.id, @required this.name});
-
-  factory Team({String id, @required String name}) {
-    return Team._internal(id: id == null ? UUID.getUUID() : id, name: name);
-  }
-
-  bool equals(Object other) {
-    return this == other;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Team && id == other.id && name == other.name;
-  }
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() {
-    var buffer = new StringBuffer();
-
-    buffer.write(\\"Team {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"name=\\" + \\"$name\\");
-    buffer.write(\\"}\\");
-
-    return buffer.toString();
-  }
-
-  Team copyWith({String id, String name}) {
-    return Team(id: id ?? this.id, name: name ?? this.name);
-  }
-
-  Team.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'];
-
-  Map<String, dynamic> toJson() => {'id': id, 'name': name};
-
-  static final QueryField ID = QueryField(fieldName: \\"team.id\\");
-  static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static var schema =
-      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Team\\";
-    modelSchemaDefinition.pluralName = \\"Teams\\";
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Team.NAME,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-  });
-}
-
-class _TeamModelType extends ModelType<Team> {
-  const _TeamModelType();
-
-  @override
-  Team fromJson(Map<String, dynamic> jsonData) {
-    return Team.fromJson(jsonData);
-  }
-}
-"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 5`] = `
-"/*
-* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the \\"License\\").
-* You may not use this file except in compliance with the License.
-* A copy of the License is located at
-*
-*  http://aws.amazon.com/apache2.0
-*
-* or in the \\"license\\" file accompanying this file. This file is distributed
-* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-* express or implied. See the License for the specific language governing
-* permissions and limitations under the License.
-*/
-
-// NOTE: This file is generated and may not follow lint rules defined in your app
-// Generated files can be excluded from analysis in analysis_options.yaml
-// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
-
-// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
-
-import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:flutter/foundation.dart';
-
-/** This is an auto generated class representing the Project2 type in your schema. */
-@immutable
-class Project2 extends Model {
-  static const classType = const _Project2ModelType();
-  final String id;
-  final String name;
-  final String teamID;
-  final Team2 team;
-
-  @override
-  getInstanceType() => classType;
-
-  @override
-  String getId() {
-    return id;
-  }
-
-  const Project2._internal(
-      {@required this.id, this.name, this.teamID, this.team});
-
-  factory Project2({String id, String name, String teamID, Team2 team}) {
-    return Project2._internal(
-        id: id == null ? UUID.getUUID() : id,
-        name: name,
-        teamID: teamID,
-        team: team);
-  }
-
-  bool equals(Object other) {
-    return this == other;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Project2 &&
-        id == other.id &&
-        name == other.name &&
-        teamID == other.teamID &&
-        team == other.team;
-  }
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() {
-    var buffer = new StringBuffer();
-
-    buffer.write(\\"Project2 {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
-    buffer.write(\\"teamID=\\" + \\"$teamID\\");
-    buffer.write(\\"}\\");
-
-    return buffer.toString();
-  }
-
-  Project2 copyWith({String id, String name, String teamID, Team2 team}) {
-    return Project2(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        teamID: teamID ?? this.teamID,
-        team: team ?? this.team);
-  }
-
-  Project2.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'],
-        teamID = json['teamID'],
-        team = json['team'] != null
-            ? Team2.fromJson(new Map<String, dynamic>.from(json['team']))
-            : null;
-
-  Map<String, dynamic> toJson() =>
-      {'id': id, 'name': name, 'teamID': teamID, 'team': team?.toJson()};
-
-  static final QueryField ID = QueryField(fieldName: \\"project2.id\\");
-  static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static final QueryField TEAMID = QueryField(fieldName: \\"teamID\\");
-  static final QueryField TEAM = QueryField(
-      fieldName: \\"team\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Team2).toString()));
-  static var schema =
-      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Project2\\";
-    modelSchemaDefinition.pluralName = \\"Project2s\\";
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Project2.NAME,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Project2.TEAMID,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasOne(
-        key: Project2.TEAM,
-        isRequired: false,
-        ofModelName: (Team2).toString(),
-        associatedKey: Team2.ID));
-  });
-}
-
-class _Project2ModelType extends ModelType<Project2> {
-  const _Project2ModelType();
-
-  @override
-  Project2 fromJson(Map<String, dynamic> jsonData) {
-    return Project2.fromJson(jsonData);
-  }
-}
-"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 6`] = `
-"/*
-* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the \\"License\\").
-* You may not use this file except in compliance with the License.
-* A copy of the License is located at
-*
-*  http://aws.amazon.com/apache2.0
-*
-* or in the \\"license\\" file accompanying this file. This file is distributed
-* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-* express or implied. See the License for the specific language governing
-* permissions and limitations under the License.
-*/
-
-// NOTE: This file is generated and may not follow lint rules defined in your app
-// Generated files can be excluded from analysis in analysis_options.yaml
-// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
-
-// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
-
-import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:flutter/foundation.dart';
-
-/** This is an auto generated class representing the Project2 type in your schema. */
-@immutable
-class Project2 extends Model {
-  static const classType = const _Project2ModelType();
-  final String id;
-  final String name;
-  final String teamID;
-  final Team2 team;
-
-  @override
-  getInstanceType() => classType;
-
-  @override
-  String getId() {
-    return id;
-  }
-
-  const Project2._internal(
-      {@required this.id, this.name, this.teamID, this.team});
-
-  factory Project2({String id, String name, String teamID, Team2 team}) {
-    return Project2._internal(
-        id: id == null ? UUID.getUUID() : id,
-        name: name,
-        teamID: teamID,
-        team: team);
-  }
-
-  bool equals(Object other) {
-    return this == other;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Project2 &&
-        id == other.id &&
-        name == other.name &&
-        teamID == other.teamID &&
-        team == other.team;
-  }
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() {
-    var buffer = new StringBuffer();
-
-    buffer.write(\\"Project2 {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
-    buffer.write(\\"teamID=\\" + \\"$teamID\\");
-    buffer.write(\\"}\\");
-
-    return buffer.toString();
-  }
-
-  Project2 copyWith({String id, String name, String teamID, Team2 team}) {
-    return Project2(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        teamID: teamID ?? this.teamID,
-        team: team ?? this.team);
-  }
-
-  Project2.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'],
-        teamID = json['teamID'],
-        team = json['team'] != null
-            ? Team2.fromJson(new Map<String, dynamic>.from(json['team']))
-            : null;
-
-  Map<String, dynamic> toJson() =>
-      {'id': id, 'name': name, 'teamID': teamID, 'team': team?.toJson()};
-
-  static final QueryField ID = QueryField(fieldName: \\"project2.id\\");
-  static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static final QueryField TEAMID = QueryField(fieldName: \\"teamID\\");
-  static final QueryField TEAM = QueryField(
-      fieldName: \\"team\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Team2).toString()));
-  static var schema =
-      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Project2\\";
-    modelSchemaDefinition.pluralName = \\"Project2s\\";
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Project2.NAME,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Project2.TEAMID,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasOne(
-        key: Project2.TEAM,
-        isRequired: false,
-        ofModelName: (Team2).toString(),
-        associatedKey: Team2.ID));
-  });
-}
-
-class _Project2ModelType extends ModelType<Project2> {
-  const _Project2ModelType();
-
-  @override
-  Project2 fromJson(Map<String, dynamic> jsonData) {
-    return Project2.fromJson(jsonData);
-  }
-}
-"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 7`] = `
-"/*
-* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the \\"License\\").
-* You may not use this file except in compliance with the License.
-* A copy of the License is located at
-*
-*  http://aws.amazon.com/apache2.0
-*
-* or in the \\"license\\" file accompanying this file. This file is distributed
-* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-* express or implied. See the License for the specific language governing
-* permissions and limitations under the License.
-*/
-
-// NOTE: This file is generated and may not follow lint rules defined in your app
-// Generated files can be excluded from analysis in analysis_options.yaml
-// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
-
-// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
-
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:flutter/foundation.dart';
-
-/** This is an auto generated class representing the Team2 type in your schema. */
-@immutable
-class Team2 extends Model {
-  static const classType = const _Team2ModelType();
-  final String id;
-  final String name;
-
-  @override
-  getInstanceType() => classType;
-
-  @override
-  String getId() {
-    return id;
-  }
-
-  const Team2._internal({@required this.id, @required this.name});
-
-  factory Team2({String id, @required String name}) {
-    return Team2._internal(id: id == null ? UUID.getUUID() : id, name: name);
-  }
-
-  bool equals(Object other) {
-    return this == other;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Team2 && id == other.id && name == other.name;
-  }
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() {
-    var buffer = new StringBuffer();
-
-    buffer.write(\\"Team2 {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"name=\\" + \\"$name\\");
-    buffer.write(\\"}\\");
-
-    return buffer.toString();
-  }
-
-  Team2 copyWith({String id, String name}) {
-    return Team2(id: id ?? this.id, name: name ?? this.name);
-  }
-
-  Team2.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'];
-
-  Map<String, dynamic> toJson() => {'id': id, 'name': name};
-
-  static final QueryField ID = QueryField(fieldName: \\"team2.id\\");
-  static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static var schema =
-      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Team2\\";
-    modelSchemaDefinition.pluralName = \\"Team2s\\";
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Team2.NAME,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-  });
-}
-
-class _Team2ModelType extends ModelType<Team2> {
-  const _Team2ModelType();
-
-  @override
-  Team2 fromJson(Map<String, dynamic> jsonData) {
-    return Team2.fromJson(jsonData);
-  }
-}
-"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 8`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -4901,303 +2543,6 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
-/** This is an auto generated class representing the Post type in your schema. */
-@immutable
-class Post extends Model {
-  static const classType = const _PostModelType();
-  final String id;
-  final String title;
-  final String content;
-  final List<PostTags> tags;
-
-  @override
-  getInstanceType() => classType;
-
-  @override
-  String getId() {
-    return id;
-  }
-
-  const Post._internal(
-      {@required this.id, @required this.title, this.content, this.tags});
-
-  factory Post(
-      {String id,
-      @required String title,
-      String content,
-      List<PostTags> tags}) {
-    return Post._internal(
-        id: id == null ? UUID.getUUID() : id,
-        title: title,
-        content: content,
-        tags: tags != null ? List<PostTags>.unmodifiable(tags) : tags);
-  }
-
-  bool equals(Object other) {
-    return this == other;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Post &&
-        id == other.id &&
-        title == other.title &&
-        content == other.content &&
-        DeepCollectionEquality().equals(tags, other.tags);
-  }
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() {
-    var buffer = new StringBuffer();
-
-    buffer.write(\\"Post {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"title=\\" + \\"$title\\" + \\", \\");
-    buffer.write(\\"content=\\" + \\"$content\\");
-    buffer.write(\\"}\\");
-
-    return buffer.toString();
-  }
-
-  Post copyWith(
-      {String id, String title, String content, List<PostTags> tags}) {
-    return Post(
-        id: id ?? this.id,
-        title: title ?? this.title,
-        content: content ?? this.content,
-        tags: tags ?? this.tags);
-  }
-
-  Post.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        title = json['title'],
-        content = json['content'],
-        tags = json['tags'] is List
-            ? (json['tags'] as List)
-                .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null;
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'content': content,
-        'tags': tags?.map((PostTags? e) => e?.toJson()).toList()
-      };
-
-  static final QueryField ID = QueryField(fieldName: \\"post.id\\");
-  static final QueryField TITLE = QueryField(fieldName: \\"title\\");
-  static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
-  static final QueryField TAGS = QueryField(
-      fieldName: \\"tags\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (PostTags).toString()));
-  static var schema =
-      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Post\\";
-    modelSchemaDefinition.pluralName = \\"Posts\\";
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Post.TITLE,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Post.CONTENT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Post.TAGS,
-        isRequired: false,
-        ofModelName: (PostTags).toString(),
-        associatedKey: PostTags.POST));
-  });
-}
-
-class _PostModelType extends ModelType<Post> {
-  const _PostModelType();
-
-  @override
-  Post fromJson(Map<String, dynamic> jsonData) {
-    return Post.fromJson(jsonData);
-  }
-}
-"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on many to many relationship @manyToMany 3`] = `
-"/*
-* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the \\"License\\").
-* You may not use this file except in compliance with the License.
-* A copy of the License is located at
-*
-*  http://aws.amazon.com/apache2.0
-*
-* or in the \\"license\\" file accompanying this file. This file is distributed
-* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-* express or implied. See the License for the specific language governing
-* permissions and limitations under the License.
-*/
-
-// NOTE: This file is generated and may not follow lint rules defined in your app
-// Generated files can be excluded from analysis in analysis_options.yaml
-// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
-
-// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
-
-import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
-
-/** This is an auto generated class representing the Tag type in your schema. */
-@immutable
-class Tag extends Model {
-  static const classType = const _TagModelType();
-  final String id;
-  final String label;
-  final List<PostTags> posts;
-
-  @override
-  getInstanceType() => classType;
-
-  @override
-  String getId() {
-    return id;
-  }
-
-  const Tag._internal({@required this.id, @required this.label, this.posts});
-
-  factory Tag({String id, @required String label, List<PostTags> posts}) {
-    return Tag._internal(
-        id: id == null ? UUID.getUUID() : id,
-        label: label,
-        posts: posts != null ? List<PostTags>.unmodifiable(posts) : posts);
-  }
-
-  bool equals(Object other) {
-    return this == other;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Tag &&
-        id == other.id &&
-        label == other.label &&
-        DeepCollectionEquality().equals(posts, other.posts);
-  }
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() {
-    var buffer = new StringBuffer();
-
-    buffer.write(\\"Tag {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"label=\\" + \\"$label\\");
-    buffer.write(\\"}\\");
-
-    return buffer.toString();
-  }
-
-  Tag copyWith({String id, String label, List<PostTags> posts}) {
-    return Tag(
-        id: id ?? this.id,
-        label: label ?? this.label,
-        posts: posts ?? this.posts);
-  }
-
-  Tag.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        label = json['label'],
-        posts = json['posts'] is List
-            ? (json['posts'] as List)
-                .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null;
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'label': label,
-        'posts': posts?.map((PostTags? e) => e?.toJson()).toList()
-      };
-
-  static final QueryField ID = QueryField(fieldName: \\"tag.id\\");
-  static final QueryField LABEL = QueryField(fieldName: \\"label\\");
-  static final QueryField POSTS = QueryField(
-      fieldName: \\"posts\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (PostTags).toString()));
-  static var schema =
-      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Tag\\";
-    modelSchemaDefinition.pluralName = \\"Tags\\";
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Tag.LABEL,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Tag.POSTS,
-        isRequired: false,
-        ofModelName: (PostTags).toString(),
-        associatedKey: PostTags.TAG));
-  });
-}
-
-class _TagModelType extends ModelType<Tag> {
-  const _TagModelType();
-
-  @override
-  Tag fromJson(Map<String, dynamic> jsonData) {
-    return Tag.fromJson(jsonData);
-  }
-}
-"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on many to many relationship @manyToMany 4`] = `
-"/*
-* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the \\"License\\").
-* You may not use this file except in compliance with the License.
-* A copy of the License is located at
-*
-*  http://aws.amazon.com/apache2.0
-*
-* or in the \\"license\\" file accompanying this file. This file is distributed
-* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-* express or implied. See the License for the specific language governing
-* permissions and limitations under the License.
-*/
-
-// NOTE: This file is generated and may not follow lint rules defined in your app
-// Generated files can be excluded from analysis in analysis_options.yaml
-// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
-
-// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
-
-import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
-
 /** This is an auto generated class representing the Tag type in your schema. */
 @immutable
 class Tag extends Model {
@@ -5419,273 +2764,7 @@ class _TodoModelType extends ModelType<Todo> {
 "
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on record creation and updating timestamp 2`] = `
-"/*
-* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the \\"License\\").
-* You may not use this file except in compliance with the License.
-* A copy of the License is located at
-*
-*  http://aws.amazon.com/apache2.0
-*
-* or in the \\"license\\" file accompanying this file. This file is distributed
-* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-* express or implied. See the License for the specific language governing
-* permissions and limitations under the License.
-*/
-
-// NOTE: This file is generated and may not follow lint rules defined in your app
-// Generated files can be excluded from analysis in analysis_options.yaml
-// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
-
-// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
-
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:flutter/foundation.dart';
-
-/** This is an auto generated class representing the Todo type in your schema. */
-@immutable
-class Todo extends Model {
-  static const classType = const _TodoModelType();
-  final String id;
-  final String content;
-
-  @override
-  getInstanceType() => classType;
-
-  @override
-  String getId() {
-    return id;
-  }
-
-  const Todo._internal({@required this.id, this.content});
-
-  factory Todo({String id, String content}) {
-    return Todo._internal(
-        id: id == null ? UUID.getUUID() : id, content: content);
-  }
-
-  bool equals(Object other) {
-    return this == other;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Todo && id == other.id && content == other.content;
-  }
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() {
-    var buffer = new StringBuffer();
-
-    buffer.write(\\"Todo {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"content=\\" + \\"$content\\");
-    buffer.write(\\"}\\");
-
-    return buffer.toString();
-  }
-
-  Todo copyWith({String id, String content}) {
-    return Todo(id: id ?? this.id, content: content ?? this.content);
-  }
-
-  Todo.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        content = json['content'];
-
-  Map<String, dynamic> toJson() => {'id': id, 'content': content};
-
-  static final QueryField ID = QueryField(fieldName: \\"todo.id\\");
-  static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
-  static var schema =
-      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Todo\\";
-    modelSchemaDefinition.pluralName = \\"Todos\\";
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Todo.CONTENT,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-  });
-}
-
-class _TodoModelType extends ModelType<Todo> {
-  const _TodoModelType();
-
-  @override
-  Todo fromJson(Map<String, dynamic> jsonData) {
-    return Todo.fromJson(jsonData);
-  }
-}
-"
-`;
-
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works when configuring a secondary index 1`] = `
-"/*
-* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the \\"License\\").
-* You may not use this file except in compliance with the License.
-* A copy of the License is located at
-*
-*  http://aws.amazon.com/apache2.0
-*
-* or in the \\"license\\" file accompanying this file. This file is distributed
-* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-* express or implied. See the License for the specific language governing
-* permissions and limitations under the License.
-*/
-
-// NOTE: This file is generated and may not follow lint rules defined in your app
-// Generated files can be excluded from analysis in analysis_options.yaml
-// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
-
-// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
-
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:flutter/foundation.dart';
-
-/** This is an auto generated class representing the Customer type in your schema. */
-@immutable
-class Customer extends Model {
-  static const classType = const _CustomerModelType();
-  final String id;
-  final String name;
-  final String phoneNumber;
-  final String accountRepresentativeID;
-
-  @override
-  getInstanceType() => classType;
-
-  @override
-  String getId() {
-    return id;
-  }
-
-  const Customer._internal(
-      {@required this.id,
-      @required this.name,
-      this.phoneNumber,
-      @required this.accountRepresentativeID});
-
-  factory Customer(
-      {String id,
-      @required String name,
-      String phoneNumber,
-      @required String accountRepresentativeID}) {
-    return Customer._internal(
-        id: id == null ? UUID.getUUID() : id,
-        name: name,
-        phoneNumber: phoneNumber,
-        accountRepresentativeID: accountRepresentativeID);
-  }
-
-  bool equals(Object other) {
-    return this == other;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Customer &&
-        id == other.id &&
-        name == other.name &&
-        phoneNumber == other.phoneNumber &&
-        accountRepresentativeID == other.accountRepresentativeID;
-  }
-
-  @override
-  int get hashCode => toString().hashCode;
-
-  @override
-  String toString() {
-    var buffer = new StringBuffer();
-
-    buffer.write(\\"Customer {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
-    buffer.write(\\"phoneNumber=\\" + \\"$phoneNumber\\" + \\", \\");
-    buffer.write(\\"accountRepresentativeID=\\" + \\"$accountRepresentativeID\\");
-    buffer.write(\\"}\\");
-
-    return buffer.toString();
-  }
-
-  Customer copyWith(
-      {String id,
-      String name,
-      String phoneNumber,
-      String accountRepresentativeID}) {
-    return Customer(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        phoneNumber: phoneNumber ?? this.phoneNumber,
-        accountRepresentativeID:
-            accountRepresentativeID ?? this.accountRepresentativeID);
-  }
-
-  Customer.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'],
-        phoneNumber = json['phoneNumber'],
-        accountRepresentativeID = json['accountRepresentativeID'];
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'phoneNumber': phoneNumber,
-        'accountRepresentativeID': accountRepresentativeID
-      };
-
-  static final QueryField ID = QueryField(fieldName: \\"customer.id\\");
-  static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static final QueryField PHONENUMBER = QueryField(fieldName: \\"phoneNumber\\");
-  static final QueryField ACCOUNTREPRESENTATIVEID =
-      QueryField(fieldName: \\"accountRepresentativeID\\");
-  static var schema =
-      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = \\"Customer\\";
-    modelSchemaDefinition.pluralName = \\"Customers\\";
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Customer.NAME,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Customer.PHONENUMBER,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Customer.ACCOUNTREPRESENTATIVEID,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-  });
-}
-
-class _CustomerModelType extends ModelType<Customer> {
-  const _CustomerModelType();
-
-  @override
-  Customer fromJson(Map<String, dynamic> jsonData) {
-    return Customer.fromJson(jsonData);
-  }
-}
-"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works when configuring a secondary index 2`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *

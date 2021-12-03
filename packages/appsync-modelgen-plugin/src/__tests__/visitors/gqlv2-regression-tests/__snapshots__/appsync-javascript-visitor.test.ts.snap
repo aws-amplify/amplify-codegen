@@ -17,19 +17,38 @@ export {
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 2`] = `
-"// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
 
 
-const { Blog7V2, Post7V2, Comment7V2 } = initSchema(schema);
 
-export {
-  Blog7V2,
-  Post7V2,
-  Comment7V2
-};"
+
+export declare class Blog7V2 {
+  readonly id: string;
+  readonly name: string;
+  readonly posts?: (Post7V2 | null)[];
+  constructor(init: ModelInit<Blog7V2>);
+  static copyOf(source: Blog7V2, mutator: (draft: MutableModel<Blog7V2>) => MutableModel<Blog7V2> | void): Blog7V2;
+}
+
+export declare class Post7V2 {
+  readonly id: string;
+  readonly title: string;
+  readonly blog?: Blog7V2;
+  readonly comments?: (Comment7V2 | null)[];
+  readonly blog7V2PostsId?: string;
+  constructor(init: ModelInit<Post7V2>);
+  static copyOf(source: Post7V2, mutator: (draft: MutableModel<Post7V2>) => MutableModel<Post7V2> | void): Post7V2;
+}
+
+export declare class Comment7V2 {
+  readonly id: string;
+  readonly content?: string;
+  readonly post?: Post7V2;
+  readonly post7V2CommentsId?: string;
+  constructor(init: ModelInit<Comment7V2>);
+  static copyOf(source: Comment7V2, mutator: (draft: MutableModel<Comment7V2>) => MutableModel<Comment7V2> | void): Comment7V2;
+}"
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 3`] = `
@@ -49,19 +68,38 @@ export {
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 4`] = `
-"// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
 
 
-const { Blog7V2, Post7V2, Comment7V2 } = initSchema(schema);
 
-export {
-  Blog7V2,
-  Post7V2,
-  Comment7V2
-};"
+
+export declare class Blog7V2 {
+  readonly id: string;
+  readonly name: string;
+  readonly posts?: (Post7V2 | null)[];
+  constructor(init: ModelInit<Blog7V2>);
+  static copyOf(source: Blog7V2, mutator: (draft: MutableModel<Blog7V2>) => MutableModel<Blog7V2> | void): Blog7V2;
+}
+
+export declare class Post7V2 {
+  readonly id: string;
+  readonly title: string;
+  readonly blog?: Blog7V2;
+  readonly comments?: (Comment7V2 | null)[];
+  readonly blog7V2PostsId?: string;
+  constructor(init: ModelInit<Post7V2>);
+  static copyOf(source: Post7V2, mutator: (draft: MutableModel<Post7V2>) => MutableModel<Post7V2> | void): Post7V2;
+}
+
+export declare class Comment7V2 {
+  readonly id: string;
+  readonly content?: string;
+  readonly post?: Post7V2;
+  readonly post7V2CommentsId?: string;
+  constructor(init: ModelInit<Comment7V2>);
+  static copyOf(source: Comment7V2, mutator: (draft: MutableModel<Comment7V2>) => MutableModel<Comment7V2> | void): Comment7V2;
+}"
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 5`] = `
@@ -81,19 +119,38 @@ export {
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 6`] = `
-"// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
 
 
-const { Blog7V2, Post7V2, Comment7V2 } = initSchema(schema);
 
-export {
-  Blog7V2,
-  Post7V2,
-  Comment7V2
-};"
+
+export declare class Blog7V2 {
+  readonly id: string;
+  readonly name: string;
+  readonly posts?: (Post7V2 | null)[];
+  constructor(init: ModelInit<Blog7V2>);
+  static copyOf(source: Blog7V2, mutator: (draft: MutableModel<Blog7V2>) => MutableModel<Blog7V2> | void): Blog7V2;
+}
+
+export declare class Post7V2 {
+  readonly id: string;
+  readonly title: string;
+  readonly blog?: Blog7V2;
+  readonly comments?: (Comment7V2 | null)[];
+  readonly blog7V2PostsId?: string;
+  constructor(init: ModelInit<Post7V2>);
+  static copyOf(source: Post7V2, mutator: (draft: MutableModel<Post7V2>) => MutableModel<Post7V2> | void): Post7V2;
+}
+
+export declare class Comment7V2 {
+  readonly id: string;
+  readonly content?: string;
+  readonly post?: Post7V2;
+  readonly post7V2CommentsId?: string;
+  constructor(init: ModelInit<Comment7V2>);
+  static copyOf(source: Comment7V2, mutator: (draft: MutableModel<Comment7V2>) => MutableModel<Comment7V2> | void): Comment7V2;
+}"
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 7`] = `
@@ -113,19 +170,38 @@ export {
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 8`] = `
-"// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
 
 
-const { Blog7V2, Post7V2, Comment7V2 } = initSchema(schema);
 
-export {
-  Blog7V2,
-  Post7V2,
-  Comment7V2
-};"
+
+export declare class Blog7V2 {
+  readonly id: string;
+  readonly name: string;
+  readonly posts?: (Post7V2 | null)[];
+  constructor(init: ModelInit<Blog7V2>);
+  static copyOf(source: Blog7V2, mutator: (draft: MutableModel<Blog7V2>) => MutableModel<Blog7V2> | void): Blog7V2;
+}
+
+export declare class Post7V2 {
+  readonly id: string;
+  readonly title: string;
+  readonly blog?: Blog7V2;
+  readonly comments?: (Comment7V2 | null)[];
+  readonly blog7V2PostsId?: string;
+  constructor(init: ModelInit<Post7V2>);
+  static copyOf(source: Post7V2, mutator: (draft: MutableModel<Post7V2>) => MutableModel<Post7V2> | void): Post7V2;
+}
+
+export declare class Comment7V2 {
+  readonly id: string;
+  readonly content?: string;
+  readonly post?: Post7V2;
+  readonly post7V2CommentsId?: string;
+  constructor(init: ModelInit<Comment7V2>);
+  static copyOf(source: Comment7V2, mutator: (draft: MutableModel<Comment7V2>) => MutableModel<Comment7V2> | void): Comment7V2;
+}"
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 1`] = `
@@ -148,22 +224,63 @@ export {
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 2`] = `
-"// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
 
 
-const { Project, Team, Project2, Team2, Post, Comment } = initSchema(schema);
 
-export {
-  Project,
-  Team,
-  Project2,
-  Team2,
-  Post,
-  Comment
-};"
+
+export declare class Project {
+  readonly id: string;
+  readonly name?: string;
+  readonly team?: Team;
+  readonly projectTeamId?: string;
+  constructor(init: ModelInit<Project>);
+  static copyOf(source: Project, mutator: (draft: MutableModel<Project>) => MutableModel<Project> | void): Project;
+}
+
+export declare class Team {
+  readonly id: string;
+  readonly name: string;
+  readonly project?: Project;
+  constructor(init: ModelInit<Team>);
+  static copyOf(source: Team, mutator: (draft: MutableModel<Team>) => MutableModel<Team> | void): Team;
+}
+
+export declare class Project2 {
+  readonly id: string;
+  readonly name?: string;
+  readonly team?: Team2;
+  readonly project2TeamId?: string;
+  constructor(init: ModelInit<Project2>);
+  static copyOf(source: Project2, mutator: (draft: MutableModel<Project2>) => MutableModel<Project2> | void): Project2;
+}
+
+export declare class Team2 {
+  readonly id: string;
+  readonly name: string;
+  readonly projectID?: string;
+  readonly project?: Project2;
+  constructor(init: ModelInit<Team2>);
+  static copyOf(source: Team2, mutator: (draft: MutableModel<Team2>) => MutableModel<Team2> | void): Team2;
+}
+
+export declare class Post {
+  readonly id: string;
+  readonly title: string;
+  readonly comments?: (Comment | null)[];
+  constructor(init: ModelInit<Post>);
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+}
+
+export declare class Comment {
+  readonly id: string;
+  readonly postID: string;
+  readonly content: string;
+  readonly post?: Post;
+  constructor(init: ModelInit<Comment>);
+  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
+}"
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 3`] = `
@@ -186,22 +303,63 @@ export {
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 4`] = `
-"// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
 
 
-const { Project, Team, Project2, Team2, Post, Comment } = initSchema(schema);
 
-export {
-  Project,
-  Team,
-  Project2,
-  Team2,
-  Post,
-  Comment
-};"
+
+export declare class Project {
+  readonly id: string;
+  readonly name?: string;
+  readonly team?: Team;
+  readonly projectTeamId?: string;
+  constructor(init: ModelInit<Project>);
+  static copyOf(source: Project, mutator: (draft: MutableModel<Project>) => MutableModel<Project> | void): Project;
+}
+
+export declare class Team {
+  readonly id: string;
+  readonly name: string;
+  readonly project?: Project;
+  constructor(init: ModelInit<Team>);
+  static copyOf(source: Team, mutator: (draft: MutableModel<Team>) => MutableModel<Team> | void): Team;
+}
+
+export declare class Project2 {
+  readonly id: string;
+  readonly name?: string;
+  readonly team?: Team2;
+  readonly project2TeamId?: string;
+  constructor(init: ModelInit<Project2>);
+  static copyOf(source: Project2, mutator: (draft: MutableModel<Project2>) => MutableModel<Project2> | void): Project2;
+}
+
+export declare class Team2 {
+  readonly id: string;
+  readonly name: string;
+  readonly projectID?: string;
+  readonly project?: Project2;
+  constructor(init: ModelInit<Team2>);
+  static copyOf(source: Team2, mutator: (draft: MutableModel<Team2>) => MutableModel<Team2> | void): Team2;
+}
+
+export declare class Post {
+  readonly id: string;
+  readonly title: string;
+  readonly comments?: (Comment | null)[];
+  constructor(init: ModelInit<Post>);
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+}
+
+export declare class Comment {
+  readonly id: string;
+  readonly postID: string;
+  readonly content: string;
+  readonly post?: Post;
+  constructor(init: ModelInit<Comment>);
+  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
+}"
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 5`] = `
@@ -224,22 +382,63 @@ export {
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 6`] = `
-"// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
 
 
-const { Project, Team, Project2, Team2, Post, Comment } = initSchema(schema);
 
-export {
-  Project,
-  Team,
-  Project2,
-  Team2,
-  Post,
-  Comment
-};"
+
+export declare class Project {
+  readonly id: string;
+  readonly name?: string;
+  readonly team?: Team;
+  readonly projectTeamId?: string;
+  constructor(init: ModelInit<Project>);
+  static copyOf(source: Project, mutator: (draft: MutableModel<Project>) => MutableModel<Project> | void): Project;
+}
+
+export declare class Team {
+  readonly id: string;
+  readonly name: string;
+  readonly project?: Project;
+  constructor(init: ModelInit<Team>);
+  static copyOf(source: Team, mutator: (draft: MutableModel<Team>) => MutableModel<Team> | void): Team;
+}
+
+export declare class Project2 {
+  readonly id: string;
+  readonly name?: string;
+  readonly team?: Team2;
+  readonly project2TeamId?: string;
+  constructor(init: ModelInit<Project2>);
+  static copyOf(source: Project2, mutator: (draft: MutableModel<Project2>) => MutableModel<Project2> | void): Project2;
+}
+
+export declare class Team2 {
+  readonly id: string;
+  readonly name: string;
+  readonly projectID?: string;
+  readonly project?: Project2;
+  constructor(init: ModelInit<Team2>);
+  static copyOf(source: Team2, mutator: (draft: MutableModel<Team2>) => MutableModel<Team2> | void): Team2;
+}
+
+export declare class Post {
+  readonly id: string;
+  readonly title: string;
+  readonly comments?: (Comment | null)[];
+  constructor(init: ModelInit<Post>);
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+}
+
+export declare class Comment {
+  readonly id: string;
+  readonly postID: string;
+  readonly content: string;
+  readonly post?: Post;
+  constructor(init: ModelInit<Comment>);
+  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
+}"
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 7`] = `
@@ -262,22 +461,63 @@ export {
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 8`] = `
-"// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
 
 
-const { Project, Team, Project2, Team2, Post, Comment } = initSchema(schema);
 
-export {
-  Project,
-  Team,
-  Project2,
-  Team2,
-  Post,
-  Comment
-};"
+
+export declare class Project {
+  readonly id: string;
+  readonly name?: string;
+  readonly team?: Team;
+  readonly projectTeamId?: string;
+  constructor(init: ModelInit<Project>);
+  static copyOf(source: Project, mutator: (draft: MutableModel<Project>) => MutableModel<Project> | void): Project;
+}
+
+export declare class Team {
+  readonly id: string;
+  readonly name: string;
+  readonly project?: Project;
+  constructor(init: ModelInit<Team>);
+  static copyOf(source: Team, mutator: (draft: MutableModel<Team>) => MutableModel<Team> | void): Team;
+}
+
+export declare class Project2 {
+  readonly id: string;
+  readonly name?: string;
+  readonly team?: Team2;
+  readonly project2TeamId?: string;
+  constructor(init: ModelInit<Project2>);
+  static copyOf(source: Project2, mutator: (draft: MutableModel<Project2>) => MutableModel<Project2> | void): Project2;
+}
+
+export declare class Team2 {
+  readonly id: string;
+  readonly name: string;
+  readonly projectID?: string;
+  readonly project?: Project2;
+  constructor(init: ModelInit<Team2>);
+  static copyOf(source: Team2, mutator: (draft: MutableModel<Team2>) => MutableModel<Team2> | void): Team2;
+}
+
+export declare class Post {
+  readonly id: string;
+  readonly title: string;
+  readonly comments?: (Comment | null)[];
+  constructor(init: ModelInit<Post>);
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+}
+
+export declare class Comment {
+  readonly id: string;
+  readonly postID: string;
+  readonly content: string;
+  readonly post?: Post;
+  constructor(init: ModelInit<Comment>);
+  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
+}"
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 9`] = `
@@ -300,22 +540,63 @@ export {
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 10`] = `
-"// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
 
 
-const { Project, Team, Project2, Team2, Post, Comment } = initSchema(schema);
 
-export {
-  Project,
-  Team,
-  Project2,
-  Team2,
-  Post,
-  Comment
-};"
+
+export declare class Project {
+  readonly id: string;
+  readonly name?: string;
+  readonly team?: Team;
+  readonly projectTeamId?: string;
+  constructor(init: ModelInit<Project>);
+  static copyOf(source: Project, mutator: (draft: MutableModel<Project>) => MutableModel<Project> | void): Project;
+}
+
+export declare class Team {
+  readonly id: string;
+  readonly name: string;
+  readonly project?: Project;
+  constructor(init: ModelInit<Team>);
+  static copyOf(source: Team, mutator: (draft: MutableModel<Team>) => MutableModel<Team> | void): Team;
+}
+
+export declare class Project2 {
+  readonly id: string;
+  readonly name?: string;
+  readonly team?: Team2;
+  readonly project2TeamId?: string;
+  constructor(init: ModelInit<Project2>);
+  static copyOf(source: Project2, mutator: (draft: MutableModel<Project2>) => MutableModel<Project2> | void): Project2;
+}
+
+export declare class Team2 {
+  readonly id: string;
+  readonly name: string;
+  readonly projectID?: string;
+  readonly project?: Project2;
+  constructor(init: ModelInit<Team2>);
+  static copyOf(source: Team2, mutator: (draft: MutableModel<Team2>) => MutableModel<Team2> | void): Team2;
+}
+
+export declare class Post {
+  readonly id: string;
+  readonly title: string;
+  readonly comments?: (Comment | null)[];
+  constructor(init: ModelInit<Post>);
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+}
+
+export declare class Comment {
+  readonly id: string;
+  readonly postID: string;
+  readonly content: string;
+  readonly post?: Post;
+  constructor(init: ModelInit<Comment>);
+  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
+}"
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 11`] = `
@@ -338,22 +619,63 @@ export {
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 12`] = `
-"// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
 
 
-const { Project, Team, Project2, Team2, Post, Comment } = initSchema(schema);
 
-export {
-  Project,
-  Team,
-  Project2,
-  Team2,
-  Post,
-  Comment
-};"
+
+export declare class Project {
+  readonly id: string;
+  readonly name?: string;
+  readonly team?: Team;
+  readonly projectTeamId?: string;
+  constructor(init: ModelInit<Project>);
+  static copyOf(source: Project, mutator: (draft: MutableModel<Project>) => MutableModel<Project> | void): Project;
+}
+
+export declare class Team {
+  readonly id: string;
+  readonly name: string;
+  readonly project?: Project;
+  constructor(init: ModelInit<Team>);
+  static copyOf(source: Team, mutator: (draft: MutableModel<Team>) => MutableModel<Team> | void): Team;
+}
+
+export declare class Project2 {
+  readonly id: string;
+  readonly name?: string;
+  readonly team?: Team2;
+  readonly project2TeamId?: string;
+  constructor(init: ModelInit<Project2>);
+  static copyOf(source: Project2, mutator: (draft: MutableModel<Project2>) => MutableModel<Project2> | void): Project2;
+}
+
+export declare class Team2 {
+  readonly id: string;
+  readonly name: string;
+  readonly projectID?: string;
+  readonly project?: Project2;
+  constructor(init: ModelInit<Team2>);
+  static copyOf(source: Team2, mutator: (draft: MutableModel<Team2>) => MutableModel<Team2> | void): Team2;
+}
+
+export declare class Post {
+  readonly id: string;
+  readonly title: string;
+  readonly comments?: (Comment | null)[];
+  constructor(init: ModelInit<Post>);
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+}
+
+export declare class Comment {
+  readonly id: string;
+  readonly postID: string;
+  readonly content: string;
+  readonly post?: Post;
+  constructor(init: ModelInit<Comment>);
+  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
+}"
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 1`] = `
@@ -374,20 +696,43 @@ export {
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 2`] = `
-"// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
 
 
-const { Post, Comment, Post2, Comment2 } = initSchema(schema);
 
-export {
-  Post,
-  Comment,
-  Post2,
-  Comment2
-};"
+
+export declare class Post {
+  readonly id: string;
+  readonly title: string;
+  readonly comments?: (Comment | null)[];
+  constructor(init: ModelInit<Post>);
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+}
+
+export declare class Comment {
+  readonly id: string;
+  readonly content: string;
+  readonly postCommentsId?: string;
+  constructor(init: ModelInit<Comment>);
+  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
+}
+
+export declare class Post2 {
+  readonly id: string;
+  readonly title: string;
+  readonly comments?: (Comment2 | null)[];
+  constructor(init: ModelInit<Post2>);
+  static copyOf(source: Post2, mutator: (draft: MutableModel<Post2>) => MutableModel<Post2> | void): Post2;
+}
+
+export declare class Comment2 {
+  readonly id: string;
+  readonly postID: string;
+  readonly content: string;
+  constructor(init: ModelInit<Comment2>);
+  static copyOf(source: Comment2, mutator: (draft: MutableModel<Comment2>) => MutableModel<Comment2> | void): Comment2;
+}"
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 3`] = `
@@ -408,20 +753,43 @@ export {
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 4`] = `
-"// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
 
 
-const { Post, Comment, Post2, Comment2 } = initSchema(schema);
 
-export {
-  Post,
-  Comment,
-  Post2,
-  Comment2
-};"
+
+export declare class Post {
+  readonly id: string;
+  readonly title: string;
+  readonly comments?: (Comment | null)[];
+  constructor(init: ModelInit<Post>);
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+}
+
+export declare class Comment {
+  readonly id: string;
+  readonly content: string;
+  readonly postCommentsId?: string;
+  constructor(init: ModelInit<Comment>);
+  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
+}
+
+export declare class Post2 {
+  readonly id: string;
+  readonly title: string;
+  readonly comments?: (Comment2 | null)[];
+  constructor(init: ModelInit<Post2>);
+  static copyOf(source: Post2, mutator: (draft: MutableModel<Post2>) => MutableModel<Post2> | void): Post2;
+}
+
+export declare class Comment2 {
+  readonly id: string;
+  readonly postID: string;
+  readonly content: string;
+  constructor(init: ModelInit<Comment2>);
+  static copyOf(source: Comment2, mutator: (draft: MutableModel<Comment2>) => MutableModel<Comment2> | void): Comment2;
+}"
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 5`] = `
@@ -442,20 +810,43 @@ export {
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 6`] = `
-"// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
 
 
-const { Post, Comment, Post2, Comment2 } = initSchema(schema);
 
-export {
-  Post,
-  Comment,
-  Post2,
-  Comment2
-};"
+
+export declare class Post {
+  readonly id: string;
+  readonly title: string;
+  readonly comments?: (Comment | null)[];
+  constructor(init: ModelInit<Post>);
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+}
+
+export declare class Comment {
+  readonly id: string;
+  readonly content: string;
+  readonly postCommentsId?: string;
+  constructor(init: ModelInit<Comment>);
+  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
+}
+
+export declare class Post2 {
+  readonly id: string;
+  readonly title: string;
+  readonly comments?: (Comment2 | null)[];
+  constructor(init: ModelInit<Post2>);
+  static copyOf(source: Post2, mutator: (draft: MutableModel<Post2>) => MutableModel<Post2> | void): Post2;
+}
+
+export declare class Comment2 {
+  readonly id: string;
+  readonly postID: string;
+  readonly content: string;
+  constructor(init: ModelInit<Comment2>);
+  static copyOf(source: Comment2, mutator: (draft: MutableModel<Comment2>) => MutableModel<Comment2> | void): Comment2;
+}"
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 7`] = `
@@ -476,20 +867,43 @@ export {
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 8`] = `
-"// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
 
 
-const { Post, Comment, Post2, Comment2 } = initSchema(schema);
 
-export {
-  Post,
-  Comment,
-  Post2,
-  Comment2
-};"
+
+export declare class Post {
+  readonly id: string;
+  readonly title: string;
+  readonly comments?: (Comment | null)[];
+  constructor(init: ModelInit<Post>);
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+}
+
+export declare class Comment {
+  readonly id: string;
+  readonly content: string;
+  readonly postCommentsId?: string;
+  constructor(init: ModelInit<Comment>);
+  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
+}
+
+export declare class Post2 {
+  readonly id: string;
+  readonly title: string;
+  readonly comments?: (Comment2 | null)[];
+  constructor(init: ModelInit<Post2>);
+  static copyOf(source: Post2, mutator: (draft: MutableModel<Post2>) => MutableModel<Post2> | void): Post2;
+}
+
+export declare class Comment2 {
+  readonly id: string;
+  readonly postID: string;
+  readonly content: string;
+  constructor(init: ModelInit<Comment2>);
+  static copyOf(source: Comment2, mutator: (draft: MutableModel<Comment2>) => MutableModel<Comment2> | void): Comment2;
+}"
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 1`] = `
@@ -510,20 +924,43 @@ export {
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 2`] = `
-"// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
 
 
-const { Project, Team, Project2, Team2 } = initSchema(schema);
 
-export {
-  Project,
-  Team,
-  Project2,
-  Team2
-};"
+
+export declare class Project {
+  readonly id: string;
+  readonly name?: string;
+  readonly team?: Team;
+  readonly projectTeamId?: string;
+  constructor(init: ModelInit<Project>);
+  static copyOf(source: Project, mutator: (draft: MutableModel<Project>) => MutableModel<Project> | void): Project;
+}
+
+export declare class Team {
+  readonly id: string;
+  readonly name: string;
+  constructor(init: ModelInit<Team>);
+  static copyOf(source: Team, mutator: (draft: MutableModel<Team>) => MutableModel<Team> | void): Team;
+}
+
+export declare class Project2 {
+  readonly id: string;
+  readonly name?: string;
+  readonly teamID?: string;
+  readonly team?: Team2;
+  constructor(init: ModelInit<Project2>);
+  static copyOf(source: Project2, mutator: (draft: MutableModel<Project2>) => MutableModel<Project2> | void): Project2;
+}
+
+export declare class Team2 {
+  readonly id: string;
+  readonly name: string;
+  constructor(init: ModelInit<Team2>);
+  static copyOf(source: Team2, mutator: (draft: MutableModel<Team2>) => MutableModel<Team2> | void): Team2;
+}"
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 3`] = `
@@ -544,20 +981,43 @@ export {
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 4`] = `
-"// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
 
 
-const { Project, Team, Project2, Team2 } = initSchema(schema);
 
-export {
-  Project,
-  Team,
-  Project2,
-  Team2
-};"
+
+export declare class Project {
+  readonly id: string;
+  readonly name?: string;
+  readonly team?: Team;
+  readonly projectTeamId?: string;
+  constructor(init: ModelInit<Project>);
+  static copyOf(source: Project, mutator: (draft: MutableModel<Project>) => MutableModel<Project> | void): Project;
+}
+
+export declare class Team {
+  readonly id: string;
+  readonly name: string;
+  constructor(init: ModelInit<Team>);
+  static copyOf(source: Team, mutator: (draft: MutableModel<Team>) => MutableModel<Team> | void): Team;
+}
+
+export declare class Project2 {
+  readonly id: string;
+  readonly name?: string;
+  readonly teamID?: string;
+  readonly team?: Team2;
+  constructor(init: ModelInit<Project2>);
+  static copyOf(source: Project2, mutator: (draft: MutableModel<Project2>) => MutableModel<Project2> | void): Project2;
+}
+
+export declare class Team2 {
+  readonly id: string;
+  readonly name: string;
+  constructor(init: ModelInit<Team2>);
+  static copyOf(source: Team2, mutator: (draft: MutableModel<Team2>) => MutableModel<Team2> | void): Team2;
+}"
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 5`] = `
@@ -578,20 +1038,43 @@ export {
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 6`] = `
-"// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
 
 
-const { Project, Team, Project2, Team2 } = initSchema(schema);
 
-export {
-  Project,
-  Team,
-  Project2,
-  Team2
-};"
+
+export declare class Project {
+  readonly id: string;
+  readonly name?: string;
+  readonly team?: Team;
+  readonly projectTeamId?: string;
+  constructor(init: ModelInit<Project>);
+  static copyOf(source: Project, mutator: (draft: MutableModel<Project>) => MutableModel<Project> | void): Project;
+}
+
+export declare class Team {
+  readonly id: string;
+  readonly name: string;
+  constructor(init: ModelInit<Team>);
+  static copyOf(source: Team, mutator: (draft: MutableModel<Team>) => MutableModel<Team> | void): Team;
+}
+
+export declare class Project2 {
+  readonly id: string;
+  readonly name?: string;
+  readonly teamID?: string;
+  readonly team?: Team2;
+  constructor(init: ModelInit<Project2>);
+  static copyOf(source: Project2, mutator: (draft: MutableModel<Project2>) => MutableModel<Project2> | void): Project2;
+}
+
+export declare class Team2 {
+  readonly id: string;
+  readonly name: string;
+  constructor(init: ModelInit<Team2>);
+  static copyOf(source: Team2, mutator: (draft: MutableModel<Team2>) => MutableModel<Team2> | void): Team2;
+}"
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 7`] = `
@@ -612,20 +1095,43 @@ export {
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 8`] = `
-"// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
 
 
-const { Project, Team, Project2, Team2 } = initSchema(schema);
 
-export {
-  Project,
-  Team,
-  Project2,
-  Team2
-};"
+
+export declare class Project {
+  readonly id: string;
+  readonly name?: string;
+  readonly team?: Team;
+  readonly projectTeamId?: string;
+  constructor(init: ModelInit<Project>);
+  static copyOf(source: Project, mutator: (draft: MutableModel<Project>) => MutableModel<Project> | void): Project;
+}
+
+export declare class Team {
+  readonly id: string;
+  readonly name: string;
+  constructor(init: ModelInit<Team>);
+  static copyOf(source: Team, mutator: (draft: MutableModel<Team>) => MutableModel<Team> | void): Team;
+}
+
+export declare class Project2 {
+  readonly id: string;
+  readonly name?: string;
+  readonly teamID?: string;
+  readonly team?: Team2;
+  constructor(init: ModelInit<Project2>);
+  static copyOf(source: Project2, mutator: (draft: MutableModel<Project2>) => MutableModel<Project2> | void): Project2;
+}
+
+export declare class Team2 {
+  readonly id: string;
+  readonly name: string;
+  constructor(init: ModelInit<Team2>);
+  static copyOf(source: Team2, mutator: (draft: MutableModel<Team2>) => MutableModel<Team2> | void): Team2;
+}"
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on many to many relationship @manyToMany 1`] = `
@@ -645,19 +1151,38 @@ export {
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on many to many relationship @manyToMany 2`] = `
-"// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
 
 
-const { Post, Tag, PostTags } = initSchema(schema);
 
-export {
-  Post,
-  Tag,
-  PostTags
-};"
+
+export declare class Post {
+  readonly id: string;
+  readonly title: string;
+  readonly content?: string;
+  readonly tags?: (PostTags | null)[];
+  constructor(init: ModelInit<Post>);
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+}
+
+export declare class Tag {
+  readonly id: string;
+  readonly label: string;
+  readonly posts?: (PostTags | null)[];
+  constructor(init: ModelInit<Tag>);
+  static copyOf(source: Tag, mutator: (draft: MutableModel<Tag>) => MutableModel<Tag> | void): Tag;
+}
+
+export declare class PostTags {
+  readonly id: string;
+  readonly postID: string;
+  readonly tagID: string;
+  readonly post: Post;
+  readonly tag: Tag;
+  constructor(init: ModelInit<PostTags>);
+  static copyOf(source: PostTags, mutator: (draft: MutableModel<PostTags>) => MutableModel<PostTags> | void): PostTags;
+}"
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on many to many relationship @manyToMany 3`] = `
@@ -677,19 +1202,38 @@ export {
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on many to many relationship @manyToMany 4`] = `
-"// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
 
 
-const { Post, Tag, PostTags } = initSchema(schema);
 
-export {
-  Post,
-  Tag,
-  PostTags
-};"
+
+export declare class Post {
+  readonly id: string;
+  readonly title: string;
+  readonly content?: string;
+  readonly tags?: (PostTags | null)[];
+  constructor(init: ModelInit<Post>);
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+}
+
+export declare class Tag {
+  readonly id: string;
+  readonly label: string;
+  readonly posts?: (PostTags | null)[];
+  constructor(init: ModelInit<Tag>);
+  static copyOf(source: Tag, mutator: (draft: MutableModel<Tag>) => MutableModel<Tag> | void): Tag;
+}
+
+export declare class PostTags {
+  readonly id: string;
+  readonly postID: string;
+  readonly tagID: string;
+  readonly post: Post;
+  readonly tag: Tag;
+  constructor(init: ModelInit<PostTags>);
+  static copyOf(source: PostTags, mutator: (draft: MutableModel<PostTags>) => MutableModel<PostTags> | void): PostTags;
+}"
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on record creation and updating timestamp 1`] = `
@@ -707,17 +1251,18 @@ export {
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on record creation and updating timestamp 2`] = `
-"// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
 
 
-const { Todo } = initSchema(schema);
 
-export {
-  Todo
-};"
+
+export declare class Todo {
+  readonly id: string;
+  readonly content?: string;
+  constructor(init: ModelInit<Todo>);
+  static copyOf(source: Todo, mutator: (draft: MutableModel<Todo>) => MutableModel<Todo> | void): Todo;
+}"
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works when configuring a secondary index 1`] = `
@@ -735,15 +1280,18 @@ export {
 `;
 
 exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works when configuring a secondary index 2`] = `
-"// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
 
 
-const { Customer } = initSchema(schema);
 
-export {
-  Customer
-};"
+
+export declare class Customer {
+  readonly id: string;
+  readonly name: string;
+  readonly phoneNumber?: string;
+  readonly accountRepresentativeID: string;
+  constructor(init: ModelInit<Customer>);
+  static copyOf(source: Customer, mutator: (draft: MutableModel<Customer>) => MutableModel<Customer> | void): Customer;
+}"
 `;
