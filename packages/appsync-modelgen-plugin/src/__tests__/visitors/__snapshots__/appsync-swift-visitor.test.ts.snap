@@ -211,10 +211,10 @@ extension Todo {
     model.fields(
       .id(),
       .field(todo.title, is: .required, ofType: .string),
-      .hasMany(todo.requiredListOfTasks, is: .optional, ofType: task.self, associatedWith: task.keys.todo),
-      .hasMany(todo.listOfRequiredTasks, is: .optional, ofType: task.self, associatedWith: task.keys.todo),
-      .hasMany(todo.listOfTasks, is: .optional, ofType: task.self, associatedWith: task.keys.todo),
-      .hasMany(todo.requiredListOfRequiredTasks, is: .optional, ofType: task.self, associatedWith: task.keys.todo),
+      .hasMany(todo.requiredListOfTasks, is: .optional, ofType: task.self, associatedWith: task.keys.function () { [native code] }),
+      .hasMany(todo.listOfRequiredTasks, is: .optional, ofType: task.self, associatedWith: task.keys.function () { [native code] }),
+      .hasMany(todo.listOfTasks, is: .optional, ofType: task.self, associatedWith: task.keys.function () { [native code] }),
+      .hasMany(todo.requiredListOfRequiredTasks, is: .optional, ofType: task.self, associatedWith: task.keys.function () { [native code] }),
       .field(todo.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(todo.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )

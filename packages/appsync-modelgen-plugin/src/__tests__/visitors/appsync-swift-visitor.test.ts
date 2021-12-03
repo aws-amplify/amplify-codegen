@@ -16,7 +16,7 @@ const getVisitor = (
   emitAuthProvider: boolean = true,
   generateIndexRules: boolean = true,
   handleListNullabilityTransparently: boolean = true,
-  transformerVersion: number = 1
+  transformerVersion: number = 1,
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -30,7 +30,7 @@ const getVisitor = (
       emitAuthProvider,
       generateIndexRules,
       handleListNullabilityTransparently,
-      transformerVersion: transformerVersion
+      transformerVersion: transformerVersion,
     },
     { selectedType, generate },
   );
@@ -45,10 +45,19 @@ const getVisitorPipelinedTransformer = (
   isTimestampFieldsAdded: boolean = true,
   emitAuthProvider: boolean = true,
   generateIndexRules: boolean = true,
-  handleListNullabilityTransparently: boolean = true
+  handleListNullabilityTransparently: boolean = true,
 ) => {
-  return getVisitor(schema, selectedType, generate, isTimestampFieldsAdded, emitAuthProvider, generateIndexRules, handleListNullabilityTransparently, 2);
-}
+  return getVisitor(
+    schema,
+    selectedType,
+    generate,
+    isTimestampFieldsAdded,
+    emitAuthProvider,
+    generateIndexRules,
+    handleListNullabilityTransparently,
+    2,
+  );
+};
 
 describe('AppSyncSwiftVisitor', () => {
   it('Should generate a class for a Model', () => {
@@ -649,7 +658,7 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(todo.due_date, is: .optional, ofType: .string),
                 .field(todo.version, is: .required, ofType: .int),
                 .field(todo.value, is: .optional, ofType: .double),
-                .hasMany(todo.tasks, is: .optional, ofType: task.self, associatedWith: task.keys.todo),
+                .hasMany(todo.tasks, is: .optional, ofType: task.self, associatedWith: task.keys.function () { [native code] }),
                 .field(todo.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
                 .field(todo.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
@@ -878,7 +887,7 @@ describe('AppSyncSwiftVisitor', () => {
               model.fields(
                 .id(),
                 .field(post.title, is: .required, ofType: .string),
-                .hasMany(post.editors, is: .optional, ofType: PostEditor.self, associatedWith: PostEditor.keys.id),
+                .hasMany(post.editors, is: .optional, ofType: PostEditor.self, associatedWith: PostEditor.keys.function () { [native code] }),
                 .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
@@ -949,7 +958,7 @@ describe('AppSyncSwiftVisitor', () => {
               model.fields(
                 .id(),
                 .field(post.title, is: .required, ofType: .string),
-                .hasMany(post.editors, is: .optional, ofType: PostEditor.self, associatedWith: PostEditor.keys.id),
+                .hasMany(post.editors, is: .optional, ofType: PostEditor.self, associatedWith: PostEditor.keys.function () { [native code] }),
                 .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
@@ -2269,7 +2278,7 @@ describe('AppSyncSwiftVisitor', () => {
           content: String
           tags: [Tag] @manyToMany(relationName: "PostTags")
         }
-        
+
         type Tag @model {
           id: ID!
           label: String!
