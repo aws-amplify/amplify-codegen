@@ -12,7 +12,7 @@ const getGQLv2Visitor = (
   schema: string,
   selectedType?: string,
   generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
-  enableDartNullSafety: boolean = false,
+  enableDartNullSafety: boolean = true,
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
