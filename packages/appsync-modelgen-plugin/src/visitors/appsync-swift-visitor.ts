@@ -364,8 +364,8 @@ export class AppSyncSwiftVisitor<
       if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
         return `.hasMany(${name}, is: ${isRequired}, ofType: ${typeName}, associatedWith: ${this.getModelName(
           connectionInfo.connectedModel,
-        )}.keys.${modelKeysName})`;
-      }
+          )}.keys.${this.getFieldName(connectionInfo.associatedWith)})`;
+        }
       if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
         return `.hasOne(${name}, is: ${isRequired}, ofType: ${typeName}, associatedWith: ${this.getModelName(
           connectionInfo.connectedModel,

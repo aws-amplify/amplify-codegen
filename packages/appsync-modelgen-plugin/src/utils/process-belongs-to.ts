@@ -12,7 +12,7 @@ export function processBelongsToConnection(
   field: CodeGenField,
   model: CodeGenModel,
   modelMap: CodeGenModelMap,
-  connectionDirective: CodeGenDirective
+  connectionDirective: CodeGenDirective,
 ): CodeGenFieldConnection | undefined {
   const otherSide = modelMap[field.type];
   const otherSideField = getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
@@ -45,8 +45,6 @@ export function processBelongsToConnection(
   //  track the connection and that field is not part of the selection set
   // but if the field are connected using fields argument in connection directive
   // we are reusing the field and it should be preserved in selection set
-
-  // Note: we have a boolean to separate behavior by platform.
   const otherSideHasMany = otherSideField.isList;
   const isConnectingFieldAutoCreated = false;
 
@@ -54,7 +52,8 @@ export function processBelongsToConnection(
     kind: CodeGenConnectionType.BELONGS_TO,
     connectedModel: otherSide,
     isConnectingFieldAutoCreated,
-    targetName: connectionFields[0] || (otherSideHasMany ? makeConnectionAttributeName(otherSide.name, otherSideField.name) : makeConnectionAttributeName(model.name, field.name)),
+    targetName: connectionFields[0] || (otherSideHasMany ? makeConnectionAttributeName(otherSide.name, otherSideField.name) :
+      makeConnectionAttributeName(model.name, field.name)),
   };
 }
 
