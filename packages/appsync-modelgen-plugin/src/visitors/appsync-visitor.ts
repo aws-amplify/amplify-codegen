@@ -688,7 +688,7 @@ export class AppSyncModelVisitor<
 
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
-        const connectionInfo = processConnectionsV2(field, model, this.modelMap, shouldRevertBreakingKeyChange);
+        const connectionInfo = processConnectionsV2(field, model, this.modelMap);
         if (connectionInfo) {
           if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
             // Need to update the other side of the connection even if there is no connection directive

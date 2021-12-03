@@ -91,8 +91,6 @@ export function processConnectionsV2(
   field: CodeGenField,
   model: CodeGenModel,
   modelMap: CodeGenModelMap,
-  // TODO: Remove me when we have a fix to roll-forward.
-  shouldRevertBreakingKeyChange: boolean,
 ): CodeGenFieldConnection | undefined {
   const connectionDirective = field.directives.find(d => d.name === 'hasOne' || d.name === 'hasMany' || d.name === 'belongsTo');
 
@@ -101,7 +99,7 @@ export function processConnectionsV2(
       case 'hasOne':
         return processHasOneConnection(field, model, modelMap, connectionDirective);
       case 'belongsTo':
-        return processBelongsToConnection(field, model, modelMap, connectionDirective, shouldRevertBreakingKeyChange);
+        return processBelongsToConnection(field, model, modelMap, connectionDirective);
       case 'hasMany':
         return processHasManyConnection(field, model, modelMap, connectionDirective);
       default:

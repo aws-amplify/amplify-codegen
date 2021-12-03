@@ -12,9 +12,7 @@ export function processBelongsToConnection(
   field: CodeGenField,
   model: CodeGenModel,
   modelMap: CodeGenModelMap,
-  connectionDirective: CodeGenDirective,
-  // TODO: Remove me when we have a fix to roll-forward.
-  shouldRevertBreakingKeyChange: boolean,
+  connectionDirective: CodeGenDirective
 ): CodeGenFieldConnection | undefined {
   const otherSide = modelMap[field.type];
   const otherSideField = getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
@@ -49,26 +47,15 @@ export function processBelongsToConnection(
   // we are reusing the field and it should be preserved in selection set
 
   // Note: we have a boolean to separate behavior by platform.
-  if (shouldRevertBreakingKeyChange && false) {
-    const isConnectingFieldAutoCreated = connectionFields.length === 0;
+  const otherSideHasMany = otherSideField.isList;
+  const isConnectingFieldAutoCreated = false;
 
-    return {
-      kind: CodeGenConnectionType.BELONGS_TO,
-      connectedModel: otherSide,
-      isConnectingFieldAutoCreated,
-      targetName: connectionFields[0] || makeConnectionAttributeName(model.name, field.name)
-    };
-  } else {
-    const otherSideHasMany = otherSideField.isList;
-    const isConnectingFieldAutoCreated = false;
-
-    return {
-      kind: CodeGenConnectionType.BELONGS_TO,
-      connectedModel: otherSide,
-      isConnectingFieldAutoCreated,
-      targetName: connectionFields[0] || (otherSideHasMany ? makeConnectionAttributeName(otherSide.name, otherSideField.name) : makeConnectionAttributeName(model.name, field.name)),
-    };
-  }
+  return {
+    kind: CodeGenConnectionType.BELONGS_TO,
+    connectedModel: otherSide,
+    isConnectingFieldAutoCreated,
+    targetName: connectionFields[0] || (otherSideHasMany ? makeConnectionAttributeName(otherSide.name, otherSideField.name) : makeConnectionAttributeName(model.name, field.name)),
+  };
 }
 
 export function getBelongsToConnectedField(field: CodeGenField, model: CodeGenModel, connectedModel: CodeGenModel): CodeGenField | undefined {
