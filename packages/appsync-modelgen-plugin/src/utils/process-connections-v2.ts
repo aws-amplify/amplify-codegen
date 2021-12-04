@@ -12,6 +12,7 @@ export function getConnectedFieldV2(
   model: CodeGenModel,
   connectedModel: CodeGenModel,
   directiveName: string,
+  shouldUseModelNameFieldInHasManyAndBelongsTo: boolean = false
 ): CodeGenField {
   const connectionInfo = getDirective(field)(directiveName);
   if (!connectionInfo) {
@@ -73,6 +74,22 @@ export function getConnectedFieldV2(
     }
     return connectedField;
   }
+
+    // TODO: Remove us, leaving in to be explicit on why this flag is here.
+  if (shouldUseModelNameFieldInHasManyAndBelongsTo) {
+    const otherSideConnectedField = connectedModel.fields
+    .filter(f => f.type === model.name)
+    .find(f =>
+      f.directives.find(
+        d =>
+          (d.name === 'belongsTo' || d.name === 'hasOne' || d.name === 'hasMany')
+      ),
+    );
+    if (otherSideConnectedField) {
+      return otherSideConnectedField;
+    }
+  }
+
   // un-named connection. Use an existing field or generate a new field
   const connectedFieldName = makeConnectionAttributeName(model.name, field.name);
   const connectedField = connectedModel.fields.find(f => f.name === connectedFieldName);
@@ -91,6 +108,7 @@ export function processConnectionsV2(
   field: CodeGenField,
   model: CodeGenModel,
   modelMap: CodeGenModelMap,
+  shouldUseModelNameFieldInHasManyAndBelongsTo: boolean
 ): CodeGenFieldConnection | undefined {
   const connectionDirective = field.directives.find(d => d.name === 'hasOne' || d.name === 'hasMany' || d.name === 'belongsTo');
 
@@ -101,7 +119,7 @@ export function processConnectionsV2(
       case 'belongsTo':
         return processBelongsToConnection(field, model, modelMap, connectionDirective);
       case 'hasMany':
-        return processHasManyConnection(field, model, modelMap, connectionDirective);
+        return processHasManyConnection(field, model, modelMap, connectionDirective, shouldUseModelNameFieldInHasManyAndBelongsTo);
       default:
         break;
     }

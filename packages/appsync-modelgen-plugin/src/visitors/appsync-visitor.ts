@@ -294,17 +294,24 @@ export class AppSyncModelVisitor<
       values,
     };
   }
-  processDirectives() {
+  processDirectives(
+    // TODO: Remove us when we have a fix to roll-forward.
+    shouldRevertBreakingKeyChange: boolean,
+    shouldUseModelNameFieldInHasManyAndBelongsTo: boolean
+  ) {
     if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
       this.processV2KeyDirectives();
-      this.processConnectionDirectivesV2();
+      this.processConnectionDirectivesV2(shouldRevertBreakingKeyChange, shouldUseModelNameFieldInHasManyAndBelongsTo);
     } else {
       this.processConnectionDirective();
     }
     this.processAuthDirectives();
   }
   generate(): string {
-    this.processDirectives();
+    // TODO: Remove me, leaving in to be explicit on why this flag is here.
+    const shouldRevertBreakingKeyChange = false;
+    const shouldUseModelNameFieldInHasManyAndBelongsTo = false;
+    this.processDirectives(shouldRevertBreakingKeyChange, shouldUseModelNameFieldInHasManyAndBelongsTo);
     return '';
   }
 
@@ -675,12 +682,16 @@ export class AppSyncModelVisitor<
     });
   }
 
-  protected processConnectionDirectivesV2(): void {
+  protected processConnectionDirectivesV2(
+    // TODO: Remove us when we have a fix to roll-forward.
+    shouldRevertBreakingKeyChange: boolean,
+    shouldUseModelNameFieldInHasManyAndBelongsTo: boolean
+  ): void {
     this.processManyToManyDirectives();
 
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
-        const connectionInfo = processConnectionsV2(field, model, this.modelMap);
+        const connectionInfo = processConnectionsV2(field, model, this.modelMap, shouldUseModelNameFieldInHasManyAndBelongsTo);
         if (connectionInfo) {
           if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
             // Need to update the other side of the connection even if there is no connection directive
@@ -693,6 +704,10 @@ export class AppSyncModelVisitor<
               isList: false,
               isNullable: field.isNullable,
             });
+          } else if (shouldRevertBreakingKeyChange && connectionInfo.targetName !== 'id') {
+            // TODO: Remove this branch when we can roll forward.
+            // Need to remove the field that is targetName, only apply if shouldRevertBreakingKeyChange is set
+            removeFieldFromModel(model, connectionInfo.targetName);
           }
           field.connectionInfo = connectionInfo;
         }

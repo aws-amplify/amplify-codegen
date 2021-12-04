@@ -34,7 +34,10 @@ export class AppSyncModelTypeScriptVisitor<
   ];
 
   generate(): string {
-    this.processDirectives();
+    // TODO: Remove us, leaving in to be explicit on why this flag is here.
+    const shouldRevertBreakingKeyChange = false;
+    const shouldUseModelNameFieldInHasManyAndBelongsTo = false;
+    this.processDirectives(shouldRevertBreakingKeyChange, shouldUseModelNameFieldInHasManyAndBelongsTo);
     const imports = this.generateImports();
     const enumDeclarations = Object.values(this.enumMap)
       .map(enumObj => this.generateEnumDeclarations(enumObj))

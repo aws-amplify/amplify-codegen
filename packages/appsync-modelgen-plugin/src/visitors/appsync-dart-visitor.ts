@@ -53,7 +53,10 @@ export class AppSyncModelDartVisitor<
   }
 
   generate(): string {
-    this.processDirectives();
+    // TODO: Remove us, leaving in to be explicit on why this flag is here.
+    const shouldRevertBreakingKeyChange = true;
+    const shouldUseModelNameFieldInHasManyAndBelongsTo = true;
+    this.processDirectives(shouldRevertBreakingKeyChange, shouldUseModelNameFieldInHasManyAndBelongsTo);
     this.validateReservedKeywords();
     if (this._parsedConfig.generate === CodeGenGenerateEnum.loader) {
       return this.generateClassLoader();
