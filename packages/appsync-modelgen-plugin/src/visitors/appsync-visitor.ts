@@ -704,11 +704,12 @@ export class AppSyncModelVisitor<
               isList: false,
               isNullable: field.isNullable,
             });
-          } else if (shouldRevertBreakingKeyChange && connectionInfo.targetName !== 'id') {
-            // TODO: Remove this branch when we can roll forward.
-            // Need to remove the field that is targetName, only apply if shouldRevertBreakingKeyChange is set
-            removeFieldFromModel(model, connectionInfo.targetName);
           }
+          // else if (shouldRevertBreakingKeyChange && connectionInfo.targetName !== 'id') {
+          //   // TODO: Remove this branch when we can roll forward.
+          //   // Need to remove the field that is targetName, only apply if shouldRevertBreakingKeyChange is set
+          //   removeFieldFromModel(model, connectionInfo.targetName);
+          // }
           field.connectionInfo = connectionInfo;
         }
       });
@@ -727,6 +728,17 @@ export class AppSyncModelVisitor<
           return false;
         }
         return true;
+      });
+    });
+
+    Object.values(this.modelMap).forEach(model => {
+      model.fields.forEach(field => {
+        const connectionInfo = field.connectionInfo;
+        if (connectionInfo?.kind === CodeGenConnectionType.BELONGS_TO && shouldRevertBreakingKeyChange && connectionInfo.targetName !== 'id') {
+          // TODO: Remove this branch when we can roll forward.
+          // Need to remove the field that is targetName, only apply if shouldRevertBreakingKeyChange is set
+          removeFieldFromModel(model, connectionInfo.targetName);
+        }
       });
     });
   }
