@@ -109,9 +109,10 @@ export class AppSyncJSONVisitor<
     this._parsedConfig.metadataTarget = rawConfig.metadataTarget || 'javascript';
   }
   generate(): string {
-    // TODO: Remove me, leaving in to be explicit on why this flag is here.
+    // TODO: Remove us, leaving in to be explicit on why this flag is here.
     const shouldRevertBreakingKeyChange = false;
-    this.processDirectives(shouldRevertBreakingKeyChange);
+    const shouldUseModelNameFieldInHasManyAndBelongsTo = false;
+    this.processDirectives(shouldRevertBreakingKeyChange, shouldUseModelNameFieldInHasManyAndBelongsTo);
     if (this._parsedConfig.metadataTarget === 'typescript') {
       return this.generateTypeScriptMetadata();
     } else if (this._parsedConfig.metadataTarget === 'javascript') {

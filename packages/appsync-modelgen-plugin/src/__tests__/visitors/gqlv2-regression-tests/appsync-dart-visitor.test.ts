@@ -25,7 +25,7 @@ const getGQLv2Visitor = (
   return visitor;
 };
 
-describe('AppSyncSwiftVisitor - GQLv2 Regression Tests', () => {
+describe('AppSyncDartVisitor - GQLv2 Regression Tests', () => {
   it('Works when configuring a secondary index', () => {
     const schema = /* GraphQL */ `
       type Customer @model {

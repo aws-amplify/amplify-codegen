@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 1`] = `
+exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 1`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -135,7 +135,7 @@ class Blog7V2 extends Model {
       key: Blog7V2.POSTS,
       isRequired: false,
       ofModelName: (Post7V2).toString(),
-      associatedKey: Post7V2.BLOG7V2POSTSID
+      associatedKey: Post7V2.BLOG
     ));
   });
 }
@@ -150,7 +150,7 @@ class _Blog7V2ModelType extends ModelType<Blog7V2> {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 2`] = `
+exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 2`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -307,7 +307,7 @@ class Post7V2 extends Model {
       key: Post7V2.COMMENTS,
       isRequired: false,
       ofModelName: (Comment7V2).toString(),
-      associatedKey: Comment7V2.POST7V2COMMENTSID
+      associatedKey: Comment7V2.POST
     ));
   });
 }
@@ -322,7 +322,7 @@ class _Post7V2ModelType extends ModelType<Post7V2> {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 3`] = `
+exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 3`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -349,7 +349,7 @@ import 'package:flutter/foundation.dart';
 "
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 4`] = `
+exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 4`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -492,7 +492,7 @@ class _Comment7V2ModelType extends ModelType<Comment7V2> {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 1`] = `
+exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 1`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -651,7 +651,7 @@ class _ProjectModelType extends ModelType<Project> {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 2`] = `
+exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 2`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -798,7 +798,7 @@ class _TeamModelType extends ModelType<Team> {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 3`] = `
+exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 3`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -957,7 +957,7 @@ class _Project2ModelType extends ModelType<Project2> {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 4`] = `
+exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 4`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -1104,7 +1104,7 @@ class _Team2ModelType extends ModelType<Team2> {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 5`] = `
+exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 5`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -1254,7 +1254,7 @@ class _PostModelType extends ModelType<Post> {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 6`] = `
+exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 6`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -1401,7 +1401,7 @@ class _CommentModelType extends ModelType<Comment> {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 1`] = `
+exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 1`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -1551,7 +1551,7 @@ class _PostModelType extends ModelType<Post> {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 2`] = `
+exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 2`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -1692,7 +1692,7 @@ class _CommentModelType extends ModelType<Comment> {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 3`] = `
+exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 3`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -1842,7 +1842,7 @@ class _Post2ModelType extends ModelType<Post2> {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 4`] = `
+exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 4`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -1987,7 +1987,7 @@ class _Comment2ModelType extends ModelType<Comment2> {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 1`] = `
+exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 1`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -2146,7 +2146,7 @@ class _ProjectModelType extends ModelType<Project> {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 2`] = `
+exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 2`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -2270,7 +2270,7 @@ class _TeamModelType extends ModelType<Team> {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 3`] = `
+exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 3`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -2429,7 +2429,7 @@ class _Project2ModelType extends ModelType<Project2> {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 4`] = `
+exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 4`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -2553,7 +2553,7 @@ class _Team2ModelType extends ModelType<Team2> {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on many to many relationship @manyToMany 1`] = `
+exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on many to many relationship @manyToMany 1`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -2720,7 +2720,7 @@ class _PostModelType extends ModelType<Post> {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on many to many relationship @manyToMany 2`] = `
+exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on many to many relationship @manyToMany 2`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -2870,7 +2870,7 @@ class _TagModelType extends ModelType<Tag> {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on record creation and updating timestamp 1`] = `
+exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on record creation and updating timestamp 1`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -2990,7 +2990,7 @@ class _TodoModelType extends ModelType<Todo> {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works when configuring a secondary index 1`] = `
+exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works when configuring a secondary index 1`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *

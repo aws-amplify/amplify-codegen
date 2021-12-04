@@ -295,12 +295,13 @@ export class AppSyncModelVisitor<
     };
   }
   processDirectives(
-    // TODO: Remove me when we have a fix to roll-forward.
+    // TODO: Remove us when we have a fix to roll-forward.
     shouldRevertBreakingKeyChange: boolean,
+    shouldUseModelNameFieldInHasManyAndBelongsTo: boolean
   ) {
     if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
       this.processV2KeyDirectives();
-      this.processConnectionDirectivesV2(shouldRevertBreakingKeyChange);
+      this.processConnectionDirectivesV2(shouldRevertBreakingKeyChange, shouldUseModelNameFieldInHasManyAndBelongsTo);
     } else {
       this.processConnectionDirective();
     }
@@ -309,7 +310,8 @@ export class AppSyncModelVisitor<
   generate(): string {
     // TODO: Remove me, leaving in to be explicit on why this flag is here.
     const shouldRevertBreakingKeyChange = false;
-    this.processDirectives(shouldRevertBreakingKeyChange);
+    const shouldUseModelNameFieldInHasManyAndBelongsTo = false;
+    this.processDirectives(shouldRevertBreakingKeyChange, shouldUseModelNameFieldInHasManyAndBelongsTo);
     return '';
   }
 
@@ -681,14 +683,15 @@ export class AppSyncModelVisitor<
   }
 
   protected processConnectionDirectivesV2(
-    // TODO: Remove me when we have a fix to roll-forward.
+    // TODO: Remove us when we have a fix to roll-forward.
     shouldRevertBreakingKeyChange: boolean,
+    shouldUseModelNameFieldInHasManyAndBelongsTo: boolean
   ): void {
     this.processManyToManyDirectives();
 
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
-        const connectionInfo = processConnectionsV2(field, model, this.modelMap);
+        const connectionInfo = processConnectionsV2(field, model, this.modelMap, shouldUseModelNameFieldInHasManyAndBelongsTo);
         if (connectionInfo) {
           if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
             // Need to update the other side of the connection even if there is no connection directive
