@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppSyncSwiftVisitor - hasOne Bug Regression Tests v2 should support a schema as part of hasOne/hasMany relationships 1`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { ModelTwo, ModelOne } = initSchema(schema);
+
+export {
+  ModelTwo,
+  ModelOne
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - hasOne Bug Regression Tests v2 should support a schema as part of hasOne/hasMany relationships 2`] = `
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+
+
+
+
+
+export declare class ModelTwo {
+  readonly id: string;
+  readonly ModelOnes?: (ModelOne | null)[];
+  constructor(init: ModelInit<ModelTwo>);
+  static copyOf(source: ModelTwo, mutator: (draft: MutableModel<ModelTwo>) => MutableModel<ModelTwo> | void): ModelTwo;
+}
+
+export declare class ModelOne {
+  readonly id: string;
+  readonly ModelTwo?: ModelTwo;
+  readonly modeltwoID?: string;
+  readonly modelOneModelTwoId?: string;
+  constructor(init: ModelInit<ModelOne>);
+  static copyOf(source: ModelOne, mutator: (draft: MutableModel<ModelOne>) => MutableModel<ModelOne> | void): ModelOne;
+}"
+`;
+
+exports[`AppSyncSwiftVisitor - hasOne Bug Regression Tests v2 should support a schema as part of hasOne/hasMany relationships 3`] = `
+"// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { ModelTwo, ModelOne } = initSchema(schema);
+
+export {
+  ModelTwo,
+  ModelOne
+};"
+`;
+
+exports[`AppSyncSwiftVisitor - hasOne Bug Regression Tests v2 should support a schema as part of hasOne/hasMany relationships 4`] = `
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+
+
+
+
+
+export declare class ModelTwo {
+  readonly id: string;
+  readonly ModelOnes?: (ModelOne | null)[];
+  constructor(init: ModelInit<ModelTwo>);
+  static copyOf(source: ModelTwo, mutator: (draft: MutableModel<ModelTwo>) => MutableModel<ModelTwo> | void): ModelTwo;
+}
+
+export declare class ModelOne {
+  readonly id: string;
+  readonly ModelTwo?: ModelTwo;
+  readonly modeltwoID?: string;
+  readonly modelOneModelTwoId?: string;
+  constructor(init: ModelInit<ModelOne>);
+  static copyOf(source: ModelOne, mutator: (draft: MutableModel<ModelOne>) => MutableModel<ModelOne> | void): ModelOne;
+}"
+`;

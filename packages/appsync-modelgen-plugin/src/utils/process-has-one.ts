@@ -23,7 +23,7 @@ export function processHasOneConnection(
   // we are reusing the field and it should be preserved in selection set
   const isConnectingFieldAutoCreated = connectionFields.length === 0;
 
-  if (!field.isList && !otherSideField.isList) {
+  if (!field.isList) {
     return {
       kind: CodeGenConnectionType.HAS_ONE,
       associatedWith: otherSideField,
