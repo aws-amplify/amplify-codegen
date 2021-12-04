@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.29.10-gqlv2-fix.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.9...@aws-amplify/appsync-modelgen-plugin@1.29.10-gqlv2-fix.0) (2021-12-04)
+
+
+### Bug Fixes
+
+* partially rolling back commit 310 for flutter, swift, and java platforms ([#319](https://github.com/aws-amplify/amplify-codegen/issues/319)) ([6c2f0c8](https://github.com/aws-amplify/amplify-codegen/commit/6c2f0c8920e4347d59f345867778fd49579a2cd4))
+
+
+
+
+
 ## [1.29.9](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.8...@aws-amplify/appsync-modelgen-plugin@1.29.9) (2021-11-30)
 
 **Note:** Version bump only for package @aws-amplify/appsync-modelgen-plugin
