@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.29.10-gqlv2-hasone-bug.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.9...@aws-amplify/appsync-modelgen-plugin@1.29.10-gqlv2-hasone-bug.0) (2021-12-04)
+
+**Note:** Version bump only for package @aws-amplify/appsync-modelgen-plugin
+
+
+
+
+
 ## [1.29.9](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.8...@aws-amplify/appsync-modelgen-plugin@1.29.9) (2021-11-30)
 
 **Note:** Version bump only for package @aws-amplify/appsync-modelgen-plugin
