@@ -705,11 +705,6 @@ export class AppSyncModelVisitor<
               isNullable: field.isNullable,
             });
           }
-          // else if (shouldRevertBreakingKeyChange && connectionInfo.targetName !== 'id') {
-          //   // TODO: Remove this branch when we can roll forward.
-          //   // Need to remove the field that is targetName, only apply if shouldRevertBreakingKeyChange is set
-          //   removeFieldFromModel(model, connectionInfo.targetName);
-          // }
           field.connectionInfo = connectionInfo;
         }
       });
