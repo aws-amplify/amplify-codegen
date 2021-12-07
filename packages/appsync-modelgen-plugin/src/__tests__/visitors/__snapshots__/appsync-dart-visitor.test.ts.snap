@@ -1,5 +1,1158 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated correct dart class for Address with nullsafety disabled 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
+
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:flutter/foundation.dart';
+
+/** This is an auto generated class representing the Address type in your schema. */
+@immutable
+class Address {
+  final String line1;
+  final String line2;
+  final String city;
+  final String state;
+  final String postalCode;
+
+  const Address._internal(
+      {@required this.line1,
+      this.line2,
+      @required this.city,
+      @required this.state,
+      @required this.postalCode});
+
+  factory Address(
+      {@required String line1,
+      String line2,
+      @required String city,
+      @required String state,
+      @required String postalCode}) {
+    return Address._internal(
+        line1: line1,
+        line2: line2,
+        city: city,
+        state: state,
+        postalCode: postalCode);
+  }
+
+  bool equals(Object other) {
+    return this == other;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Address &&
+        line1 == other.line1 &&
+        line2 == other.line2 &&
+        city == other.city &&
+        state == other.state &&
+        postalCode == other.postalCode;
+  }
+
+  @override
+  int get hashCode => toString().hashCode;
+
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+
+    buffer.write(\\"Address {\\");
+    buffer.write(\\"line1=\\" + \\"$line1\\" + \\", \\");
+    buffer.write(\\"line2=\\" + \\"$line2\\" + \\", \\");
+    buffer.write(\\"city=\\" + \\"$city\\" + \\", \\");
+    buffer.write(\\"state=\\" + \\"$state\\" + \\", \\");
+    buffer.write(\\"postalCode=\\" + \\"$postalCode\\");
+    buffer.write(\\"}\\");
+
+    return buffer.toString();
+  }
+
+  Address copyWith(
+      {String line1,
+      String line2,
+      String city,
+      String state,
+      String postalCode}) {
+    return Address(
+        line1: line1 ?? this.line1,
+        line2: line2 ?? this.line2,
+        city: city ?? this.city,
+        state: state ?? this.state,
+        postalCode: postalCode ?? this.postalCode);
+  }
+
+  Address.fromJson(Map<String, dynamic> json)
+      : line1 = json['line1'],
+        line2 = json['line2'],
+        city = json['city'],
+        state = json['state'],
+        postalCode = json['postalCode'];
+
+  Map<String, dynamic> toJson() => {
+        'line1': line1,
+        'line2': line2,
+        'city': city,
+        'state': state,
+        'postalCode': postalCode
+      };
+
+  static var schema =
+      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"Address\\";
+    modelSchemaDefinition.pluralName = \\"Addresses\\";
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.customTypeField(
+        fieldName: 'line1',
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.customTypeField(
+        fieldName: 'line2',
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.customTypeField(
+        fieldName: 'city',
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.customTypeField(
+        fieldName: 'state',
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.customTypeField(
+        fieldName: 'postalCode',
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+  });
+}
+"
+`;
+
+exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated correct dart class for Address with nullsafety enabled 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
+
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:flutter/foundation.dart';
+
+
+/** This is an auto generated class representing the Address type in your schema. */
+@immutable
+class Address {
+  final String? _line1;
+  final String? _line2;
+  final String? _city;
+  final String? _state;
+  final String? _postalCode;
+
+  String get line1 {
+    try {
+      return _line1!;
+    } catch(e) {
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
+    }
+  }
+  
+  String? get line2 {
+    return _line2;
+  }
+  
+  String get city {
+    try {
+      return _city!;
+    } catch(e) {
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
+    }
+  }
+  
+  String get state {
+    try {
+      return _state!;
+    } catch(e) {
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
+    }
+  }
+  
+  String get postalCode {
+    try {
+      return _postalCode!;
+    } catch(e) {
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
+    }
+  }
+  
+  const Address._internal({required line1, line2, required city, required state, required postalCode}): _line1 = line1, _line2 = line2, _city = city, _state = state, _postalCode = postalCode;
+  
+  factory Address({required String line1, String? line2, required String city, required String state, required String postalCode}) {
+    return Address._internal(
+      line1: line1,
+      line2: line2,
+      city: city,
+      state: state,
+      postalCode: postalCode);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Address &&
+      _line1 == other._line1 &&
+      _line2 == other._line2 &&
+      _city == other._city &&
+      _state == other._state &&
+      _postalCode == other._postalCode;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"Address {\\");
+    buffer.write(\\"line1=\\" + \\"$_line1\\" + \\", \\");
+    buffer.write(\\"line2=\\" + \\"$_line2\\" + \\", \\");
+    buffer.write(\\"city=\\" + \\"$_city\\" + \\", \\");
+    buffer.write(\\"state=\\" + \\"$_state\\" + \\", \\");
+    buffer.write(\\"postalCode=\\" + \\"$_postalCode\\");
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  Address copyWith({String? line1, String? line2, String? city, String? state, String? postalCode}) {
+    return Address(
+      line1: line1 ?? this.line1,
+      line2: line2 ?? this.line2,
+      city: city ?? this.city,
+      state: state ?? this.state,
+      postalCode: postalCode ?? this.postalCode);
+  }
+  
+  Address.fromJson(Map<String, dynamic> json)  
+    : _line1 = json['line1'],
+      _line2 = json['line2'],
+      _city = json['city'],
+      _state = json['state'],
+      _postalCode = json['postalCode'];
+  
+  Map<String, dynamic> toJson() => {
+    'line1': _line1, 'line2': _line2, 'city': _city, 'state': _state, 'postalCode': _postalCode
+  };
+
+  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"Address\\";
+    modelSchemaDefinition.pluralName = \\"Addresses\\";
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.customTypeField(
+      fieldName: 'line1',
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.customTypeField(
+      fieldName: 'line2',
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.customTypeField(
+      fieldName: 'city',
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.customTypeField(
+      fieldName: 'state',
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.customTypeField(
+      fieldName: 'postalCode',
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+  });
+}"
+`;
+
+exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated correct dart class for Contact with nullsafety disabled 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
+
+import 'ModelProvider.dart';
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
+
+/** This is an auto generated class representing the Contact type in your schema. */
+@immutable
+class Contact {
+  final String contactName;
+  final Phone phone;
+  final List<Address> mailingAddresses;
+
+  const Contact._internal(
+      {@required this.contactName,
+      @required this.phone,
+      this.mailingAddresses});
+
+  factory Contact(
+      {@required String contactName,
+      @required Phone phone,
+      List<Address> mailingAddresses}) {
+    return Contact._internal(
+        contactName: contactName,
+        phone: phone,
+        mailingAddresses: mailingAddresses != null
+            ? List<Address>.unmodifiable(mailingAddresses)
+            : mailingAddresses);
+  }
+
+  bool equals(Object other) {
+    return this == other;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Contact &&
+        contactName == other.contactName &&
+        phone == other.phone &&
+        DeepCollectionEquality()
+            .equals(mailingAddresses, other.mailingAddresses);
+  }
+
+  @override
+  int get hashCode => toString().hashCode;
+
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+
+    buffer.write(\\"Contact {\\");
+    buffer.write(\\"contactName=\\" + \\"$contactName\\" + \\", \\");
+    buffer.write(\\"phone=\\" + (phone != null ? phone.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"mailingAddresses=\\" +
+        (mailingAddresses != null ? mailingAddresses.toString() : \\"null\\"));
+    buffer.write(\\"}\\");
+
+    return buffer.toString();
+  }
+
+  Contact copyWith(
+      {String contactName, Phone phone, List<Address> mailingAddresses}) {
+    return Contact(
+        contactName: contactName ?? this.contactName,
+        phone: phone ?? this.phone,
+        mailingAddresses: mailingAddresses ?? this.mailingAddresses);
+  }
+
+  Contact.fromJson(Map<String, dynamic> json)
+      : contactName = json['contactName'],
+        phone = json['phone'] != null
+            ? Phone.fromJson(new Map<String, dynamic>.from(json['phone']))
+            : null,
+        mailingAddresses = json['mailingAddresses'] is List
+            ? (json['mailingAddresses'] as List)
+                .map((e) => Address.fromJson(
+                    new Map<String, dynamic>.from(e['serializedData'])))
+                .toList()
+            : null;
+
+  Map<String, dynamic> toJson() => {
+        'contactName': contactName,
+        'phone': phone?.toJson(),
+        'mailingAddresses':
+            mailingAddresses?.map((Address? e) => e?.toJson()).toList()
+      };
+
+  static var schema =
+      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"Contact\\";
+    modelSchemaDefinition.pluralName = \\"Contacts\\";
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.customTypeField(
+        fieldName: 'contactName',
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.embedded(
+        fieldName: 'phone',
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.embedded,
+            ofCustomTypeName: 'Phone')));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.embedded(
+        fieldName: 'mailingAddresses',
+        isRequired: false,
+        isArray: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.embeddedCollection,
+            ofCustomTypeName: 'Address')));
+  });
+}
+"
+`;
+
+exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated correct dart class for Contact with nullsafety enabled 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
+
+import 'ModelProvider.dart';
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
+
+
+/** This is an auto generated class representing the Contact type in your schema. */
+@immutable
+class Contact {
+  final String? _contactName;
+  final Phone? _phone;
+  final List<Address>? _mailingAddresses;
+
+  String get contactName {
+    try {
+      return _contactName!;
+    } catch(e) {
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
+    }
+  }
+  
+  Phone get phone {
+    try {
+      return _phone!;
+    } catch(e) {
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
+    }
+  }
+  
+  List<Address>? get mailingAddresses {
+    return _mailingAddresses;
+  }
+  
+  const Contact._internal({required contactName, required phone, mailingAddresses}): _contactName = contactName, _phone = phone, _mailingAddresses = mailingAddresses;
+  
+  factory Contact({required String contactName, required Phone phone, List<Address>? mailingAddresses}) {
+    return Contact._internal(
+      contactName: contactName,
+      phone: phone,
+      mailingAddresses: mailingAddresses != null ? List<Address>.unmodifiable(mailingAddresses) : mailingAddresses);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Contact &&
+      _contactName == other._contactName &&
+      _phone == other._phone &&
+      DeepCollectionEquality().equals(_mailingAddresses, other._mailingAddresses);
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"Contact {\\");
+    buffer.write(\\"contactName=\\" + \\"$_contactName\\" + \\", \\");
+    buffer.write(\\"phone=\\" + (_phone != null ? _phone!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"mailingAddresses=\\" + (_mailingAddresses != null ? _mailingAddresses!.toString() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  Contact copyWith({String? contactName, Phone? phone, List<Address>? mailingAddresses}) {
+    return Contact(
+      contactName: contactName ?? this.contactName,
+      phone: phone ?? this.phone,
+      mailingAddresses: mailingAddresses ?? this.mailingAddresses);
+  }
+  
+  Contact.fromJson(Map<String, dynamic> json)  
+    : _contactName = json['contactName'],
+      _phone = json['phone']?['serializedData'] != null
+        ? Phone.fromJson(new Map<String, dynamic>.from(json['phone']['serializedData']))
+        : null,
+      _mailingAddresses = json['mailingAddresses'] is List
+        ? (json['mailingAddresses'] as List)
+          .where((e) => e != null)
+          .map((e) => Address.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .toList()
+        : null;
+  
+  Map<String, dynamic> toJson() => {
+    'contactName': _contactName, 'phone': _phone?.toJson(), 'mailingAddresses': _mailingAddresses?.map((Address? e) => e?.toJson()).toList()
+  };
+
+  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"Contact\\";
+    modelSchemaDefinition.pluralName = \\"Contacts\\";
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.customTypeField(
+      fieldName: 'contactName',
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.embedded(
+      fieldName: 'phone',
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.embedded, ofCustomTypeName: 'Phone')
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.embedded(
+      fieldName: 'mailingAddresses',
+      isRequired: false,
+      isArray: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.embeddedCollection, ofCustomTypeName: 'Address')
+    ));
+  });
+}"
+`;
+
+exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated correct dart class for ModelProvider with nullsafety disabled 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
+
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'Person.dart';
+import 'Address.dart';
+import 'Contact.dart';
+import 'Phone.dart';
+
+export 'Address.dart';
+export 'Contact.dart';
+export 'Person.dart';
+export 'Phone.dart';
+
+class ModelProvider implements ModelProviderInterface {
+  @override
+  String version = \\"b65f704d832381d9985dd162ae40c075\\";
+  @override
+  List<ModelSchema> modelSchemas = [Person.schema];
+  static final ModelProvider _instance = ModelProvider();
+  @override
+  List<ModelSchema> customTypeSchemas = [
+    Address.schema,
+    Contact.schema,
+    Phone.schema
+  ];
+
+  static ModelProvider get instance => _instance;
+
+  ModelType getModelTypeByModelName(String modelName) {
+    switch (modelName) {
+      case \\"Person\\":
+        return Person.classType;
+      default:
+        throw Exception(
+            \\"Failed to find model in model provider for model name: \\" +
+                modelName);
+    }
+  }
+}
+"
+`;
+
+exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated correct dart class for ModelProvider with nullsafety enabled 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
+
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'Person.dart';
+import 'Address.dart';
+import 'Contact.dart';
+import 'Phone.dart';
+
+export 'Address.dart';
+export 'Contact.dart';
+export 'Person.dart';
+export 'Phone.dart';
+
+class ModelProvider implements ModelProviderInterface {
+  @override
+  String version = \\"b65f704d832381d9985dd162ae40c075\\";
+  @override
+  List<ModelSchema> modelSchemas = [Person.schema];
+  static final ModelProvider _instance = ModelProvider();
+  @override
+  List<ModelSchema> customTypeSchemas = [Address.schema, Contact.schema, Phone.schema];
+
+  static ModelProvider get instance => _instance;
+  
+  ModelType getModelTypeByModelName(String modelName) {
+    switch(modelName) {
+      case \\"Person\\":
+        return Person.classType;
+      default:
+        throw Exception(\\"Failed to find model in model provider for model name: \\" + modelName);
+    }
+  }
+}"
+`;
+
+exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated correct dart class for Person with nullsafety disabled 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
+
+import 'ModelProvider.dart';
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
+
+/** This is an auto generated class representing the Person type in your schema. */
+@immutable
+class Person extends Model {
+  static const classType = const _PersonModelType();
+  final String id;
+  final String name;
+  final Phone phone;
+  final List<Address> mailingAddresses;
+
+  @override
+  getInstanceType() => classType;
+
+  @override
+  String getId() {
+    return id;
+  }
+
+  const Person._internal(
+      {@required this.id,
+      @required this.name,
+      @required this.phone,
+      this.mailingAddresses});
+
+  factory Person(
+      {String id,
+      @required String name,
+      @required Phone phone,
+      List<Address> mailingAddresses}) {
+    return Person._internal(
+        id: id == null ? UUID.getUUID() : id,
+        name: name,
+        phone: phone,
+        mailingAddresses: mailingAddresses != null
+            ? List<Address>.unmodifiable(mailingAddresses)
+            : mailingAddresses);
+  }
+
+  bool equals(Object other) {
+    return this == other;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Person &&
+        id == other.id &&
+        name == other.name &&
+        phone == other.phone &&
+        DeepCollectionEquality()
+            .equals(mailingAddresses, other.mailingAddresses);
+  }
+
+  @override
+  int get hashCode => toString().hashCode;
+
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+
+    buffer.write(\\"Person {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
+    buffer.write(\\"phone=\\" + (phone != null ? phone.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"mailingAddresses=\\" +
+        (mailingAddresses != null ? mailingAddresses.toString() : \\"null\\"));
+    buffer.write(\\"}\\");
+
+    return buffer.toString();
+  }
+
+  Person copyWith(
+      {String id, String name, Phone phone, List<Address> mailingAddresses}) {
+    return Person(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        phone: phone ?? this.phone,
+        mailingAddresses: mailingAddresses ?? this.mailingAddresses);
+  }
+
+  Person.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        phone = json['phone'] != null
+            ? Phone.fromJson(new Map<String, dynamic>.from(json['phone']))
+            : null,
+        mailingAddresses = json['mailingAddresses'] is List
+            ? (json['mailingAddresses'] as List)
+                .map((e) => Address.fromJson(
+                    new Map<String, dynamic>.from(e['serializedData'])))
+                .toList()
+            : null;
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'phone': phone?.toJson(),
+        'mailingAddresses':
+            mailingAddresses?.map((Address? e) => e?.toJson()).toList()
+      };
+
+  static final QueryField ID = QueryField(fieldName: \\"person.id\\");
+  static final QueryField NAME = QueryField(fieldName: \\"name\\");
+  static final QueryField PHONE = QueryField(fieldName: \\"phone\\");
+  static final QueryField MAILINGADDRESSES =
+      QueryField(fieldName: \\"mailingAddresses\\");
+  static var schema =
+      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"Person\\";
+    modelSchemaDefinition.pluralName = \\"People\\";
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: Person.NAME,
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.embedded(
+        fieldName: 'phone',
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.embedded,
+            ofCustomTypeName: 'Phone')));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.embedded(
+        fieldName: 'mailingAddresses',
+        isRequired: false,
+        isArray: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.embeddedCollection,
+            ofCustomTypeName: 'Address')));
+  });
+}
+
+class _PersonModelType extends ModelType<Person> {
+  const _PersonModelType();
+
+  @override
+  Person fromJson(Map<String, dynamic> jsonData) {
+    return Person.fromJson(jsonData);
+  }
+}
+"
+`;
+
+exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated correct dart class for Person with nullsafety enabled 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
+
+import 'ModelProvider.dart';
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
+
+
+/** This is an auto generated class representing the Person type in your schema. */
+@immutable
+class Person extends Model {
+  static const classType = const _PersonModelType();
+  final String id;
+  final String? _name;
+  final Phone? _phone;
+  final List<Address>? _mailingAddresses;
+
+  @override
+  getInstanceType() => classType;
+  
+  @override
+  String getId() {
+    return id;
+  }
+  
+  String get name {
+    try {
+      return _name!;
+    } catch(e) {
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
+    }
+  }
+  
+  Phone get phone {
+    try {
+      return _phone!;
+    } catch(e) {
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
+    }
+  }
+  
+  List<Address>? get mailingAddresses {
+    return _mailingAddresses;
+  }
+  
+  const Person._internal({required this.id, required name, required phone, mailingAddresses}): _name = name, _phone = phone, _mailingAddresses = mailingAddresses;
+  
+  factory Person({String? id, required String name, required Phone phone, List<Address>? mailingAddresses}) {
+    return Person._internal(
+      id: id == null ? UUID.getUUID() : id,
+      name: name,
+      phone: phone,
+      mailingAddresses: mailingAddresses != null ? List<Address>.unmodifiable(mailingAddresses) : mailingAddresses);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Person &&
+      id == other.id &&
+      _name == other._name &&
+      _phone == other._phone &&
+      DeepCollectionEquality().equals(_mailingAddresses, other._mailingAddresses);
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"Person {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$_name\\" + \\", \\");
+    buffer.write(\\"phone=\\" + (_phone != null ? _phone!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"mailingAddresses=\\" + (_mailingAddresses != null ? _mailingAddresses!.toString() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  Person copyWith({String? id, String? name, Phone? phone, List<Address>? mailingAddresses}) {
+    return Person(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      phone: phone ?? this.phone,
+      mailingAddresses: mailingAddresses ?? this.mailingAddresses);
+  }
+  
+  Person.fromJson(Map<String, dynamic> json)  
+    : id = json['id'],
+      _name = json['name'],
+      _phone = json['phone']?['serializedData'] != null
+        ? Phone.fromJson(new Map<String, dynamic>.from(json['phone']['serializedData']))
+        : null,
+      _mailingAddresses = json['mailingAddresses'] is List
+        ? (json['mailingAddresses'] as List)
+          .where((e) => e != null)
+          .map((e) => Address.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .toList()
+        : null;
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'name': _name, 'phone': _phone?.toJson(), 'mailingAddresses': _mailingAddresses?.map((Address? e) => e?.toJson()).toList()
+  };
+
+  static final QueryField ID = QueryField(fieldName: \\"person.id\\");
+  static final QueryField NAME = QueryField(fieldName: \\"name\\");
+  static final QueryField PHONE = QueryField(fieldName: \\"phone\\");
+  static final QueryField MAILINGADDRESSES = QueryField(fieldName: \\"mailingAddresses\\");
+  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"Person\\";
+    modelSchemaDefinition.pluralName = \\"People\\";
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: Person.NAME,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.embedded(
+      fieldName: 'phone',
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.embedded, ofCustomTypeName: 'Phone')
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.embedded(
+      fieldName: 'mailingAddresses',
+      isRequired: false,
+      isArray: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.embeddedCollection, ofCustomTypeName: 'Address')
+    ));
+  });
+}
+
+class _PersonModelType extends ModelType<Person> {
+  const _PersonModelType();
+  
+  @override
+  Person fromJson(Map<String, dynamic> jsonData) {
+    return Person.fromJson(jsonData);
+  }
+}"
+`;
+
+exports[`AppSync Dart Visitor CustomType (non-model) Tests should not generate custom type field in model provider if non model feature is disabled 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
+
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'Person.dart';
+import 'Address.dart';
+import 'Contact.dart';
+import 'Phone.dart';
+
+export 'Address.dart';
+export 'Contact.dart';
+export 'Person.dart';
+export 'Phone.dart';
+
+class ModelProvider implements ModelProviderInterface {
+  @override
+  String version = \\"b65f704d832381d9985dd162ae40c075\\";
+  @override
+  List<ModelSchema> modelSchemas = [Person.schema];
+  static final ModelProvider _instance = ModelProvider();
+
+  static ModelProvider get instance => _instance;
+  
+  ModelType getModelTypeByModelName(String modelName) {
+    switch(modelName) {
+      case \\"Person\\":
+        return Person.classType;
+      default:
+        throw Exception(\\"Failed to find model in model provider for model name: \\" + modelName);
+    }
+  }
+}"
+`;
+
 exports[`AppSync Dart Visitor Dart Specific Tests should generate the model provider 1`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
@@ -39,16 +1192,11 @@ class ModelProvider implements ModelProviderInterface {
   ModelType getModelTypeByModelName(String modelName) {
     switch (modelName) {
       case \\"SimpleModel\\":
-        {
-          return SimpleModel.classType;
-        }
-        break;
+        return SimpleModel.classType;
       default:
-        {
-          throw Exception(
-              \\"Failed to find model in model provider for model name: \\" +
-                  modelName);
-        }
+        throw Exception(
+            \\"Failed to find model in model provider for model name: \\" +
+                modelName);
     }
   }
 }
@@ -1670,6 +2818,356 @@ class _SimpleModelModelType extends ModelType<SimpleModel> {
   }
 }
 "
+`;
+
+exports[`AppSync Dart Visitor Model with Auth Directive should generate AuthRule with provider information when enabled inserting auth provider to auth when nullsafety is disabled 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
+
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:flutter/foundation.dart';
+
+/** This is an auto generated class representing the TodoWithAuth type in your schema. */
+@immutable
+class TodoWithAuth extends Model {
+  static const classType = const _TodoWithAuthModelType();
+  final String id;
+  final String name;
+  final TemporalDateTime createdAt;
+  final TemporalDateTime updatedAt;
+
+  @override
+  getInstanceType() => classType;
+
+  @override
+  String getId() {
+    return id;
+  }
+
+  const TodoWithAuth._internal(
+      {@required this.id, @required this.name, this.createdAt, this.updatedAt});
+
+  factory TodoWithAuth({String id, @required String name}) {
+    return TodoWithAuth._internal(
+        id: id == null ? UUID.getUUID() : id, name: name);
+  }
+
+  bool equals(Object other) {
+    return this == other;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is TodoWithAuth && id == other.id && name == other.name;
+  }
+
+  @override
+  int get hashCode => toString().hashCode;
+
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+
+    buffer.write(\\"TodoWithAuth {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
+    buffer.write(\\"createdAt=\\" +
+        (createdAt != null ? createdAt.format() : \\"null\\") +
+        \\", \\");
+    buffer.write(
+        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+    buffer.write(\\"}\\");
+
+    return buffer.toString();
+  }
+
+  TodoWithAuth copyWith({String id, String name}) {
+    return TodoWithAuth._internal(id: id ?? this.id, name: name ?? this.name);
+  }
+
+  TodoWithAuth.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        createdAt = json['createdAt'] != null
+            ? TemporalDateTime.fromString(json['createdAt'])
+            : null,
+        updatedAt = json['updatedAt'] != null
+            ? TemporalDateTime.fromString(json['updatedAt'])
+            : null;
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'createdAt': createdAt?.format(),
+        'updatedAt': updatedAt?.format()
+      };
+
+  static final QueryField ID = QueryField(fieldName: \\"todoWithAuth.id\\");
+  static final QueryField NAME = QueryField(fieldName: \\"name\\");
+  static var schema =
+      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"TodoWithAuth\\";
+    modelSchemaDefinition.pluralName = \\"TodoWithAuths\\";
+
+    modelSchemaDefinition.authRules = [
+      AuthRule(
+          authStrategy: AuthStrategy.GROUPS,
+          groupClaim: \\"cognito:groups\\",
+          groups: [\\"admin\\"],
+          provider: AuthRuleProvider.USERPOOLS,
+          operations: [
+            ModelOperation.CREATE,
+            ModelOperation.UPDATE,
+            ModelOperation.DELETE,
+            ModelOperation.READ
+          ]),
+      AuthRule(
+          authStrategy: AuthStrategy.OWNER,
+          ownerField: \\"owner\\",
+          identityClaim: \\"cognito:username\\",
+          provider: AuthRuleProvider.USERPOOLS,
+          operations: [ModelOperation.CREATE, ModelOperation.UPDATE]),
+      AuthRule(
+          authStrategy: AuthStrategy.PUBLIC,
+          provider: AuthRuleProvider.APIKEY,
+          operations: [ModelOperation.READ])
+    ];
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: TodoWithAuth.NAME,
+        isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+        fieldName: 'createdAt',
+        isRequired: false,
+        isReadOnly: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+        fieldName: 'updatedAt',
+        isRequired: false,
+        isReadOnly: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
+  });
+}
+
+class _TodoWithAuthModelType extends ModelType<TodoWithAuth> {
+  const _TodoWithAuthModelType();
+
+  @override
+  TodoWithAuth fromJson(Map<String, dynamic> jsonData) {
+    return TodoWithAuth.fromJson(jsonData);
+  }
+}
+"
+`;
+
+exports[`AppSync Dart Visitor Model with Auth Directive should generate AuthRule with provider information when enabled inserting auth provider to auth when nullsafety is enabled 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
+
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:flutter/foundation.dart';
+
+
+/** This is an auto generated class representing the TodoWithAuth type in your schema. */
+@immutable
+class TodoWithAuth extends Model {
+  static const classType = const _TodoWithAuthModelType();
+  final String id;
+  final String? _name;
+  final TemporalDateTime? _createdAt;
+  final TemporalDateTime? _updatedAt;
+
+  @override
+  getInstanceType() => classType;
+  
+  @override
+  String getId() {
+    return id;
+  }
+  
+  String get name {
+    try {
+      return _name!;
+    } catch(e) {
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
+    }
+  }
+  
+  TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  const TodoWithAuth._internal({required this.id, required name, createdAt, updatedAt}): _name = name, _createdAt = createdAt, _updatedAt = updatedAt;
+  
+  factory TodoWithAuth({String? id, required String name}) {
+    return TodoWithAuth._internal(
+      id: id == null ? UUID.getUUID() : id,
+      name: name);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is TodoWithAuth &&
+      id == other.id &&
+      _name == other._name;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"TodoWithAuth {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$_name\\" + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  TodoWithAuth copyWith({String? id, String? name}) {
+    return TodoWithAuth._internal(
+      id: id ?? this.id,
+      name: name ?? this.name);
+  }
+  
+  TodoWithAuth.fromJson(Map<String, dynamic> json)  
+    : id = json['id'],
+      _name = json['name'],
+      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'name': _name, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+
+  static final QueryField ID = QueryField(fieldName: \\"todoWithAuth.id\\");
+  static final QueryField NAME = QueryField(fieldName: \\"name\\");
+  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"TodoWithAuth\\";
+    modelSchemaDefinition.pluralName = \\"TodoWithAuths\\";
+    
+    modelSchemaDefinition.authRules = [
+      AuthRule(
+        authStrategy: AuthStrategy.GROUPS,
+        groupClaim: \\"cognito:groups\\",
+        groups: [ \\"admin\\" ],
+        provider: AuthRuleProvider.USERPOOLS,
+        operations: [
+          ModelOperation.CREATE,
+          ModelOperation.UPDATE,
+          ModelOperation.DELETE,
+          ModelOperation.READ
+        ]),
+      AuthRule(
+        authStrategy: AuthStrategy.OWNER,
+        ownerField: \\"owner\\",
+        identityClaim: \\"cognito:username\\",
+        provider: AuthRuleProvider.USERPOOLS,
+        operations: [
+          ModelOperation.CREATE,
+          ModelOperation.UPDATE
+        ]),
+      AuthRule(
+        authStrategy: AuthStrategy.PUBLIC,
+        provider: AuthRuleProvider.APIKEY,
+        operations: [
+          ModelOperation.READ
+        ])
+    ];
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: TodoWithAuth.NAME,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+    ));
+  });
+}
+
+class _TodoWithAuthModelType extends ModelType<TodoWithAuth> {
+  const _TodoWithAuthModelType();
+  
+  @override
+  TodoWithAuth fromJson(Map<String, dynamic> jsonData) {
+    return TodoWithAuth.fromJson(jsonData);
+  }
+}"
 `;
 
 exports[`AppSync Dart Visitor Model with Auth Directive should generate class with custom claims 1`] = `
@@ -4045,7 +5543,12 @@ class Blog extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
     }
   }
   
@@ -4198,7 +5701,12 @@ class Comment extends Model {
     try {
       return _content!;
     } catch(e) {
-      throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
     }
   }
   
@@ -4343,7 +5851,12 @@ class Post extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
     }
   }
   
@@ -4517,7 +6030,12 @@ class TestModel extends Model {
     try {
       return _floatVal!;
     } catch(e) {
-      throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
     }
   }
   
@@ -4529,7 +6047,12 @@ class TestModel extends Model {
     try {
       return _floatList!;
     } catch(e) {
-      throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
     }
   }
   
@@ -4541,7 +6064,12 @@ class TestModel extends Model {
     try {
       return _nullableFloatList!;
     } catch(e) {
-      throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
     }
   }
   
@@ -4745,7 +6273,12 @@ class TestModel extends Model {
     try {
       return _floatVal!;
     } catch(e) {
-      throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
     }
   }
   
@@ -4757,7 +6290,12 @@ class TestModel extends Model {
     try {
       return _floatList!;
     } catch(e) {
-      throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
     }
   }
   
@@ -4769,7 +6307,12 @@ class TestModel extends Model {
     try {
       return _nullableFloatList!;
     } catch(e) {
-      throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
     }
   }
   
@@ -4781,7 +6324,12 @@ class TestModel extends Model {
     try {
       return _intVal!;
     } catch(e) {
-      throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
     }
   }
   
@@ -4793,7 +6341,12 @@ class TestModel extends Model {
     try {
       return _intList!;
     } catch(e) {
-      throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
     }
   }
   
@@ -4805,7 +6358,12 @@ class TestModel extends Model {
     try {
       return _nullableIntList!;
     } catch(e) {
-      throw new DataStoreException(DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage, recoverySuggestion: DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion, underlyingException: e.toString());
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
     }
   }
   
@@ -5024,6 +6582,294 @@ class _TestModelModelType extends ModelType<TestModel> {
   @override
   TestModel fromJson(Map<String, dynamic> jsonData) {
     return TestModel.fromJson(jsonData);
+  }
+}"
+`;
+
+exports[`AppSync Dart Visitor Read-only Field Tests should generate the read-only timestamp fields when isTimestampFields is true 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
+
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:flutter/foundation.dart';
+
+/** This is an auto generated class representing the SimpleModel type in your schema. */
+@immutable
+class SimpleModel extends Model {
+  static const classType = const _SimpleModelModelType();
+  final String id;
+  final String name;
+  final TemporalDateTime createdAt;
+  final TemporalDateTime updatedAt;
+
+  @override
+  getInstanceType() => classType;
+
+  @override
+  String getId() {
+    return id;
+  }
+
+  const SimpleModel._internal(
+      {@required this.id, this.name, this.createdAt, this.updatedAt});
+
+  factory SimpleModel({String id, String name}) {
+    return SimpleModel._internal(
+        id: id == null ? UUID.getUUID() : id, name: name);
+  }
+
+  bool equals(Object other) {
+    return this == other;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is SimpleModel && id == other.id && name == other.name;
+  }
+
+  @override
+  int get hashCode => toString().hashCode;
+
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+
+    buffer.write(\\"SimpleModel {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$name\\" + \\", \\");
+    buffer.write(\\"createdAt=\\" +
+        (createdAt != null ? createdAt.format() : \\"null\\") +
+        \\", \\");
+    buffer.write(
+        \\"updatedAt=\\" + (updatedAt != null ? updatedAt.format() : \\"null\\"));
+    buffer.write(\\"}\\");
+
+    return buffer.toString();
+  }
+
+  SimpleModel copyWith({String id, String name}) {
+    return SimpleModel._internal(id: id ?? this.id, name: name ?? this.name);
+  }
+
+  SimpleModel.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        createdAt = json['createdAt'] != null
+            ? TemporalDateTime.fromString(json['createdAt'])
+            : null,
+        updatedAt = json['updatedAt'] != null
+            ? TemporalDateTime.fromString(json['updatedAt'])
+            : null;
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'createdAt': createdAt?.format(),
+        'updatedAt': updatedAt?.format()
+      };
+
+  static final QueryField ID = QueryField(fieldName: \\"simpleModel.id\\");
+  static final QueryField NAME = QueryField(fieldName: \\"name\\");
+  static var schema =
+      Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"SimpleModel\\";
+    modelSchemaDefinition.pluralName = \\"SimpleModels\\";
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: SimpleModel.NAME,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+        fieldName: 'createdAt',
+        isRequired: false,
+        isReadOnly: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+        fieldName: 'updatedAt',
+        isRequired: false,
+        isReadOnly: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
+  });
+}
+
+class _SimpleModelModelType extends ModelType<SimpleModel> {
+  const _SimpleModelModelType();
+
+  @override
+  SimpleModel fromJson(Map<String, dynamic> jsonData) {
+    return SimpleModel.fromJson(jsonData);
+  }
+}
+"
+`;
+
+exports[`AppSync Dart Visitor Read-only and Null Safety Combined Tests should generate the read-only timestamp fields when isTimestampFields is true and with null safety 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
+
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:flutter/foundation.dart';
+
+
+/** This is an auto generated class representing the SimpleModel type in your schema. */
+@immutable
+class SimpleModel extends Model {
+  static const classType = const _SimpleModelModelType();
+  final String id;
+  final String? _name;
+  final TemporalDateTime? _createdAt;
+  final TemporalDateTime? _updatedAt;
+
+  @override
+  getInstanceType() => classType;
+  
+  @override
+  String getId() {
+    return id;
+  }
+  
+  String? get name {
+    return _name;
+  }
+  
+  TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  const SimpleModel._internal({required this.id, name, createdAt, updatedAt}): _name = name, _createdAt = createdAt, _updatedAt = updatedAt;
+  
+  factory SimpleModel({String? id, String? name}) {
+    return SimpleModel._internal(
+      id: id == null ? UUID.getUUID() : id,
+      name: name);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is SimpleModel &&
+      id == other.id &&
+      _name == other._name;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"SimpleModel {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$_name\\" + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  SimpleModel copyWith({String? id, String? name}) {
+    return SimpleModel._internal(
+      id: id ?? this.id,
+      name: name ?? this.name);
+  }
+  
+  SimpleModel.fromJson(Map<String, dynamic> json)  
+    : id = json['id'],
+      _name = json['name'],
+      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'name': _name, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+
+  static final QueryField ID = QueryField(fieldName: \\"simpleModel.id\\");
+  static final QueryField NAME = QueryField(fieldName: \\"name\\");
+  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"SimpleModel\\";
+    modelSchemaDefinition.pluralName = \\"SimpleModels\\";
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: SimpleModel.NAME,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+    ));
+  });
+}
+
+class _SimpleModelModelType extends ModelType<SimpleModel> {
+  const _SimpleModelModelType();
+  
+  @override
+  SimpleModel fromJson(Map<String, dynamic> jsonData) {
+    return SimpleModel.fromJson(jsonData);
   }
 }"
 `;
