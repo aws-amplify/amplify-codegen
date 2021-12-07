@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.29.9](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.8...@aws-amplify/appsync-modelgen-plugin@1.29.9) (2021-11-30)
+
+**Note:** Version bump only for package @aws-amplify/appsync-modelgen-plugin
+
+
+
+
+
+## [1.29.8](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.7...@aws-amplify/appsync-modelgen-plugin@1.29.8) (2021-11-20)
+
+**Note:** Version bump only for package @aws-amplify/appsync-modelgen-plugin
+
+
+
+
+
+## [1.29.7](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.6...@aws-amplify/appsync-modelgen-plugin@1.29.7) (2021-11-17)
+
+
+### Bug Fixes
+
+* **amplify-codegen:** fix name for many to many join table fields ([#303](https://github.com/aws-amplify/amplify-codegen/issues/303)) ([a9ea050](https://github.com/aws-amplify/amplify-codegen/commit/a9ea0507bca6954dc99b8742417a9bb5498bd266))
+
+
+
+
+
 ## [1.29.6](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.5...@aws-amplify/appsync-modelgen-plugin@1.29.6) (2021-11-12)
 
 **Note:** Version bump only for package @aws-amplify/appsync-modelgen-plugin

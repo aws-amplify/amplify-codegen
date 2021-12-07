@@ -31,12 +31,12 @@ type User @model {
 type Post @model {
   title: String!
   content: String
-  comments: [Comment] @connection(name: "PostComment")
+  comments: [Comment] @hasMany
 }
 
 type Comment @model {
   comment: String!
-  post: Post @connection(name: "PostComment")
+  post: Post @belongsTo
 }
 
 # 1:1 Connection
@@ -44,11 +44,11 @@ type Comment @model {
 type Person @model {
   id: ID!
   name: String!
-  license: License @connection
+  license: License @hasOne
 }
 
 type License @model {
   id: ID!
   number: String!
-  belongsTo: Person @connection
+  belongsTo: Person @belongsTo
 }
