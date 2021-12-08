@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "amplify-codegen-e2e-core": "1.1.5",
-    "aws-amplify": "^3.0.8",
+    "aws-amplify": "^4.3.10",
     "aws-appsync": "^4.0.3",
     "aws-sdk": "^2.845.0",
     "circleci-api": "^4.1.3",
