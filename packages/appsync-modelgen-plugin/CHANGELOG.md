@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.30.0-flutter-preview.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.9...@aws-amplify/appsync-modelgen-plugin@1.30.0-flutter-preview.0) (2021-12-08)
+
+
+### Features
+
+* **appsync-dart-visitor:** feat: amplify-flutter preview release ([#302](https://github.com/aws-amplify/amplify-codegen/issues/302)) ([a494443](https://github.com/aws-amplify/amplify-codegen/commit/a49444394f2c25d1351fae9bcd1b491a4640d51e)), closes [#234](https://github.com/aws-amplify/amplify-codegen/issues/234) [#247](https://github.com/aws-amplify/amplify-codegen/issues/247) [#263](https://github.com/aws-amplify/amplify-codegen/issues/263) [#272](https://github.com/aws-amplify/amplify-codegen/issues/272)
+
+
+
+
+
 ## [1.29.9](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.8...@aws-amplify/appsync-modelgen-plugin@1.29.9) (2021-11-30)
 
 **Note:** Version bump only for package @aws-amplify/appsync-modelgen-plugin
