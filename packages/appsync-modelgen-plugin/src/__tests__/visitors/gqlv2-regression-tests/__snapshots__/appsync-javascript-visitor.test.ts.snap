@@ -36,7 +36,6 @@ export declare class Post7V2 {
   readonly title: string;
   readonly blog?: Blog7V2;
   readonly comments?: (Comment7V2 | null)[];
-  readonly blog7V2PostsId?: string;
   constructor(init: ModelInit<Post7V2>);
   static copyOf(source: Post7V2, mutator: (draft: MutableModel<Post7V2>) => MutableModel<Post7V2> | void): Post7V2;
 }
@@ -45,7 +44,6 @@ export declare class Comment7V2 {
   readonly id: string;
   readonly content?: string;
   readonly post?: Post7V2;
-  readonly post7V2CommentsId?: string;
   constructor(init: ModelInit<Comment7V2>);
   static copyOf(source: Comment7V2, mutator: (draft: MutableModel<Comment7V2>) => MutableModel<Comment7V2> | void): Comment7V2;
 }"
@@ -87,7 +85,6 @@ export declare class Post7V2 {
   readonly title: string;
   readonly blog?: Blog7V2;
   readonly comments?: (Comment7V2 | null)[];
-  readonly blog7V2PostsId?: string;
   constructor(init: ModelInit<Post7V2>);
   static copyOf(source: Post7V2, mutator: (draft: MutableModel<Post7V2>) => MutableModel<Post7V2> | void): Post7V2;
 }
@@ -96,7 +93,6 @@ export declare class Comment7V2 {
   readonly id: string;
   readonly content?: string;
   readonly post?: Post7V2;
-  readonly post7V2CommentsId?: string;
   constructor(init: ModelInit<Comment7V2>);
   static copyOf(source: Comment7V2, mutator: (draft: MutableModel<Comment7V2>) => MutableModel<Comment7V2> | void): Comment7V2;
 }"
@@ -138,7 +134,6 @@ export declare class Post7V2 {
   readonly title: string;
   readonly blog?: Blog7V2;
   readonly comments?: (Comment7V2 | null)[];
-  readonly blog7V2PostsId?: string;
   constructor(init: ModelInit<Post7V2>);
   static copyOf(source: Post7V2, mutator: (draft: MutableModel<Post7V2>) => MutableModel<Post7V2> | void): Post7V2;
 }
@@ -147,7 +142,6 @@ export declare class Comment7V2 {
   readonly id: string;
   readonly content?: string;
   readonly post?: Post7V2;
-  readonly post7V2CommentsId?: string;
   constructor(init: ModelInit<Comment7V2>);
   static copyOf(source: Comment7V2, mutator: (draft: MutableModel<Comment7V2>) => MutableModel<Comment7V2> | void): Comment7V2;
 }"
@@ -189,7 +183,6 @@ export declare class Post7V2 {
   readonly title: string;
   readonly blog?: Blog7V2;
   readonly comments?: (Comment7V2 | null)[];
-  readonly blog7V2PostsId?: string;
   constructor(init: ModelInit<Post7V2>);
   static copyOf(source: Post7V2, mutator: (draft: MutableModel<Post7V2>) => MutableModel<Post7V2> | void): Post7V2;
 }
@@ -198,7 +191,6 @@ export declare class Comment7V2 {
   readonly id: string;
   readonly content?: string;
   readonly post?: Post7V2;
-  readonly post7V2CommentsId?: string;
   constructor(init: ModelInit<Comment7V2>);
   static copyOf(source: Comment7V2, mutator: (draft: MutableModel<Comment7V2>) => MutableModel<Comment7V2> | void): Comment7V2;
 }"
@@ -713,7 +705,6 @@ export declare class Post {
 export declare class Comment {
   readonly id: string;
   readonly content: string;
-  readonly postCommentsId?: string;
   constructor(init: ModelInit<Comment>);
   static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
 }
@@ -770,7 +761,6 @@ export declare class Post {
 export declare class Comment {
   readonly id: string;
   readonly content: string;
-  readonly postCommentsId?: string;
   constructor(init: ModelInit<Comment>);
   static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
 }
@@ -827,7 +817,6 @@ export declare class Post {
 export declare class Comment {
   readonly id: string;
   readonly content: string;
-  readonly postCommentsId?: string;
   constructor(init: ModelInit<Comment>);
   static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
 }
@@ -884,7 +873,6 @@ export declare class Post {
 export declare class Comment {
   readonly id: string;
   readonly content: string;
-  readonly postCommentsId?: string;
   constructor(init: ModelInit<Comment>);
   static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
 }

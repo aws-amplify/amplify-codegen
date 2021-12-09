@@ -295,7 +295,7 @@ extension Project {
     model.fields(
       .id(),
       .field(project.name, is: .optional, ofType: .string),
-      .hasOne(project.team, is: .optional, ofType: Team.self, associatedWith: Team.keys.id, targetName: \\"projectTeamId\\"),
+      .hasOne(project.team, is: .optional, ofType: Team.self, associatedWith: Team.keys.project, targetName: \\"projectTeamId\\"),
       .field(project.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(project.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(project.projectTeamId, is: .optional, ofType: .string)
@@ -440,7 +440,7 @@ extension Project2 {
     model.fields(
       .id(),
       .field(project2.name, is: .optional, ofType: .string),
-      .hasOne(project2.team, is: .optional, ofType: Team2.self, associatedWith: Team2.keys.id, targetName: \\"project2TeamId\\"),
+      .hasOne(project2.team, is: .optional, ofType: Team2.self, associatedWith: Team2.keys.project, targetName: \\"project2TeamId\\"),
       .field(project2.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(project2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(project2.project2TeamId, is: .optional, ofType: .string)
@@ -721,7 +721,7 @@ extension Post {
     model.fields(
       .id(),
       .field(post.title, is: .required, ofType: .string),
-      .hasMany(post.comments, is: .optional, ofType: Comment.self, associatedWith: Comment.keys.postCommentsId),
+      .hasMany(post.comments, is: .optional, ofType: Comment.self, associatedWith: Comment.keys.id),
       .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -739,27 +739,22 @@ public struct Comment: Model {
   public var content: String
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
-  public var postCommentsId: String?
   
   public init(id: String = UUID().uuidString,
-      content: String,
-      postCommentsId: String? = nil) {
+      content: String) {
     self.init(id: id,
       content: content,
       createdAt: nil,
-      updatedAt: nil,
-      postCommentsId: postCommentsId)
+      updatedAt: nil)
   }
   internal init(id: String = UUID().uuidString,
       content: String,
       createdAt: Temporal.DateTime? = nil,
-      updatedAt: Temporal.DateTime? = nil,
-      postCommentsId: String? = nil) {
+      updatedAt: Temporal.DateTime? = nil) {
       self.id = id
       self.content = content
       self.createdAt = createdAt
       self.updatedAt = updatedAt
-      self.postCommentsId = postCommentsId
   }
 }"
 `;
@@ -776,7 +771,6 @@ extension Comment {
     case content
     case createdAt
     case updatedAt
-    case postCommentsId
   }
   
   public static let keys = CodingKeys.self
@@ -791,8 +785,7 @@ extension Comment {
       .id(),
       .field(comment.content, is: .required, ofType: .string),
       .field(comment.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(comment.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(comment.postCommentsId, is: .optional, ofType: .string)
+      .field(comment.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
 }"

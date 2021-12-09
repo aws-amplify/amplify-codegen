@@ -630,7 +630,7 @@ class Project extends Model {
       key: Project.TEAM,
       isRequired: false,
       ofModelName: (Team).toString(),
-      associatedKey: Team.ID
+      associatedKey: Team.PROJECT
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
@@ -936,7 +936,7 @@ class Project2 extends Model {
       key: Project2.TEAM,
       isRequired: false,
       ofModelName: (Team2).toString(),
-      associatedKey: Team2.ID
+      associatedKey: Team2.PROJECT
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
@@ -1536,7 +1536,7 @@ class Post extends Model {
       key: Post.COMMENTS,
       isRequired: false,
       ofModelName: (Comment).toString(),
-      associatedKey: Comment.POSTCOMMENTSID
+      associatedKey: Comment.ID
     ));
   });
 }
@@ -1583,7 +1583,6 @@ class Comment extends Model {
   static const classType = const _CommentModelType();
   final String id;
   final String? _content;
-  final String? _postCommentsId;
 
   @override
   getInstanceType() => classType;
@@ -1601,17 +1600,12 @@ class Comment extends Model {
     }
   }
   
-  String? get postCommentsId {
-    return _postCommentsId;
-  }
+  const Comment._internal({required this.id, required content}): _content = content;
   
-  const Comment._internal({required this.id, required content, postCommentsId}): _content = content, _postCommentsId = postCommentsId;
-  
-  factory Comment({String? id, required String content, String? postCommentsId}) {
+  factory Comment({String? id, required String content}) {
     return Comment._internal(
       id: id == null ? UUID.getUUID() : id,
-      content: content,
-      postCommentsId: postCommentsId);
+      content: content);
   }
   
   bool equals(Object other) {
@@ -1623,8 +1617,7 @@ class Comment extends Model {
     if (identical(other, this)) return true;
     return other is Comment &&
       id == other.id &&
-      _content == other._content &&
-      _postCommentsId == other._postCommentsId;
+      _content == other._content;
   }
   
   @override
@@ -1636,32 +1629,28 @@ class Comment extends Model {
     
     buffer.write(\\"Comment {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"content=\\" + \\"$_content\\" + \\", \\");
-    buffer.write(\\"postCommentsId=\\" + \\"$_postCommentsId\\");
+    buffer.write(\\"content=\\" + \\"$_content\\");
     buffer.write(\\"}\\");
     
     return buffer.toString();
   }
   
-  Comment copyWith({String? id, String? content, String? postCommentsId}) {
+  Comment copyWith({String? id, String? content}) {
     return Comment(
       id: id ?? this.id,
-      content: content ?? this.content,
-      postCommentsId: postCommentsId ?? this.postCommentsId);
+      content: content ?? this.content);
   }
   
   Comment.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _content = json['content'],
-      _postCommentsId = json['postCommentsId'];
+      _content = json['content'];
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'content': _content, 'postCommentsId': _postCommentsId
+    'id': id, 'content': _content
   };
 
   static final QueryField ID = QueryField(fieldName: \\"comment.id\\");
   static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
-  static final QueryField POSTCOMMENTSID = QueryField(fieldName: \\"postCommentsId\\");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Comment\\";
     modelSchemaDefinition.pluralName = \\"Comments\\";
@@ -1671,12 +1660,6 @@ class Comment extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: Comment.CONTENT,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
-    ));
-    
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: Comment.POSTCOMMENTSID,
-      isRequired: false,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
   });

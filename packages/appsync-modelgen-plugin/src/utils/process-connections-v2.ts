@@ -28,28 +28,32 @@ export function getConnectedFieldV2(
 
   const indexName = connectionInfo.arguments.indexName;
   const connectionFields = connectionInfo.arguments.fields;
-  if (connectionFields || directiveName === 'hasOne') {
-    let indexDirective;
+  if (connectionFields || directiveName === 'hasOne' || directiveName == 'hasMany' && Object.keys(connectionInfo.arguments).length === 0) {
+    let connectionDirective;
     if (indexName) {
-      indexDirective = flattenFieldDirectives(connectedModel).find(dir => {
+      connectionDirective = flattenFieldDirectives(connectedModel).find(dir => {
         return dir.name === 'index' && dir.arguments.name === indexName;
       });
-      if (!indexDirective) {
+      if (!connectionDirective) {
         throw new Error(
           `Error processing @${connectionInfo.name} directive on ${model.name}.${field.name}, @index directive with name ${indexName} was not found in connected model ${connectedModel.name}`,
         );
       }
+    } else if ((directiveName === 'hasOne' || directiveName === 'hasMany') && Object.keys(connectionInfo.arguments).length === 0) {
+      connectionDirective = flattenFieldDirectives(connectedModel).find(dir => {
+        return dir.name === 'belongsTo';
+      });
     } else {
-      indexDirective = flattenFieldDirectives(connectedModel).find(dir => {
+      connectionDirective = flattenFieldDirectives(connectedModel).find(dir => {
         return dir.name === 'primaryKey';
       });
     }
 
     // when there is a fields argument in the connection
-    const connectedFieldName = indexDirective
+    const connectedFieldName = connectionDirective
       ? ((fieldDir: CodeGenFieldDirective) => {
           return fieldDir.fieldName;
-        })(indexDirective as CodeGenFieldDirective)
+        })(connectionDirective as CodeGenFieldDirective)
       : DEFAULT_HASH_KEY_FIELD;
 
     // Find a field on the other side which connected by a @connection and has the same fields[0] as indexName field

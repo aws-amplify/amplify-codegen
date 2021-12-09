@@ -28,7 +28,7 @@ public final class Blog7V2 implements Model {
   public static final QueryField NAME = field(\\"Blog7V2\\", \\"name\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
-  private final @ModelField(targetType=\\"Post7V2\\") @HasMany(associatedWith = \\"blog7V2PostsId\\", type = Post7V2.class) List<Post7V2> posts = null;
+  private final @ModelField(targetType=\\"Post7V2\\") @HasMany(associatedWith = \\"blog\\", type = Post7V2.class) List<Post7V2> posts = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
@@ -205,7 +205,7 @@ public final class Post7V2 implements Model {
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String title;
   private final @ModelField(targetType=\\"Blog7V2\\") @BelongsTo(targetName = \\"blog7V2PostsId\\", type = Blog7V2.class) Blog7V2 blog;
-  private final @ModelField(targetType=\\"Comment7V2\\") @HasMany(associatedWith = \\"post7V2CommentsId\\", type = Comment7V2.class) List<Comment7V2> comments = null;
+  private final @ModelField(targetType=\\"Comment7V2\\") @HasMany(associatedWith = \\"post\\", type = Comment7V2.class) List<Comment7V2> comments = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
@@ -616,7 +616,7 @@ public final class Project implements Model {
   public static final QueryField PROJECT_TEAM_ID = field(\\"Project\\", \\"projectTeamId\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
-  private final @ModelField(targetType=\\"Team\\") @HasOne(associatedWith = \\"id\\", type = Team.class) Team team = null;
+  private final @ModelField(targetType=\\"Team\\") @HasOne(associatedWith = \\"project\\", type = Team.class) Team team = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   private final @ModelField(targetType=\\"ID\\") String projectTeamId;
@@ -1008,7 +1008,7 @@ public final class Project2 implements Model {
   public static final QueryField PROJECT2_TEAM_ID = field(\\"Project2\\", \\"project2TeamId\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String name;
-  private final @ModelField(targetType=\\"Team2\\") @HasOne(associatedWith = \\"id\\", type = Team2.class) Team2 team = null;
+  private final @ModelField(targetType=\\"Team2\\") @HasOne(associatedWith = \\"project\\", type = Team2.class) Team2 team = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   private final @ModelField(targetType=\\"ID\\") String project2TeamId;
@@ -1770,7 +1770,7 @@ public final class Post implements Model {
   public static final QueryField TITLE = field(\\"Post\\", \\"title\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String title;
-  private final @ModelField(targetType=\\"Comment\\") @HasMany(associatedWith = \\"postCommentsId\\", type = Comment.class) List<Comment> comments = null;
+  private final @ModelField(targetType=\\"Comment\\") @HasMany(associatedWith = \\"id\\", type = Comment.class) List<Comment> comments = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
@@ -1941,12 +1941,10 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 public final class Comment implements Model {
   public static final QueryField ID = field(\\"Comment\\", \\"id\\");
   public static final QueryField CONTENT = field(\\"Comment\\", \\"content\\");
-  public static final QueryField POST_COMMENTS_ID = field(\\"Comment\\", \\"postCommentsId\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  private final @ModelField(targetType=\\"ID\\") String postCommentsId;
   public String getId() {
       return id;
   }
@@ -1963,14 +1961,9 @@ public final class Comment implements Model {
       return updatedAt;
   }
   
-  public String getPostCommentsId() {
-      return postCommentsId;
-  }
-  
-  private Comment(String id, String content, String postCommentsId) {
+  private Comment(String id, String content) {
     this.id = id;
     this.content = content;
-    this.postCommentsId = postCommentsId;
   }
   
   @Override
@@ -1984,8 +1977,7 @@ public final class Comment implements Model {
       return ObjectsCompat.equals(getId(), comment.getId()) &&
               ObjectsCompat.equals(getContent(), comment.getContent()) &&
               ObjectsCompat.equals(getCreatedAt(), comment.getCreatedAt()) &&
-              ObjectsCompat.equals(getUpdatedAt(), comment.getUpdatedAt()) &&
-              ObjectsCompat.equals(getPostCommentsId(), comment.getPostCommentsId());
+              ObjectsCompat.equals(getUpdatedAt(), comment.getUpdatedAt());
       }
   }
   
@@ -1996,7 +1988,6 @@ public final class Comment implements Model {
       .append(getContent())
       .append(getCreatedAt())
       .append(getUpdatedAt())
-      .append(getPostCommentsId())
       .toString()
       .hashCode();
   }
@@ -2008,8 +1999,7 @@ public final class Comment implements Model {
       .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
       .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
       .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
-      .append(\\"postCommentsId=\\" + String.valueOf(getPostCommentsId()))
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
       .append(\\"}\\")
       .toString();
   }
@@ -2029,15 +2019,13 @@ public final class Comment implements Model {
   public static Comment justId(String id) {
     return new Comment(
       id,
-      null,
       null
     );
   }
   
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
-      content,
-      postCommentsId);
+      content);
   }
   public interface ContentStep {
     BuildStep content(String content);
@@ -2047,34 +2035,25 @@ public final class Comment implements Model {
   public interface BuildStep {
     Comment build();
     BuildStep id(String id);
-    BuildStep postCommentsId(String postCommentsId);
   }
   
 
   public static class Builder implements ContentStep, BuildStep {
     private String id;
     private String content;
-    private String postCommentsId;
     @Override
      public Comment build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
         
         return new Comment(
           id,
-          content,
-          postCommentsId);
+          content);
     }
     
     @Override
      public BuildStep content(String content) {
         Objects.requireNonNull(content);
         this.content = content;
-        return this;
-    }
-    
-    @Override
-     public BuildStep postCommentsId(String postCommentsId) {
-        this.postCommentsId = postCommentsId;
         return this;
     }
     
@@ -2090,20 +2069,14 @@ public final class Comment implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String content, String postCommentsId) {
+    private CopyOfBuilder(String id, String content) {
       super.id(id);
-      super.content(content)
-        .postCommentsId(postCommentsId);
+      super.content(content);
     }
     
     @Override
      public CopyOfBuilder content(String content) {
       return (CopyOfBuilder) super.content(content);
-    }
-    
-    @Override
-     public CopyOfBuilder postCommentsId(String postCommentsId) {
-      return (CopyOfBuilder) super.postCommentsId(postCommentsId);
     }
   }
   
@@ -4201,6 +4174,1160 @@ public final class Customer implements Model {
     @Override
      public CopyOfBuilder phoneNumber(String phoneNumber) {
       return (CopyOfBuilder) super.phoneNumber(phoneNumber);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests scenario 9 - Implicit Belongs to Relationship 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.HasOne;
+import com.amplifyframework.core.model.temporal.Temporal;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Project type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Projects\\")
+public final class Project implements Model {
+  public static final QueryField ID = field(\\"Project\\", \\"id\\");
+  public static final QueryField NAME = field(\\"Project\\", \\"name\\");
+  public static final QueryField PROJECT_TEAM_ID = field(\\"Project\\", \\"projectTeamId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\") String name;
+  private final @ModelField(targetType=\\"Team\\") @HasOne(associatedWith = \\"project\\", type = Team.class) Team team = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType=\\"ID\\") String projectTeamId;
+  public String getId() {
+      return id;
+  }
+  
+  public String getName() {
+      return name;
+  }
+  
+  public Team getTeam() {
+      return team;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  public String getProjectTeamId() {
+      return projectTeamId;
+  }
+  
+  private Project(String id, String name, String projectTeamId) {
+    this.id = id;
+    this.name = name;
+    this.projectTeamId = projectTeamId;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Project project = (Project) obj;
+      return ObjectsCompat.equals(getId(), project.getId()) &&
+              ObjectsCompat.equals(getName(), project.getName()) &&
+              ObjectsCompat.equals(getCreatedAt(), project.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), project.getUpdatedAt()) &&
+              ObjectsCompat.equals(getProjectTeamId(), project.getProjectTeamId());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getName())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .append(getProjectTeamId())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Project {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
+      .append(\\"projectTeamId=\\" + String.valueOf(getProjectTeamId()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BuildStep builder() {
+      return new Builder();
+  }
+  
+  /** 
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Project justId(String id) {
+    return new Project(
+      id,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      name,
+      projectTeamId);
+  }
+  public interface BuildStep {
+    Project build();
+    BuildStep id(String id);
+    BuildStep name(String name);
+    BuildStep projectTeamId(String projectTeamId);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private String name;
+    private String projectTeamId;
+    @Override
+     public Project build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Project(
+          id,
+          name,
+          projectTeamId);
+    }
+    
+    @Override
+     public BuildStep name(String name) {
+        this.name = name;
+        return this;
+    }
+    
+    @Override
+     public BuildStep projectTeamId(String projectTeamId) {
+        this.projectTeamId = projectTeamId;
+        return this;
+    }
+    
+    /** 
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String name, String projectTeamId) {
+      super.id(id);
+      super.name(name)
+        .projectTeamId(projectTeamId);
+    }
+    
+    @Override
+     public CopyOfBuilder name(String name) {
+      return (CopyOfBuilder) super.name(name);
+    }
+    
+    @Override
+     public CopyOfBuilder projectTeamId(String projectTeamId) {
+      return (CopyOfBuilder) super.projectTeamId(projectTeamId);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests scenario 9 - Implicit Belongs to Relationship 2`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.BelongsTo;
+import com.amplifyframework.core.model.temporal.Temporal;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Team type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Teams\\")
+public final class Team implements Model {
+  public static final QueryField ID = field(\\"Team\\", \\"id\\");
+  public static final QueryField NAME = field(\\"Team\\", \\"name\\");
+  public static final QueryField PROJECT = field(\\"Team\\", \\"teamProjectId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
+  private final @ModelField(targetType=\\"Project\\") @BelongsTo(targetName = \\"teamProjectId\\", type = Project.class) Project project;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getName() {
+      return name;
+  }
+  
+  public Project getProject() {
+      return project;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Team(String id, String name, Project project) {
+    this.id = id;
+    this.name = name;
+    this.project = project;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Team team = (Team) obj;
+      return ObjectsCompat.equals(getId(), team.getId()) &&
+              ObjectsCompat.equals(getName(), team.getName()) &&
+              ObjectsCompat.equals(getProject(), team.getProject()) &&
+              ObjectsCompat.equals(getCreatedAt(), team.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), team.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getName())
+      .append(getProject())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Team {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
+      .append(\\"project=\\" + String.valueOf(getProject()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static NameStep builder() {
+      return new Builder();
+  }
+  
+  /** 
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Team justId(String id) {
+    return new Team(
+      id,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      name,
+      project);
+  }
+  public interface NameStep {
+    BuildStep name(String name);
+  }
+  
+
+  public interface BuildStep {
+    Team build();
+    BuildStep id(String id);
+    BuildStep project(Project project);
+  }
+  
+
+  public static class Builder implements NameStep, BuildStep {
+    private String id;
+    private String name;
+    private Project project;
+    @Override
+     public Team build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Team(
+          id,
+          name,
+          project);
+    }
+    
+    @Override
+     public BuildStep name(String name) {
+        Objects.requireNonNull(name);
+        this.name = name;
+        return this;
+    }
+    
+    @Override
+     public BuildStep project(Project project) {
+        this.project = project;
+        return this;
+    }
+    
+    /** 
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String name, Project project) {
+      super.id(id);
+      super.name(name)
+        .project(project);
+    }
+    
+    @Override
+     public CopyOfBuilder name(String name) {
+      return (CopyOfBuilder) super.name(name);
+    }
+    
+    @Override
+     public CopyOfBuilder project(Project project) {
+      return (CopyOfBuilder) super.project(project);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests scenario 10 - Explicit Belongs to Relationship 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.HasOne;
+import com.amplifyframework.core.model.temporal.Temporal;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Project type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Projects\\")
+public final class Project implements Model {
+  public static final QueryField ID = field(\\"Project\\", \\"id\\");
+  public static final QueryField NAME = field(\\"Project\\", \\"name\\");
+  public static final QueryField PROJECT_TEAM_ID = field(\\"Project\\", \\"projectTeamId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\") String name;
+  private final @ModelField(targetType=\\"Team\\") @HasOne(associatedWith = \\"project\\", type = Team.class) Team team = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType=\\"ID\\") String projectTeamId;
+  public String getId() {
+      return id;
+  }
+  
+  public String getName() {
+      return name;
+  }
+  
+  public Team getTeam() {
+      return team;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  public String getProjectTeamId() {
+      return projectTeamId;
+  }
+  
+  private Project(String id, String name, String projectTeamId) {
+    this.id = id;
+    this.name = name;
+    this.projectTeamId = projectTeamId;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Project project = (Project) obj;
+      return ObjectsCompat.equals(getId(), project.getId()) &&
+              ObjectsCompat.equals(getName(), project.getName()) &&
+              ObjectsCompat.equals(getCreatedAt(), project.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), project.getUpdatedAt()) &&
+              ObjectsCompat.equals(getProjectTeamId(), project.getProjectTeamId());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getName())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .append(getProjectTeamId())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Project {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
+      .append(\\"projectTeamId=\\" + String.valueOf(getProjectTeamId()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BuildStep builder() {
+      return new Builder();
+  }
+  
+  /** 
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Project justId(String id) {
+    return new Project(
+      id,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      name,
+      projectTeamId);
+  }
+  public interface BuildStep {
+    Project build();
+    BuildStep id(String id);
+    BuildStep name(String name);
+    BuildStep projectTeamId(String projectTeamId);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private String name;
+    private String projectTeamId;
+    @Override
+     public Project build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Project(
+          id,
+          name,
+          projectTeamId);
+    }
+    
+    @Override
+     public BuildStep name(String name) {
+        this.name = name;
+        return this;
+    }
+    
+    @Override
+     public BuildStep projectTeamId(String projectTeamId) {
+        this.projectTeamId = projectTeamId;
+        return this;
+    }
+    
+    /** 
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String name, String projectTeamId) {
+      super.id(id);
+      super.name(name)
+        .projectTeamId(projectTeamId);
+    }
+    
+    @Override
+     public CopyOfBuilder name(String name) {
+      return (CopyOfBuilder) super.name(name);
+    }
+    
+    @Override
+     public CopyOfBuilder projectTeamId(String projectTeamId) {
+      return (CopyOfBuilder) super.projectTeamId(projectTeamId);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests scenario 10 - Explicit Belongs to Relationship 2`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.BelongsTo;
+import com.amplifyframework.core.model.temporal.Temporal;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Team type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Teams\\")
+public final class Team implements Model {
+  public static final QueryField ID = field(\\"Team\\", \\"id\\");
+  public static final QueryField NAME = field(\\"Team\\", \\"name\\");
+  public static final QueryField PROJECT = field(\\"Team\\", \\"projectID\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
+  private final @ModelField(targetType=\\"Project\\") @BelongsTo(targetName = \\"projectID\\", type = Project.class) Project project;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getName() {
+      return name;
+  }
+  
+  public Project getProject() {
+      return project;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Team(String id, String name, Project project) {
+    this.id = id;
+    this.name = name;
+    this.project = project;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Team team = (Team) obj;
+      return ObjectsCompat.equals(getId(), team.getId()) &&
+              ObjectsCompat.equals(getName(), team.getName()) &&
+              ObjectsCompat.equals(getProject(), team.getProject()) &&
+              ObjectsCompat.equals(getCreatedAt(), team.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), team.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getName())
+      .append(getProject())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Team {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
+      .append(\\"project=\\" + String.valueOf(getProject()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static NameStep builder() {
+      return new Builder();
+  }
+  
+  /** 
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Team justId(String id) {
+    return new Team(
+      id,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      name,
+      project);
+  }
+  public interface NameStep {
+    BuildStep name(String name);
+  }
+  
+
+  public interface BuildStep {
+    Team build();
+    BuildStep id(String id);
+    BuildStep project(Project project);
+  }
+  
+
+  public static class Builder implements NameStep, BuildStep {
+    private String id;
+    private String name;
+    private Project project;
+    @Override
+     public Team build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Team(
+          id,
+          name,
+          project);
+    }
+    
+    @Override
+     public BuildStep name(String name) {
+        Objects.requireNonNull(name);
+        this.name = name;
+        return this;
+    }
+    
+    @Override
+     public BuildStep project(Project project) {
+        this.project = project;
+        return this;
+    }
+    
+    /** 
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String name, Project project) {
+      super.id(id);
+      super.name(name)
+        .project(project);
+    }
+    
+    @Override
+     public CopyOfBuilder name(String name) {
+      return (CopyOfBuilder) super.name(name);
+    }
+    
+    @Override
+     public CopyOfBuilder project(Project project) {
+      return (CopyOfBuilder) super.project(project);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests scenario 12 - Belongs to Relationship field and type names don’t align 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.HasMany;
+import com.amplifyframework.core.model.temporal.Temporal;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the CookingBlog type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"CookingBlogs\\")
+public final class CookingBlog implements Model {
+  public static final QueryField ID = field(\\"CookingBlog\\", \\"id\\");
+  public static final QueryField NAME = field(\\"CookingBlog\\", \\"name\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
+  private final @ModelField(targetType=\\"RecipePost\\") @HasMany(associatedWith = \\"blog\\", type = RecipePost.class) List<RecipePost> posts = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getName() {
+      return name;
+  }
+  
+  public List<RecipePost> getPosts() {
+      return posts;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private CookingBlog(String id, String name) {
+    this.id = id;
+    this.name = name;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      CookingBlog cookingBlog = (CookingBlog) obj;
+      return ObjectsCompat.equals(getId(), cookingBlog.getId()) &&
+              ObjectsCompat.equals(getName(), cookingBlog.getName()) &&
+              ObjectsCompat.equals(getCreatedAt(), cookingBlog.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), cookingBlog.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getName())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"CookingBlog {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static NameStep builder() {
+      return new Builder();
+  }
+  
+  /** 
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static CookingBlog justId(String id) {
+    return new CookingBlog(
+      id,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      name);
+  }
+  public interface NameStep {
+    BuildStep name(String name);
+  }
+  
+
+  public interface BuildStep {
+    CookingBlog build();
+    BuildStep id(String id);
+  }
+  
+
+  public static class Builder implements NameStep, BuildStep {
+    private String id;
+    private String name;
+    @Override
+     public CookingBlog build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new CookingBlog(
+          id,
+          name);
+    }
+    
+    @Override
+     public BuildStep name(String name) {
+        Objects.requireNonNull(name);
+        this.name = name;
+        return this;
+    }
+    
+    /** 
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String name) {
+      super.id(id);
+      super.name(name);
+    }
+    
+    @Override
+     public CopyOfBuilder name(String name) {
+      return (CopyOfBuilder) super.name(name);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests scenario 12 - Belongs to Relationship field and type names don’t align 2`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.BelongsTo;
+import com.amplifyframework.core.model.temporal.Temporal;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the RecipePost type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"RecipePosts\\")
+public final class RecipePost implements Model {
+  public static final QueryField ID = field(\\"RecipePost\\", \\"id\\");
+  public static final QueryField TITLE = field(\\"RecipePost\\", \\"title\\");
+  public static final QueryField BLOG = field(\\"RecipePost\\", \\"cookingBlogPostsId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String title;
+  private final @ModelField(targetType=\\"CookingBlog\\") @BelongsTo(targetName = \\"cookingBlogPostsId\\", type = CookingBlog.class) CookingBlog blog;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getTitle() {
+      return title;
+  }
+  
+  public CookingBlog getBlog() {
+      return blog;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private RecipePost(String id, String title, CookingBlog blog) {
+    this.id = id;
+    this.title = title;
+    this.blog = blog;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      RecipePost recipePost = (RecipePost) obj;
+      return ObjectsCompat.equals(getId(), recipePost.getId()) &&
+              ObjectsCompat.equals(getTitle(), recipePost.getTitle()) &&
+              ObjectsCompat.equals(getBlog(), recipePost.getBlog()) &&
+              ObjectsCompat.equals(getCreatedAt(), recipePost.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), recipePost.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getTitle())
+      .append(getBlog())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"RecipePost {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"title=\\" + String.valueOf(getTitle()) + \\", \\")
+      .append(\\"blog=\\" + String.valueOf(getBlog()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static TitleStep builder() {
+      return new Builder();
+  }
+  
+  /** 
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static RecipePost justId(String id) {
+    return new RecipePost(
+      id,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      title,
+      blog);
+  }
+  public interface TitleStep {
+    BuildStep title(String title);
+  }
+  
+
+  public interface BuildStep {
+    RecipePost build();
+    BuildStep id(String id);
+    BuildStep blog(CookingBlog blog);
+  }
+  
+
+  public static class Builder implements TitleStep, BuildStep {
+    private String id;
+    private String title;
+    private CookingBlog blog;
+    @Override
+     public RecipePost build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new RecipePost(
+          id,
+          title,
+          blog);
+    }
+    
+    @Override
+     public BuildStep title(String title) {
+        Objects.requireNonNull(title);
+        this.title = title;
+        return this;
+    }
+    
+    @Override
+     public BuildStep blog(CookingBlog blog) {
+        this.blog = blog;
+        return this;
+    }
+    
+    /** 
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String title, CookingBlog blog) {
+      super.id(id);
+      super.title(title)
+        .blog(blog);
+    }
+    
+    @Override
+     public CopyOfBuilder title(String title) {
+      return (CopyOfBuilder) super.title(title);
+    }
+    
+    @Override
+     public CopyOfBuilder blog(CookingBlog blog) {
+      return (CopyOfBuilder) super.blog(blog);
     }
   }
   
