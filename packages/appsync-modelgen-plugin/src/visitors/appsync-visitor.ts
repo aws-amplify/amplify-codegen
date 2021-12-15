@@ -726,7 +726,10 @@ export class AppSyncModelVisitor<
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
         const connectionInfo = field.connectionInfo;
-        if (connectionInfo?.kind === CodeGenConnectionType.BELONGS_TO && connectionInfo.targetName !== 'id') {
+        if (connectionInfo
+          && connectionInfo.kind !== CodeGenConnectionType.HAS_MANY
+          && connectionInfo.kind !== CodeGenConnectionType.HAS_ONE
+          && connectionInfo.targetName !== 'id') {
           // Need to remove the field that is targetName
           removeFieldFromModel(model, connectionInfo.targetName);
         }
