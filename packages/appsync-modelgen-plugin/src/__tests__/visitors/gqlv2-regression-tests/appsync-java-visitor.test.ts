@@ -213,4 +213,59 @@ describe('AppSyncSwiftVisitor - GQLv2 Regression Tests', () => {
     expect(getGQLv2Visitor(schema, 'Project2').generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Comment7V2').generate()).toMatchSnapshot();
   });
+
+  it('scenario 9 - Implicit Belongs to Relationship', () => {
+    const schema = /* GraphQL */ `
+      type Project @model {
+        id: ID!
+        name: String
+        team: Team @hasOne
+      }
+
+      type Team @model {
+        id: ID!
+        name: String!
+        project: Project @belongsTo
+      }
+    `;
+    expect(getGQLv2Visitor(schema, 'Project').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Team').generate()).toMatchSnapshot();
+  });
+
+  it('scenario 10 - Explicit Belongs to Relationship', () => {
+    const schema = /* GraphQL */ `
+      type Project @model {
+        id: ID!
+        name: String
+        team: Team @hasOne
+      }
+      
+      type Team @model {
+        id: ID!
+        name: String!
+        projectID: ID
+        project: Project @belongsTo(fields: ["projectID"])
+      }
+    `;
+    expect(getGQLv2Visitor(schema, 'Project').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Team').generate()).toMatchSnapshot();
+  });
+
+  it('scenario 12 - Belongs to Relationship field and type names don’t align', () => {
+    const schema = /* GraphQL */ `
+      type CookingBlog @model {
+        id: ID!
+        name: String!
+        posts: [RecipePost] @hasMany
+      }
+      
+      type RecipePost @model {
+       id: ID!
+       title: String!
+       blog: CookingBlog @belongsTo
+      }
+    `;
+    expect(getGQLv2Visitor(schema, 'CookingBlog').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'RecipePost').generate()).toMatchSnapshot();
+  });
 });
