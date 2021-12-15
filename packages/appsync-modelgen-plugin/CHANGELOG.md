@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.29.10-gqlv2-fix.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.10-gqlv2-fix.1...@aws-amplify/appsync-modelgen-plugin@1.29.10-gqlv2-fix.2) (2021-12-15)
+
+
+### Bug Fixes
+
+* change the if statement ([0b0b075](https://github.com/aws-amplify/amplify-codegen/commit/0b0b075a798aab63360ccd847e25d7989baa5522))
+
+
+
+
+
 ## [1.29.10-gqlv2-fix.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.10-gqlv2-fix.0...@aws-amplify/appsync-modelgen-plugin@1.29.10-gqlv2-fix.1) (2021-12-15)
 
 
