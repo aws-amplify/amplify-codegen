@@ -27,9 +27,8 @@ export class AppSyncModelJavaVisitor<
 
   generate(): string {
     // TODO: Remove us, leaving in to be explicit on why this flag is here.
-    const shouldRevertBreakingKeyChange = true;
     const shouldUseModelNameFieldInHasManyAndBelongsTo = false;
-    this.processDirectives(shouldRevertBreakingKeyChange, shouldUseModelNameFieldInHasManyAndBelongsTo);
+    this.processDirectives(shouldUseModelNameFieldInHasManyAndBelongsTo);
     if (this._parsedConfig.generate === 'loader') {
       return this.generateClassLoader();
     }

@@ -110,9 +110,8 @@ export class AppSyncJSONVisitor<
   }
   generate(): string {
     // TODO: Remove us, leaving in to be explicit on why this flag is here.
-    const shouldRevertBreakingKeyChange = false;
     const shouldUseModelNameFieldInHasManyAndBelongsTo = false;
-    this.processDirectives(shouldRevertBreakingKeyChange, shouldUseModelNameFieldInHasManyAndBelongsTo);
+    this.processDirectives(shouldUseModelNameFieldInHasManyAndBelongsTo);
     if (this._parsedConfig.metadataTarget === 'typescript') {
       return this.generateTypeScriptMetadata();
     } else if (this._parsedConfig.metadataTarget === 'javascript') {

@@ -296,12 +296,11 @@ export class AppSyncModelVisitor<
   }
   processDirectives(
     // TODO: Remove us when we have a fix to roll-forward.
-    shouldRevertBreakingKeyChange: boolean,
     shouldUseModelNameFieldInHasManyAndBelongsTo: boolean
   ) {
     if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
       this.processV2KeyDirectives();
-      this.processConnectionDirectivesV2(shouldRevertBreakingKeyChange, shouldUseModelNameFieldInHasManyAndBelongsTo);
+      this.processConnectionDirectivesV2(shouldUseModelNameFieldInHasManyAndBelongsTo);
     } else {
       this.processConnectionDirective();
     }
@@ -309,9 +308,8 @@ export class AppSyncModelVisitor<
   }
   generate(): string {
     // TODO: Remove me, leaving in to be explicit on why this flag is here.
-    const shouldRevertBreakingKeyChange = false;
     const shouldUseModelNameFieldInHasManyAndBelongsTo = false;
-    this.processDirectives(shouldRevertBreakingKeyChange, shouldUseModelNameFieldInHasManyAndBelongsTo);
+    this.processDirectives(shouldUseModelNameFieldInHasManyAndBelongsTo);
     return '';
   }
 
@@ -684,7 +682,6 @@ export class AppSyncModelVisitor<
 
   protected processConnectionDirectivesV2(
     // TODO: Remove us when we have a fix to roll-forward.
-    shouldRevertBreakingKeyChange: boolean,
     shouldUseModelNameFieldInHasManyAndBelongsTo: boolean
   ): void {
     this.processManyToManyDirectives();
@@ -729,9 +726,8 @@ export class AppSyncModelVisitor<
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
         const connectionInfo = field.connectionInfo;
-        if (connectionInfo?.kind === CodeGenConnectionType.BELONGS_TO && shouldRevertBreakingKeyChange && connectionInfo.targetName !== 'id') {
-          // TODO: Remove this branch when we can roll forward.
-          // Need to remove the field that is targetName, only apply if shouldRevertBreakingKeyChange is set
+        if (connectionInfo?.kind === CodeGenConnectionType.BELONGS_TO && connectionInfo.targetName !== 'id') {
+          // Need to remove the field that is targetName
           removeFieldFromModel(model, connectionInfo.targetName);
         }
       });
