@@ -693,6 +693,9 @@ export class AppSyncModelVisitor<
               isList: false,
               isNullable: field.isNullable,
             });
+          } else if (connectionInfo.targetName !== 'id') {
+            // Need to remove the field that is targetName
+            removeFieldFromModel(model, connectionInfo.targetName);
           }
           field.connectionInfo = connectionInfo;
         }
