@@ -58,9 +58,8 @@ export class AppSyncSwiftVisitor<
 
   generate(): string {
     // TODO: Remove us, leaving in to be explicit on why this flag is here.
-    const shouldRevertBreakingKeyChange = true;
     const shouldUseModelNameFieldInHasManyAndBelongsTo = true;
-    this.processDirectives(shouldRevertBreakingKeyChange, shouldUseModelNameFieldInHasManyAndBelongsTo);
+    this.processDirectives(shouldUseModelNameFieldInHasManyAndBelongsTo);
 
     const code = [`// swiftlint:disable all`];
     if (this._parsedConfig.generate === CodeGenGenerateEnum.metadata) {
