@@ -46,6 +46,7 @@ clean_up_e2e_resources: &cleanup_e2e
     cd packages/amplify-codegen-e2e-tests
     yarn clean-e2e-resources job ${CIRCLE_BUILD_NUM}
   working_directory: ~/repo
+  when: always
 
 jobs:
   build:
