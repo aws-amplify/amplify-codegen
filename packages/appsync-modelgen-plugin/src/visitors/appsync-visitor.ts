@@ -701,10 +701,6 @@ export class AppSyncModelVisitor<
               isList: false,
               isNullable: field.isNullable,
             });
-          } else if (connectionInfo.targetName !== 'id') {
-            // TODO: Remove this branch when we can roll forward.
-            // Need to remove the field that is targetName, only apply if shouldRevertBreakingKeyChange is set
-            removeFieldFromModel(model, connectionInfo.targetName);
           }
           field.connectionInfo = connectionInfo;
         }
@@ -726,6 +722,19 @@ export class AppSyncModelVisitor<
         return true;
       });
     });
+
+    Object.values(this.modelMap).forEach(model => {
+      model.fields.forEach(field => {
+        const connectionInfo = field.connectionInfo;
+        if (connectionInfo
+          && connectionInfo.kind !== CodeGenConnectionType.HAS_MANY
+          && connectionInfo.kind !== CodeGenConnectionType.HAS_ONE
+          && connectionInfo.targetName !== 'id') {
+          // Need to remove the field that is targetName
+          removeFieldFromModel(model, connectionInfo.targetName);
+        }
+      });
+    })
   }
 
   protected processV2KeyDirectives(): void {
