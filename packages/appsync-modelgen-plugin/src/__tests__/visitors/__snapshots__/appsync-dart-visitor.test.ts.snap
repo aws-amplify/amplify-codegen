@@ -449,7 +449,7 @@ class Contact {
         'contactName': contactName,
         'phone': phone?.toJson(),
         'mailingAddresses':
-            mailingAddresses?.map((Address? e) => e?.toJson()).toList()
+            mailingAddresses?.map((Address e) => e?.toJson())?.toList()
       };
 
   static var schema =
@@ -872,7 +872,7 @@ class Person extends Model {
         'name': name,
         'phone': phone?.toJson(),
         'mailingAddresses':
-            mailingAddresses?.map((Address? e) => e?.toJson()).toList()
+            mailingAddresses?.map((Address e) => e?.toJson())?.toList()
       };
 
   static final QueryField ID = QueryField(fieldName: \\"person.id\\");
@@ -2156,7 +2156,7 @@ class _TestModelModelType extends ModelType<TestModel> {
 "
 `;
 
-exports[`AppSync Dart Visitor Many To Many V2 Tests Should generate the intermediate model successfully 1`] = `
+exports[`AppSync Dart Visitor Many To Many V2 Tests Should generate the intermediate model successfully with nullsafety disabled 1`] = `
 "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
@@ -2268,7 +2268,7 @@ class Post extends Model {
         'id': id,
         'title': title,
         'content': content,
-        'tags': tags?.map((PostTags? e) => e?.toJson()).toList()
+        'tags': tags?.map((PostTags e) => e?.toJson())?.toList()
       };
 
   static final QueryField ID = QueryField(fieldName: \\"post.id\\");
@@ -2384,7 +2384,7 @@ class Tag extends Model {
   Map<String, dynamic> toJson() => {
         'id': id,
         'label': label,
-        'posts': posts?.map((PostTags? e) => e?.toJson()).toList()
+        'posts': posts?.map((PostTags e) => e?.toJson())?.toList()
       };
 
   static final QueryField ID = QueryField(fieldName: \\"tag.id\\");
@@ -2574,6 +2574,494 @@ class _PostTagsModelType extends ModelType<PostTags> {
   }
 }
 "
+`;
+
+exports[`AppSync Dart Visitor Many To Many V2 Tests Should generate the intermediate model successfully with nullsafety enabled 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
+
+import 'ModelProvider.dart';
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
+
+
+/** This is an auto generated class representing the Post type in your schema. */
+@immutable
+class Post extends Model {
+  static const classType = const _PostModelType();
+  final String id;
+  final String? _title;
+  final String? _content;
+  final List<PostTags>? _tags;
+
+  @override
+  getInstanceType() => classType;
+  
+  @override
+  String getId() {
+    return id;
+  }
+  
+  String get title {
+    try {
+      return _title!;
+    } catch(e) {
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
+    }
+  }
+  
+  String? get content {
+    return _content;
+  }
+  
+  List<PostTags>? get tags {
+    return _tags;
+  }
+  
+  const Post._internal({required this.id, required title, content, tags}): _title = title, _content = content, _tags = tags;
+  
+  factory Post({String? id, required String title, String? content, List<PostTags>? tags}) {
+    return Post._internal(
+      id: id == null ? UUID.getUUID() : id,
+      title: title,
+      content: content,
+      tags: tags != null ? List<PostTags>.unmodifiable(tags) : tags);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Post &&
+      id == other.id &&
+      _title == other._title &&
+      _content == other._content &&
+      DeepCollectionEquality().equals(_tags, other._tags);
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"Post {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"title=\\" + \\"$_title\\" + \\", \\");
+    buffer.write(\\"content=\\" + \\"$_content\\");
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  Post copyWith({String? id, String? title, String? content, List<PostTags>? tags}) {
+    return Post(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      content: content ?? this.content,
+      tags: tags ?? this.tags);
+  }
+  
+  Post.fromJson(Map<String, dynamic> json)  
+    : id = json['id'],
+      _title = json['title'],
+      _content = json['content'],
+      _tags = json['tags'] is List
+        ? (json['tags'] as List)
+          .where((e) => e?['serializedData'] != null)
+          .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .toList()
+        : null;
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'title': _title, 'content': _content, 'tags': _tags?.map((PostTags? e) => e?.toJson()).toList()
+  };
+
+  static final QueryField ID = QueryField(fieldName: \\"post.id\\");
+  static final QueryField TITLE = QueryField(fieldName: \\"title\\");
+  static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
+  static final QueryField TAGS = QueryField(
+    fieldName: \\"tags\\",
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (PostTags).toString()));
+  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"Post\\";
+    modelSchemaDefinition.pluralName = \\"Posts\\";
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: Post.TITLE,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: Post.CONTENT,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+      key: Post.TAGS,
+      isRequired: false,
+      ofModelName: (PostTags).toString(),
+      associatedKey: PostTags.POST
+    ));
+  });
+}
+
+class _PostModelType extends ModelType<Post> {
+  const _PostModelType();
+  
+  @override
+  Post fromJson(Map<String, dynamic> jsonData) {
+    return Post.fromJson(jsonData);
+  }
+}
+
+/** This is an auto generated class representing the Tag type in your schema. */
+@immutable
+class Tag extends Model {
+  static const classType = const _TagModelType();
+  final String id;
+  final String? _label;
+  final List<PostTags>? _posts;
+
+  @override
+  getInstanceType() => classType;
+  
+  @override
+  String getId() {
+    return id;
+  }
+  
+  String get label {
+    try {
+      return _label!;
+    } catch(e) {
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
+    }
+  }
+  
+  List<PostTags>? get posts {
+    return _posts;
+  }
+  
+  const Tag._internal({required this.id, required label, posts}): _label = label, _posts = posts;
+  
+  factory Tag({String? id, required String label, List<PostTags>? posts}) {
+    return Tag._internal(
+      id: id == null ? UUID.getUUID() : id,
+      label: label,
+      posts: posts != null ? List<PostTags>.unmodifiable(posts) : posts);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Tag &&
+      id == other.id &&
+      _label == other._label &&
+      DeepCollectionEquality().equals(_posts, other._posts);
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"Tag {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"label=\\" + \\"$_label\\");
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  Tag copyWith({String? id, String? label, List<PostTags>? posts}) {
+    return Tag(
+      id: id ?? this.id,
+      label: label ?? this.label,
+      posts: posts ?? this.posts);
+  }
+  
+  Tag.fromJson(Map<String, dynamic> json)  
+    : id = json['id'],
+      _label = json['label'],
+      _posts = json['posts'] is List
+        ? (json['posts'] as List)
+          .where((e) => e?['serializedData'] != null)
+          .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .toList()
+        : null;
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'label': _label, 'posts': _posts?.map((PostTags? e) => e?.toJson()).toList()
+  };
+
+  static final QueryField ID = QueryField(fieldName: \\"tag.id\\");
+  static final QueryField LABEL = QueryField(fieldName: \\"label\\");
+  static final QueryField POSTS = QueryField(
+    fieldName: \\"posts\\",
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (PostTags).toString()));
+  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"Tag\\";
+    modelSchemaDefinition.pluralName = \\"Tags\\";
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: Tag.LABEL,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+      key: Tag.POSTS,
+      isRequired: false,
+      ofModelName: (PostTags).toString(),
+      associatedKey: PostTags.TAG
+    ));
+  });
+}
+
+class _TagModelType extends ModelType<Tag> {
+  const _TagModelType();
+  
+  @override
+  Tag fromJson(Map<String, dynamic> jsonData) {
+    return Tag.fromJson(jsonData);
+  }
+}
+
+/** This is an auto generated class representing the PostTags type in your schema. */
+@immutable
+class PostTags extends Model {
+  static const classType = const _PostTagsModelType();
+  final String id;
+  final String? _postID;
+  final String? _tagID;
+  final Post? _post;
+  final Tag? _tag;
+
+  @override
+  getInstanceType() => classType;
+  
+  @override
+  String getId() {
+    return id;
+  }
+  
+  String get postID {
+    try {
+      return _postID!;
+    } catch(e) {
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
+    }
+  }
+  
+  String get tagID {
+    try {
+      return _tagID!;
+    } catch(e) {
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
+    }
+  }
+  
+  Post get post {
+    try {
+      return _post!;
+    } catch(e) {
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
+    }
+  }
+  
+  Tag get tag {
+    try {
+      return _tag!;
+    } catch(e) {
+      throw new DataStoreException(
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+    );
+    }
+  }
+  
+  const PostTags._internal({required this.id, required postID, required tagID, required post, required tag}): _postID = postID, _tagID = tagID, _post = post, _tag = tag;
+  
+  factory PostTags({String? id, required String postID, required String tagID, required Post post, required Tag tag}) {
+    return PostTags._internal(
+      id: id == null ? UUID.getUUID() : id,
+      postID: postID,
+      tagID: tagID,
+      post: post,
+      tag: tag);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is PostTags &&
+      id == other.id &&
+      _postID == other._postID &&
+      _tagID == other._tagID &&
+      _post == other._post &&
+      _tag == other._tag;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"PostTags {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"postID=\\" + \\"$_postID\\" + \\", \\");
+    buffer.write(\\"tagID=\\" + \\"$_tagID\\" + \\", \\");
+    buffer.write(\\"post=\\" + (_post != null ? _post!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"tag=\\" + (_tag != null ? _tag!.toString() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  PostTags copyWith({String? id, String? postID, String? tagID, Post? post, Tag? tag}) {
+    return PostTags(
+      id: id ?? this.id,
+      postID: postID ?? this.postID,
+      tagID: tagID ?? this.tagID,
+      post: post ?? this.post,
+      tag: tag ?? this.tag);
+  }
+  
+  PostTags.fromJson(Map<String, dynamic> json)  
+    : id = json['id'],
+      _postID = json['postID'],
+      _tagID = json['tagID'],
+      _post = json['post']?['serializedData'] != null
+        ? Post.fromJson(new Map<String, dynamic>.from(json['post']['serializedData']))
+        : null,
+      _tag = json['tag']?['serializedData'] != null
+        ? Tag.fromJson(new Map<String, dynamic>.from(json['tag']['serializedData']))
+        : null;
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'postID': _postID, 'tagID': _tagID, 'post': _post?.toJson(), 'tag': _tag?.toJson()
+  };
+
+  static final QueryField ID = QueryField(fieldName: \\"postTags.id\\");
+  static final QueryField POSTID = QueryField(fieldName: \\"postID\\");
+  static final QueryField TAGID = QueryField(fieldName: \\"tagID\\");
+  static final QueryField POST = QueryField(
+    fieldName: \\"post\\",
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Post).toString()));
+  static final QueryField TAG = QueryField(
+    fieldName: \\"tag\\",
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Tag).toString()));
+  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"PostTags\\";
+    modelSchemaDefinition.pluralName = \\"PostTags\\";
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: PostTags.POSTID,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: PostTags.TAGID,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+      key: PostTags.POST,
+      isRequired: true,
+      targetName: \\"postID\\",
+      ofModelName: (Post).toString()
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+      key: PostTags.TAG,
+      isRequired: true,
+      targetName: \\"tagID\\",
+      ofModelName: (Tag).toString()
+    ));
+  });
+}
+
+class _PostTagsModelType extends ModelType<PostTags> {
+  const _PostTagsModelType();
+  
+  @override
+  PostTags fromJson(Map<String, dynamic> jsonData) {
+    return PostTags.fromJson(jsonData);
+  }
+}"
 `;
 
 exports[`AppSync Dart Visitor Model Directive should generate a class for a Simple Model 1`] = `
@@ -4623,7 +5111,7 @@ class Todo extends Model {
             : null;
 
   Map<String, dynamic> toJson() =>
-      {'id': id, 'tasks': tasks?.map((Task? e) => e?.toJson()).toList()};
+      {'id': id, 'tasks': tasks?.map((Task e) => e?.toJson())?.toList()};
 
   static final QueryField ID = QueryField(fieldName: \\"todo.id\\");
   static final QueryField TASKS = QueryField(
@@ -4878,7 +5366,7 @@ class Blog extends Model {
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
-        'posts': posts?.map((Post? e) => e?.toJson()).toList(),
+        'posts': posts?.map((Post e) => e?.toJson())?.toList(),
         'test': test
       };
 
@@ -5171,7 +5659,7 @@ class Post extends Model {
         'id': id,
         'title': title,
         'blog': blog?.toJson(),
-        'comments': comments?.map((Comment? e) => e?.toJson()).toList()
+        'comments': comments?.map((Comment e) => e?.toJson())?.toList()
       };
 
   static final QueryField ID = QueryField(fieldName: \\"post.id\\");

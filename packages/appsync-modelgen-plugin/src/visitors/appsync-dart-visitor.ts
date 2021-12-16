@@ -659,7 +659,9 @@ export class AppSyncModelDartVisitor<
         if (this.isModelType(field) || this.isNonModelType(field)) {
           if (field.isList) {
             const modelName = this.getNativeType({ ...field, isList: false });
-            return `'${varName}': ${fieldName}?.map((${modelName}? e) => e?.toJson()).toList()`;
+            return this.isNullSafety()
+              ? `'${varName}': ${fieldName}?.map((${modelName}? e) => e?.toJson()).toList()`
+              : `'${varName}': ${fieldName}?.map((${modelName} e) => e?.toJson())?.toList()`;
           }
           return `'${varName}': ${fieldName}?.toJson()`;
         }
