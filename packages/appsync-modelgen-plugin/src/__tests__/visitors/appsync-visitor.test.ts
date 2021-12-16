@@ -24,18 +24,6 @@ const createAndGeneratePipelinedTransformerVisitor = (schema: string) => {
   return createAndGenerateVisitor(schema, true);
 };
 
-const createGraphQLV2TransformerVisitor  = (schema: string) => {
-  const ast = parse(schema);
-  const builtSchema = buildSchemaWithDirectives(schema);
-  const visitor = new AppSyncModelVisitor(
-    builtSchema,
-    { directives, target: 'general', isTimestampFieldsAdded: true, usePipelinedTransformer: true },
-    { generate: CodeGenGenerateEnum.code },
-  );
-  visit(ast, { leave: visitor });
-  return visitor;
-}
-
 describe('AppSyncModelVisitor', () => {
   it('should support schema with id', () => {
     const schema = /* GraphQL */ `
@@ -912,6 +900,13 @@ describe('AppSyncModelVisitor', () => {
 
   describe.only('Graphql V2 fix tests for multiple has many relations of only one model type', () => {
     const schema = /* GraphQL*/ `
+      type Registration @model {
+        id: ID! @primaryKey
+        meetingId: ID @index(name: "byMeeting", sortKeyFields: ["attendeeId"])
+        meeting: Meeting! @belongsTo(fields: ["meetingId"])
+        attendeeId: ID @index(name: "byAttendee", sortKeyFields: ["meetingId"])
+        attendee: Attendee! @belongsTo(fields: ["attendeeId"])
+      }
       type Meeting @model {
         id: ID! @primaryKey
         title: String!
@@ -922,21 +917,9 @@ describe('AppSyncModelVisitor', () => {
         id: ID! @primaryKey
         meetings: [Registration] @hasMany(indexName: "byAttendee", fields: ["id"])
       }
-      
-      type Registration @model {
-        id: ID! @primaryKey
-        meetingId: ID @index(name: "byMeeting", sortKeyFields: ["attendeeId"])
-        meeting: Meeting! @belongsTo(fields: ["meetingId"])
-        attendeeId: ID @index(name: "byAttendee", sortKeyFields: ["meetingId"])
-        attendee: Attendee! @belongsTo(fields: ["attendeeId"])
-      }
     `;
-    const outputModels: string[] = ['Meeting', 'Attendee', 'Registration'];
-    outputModels.forEach(model => {
-      it(`should not throw error when processing ${model}`, () => {
-        const visitor = createGraphQLV2TransformerVisitor(schema);
-        expect(() => visitor.generate()).not.toThrow();
-      });
-    })
+    it(`should not throw error when processing models`, () => {
+      expect(() => createAndGeneratePipelinedTransformerVisitor(schema)).not.toThrow();
+    });
   })
 });
