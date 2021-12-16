@@ -898,7 +898,7 @@ describe('AppSyncModelVisitor', () => {
     });
   });
 
-  describe.only('Graphql V2 fix tests for multiple has many relations of only one model type', () => {
+  describe('Graphql V2 fix tests for multiple has many relations of only one model type', () => {
     const schema = /* GraphQL*/ `
       type Registration @model {
         id: ID! @primaryKey
