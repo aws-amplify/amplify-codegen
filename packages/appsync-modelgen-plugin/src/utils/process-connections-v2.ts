@@ -28,7 +28,7 @@ export function getConnectedFieldV2(
 
   const indexName = connectionInfo.arguments.indexName;
   const connectionFields = connectionInfo.arguments.fields;
-  if (connectionFields || directiveName === 'hasOne' || directiveName == 'hasMany' && Object.keys(connectionInfo.arguments).length === 0) {
+  if (connectionFields || directiveName === 'hasOne') {
     let connectionDirective;
     if (indexName) {
       connectionDirective = flattenFieldDirectives(connectedModel).find(dir => {
@@ -39,10 +39,6 @@ export function getConnectedFieldV2(
           `Error processing @${connectionInfo.name} directive on ${model.name}.${field.name}, @index directive with name ${indexName} was not found in connected model ${connectedModel.name}`,
         );
       }
-    } else if ((directiveName === 'hasOne' || directiveName === 'hasMany') && Object.keys(connectionInfo.arguments).length === 0) {
-      connectionDirective = flattenFieldDirectives(connectedModel).find(dir => {
-        return dir.name === 'belongsTo';
-      });
     } else {
       connectionDirective = flattenFieldDirectives(connectedModel).find(dir => {
         return dir.name === 'primaryKey';

@@ -693,6 +693,7 @@ export declare class Post {
 export declare class Comment {
   readonly id: string;
   readonly content: string;
+  readonly postCommentsId?: string;
   constructor(init: ModelInit<Comment>);
   static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
 }
@@ -749,6 +750,7 @@ export declare class Post {
 export declare class Comment {
   readonly id: string;
   readonly content: string;
+  readonly postCommentsId?: string;
   constructor(init: ModelInit<Comment>);
   static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
 }
@@ -805,6 +807,7 @@ export declare class Post {
 export declare class Comment {
   readonly id: string;
   readonly content: string;
+  readonly postCommentsId?: string;
   constructor(init: ModelInit<Comment>);
   static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
 }
@@ -861,6 +864,7 @@ export declare class Post {
 export declare class Comment {
   readonly id: string;
   readonly content: string;
+  readonly postCommentsId?: string;
   constructor(init: ModelInit<Comment>);
   static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
 }
