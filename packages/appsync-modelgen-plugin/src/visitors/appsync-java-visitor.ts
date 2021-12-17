@@ -27,7 +27,7 @@ export class AppSyncModelJavaVisitor<
 
   generate(): string {
     // TODO: Remove us, leaving in to be explicit on why this flag is here.
-    const shouldUseModelNameFieldInHasManyAndBelongsTo = false;
+    const shouldUseModelNameFieldInHasManyAndBelongsTo = true;
     this.processDirectives(shouldUseModelNameFieldInHasManyAndBelongsTo);
     if (this._parsedConfig.generate === 'loader') {
       return this.generateClassLoader();
