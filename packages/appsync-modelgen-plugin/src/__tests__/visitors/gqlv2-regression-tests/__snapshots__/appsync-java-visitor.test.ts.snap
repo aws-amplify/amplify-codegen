@@ -791,7 +791,7 @@ public final class Blog7V2 implements Model {
   public static final QueryField NAME = field(\\"Blog7V2\\", \\"name\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
-  private final @ModelField(targetType=\\"Post7V2\\") @HasMany(associatedWith = \\"blog7V2PostsId\\", type = Post7V2.class) List<Post7V2> posts = null;
+  private final @ModelField(targetType=\\"Post7V2\\") @HasMany(associatedWith = \\"blog\\", type = Post7V2.class) List<Post7V2> posts = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
@@ -968,7 +968,7 @@ public final class Post7V2 implements Model {
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String title;
   private final @ModelField(targetType=\\"Blog7V2\\") @BelongsTo(targetName = \\"blog7V2PostsId\\", type = Blog7V2.class) Blog7V2 blog;
-  private final @ModelField(targetType=\\"Comment7V2\\") @HasMany(associatedWith = \\"post7V2CommentsId\\", type = Comment7V2.class) List<Comment7V2> comments = null;
+  private final @ModelField(targetType=\\"Comment7V2\\") @HasMany(associatedWith = \\"post\\", type = Comment7V2.class) List<Comment7V2> comments = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
