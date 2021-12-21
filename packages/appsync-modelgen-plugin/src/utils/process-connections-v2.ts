@@ -4,6 +4,7 @@ import { processHasOneConnection } from './process-has-one';
 import { processBelongsToConnection, getBelongsToConnectedField } from './process-belongs-to';
 import { processHasManyConnection } from './process-has-many';
 import { getDirective } from './fieldUtils';
+import { GraphQLNamedType } from 'graphql';
 
 // TODO: This file holds several references to utility functions in the v1 process connections file, those functions need to go here before that file is removed
 
@@ -28,7 +29,7 @@ export function getConnectedFieldV2(
 
   const indexName = connectionInfo.arguments.indexName;
   const connectionFields = connectionInfo.arguments.fields;
-  if (connectionFields || directiveName === 'hasOne' || directiveName == 'hasMany' && Object.keys(connectionInfo.arguments).length === 0) {
+  if (connectionFields || directiveName === 'hasOne') {
     let connectionDirective;
     if (indexName) {
       connectionDirective = flattenFieldDirectives(connectedModel).find(dir => {
@@ -39,22 +40,34 @@ export function getConnectedFieldV2(
           `Error processing @${connectionInfo.name} directive on ${model.name}.${field.name}, @index directive with name ${indexName} was not found in connected model ${connectedModel.name}`,
         );
       }
-    } else if ((directiveName === 'hasOne' || directiveName === 'hasMany') && Object.keys(connectionInfo.arguments).length === 0) {
-      connectionDirective = flattenFieldDirectives(connectedModel).find(dir => {
-        return dir.name === 'belongsTo';
-      });
     } else {
       connectionDirective = flattenFieldDirectives(connectedModel).find(dir => {
         return dir.name === 'primaryKey';
       });
     }
 
+    const getOtherSideBelongsToField = (type: string, otherSideModel: CodeGenModel) => {
+      return otherSideModel.fields
+      .filter(f => f.type === type)
+      .find(f =>
+        f.directives.find(
+          d => d.name === 'belongsTo'
+        )
+      )?.name;
+    }
+
     // when there is a fields argument in the connection
-    const connectedFieldName = connectionDirective
-      ? ((fieldDir: CodeGenFieldDirective) => {
-          return fieldDir.fieldName;
-        })(connectionDirective as CodeGenFieldDirective)
-      : DEFAULT_HASH_KEY_FIELD;
+    let connectedFieldName: string = DEFAULT_HASH_KEY_FIELD;
+    if (connectionDirective) {
+      connectedFieldName = ((fieldDir: CodeGenFieldDirective) => {
+        return fieldDir.fieldName;
+      })(connectionDirective as CodeGenFieldDirective)
+    } else {
+      const otherSideBelongsToField = getOtherSideBelongsToField(model.name, connectedModel);
+      if (otherSideBelongsToField) {
+        connectedFieldName = otherSideBelongsToField;
+      }
+    }
 
     // Find a field on the other side which connected by a @connection and has the same fields[0] as indexName field
     const otherSideConnectedField = connectedModel.fields

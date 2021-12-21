@@ -1,107 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 1`] = `
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on explicit hasMany belongs to relationship @belongsTo 1`] = `
 "// swiftlint:disable all
 import Amplify
 import Foundation
 
-public struct Blog7V2: Model {
-  public let id: String
-  public var name: String
-  public var posts: List<Post7V2>?
-  public var createdAt: Temporal.DateTime?
-  public var updatedAt: Temporal.DateTime?
-  
-  public init(id: String = UUID().uuidString,
-      name: String,
-      posts: List<Post7V2>? = []) {
-    self.init(id: id,
-      name: name,
-      posts: posts,
-      createdAt: nil,
-      updatedAt: nil)
-  }
-  internal init(id: String = UUID().uuidString,
-      name: String,
-      posts: List<Post7V2>? = [],
-      createdAt: Temporal.DateTime? = nil,
-      updatedAt: Temporal.DateTime? = nil) {
-      self.id = id
-      self.name = name
-      self.posts = posts
-      self.createdAt = createdAt
-      self.updatedAt = updatedAt
-  }
-}"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 2`] = `
-"// swiftlint:disable all
-import Amplify
-import Foundation
-
-extension Blog7V2 {
-  // MARK: - CodingKeys 
-   public enum CodingKeys: String, ModelKey {
-    case id
-    case name
-    case posts
-    case createdAt
-    case updatedAt
-  }
-  
-  public static let keys = CodingKeys.self
-  //  MARK: - ModelSchema 
-  
-  public static let schema = defineSchema { model in
-    let blog7V2 = Blog7V2.keys
-    
-    model.pluralName = \\"Blog7V2s\\"
-    
-    model.fields(
-      .id(),
-      .field(blog7V2.name, is: .required, ofType: .string),
-      .hasMany(blog7V2.posts, is: .optional, ofType: Post7V2.self, associatedWith: Post7V2.keys.blog),
-      .field(blog7V2.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(blog7V2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
-    )
-    }
-}"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 3`] = `
-"// swiftlint:disable all
-import Amplify
-import Foundation
-
-public struct Post7V2: Model {
+public struct Post: Model {
   public let id: String
   public var title: String
-  public var blog: Blog7V2?
-  public var comments: List<Comment7V2>?
+  public var comments: List<Comment>?
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
   
   public init(id: String = UUID().uuidString,
       title: String,
-      blog: Blog7V2? = nil,
-      comments: List<Comment7V2>? = []) {
+      comments: List<Comment>? = []) {
     self.init(id: id,
       title: title,
-      blog: blog,
       comments: comments,
       createdAt: nil,
       updatedAt: nil)
   }
   internal init(id: String = UUID().uuidString,
       title: String,
-      blog: Blog7V2? = nil,
-      comments: List<Comment7V2>? = [],
+      comments: List<Comment>? = [],
       createdAt: Temporal.DateTime? = nil,
       updatedAt: Temporal.DateTime? = nil) {
       self.id = id
       self.title = title
-      self.blog = blog
       self.comments = comments
       self.createdAt = createdAt
       self.updatedAt = updatedAt
@@ -109,17 +35,16 @@ public struct Post7V2: Model {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 4`] = `
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on explicit hasMany belongs to relationship @belongsTo 2`] = `
 "// swiftlint:disable all
 import Amplify
 import Foundation
 
-extension Post7V2 {
+extension Post {
   // MARK: - CodingKeys 
    public enum CodingKeys: String, ModelKey {
     case id
     case title
-    case blog
     case comments
     case createdAt
     case updatedAt
@@ -129,51 +54,36 @@ extension Post7V2 {
   //  MARK: - ModelSchema 
   
   public static let schema = defineSchema { model in
-    let post7V2 = Post7V2.keys
+    let post = Post.keys
     
-    model.pluralName = \\"Post7V2s\\"
+    model.pluralName = \\"Posts\\"
     
     model.fields(
       .id(),
-      .field(post7V2.title, is: .required, ofType: .string),
-      .belongsTo(post7V2.blog, is: .optional, ofType: Blog7V2.self, targetName: \\"blog7V2PostsId\\"),
-      .hasMany(post7V2.comments, is: .optional, ofType: Comment7V2.self, associatedWith: Comment7V2.keys.post),
-      .field(post7V2.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(post7V2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+      .field(post.title, is: .required, ofType: .string),
+      .hasMany(post.comments, is: .optional, ofType: Comment.self, associatedWith: Comment.keys.post),
+      .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 5`] = `
-"// swiftlint:disable all
-import Amplify
-import Foundation
-"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 6`] = `
-"// swiftlint:disable all
-import Amplify
-import Foundation
-"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 7`] = `
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on explicit hasMany belongs to relationship @belongsTo 3`] = `
 "// swiftlint:disable all
 import Amplify
 import Foundation
 
-public struct Comment7V2: Model {
+public struct Comment: Model {
   public let id: String
-  public var content: String?
-  public var post: Post7V2?
+  public var content: String
+  public var post: Post?
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
   
   public init(id: String = UUID().uuidString,
-      content: String? = nil,
-      post: Post7V2? = nil) {
+      content: String,
+      post: Post? = nil) {
     self.init(id: id,
       content: content,
       post: post,
@@ -181,8 +91,8 @@ public struct Comment7V2: Model {
       updatedAt: nil)
   }
   internal init(id: String = UUID().uuidString,
-      content: String? = nil,
-      post: Post7V2? = nil,
+      content: String,
+      post: Post? = nil,
       createdAt: Temporal.DateTime? = nil,
       updatedAt: Temporal.DateTime? = nil) {
       self.id = id
@@ -194,12 +104,12 @@ public struct Comment7V2: Model {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo (extended) 8`] = `
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on explicit hasMany belongs to relationship @belongsTo 4`] = `
 "// swiftlint:disable all
 import Amplify
 import Foundation
 
-extension Comment7V2 {
+extension Comment {
   // MARK: - CodingKeys 
    public enum CodingKeys: String, ModelKey {
     case id
@@ -213,167 +123,26 @@ extension Comment7V2 {
   //  MARK: - ModelSchema 
   
   public static let schema = defineSchema { model in
-    let comment7V2 = Comment7V2.keys
+    let comment = Comment.keys
     
-    model.pluralName = \\"Comment7V2s\\"
+    model.pluralName = \\"Comments\\"
+    
+    model.attributes(
+      .index(fields: [\\"postID\\", \\"content\\"], name: \\"byPost\\")
+    )
     
     model.fields(
       .id(),
-      .field(comment7V2.content, is: .optional, ofType: .string),
-      .belongsTo(comment7V2.post, is: .optional, ofType: Post7V2.self, targetName: \\"post7V2CommentsId\\"),
-      .field(comment7V2.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(comment7V2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+      .field(comment.content, is: .required, ofType: .string),
+      .belongsTo(comment.post, is: .optional, ofType: Post.self, targetName: \\"postID\\"),
+      .field(comment.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(comment.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 1`] = `
-"// swiftlint:disable all
-import Amplify
-import Foundation
-
-public struct Project: Model {
-  public let id: String
-  public var name: String?
-  public var team: Team?
-  public var createdAt: Temporal.DateTime?
-  public var updatedAt: Temporal.DateTime?
-  public var projectTeamId: String?
-  
-  public init(id: String = UUID().uuidString,
-      name: String? = nil,
-      team: Team? = nil,
-      projectTeamId: String? = nil) {
-    self.init(id: id,
-      name: name,
-      team: team,
-      createdAt: nil,
-      updatedAt: nil,
-      projectTeamId: projectTeamId)
-  }
-  internal init(id: String = UUID().uuidString,
-      name: String? = nil,
-      team: Team? = nil,
-      createdAt: Temporal.DateTime? = nil,
-      updatedAt: Temporal.DateTime? = nil,
-      projectTeamId: String? = nil) {
-      self.id = id
-      self.name = name
-      self.team = team
-      self.createdAt = createdAt
-      self.updatedAt = updatedAt
-      self.projectTeamId = projectTeamId
-  }
-}"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 2`] = `
-"// swiftlint:disable all
-import Amplify
-import Foundation
-
-extension Project {
-  // MARK: - CodingKeys 
-   public enum CodingKeys: String, ModelKey {
-    case id
-    case name
-    case team
-    case createdAt
-    case updatedAt
-    case projectTeamId
-  }
-  
-  public static let keys = CodingKeys.self
-  //  MARK: - ModelSchema 
-  
-  public static let schema = defineSchema { model in
-    let project = Project.keys
-    
-    model.pluralName = \\"Projects\\"
-    
-    model.fields(
-      .id(),
-      .field(project.name, is: .optional, ofType: .string),
-      .hasOne(project.team, is: .optional, ofType: Team.self, associatedWith: Team.keys.project, targetName: \\"projectTeamId\\"),
-      .field(project.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(project.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(project.projectTeamId, is: .optional, ofType: .string)
-    )
-    }
-}"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 3`] = `
-"// swiftlint:disable all
-import Amplify
-import Foundation
-
-public struct Team: Model {
-  public let id: String
-  public var name: String
-  public var project: Project?
-  public var createdAt: Temporal.DateTime?
-  public var updatedAt: Temporal.DateTime?
-  
-  public init(id: String = UUID().uuidString,
-      name: String,
-      project: Project? = nil) {
-    self.init(id: id,
-      name: name,
-      project: project,
-      createdAt: nil,
-      updatedAt: nil)
-  }
-  internal init(id: String = UUID().uuidString,
-      name: String,
-      project: Project? = nil,
-      createdAt: Temporal.DateTime? = nil,
-      updatedAt: Temporal.DateTime? = nil) {
-      self.id = id
-      self.name = name
-      self.project = project
-      self.createdAt = createdAt
-      self.updatedAt = updatedAt
-  }
-}"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 4`] = `
-"// swiftlint:disable all
-import Amplify
-import Foundation
-
-extension Team {
-  // MARK: - CodingKeys 
-   public enum CodingKeys: String, ModelKey {
-    case id
-    case name
-    case project
-    case createdAt
-    case updatedAt
-  }
-  
-  public static let keys = CodingKeys.self
-  //  MARK: - ModelSchema 
-  
-  public static let schema = defineSchema { model in
-    let team = Team.keys
-    
-    model.pluralName = \\"Teams\\"
-    
-    model.fields(
-      .id(),
-      .field(team.name, is: .required, ofType: .string),
-      .belongsTo(team.project, is: .optional, ofType: Project.self, targetName: \\"teamProjectId\\"),
-      .field(team.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(team.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
-    )
-    }
-}"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 5`] = `
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on explicit hasOne belongs to relationship @belongsTo 1`] = `
 "// swiftlint:disable all
 import Amplify
 import Foundation
@@ -413,7 +182,7 @@ public struct Project2: Model {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 6`] = `
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on explicit hasOne belongs to relationship @belongsTo 2`] = `
 "// swiftlint:disable all
 import Amplify
 import Foundation
@@ -449,7 +218,7 @@ extension Project2 {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 7`] = `
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on explicit hasOne belongs to relationship @belongsTo 3`] = `
 "// swiftlint:disable all
 import Amplify
 import Foundation
@@ -484,7 +253,7 @@ public struct Team2: Model {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 8`] = `
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on explicit hasOne belongs to relationship @belongsTo 4`] = `
 "// swiftlint:disable all
 import Amplify
 import Foundation
@@ -518,34 +287,108 @@ extension Team2 {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 9`] = `
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on implicit hasMany belongs to relationship @belongsTo (extended) 1`] = `
 "// swiftlint:disable all
 import Amplify
 import Foundation
 
-public struct Post: Model {
+public struct Blog7V2: Model {
+  public let id: String
+  public var name: String
+  public var posts: List<Post7V2>?
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  
+  public init(id: String = UUID().uuidString,
+      name: String,
+      posts: List<Post7V2>? = []) {
+    self.init(id: id,
+      name: name,
+      posts: posts,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(id: String = UUID().uuidString,
+      name: String,
+      posts: List<Post7V2>? = [],
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
+      self.id = id
+      self.name = name
+      self.posts = posts
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+  }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on implicit hasMany belongs to relationship @belongsTo (extended) 2`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+extension Blog7V2 {
+  // MARK: - CodingKeys 
+   public enum CodingKeys: String, ModelKey {
+    case id
+    case name
+    case posts
+    case createdAt
+    case updatedAt
+  }
+  
+  public static let keys = CodingKeys.self
+  //  MARK: - ModelSchema 
+  
+  public static let schema = defineSchema { model in
+    let blog7V2 = Blog7V2.keys
+    
+    model.pluralName = \\"Blog7V2s\\"
+    
+    model.fields(
+      .id(),
+      .field(blog7V2.name, is: .required, ofType: .string),
+      .hasMany(blog7V2.posts, is: .optional, ofType: Post7V2.self, associatedWith: Post7V2.keys.blog),
+      .field(blog7V2.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(blog7V2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+    )
+    }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on implicit hasMany belongs to relationship @belongsTo (extended) 3`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct Post7V2: Model {
   public let id: String
   public var title: String
-  public var comments: List<Comment>?
+  public var blog: Blog7V2?
+  public var comments: List<Comment7V2>?
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
   
   public init(id: String = UUID().uuidString,
       title: String,
-      comments: List<Comment>? = []) {
+      blog: Blog7V2? = nil,
+      comments: List<Comment7V2>? = []) {
     self.init(id: id,
       title: title,
+      blog: blog,
       comments: comments,
       createdAt: nil,
       updatedAt: nil)
   }
   internal init(id: String = UUID().uuidString,
       title: String,
-      comments: List<Comment>? = [],
+      blog: Blog7V2? = nil,
+      comments: List<Comment7V2>? = [],
       createdAt: Temporal.DateTime? = nil,
       updatedAt: Temporal.DateTime? = nil) {
       self.id = id
       self.title = title
+      self.blog = blog
       self.comments = comments
       self.createdAt = createdAt
       self.updatedAt = updatedAt
@@ -553,16 +396,17 @@ public struct Post: Model {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 10`] = `
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on implicit hasMany belongs to relationship @belongsTo (extended) 4`] = `
 "// swiftlint:disable all
 import Amplify
 import Foundation
 
-extension Post {
+extension Post7V2 {
   // MARK: - CodingKeys 
    public enum CodingKeys: String, ModelKey {
     case id
     case title
+    case blog
     case comments
     case createdAt
     case updatedAt
@@ -572,36 +416,37 @@ extension Post {
   //  MARK: - ModelSchema 
   
   public static let schema = defineSchema { model in
-    let post = Post.keys
+    let post7V2 = Post7V2.keys
     
-    model.pluralName = \\"Posts\\"
+    model.pluralName = \\"Post7V2s\\"
     
     model.fields(
       .id(),
-      .field(post.title, is: .required, ofType: .string),
-      .hasMany(post.comments, is: .optional, ofType: Comment.self, associatedWith: Comment.keys.post),
-      .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+      .field(post7V2.title, is: .required, ofType: .string),
+      .belongsTo(post7V2.blog, is: .optional, ofType: Blog7V2.self, targetName: \\"blog7V2PostsId\\"),
+      .hasMany(post7V2.comments, is: .optional, ofType: Comment7V2.self, associatedWith: Comment7V2.keys.post),
+      .field(post7V2.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(post7V2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 11`] = `
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on implicit hasMany belongs to relationship @belongsTo (extended) 5`] = `
 "// swiftlint:disable all
 import Amplify
 import Foundation
 
-public struct Comment: Model {
+public struct Comment7V2: Model {
   public let id: String
-  public var content: String
-  public var post: Post?
+  public var content: String?
+  public var post: Post7V2?
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
   
   public init(id: String = UUID().uuidString,
-      content: String,
-      post: Post? = nil) {
+      content: String? = nil,
+      post: Post7V2? = nil) {
     self.init(id: id,
       content: content,
       post: post,
@@ -609,8 +454,8 @@ public struct Comment: Model {
       updatedAt: nil)
   }
   internal init(id: String = UUID().uuidString,
-      content: String,
-      post: Post? = nil,
+      content: String? = nil,
+      post: Post7V2? = nil,
       createdAt: Temporal.DateTime? = nil,
       updatedAt: Temporal.DateTime? = nil) {
       self.id = id
@@ -622,12 +467,12 @@ public struct Comment: Model {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on belongs to relationship @belongsTo 12`] = `
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on implicit hasMany belongs to relationship @belongsTo (extended) 6`] = `
 "// swiftlint:disable all
 import Amplify
 import Foundation
 
-extension Comment {
+extension Comment7V2 {
   // MARK: - CodingKeys 
    public enum CodingKeys: String, ModelKey {
     case id
@@ -641,299 +486,22 @@ extension Comment {
   //  MARK: - ModelSchema 
   
   public static let schema = defineSchema { model in
-    let comment = Comment.keys
+    let comment7V2 = Comment7V2.keys
     
-    model.pluralName = \\"Comments\\"
-    
-    model.attributes(
-      .index(fields: [\\"postID\\", \\"content\\"], name: \\"byPost\\")
-    )
+    model.pluralName = \\"Comment7V2s\\"
     
     model.fields(
       .id(),
-      .field(comment.content, is: .required, ofType: .string),
-      .belongsTo(comment.post, is: .optional, ofType: Post.self, targetName: \\"postID\\"),
-      .field(comment.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(comment.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+      .field(comment7V2.content, is: .optional, ofType: .string),
+      .belongsTo(comment7V2.post, is: .optional, ofType: Post7V2.self, targetName: \\"post7V2CommentsId\\"),
+      .field(comment7V2.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(comment7V2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 1`] = `
-"// swiftlint:disable all
-import Amplify
-import Foundation
-
-public struct Post: Model {
-  public let id: String
-  public var title: String
-  public var comments: List<Comment>?
-  public var createdAt: Temporal.DateTime?
-  public var updatedAt: Temporal.DateTime?
-  
-  public init(id: String = UUID().uuidString,
-      title: String,
-      comments: List<Comment>? = []) {
-    self.init(id: id,
-      title: title,
-      comments: comments,
-      createdAt: nil,
-      updatedAt: nil)
-  }
-  internal init(id: String = UUID().uuidString,
-      title: String,
-      comments: List<Comment>? = [],
-      createdAt: Temporal.DateTime? = nil,
-      updatedAt: Temporal.DateTime? = nil) {
-      self.id = id
-      self.title = title
-      self.comments = comments
-      self.createdAt = createdAt
-      self.updatedAt = updatedAt
-  }
-}"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 2`] = `
-"// swiftlint:disable all
-import Amplify
-import Foundation
-
-extension Post {
-  // MARK: - CodingKeys 
-   public enum CodingKeys: String, ModelKey {
-    case id
-    case title
-    case comments
-    case createdAt
-    case updatedAt
-  }
-  
-  public static let keys = CodingKeys.self
-  //  MARK: - ModelSchema 
-  
-  public static let schema = defineSchema { model in
-    let post = Post.keys
-    
-    model.pluralName = \\"Posts\\"
-    
-    model.fields(
-      .id(),
-      .field(post.title, is: .required, ofType: .string),
-      .hasMany(post.comments, is: .optional, ofType: Comment.self, associatedWith: Comment.keys.id),
-      .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
-    )
-    }
-}"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 3`] = `
-"// swiftlint:disable all
-import Amplify
-import Foundation
-
-public struct Comment: Model {
-  public let id: String
-  public var content: String
-  public var createdAt: Temporal.DateTime?
-  public var updatedAt: Temporal.DateTime?
-  
-  public init(id: String = UUID().uuidString,
-      content: String) {
-    self.init(id: id,
-      content: content,
-      createdAt: nil,
-      updatedAt: nil)
-  }
-  internal init(id: String = UUID().uuidString,
-      content: String,
-      createdAt: Temporal.DateTime? = nil,
-      updatedAt: Temporal.DateTime? = nil) {
-      self.id = id
-      self.content = content
-      self.createdAt = createdAt
-      self.updatedAt = updatedAt
-  }
-}"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 4`] = `
-"// swiftlint:disable all
-import Amplify
-import Foundation
-
-extension Comment {
-  // MARK: - CodingKeys 
-   public enum CodingKeys: String, ModelKey {
-    case id
-    case content
-    case createdAt
-    case updatedAt
-  }
-  
-  public static let keys = CodingKeys.self
-  //  MARK: - ModelSchema 
-  
-  public static let schema = defineSchema { model in
-    let comment = Comment.keys
-    
-    model.pluralName = \\"Comments\\"
-    
-    model.fields(
-      .id(),
-      .field(comment.content, is: .required, ofType: .string),
-      .field(comment.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(comment.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
-    )
-    }
-}"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 5`] = `
-"// swiftlint:disable all
-import Amplify
-import Foundation
-
-public struct Post2: Model {
-  public let id: String
-  public var title: String
-  public var comments: List<Comment2>?
-  public var createdAt: Temporal.DateTime?
-  public var updatedAt: Temporal.DateTime?
-  
-  public init(id: String = UUID().uuidString,
-      title: String,
-      comments: List<Comment2>? = []) {
-    self.init(id: id,
-      title: title,
-      comments: comments,
-      createdAt: nil,
-      updatedAt: nil)
-  }
-  internal init(id: String = UUID().uuidString,
-      title: String,
-      comments: List<Comment2>? = [],
-      createdAt: Temporal.DateTime? = nil,
-      updatedAt: Temporal.DateTime? = nil) {
-      self.id = id
-      self.title = title
-      self.comments = comments
-      self.createdAt = createdAt
-      self.updatedAt = updatedAt
-  }
-}"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 6`] = `
-"// swiftlint:disable all
-import Amplify
-import Foundation
-
-extension Post2 {
-  // MARK: - CodingKeys 
-   public enum CodingKeys: String, ModelKey {
-    case id
-    case title
-    case comments
-    case createdAt
-    case updatedAt
-  }
-  
-  public static let keys = CodingKeys.self
-  //  MARK: - ModelSchema 
-  
-  public static let schema = defineSchema { model in
-    let post2 = Post2.keys
-    
-    model.pluralName = \\"Post2s\\"
-    
-    model.fields(
-      .id(),
-      .field(post2.title, is: .required, ofType: .string),
-      .hasMany(post2.comments, is: .optional, ofType: Comment2.self, associatedWith: Comment2.keys.postID),
-      .field(post2.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(post2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
-    )
-    }
-}"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 7`] = `
-"// swiftlint:disable all
-import Amplify
-import Foundation
-
-public struct Comment2: Model {
-  public let id: String
-  public var postID: String
-  public var content: String
-  public var createdAt: Temporal.DateTime?
-  public var updatedAt: Temporal.DateTime?
-  
-  public init(id: String = UUID().uuidString,
-      postID: String,
-      content: String) {
-    self.init(id: id,
-      postID: postID,
-      content: content,
-      createdAt: nil,
-      updatedAt: nil)
-  }
-  internal init(id: String = UUID().uuidString,
-      postID: String,
-      content: String,
-      createdAt: Temporal.DateTime? = nil,
-      updatedAt: Temporal.DateTime? = nil) {
-      self.id = id
-      self.postID = postID
-      self.content = content
-      self.createdAt = createdAt
-      self.updatedAt = updatedAt
-  }
-}"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has many relationship @hasMany 8`] = `
-"// swiftlint:disable all
-import Amplify
-import Foundation
-
-extension Comment2 {
-  // MARK: - CodingKeys 
-   public enum CodingKeys: String, ModelKey {
-    case id
-    case postID
-    case content
-    case createdAt
-    case updatedAt
-  }
-  
-  public static let keys = CodingKeys.self
-  //  MARK: - ModelSchema 
-  
-  public static let schema = defineSchema { model in
-    let comment2 = Comment2.keys
-    
-    model.pluralName = \\"Comment2s\\"
-    
-    model.attributes(
-      .index(fields: [\\"postID\\", \\"content\\"], name: \\"byPost\\")
-    )
-    
-    model.fields(
-      .id(),
-      .field(comment2.postID, is: .required, ofType: .string),
-      .field(comment2.content, is: .required, ofType: .string),
-      .field(comment2.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(comment2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
-    )
-    }
-}"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 1`] = `
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on implicit hasOne belongs to relationship @belongsTo 1`] = `
 "// swiftlint:disable all
 import Amplify
 import Foundation
@@ -973,7 +541,7 @@ public struct Project: Model {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 2`] = `
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on implicit hasOne belongs to relationship @belongsTo 2`] = `
 "// swiftlint:disable all
 import Amplify
 import Foundation
@@ -1000,7 +568,7 @@ extension Project {
     model.fields(
       .id(),
       .field(project.name, is: .optional, ofType: .string),
-      .hasOne(project.team, is: .optional, ofType: Team.self, associatedWith: Team.keys.id, targetName: \\"projectTeamId\\"),
+      .hasOne(project.team, is: .optional, ofType: Team.self, associatedWith: Team.keys.project, targetName: \\"projectTeamId\\"),
       .field(project.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(project.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(project.projectTeamId, is: .optional, ofType: .string)
@@ -1009,7 +577,7 @@ extension Project {
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 3`] = `
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on implicit hasOne belongs to relationship @belongsTo 3`] = `
 "// swiftlint:disable all
 import Amplify
 import Foundation
@@ -1017,29 +585,34 @@ import Foundation
 public struct Team: Model {
   public let id: String
   public var name: String
+  public var project: Project?
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
   
   public init(id: String = UUID().uuidString,
-      name: String) {
+      name: String,
+      project: Project? = nil) {
     self.init(id: id,
       name: name,
+      project: project,
       createdAt: nil,
       updatedAt: nil)
   }
   internal init(id: String = UUID().uuidString,
       name: String,
+      project: Project? = nil,
       createdAt: Temporal.DateTime? = nil,
       updatedAt: Temporal.DateTime? = nil) {
       self.id = id
       self.name = name
+      self.project = project
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
 }"
 `;
 
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 4`] = `
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on implicit hasOne belongs to relationship @belongsTo 4`] = `
 "// swiftlint:disable all
 import Amplify
 import Foundation
@@ -1049,6 +622,7 @@ extension Team {
    public enum CodingKeys: String, ModelKey {
     case id
     case name
+    case project
     case createdAt
     case updatedAt
   }
@@ -1064,146 +638,9 @@ extension Team {
     model.fields(
       .id(),
       .field(team.name, is: .required, ofType: .string),
+      .belongsTo(team.project, is: .optional, ofType: Project.self, targetName: \\"teamProjectId\\"),
       .field(team.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(team.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
-    )
-    }
-}"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 5`] = `
-"// swiftlint:disable all
-import Amplify
-import Foundation
-
-public struct Project2: Model {
-  public let id: String
-  public var name: String?
-  public var teamID: String?
-  public var team: Team2?
-  public var createdAt: Temporal.DateTime?
-  public var updatedAt: Temporal.DateTime?
-  
-  public init(id: String = UUID().uuidString,
-      name: String? = nil,
-      teamID: String? = nil,
-      team: Team2? = nil) {
-    self.init(id: id,
-      name: name,
-      teamID: teamID,
-      team: team,
-      createdAt: nil,
-      updatedAt: nil)
-  }
-  internal init(id: String = UUID().uuidString,
-      name: String? = nil,
-      teamID: String? = nil,
-      team: Team2? = nil,
-      createdAt: Temporal.DateTime? = nil,
-      updatedAt: Temporal.DateTime? = nil) {
-      self.id = id
-      self.name = name
-      self.teamID = teamID
-      self.team = team
-      self.createdAt = createdAt
-      self.updatedAt = updatedAt
-  }
-}"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 6`] = `
-"// swiftlint:disable all
-import Amplify
-import Foundation
-
-extension Project2 {
-  // MARK: - CodingKeys 
-   public enum CodingKeys: String, ModelKey {
-    case id
-    case name
-    case teamID
-    case team
-    case createdAt
-    case updatedAt
-  }
-  
-  public static let keys = CodingKeys.self
-  //  MARK: - ModelSchema 
-  
-  public static let schema = defineSchema { model in
-    let project2 = Project2.keys
-    
-    model.pluralName = \\"Project2s\\"
-    
-    model.fields(
-      .id(),
-      .field(project2.name, is: .optional, ofType: .string),
-      .field(project2.teamID, is: .optional, ofType: .string),
-      .hasOne(project2.team, is: .optional, ofType: Team2.self, associatedWith: Team2.keys.id, targetName: \\"teamID\\"),
-      .field(project2.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(project2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
-    )
-    }
-}"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 7`] = `
-"// swiftlint:disable all
-import Amplify
-import Foundation
-
-public struct Team2: Model {
-  public let id: String
-  public var name: String
-  public var createdAt: Temporal.DateTime?
-  public var updatedAt: Temporal.DateTime?
-  
-  public init(id: String = UUID().uuidString,
-      name: String) {
-    self.init(id: id,
-      name: name,
-      createdAt: nil,
-      updatedAt: nil)
-  }
-  internal init(id: String = UUID().uuidString,
-      name: String,
-      createdAt: Temporal.DateTime? = nil,
-      updatedAt: Temporal.DateTime? = nil) {
-      self.id = id
-      self.name = name
-      self.createdAt = createdAt
-      self.updatedAt = updatedAt
-  }
-}"
-`;
-
-exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on has one relationship @hasOne 8`] = `
-"// swiftlint:disable all
-import Amplify
-import Foundation
-
-extension Team2 {
-  // MARK: - CodingKeys 
-   public enum CodingKeys: String, ModelKey {
-    case id
-    case name
-    case createdAt
-    case updatedAt
-  }
-  
-  public static let keys = CodingKeys.self
-  //  MARK: - ModelSchema 
-  
-  public static let schema = defineSchema { model in
-    let team2 = Team2.keys
-    
-    model.pluralName = \\"Team2s\\"
-    
-    model.fields(
-      .id(),
-      .field(team2.name, is: .required, ofType: .string),
-      .field(team2.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(team2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
 }"
@@ -1411,6 +848,562 @@ extension Todo {
       .field(todo.content, is: .optional, ofType: .string),
       .field(todo.createdOn, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(todo.updatedOn, is: .optional, isReadOnly: true, ofType: .dateTime)
+    )
+    }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on uni-directional explicit has many relationship @hasMany 1`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct Post2: Model {
+  public let id: String
+  public var title: String
+  public var comments: List<Comment2>?
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  
+  public init(id: String = UUID().uuidString,
+      title: String,
+      comments: List<Comment2>? = []) {
+    self.init(id: id,
+      title: title,
+      comments: comments,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(id: String = UUID().uuidString,
+      title: String,
+      comments: List<Comment2>? = [],
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
+      self.id = id
+      self.title = title
+      self.comments = comments
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+  }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on uni-directional explicit has many relationship @hasMany 2`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+extension Post2 {
+  // MARK: - CodingKeys 
+   public enum CodingKeys: String, ModelKey {
+    case id
+    case title
+    case comments
+    case createdAt
+    case updatedAt
+  }
+  
+  public static let keys = CodingKeys.self
+  //  MARK: - ModelSchema 
+  
+  public static let schema = defineSchema { model in
+    let post2 = Post2.keys
+    
+    model.pluralName = \\"Post2s\\"
+    
+    model.fields(
+      .id(),
+      .field(post2.title, is: .required, ofType: .string),
+      .hasMany(post2.comments, is: .optional, ofType: Comment2.self, associatedWith: Comment2.keys.postID),
+      .field(post2.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(post2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+    )
+    }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on uni-directional explicit has many relationship @hasMany 3`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct Comment2: Model {
+  public let id: String
+  public var postID: String
+  public var content: String
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  
+  public init(id: String = UUID().uuidString,
+      postID: String,
+      content: String) {
+    self.init(id: id,
+      postID: postID,
+      content: content,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(id: String = UUID().uuidString,
+      postID: String,
+      content: String,
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
+      self.id = id
+      self.postID = postID
+      self.content = content
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+  }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on uni-directional explicit has many relationship @hasMany 4`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+extension Comment2 {
+  // MARK: - CodingKeys 
+   public enum CodingKeys: String, ModelKey {
+    case id
+    case postID
+    case content
+    case createdAt
+    case updatedAt
+  }
+  
+  public static let keys = CodingKeys.self
+  //  MARK: - ModelSchema 
+  
+  public static let schema = defineSchema { model in
+    let comment2 = Comment2.keys
+    
+    model.pluralName = \\"Comment2s\\"
+    
+    model.attributes(
+      .index(fields: [\\"postID\\", \\"content\\"], name: \\"byPost\\")
+    )
+    
+    model.fields(
+      .id(),
+      .field(comment2.postID, is: .required, ofType: .string),
+      .field(comment2.content, is: .required, ofType: .string),
+      .field(comment2.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(comment2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+    )
+    }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on uni-directional explicit has one relationship @hasOne 1`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct Project2: Model {
+  public let id: String
+  public var name: String?
+  public var teamID: String?
+  public var team: Team2?
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  
+  public init(id: String = UUID().uuidString,
+      name: String? = nil,
+      teamID: String? = nil,
+      team: Team2? = nil) {
+    self.init(id: id,
+      name: name,
+      teamID: teamID,
+      team: team,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(id: String = UUID().uuidString,
+      name: String? = nil,
+      teamID: String? = nil,
+      team: Team2? = nil,
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
+      self.id = id
+      self.name = name
+      self.teamID = teamID
+      self.team = team
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+  }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on uni-directional explicit has one relationship @hasOne 2`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+extension Project2 {
+  // MARK: - CodingKeys 
+   public enum CodingKeys: String, ModelKey {
+    case id
+    case name
+    case teamID
+    case team
+    case createdAt
+    case updatedAt
+  }
+  
+  public static let keys = CodingKeys.self
+  //  MARK: - ModelSchema 
+  
+  public static let schema = defineSchema { model in
+    let project2 = Project2.keys
+    
+    model.pluralName = \\"Project2s\\"
+    
+    model.fields(
+      .id(),
+      .field(project2.name, is: .optional, ofType: .string),
+      .field(project2.teamID, is: .optional, ofType: .string),
+      .hasOne(project2.team, is: .optional, ofType: Team2.self, associatedWith: Team2.keys.id, targetName: \\"teamID\\"),
+      .field(project2.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(project2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+    )
+    }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on uni-directional explicit has one relationship @hasOne 3`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct Team2: Model {
+  public let id: String
+  public var name: String
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  
+  public init(id: String = UUID().uuidString,
+      name: String) {
+    self.init(id: id,
+      name: name,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(id: String = UUID().uuidString,
+      name: String,
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
+      self.id = id
+      self.name = name
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+  }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on uni-directional explicit has one relationship @hasOne 4`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+extension Team2 {
+  // MARK: - CodingKeys 
+   public enum CodingKeys: String, ModelKey {
+    case id
+    case name
+    case createdAt
+    case updatedAt
+  }
+  
+  public static let keys = CodingKeys.self
+  //  MARK: - ModelSchema 
+  
+  public static let schema = defineSchema { model in
+    let team2 = Team2.keys
+    
+    model.pluralName = \\"Team2s\\"
+    
+    model.fields(
+      .id(),
+      .field(team2.name, is: .required, ofType: .string),
+      .field(team2.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(team2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+    )
+    }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on uni-directional implicit has many relationship @hasMany 1`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct Post: Model {
+  public let id: String
+  public var title: String
+  public var comments: List<Comment>?
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  
+  public init(id: String = UUID().uuidString,
+      title: String,
+      comments: List<Comment>? = []) {
+    self.init(id: id,
+      title: title,
+      comments: comments,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(id: String = UUID().uuidString,
+      title: String,
+      comments: List<Comment>? = [],
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
+      self.id = id
+      self.title = title
+      self.comments = comments
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+  }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on uni-directional implicit has many relationship @hasMany 2`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+extension Post {
+  // MARK: - CodingKeys 
+   public enum CodingKeys: String, ModelKey {
+    case id
+    case title
+    case comments
+    case createdAt
+    case updatedAt
+  }
+  
+  public static let keys = CodingKeys.self
+  //  MARK: - ModelSchema 
+  
+  public static let schema = defineSchema { model in
+    let post = Post.keys
+    
+    model.pluralName = \\"Posts\\"
+    
+    model.fields(
+      .id(),
+      .field(post.title, is: .required, ofType: .string),
+      .hasMany(post.comments, is: .optional, ofType: Comment.self, associatedWith: Comment.keys.postCommentsId),
+      .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+    )
+    }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on uni-directional implicit has many relationship @hasMany 3`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct Comment: Model {
+  public let id: String
+  public var content: String
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  public var postCommentsId: String?
+  
+  public init(id: String = UUID().uuidString,
+      content: String,
+      postCommentsId: String? = nil) {
+    self.init(id: id,
+      content: content,
+      createdAt: nil,
+      updatedAt: nil,
+      postCommentsId: postCommentsId)
+  }
+  internal init(id: String = UUID().uuidString,
+      content: String,
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil,
+      postCommentsId: String? = nil) {
+      self.id = id
+      self.content = content
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+      self.postCommentsId = postCommentsId
+  }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on uni-directional implicit has many relationship @hasMany 4`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+extension Comment {
+  // MARK: - CodingKeys 
+   public enum CodingKeys: String, ModelKey {
+    case id
+    case content
+    case createdAt
+    case updatedAt
+    case postCommentsId
+  }
+  
+  public static let keys = CodingKeys.self
+  //  MARK: - ModelSchema 
+  
+  public static let schema = defineSchema { model in
+    let comment = Comment.keys
+    
+    model.pluralName = \\"Comments\\"
+    
+    model.fields(
+      .id(),
+      .field(comment.content, is: .required, ofType: .string),
+      .field(comment.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(comment.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(comment.postCommentsId, is: .optional, ofType: .string)
+    )
+    }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on uni-directional implicit has one relationship @hasOne 1`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct Project: Model {
+  public let id: String
+  public var name: String?
+  public var team: Team?
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  public var projectTeamId: String?
+  
+  public init(id: String = UUID().uuidString,
+      name: String? = nil,
+      team: Team? = nil,
+      projectTeamId: String? = nil) {
+    self.init(id: id,
+      name: name,
+      team: team,
+      createdAt: nil,
+      updatedAt: nil,
+      projectTeamId: projectTeamId)
+  }
+  internal init(id: String = UUID().uuidString,
+      name: String? = nil,
+      team: Team? = nil,
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil,
+      projectTeamId: String? = nil) {
+      self.id = id
+      self.name = name
+      self.team = team
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+      self.projectTeamId = projectTeamId
+  }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on uni-directional implicit has one relationship @hasOne 2`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+extension Project {
+  // MARK: - CodingKeys 
+   public enum CodingKeys: String, ModelKey {
+    case id
+    case name
+    case team
+    case createdAt
+    case updatedAt
+    case projectTeamId
+  }
+  
+  public static let keys = CodingKeys.self
+  //  MARK: - ModelSchema 
+  
+  public static let schema = defineSchema { model in
+    let project = Project.keys
+    
+    model.pluralName = \\"Projects\\"
+    
+    model.fields(
+      .id(),
+      .field(project.name, is: .optional, ofType: .string),
+      .hasOne(project.team, is: .optional, ofType: Team.self, associatedWith: Team.keys.id, targetName: \\"projectTeamId\\"),
+      .field(project.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(project.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(project.projectTeamId, is: .optional, ofType: .string)
+    )
+    }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on uni-directional implicit has one relationship @hasOne 3`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct Team: Model {
+  public let id: String
+  public var name: String
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  
+  public init(id: String = UUID().uuidString,
+      name: String) {
+    self.init(id: id,
+      name: name,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(id: String = UUID().uuidString,
+      name: String,
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
+      self.id = id
+      self.name = name
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+  }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor - GQLv2 Regression Tests Works on uni-directional implicit has one relationship @hasOne 4`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+extension Team {
+  // MARK: - CodingKeys 
+   public enum CodingKeys: String, ModelKey {
+    case id
+    case name
+    case createdAt
+    case updatedAt
+  }
+  
+  public static let keys = CodingKeys.self
+  //  MARK: - ModelSchema 
+  
+  public static let schema = defineSchema { model in
+    let team = Team.keys
+    
+    model.pluralName = \\"Teams\\"
+    
+    model.fields(
+      .id(),
+      .field(team.name, is: .required, ofType: .string),
+      .field(team.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(team.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
 }"

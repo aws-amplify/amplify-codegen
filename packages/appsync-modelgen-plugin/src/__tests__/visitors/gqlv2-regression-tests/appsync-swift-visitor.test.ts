@@ -60,7 +60,7 @@ describe('AppSyncSwiftVisitor - GQLv2 Regression Tests', () => {
     expect(getGQLv2Visitor(schema, 'Todo', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
   });
 
-  it('Works on has one relationship @hasOne', () => {
+  it('Works on uni-directional implicit has one relationship @hasOne', () => {
     const schema = /* GraphQL */ `  
       # Implicit field
       type Project @model {
@@ -73,7 +73,15 @@ describe('AppSyncSwiftVisitor - GQLv2 Regression Tests', () => {
         id: ID!
         name: String!
       }
+    `;
+    expect(getGQLv2Visitor(schema, 'Project').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Project', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Team').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Team', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
+  });
 
+  it('Works on uni-directional explicit has one relationship @hasOne', () => {
+    const schema = /* GraphQL */ `  
       # Explicit field
       type Project2 @model {
         id: ID!
@@ -87,17 +95,13 @@ describe('AppSyncSwiftVisitor - GQLv2 Regression Tests', () => {
         name: String!
       }
     `;
-    expect(getGQLv2Visitor(schema, 'Project').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Project', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Team').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Team', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Project2').generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Project2', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Team2').generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Team2', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
   });
 
-  it('Works on has many relationship @hasMany', () => {
+  it('Works on uni-directional implicit has many relationship @hasMany', () => {
     const schema = /* GraphQL */ `  
       # Implicit
       type Post @model {
@@ -110,7 +114,15 @@ describe('AppSyncSwiftVisitor - GQLv2 Regression Tests', () => {
         id: ID!
         content: String!
       }
+    `;
+    expect(getGQLv2Visitor(schema, 'Post').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Post', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Comment').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Comment', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
+  });
 
+  it('Works on uni-directional explicit has many relationship @hasMany', () => {
+    const schema = /* GraphQL */ `  
       # Explicit
       type Post2 @model {
         id: ID!
@@ -124,10 +136,6 @@ describe('AppSyncSwiftVisitor - GQLv2 Regression Tests', () => {
         content: String!
       }
     `;
-    expect(getGQLv2Visitor(schema, 'Post').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Post', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Comment').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Comment', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Post2').generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Post2', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Comment2').generate()).toMatchSnapshot();
@@ -155,7 +163,7 @@ describe('AppSyncSwiftVisitor - GQLv2 Regression Tests', () => {
     expect(getGQLv2Visitor(schema, 'Tag', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
   });
 
-  it('Works on belongs to relationship @belongsTo', () => {
+  it('Works on implicit hasOne belongs to relationship @belongsTo', () => {
     const schema = /* GraphQL */ `  
       # Implicit
       type Project @model {
@@ -169,7 +177,15 @@ describe('AppSyncSwiftVisitor - GQLv2 Regression Tests', () => {
         name: String!
         project: Project @belongsTo
       }
+    `;
+    expect(getGQLv2Visitor(schema, 'Project').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Project', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Team').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Team', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
+  });
 
+  it('Works on explicit hasOne belongs to relationship @belongsTo', () => {
+    const schema = /* GraphQL */ `  
       # Explicit
       type Project2 @model {
         id: ID!
@@ -183,7 +199,15 @@ describe('AppSyncSwiftVisitor - GQLv2 Regression Tests', () => {
         projectID: ID
         project: Project2 @belongsTo(fields: ["projectID"])
       }
+    `;
+    expect(getGQLv2Visitor(schema, 'Project2').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Project2', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Team2').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Team2', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
+  });
 
+  it('Works on explicit hasMany belongs to relationship @belongsTo', () => {
+    const schema = /* GraphQL */ `  
       # Explicit - Bi-directional Has Many
       type Post @model {
         id: ID!
@@ -198,21 +222,13 @@ describe('AppSyncSwiftVisitor - GQLv2 Regression Tests', () => {
         post: Post @belongsTo(fields: ["postID"])
       }
     `;
-    expect(getGQLv2Visitor(schema, 'Project').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Project', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Team').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Team', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Project2').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Project2', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Team2').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Team2', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Post').generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Post', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Comment').generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Comment', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
   });
 
-  it('Works on belongs to relationship @belongsTo (extended)', () => {
+  it('Works on implicit hasMany belongs to relationship @belongsTo (extended)', () => {
     const schema = /* GraphQL */ `  
       # 7 - Blog Post Comment
       type Blog7V2 @model {
@@ -236,8 +252,6 @@ describe('AppSyncSwiftVisitor - GQLv2 Regression Tests', () => {
     expect(getGQLv2Visitor(schema, 'Blog7V2', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Post7V2').generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Post7V2', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Project2').generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, 'Project2', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Comment7V2').generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Comment7V2', CodeGenGenerateEnum.metadata).generate()).toMatchSnapshot();
   });
