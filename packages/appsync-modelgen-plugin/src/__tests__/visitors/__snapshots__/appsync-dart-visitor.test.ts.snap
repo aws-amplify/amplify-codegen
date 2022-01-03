@@ -1279,8 +1279,6 @@ class _TagModelType extends ModelType<Tag> {
 class PostTags extends Model {
   static const classType = const _PostTagsModelType();
   final String id;
-  final String postID;
-  final String tagID;
   final Post post;
   final Tag tag;
 
@@ -1293,24 +1291,11 @@ class PostTags extends Model {
   }
 
   const PostTags._internal(
-      {@required this.id,
-      @required this.postID,
-      @required this.tagID,
-      @required this.post,
-      @required this.tag});
+      {@required this.id, @required this.post, @required this.tag});
 
-  factory PostTags(
-      {String id,
-      @required String postID,
-      @required String tagID,
-      @required Post post,
-      @required Tag tag}) {
+  factory PostTags({String id, @required Post post, @required Tag tag}) {
     return PostTags._internal(
-        id: id == null ? UUID.getUUID() : id,
-        postID: postID,
-        tagID: tagID,
-        post: post,
-        tag: tag);
+        id: id == null ? UUID.getUUID() : id, post: post, tag: tag);
   }
 
   bool equals(Object other) {
@@ -1322,8 +1307,6 @@ class PostTags extends Model {
     if (identical(other, this)) return true;
     return other is PostTags &&
         id == other.id &&
-        postID == other.postID &&
-        tagID == other.tagID &&
         post == other.post &&
         tag == other.tag;
   }
@@ -1337,8 +1320,6 @@ class PostTags extends Model {
 
     buffer.write(\\"PostTags {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"postID=\\" + \\"$postID\\" + \\", \\");
-    buffer.write(\\"tagID=\\" + \\"$tagID\\" + \\", \\");
     buffer.write(\\"post=\\" + (post != null ? post.toString() : \\"null\\") + \\", \\");
     buffer.write(\\"tag=\\" + (tag != null ? tag.toString() : \\"null\\"));
     buffer.write(\\"}\\");
@@ -1346,20 +1327,13 @@ class PostTags extends Model {
     return buffer.toString();
   }
 
-  PostTags copyWith(
-      {String id, String postID, String tagID, Post post, Tag tag}) {
+  PostTags copyWith({String id, Post post, Tag tag}) {
     return PostTags(
-        id: id ?? this.id,
-        postID: postID ?? this.postID,
-        tagID: tagID ?? this.tagID,
-        post: post ?? this.post,
-        tag: tag ?? this.tag);
+        id: id ?? this.id, post: post ?? this.post, tag: tag ?? this.tag);
   }
 
   PostTags.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        postID = json['postID'],
-        tagID = json['tagID'],
         post = json['post'] != null
             ? Post.fromJson(new Map<String, dynamic>.from(json['post']))
             : null,
@@ -1367,17 +1341,10 @@ class PostTags extends Model {
             ? Tag.fromJson(new Map<String, dynamic>.from(json['tag']))
             : null;
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'postID': postID,
-        'tagID': tagID,
-        'post': post?.toJson(),
-        'tag': tag?.toJson()
-      };
+  Map<String, dynamic> toJson() =>
+      {'id': id, 'post': post?.toJson(), 'tag': tag?.toJson()};
 
   static final QueryField ID = QueryField(fieldName: \\"postTags.id\\");
-  static final QueryField POSTID = QueryField(fieldName: \\"postID\\");
-  static final QueryField TAGID = QueryField(fieldName: \\"tagID\\");
   static final QueryField POST = QueryField(
       fieldName: \\"post\\",
       fieldType: ModelFieldType(ModelFieldTypeEnum.model,
@@ -1392,16 +1359,6 @@ class PostTags extends Model {
     modelSchemaDefinition.pluralName = \\"PostTags\\";
 
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: PostTags.POSTID,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: PostTags.TAGID,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
         key: PostTags.POST,

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.29.10](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.9...@aws-amplify/appsync-modelgen-plugin@1.29.10) (2021-12-15)
+
+
+### Bug Fixes
+
+* **appsync-modelgen-plugin:** revert not removing the additional fields in join for many-to-many ([6bf2156](https://github.com/aws-amplify/amplify-codegen/commit/6bf215691d1fdcdc56be114958ecec4d1b1fc5f5))
+
+
+
+
+
 ## [1.29.9](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.8...@aws-amplify/appsync-modelgen-plugin@1.29.9) (2021-11-30)
 
 **Note:** Version bump only for package @aws-amplify/appsync-modelgen-plugin
