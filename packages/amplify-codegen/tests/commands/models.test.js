@@ -5,25 +5,6 @@ const fs = require('fs');
 const path = require('path');
 
 jest.mock('@graphql-codegen/core');
-const MOCK_CONTEXT = {
-  print: {
-    info: jest.fn(),
-    warning: jest.fn(),
-  },
-  amplify: {
-    getProjectMeta: jest.fn(),
-    getEnvInfo: jest.fn(),
-    getResourceStatus: jest.fn(),
-    executeProviderUtils: jest.fn(),
-    pathManager: {
-      getBackendDirPath: jest.fn(),
-    },
-    getProjectConfig: jest.fn(),
-  },
-  usageData: {
-    version: '0.0.0'
-  }
-};
 const OUTPUT_PATHS = {
     javascript: 'src/models',
     android: 'app/src/main/java/com/amplifyframework/datastore/generated/model',
@@ -54,7 +35,6 @@ jest.mock('amplify-cli-core', MOCK_PROJECT_ROOT => {
 describe('command-models-generates models in expected output path', () => {
   beforeEach(() => {
     jest.resetAllMocks();
-    addMocksToContext();
     graphqlCodegen.codegen.mockReturnValue(MOCK_GENERATED_CODE);
   });
 
@@ -69,11 +49,11 @@ describe('command-models-generates models in expected output path', () => {
       };
       mockedFiles[outputDirectory] = {};
       mockFs(mockedFiles);
-      MOCK_CONTEXT.amplify.getProjectConfig.mockReturnValue({ frontend: frontend });
-
+      const context = createMockContext();
+      addMocksToContext(context, frontend);
       // assert empty folder before generation
       expect(fs.readdirSync(outputDirectory).length).toEqual(0);
-      await generateModels(MOCK_CONTEXT);
+      await generateModels(context);
       // assert model generation succeeds with a single schema file
       expect(graphqlCodegen.codegen).toBeCalled();
 
@@ -91,12 +71,12 @@ describe('command-models-generates models in expected output path', () => {
       };
       mockedFiles[outputDirectory] = {};
       mockFs(mockedFiles);
-      MOCK_CONTEXT.amplify.getProjectConfig.mockReturnValue({ frontend: frontend });
-
+      const context = createMockContext();
+      addMocksToContext(context, frontend);
       // assert empty folder before generation
       expect(fs.readdirSync(outputDirectory).length).toEqual(0);
 
-      await generateModels(MOCK_CONTEXT);
+      await generateModels(context);
 
       // assert model generation succeeds with a single schema file
       expect(graphqlCodegen.codegen).toBeCalled();
@@ -338,6 +318,7 @@ function createMockContext() {
   const MOCK_CONTEXT = {
     print: {
       info: jest.fn(),
+      warning: jest.fn(),
     },
     amplify: {
       getProjectMeta: jest.fn(),
