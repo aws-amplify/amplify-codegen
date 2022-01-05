@@ -141,9 +141,7 @@ async function generateModels(context) {
   appsyncLocalConfig.forEach((cfg, idx) => {
     const outPutPath = cfg.filename;
     fs.ensureFileSync(outPutPath);
-    const contentsToWrite = [getVersionsMetadataComment(context), generatedCode[idx]].filter(content => content);
-    const contentToWrite = contentsToWrite.join('\n\n');
-    fs.writeFileSync(outPutPath, contentToWrite);
+    fs.writeFileSync(outPutPath, generatedCode[idx]);
   });
 
   generateEslintIgnore(context);
@@ -197,29 +195,6 @@ function getModelOutputPath(context) {
     default:
       return '.';
   }
-}
-
-// Generate a Comment string with Amplify CLI and Amplify Codegen version metadata
-function getVersionsMetadataComment(context) {
-  const versionMetadata = [];
-  if (context.usageData && context.usageData.version) {
-    versionMetadata.push('amplify-cli-version: ' + context.usageData.version);
-  }
-
-  if (context.pluginPlatform && context.pluginPlatform.plugins) {
-    const codegenPluginsInfo = context.pluginPlatform.plugins.codegen;
-    if (codegenPluginsInfo && codegenPluginsInfo.length > 0) {
-      const amplifyCodegenPluginInfo =  codegenPluginsInfo.filter(plugin => plugin.packageName == 'amplify-codegen');
-      if (amplifyCodegenPluginInfo && amplifyCodegenPluginInfo.length > 0 && amplifyCodegenPluginInfo[0].packageVersion) {
-        versionMetadata.push('amplify-codegen-version: ' + amplifyCodegenPluginInfo[0].packageVersion);
-      }
-    }
-  }
-
-  if (versionMetadata.length > 0) {
-    return '// Generated using ' + versionMetadata.join(', ');
-  }
-  return null;
 }
 
 function generateEslintIgnore(context) {
