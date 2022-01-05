@@ -16,42 +16,42 @@ describe('GraphQL V2 process connections tests', () => {
 
     beforeEach(() => {
       const hasOneWithFieldsSchema = /* GraphQL */ `
-          type BatteryCharger @model {
-            chargerID: ID!
-            powerSourceID: ID
-            powerSource: PowerSource @hasOne(fields: ["powerSourceID"])
-          }
-  
-          type PowerSource @model {
-            sourceID: ID! @primaryKey
-            amps: Float!
-            volts: Float!
-          }
-        `;
+        type BatteryCharger @model {
+          chargerID: ID!
+          powerSourceID: ID
+          powerSource: PowerSource @hasOne(fields: ["powerSourceID"])
+        }
+
+        type PowerSource @model {
+          sourceID: ID! @primaryKey
+          amps: Float!
+          volts: Float!
+        }
+      `;
 
       const hasOneNoFieldsSchema = /* GraphQL */ `
-          type BatteryCharger @model {
-            powerSource: PowerSource @hasOne
-          }
-  
-          type PowerSource @model {
-            id: ID!
-            amps: Float!
-            volts: Float!
-          }
-        `;
+        type BatteryCharger @model {
+          powerSource: PowerSource @hasOne
+        }
+
+        type PowerSource @model {
+          id: ID!
+          amps: Float!
+          volts: Float!
+        }
+      `;
 
       const v2Schema = /* GraphQL */ `
-          type Post @model {
-            comments: [Comment] @hasMany(fields: ["id"])
-          }
-          
-          type Comment @model {
-            postID: ID! @primaryKey(sortKeyFields: ["content"])
-            content: String!
-            post: Post @belongsTo(fields:["postID"])
-          }
-        `;
+        type Post @model {
+          comments: [Comment] @hasMany(fields: ["id"])
+        }
+
+        type Comment @model {
+          postID: ID! @primaryKey(sortKeyFields: ["content"])
+          content: String!
+          post: Post @belongsTo(fields: ["postID"])
+        }
+      `;
 
       const v2IndexSchema = /* graphQL */ `
           type Post @model {
@@ -59,7 +59,7 @@ describe('GraphQL V2 process connections tests', () => {
             title: String!
             comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
           }
-          
+
           type Comment @model {
             id: ID!
             postID: ID! @index(name: "byPost", sortKeyFields: ["content"])
@@ -78,14 +78,14 @@ describe('GraphQL V2 process connections tests', () => {
               isNullable: false,
               isList: false,
               name: 'chargerID',
-              directives: []
+              directives: [],
             },
             {
               type: 'ID',
               isNullable: true,
               isList: false,
               name: 'powerSourceID',
-              directives: []
+              directives: [],
             },
             {
               type: 'PowerSource',
@@ -151,7 +151,7 @@ describe('GraphQL V2 process connections tests', () => {
               isNullable: false,
               isList: false,
               name: 'id',
-              directives: []
+              directives: [],
             },
             {
               type: 'Float',
@@ -196,7 +196,7 @@ describe('GraphQL V2 process connections tests', () => {
               isNullable: false,
               isList: false,
               name: 'postID',
-              directives: [{name: 'primaryKey', arguments: { sortKeyFields: ['content'] } }],
+              directives: [{ name: 'primaryKey', arguments: { sortKeyFields: ['content'] } }],
             },
             {
               type: 'String',
@@ -262,7 +262,7 @@ describe('GraphQL V2 process connections tests', () => {
               isNullable: false,
               isList: false,
               name: 'postID',
-              directives: [{name: 'index', arguments: { name: 'byPost', sortKeyFields: ['content'] }}],
+              directives: [{ name: 'index', arguments: { name: 'byPost', sortKeyFields: ['content'] } }],
             },
             {
               type: 'String',
@@ -297,7 +297,11 @@ describe('GraphQL V2 process connections tests', () => {
 
       it('Should support connection with @index on BELONGS_TO side', () => {
         const commentsField = v2IndexModelMap.Post.fields[2];
-        const connectionInfo = (processConnectionsV2(commentsField, v2IndexModelMap.Post, v2IndexModelMap) as any) as CodeGenFieldConnectionHasMany;
+        const connectionInfo = (processConnectionsV2(
+          commentsField,
+          v2IndexModelMap.Post,
+          v2IndexModelMap,
+        ) as any) as CodeGenFieldConnectionHasMany;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
         expect(connectionInfo.connectedModel).toEqual(v2IndexModelMap.Comment);
@@ -308,7 +312,11 @@ describe('GraphQL V2 process connections tests', () => {
     describe('Has one testing', () => {
       it('Should support @hasOne with no explicit primary key', () => {
         const powerSourceField = hasOneNoFieldsModelMap.BatteryCharger.fields[0];
-        const connectionInfo = (processConnectionsV2(powerSourceField, hasOneNoFieldsModelMap.BatteryCharger, hasOneNoFieldsModelMap)) as CodeGenFieldConnectionHasOne;
+        const connectionInfo = processConnectionsV2(
+          powerSourceField,
+          hasOneNoFieldsModelMap.BatteryCharger,
+          hasOneNoFieldsModelMap,
+        ) as CodeGenFieldConnectionHasOne;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
         expect(connectionInfo.connectedModel).toEqual(hasOneNoFieldsModelMap.PowerSource);
@@ -316,7 +324,11 @@ describe('GraphQL V2 process connections tests', () => {
       });
       it('Should support @hasOne with an explicit primary key', () => {
         const powerSourceField = hasOneWithFieldsModelMap.BatteryCharger.fields[2];
-        const connectionInfo = (processConnectionsV2(powerSourceField, hasOneWithFieldsModelMap.BatteryCharger, hasOneWithFieldsModelMap)) as CodeGenFieldConnectionHasOne;
+        const connectionInfo = processConnectionsV2(
+          powerSourceField,
+          hasOneWithFieldsModelMap.BatteryCharger,
+          hasOneWithFieldsModelMap,
+        ) as CodeGenFieldConnectionHasOne;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
         expect(connectionInfo.connectedModel).toEqual(hasOneWithFieldsModelMap.PowerSource);
@@ -329,14 +341,14 @@ describe('GraphQL V2 process connections tests', () => {
         type Project2 @model {
           id: ID!
           name: String
-          team: Team2 @hasOne 
-        } 
-        
+          team: Team2 @hasOne
+        }
+
         type Team2 @model {
           id: ID!
           name: String!
           project: Project2! @belongsTo
-        }`
+        }`;
 
       const belongsToModelMap: CodeGenModelMap = {
         Project2: {
@@ -399,11 +411,15 @@ describe('GraphQL V2 process connections tests', () => {
 
       it('Should support belongsTo and detect connected field', () => {
         const projectField = belongsToModelMap.Team2.fields[2];
-        const connectionInfo = (processConnectionsV2(projectField, belongsToModelMap.Team2, belongsToModelMap)) as CodeGenFieldConnectionHasOne;
+        const connectionInfo = processConnectionsV2(
+          projectField,
+          belongsToModelMap.Team2,
+          belongsToModelMap,
+        ) as CodeGenFieldConnectionHasOne;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
         expect(connectionInfo.connectedModel).toEqual(belongsToModelMap.Project2);
-        expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(false);
+        expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(true);
       });
     });
 
@@ -414,14 +430,14 @@ describe('GraphQL V2 process connections tests', () => {
           name: String!
           posts: [Post] @hasMany
         }
-        
+
         type Post @model {
           id: ID!
           title: String!
           blog: Blog @belongsTo
           comments: [Comment] @hasMany
         }
-        
+
         type Comment @model {
           id: ID!
           post: Post @belongsTo
@@ -524,7 +540,7 @@ describe('GraphQL V2 process connections tests', () => {
 
       it('Should detect first has many', () => {
         const postField = hasManyModelMap.Blog.fields[2];
-        const connectionInfo = (processConnectionsV2(postField, hasManyModelMap.Blog, hasManyModelMap)) as CodeGenFieldConnectionHasOne;
+        const connectionInfo = processConnectionsV2(postField, hasManyModelMap.Blog, hasManyModelMap) as CodeGenFieldConnectionHasOne;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
         expect(connectionInfo.connectedModel).toEqual(hasManyModelMap.Post);
@@ -533,7 +549,7 @@ describe('GraphQL V2 process connections tests', () => {
 
       it('Should detect second has many', () => {
         const commentField = hasManyModelMap.Post.fields[3];
-        const connectionInfo = (processConnectionsV2(commentField, hasManyModelMap.Post, hasManyModelMap)) as CodeGenFieldConnectionHasOne;
+        const connectionInfo = processConnectionsV2(commentField, hasManyModelMap.Post, hasManyModelMap) as CodeGenFieldConnectionHasOne;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
         expect(connectionInfo.connectedModel).toEqual(hasManyModelMap.Comment);
@@ -542,20 +558,20 @@ describe('GraphQL V2 process connections tests', () => {
 
       it('Should detect first belongsTo', () => {
         const blogField = hasManyModelMap.Post.fields[2];
-        const connectionInfo = (processConnectionsV2(blogField, hasManyModelMap.Post, hasManyModelMap)) as CodeGenFieldConnectionHasOne;
+        const connectionInfo = processConnectionsV2(blogField, hasManyModelMap.Post, hasManyModelMap) as CodeGenFieldConnectionHasOne;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
         expect(connectionInfo.connectedModel).toEqual(hasManyModelMap.Blog);
-        expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(false);
+        expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(true);
       });
 
       it('Should detect second belongsTo', () => {
         const postField = hasManyModelMap.Comment.fields[1];
-        const connectionInfo = (processConnectionsV2(postField, hasManyModelMap.Comment, hasManyModelMap)) as CodeGenFieldConnectionHasOne;
+        const connectionInfo = processConnectionsV2(postField, hasManyModelMap.Comment, hasManyModelMap) as CodeGenFieldConnectionHasOne;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
         expect(connectionInfo.connectedModel).toEqual(hasManyModelMap.Post);
-        expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(false);
+        expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(true);
       });
     });
   });

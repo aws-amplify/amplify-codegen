@@ -546,13 +546,7 @@ export class AppSyncModelVisitor<
     });
   }
 
-  protected generateIntermediateModel(
-    firstModel: CodeGenModel,
-    secondModel: CodeGenModel,
-    firstField: CodeGenField,
-    secondField: CodeGenField,
-    relationName: string,
-  ) {
+  protected generateIntermediateModel(firstModel: CodeGenModel, secondModel: CodeGenModel, relationName: string) {
     const firstModelKeyFieldName = `${camelCase(firstModel.name)}ID`;
     const secondModelKeyFieldName = `${camelCase(secondModel.name)}ID`;
     let intermediateModel: CodeGenModel = {
@@ -659,8 +653,6 @@ export class AppSyncModelVisitor<
       let intermediateModel = this.generateIntermediateModel(
         value[0].model,
         value[1].model,
-        value[0].field,
-        value[1].field,
         graphqlName(toUpper(value[0].directive.arguments.relationName)),
       );
       const modelDirective = intermediateModel.directives.find(directive => directive.name === 'model');
@@ -693,7 +685,7 @@ export class AppSyncModelVisitor<
               isList: false,
               isNullable: field.isNullable,
             });
-          } else if (connectionInfo.targetName !== 'id') {
+          } else if (connectionInfo.targetName !== 'id' && connectionInfo.isConnectingFieldAutoCreated) {
             // Need to remove the field that is targetName
             removeFieldFromModel(model, connectionInfo.targetName);
           }

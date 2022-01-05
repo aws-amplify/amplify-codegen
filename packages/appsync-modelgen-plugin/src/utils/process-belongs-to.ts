@@ -1,12 +1,6 @@
 import { CodeGenDirective, CodeGenField, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
-import {
-  CodeGenConnectionType,
-  CodeGenFieldConnection,
-  flattenFieldDirectives,
-  makeConnectionAttributeName,
-} from './process-connections';
+import { CodeGenConnectionType, CodeGenFieldConnection, flattenFieldDirectives, makeConnectionAttributeName } from './process-connections';
 import { getConnectedFieldV2 } from './process-connections-v2';
-
 
 export function processBelongsToConnection(
   field: CodeGenField,
@@ -24,9 +18,7 @@ export function processBelongsToConnection(
   }
 
   if (field.isList) {
-    throw new Error(
-      `A list field does not support the 'belongsTo' relation`
-    );
+    throw new Error(`A list field does not support the 'belongsTo' relation`);
   }
 
   let validOtherSideField = false;
@@ -37,34 +29,45 @@ export function processBelongsToConnection(
   });
 
   if (!validOtherSideField) {
-    throw new Error(
-      `A 'belongsTo' field should match to a corresponding 'hasMany' or 'hasOne' field`
-    );
+    throw new Error(`A 'belongsTo' field should match to a corresponding 'hasMany' or 'hasOne' field`);
   }
   // if a type is connected using name, then amplify-graphql-relational-transformer adds a field to
   //  track the connection and that field is not part of the selection set
   // but if the field are connected using fields argument in connection directive
   // we are reusing the field and it should be preserved in selection set
   const otherSideHasMany = otherSideField.isList;
-  const isConnectingFieldAutoCreated = false;
+  const isConnectingFieldAutoCreated = !connectionFields.length;
 
   return {
     kind: CodeGenConnectionType.BELONGS_TO,
     connectedModel: otherSide,
     isConnectingFieldAutoCreated,
-    targetName: connectionFields[0] || (otherSideHasMany ? makeConnectionAttributeName(otherSide.name, otherSideField.name) :
-      makeConnectionAttributeName(model.name, field.name)),
+    targetName:
+      connectionFields[0] ||
+      (otherSideHasMany
+        ? makeConnectionAttributeName(otherSide.name, otherSideField.name)
+        : makeConnectionAttributeName(model.name, field.name)),
   };
 }
 
-export function getBelongsToConnectedField(field: CodeGenField, model: CodeGenModel, connectedModel: CodeGenModel): CodeGenField | undefined {
+export function getBelongsToConnectedField(
+  field: CodeGenField,
+  model: CodeGenModel,
+  connectedModel: CodeGenModel,
+): CodeGenField | undefined {
   let otherSideDirectives = flattenFieldDirectives(connectedModel).filter(dir => {
-    const connectedField = connectedModel.fields.find(connField => { return connField.name === dir.fieldName; });
+    const connectedField = connectedModel.fields.find(connField => {
+      return connField.name === dir.fieldName;
+    });
     const fieldType = connectedField?.type;
-    return ((dir.name === 'hasOne' && !connectedField?.isList) || (dir.name === 'hasMany' && connectedField?.isList)) && model.name === fieldType;
+    return (
+      ((dir.name === 'hasOne' && !connectedField?.isList) || (dir.name === 'hasMany' && connectedField?.isList)) && model.name === fieldType
+    );
   });
 
   if (otherSideDirectives?.length === 1) {
-    return connectedModel.fields.find(connField => { return connField.name === otherSideDirectives[0].fieldName; });
+    return connectedModel.fields.find(connField => {
+      return connField.name === otherSideDirectives[0].fieldName;
+    });
   }
 }
