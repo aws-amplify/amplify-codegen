@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.30.0-flutter-preview.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.10-gqlv2-fix.3...@aws-amplify/appsync-modelgen-plugin@1.30.0-flutter-preview.1) (2022-01-06)
+
+
+### Bug Fixes
+
+* update regression tests for gqlv2 issue given flutter-release update ([013d10b](https://github.com/aws-amplify/amplify-codegen/commit/013d10bef045325d8a91f62830af9c7456c67f02))
+
+
+### Features
+
+* **appsync-dart-visitor:** feat: amplify-flutter preview release ([#302](https://github.com/aws-amplify/amplify-codegen/issues/302)) ([a494443](https://github.com/aws-amplify/amplify-codegen/commit/a49444394f2c25d1351fae9bcd1b491a4640d51e)), closes [#234](https://github.com/aws-amplify/amplify-codegen/issues/234) [#247](https://github.com/aws-amplify/amplify-codegen/issues/247) [#263](https://github.com/aws-amplify/amplify-codegen/issues/263) [#272](https://github.com/aws-amplify/amplify-codegen/issues/272)
+
+
+
+
+
 # [1.30.0-flutter-preview.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.9...@aws-amplify/appsync-modelgen-plugin@1.30.0-flutter-preview.0) (2021-12-08)
 
 

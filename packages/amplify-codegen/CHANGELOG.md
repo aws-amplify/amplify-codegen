@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.27.0-flutter-preview.1](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.19-gqlv2-fix.3...amplify-codegen@2.27.0-flutter-preview.1) (2022-01-06)
+
+
+### Features
+
+* **appsync-dart-visitor:** feat: amplify-flutter preview release ([#302](https://github.com/aws-amplify/amplify-codegen/issues/302)) ([a494443](https://github.com/aws-amplify/amplify-codegen/commit/a49444394f2c25d1351fae9bcd1b491a4640d51e)), closes [#234](https://github.com/aws-amplify/amplify-codegen/issues/234) [#247](https://github.com/aws-amplify/amplify-codegen/issues/247) [#263](https://github.com/aws-amplify/amplify-codegen/issues/263) [#272](https://github.com/aws-amplify/amplify-codegen/issues/272)
+
+
+
+
+
 # [2.27.0-flutter-preview.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.18...amplify-codegen@2.27.0-flutter-preview.0) (2021-12-08)
 
 
