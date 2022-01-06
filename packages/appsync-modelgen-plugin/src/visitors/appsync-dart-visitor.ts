@@ -71,7 +71,9 @@ export class AppSyncModelDartVisitor<
   }
 
   generate(): string {
-    this.processDirectives();
+    // TODO: Remove us, leaving in to be explicit on why this flag is here.
+    const shouldUseModelNameFieldInHasManyAndBelongsTo = true;
+    this.processDirectives(shouldUseModelNameFieldInHasManyAndBelongsTo);
     this.validateReservedKeywords();
     if (this._parsedConfig.generate === CodeGenGenerateEnum.loader) {
       return this.generateClassLoader();
