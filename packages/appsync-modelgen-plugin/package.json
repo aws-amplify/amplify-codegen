@@ -1,6 +1,6 @@
 {
   "name": "@aws-amplify/appsync-modelgen-plugin",
-  "version": "1.29.10-gqlv2-fix.3",
+  "version": "1.30.0-flutter-preview.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/aws-amplify/amplify-codegen.git",

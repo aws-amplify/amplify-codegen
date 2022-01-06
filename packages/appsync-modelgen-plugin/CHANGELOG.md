@@ -3,47 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [1.29.10-gqlv2-fix.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.10-gqlv2-fix.2...@aws-amplify/appsync-modelgen-plugin@1.29.10-gqlv2-fix.3) (2021-12-21)
+# [1.30.0-flutter-preview.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.9...@aws-amplify/appsync-modelgen-plugin@1.30.0-flutter-preview.0) (2021-12-08)
 
 
-### Bug Fixes
+### Features
 
-* **appsync-modelgen-plugin:** associatedWith correctly points to model field rather than ID in bi-directional relations ([a39b61d](https://github.com/aws-amplify/amplify-codegen/commit/a39b61dec2d8adf3589212fe2aaf7400f98f01b9))
-* **appsync-modelgen-plugin:** revert [#326](https://github.com/aws-amplify/amplify-codegen/issues/326) ([d36323d](https://github.com/aws-amplify/amplify-codegen/commit/d36323d7f9adf92167bf9153c80435b42320053f))
-* **appsync-modelgen-plugin:** turn on the shouldUseModelNameFieldInHasManyAndBelongsTo flag for Android ([6cf1ebb](https://github.com/aws-amplify/amplify-codegen/commit/6cf1ebb31dbc28534525fcefc3be73c05596a41b))
-
-
-
-
-
-## [1.29.10-gqlv2-fix.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.10-gqlv2-fix.1...@aws-amplify/appsync-modelgen-plugin@1.29.10-gqlv2-fix.2) (2021-12-15)
-
-
-### Bug Fixes
-
-* change the if statement ([0b0b075](https://github.com/aws-amplify/amplify-codegen/commit/0b0b075a798aab63360ccd847e25d7989baa5522))
-
-
-
-
-
-## [1.29.10-gqlv2-fix.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.10-gqlv2-fix.0...@aws-amplify/appsync-modelgen-plugin@1.29.10-gqlv2-fix.1) (2021-12-15)
-
-
-### Bug Fixes
-
-* set associatedWith to correct field with hasOne/hasMany and belongsTo ([289e38b](https://github.com/aws-amplify/amplify-codegen/commit/289e38ba4c6fd69616eb459c90e26467c6a1e314))
-
-
-
-
-
-## [1.29.10-gqlv2-fix.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.9...@aws-amplify/appsync-modelgen-plugin@1.29.10-gqlv2-fix.0) (2021-12-04)
-
-
-### Bug Fixes
-
-* partially rolling back commit 310 for flutter, swift, and java platforms ([#319](https://github.com/aws-amplify/amplify-codegen/issues/319)) ([6c2f0c8](https://github.com/aws-amplify/amplify-codegen/commit/6c2f0c8920e4347d59f345867778fd49579a2cd4))
+* **appsync-dart-visitor:** feat: amplify-flutter preview release ([#302](https://github.com/aws-amplify/amplify-codegen/issues/302)) ([a494443](https://github.com/aws-amplify/amplify-codegen/commit/a49444394f2c25d1351fae9bcd1b491a4640d51e)), closes [#234](https://github.com/aws-amplify/amplify-codegen/issues/234) [#247](https://github.com/aws-amplify/amplify-codegen/issues/247) [#263](https://github.com/aws-amplify/amplify-codegen/issues/263) [#272](https://github.com/aws-amplify/amplify-codegen/issues/272)
 
 
 

@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.39.8-gqlv2-fix.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen-e2e-tests@2.39.7...amplify-codegen-e2e-tests@2.39.8-gqlv2-fix.0) (2021-12-04)
+## [2.39.8-flutter-preview.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen-e2e-tests@2.39.7...amplify-codegen-e2e-tests@2.39.8-flutter-preview.0) (2021-12-08)
 
 **Note:** Version bump only for package amplify-codegen-e2e-tests
 
