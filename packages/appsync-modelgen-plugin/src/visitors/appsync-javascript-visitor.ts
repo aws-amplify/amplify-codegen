@@ -32,7 +32,10 @@ export class AppSyncModelJavascriptVisitor<
   TRawConfig extends RawAppSyncModelJavaScriptConfig = RawAppSyncModelJavaScriptConfig,
   TPluginConfig extends ParsedAppSyncModelJavaScriptConfig = ParsedAppSyncModelJavaScriptConfig
 > extends AppSyncModelTypeScriptVisitor<TRawConfig, TPluginConfig> {
-  protected IMPORT_STATEMENTS = ['import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplify/datastore";'];
+  protected IMPORT_STATEMENTS = [
+    'import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplify/datastore";',
+    'import { ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from "@aws-amplify/datastore";',
+  ];
 
   constructor(
     schema: GraphQLSchema,
