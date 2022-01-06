@@ -263,7 +263,6 @@ export class AppSyncModelVisitor<
         fields,
       };
       this.ensurePrimaryKeyField(model, directives);
-      // this.ensureIdField(model);
       this.addTimestampFields(model, modelDirective);
       this.sortFields(model);
       this.modelMap[node.name.value] = model;
@@ -506,6 +505,11 @@ export class AppSyncModelVisitor<
     }, [] as CodeGenField[]);
   }
 
+  /**
+   * Check out if primary key field exists in the model and generate primary key info
+   * @param model type defined with model directives
+   * @param directives directives defined at the type level of the model above
+   */
   protected ensurePrimaryKeyField(model: CodeGenModel, directives: CodeGenDirective[]) {
     let primaryKeyFieldName: string;
     let primaryKeyField: CodeGenField;
