@@ -4,7 +4,6 @@ import { processHasOneConnection } from './process-has-one';
 import { processBelongsToConnection, getBelongsToConnectedField } from './process-belongs-to';
 import { processHasManyConnection } from './process-has-many';
 import { getDirective } from './fieldUtils';
-import { GraphQLNamedType } from 'graphql';
 
 // TODO: This file holds several references to utility functions in the v1 process connections file, those functions need to go here before that file is removed
 
