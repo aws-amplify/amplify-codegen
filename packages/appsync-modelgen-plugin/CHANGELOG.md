@@ -3,47 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [1.29.10-gqlv2-fix.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.10-gqlv2-fix.2...@aws-amplify/appsync-modelgen-plugin@1.29.10-gqlv2-fix.3) (2021-12-21)
+## [1.29.12](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.11...@aws-amplify/appsync-modelgen-plugin@1.29.12) (2022-01-05)
+
+
+### Reverts
+
+* Revert "build: update packages (#325)" (#343) ([694856a](https://github.com/aws-amplify/amplify-codegen/commit/694856a38513aacfa071a02090de8fdc7fc9a1fd)), closes [#325](https://github.com/aws-amplify/amplify-codegen/issues/325) [#343](https://github.com/aws-amplify/amplify-codegen/issues/343)
+
+
+
+
+
+## [1.29.11](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.10...@aws-amplify/appsync-modelgen-plugin@1.29.11) (2022-01-04)
+
+**Note:** Version bump only for package @aws-amplify/appsync-modelgen-plugin
+
+
+
+
+
+## [1.29.10](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.9...@aws-amplify/appsync-modelgen-plugin@1.29.10) (2021-12-15)
 
 
 ### Bug Fixes
 
-* **appsync-modelgen-plugin:** associatedWith correctly points to model field rather than ID in bi-directional relations ([a39b61d](https://github.com/aws-amplify/amplify-codegen/commit/a39b61dec2d8adf3589212fe2aaf7400f98f01b9))
-* **appsync-modelgen-plugin:** revert [#326](https://github.com/aws-amplify/amplify-codegen/issues/326) ([d36323d](https://github.com/aws-amplify/amplify-codegen/commit/d36323d7f9adf92167bf9153c80435b42320053f))
-* **appsync-modelgen-plugin:** turn on the shouldUseModelNameFieldInHasManyAndBelongsTo flag for Android ([6cf1ebb](https://github.com/aws-amplify/amplify-codegen/commit/6cf1ebb31dbc28534525fcefc3be73c05596a41b))
-
-
-
-
-
-## [1.29.10-gqlv2-fix.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.10-gqlv2-fix.1...@aws-amplify/appsync-modelgen-plugin@1.29.10-gqlv2-fix.2) (2021-12-15)
-
-
-### Bug Fixes
-
-* change the if statement ([0b0b075](https://github.com/aws-amplify/amplify-codegen/commit/0b0b075a798aab63360ccd847e25d7989baa5522))
-
-
-
-
-
-## [1.29.10-gqlv2-fix.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.10-gqlv2-fix.0...@aws-amplify/appsync-modelgen-plugin@1.29.10-gqlv2-fix.1) (2021-12-15)
-
-
-### Bug Fixes
-
-* set associatedWith to correct field with hasOne/hasMany and belongsTo ([289e38b](https://github.com/aws-amplify/amplify-codegen/commit/289e38ba4c6fd69616eb459c90e26467c6a1e314))
-
-
-
-
-
-## [1.29.10-gqlv2-fix.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.9...@aws-amplify/appsync-modelgen-plugin@1.29.10-gqlv2-fix.0) (2021-12-04)
-
-
-### Bug Fixes
-
-* partially rolling back commit 310 for flutter, swift, and java platforms ([#319](https://github.com/aws-amplify/amplify-codegen/issues/319)) ([6c2f0c8](https://github.com/aws-amplify/amplify-codegen/commit/6c2f0c8920e4347d59f345867778fd49579a2cd4))
+* **appsync-modelgen-plugin:** revert not removing the additional fields in join for many-to-many ([6bf2156](https://github.com/aws-amplify/amplify-codegen/commit/6bf215691d1fdcdc56be114958ecec4d1b1fc5f5))
 
 
 

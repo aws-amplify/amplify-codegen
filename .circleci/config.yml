@@ -19,7 +19,7 @@ executors:
       shell: bash.exe
   macos_node12: &ref_1
     macos:
-      xcode: 11.2.1
+      xcode: 13.2.1
       resource_class: large
 defaults:
   working_directory: ~/repo
@@ -44,6 +44,7 @@ clean_up_e2e_resources: &ref_7
     cd packages/amplify-codegen-e2e-tests
     yarn clean-e2e-resources job ${CIRCLE_BUILD_NUM}
   working_directory: ~/repo
+  when: always
 jobs:
   build:
     working_directory: ~/repo
@@ -81,6 +82,8 @@ jobs:
                   - << parameters.os >>
           steps:
             - checkout
+            - run: nvm install 12.22.7
+            - run: nvm alias default 12.22.7
             - run: yarn config set workspaces-experimental true
             - run: yarn cache clean --force
             - run: yarn run production-build
