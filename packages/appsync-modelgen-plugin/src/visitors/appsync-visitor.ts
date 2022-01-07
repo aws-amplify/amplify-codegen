@@ -761,6 +761,10 @@ export class AppSyncModelVisitor<
     if (directive.name !== 'model') {
       return;
     }
+    //when the '{timestamps: null}' is defined in @model, the timestamp fields should not be generated
+    if (directive.arguments && directive.arguments.hasOwnProperty('timestamps') && directive.arguments.timestamps === null) {
+      return;
+    }
     const timestamps = directive.arguments.timestamps;
     const createdAtField: CodeGenField = {
       name: timestamps?.createdAt || DEFAULT_CREATED_TIME,
