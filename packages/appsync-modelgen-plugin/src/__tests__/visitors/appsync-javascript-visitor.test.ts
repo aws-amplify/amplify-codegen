@@ -101,8 +101,7 @@ describe('Javascript visitor', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
-        import { ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -159,8 +158,7 @@ describe('Javascript visitor', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
-        import { ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -294,8 +292,7 @@ describe('Javascript visitor with default owner auth', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
-        import { ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -368,8 +365,7 @@ describe('Javascript visitor with custom owner field auth', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
-        import { ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -444,8 +440,7 @@ describe('Javascript visitor with multiple owner field auth', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
-        import { ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -510,8 +505,7 @@ describe('Javascript visitor with auth directives in field level', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
-        import { ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -609,8 +603,7 @@ describe('Javascript visitor with custom primary key', () => {
     const declarations = visitor.generate();
     validateTs(declarations);
     expect(declarations).toMatchInlineSnapshot(`
-      "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
-      import { ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
+      "import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -708,8 +701,7 @@ describe('Javascript visitor with custom primary key', () => {
     const declarations = visitor.generate();
     validateTs(declarations);
     expect(declarations).toMatchInlineSnapshot(`
-      "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
-      import { ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
+      "import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 

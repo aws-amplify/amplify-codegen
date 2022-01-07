@@ -33,8 +33,7 @@ export class AppSyncModelJavascriptVisitor<
   TPluginConfig extends ParsedAppSyncModelJavaScriptConfig = ParsedAppSyncModelJavaScriptConfig
 > extends AppSyncModelTypeScriptVisitor<TRawConfig, TPluginConfig> {
   protected IMPORT_STATEMENTS = [
-    'import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplify/datastore";',
-    'import { ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from "@aws-amplify/datastore";',
+    'import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from "@aws-amplify/datastore";',
   ];
 
   constructor(
