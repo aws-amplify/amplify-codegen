@@ -12,10 +12,11 @@ export function processHasManyConnection(
   model: CodeGenModel,
   modelMap: CodeGenModelMap,
   connectionDirective: CodeGenDirective,
+  shouldUseModelNameFieldInHasManyAndBelongsTo: boolean
 ): CodeGenFieldConnection | undefined {
   const otherSide = modelMap[field.type];
   const connectionFields = connectionDirective.arguments.fields || [];
-  const otherSideField = getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
+  const otherSideField = getConnectedFieldV2(field, model, otherSide, connectionDirective.name, shouldUseModelNameFieldInHasManyAndBelongsTo);
 
   const isNewField = !otherSide.fields.includes(otherSideField);
 
@@ -38,7 +39,10 @@ export function processHasManyConnection(
   else {
     if (field.isList) {
       const connectionFieldName = makeConnectionAttributeName(model.name, field.name);
-      const existingConnectionField = otherSide.fields.find(f => f.name === connectionFieldName);
+      const existingConnectionField = shouldUseModelNameFieldInHasManyAndBelongsTo
+        ? otherSide.fields.find(f => f.name === connectionFieldName) || otherSideField
+        : otherSide.fields.find(f => f.name === connectionFieldName)
+      // const existingConnectionField = otherSide.fields.find(f => f.name === connectionFieldName);
       return {
         kind: CodeGenConnectionType.HAS_MANY,
         connectedModel: otherSide,
