@@ -33,7 +33,7 @@ install_cli_with_local_codegen: &install_cli
     source .circleci/local_publish_helpers.sh
     startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
     setNpmRegistryUrlToLocal
-    sudo npm install -g @aws-amplify/cli@7.6.5
+    sudo npm install -g @aws-amplify/cli@amplify-codegen-e2e-tests
     sudo npm install -g amplify-app
     amplify -v
     amplify-app --version
