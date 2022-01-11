@@ -680,6 +680,21 @@ describe('AppSyncModelVisitor', () => {
       const updatedAtField = postFields.find(field => field.name === 'updatedOn');
       expect(updatedAtField).toMatchObject(updatedAtFieldObj);
     });
+    it('should not generate timestamp fields if "timestamps:null" is defined in @model', () => {
+      const schema = /* GraphQL */ `
+        type Post @model(timestamps: null) {
+          id: ID!
+        }
+      `;
+      const visitor = createAndGenerateVisitor(schema);
+      expect(visitor.models.Post).toBeDefined();
+
+      const postFields = visitor.models.Post.fields;
+      const createdAtField = postFields.find(field => field.name === 'createdAt');
+      expect(createdAtField).not.toBeDefined();
+      const updatedAtField = postFields.find(field => field.name === 'updatedAt');
+      expect(updatedAtField).not.toBeDefined();
+    });
   });
 
   describe('manyToMany testing', () => {
