@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.26.23](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.22...amplify-codegen@2.26.23) (2022-01-11)
+
+**Note:** Version bump only for package amplify-codegen
+
+
+
+
+
+## [2.26.22](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.21...amplify-codegen@2.26.22) (2022-01-05)
+
+
+### Reverts
+
+* Revert "fix(amplify-codegen): Add Amplify CLI version as a comment for the Modelgen output files (#133)" ([9d3c49f](https://github.com/aws-amplify/amplify-codegen/commit/9d3c49f028d1361e6601edc62265d978235802fd)), closes [#133](https://github.com/aws-amplify/amplify-codegen/issues/133)
+
+
+
+
+
+## [2.26.21](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.20...amplify-codegen@2.26.21) (2022-01-05)
+
+
+### Reverts
+
+* Revert "build: update packages (#325)" (#343) ([694856a](https://github.com/aws-amplify/amplify-codegen/commit/694856a38513aacfa071a02090de8fdc7fc9a1fd)), closes [#325](https://github.com/aws-amplify/amplify-codegen/issues/325) [#343](https://github.com/aws-amplify/amplify-codegen/issues/343)
+
+
+
+
+
+## [2.26.20](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.19...amplify-codegen@2.26.20) (2022-01-04)
+
+**Note:** Version bump only for package amplify-codegen
+
+
+
+
+
 ## [2.26.19](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.18...amplify-codegen@2.26.19) (2021-12-15)
 
 **Note:** Version bump only for package amplify-codegen

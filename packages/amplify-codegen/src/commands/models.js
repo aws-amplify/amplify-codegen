@@ -6,6 +6,7 @@ const { FeatureFlags, pathManager } = require('amplify-cli-core');
 const gqlCodeGen = require('@graphql-codegen/core');
 const { getModelgenPackage } = require('../utils/getModelgenPackage');
 const { validateDartSDK } = require('../utils/validateDartSDK');
+const { validateAmplifyFlutterCapableZeroThreeFeatures } = require('../utils/validateAmplifyFlutterCapableZeroThreeFeatures');
 
 const platformToLanguageMap = {
   android: 'java',
@@ -81,14 +82,14 @@ async function generateModels(context) {
   const modelgenPackageMigrationflag = 'codegen.useAppSyncModelgenPlugin';
   const appSyncDataStoreCodeGen = getModelgenPackage(FeatureFlags.getBoolean(modelgenPackageMigrationflag));
 
-  const isTimestampFieldsAdded = readFeatureFlag('codegen.addTimestampFields');
-
   const generateIndexRules = readFeatureFlag('codegen.generateIndexRules');
   const emitAuthProvider = readFeatureFlag('codegen.emitAuthProvider');
   const usePipelinedTransformer = readFeatureFlag('graphQLTransformer.useExperimentalPipelinedTransformer')
   const transformerVersion = readNumericFeatureFlag('graphQLTransformer.transformerVersion');
 
+  let isTimestampFieldsAdded = readFeatureFlag('codegen.addTimestampFields');
   let enableDartNullSafety = readFeatureFlag('codegen.enableDartNullSafety');
+  let enableDartZeroThreeFeatures = false;
 
   if (projectConfig.frontend === 'flutter') {
     const isMinimumDartVersionSatisfied = validateDartSDK(context, projectRoot);
@@ -103,9 +104,12 @@ async function generateModels(context) {
         'Generating Dart Models without null safety. To generate null safe data models, turn on the “enableDartNullSafety” feature flag and set your Dart SDK version to “>= 2.12.0”. Learn more: https://docs.amplify.aws/lib/project-setup/null-safety/q/platform/flutter',
       );
     }
+    // override isTimestampFieldsAdded to true when using amplify-flutter > 0.3.0 || > 0.3.0-rc.2
+    isTimestampFieldsAdded = validateAmplifyFlutterCapableZeroThreeFeatures(projectRoot);
+    enableDartZeroThreeFeatures = validateAmplifyFlutterCapableZeroThreeFeatures(projectRoot);
   }
-  const handleListNullabilityTransparently = readFeatureFlag('codegen.handleListNullabilityTransparently');
 
+  const handleListNullabilityTransparently = readFeatureFlag('codegen.handleListNullabilityTransparently');
   const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
     baseOutputDir: outputPath,
     schema,
@@ -118,6 +122,7 @@ async function generateModels(context) {
       enableDartNullSafety,
       handleListNullabilityTransparently,
       usePipelinedTransformer,
+      enableDartZeroThreeFeatures,
       transformerVersion,
     },
   });

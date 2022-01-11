@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.6](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen-e2e-core@1.1.5...amplify-codegen-e2e-core@1.1.6) (2022-01-11)
+
+
+### Bug Fixes
+
+* updating occurrences of amplify publish in e2e-core as well ([d9e221d](https://github.com/aws-amplify/amplify-codegen/commit/d9e221d17ec53ea21513aa2e09eb45b4e5f66bc3))
+
+
+
+
+
 ## [1.1.5](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen-e2e-core@1.1.4...amplify-codegen-e2e-core@1.1.5) (2021-11-17)
 
 
