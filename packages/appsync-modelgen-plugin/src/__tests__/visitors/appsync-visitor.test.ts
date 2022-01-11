@@ -897,4 +897,29 @@ describe('AppSyncModelVisitor', () => {
       expect(visitor.models.ModelB.fields[1].directives[0].arguments.indexName).toEqual('byModelB');
     });
   });
+
+  describe('Graphql V2 fix tests for multiple has many relations of only one model type', () => {
+    const schema = /* GraphQL*/ `
+      type Registration @model {
+        id: ID! @primaryKey
+        meetingId: ID @index(name: "byMeeting", sortKeyFields: ["attendeeId"])
+        meeting: Meeting! @belongsTo(fields: ["meetingId"])
+        attendeeId: ID @index(name: "byAttendee", sortKeyFields: ["meetingId"])
+        attendee: Attendee! @belongsTo(fields: ["attendeeId"])
+      }
+      type Meeting @model {
+        id: ID! @primaryKey
+        title: String!
+        attendees: [Registration] @hasMany(indexName: "byMeeting", fields: ["id"])
+      }
+      
+      type Attendee @model {
+        id: ID! @primaryKey
+        meetings: [Registration] @hasMany(indexName: "byAttendee", fields: ["id"])
+      }
+    `;
+    it(`should not throw error when processing models`, () => {
+      expect(() => createAndGeneratePipelinedTransformerVisitor(schema)).not.toThrow();
+    });
+  })
 });

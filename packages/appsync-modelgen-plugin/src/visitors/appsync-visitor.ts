@@ -294,17 +294,22 @@ export class AppSyncModelVisitor<
       values,
     };
   }
-  processDirectives() {
+  processDirectives(
+    // TODO: Remove us when we have a fix to roll-forward.
+    shouldUseModelNameFieldInHasManyAndBelongsTo: boolean
+  ) {
     if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
       this.processV2KeyDirectives();
-      this.processConnectionDirectivesV2();
+      this.processConnectionDirectivesV2(shouldUseModelNameFieldInHasManyAndBelongsTo);
     } else {
       this.processConnectionDirective();
     }
     this.processAuthDirectives();
   }
   generate(): string {
-    this.processDirectives();
+    // TODO: Remove me, leaving in to be explicit on why this flag is here.
+    const shouldUseModelNameFieldInHasManyAndBelongsTo = false;
+    this.processDirectives(shouldUseModelNameFieldInHasManyAndBelongsTo);
     return '';
   }
 
@@ -675,12 +680,15 @@ export class AppSyncModelVisitor<
     });
   }
 
-  protected processConnectionDirectivesV2(): void {
+  protected processConnectionDirectivesV2(
+    // TODO: Remove us when we have a fix to roll-forward.
+    shouldUseModelNameFieldInHasManyAndBelongsTo: boolean
+  ): void {
     this.processManyToManyDirectives();
 
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
-        const connectionInfo = processConnectionsV2(field, model, this.modelMap);
+        const connectionInfo = processConnectionsV2(field, model, this.modelMap, shouldUseModelNameFieldInHasManyAndBelongsTo);
         if (connectionInfo) {
           if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
             // Need to update the other side of the connection even if there is no connection directive
@@ -693,9 +701,6 @@ export class AppSyncModelVisitor<
               isList: false,
               isNullable: field.isNullable,
             });
-          } else if (connectionInfo.targetName !== 'id') {
-            // Need to remove the field that is targetName
-            removeFieldFromModel(model, connectionInfo.targetName);
           }
           field.connectionInfo = connectionInfo;
         }
@@ -717,6 +722,19 @@ export class AppSyncModelVisitor<
         return true;
       });
     });
+
+    Object.values(this.modelMap).forEach(model => {
+      model.fields.forEach(field => {
+        const connectionInfo = field.connectionInfo;
+        if (connectionInfo
+          && connectionInfo.kind !== CodeGenConnectionType.HAS_MANY
+          && connectionInfo.kind !== CodeGenConnectionType.HAS_ONE
+          && connectionInfo.targetName !== 'id') {
+          // Need to remove the field that is targetName
+          removeFieldFromModel(model, connectionInfo.targetName);
+        }
+      });
+    })
   }
 
   protected processV2KeyDirectives(): void {
