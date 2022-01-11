@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.29.13](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.12...@aws-amplify/appsync-modelgen-plugin@1.29.13) (2022-01-11)
+
+
+### Bug Fixes
+
+* remove early removal of field from model in the case of connection ([3de34f4](https://github.com/aws-amplify/amplify-codegen/commit/3de34f4f00344c9a775747a1260632e47bf24b98))
+* remove unused import per LGTM check ([7b4a24d](https://github.com/aws-amplify/amplify-codegen/commit/7b4a24d1859aa5c4cb0c283e756255c42189f171))
+* **appsync-modelgen-plugin:** associatedWith correctly points to model field rather than ID in bi-directional relations ([a39b61d](https://github.com/aws-amplify/amplify-codegen/commit/a39b61dec2d8adf3589212fe2aaf7400f98f01b9))
+* **appsync-modelgen-plugin:** revert [#326](https://github.com/aws-amplify/amplify-codegen/issues/326) ([d36323d](https://github.com/aws-amplify/amplify-codegen/commit/d36323d7f9adf92167bf9153c80435b42320053f))
+* **appsync-modelgen-plugin:** turn on the shouldUseModelNameFieldInHasManyAndBelongsTo flag for Android ([6cf1ebb](https://github.com/aws-amplify/amplify-codegen/commit/6cf1ebb31dbc28534525fcefc3be73c05596a41b))
+* change the if statement ([0b0b075](https://github.com/aws-amplify/amplify-codegen/commit/0b0b075a798aab63360ccd847e25d7989baa5522))
+* partially rolling back commit 310 for flutter, swift, and java platforms ([#319](https://github.com/aws-amplify/amplify-codegen/issues/319)) ([6c2f0c8](https://github.com/aws-amplify/amplify-codegen/commit/6c2f0c8920e4347d59f345867778fd49579a2cd4))
+* set associatedWith to correct field with hasOne/hasMany and belongsTo ([289e38b](https://github.com/aws-amplify/amplify-codegen/commit/289e38ba4c6fd69616eb459c90e26467c6a1e314))
+
+
+
+
+
 ## [1.29.12](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.11...@aws-amplify/appsync-modelgen-plugin@1.29.12) (2022-01-05)
 
 
