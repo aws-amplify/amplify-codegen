@@ -116,6 +116,19 @@ describe('process auth directive', () => {
         provider: AuthProvider.userPools,
       });
     });
+
+    it('should use sub as default identity claim instead of username if "useSubDefaultIdentityClaim" is true', () => {
+      ownerAuthRule.operations = [AuthModelOperation.read];
+      ownerAuthRule.provider = AuthProvider.userPools;
+      ownerAuthRule.ownerField = 'owner';
+
+      const directives: CodeGenDirectives = [buildAuthDirective(ownerAuthRule)];
+      const processedAuthDirective = processAuthDirective(directives, true);
+      expect(processedAuthDirective[0].arguments.rules[0]).toEqual({
+        ...ownerAuthRule,
+        identityClaim: 'sub',
+      });
+    })
   });
 
   describe('Group auth', () => {
