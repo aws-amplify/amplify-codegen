@@ -125,8 +125,7 @@ export class AppSyncModelTypeScriptVisitor<
 
     const isTimestampFeatureFlagEnabled = this.config.isTimestampFieldsAdded;
     let readOnlyFieldNames: string[] = [];
-    let modelMetaDataFormatted: string | undefined;
-    let modelMetaDataDeclaration: string = '';
+    const modelMetaDataDeclaration: string = `, ${modelName}MetaData`;
 
     modelObj.fields.forEach((field: CodeGenField) => {
       modelDeclarations.addProperty(this.getFieldName(field), this.getNativeType(field), undefined, 'DEFAULT', {
@@ -137,11 +136,6 @@ export class AppSyncModelTypeScriptVisitor<
         readOnlyFieldNames.push(`'${field.name}'`);
       }
     });
-
-    if (isTimestampFeatureFlagEnabled) {
-      modelMetaDataFormatted = `, ${modelName}MetaData`;
-      modelMetaDataDeclaration = readOnlyFieldNames.length > 0 ? modelMetaDataFormatted : '';
-    }
 
     // Constructor
     modelDeclarations.addClassMethod(

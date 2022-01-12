@@ -111,7 +111,7 @@ describe('Javascript visitor', () => {
         export declare class SimpleNonModelType {
           readonly id: string;
           readonly names?: (string | null)[];
-          constructor(init: ModelInit<SimpleNonModelType>);
+          constructor(init: ModelInit<SimpleNonModelType, SimpleNonModelTypeMetaData>);
         }
 
         type SimpleModelMetaData = {
@@ -127,15 +127,15 @@ describe('Javascript visitor', () => {
           readonly name?: string;
           readonly bar?: string;
           readonly foo?: Bar[];
-          constructor(init: ModelInit<SimpleModel>);
-          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
+          constructor(init: ModelInit<SimpleModel, SimpleModelMetaData>);
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel, SimpleModelMetaData>) => MutableModel<SimpleModel, SimpleModelMetaData> | void): SimpleModel;
         }
 
         export declare class Bar {
           readonly id: string;
           readonly simpleModelFooId?: string;
-          constructor(init: ModelInit<Bar>);
-          static copyOf(source: Bar, mutator: (draft: MutableModel<Bar>) => MutableModel<Bar> | void): Bar;
+          constructor(init: ModelInit<Bar, BarMetaData>);
+          static copyOf(source: Bar, mutator: (draft: MutableModel<Bar, BarMetaData>) => MutableModel<Bar, BarMetaData> | void): Bar;
         }"
       `);
       expect(generateImportSpy).toBeCalledTimes(1);
@@ -168,7 +168,7 @@ describe('Javascript visitor', () => {
         export declare class SimpleNonModelType {
           readonly id: string;
           readonly names?: (string | null)[];
-          constructor(init: ModelInit<SimpleNonModelType>);
+          constructor(init: ModelInit<SimpleNonModelType, SimpleNonModelTypeMetaData>);
         }
 
         type SimpleModelMetaData = {
@@ -302,7 +302,7 @@ describe('Javascript visitor with default owner auth', () => {
         export declare class SimpleNonModelType {
           readonly id: string;
           readonly names?: (string | null)[];
-          constructor(init: ModelInit<SimpleNonModelType>);
+          constructor(init: ModelInit<SimpleNonModelType, SimpleNonModelTypeMetaData>);
         }
 
         type SimpleModelMetaData = {
@@ -313,8 +313,8 @@ describe('Javascript visitor with default owner auth', () => {
           readonly id: string;
           readonly name?: string;
           readonly bar?: string;
-          constructor(init: ModelInit<SimpleModel>);
-          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
+          constructor(init: ModelInit<SimpleModel, SimpleModelMetaData>);
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel, SimpleModelMetaData>) => MutableModel<SimpleModel, SimpleModelMetaData> | void): SimpleModel;
         }"
       `);
       expect(generateImportSpy).toBeCalledTimes(1);
@@ -375,7 +375,7 @@ describe('Javascript visitor with custom owner field auth', () => {
         export declare class SimpleNonModelType {
           readonly id: string;
           readonly names?: (string | null)[];
-          constructor(init: ModelInit<SimpleNonModelType>);
+          constructor(init: ModelInit<SimpleNonModelType, SimpleNonModelTypeMetaData>);
         }
 
         type SimpleModelMetaData = {
@@ -386,8 +386,8 @@ describe('Javascript visitor with custom owner field auth', () => {
           readonly id: string;
           readonly name?: string;
           readonly bar?: string;
-          constructor(init: ModelInit<SimpleModel>);
-          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
+          constructor(init: ModelInit<SimpleModel, SimpleModelMetaData>);
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel, SimpleModelMetaData>) => MutableModel<SimpleModel, SimpleModelMetaData> | void): SimpleModel;
         }"
       `);
       expect(generateImportSpy).toBeCalledTimes(1);
@@ -450,7 +450,7 @@ describe('Javascript visitor with multiple owner field auth', () => {
         export declare class SimpleNonModelType {
           readonly id: string;
           readonly names?: (string | null)[];
-          constructor(init: ModelInit<SimpleNonModelType>);
+          constructor(init: ModelInit<SimpleNonModelType, SimpleNonModelTypeMetaData>);
         }
 
         type SimpleModelMetaData = {
@@ -461,8 +461,8 @@ describe('Javascript visitor with multiple owner field auth', () => {
           readonly id: string;
           readonly name?: string;
           readonly bar?: string;
-          constructor(init: ModelInit<SimpleModel>);
-          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
+          constructor(init: ModelInit<SimpleModel, SimpleModelMetaData>);
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel, SimpleModelMetaData>) => MutableModel<SimpleModel, SimpleModelMetaData> | void): SimpleModel;
         }"
       `);
       expect(generateImportSpy).toBeCalledTimes(1);
@@ -520,8 +520,8 @@ describe('Javascript visitor with auth directives in field level', () => {
           readonly name: string;
           readonly address: string;
           readonly ssn?: string;
-          constructor(init: ModelInit<Employee>);
-          static copyOf(source: Employee, mutator: (draft: MutableModel<Employee>) => MutableModel<Employee> | void): Employee;
+          constructor(init: ModelInit<Employee, EmployeeMetaData>);
+          static copyOf(source: Employee, mutator: (draft: MutableModel<Employee, EmployeeMetaData>) => MutableModel<Employee, EmployeeMetaData> | void): Employee;
         }"
       `);
 
@@ -609,7 +609,7 @@ describe('Javascript visitor with custom primary key', () => {
 
       export declare class WorkItem6 {
         readonly id: string;
-        constructor(init: ModelInit<WorkItem6>);
+        constructor(init: ModelInit<WorkItem6, WorkItem6MetaData>);
       }
 
       type WorkItem0MetaData = {
@@ -707,7 +707,7 @@ describe('Javascript visitor with custom primary key', () => {
 
       export declare class WorkItem6 {
         readonly id: string;
-        constructor(init: ModelInit<WorkItem6>);
+        constructor(init: ModelInit<WorkItem6, WorkItem6MetaData>);
       }
 
       type WorkItem0MetaData = {
