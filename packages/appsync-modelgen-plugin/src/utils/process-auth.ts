@@ -26,7 +26,6 @@ export enum AuthModelMutation {
 }
 
 const DEFAULT_GROUP_CLAIM = 'cognito:groups';
-const DEFAULT_IDENTITY_CLAIM = 'username';
 const DEFAULT_OPERATIONS = [AuthModelOperation.create, AuthModelOperation.update, AuthModelOperation.delete, AuthModelOperation.read];
 const DEFAULT_AUTH_PROVIDER = AuthProvider.userPools;
 const DEFAULT_OWNER_FIELD = 'owner';
@@ -51,9 +50,9 @@ export type AuthDirective = CodeGenDirective & {
   };
 };
 
-export function processAuthDirective(directives: CodeGenDirectives): AuthDirective[] {
+export function processAuthDirective(directives: CodeGenDirectives, useSubForDefaultIdentityClaim: boolean = false): AuthDirective[] {
   const authDirectives = directives.filter(d => d.name === 'auth');
-
+  const DEFAULT_IDENTITY_CLAIM = useSubForDefaultIdentityClaim ? 'sub' : 'username';
   return authDirectives.map(d => {
     // filter dynamic groups as they are not supported in subscription
     const authRules: AuthRule[] = d.arguments.rules || [];
