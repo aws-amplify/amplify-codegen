@@ -127,15 +127,15 @@ describe('Javascript visitor', () => {
           readonly name?: string;
           readonly bar?: string;
           readonly foo?: Bar[];
-          constructor(init: ModelInit<SimpleModel>);
-          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
+          constructor(init: ModelInit<SimpleModel, SimpleModelMetaData>);
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel, SimpleModelMetaData>) => MutableModel<SimpleModel, SimpleModelMetaData> | void): SimpleModel;
         }
 
         export declare class Bar {
           readonly id: string;
           readonly simpleModelFooId?: string;
-          constructor(init: ModelInit<Bar>);
-          static copyOf(source: Bar, mutator: (draft: MutableModel<Bar>) => MutableModel<Bar> | void): Bar;
+          constructor(init: ModelInit<Bar, BarMetaData>);
+          static copyOf(source: Bar, mutator: (draft: MutableModel<Bar, BarMetaData>) => MutableModel<Bar, BarMetaData> | void): Bar;
         }"
       `);
       expect(generateImportSpy).toBeCalledTimes(1);
@@ -147,7 +147,7 @@ describe('Javascript visitor', () => {
       expect(generateModelDeclarationSpy).toBeCalledTimes(3);
       expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(1, (declarationVisitor as any).modelMap['SimpleModel'], true);
       expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(2, (declarationVisitor as any).modelMap['Bar'], true);
-      expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(3, (declarationVisitor as any).nonModelMap['SimpleNonModelType'], true);
+      expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(3, (declarationVisitor as any).nonModelMap['SimpleNonModelType'], true, false);
     });
 
     it('should generate Javascript declaration with model metadata types', () => {
@@ -210,7 +210,7 @@ describe('Javascript visitor', () => {
       expect(generateModelDeclarationSpy).toBeCalledTimes(3);
       expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(1, (declarationVisitor as any).modelMap['SimpleModel'], true);
       expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(2, (declarationVisitor as any).modelMap['Bar'], true);
-      expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(3, (declarationVisitor as any).nonModelMap['SimpleNonModelType'], true);
+      expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(3, (declarationVisitor as any).nonModelMap['SimpleNonModelType'], true, false);
     });
   });
 
@@ -313,8 +313,8 @@ describe('Javascript visitor with default owner auth', () => {
           readonly id: string;
           readonly name?: string;
           readonly bar?: string;
-          constructor(init: ModelInit<SimpleModel>);
-          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
+          constructor(init: ModelInit<SimpleModel, SimpleModelMetaData>);
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel, SimpleModelMetaData>) => MutableModel<SimpleModel, SimpleModelMetaData> | void): SimpleModel;
         }"
       `);
       expect(generateImportSpy).toBeCalledTimes(1);
@@ -325,7 +325,7 @@ describe('Javascript visitor with default owner auth', () => {
 
       expect(generateModelDeclarationSpy).toBeCalledTimes(2);
       expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(1, (declarationVisitor as any).modelMap['SimpleModel'], true);
-      expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(2, (declarationVisitor as any).nonModelMap['SimpleNonModelType'], true);
+      expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(2, (declarationVisitor as any).nonModelMap['SimpleNonModelType'], true, false);
     });
   });
 });
@@ -386,8 +386,8 @@ describe('Javascript visitor with custom owner field auth', () => {
           readonly id: string;
           readonly name?: string;
           readonly bar?: string;
-          constructor(init: ModelInit<SimpleModel>);
-          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
+          constructor(init: ModelInit<SimpleModel, SimpleModelMetaData>);
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel, SimpleModelMetaData>) => MutableModel<SimpleModel, SimpleModelMetaData> | void): SimpleModel;
         }"
       `);
       expect(generateImportSpy).toBeCalledTimes(1);
@@ -398,7 +398,7 @@ describe('Javascript visitor with custom owner field auth', () => {
 
       expect(generateModelDeclarationSpy).toBeCalledTimes(2);
       expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(1, (declarationVisitor as any).modelMap['SimpleModel'], true);
-      expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(2, (declarationVisitor as any).nonModelMap['SimpleNonModelType'], true);
+      expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(2, (declarationVisitor as any).nonModelMap['SimpleNonModelType'], true, false);
     });
   });
 });
@@ -461,8 +461,8 @@ describe('Javascript visitor with multiple owner field auth', () => {
           readonly id: string;
           readonly name?: string;
           readonly bar?: string;
-          constructor(init: ModelInit<SimpleModel>);
-          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
+          constructor(init: ModelInit<SimpleModel, SimpleModelMetaData>);
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel, SimpleModelMetaData>) => MutableModel<SimpleModel, SimpleModelMetaData> | void): SimpleModel;
         }"
       `);
       expect(generateImportSpy).toBeCalledTimes(1);
@@ -473,7 +473,7 @@ describe('Javascript visitor with multiple owner field auth', () => {
 
       expect(generateModelDeclarationSpy).toBeCalledTimes(2);
       expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(1, (declarationVisitor as any).modelMap['SimpleModel'], true);
-      expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(2, (declarationVisitor as any).nonModelMap['SimpleNonModelType'], true);
+      expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(2, (declarationVisitor as any).nonModelMap['SimpleNonModelType'], true, false);
     });
   });
 });
@@ -520,8 +520,8 @@ describe('Javascript visitor with auth directives in field level', () => {
           readonly name: string;
           readonly address: string;
           readonly ssn?: string;
-          constructor(init: ModelInit<Employee>);
-          static copyOf(source: Employee, mutator: (draft: MutableModel<Employee>) => MutableModel<Employee> | void): Employee;
+          constructor(init: ModelInit<Employee, EmployeeMetaData>);
+          static copyOf(source: Employee, mutator: (draft: MutableModel<Employee, EmployeeMetaData>) => MutableModel<Employee, EmployeeMetaData> | void): Employee;
         }"
       `);
 

@@ -61,7 +61,7 @@ export class AppSyncModelJavascriptVisitor<
         .join('\n\n');
 
       const nonModelDeclarations = Object.values(this.nonModelMap)
-        .map(typeObj => this.generateModelDeclaration(typeObj, true))
+        .map(typeObj => this.generateModelDeclaration(typeObj, true, false))
         .join('\n\n');
 
       const modelMetaData = Object.values(this.modelMap)
