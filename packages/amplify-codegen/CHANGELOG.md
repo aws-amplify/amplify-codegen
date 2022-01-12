@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.27.0-sub-identity-claim.1](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.27.0-sub-identity-claim.0...amplify-codegen@2.27.0-sub-identity-claim.1) (2022-01-12)
+
+
+### Features
+
+* use sub as default identity claim ([#362](https://github.com/aws-amplify/amplify-codegen/issues/362)) ([7fecf8a](https://github.com/aws-amplify/amplify-codegen/commit/7fecf8a7a133e17d766bd6d7149619953270cb3a))
+
+
+
+
+
 # [2.27.0-sub-identity-claim.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.23...amplify-codegen@2.27.0-sub-identity-claim.0) (2022-01-12)
 
 
