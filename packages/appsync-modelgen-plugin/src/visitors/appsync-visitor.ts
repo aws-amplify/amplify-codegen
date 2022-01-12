@@ -748,7 +748,7 @@ export class AppSyncModelVisitor<
       );
       const modelDirective = intermediateModel.directives.find(directive => directive.name === 'model');
       if (modelDirective) {
-        this.ensureIdField(intermediateModel);
+        this.ensurePrimaryKeyField(intermediateModel, intermediateModel.directives);
         this.addTimestampFields(intermediateModel, modelDirective);
         this.sortFields(intermediateModel);
       }

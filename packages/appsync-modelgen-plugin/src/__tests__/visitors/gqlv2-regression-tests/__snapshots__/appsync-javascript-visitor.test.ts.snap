@@ -16,11 +16,19 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on explicit hasMany belongs to relationship @belongsTo 2`] = `
-"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
 
+
+type PostMetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type CommentMetaData = {
+  identifier: ManagedIdentifier;
+}
 
 export declare class Post {
   readonly id: string;
@@ -55,11 +63,19 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on explicit hasMany belongs to relationship @belongsTo 4`] = `
-"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
 
+
+type PostMetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type CommentMetaData = {
+  identifier: ManagedIdentifier;
+}
 
 export declare class Post {
   readonly id: string;
@@ -94,11 +110,19 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on explicit hasOne belongs to relationship @belongsTo 2`] = `
-"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
 
+
+type Project2MetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type Team2MetaData = {
+  identifier: ManagedIdentifier;
+}
 
 export declare class Project2 {
   readonly id: string;
@@ -134,11 +158,19 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on explicit hasOne belongs to relationship @belongsTo 4`] = `
-"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
 
+
+type Project2MetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type Team2MetaData = {
+  identifier: ManagedIdentifier;
+}
 
 export declare class Project2 {
   readonly id: string;
@@ -175,11 +207,23 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on implicit hasMany belongs to relationship @belongsTo (extended) 2`] = `
-"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
 
+
+type Blog7V2MetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type Post7V2MetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type Comment7V2MetaData = {
+  identifier: ManagedIdentifier;
+}
 
 export declare class Blog7V2 {
   readonly id: string;
@@ -224,11 +268,23 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on implicit hasMany belongs to relationship @belongsTo (extended) 4`] = `
-"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
 
+
+type Blog7V2MetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type Post7V2MetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type Comment7V2MetaData = {
+  identifier: ManagedIdentifier;
+}
 
 export declare class Blog7V2 {
   readonly id: string;
@@ -273,11 +329,23 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on implicit hasMany belongs to relationship @belongsTo (extended) 6`] = `
-"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
 
+
+type Blog7V2MetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type Post7V2MetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type Comment7V2MetaData = {
+  identifier: ManagedIdentifier;
+}
 
 export declare class Blog7V2 {
   readonly id: string;
@@ -321,11 +389,19 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on implicit hasOne belongs to relationship @belongsTo 2`] = `
-"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
 
+
+type ProjectMetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type TeamMetaData = {
+  identifier: ManagedIdentifier;
+}
 
 export declare class Project {
   readonly id: string;
@@ -361,11 +437,19 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on implicit hasOne belongs to relationship @belongsTo 4`] = `
-"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
 
+
+type ProjectMetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type TeamMetaData = {
+  identifier: ManagedIdentifier;
+}
 
 export declare class Project {
   readonly id: string;
@@ -402,11 +486,23 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on many to many relationship @manyToMany 2`] = `
-"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
 
+
+type PostMetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type TagMetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type PostTagsMetaData = {
+  identifier: ManagedIdentifier;
+}
 
 export declare class Post {
   readonly id: string;
@@ -451,11 +547,23 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on many to many relationship @manyToMany 4`] = `
-"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
 
+
+type PostMetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type TagMetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type PostTagsMetaData = {
+  identifier: ManagedIdentifier;
+}
 
 export declare class Post {
   readonly id: string;
@@ -498,11 +606,15 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on record creation and updating timestamp 2`] = `
-"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
 
+
+type TodoMetaData = {
+  identifier: ManagedIdentifier;
+}
 
 export declare class Todo {
   readonly id: string;
@@ -528,11 +640,19 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional explicit has many relationship @hasMany 2`] = `
-"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
 
+
+type Post2MetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type Comment2MetaData = {
+  identifier: ManagedIdentifier;
+}
 
 export declare class Post2 {
   readonly id: string;
@@ -567,11 +687,19 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional explicit has many relationship @hasMany 4`] = `
-"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
 
+
+type Post2MetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type Comment2MetaData = {
+  identifier: ManagedIdentifier;
+}
 
 export declare class Post2 {
   readonly id: string;
@@ -606,11 +734,19 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional explicit has one relationship @hasOne 2`] = `
-"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
 
+
+type Project2MetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type Team2MetaData = {
+  identifier: ManagedIdentifier;
+}
 
 export declare class Project2 {
   readonly id: string;
@@ -645,11 +781,19 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional explicit has one relationship @hasOne 4`] = `
-"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
 
+
+type Project2MetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type Team2MetaData = {
+  identifier: ManagedIdentifier;
+}
 
 export declare class Project2 {
   readonly id: string;
@@ -684,11 +828,19 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional implicit has many relationship @hasMany 2`] = `
-"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
 
+
+type PostMetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type CommentMetaData = {
+  identifier: ManagedIdentifier;
+}
 
 export declare class Post {
   readonly id: string;
@@ -723,11 +875,19 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional implicit has many relationship @hasMany 4`] = `
-"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
 
+
+type PostMetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type CommentMetaData = {
+  identifier: ManagedIdentifier;
+}
 
 export declare class Post {
   readonly id: string;
@@ -762,11 +922,19 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional implicit has one relationship @hasOne 2`] = `
-"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
 
+
+type ProjectMetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type TeamMetaData = {
+  identifier: ManagedIdentifier;
+}
 
 export declare class Project {
   readonly id: string;
@@ -801,11 +969,19 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional implicit has one relationship @hasOne 4`] = `
-"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
 
+
+type ProjectMetaData = {
+  identifier: ManagedIdentifier;
+}
+
+type TeamMetaData = {
+  identifier: ManagedIdentifier;
+}
 
 export declare class Project {
   readonly id: string;
@@ -839,11 +1015,15 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works when configuring a secondary index 2`] = `
-"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
 
+
+type CustomerMetaData = {
+  identifier: ManagedIdentifier;
+}
 
 export declare class Customer {
   readonly id: string;
