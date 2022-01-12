@@ -5,6 +5,7 @@ import {
   CodeGenEnum,
   CodeGenField,
   CodeGenModel,
+  CodeGenPrimaryKeyType,
   ParsedAppSyncModelConfig,
   RawAppSyncModelConfig,
 } from './appsync-visitor';
@@ -78,6 +79,8 @@ export class AppSyncModelTypeScriptVisitor<
       .withName(`${modelName}MetaData`)
       .export(false);
 
+    modelDeclarations.addProperty('identifier', this.constructIdentifier(modelObj));
+
     const isTimestampFeatureFlagEnabled = this.config.isTimestampFieldsAdded;
     let readOnlyFieldNames: string[] = [];
 
@@ -86,9 +89,25 @@ export class AppSyncModelTypeScriptVisitor<
         readOnlyFieldNames.push(`'${field.name}'`);
       }
     });
-    modelDeclarations.addProperty('readOnlyFields', readOnlyFieldNames.join(' | '));
+    if (readOnlyFieldNames.length) {
+      modelDeclarations.addProperty('readOnlyFields', readOnlyFieldNames.join(' | '));
+    }
 
     return modelDeclarations.string;
+  }
+
+  protected constructIdentifier(modelObj: CodeGenModel): string {
+    const primaryKeyField = modelObj.fields.find(f => f.primaryKeyInfo)!;
+    const { primaryKeyType, sortKeyFields } = primaryKeyField.primaryKeyInfo!;
+    switch (primaryKeyType) {
+      case CodeGenPrimaryKeyType.ManagedId:
+        return 'ManagedIdentifier';
+      case CodeGenPrimaryKeyType.OptionallyManagedId:
+        return 'OptionallyManagedIdentifier';
+      case CodeGenPrimaryKeyType.CustomId:
+        const identifierFields: string[] = [primaryKeyField.name, ...sortKeyFields].filter(f => f);
+        return `CustomIdentifier<${identifierFields.map(fieldStr => `'${fieldStr}'`).join(' | ')}>`;
+    }
   }
 
   /**

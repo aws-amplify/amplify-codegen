@@ -12,12 +12,13 @@ const getVisitor = (
   schema: string,
   isDeclaration: boolean = false,
   isTimestampFieldsAdded: boolean = false,
+  transformerVersion: number = 1,
 ): AppSyncModelJavascriptVisitor => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelJavascriptVisitor(
     builtSchema,
-    { directives, target: 'javascript', scalars: TYPESCRIPT_SCALAR_MAP, isDeclaration, isTimestampFieldsAdded },
+    { directives, target: 'javascript', scalars: TYPESCRIPT_SCALAR_MAP, isDeclaration, isTimestampFieldsAdded, transformerVersion },
     {},
   );
   visit(ast, { leave: visitor });
@@ -100,7 +101,7 @@ describe('Javascript visitor', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -111,6 +112,14 @@ describe('Javascript visitor', () => {
           readonly id: string;
           readonly names?: (string | null)[];
           constructor(init: ModelInit<SimpleNonModelType>);
+        }
+
+        type SimpleModelMetaData = {
+          identifier: ManagedIdentifier;
+        }
+
+        type BarMetaData = {
+          identifier: ManagedIdentifier;
         }
 
         export declare class SimpleModel {
@@ -149,7 +158,7 @@ describe('Javascript visitor', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -163,10 +172,12 @@ describe('Javascript visitor', () => {
         }
 
         type SimpleModelMetaData = {
+          identifier: ManagedIdentifier;
           readOnlyFields: 'createdAt' | 'updatedAt';
         }
 
         type BarMetaData = {
+          identifier: ManagedIdentifier;
           readOnlyFields: 'createdAt' | 'updatedAt';
         }
 
@@ -281,7 +292,7 @@ describe('Javascript visitor with default owner auth', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -292,6 +303,10 @@ describe('Javascript visitor with default owner auth', () => {
           readonly id: string;
           readonly names?: (string | null)[];
           constructor(init: ModelInit<SimpleNonModelType>);
+        }
+
+        type SimpleModelMetaData = {
+          identifier: ManagedIdentifier;
         }
 
         export declare class SimpleModel {
@@ -350,7 +365,7 @@ describe('Javascript visitor with custom owner field auth', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -361,6 +376,10 @@ describe('Javascript visitor with custom owner field auth', () => {
           readonly id: string;
           readonly names?: (string | null)[];
           constructor(init: ModelInit<SimpleNonModelType>);
+        }
+
+        type SimpleModelMetaData = {
+          identifier: ManagedIdentifier;
         }
 
         export declare class SimpleModel {
@@ -421,7 +440,7 @@ describe('Javascript visitor with multiple owner field auth', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -432,6 +451,10 @@ describe('Javascript visitor with multiple owner field auth', () => {
           readonly id: string;
           readonly names?: (string | null)[];
           constructor(init: ModelInit<SimpleNonModelType>);
+        }
+
+        type SimpleModelMetaData = {
+          identifier: ManagedIdentifier;
         }
 
         export declare class SimpleModel {
@@ -482,11 +505,15 @@ describe('Javascript visitor with auth directives in field level', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
 
+
+        type EmployeeMetaData = {
+          identifier: ManagedIdentifier;
+        }
 
         export declare class Employee {
           readonly id: string;
@@ -504,5 +531,266 @@ describe('Javascript visitor with auth directives in field level', () => {
       expect(generateModelDeclarationSpy).toBeCalledTimes(1);
       expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(1, (declarationVisitor as any).modelMap['Employee'], true);
     });
+  });
+});
+
+describe('Javascript visitor with custom primary key', () => {
+  const schemaV1 = /* GraphQL */ `
+    type WorkItem0 @model @key(name: "byProject", fields: ["project", "workItemId"]) {
+      project: ID!
+      workItemId: ID!
+    }
+
+    type WorkItem1 @model @key(fields: ["project", "workItemId"]) {
+      project: ID!
+      workItemId: ID!
+    }
+
+    type WorkItem2 @model @key(fields: ["project"]) {
+      project: ID!
+    }
+
+    type WorkItem3 @model @key(fields: ["id"]) {
+      id: ID!
+    }
+
+    type WorkItem4 @model {
+      id: ID!
+    }
+
+    type WorkItem5 @model {
+      title: String
+    }
+
+    type WorkItem6 {
+      id: ID!
+    }
+  `;
+  const schemaV2 = /* GraphQL */ `
+    type WorkItem0 @model {
+      project: ID! @index(name: "byProject", sortKeyFields: ["workItemId"])
+      workItemId: ID!
+    }
+
+    type WorkItem1 @model {
+      project: ID! @primaryKey(sortKeyFields: ["workItemId"])
+      workItemId: ID!
+    }
+
+    type WorkItem2 @model {
+      project: ID! @primaryKey
+    }
+
+    type WorkItem3 @model {
+      id: ID! @primaryKey
+    }
+
+    type WorkItem4 @model {
+      id: ID!
+    }
+
+    type WorkItem5 @model {
+      title: String
+    }
+
+    type WorkItem6 {
+      id: ID!
+    }
+  `;
+
+  it('should generate correct declaration with custom primary key support in V1 GraphQL schema', () => {
+    const visitor = getVisitor(schemaV1, true, true);
+    const declarations = visitor.generate();
+    validateTs(declarations);
+    expect(declarations).toMatchInlineSnapshot(`
+      "import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
+
+
+
+      export declare class WorkItem6 {
+        readonly id: string;
+        constructor(init: ModelInit<WorkItem6>);
+      }
+
+      type WorkItem0MetaData = {
+        identifier: ManagedIdentifier;
+        readOnlyFields: 'createdAt' | 'updatedAt';
+      }
+
+      type WorkItem1MetaData = {
+        identifier: CustomIdentifier<'project' | 'workItemId'>;
+        readOnlyFields: 'createdAt' | 'updatedAt';
+      }
+
+      type WorkItem2MetaData = {
+        identifier: CustomIdentifier<'project'>;
+        readOnlyFields: 'createdAt' | 'updatedAt';
+      }
+
+      type WorkItem3MetaData = {
+        identifier: OptionallyManagedIdentifier;
+        readOnlyFields: 'createdAt' | 'updatedAt';
+      }
+
+      type WorkItem4MetaData = {
+        identifier: ManagedIdentifier;
+        readOnlyFields: 'createdAt' | 'updatedAt';
+      }
+
+      type WorkItem5MetaData = {
+        identifier: ManagedIdentifier;
+        readOnlyFields: 'createdAt' | 'updatedAt';
+      }
+
+      export declare class WorkItem0 {
+        readonly id: string;
+        readonly project: string;
+        readonly workItemId: string;
+        readonly createdAt?: string;
+        readonly updatedAt?: string;
+        constructor(init: ModelInit<WorkItem0, WorkItem0MetaData>);
+        static copyOf(source: WorkItem0, mutator: (draft: MutableModel<WorkItem0, WorkItem0MetaData>) => MutableModel<WorkItem0, WorkItem0MetaData> | void): WorkItem0;
+      }
+
+      export declare class WorkItem1 {
+        readonly project: string;
+        readonly workItemId: string;
+        readonly createdAt?: string;
+        readonly updatedAt?: string;
+        constructor(init: ModelInit<WorkItem1, WorkItem1MetaData>);
+        static copyOf(source: WorkItem1, mutator: (draft: MutableModel<WorkItem1, WorkItem1MetaData>) => MutableModel<WorkItem1, WorkItem1MetaData> | void): WorkItem1;
+      }
+
+      export declare class WorkItem2 {
+        readonly project: string;
+        readonly createdAt?: string;
+        readonly updatedAt?: string;
+        constructor(init: ModelInit<WorkItem2, WorkItem2MetaData>);
+        static copyOf(source: WorkItem2, mutator: (draft: MutableModel<WorkItem2, WorkItem2MetaData>) => MutableModel<WorkItem2, WorkItem2MetaData> | void): WorkItem2;
+      }
+
+      export declare class WorkItem3 {
+        readonly id: string;
+        readonly createdAt?: string;
+        readonly updatedAt?: string;
+        constructor(init: ModelInit<WorkItem3, WorkItem3MetaData>);
+        static copyOf(source: WorkItem3, mutator: (draft: MutableModel<WorkItem3, WorkItem3MetaData>) => MutableModel<WorkItem3, WorkItem3MetaData> | void): WorkItem3;
+      }
+
+      export declare class WorkItem4 {
+        readonly id: string;
+        readonly createdAt?: string;
+        readonly updatedAt?: string;
+        constructor(init: ModelInit<WorkItem4, WorkItem4MetaData>);
+        static copyOf(source: WorkItem4, mutator: (draft: MutableModel<WorkItem4, WorkItem4MetaData>) => MutableModel<WorkItem4, WorkItem4MetaData> | void): WorkItem4;
+      }
+
+      export declare class WorkItem5 {
+        readonly id: string;
+        readonly title?: string;
+        readonly createdAt?: string;
+        readonly updatedAt?: string;
+        constructor(init: ModelInit<WorkItem5, WorkItem5MetaData>);
+        static copyOf(source: WorkItem5, mutator: (draft: MutableModel<WorkItem5, WorkItem5MetaData>) => MutableModel<WorkItem5, WorkItem5MetaData> | void): WorkItem5;
+      }"
+    `);
+  });
+
+  it('should generate correct declaration with custom primary key support in V2 GraphQL schema', () => {
+    const visitor = getVisitor(schemaV2, true, true, 2);
+    const declarations = visitor.generate();
+    validateTs(declarations);
+    expect(declarations).toMatchInlineSnapshot(`
+      "import { ModelInit, MutableModel, PersistentModelConstructor, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
+
+
+
+      export declare class WorkItem6 {
+        readonly id: string;
+        constructor(init: ModelInit<WorkItem6>);
+      }
+
+      type WorkItem0MetaData = {
+        identifier: ManagedIdentifier;
+        readOnlyFields: 'createdAt' | 'updatedAt';
+      }
+
+      type WorkItem1MetaData = {
+        identifier: CustomIdentifier<'project' | 'workItemId'>;
+        readOnlyFields: 'createdAt' | 'updatedAt';
+      }
+
+      type WorkItem2MetaData = {
+        identifier: CustomIdentifier<'project'>;
+        readOnlyFields: 'createdAt' | 'updatedAt';
+      }
+
+      type WorkItem3MetaData = {
+        identifier: OptionallyManagedIdentifier;
+        readOnlyFields: 'createdAt' | 'updatedAt';
+      }
+
+      type WorkItem4MetaData = {
+        identifier: ManagedIdentifier;
+        readOnlyFields: 'createdAt' | 'updatedAt';
+      }
+
+      type WorkItem5MetaData = {
+        identifier: ManagedIdentifier;
+        readOnlyFields: 'createdAt' | 'updatedAt';
+      }
+
+      export declare class WorkItem0 {
+        readonly id: string;
+        readonly project: string;
+        readonly workItemId: string;
+        readonly createdAt?: string;
+        readonly updatedAt?: string;
+        constructor(init: ModelInit<WorkItem0, WorkItem0MetaData>);
+        static copyOf(source: WorkItem0, mutator: (draft: MutableModel<WorkItem0, WorkItem0MetaData>) => MutableModel<WorkItem0, WorkItem0MetaData> | void): WorkItem0;
+      }
+
+      export declare class WorkItem1 {
+        readonly project: string;
+        readonly workItemId: string;
+        readonly createdAt?: string;
+        readonly updatedAt?: string;
+        constructor(init: ModelInit<WorkItem1, WorkItem1MetaData>);
+        static copyOf(source: WorkItem1, mutator: (draft: MutableModel<WorkItem1, WorkItem1MetaData>) => MutableModel<WorkItem1, WorkItem1MetaData> | void): WorkItem1;
+      }
+
+      export declare class WorkItem2 {
+        readonly project: string;
+        readonly createdAt?: string;
+        readonly updatedAt?: string;
+        constructor(init: ModelInit<WorkItem2, WorkItem2MetaData>);
+        static copyOf(source: WorkItem2, mutator: (draft: MutableModel<WorkItem2, WorkItem2MetaData>) => MutableModel<WorkItem2, WorkItem2MetaData> | void): WorkItem2;
+      }
+
+      export declare class WorkItem3 {
+        readonly id: string;
+        readonly createdAt?: string;
+        readonly updatedAt?: string;
+        constructor(init: ModelInit<WorkItem3, WorkItem3MetaData>);
+        static copyOf(source: WorkItem3, mutator: (draft: MutableModel<WorkItem3, WorkItem3MetaData>) => MutableModel<WorkItem3, WorkItem3MetaData> | void): WorkItem3;
+      }
+
+      export declare class WorkItem4 {
+        readonly id: string;
+        readonly createdAt?: string;
+        readonly updatedAt?: string;
+        constructor(init: ModelInit<WorkItem4, WorkItem4MetaData>);
+        static copyOf(source: WorkItem4, mutator: (draft: MutableModel<WorkItem4, WorkItem4MetaData>) => MutableModel<WorkItem4, WorkItem4MetaData> | void): WorkItem4;
+      }
+
+      export declare class WorkItem5 {
+        readonly id: string;
+        readonly title?: string;
+        readonly createdAt?: string;
+        readonly updatedAt?: string;
+        constructor(init: ModelInit<WorkItem5, WorkItem5MetaData>);
+        static copyOf(source: WorkItem5, mutator: (draft: MutableModel<WorkItem5, WorkItem5MetaData>) => MutableModel<WorkItem5, WorkItem5MetaData> | void): WorkItem5;
+      }"
+    `);
   });
 });
