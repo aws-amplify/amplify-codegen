@@ -602,7 +602,7 @@ describe('AppSync Dart Visitor', () => {
   });
 
   describe('Many To Many V2 Tests', () => {
-    it('Should generate the intermediate model successfully', () => {
+    it('Should generate the intermediate model successfully with nullsafety disabled', () => {
       const schema = /* GraphQL */ `
         type Post @model {
           id: ID!
@@ -610,7 +610,7 @@ describe('AppSync Dart Visitor', () => {
           content: String
           tags: [Tag] @manyToMany(relationName: "PostTags")
         }
-        
+
         type Tag @model {
           id: ID!
           label: String!
@@ -618,6 +618,25 @@ describe('AppSync Dart Visitor', () => {
         }
       `;
       const generatedCode = getVisitor({ schema, transformerVersion: 2 }).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+
+    it('Should generate the intermediate model successfully with nullsafety enabled', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          id: ID!
+          title: String!
+          content: String
+          tags: [Tag] @manyToMany(relationName: "PostTags")
+        }
+
+        type Tag @model {
+          id: ID!
+          label: String!
+          posts: [Post] @manyToMany(relationName: "PostTags")
+        }
+      `;
+      const generatedCode = getVisitor({ schema, transformerVersion: 2, enableDartNullSafety: true }).generate();
       expect(generatedCode).toMatchSnapshot();
     });
   });
