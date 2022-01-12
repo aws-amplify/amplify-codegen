@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.27.0-sub-identity-claim.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.23...amplify-codegen@2.27.0-sub-identity-claim.0) (2022-01-12)
+
+
+### Features
+
+* read-only fields and non-model types for flutter ([58b0796](https://github.com/aws-amplify/amplify-codegen/commit/58b07962c3d39d7fd9b4246d5dffe55a11a25e27)), closes [#302](https://github.com/aws-amplify/amplify-codegen/issues/302) [#234](https://github.com/aws-amplify/amplify-codegen/issues/234) [#247](https://github.com/aws-amplify/amplify-codegen/issues/247) [#263](https://github.com/aws-amplify/amplify-codegen/issues/263) [#272](https://github.com/aws-amplify/amplify-codegen/issues/272)
+
+
+
+
+
 ## [2.26.23](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.22...amplify-codegen@2.26.23) (2022-01-11)
 
 **Note:** Version bump only for package amplify-codegen
