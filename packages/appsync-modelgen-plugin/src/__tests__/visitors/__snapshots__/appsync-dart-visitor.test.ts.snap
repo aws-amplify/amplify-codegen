@@ -2835,8 +2835,6 @@ class _TagModelType extends ModelType<Tag> {
 class PostTags extends Model {
   static const classType = const _PostTagsModelType();
   final String id;
-  final String? _postID;
-  final String? _tagID;
   final Post? _post;
   final Tag? _tag;
 
@@ -2846,32 +2844,6 @@ class PostTags extends Model {
   @override
   String getId() {
     return id;
-  }
-  
-  String get postID {
-    try {
-      return _postID!;
-    } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
-      recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
-      underlyingException: e.toString()
-    );
-    }
-  }
-  
-  String get tagID {
-    try {
-      return _tagID!;
-    } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
-      recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
-      underlyingException: e.toString()
-    );
-    }
   }
   
   Post get post {
@@ -2900,13 +2872,11 @@ class PostTags extends Model {
     }
   }
   
-  const PostTags._internal({required this.id, required postID, required tagID, required post, required tag}): _postID = postID, _tagID = tagID, _post = post, _tag = tag;
+  const PostTags._internal({required this.id, required post, required tag}): _post = post, _tag = tag;
   
-  factory PostTags({String? id, required String postID, required String tagID, required Post post, required Tag tag}) {
+  factory PostTags({String? id, required Post post, required Tag tag}) {
     return PostTags._internal(
       id: id == null ? UUID.getUUID() : id,
-      postID: postID,
-      tagID: tagID,
       post: post,
       tag: tag);
   }
@@ -2920,8 +2890,6 @@ class PostTags extends Model {
     if (identical(other, this)) return true;
     return other is PostTags &&
       id == other.id &&
-      _postID == other._postID &&
-      _tagID == other._tagID &&
       _post == other._post &&
       _tag == other._tag;
   }
@@ -2935,8 +2903,6 @@ class PostTags extends Model {
     
     buffer.write(\\"PostTags {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
-    buffer.write(\\"postID=\\" + \\"$_postID\\" + \\", \\");
-    buffer.write(\\"tagID=\\" + \\"$_tagID\\" + \\", \\");
     buffer.write(\\"post=\\" + (_post != null ? _post!.toString() : \\"null\\") + \\", \\");
     buffer.write(\\"tag=\\" + (_tag != null ? _tag!.toString() : \\"null\\"));
     buffer.write(\\"}\\");
@@ -2944,19 +2910,15 @@ class PostTags extends Model {
     return buffer.toString();
   }
   
-  PostTags copyWith({String? id, String? postID, String? tagID, Post? post, Tag? tag}) {
+  PostTags copyWith({String? id, Post? post, Tag? tag}) {
     return PostTags(
       id: id ?? this.id,
-      postID: postID ?? this.postID,
-      tagID: tagID ?? this.tagID,
       post: post ?? this.post,
       tag: tag ?? this.tag);
   }
   
   PostTags.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _postID = json['postID'],
-      _tagID = json['tagID'],
       _post = json['post']?['serializedData'] != null
         ? Post.fromJson(new Map<String, dynamic>.from(json['post']['serializedData']))
         : null,
@@ -2965,12 +2927,10 @@ class PostTags extends Model {
         : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'postID': _postID, 'tagID': _tagID, 'post': _post?.toJson(), 'tag': _tag?.toJson()
+    'id': id, 'post': _post?.toJson(), 'tag': _tag?.toJson()
   };
 
   static final QueryField ID = QueryField(fieldName: \\"postTags.id\\");
-  static final QueryField POSTID = QueryField(fieldName: \\"postID\\");
-  static final QueryField TAGID = QueryField(fieldName: \\"tagID\\");
   static final QueryField POST = QueryField(
     fieldName: \\"post\\",
     fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Post).toString()));
@@ -2982,18 +2942,6 @@ class PostTags extends Model {
     modelSchemaDefinition.pluralName = \\"PostTags\\";
     
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
-    
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: PostTags.POSTID,
-      isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
-    ));
-    
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: PostTags.TAGID,
-      isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
-    ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
       key: PostTags.POST,
