@@ -48,7 +48,7 @@ export class AppSyncModelTypeScriptVisitor<
       .join('\n\n');
 
     const nonModelDeclarations = Object.values(this.nonModelMap)
-      .map(typeObj => this.generateModelDeclaration(typeObj))
+      .map(typeObj => this.generateModelDeclaration(typeObj, true, false))
       .join('\n\n');
 
     const modelInitialization = this.generateModelInitialization([...Object.values(this.modelMap), ...Object.values(this.nonModelMap)]);
@@ -115,7 +115,7 @@ export class AppSyncModelTypeScriptVisitor<
    * @param modelObj CodeGenModel object
    * @param isDeclaration flag indicates if the class needs to be exported
    */
-  protected generateModelDeclaration(modelObj: CodeGenModel, isDeclaration: boolean = true): string {
+  protected generateModelDeclaration(modelObj: CodeGenModel, isDeclaration: boolean = true, isModelType: boolean = true): string {
     const modelName = this.generateModelTypeDeclarationName(modelObj);
     const modelDeclarations = new TypeScriptDeclarationBlock()
       .asKind('class')
@@ -125,7 +125,7 @@ export class AppSyncModelTypeScriptVisitor<
 
     const isTimestampFeatureFlagEnabled = this.config.isTimestampFieldsAdded;
     let readOnlyFieldNames: string[] = [];
-    const modelMetaDataDeclaration: string = `, ${modelName}MetaData`;
+    const modelMetaDataDeclaration: string = isModelType ? `, ${modelName}MetaData` : '';
 
     modelObj.fields.forEach((field: CodeGenField) => {
       modelDeclarations.addProperty(this.getFieldName(field), this.getNativeType(field), undefined, 'DEFAULT', {

@@ -111,7 +111,7 @@ describe('Javascript visitor', () => {
         export declare class SimpleNonModelType {
           readonly id: string;
           readonly names?: (string | null)[];
-          constructor(init: ModelInit<SimpleNonModelType, SimpleNonModelTypeMetaData>);
+          constructor(init: ModelInit<SimpleNonModelType>);
         }
 
         type SimpleModelMetaData = {
@@ -147,7 +147,7 @@ describe('Javascript visitor', () => {
       expect(generateModelDeclarationSpy).toBeCalledTimes(3);
       expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(1, (declarationVisitor as any).modelMap['SimpleModel'], true);
       expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(2, (declarationVisitor as any).modelMap['Bar'], true);
-      expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(3, (declarationVisitor as any).nonModelMap['SimpleNonModelType'], true);
+      expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(3, (declarationVisitor as any).nonModelMap['SimpleNonModelType'], true, false);
     });
 
     it('should generate Javascript declaration with model metadata types', () => {
@@ -168,7 +168,7 @@ describe('Javascript visitor', () => {
         export declare class SimpleNonModelType {
           readonly id: string;
           readonly names?: (string | null)[];
-          constructor(init: ModelInit<SimpleNonModelType, SimpleNonModelTypeMetaData>);
+          constructor(init: ModelInit<SimpleNonModelType>);
         }
 
         type SimpleModelMetaData = {
@@ -210,7 +210,7 @@ describe('Javascript visitor', () => {
       expect(generateModelDeclarationSpy).toBeCalledTimes(3);
       expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(1, (declarationVisitor as any).modelMap['SimpleModel'], true);
       expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(2, (declarationVisitor as any).modelMap['Bar'], true);
-      expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(3, (declarationVisitor as any).nonModelMap['SimpleNonModelType'], true);
+      expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(3, (declarationVisitor as any).nonModelMap['SimpleNonModelType'], true, false);
     });
   });
 
@@ -302,7 +302,7 @@ describe('Javascript visitor with default owner auth', () => {
         export declare class SimpleNonModelType {
           readonly id: string;
           readonly names?: (string | null)[];
-          constructor(init: ModelInit<SimpleNonModelType, SimpleNonModelTypeMetaData>);
+          constructor(init: ModelInit<SimpleNonModelType>);
         }
 
         type SimpleModelMetaData = {
@@ -325,7 +325,7 @@ describe('Javascript visitor with default owner auth', () => {
 
       expect(generateModelDeclarationSpy).toBeCalledTimes(2);
       expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(1, (declarationVisitor as any).modelMap['SimpleModel'], true);
-      expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(2, (declarationVisitor as any).nonModelMap['SimpleNonModelType'], true);
+      expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(2, (declarationVisitor as any).nonModelMap['SimpleNonModelType'], true, false);
     });
   });
 });
@@ -375,7 +375,7 @@ describe('Javascript visitor with custom owner field auth', () => {
         export declare class SimpleNonModelType {
           readonly id: string;
           readonly names?: (string | null)[];
-          constructor(init: ModelInit<SimpleNonModelType, SimpleNonModelTypeMetaData>);
+          constructor(init: ModelInit<SimpleNonModelType>);
         }
 
         type SimpleModelMetaData = {
@@ -398,7 +398,7 @@ describe('Javascript visitor with custom owner field auth', () => {
 
       expect(generateModelDeclarationSpy).toBeCalledTimes(2);
       expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(1, (declarationVisitor as any).modelMap['SimpleModel'], true);
-      expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(2, (declarationVisitor as any).nonModelMap['SimpleNonModelType'], true);
+      expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(2, (declarationVisitor as any).nonModelMap['SimpleNonModelType'], true, false);
     });
   });
 });
@@ -450,7 +450,7 @@ describe('Javascript visitor with multiple owner field auth', () => {
         export declare class SimpleNonModelType {
           readonly id: string;
           readonly names?: (string | null)[];
-          constructor(init: ModelInit<SimpleNonModelType, SimpleNonModelTypeMetaData>);
+          constructor(init: ModelInit<SimpleNonModelType>);
         }
 
         type SimpleModelMetaData = {
@@ -473,7 +473,7 @@ describe('Javascript visitor with multiple owner field auth', () => {
 
       expect(generateModelDeclarationSpy).toBeCalledTimes(2);
       expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(1, (declarationVisitor as any).modelMap['SimpleModel'], true);
-      expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(2, (declarationVisitor as any).nonModelMap['SimpleNonModelType'], true);
+      expect(generateModelDeclarationSpy).toHaveBeenNthCalledWith(2, (declarationVisitor as any).nonModelMap['SimpleNonModelType'], true, false);
     });
   });
 });
@@ -609,7 +609,7 @@ describe('Javascript visitor with custom primary key', () => {
 
       export declare class WorkItem6 {
         readonly id: string;
-        constructor(init: ModelInit<WorkItem6, WorkItem6MetaData>);
+        constructor(init: ModelInit<WorkItem6>);
       }
 
       type WorkItem0MetaData = {
@@ -707,7 +707,7 @@ describe('Javascript visitor with custom primary key', () => {
 
       export declare class WorkItem6 {
         readonly id: string;
-        constructor(init: ModelInit<WorkItem6, WorkItem6MetaData>);
+        constructor(init: ModelInit<WorkItem6>);
       }
 
       type WorkItem0MetaData = {
