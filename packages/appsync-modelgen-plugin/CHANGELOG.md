@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.30.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.13...@aws-amplify/appsync-modelgen-plugin@1.30.0) (2022-01-12)
+
+
+### Bug Fixes
+
+* **appsync-dart-visitor:** applying nullsafe operation to non-null safe code ([#332](https://github.com/aws-amplify/amplify-codegen/issues/332)) ([#364](https://github.com/aws-amplify/amplify-codegen/issues/364)) ([1526d1e](https://github.com/aws-amplify/amplify-codegen/commit/1526d1e6a8b6ca6548977cc01fbfcf00616b67bc))
+* **modelgen:** remove timestamps if defined null in [@model](https://github.com/model) ([#355](https://github.com/aws-amplify/amplify-codegen/issues/355)) ([ee90c2c](https://github.com/aws-amplify/amplify-codegen/commit/ee90c2c97623b7f9875a5b335ad4beb629260be5))
+* **modelgen:** unit test for custom pk in manyToMany ([#361](https://github.com/aws-amplify/amplify-codegen/issues/361)) ([718c512](https://github.com/aws-amplify/amplify-codegen/commit/718c512d25d5a6bf017dcebd219baf3d53308088))
+
+
+### Features
+
+* **modelgen:** Custom primary key support ([#351](https://github.com/aws-amplify/amplify-codegen/issues/351)) ([fa067e0](https://github.com/aws-amplify/amplify-codegen/commit/fa067e09409d13848a89ab7141df2d2287d92bf2))
+* read-only fields and non-model types for flutter ([58b0796](https://github.com/aws-amplify/amplify-codegen/commit/58b07962c3d39d7fd9b4246d5dffe55a11a25e27)), closes [#302](https://github.com/aws-amplify/amplify-codegen/issues/302) [#234](https://github.com/aws-amplify/amplify-codegen/issues/234) [#247](https://github.com/aws-amplify/amplify-codegen/issues/247) [#263](https://github.com/aws-amplify/amplify-codegen/issues/263) [#272](https://github.com/aws-amplify/amplify-codegen/issues/272)
+
+
+
+
+
 ## [1.29.13](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.12...@aws-amplify/appsync-modelgen-plugin@1.29.13) (2022-01-11)
 
 
