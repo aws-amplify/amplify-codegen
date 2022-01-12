@@ -124,6 +124,12 @@ export interface RawAppSyncModelConfig extends RawConfig {
    * @descriptions optional number which determines which version of the GraphQL transformer to use
    */
   transformerVersion?: number;
+  /**
+   * @name useSubForDefaultIdentityClaim
+   * @type boolean
+   * @descriptions optional boolean which determines whether to use sub as default identity claim
+   */
+  useSubForDefaultIdentityClaim?: boolean;
 }
 
 // Todo: need to figure out how to share config
@@ -135,6 +141,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   handleListNullabilityTransparently?: boolean;
   usePipelinedTransformer?: boolean;
   transformerVersion?: number;
+  useSubForDefaultIdentityClaim?: boolean;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
 
@@ -225,6 +232,7 @@ export class AppSyncModelVisitor<
       handleListNullabilityTransparently: rawConfig.handleListNullabilityTransparently,
       usePipelinedTransformer: rawConfig.usePipelinedTransformer,
       transformerVersion: rawConfig.transformerVersion,
+      useSubForDefaultIdentityClaim: rawConfig.useSubForDefaultIdentityClaim,
     });
 
     const typesUsedInDirectives: string[] = [];
@@ -826,13 +834,13 @@ export class AppSyncModelVisitor<
     //model @auth process
     Object.values(this.modelMap).forEach(model => {
       const filteredDirectives = model.directives.filter(d => d.name !== 'auth');
-      const authDirectives = processAuthDirective(model.directives);
+      const authDirectives = processAuthDirective(model.directives, this.config.useSubForDefaultIdentityClaim);
       model.directives = [...filteredDirectives, ...authDirectives];
 
       //field @auth process
       model.fields.forEach(field => {
         const nonAuthDirectives = field.directives.filter(d => d.name != 'auth');
-        const authDirectives = processAuthDirective(field.directives);
+        const authDirectives = processAuthDirective(field.directives, this.config.useSubForDefaultIdentityClaim);
         field.directives = [...nonAuthDirectives, ...authDirectives];
       });
     });
