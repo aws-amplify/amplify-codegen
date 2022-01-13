@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.27.2](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.27.1...amplify-codegen@2.27.2) (2022-01-13)
+
+
+### Bug Fixes
+
+* add amplify prompts in package.json ([#370](https://github.com/aws-amplify/amplify-codegen/issues/370)) ([c145691](https://github.com/aws-amplify/amplify-codegen/commit/c1456917b041d6ae86e803f311fab45e58a0c027))
+* rm amplify-prompts and use console log ([#373](https://github.com/aws-amplify/amplify-codegen/issues/373)) ([6255b8b](https://github.com/aws-amplify/amplify-codegen/commit/6255b8b3a69343a0fcae2e7098c342f9f9f861ee))
+
+
+
+
+
 ## [2.27.1](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.27.0...amplify-codegen@2.27.1) (2022-01-13)
 
 **Note:** Version bump only for package amplify-codegen
