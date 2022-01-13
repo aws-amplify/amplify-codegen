@@ -6,17 +6,11 @@ const {
 const mockFs = require('mock-fs');
 const { join } = require('path');
 const yaml = require('js-yaml');
-const { printer } = require('amplify-prompts');
-
-jest.mock('amplify-prompts', () => ({
-  printer: {
-    error: jest.fn()
-  },
-}));
 
 const MOCK_PROJECT_ROOT = 'project';
 const MOCK_PUBSPEC_FILE_PATH = join(MOCK_PROJECT_ROOT, PUBSPEC_LOCK_FILE_NAME);
-const mockErrorPrinter = printer.error;
+global.console = {log: jest.fn()}
+const mockErrorPrinter = console.log;
 
 describe('Validate amplify flutter version tests', () => {
   afterEach(() => {
