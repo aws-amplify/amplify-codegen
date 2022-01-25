@@ -26,14 +26,21 @@ import { lowerCaseFirst } from 'lower-case-first';
 import { GraphQLSchema } from 'graphql';
 import { DART_SCALAR_MAP } from '../scalars';
 
-const FORCE_CAST_EXCEPTION = `throw new DataStoreException(
-  DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+const FORCE_CAST_EXCEPTION = `throw new AmplifyCodeGenModelException(
+  AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
   recoverySuggestion:
-    DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+    AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
   underlyingException: e.toString()
-);`
+);`;
 
 export interface RawAppSyncModelDartConfig extends RawAppSyncModelConfig {
+  /**
+   * @name directives
+   * @type boolean
+   * @descriptions optional boolean, if true emits the provider value of @auth directives
+   */
+  emitAuthProvider?: boolean;
+
   /**
    * @name directives
    * @type boolean
@@ -48,10 +55,11 @@ export interface RawAppSyncModelDartConfig extends RawAppSyncModelConfig {
    *              - Emit auth provider information
    *              - Generate timestamp fields
    */
-   enableDartZeroThreeFeatures?: boolean;
+  enableDartZeroThreeFeatures?: boolean;
 }
 
 export interface ParsedAppSyncModelDartConfig extends ParsedAppSyncModelConfig {
+  emitAuthProvider?: boolean;
   enableDartNullSafety: boolean;
   enableDartZeroThreeFeatures: boolean;
 }
@@ -66,6 +74,7 @@ export class AppSyncModelDartVisitor<
     defaultScalars: NormalizedScalarsMap = DART_SCALAR_MAP,
   ) {
     super(schema, rawConfig, additionalConfig, defaultScalars);
+    this._parsedConfig.emitAuthProvider = rawConfig.emitAuthProvider || false;
     this._parsedConfig.enableDartNullSafety = rawConfig.enableDartNullSafety || false;
     this._parsedConfig.enableDartZeroThreeFeatures = rawConfig.enableDartZeroThreeFeatures || false;
   }
@@ -124,7 +133,7 @@ export class AppSyncModelDartVisitor<
     //Ignore for file
     result.push(IGNORE_FOR_FILE);
     //Packages for import
-    const packageImports: string[] = ['package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface', ...modelNames, ...nonModelNames];
+    const packageImports: string[] = ['package:amplify_core/amplify_core', ...modelNames, ...nonModelNames];
     //Packages for export
     const packageExports: string[] = [...exportClasses];
     //Block body
@@ -145,7 +154,7 @@ export class AppSyncModelDartVisitor<
         ['override'],
       );
     }
-      //getModelTypeByModelName
+    //getModelTypeByModelName
     if (modelNames.length) {
       const getModelTypeImplStr = [
         'switch(modelName) {',
@@ -235,7 +244,7 @@ export class AppSyncModelDartVisitor<
   protected generatePackageHeader(): string {
     let usingCollection = false;
     let usingOtherClass = false;
-    Object.entries({...this.getSelectedModels(), ...this.getSelectedNonModels()}).forEach(([name, model]) => {
+    Object.entries({ ...this.getSelectedModels(), ...this.getSelectedNonModels() }).forEach(([name, model]) => {
       model.fields.forEach(f => {
         if (f.isList) {
           usingCollection = true;
@@ -366,15 +375,7 @@ export class AppSyncModelDartVisitor<
         const fieldType = this.getNativeType(field);
         const returnType = this.isFieldRequired(field) ? fieldType : `${fieldType}?`;
         const getterImpl = this.isFieldRequired(field)
-          ? [
-              `try {`,
-              indent(`return _${fieldName}!;`),
-              '} catch(e) {',
-              indent(
-                FORCE_CAST_EXCEPTION
-              ),
-              '}',
-            ].join('\n')
+          ? [`try {`, indent(`return _${fieldName}!;`), '} catch(e) {', indent(FORCE_CAST_EXCEPTION), '}'].join('\n')
           : `return _${fieldName};`;
         if (fieldName !== 'id') {
           declarationBlock.addClassMethod(`get ${fieldName}`, returnType, undefined, getterImpl, { isGetter: true, isBlock: true });
@@ -595,16 +596,20 @@ export class AppSyncModelDartVisitor<
                 indent(`? (json['${varName}'] as List)`),
                 this.isNullSafety() ? indent(`.where((e) => e != null)`, 2) : undefined,
                 indent(
-                  `.map((e) => ${this.getNativeType({ ...field, isList: false })}.fromJson(new Map<String, dynamic>.from(${this.isNonModelType(field) ? 'e[\'serializedData\']' : 'e'})))`,
+                  `.map((e) => ${this.getNativeType({ ...field, isList: false })}.fromJson(new Map<String, dynamic>.from(${
+                    this.isNonModelType(field) ? "e['serializedData']" : 'e'
+                  })))`,
                   2,
                 ),
                 indent(`.toList()`, 2),
                 indent(`: null`),
-              ].filter((e) => e !== undefined).join('\n');
+              ]
+                .filter(e => e !== undefined)
+                .join('\n');
             }
             // single non-model i.e. embedded
             return [
-              `${fieldName} = json['${varName}']${this.isNullSafety() ? `?['serializedData']`:''} != null`,
+              `${fieldName} = json['${varName}']${this.isNullSafety() ? `?['serializedData']` : ''} != null`,
               indent(
                 `? ${this.getNativeType(field)}.fromJson(new Map<String, dynamic>.from(json['${varName}']${
                   this.isNullSafety() ? `['serializedData']` : ''
@@ -871,8 +876,13 @@ export class AppSyncModelDartVisitor<
             .join(',\n');
 
           fieldsToAdd.push(
-            [`ModelFieldDefinition.${ofType === '.embedded' ? 'embedded' : (field.isReadOnly ? 'nonQueryField' : 'field')}(`, indentMultiline(fieldParam), ')'].join('\n'),
-          );        }
+            [
+              `ModelFieldDefinition.${ofType === '.embedded' ? 'embedded' : field.isReadOnly ? 'nonQueryField' : 'field'}(`,
+              indentMultiline(fieldParam),
+              ')',
+            ].join('\n'),
+          );
+        }
       });
       return fieldsToAdd.map(field => `modelSchemaDefinition.addField(${field});`).join('\n\n');
     }
@@ -907,9 +917,13 @@ export class AppSyncModelDartVisitor<
         `isRequired: ${this.isFieldRequired(field)}`,
         field.isList ? 'isArray: true' : '',
         ofTypeStr,
-      ].filter(f => f).join(',\n')
+      ]
+        .filter(f => f)
+        .join(',\n');
 
-      fieldsToAdd.push([`ModelFieldDefinition.${ofType === '.embedded' ? 'embedded' : 'customTypeField'}(`, indentMultiline(fieldParam), ')'].join('\n'));
+      fieldsToAdd.push(
+        [`ModelFieldDefinition.${ofType === '.embedded' ? 'embedded' : 'customTypeField'}(`, indentMultiline(fieldParam), ')'].join('\n'),
+      );
     });
 
     return fieldsToAdd.map(field => `modelSchemaDefinition.addField(${field});`).join('\n\n');
