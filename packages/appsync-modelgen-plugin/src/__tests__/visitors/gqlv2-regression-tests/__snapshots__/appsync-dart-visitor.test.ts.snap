@@ -23,7 +23,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on explicit hasMany b
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -48,10 +48,10 @@ class Post extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -178,7 +178,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on explicit hasMany b
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 
@@ -202,10 +202,10 @@ class Comment extends Model {
     try {
       return _content!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -330,7 +330,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on explicit hasOne be
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 
@@ -489,7 +489,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on explicit hasOne be
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 
@@ -513,10 +513,10 @@ class Team2 extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -641,7 +641,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on implicit hasMany b
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -666,10 +666,10 @@ class Blog7V2 extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -796,7 +796,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on implicit hasMany b
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -822,10 +822,10 @@ class Post7V2 extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -973,7 +973,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on implicit hasMany b
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 
@@ -1116,7 +1116,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on implicit hasOne be
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 
@@ -1275,7 +1275,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on implicit hasOne be
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 
@@ -1299,10 +1299,10 @@ class Team extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -1427,7 +1427,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on many to many relat
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -1453,10 +1453,10 @@ class Post extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -1599,7 +1599,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on many to many relat
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -1624,10 +1624,10 @@ class Tag extends Model {
     try {
       return _label!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -1753,7 +1753,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on record creation an
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 
@@ -1874,7 +1874,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional ex
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -1899,10 +1899,10 @@ class Post2 extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -2028,7 +2028,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional ex
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 
@@ -2052,10 +2052,10 @@ class Comment2 extends Model {
     try {
       return _postID!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -2065,10 +2065,10 @@ class Comment2 extends Model {
     try {
       return _content!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -2184,7 +2184,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional ex
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 
@@ -2342,7 +2342,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional ex
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 
@@ -2365,10 +2365,10 @@ class Team2 extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -2472,7 +2472,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional im
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -2497,10 +2497,10 @@ class Post extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -2626,7 +2626,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional im
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 
@@ -2650,10 +2650,10 @@ class Comment extends Model {
     try {
       return _content!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -2773,7 +2773,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional im
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 
@@ -2931,7 +2931,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional im
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 
@@ -2954,10 +2954,10 @@ class Team extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -3060,7 +3060,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works when configuring a se
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 
@@ -3085,10 +3085,10 @@ class Customer extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -3102,10 +3102,10 @@ class Customer extends Model {
     try {
       return _accountRepresentativeID!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }

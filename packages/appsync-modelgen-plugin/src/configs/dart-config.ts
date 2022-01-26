@@ -1,8 +1,5 @@
 export const LOADER_CLASS_NAME = 'ModelProvider';
-export const BASE_IMPORT_PACKAGES = [
-  'package:flutter/foundation.dart',
-  'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart',
-];
+export const BASE_IMPORT_PACKAGES = ['package:flutter/foundation.dart', 'package:amplify_core/amplify_core.dart'];
 export const COLLECTION_PACKAGE = 'package:collection/collection.dart';
 
 export const CUSTOM_LINTS_MESSAGE = `// NOTE: This file is generated and may not follow lint rules defined in your app

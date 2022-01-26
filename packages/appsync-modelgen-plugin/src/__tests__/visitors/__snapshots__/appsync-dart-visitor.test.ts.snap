@@ -22,7 +22,7 @@ exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated corr
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 /** This is an auto generated class representing the Address type in your schema. */
@@ -173,7 +173,7 @@ exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated corr
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 
@@ -190,10 +190,10 @@ class Address {
     try {
       return _line1!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -207,10 +207,10 @@ class Address {
     try {
       return _city!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -220,10 +220,10 @@ class Address {
     try {
       return _state!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -233,10 +233,10 @@ class Address {
     try {
       return _postalCode!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -366,7 +366,7 @@ exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated corr
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -502,7 +502,7 @@ exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated corr
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -518,10 +518,10 @@ class Contact {
     try {
       return _contactName!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -531,10 +531,10 @@ class Contact {
     try {
       return _phone!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -653,7 +653,7 @@ exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated corr
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'Person.dart';
 import 'Address.dart';
 import 'Contact.dart';
@@ -715,7 +715,7 @@ exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated corr
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'Person.dart';
 import 'Address.dart';
 import 'Contact.dart';
@@ -771,7 +771,7 @@ exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated corr
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -941,7 +941,7 @@ exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated corr
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -967,10 +967,10 @@ class Person extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -980,10 +980,10 @@ class Person extends Model {
     try {
       return _phone!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -1122,7 +1122,7 @@ exports[`AppSync Dart Visitor CustomType (non-model) Tests should not generate c
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'Person.dart';
 import 'Address.dart';
 import 'Contact.dart';
@@ -1175,7 +1175,7 @@ exports[`AppSync Dart Visitor Dart Specific Tests should generate the model prov
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'SimpleModel.dart';
 
 export 'SimpleModel.dart';
@@ -1226,7 +1226,7 @@ exports[`AppSync Dart Visitor Enum Generation should generate a class for enum t
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 /** This is an auto generated class representing the SimpleModel type in your schema. */
@@ -1361,7 +1361,7 @@ exports[`AppSync Dart Visitor Field tests should generate correct output for app
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -1674,7 +1674,7 @@ exports[`AppSync Dart Visitor Field tests should generate correct output for enu
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -1930,7 +1930,7 @@ exports[`AppSync Dart Visitor Field tests should generate correct output for reg
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -2179,7 +2179,7 @@ exports[`AppSync Dart Visitor Many To Many V2 Tests Should generate the intermed
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -2556,7 +2556,7 @@ exports[`AppSync Dart Visitor Many To Many V2 Tests Should generate the intermed
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -2582,10 +2582,10 @@ class Post extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -2724,10 +2724,10 @@ class Tag extends Model {
     try {
       return _label!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -2850,10 +2850,10 @@ class PostTags extends Model {
     try {
       return _post!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -2863,10 +2863,10 @@ class PostTags extends Model {
     try {
       return _tag!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -2991,7 +2991,7 @@ exports[`AppSync Dart Visitor Model Directive should generate a class for a Simp
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 /** This is an auto generated class representing the SimpleModel type in your schema. */
@@ -3113,7 +3113,7 @@ exports[`AppSync Dart Visitor Model Directive should generate a class for a mode
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 /** This is an auto generated class representing the SimpleModel type in your schema. */
@@ -3235,7 +3235,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate AuthRule
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 /** This is an auto generated class representing the TodoWithAuth type in your schema. */
@@ -3399,7 +3399,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate AuthRule
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 
@@ -3424,10 +3424,10 @@ class TodoWithAuth extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -3585,7 +3585,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 /** This is an auto generated class representing the customClaim type in your schema. */
@@ -3720,7 +3720,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 /** This is an auto generated class representing the customClaim type in your schema. */
@@ -3857,7 +3857,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 /** This is an auto generated class representing the dynamicGroups type in your schema. */
@@ -3992,7 +3992,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 /** This is an auto generated class representing the simpleOwnerAuth type in your schema. */
@@ -4127,7 +4127,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 /** This is an auto generated class representing the allowRead type in your schema. */
@@ -4261,7 +4261,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 /** This is an auto generated class representing the privateType type in your schema. */
@@ -4392,7 +4392,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 /** This is an auto generated class representing the publicType type in your schema. */
@@ -4523,7 +4523,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 /** This is an auto generated class representing the staticGroups type in your schema. */
@@ -4660,7 +4660,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should include authRules
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 /** This is an auto generated class representing the Post type in your schema. */
@@ -4798,7 +4798,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should support multiple 
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 /** This is an auto generated class representing the Post type in your schema. */
@@ -4950,7 +4950,7 @@ exports[`AppSync Dart Visitor Model with Connection Directive should generate cl
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -5072,7 +5072,7 @@ exports[`AppSync Dart Visitor Model with Connection Directive should generate cl
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 /** This is an auto generated class representing the Task type in your schema. */
@@ -5187,7 +5187,7 @@ exports[`AppSync Dart Visitor Model with Connection Directive should support con
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -5343,7 +5343,7 @@ exports[`AppSync Dart Visitor Model with Connection Directive should support con
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 /** This is an auto generated class representing the Comment type in your schema. */
@@ -5476,7 +5476,7 @@ exports[`AppSync Dart Visitor Model with Connection Directive should support con
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -5636,7 +5636,7 @@ exports[`AppSync Dart Visitor Model with Key Directive should generate a class f
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 /** This is an auto generated class representing the authorBook type in your schema. */
@@ -5807,7 +5807,7 @@ exports[`AppSync Dart Visitor Null Safety Tests should generate correct internal
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 
@@ -5911,7 +5911,7 @@ exports[`AppSync Dart Visitor Null Safety Tests should generate correct model fi
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -5936,10 +5936,10 @@ class Blog extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -6066,7 +6066,7 @@ exports[`AppSync Dart Visitor Null Safety Tests should generate correct model fi
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 
@@ -6094,10 +6094,10 @@ class Comment extends Model {
     try {
       return _content!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -6218,7 +6218,7 @@ exports[`AppSync Dart Visitor Null Safety Tests should generate correct model fi
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
 import 'ModelProvider.dart';
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -6244,10 +6244,10 @@ class Post extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -6394,7 +6394,7 @@ exports[`AppSync Dart Visitor Null Safety Tests should generate correct null saf
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -6423,10 +6423,10 @@ class TestModel extends Model {
     try {
       return _floatVal!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -6440,10 +6440,10 @@ class TestModel extends Model {
     try {
       return _floatList!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -6457,10 +6457,10 @@ class TestModel extends Model {
     try {
       return _nullableFloatList!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -6631,7 +6631,7 @@ exports[`AppSync Dart Visitor Null Safety Tests should generate correct null saf
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -6666,10 +6666,10 @@ class TestModel extends Model {
     try {
       return _floatVal!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -6683,10 +6683,10 @@ class TestModel extends Model {
     try {
       return _floatList!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -6700,10 +6700,10 @@ class TestModel extends Model {
     try {
       return _nullableFloatList!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -6717,10 +6717,10 @@ class TestModel extends Model {
     try {
       return _intVal!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -6734,10 +6734,10 @@ class TestModel extends Model {
     try {
       return _intList!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -6751,10 +6751,10 @@ class TestModel extends Model {
     try {
       return _nullableIntList!;
     } catch(e) {
-      throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
     );
     }
@@ -7001,7 +7001,7 @@ exports[`AppSync Dart Visitor Read-only Field Tests should generate the read-onl
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 /** This is an auto generated class representing the SimpleModel type in your schema. */
@@ -7141,7 +7141,7 @@ exports[`AppSync Dart Visitor Read-only and Null Safety Combined Tests should ge
 
 // ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 
