@@ -382,7 +382,7 @@ export class AppSyncModelDartVisitor<
       underlyingException: e.toString()
       );`;
       }
-      
+
       model.fields.forEach(field => {
         const fieldName = this.getFieldName(field);
         const fieldType = this.getNativeType(field);
