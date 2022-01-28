@@ -369,18 +369,18 @@ export class AppSyncModelDartVisitor<
     //other getters
     if (this.isNullSafety()) {
       let forceCastException = `throw new DataStoreException(
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
-        recoverySuggestion:
+      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
         DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
-        underlyingException: e.toString()
+      underlyingException: e.toString()
       );`;
       if (this.config.dartUpdateAmplifyCoreDependency === true) {
         forceCastException = `throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
-          recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
-          underlyingException: e.toString()
-        );`;
+      AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      recoverySuggestion:
+        AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+      underlyingException: e.toString()
+      );`;
       }
       
       model.fields.forEach(field => {
