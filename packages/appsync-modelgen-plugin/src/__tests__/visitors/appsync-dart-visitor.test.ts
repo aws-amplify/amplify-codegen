@@ -16,6 +16,7 @@ const getVisitor = ({
   enableDartZeroThreeFeatures = false,
   isTimestampFieldsAdded = false,
   transformerVersion = 1,
+  dartUpdateAmplifyCoreDependency = false
 }: {
   schema: string;
   selectedType?: string;
@@ -24,6 +25,7 @@ const getVisitor = ({
   enableDartZeroThreeFeatures?: boolean;
   isTimestampFieldsAdded?: boolean;
   transformerVersion?: number;
+  dartUpdateAmplifyCoreDependency?: boolean;
 }) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -37,6 +39,7 @@ const getVisitor = ({
       enableDartZeroThreeFeatures,
       isTimestampFieldsAdded,
       transformerVersion,
+      dartUpdateAmplifyCoreDependency
     },
     { selectedType, generate },
   );
@@ -637,6 +640,41 @@ describe('AppSync Dart Visitor', () => {
         }
       `;
       const generatedCode = getVisitor({ schema, transformerVersion: 2, enableDartNullSafety: true }).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+  });
+
+  describe('Amplify Core dependency used in imports', () => {
+    const schema = /* GraphQL */`
+      enum PostStatus {
+        ACTIVE
+        INACTIVE
+      }
+      
+      type Post @model {
+        id: ID!
+        title: String!
+        rating: Int!
+        status: PostStatus!
+        # New field with @hasMany
+        comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
+      }
+      
+      # New model
+      type Comment @model {
+        id: ID!
+        postID: ID! @index(name: "byPost", sortKeyFields: ["content"])
+        post: Post! @belongsTo(fields: ["postID"])
+        content: String!
+      }
+    `;
+    it('Should use the older flutter datastore interface dependency if dartUpdateAmplifyCoreDependency is false', () => {
+      const generatedCode = getVisitor({ schema, transformerVersion: 2, enableDartNullSafety: true }).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+
+    it('Should use the amplify_core dependency if dartUpdateAmplifyCoreDependency is true', () => {
+      const generatedCode = getVisitor({ schema, transformerVersion: 2, enableDartNullSafety: true, dartUpdateAmplifyCoreDependency: true }).generate();
       expect(generatedCode).toMatchSnapshot();
     });
   });

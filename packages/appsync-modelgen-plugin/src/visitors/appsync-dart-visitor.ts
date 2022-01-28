@@ -14,24 +14,19 @@ import { printWarning } from '../utils/warn';
 import {
   LOADER_CLASS_NAME,
   BASE_IMPORT_PACKAGES,
+  FLUTTER_AMPLIFY_CORE_IMPORT,
+  FLUTTER_DATASTORE_PLUGIN_INTERFACE_IMPORT,
   COLLECTION_PACKAGE,
   DART_RESERVED_KEYWORDS,
   typeToEnumMap,
   IGNORE_FOR_FILE,
-  CUSTOM_LINTS_MESSAGE,
+  CUSTOM_LINTS_MESSAGE
 } from '../configs/dart-config';
 import dartStyle from 'dart-style';
 import { generateLicense } from '../utils/generateLicense';
 import { lowerCaseFirst } from 'lower-case-first';
 import { GraphQLSchema } from 'graphql';
 import { DART_SCALAR_MAP } from '../scalars';
-
-const FORCE_CAST_EXCEPTION = `throw new AmplifyCodeGenModelException(
-  AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
-  recoverySuggestion:
-    AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
-  underlyingException: e.toString()
-);`;
 
 export interface RawAppSyncModelDartConfig extends RawAppSyncModelConfig {
   /**
@@ -40,6 +35,7 @@ export interface RawAppSyncModelDartConfig extends RawAppSyncModelConfig {
    * @description optional, defines if dart model files are generated with null safety feature.
    */
   enableDartNullSafety?: boolean;
+
   /**
    * @name directives
    * @type boolean
@@ -49,11 +45,19 @@ export interface RawAppSyncModelDartConfig extends RawAppSyncModelConfig {
    *              - Generate timestamp fields
    */
   enableDartZeroThreeFeatures?: boolean;
+
+  /**
+   * @name directives
+   * @type boolean
+   * @description optional, determines if the generated models import amplify_core rather than amplify_datastore_plugin_interface
+   */
+  dartUpdateAmplifyCoreDependency?: boolean;
 }
 
 export interface ParsedAppSyncModelDartConfig extends ParsedAppSyncModelConfig {
   enableDartNullSafety: boolean;
   enableDartZeroThreeFeatures: boolean;
+  dartUpdateAmplifyCoreDependency: boolean;
 }
 export class AppSyncModelDartVisitor<
   TRawConfig extends RawAppSyncModelDartConfig = RawAppSyncModelDartConfig,
@@ -68,6 +72,7 @@ export class AppSyncModelDartVisitor<
     super(schema, rawConfig, additionalConfig, defaultScalars);
     this._parsedConfig.enableDartNullSafety = rawConfig.enableDartNullSafety || false;
     this._parsedConfig.enableDartZeroThreeFeatures = rawConfig.enableDartZeroThreeFeatures || false;
+    this._parsedConfig.dartUpdateAmplifyCoreDependency = rawConfig.dartUpdateAmplifyCoreDependency || false;
   }
 
   generate(): string {
@@ -124,7 +129,8 @@ export class AppSyncModelDartVisitor<
     //Ignore for file
     result.push(IGNORE_FOR_FILE);
     //Packages for import
-    const packageImports: string[] = ['package:amplify_core/amplify_core', ...modelNames, ...nonModelNames];
+    const flutterDatastorePackage = this.config.dartUpdateAmplifyCoreDependency === true ? FLUTTER_AMPLIFY_CORE_IMPORT : FLUTTER_DATASTORE_PLUGIN_INTERFACE_IMPORT;
+    const packageImports: string[] = [flutterDatastorePackage, ...modelNames, ...nonModelNames];
     //Packages for export
     const packageExports: string[] = [...exportClasses];
     //Block body
@@ -245,8 +251,9 @@ export class AppSyncModelDartVisitor<
         }
       });
     });
+    const flutterDatastorePackage = this.config.dartUpdateAmplifyCoreDependency === true ? FLUTTER_AMPLIFY_CORE_IMPORT : FLUTTER_DATASTORE_PLUGIN_INTERFACE_IMPORT;
     return (
-      [...BASE_IMPORT_PACKAGES, usingCollection ? COLLECTION_PACKAGE : '', usingOtherClass ? `${LOADER_CLASS_NAME}.dart` : '']
+      [...BASE_IMPORT_PACKAGES, flutterDatastorePackage, usingCollection ? COLLECTION_PACKAGE : '', usingOtherClass ? `${LOADER_CLASS_NAME}.dart` : '']
         .filter(f => f)
         .sort()
         .map(pckg => `import '${pckg}';`)
@@ -361,12 +368,28 @@ export class AppSyncModelDartVisitor<
     }
     //other getters
     if (this.isNullSafety()) {
+      let forceCastException = `throw new DataStoreException(
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+        recoverySuggestion:
+        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+        underlyingException: e.toString()
+      );`;
+      if (this.config.dartUpdateAmplifyCoreDependency === true) {
+        forceCastException = `throw new AmplifyCodeGenModelException(
+          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+        );`;
+      }
+      
       model.fields.forEach(field => {
         const fieldName = this.getFieldName(field);
         const fieldType = this.getNativeType(field);
         const returnType = this.isFieldRequired(field) ? fieldType : `${fieldType}?`;
+
         const getterImpl = this.isFieldRequired(field)
-          ? [`try {`, indent(`return _${fieldName}!;`), '} catch(e) {', indent(FORCE_CAST_EXCEPTION), '}'].join('\n')
+          ? [`try {`, indent(`return _${fieldName}!;`), '} catch(e) {', indent(forceCastException), '}'].join('\n')
           : `return _${fieldName};`;
         if (fieldName !== 'id') {
           declarationBlock.addClassMethod(`get ${fieldName}`, returnType, undefined, getterImpl, { isGetter: true, isBlock: true });
