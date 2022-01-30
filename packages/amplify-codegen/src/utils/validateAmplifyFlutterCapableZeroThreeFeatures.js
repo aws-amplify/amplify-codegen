@@ -1,4 +1,4 @@
-const validateAmplifyFlutterVersion = require('./validateAmplifyFlutterVersion');
+const { validateAmplifyFlutterVersion } = require('./validateAmplifyFlutterVersion');
 
 const MINIMUM_VERSION_CONSTRAINT = '>= 0.3.0 || >= 0.3.0-rc.2';
 

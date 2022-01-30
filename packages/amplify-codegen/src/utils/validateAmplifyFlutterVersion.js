@@ -26,4 +26,4 @@ function validateAmplifyFlutterVersion(projectRoot, versionConstraint) {
   }
 }
 
-module.exports = { validateAmplifyFlutterVersion };
+module.exports = { validateAmplifyFlutterVersion, PUBSPEC_LOCK_FILE_NAME };
