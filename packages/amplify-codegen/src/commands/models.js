@@ -109,7 +109,7 @@ async function generateModels(context) {
     // override isTimestampFieldsAdded to true when using amplify-flutter > 0.3.0 || > 0.3.0-rc.2
     isTimestampFieldsAdded = validateAmplifyFlutterCapableZeroThreeFeatures(projectRoot);
     enableDartZeroThreeFeatures = validateAmplifyFlutterCapableZeroThreeFeatures(projectRoot);
-    // This feature is supported only for users using amplify-flutter > 0.4.0 || > 0.4.0-rc.2
+    // This feature is supported only for users using amplify-flutter > 0.4.0 || > 0.4.0-rc.1
     dartUpdateAmplifyCoreDependency = validateAmplifyFlutterCoreLibraryDependency(projectRoot);
   }
 
