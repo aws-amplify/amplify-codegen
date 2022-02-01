@@ -1,6 +1,6 @@
 export const LOADER_CLASS_NAME = 'ModelProvider';
-export const FLUTTER_DATASTORE_PLUGIN_INTERFACE_IMPORT = 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-export const FLUTTER_AMPLIFY_CORE_IMPORT = 'package:amplify_core/amplify_core.dart';
+export const FLUTTER_DATASTORE_PLUGIN_INTERFACE_IMPORT = 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface';
+export const FLUTTER_AMPLIFY_CORE_IMPORT = 'package:amplify_core/amplify_core';
 export const BASE_IMPORT_PACKAGES = ['package:flutter/foundation.dart'];
 export const COLLECTION_PACKAGE = 'package:collection/collection.dart';
 

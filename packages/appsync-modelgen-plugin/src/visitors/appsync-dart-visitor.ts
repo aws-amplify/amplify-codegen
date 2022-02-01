@@ -20,7 +20,7 @@ import {
   DART_RESERVED_KEYWORDS,
   typeToEnumMap,
   IGNORE_FOR_FILE,
-  CUSTOM_LINTS_MESSAGE
+  CUSTOM_LINTS_MESSAGE,
 } from '../configs/dart-config';
 import dartStyle from 'dart-style';
 import { generateLicense } from '../utils/generateLicense';
@@ -129,7 +129,8 @@ export class AppSyncModelDartVisitor<
     //Ignore for file
     result.push(IGNORE_FOR_FILE);
     //Packages for import
-    const flutterDatastorePackage = this.config.dartUpdateAmplifyCoreDependency === true ? FLUTTER_AMPLIFY_CORE_IMPORT : FLUTTER_DATASTORE_PLUGIN_INTERFACE_IMPORT;
+    const flutterDatastorePackage =
+      this.config.dartUpdateAmplifyCoreDependency === true ? FLUTTER_AMPLIFY_CORE_IMPORT : FLUTTER_DATASTORE_PLUGIN_INTERFACE_IMPORT;
     const packageImports: string[] = [flutterDatastorePackage, ...modelNames, ...nonModelNames];
     //Packages for export
     const packageExports: string[] = [...exportClasses];
@@ -251,9 +252,15 @@ export class AppSyncModelDartVisitor<
         }
       });
     });
-    const flutterDatastorePackage = this.config.dartUpdateAmplifyCoreDependency === true ? FLUTTER_AMPLIFY_CORE_IMPORT : FLUTTER_DATASTORE_PLUGIN_INTERFACE_IMPORT;
+    const flutterDatastorePackage =
+      this.config.dartUpdateAmplifyCoreDependency === true ? FLUTTER_AMPLIFY_CORE_IMPORT : FLUTTER_DATASTORE_PLUGIN_INTERFACE_IMPORT;
     return (
-      [...BASE_IMPORT_PACKAGES, flutterDatastorePackage, usingCollection ? COLLECTION_PACKAGE : '', usingOtherClass ? `${LOADER_CLASS_NAME}.dart` : '']
+      [
+        ...BASE_IMPORT_PACKAGES,
+        `${flutterDatastorePackage}.dart`,
+        usingCollection ? COLLECTION_PACKAGE : '',
+        usingOtherClass ? `${LOADER_CLASS_NAME}.dart` : '',
+      ]
         .filter(f => f)
         .sort()
         .map(pckg => `import '${pckg}';`)
