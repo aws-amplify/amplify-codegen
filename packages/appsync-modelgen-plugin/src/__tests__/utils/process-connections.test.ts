@@ -8,6 +8,9 @@ import {
 } from '../../utils/process-connections';
 import { CodeGenModelMap } from '../../visitors/appsync-visitor';
 import { processConnectionsV2 } from '../../utils/process-connections-v2';
+import { buildSchema, parse, visit } from 'graphql';
+import { directives, scalars } from '../../scalars/supported-directives';
+import { AppSyncModelVisitor, CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
 
 describe('process connection', () => {
   describe('Bi-Directional connection (named connection)', () => {
@@ -839,6 +842,34 @@ describe('process connection', () => {
         console.log(connectionInfo);
         expect((connectionInfo as CodeGenFieldConnectionHasOne).associatedWith.name).toEqual('id');
       });
+    });
+
+    it('should allow multiple hasOnes to the same model', () => {
+      const schema = /* GraphQL */ `
+        type User @model {
+          id: ID! @primaryKey
+          homeAddr: Addr @hasOne
+          shipAddr: Addr @hasOne
+        }
+
+        type Addr @model {
+          id: ID! @primaryKey
+          user: User @belongsTo
+        }
+      `;
+      const ast = parse(schema);
+      const builtSchema = buildSchema([schema, directives, scalars].join('\n'));
+      const visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'typescript', generate: CodeGenGenerateEnum.code }, {});
+      visit(ast, { leave: visitor });
+      const { models } = visitor;
+
+      const homeAddrConnectionInfo = processConnectionsV2(models.User.fields[1], models.User, models);
+      const shipAddrConnectionInfo = processConnectionsV2(models.User.fields[2], models.User, models);
+
+      expect(homeAddrConnectionInfo.connectedModel.name).toEqual('Addr');
+      expect(shipAddrConnectionInfo.connectedModel.name).toEqual('Addr');
+
+      console.log(homeAddrConnectionInfo);
     });
   });
 });

@@ -64,7 +64,7 @@ export function getBelongsToConnectedField(field: CodeGenField, model: CodeGenMo
     return ((dir.name === 'hasOne' && !connectedField?.isList) || (dir.name === 'hasMany' && connectedField?.isList)) && model.name === fieldType;
   });
 
-  if (otherSideDirectives?.length === 1) {
+  if (otherSideDirectives?.length >= 1) {
     return connectedModel.fields.find(connField => { return connField.name === otherSideDirectives[0].fieldName; });
   }
 }
