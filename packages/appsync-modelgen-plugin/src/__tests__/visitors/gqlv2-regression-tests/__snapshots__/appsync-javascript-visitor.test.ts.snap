@@ -25,7 +25,7 @@ exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on explicit has
 export declare class Post {
   readonly id: string;
   readonly title: string;
-  readonly comments?: (Comment | null)[];
+  readonly comments?: (Comment | null)[] | null;
   constructor(init: ModelInit<Post>);
   static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
 }
@@ -33,7 +33,7 @@ export declare class Post {
 export declare class Comment {
   readonly id: string;
   readonly content: string;
-  readonly post?: Post;
+  readonly post?: Post | null;
   constructor(init: ModelInit<Comment>);
   static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
 }"
@@ -64,7 +64,7 @@ exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on explicit has
 export declare class Post {
   readonly id: string;
   readonly title: string;
-  readonly comments?: (Comment | null)[];
+  readonly comments?: (Comment | null)[] | null;
   constructor(init: ModelInit<Post>);
   static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
 }
@@ -72,7 +72,7 @@ export declare class Post {
 export declare class Comment {
   readonly id: string;
   readonly content: string;
-  readonly post?: Post;
+  readonly post?: Post | null;
   constructor(init: ModelInit<Comment>);
   static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
 }"
@@ -102,9 +102,9 @@ exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on explicit has
 
 export declare class Project2 {
   readonly id: string;
-  readonly name?: string;
-  readonly team?: Team2;
-  readonly project2TeamId?: string;
+  readonly name?: string | null;
+  readonly team?: Team2 | null;
+  readonly project2TeamId?: string | null;
   constructor(init: ModelInit<Project2>);
   static copyOf(source: Project2, mutator: (draft: MutableModel<Project2>) => MutableModel<Project2> | void): Project2;
 }
@@ -112,7 +112,7 @@ export declare class Project2 {
 export declare class Team2 {
   readonly id: string;
   readonly name: string;
-  readonly project?: Project2;
+  readonly project?: Project2 | null;
   constructor(init: ModelInit<Team2>);
   static copyOf(source: Team2, mutator: (draft: MutableModel<Team2>) => MutableModel<Team2> | void): Team2;
 }"
@@ -142,9 +142,9 @@ exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on explicit has
 
 export declare class Project2 {
   readonly id: string;
-  readonly name?: string;
-  readonly team?: Team2;
-  readonly project2TeamId?: string;
+  readonly name?: string | null;
+  readonly team?: Team2 | null;
+  readonly project2TeamId?: string | null;
   constructor(init: ModelInit<Project2>);
   static copyOf(source: Project2, mutator: (draft: MutableModel<Project2>) => MutableModel<Project2> | void): Project2;
 }
@@ -152,7 +152,7 @@ export declare class Project2 {
 export declare class Team2 {
   readonly id: string;
   readonly name: string;
-  readonly project?: Project2;
+  readonly project?: Project2 | null;
   constructor(init: ModelInit<Team2>);
   static copyOf(source: Team2, mutator: (draft: MutableModel<Team2>) => MutableModel<Team2> | void): Team2;
 }"
@@ -184,7 +184,7 @@ exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on implicit has
 export declare class Blog7V2 {
   readonly id: string;
   readonly name: string;
-  readonly posts?: (Post7V2 | null)[];
+  readonly posts?: (Post7V2 | null)[] | null;
   constructor(init: ModelInit<Blog7V2>);
   static copyOf(source: Blog7V2, mutator: (draft: MutableModel<Blog7V2>) => MutableModel<Blog7V2> | void): Blog7V2;
 }
@@ -192,16 +192,16 @@ export declare class Blog7V2 {
 export declare class Post7V2 {
   readonly id: string;
   readonly title: string;
-  readonly blog?: Blog7V2;
-  readonly comments?: (Comment7V2 | null)[];
+  readonly blog?: Blog7V2 | null;
+  readonly comments?: (Comment7V2 | null)[] | null;
   constructor(init: ModelInit<Post7V2>);
   static copyOf(source: Post7V2, mutator: (draft: MutableModel<Post7V2>) => MutableModel<Post7V2> | void): Post7V2;
 }
 
 export declare class Comment7V2 {
   readonly id: string;
-  readonly content?: string;
-  readonly post?: Post7V2;
+  readonly content?: string | null;
+  readonly post?: Post7V2 | null;
   constructor(init: ModelInit<Comment7V2>);
   static copyOf(source: Comment7V2, mutator: (draft: MutableModel<Comment7V2>) => MutableModel<Comment7V2> | void): Comment7V2;
 }"
@@ -233,7 +233,7 @@ exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on implicit has
 export declare class Blog7V2 {
   readonly id: string;
   readonly name: string;
-  readonly posts?: (Post7V2 | null)[];
+  readonly posts?: (Post7V2 | null)[] | null;
   constructor(init: ModelInit<Blog7V2>);
   static copyOf(source: Blog7V2, mutator: (draft: MutableModel<Blog7V2>) => MutableModel<Blog7V2> | void): Blog7V2;
 }
@@ -241,16 +241,16 @@ export declare class Blog7V2 {
 export declare class Post7V2 {
   readonly id: string;
   readonly title: string;
-  readonly blog?: Blog7V2;
-  readonly comments?: (Comment7V2 | null)[];
+  readonly blog?: Blog7V2 | null;
+  readonly comments?: (Comment7V2 | null)[] | null;
   constructor(init: ModelInit<Post7V2>);
   static copyOf(source: Post7V2, mutator: (draft: MutableModel<Post7V2>) => MutableModel<Post7V2> | void): Post7V2;
 }
 
 export declare class Comment7V2 {
   readonly id: string;
-  readonly content?: string;
-  readonly post?: Post7V2;
+  readonly content?: string | null;
+  readonly post?: Post7V2 | null;
   constructor(init: ModelInit<Comment7V2>);
   static copyOf(source: Comment7V2, mutator: (draft: MutableModel<Comment7V2>) => MutableModel<Comment7V2> | void): Comment7V2;
 }"
@@ -282,7 +282,7 @@ exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on implicit has
 export declare class Blog7V2 {
   readonly id: string;
   readonly name: string;
-  readonly posts?: (Post7V2 | null)[];
+  readonly posts?: (Post7V2 | null)[] | null;
   constructor(init: ModelInit<Blog7V2>);
   static copyOf(source: Blog7V2, mutator: (draft: MutableModel<Blog7V2>) => MutableModel<Blog7V2> | void): Blog7V2;
 }
@@ -290,16 +290,16 @@ export declare class Blog7V2 {
 export declare class Post7V2 {
   readonly id: string;
   readonly title: string;
-  readonly blog?: Blog7V2;
-  readonly comments?: (Comment7V2 | null)[];
+  readonly blog?: Blog7V2 | null;
+  readonly comments?: (Comment7V2 | null)[] | null;
   constructor(init: ModelInit<Post7V2>);
   static copyOf(source: Post7V2, mutator: (draft: MutableModel<Post7V2>) => MutableModel<Post7V2> | void): Post7V2;
 }
 
 export declare class Comment7V2 {
   readonly id: string;
-  readonly content?: string;
-  readonly post?: Post7V2;
+  readonly content?: string | null;
+  readonly post?: Post7V2 | null;
   constructor(init: ModelInit<Comment7V2>);
   static copyOf(source: Comment7V2, mutator: (draft: MutableModel<Comment7V2>) => MutableModel<Comment7V2> | void): Comment7V2;
 }"
@@ -329,9 +329,9 @@ exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on implicit has
 
 export declare class Project {
   readonly id: string;
-  readonly name?: string;
-  readonly team?: Team;
-  readonly projectTeamId?: string;
+  readonly name?: string | null;
+  readonly team?: Team | null;
+  readonly projectTeamId?: string | null;
   constructor(init: ModelInit<Project>);
   static copyOf(source: Project, mutator: (draft: MutableModel<Project>) => MutableModel<Project> | void): Project;
 }
@@ -339,7 +339,7 @@ export declare class Project {
 export declare class Team {
   readonly id: string;
   readonly name: string;
-  readonly project?: Project;
+  readonly project?: Project | null;
   constructor(init: ModelInit<Team>);
   static copyOf(source: Team, mutator: (draft: MutableModel<Team>) => MutableModel<Team> | void): Team;
 }"
@@ -369,9 +369,9 @@ exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on implicit has
 
 export declare class Project {
   readonly id: string;
-  readonly name?: string;
-  readonly team?: Team;
-  readonly projectTeamId?: string;
+  readonly name?: string | null;
+  readonly team?: Team | null;
+  readonly projectTeamId?: string | null;
   constructor(init: ModelInit<Project>);
   static copyOf(source: Project, mutator: (draft: MutableModel<Project>) => MutableModel<Project> | void): Project;
 }
@@ -379,7 +379,7 @@ export declare class Project {
 export declare class Team {
   readonly id: string;
   readonly name: string;
-  readonly project?: Project;
+  readonly project?: Project | null;
   constructor(init: ModelInit<Team>);
   static copyOf(source: Team, mutator: (draft: MutableModel<Team>) => MutableModel<Team> | void): Team;
 }"
@@ -411,8 +411,8 @@ exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on many to many
 export declare class Post {
   readonly id: string;
   readonly title: string;
-  readonly content?: string;
-  readonly tags?: (PostTags | null)[];
+  readonly content?: string | null;
+  readonly tags?: (PostTags | null)[] | null;
   constructor(init: ModelInit<Post>);
   static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
 }
@@ -420,7 +420,7 @@ export declare class Post {
 export declare class Tag {
   readonly id: string;
   readonly label: string;
-  readonly posts?: (PostTags | null)[];
+  readonly posts?: (PostTags | null)[] | null;
   constructor(init: ModelInit<Tag>);
   static copyOf(source: Tag, mutator: (draft: MutableModel<Tag>) => MutableModel<Tag> | void): Tag;
 }
@@ -460,8 +460,8 @@ exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on many to many
 export declare class Post {
   readonly id: string;
   readonly title: string;
-  readonly content?: string;
-  readonly tags?: (PostTags | null)[];
+  readonly content?: string | null;
+  readonly tags?: (PostTags | null)[] | null;
   constructor(init: ModelInit<Post>);
   static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
 }
@@ -469,7 +469,7 @@ export declare class Post {
 export declare class Tag {
   readonly id: string;
   readonly label: string;
-  readonly posts?: (PostTags | null)[];
+  readonly posts?: (PostTags | null)[] | null;
   constructor(init: ModelInit<Tag>);
   static copyOf(source: Tag, mutator: (draft: MutableModel<Tag>) => MutableModel<Tag> | void): Tag;
 }
@@ -506,7 +506,7 @@ exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on record creat
 
 export declare class Todo {
   readonly id: string;
-  readonly content?: string;
+  readonly content?: string | null;
   constructor(init: ModelInit<Todo>);
   static copyOf(source: Todo, mutator: (draft: MutableModel<Todo>) => MutableModel<Todo> | void): Todo;
 }"
@@ -537,7 +537,7 @@ exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directio
 export declare class Post2 {
   readonly id: string;
   readonly title: string;
-  readonly comments?: (Comment2 | null)[];
+  readonly comments?: (Comment2 | null)[] | null;
   constructor(init: ModelInit<Post2>);
   static copyOf(source: Post2, mutator: (draft: MutableModel<Post2>) => MutableModel<Post2> | void): Post2;
 }
@@ -576,7 +576,7 @@ exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directio
 export declare class Post2 {
   readonly id: string;
   readonly title: string;
-  readonly comments?: (Comment2 | null)[];
+  readonly comments?: (Comment2 | null)[] | null;
   constructor(init: ModelInit<Post2>);
   static copyOf(source: Post2, mutator: (draft: MutableModel<Post2>) => MutableModel<Post2> | void): Post2;
 }
@@ -614,9 +614,9 @@ exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directio
 
 export declare class Project2 {
   readonly id: string;
-  readonly name?: string;
-  readonly teamID?: string;
-  readonly team?: Team2;
+  readonly name?: string | null;
+  readonly teamID?: string | null;
+  readonly team?: Team2 | null;
   constructor(init: ModelInit<Project2>);
   static copyOf(source: Project2, mutator: (draft: MutableModel<Project2>) => MutableModel<Project2> | void): Project2;
 }
@@ -653,9 +653,9 @@ exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directio
 
 export declare class Project2 {
   readonly id: string;
-  readonly name?: string;
-  readonly teamID?: string;
-  readonly team?: Team2;
+  readonly name?: string | null;
+  readonly teamID?: string | null;
+  readonly team?: Team2 | null;
   constructor(init: ModelInit<Project2>);
   static copyOf(source: Project2, mutator: (draft: MutableModel<Project2>) => MutableModel<Project2> | void): Project2;
 }
@@ -693,7 +693,7 @@ exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directio
 export declare class Post {
   readonly id: string;
   readonly title: string;
-  readonly comments?: (Comment | null)[];
+  readonly comments?: (Comment | null)[] | null;
   constructor(init: ModelInit<Post>);
   static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
 }
@@ -701,7 +701,7 @@ export declare class Post {
 export declare class Comment {
   readonly id: string;
   readonly content: string;
-  readonly postCommentsId?: string;
+  readonly postCommentsId?: string | null;
   constructor(init: ModelInit<Comment>);
   static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
 }"
@@ -732,7 +732,7 @@ exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directio
 export declare class Post {
   readonly id: string;
   readonly title: string;
-  readonly comments?: (Comment | null)[];
+  readonly comments?: (Comment | null)[] | null;
   constructor(init: ModelInit<Post>);
   static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
 }
@@ -740,7 +740,7 @@ export declare class Post {
 export declare class Comment {
   readonly id: string;
   readonly content: string;
-  readonly postCommentsId?: string;
+  readonly postCommentsId?: string | null;
   constructor(init: ModelInit<Comment>);
   static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
 }"
@@ -770,9 +770,9 @@ exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directio
 
 export declare class Project {
   readonly id: string;
-  readonly name?: string;
-  readonly team?: Team;
-  readonly projectTeamId?: string;
+  readonly name?: string | null;
+  readonly team?: Team | null;
+  readonly projectTeamId?: string | null;
   constructor(init: ModelInit<Project>);
   static copyOf(source: Project, mutator: (draft: MutableModel<Project>) => MutableModel<Project> | void): Project;
 }
@@ -809,9 +809,9 @@ exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directio
 
 export declare class Project {
   readonly id: string;
-  readonly name?: string;
-  readonly team?: Team;
-  readonly projectTeamId?: string;
+  readonly name?: string | null;
+  readonly team?: Team | null;
+  readonly projectTeamId?: string | null;
   constructor(init: ModelInit<Project>);
   static copyOf(source: Project, mutator: (draft: MutableModel<Project>) => MutableModel<Project> | void): Project;
 }
@@ -848,7 +848,7 @@ exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works when configurin
 export declare class Customer {
   readonly id: string;
   readonly name: string;
-  readonly phoneNumber?: string;
+  readonly phoneNumber?: string | null;
   readonly accountRepresentativeID: string;
   constructor(init: ModelInit<Customer>);
   static copyOf(source: Customer, mutator: (draft: MutableModel<Customer>) => MutableModel<Customer> | void): Customer;

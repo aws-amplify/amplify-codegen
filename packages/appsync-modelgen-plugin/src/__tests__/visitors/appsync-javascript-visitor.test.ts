@@ -109,22 +109,22 @@ describe('Javascript visitor', () => {
 
         export declare class SimpleNonModelType {
           readonly id: string;
-          readonly names?: (string | null)[];
+          readonly names?: (string | null)[] | null;
           constructor(init: ModelInit<SimpleNonModelType>);
         }
 
         export declare class SimpleModel {
           readonly id: string;
-          readonly name?: string;
-          readonly bar?: string;
-          readonly foo?: Bar[];
+          readonly name?: string | null;
+          readonly bar?: string | null;
+          readonly foo?: Bar[] | null;
           constructor(init: ModelInit<SimpleModel>);
           static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
         }
 
         export declare class Bar {
           readonly id: string;
-          readonly simpleModelFooId?: string;
+          readonly simpleModelFooId?: string | null;
           constructor(init: ModelInit<Bar>);
           static copyOf(source: Bar, mutator: (draft: MutableModel<Bar>) => MutableModel<Bar> | void): Bar;
         }"
@@ -158,7 +158,7 @@ describe('Javascript visitor', () => {
 
         export declare class SimpleNonModelType {
           readonly id: string;
-          readonly names?: (string | null)[];
+          readonly names?: (string | null)[] | null;
           constructor(init: ModelInit<SimpleNonModelType>);
         }
 
@@ -172,20 +172,20 @@ describe('Javascript visitor', () => {
 
         export declare class SimpleModel {
           readonly id: string;
-          readonly name?: string;
-          readonly bar?: string;
-          readonly foo?: Bar[];
-          readonly createdAt?: string;
-          readonly updatedAt?: string;
+          readonly name?: string | null;
+          readonly bar?: string | null;
+          readonly foo?: Bar[] | null;
+          readonly createdAt?: string | null;
+          readonly updatedAt?: string | null;
           constructor(init: ModelInit<SimpleModel, SimpleModelMetaData>);
           static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel, SimpleModelMetaData>) => MutableModel<SimpleModel, SimpleModelMetaData> | void): SimpleModel;
         }
 
         export declare class Bar {
           readonly id: string;
-          readonly createdAt?: string;
-          readonly updatedAt?: string;
-          readonly simpleModelFooId?: string;
+          readonly createdAt?: string | null;
+          readonly updatedAt?: string | null;
+          readonly simpleModelFooId?: string | null;
           constructor(init: ModelInit<Bar, BarMetaData>);
           static copyOf(source: Bar, mutator: (draft: MutableModel<Bar, BarMetaData>) => MutableModel<Bar, BarMetaData> | void): Bar;
         }"
@@ -290,14 +290,14 @@ describe('Javascript visitor with default owner auth', () => {
 
         export declare class SimpleNonModelType {
           readonly id: string;
-          readonly names?: (string | null)[];
+          readonly names?: (string | null)[] | null;
           constructor(init: ModelInit<SimpleNonModelType>);
         }
 
         export declare class SimpleModel {
           readonly id: string;
-          readonly name?: string;
-          readonly bar?: string;
+          readonly name?: string | null;
+          readonly bar?: string | null;
           constructor(init: ModelInit<SimpleModel>);
           static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
         }"
@@ -359,14 +359,14 @@ describe('Javascript visitor with custom owner field auth', () => {
 
         export declare class SimpleNonModelType {
           readonly id: string;
-          readonly names?: (string | null)[];
+          readonly names?: (string | null)[] | null;
           constructor(init: ModelInit<SimpleNonModelType>);
         }
 
         export declare class SimpleModel {
           readonly id: string;
-          readonly name?: string;
-          readonly bar?: string;
+          readonly name?: string | null;
+          readonly bar?: string | null;
           constructor(init: ModelInit<SimpleModel>);
           static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
         }"
@@ -430,14 +430,14 @@ describe('Javascript visitor with multiple owner field auth', () => {
 
         export declare class SimpleNonModelType {
           readonly id: string;
-          readonly names?: (string | null)[];
+          readonly names?: (string | null)[] | null;
           constructor(init: ModelInit<SimpleNonModelType>);
         }
 
         export declare class SimpleModel {
           readonly id: string;
-          readonly name?: string;
-          readonly bar?: string;
+          readonly name?: string | null;
+          readonly bar?: string | null;
           constructor(init: ModelInit<SimpleModel>);
           static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
         }"
@@ -492,7 +492,7 @@ describe('Javascript visitor with auth directives in field level', () => {
           readonly id: string;
           readonly name: string;
           readonly address: string;
-          readonly ssn?: string;
+          readonly ssn?: string | null;
           constructor(init: ModelInit<Employee>);
           static copyOf(source: Employee, mutator: (draft: MutableModel<Employee>) => MutableModel<Employee> | void): Employee;
         }"
