@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.31.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.30.2...@aws-amplify/appsync-modelgen-plugin@1.31.0) (2022-02-03)
+
+
+### Features
+
+* update imports generated for flutter datastore plugin dependency ([#382](https://github.com/aws-amplify/amplify-codegen/issues/382)) ([#388](https://github.com/aws-amplify/amplify-codegen/issues/388)) ([329e513](https://github.com/aws-amplify/amplify-codegen/commit/329e51395d36e11090e33300d02f5a7a436bfe7a)), closes [#380](https://github.com/aws-amplify/amplify-codegen/issues/380)
+
+
+
+
+
 ## [1.30.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.30.1...@aws-amplify/appsync-modelgen-plugin@1.30.2) (2022-01-13)
 
 

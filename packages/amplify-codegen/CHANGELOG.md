@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.28.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.27.3...amplify-codegen@2.28.0) (2022-02-03)
+
+
+### Features
+
+* update imports generated for flutter datastore plugin dependency ([#382](https://github.com/aws-amplify/amplify-codegen/issues/382)) ([#388](https://github.com/aws-amplify/amplify-codegen/issues/388)) ([329e513](https://github.com/aws-amplify/amplify-codegen/commit/329e51395d36e11090e33300d02f5a7a436bfe7a)), closes [#380](https://github.com/aws-amplify/amplify-codegen/issues/380)
+
+
+
+
+
 ## [2.27.3](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.27.2...amplify-codegen@2.27.3) (2022-01-13)
 
 **Note:** Version bump only for package amplify-codegen
