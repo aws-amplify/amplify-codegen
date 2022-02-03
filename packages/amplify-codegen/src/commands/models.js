@@ -7,6 +7,7 @@ const gqlCodeGen = require('@graphql-codegen/core');
 const { getModelgenPackage } = require('../utils/getModelgenPackage');
 const { validateDartSDK } = require('../utils/validateDartSDK');
 const { validateAmplifyFlutterCapableZeroThreeFeatures } = require('../utils/validateAmplifyFlutterCapableZeroThreeFeatures');
+const { validateAmplifyFlutterCoreLibraryDependency } = require('../utils/validateAmplifyFlutterCoreLibraryDependency');
 
 const platformToLanguageMap = {
   android: 'java',
@@ -90,6 +91,7 @@ async function generateModels(context) {
   let isTimestampFieldsAdded = readFeatureFlag('codegen.addTimestampFields');
   let enableDartNullSafety = readFeatureFlag('codegen.enableDartNullSafety');
   let enableDartZeroThreeFeatures = false;
+  let dartUpdateAmplifyCoreDependency = false;
 
   if (projectConfig.frontend === 'flutter') {
     const isMinimumDartVersionSatisfied = validateDartSDK(context, projectRoot);
@@ -107,6 +109,8 @@ async function generateModels(context) {
     // override isTimestampFieldsAdded to true when using amplify-flutter > 0.3.0 || > 0.3.0-rc.2
     isTimestampFieldsAdded = validateAmplifyFlutterCapableZeroThreeFeatures(projectRoot);
     enableDartZeroThreeFeatures = validateAmplifyFlutterCapableZeroThreeFeatures(projectRoot);
+    // This feature is supported only for users using amplify-flutter > 0.4.0 || > 0.4.0-rc.1
+    dartUpdateAmplifyCoreDependency = validateAmplifyFlutterCoreLibraryDependency(projectRoot);
   }
 
   const handleListNullabilityTransparently = readFeatureFlag('codegen.handleListNullabilityTransparently');
@@ -124,6 +128,7 @@ async function generateModels(context) {
       usePipelinedTransformer,
       enableDartZeroThreeFeatures,
       transformerVersion,
+      dartUpdateAmplifyCoreDependency
     },
   });
 
