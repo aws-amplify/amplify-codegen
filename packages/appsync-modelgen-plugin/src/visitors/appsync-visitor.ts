@@ -124,6 +124,12 @@ export interface RawAppSyncModelConfig extends RawConfig {
    * @descriptions optional number which determines which version of the GraphQL transformer to use
    */
   transformerVersion?: number;
+  /**
+   * @name useCustomPrimaryKey
+   * @type boolean
+   * @descriptions optional boolean which determines whether to use custom primary key
+   */
+   useCustomPrimaryKey?: boolean;
 }
 
 // Todo: need to figure out how to share config
@@ -135,6 +141,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   handleListNullabilityTransparently?: boolean;
   usePipelinedTransformer?: boolean;
   transformerVersion?: number;
+  useCustomPrimaryKey?: boolean;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
 
@@ -225,6 +232,7 @@ export class AppSyncModelVisitor<
       handleListNullabilityTransparently: rawConfig.handleListNullabilityTransparently,
       usePipelinedTransformer: rawConfig.usePipelinedTransformer,
       transformerVersion: rawConfig.transformerVersion,
+      useCustomPrimaryKey: rawConfig.useCustomPrimaryKey,
     });
 
     const typesUsedInDirectives: string[] = [];
