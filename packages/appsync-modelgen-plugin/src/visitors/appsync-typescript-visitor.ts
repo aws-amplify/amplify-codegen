@@ -5,6 +5,7 @@ import {
   CodeGenEnum,
   CodeGenField,
   CodeGenModel,
+  CodeGenPrimaryKeyType,
   ParsedAppSyncModelConfig,
   RawAppSyncModelConfig,
 } from './appsync-visitor';
@@ -47,7 +48,7 @@ export class AppSyncModelTypeScriptVisitor<
       .join('\n\n');
 
     const nonModelDeclarations = Object.values(this.nonModelMap)
-      .map(typeObj => this.generateModelDeclaration(typeObj))
+      .map(typeObj => this.generateModelDeclaration(typeObj, true, false))
       .join('\n\n');
 
     const modelInitialization = this.generateModelInitialization([...Object.values(this.modelMap), ...Object.values(this.nonModelMap)]);
@@ -78,6 +79,8 @@ export class AppSyncModelTypeScriptVisitor<
       .withName(`${modelName}MetaData`)
       .export(false);
 
+    modelDeclarations.addProperty('identifier', this.constructIdentifier(modelObj));
+
     const isTimestampFeatureFlagEnabled = this.config.isTimestampFieldsAdded;
     let readOnlyFieldNames: string[] = [];
 
@@ -86,9 +89,25 @@ export class AppSyncModelTypeScriptVisitor<
         readOnlyFieldNames.push(`'${field.name}'`);
       }
     });
-    modelDeclarations.addProperty('readOnlyFields', readOnlyFieldNames.join(' | '));
+    if (readOnlyFieldNames.length) {
+      modelDeclarations.addProperty('readOnlyFields', readOnlyFieldNames.join(' | '));
+    }
 
     return modelDeclarations.string;
+  }
+
+  protected constructIdentifier(modelObj: CodeGenModel): string {
+    const primaryKeyField = modelObj.fields.find(f => f.primaryKeyInfo)!;
+    const { primaryKeyType, sortKeyFields } = primaryKeyField.primaryKeyInfo!;
+    switch (primaryKeyType) {
+      case CodeGenPrimaryKeyType.ManagedId:
+        return 'ManagedIdentifier';
+      case CodeGenPrimaryKeyType.OptionallyManagedId:
+        return 'OptionallyManagedIdentifier';
+      case CodeGenPrimaryKeyType.CustomId:
+        const identifierFields: string[] = [primaryKeyField.name, ...sortKeyFields].filter(f => f);
+        return `CustomIdentifier<${identifierFields.map(fieldStr => `'${fieldStr}'`).join(' | ')}>`;
+    }
   }
 
   /**
@@ -96,7 +115,7 @@ export class AppSyncModelTypeScriptVisitor<
    * @param modelObj CodeGenModel object
    * @param isDeclaration flag indicates if the class needs to be exported
    */
-  protected generateModelDeclaration(modelObj: CodeGenModel, isDeclaration: boolean = true): string {
+  protected generateModelDeclaration(modelObj: CodeGenModel, isDeclaration: boolean = true, isModelType: boolean = true): string {
     const modelName = this.generateModelTypeDeclarationName(modelObj);
     const modelDeclarations = new TypeScriptDeclarationBlock()
       .asKind('class')
@@ -106,8 +125,7 @@ export class AppSyncModelTypeScriptVisitor<
 
     const isTimestampFeatureFlagEnabled = this.config.isTimestampFieldsAdded;
     let readOnlyFieldNames: string[] = [];
-    let modelMetaDataFormatted: string | undefined;
-    let modelMetaDataDeclaration: string = '';
+    const modelMetaDataDeclaration: string = isModelType ? `, ${modelName}MetaData` : '';
 
     modelObj.fields.forEach((field: CodeGenField) => {
       modelDeclarations.addProperty(this.getFieldName(field), this.getNativeType(field), undefined, 'DEFAULT', {
@@ -118,11 +136,6 @@ export class AppSyncModelTypeScriptVisitor<
         readOnlyFieldNames.push(`'${field.name}'`);
       }
     });
-
-    if (isTimestampFeatureFlagEnabled) {
-      modelMetaDataFormatted = `, ${modelName}MetaData`;
-      modelMetaDataDeclaration = readOnlyFieldNames.length > 0 ? modelMetaDataFormatted : '';
-    }
 
     // Constructor
     modelDeclarations.addClassMethod(
