@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-docs-generator@2.4.1...@aws-amplify/graphql-docs-generator@2.4.2) (2021-11-09)
+
+
+### Bug Fixes
+
+* **graphql:** allow aws_lambda directive ([03ef563](https://github.com/aws-amplify/amplify-codegen/commit/03ef5637488e9514116e83f691656fddae7628b2))
+
+
+
+
+
 ## [2.4.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-docs-generator@2.4.0...@aws-amplify/graphql-docs-generator@2.4.1) (2021-11-03)
 
 

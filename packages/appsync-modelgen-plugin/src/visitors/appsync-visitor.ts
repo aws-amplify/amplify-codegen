@@ -6,7 +6,7 @@ import {
   ParsedConfig,
   RawConfig,
 } from '@graphql-codegen/visitor-plugin-common';
-import { constantCase, pascalCase } from 'change-case';
+import { camelCase, constantCase, pascalCase } from 'change-case';
 import { plural } from 'pluralize';
 import crypto from 'crypto';
 import {
@@ -21,7 +21,7 @@ import {
   parse,
   valueFromASTUntyped,
 } from 'graphql';
-import { addFieldToModel, removeFieldFromModel } from '../utils/fieldUtils';
+import { addFieldToModel, getDirective, removeFieldFromModel } from '../utils/fieldUtils';
 import { getTypeInfo } from '../utils/get-type-info';
 import { CodeGenConnectionType, CodeGenFieldConnection, processConnections } from '../utils/process-connections';
 import { sortFields } from '../utils/sort';
@@ -29,6 +29,8 @@ import { printWarning } from '../utils/warn';
 import { processAuthDirective } from '../utils/process-auth';
 import { processConnectionsV2 } from '../utils/process-connections-v2';
 import { graphqlName, toUpper } from 'graphql-transformer-common';
+import { processPrimaryKey } from '../utils/process-primary-key';
+import { processIndex } from '../utils/process-index';
 
 export enum CodeGenGenerateEnum {
   metadata = 'metadata',
@@ -300,17 +302,22 @@ export class AppSyncModelVisitor<
       values,
     };
   }
-  processDirectives() {
+  processDirectives(
+    // TODO: Remove us when we have a fix to roll-forward.
+    shouldUseModelNameFieldInHasManyAndBelongsTo: boolean
+  ) {
     if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
-      this.processConnectionDirectivesV2()
-    }
-    else {
+      this.processV2KeyDirectives();
+      this.processConnectionDirectivesV2(shouldUseModelNameFieldInHasManyAndBelongsTo);
+    } else {
       this.processConnectionDirective();
     }
     this.processAuthDirectives();
   }
   generate(): string {
-    this.processDirectives();
+    // TODO: Remove me, leaving in to be explicit on why this flag is here.
+    const shouldUseModelNameFieldInHasManyAndBelongsTo = false;
+    this.processDirectives(shouldUseModelNameFieldInHasManyAndBelongsTo);
     return '';
   }
 
@@ -449,9 +456,10 @@ export class AppSyncModelVisitor<
     const typeArr: any[] = [];
     Object.values({ ...this.modelMap, ...this.nonModelMap }).forEach((obj: CodeGenModel) => {
       // include only key directive as we don't care about others for versioning
-      const directives = (this.config.usePipelinedTransformer || this.config.transformerVersion === 2)
-        ? obj.directives.filter(dir => dir.name === 'primaryKey' || dir.name === 'index')
-        : obj.directives.filter(dir => dir.name === 'key');
+      const directives =
+        this.config.usePipelinedTransformer || this.config.transformerVersion === 2
+          ? obj.directives.filter(dir => dir.name === 'primaryKey' || dir.name === 'index')
+          : obj.directives.filter(dir => dir.name === 'key');
       const fields = obj.fields
         .map((field: CodeGenField) => {
           // include only connection field and type
@@ -558,8 +566,8 @@ export class AppSyncModelVisitor<
     secondField: CodeGenField,
     relationName: string,
   ) {
-    const firstModelKeyFieldName = `${firstModel.name.toLowerCase()}ID`;
-    const secondModelKeyFieldName = `${secondModel.name.toLowerCase()}ID`;
+    const firstModelKeyFieldName = `${camelCase(firstModel.name)}ID`;
+    const secondModelKeyFieldName = `${camelCase(secondModel.name)}ID`;
     let intermediateModel: CodeGenModel = {
       name: relationName,
       type: 'model',
@@ -590,14 +598,14 @@ export class AppSyncModelVisitor<
           type: firstModel.name,
           isNullable: false,
           isList: false,
-          name: firstModel.name.toLowerCase(),
+          name: camelCase(firstModel.name),
           directives: [{ name: 'belongsTo', arguments: { fields: [firstModelKeyFieldName] } }],
         },
         {
           type: secondModel.name,
           isNullable: false,
           isList: false,
-          name: secondModel.name.toLowerCase(),
+          name: camelCase(secondModel.name),
           directives: [{ name: 'belongsTo', arguments: { fields: [secondModelKeyFieldName] } }],
         },
       ],
@@ -641,7 +649,7 @@ export class AppSyncModelVisitor<
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
         field.directives.forEach(dir => {
-          if(dir.name === 'manyToMany') {
+          if (dir.name === 'manyToMany') {
             let relationName = graphqlName(toUpper(dir.arguments.relationName));
             let existingRelation = manyDirectiveMap.get(relationName);
             if (existingRelation) {
@@ -680,19 +688,27 @@ export class AppSyncModelVisitor<
     });
   }
 
-  protected processConnectionDirectivesV2(): void {
+  protected processConnectionDirectivesV2(
+    // TODO: Remove us when we have a fix to roll-forward.
+    shouldUseModelNameFieldInHasManyAndBelongsTo: boolean
+  ): void {
     this.processManyToManyDirectives();
 
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
-        const connectionInfo = processConnectionsV2(field, model, this.modelMap);
+        const connectionInfo = processConnectionsV2(field, model, this.modelMap, shouldUseModelNameFieldInHasManyAndBelongsTo);
         if (connectionInfo) {
           if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
             // Need to update the other side of the connection even if there is no connection directive
             addFieldToModel(connectionInfo.connectedModel, connectionInfo.associatedWith);
-          } else if (connectionInfo.targetName !== 'id') {
-            // Need to remove the field that is targetName
-            removeFieldFromModel(model, connectionInfo.targetName);
+          } else if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
+            addFieldToModel(model, {
+              name: connectionInfo.targetName,
+              directives: [],
+              type: 'ID',
+              isList: false,
+              isNullable: field.isNullable,
+            });
           }
           field.connectionInfo = connectionInfo;
         }
@@ -705,12 +721,34 @@ export class AppSyncModelVisitor<
         const connectionInfo = field.connectionInfo;
         if (modelTypes.includes(fieldType) && connectionInfo === undefined) {
           printWarning(
-            `Model ${model.name} has field ${field.name} of type ${field.type} but its not connected. Add a @connection directive if want to connect them.`,
+            `Model ${model.name} has field ${field.name} of type ${field.type} but its not connected. Add the appropriate ${
+              field.isList ? '@hasMany' : '@hasOne'
+            }/@belongsTo directive if you want to connect them.`,
           );
           return false;
         }
         return true;
       });
+    });
+
+    Object.values(this.modelMap).forEach(model => {
+      model.fields.forEach(field => {
+        const connectionInfo = field.connectionInfo;
+        if (connectionInfo
+          && connectionInfo.kind !== CodeGenConnectionType.HAS_MANY
+          && connectionInfo.kind !== CodeGenConnectionType.HAS_ONE
+          && connectionInfo.targetName !== 'id') {
+          // Need to remove the field that is targetName
+          removeFieldFromModel(model, connectionInfo.targetName);
+        }
+      });
+    })
+  }
+
+  protected processV2KeyDirectives(): void {
+    Object.values(this.modelMap).forEach(model => {
+      processPrimaryKey(model);
+      processIndex(model);
     });
   }
 
@@ -742,11 +780,11 @@ export class AppSyncModelVisitor<
     if (!this.config.isTimestampFieldsAdded) {
       return;
     }
-    const target = this.config.target;
-    if (target === 'dart') {
+    if (directive.name !== 'model') {
       return;
     }
-    if (directive.name !== 'model') {
+    //when the '{timestamps: null}' is defined in @model, the timestamp fields should not be generated
+    if (directive.arguments && directive.arguments.hasOwnProperty('timestamps') && directive.arguments.timestamps === null) {
       return;
     }
     const timestamps = directive.arguments.timestamps;

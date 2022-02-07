@@ -8,19 +8,43 @@ const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-const getVisitor = (
-  schema: string,
-  selectedType?: string,
-  generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
-  enableDartNullSafety: boolean = false,
-  transformerVersion: number = 1,
+
+const getVisitor = ({
+  schema,
+  selectedType,
+  generate = CodeGenGenerateEnum.code,
+  enableDartNullSafety = false,
+  enableDartZeroThreeFeatures = false,
+  isTimestampFieldsAdded = false,
+  transformerVersion = 1,
   improvePluralization: boolean = false,
-) => {
+  dartUpdateAmplifyCoreDependency = false
+}: {
+  schema: string;
+  selectedType?: string;
+  generate?: CodeGenGenerateEnum;
+  enableDartNullSafety?: boolean;
+  enableDartZeroThreeFeatures?: boolean;
+  isTimestampFieldsAdded?: boolean;
+  transformerVersion?: number;
+  improvePluralization?: boolean,
+  dartUpdateAmplifyCoreDependency?: boolean;
+}) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelDartVisitor(
     builtSchema,
-    { directives, target: 'dart', scalars: DART_SCALAR_MAP, enableDartNullSafety, transformerVersion: transformerVersion, improvePluralization: improvePluralization },
+    {
+      directives,
+      target: 'dart',
+      scalars: DART_SCALAR_MAP,
+      enableDartNullSafety,
+      enableDartZeroThreeFeatures,
+      isTimestampFieldsAdded,
+      transformerVersion,
+      improvePluralization,
+      dartUpdateAmplifyCoreDependency
+    },
     { selectedType, generate },
   );
   visit(ast, { leave: visitor });
@@ -37,7 +61,7 @@ describe('AppSync Dart Visitor', () => {
           bar: String
         }
       `;
-      const visitor = getVisitor(schema);
+      const visitor = getVisitor({ schema });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -50,7 +74,7 @@ describe('AppSync Dart Visitor', () => {
           bar: String
         }
       `;
-      const visitor = getVisitor(schema);
+      const visitor = getVisitor({ schema });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -67,7 +91,7 @@ describe('AppSync Dart Visitor', () => {
           book: String
         }
       `;
-      const visitor = getVisitor(schema);
+      const visitor = getVisitor({ schema });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -82,7 +106,7 @@ describe('AppSync Dart Visitor', () => {
           bar: String
         }
       `;
-      const visitor = getVisitor(schema);
+      const visitor = getVisitor({ schema });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -95,7 +119,7 @@ describe('AppSync Dart Visitor', () => {
           bar: String
         }
       `;
-      const visitor = getVisitor(schema);
+      const visitor = getVisitor({ schema });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -108,7 +132,7 @@ describe('AppSync Dart Visitor', () => {
           author: String!
         }
       `;
-      const visitor = getVisitor(schema);
+      const visitor = getVisitor({ schema });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -121,7 +145,7 @@ describe('AppSync Dart Visitor', () => {
           bar: String
         }
       `;
-      const visitor = getVisitor(schema);
+      const visitor = getVisitor({ schema });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -134,7 +158,7 @@ describe('AppSync Dart Visitor', () => {
           bar: String
         }
       `;
-      const visitor = getVisitor(schema);
+      const visitor = getVisitor({ schema });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -147,7 +171,7 @@ describe('AppSync Dart Visitor', () => {
           bar: String
         }
       `;
-      const visitor = getVisitor(schema);
+      const visitor = getVisitor({ schema });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -160,7 +184,7 @@ describe('AppSync Dart Visitor', () => {
           bar: String
         }
       `;
-      const visitor = getVisitor(schema);
+      const visitor = getVisitor({ schema });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -181,7 +205,7 @@ describe('AppSync Dart Visitor', () => {
           owner: String!
         }
       `;
-      const visitor = getVisitor(schema);
+      const visitor = getVisitor({ schema });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -194,7 +218,7 @@ describe('AppSync Dart Visitor', () => {
           bar: String
         }
       `;
-      const visitor = getVisitor(schema);
+      const visitor = getVisitor({ schema });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -207,10 +231,41 @@ describe('AppSync Dart Visitor', () => {
           bar: String
         }
       `;
-      const visitor = getVisitor(schema);
+      const visitor = getVisitor({ schema });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
+
+    describe('should generate AuthRule with provider information when enabled', () => {
+      const schema = /* GraphQL */ `
+        type TodoWithAuth
+          @model
+          @auth(
+            rules: [
+              { allow: groups, groups: ["admin"] }
+              { allow: owner, operations: ["create", "update"] }
+              { allow: public, operations: ["read"], provider: "apiKey" }
+            ]
+          ) {
+          id: ID!
+          name: String!
+        }
+      `;
+      
+      [true, false].forEach(enableDartNullSafety => {
+        const visitor = getVisitor({
+          schema,
+          selectedType: 'TodoWithAuth',
+          enableDartNullSafety,
+          enableDartZeroThreeFeatures: true,
+          isTimestampFieldsAdded: true,
+        });
+        const generatedCode = visitor.generate();
+        it(`inserting auth provider to auth when nullsafety is ${enableDartNullSafety ? 'enabled' : 'disabled'}`, () => {
+          expect(generatedCode).toMatchSnapshot();
+        });
+      })
+    })
   });
 
   describe('Model with Connection Directive', () => {
@@ -228,7 +283,7 @@ describe('AppSync Dart Visitor', () => {
       `;
       const outputModels: string[] = ['Todo', 'Task'];
       outputModels.forEach(model => {
-        const generatedCode = getVisitor(schema, model).generate();
+        const generatedCode = getVisitor({schema, selectedType: model}).generate();
         expect(generatedCode).toMatchSnapshot();
       });
     });
@@ -257,7 +312,7 @@ describe('AppSync Dart Visitor', () => {
       `;
       const outputModels: string[] = ['Blog', 'Comment', 'Post'];
       outputModels.forEach(model => {
-        const generatedCode = getVisitor(schema, model).generate();
+        const generatedCode = getVisitor({ schema, selectedType: model }).generate();
         expect(generatedCode).toMatchSnapshot();
       });
     });
@@ -278,7 +333,7 @@ describe('AppSync Dart Visitor', () => {
       `;
       const outputModels: string[] = ['SimpleModel', 'Status'];
       outputModels.forEach(model => {
-        const generatedCode = getVisitor(schema, model).generate();
+        const generatedCode = getVisitor({ schema, selectedType: model }).generate();
         expect(generatedCode).toMatchSnapshot();
       });
     });
@@ -297,7 +352,7 @@ describe('AppSync Dart Visitor', () => {
           nullableFloatNullableList: [Float]
         }
       `;
-      const visitor = getVisitor(schema);
+      const visitor = getVisitor({ schema });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -322,7 +377,7 @@ describe('AppSync Dart Visitor', () => {
           VALUE_TWO
         }
       `;
-      const visitor = getVisitor(schema, 'TestEnumModel');
+      const visitor = getVisitor({ schema, selectedType: 'TestEnumModel' });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -343,7 +398,7 @@ describe('AppSync Dart Visitor', () => {
           intList: [Int]
         }
       `;
-      const visitor = getVisitor(schema);
+      const visitor = getVisitor({ schema });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -357,7 +412,7 @@ describe('AppSync Dart Visitor', () => {
           name: String
         }
       `;
-      const visitor = getVisitor(schema, undefined, CodeGenGenerateEnum.loader);
+      const visitor = getVisitor({schema, generate: CodeGenGenerateEnum.loader });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -369,7 +424,7 @@ describe('AppSync Dart Visitor', () => {
           class: String!
         }
       `;
-      const visitor = getVisitor(schema);
+      const visitor = getVisitor({ schema });
       expect(visitor.generate).toThrowErrorMatchingInlineSnapshot(
         `"Field name 'class' in type 'ReservedWord' is a reserved word in dart. Please use a non-reserved name instead."`,
       );
@@ -382,7 +437,7 @@ describe('AppSync Dart Visitor', () => {
           name: String!
         }
       `;
-      const visitor = getVisitor(schema);
+      const visitor = getVisitor({ schema });
       expect(visitor.generate).toThrowErrorMatchingInlineSnapshot(
         `"Type name 'class' is a reserved word in dart. Please use a non-reserved name instead."`,
       );
@@ -413,7 +468,7 @@ describe('AppSync Dart Visitor', () => {
       `;
       const outputModels: string[] = ['Blog', 'Comment', 'Post'];
       outputModels.forEach(model => {
-        const generatedCode = getVisitor(schema, model, CodeGenGenerateEnum.code, true).generate();
+        const generatedCode = getVisitor({ schema, selectedType: model, enableDartNullSafety: true }).generate();
         expect(generatedCode).toMatchSnapshot();
       });
     });
@@ -430,7 +485,7 @@ describe('AppSync Dart Visitor', () => {
           nullableFloatNullableList: [Float]
         }
       `;
-      const generatedCode = getVisitor(schema, 'TestModel', CodeGenGenerateEnum.code, true).generate();
+      const generatedCode = getVisitor({ schema, selectedType: 'TestModel', enableDartNullSafety: true }).generate();
       expect(generatedCode).toMatchSnapshot();
     });
 
@@ -440,7 +495,7 @@ describe('AppSync Dart Visitor', () => {
           id: ID!
         }
       `;
-      const generatedCode = getVisitor(schema, 'TestModel', CodeGenGenerateEnum.code, true).generate();
+      const generatedCode = getVisitor({ schema, selectedType: 'TestModel', enableDartNullSafety: true }).generate();
       expect(generatedCode).toMatchSnapshot();
     });
 
@@ -462,13 +517,99 @@ describe('AppSync Dart Visitor', () => {
           nullableIntNullableList: [Int]
         }
       `;
-      const generatedCode = getVisitor(schema, 'TestModel', CodeGenGenerateEnum.code, true).generate();
+      const generatedCode = getVisitor({ schema, selectedType: 'TestModel', enableDartNullSafety: true }).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+  });
+
+  describe('CustomType (non-model) Tests', () => {
+    const schema = /* GraphQL */ `
+        type Person @model {
+          name: String!
+          phone: Phone!
+          mailingAddresses: [Address]
+        }
+
+        type Contact {
+          contactName: String!
+          phone: Phone!
+          mailingAddresses: [Address]
+        }
+
+        type Phone {
+          countryCode: String!
+          areaCode: String!
+          number: String!
+        }
+
+        type Address {
+          line1: String!
+          line2: String
+          city: String!
+          state: String!
+          postalCode: String!
+        }
+      `;
+
+    const models = [undefined, 'Person', 'Contact', 'Address'];
+
+    models.forEach(type => {
+      it(`should generated correct dart class for ${!type ? 'ModelProvider' : type} with nullsafety enabled`, () => {
+        const generatedCode = getVisitor({schema, selectedType: type, generate: !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code, enableDartNullSafety: true, enableDartZeroThreeFeatures: true }).generate();
+
+        expect(generatedCode).toMatchSnapshot();
+      })
+    });
+
+    models.forEach(type => {
+      it(`should generated correct dart class for ${!type ? 'ModelProvider' : type} with nullsafety disabled`, () => {
+        const generatedCode = getVisitor({ schema, selectedType: type, generate: !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code, enableDartNullSafety: false, enableDartZeroThreeFeatures: true }).generate();
+
+        expect(generatedCode).toMatchSnapshot();
+      })
+    });
+
+    it('should not generate custom type field in model provider if non model feature is disabled', () => {
+      const generatedCode = getVisitor({
+        schema,
+        generate: CodeGenGenerateEnum.loader,
+        enableDartNullSafety: true,
+        enableDartZeroThreeFeatures: false,
+      }).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+  });
+
+  describe('Read-only Field Tests', () => {
+    it('should generate the read-only timestamp fields when isTimestampFields is true', () => {
+      const schema = /* GraphQL */ `
+        type SimpleModel @model {
+          id: ID!
+          name: String
+        }
+      `;
+      const visitor = getVisitor({ schema, isTimestampFieldsAdded: true, enableDartZeroThreeFeatures: false });
+      const generatedCode = visitor.generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+  });
+
+  describe('Read-only and Null Safety Combined Tests', () => {
+    it('should generate the read-only timestamp fields when isTimestampFields is true and with null safety', () => {
+      const schema = /* GraphQL */ `
+        type SimpleModel @model {
+          id: ID!
+          name: String
+        }
+      `;
+      const visitor = getVisitor({ schema, enableDartNullSafety: true, isTimestampFieldsAdded: true, enableDartZeroThreeFeatures: false });
+      const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
   });
 
   describe('Many To Many V2 Tests', () => {
-    it('Should generate the intermediate model successfully', () => {
+    it('Should generate the intermediate model successfully with nullsafety disabled', () => {
       const schema = /* GraphQL */ `
         type Post @model {
           id: ID!
@@ -476,14 +617,68 @@ describe('AppSync Dart Visitor', () => {
           content: String
           tags: [Tag] @manyToMany(relationName: "PostTags")
         }
-        
+
         type Tag @model {
           id: ID!
           label: String!
           posts: [Post] @manyToMany(relationName: "PostTags")
         }
       `;
-      const generatedCode = getVisitor(schema, null, CodeGenGenerateEnum.code, false, 2).generate();
+      const generatedCode = getVisitor({ schema, transformerVersion: 2 }).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+
+    it('Should generate the intermediate model successfully with nullsafety enabled', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          id: ID!
+          title: String!
+          content: String
+          tags: [Tag] @manyToMany(relationName: "PostTags")
+        }
+
+        type Tag @model {
+          id: ID!
+          label: String!
+          posts: [Post] @manyToMany(relationName: "PostTags")
+        }
+      `;
+      const generatedCode = getVisitor({ schema, transformerVersion: 2, enableDartNullSafety: true }).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+  });
+
+  describe('Amplify Core dependency used in imports', () => {
+    const schema = /* GraphQL */`
+      enum PostStatus {
+        ACTIVE
+        INACTIVE
+      }
+      
+      type Post @model {
+        id: ID!
+        title: String!
+        rating: Int!
+        status: PostStatus!
+        # New field with @hasMany
+        comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
+      }
+      
+      # New model
+      type Comment @model {
+        id: ID!
+        postID: ID! @index(name: "byPost", sortKeyFields: ["content"])
+        post: Post! @belongsTo(fields: ["postID"])
+        content: String!
+      }
+    `;
+    it('Should use the older flutter datastore interface dependency if dartUpdateAmplifyCoreDependency is false', () => {
+      const generatedCode = getVisitor({ schema, transformerVersion: 2, enableDartNullSafety: true }).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+
+    it('Should use the amplify_core dependency if dartUpdateAmplifyCoreDependency is true', () => {
+      const generatedCode = getVisitor({ schema, transformerVersion: 2, enableDartNullSafety: true, dartUpdateAmplifyCoreDependency: true }).generate();
       expect(generatedCode).toMatchSnapshot();
     });
   });

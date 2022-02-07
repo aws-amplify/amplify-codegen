@@ -45,13 +45,15 @@ export function processBelongsToConnection(
   //  track the connection and that field is not part of the selection set
   // but if the field are connected using fields argument in connection directive
   // we are reusing the field and it should be preserved in selection set
-  const isConnectingFieldAutoCreated = connectionFields.length === 0;
+  const otherSideHasMany = otherSideField.isList;
+  const isConnectingFieldAutoCreated = false;
 
   return {
     kind: CodeGenConnectionType.BELONGS_TO,
     connectedModel: otherSide,
     isConnectingFieldAutoCreated,
-    targetName: connectionFields[0] || makeConnectionAttributeName(model.name, field.name),
+    targetName: connectionFields[0] || (otherSideHasMany ? makeConnectionAttributeName(otherSide.name, otherSideField.name) :
+      makeConnectionAttributeName(model.name, field.name)),
   };
 }
 

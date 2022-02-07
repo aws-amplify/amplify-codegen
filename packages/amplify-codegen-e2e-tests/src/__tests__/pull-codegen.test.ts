@@ -3,7 +3,9 @@ import {
   deleteProjectDir,
   deleteProject,
   initJSProjectWithProfile,
-  addApiWithSchemaAndConflictDetection,
+  addApiWithBlankSchemaAndConflictDetection,
+  updateApiSchema,
+  createRandomName,
   amplifyPush,
   amplifyPull,
   getAppId,
@@ -37,9 +39,11 @@ describe('Amplify pull in amplify app with codegen tests', () => {
   let projectRoot: string;
   let appId: string;
   beforeAll(async () => {
+    const name = createRandomName();
     projectRoot = await createNewProjectDir('pullCodegen');
-    await initJSProjectWithProfile(projectRoot, { envName, disableAmplifyAppCreation: false });
-    await addApiWithSchemaAndConflictDetection(projectRoot, schema);
+    await initJSProjectWithProfile(projectRoot, { name, envName, disableAmplifyAppCreation: false });
+    await addApiWithBlankSchemaAndConflictDetection(projectRoot);
+    await updateApiSchema(projectRoot, name, schema);
     await amplifyPush(projectRoot);
     appId = getAppId(projectRoot);
     expect(appId).toBeDefined();

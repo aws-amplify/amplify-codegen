@@ -1,5 +1,6 @@
 import { CodeGenModel, CodeGenModelMap, CodeGenField, CodeGenDirective, CodeGenFieldDirective } from '../visitors/appsync-visitor';
 import { camelCase } from 'change-case';
+import { getDirective } from './fieldUtils';
 
 export enum CodeGenConnectionType {
   HAS_ONE = 'HAS_ONE',
@@ -30,11 +31,6 @@ export type CodeGenFieldConnectionHasMany = CodeGenConnectionTypeBase & {
 
 export type CodeGenFieldConnection = CodeGenFieldConnectionBelongsTo | CodeGenFieldConnectionHasOne | CodeGenFieldConnectionHasMany;
 
-export function getDirective(fieldOrModel: CodeGenField | CodeGenModel) {
-  return (directiveName: string): CodeGenDirective | undefined => {
-    return fieldOrModel.directives.find(d => d.name === directiveName);
-  };
-}
 export function makeConnectionAttributeName(type: string, field?: string) {
   // The same logic is used graphql-connection-transformer package to generate association field
   // Make sure the logic gets update in that package
@@ -48,7 +44,7 @@ export function flattenFieldDirectives(model: CodeGenModel) {
       let fieldDir = dir as CodeGenFieldDirective;
       fieldDir.fieldName = field.name;
       totalDirectives.push(fieldDir);
-    })
+    });
   });
   return totalDirectives;
 }

@@ -42,7 +42,7 @@ export interface ParsedAppSyncModelSwiftConfig extends ParsedAppSyncModelConfig 
 export class AppSyncSwiftVisitor<
   TRawConfig extends RawAppSyncModelSwiftConfig = RawAppSyncModelSwiftConfig,
   TPluginConfig extends ParsedAppSyncModelSwiftConfig = ParsedAppSyncModelSwiftConfig
-  > extends AppSyncModelVisitor<TRawConfig, TPluginConfig> {
+> extends AppSyncModelVisitor<TRawConfig, TPluginConfig> {
   protected modelExtensionImports: string[] = ['import Amplify', 'import Foundation'];
   protected imports: string[] = ['import Amplify', 'import Foundation'];
 
@@ -58,7 +58,10 @@ export class AppSyncSwiftVisitor<
   }
 
   generate(): string {
-    this.processDirectives();
+    // TODO: Remove us, leaving in to be explicit on why this flag is here.
+    const shouldUseModelNameFieldInHasManyAndBelongsTo = true;
+    this.processDirectives(shouldUseModelNameFieldInHasManyAndBelongsTo);
+
     const code = [`// swiftlint:disable all`];
     if (this._parsedConfig.generate === CodeGenGenerateEnum.metadata) {
       code.push(this.generateSchema());
@@ -366,8 +369,8 @@ export class AppSyncSwiftVisitor<
       if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
         return `.hasMany(${name}, is: ${isRequired}, ofType: ${typeName}, associatedWith: ${this.getModelName(
           connectionInfo.connectedModel,
-        )}.keys.${this.getFieldName(connectionInfo.associatedWith)})`;
-      }
+          )}.keys.${this.getFieldName(connectionInfo.associatedWith)})`;
+        }
       if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
         return `.hasOne(${name}, is: ${isRequired}, ofType: ${typeName}, associatedWith: ${this.getModelName(
           connectionInfo.connectedModel,
@@ -445,49 +448,13 @@ export class AppSyncSwiftVisitor<
   }
 
   protected generateKeyRules(model: CodeGenModel): string[] {
-    let keyDirectives: string[];
-
-    if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
-      let fieldDirectiveList: any[] = new Array<any>();
-      model.fields.forEach(field => {
-        field.directives.forEach(directive => {
-          fieldDirectiveList.push({
-            fieldName: field.name,
-            directive: directive
-          });
-        });
+    return model.directives
+      .filter(directive => directive.name === 'key')
+      .map(directive => {
+        const name = directive.arguments.name ? `"${directive.arguments.name}"` : 'nil';
+        const fields: string = directive.arguments.fields.map((field: string) => `"${field}"`).join(', ');
+        return `.index(fields: [${fields}], name: ${name})`;
       });
-
-      keyDirectives = fieldDirectiveList
-        .filter(directiveObj => directiveObj.directive.name === 'primaryKey' || directiveObj.directive.name === 'index')
-        .map(directiveObj => {
-          switch(directiveObj.directive.name) {
-            case 'index':
-            case 'primaryKey':
-              const name = directiveObj.directive.arguments.name ? `"${directiveObj.directive.arguments.name}"` : 'nil';
-              if (!directiveObj.directive.arguments.sortKeyFields) {
-                directiveObj.directive.arguments.sortKeyFields = new Array<string>();
-              }
-              directiveObj.directive.arguments.sortKeyFields = [directiveObj.fieldName, ...directiveObj.directive.arguments.sortKeyFields]
-              const fields: string = directiveObj.directive.arguments.sortKeyFields.map((field: string) => `"${field}"`).join(', ');
-              return `.index(fields: [${fields}], name: ${name})`;
-            default:
-              break;
-          }
-          return '';
-      });
-    }
-    else {
-      keyDirectives = model.directives
-        .filter(directive => directive.name === 'key')
-        .map(directive => {
-          const name = directive.arguments.name ? `"${directive.arguments.name}"` : 'nil';
-          const fields: string = directive.arguments.fields.map((field: string) => `"${field}"`).join(', ');
-          return `.index(fields: [${fields}], name: ${name})`;
-        });
-    }
-
-    return keyDirectives;
   }
 
   protected isHasManyConnectionField(field: CodeGenField): boolean {

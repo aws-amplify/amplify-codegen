@@ -3,6 +3,172 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.28.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.27.3...amplify-codegen@2.28.0) (2022-02-03)
+
+
+### Features
+
+* update imports generated for flutter datastore plugin dependency ([#382](https://github.com/aws-amplify/amplify-codegen/issues/382)) ([#388](https://github.com/aws-amplify/amplify-codegen/issues/388)) ([329e513](https://github.com/aws-amplify/amplify-codegen/commit/329e51395d36e11090e33300d02f5a7a436bfe7a)), closes [#380](https://github.com/aws-amplify/amplify-codegen/issues/380)
+
+
+
+
+
+## [2.27.3](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.27.2...amplify-codegen@2.27.3) (2022-01-13)
+
+**Note:** Version bump only for package amplify-codegen
+
+
+
+
+
+## [2.27.2](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.27.1...amplify-codegen@2.27.2) (2022-01-13)
+
+
+### Bug Fixes
+
+* add amplify prompts in package.json ([#370](https://github.com/aws-amplify/amplify-codegen/issues/370)) ([c145691](https://github.com/aws-amplify/amplify-codegen/commit/c1456917b041d6ae86e803f311fab45e58a0c027))
+* rm amplify-prompts and use console log ([#373](https://github.com/aws-amplify/amplify-codegen/issues/373)) ([6255b8b](https://github.com/aws-amplify/amplify-codegen/commit/6255b8b3a69343a0fcae2e7098c342f9f9f861ee))
+
+
+
+
+
+## [2.27.1](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.27.0...amplify-codegen@2.27.1) (2022-01-13)
+
+**Note:** Version bump only for package amplify-codegen
+
+
+
+
+
+# [2.27.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.23...amplify-codegen@2.27.0) (2022-01-12)
+
+
+### Features
+
+* read-only fields and non-model types for flutter ([58b0796](https://github.com/aws-amplify/amplify-codegen/commit/58b07962c3d39d7fd9b4246d5dffe55a11a25e27)), closes [#302](https://github.com/aws-amplify/amplify-codegen/issues/302) [#234](https://github.com/aws-amplify/amplify-codegen/issues/234) [#247](https://github.com/aws-amplify/amplify-codegen/issues/247) [#263](https://github.com/aws-amplify/amplify-codegen/issues/263) [#272](https://github.com/aws-amplify/amplify-codegen/issues/272)
+
+
+
+
+
+## [2.26.23](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.22...amplify-codegen@2.26.23) (2022-01-11)
+
+**Note:** Version bump only for package amplify-codegen
+
+
+
+
+
+## [2.26.22](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.21...amplify-codegen@2.26.22) (2022-01-05)
+
+
+### Reverts
+
+* Revert "fix(amplify-codegen): Add Amplify CLI version as a comment for the Modelgen output files (#133)" ([9d3c49f](https://github.com/aws-amplify/amplify-codegen/commit/9d3c49f028d1361e6601edc62265d978235802fd)), closes [#133](https://github.com/aws-amplify/amplify-codegen/issues/133)
+
+
+
+
+
+## [2.26.21](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.20...amplify-codegen@2.26.21) (2022-01-05)
+
+
+### Reverts
+
+* Revert "build: update packages (#325)" (#343) ([694856a](https://github.com/aws-amplify/amplify-codegen/commit/694856a38513aacfa071a02090de8fdc7fc9a1fd)), closes [#325](https://github.com/aws-amplify/amplify-codegen/issues/325) [#343](https://github.com/aws-amplify/amplify-codegen/issues/343)
+
+
+
+
+
+## [2.26.20](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.19...amplify-codegen@2.26.20) (2022-01-04)
+
+**Note:** Version bump only for package amplify-codegen
+
+
+
+
+
+## [2.26.19](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.18...amplify-codegen@2.26.19) (2021-12-15)
+
+**Note:** Version bump only for package amplify-codegen
+
+
+
+
+
+## [2.26.18](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.17...amplify-codegen@2.26.18) (2021-11-30)
+
+**Note:** Version bump only for package amplify-codegen
+
+
+
+
+
+## [2.26.17](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.16...amplify-codegen@2.26.17) (2021-11-20)
+
+**Note:** Version bump only for package amplify-codegen
+
+
+
+
+
+## [2.26.16](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.15...amplify-codegen@2.26.16) (2021-11-17)
+
+
+### Bug Fixes
+
+* repo dev dependencies of cli components ([#304](https://github.com/aws-amplify/amplify-codegen/issues/304)) ([e4a7456](https://github.com/aws-amplify/amplify-codegen/commit/e4a745660552b643adfedc91481e4f5798778edc))
+
+
+
+
+
+## [2.26.15](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.14...amplify-codegen@2.26.15) (2021-11-12)
+
+**Note:** Version bump only for package amplify-codegen
+
+
+
+
+
+## [2.26.14](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.13...amplify-codegen@2.26.14) (2021-11-09)
+
+**Note:** Version bump only for package amplify-codegen
+
+
+
+
+
+## [2.26.13](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.12...amplify-codegen@2.26.13) (2021-11-09)
+
+
+### Bug Fixes
+
+* **graphql:** allow aws_lambda directive ([03ef563](https://github.com/aws-amplify/amplify-codegen/commit/03ef5637488e9514116e83f691656fddae7628b2))
+
+
+
+
+
+## [2.26.12](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.11...amplify-codegen@2.26.12) (2021-11-07)
+
+**Note:** Version bump only for package amplify-codegen
+
+
+
+
+
+## [2.26.11](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.10...amplify-codegen@2.26.11) (2021-11-06)
+
+**Note:** Version bump only for package amplify-codegen
+
+
+
+
+
 ## [2.26.10](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.26.9...amplify-codegen@2.26.10) (2021-11-03)
 
 

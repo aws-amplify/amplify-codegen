@@ -318,14 +318,13 @@ describe('AppSyncModelVisitor', () => {
       expect(commentsField).toContain('postCommentsId'); // because of connection from Post.comments
     });
 
-    it('should not generate projectTeamId connection field for hasOne directive', () => {
+    it('should generate projectTeamId connection field for hasOne directive in the parent object', () => {
       const schema = /* GraphQL */ `
         type Project @model {
           id: ID!
           name: String
           team: Team @hasOne
         }
-
         type Team @model {
           id: ID!
           name: String!
@@ -340,8 +339,97 @@ describe('AppSyncModelVisitor', () => {
       );
       visit(ast, { leave: visitor });
       visitor.generate();
-      const teamFields = visitor.models.Team.fields.map(field => field.name);
-      expect(teamFields).not.toContain('projectTeamId');
+      const projectTeamIdField = visitor.models.Project.fields.find(field => {
+        return field.name === 'projectTeamId';
+      });
+      expect(projectTeamIdField).toBeDefined();
+      expect(projectTeamIdField.isNullable).toBeTruthy();
+    });
+  });
+
+  describe('index directives', () => {
+    it('processes index directive', () => {
+      const schema = /* GraphQL */ `
+        type Project @model {
+          id: ID!
+          name: String @index(name: "nameIndex", sortKeyFields: ["team"])
+          team: Team
+        }
+
+        type Team @model {
+          id: ID!
+          name: String! @index(name: "teamNameIndex")
+        }
+      `;
+      const visitor = createAndGenerateVisitor(schema, true);
+      visitor.generate();
+      const projectKeyDirective = visitor.models.Project.directives.find(directive => directive.name === 'key');
+      expect(projectKeyDirective).toEqual({
+        name: 'key',
+        arguments: {
+          name: 'nameIndex',
+          fields: ['name', 'team'],
+        },
+      });
+      const teamKeyDirective = visitor.models.Team.directives.find(directive => directive.name === 'key');
+      expect(teamKeyDirective).toEqual({
+        name: 'key',
+        arguments: {
+          name: 'teamNameIndex',
+          fields: ['name'],
+        },
+      });
+    });
+
+    it('processes primaryKey directive', () => {
+      const schema = /* GraphQL */ `
+        type Project @model {
+          id: ID!
+          name: String @primaryKey(sortKeyFields: ["team"])
+          team: Team
+        }
+
+        type Team @model {
+          id: ID!
+          name: String! @primaryKey
+        }
+      `;
+      const visitor = createAndGenerateVisitor(schema, true);
+      visitor.generate();
+      const projectKeyDirective = visitor.models.Project.directives.find(directive => directive.name === 'key');
+      expect(projectKeyDirective).toEqual({
+        name: 'key',
+        arguments: {
+          fields: ['name', 'team'],
+        },
+      });
+      const teamKeyDirective = visitor.models.Team.directives.find(directive => directive.name === 'key');
+      expect(teamKeyDirective).toEqual({
+        name: 'key',
+        arguments: {
+          fields: ['name'],
+        },
+      });
+    });
+
+    it('processes index with queryField', () => {
+      const schema = /* GraphQL */ `
+        type Project @model {
+          id: ID!
+          name: String @index(name: "nameIndex", queryField: "myQuery")
+        }
+      `;
+      const visitor = createAndGenerateVisitor(schema, true);
+      visitor.generate();
+      const projectKeyDirective = visitor.models.Project.directives.find(directive => directive.name === 'key');
+      expect(projectKeyDirective).toEqual({
+        name: 'key',
+        arguments: {
+          name: 'nameIndex',
+          queryField: 'myQuery',
+          fields: ['name'],
+        },
+      });
     });
   });
 
@@ -592,12 +680,28 @@ describe('AppSyncModelVisitor', () => {
       const updatedAtField = postFields.find(field => field.name === 'updatedOn');
       expect(updatedAtField).toMatchObject(updatedAtFieldObj);
     });
+    it('should not generate timestamp fields if "timestamps:null" is defined in @model', () => {
+      const schema = /* GraphQL */ `
+        type Post @model(timestamps: null) {
+          id: ID!
+        }
+      `;
+      const visitor = createAndGenerateVisitor(schema);
+      expect(visitor.models.Post).toBeDefined();
+
+      const postFields = visitor.models.Post.fields;
+      const createdAtField = postFields.find(field => field.name === 'createdAt');
+      expect(createdAtField).not.toBeDefined();
+      const updatedAtField = postFields.find(field => field.name === 'updatedAt');
+      expect(updatedAtField).not.toBeDefined();
+    });
   });
 
   describe('manyToMany testing', () => {
     let simpleManyToManySchema;
     let simpleManyModelMap;
     let transformedSimpleManyModelMap;
+    let manyToManyModelNameSchema;
 
     beforeEach(() => {
       simpleManyToManySchema = /* GraphQL */ `
@@ -609,6 +713,16 @@ describe('AppSyncModelVisitor', () => {
         type Animal @model {
           animalTag: ID!
           humanFriend: [Human] @manyToMany(relationName: "PetFriend")
+        }
+      `;
+
+      manyToManyModelNameSchema = /* GraphQL */ `
+        type ModelA @model {
+          models: [ModelB] @manyToMany(relationName: "Models")
+        }
+
+        type ModelB @model {
+          models: [ModelA] @manyToMany(relationName: "Models")
         }
       `;
 
@@ -766,5 +880,61 @@ describe('AppSyncModelVisitor', () => {
       expect(visitor.models.Animal.fields[2].directives[0].arguments.fields[0]).toEqual('id');
       expect(visitor.models.Animal.fields[2].directives[0].arguments.indexName).toEqual('byAnimal');
     });
+
+    it('Should correctly field names for many to many join table', () => {
+      const visitor = createAndGeneratePipelinedTransformerVisitor(manyToManyModelNameSchema);
+
+      expect(visitor.models.ModelA.fields.length).toEqual(4);
+      expect(visitor.models.ModelA.fields[1].directives[0].name).toEqual('hasMany');
+      expect(visitor.models.ModelA.fields[1].directives[0].arguments.fields.length).toEqual(1);
+      expect(visitor.models.ModelA.fields[1].directives[0].arguments.fields[0]).toEqual('id');
+      expect(visitor.models.ModelA.fields[1].directives[0].arguments.indexName).toEqual('byModelA');
+
+      expect(visitor.models.Models).toBeDefined();
+      expect(visitor.models.Models.fields.length).toEqual(5);
+
+      const modelA = visitor.models.Models.fields.find(f => f.name === 'modelA');
+      expect(modelA).toBeDefined();
+      expect(modelA.directives[0].name).toEqual('belongsTo');
+      expect(modelA.directives[0].arguments.fields.length).toEqual(1);
+      expect(modelA.directives[0].arguments.fields[0]).toEqual('modelAID');
+
+      const modelB = visitor.models.Models.fields.find(f => f.name === 'modelB');
+      expect(modelB).toBeDefined();
+      expect(modelB.directives[0].name).toEqual('belongsTo');
+      expect(modelB.directives[0].arguments.fields.length).toEqual(1);
+      expect(modelB.directives[0].arguments.fields[0]).toEqual('modelBID');
+
+      expect(visitor.models.ModelB.fields.length).toEqual(4);
+      expect(visitor.models.ModelB.fields[1].directives[0].name).toEqual('hasMany');
+      expect(visitor.models.ModelB.fields[1].directives[0].arguments.fields.length).toEqual(1);
+      expect(visitor.models.ModelB.fields[1].directives[0].arguments.fields[0]).toEqual('id');
+      expect(visitor.models.ModelB.fields[1].directives[0].arguments.indexName).toEqual('byModelB');
+    });
   });
+
+  describe('Graphql V2 fix tests for multiple has many relations of only one model type', () => {
+    const schema = /* GraphQL*/ `
+      type Registration @model {
+        id: ID! @primaryKey
+        meetingId: ID @index(name: "byMeeting", sortKeyFields: ["attendeeId"])
+        meeting: Meeting! @belongsTo(fields: ["meetingId"])
+        attendeeId: ID @index(name: "byAttendee", sortKeyFields: ["meetingId"])
+        attendee: Attendee! @belongsTo(fields: ["attendeeId"])
+      }
+      type Meeting @model {
+        id: ID! @primaryKey
+        title: String!
+        attendees: [Registration] @hasMany(indexName: "byMeeting", fields: ["id"])
+      }
+      
+      type Attendee @model {
+        id: ID! @primaryKey
+        meetings: [Registration] @hasMany(indexName: "byAttendee", fields: ["id"])
+      }
+    `;
+    it(`should not throw error when processing models`, () => {
+      expect(() => createAndGeneratePipelinedTransformerVisitor(schema)).not.toThrow();
+    });
+  })
 });

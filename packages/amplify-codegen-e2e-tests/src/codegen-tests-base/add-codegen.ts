@@ -1,8 +1,10 @@
 import {
     initProjectWithProfile,
-    addApiWithSchema,
+    addApiWithoutSchema,
+    updateApiSchema,
     addCodegen,
-    AmplifyFrontendConfig
+    AmplifyFrontendConfig,
+    createRandomName
 } from "amplify-codegen-e2e-core";
 import { existsSync } from "fs";
 import path from 'path';
@@ -12,7 +14,9 @@ import { testSetupBeforeAddCodegen, testValidGraphQLConfig } from "./test-setup"
 export async function testAddCodegen(config: AmplifyFrontendConfig, projectRoot: string, schema: string) {
     // init project and add API category
     await initProjectWithProfile(projectRoot, { ...config });
-    await addApiWithSchema(projectRoot, schema);
+    const projectName = createRandomName();
+    await addApiWithoutSchema(projectRoot, { apiName: projectName });
+    await updateApiSchema(projectRoot, projectName, schema);
 
     const userSourceCodePath = testSetupBeforeAddCodegen(projectRoot, config);
 
