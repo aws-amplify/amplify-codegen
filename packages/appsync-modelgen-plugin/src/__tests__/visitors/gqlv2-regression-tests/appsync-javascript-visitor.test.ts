@@ -2,7 +2,6 @@ import { buildSchema, GraphQLSchema, parse, visit } from 'graphql';
 import { directives, scalars } from '../../../scalars/supported-directives';
 import { TYPESCRIPT_SCALAR_MAP } from '../../../scalars';
 import { AppSyncModelJavascriptVisitor } from '../../../visitors/appsync-javascript-visitor';
-import { CodeGenGenerateEnum } from '../../../visitors/appsync-visitor';
 import { JavaScriptVisitorConfig } from '../appsync-javascript-visitor.test';
 
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
