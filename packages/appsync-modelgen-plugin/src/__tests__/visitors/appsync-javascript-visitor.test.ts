@@ -7,18 +7,25 @@ import { AppSyncModelJavascriptVisitor } from '../../visitors/appsync-javascript
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
-
-const getVisitor = (
-  schema: string,
-  isDeclaration: boolean = false,
-  isTimestampFieldsAdded: boolean = false,
-  transformerVersion: number = 1,
-): AppSyncModelJavascriptVisitor => {
+export type JavaScriptVisitorConfig = {
+  isDeclaration?: boolean;
+  isTimestampFieldsAdded?: boolean;
+  useCustomPrimaryKey?: boolean;
+  transformerVersion?: number;
+};
+const defaultJavaScriptVisitorConfig: JavaScriptVisitorConfig = {
+  isDeclaration: false,
+  isTimestampFieldsAdded: false,
+  useCustomPrimaryKey: false,
+  transformerVersion: 1,
+};
+const getVisitor = (schema: string, settings: JavaScriptVisitorConfig = {}): AppSyncModelJavascriptVisitor => {
+  const config = { ...defaultJavaScriptVisitorConfig, ...settings };
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelJavascriptVisitor(
     builtSchema,
-    { directives, target: 'javascript', scalars: TYPESCRIPT_SCALAR_MAP, isDeclaration, isTimestampFieldsAdded, transformerVersion },
+    { directives, target: 'javascript', scalars: TYPESCRIPT_SCALAR_MAP, ...config },
     {},
   );
   visit(ast, { leave: visitor });
@@ -94,14 +101,14 @@ describe('Javascript visitor', () => {
     });
 
     it('should generate Javascript declaration', () => {
-      const declarationVisitor = getVisitor(schema, true);
+      const declarationVisitor = getVisitor(schema, { isDeclaration: true });
       const generateImportSpy = jest.spyOn(declarationVisitor as any, 'generateImports');
       const generateEnumDeclarationsSpy = jest.spyOn(declarationVisitor as any, 'generateEnumDeclarations');
       const generateModelDeclarationSpy = jest.spyOn(declarationVisitor as any, 'generateModelDeclaration');
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor, __modelMeta__, ManagedIdentifier } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -114,10 +121,11 @@ describe('Javascript visitor', () => {
           constructor(init: ModelInit<SimpleNonModelType>);
         }
 
+
+
+
+
         export declare class SimpleModel {
-          readonly [__modelMeta__]: {
-            identifier: ManagedIdentifier<SimpleModel, 'id'>;
-          };
           readonly id: string;
           readonly name?: string;
           readonly bar?: string;
@@ -127,9 +135,6 @@ describe('Javascript visitor', () => {
         }
 
         export declare class Bar {
-          readonly [__modelMeta__]: {
-            identifier: ManagedIdentifier<Bar, 'id'>;
-          };
           readonly id: string;
           readonly simpleModelFooId?: string;
           constructor(init: ModelInit<Bar>);
@@ -154,14 +159,14 @@ describe('Javascript visitor', () => {
     });
 
     it('should generate Javascript declaration with model metadata types', () => {
-      const declarationVisitor = getVisitor(schema, true, true);
+      const declarationVisitor = getVisitor(schema, { isDeclaration: true, isTimestampFieldsAdded: true });
       const generateImportSpy = jest.spyOn(declarationVisitor as any, 'generateImports');
       const generateEnumDeclarationsSpy = jest.spyOn(declarationVisitor as any, 'generateEnumDeclarations');
       const generateModelDeclarationSpy = jest.spyOn(declarationVisitor as any, 'generateModelDeclaration');
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor, __modelMeta__, ManagedIdentifier } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -174,32 +179,32 @@ describe('Javascript visitor', () => {
           constructor(init: ModelInit<SimpleNonModelType>);
         }
 
+        type SimpleModelMetaData = {
+          readOnlyFields: 'createdAt' | 'updatedAt';
+        }
+
+        type BarMetaData = {
+          readOnlyFields: 'createdAt' | 'updatedAt';
+        }
+
         export declare class SimpleModel {
-          readonly [__modelMeta__]: {
-            identifier: ManagedIdentifier<SimpleModel, 'id'>;
-            readOnlyFields: 'createdAt' | 'updatedAt';
-          };
           readonly id: string;
           readonly name?: string;
           readonly bar?: string;
           readonly foo?: Bar[];
           readonly createdAt?: string;
           readonly updatedAt?: string;
-          constructor(init: ModelInit<SimpleModel>);
-          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
+          constructor(init: ModelInit<SimpleModel, SimpleModelMetaData>);
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel, SimpleModelMetaData>) => MutableModel<SimpleModel, SimpleModelMetaData> | void): SimpleModel;
         }
 
         export declare class Bar {
-          readonly [__modelMeta__]: {
-            identifier: ManagedIdentifier<Bar, 'id'>;
-            readOnlyFields: 'createdAt' | 'updatedAt';
-          };
           readonly id: string;
           readonly createdAt?: string;
           readonly updatedAt?: string;
           readonly simpleModelFooId?: string;
-          constructor(init: ModelInit<Bar>);
-          static copyOf(source: Bar, mutator: (draft: MutableModel<Bar>) => MutableModel<Bar> | void): Bar;
+          constructor(init: ModelInit<Bar, BarMetaData>);
+          static copyOf(source: Bar, mutator: (draft: MutableModel<Bar, BarMetaData>) => MutableModel<Bar, BarMetaData> | void): Bar;
         }"
       `);
       expect(generateImportSpy).toBeCalledTimes(1);
@@ -221,7 +226,7 @@ describe('Javascript visitor', () => {
   });
 
   it('should generate Javascript code when declaration is set to false', () => {
-    const jsVisitor = getVisitor(schema, false);
+    const jsVisitor = getVisitor(schema);
     const generateImportsJavaScriptImplementationSpy = jest.spyOn(jsVisitor as any, 'generateImportsJavaScriptImplementation');
     const generateEnumObjectSpy = jest.spyOn(jsVisitor as any, 'generateEnumObject');
     const generateModelInitializationSpy = jest.spyOn(jsVisitor as any, 'generateModelInitialization');
@@ -291,14 +296,14 @@ describe('Javascript visitor with default owner auth', () => {
     });
 
     it('should not add default owner field to Javascript declaration', () => {
-      const declarationVisitor = getVisitor(schema, true);
+      const declarationVisitor = getVisitor(schema, { isDeclaration: true });
       const generateImportSpy = jest.spyOn(declarationVisitor as any, 'generateImports');
       const generateEnumDeclarationsSpy = jest.spyOn(declarationVisitor as any, 'generateEnumDeclarations');
       const generateModelDeclarationSpy = jest.spyOn(declarationVisitor as any, 'generateModelDeclaration');
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor, __modelMeta__, ManagedIdentifier } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -312,9 +317,6 @@ describe('Javascript visitor with default owner auth', () => {
         }
 
         export declare class SimpleModel {
-          readonly [__modelMeta__]: {
-            identifier: ManagedIdentifier<SimpleModel, 'id'>;
-          };
           readonly id: string;
           readonly name?: string;
           readonly bar?: string;
@@ -368,14 +370,14 @@ describe('Javascript visitor with custom owner field auth', () => {
     });
 
     it('should not add custom owner field to Javascript declaration', () => {
-      const declarationVisitor = getVisitor(schema, true);
+      const declarationVisitor = getVisitor(schema, { isDeclaration: true });
       const generateImportSpy = jest.spyOn(declarationVisitor as any, 'generateImports');
       const generateEnumDeclarationsSpy = jest.spyOn(declarationVisitor as any, 'generateEnumDeclarations');
       const generateModelDeclarationSpy = jest.spyOn(declarationVisitor as any, 'generateModelDeclaration');
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor, __modelMeta__, ManagedIdentifier } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -389,9 +391,6 @@ describe('Javascript visitor with custom owner field auth', () => {
         }
 
         export declare class SimpleModel {
-          readonly [__modelMeta__]: {
-            identifier: ManagedIdentifier<SimpleModel, 'id'>;
-          };
           readonly id: string;
           readonly name?: string;
           readonly bar?: string;
@@ -447,14 +446,14 @@ describe('Javascript visitor with multiple owner field auth', () => {
     });
 
     it('should not add custom both owner fields to Javascript declaration', () => {
-      const declarationVisitor = getVisitor(schema, true);
+      const declarationVisitor = getVisitor(schema, { isDeclaration: true });
       const generateImportSpy = jest.spyOn(declarationVisitor as any, 'generateImports');
       const generateEnumDeclarationsSpy = jest.spyOn(declarationVisitor as any, 'generateEnumDeclarations');
       const generateModelDeclarationSpy = jest.spyOn(declarationVisitor as any, 'generateModelDeclaration');
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor, __modelMeta__, ManagedIdentifier } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -468,9 +467,6 @@ describe('Javascript visitor with multiple owner field auth', () => {
         }
 
         export declare class SimpleModel {
-          readonly [__modelMeta__]: {
-            identifier: ManagedIdentifier<SimpleModel, 'id'>;
-          };
           readonly id: string;
           readonly name?: string;
           readonly bar?: string;
@@ -517,22 +513,15 @@ describe('Javascript visitor with auth directives in field level', () => {
     });
 
     it('should not add custom owner fields to Javascript declaration', () => {
-      const declarationVisitor = getVisitor(schema, true);
+      const declarationVisitor = getVisitor(schema, { isDeclaration: true });
       const generateImportSpy = jest.spyOn(declarationVisitor as any, 'generateImports');
       const generateModelDeclarationSpy = jest.spyOn(declarationVisitor as any, 'generateModelDeclaration');
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor, __modelMeta__, ManagedIdentifier } from \\"@aws-amplify/datastore\\";
-
-
-
-
+        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 
         export declare class Employee {
-          readonly [__modelMeta__]: {
-            identifier: ManagedIdentifier<Employee, 'id'>;
-          };
           readonly id: string;
           readonly name: string;
           readonly address: string;
@@ -616,7 +605,7 @@ describe('Javascript visitor with custom primary key', () => {
   `;
 
   it('should generate correct declaration with custom primary key support in V1 GraphQL schema', () => {
-    const visitor = getVisitor(schemaV1, true, true);
+    const visitor = getVisitor(schemaV1, { isDeclaration: true, isTimestampFieldsAdded: true, useCustomPrimaryKey: true });
     const declarations = visitor.generate();
     validateTs(declarations);
     expect(declarations).toMatchInlineSnapshot(`
@@ -708,7 +697,12 @@ describe('Javascript visitor with custom primary key', () => {
   });
 
   it('should generate correct declaration with custom primary key support in V2 GraphQL schema', () => {
-    const visitor = getVisitor(schemaV2, true, true, 2);
+    const visitor = getVisitor(schemaV2, {
+      isDeclaration: true,
+      isTimestampFieldsAdded: true,
+      useCustomPrimaryKey: true,
+      transformerVersion: 2,
+    });
     const declarations = visitor.generate();
     validateTs(declarations);
     expect(declarations).toMatchInlineSnapshot(`
@@ -833,7 +827,12 @@ describe('New model meta field test', () => {
     }
   `;
   it('should generate correct model meta field in V2 GraphQL schema', () => {
-    const visitor = getVisitor(schemaV2, true, true, 2);
+    const visitor = getVisitor(schemaV2, {
+      isDeclaration: true,
+      isTimestampFieldsAdded: true,
+      useCustomPrimaryKey: true,
+      transformerVersion: 2,
+    });
     const declarations = visitor.generate();
     validateTs(declarations);
     expect(declarations).toMatchInlineSnapshot(`
