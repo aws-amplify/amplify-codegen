@@ -62,6 +62,13 @@ export class AppSyncModelJavascriptVisitor<
 
       const imports = this.generateImports();
 
+      if (!this.config.useCustomPrimaryKey) {
+        const modelMetaData = Object.values(this.modelMap)
+          .map(typeObj => this.generateModelMetaData(typeObj))
+          .join('\n\n');
+        return [imports, enumDeclarations, nonModelDeclarations, modelMetaData, modelDeclarations].filter(b => b).join('\n\n');
+      }
+
       return [imports, enumDeclarations, nonModelDeclarations, modelDeclarations].join('\n\n');
     } else {
       const imports = this.generateImportsJavaScriptImplementation();

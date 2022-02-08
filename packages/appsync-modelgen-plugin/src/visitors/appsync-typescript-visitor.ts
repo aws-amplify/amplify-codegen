@@ -34,7 +34,7 @@ export class AppSyncModelTypeScriptVisitor<
     'import { schema } from "./schema";',
   ];
 
-  protected BASE_DATASTORE_IMPORT = new Set(['ModelInit', 'MutableModel', 'PersistentModelConstructor', '__modelMeta__']);
+  protected BASE_DATASTORE_IMPORT = new Set(['ModelInit', 'MutableModel', 'PersistentModelConstructor']);
 
   protected MODEL_META_FIELD_NAME = '__modelMeta__';
 
@@ -76,6 +76,11 @@ export class AppSyncModelTypeScriptVisitor<
     return enumDeclarations.string;
   }
 
+  /**
+   * Generate model meta data type. Old implementation before using custom primary key.
+   * @param modelObj model object
+   * @returns model meta data type string
+   */
   protected generateModelMetaData(modelObj: CodeGenModel): string {
     const modelName = this.generateModelTypeDeclarationName(modelObj);
     const modelDeclarations = new TypeScriptDeclarationBlock()
@@ -83,23 +88,26 @@ export class AppSyncModelTypeScriptVisitor<
       .withName(`${modelName}MetaData`)
       .export(false);
 
-    modelDeclarations.addProperty('identifier', this.constructIdentifier(modelObj));
-
-    const isTimestampFeatureFlagEnabled = this.config.isTimestampFieldsAdded;
     let readOnlyFieldNames: string[] = [];
 
     modelObj.fields.forEach((field: CodeGenField) => {
-      if (isTimestampFeatureFlagEnabled && field.isReadOnly) {
+      if (field.isReadOnly) {
         readOnlyFieldNames.push(`'${field.name}'`);
       }
     });
     if (readOnlyFieldNames.length) {
       modelDeclarations.addProperty('readOnlyFields', readOnlyFieldNames.join(' | '));
+      return modelDeclarations.string;
     }
-
-    return modelDeclarations.string;
+    //If no read only fields return empty string
+    return '';
   }
 
+  /**
+   * Generate model meta data type casting for __modelMeta__. New implementation after incorporating custome primary key.
+   * @param modelObj model object
+   * @returns model meta data type string
+   */
   protected generateModelMetaDataType(modelObj: CodeGenModel): string {
     let readOnlyFieldNames: string[] = [];
     modelObj.fields.forEach((field: CodeGenField) => {
@@ -153,19 +161,32 @@ export class AppSyncModelTypeScriptVisitor<
       .withName(modelName)
       .export(true);
 
-    //Add model meta field
-    if (isModelType) {
+      let readOnlyFieldNames: string[] = [];
+      let modelMetaDataFormatted: string | undefined;
+      let modelMetaDataDeclaration: string = '';
+    //Add new model meta field when custom primary key is enabled
+    if (isModelType && this.config.useCustomPrimaryKey) {
+      //Add new model meta import
+      this.BASE_DATASTORE_IMPORT.add(this.MODEL_META_FIELD_NAME);
       modelDeclarations.addProperty(`[${this.MODEL_META_FIELD_NAME}]`, this.generateModelMetaDataType(modelObj), undefined, 'DEFAULT', {
         readonly: true,
         optional: false
-      })
+      });
     }
     modelObj.fields.forEach((field: CodeGenField) => {
       modelDeclarations.addProperty(this.getFieldName(field), this.getNativeType(field), undefined, 'DEFAULT', {
         readonly: true,
         optional: field.isList ? field.isListNullable : field.isNullable,
       });
+      if (field.isReadOnly) {
+        readOnlyFieldNames.push(`'${field.name}'`);
+      }
     });
+    //Use old model meta when custom primary key is disabled
+    if (isModelType && !this.config.useCustomPrimaryKey) {
+      modelMetaDataFormatted = `, ${modelName}MetaData`;
+      modelMetaDataDeclaration = readOnlyFieldNames.length > 0 ? modelMetaDataFormatted : '';
+    }
 
     // Constructor
     modelDeclarations.addClassMethod(
@@ -175,7 +196,7 @@ export class AppSyncModelTypeScriptVisitor<
       [
         {
           name: 'init',
-          type: `ModelInit<${modelName}>`,
+          type: `ModelInit<${modelName}${modelMetaDataDeclaration}>`,
         },
       ],
       'DEFAULT',
@@ -195,7 +216,7 @@ export class AppSyncModelTypeScriptVisitor<
           },
           {
             name: 'mutator',
-            type: `(draft: MutableModel<${modelName}>) => MutableModel<${modelName}> | void`,
+            type: `(draft: MutableModel<${modelName}${modelMetaDataDeclaration}>) => MutableModel<${modelName}${modelMetaDataDeclaration}> | void`,
           },
         ],
         'DEFAULT',
