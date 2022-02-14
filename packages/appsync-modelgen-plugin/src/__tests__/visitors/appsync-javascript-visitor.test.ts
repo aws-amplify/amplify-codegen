@@ -127,16 +127,16 @@ describe('Javascript visitor', () => {
 
         export declare class SimpleModel {
           readonly id: string;
-          readonly name?: string;
-          readonly bar?: string;
-          readonly foo?: Bar[];
+          readonly name?: string | null;
+          readonly bar?: string | null;
+          readonly foo?: Bar[] | null;
           constructor(init: ModelInit<SimpleModel>);
           static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
         }
 
         export declare class Bar {
           readonly id: string;
-          readonly simpleModelFooId?: string;
+          readonly simpleModelFooId?: string | null;
           constructor(init: ModelInit<Bar>);
           static copyOf(source: Bar, mutator: (draft: MutableModel<Bar>) => MutableModel<Bar> | void): Bar;
         }"
@@ -189,20 +189,20 @@ describe('Javascript visitor', () => {
 
         export declare class SimpleModel {
           readonly id: string;
-          readonly name?: string;
-          readonly bar?: string;
-          readonly foo?: Bar[];
-          readonly createdAt?: string;
-          readonly updatedAt?: string;
+          readonly name?: string | null;
+          readonly bar?: string | null;
+          readonly foo?: Bar[] | null;
+          readonly createdAt?: string | null;
+          readonly updatedAt?: string | null;
           constructor(init: ModelInit<SimpleModel, SimpleModelMetaData>);
           static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel, SimpleModelMetaData>) => MutableModel<SimpleModel, SimpleModelMetaData> | void): SimpleModel;
         }
 
         export declare class Bar {
           readonly id: string;
-          readonly createdAt?: string;
-          readonly updatedAt?: string;
-          readonly simpleModelFooId?: string;
+          readonly createdAt?: string | null;
+          readonly updatedAt?: string | null;
+          readonly simpleModelFooId?: string | null;
           constructor(init: ModelInit<Bar, BarMetaData>);
           static copyOf(source: Bar, mutator: (draft: MutableModel<Bar, BarMetaData>) => MutableModel<Bar, BarMetaData> | void): Bar;
         }"
@@ -318,8 +318,8 @@ describe('Javascript visitor with default owner auth', () => {
 
         export declare class SimpleModel {
           readonly id: string;
-          readonly name?: string;
-          readonly bar?: string;
+          readonly name?: string | null;
+          readonly bar?: string | null;
           constructor(init: ModelInit<SimpleModel>);
           static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
         }"
@@ -392,8 +392,8 @@ describe('Javascript visitor with custom owner field auth', () => {
 
         export declare class SimpleModel {
           readonly id: string;
-          readonly name?: string;
-          readonly bar?: string;
+          readonly name?: string | null;
+          readonly bar?: string | null;
           constructor(init: ModelInit<SimpleModel>);
           static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
         }"
@@ -468,8 +468,8 @@ describe('Javascript visitor with multiple owner field auth', () => {
 
         export declare class SimpleModel {
           readonly id: string;
-          readonly name?: string;
-          readonly bar?: string;
+          readonly name?: string | null;
+          readonly bar?: string | null;
           constructor(init: ModelInit<SimpleModel>);
           static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
         }"
@@ -525,7 +525,7 @@ describe('Javascript visitor with auth directives in field level', () => {
           readonly id: string;
           readonly name: string;
           readonly address: string;
-          readonly ssn?: string;
+          readonly ssn?: string | null;
           constructor(init: ModelInit<Employee>);
           static copyOf(source: Employee, mutator: (draft: MutableModel<Employee>) => MutableModel<Employee> | void): Employee;
         }"
@@ -626,8 +626,8 @@ describe('Javascript visitor with custom primary key', () => {
         readonly id: string;
         readonly project: string;
         readonly workItemId: string;
-        readonly createdAt?: string;
-        readonly updatedAt?: string;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
         constructor(init: ModelInit<WorkItem0>);
         static copyOf(source: WorkItem0, mutator: (draft: MutableModel<WorkItem0>) => MutableModel<WorkItem0> | void): WorkItem0;
       }
@@ -639,8 +639,8 @@ describe('Javascript visitor with custom primary key', () => {
         };
         readonly project: string;
         readonly workItemId: string;
-        readonly createdAt?: string;
-        readonly updatedAt?: string;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
         constructor(init: ModelInit<WorkItem1>);
         static copyOf(source: WorkItem1, mutator: (draft: MutableModel<WorkItem1>) => MutableModel<WorkItem1> | void): WorkItem1;
       }
@@ -651,8 +651,8 @@ describe('Javascript visitor with custom primary key', () => {
           readOnlyFields: 'createdAt' | 'updatedAt';
         };
         readonly project: string;
-        readonly createdAt?: string;
-        readonly updatedAt?: string;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
         constructor(init: ModelInit<WorkItem2>);
         static copyOf(source: WorkItem2, mutator: (draft: MutableModel<WorkItem2>) => MutableModel<WorkItem2> | void): WorkItem2;
       }
@@ -663,8 +663,8 @@ describe('Javascript visitor with custom primary key', () => {
           readOnlyFields: 'createdAt' | 'updatedAt';
         };
         readonly id: string;
-        readonly createdAt?: string;
-        readonly updatedAt?: string;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
         constructor(init: ModelInit<WorkItem3>);
         static copyOf(source: WorkItem3, mutator: (draft: MutableModel<WorkItem3>) => MutableModel<WorkItem3> | void): WorkItem3;
       }
@@ -675,8 +675,8 @@ describe('Javascript visitor with custom primary key', () => {
           readOnlyFields: 'createdAt' | 'updatedAt';
         };
         readonly id: string;
-        readonly createdAt?: string;
-        readonly updatedAt?: string;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
         constructor(init: ModelInit<WorkItem4>);
         static copyOf(source: WorkItem4, mutator: (draft: MutableModel<WorkItem4>) => MutableModel<WorkItem4> | void): WorkItem4;
       }
@@ -687,9 +687,9 @@ describe('Javascript visitor with custom primary key', () => {
           readOnlyFields: 'createdAt' | 'updatedAt';
         };
         readonly id: string;
-        readonly title?: string;
-        readonly createdAt?: string;
-        readonly updatedAt?: string;
+        readonly title?: string | null;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
         constructor(init: ModelInit<WorkItem5>);
         static copyOf(source: WorkItem5, mutator: (draft: MutableModel<WorkItem5>) => MutableModel<WorkItem5> | void): WorkItem5;
       }"
@@ -723,8 +723,8 @@ describe('Javascript visitor with custom primary key', () => {
         readonly id: string;
         readonly project: string;
         readonly workItemId: string;
-        readonly createdAt?: string;
-        readonly updatedAt?: string;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
         constructor(init: ModelInit<WorkItem0>);
         static copyOf(source: WorkItem0, mutator: (draft: MutableModel<WorkItem0>) => MutableModel<WorkItem0> | void): WorkItem0;
       }
@@ -736,8 +736,8 @@ describe('Javascript visitor with custom primary key', () => {
         };
         readonly project: string;
         readonly workItemId: string;
-        readonly createdAt?: string;
-        readonly updatedAt?: string;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
         constructor(init: ModelInit<WorkItem1>);
         static copyOf(source: WorkItem1, mutator: (draft: MutableModel<WorkItem1>) => MutableModel<WorkItem1> | void): WorkItem1;
       }
@@ -748,8 +748,8 @@ describe('Javascript visitor with custom primary key', () => {
           readOnlyFields: 'createdAt' | 'updatedAt';
         };
         readonly project: string;
-        readonly createdAt?: string;
-        readonly updatedAt?: string;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
         constructor(init: ModelInit<WorkItem2>);
         static copyOf(source: WorkItem2, mutator: (draft: MutableModel<WorkItem2>) => MutableModel<WorkItem2> | void): WorkItem2;
       }
@@ -760,8 +760,8 @@ describe('Javascript visitor with custom primary key', () => {
           readOnlyFields: 'createdAt' | 'updatedAt';
         };
         readonly id: string;
-        readonly createdAt?: string;
-        readonly updatedAt?: string;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
         constructor(init: ModelInit<WorkItem3>);
         static copyOf(source: WorkItem3, mutator: (draft: MutableModel<WorkItem3>) => MutableModel<WorkItem3> | void): WorkItem3;
       }
@@ -772,8 +772,8 @@ describe('Javascript visitor with custom primary key', () => {
           readOnlyFields: 'createdAt' | 'updatedAt';
         };
         readonly id: string;
-        readonly createdAt?: string;
-        readonly updatedAt?: string;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
         constructor(init: ModelInit<WorkItem4>);
         static copyOf(source: WorkItem4, mutator: (draft: MutableModel<WorkItem4>) => MutableModel<WorkItem4> | void): WorkItem4;
       }
@@ -784,9 +784,9 @@ describe('Javascript visitor with custom primary key', () => {
           readOnlyFields: 'createdAt' | 'updatedAt';
         };
         readonly id: string;
-        readonly title?: string;
-        readonly createdAt?: string;
-        readonly updatedAt?: string;
+        readonly title?: string | null;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
         constructor(init: ModelInit<WorkItem5>);
         static copyOf(source: WorkItem5, mutator: (draft: MutableModel<WorkItem5>) => MutableModel<WorkItem5> | void): WorkItem5;
       }"
@@ -849,9 +849,9 @@ describe('New model meta field test', () => {
         };
         readonly id: string;
         readonly name: string;
-        readonly description?: string;
-        readonly createdAt?: string;
-        readonly updatedAt?: string;
+        readonly description?: string | null;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
         constructor(init: ModelInit<ModelDefault>);
         static copyOf(source: ModelDefault, mutator: (draft: MutableModel<ModelDefault>) => MutableModel<ModelDefault> | void): ModelDefault;
       }
@@ -862,9 +862,9 @@ describe('New model meta field test', () => {
         };
         readonly id: string;
         readonly name: string;
-        readonly description?: string;
-        readonly createdAt?: string;
-        readonly updatedAt?: string;
+        readonly description?: string | null;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
         constructor(init: ModelInit<ModelDefaultExplicitTimestamps>);
         static copyOf(source: ModelDefaultExplicitTimestamps, mutator: (draft: MutableModel<ModelDefaultExplicitTimestamps>) => MutableModel<ModelDefaultExplicitTimestamps> | void): ModelDefaultExplicitTimestamps;
       }
@@ -876,9 +876,9 @@ describe('New model meta field test', () => {
         };
         readonly id: string;
         readonly name: string;
-        readonly description?: string;
-        readonly createdAt?: string;
-        readonly updatedAt?: string;
+        readonly description?: string | null;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
         constructor(init: ModelInit<ModelExplicitId>);
         static copyOf(source: ModelExplicitId, mutator: (draft: MutableModel<ModelExplicitId>) => MutableModel<ModelExplicitId> | void): ModelExplicitId;
       }
@@ -891,9 +891,9 @@ describe('New model meta field test', () => {
         readonly id: string;
         readonly myId: string;
         readonly name: string;
-        readonly description?: string;
-        readonly createdAt?: string;
-        readonly updatedAt?: string;
+        readonly description?: string | null;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
         constructor(init: ModelInit<ModelCustomPk>);
         static copyOf(source: ModelCustomPk, mutator: (draft: MutableModel<ModelCustomPk>) => MutableModel<ModelCustomPk> | void): ModelCustomPk;
       }
@@ -906,9 +906,9 @@ describe('New model meta field test', () => {
         readonly tenant: string;
         readonly dob: string;
         readonly name: string;
-        readonly description?: string;
-        readonly createdAt?: string;
-        readonly updatedAt?: string;
+        readonly description?: string | null;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
         constructor(init: ModelInit<ModelCustomPkSk>);
         static copyOf(source: ModelCustomPkSk, mutator: (draft: MutableModel<ModelCustomPkSk>) => MutableModel<ModelCustomPkSk> | void): ModelCustomPkSk;
       }"
