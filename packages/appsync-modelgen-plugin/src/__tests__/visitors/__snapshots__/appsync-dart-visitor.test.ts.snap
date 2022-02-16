@@ -313,6 +313,10 @@ class Comment extends Model {
     modelSchemaDefinition.name = \\"Comment\\";
     modelSchemaDefinition.pluralName = \\"Comments\\";
     
+    modelSchemaDefinition.indexes = [
+      ModelIndex(fields: [\\"postID\\", \\"content\\"], name: \\"byPost\\")
+    ];
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
     
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
@@ -652,6 +656,10 @@ class Comment extends Model {
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Comment\\";
     modelSchemaDefinition.pluralName = \\"Comments\\";
+    
+    modelSchemaDefinition.indexes = [
+      ModelIndex(fields: [\\"postID\\", \\"content\\"], name: \\"byPost\\")
+    ];
     
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
     
@@ -6107,6 +6115,10 @@ class Comment extends Model {
     modelSchemaDefinition.name = \\"Comment\\";
     modelSchemaDefinition.pluralName = \\"Comments\\";
 
+    modelSchemaDefinition.indexes = [
+      ModelIndex(fields: [\\"postID\\", \\"content\\"], name: \\"byPost\\")
+    ];
+
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
@@ -6261,6 +6273,10 @@ class Post extends Model {
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Post\\";
     modelSchemaDefinition.pluralName = \\"Posts\\";
+
+    modelSchemaDefinition.indexes = [
+      ModelIndex(fields: [\\"blogID\\"], name: \\"byBlog\\")
+    ];
 
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
@@ -6429,6 +6445,11 @@ class authorBook extends Model {
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"authorBook\\";
     modelSchemaDefinition.pluralName = \\"authorBooks\\";
+
+    modelSchemaDefinition.indexes = [
+      ModelIndex(fields: [\\"author_id\\"], name: \\"byAuthor\\"),
+      ModelIndex(fields: [\\"book_id\\"], name: \\"byBook\\")
+    ];
 
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
@@ -6848,6 +6869,10 @@ class Comment extends Model {
     modelSchemaDefinition.name = \\"Comment\\";
     modelSchemaDefinition.pluralName = \\"Comments\\";
     
+    modelSchemaDefinition.indexes = [
+      ModelIndex(fields: [\\"postID\\", \\"content\\"], name: \\"byPost\\")
+    ];
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
     
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
@@ -7017,6 +7042,10 @@ class Post extends Model {
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Post\\";
     modelSchemaDefinition.pluralName = \\"Posts\\";
+    
+    modelSchemaDefinition.indexes = [
+      ModelIndex(fields: [\\"blogID\\"], name: \\"byBlog\\")
+    ];
     
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
     
