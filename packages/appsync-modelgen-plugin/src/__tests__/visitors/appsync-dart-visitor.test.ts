@@ -650,7 +650,7 @@ describe('AppSync Dart Visitor', () => {
         ACTIVE
         INACTIVE
       }
-      
+
       type Post @model {
         id: ID!
         title: String!
@@ -659,7 +659,7 @@ describe('AppSync Dart Visitor', () => {
         # New field with @hasMany
         comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
       }
-      
+
       # New model
       type Comment @model {
         id: ID!

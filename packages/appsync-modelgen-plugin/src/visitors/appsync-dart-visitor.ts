@@ -767,6 +767,7 @@ export class AppSyncModelDartVisitor<
             model,
           )}";`,
           this.generateAuthRules(model),
+          this.generateIndexes(model),
           isNonModel ? this.generateNonModelAddFields(model) : this.generateAddFields(model),
         ]
           .filter(f => f)
@@ -821,6 +822,22 @@ export class AppSyncModelDartVisitor<
         return ['modelSchemaDefinition.authRules = [', indentMultiline(rules.join(',\n')), '];'].join('\n');
       }
     }
+    return '';
+  }
+
+  protected generateIndexes(model: CodeGenModel): string {
+    const indexes = model.directives
+      .filter(directive => directive.name === 'key')
+      .map(directive => {
+        const name = directive.arguments.name ? `"${directive.arguments.name}"` : 'null';
+        const fields: string = directive.arguments.fields.map((field: string) => `"${field}"`).join(', ');
+        return `ModelIndex(fields: [${fields}], name: ${name})`;
+      });
+
+    if (indexes.length) {
+      return ['modelSchemaDefinition.indexes = [', indentMultiline(indexes.join(',\n')), '];'].join('\n');
+    }
+
     return '';
   }
 
