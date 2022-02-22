@@ -32,7 +32,6 @@ export class AppSyncModelJavascriptVisitor<
   TRawConfig extends RawAppSyncModelJavaScriptConfig = RawAppSyncModelJavaScriptConfig,
   TPluginConfig extends ParsedAppSyncModelJavaScriptConfig = ParsedAppSyncModelJavaScriptConfig
 > extends AppSyncModelTypeScriptVisitor<TRawConfig, TPluginConfig> {
-  protected IMPORT_STATEMENTS = ['import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplify/datastore";'];
 
   constructor(
     schema: GraphQLSchema,
@@ -49,7 +48,6 @@ export class AppSyncModelJavascriptVisitor<
     const shouldUseModelNameFieldInHasManyAndBelongsTo = false;
     this.processDirectives(shouldUseModelNameFieldInHasManyAndBelongsTo);
     if (this._parsedConfig.isDeclaration) {
-      const imports = this.generateImports();
       const enumDeclarations = Object.values(this.enumMap)
         .map(enumObj => this.generateEnumDeclarations(enumObj, true))
         .join('\n\n');
@@ -59,18 +57,19 @@ export class AppSyncModelJavascriptVisitor<
         .join('\n\n');
 
       const nonModelDeclarations = Object.values(this.nonModelMap)
-        .map(typeObj => this.generateModelDeclaration(typeObj, true))
+        .map(typeObj => this.generateModelDeclaration(typeObj, true, false))
         .join('\n\n');
 
-      if (!this.config.isTimestampFieldsAdded) {
-        return [imports, enumDeclarations, nonModelDeclarations, modelDeclarations].join('\n\n');
-      } else {
+      const imports = this.generateImports();
+
+      if (!this.config.useCustomPrimaryKey) {
         const modelMetaData = Object.values(this.modelMap)
           .map(typeObj => this.generateModelMetaData(typeObj))
           .join('\n\n');
-
-        return [imports, enumDeclarations, nonModelDeclarations, modelMetaData, modelDeclarations].join('\n\n');
+        return [imports, enumDeclarations, nonModelDeclarations, modelMetaData, modelDeclarations].filter(b => b).join('\n\n');
       }
+
+      return [imports, enumDeclarations, nonModelDeclarations, modelDeclarations].join('\n\n');
     } else {
       const imports = this.generateImportsJavaScriptImplementation();
       const enumDeclarations = Object.values(this.enumMap)
@@ -92,7 +91,7 @@ export class AppSyncModelJavascriptVisitor<
   }
 
   /**
-   * Generate Ja\nvaScript object for enum. The generated objet. For an enum with value
+   * Generate JavaScript object for enum. The generated objet. For an enum with value
    * enum status {
    * pending
    * done
@@ -121,5 +120,10 @@ export class AppSyncModelJavascriptVisitor<
 
   protected generateModelTypeDeclarationName(model: CodeGenModel): string {
     return `${this.getModelName(model)}`;
+  }
+
+  protected generateImports(): string {
+    const importComponents = Array.from(this.BASE_DATASTORE_IMPORT);
+    return `import { ${importComponents.join(', ')} } from "@aws-amplify/datastore";`
   }
 }
