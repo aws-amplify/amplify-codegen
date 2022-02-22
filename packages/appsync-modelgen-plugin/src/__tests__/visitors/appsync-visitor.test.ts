@@ -1,7 +1,7 @@
 import { buildSchema, parse, visit } from 'graphql';
 import { directives, scalars } from '../../scalars/supported-directives';
 import { CodeGenConnectionType, CodeGenFieldConnectionBelongsTo, CodeGenFieldConnectionHasMany } from '../../utils/process-connections';
-import { AppSyncModelVisitor, CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
+import { AppSyncModelVisitor, CodeGenGenerateEnum, CodeGenPrimaryKeyType } from '../../visitors/appsync-visitor';
 
 const buildSchemaWithDirectives = (schema: String) => {
   return buildSchema([schema, directives, scalars].join('\n'));
@@ -385,7 +385,7 @@ describe('AppSyncModelVisitor', () => {
       const schema = /* GraphQL */ `
         type Project @model {
           id: ID!
-          name: String @primaryKey(sortKeyFields: ["team"])
+          name: String! @primaryKey(sortKeyFields: ["team"])
           team: Team
         }
 
@@ -862,11 +862,11 @@ describe('AppSyncModelVisitor', () => {
     it('Should correctly convert the model map of a simple manyToMany', () => {
       const visitor = createAndGeneratePipelinedTransformerVisitor(simpleManyToManySchema);
 
-      expect(visitor.models.Human.fields.length).toEqual(5);
-      expect(visitor.models.Human.fields[2].directives[0].name).toEqual('hasMany');
-      expect(visitor.models.Human.fields[2].directives[0].arguments.fields.length).toEqual(1);
-      expect(visitor.models.Human.fields[2].directives[0].arguments.fields[0]).toEqual('governmentID');
-      expect(visitor.models.Human.fields[2].directives[0].arguments.indexName).toEqual('byHuman');
+      expect(visitor.models.Human.fields.length).toEqual(4);
+      expect(visitor.models.Human.fields[1].directives[0].name).toEqual('hasMany');
+      expect(visitor.models.Human.fields[1].directives[0].arguments.fields.length).toEqual(1);
+      expect(visitor.models.Human.fields[1].directives[0].arguments.fields[0]).toEqual('governmentID');
+      expect(visitor.models.Human.fields[1].directives[0].arguments.indexName).toEqual('byHuman');
       expect(visitor.models.PetFriend).toBeDefined();
       expect(visitor.models.PetFriend.fields.length).toEqual(5);
       expect(visitor.models.PetFriend.fields[2].directives[0].name).toEqual('belongsTo');
@@ -910,6 +910,182 @@ describe('AppSyncModelVisitor', () => {
       expect(visitor.models.ModelB.fields[1].directives[0].arguments.fields.length).toEqual(1);
       expect(visitor.models.ModelB.fields[1].directives[0].arguments.fields[0]).toEqual('id');
       expect(visitor.models.ModelB.fields[1].directives[0].arguments.indexName).toEqual('byModelB');
+    });
+  });
+
+  describe('Primary Key Type', () => {
+    describe('V1 GraphQL schema tests', () => {
+      const schemaV1 = /* GraphQL */ `
+        type WorkItem0 @model @key(name: "byProject", fields: ["project", "workItemId"]) {
+          project: ID!
+          workItemId: ID!
+        }
+
+        type WorkItem1 @model @key(fields: ["project", "workItemId"]) {
+          project: ID!
+          workItemId: ID!
+        }
+
+        type WorkItem2 @model @key(fields: ["project"]) {
+          project: ID!
+        }
+
+        type WorkItem3 @model @key(fields: ["id"]) {
+          id: ID!
+        }
+
+        type WorkItem4 @model @key(fields: ["id", "workItemId"]) {
+          id: ID!
+          workItemId: ID!
+        }
+
+        type WorkItem5 @model {
+          id: ID!
+        }
+
+        type WorkItem6 @model {
+          title: String
+        }
+
+        type WorkItem7 {
+          id: ID!
+        }
+      `;
+      const { models, nonModels } = createAndGenerateVisitor(schemaV1);
+      it('should have id field as primary key when no custom PK defined', () => {
+        const primaryKeyField = models.WorkItem0.fields.find(field => field.name === 'id');
+        expect(primaryKeyField).toBeDefined();
+        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
+        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(0);
+      });
+      it('should have correct primary key info when custom primary key and sort key defined', () => {
+        const primaryKeyField = models.WorkItem1.fields.find(field => field.name === 'project');
+        expect(primaryKeyField).toBeDefined();
+        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
+        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(1);
+      });
+      it('should have correct primary key info when custom primary key defined', () => {
+        const primaryKeyField = models.WorkItem2.fields.find(field => field.name === 'project');
+        expect(primaryKeyField).toBeDefined();
+        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
+        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(0);
+      });
+      it('should have correct primary key info when custom primary key is defined as "id"', () => {
+        const primaryKeyField = models.WorkItem3.fields.find(field => field.name === 'id');
+        expect(primaryKeyField).toBeDefined();
+        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.OptionallyManagedId);
+        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(0);
+      });
+      it('should have correct primary key info when custom primary key is defined as "id" and sort key defined', () => {
+        const primaryKeyField = models.WorkItem4.fields.find(field => field.name === 'id');
+        expect(primaryKeyField).toBeDefined();
+        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.OptionallyManagedId);
+        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(1);
+      });
+      it('should have correct primary key info in explicit simple model', () => {
+        const primaryKeyField = models.WorkItem5.fields.find(field => field.name === 'id');
+        expect(primaryKeyField).toBeDefined();
+        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
+        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(0);
+      });
+      it('should have correct primary key info in implicit simple model', () => {
+        const primaryKeyField = models.WorkItem6.fields.find(field => field.name === 'id');
+        expect(primaryKeyField).toBeDefined();
+        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
+        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(0);
+      });
+      it('should not have primary key info in non model', () => {
+        const primaryKeyField = nonModels.WorkItem7.fields.find(field => field.name === 'id');
+        expect(primaryKeyField).toBeDefined();
+        expect(primaryKeyField.primaryKeyInfo).not.toBeDefined();
+      });
+    });
+
+    describe('V2 GraphQL schema tests', () => {
+      const schemaV2 = /* GraphQL */ `
+        type WorkItem0 @model {
+          project: ID! @index(name: "byProject", sortKeyFields: ["workItemId"])
+          workItemId: ID!
+        }
+
+        type WorkItem1 @model {
+          project: ID! @primaryKey(sortKeyFields: ["workItemId"])
+          workItemId: ID!
+        }
+
+        type WorkItem2 @model {
+          project: ID! @primaryKey
+        }
+
+        type WorkItem3 @model {
+          id: ID! @primaryKey
+        }
+
+        type WorkItem4 @model {
+          id: ID! @primaryKey(sortKeyFields: ["workItemId"])
+          workItemId: ID!
+        }
+
+        type WorkItem5 @model {
+          id: ID!
+        }
+
+        type WorkItem6 @model {
+          title: String
+        }
+
+        type WorkItem7 {
+          id: ID!
+        }
+      `;
+      const { models, nonModels } = createAndGeneratePipelinedTransformerVisitor(schemaV2);
+      it('should have id field as primary key when no custom PK defined', () => {
+        const primaryKeyField = models.WorkItem0.fields.find(field => field.name === 'id');
+        expect(primaryKeyField).toBeDefined();
+        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
+        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(0);
+      });
+      it('should have correct primary key info when custom primary key and sort key defined', () => {
+        const primaryKeyField = models.WorkItem1.fields.find(field => field.name === 'project');
+        expect(primaryKeyField).toBeDefined();
+        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
+        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(1);
+      });
+      it('should have correct primary key info when custom primary key defined', () => {
+        const primaryKeyField = models.WorkItem2.fields.find(field => field.name === 'project');
+        expect(primaryKeyField).toBeDefined();
+        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
+        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(0);
+      });
+      it('should have correct primary key info when custom primary key is defined as "id"', () => {
+        const primaryKeyField = models.WorkItem3.fields.find(field => field.name === 'id');
+        expect(primaryKeyField).toBeDefined();
+        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.OptionallyManagedId);
+        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(0);
+      });
+      it('should have correct primary key info when custom primary key is defined as "id" and sort key defined', () => {
+        const primaryKeyField = models.WorkItem4.fields.find(field => field.name === 'id');
+        expect(primaryKeyField).toBeDefined();
+        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.OptionallyManagedId);
+        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(1);
+      });
+      it('should have correct primary key info in explicit simple model', () => {
+        const primaryKeyField = models.WorkItem5.fields.find(field => field.name === 'id');
+        expect(primaryKeyField).toBeDefined();
+        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
+        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(0);
+      });
+      it('should have correct primary key info in implicit simple model', () => {
+        const primaryKeyField = models.WorkItem6.fields.find(field => field.name === 'id');
+        expect(primaryKeyField).toBeDefined();
+        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
+        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(0);
+      });
+      it('should not have primary key info in non model', () => {
+        const primaryKeyField = nonModels.WorkItem7.fields.find(field => field.name === 'id');
+        expect(primaryKeyField).toBeDefined();
+        expect(primaryKeyField.primaryKeyInfo).not.toBeDefined();
+      });
     });
   });
 
