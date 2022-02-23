@@ -211,9 +211,11 @@ export class AppSyncModelDartVisitor<
     Object.entries(this.getSelectedModels()).forEach(([name, model]) => {
       const modelDeclaration = this.generateModelClass(model);
       const modelType = this.generateModelType(model);
+      const modelIdentifier = this.generateModelIdentifierClass(model);
 
       result.push(modelDeclaration);
       result.push(modelType);
+      result.push(modelIdentifier);
     });
     return this.formatDartCode(result.join('\n\n'));
   }
@@ -352,6 +354,94 @@ export class AppSyncModelDartVisitor<
     return classDeclarationBlock.string;
   }
 
+  protected generateModelIdentifierClass(model: CodeGenModel): string {
+    const identifierFields = this.getModelIdentifierFields(model);
+    const modelName = this.getModelName(model);
+
+    model.fields;
+    const classDeclarationBlock = new DartDeclarationBlock()
+      .asKind('class')
+      .withName(`${modelName}ModelIdentifier`)
+      .extends([`ModelIdentifier<${modelName}>`])
+      .withComment(['This is an auto generated class representing the model identifier', `of [${modelName}] in your schema.`].join('\n'));
+
+    identifierFields.forEach(field => {
+      classDeclarationBlock.addClassMember(field.name, this.getNativeType(field), '', { final: true });
+    });
+
+    const constructorArgs = `{\n${indentMultiline(identifierFields.map(field => `required this.${field.name}`).join(',\n'))}}`;
+
+    classDeclarationBlock.addClassMethod(
+      `${modelName}ModelIdentifier`,
+      '',
+      [{ name: constructorArgs }],
+      ';',
+      { const: true, isBlock: false },
+      undefined,
+      [
+        `Create an instance of ${modelName}ModelIdentifier using [${identifierFields[0].name}] the primary key.`,
+        identifierFields.length > 1
+          ? `And ${identifierFields
+              .slice(1)
+              .map(field => `[${field.name}]`)
+              .join(', ')} the sort key${identifierFields.length == 2 ? '' : 's'}.`
+          : undefined,
+      ].filter(comment => comment).join('\n'),
+    );
+
+    classDeclarationBlock.addClassMethod(
+      'serializeAsMap',
+      'Map<String, dynamic>',
+      [],
+      ['return {', indentMultiline(identifierFields.map(field => `'${field.name}': ${field.name}`).join(',\n')), '};'].join('\n'),
+    );
+
+    classDeclarationBlock.addClassMethod(
+      'serializeAsList',
+      'List<Map<String, dynamic>>',
+      [],
+      ['return [', indentMultiline(identifierFields.map(field => `{'${field.name}': ${field.name}}`).join(',\n')), '];'].join('\n'),
+    );
+
+    classDeclarationBlock.addClassMethod(
+      'serializeAsString',
+      'String',
+      undefined,
+      ` => '${identifierFields.map(field => `$${field.name}`).join('#')}';`,
+      { isBlock: false },
+    );
+
+    classDeclarationBlock.addClassMethod(
+      'toString',
+      'String',
+      undefined,
+      ` => '${modelName}ModelIdentifier(${identifierFields.map(field => `${field.name}: $${field.name}`).join(', ')})';`,
+      { isBlock: false },
+      ['override'],
+    );
+
+    const equalOperatorImpl = [
+      'if (identical(this, other)) {',
+      indent('return true;'),
+      '}\n',
+      `return other is ${modelName}ModelIdentifier &&`,
+      indentMultiline(`${identifierFields.map(field => `${field.name} == other.${field.name}`).join(' &&\n')};`),
+    ].join('\n');
+
+    classDeclarationBlock.addClassMethod('operator ==', 'bool', [{ name: 'Object other' }], equalOperatorImpl, undefined, ['override']);
+
+    classDeclarationBlock.addClassMethod(
+      'get hashCode',
+      'int',
+      undefined,
+      ` =>\n${indentMultiline(identifierFields.map(field => `${field.name}.hashCode`).join(' ^\n'))};`,
+      { isBlock: false, isGetter: true },
+      ['override'],
+    );
+
+    return classDeclarationBlock.string;
+  }
+
   /**
    * Generate code for fields inside models
    * @param field
@@ -370,8 +460,16 @@ export class AppSyncModelDartVisitor<
 
   protected generateGetters(model: CodeGenModel, declarationBlock: DartDeclarationBlock, includeIdGetter: boolean = true): void {
     if (includeIdGetter) {
+      const identifierFields = this.getModelIdentifierFields(model);
+      const isCustomPK = identifierFields[0].name !== 'id';
+      const getIdImpl = isCustomPK
+        ? ' => modelIdentifier.serializeAsString();'
+        : ' => id'
       //getId
-      declarationBlock.addClassMethod('getId', 'String', [], 'return id;', {}, ['override']);
+      declarationBlock.addClassMethod('getId', 'String', [], getIdImpl, { isBlock: false }, [
+        "Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')",
+        'override',
+      ]);
     }
     //other getters
     if (this.isNullSafety()) {
@@ -390,6 +488,8 @@ export class AppSyncModelDartVisitor<
       );`;
       }
 
+      this.generateModelIdentifierGetter(model, declarationBlock, forceCastException);
+
       model.fields.forEach(field => {
         const fieldName = this.getFieldName(field);
         const fieldType = this.getNativeType(field);
@@ -403,6 +503,33 @@ export class AppSyncModelDartVisitor<
         }
       });
     }
+  }
+
+  protected generateModelIdentifierGetter(model: CodeGenModel, declarationBlock: DartDeclarationBlock, forceCastException: string): void {
+    const identifierFields = this.getModelIdentifierFields(model);
+    const modelName = this.getModelName(model);
+
+    const getterImpl = [
+      'try {',
+      indent(`return ${modelName}ModelIdentifier(`),
+      indentMultiline(
+        identifierFields
+          .map(field => {
+            const isManagedIdField = field.name === 'id';
+            return indent(`${field.name}: ${isManagedIdField ? '' : '_'}${field.name}${isManagedIdField ? '' : '!'}`);
+          })
+          .join(',\n'),
+      ),
+      indent(');'),
+      '} catch(e) {',
+      indent(forceCastException),
+      '}',
+    ].join('\n');
+
+    declarationBlock.addClassMethod(`get modelIdentifier`, `${modelName}ModelIdentifier`, undefined, getterImpl, {
+      isGetter: true,
+      isBlock: true,
+    });
   }
 
   protected generateConstructor(model: CodeGenModel, declarationBlock: DartDeclarationBlock): void {
@@ -997,6 +1124,18 @@ export class AppSyncModelDartVisitor<
         return true;
       }
     });
+  }
+
+  protected getModelIdentifierFields(model: CodeGenModel): CodeGenField[] {
+    // find the primary key info
+    const primaryKeyInfo = model.directives.find(directive => directive.name === 'key' && directive.arguments.name === undefined);
+    // identifier will contain primaryKey field + sortKeyFields or
+    // the default model `id` field
+    const identifierFieldsNames: string[] = primaryKeyInfo?.arguments?.fields ?? ['id'];
+    // get fields by names
+    return identifierFieldsNames
+      .map(name => model.fields.find(field => field.name === name))
+      .filter((field): field is CodeGenField => field !== undefined);
   }
 
   /**
