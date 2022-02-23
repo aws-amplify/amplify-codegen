@@ -831,7 +831,7 @@ export class AppSyncModelDartVisitor<
       .map(directive => {
         const name = directive.arguments.name ? `"${directive.arguments.name}"` : 'null';
         const fields: string = directive.arguments.fields.map((field: string) => `"${field}"`).join(', ');
-        return `ModelIndex(fields: [${fields}], name: ${name})`;
+        return `ModelIndex(fields: const [${fields}], name: ${name})`;
       });
 
     if (indexes.length) {
