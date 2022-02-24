@@ -362,7 +362,7 @@ export class AppSyncModelDartVisitor<
     const classDeclarationBlock = new DartDeclarationBlock()
       .asKind('class')
       .withName(`${modelName}ModelIdentifier`)
-      .extends([`ModelIdentifier<${modelName}>`])
+      .implements([`ModelIdentifier<${modelName}>`])
       .withComment(['This is an auto generated class representing the model identifier', `of [${modelName}] in your schema.`].join('\n'));
 
     identifierFields.forEach(field => {
@@ -386,7 +386,9 @@ export class AppSyncModelDartVisitor<
               .map(field => `[${field.name}]`)
               .join(', ')} the sort key${identifierFields.length == 2 ? '' : 's'}.`
           : undefined,
-      ].filter(comment => comment).join('\n'),
+      ]
+        .filter(comment => comment)
+        .join('\n'),
     );
 
     classDeclarationBlock.addClassMethod(
@@ -462,9 +464,7 @@ export class AppSyncModelDartVisitor<
     if (includeIdGetter) {
       const identifierFields = this.getModelIdentifierFields(model);
       const isCustomPK = identifierFields[0].name !== 'id';
-      const getIdImpl = isCustomPK
-        ? ' => modelIdentifier.serializeAsString();'
-        : ' => id'
+      const getIdImpl = isCustomPK ? ' => modelIdentifier.serializeAsString();' : ' => id;';
       //getId
       declarationBlock.addClassMethod('getId', 'String', [], getIdImpl, { isBlock: false }, [
         "Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')",
@@ -665,20 +665,23 @@ export class AppSyncModelDartVisitor<
 
   protected generateCopyWithMethod(model: CodeGenModel, declarationBlock: DartDeclarationBlock): void {
     //copyWith
-    const copyParam = `{${this.getWritableFields(model)
+    const writableFields = this.getWritableFields(model, true);
+    const copyParam = `{${writableFields
       .map(f => `${this.getNativeType(f)}${this.isNullSafety() ? '?' : ''} ${this.getFieldName(f)}`)
       .join(', ')}}`;
     declarationBlock.addClassMethod(
       'copyWith',
       this.getModelName(model),
-      [{ name: copyParam }],
+      writableFields.length ? [{ name: copyParam }] : undefined,
       [
         `return ${this.getModelName(model)}${this.config.isTimestampFieldsAdded ? '._internal' : ''}(`,
         indentMultiline(
           `${this.getWritableFields(model)
             .map(field => {
               const fieldName = this.getFieldName(field);
-              return `${fieldName}: ${fieldName} ?? this.${fieldName}`;
+              return `${fieldName}: ${
+                writableFields.findIndex(field => field.name === fieldName) > -1 ? `${fieldName} ?? this.` : ''
+              }${fieldName}`;
             })
             .join(',\n')});`,
         ),
@@ -1129,6 +1132,7 @@ export class AppSyncModelDartVisitor<
   protected getModelIdentifierFields(model: CodeGenModel): CodeGenField[] {
     // find the primary key info
     const primaryKeyInfo = model.directives.find(directive => directive.name === 'key' && directive.arguments.name === undefined);
+    console.log(primaryKeyInfo);
     // identifier will contain primaryKey field + sortKeyFields or
     // the default model `id` field
     const identifierFieldsNames: string[] = primaryKeyInfo?.arguments?.fields ?? ['id'];
@@ -1165,7 +1169,16 @@ export class AppSyncModelDartVisitor<
     return this.isNullSafety() ? `${type}?` : type;
   }
 
-  protected getWritableFields(model: CodeGenModel): CodeGenField[] {
-    return model.fields.filter(f => !f.isReadOnly);
+  protected getWritableFields(model: CodeGenModel, excludeIdentifierFields: boolean = false): CodeGenField[] {
+    const identifierFields = this.getModelIdentifierFields(model);
+    return model.fields.filter(
+      f => {
+        if (!excludeIdentifierFields && !f.isReadOnly) {
+          return true;
+        }
+
+        return !f.isReadOnly && identifierFields.findIndex(field => field.name == f.name) == -1;
+      },
+    );
   }
 }
