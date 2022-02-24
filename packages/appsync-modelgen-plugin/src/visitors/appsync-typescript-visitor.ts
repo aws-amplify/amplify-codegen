@@ -246,10 +246,12 @@ export class AppSyncModelTypeScriptVisitor<
 
   protected getNativeType(field: CodeGenField): string {
     const typeName = field.type;
+    const isNullable = field.isList ? field.isListNullable : field.isNullable;
+    const nullableTypeUnion = isNullable ? ' | null' : '';
     if (this.isModelType(field)) {
       const modelType = this.modelMap[typeName];
       const typeNameStr = this.generateModelTypeDeclarationName(modelType);
-      return field.isList ? this.getListType(typeNameStr, field) : typeNameStr;
+      return (field.isList ? this.getListType(typeNameStr, field) : typeNameStr) + nullableTypeUnion;
     }
 
     let nativeType = super.getNativeType(field);
@@ -257,6 +259,8 @@ export class AppSyncModelTypeScriptVisitor<
     if (this.isEnumType(field)) {
       nativeType = `${nativeType} | keyof typeof ${this.getEnumName(this.enumMap[typeName])}`;
     }
+
+    nativeType = nativeType + nullableTypeUnion;
 
     return nativeType;
   }
