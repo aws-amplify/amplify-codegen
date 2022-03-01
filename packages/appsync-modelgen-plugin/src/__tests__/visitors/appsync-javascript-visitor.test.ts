@@ -609,7 +609,7 @@ describe('Javascript visitor with custom primary key', () => {
     const declarations = visitor.generate();
     validateTs(declarations);
     expect(declarations).toMatchInlineSnapshot(`
-      "import { ModelInit, MutableModel, PersistentModelConstructor, __modelMeta__, ManagedIdentifier, CustomIdentifier, OptionallyManagedIdentifier } from \\"@aws-amplify/datastore\\";
+      "import { ModelInit, MutableModel, PersistentModelConstructor, __modelMeta__, ManagedIdentifier, CompositeIdentifier, CustomIdentifier, OptionallyManagedIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -634,7 +634,7 @@ describe('Javascript visitor with custom primary key', () => {
 
       export declare class WorkItem1 {
         readonly [__modelMeta__]: {
-          identifier: CustomIdentifier<WorkItem1, ['project', 'workItemId']>;
+          identifier: CompositeIdentifier<WorkItem1, ['project', 'workItemId']>;
           readOnlyFields: 'createdAt' | 'updatedAt';
         };
         readonly project: string;
@@ -706,7 +706,7 @@ describe('Javascript visitor with custom primary key', () => {
     const declarations = visitor.generate();
     validateTs(declarations);
     expect(declarations).toMatchInlineSnapshot(`
-      "import { ModelInit, MutableModel, PersistentModelConstructor, __modelMeta__, ManagedIdentifier, CustomIdentifier, OptionallyManagedIdentifier } from \\"@aws-amplify/datastore\\";
+      "import { ModelInit, MutableModel, PersistentModelConstructor, __modelMeta__, ManagedIdentifier, CompositeIdentifier, CustomIdentifier, OptionallyManagedIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -731,7 +731,7 @@ describe('Javascript visitor with custom primary key', () => {
 
       export declare class WorkItem1 {
         readonly [__modelMeta__]: {
-          identifier: CustomIdentifier<WorkItem1, ['project', 'workItemId']>;
+          identifier: CompositeIdentifier<WorkItem1, ['project', 'workItemId']>;
           readOnlyFields: 'createdAt' | 'updatedAt';
         };
         readonly project: string;
@@ -836,7 +836,7 @@ describe('New model meta field test', () => {
     const declarations = visitor.generate();
     validateTs(declarations);
     expect(declarations).toMatchInlineSnapshot(`
-      "import { ModelInit, MutableModel, PersistentModelConstructor, __modelMeta__, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
+      "import { ModelInit, MutableModel, PersistentModelConstructor, __modelMeta__, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -900,7 +900,7 @@ describe('New model meta field test', () => {
 
       export declare class ModelCustomPkSk {
         readonly [__modelMeta__]: {
-          identifier: CustomIdentifier<ModelCustomPkSk, ['tenant', 'dob']>;
+          identifier: CompositeIdentifier<ModelCustomPkSk, ['tenant', 'dob']>;
           readOnlyFields: 'createdAt' | 'updatedAt';
         };
         readonly tenant: string;
