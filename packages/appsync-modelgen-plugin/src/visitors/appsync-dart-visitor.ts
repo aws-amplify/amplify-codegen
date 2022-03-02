@@ -55,6 +55,7 @@ export interface RawAppSyncModelDartConfig extends RawAppSyncModelConfig {
 }
 
 export interface ParsedAppSyncModelDartConfig extends ParsedAppSyncModelConfig {
+  useCustomPrimaryKey: boolean;
   enableDartNullSafety: boolean;
   enableDartZeroThreeFeatures: boolean;
   dartUpdateAmplifyCoreDependency: boolean;
@@ -211,11 +212,14 @@ export class AppSyncModelDartVisitor<
     Object.entries(this.getSelectedModels()).forEach(([name, model]) => {
       const modelDeclaration = this.generateModelClass(model);
       const modelType = this.generateModelType(model);
-      const modelIdentifier = this.generateModelIdentifierClass(model);
 
       result.push(modelDeclaration);
       result.push(modelType);
-      result.push(modelIdentifier);
+
+      if (this.customPKEnabled()) {
+        const modelIdentifier = this.generateModelIdentifierClass(model);
+        result.push(modelIdentifier);
+      }
     });
     return this.formatDartCode(result.join('\n\n'));
   }
@@ -462,14 +466,18 @@ export class AppSyncModelDartVisitor<
 
   protected generateGetters(model: CodeGenModel, declarationBlock: DartDeclarationBlock, includeIdGetter: boolean = true): void {
     if (includeIdGetter) {
-      const identifierFields = this.getModelIdentifierFields(model);
-      const isCustomPK = identifierFields[0].name !== 'id';
-      const getIdImpl = isCustomPK ? ' => modelIdentifier.serializeAsString();' : ' => id;';
-      //getId
-      declarationBlock.addClassMethod('getId', 'String', [], getIdImpl, { isBlock: false }, [
-        "Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')",
-        'override',
-      ]);
+      if (this.customPKEnabled()) {
+        const identifierFields = this.getModelIdentifierFields(model);
+        const isCustomPK = identifierFields[0].name !== 'id';
+        const getIdImpl = isCustomPK ? ' => modelIdentifier.serializeAsString();' : ' => id;';
+        //getId
+        declarationBlock.addClassMethod('getId', 'String', [], getIdImpl, { isBlock: false }, [
+          "Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')",
+          'override',
+        ]);
+      } else {
+        declarationBlock.addClassMethod('getId', 'String', [], 'return id;', {}, ['override']);
+      }
     }
     //other getters
     if (this.isNullSafety()) {
@@ -488,7 +496,9 @@ export class AppSyncModelDartVisitor<
       );`;
       }
 
-      this.generateModelIdentifierGetter(model, declarationBlock, forceCastException);
+      if (this.customPKEnabled()) {
+        this.generateModelIdentifierGetter(model, declarationBlock, forceCastException);
+      }
 
       model.fields.forEach(field => {
         const fieldName = this.getFieldName(field);
@@ -665,7 +675,7 @@ export class AppSyncModelDartVisitor<
 
   protected generateCopyWithMethod(model: CodeGenModel, declarationBlock: DartDeclarationBlock): void {
     //copyWith
-    const writableFields = this.getWritableFields(model, true);
+    const writableFields = this.getWritableFields(model, this.customPKEnabled());
     const copyParam = `{${writableFields
       .map(f => `${this.getNativeType(f)}${this.isNullSafety() ? '?' : ''} ${this.getFieldName(f)}`)
       .join(', ')}}`;
@@ -1162,6 +1172,10 @@ export class AppSyncModelDartVisitor<
 
   protected isNullSafety(): boolean {
     return this._parsedConfig.enableDartNullSafety;
+  }
+
+  protected customPKEnabled(): boolean {
+    return this._parsedConfig.useCustomPrimaryKey;
   }
 
   protected getNullSafetyTypeStr(type: string): string {
