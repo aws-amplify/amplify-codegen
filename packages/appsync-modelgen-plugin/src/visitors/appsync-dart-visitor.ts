@@ -395,23 +395,23 @@ export class AppSyncModelDartVisitor<
       'serializeAsMap',
       'Map<String, dynamic>',
       [],
-      ['return {', indentMultiline(identifierFields.map(field => `'${field.name}': ${field.name}`).join(',\n')), '};'].join('\n'),
+      [' => ({', indentMultiline(identifierFields.map(field => `'${field.name}': ${field.name}`).join(',\n')), '});'].join('\n'),
+      { isBlock: false },
     );
 
     classDeclarationBlock.addClassMethod(
       'serializeAsList',
       'List<Map<String, dynamic>>',
       [],
-      ['return [', indentMultiline(identifierFields.map(field => `{'${field.name}': ${field.name}}`).join(',\n')), '];'].join('\n'),
-    );
-
-    classDeclarationBlock.addClassMethod(
-      'serializeAsString',
-      'String',
-      undefined,
-      ` => '${identifierFields.map(field => `$${field.name}`).join('#')}';`,
+      [' => serializeAsMap()', indent('.entries'), indent('.map((entry) => ({ entry.key: entry.value }))'), indent('.toList();')].join(
+        '\n',
+      ),
       { isBlock: false },
     );
+
+    classDeclarationBlock.addClassMethod('serializeAsString', 'String', undefined, " => serializeAsMap().values.join('#');", {
+      isBlock: false,
+    });
 
     classDeclarationBlock.addClassMethod(
       'toString',
@@ -1132,7 +1132,6 @@ export class AppSyncModelDartVisitor<
   protected getModelIdentifierFields(model: CodeGenModel): CodeGenField[] {
     // find the primary key info
     const primaryKeyInfo = model.directives.find(directive => directive.name === 'key' && directive.arguments.name === undefined);
-    console.log(primaryKeyInfo);
     // identifier will contain primaryKey field + sortKeyFields or
     // the default model `id` field
     const identifierFieldsNames: string[] = primaryKeyInfo?.arguments?.fields ?? ['id'];
@@ -1171,14 +1170,12 @@ export class AppSyncModelDartVisitor<
 
   protected getWritableFields(model: CodeGenModel, excludeIdentifierFields: boolean = false): CodeGenField[] {
     const identifierFields = this.getModelIdentifierFields(model);
-    return model.fields.filter(
-      f => {
-        if (!excludeIdentifierFields && !f.isReadOnly) {
-          return true;
-        }
+    return model.fields.filter(f => {
+      if (!excludeIdentifierFields && !f.isReadOnly) {
+        return true;
+      }
 
-        return !f.isReadOnly && identifierFields.findIndex(field => field.name == f.name) == -1;
-      },
-    );
+      return !f.isReadOnly && identifierFields.findIndex(field => field.name == f.name) == -1;
+    });
   }
 }
