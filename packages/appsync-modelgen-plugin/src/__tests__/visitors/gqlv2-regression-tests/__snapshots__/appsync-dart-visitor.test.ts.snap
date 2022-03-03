@@ -48,7 +48,7 @@ class Post extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -88,7 +88,7 @@ class Post extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Post {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -111,7 +111,7 @@ class Post extends Model {
       _comments = json['comments'] is List
         ? (json['comments'] as List)
           .where((e) => e?['serializedData'] != null)
-          .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => Comment.fromJson(Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null;
   
@@ -202,7 +202,7 @@ class Comment extends Model {
     try {
       return _content!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -242,7 +242,7 @@ class Comment extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Comment {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -264,7 +264,7 @@ class Comment extends Model {
     : id = json['id'],
       _content = json['content'],
       _post = json['post']?['serializedData'] != null
-        ? Post.fromJson(new Map<String, dynamic>.from(json['post']['serializedData']))
+        ? Post.fromJson(Map<String, dynamic>.from(json['post']['serializedData']))
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -396,7 +396,7 @@ class Project2 extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Project2 {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -419,7 +419,7 @@ class Project2 extends Model {
     : id = json['id'],
       _name = json['name'],
       _team = json['team']?['serializedData'] != null
-        ? Team2.fromJson(new Map<String, dynamic>.from(json['team']['serializedData']))
+        ? Team2.fromJson(Map<String, dynamic>.from(json['team']['serializedData']))
         : null,
       _project2TeamId = json['project2TeamId'];
   
@@ -517,7 +517,7 @@ class Team2 extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -557,7 +557,7 @@ class Team2 extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Team2 {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -579,7 +579,7 @@ class Team2 extends Model {
     : id = json['id'],
       _name = json['name'],
       _project = json['project']?['serializedData'] != null
-        ? Project2.fromJson(new Map<String, dynamic>.from(json['project']['serializedData']))
+        ? Project2.fromJson(Map<String, dynamic>.from(json['project']['serializedData']))
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -670,7 +670,7 @@ class Blog7V2 extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -710,7 +710,7 @@ class Blog7V2 extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Blog7V2 {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -733,7 +733,7 @@ class Blog7V2 extends Model {
       _posts = json['posts'] is List
         ? (json['posts'] as List)
           .where((e) => e?['serializedData'] != null)
-          .map((e) => Post7V2.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => Post7V2.fromJson(Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null;
   
@@ -826,7 +826,7 @@ class Post7V2 extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -872,7 +872,7 @@ class Post7V2 extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Post7V2 {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -895,12 +895,12 @@ class Post7V2 extends Model {
     : id = json['id'],
       _title = json['title'],
       _blog = json['blog']?['serializedData'] != null
-        ? Blog7V2.fromJson(new Map<String, dynamic>.from(json['blog']['serializedData']))
+        ? Blog7V2.fromJson(Map<String, dynamic>.from(json['blog']['serializedData']))
         : null,
       _comments = json['comments'] is List
         ? (json['comments'] as List)
           .where((e) => e?['serializedData'] != null)
-          .map((e) => Comment7V2.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => Comment7V2.fromJson(Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null;
   
@@ -1032,7 +1032,7 @@ class Comment7V2 extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Comment7V2 {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -1054,7 +1054,7 @@ class Comment7V2 extends Model {
     : id = json['id'],
       _content = json['content'],
       _post = json['post']?['serializedData'] != null
-        ? Post7V2.fromJson(new Map<String, dynamic>.from(json['post']['serializedData']))
+        ? Post7V2.fromJson(Map<String, dynamic>.from(json['post']['serializedData']))
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -1182,7 +1182,7 @@ class Project extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Project {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -1205,7 +1205,7 @@ class Project extends Model {
     : id = json['id'],
       _name = json['name'],
       _team = json['team']?['serializedData'] != null
-        ? Team.fromJson(new Map<String, dynamic>.from(json['team']['serializedData']))
+        ? Team.fromJson(Map<String, dynamic>.from(json['team']['serializedData']))
         : null,
       _projectTeamId = json['projectTeamId'];
   
@@ -1303,7 +1303,7 @@ class Team extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -1343,7 +1343,7 @@ class Team extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Team {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -1365,7 +1365,7 @@ class Team extends Model {
     : id = json['id'],
       _name = json['name'],
       _project = json['project']?['serializedData'] != null
-        ? Project.fromJson(new Map<String, dynamic>.from(json['project']['serializedData']))
+        ? Project.fromJson(Map<String, dynamic>.from(json['project']['serializedData']))
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -1457,7 +1457,7 @@ class Post extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -1503,7 +1503,7 @@ class Post extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Post {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -1529,7 +1529,7 @@ class Post extends Model {
       _tags = json['tags'] is List
         ? (json['tags'] as List)
           .where((e) => e?['serializedData'] != null)
-          .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => PostTags.fromJson(Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null;
   
@@ -1628,7 +1628,7 @@ class Tag extends Model {
     try {
       return _label!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -1668,7 +1668,7 @@ class Tag extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Tag {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -1691,7 +1691,7 @@ class Tag extends Model {
       _posts = json['posts'] is List
         ? (json['posts'] as List)
           .where((e) => e?['serializedData'] != null)
-          .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => PostTags.fromJson(Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null;
   
@@ -1805,7 +1805,7 @@ class Todo extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Todo {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -1903,7 +1903,7 @@ class Post2 extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -1943,7 +1943,7 @@ class Post2 extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Post2 {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -1966,7 +1966,7 @@ class Post2 extends Model {
       _comments = json['comments'] is List
         ? (json['comments'] as List)
           .where((e) => e?['serializedData'] != null)
-          .map((e) => Comment2.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => Comment2.fromJson(Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null;
   
@@ -2056,7 +2056,7 @@ class Comment2 extends Model {
     try {
       return _postID!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -2069,7 +2069,7 @@ class Comment2 extends Model {
     try {
       return _content!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -2105,7 +2105,7 @@ class Comment2 extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Comment2 {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -2254,7 +2254,7 @@ class Project2 extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Project2 {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -2278,7 +2278,7 @@ class Project2 extends Model {
       _name = json['name'],
       _teamID = json['teamID'],
       _team = json['team']?['serializedData'] != null
-        ? Team2.fromJson(new Map<String, dynamic>.from(json['team']['serializedData']))
+        ? Team2.fromJson(Map<String, dynamic>.from(json['team']['serializedData']))
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -2373,7 +2373,7 @@ class Team2 extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -2407,7 +2407,7 @@ class Team2 extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Team2 {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -2505,7 +2505,7 @@ class Post extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -2545,7 +2545,7 @@ class Post extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Post {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -2568,7 +2568,7 @@ class Post extends Model {
       _comments = json['comments'] is List
         ? (json['comments'] as List)
           .where((e) => e?['serializedData'] != null)
-          .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => Comment.fromJson(Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null;
   
@@ -2658,7 +2658,7 @@ class Comment extends Model {
     try {
       return _content!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -2698,7 +2698,7 @@ class Comment extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Comment {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -2843,7 +2843,7 @@ class Project extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Project {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -2866,7 +2866,7 @@ class Project extends Model {
     : id = json['id'],
       _name = json['name'],
       _team = json['team']?['serializedData'] != null
-        ? Team.fromJson(new Map<String, dynamic>.from(json['team']['serializedData']))
+        ? Team.fromJson(Map<String, dynamic>.from(json['team']['serializedData']))
         : null,
       _projectTeamId = json['projectTeamId'];
   
@@ -2962,7 +2962,7 @@ class Team extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -2996,7 +2996,7 @@ class Team extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Team {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -3093,7 +3093,7 @@ class Customer extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -3110,7 +3110,7 @@ class Customer extends Model {
     try {
       return _accountRepresentativeID!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -3148,7 +3148,7 @@ class Customer extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Customer {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -3270,7 +3270,7 @@ class ModelWithPrimaryKey extends Model {
     try {
       return _productID!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -3283,7 +3283,7 @@ class ModelWithPrimaryKey extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -3300,7 +3300,7 @@ class ModelWithPrimaryKey extends Model {
     try {
       return _albumID!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -3313,7 +3313,7 @@ class ModelWithPrimaryKey extends Model {
     try {
       return _categoryID!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -3353,7 +3353,7 @@ class ModelWithPrimaryKey extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"ModelWithPrimaryKey {\\");
     buffer.write(\\"productID=\\" + \\"$_productID\\" + \\", \\");

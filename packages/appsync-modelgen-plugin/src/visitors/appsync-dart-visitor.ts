@@ -487,14 +487,14 @@ export class AppSyncModelDartVisitor<
     }
     //other getters
     if (this.isNullSafety()) {
-      let forceCastException = `throw new DataStoreException(
+      let forceCastException = `throw DataStoreException(
       DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
         DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
       );`;
       if (this.config.dartUpdateAmplifyCoreDependency === true) {
-        forceCastException = `throw new AmplifyCodeGenModelException(
+        forceCastException = `throw AmplifyCodeGenModelException(
       AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
         AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -635,7 +635,7 @@ export class AppSyncModelDartVisitor<
       'String',
       [],
       [
-        'var buffer = new StringBuffer();',
+        'var buffer = StringBuffer();',
         '',
         `buffer.write("${this.getModelName(model)} {");`,
         ...fields.map((field, index) => {
@@ -721,7 +721,7 @@ export class AppSyncModelDartVisitor<
                 indent(`? (json['${varName}'] as List)`),
                 this.isNullSafety() ? indent(`.where((e) => e?['serializedData'] != null)`, 2) : undefined,
                 indent(
-                  `.map((e) => ${this.getNativeType({ ...field, isList: false })}.fromJson(new Map<String, dynamic>.from(e${
+                  `.map((e) => ${this.getNativeType({ ...field, isList: false })}.fromJson(Map<String, dynamic>.from(e${
                     this.isNullSafety() ? `['serializedData']` : ''
                   })))`,
                   2,
@@ -735,7 +735,7 @@ export class AppSyncModelDartVisitor<
             return [
               `${fieldName} = json['${varName}']${this.isNullSafety() ? `?['serializedData']` : ''} != null`,
               indent(
-                `? ${this.getNativeType(field)}.fromJson(new Map<String, dynamic>.from(json['${varName}']${
+                `? ${this.getNativeType(field)}.fromJson(Map<String, dynamic>.from(json['${varName}']${
                   this.isNullSafety() ? `['serializedData']` : ''
                 }))`,
               ),
@@ -764,7 +764,7 @@ export class AppSyncModelDartVisitor<
                 indent(`? (json['${varName}'] as List)`),
                 this.isNullSafety() ? indent(`.where((e) => e != null)`, 2) : undefined,
                 indent(
-                  `.map((e) => ${this.getNativeType({ ...field, isList: false })}.fromJson(new Map<String, dynamic>.from(${
+                  `.map((e) => ${this.getNativeType({ ...field, isList: false })}.fromJson(Map<String, dynamic>.from(${
                     this.isNonModelType(field) ? "e['serializedData']" : 'e'
                   })))`,
                   2,
@@ -779,7 +779,7 @@ export class AppSyncModelDartVisitor<
             return [
               `${fieldName} = json['${varName}']${this.isNullSafety() ? `?['serializedData']` : ''} != null`,
               indent(
-                `? ${this.getNativeType(field)}.fromJson(new Map<String, dynamic>.from(json['${varName}']${
+                `? ${this.getNativeType(field)}.fromJson(Map<String, dynamic>.from(json['${varName}']${
                   this.isNullSafety() ? `['serializedData']` : ''
                 }))`,
               ),

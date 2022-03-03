@@ -50,7 +50,7 @@ class Post extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
+      throw AmplifyCodeGenModelException(
           AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -63,7 +63,7 @@ class Post extends Model {
     try {
       return _rating!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
+      throw AmplifyCodeGenModelException(
           AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -76,7 +76,7 @@ class Post extends Model {
     try {
       return _status!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
+      throw AmplifyCodeGenModelException(
           AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -120,7 +120,7 @@ class Post extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Post {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -149,7 +149,7 @@ class Post extends Model {
       _comments = json['comments'] is List
         ? (json['comments'] as List)
           .where((e) => e?['serializedData'] != null)
-          .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => Comment.fromJson(Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null;
   
@@ -226,7 +226,7 @@ class Comment extends Model {
     try {
       return _post!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
+      throw AmplifyCodeGenModelException(
           AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -239,7 +239,7 @@ class Comment extends Model {
     try {
       return _content!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
+      throw AmplifyCodeGenModelException(
           AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -275,7 +275,7 @@ class Comment extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Comment {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -296,7 +296,7 @@ class Comment extends Model {
   Comment.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _post = json['post']?['serializedData'] != null
-        ? Post.fromJson(new Map<String, dynamic>.from(json['post']['serializedData']))
+        ? Post.fromJson(Map<String, dynamic>.from(json['post']['serializedData']))
         : null,
       _content = json['content'];
   
@@ -394,7 +394,7 @@ class Post extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -407,7 +407,7 @@ class Post extends Model {
     try {
       return _rating!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -420,7 +420,7 @@ class Post extends Model {
     try {
       return _status!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -464,7 +464,7 @@ class Post extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Post {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -493,7 +493,7 @@ class Post extends Model {
       _comments = json['comments'] is List
         ? (json['comments'] as List)
           .where((e) => e?['serializedData'] != null)
-          .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => Comment.fromJson(Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null;
   
@@ -570,7 +570,7 @@ class Comment extends Model {
     try {
       return _post!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -583,7 +583,7 @@ class Comment extends Model {
     try {
       return _content!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -619,7 +619,7 @@ class Comment extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Comment {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -640,7 +640,7 @@ class Comment extends Model {
   Comment.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _post = json['post']?['serializedData'] != null
-        ? Post.fromJson(new Map<String, dynamic>.from(json['post']['serializedData']))
+        ? Post.fromJson(Map<String, dynamic>.from(json['post']['serializedData']))
         : null,
       _content = json['content'];
   
@@ -763,7 +763,7 @@ class Address {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"Address {\\");
     buffer.write(\\"line1=\\" + \\"$line1\\" + \\", \\");
@@ -878,7 +878,7 @@ class Address {
     try {
       return _line1!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -895,7 +895,7 @@ class Address {
     try {
       return _city!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -908,7 +908,7 @@ class Address {
     try {
       return _state!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -921,7 +921,7 @@ class Address {
     try {
       return _postalCode!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -961,7 +961,7 @@ class Address {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Address {\\");
     buffer.write(\\"line1=\\" + \\"$_line1\\" + \\", \\");
@@ -1101,7 +1101,7 @@ class Contact {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"Contact {\\");
     buffer.write(\\"contactName=\\" + \\"$contactName\\" + \\", \\");
@@ -1124,12 +1124,12 @@ class Contact {
   Contact.fromJson(Map<String, dynamic> json)
       : contactName = json['contactName'],
         phone = json['phone'] != null
-            ? Phone.fromJson(new Map<String, dynamic>.from(json['phone']))
+            ? Phone.fromJson(Map<String, dynamic>.from(json['phone']))
             : null,
         mailingAddresses = json['mailingAddresses'] is List
             ? (json['mailingAddresses'] as List)
                 .map((e) => Address.fromJson(
-                    new Map<String, dynamic>.from(e['serializedData'])))
+                    Map<String, dynamic>.from(e['serializedData'])))
                 .toList()
             : null;
 
@@ -1206,7 +1206,7 @@ class Contact {
     try {
       return _contactName!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -1219,7 +1219,7 @@ class Contact {
     try {
       return _phone!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -1259,7 +1259,7 @@ class Contact {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Contact {\\");
     buffer.write(\\"contactName=\\" + \\"$_contactName\\" + \\", \\");
@@ -1280,12 +1280,12 @@ class Contact {
   Contact.fromJson(Map<String, dynamic> json)  
     : _contactName = json['contactName'],
       _phone = json['phone']?['serializedData'] != null
-        ? Phone.fromJson(new Map<String, dynamic>.from(json['phone']['serializedData']))
+        ? Phone.fromJson(Map<String, dynamic>.from(json['phone']['serializedData']))
         : null,
       _mailingAddresses = json['mailingAddresses'] is List
         ? (json['mailingAddresses'] as List)
           .where((e) => e != null)
-          .map((e) => Address.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => Address.fromJson(Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null;
   
@@ -1520,7 +1520,7 @@ class Person extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"Person {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -1546,12 +1546,12 @@ class Person extends Model {
       : id = json['id'],
         name = json['name'],
         phone = json['phone'] != null
-            ? Phone.fromJson(new Map<String, dynamic>.from(json['phone']))
+            ? Phone.fromJson(Map<String, dynamic>.from(json['phone']))
             : null,
         mailingAddresses = json['mailingAddresses'] is List
             ? (json['mailingAddresses'] as List)
                 .map((e) => Address.fromJson(
-                    new Map<String, dynamic>.from(e['serializedData'])))
+                    Map<String, dynamic>.from(e['serializedData'])))
                 .toList()
             : null;
 
@@ -1655,7 +1655,7 @@ class Person extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -1668,7 +1668,7 @@ class Person extends Model {
     try {
       return _phone!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -1710,7 +1710,7 @@ class Person extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Person {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -1734,12 +1734,12 @@ class Person extends Model {
     : id = json['id'],
       _name = json['name'],
       _phone = json['phone']?['serializedData'] != null
-        ? Phone.fromJson(new Map<String, dynamic>.from(json['phone']['serializedData']))
+        ? Phone.fromJson(Map<String, dynamic>.from(json['phone']['serializedData']))
         : null,
       _mailingAddresses = json['mailingAddresses'] is List
         ? (json['mailingAddresses'] as List)
           .where((e) => e != null)
-          .map((e) => Address.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => Address.fromJson(Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null;
   
@@ -1954,7 +1954,7 @@ class SimpleModel extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"SimpleModel {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -2150,7 +2150,7 @@ class TemporalTimeModel extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"TemporalTimeModel {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -2445,7 +2445,7 @@ class TestEnumModel extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"TestEnumModel {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -2702,7 +2702,7 @@ class TestModel extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"TestModel {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -2922,7 +2922,7 @@ class Post extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"Post {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -2948,7 +2948,7 @@ class Post extends Model {
         content = json['content'],
         tags = json['tags'] is List
             ? (json['tags'] as List)
-                .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e)))
+                .map((e) => PostTags.fromJson(Map<String, dynamic>.from(e)))
                 .toList()
             : null;
 
@@ -3043,7 +3043,7 @@ class Tag extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"Tag {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -3065,7 +3065,7 @@ class Tag extends Model {
         label = json['label'],
         posts = json['posts'] is List
             ? (json['posts'] as List)
-                .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e)))
+                .map((e) => PostTags.fromJson(Map<String, dynamic>.from(e)))
                 .toList()
             : null;
 
@@ -3152,7 +3152,7 @@ class PostTags extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"PostTags {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -3171,10 +3171,10 @@ class PostTags extends Model {
   PostTags.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         post = json['post'] != null
-            ? Post.fromJson(new Map<String, dynamic>.from(json['post']))
+            ? Post.fromJson(Map<String, dynamic>.from(json['post']))
             : null,
         tag = json['tag'] != null
-            ? Tag.fromJson(new Map<String, dynamic>.from(json['tag']))
+            ? Tag.fromJson(Map<String, dynamic>.from(json['tag']))
             : null;
 
   Map<String, dynamic> toJson() =>
@@ -3270,7 +3270,7 @@ class Post extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -3316,7 +3316,7 @@ class Post extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Post {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -3342,7 +3342,7 @@ class Post extends Model {
       _tags = json['tags'] is List
         ? (json['tags'] as List)
           .where((e) => e?['serializedData'] != null)
-          .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => PostTags.fromJson(Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null;
   
@@ -3412,7 +3412,7 @@ class Tag extends Model {
     try {
       return _label!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -3452,7 +3452,7 @@ class Tag extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Tag {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -3475,7 +3475,7 @@ class Tag extends Model {
       _posts = json['posts'] is List
         ? (json['posts'] as List)
           .where((e) => e?['serializedData'] != null)
-          .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => PostTags.fromJson(Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null;
   
@@ -3538,7 +3538,7 @@ class PostTags extends Model {
     try {
       return _post!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -3551,7 +3551,7 @@ class PostTags extends Model {
     try {
       return _tag!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -3587,7 +3587,7 @@ class PostTags extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"PostTags {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -3608,10 +3608,10 @@ class PostTags extends Model {
   PostTags.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _post = json['post']?['serializedData'] != null
-        ? Post.fromJson(new Map<String, dynamic>.from(json['post']['serializedData']))
+        ? Post.fromJson(Map<String, dynamic>.from(json['post']['serializedData']))
         : null,
       _tag = json['tag']?['serializedData'] != null
-        ? Tag.fromJson(new Map<String, dynamic>.from(json['tag']['serializedData']))
+        ? Tag.fromJson(Map<String, dynamic>.from(json['tag']['serializedData']))
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -3723,7 +3723,7 @@ class SimpleModel extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"SimpleModel {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -3845,7 +3845,7 @@ class SimpleModel extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"SimpleModel {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -3966,7 +3966,7 @@ class TodoWithAuth extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"TodoWithAuth {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -4112,7 +4112,7 @@ class TodoWithAuth extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -4154,7 +4154,7 @@ class TodoWithAuth extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"TodoWithAuth {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -4317,7 +4317,7 @@ class customClaim extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"customClaim {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -4452,7 +4452,7 @@ class customClaim extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"customClaim {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -4589,7 +4589,7 @@ class dynamicGroups extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"dynamicGroups {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -4724,7 +4724,7 @@ class simpleOwnerAuth extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"simpleOwnerAuth {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -4859,7 +4859,7 @@ class allowRead extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"allowRead {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -4993,7 +4993,7 @@ class privateType extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"privateType {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -5124,7 +5124,7 @@ class publicType extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"publicType {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -5255,7 +5255,7 @@ class staticGroups extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"staticGroups {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -5393,7 +5393,7 @@ class Post extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"Post {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -5531,7 +5531,7 @@ class Post extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"Post {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -5682,7 +5682,7 @@ class Todo extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"Todo {\\");
     buffer.write(\\"id=\\" + \\"$id\\");
@@ -5699,7 +5699,7 @@ class Todo extends Model {
       : id = json['id'],
         tasks = json['tasks'] is List
             ? (json['tasks'] as List)
-                .map((e) => Task.fromJson(new Map<String, dynamic>.from(e)))
+                .map((e) => Task.fromJson(Map<String, dynamic>.from(e)))
                 .toList()
             : null;
 
@@ -5799,7 +5799,7 @@ class Task extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"Task {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -5816,7 +5816,7 @@ class Task extends Model {
   Task.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         todo = json['todo'] != null
-            ? Todo.fromJson(new Map<String, dynamic>.from(json['todo']))
+            ? Todo.fromJson(Map<String, dynamic>.from(json['todo']))
             : null;
 
   Map<String, dynamic> toJson() => {'id': id, 'todo': todo?.toJson()};
@@ -5927,7 +5927,7 @@ class Blog extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"Blog {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -5951,7 +5951,7 @@ class Blog extends Model {
         name = json['name'],
         posts = json['posts'] is List
             ? (json['posts'] as List)
-                .map((e) => Post.fromJson(new Map<String, dynamic>.from(e)))
+                .map((e) => Post.fromJson(Map<String, dynamic>.from(e)))
                 .toList()
             : null,
         test = json['test']?.cast<String>();
@@ -6076,7 +6076,7 @@ class Comment extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"Comment {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -6097,7 +6097,7 @@ class Comment extends Model {
   Comment.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         post = json['post'] != null
-            ? Post.fromJson(new Map<String, dynamic>.from(json['post']))
+            ? Post.fromJson(Map<String, dynamic>.from(json['post']))
             : null,
         content = json['content'];
 
@@ -6221,7 +6221,7 @@ class Post extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"Post {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -6244,11 +6244,11 @@ class Post extends Model {
       : id = json['id'],
         title = json['title'],
         blog = json['blog'] != null
-            ? Blog.fromJson(new Map<String, dynamic>.from(json['blog']))
+            ? Blog.fromJson(Map<String, dynamic>.from(json['blog']))
             : null,
         comments = json['comments'] is List
             ? (json['comments'] as List)
-                .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e)))
+                .map((e) => Comment.fromJson(Map<String, dynamic>.from(e)))
                 .toList()
             : null;
 
@@ -6394,7 +6394,7 @@ class authorBook extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"authorBook {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -6549,7 +6549,7 @@ class TestModel extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"TestModel {\\");
     buffer.write(\\"id=\\" + \\"$id\\");
@@ -6637,7 +6637,7 @@ class Blog extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -6677,7 +6677,7 @@ class Blog extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Blog {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -6700,7 +6700,7 @@ class Blog extends Model {
       _posts = json['posts'] is List
         ? (json['posts'] as List)
           .where((e) => e?['serializedData'] != null)
-          .map((e) => Post.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => Post.fromJson(Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null;
   
@@ -6795,7 +6795,7 @@ class Comment extends Model {
     try {
       return _content!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -6831,7 +6831,7 @@ class Comment extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Comment {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -6852,7 +6852,7 @@ class Comment extends Model {
   Comment.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _post = json['post']?['serializedData'] != null
-        ? Post.fromJson(new Map<String, dynamic>.from(json['post']['serializedData']))
+        ? Post.fromJson(Map<String, dynamic>.from(json['post']['serializedData']))
         : null,
       _content = json['content'];
   
@@ -6949,7 +6949,7 @@ class Post extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -6995,7 +6995,7 @@ class Post extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"Post {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -7018,12 +7018,12 @@ class Post extends Model {
     : id = json['id'],
       _title = json['title'],
       _blog = json['blog']?['serializedData'] != null
-        ? Blog.fromJson(new Map<String, dynamic>.from(json['blog']['serializedData']))
+        ? Blog.fromJson(Map<String, dynamic>.from(json['blog']['serializedData']))
         : null,
       _comments = json['comments'] is List
         ? (json['comments'] as List)
           .where((e) => e?['serializedData'] != null)
-          .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => Comment.fromJson(Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null;
   
@@ -7132,7 +7132,7 @@ class TestModel extends Model {
     try {
       return _floatVal!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -7149,7 +7149,7 @@ class TestModel extends Model {
     try {
       return _floatList!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -7166,7 +7166,7 @@ class TestModel extends Model {
     try {
       return _nullableFloatList!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -7214,7 +7214,7 @@ class TestModel extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"TestModel {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -7375,7 +7375,7 @@ class TestModel extends Model {
     try {
       return _floatVal!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -7392,7 +7392,7 @@ class TestModel extends Model {
     try {
       return _floatList!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -7409,7 +7409,7 @@ class TestModel extends Model {
     try {
       return _nullableFloatList!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -7426,7 +7426,7 @@ class TestModel extends Model {
     try {
       return _intVal!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -7443,7 +7443,7 @@ class TestModel extends Model {
     try {
       return _intList!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -7460,7 +7460,7 @@ class TestModel extends Model {
     try {
       return _nullableIntList!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -7520,7 +7520,7 @@ class TestModel extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"TestModel {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -7753,7 +7753,7 @@ class SimpleModel extends Model {
 
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
 
     buffer.write(\\"SimpleModel {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -7908,7 +7908,7 @@ class SimpleModel extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"SimpleModel {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -8028,7 +8028,7 @@ class ModelWithImplicitID extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -8070,7 +8070,7 @@ class ModelWithImplicitID extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"ModelWithImplicitID {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -8229,7 +8229,7 @@ class ModelWithExplicitID extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -8271,7 +8271,7 @@ class ModelWithExplicitID extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"ModelWithExplicitID {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -8463,7 +8463,7 @@ class ModelWithExplicitIDAndSDI extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"ModelWithExplicitIDAndSDI {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -8625,7 +8625,7 @@ class ModelWithIDPlusSortKeys extends Model {
         rating: _rating!
       );
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -8638,7 +8638,7 @@ class ModelWithIDPlusSortKeys extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -8651,7 +8651,7 @@ class ModelWithIDPlusSortKeys extends Model {
     try {
       return _rating!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -8695,7 +8695,7 @@ class ModelWithIDPlusSortKeys extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"ModelWithIDPlusSortKeys {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
@@ -8875,7 +8875,7 @@ class ModelWithExplicitlyDefinedPK extends Model {
         modelID: _modelID!
       );
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -8888,7 +8888,7 @@ class ModelWithExplicitlyDefinedPK extends Model {
     try {
       return _modelID!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -8901,7 +8901,7 @@ class ModelWithExplicitlyDefinedPK extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -8943,7 +8943,7 @@ class ModelWithExplicitlyDefinedPK extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"ModelWithExplicitlyDefinedPK {\\");
     buffer.write(\\"modelID=\\" + \\"$_modelID\\" + \\", \\");
@@ -9109,7 +9109,7 @@ class ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey extends Model {
         rating: _rating!
       );
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -9122,7 +9122,7 @@ class ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey extends Model {
     try {
       return _modelID!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -9135,7 +9135,7 @@ class ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -9148,7 +9148,7 @@ class ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey extends Model {
     try {
       return _rating!;
     } catch(e) {
-      throw new DataStoreException(
+      throw DataStoreException(
           DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
             DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
@@ -9192,7 +9192,7 @@ class ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey extends Model {
   
   @override
   String toString() {
-    var buffer = new StringBuffer();
+    var buffer = StringBuffer();
     
     buffer.write(\\"ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey {\\");
     buffer.write(\\"modelID=\\" + \\"$_modelID\\" + \\", \\");
