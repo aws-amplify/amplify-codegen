@@ -28,7 +28,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Post type in your schema. */
+/// This is an auto generated class representing the Post type in your schema.
 @immutable
 class Post extends Model {
   static const classType = const _PostModelType();
@@ -182,7 +182,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Comment type in your schema. */
+/// This is an auto generated class representing the Comment type in your schema.
 @immutable
 class Comment extends Model {
   static const classType = const _CommentModelType();
@@ -338,7 +338,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Project2 type in your schema. */
+/// This is an auto generated class representing the Project2 type in your schema.
 @immutable
 class Project2 extends Model {
   static const classType = const _Project2ModelType();
@@ -497,7 +497,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Team2 type in your schema. */
+/// This is an auto generated class representing the Team2 type in your schema.
 @immutable
 class Team2 extends Model {
   static const classType = const _Team2ModelType();
@@ -650,7 +650,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Blog7V2 type in your schema. */
+/// This is an auto generated class representing the Blog7V2 type in your schema.
 @immutable
 class Blog7V2 extends Model {
   static const classType = const _Blog7V2ModelType();
@@ -805,7 +805,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Post7V2 type in your schema. */
+/// This is an auto generated class representing the Post7V2 type in your schema.
 @immutable
 class Post7V2 extends Model {
   static const classType = const _Post7V2ModelType();
@@ -981,7 +981,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Comment7V2 type in your schema. */
+/// This is an auto generated class representing the Comment7V2 type in your schema.
 @immutable
 class Comment7V2 extends Model {
   static const classType = const _Comment7V2ModelType();
@@ -1124,7 +1124,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Project type in your schema. */
+/// This is an auto generated class representing the Project type in your schema.
 @immutable
 class Project extends Model {
   static const classType = const _ProjectModelType();
@@ -1283,7 +1283,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Team type in your schema. */
+/// This is an auto generated class representing the Team type in your schema.
 @immutable
 class Team extends Model {
   static const classType = const _TeamModelType();
@@ -1436,7 +1436,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Post type in your schema. */
+/// This is an auto generated class representing the Post type in your schema.
 @immutable
 class Post extends Model {
   static const classType = const _PostModelType();
@@ -1608,7 +1608,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Tag type in your schema. */
+/// This is an auto generated class representing the Tag type in your schema.
 @immutable
 class Tag extends Model {
   static const classType = const _TagModelType();
@@ -1761,7 +1761,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Todo type in your schema. */
+/// This is an auto generated class representing the Todo type in your schema.
 @immutable
 class Todo extends Model {
   static const classType = const _TodoModelType();
@@ -1883,7 +1883,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Post2 type in your schema. */
+/// This is an auto generated class representing the Post2 type in your schema.
 @immutable
 class Post2 extends Model {
   static const classType = const _Post2ModelType();
@@ -2036,7 +2036,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Comment2 type in your schema. */
+/// This is an auto generated class representing the Comment2 type in your schema.
 @immutable
 class Comment2 extends Model {
   static const classType = const _Comment2ModelType();
@@ -2196,7 +2196,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Project2 type in your schema. */
+/// This is an auto generated class representing the Project2 type in your schema.
 @immutable
 class Project2 extends Model {
   static const classType = const _Project2ModelType();
@@ -2354,7 +2354,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Team2 type in your schema. */
+/// This is an auto generated class representing the Team2 type in your schema.
 @immutable
 class Team2 extends Model {
   static const classType = const _Team2ModelType();
@@ -2485,7 +2485,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Post type in your schema. */
+/// This is an auto generated class representing the Post type in your schema.
 @immutable
 class Post extends Model {
   static const classType = const _PostModelType();
@@ -2638,7 +2638,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Comment type in your schema. */
+/// This is an auto generated class representing the Comment type in your schema.
 @immutable
 class Comment extends Model {
   static const classType = const _CommentModelType();
@@ -2785,7 +2785,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Project type in your schema. */
+/// This is an auto generated class representing the Project type in your schema.
 @immutable
 class Project extends Model {
   static const classType = const _ProjectModelType();
@@ -2943,7 +2943,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Team type in your schema. */
+/// This is an auto generated class representing the Team type in your schema.
 @immutable
 class Team extends Model {
   static const classType = const _TeamModelType();
@@ -3072,7 +3072,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Customer type in your schema. */
+/// This is an auto generated class representing the Customer type in your schema.
 @immutable
 class Customer extends Model {
   static const classType = const _CustomerModelType();
@@ -3248,7 +3248,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the ModelWithPrimaryKey type in your schema. */
+/// This is an auto generated class representing the ModelWithPrimaryKey type in your schema.
 @immutable
 class ModelWithPrimaryKey extends Model {
   static const classType = const _ModelWithPrimaryKeyModelType();

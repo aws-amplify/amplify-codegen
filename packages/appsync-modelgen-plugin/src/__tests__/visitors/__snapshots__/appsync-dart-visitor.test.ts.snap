@@ -8019,18 +8019,9 @@ class ModelWithImplicitID extends Model {
   String getId() => id;
   
   ModelWithImplicitIDModelIdentifier get modelIdentifier {
-    try {
       return ModelWithImplicitIDModelIdentifier(
         id: id
       );
-    } catch(e) {
-      throw new DataStoreException(
-          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
-          recoverySuggestion:
-            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
-          underlyingException: e.toString()
-          );
-    }
   }
   
   String get title {
@@ -8148,6 +8139,7 @@ class _ModelWithImplicitIDModelType extends ModelType<ModelWithImplicitID> {
 
 /// This is an auto generated class representing the model identifier
 /// of [ModelWithImplicitID] in your schema.
+@immutable
 class ModelWithImplicitIDModelIdentifier implements ModelIdentifier<ModelWithImplicitID> {
   final String id;
 
@@ -8155,13 +8147,13 @@ class ModelWithImplicitIDModelIdentifier implements ModelIdentifier<ModelWithImp
   const ModelWithImplicitIDModelIdentifier({
     required this.id});
   
-  Map<String, dynamic> serializeAsMap() => ({
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
     'id': id
   });
   
   List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
     .entries
-    .map((entry) => ({ entry.key: entry.value }))
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
     .toList();
   
   String serializeAsString() => serializeAsMap().values.join('#');
@@ -8228,18 +8220,9 @@ class ModelWithExplicitID extends Model {
   String getId() => id;
   
   ModelWithExplicitIDModelIdentifier get modelIdentifier {
-    try {
       return ModelWithExplicitIDModelIdentifier(
         id: id
       );
-    } catch(e) {
-      throw new DataStoreException(
-          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
-          recoverySuggestion:
-            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
-          underlyingException: e.toString()
-          );
-    }
   }
   
   String get title {
@@ -8357,6 +8340,7 @@ class _ModelWithExplicitIDModelType extends ModelType<ModelWithExplicitID> {
 
 /// This is an auto generated class representing the model identifier
 /// of [ModelWithExplicitID] in your schema.
+@immutable
 class ModelWithExplicitIDModelIdentifier implements ModelIdentifier<ModelWithExplicitID> {
   final String id;
 
@@ -8364,13 +8348,13 @@ class ModelWithExplicitIDModelIdentifier implements ModelIdentifier<ModelWithExp
   const ModelWithExplicitIDModelIdentifier({
     required this.id});
   
-  Map<String, dynamic> serializeAsMap() => ({
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
     'id': id
   });
   
   List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
     .entries
-    .map((entry) => ({ entry.key: entry.value }))
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
     .toList();
   
   String serializeAsString() => serializeAsMap().values.join('#');
@@ -8437,18 +8421,9 @@ class ModelWithExplicitIDAndSDI extends Model {
   String getId() => id;
   
   ModelWithExplicitIDAndSDIModelIdentifier get modelIdentifier {
-    try {
       return ModelWithExplicitIDAndSDIModelIdentifier(
         id: id
       );
-    } catch(e) {
-      throw new DataStoreException(
-          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
-          recoverySuggestion:
-            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
-          underlyingException: e.toString()
-          );
-    }
   }
   
   String? get parentID {
@@ -8522,6 +8497,10 @@ class ModelWithExplicitIDAndSDI extends Model {
     modelSchemaDefinition.name = \\"ModelWithExplicitIDAndSDI\\";
     modelSchemaDefinition.pluralName = \\"ModelWithExplicitIDAndSDIS\\";
     
+    modelSchemaDefinition.indexes = [
+      ModelIndex(fields: const [\\"parentID\\"], name: \\"byParent\\")
+    ];
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
@@ -8557,6 +8536,7 @@ class _ModelWithExplicitIDAndSDIModelType extends ModelType<ModelWithExplicitIDA
 
 /// This is an auto generated class representing the model identifier
 /// of [ModelWithExplicitIDAndSDI] in your schema.
+@immutable
 class ModelWithExplicitIDAndSDIModelIdentifier implements ModelIdentifier<ModelWithExplicitIDAndSDI> {
   final String id;
 
@@ -8564,13 +8544,13 @@ class ModelWithExplicitIDAndSDIModelIdentifier implements ModelIdentifier<ModelW
   const ModelWithExplicitIDAndSDIModelIdentifier({
     required this.id});
   
-  Map<String, dynamic> serializeAsMap() => ({
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
     'id': id
   });
   
   List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
     .entries
-    .map((entry) => ({ entry.key: entry.value }))
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
     .toList();
   
   String serializeAsString() => serializeAsMap().values.join('#');
@@ -8591,5 +8571,759 @@ class ModelWithExplicitIDAndSDIModelIdentifier implements ModelIdentifier<ModelW
   @override
   int get hashCode =>
     id.hashCode;
+}"
+`;
+
+exports[`AppSync Dart Visitor custom primary key model generation should generate correct model and helper class for model that is using \`id\` field as primary key plus sort keys 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
+
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:flutter/foundation.dart';
+
+
+/// This is an auto generated class representing the ModelWithIDPlusSortKeys type in your schema.
+@immutable
+class ModelWithIDPlusSortKeys extends Model {
+  static const classType = const _ModelWithIDPlusSortKeysModelType();
+  final String id;
+  final String? _title;
+  final int? _rating;
+  final TemporalDateTime? _createdAt;
+  final TemporalDateTime? _updatedAt;
+
+  @override
+  getInstanceType() => classType;
+  
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
+  @override
+  String getId() => id;
+  
+  ModelWithIDPlusSortKeysModelIdentifier get modelIdentifier {
+    try {
+      return ModelWithIDPlusSortKeysModelIdentifier(
+        id: id,
+        title: _title!,
+        rating: _rating!
+      );
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get title {
+    try {
+      return _title!;
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  int get rating {
+    try {
+      return _rating!;
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  const ModelWithIDPlusSortKeys._internal({required this.id, required title, required rating, createdAt, updatedAt}): _title = title, _rating = rating, _createdAt = createdAt, _updatedAt = updatedAt;
+  
+  factory ModelWithIDPlusSortKeys({String? id, required String title, required int rating}) {
+    return ModelWithIDPlusSortKeys._internal(
+      id: id == null ? UUID.getUUID() : id,
+      title: title,
+      rating: rating);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ModelWithIDPlusSortKeys &&
+      id == other.id &&
+      _title == other._title &&
+      _rating == other._rating;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"ModelWithIDPlusSortKeys {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"title=\\" + \\"$_title\\" + \\", \\");
+    buffer.write(\\"rating=\\" + (_rating != null ? _rating!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  ModelWithIDPlusSortKeys copyWith() {
+    return ModelWithIDPlusSortKeys._internal(
+      id: id,
+      title: title,
+      rating: rating);
+  }
+  
+  ModelWithIDPlusSortKeys.fromJson(Map<String, dynamic> json)  
+    : id = json['id'],
+      _title = json['title'],
+      _rating = (json['rating'] as num?)?.toInt(),
+      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'title': _title, 'rating': _rating, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+
+  static final QueryField ID = QueryField(fieldName: \\"modelWithIDPlusSortKeys.id\\");
+  static final QueryField TITLE = QueryField(fieldName: \\"title\\");
+  static final QueryField RATING = QueryField(fieldName: \\"rating\\");
+  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"ModelWithIDPlusSortKeys\\";
+    modelSchemaDefinition.pluralName = \\"ModelWithIDPlusSortKeys\\";
+    
+    modelSchemaDefinition.indexes = [
+      ModelIndex(fields: const [\\"id\\", \\"title\\", \\"rating\\"], name: null)
+    ];
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: ModelWithIDPlusSortKeys.TITLE,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: ModelWithIDPlusSortKeys.RATING,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.int)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+    ));
+  });
+}
+
+class _ModelWithIDPlusSortKeysModelType extends ModelType<ModelWithIDPlusSortKeys> {
+  const _ModelWithIDPlusSortKeysModelType();
+  
+  @override
+  ModelWithIDPlusSortKeys fromJson(Map<String, dynamic> jsonData) {
+    return ModelWithIDPlusSortKeys.fromJson(jsonData);
+  }
+}
+
+/// This is an auto generated class representing the model identifier
+/// of [ModelWithIDPlusSortKeys] in your schema.
+@immutable
+class ModelWithIDPlusSortKeysModelIdentifier implements ModelIdentifier<ModelWithIDPlusSortKeys> {
+  final String id;
+  final String title;
+  final int rating;
+
+  /// Create an instance of ModelWithIDPlusSortKeysModelIdentifier using [id] the primary key.
+  /// And [title], [rating] the sort keys.
+  const ModelWithIDPlusSortKeysModelIdentifier({
+    required this.id,
+    required this.title,
+    required this.rating});
+  
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'id': id,
+    'title': title,
+    'rating': rating
+  });
+  
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'ModelWithIDPlusSortKeysModelIdentifier(id: $id, title: $title, rating: $rating)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is ModelWithIDPlusSortKeysModelIdentifier &&
+      id == other.id &&
+      title == other.title &&
+      rating == other.rating;
+  }
+  
+  @override
+  int get hashCode =>
+    id.hashCode ^
+    title.hashCode ^
+    rating.hashCode;
+}"
+`;
+
+exports[`AppSync Dart Visitor custom primary key model generation should generate correct model and helper class for model that is using custom primary key 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
+
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:flutter/foundation.dart';
+
+
+/// This is an auto generated class representing the ModelWithExplicitlyDefinedPK type in your schema.
+@immutable
+class ModelWithExplicitlyDefinedPK extends Model {
+  static const classType = const _ModelWithExplicitlyDefinedPKModelType();
+  final String? _modelID;
+  final String? _title;
+  final TemporalDateTime? _createdAt;
+  final TemporalDateTime? _updatedAt;
+
+  @override
+  getInstanceType() => classType;
+  
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
+  @override
+  String getId() => modelIdentifier.serializeAsString();
+  
+  ModelWithExplicitlyDefinedPKModelIdentifier get modelIdentifier {
+    try {
+      return ModelWithExplicitlyDefinedPKModelIdentifier(
+        modelID: _modelID!
+      );
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get modelID {
+    try {
+      return _modelID!;
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get title {
+    try {
+      return _title!;
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  const ModelWithExplicitlyDefinedPK._internal({required modelID, required title, createdAt, updatedAt}): _modelID = modelID, _title = title, _createdAt = createdAt, _updatedAt = updatedAt;
+  
+  factory ModelWithExplicitlyDefinedPK({required String modelID, required String title}) {
+    return ModelWithExplicitlyDefinedPK._internal(
+      modelID: modelID,
+      title: title);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ModelWithExplicitlyDefinedPK &&
+      _modelID == other._modelID &&
+      _title == other._title;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"ModelWithExplicitlyDefinedPK {\\");
+    buffer.write(\\"modelID=\\" + \\"$_modelID\\" + \\", \\");
+    buffer.write(\\"title=\\" + \\"$_title\\" + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  ModelWithExplicitlyDefinedPK copyWith({String? title}) {
+    return ModelWithExplicitlyDefinedPK._internal(
+      modelID: modelID,
+      title: title ?? this.title);
+  }
+  
+  ModelWithExplicitlyDefinedPK.fromJson(Map<String, dynamic> json)  
+    : _modelID = json['modelID'],
+      _title = json['title'],
+      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
+  
+  Map<String, dynamic> toJson() => {
+    'modelID': _modelID, 'title': _title, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+
+  static final QueryField MODELID = QueryField(fieldName: \\"modelID\\");
+  static final QueryField TITLE = QueryField(fieldName: \\"title\\");
+  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"ModelWithExplicitlyDefinedPK\\";
+    modelSchemaDefinition.pluralName = \\"ModelWithExplicitlyDefinedPKS\\";
+    
+    modelSchemaDefinition.indexes = [
+      ModelIndex(fields: const [\\"modelID\\"], name: null)
+    ];
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: ModelWithExplicitlyDefinedPK.MODELID,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: ModelWithExplicitlyDefinedPK.TITLE,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+    ));
+  });
+}
+
+class _ModelWithExplicitlyDefinedPKModelType extends ModelType<ModelWithExplicitlyDefinedPK> {
+  const _ModelWithExplicitlyDefinedPKModelType();
+  
+  @override
+  ModelWithExplicitlyDefinedPK fromJson(Map<String, dynamic> jsonData) {
+    return ModelWithExplicitlyDefinedPK.fromJson(jsonData);
+  }
+}
+
+/// This is an auto generated class representing the model identifier
+/// of [ModelWithExplicitlyDefinedPK] in your schema.
+@immutable
+class ModelWithExplicitlyDefinedPKModelIdentifier implements ModelIdentifier<ModelWithExplicitlyDefinedPK> {
+  final String modelID;
+
+  /// Create an instance of ModelWithExplicitlyDefinedPKModelIdentifier using [modelID] the primary key.
+  const ModelWithExplicitlyDefinedPKModelIdentifier({
+    required this.modelID});
+  
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'modelID': modelID
+  });
+  
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'ModelWithExplicitlyDefinedPKModelIdentifier(modelID: $modelID)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is ModelWithExplicitlyDefinedPKModelIdentifier &&
+      modelID == other.modelID;
+  }
+  
+  @override
+  int get hashCode =>
+    modelID.hashCode;
+}"
+`;
+
+exports[`AppSync Dart Visitor custom primary key model generation should generate correct model and helper class for model that is using custom primary key 2`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, file_names, unnecessary_new, prefer_if_null_operators, prefer_const_constructors, slash_for_doc_comments, annotate_overrides, non_constant_identifier_names, unnecessary_string_interpolations, prefer_adjacent_string_concatenation, unnecessary_const, dead_code
+
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:flutter/foundation.dart';
+
+
+/// This is an auto generated class representing the ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey type in your schema.
+@immutable
+class ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey extends Model {
+  static const classType = const _ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelType();
+  final String? _modelID;
+  final String? _title;
+  final int? _rating;
+  final TemporalDateTime? _createdAt;
+  final TemporalDateTime? _updatedAt;
+
+  @override
+  getInstanceType() => classType;
+  
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
+  @override
+  String getId() => modelIdentifier.serializeAsString();
+  
+  ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelIdentifier get modelIdentifier {
+    try {
+      return ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelIdentifier(
+        modelID: _modelID!,
+        title: _title!,
+        rating: _rating!
+      );
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get modelID {
+    try {
+      return _modelID!;
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get title {
+    try {
+      return _title!;
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  int get rating {
+    try {
+      return _rating!;
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  const ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey._internal({required modelID, required title, required rating, createdAt, updatedAt}): _modelID = modelID, _title = title, _rating = rating, _createdAt = createdAt, _updatedAt = updatedAt;
+  
+  factory ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey({required String modelID, required String title, required int rating}) {
+    return ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey._internal(
+      modelID: modelID,
+      title: title,
+      rating: rating);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey &&
+      _modelID == other._modelID &&
+      _title == other._title &&
+      _rating == other._rating;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey {\\");
+    buffer.write(\\"modelID=\\" + \\"$_modelID\\" + \\", \\");
+    buffer.write(\\"title=\\" + \\"$_title\\" + \\", \\");
+    buffer.write(\\"rating=\\" + (_rating != null ? _rating!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey copyWith() {
+    return ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey._internal(
+      modelID: modelID,
+      title: title,
+      rating: rating);
+  }
+  
+  ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey.fromJson(Map<String, dynamic> json)  
+    : _modelID = json['modelID'],
+      _title = json['title'],
+      _rating = (json['rating'] as num?)?.toInt(),
+      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
+  
+  Map<String, dynamic> toJson() => {
+    'modelID': _modelID, 'title': _title, 'rating': _rating, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+
+  static final QueryField MODELID = QueryField(fieldName: \\"modelID\\");
+  static final QueryField TITLE = QueryField(fieldName: \\"title\\");
+  static final QueryField RATING = QueryField(fieldName: \\"rating\\");
+  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey\\";
+    modelSchemaDefinition.pluralName = \\"ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeys\\";
+    
+    modelSchemaDefinition.indexes = [
+      ModelIndex(fields: const [\\"modelID\\", \\"title\\", \\"rating\\"], name: null)
+    ];
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey.MODELID,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey.TITLE,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey.RATING,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.int)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+    ));
+  });
+}
+
+class _ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelType extends ModelType<ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey> {
+  const _ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelType();
+  
+  @override
+  ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey fromJson(Map<String, dynamic> jsonData) {
+    return ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey.fromJson(jsonData);
+  }
+}
+
+/// This is an auto generated class representing the model identifier
+/// of [ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey] in your schema.
+@immutable
+class ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelIdentifier implements ModelIdentifier<ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey> {
+  final String modelID;
+  final String title;
+  final int rating;
+
+  /// Create an instance of ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelIdentifier using [modelID] the primary key.
+  /// And [title], [rating] the sort keys.
+  const ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelIdentifier({
+    required this.modelID,
+    required this.title,
+    required this.rating});
+  
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'modelID': modelID,
+    'title': title,
+    'rating': rating
+  });
+  
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelIdentifier(modelID: $modelID, title: $title, rating: $rating)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelIdentifier &&
+      modelID == other.modelID &&
+      title == other.title &&
+      rating == other.rating;
+  }
+  
+  @override
+  int get hashCode =>
+    modelID.hashCode ^
+    title.hashCode ^
+    rating.hashCode;
 }"
 `;
