@@ -367,7 +367,8 @@ export class AppSyncModelDartVisitor<
       .asKind('class')
       .withName(`${modelName}ModelIdentifier`)
       .implements([`ModelIdentifier<${modelName}>`])
-      .withComment(['This is an auto generated class representing the model identifier', `of [${modelName}] in your schema.`].join('\n'));
+      .withComment(['This is an auto generated class representing the model identifier', `of [${modelName}] in your schema.`].join('\n'))
+      .annotate(['immutable']);
 
     identifierFields.forEach(field => {
       classDeclarationBlock.addClassMember(field.name, this.getNativeType(field), '', { final: true });
@@ -399,7 +400,9 @@ export class AppSyncModelDartVisitor<
       'serializeAsMap',
       'Map<String, dynamic>',
       [],
-      [' => ({', indentMultiline(identifierFields.map(field => `'${field.name}': ${field.name}`).join(',\n')), '});'].join('\n'),
+      [' => (<String, dynamic>{', indentMultiline(identifierFields.map(field => `'${field.name}': ${field.name}`).join(',\n')), '});'].join(
+        '\n',
+      ),
       { isBlock: false },
     );
 
@@ -407,9 +410,12 @@ export class AppSyncModelDartVisitor<
       'serializeAsList',
       'List<Map<String, dynamic>>',
       [],
-      [' => serializeAsMap()', indent('.entries'), indent('.map((entry) => ({ entry.key: entry.value }))'), indent('.toList();')].join(
-        '\n',
-      ),
+      [
+        ' => serializeAsMap()',
+        indent('.entries'),
+        indent('.map((entry) => (<String, dynamic>{ entry.key: entry.value }))'),
+        indent('.toList();'),
+      ].join('\n'),
       { isBlock: false },
     );
 
@@ -496,7 +502,7 @@ export class AppSyncModelDartVisitor<
       );`;
       }
 
-      if (this.customPKEnabled()) {
+      if (includeIdGetter && this.customPKEnabled()) {
         this.generateModelIdentifierGetter(model, declarationBlock, forceCastException);
       }
 
@@ -518,9 +524,10 @@ export class AppSyncModelDartVisitor<
   protected generateModelIdentifierGetter(model: CodeGenModel, declarationBlock: DartDeclarationBlock, forceCastException: string): void {
     const identifierFields = this.getModelIdentifierFields(model);
     const modelName = this.getModelName(model);
+    const isSingleManagedIDField = identifierFields.length === 1 && identifierFields[0].name === 'id';
 
     const getterImpl = [
-      'try {',
+      isSingleManagedIDField ? undefined : 'try {',
       indent(`return ${modelName}ModelIdentifier(`),
       indentMultiline(
         identifierFields
@@ -531,10 +538,10 @@ export class AppSyncModelDartVisitor<
           .join(',\n'),
       ),
       indent(');'),
-      '} catch(e) {',
-      indent(forceCastException),
-      '}',
-    ].join('\n');
+      isSingleManagedIDField ? undefined : '} catch(e) {',
+      isSingleManagedIDField ? undefined : indent(forceCastException),
+      isSingleManagedIDField ? undefined : '}',
+    ].filter(line => line).join('\n');
 
     declarationBlock.addClassMethod(`get modelIdentifier`, `${modelName}ModelIdentifier`, undefined, getterImpl, {
       isGetter: true,
