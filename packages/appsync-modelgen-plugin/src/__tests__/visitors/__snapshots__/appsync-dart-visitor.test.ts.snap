@@ -28,7 +28,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
-/// This is an auto generated class representing the Post type in your schema.
+/** This is an auto generated class representing the Post type in your schema. */
 @immutable
 class Post extends Model {
   static const classType = const _PostModelType();
@@ -206,7 +206,7 @@ class _PostModelType extends ModelType<Post> {
   }
 }
 
-/// This is an auto generated class representing the Comment type in your schema.
+/** This is an auto generated class representing the Comment type in your schema. */
 @immutable
 class Comment extends Model {
   static const classType = const _CommentModelType();
@@ -372,7 +372,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
-/// This is an auto generated class representing the Post type in your schema.
+/** This is an auto generated class representing the Post type in your schema. */
 @immutable
 class Post extends Model {
   static const classType = const _PostModelType();
@@ -550,7 +550,7 @@ class _PostModelType extends ModelType<Post> {
   }
 }
 
-/// This is an auto generated class representing the Comment type in your schema.
+/** This is an auto generated class representing the Comment type in your schema. */
 @immutable
 class Comment extends Model {
   static const classType = const _CommentModelType();
@@ -713,7 +713,7 @@ exports[`AppSync Dart Visitor CustomType (non-model) Tests should generated corr
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the Address type in your schema.
+/** This is an auto generated class representing the Address type in your schema. */
 @immutable
 class Address {
   final String line1;
@@ -865,7 +865,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/// This is an auto generated class representing the Address type in your schema.
+/** This is an auto generated class representing the Address type in your schema. */
 @immutable
 class Address {
   final String? _line1;
@@ -1058,7 +1058,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the Contact type in your schema.
+/** This is an auto generated class representing the Contact type in your schema. */
 @immutable
 class Contact {
   final String contactName;
@@ -1195,7 +1195,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
-/// This is an auto generated class representing the Contact type in your schema.
+/** This is an auto generated class representing the Contact type in your schema. */
 @immutable
 class Contact {
   final String? _contactName;
@@ -1463,7 +1463,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the Person type in your schema.
+/** This is an auto generated class representing the Person type in your schema. */
 @immutable
 class Person extends Model {
   static const classType = const _PersonModelType();
@@ -1634,7 +1634,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
-/// This is an auto generated class representing the Person type in your schema.
+/** This is an auto generated class representing the Person type in your schema. */
 @immutable
 class Person extends Model {
   static const classType = const _PersonModelType();
@@ -1917,7 +1917,7 @@ import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the SimpleModel type in your schema.
+/** This is an auto generated class representing the SimpleModel type in your schema. */
 @immutable
 class SimpleModel extends Model {
   static const classType = const _SimpleModelModelType();
@@ -2053,7 +2053,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the TemporalTimeModel type in your schema.
+/** This is an auto generated class representing the TemporalTimeModel type in your schema. */
 @immutable
 class TemporalTimeModel extends Model {
   static const classType = const _TemporalTimeModelModelType();
@@ -2366,7 +2366,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the TestEnumModel type in your schema.
+/** This is an auto generated class representing the TestEnumModel type in your schema. */
 @immutable
 class TestEnumModel extends Model {
   static const classType = const _TestEnumModelModelType();
@@ -2622,7 +2622,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the TestModel type in your schema.
+/** This is an auto generated class representing the TestModel type in your schema. */
 @immutable
 class TestModel extends Model {
   static const classType = const _TestModelModelType();
@@ -2871,7 +2871,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the Post type in your schema.
+/** This is an auto generated class representing the Post type in your schema. */
 @immutable
 class Post extends Model {
   static const classType = const _PostModelType();
@@ -3000,7 +3000,7 @@ class _PostModelType extends ModelType<Post> {
   }
 }
 
-/// This is an auto generated class representing the Tag type in your schema.
+/** This is an auto generated class representing the Tag type in your schema. */
 @immutable
 class Tag extends Model {
   static const classType = const _TagModelType();
@@ -3110,7 +3110,7 @@ class _TagModelType extends ModelType<Tag> {
   }
 }
 
-/// This is an auto generated class representing the PostTags type in your schema.
+/** This is an auto generated class representing the PostTags type in your schema. */
 @immutable
 class PostTags extends Model {
   static const classType = const _PostTagsModelType();
@@ -3249,7 +3249,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
-/// This is an auto generated class representing the Post type in your schema.
+/** This is an auto generated class representing the Post type in your schema. */
 @immutable
 class Post extends Model {
   static const classType = const _PostModelType();
@@ -3392,7 +3392,7 @@ class _PostModelType extends ModelType<Post> {
   }
 }
 
-/// This is an auto generated class representing the Tag type in your schema.
+/** This is an auto generated class representing the Tag type in your schema. */
 @immutable
 class Tag extends Model {
   static const classType = const _TagModelType();
@@ -3518,7 +3518,7 @@ class _TagModelType extends ModelType<Tag> {
   }
 }
 
-/// This is an auto generated class representing the PostTags type in your schema.
+/** This is an auto generated class representing the PostTags type in your schema. */
 @immutable
 class PostTags extends Model {
   static const classType = const _PostTagsModelType();
@@ -3682,7 +3682,7 @@ exports[`AppSync Dart Visitor Model Directive should generate a class for a Simp
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the SimpleModel type in your schema.
+/** This is an auto generated class representing the SimpleModel type in your schema. */
 @immutable
 class SimpleModel extends Model {
   static const classType = const _SimpleModelModelType();
@@ -3804,7 +3804,7 @@ exports[`AppSync Dart Visitor Model Directive should generate a class for a mode
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the SimpleModel type in your schema.
+/** This is an auto generated class representing the SimpleModel type in your schema. */
 @immutable
 class SimpleModel extends Model {
   static const classType = const _SimpleModelModelType();
@@ -3926,7 +3926,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate AuthRule
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the TodoWithAuth type in your schema.
+/** This is an auto generated class representing the TodoWithAuth type in your schema. */
 @immutable
 class TodoWithAuth extends Model {
   static const classType = const _TodoWithAuthModelType();
@@ -4091,7 +4091,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/// This is an auto generated class representing the TodoWithAuth type in your schema.
+/** This is an auto generated class representing the TodoWithAuth type in your schema. */
 @immutable
 class TodoWithAuth extends Model {
   static const classType = const _TodoWithAuthModelType();
@@ -4276,7 +4276,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the customClaim type in your schema.
+/** This is an auto generated class representing the customClaim type in your schema. */
 @immutable
 class customClaim extends Model {
   static const classType = const _customClaimModelType();
@@ -4411,7 +4411,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the customClaim type in your schema.
+/** This is an auto generated class representing the customClaim type in your schema. */
 @immutable
 class customClaim extends Model {
   static const classType = const _customClaimModelType();
@@ -4548,7 +4548,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the dynamicGroups type in your schema.
+/** This is an auto generated class representing the dynamicGroups type in your schema. */
 @immutable
 class dynamicGroups extends Model {
   static const classType = const _dynamicGroupsModelType();
@@ -4683,7 +4683,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the simpleOwnerAuth type in your schema.
+/** This is an auto generated class representing the simpleOwnerAuth type in your schema. */
 @immutable
 class simpleOwnerAuth extends Model {
   static const classType = const _simpleOwnerAuthModelType();
@@ -4818,7 +4818,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the allowRead type in your schema.
+/** This is an auto generated class representing the allowRead type in your schema. */
 @immutable
 class allowRead extends Model {
   static const classType = const _allowReadModelType();
@@ -4952,7 +4952,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the privateType type in your schema.
+/** This is an auto generated class representing the privateType type in your schema. */
 @immutable
 class privateType extends Model {
   static const classType = const _privateTypeModelType();
@@ -5083,7 +5083,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the publicType type in your schema.
+/** This is an auto generated class representing the publicType type in your schema. */
 @immutable
 class publicType extends Model {
   static const classType = const _publicTypeModelType();
@@ -5214,7 +5214,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the staticGroups type in your schema.
+/** This is an auto generated class representing the staticGroups type in your schema. */
 @immutable
 class staticGroups extends Model {
   static const classType = const _staticGroupsModelType();
@@ -5351,7 +5351,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should include authRules
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the Post type in your schema.
+/** This is an auto generated class representing the Post type in your schema. */
 @immutable
 class Post extends Model {
   static const classType = const _PostModelType();
@@ -5489,7 +5489,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should support multiple 
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the Post type in your schema.
+/** This is an auto generated class representing the Post type in your schema. */
 @immutable
 class Post extends Model {
   static const classType = const _PostModelType();
@@ -5642,7 +5642,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the Todo type in your schema.
+/** This is an auto generated class representing the Todo type in your schema. */
 @immutable
 class Todo extends Model {
   static const classType = const _TodoModelType();
@@ -5763,7 +5763,7 @@ import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the Task type in your schema.
+/** This is an auto generated class representing the Task type in your schema. */
 @immutable
 class Task extends Model {
   static const classType = const _TaskModelType();
@@ -5879,7 +5879,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the Blog type in your schema.
+/** This is an auto generated class representing the Blog type in your schema. */
 @immutable
 class Blog extends Model {
   static const classType = const _BlogModelType();
@@ -6034,7 +6034,7 @@ import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the Comment type in your schema.
+/** This is an auto generated class representing the Comment type in your schema. */
 @immutable
 class Comment extends Model {
   static const classType = const _CommentModelType();
@@ -6172,7 +6172,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the Post type in your schema.
+/** This is an auto generated class representing the Post type in your schema. */
 @immutable
 class Post extends Model {
   static const classType = const _PostModelType();
@@ -6335,7 +6335,7 @@ exports[`AppSync Dart Visitor Model with Key Directive should generate a class f
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the authorBook type in your schema.
+/** This is an auto generated class representing the authorBook type in your schema. */
 @immutable
 class authorBook extends Model {
   static const classType = const _authorBookModelType();
@@ -6512,7 +6512,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/// This is an auto generated class representing the TestModel type in your schema.
+/** This is an auto generated class representing the TestModel type in your schema. */
 @immutable
 class TestModel extends Model {
   static const classType = const _TestModelModelType();
@@ -6617,7 +6617,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
-/// This is an auto generated class representing the Blog type in your schema.
+/** This is an auto generated class representing the Blog type in your schema. */
 @immutable
 class Blog extends Model {
   static const classType = const _BlogModelType();
@@ -6771,7 +6771,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/// This is an auto generated class representing the Comment type in your schema.
+/** This is an auto generated class representing the Comment type in your schema. */
 @immutable
 class Comment extends Model {
   static const classType = const _CommentModelType();
@@ -6928,7 +6928,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
-/// This is an auto generated class representing the Post type in your schema.
+/** This is an auto generated class representing the Post type in your schema. */
 @immutable
 class Post extends Model {
   static const classType = const _PostModelType();
@@ -7108,7 +7108,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
-/// This is an auto generated class representing the TestModel type in your schema.
+/** This is an auto generated class representing the TestModel type in your schema. */
 @immutable
 class TestModel extends Model {
   static const classType = const _TestModelModelType();
@@ -7345,7 +7345,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
-/// This is an auto generated class representing the TestModel type in your schema.
+/** This is an auto generated class representing the TestModel type in your schema. */
 @immutable
 class TestModel extends Model {
   static const classType = const _TestModelModelType();
@@ -7713,7 +7713,7 @@ exports[`AppSync Dart Visitor Read-only Field Tests should generate the read-onl
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/// This is an auto generated class representing the SimpleModel type in your schema.
+/** This is an auto generated class representing the SimpleModel type in your schema. */
 @immutable
 class SimpleModel extends Model {
   static const classType = const _SimpleModelModelType();
@@ -7854,7 +7854,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/// This is an auto generated class representing the SimpleModel type in your schema.
+/** This is an auto generated class representing the SimpleModel type in your schema. */
 @immutable
 class SimpleModel extends Model {
   static const classType = const _SimpleModelModelType();
@@ -8002,7 +8002,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/// This is an auto generated class representing the ModelWithImplicitID type in your schema.
+/** This is an auto generated class representing the ModelWithImplicitID type in your schema. */
 @immutable
 class ModelWithImplicitID extends Model {
   static const classType = const _ModelWithImplicitIDModelType();
@@ -8137,13 +8137,15 @@ class _ModelWithImplicitIDModelType extends ModelType<ModelWithImplicitID> {
   }
 }
 
-/// This is an auto generated class representing the model identifier
-/// of [ModelWithImplicitID] in your schema.
+/** 
+ * This is an auto generated class representing the model identifier
+ * of [ModelWithImplicitID] in your schema.
+ */
 @immutable
 class ModelWithImplicitIDModelIdentifier implements ModelIdentifier<ModelWithImplicitID> {
   final String id;
 
-  /// Create an instance of ModelWithImplicitIDModelIdentifier using [id] the primary key.
+  /** Create an instance of ModelWithImplicitIDModelIdentifier using [id] the primary key. */
   const ModelWithImplicitIDModelIdentifier({
     required this.id});
   
@@ -8203,7 +8205,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/// This is an auto generated class representing the ModelWithExplicitID type in your schema.
+/** This is an auto generated class representing the ModelWithExplicitID type in your schema. */
 @immutable
 class ModelWithExplicitID extends Model {
   static const classType = const _ModelWithExplicitIDModelType();
@@ -8338,13 +8340,15 @@ class _ModelWithExplicitIDModelType extends ModelType<ModelWithExplicitID> {
   }
 }
 
-/// This is an auto generated class representing the model identifier
-/// of [ModelWithExplicitID] in your schema.
+/** 
+ * This is an auto generated class representing the model identifier
+ * of [ModelWithExplicitID] in your schema.
+ */
 @immutable
 class ModelWithExplicitIDModelIdentifier implements ModelIdentifier<ModelWithExplicitID> {
   final String id;
 
-  /// Create an instance of ModelWithExplicitIDModelIdentifier using [id] the primary key.
+  /** Create an instance of ModelWithExplicitIDModelIdentifier using [id] the primary key. */
   const ModelWithExplicitIDModelIdentifier({
     required this.id});
   
@@ -8404,7 +8408,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/// This is an auto generated class representing the ModelWithExplicitIDAndSDI type in your schema.
+/** This is an auto generated class representing the ModelWithExplicitIDAndSDI type in your schema. */
 @immutable
 class ModelWithExplicitIDAndSDI extends Model {
   static const classType = const _ModelWithExplicitIDAndSDIModelType();
@@ -8534,13 +8538,15 @@ class _ModelWithExplicitIDAndSDIModelType extends ModelType<ModelWithExplicitIDA
   }
 }
 
-/// This is an auto generated class representing the model identifier
-/// of [ModelWithExplicitIDAndSDI] in your schema.
+/** 
+ * This is an auto generated class representing the model identifier
+ * of [ModelWithExplicitIDAndSDI] in your schema.
+ */
 @immutable
 class ModelWithExplicitIDAndSDIModelIdentifier implements ModelIdentifier<ModelWithExplicitIDAndSDI> {
   final String id;
 
-  /// Create an instance of ModelWithExplicitIDAndSDIModelIdentifier using [id] the primary key.
+  /** Create an instance of ModelWithExplicitIDAndSDIModelIdentifier using [id] the primary key. */
   const ModelWithExplicitIDAndSDIModelIdentifier({
     required this.id});
   
@@ -8600,7 +8606,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/// This is an auto generated class representing the ModelWithIDPlusSortKeys type in your schema.
+/** This is an auto generated class representing the ModelWithIDPlusSortKeys type in your schema. */
 @immutable
 class ModelWithIDPlusSortKeys extends Model {
   static const classType = const _ModelWithIDPlusSortKeysModelType();
@@ -8776,16 +8782,20 @@ class _ModelWithIDPlusSortKeysModelType extends ModelType<ModelWithIDPlusSortKey
   }
 }
 
-/// This is an auto generated class representing the model identifier
-/// of [ModelWithIDPlusSortKeys] in your schema.
+/** 
+ * This is an auto generated class representing the model identifier
+ * of [ModelWithIDPlusSortKeys] in your schema.
+ */
 @immutable
 class ModelWithIDPlusSortKeysModelIdentifier implements ModelIdentifier<ModelWithIDPlusSortKeys> {
   final String id;
   final String title;
   final int rating;
 
-  /// Create an instance of ModelWithIDPlusSortKeysModelIdentifier using [id] the primary key.
-  /// And [title], [rating] the sort keys.
+  /** 
+   * Create an instance of ModelWithIDPlusSortKeysModelIdentifier using [id] the primary key.
+   * And [title], [rating] the sort keys.
+   */
   const ModelWithIDPlusSortKeysModelIdentifier({
     required this.id,
     required this.title,
@@ -8853,7 +8863,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/// This is an auto generated class representing the ModelWithExplicitlyDefinedPK type in your schema.
+/** This is an auto generated class representing the ModelWithExplicitlyDefinedPK type in your schema. */
 @immutable
 class ModelWithExplicitlyDefinedPK extends Model {
   static const classType = const _ModelWithExplicitlyDefinedPKModelType();
@@ -9018,13 +9028,15 @@ class _ModelWithExplicitlyDefinedPKModelType extends ModelType<ModelWithExplicit
   }
 }
 
-/// This is an auto generated class representing the model identifier
-/// of [ModelWithExplicitlyDefinedPK] in your schema.
+/** 
+ * This is an auto generated class representing the model identifier
+ * of [ModelWithExplicitlyDefinedPK] in your schema.
+ */
 @immutable
 class ModelWithExplicitlyDefinedPKModelIdentifier implements ModelIdentifier<ModelWithExplicitlyDefinedPK> {
   final String modelID;
 
-  /// Create an instance of ModelWithExplicitlyDefinedPKModelIdentifier using [modelID] the primary key.
+  /** Create an instance of ModelWithExplicitlyDefinedPKModelIdentifier using [modelID] the primary key. */
   const ModelWithExplicitlyDefinedPKModelIdentifier({
     required this.modelID});
   
@@ -9084,7 +9096,7 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'package:flutter/foundation.dart';
 
 
-/// This is an auto generated class representing the ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey type in your schema.
+/** This is an auto generated class representing the ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey type in your schema. */
 @immutable
 class ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey extends Model {
   static const classType = const _ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelType();
@@ -9277,16 +9289,20 @@ class _ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelType extends M
   }
 }
 
-/// This is an auto generated class representing the model identifier
-/// of [ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey] in your schema.
+/** 
+ * This is an auto generated class representing the model identifier
+ * of [ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey] in your schema.
+ */
 @immutable
 class ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelIdentifier implements ModelIdentifier<ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey> {
   final String modelID;
   final String title;
   final int rating;
 
-  /// Create an instance of ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelIdentifier using [modelID] the primary key.
-  /// And [title], [rating] the sort keys.
+  /** 
+   * Create an instance of ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelIdentifier using [modelID] the primary key.
+   * And [title], [rating] the sort keys.
+   */
   const ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelIdentifier({
     required this.modelID,
     required this.title,

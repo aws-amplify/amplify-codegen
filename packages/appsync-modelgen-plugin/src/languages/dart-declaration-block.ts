@@ -1,5 +1,5 @@
-import { NameNode, StringValueNode, Kind } from "graphql";
-import { indent, indentMultiline } from '@graphql-codegen/visitor-plugin-common';
+import { NameNode, StringValueNode } from "graphql";
+import { transformComment, indentMultiline } from "@graphql-codegen/visitor-plugin-common";
 import stripIndent from "strip-indent";
 
 type Kind = 'class' | 'interface' | 'enum' | 'extension';
@@ -23,29 +23,6 @@ type ClassMethod = {
 type MethodFlags = MemberFlags & {
   isGetter?: boolean;
   isBlock?: boolean;
-}
-
-function isStringValueNode(node: any): node is StringValueNode {
-  return node && typeof node === 'object' && node.kind === Kind.STRING;
-}
-
-function transformComment(comment: string | StringValueNode, indentLevel: number = 0) {
-  if (!comment) {
-    return '';
-  }
-  if (isStringValueNode(comment)) {
-    comment = comment.value;
-  }
-  comment = comment
-    .trimStart()
-    .split('*/')
-    .join('*\\/');
-  let lines = comment.split('\n');
-  lines = lines.map(line => `/// ${line}`);
-  return lines
-    .map(line => indent(line, indentLevel))
-    .concat('')
-    .join('\n');
 }
 
 export class DartDeclarationBlock {
