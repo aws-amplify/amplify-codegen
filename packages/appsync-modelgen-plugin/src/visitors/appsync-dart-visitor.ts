@@ -5,6 +5,7 @@ import {
   CodeGenModel,
   CodeGenField,
   CodeGenGenerateEnum,
+  CodeGenPrimaryKeyType,
 } from './appsync-visitor';
 import { DartDeclarationBlock } from '../languages/dart-declaration-block';
 import { CodeGenConnectionType } from '../utils/process-connections';
@@ -541,7 +542,9 @@ export class AppSyncModelDartVisitor<
       isSingleManagedIDField ? undefined : '} catch(e) {',
       isSingleManagedIDField ? undefined : indent(forceCastException),
       isSingleManagedIDField ? undefined : '}',
-    ].filter(line => line).join('\n');
+    ]
+      .filter(line => line)
+      .join('\n');
 
     declarationBlock.addClassMethod(`get modelIdentifier`, `${modelName}ModelIdentifier`, undefined, getterImpl, {
       isGetter: true,
@@ -1147,11 +1150,26 @@ export class AppSyncModelDartVisitor<
   }
 
   protected getModelIdentifierFields(model: CodeGenModel): CodeGenField[] {
-    // find the primary key info
-    const primaryKeyInfo = model.directives.find(directive => directive.name === 'key' && directive.arguments.name === undefined);
+    // find the primary key field then get primaryKeyInfo
+    const primaryKeyField = model.fields.find(field => field.primaryKeyInfo)!;
+    const primaryKeyType = primaryKeyField?.primaryKeyInfo?.primaryKeyType;
+    const primaryKeySortKeyFields = primaryKeyField?.primaryKeyInfo?.sortKeyFields ?? [];
+
+    let identifierFieldsNames: string[] = [];
+
     // identifier will contain primaryKey field + sortKeyFields or
     // the default model `id` field
-    const identifierFieldsNames: string[] = primaryKeyInfo?.arguments?.fields ?? ['id'];
+    if (
+      (primaryKeyType === CodeGenPrimaryKeyType.ManagedId || primaryKeyType === CodeGenPrimaryKeyType.OptionallyManagedId) &&
+      !primaryKeySortKeyFields.length
+    ) {
+      identifierFieldsNames = ['id'];
+    } else {
+      identifierFieldsNames.push(primaryKeyField?.name);
+      identifierFieldsNames.push(...primaryKeySortKeyFields);
+    }
+
+    // const identifierFieldsNames: string[] = primaryKeyInfo?.arguments?.fields ?? ['id'];
     // get fields by names
     return identifierFieldsNames
       .map(name => model.fields.find(field => field.name === name))
