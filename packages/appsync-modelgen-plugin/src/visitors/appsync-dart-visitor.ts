@@ -363,7 +363,6 @@ export class AppSyncModelDartVisitor<
     const identifierFields = this.getModelIdentifierFields(model);
     const modelName = this.getModelName(model);
 
-    model.fields;
     const classDeclarationBlock = new DartDeclarationBlock()
       .asKind('class')
       .withName(`${modelName}ModelIdentifier`)
