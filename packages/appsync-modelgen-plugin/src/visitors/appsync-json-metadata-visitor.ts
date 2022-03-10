@@ -193,7 +193,7 @@ export class AppSyncJSONVisitor<
   private generateModelMetadata(model: CodeGenModel): JSONSchemaModel {
     return {
       ...this.generateNonModelMetadata(model),
-      syncable: true,
+      syncable: this.isSyncable(model),
       pluralName: this.pluralizeModelName(model),
       attributes: this.generateModelAttributes(model),
     };
@@ -228,6 +228,13 @@ export class AppSyncJSONVisitor<
       }, {}),
     };
   }
+
+  private isSyncable(model: CodeGenModel): boolean {
+    // The model is treated as syncable unless there is a @model(subscriptions: null) directive
+    // Therefore it is important to use '=== null' and not '== null' to ensure it only matches when 'subscriptions: null' is explicitly specified
+    return !model.directives.some(directive => directive.name === 'model' && directive.arguments.subscriptions === null);
+  }
+
   private generateEnumMetadata(enumObj: CodeGenEnum): JSONSchemaEnum {
     return {
       name: enumObj.name,

@@ -27,7 +27,6 @@ const getVisitor = (schema: string, target: 'typescript' | 'javascript' | 'typeD
 };
 
 describe('Metadata visitor', () => {
-
   const schema = /* GraphQL */ `
     type SimpleModel @model {
       id: ID!
@@ -42,6 +41,18 @@ describe('Metadata visitor', () => {
     type SimpleNonModelType {
       id: ID!
       names: [String]
+    }
+
+    type ModelWithoutSubscriptions @model(subscriptions: null) {
+      id: ID!
+      name: String
+      bar: String
+    }
+
+    type ModelWithCustomSubscriptions @model(subscriptions: ["onCustomUpdate"]) {
+      id: ID!
+      name: String
+      bar: String
     }
   `;
   let visitor: AppSyncJSONVisitor;
@@ -139,6 +150,52 @@ describe('Metadata visitor', () => {
         ...nonModelMetadata,
         syncable: true,
         pluralName: 'SimpleModels',
+        attributes: [],
+      });
+
+      expect(getNonModelMetadataSpy).toHaveBeenCalledWith(modelType);
+      expect(pluralizeSpy).toBeCalledWith(modelType);
+      expect(generateModelAttributesSpy).toHaveBeenCalledWith(modelType);
+    });
+
+    it('should generate non-syncable model metadata when model subscriptions set to null', () => {
+      const modelType = (visitor as any).getSelectedModels()['ModelWithoutSubscriptions'];
+      const nonModelMetadata: JSONSchemaNonModel = {
+        name: 'ModelWithoutSubscriptions',
+        fields: {},
+      };
+
+      const getNonModelMetadataSpy = jest.spyOn(visitor as any, 'generateNonModelMetadata').mockReturnValueOnce(nonModelMetadata);
+      const pluralizeSpy = jest.spyOn(visitor as any, 'pluralizeModelName').mockReturnValueOnce('ModelsWithoutSubscriptions');
+      const generateModelAttributesSpy = jest.spyOn(visitor as any, 'generateModelAttributes').mockReturnValue([]);
+
+      expect((visitor as any).generateModelMetadata(modelType)).toEqual({
+        ...nonModelMetadata,
+        syncable: false,
+        pluralName: 'ModelsWithoutSubscriptions',
+        attributes: [],
+      });
+
+      expect(getNonModelMetadataSpy).toHaveBeenCalledWith(modelType);
+      expect(pluralizeSpy).toBeCalledWith(modelType);
+      expect(generateModelAttributesSpy).toHaveBeenCalledWith(modelType);
+    });
+
+    it('should generate syncable model metadata when model subscriptions is not set to null', () => {
+      const modelType = (visitor as any).getSelectedModels()['ModelWithCustomSubscriptions'];
+      const nonModelMetadata: JSONSchemaNonModel = {
+        name: 'ModelWithCustomSubscriptions',
+        fields: {},
+      };
+
+      const getNonModelMetadataSpy = jest.spyOn(visitor as any, 'generateNonModelMetadata').mockReturnValueOnce(nonModelMetadata);
+      const pluralizeSpy = jest.spyOn(visitor as any, 'pluralizeModelName').mockReturnValueOnce('ModelsWithCustomSubscriptions');
+      const generateModelAttributesSpy = jest.spyOn(visitor as any, 'generateModelAttributes').mockReturnValue([]);
+
+      expect((visitor as any).generateModelMetadata(modelType)).toEqual({
+        ...nonModelMetadata,
+        syncable: true,
+        pluralName: 'ModelsWithCustomSubscriptions',
         attributes: [],
       });
 
@@ -282,6 +339,112 @@ describe('Metadata visitor', () => {
               },
             },
             "models": Object {
+              "ModelWithCustomSubscriptions": Object {
+                "attributes": Array [
+                  Object {
+                    "properties": Object {
+                      "subscriptions": Array [
+                        "onCustomUpdate",
+                      ],
+                    },
+                    "type": "model",
+                  },
+                ],
+                "fields": Object {
+                  "bar": Object {
+                    "attributes": Array [],
+                    "isArray": false,
+                    "isRequired": false,
+                    "name": "bar",
+                    "type": "String",
+                  },
+                  "createdAt": Object {
+                    "attributes": Array [],
+                    "isArray": false,
+                    "isReadOnly": true,
+                    "isRequired": false,
+                    "name": "createdAt",
+                    "type": "AWSDateTime",
+                  },
+                  "id": Object {
+                    "attributes": Array [],
+                    "isArray": false,
+                    "isRequired": true,
+                    "name": "id",
+                    "type": "ID",
+                  },
+                  "name": Object {
+                    "attributes": Array [],
+                    "isArray": false,
+                    "isRequired": false,
+                    "name": "name",
+                    "type": "String",
+                  },
+                  "updatedAt": Object {
+                    "attributes": Array [],
+                    "isArray": false,
+                    "isReadOnly": true,
+                    "isRequired": false,
+                    "name": "updatedAt",
+                    "type": "AWSDateTime",
+                  },
+                },
+                "name": "ModelWithCustomSubscriptions",
+                "pluralName": "ModelWithCustomSubscriptions",
+                "syncable": true,
+              },
+              "ModelWithoutSubscriptions": Object {
+                "attributes": Array [
+                  Object {
+                    "properties": Object {
+                      "subscriptions": null,
+                    },
+                    "type": "model",
+                  },
+                ],
+                "fields": Object {
+                  "bar": Object {
+                    "attributes": Array [],
+                    "isArray": false,
+                    "isRequired": false,
+                    "name": "bar",
+                    "type": "String",
+                  },
+                  "createdAt": Object {
+                    "attributes": Array [],
+                    "isArray": false,
+                    "isReadOnly": true,
+                    "isRequired": false,
+                    "name": "createdAt",
+                    "type": "AWSDateTime",
+                  },
+                  "id": Object {
+                    "attributes": Array [],
+                    "isArray": false,
+                    "isRequired": true,
+                    "name": "id",
+                    "type": "ID",
+                  },
+                  "name": Object {
+                    "attributes": Array [],
+                    "isArray": false,
+                    "isRequired": false,
+                    "name": "name",
+                    "type": "String",
+                  },
+                  "updatedAt": Object {
+                    "attributes": Array [],
+                    "isArray": false,
+                    "isReadOnly": true,
+                    "isRequired": false,
+                    "name": "updatedAt",
+                    "type": "AWSDateTime",
+                  },
+                },
+                "name": "ModelWithoutSubscriptions",
+                "pluralName": "ModelWithoutSubscriptions",
+                "syncable": false,
+              },
               "SimpleModel": Object {
                 "attributes": Array [
                   Object {
@@ -355,12 +518,12 @@ describe('Metadata visitor', () => {
                 "name": "SimpleNonModelType",
               },
             },
-            "version": "5eb36909e822fd40c657cc69b22c919a",
+            "version": "1a9fb3758cb18c1f29b9a63f109db205",
           }
         `);
-        expect(generateModelSpy).toHaveBeenCalledTimes(1);
+        expect(generateModelSpy).toHaveBeenCalledTimes(3);
         // called twice because same function is used for model and non model types
-        expect(generateNonModelSpy).toHaveBeenCalledTimes(2);
+        expect(generateNonModelSpy).toHaveBeenCalledTimes(4);
         expect(generateEnumSpy).toHaveBeenCalledTimes(1);
         expect(computeVersionSpy).toHaveBeenCalledTimes(1);
       });
@@ -422,6 +585,112 @@ describe('Metadata visitor', () => {
                             \\"properties\\": {}
                         }
                     ]
+                },
+                \\"ModelWithoutSubscriptions\\": {
+                    \\"name\\": \\"ModelWithoutSubscriptions\\",
+                    \\"fields\\": {
+                        \\"id\\": {
+                            \\"name\\": \\"id\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"ID\\",
+                            \\"isRequired\\": true,
+                            \\"attributes\\": []
+                        },
+                        \\"name\\": {
+                            \\"name\\": \\"name\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"String\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": []
+                        },
+                        \\"bar\\": {
+                            \\"name\\": \\"bar\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"String\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": []
+                        },
+                        \\"createdAt\\": {
+                            \\"name\\": \\"createdAt\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"AWSDateTime\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": [],
+                            \\"isReadOnly\\": true
+                        },
+                        \\"updatedAt\\": {
+                            \\"name\\": \\"updatedAt\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"AWSDateTime\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": [],
+                            \\"isReadOnly\\": true
+                        }
+                    },
+                    \\"syncable\\": false,
+                    \\"pluralName\\": \\"ModelWithoutSubscriptions\\",
+                    \\"attributes\\": [
+                        {
+                            \\"type\\": \\"model\\",
+                            \\"properties\\": {
+                                \\"subscriptions\\": null
+                            }
+                        }
+                    ]
+                },
+                \\"ModelWithCustomSubscriptions\\": {
+                    \\"name\\": \\"ModelWithCustomSubscriptions\\",
+                    \\"fields\\": {
+                        \\"id\\": {
+                            \\"name\\": \\"id\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"ID\\",
+                            \\"isRequired\\": true,
+                            \\"attributes\\": []
+                        },
+                        \\"name\\": {
+                            \\"name\\": \\"name\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"String\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": []
+                        },
+                        \\"bar\\": {
+                            \\"name\\": \\"bar\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"String\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": []
+                        },
+                        \\"createdAt\\": {
+                            \\"name\\": \\"createdAt\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"AWSDateTime\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": [],
+                            \\"isReadOnly\\": true
+                        },
+                        \\"updatedAt\\": {
+                            \\"name\\": \\"updatedAt\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"AWSDateTime\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": [],
+                            \\"isReadOnly\\": true
+                        }
+                    },
+                    \\"syncable\\": true,
+                    \\"pluralName\\": \\"ModelWithCustomSubscriptions\\",
+                    \\"attributes\\": [
+                        {
+                            \\"type\\": \\"model\\",
+                            \\"properties\\": {
+                                \\"subscriptions\\": [
+                                    \\"onCustomUpdate\\"
+                                ]
+                            }
+                        }
+                    ]
                 }
             },
             \\"enums\\": {
@@ -455,7 +724,7 @@ describe('Metadata visitor', () => {
                     }
                 }
             },
-            \\"version\\": \\"5eb36909e822fd40c657cc69b22c919a\\"
+            \\"version\\": \\"1a9fb3758cb18c1f29b9a63f109db205\\"
         };"
       `);
     });
@@ -515,6 +784,112 @@ describe('Metadata visitor', () => {
                             \\"properties\\": {}
                         }
                     ]
+                },
+                \\"ModelWithoutSubscriptions\\": {
+                    \\"name\\": \\"ModelWithoutSubscriptions\\",
+                    \\"fields\\": {
+                        \\"id\\": {
+                            \\"name\\": \\"id\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"ID\\",
+                            \\"isRequired\\": true,
+                            \\"attributes\\": []
+                        },
+                        \\"name\\": {
+                            \\"name\\": \\"name\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"String\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": []
+                        },
+                        \\"bar\\": {
+                            \\"name\\": \\"bar\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"String\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": []
+                        },
+                        \\"createdAt\\": {
+                            \\"name\\": \\"createdAt\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"AWSDateTime\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": [],
+                            \\"isReadOnly\\": true
+                        },
+                        \\"updatedAt\\": {
+                            \\"name\\": \\"updatedAt\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"AWSDateTime\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": [],
+                            \\"isReadOnly\\": true
+                        }
+                    },
+                    \\"syncable\\": false,
+                    \\"pluralName\\": \\"ModelWithoutSubscriptions\\",
+                    \\"attributes\\": [
+                        {
+                            \\"type\\": \\"model\\",
+                            \\"properties\\": {
+                                \\"subscriptions\\": null
+                            }
+                        }
+                    ]
+                },
+                \\"ModelWithCustomSubscriptions\\": {
+                    \\"name\\": \\"ModelWithCustomSubscriptions\\",
+                    \\"fields\\": {
+                        \\"id\\": {
+                            \\"name\\": \\"id\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"ID\\",
+                            \\"isRequired\\": true,
+                            \\"attributes\\": []
+                        },
+                        \\"name\\": {
+                            \\"name\\": \\"name\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"String\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": []
+                        },
+                        \\"bar\\": {
+                            \\"name\\": \\"bar\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"String\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": []
+                        },
+                        \\"createdAt\\": {
+                            \\"name\\": \\"createdAt\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"AWSDateTime\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": [],
+                            \\"isReadOnly\\": true
+                        },
+                        \\"updatedAt\\": {
+                            \\"name\\": \\"updatedAt\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"AWSDateTime\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": [],
+                            \\"isReadOnly\\": true
+                        }
+                    },
+                    \\"syncable\\": true,
+                    \\"pluralName\\": \\"ModelWithCustomSubscriptions\\",
+                    \\"attributes\\": [
+                        {
+                            \\"type\\": \\"model\\",
+                            \\"properties\\": {
+                                \\"subscriptions\\": [
+                                    \\"onCustomUpdate\\"
+                                ]
+                            }
+                        }
+                    ]
                 }
             },
             \\"enums\\": {
@@ -548,7 +923,7 @@ describe('Metadata visitor', () => {
                     }
                 }
             },
-            \\"version\\": \\"5eb36909e822fd40c657cc69b22c919a\\"
+            \\"version\\": \\"1a9fb3758cb18c1f29b9a63f109db205\\"
         };"
       `);
     });
