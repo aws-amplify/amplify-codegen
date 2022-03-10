@@ -5,6 +5,7 @@ import {
   CodeGenModel,
   CodeGenField,
   CodeGenGenerateEnum,
+  CodeGenPrimaryKeyType,
 } from './appsync-visitor';
 import { DartDeclarationBlock } from '../languages/dart-declaration-block';
 import { CodeGenConnectionType } from '../utils/process-connections';
@@ -55,6 +56,7 @@ export interface RawAppSyncModelDartConfig extends RawAppSyncModelConfig {
 }
 
 export interface ParsedAppSyncModelDartConfig extends ParsedAppSyncModelConfig {
+  useCustomPrimaryKey: boolean;
   enableDartNullSafety: boolean;
   enableDartZeroThreeFeatures: boolean;
   dartUpdateAmplifyCoreDependency: boolean;
@@ -214,6 +216,11 @@ export class AppSyncModelDartVisitor<
 
       result.push(modelDeclaration);
       result.push(modelType);
+
+      if (this.customPKEnabled()) {
+        const modelIdentifier = this.generateModelIdentifierClass(model);
+        result.push(modelIdentifier);
+      }
     });
     return this.formatDartCode(result.join('\n\n'));
   }
@@ -352,6 +359,101 @@ export class AppSyncModelDartVisitor<
     return classDeclarationBlock.string;
   }
 
+  protected generateModelIdentifierClass(model: CodeGenModel): string {
+    const identifierFields = this.getModelIdentifierFields(model);
+    const modelName = this.getModelName(model);
+
+    const classDeclarationBlock = new DartDeclarationBlock()
+      .asKind('class')
+      .withName(`${modelName}ModelIdentifier`)
+      .implements([`ModelIdentifier<${modelName}>`])
+      .withComment(['This is an auto generated class representing the model identifier', `of [${modelName}] in your schema.`].join('\n'))
+      .annotate(['immutable']);
+
+    identifierFields.forEach(field => {
+      classDeclarationBlock.addClassMember(field.name, this.getNativeType(field), '', { final: true });
+    });
+
+    const constructorArgs = `{\n${indentMultiline(identifierFields.map(field => `required this.${field.name}`).join(',\n'))}}`;
+
+    classDeclarationBlock.addClassMethod(
+      `${modelName}ModelIdentifier`,
+      '',
+      [{ name: constructorArgs }],
+      ';',
+      { const: true, isBlock: false },
+      undefined,
+      [
+        `Create an instance of ${modelName}ModelIdentifier using [${identifierFields[0].name}] the primary key.`,
+        identifierFields.length > 1
+          ? `And ${identifierFields
+              .slice(1)
+              .map(field => `[${field.name}]`)
+              .join(', ')} the sort key${identifierFields.length == 2 ? '' : 's'}.`
+          : undefined,
+      ]
+        .filter(comment => comment)
+        .join('\n'),
+    );
+
+    classDeclarationBlock.addClassMethod(
+      'serializeAsMap',
+      'Map<String, dynamic>',
+      [],
+      [' => (<String, dynamic>{', indentMultiline(identifierFields.map(field => `'${field.name}': ${field.name}`).join(',\n')), '});'].join(
+        '\n',
+      ),
+      { isBlock: false },
+    );
+
+    classDeclarationBlock.addClassMethod(
+      'serializeAsList',
+      'List<Map<String, dynamic>>',
+      [],
+      [
+        ' => serializeAsMap()',
+        indent('.entries'),
+        indent('.map((entry) => (<String, dynamic>{ entry.key: entry.value }))'),
+        indent('.toList();'),
+      ].join('\n'),
+      { isBlock: false },
+    );
+
+    classDeclarationBlock.addClassMethod('serializeAsString', 'String', undefined, " => serializeAsMap().values.join('#');", {
+      isBlock: false,
+    });
+
+    classDeclarationBlock.addClassMethod(
+      'toString',
+      'String',
+      undefined,
+      ` => '${modelName}ModelIdentifier(${identifierFields.map(field => `${field.name}: $${field.name}`).join(', ')})';`,
+      { isBlock: false },
+      ['override'],
+    );
+
+    const equalOperatorImpl = [
+      'if (identical(this, other)) {',
+      indent('return true;'),
+      '}\n',
+      `return other is ${modelName}ModelIdentifier &&`,
+      indentMultiline(`${identifierFields.map(field => `${field.name} == other.${field.name}`).join(' &&\n')};`),
+    ].join('\n');
+
+    classDeclarationBlock.addClassMethod('operator ==', 'bool', [{ name: 'Object other' }], equalOperatorImpl, undefined, ['override']);
+
+    classDeclarationBlock.addClassMethod(
+      'get hashCode',
+      'int',
+      undefined,
+      ` =>\n${indentMultiline(identifierFields.map(field => `${field.name}.hashCode`).join(' ^\n'))};`,
+      { isBlock: false, isGetter: true },
+      ['override'],
+    );
+
+    return classDeclarationBlock.string;
+  }
+
   /**
    * Generate code for fields inside models
    * @param field
@@ -370,8 +472,18 @@ export class AppSyncModelDartVisitor<
 
   protected generateGetters(model: CodeGenModel, declarationBlock: DartDeclarationBlock, includeIdGetter: boolean = true): void {
     if (includeIdGetter) {
-      //getId
-      declarationBlock.addClassMethod('getId', 'String', [], 'return id;', {}, ['override']);
+      if (this.customPKEnabled()) {
+        const identifierFields = this.getModelIdentifierFields(model);
+        const isCustomPK = identifierFields[0].name !== 'id';
+        const getIdImpl = isCustomPK ? ' => modelIdentifier.serializeAsString();' : ' => id;';
+        //getId
+        declarationBlock.addClassMethod('getId', 'String', [], getIdImpl, { isBlock: false }, [
+          "Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')",
+          'override',
+        ]);
+      } else {
+        declarationBlock.addClassMethod('getId', 'String', [], 'return id;', {}, ['override']);
+      }
     }
     //other getters
     if (this.isNullSafety()) {
@@ -390,6 +502,10 @@ export class AppSyncModelDartVisitor<
       );`;
       }
 
+      if (includeIdGetter && this.customPKEnabled()) {
+        this.generateModelIdentifierGetter(model, declarationBlock, forceCastException);
+      }
+
       model.fields.forEach(field => {
         const fieldName = this.getFieldName(field);
         const fieldType = this.getNativeType(field);
@@ -403,6 +519,36 @@ export class AppSyncModelDartVisitor<
         }
       });
     }
+  }
+
+  protected generateModelIdentifierGetter(model: CodeGenModel, declarationBlock: DartDeclarationBlock, forceCastException: string): void {
+    const identifierFields = this.getModelIdentifierFields(model);
+    const modelName = this.getModelName(model);
+    const isSingleManagedIDField = identifierFields.length === 1 && identifierFields[0].name === 'id';
+
+    const getterImpl = [
+      isSingleManagedIDField ? undefined : 'try {',
+      indent(`return ${modelName}ModelIdentifier(`),
+      indentMultiline(
+        identifierFields
+          .map(field => {
+            const isManagedIdField = field.name === 'id';
+            return indent(`${field.name}: ${isManagedIdField ? '' : '_'}${field.name}${isManagedIdField ? '' : '!'}`);
+          })
+          .join(',\n'),
+      ),
+      indent(');'),
+      isSingleManagedIDField ? undefined : '} catch(e) {',
+      isSingleManagedIDField ? undefined : indent(forceCastException),
+      isSingleManagedIDField ? undefined : '}',
+    ]
+      .filter(line => line)
+      .join('\n');
+
+    declarationBlock.addClassMethod(`get modelIdentifier`, `${modelName}ModelIdentifier`, undefined, getterImpl, {
+      isGetter: true,
+      isBlock: true,
+    });
   }
 
   protected generateConstructor(model: CodeGenModel, declarationBlock: DartDeclarationBlock): void {
@@ -538,20 +684,23 @@ export class AppSyncModelDartVisitor<
 
   protected generateCopyWithMethod(model: CodeGenModel, declarationBlock: DartDeclarationBlock): void {
     //copyWith
-    const copyParam = `{${this.getWritableFields(model)
+    const writableFields = this.getWritableFields(model, this.customPKEnabled());
+    const copyParam = `{${writableFields
       .map(f => `${this.getNativeType(f)}${this.isNullSafety() ? '?' : ''} ${this.getFieldName(f)}`)
       .join(', ')}}`;
     declarationBlock.addClassMethod(
       'copyWith',
       this.getModelName(model),
-      [{ name: copyParam }],
+      writableFields.length ? [{ name: copyParam }] : undefined,
       [
         `return ${this.getModelName(model)}${this.config.isTimestampFieldsAdded ? '._internal' : ''}(`,
         indentMultiline(
           `${this.getWritableFields(model)
             .map(field => {
               const fieldName = this.getFieldName(field);
-              return `${fieldName}: ${fieldName} ?? this.${fieldName}`;
+              return `${fieldName}: ${
+                writableFields.findIndex(field => field.name === fieldName) > -1 ? `${fieldName} ?? this.` : ''
+              }${fieldName}`;
             })
             .join(',\n')});`,
         ),
@@ -831,7 +980,7 @@ export class AppSyncModelDartVisitor<
       .map(directive => {
         const name = directive.arguments.name ? `"${directive.arguments.name}"` : 'null';
         const fields: string = directive.arguments.fields.map((field: string) => `"${field}"`).join(', ');
-        return `ModelIndex(fields: [${fields}], name: ${name})`;
+        return `ModelIndex(fields: const [${fields}], name: ${name})`;
       });
 
     if (indexes.length) {
@@ -999,6 +1148,33 @@ export class AppSyncModelDartVisitor<
     });
   }
 
+  protected getModelIdentifierFields(model: CodeGenModel): CodeGenField[] {
+    // find the primary key field then get primaryKeyInfo
+    const primaryKeyField = model.fields.find(field => field.primaryKeyInfo)!;
+    const primaryKeyType = primaryKeyField?.primaryKeyInfo?.primaryKeyType;
+    const primaryKeySortKeyFields = primaryKeyField?.primaryKeyInfo?.sortKeyFields ?? [];
+
+    let identifierFieldsNames: string[] = [];
+
+    // identifier will contain primaryKey field + sortKeyFields or
+    // the default model `id` field
+    if (
+      (primaryKeyType === CodeGenPrimaryKeyType.ManagedId || primaryKeyType === CodeGenPrimaryKeyType.OptionallyManagedId) &&
+      !primaryKeySortKeyFields.length
+    ) {
+      identifierFieldsNames = ['id'];
+    } else {
+      identifierFieldsNames.push(primaryKeyField?.name);
+      identifierFieldsNames.push(...primaryKeySortKeyFields);
+    }
+
+    // const identifierFieldsNames: string[] = primaryKeyInfo?.arguments?.fields ?? ['id'];
+    // get fields by names
+    return identifierFieldsNames
+      .map(name => model.fields.find(field => field.name === name))
+      .filter((field): field is CodeGenField => field !== undefined);
+  }
+
   /**
    * Format the code following Dart style guidelines
    * @param dartCode
@@ -1022,11 +1198,22 @@ export class AppSyncModelDartVisitor<
     return this._parsedConfig.enableDartNullSafety;
   }
 
+  protected customPKEnabled(): boolean {
+    return this._parsedConfig.useCustomPrimaryKey;
+  }
+
   protected getNullSafetyTypeStr(type: string): string {
     return this.isNullSafety() ? `${type}?` : type;
   }
 
-  protected getWritableFields(model: CodeGenModel): CodeGenField[] {
-    return model.fields.filter(f => !f.isReadOnly);
+  protected getWritableFields(model: CodeGenModel, excludeIdentifierFields: boolean = false): CodeGenField[] {
+    const identifierFields = this.getModelIdentifierFields(model);
+    return model.fields.filter(f => {
+      if (!excludeIdentifierFields && !f.isReadOnly) {
+        return true;
+      }
+
+      return !f.isReadOnly && identifierFields.findIndex(field => field.name == f.name) == -1;
+    });
   }
 }
