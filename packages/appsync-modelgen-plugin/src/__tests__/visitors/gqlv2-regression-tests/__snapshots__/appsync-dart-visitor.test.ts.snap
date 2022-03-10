@@ -281,7 +281,7 @@ class Comment extends Model {
     modelSchemaDefinition.pluralName = \\"Comments\\";
     
     modelSchemaDefinition.indexes = [
-      ModelIndex(fields: [\\"postID\\", \\"content\\"], name: \\"byPost\\")
+      ModelIndex(fields: const [\\"postID\\", \\"content\\"], name: \\"byPost\\")
     ];
     
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
@@ -2140,7 +2140,7 @@ class Comment2 extends Model {
     modelSchemaDefinition.pluralName = \\"Comment2s\\";
     
     modelSchemaDefinition.indexes = [
-      ModelIndex(fields: [\\"postID\\", \\"content\\"], name: \\"byPost\\")
+      ModelIndex(fields: const [\\"postID\\", \\"content\\"], name: \\"byPost\\")
     ];
     
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
@@ -3187,7 +3187,7 @@ class Customer extends Model {
     modelSchemaDefinition.pluralName = \\"Customers\\";
     
     modelSchemaDefinition.indexes = [
-      ModelIndex(fields: [\\"accountRepresentativeID\\"], name: \\"byRepresentative\\")
+      ModelIndex(fields: const [\\"accountRepresentativeID\\"], name: \\"byRepresentative\\")
     ];
     
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
@@ -3252,7 +3252,6 @@ import 'package:flutter/foundation.dart';
 @immutable
 class ModelWithPrimaryKey extends Model {
   static const classType = const _ModelWithPrimaryKeyModelType();
-  final String id;
   final String? _productID;
   final String? _name;
   final String? _content;
@@ -3323,11 +3322,10 @@ class ModelWithPrimaryKey extends Model {
     }
   }
   
-  const ModelWithPrimaryKey._internal({required this.id, required productID, required name, content, required albumID, required categoryID}): _productID = productID, _name = name, _content = content, _albumID = albumID, _categoryID = categoryID;
+  const ModelWithPrimaryKey._internal({required productID, required name, content, required albumID, required categoryID}): _productID = productID, _name = name, _content = content, _albumID = albumID, _categoryID = categoryID;
   
-  factory ModelWithPrimaryKey({String? id, required String productID, required String name, String? content, required String albumID, required String categoryID}) {
+  factory ModelWithPrimaryKey({required String productID, required String name, String? content, required String albumID, required String categoryID}) {
     return ModelWithPrimaryKey._internal(
-      id: id == null ? UUID.getUUID() : id,
       productID: productID,
       name: name,
       content: content,
@@ -3343,7 +3341,6 @@ class ModelWithPrimaryKey extends Model {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is ModelWithPrimaryKey &&
-      id == other.id &&
       _productID == other._productID &&
       _name == other._name &&
       _content == other._content &&
@@ -3359,7 +3356,6 @@ class ModelWithPrimaryKey extends Model {
     var buffer = new StringBuffer();
     
     buffer.write(\\"ModelWithPrimaryKey {\\");
-    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"productID=\\" + \\"$_productID\\" + \\", \\");
     buffer.write(\\"name=\\" + \\"$_name\\" + \\", \\");
     buffer.write(\\"content=\\" + \\"$_content\\" + \\", \\");
@@ -3370,9 +3366,8 @@ class ModelWithPrimaryKey extends Model {
     return buffer.toString();
   }
   
-  ModelWithPrimaryKey copyWith({String? id, String? productID, String? name, String? content, String? albumID, String? categoryID}) {
+  ModelWithPrimaryKey copyWith({String? productID, String? name, String? content, String? albumID, String? categoryID}) {
     return ModelWithPrimaryKey(
-      id: id ?? this.id,
       productID: productID ?? this.productID,
       name: name ?? this.name,
       content: content ?? this.content,
@@ -3381,18 +3376,16 @@ class ModelWithPrimaryKey extends Model {
   }
   
   ModelWithPrimaryKey.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _productID = json['productID'],
+    : _productID = json['productID'],
       _name = json['name'],
       _content = json['content'],
       _albumID = json['albumID'],
       _categoryID = json['categoryID'];
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'productID': _productID, 'name': _name, 'content': _content, 'albumID': _albumID, 'categoryID': _categoryID
+    'productID': _productID, 'name': _name, 'content': _content, 'albumID': _albumID, 'categoryID': _categoryID
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"modelWithPrimaryKey.id\\");
   static final QueryField PRODUCTID = QueryField(fieldName: \\"productID\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
@@ -3403,12 +3396,10 @@ class ModelWithPrimaryKey extends Model {
     modelSchemaDefinition.pluralName = \\"ModelWithPrimaryKeys\\";
     
     modelSchemaDefinition.indexes = [
-      ModelIndex(fields: [\\"productID\\"], name: null),
-      ModelIndex(fields: [\\"albumID\\", \\"name\\"], name: \\"byAlbum\\"),
-      ModelIndex(fields: [\\"categoryID\\", \\"name\\", \\"content\\"], name: \\"byCategory\\")
+      ModelIndex(fields: const [\\"productID\\"], name: null),
+      ModelIndex(fields: const [\\"albumID\\", \\"name\\"], name: \\"byAlbum\\"),
+      ModelIndex(fields: const [\\"categoryID\\", \\"name\\", \\"content\\"], name: \\"byCategory\\")
     ];
-    
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: ModelWithPrimaryKey.PRODUCTID,
