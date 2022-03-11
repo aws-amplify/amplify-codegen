@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.39.10](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen-e2e-tests@2.39.9...amplify-codegen-e2e-tests@2.39.10) (2022-01-11)
+
+
+### Bug Fixes
+
+* update expected messages per change to CLI https://github.com/aws-amplify/amplify-cli/pull/8573 ([7f4bf48](https://github.com/aws-amplify/amplify-codegen/commit/7f4bf48cae98241467a3191e62315ce0e8213a2a))
+
+
+
+
+
+## [2.39.9](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen-e2e-tests@2.39.8...amplify-codegen-e2e-tests@2.39.9) (2022-01-05)
+
+
+### Reverts
+
+* Revert "build: update packages (#325)" (#343) ([694856a](https://github.com/aws-amplify/amplify-codegen/commit/694856a38513aacfa071a02090de8fdc7fc9a1fd)), closes [#325](https://github.com/aws-amplify/amplify-codegen/issues/325) [#343](https://github.com/aws-amplify/amplify-codegen/issues/343)
+
+
+
+
+
+## [2.39.8](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen-e2e-tests@2.39.7...amplify-codegen-e2e-tests@2.39.8) (2022-01-04)
+
+**Note:** Version bump only for package amplify-codegen-e2e-tests
+
+
+
+
+
 ## [2.39.7](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen-e2e-tests@2.39.6...amplify-codegen-e2e-tests@2.39.7) (2021-11-30)
 
 **Note:** Version bump only for package amplify-codegen-e2e-tests

@@ -72,7 +72,7 @@ export function initJSProjectWithProfile(cwd: string, settings: Object = {}): Pr
           .sendLine(s.profileName);
       }
 
-      chain.wait('Try "amplify add api" to create a backend API and then "amplify publish" to deploy everything').run((err: Error) => {
+      chain.wait('Try "amplify add api" to create a backend API and then "amplify push" to deploy everything').run((err: Error) => {
         if (err) {
           reject(err);
         } else {
@@ -112,7 +112,7 @@ export function initAndroidProjectWithProfile(cwd: string, settings: Object): Pr
       .sendCarriageReturn()
       .wait('Please choose the profile you want to use')
       .sendLine(s.profileName)
-      .wait('Try "amplify add api" to create a backend API and then "amplify publish" to deploy everything')
+      .wait('Try "amplify add api" to create a backend API and then "amplify push" to deploy everything')
       .run((err: Error) => {
         if (!err) {
           addCircleCITags(cwd);
@@ -153,7 +153,7 @@ export function initIosProjectWithProfile(cwd: string, settings: Object): Promis
       .sendCarriageReturn()
       .wait('Please choose the profile you want to use')
       .sendLine(s.profileName)
-      .wait('Try "amplify add api" to create a backend API and then "amplify publish" to deploy everything')
+      .wait('Try "amplify add api" to create a backend API and then "amplify push" to deploy everything')
       .run((err: Error) => {
         if (!err) {
           addCircleCITags(cwd);
@@ -194,7 +194,7 @@ export function initFlutterProjectWithProfile(cwd: string, settings: Object): Pr
 
     singleSelect(chain, s.region, amplifyRegions);
 
-    chain.wait('Try "amplify add api" to create a backend API and then "amplify publish" to deploy everything').run((err: Error) => {
+    chain.wait('Try "amplify add api" to create a backend API and then "amplify push" to deploy everything').run((err: Error) => {
       if (!err) {
         resolve();
       } else {
@@ -254,7 +254,7 @@ export function initProjectWithAccessKey(
 
     singleSelect(chain, s.region, amplifyRegions);
 
-    chain.wait('Try "amplify add api" to create a backend API and then "amplify publish" to deploy everything').run((err: Error) => {
+    chain.wait('Try "amplify add api" to create a backend API and then "amplify push" to deploy everything').run((err: Error) => {
       if (!err) {
         resolve();
       } else {
@@ -293,7 +293,7 @@ export function initNewEnvWithAccessKey(cwd: string, s: { envName: string; acces
 
     singleSelect(chain, process.env.CLI_REGION, amplifyRegions);
 
-    chain.wait('Try "amplify add api" to create a backend API and then "amplify publish" to deploy everything').run((err: Error) => {
+    chain.wait('Try "amplify add api" to create a backend API and then "amplify push" to deploy everything').run((err: Error) => {
       if (!err) {
         resolve();
       } else {
@@ -323,7 +323,7 @@ export function initNewEnvWithProfile(cwd: string, s: { envName: string }): Prom
       .sendCarriageReturn()
       .wait('Please choose the profile you want to use')
       .sendCarriageReturn()
-      .wait('Try "amplify add api" to create a backend API and then "amplify publish" to deploy everything')
+      .wait('Try "amplify add api" to create a backend API and then "amplify push" to deploy everything')
       .run((err: Error) => {
         if (!err) {
           resolve();
@@ -357,7 +357,7 @@ export function amplifyInitSandbox(cwd: string, settings: {}): Promise<void> {
       .sendCarriageReturn()
       .wait('Please choose the profile you want to use')
       .sendLine(s.profileName)
-      .wait('Try "amplify add api" to create a backend API and then "amplify publish" to deploy everything')
+      .wait('Try "amplify add api" to create a backend API and then "amplify push" to deploy everything')
       .run((err: Error) => {
         if (!err) {
           resolve();

@@ -3,6 +3,106 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.32.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.31.0...@aws-amplify/appsync-modelgen-plugin@1.32.0) (2022-02-24)
+
+
+### Features
+
+* add null type union to optional fields ([48b10f1](https://github.com/aws-amplify/amplify-codegen/commit/48b10f1236889b0cbd93a242ef339dadccd4cc84))
+
+
+
+
+
+# [1.31.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.30.2...@aws-amplify/appsync-modelgen-plugin@1.31.0) (2022-02-03)
+
+
+### Features
+
+* update imports generated for flutter datastore plugin dependency ([#382](https://github.com/aws-amplify/amplify-codegen/issues/382)) ([#388](https://github.com/aws-amplify/amplify-codegen/issues/388)) ([329e513](https://github.com/aws-amplify/amplify-codegen/commit/329e51395d36e11090e33300d02f5a7a436bfe7a)), closes [#380](https://github.com/aws-amplify/amplify-codegen/issues/380)
+
+
+
+
+
+## [1.30.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.30.1...@aws-amplify/appsync-modelgen-plugin@1.30.2) (2022-01-13)
+
+
+### Bug Fixes
+
+* revert custom pk change ([#376](https://github.com/aws-amplify/amplify-codegen/issues/376)) ([fa4fe52](https://github.com/aws-amplify/amplify-codegen/commit/fa4fe523d730a29dea380bfe43514b60185be2dd))
+
+
+
+
+
+## [1.30.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.30.0...@aws-amplify/appsync-modelgen-plugin@1.30.1) (2022-01-13)
+
+
+### Bug Fixes
+
+* **modelgen-js:** rm readonly fields check for type metadata ([#367](https://github.com/aws-amplify/amplify-codegen/issues/367)) ([4750358](https://github.com/aws-amplify/amplify-codegen/commit/47503583135fc497d27b38c3cc962cfa8ddfe9d6))
+
+
+
+
+
+# [1.30.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.13...@aws-amplify/appsync-modelgen-plugin@1.30.0) (2022-01-12)
+
+
+### Bug Fixes
+
+* **appsync-dart-visitor:** applying nullsafe operation to non-null safe code ([#332](https://github.com/aws-amplify/amplify-codegen/issues/332)) ([#364](https://github.com/aws-amplify/amplify-codegen/issues/364)) ([1526d1e](https://github.com/aws-amplify/amplify-codegen/commit/1526d1e6a8b6ca6548977cc01fbfcf00616b67bc))
+* **modelgen:** remove timestamps if defined null in [@model](https://github.com/model) ([#355](https://github.com/aws-amplify/amplify-codegen/issues/355)) ([ee90c2c](https://github.com/aws-amplify/amplify-codegen/commit/ee90c2c97623b7f9875a5b335ad4beb629260be5))
+* **modelgen:** unit test for custom pk in manyToMany ([#361](https://github.com/aws-amplify/amplify-codegen/issues/361)) ([718c512](https://github.com/aws-amplify/amplify-codegen/commit/718c512d25d5a6bf017dcebd219baf3d53308088))
+
+
+### Features
+
+* **modelgen:** Custom primary key support ([#351](https://github.com/aws-amplify/amplify-codegen/issues/351)) ([fa067e0](https://github.com/aws-amplify/amplify-codegen/commit/fa067e09409d13848a89ab7141df2d2287d92bf2))
+* read-only fields and non-model types for flutter ([58b0796](https://github.com/aws-amplify/amplify-codegen/commit/58b07962c3d39d7fd9b4246d5dffe55a11a25e27)), closes [#302](https://github.com/aws-amplify/amplify-codegen/issues/302) [#234](https://github.com/aws-amplify/amplify-codegen/issues/234) [#247](https://github.com/aws-amplify/amplify-codegen/issues/247) [#263](https://github.com/aws-amplify/amplify-codegen/issues/263) [#272](https://github.com/aws-amplify/amplify-codegen/issues/272)
+
+
+
+
+
+## [1.29.13](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.12...@aws-amplify/appsync-modelgen-plugin@1.29.13) (2022-01-11)
+
+
+### Bug Fixes
+
+* remove early removal of field from model in the case of connection ([3de34f4](https://github.com/aws-amplify/amplify-codegen/commit/3de34f4f00344c9a775747a1260632e47bf24b98))
+* remove unused import per LGTM check ([7b4a24d](https://github.com/aws-amplify/amplify-codegen/commit/7b4a24d1859aa5c4cb0c283e756255c42189f171))
+* **appsync-modelgen-plugin:** associatedWith correctly points to model field rather than ID in bi-directional relations ([a39b61d](https://github.com/aws-amplify/amplify-codegen/commit/a39b61dec2d8adf3589212fe2aaf7400f98f01b9))
+* **appsync-modelgen-plugin:** revert [#326](https://github.com/aws-amplify/amplify-codegen/issues/326) ([d36323d](https://github.com/aws-amplify/amplify-codegen/commit/d36323d7f9adf92167bf9153c80435b42320053f))
+* **appsync-modelgen-plugin:** turn on the shouldUseModelNameFieldInHasManyAndBelongsTo flag for Android ([6cf1ebb](https://github.com/aws-amplify/amplify-codegen/commit/6cf1ebb31dbc28534525fcefc3be73c05596a41b))
+* change the if statement ([0b0b075](https://github.com/aws-amplify/amplify-codegen/commit/0b0b075a798aab63360ccd847e25d7989baa5522))
+* partially rolling back commit 310 for flutter, swift, and java platforms ([#319](https://github.com/aws-amplify/amplify-codegen/issues/319)) ([6c2f0c8](https://github.com/aws-amplify/amplify-codegen/commit/6c2f0c8920e4347d59f345867778fd49579a2cd4))
+* set associatedWith to correct field with hasOne/hasMany and belongsTo ([289e38b](https://github.com/aws-amplify/amplify-codegen/commit/289e38ba4c6fd69616eb459c90e26467c6a1e314))
+
+
+
+
+
+## [1.29.12](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.11...@aws-amplify/appsync-modelgen-plugin@1.29.12) (2022-01-05)
+
+
+### Reverts
+
+* Revert "build: update packages (#325)" (#343) ([694856a](https://github.com/aws-amplify/amplify-codegen/commit/694856a38513aacfa071a02090de8fdc7fc9a1fd)), closes [#325](https://github.com/aws-amplify/amplify-codegen/issues/325) [#343](https://github.com/aws-amplify/amplify-codegen/issues/343)
+
+
+
+
+
+## [1.29.11](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.10...@aws-amplify/appsync-modelgen-plugin@1.29.11) (2022-01-04)
+
+**Note:** Version bump only for package @aws-amplify/appsync-modelgen-plugin
+
+
+
+
+
 ## [1.29.10](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.29.9...@aws-amplify/appsync-modelgen-plugin@1.29.10) (2021-12-15)
 
 
