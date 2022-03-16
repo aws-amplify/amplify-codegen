@@ -913,6 +913,41 @@ describe('AppSyncModelVisitor', () => {
     });
   });
 
+  describe('manyToMany with sort key testing', () => {
+    const schema = /* GraphQL */ `
+      type ModelA @model {
+        id: ID! @primaryKey(sortKeyFields: ["sortId"])
+        sortId: ID!
+        models: [ModelB] @manyToMany(relationName: "ModelAModelB")
+      }
+      type ModelB @model {
+        id: ID! @primaryKey(sortKeyFields: ["sortId"])
+        sortId: ID!
+        models: [ModelA] @manyToMany(relationName: "ModelAModelB")
+      }
+    `;
+    const { models } = createAndGeneratePipelinedTransformerVisitor(schema);
+    const { ModelAModelB } = models;
+    it.only('should generate correct fields and secondary keys for intermediate type', () => {
+      expect(ModelAModelB).toBeDefined();
+      expect(ModelAModelB.fields.length).toEqual(7);
+      const modelASortKeyField = ModelAModelB.fields.find(f => f.name === 'modelAsortId');
+      expect(modelASortKeyField).toBeDefined();
+      expect(modelASortKeyField.type).toEqual('ID');
+      expect(modelASortKeyField.isNullable).toBe(false);
+      const modelBSortKeyField = ModelAModelB.fields.find(f => f.name === 'modelBsortId');
+      expect(modelBSortKeyField).toBeDefined();
+      expect(modelBSortKeyField.type).toEqual('ID');
+      expect(modelBSortKeyField.isNullable).toBe(false);
+      const modelAIndexDirective = ModelAModelB.directives.find(d => d.name === 'key' && d.arguments.name === 'byModelA');
+      expect(modelAIndexDirective).toBeDefined();
+      expect(modelAIndexDirective.arguments.fields).toEqual(['modelAID', 'modelAsortId']);
+      const modelBIndexDirective = ModelAModelB.directives.find(d => d.name === 'key' && d.arguments.name === 'byModelB');
+      expect(modelBIndexDirective).toBeDefined();
+      expect(modelBIndexDirective.arguments.fields).toEqual(['modelBID', 'modelBsortId']);
+    });
+  });
+
   describe('Graphql V2 fix tests for multiple has many relations of only one model type', () => {
     const schema = /* GraphQL*/ `
       type Registration @model {
@@ -936,5 +971,5 @@ describe('AppSyncModelVisitor', () => {
     it(`should not throw error when processing models`, () => {
       expect(() => createAndGeneratePipelinedTransformerVisitor(schema)).not.toThrow();
     });
-  })
+  });
 });

@@ -296,7 +296,7 @@ export class AppSyncModelVisitor<
   }
   processDirectives(
     // TODO: Remove us when we have a fix to roll-forward.
-    shouldUseModelNameFieldInHasManyAndBelongsTo: boolean
+    shouldUseModelNameFieldInHasManyAndBelongsTo: boolean,
   ) {
     if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
       this.processV2KeyDirectives();
@@ -551,15 +551,12 @@ export class AppSyncModelVisitor<
     });
   }
 
-  protected generateIntermediateModel(
-    firstModel: CodeGenModel,
-    secondModel: CodeGenModel,
-    firstField: CodeGenField,
-    secondField: CodeGenField,
-    relationName: string,
-  ) {
+  protected generateIntermediateModel(firstModel: CodeGenModel, secondModel: CodeGenModel, relationName: string) {
     const firstModelKeyFieldName = `${camelCase(firstModel.name)}ID`;
+    const firstModelSortKeyFields: CodeGenField[] = this.getSortKeyFields(firstModel);
     const secondModelKeyFieldName = `${camelCase(secondModel.name)}ID`;
+    const secondModelSortKeyFields: CodeGenField[] = this.getSortKeyFields(secondModel);
+
     let intermediateModel: CodeGenModel = {
       name: relationName,
       type: 'model',
@@ -577,15 +574,53 @@ export class AppSyncModelVisitor<
           isNullable: false,
           isList: false,
           name: firstModelKeyFieldName,
-          directives: [{ name: 'index', arguments: { name: 'by' + firstModel.name, sortKeyFields: [secondModelKeyFieldName] } }],
+          directives: [
+            {
+              name: 'index',
+              arguments: {
+                name: 'by' + firstModel.name,
+                sortKeyFields: firstModelSortKeyFields.length
+                  ? firstModelSortKeyFields.map(f => this.generateIntermediateModelSortKeyFieldName(firstModel, f))
+                  : [secondModelKeyFieldName],
+              },
+            },
+          ],
         },
+        ...firstModelSortKeyFields.map(field => {
+          return {
+            type: field.type,
+            isNullable: false,
+            isList: field.isList,
+            name: this.generateIntermediateModelSortKeyFieldName(firstModel, field),
+            directives: [],
+          };
+        }),
         {
           type: 'ID',
           isNullable: false,
           isList: false,
           name: secondModelKeyFieldName,
-          directives: [{ name: 'index', arguments: { name: 'by' + secondModel.name, sortKeyFields: [firstModelKeyFieldName] } }],
+          directives: [
+            {
+              name: 'index',
+              arguments: {
+                name: 'by' + secondModel.name,
+                sortKeyFields: secondModelSortKeyFields.length
+                  ? secondModelSortKeyFields.map(f => this.generateIntermediateModelSortKeyFieldName(secondModel, f))
+                  : [firstModelKeyFieldName],
+              },
+            },
+          ],
         },
+        ...secondModelSortKeyFields.map(field => {
+          return {
+            type: field.type,
+            isNullable: false,
+            isList: field.isList,
+            name: this.generateIntermediateModelSortKeyFieldName(secondModel, field),
+            directives: [],
+          };
+        }),
         {
           type: firstModel.name,
           isNullable: false,
@@ -604,6 +639,18 @@ export class AppSyncModelVisitor<
     };
 
     return intermediateModel;
+  }
+
+  protected generateIntermediateModelSortKeyFieldName(model: CodeGenModel, sortKeyField: CodeGenField): string {
+    const modelName = model.name.charAt(0).toLocaleLowerCase() + model.name.slice(1);
+    return `${modelName}${sortKeyField.name}`;
+  }
+
+  protected getSortKeyFields(model: CodeGenModel): CodeGenField[] {
+    const keyDirective = model.directives.find(d => d.name === 'key' && !d.arguments.name);
+    return keyDirective
+      ? (keyDirective.arguments.fields as string[]).slice(1).map(fieldName => model.fields.find(f => f.name === fieldName)!)
+      : [];
   }
 
   protected determinePrimaryKeyFieldname(model: CodeGenModel): string {
@@ -664,12 +711,13 @@ export class AppSyncModelVisitor<
       let intermediateModel = this.generateIntermediateModel(
         value[0].model,
         value[1].model,
-        value[0].field,
-        value[1].field,
         graphqlName(toUpper(value[0].directive.arguments.relationName)),
       );
       const modelDirective = intermediateModel.directives.find(directive => directive.name === 'model');
       if (modelDirective) {
+        // Maps @primaryKey and @index of intermediate model to old @key
+        processPrimaryKey(intermediateModel);
+        processIndex(intermediateModel);
         this.ensureIdField(intermediateModel);
         this.addTimestampFields(intermediateModel, modelDirective);
         this.sortFields(intermediateModel);
@@ -682,7 +730,7 @@ export class AppSyncModelVisitor<
 
   protected processConnectionDirectivesV2(
     // TODO: Remove us when we have a fix to roll-forward.
-    shouldUseModelNameFieldInHasManyAndBelongsTo: boolean
+    shouldUseModelNameFieldInHasManyAndBelongsTo: boolean,
   ): void {
     this.processManyToManyDirectives();
 
@@ -726,15 +774,17 @@ export class AppSyncModelVisitor<
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
         const connectionInfo = field.connectionInfo;
-        if (connectionInfo
-          && connectionInfo.kind !== CodeGenConnectionType.HAS_MANY
-          && connectionInfo.kind !== CodeGenConnectionType.HAS_ONE
-          && connectionInfo.targetName !== 'id') {
+        if (
+          connectionInfo &&
+          connectionInfo.kind !== CodeGenConnectionType.HAS_MANY &&
+          connectionInfo.kind !== CodeGenConnectionType.HAS_ONE &&
+          connectionInfo.targetName !== 'id'
+        ) {
           // Need to remove the field that is targetName
           removeFieldFromModel(model, connectionInfo.targetName);
         }
       });
-    })
+    });
   }
 
   protected processV2KeyDirectives(): void {
