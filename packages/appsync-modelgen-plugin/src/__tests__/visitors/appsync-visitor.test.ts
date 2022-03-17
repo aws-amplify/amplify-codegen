@@ -928,7 +928,7 @@ describe('AppSyncModelVisitor', () => {
     `;
     const { models } = createAndGeneratePipelinedTransformerVisitor(schema);
     const { ModelAModelB } = models;
-    it.only('should generate correct fields and secondary keys for intermediate type', () => {
+    it('should generate correct fields and secondary keys for intermediate type', () => {
       expect(ModelAModelB).toBeDefined();
       expect(ModelAModelB.fields.length).toEqual(7);
       const modelASortKeyField = ModelAModelB.fields.find(f => f.name === 'modelAsortId');
