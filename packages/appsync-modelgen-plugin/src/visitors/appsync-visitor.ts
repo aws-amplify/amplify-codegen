@@ -579,9 +579,7 @@ export class AppSyncModelVisitor<
               name: 'index',
               arguments: {
                 name: 'by' + firstModel.name,
-                sortKeyFields: firstModelSortKeyFields.length
-                  ? firstModelSortKeyFields.map(f => this.generateIntermediateModelSortKeyFieldName(firstModel, f))
-                  : [secondModelKeyFieldName],
+                sortKeyFields: firstModelSortKeyFields.map(f => this.generateIntermediateModelSortKeyFieldName(firstModel, f)),
               },
             },
           ],
@@ -605,9 +603,7 @@ export class AppSyncModelVisitor<
               name: 'index',
               arguments: {
                 name: 'by' + secondModel.name,
-                sortKeyFields: secondModelSortKeyFields.length
-                  ? secondModelSortKeyFields.map(f => this.generateIntermediateModelSortKeyFieldName(secondModel, f))
-                  : [firstModelKeyFieldName],
+                sortKeyFields: secondModelSortKeyFields.map(f => this.generateIntermediateModelSortKeyFieldName(secondModel, f)),
               },
             },
           ],
