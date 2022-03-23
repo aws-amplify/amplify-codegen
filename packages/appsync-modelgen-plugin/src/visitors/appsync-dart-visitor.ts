@@ -403,6 +403,7 @@ export class AppSyncModelDartVisitor<
         '\n',
       ),
       { isBlock: false },
+      ['override']
     );
 
     classDeclarationBlock.addClassMethod(
@@ -416,11 +417,19 @@ export class AppSyncModelDartVisitor<
         indent('.toList();'),
       ].join('\n'),
       { isBlock: false },
+      ['override'],
     );
 
-    classDeclarationBlock.addClassMethod('serializeAsString', 'String', undefined, " => serializeAsMap().values.join('#');", {
-      isBlock: false,
-    });
+    classDeclarationBlock.addClassMethod(
+      'serializeAsString',
+      'String',
+      undefined,
+      " => serializeAsMap().values.join('#');",
+      {
+        isBlock: false,
+      },
+      ['override'],
+    );
 
     classDeclarationBlock.addClassMethod(
       'toString',
