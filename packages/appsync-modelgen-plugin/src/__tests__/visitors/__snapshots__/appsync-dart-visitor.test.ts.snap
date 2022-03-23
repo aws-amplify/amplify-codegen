@@ -8149,15 +8149,18 @@ class ModelWithImplicitIDModelIdentifier implements ModelIdentifier<ModelWithImp
   const ModelWithImplicitIDModelIdentifier({
     required this.id});
   
+  @override
   Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
     'id': id
   });
   
+  @override
   List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
     .entries
     .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
     .toList();
   
+  @override
   String serializeAsString() => serializeAsMap().values.join('#');
   
   @override
@@ -8352,15 +8355,18 @@ class ModelWithExplicitIDModelIdentifier implements ModelIdentifier<ModelWithExp
   const ModelWithExplicitIDModelIdentifier({
     required this.id});
   
+  @override
   Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
     'id': id
   });
   
+  @override
   List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
     .entries
     .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
     .toList();
   
+  @override
   String serializeAsString() => serializeAsMap().values.join('#');
   
   @override
@@ -8550,15 +8556,18 @@ class ModelWithExplicitIDAndSDIModelIdentifier implements ModelIdentifier<ModelW
   const ModelWithExplicitIDAndSDIModelIdentifier({
     required this.id});
   
+  @override
   Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
     'id': id
   });
   
+  @override
   List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
     .entries
     .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
     .toList();
   
+  @override
   String serializeAsString() => serializeAsMap().values.join('#');
   
   @override
@@ -8801,17 +8810,20 @@ class ModelWithIDPlusSortKeysModelIdentifier implements ModelIdentifier<ModelWit
     required this.title,
     required this.rating});
   
+  @override
   Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
     'id': id,
     'title': title,
     'rating': rating
   });
   
+  @override
   List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
     .entries
     .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
     .toList();
   
+  @override
   String serializeAsString() => serializeAsMap().values.join('#');
   
   @override
@@ -9040,15 +9052,18 @@ class ModelWithExplicitlyDefinedPKModelIdentifier implements ModelIdentifier<Mod
   const ModelWithExplicitlyDefinedPKModelIdentifier({
     required this.modelID});
   
+  @override
   Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
     'modelID': modelID
   });
   
+  @override
   List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
     .entries
     .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
     .toList();
   
+  @override
   String serializeAsString() => serializeAsMap().values.join('#');
   
   @override
@@ -9308,17 +9323,20 @@ class ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelIdentifier impl
     required this.title,
     required this.rating});
   
+  @override
   Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
     'modelID': modelID,
     'title': title,
     'rating': rating
   });
   
+  @override
   List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
     .entries
     .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
     .toList();
   
+  @override
   String serializeAsString() => serializeAsMap().values.join('#');
   
   @override
