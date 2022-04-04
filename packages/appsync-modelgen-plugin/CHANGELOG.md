@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.32.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.31.0...@aws-amplify/appsync-modelgen-plugin@1.32.0) (2022-02-24)
+
+
+### Features
+
+* add null type union to optional fields ([48b10f1](https://github.com/aws-amplify/amplify-codegen/commit/48b10f1236889b0cbd93a242ef339dadccd4cc84))
+
+
+
+
+
 # [1.31.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.30.2...@aws-amplify/appsync-modelgen-plugin@1.31.0) (2022-02-03)
 
 
