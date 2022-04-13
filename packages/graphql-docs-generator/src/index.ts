@@ -19,7 +19,7 @@ const FILE_EXTENSION_MAP = {
 export function generate(
   schemaPath: string,
   outputPath: string,
-  options: { separateFiles: boolean; language: string; maxDepth: number, retainCaseStyle: boolean },
+  options: { separateFiles: boolean; language: string; maxDepth: number },
 ): void {
   const language = options.language || 'graphql';
   const schemaData = loadSchema(schemaPath);
@@ -29,13 +29,11 @@ export function generate(
 
   const maxDepth = options.maxDepth || DEFAULT_MAX_DEPTH;
   const useExternalFragmentForS3Object = options.language === 'graphql';
-  const retainCaseStyle = options.retainCaseStyle || true;
   const gqlOperations: GQLAllOperations = generateAllOps(schemaData, maxDepth, {
     useExternalFragmentForS3Object,
-    retainCaseStyle
   });
   registerPartials();
-  registerHelpers(retainCaseStyle);
+  registerHelpers();
 
   const fileExtension = FILE_EXTENSION_MAP[language];
   if (options.separateFiles) {
@@ -93,13 +91,13 @@ function registerPartials() {
   });
 }
 
-function registerHelpers(retainCaseStyle: boolean) {
+function registerHelpers() {
   handlebars.registerHelper('format', function(options: any) {
     const result = options.fn(this);
     return format(result);
   });
 
-  const formatNameHelper = retainCaseStyle ? lowerCaseFirstLetter : camelCase;
+  const formatNameHelper = lowerCaseFirstLetter;
   handlebars.registerHelper('formatName', formatNameHelper);
 }
 

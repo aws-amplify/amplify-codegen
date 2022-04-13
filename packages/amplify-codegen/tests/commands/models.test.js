@@ -32,22 +32,6 @@ const MOCK_PROJECT_NAME = 'myapp';
 const MOCK_BACKEND_DIRECTORY = 'backend';
 const MOCK_GENERATED_CODE = 'This code is auto-generated!';
 
-// Mock the Feature flag to use migrated moldegen
-jest.mock('amplify-cli-core', MOCK_PROJECT_ROOT => {
-  return {
-    FeatureFlags: {
-      getBoolean: jest.fn().mockImplementation((name, defaultValue) => {
-        if (name === 'codegen.useappsyncmodelgenplugin') {
-          return true;
-        }
-      }),
-    },
-    pathManager: {
-      findProjectRoot: jest.fn().mockReturnValue(MOCK_PROJECT_ROOT),
-    },
-  };
-});
-
 describe('command-models-generates models in expected output path', () => {
   beforeEach(() => {
     jest.resetAllMocks();
