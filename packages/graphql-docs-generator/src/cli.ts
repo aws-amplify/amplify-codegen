@@ -58,7 +58,7 @@ export function run(argv: Array<String>): void {
         }
       },
       async argv => {
-        generate(argv.schema, argv.output, { separateFiles: argv.separateFiles, language: argv.language, maxDepth: argv.maxDepth, retainCaseStyle: argv.retainCaseStyle });
+        generate(argv.schema, argv.output, { separateFiles: argv.separateFiles, language: argv.language, maxDepth: argv.maxDepth });
       }
     )
     .help()
