@@ -2,7 +2,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as handlebars from 'handlebars';
 import * as prettier from 'prettier';
-import { camelCase } from 'change-case';
 const DEFAULT_MAX_DEPTH = 3;
 
 import generateAllOps, { GQLTemplateOp, GQLAllOperations, GQLTemplateFragment, lowerCaseFirstLetter } from './generator';

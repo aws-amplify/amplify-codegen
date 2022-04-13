@@ -1,5 +1,4 @@
 import { GraphQLObjectType, GraphQLSchema } from 'graphql';
-import { pascalCase } from 'change-case';
 
 import generateOperation from './generateOperation';
 import {
