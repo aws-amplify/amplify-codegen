@@ -16,7 +16,7 @@ const getVisitor = (
   emitAuthProvider: boolean = true,
   generateIndexRules: boolean = true,
   handleListNullabilityTransparently: boolean = true,
-  transformerVersion: number = 1
+  transformerVersion: number = 1,
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -30,7 +30,7 @@ const getVisitor = (
       emitAuthProvider,
       generateIndexRules,
       handleListNullabilityTransparently,
-      transformerVersion: transformerVersion
+      transformerVersion: transformerVersion,
     },
     { selectedType, generate },
   );
@@ -45,10 +45,19 @@ const getVisitorPipelinedTransformer = (
   isTimestampFieldsAdded: boolean = true,
   emitAuthProvider: boolean = true,
   generateIndexRules: boolean = true,
-  handleListNullabilityTransparently: boolean = true
+  handleListNullabilityTransparently: boolean = true,
 ) => {
-  return getVisitor(schema, selectedType, generate, isTimestampFieldsAdded, emitAuthProvider, generateIndexRules, handleListNullabilityTransparently, 2);
-}
+  return getVisitor(
+    schema,
+    selectedType,
+    generate,
+    isTimestampFieldsAdded,
+    emitAuthProvider,
+    generateIndexRules,
+    handleListNullabilityTransparently,
+    2,
+  );
+};
 
 describe('AppSyncSwiftVisitor', () => {
   it('Should generate a class for a Model', () => {
@@ -2269,7 +2278,6 @@ describe('AppSyncSwiftVisitor', () => {
           content: String
           tags: [Tag] @manyToMany(relationName: "PostTags")
         }
-        
         type Tag @model {
           id: ID!
           label: String!
@@ -2278,6 +2286,357 @@ describe('AppSyncSwiftVisitor', () => {
       `;
       const generatedCode = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.code).generate();
       expect(generatedCode).toMatchSnapshot();
+    });
+  });
+
+  describe('Primary Key Tests', () => {
+    it('Should generate model and metadata for a model with implicit PK', () => {
+      const schema = /* GraphQL */ `
+        type ModelImplicitDefaultPk @model {
+          name: String
+        }
+      `;
+      const generatedCode = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.code).generate();
+      expect(generatedCode).toMatchInlineSnapshot(`
+        "// swiftlint:disable all
+        import Amplify
+        import Foundation
+
+        public struct ModelImplicitDefaultPk: Model {
+          public let id: String
+          public var name: String?
+          public var createdAt: Temporal.DateTime?
+          public var updatedAt: Temporal.DateTime?
+          
+          public init(id: String = UUID().uuidString,
+              name: String? = nil) {
+            self.init(id: id,
+              name: name,
+              createdAt: nil,
+              updatedAt: nil)
+          }
+          internal init(id: String = UUID().uuidString,
+              name: String? = nil,
+              createdAt: Temporal.DateTime? = nil,
+              updatedAt: Temporal.DateTime? = nil) {
+              self.id = id
+              self.name = name
+              self.createdAt = createdAt
+              self.updatedAt = updatedAt
+          }
+        }"
+      `);
+
+      const generatedMetadata = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.metadata).generate();
+      expect(generatedMetadata).toMatchInlineSnapshot(`
+        "// swiftlint:disable all
+        import Amplify
+        import Foundation
+        
+        extension ModelImplicitDefaultPk {
+          // MARK: - CodingKeys 
+           public enum CodingKeys: String, ModelKey {
+            case id
+            case name
+            case createdAt
+            case updatedAt
+          }
+          
+          public static let keys = CodingKeys.self
+          //  MARK: - ModelSchema 
+          
+          public static let schema = defineSchema { model in
+            let modelImplicitDefaultPk = ModelImplicitDefaultPk.keys
+              
+              model.attributes(
+                .primaryKey(fields: [modelImplicitDefaultPk.id])
+              )
+            
+            model.pluralName = "ModelImplicitDefaultPks"
+            
+            model.fields(
+              .field(modelImplicitDefaultPk.id, is: .required, ofType: .string),
+              .field(modelImplicitDefaultPk.name, is: .optional, ofType: .string),
+              .field(modelImplicitDefaultPk.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+              .field(modelImplicitDefaultPk.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+            )
+            }
+        }
+        
+        extension ModelImplicitDefaultPk: ModelIdentifiable {
+            public typealias IdentifierFormat = ModelIdentifierFormat.Default
+            public typealias Identifier = DefaultModelIdentifier<Self>
+        }"
+      `);
+    });
+
+    it('Should generate model and metadata for a model with explicit PK named id', () => {
+      const schema = /* GraphQL */ `
+        type ModelExplicitDefaultPk @model {
+          id: ID! @primaryKey
+          name: String
+        }
+      `;
+      const generatedCode = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.code).generate();
+      expect(generatedCode).toMatchInlineSnapshot(`
+        "// swiftlint:disable all
+        import Amplify
+        import Foundation
+        
+        public struct ModelExplicitDefaultPk: Model {
+          public let id: String
+          public var name: String?
+          public var createdAt: Temporal.DateTime?
+          public var updatedAt: Temporal.DateTime?
+          
+          public init(id: String = UUID().uuidString,
+              name: String? = nil) {
+            self.init(id: id,
+              name: name,
+              createdAt: nil,
+              updatedAt: nil)
+          }
+          internal init(id: String = UUID().uuidString,
+              name: String? = nil,
+              createdAt: Temporal.DateTime? = nil,
+              updatedAt: Temporal.DateTime? = nil) {
+              self.id = id
+              self.name = name
+              self.createdAt = createdAt
+              self.updatedAt = updatedAt
+          }
+        }
+        "
+      `);
+      const generatedMetadata = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.metadata).generate();
+      expect(generatedMetadata).toMatchInlineSnapshot(`
+        "// swiftlint:disable all
+        import Amplify
+        import Foundation
+        
+        extension ModelExplicitDefaultPk {
+          // MARK: - CodingKeys 
+           public enum CodingKeys: String, ModelKey {
+            case id
+            case name
+            case createdAt
+            case updatedAt
+          }
+          
+          public static let keys = CodingKeys.self
+          //  MARK: - ModelSchema 
+          
+          public static let schema = defineSchema { model in
+            let modelExplicitDefaultPk = ModelExplicitDefaultPk.keys
+            
+            model.pluralName = "ModelExplicitDefaultPks"
+            
+            model.attributes(
+              .index(fields: ["id"], name: nil),
+              .primaryKey(fields: [modelExplicitDefaultPk.id])
+            )
+            
+            model.fields(
+                .field(modelExplicitDefaultPk.id, is: .required, ofType: .string),
+              .field(modelExplicitDefaultPk.name, is: .optional, ofType: .string),
+              .field(modelExplicitDefaultPk.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+              .field(modelExplicitDefaultPk.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+            )
+            }
+        }
+        
+        extension ModelExplicitDefaultPk : ModelIdentifiable {
+            public typealias IdentifierFormat = ModelIdentifierFormat.Custom
+            public typealias Identifier = ModelIdentifier<Self, ModelIdentifierFormat.Custom>
+        }
+        
+        extension ModelExplicitDefaultPk.Identifier {
+            public static func identifier(id: String) -> Self {
+                .make(fields: [(name: "id", value: id)])
+            }
+        }"
+      `);
+    });
+
+    it('Should generate model and metadata for a model with a custom PK', () => {
+      const schema = /* GraphQL */ `
+        type ModelExplicitCustomPk @model {
+          userId: ID! @primaryKey
+          name: String
+        }
+      `;
+      const generatedCode = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.code).generate();
+      expect(generatedCode).toMatchInlineSnapshot(`
+        "// swiftlint:disable all
+        import Amplify
+        import Foundation
+        
+        public struct ModelExplicitCustomPk: Model {
+          public var userId: String
+          public var name: String?
+          public var createdAt: Temporal.DateTime?
+          public var updatedAt: Temporal.DateTime?
+          
+          public init(userId: String, name: String? = nil) {
+            self.init(userId: userId,
+                      name: name,
+                      createdAt: nil,
+                      updatedAt: nil)
+          }
+          internal init(userId: String,
+                        name: String? = nil,
+                        createdAt: Temporal.DateTime? = nil,
+                        updatedAt: Temporal.DateTime? = nil) {
+              self.userId = userId
+              self.name = name
+              self.createdAt = createdAt
+              self.updatedAt = updatedAt
+          }
+        }"
+      `);
+      const generatedMetadata = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.metadata).generate();
+      expect(generatedMetadata).toMatchInlineSnapshot(`
+        "// swiftlint:disable all
+        import Amplify
+        import Foundation
+        
+        extension ModelExplicitCustomPk {
+          // MARK: - CodingKeys 
+          public enum CodingKeys: String, ModelKey {
+            case userId
+            case name
+            case createdAt
+            case updatedAt
+          }
+          
+          public static let keys = CodingKeys.self
+          //  MARK: - ModelSchema 
+          
+          public static let schema = defineSchema { model in
+            let modelExplicitCustomPk = ModelExplicitCustomPk.keys
+            
+            model.pluralName = "ModelExplicitCustomPks"
+            
+            model.attributes(
+              .index(fields: ["userId"], name: nil),
+              .primaryKey(fields: [modelExplicitCustomPk.userId])
+            )
+            
+            model.fields(
+              .field(modelExplicitCustomPk.userId, is: .required, ofType: .string),
+              .field(modelExplicitCustomPk.name, is: .optional, ofType: .string),
+              .field(modelExplicitCustomPk.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+              .field(modelExplicitCustomPk.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+            )
+            }
+        }
+        
+        extension ModelExplicitCustomPk : ModelIdentifiable {
+            public typealias IdentifierFormat = ModelIdentifierFormat.Custom
+            public typealias Identifier = ModelIdentifier<ModelExplicitCustomPk, ModelIdentifierFormat.Custom>
+        }
+        
+        extension ModelExplicitCustomPk.Identifier {
+            public static func identifier(userId: String) -> Self {
+                .make(fields: [(name: "userId", value: userId)])
+            }
+        }"
+      `);
+    });
+
+    it('Should generate model and metadata for a model with a composite PK', () => {
+      const schema = /* GraphQL */ `
+        type ModelCompositePk @model {
+          id: ID! @primaryKey(sortKeyFields: ["dob"])
+          dob: AWSDateTime!
+          name: String
+        }
+      `;
+      const generatedCode = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.code).generate();
+      expect(generatedCode).toMatchInlineSnapshot(`
+        "// swiftlint:disable all
+        import Amplify
+        import Foundation
+        
+        public struct ModelCompositePk: Model {
+          public let id: String
+          public var dob: Temporal.DateTime
+          public var name: String?
+          public var createdAt: Temporal.DateTime?
+          public var updatedAt: Temporal.DateTime?
+          
+          public init(id: String = UUID().uuidString,
+              dob: Temporal.DateTime,
+              name: String? = nil) {
+            self.init(id: id,
+              dob: dob,
+              name: name,
+              createdAt: nil,
+              updatedAt: nil)
+          }
+          internal init(id: String = UUID().uuidString,
+              dob: Temporal.DateTime,
+              name: String? = nil,
+              createdAt: Temporal.DateTime? = nil,
+              updatedAt: Temporal.DateTime? = nil) {
+              self.id = id
+              self.dob = dob
+              self.name = name
+              self.createdAt = createdAt
+              self.updatedAt = updatedAt
+          }
+        }"
+      `);
+      const generatedMetadata = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.metadata).generate();
+      expect(generatedMetadata).toMatchInlineSnapshot(`
+        "// swiftlint:disable all
+        import Amplify
+        import Foundation
+        
+        extension ModelCompositePk {
+          // MARK: - CodingKeys 
+          public enum CodingKeys: String, ModelKey {
+            case id
+            case dob
+            case name
+            case createdAt
+            case updatedAt
+          }
+          
+          public static let keys = CodingKeys.self
+          //  MARK: - ModelSchema 
+          
+          public static let schema = defineSchema { model in
+            let modelCompositePk = ModelCompositePk.keys
+            
+            model.pluralName = "ModelCompositePks"
+            
+            model.attributes(
+              .index(fields: ["id", "dob"], name: nil),
+              .primaryKey(fields: [modelCompositePk.id, modelCompositePk.dob])
+            )
+            
+            model.fields(
+              .field(modelCompositePk.id, is: .required, ofType: .string),
+              .field(modelCompositePk.dob, is: .required, ofType: .dateTime),
+              .field(modelCompositePk.name, is: .optional, ofType: .string),
+              .field(modelCompositePk.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+              .field(modelCompositePk.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+            )
+            }
+        }
+        
+        extension ModelCompositePk: ModelIdentifiable {
+            public typealias IdentifierFormat = ModelIdentifierFormat.Custom
+            public typealias Identifier = ModelIdentifier<Self, ModelIdentifierFormat.Custom>
+        }
+        
+        extension ModelCompositePk.Identifier {
+            public static func identifier(id: String, dob: Temporal.DateTime) -> Self {
+                .make(fields: [(name: "id", value: id), (name: "dob", value: dob)])
+            }
+        }"
+      `);
     });
   });
 });
