@@ -2,7 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
- 
+
+# [3.0.0-update-dependency.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.28.1...amplify-codegen@3.0.0-update-dependency.0) (2022-04-21)
+
+
+### chore
+
+* mv bump associated with revert to caret-versioning in CLI ([#412](https://github.com/aws-amplify/amplify-codegen/issues/412)) ([8f00f73](https://github.com/aws-amplify/amplify-codegen/commit/8f00f73a561aebea18009104e95096cc626e7a65))
+
+
+### BREAKING CHANGES
+
+* no-op to bump major-version
+
+
+
+
+
+
 ## [2.28.1](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@2.28.0...amplify-codegen@2.28.1) (2022-02-24)
 
 **Note:** Version bump only for package amplify-codegen

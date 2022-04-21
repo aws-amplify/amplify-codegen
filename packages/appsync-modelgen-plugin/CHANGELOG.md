@@ -2,7 +2,34 @@
 
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
- 
+
+# [2.0.0-update-dependency.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.32.0...@aws-amplify/appsync-modelgen-plugin@2.0.0-update-dependency.0) (2022-04-21)
+
+
+### Bug Fixes
+
+* **appsync-dart-visitor:** update ignored linter rules ([#404](https://github.com/aws-amplify/amplify-codegen/issues/404)) ([7d2fdaf](https://github.com/aws-amplify/amplify-codegen/commit/7d2fdaff6e0512d76ad0efbc19acf67b1b738d23))
+
+
+### chore
+
+* mv bump associated with revert to caret-versioning in CLI ([#412](https://github.com/aws-amplify/amplify-codegen/issues/412)) ([8f00f73](https://github.com/aws-amplify/amplify-codegen/commit/8f00f73a561aebea18009104e95096cc626e7a65))
+
+
+### Features
+
+* **appsync-modelgen-plugin:** add sort key field in manyToMany models ([#401](https://github.com/aws-amplify/amplify-codegen/issues/401)) ([5716d10](https://github.com/aws-amplify/amplify-codegen/commit/5716d1015c4b1a46c6677b0b028ee19d31bb2a92))
+
+
+### BREAKING CHANGES
+
+* no-op to bump major-version
+
+
+
+
+
+
 # [1.32.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.31.0...@aws-amplify/appsync-modelgen-plugin@1.32.0) (2022-02-24)
 
 
