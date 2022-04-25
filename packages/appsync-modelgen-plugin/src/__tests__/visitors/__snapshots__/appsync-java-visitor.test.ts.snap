@@ -3802,14 +3802,19 @@ public final class ListContainer implements Model {
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, List<Integer> list, List<String> requiredList, List<StatusEnum> requiredListOfRequired, List<Boolean> listOfRequired, List<Temporal.Date> requiredListOfRequiredDates, List<Double> listOfRequiredFloats, List<CustomType> requiredListOfCustomTypes) {
       super.id(id);
-      super.requiredListOfRequired(requiredListOfRequired)
-        .listOfRequired(listOfRequired)
+      super.requiredList(requiredList)
+        .requiredListOfRequired(requiredListOfRequired)
         .requiredListOfRequiredDates(requiredListOfRequiredDates)
-        .listOfRequiredFloats(listOfRequiredFloats)
+        .requiredListOfCustomTypes(requiredListOfCustomTypes)
         .name(name)
         .list(list)
-        .requiredList(requiredList)
-        .requiredListOfCustomTypes(requiredListOfCustomTypes);
+        .listOfRequired(listOfRequired)
+        .listOfRequiredFloats(listOfRequiredFloats);
+    }
+    
+    @Override
+     public CopyOfBuilder requiredList(List<String> requiredList) {
+      return (CopyOfBuilder) super.requiredList(requiredList);
     }
     
     @Override
@@ -3818,18 +3823,13 @@ public final class ListContainer implements Model {
     }
     
     @Override
-     public CopyOfBuilder listOfRequired(List<Boolean> listOfRequired) {
-      return (CopyOfBuilder) super.listOfRequired(listOfRequired);
-    }
-    
-    @Override
      public CopyOfBuilder requiredListOfRequiredDates(List<Temporal.Date> requiredListOfRequiredDates) {
       return (CopyOfBuilder) super.requiredListOfRequiredDates(requiredListOfRequiredDates);
     }
     
     @Override
-     public CopyOfBuilder listOfRequiredFloats(List<Double> listOfRequiredFloats) {
-      return (CopyOfBuilder) super.listOfRequiredFloats(listOfRequiredFloats);
+     public CopyOfBuilder requiredListOfCustomTypes(List<CustomType> requiredListOfCustomTypes) {
+      return (CopyOfBuilder) super.requiredListOfCustomTypes(requiredListOfCustomTypes);
     }
     
     @Override
@@ -3843,13 +3843,13 @@ public final class ListContainer implements Model {
     }
     
     @Override
-     public CopyOfBuilder requiredList(List<String> requiredList) {
-      return (CopyOfBuilder) super.requiredList(requiredList);
+     public CopyOfBuilder listOfRequired(List<Boolean> listOfRequired) {
+      return (CopyOfBuilder) super.listOfRequired(listOfRequired);
     }
     
     @Override
-     public CopyOfBuilder requiredListOfCustomTypes(List<CustomType> requiredListOfCustomTypes) {
-      return (CopyOfBuilder) super.requiredListOfCustomTypes(requiredListOfCustomTypes);
+     public CopyOfBuilder listOfRequiredFloats(List<Double> listOfRequiredFloats) {
+      return (CopyOfBuilder) super.listOfRequiredFloats(listOfRequiredFloats);
     }
   }
   
