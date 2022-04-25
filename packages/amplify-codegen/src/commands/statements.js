@@ -5,9 +5,7 @@ const Ora = require('ora');
 const loadConfig = require('../codegen-config');
 const constants = require('../constants');
 const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails } = require('../utils');
-const { FeatureFlags } = require('amplify-cli-core');
-const { getDocsgenPackage } = require('../utils/getDocsgenPackage');
-const docsgenPackageMigrationflag = 'codegen.useDocsGeneratorPlugin';
+const { generate } = require('@aws-amplify/graphql-docs-generator')
 
 async function generateStatements(context, forceDownloadSchema, maxDepth, withoutInit = false, decoupleFrontend = '') {
   try {
@@ -36,8 +34,6 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
     return;
   }
 
-  const { generate } = getDocsgenPackage(FeatureFlags.getBoolean(docsgenPackageMigrationflag));
-
   for (const cfg of projects) {
     const includeFiles = path.join(projectPath, cfg.includes[0]);
     const opsGenDirectory = cfg.amplifyExtension.docsFilePath
@@ -63,7 +59,6 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
         separateFiles: true,
         language,
         maxDepth: maxDepth || cfg.amplifyExtension.maxDepth,
-        retainCaseStyle: FeatureFlags.getBoolean('codegen.retainCaseStyle')
       });
       opsGenSpinner.succeed(constants.INFO_MESSAGE_OPS_GEN_SUCCESS + path.relative(path.resolve('.'), opsGenDirectory));
     } finally {

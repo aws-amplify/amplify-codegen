@@ -72,5 +72,4 @@ export type GQLAllOperations = {
 
 export type GQLDocsGenOptions = {
   useExternalFragmentForS3Object: boolean,
-  retainCaseStyle: boolean
 };
