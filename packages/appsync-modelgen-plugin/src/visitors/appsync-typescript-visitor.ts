@@ -141,7 +141,7 @@ export class AppSyncModelTypeScriptVisitor<
         this.BASE_DATASTORE_IMPORT.add('OptionallyManagedIdentifier');
         return `OptionallyManagedIdentifier<${modelObj.name}, '${primaryKeyField.name}'>`;
       case CodeGenPrimaryKeyType.CustomId:
-        const identifierFields: string[] = [primaryKeyField.name, ...sortKeyFields].filter(f => f);
+        const identifierFields: string[] = [primaryKeyField.name, ...sortKeyFields.map(f => f.name)].filter(f => f);
         const identifierFieldsStr = identifierFields.length === 1 ? `'${identifierFields[0]}'` : `[${identifierFields.map(fieldStr => `'${fieldStr}'`).join(', ')}]`
         if (identifierFields.length > 1) {
           this.BASE_DATASTORE_IMPORT.add('CompositeIdentifier');
