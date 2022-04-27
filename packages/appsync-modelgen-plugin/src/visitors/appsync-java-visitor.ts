@@ -579,8 +579,9 @@ export class AppSyncModelJavaVisitor<
       // serial version field
       primaryKeyClassDeclaration.addClassMember('serialVersionUID', 'long', '1L', [], 'private', { static: true, final: true });
       // constructor
-      const constructorParams = [{name:'', type:''}];
-      const constructorImpl = '';
+      const primaryKeyComponentFields: CodeGenField[] = [primaryKeyField, ...sortKeyFields];
+      const constructorParams = primaryKeyComponentFields.map(field => ({name: this.getFieldName(field), type: this.getNativeType(field)}));
+      const constructorImpl = `super(${primaryKeyComponentFields.map(field => this.getFieldName(field)).join(', ')});`;
       primaryKeyClassDeclaration.addClassMethod(modelPrimaryKeyClassName, null, constructorImpl, constructorParams, [], 'protected');
       classDeclaration.nestedClass(primaryKeyClassDeclaration);
     }
@@ -787,6 +788,8 @@ export class AppSyncModelJavaVisitor<
           const authDirectives: AuthDirective[] = model.directives.filter(d => d.name === 'auth') as AuthDirective[];
           const authRules = this.generateAuthRules(authDirectives);
           modelArgs.push(`pluralName = "${this.pluralizeModelName(model)}"`);
+          modelArgs.push(`type = Model.Type.USER`);
+          modelArgs.push(`version = "V1"`);
           if (authRules.length) {
             this.usingAuth = true;
             modelArgs.push(`authRules = ${authRules}`);

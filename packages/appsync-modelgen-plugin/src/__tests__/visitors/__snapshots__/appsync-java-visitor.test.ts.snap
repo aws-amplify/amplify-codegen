@@ -1,5 +1,220 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[` 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.HasMany;
+import com.amplifyframework.core.model.temporal.Temporal;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the BlogOwnerWithCustomPKS type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"BlogOwnerWithCustomPKS\\", type = Model.Type.USER, version = \\"V1\\")
+@Index(name = \\"undefined\\", fields = {\\"name\\",\\"wea\\"})
+public final class BlogOwnerWithCustomPKS implements Model {
+  public static final QueryField ID = field(\\"BlogOwnerWithCustomPKS\\", \\"id\\");
+  public static final QueryField NAME = field(\\"BlogOwnerWithCustomPKS\\", \\"name\\");
+  public static final QueryField WEA = field(\\"BlogOwnerWithCustomPKS\\", \\"wea\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String wea;
+  private final @ModelField(targetType=\\"Blog\\") @HasMany(associatedWith = \\"blogOwner\\", type = Blog.class) List<Blog> blogs = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getName() {
+      return name;
+  }
+  
+  public String getWea() {
+      return wea;
+  }
+  
+  public List<Blog> getBlogs() {
+      return blogs;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private BlogOwnerWithCustomPKS(String id, String name, String wea) {
+    this.id = id;
+    this.name = name;
+    this.wea = wea;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      BlogOwnerWithCustomPKS blogOwnerWithCustomPks = (BlogOwnerWithCustomPKS) obj;
+      return ObjectsCompat.equals(getId(), blogOwnerWithCustomPks.getId()) &&
+              ObjectsCompat.equals(getName(), blogOwnerWithCustomPks.getName()) &&
+              ObjectsCompat.equals(getWea(), blogOwnerWithCustomPks.getWea()) &&
+              ObjectsCompat.equals(getCreatedAt(), blogOwnerWithCustomPks.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), blogOwnerWithCustomPks.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getName())
+      .append(getWea())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"BlogOwnerWithCustomPKS {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
+      .append(\\"wea=\\" + String.valueOf(getWea()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static NameStep builder() {
+      return new Builder();
+  }
+  
+  /** 
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static BlogOwnerWithCustomPKS justId(String id) {
+    return new BlogOwnerWithCustomPKS(
+      id,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      name,
+      wea);
+  }
+  public interface NameStep {
+    WeaStep name(String name);
+  }
+  
+
+  public interface WeaStep {
+    BuildStep wea(String wea);
+  }
+  
+
+  public interface BuildStep {
+    BlogOwnerWithCustomPKS build();
+    BuildStep id(String id);
+  }
+  
+
+  public static class Builder implements NameStep, WeaStep, BuildStep {
+    private String id;
+    private String name;
+    private String wea;
+    @Override
+     public BlogOwnerWithCustomPKS build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new BlogOwnerWithCustomPKS(
+          id,
+          name,
+          wea);
+    }
+    
+    @Override
+     public WeaStep name(String name) {
+        Objects.requireNonNull(name);
+        this.name = name;
+        return this;
+    }
+    
+    @Override
+     public BuildStep wea(String wea) {
+        Objects.requireNonNull(wea);
+        this.wea = wea;
+        return this;
+    }
+    
+    /** 
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String name, String wea) {
+      super.id(id);
+      super.name(name)
+        .wea(wea);
+    }
+    
+    @Override
+     public CopyOfBuilder name(String name) {
+      return (CopyOfBuilder) super.name(name);
+    }
+    
+    @Override
+     public CopyOfBuilder wea(String wea) {
+      return (CopyOfBuilder) super.wea(wea);
+    }
+  }
+  
+
+  public class BlogOwnerWithCustomPKSPrimaryKey extends ModelPrimaryKey<BlogOwnerWithCustomPKS> {
+    private static final long serialVersionUID = 1L;
+    protected BlogOwnerWithCustomPKSPrimaryKey(String name, String wea) {
+      super(name, wea);
+    }
+  }
+  
+}
+"
+`;
+
 exports[`AppSyncModelVisitor Many To Many V2 Tests Should generate the intermediate model successfully 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
@@ -44,7 +259,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the customClaim type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"customClaims\\", authRules = {
+@ModelConfig(pluralName = \\"customClaims\\", type = Model.Type.USER, version = \\"V1\\", authRules = {
   @AuthRule(allow = AuthStrategy.OWNER, ownerField = \\"owner\\", identityClaim = \\"user_id\\", provider = \\"userPools\\", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class customClaim implements Model {
@@ -239,7 +454,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the customClaim type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"customClaims\\", authRules = {
+@ModelConfig(pluralName = \\"customClaims\\", type = Model.Type.USER, version = \\"V1\\", authRules = {
   @AuthRule(allow = AuthStrategy.GROUPS, groupClaim = \\"user_groups\\", groups = { \\"Moderator\\" }, provider = \\"userPools\\", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class customClaim implements Model {
@@ -434,7 +649,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Employee type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Employees\\", authRules = {
+@ModelConfig(pluralName = \\"Employees\\", type = Model.Type.USER, version = \\"V1\\", authRules = {
   @AuthRule(allow = AuthStrategy.OWNER, ownerField = \\"owner\\", identityClaim = \\"cognito:username\\", provider = \\"userPools\\", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ }),
   @AuthRule(allow = AuthStrategy.GROUPS, groupClaim = \\"cognito:groups\\", groups = { \\"Admins\\" }, provider = \\"userPools\\", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
@@ -669,7 +884,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the dynamicGroups type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"dynamicGroups\\", authRules = {
+@ModelConfig(pluralName = \\"dynamicGroups\\", type = Model.Type.USER, version = \\"V1\\", authRules = {
   @AuthRule(allow = AuthStrategy.GROUPS, groupClaim = \\"cognito:groups\\", groupsField = \\"groups\\", provider = \\"userPools\\", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class dynamicGroups implements Model {
@@ -864,7 +1079,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Employee type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Employees\\", authRules = {
+@ModelConfig(pluralName = \\"Employees\\", type = Model.Type.USER, version = \\"V1\\", authRules = {
   @AuthRule(allow = AuthStrategy.OWNER, ownerField = \\"owner\\", identityClaim = \\"cognito:username\\", provider = \\"userPools\\", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ }),
   @AuthRule(allow = AuthStrategy.PRIVATE, provider = \\"iam\\", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
@@ -1099,7 +1314,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the simpleOwnerAuth type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"simpleOwnerAuths\\", authRules = {
+@ModelConfig(pluralName = \\"simpleOwnerAuths\\", type = Model.Type.USER, version = \\"V1\\", authRules = {
   @AuthRule(allow = AuthStrategy.OWNER, ownerField = \\"owner\\", identityClaim = \\"cognito:username\\", provider = \\"userPools\\", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class simpleOwnerAuth implements Model {
@@ -1294,7 +1509,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the allowRead type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"allowReads\\", authRules = {
+@ModelConfig(pluralName = \\"allowReads\\", type = Model.Type.USER, version = \\"V1\\", authRules = {
   @AuthRule(allow = AuthStrategy.OWNER, ownerField = \\"owner\\", identityClaim = \\"cognito:username\\", provider = \\"userPools\\", operations = { ModelOperation.CREATE, ModelOperation.DELETE, ModelOperation.UPDATE })
 })
 public final class allowRead implements Model {
@@ -1489,7 +1704,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the privateType type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"privateTypes\\", authRules = {
+@ModelConfig(pluralName = \\"privateTypes\\", type = Model.Type.USER, version = \\"V1\\", authRules = {
   @AuthRule(allow = AuthStrategy.PRIVATE, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class privateType implements Model {
@@ -1684,7 +1899,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the privateType type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"privateTypes\\", authRules = {
+@ModelConfig(pluralName = \\"privateTypes\\", type = Model.Type.USER, version = \\"V1\\", authRules = {
   @AuthRule(allow = AuthStrategy.PRIVATE, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class privateType implements Model {
@@ -1881,7 +2096,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the publicType type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"publicTypes\\", authRules = {
+@ModelConfig(pluralName = \\"publicTypes\\", type = Model.Type.USER, version = \\"V1\\", authRules = {
   @AuthRule(allow = AuthStrategy.PUBLIC, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class publicType implements Model {
@@ -2076,7 +2291,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the staticGroups type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"staticGroups\\", authRules = {
+@ModelConfig(pluralName = \\"staticGroups\\", type = Model.Type.USER, version = \\"V1\\", authRules = {
   @AuthRule(allow = AuthStrategy.GROUPS, groupClaim = \\"cognito:groups\\", groups = { \\"Admin\\" }, provider = \\"userPools\\", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class staticGroups implements Model {
@@ -2268,7 +2483,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Landmark type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Landmarks\\")
+@ModelConfig(pluralName = \\"Landmarks\\", type = Model.Type.USER, version = \\"V1\\")
 public final class Landmark implements Model {
   public static final QueryField ID = field(\\"Landmark\\", \\"id\\");
   public static final QueryField NAME = field(\\"Landmark\\", \\"name\\");
@@ -2766,7 +2981,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the task type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"tasks\\")
+@ModelConfig(pluralName = \\"tasks\\", type = Model.Type.USER, version = \\"V1\\")
 public final class task implements Model {
   public static final QueryField ID = field(\\"task\\", \\"id\\");
   public static final QueryField TODO = field(\\"task\\", \\"taskTodoId\\");
@@ -2984,7 +3199,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Todo type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Todos\\")
+@ModelConfig(pluralName = \\"Todos\\", type = Model.Type.USER, version = \\"V1\\")
 public final class Todo implements Model {
   public static final QueryField ID = field(\\"Todo\\", \\"id\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
@@ -3126,7 +3341,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the SimpleModel type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"SimpleModels\\")
+@ModelConfig(pluralName = \\"SimpleModels\\", type = Model.Type.USER, version = \\"V1\\")
 public final class SimpleModel implements Model {
   public static final QueryField ID = field(\\"SimpleModel\\", \\"id\\");
   public static final QueryField NAME = field(\\"SimpleModel\\", \\"name\\");
@@ -3316,7 +3531,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the SimpleModel type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"SimpleModels\\")
+@ModelConfig(pluralName = \\"SimpleModels\\", type = Model.Type.USER, version = \\"V1\\")
 public final class SimpleModel implements Model {
   public static final QueryField ID = field(\\"SimpleModel\\", \\"id\\");
   public static final QueryField NAME = field(\\"SimpleModel\\", \\"name\\");
@@ -3506,7 +3721,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the ListContainer type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"ListContainers\\")
+@ModelConfig(pluralName = \\"ListContainers\\", type = Model.Type.USER, version = \\"V1\\")
 public final class ListContainer implements Model {
   public static final QueryField ID = field(\\"ListContainer\\", \\"id\\");
   public static final QueryField NAME = field(\\"ListContainer\\", \\"name\\");
@@ -3879,7 +4094,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the task type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"tasks\\")
+@ModelConfig(pluralName = \\"tasks\\", type = Model.Type.USER, version = \\"V1\\")
 public final class task implements Model {
   public static final QueryField ID = field(\\"task\\", \\"id\\");
   public static final QueryField TITLE = field(\\"task\\", \\"title\\");
@@ -4161,7 +4376,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Todo type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Todos\\")
+@ModelConfig(pluralName = \\"Todos\\", type = Model.Type.USER, version = \\"V1\\")
 public final class Todo implements Model {
   public static final QueryField ID = field(\\"Todo\\", \\"id\\");
   public static final QueryField TITLE = field(\\"Todo\\", \\"title\\");
@@ -4479,7 +4694,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the TypeWithAWSDateScalars type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"TypeWithAWSDateScalars\\")
+@ModelConfig(pluralName = \\"TypeWithAWSDateScalars\\", type = Model.Type.USER, version = \\"V1\\")
 public final class TypeWithAWSDateScalars implements Model {
   public static final QueryField ID = field(\\"TypeWithAWSDateScalars\\", \\"id\\");
   public static final QueryField DATE = field(\\"TypeWithAWSDateScalars\\", \\"date\\");
@@ -4726,7 +4941,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the authorBook type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"authorBooks\\")
+@ModelConfig(pluralName = \\"authorBooks\\", type = Model.Type.USER, version = \\"V1\\")
 @Index(name = \\"byAuthor\\", fields = {\\"author_id\\"})
 @Index(name = \\"byBook\\", fields = {\\"book_id\\"})
 public final class authorBook implements Model {
@@ -4982,7 +5197,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the NonCamelCaseField type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"NonCamelCaseFields\\")
+@ModelConfig(pluralName = \\"NonCamelCaseFields\\", type = Model.Type.USER, version = \\"V1\\")
 public final class NonCamelCaseField implements Model {
   public static final QueryField ID = field(\\"NonCamelCaseField\\", \\"id\\");
   public static final QueryField EMPLOYEE_PID = field(\\"NonCamelCaseField\\", \\"employeePID\\");
@@ -5145,7 +5360,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the snake_case type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"snake_cases\\")
+@ModelConfig(pluralName = \\"snake_cases\\", type = Model.Type.USER, version = \\"V1\\")
 public final class snake_case implements Model {
   public static final QueryField ID = field(\\"snake_case\\", \\"id\\");
   public static final QueryField NAME = field(\\"snake_case\\", \\"name\\");
@@ -5308,7 +5523,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the SnakeCaseField type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"SnakeCaseFields\\")
+@ModelConfig(pluralName = \\"SnakeCaseFields\\", type = Model.Type.USER, version = \\"V1\\")
 public final class SnakeCaseField implements Model {
   public static final QueryField ID = field(\\"SnakeCaseField\\", \\"id\\");
   public static final QueryField FIRST_NAME = field(\\"SnakeCaseField\\", \\"first_name\\");
