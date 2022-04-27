@@ -12,7 +12,7 @@ import {
 } from '../configs/java-config';
 import { JAVA_TYPE_IMPORT_MAP } from '../scalars';
 import { JavaDeclarationBlock } from '../languages/java-declaration-block';
-import { AppSyncModelVisitor, CodeGenField, CodeGenModel, ParsedAppSyncModelConfig, RawAppSyncModelConfig } from './appsync-visitor';
+import { AppSyncModelVisitor, CodeGenField, CodeGenModel, CodeGenPrimaryKeyType, ParsedAppSyncModelConfig, RawAppSyncModelConfig } from './appsync-visitor';
 import { CodeGenConnectionType } from '../utils/process-connections';
 import { AuthDirective, AuthStrategy } from '../utils/process-auth';
 import { printWarning } from '../utils/warn';
@@ -200,6 +200,10 @@ export class AppSyncModelJavaVisitor<
 
     // copyOfBuilder for used for updating existing instance
     this.generateCopyOfBuilderClass(model, classDeclarationBlock);
+
+    // Model primary Key class
+    this.generateModelPrimaryKeyClass(model, classDeclarationBlock);
+
     // getters
     this.generateGetters(model, classDeclarationBlock);
 
@@ -555,6 +559,31 @@ export class AppSyncModelJavaVisitor<
       );
     });
     classDeclaration.nestedClass(copyOfBuilderClassDeclaration);
+  }
+
+  /**
+   * Generate model primary key class for models with custom primary key only. 
+   * @param model 
+   * @param classDeclaration 
+   */
+  protected generateModelPrimaryKeyClass(model: CodeGenModel, classDeclaration: JavaDeclarationBlock): void {
+    const primaryKeyField = model.fields.find(f => f.primaryKeyInfo)!;
+    const { primaryKeyType, sortKeyFields } = primaryKeyField.primaryKeyInfo!;
+    if (primaryKeyType === CodeGenPrimaryKeyType.CustomId) {
+      const modelPrimaryKeyClassName = `${this.getModelName(model)}PrimaryKey`;
+      const primaryKeyClassDeclaration = new JavaDeclarationBlock()
+        .access('public')
+        .asKind('class')
+        .withName(modelPrimaryKeyClassName)
+        .extends([`ModelPrimaryKey<${this.getModelName(model)}>`]);
+      // serial version field
+      primaryKeyClassDeclaration.addClassMember('serialVersionUID', 'long', '1L', [], 'private', { static: true, final: true });
+      // constructor
+      const constructorParams = [{name:'', type:''}];
+      const constructorImpl = '';
+      primaryKeyClassDeclaration.addClassMethod(modelPrimaryKeyClassName, null, constructorImpl, constructorParams, [], 'protected');
+      classDeclaration.nestedClass(primaryKeyClassDeclaration);
+    }
   }
 
   /**
