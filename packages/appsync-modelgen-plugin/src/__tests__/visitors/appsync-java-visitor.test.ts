@@ -605,31 +605,33 @@ describe('AppSyncModelVisitor', () => {
   });
 
   describe('Custom primary key tests', () => {
-    const schema = /* GraphQL */ `
-      type Blog @model {
-        id: ID!
-        name: String!
-        blogOwner: BlogOwnerWithCustomPKS!@belongsTo
-        posts: [Post] @hasMany
-      }
-      
-      type BlogOwnerWithCustomPKS @model {
-        id: ID!
-        name: String!@primaryKey(sortKeyFields: ["wea"])
-        wea: String!
-        blogs: [Blog] @hasMany
-      }
-      
-      type Post @model {
-        id: ID!
-        title: String!
-        rating: Int!
-        created: AWSDateTime
-        blogID: ID!
-        blog: Blog @belongsTo
-      }
-    `;
-    const generatedCode = getVisitorPipelinedTransformer(schema, `BlogOwnerWithCustomPKS`, CodeGenGenerateEnum.code).generate();
-    expect(generatedCode).toMatchSnapshot();
+    it('Should generate correct model file for custom primary key type', () => {
+      const schema = /* GraphQL */ `
+        type Blog @model {
+          id: ID!
+          name: String!
+          blogOwner: BlogOwnerWithCustomPKS!@belongsTo
+          posts: [Post] @hasMany
+        }
+        
+        type BlogOwnerWithCustomPKS @model {
+          id: ID!
+          name: String!@primaryKey(sortKeyFields: ["wea"])
+          wea: String!
+          blogs: [Blog] @hasMany
+        }
+        
+        type Post @model {
+          id: ID!
+          title: String!
+          rating: Int!
+          created: AWSDateTime
+          blogID: ID!
+          blog: Blog @belongsTo
+        }
+      `;
+      const generatedCode = getVisitorPipelinedTransformer(schema, `BlogOwnerWithCustomPKS`, CodeGenGenerateEnum.code).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
   });
 });

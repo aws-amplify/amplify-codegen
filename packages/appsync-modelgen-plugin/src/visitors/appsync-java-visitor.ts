@@ -9,6 +9,7 @@ import {
   CONNECTION_RELATIONSHIP_IMPORTS,
   NON_MODEL_CLASS_IMPORT_PACKAGES,
   MODEL_AUTH_CLASS_IMPORT_PACKAGES,
+  CUSTOM_PRIMARY_KEY_IMPORT_PACKAGE,
 } from '../configs/java-config';
 import { JAVA_TYPE_IMPORT_MAP } from '../scalars';
 import { JavaDeclarationBlock } from '../languages/java-declaration-block';
@@ -562,14 +563,15 @@ export class AppSyncModelJavaVisitor<
   }
 
   /**
-   * Generate model primary key class for models with custom primary key only. 
-   * @param model 
-   * @param classDeclaration 
+   * Generate model primary key class for models with custom primary key only.
+   * @param model
+   * @param classDeclaration
    */
   protected generateModelPrimaryKeyClass(model: CodeGenModel, classDeclaration: JavaDeclarationBlock): void {
     const primaryKeyField = model.fields.find(f => f.primaryKeyInfo)!;
     const { primaryKeyType, sortKeyFields } = primaryKeyField.primaryKeyInfo!;
     if (primaryKeyType === CodeGenPrimaryKeyType.CustomId) {
+      this.additionalPackages.add(CUSTOM_PRIMARY_KEY_IMPORT_PACKAGE);
       const modelPrimaryKeyClassName = `${this.getModelName(model)}PrimaryKey`;
       const primaryKeyClassDeclaration = new JavaDeclarationBlock()
         .access('public')

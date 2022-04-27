@@ -81,3 +81,5 @@ export const CONNECTION_RELATIONSHIP_IMPORTS: { [key in CodeGenConnectionType]: 
   HAS_MANY: 'com.amplifyframework.core.model.annotations.HasMany',
   HAS_ONE: 'com.amplifyframework.core.model.annotations.HasOne',
 };
+
+export const CUSTOM_PRIMARY_KEY_IMPORT_PACKAGE = 'com.amplifyframework.core.model.ModelPrimaryKey';

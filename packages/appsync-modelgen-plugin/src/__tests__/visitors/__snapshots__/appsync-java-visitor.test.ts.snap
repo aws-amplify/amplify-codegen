@@ -1,10 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[` 1`] = `
+exports[`AppSyncModelVisitor Custom primary key tests Should generate correct model file for custom primary key type 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
 import com.amplifyframework.core.model.annotations.HasMany;
 import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.model.ModelPrimaryKey;
 
 import java.util.List;
 import java.util.UUID;
