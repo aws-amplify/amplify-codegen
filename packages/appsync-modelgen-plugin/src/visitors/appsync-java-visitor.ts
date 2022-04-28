@@ -586,7 +586,7 @@ export class AppSyncModelJavaVisitor<
    */
   protected generateModelPrimaryKeyClass(model: CodeGenModel): string {
     const primaryKeyField = model.fields.find(f => f.primaryKeyInfo)!;
-    const { primaryKeyType, sortKeyFields } = primaryKeyField.primaryKeyInfo!;
+    const { sortKeyFields } = primaryKeyField.primaryKeyInfo!;
     // Generate primary key class for composite key
     this.additionalPackages.add(CUSTOM_PRIMARY_KEY_IMPORT_PACKAGE);
     const modelPrimaryKeyClassName = this.getModelPrimaryKeyClassName(model);
