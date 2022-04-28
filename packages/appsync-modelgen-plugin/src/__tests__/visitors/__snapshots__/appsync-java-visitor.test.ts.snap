@@ -35,6 +35,15 @@ public final class BlogOwnerWithCustomPKS implements Model {
   private final @ModelField(targetType=\\"Blog\\") @HasMany(associatedWith = \\"blogOwner\\", type = Blog.class) List<Blog> blogs = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  private BlogOwnerWithCustomPKSPrimaryKey blogOwnerWithCustomPKSPrimaryKey;
+  @NonNull
+   public BlogOwnerWithCustomPKSPrimaryKey resolveIdentifier() {
+    if (blogOwnerWithCustomPKSPrimaryKey == null) {
+      this.blogOwnerWithCustomPKSPrimaryKey = new BlogOwnerWithCustomPKSPrimaryKey(name, wea);
+    }
+    return blogOwnerWithCustomPKSPrimaryKey;
+  }
+  
   public String getId() {
       return id;
   }
@@ -272,6 +281,11 @@ public final class customClaim implements Model {
   private final @ModelField(targetType=\\"String\\") String bar;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
@@ -467,6 +481,11 @@ public final class customClaim implements Model {
   private final @ModelField(targetType=\\"String\\") String bar;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
@@ -667,6 +686,11 @@ public final class Employee implements Model {
   }) String ssn;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
@@ -897,6 +921,11 @@ public final class dynamicGroups implements Model {
   private final @ModelField(targetType=\\"String\\") String bar;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
@@ -1097,6 +1126,11 @@ public final class Employee implements Model {
   }) String ssn;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
@@ -1327,6 +1361,11 @@ public final class simpleOwnerAuth implements Model {
   private final @ModelField(targetType=\\"String\\") String bar;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
@@ -1522,6 +1561,11 @@ public final class allowRead implements Model {
   private final @ModelField(targetType=\\"String\\") String bar;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
@@ -1717,6 +1761,11 @@ public final class privateType implements Model {
   private final @ModelField(targetType=\\"String\\") String bar;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
@@ -1914,6 +1963,11 @@ public final class privateType implements Model {
   }) String bar;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
@@ -2109,6 +2163,11 @@ public final class publicType implements Model {
   private final @ModelField(targetType=\\"String\\") String bar;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
@@ -2304,6 +2363,11 @@ public final class staticGroups implements Model {
   private final @ModelField(targetType=\\"String\\") String bar;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
@@ -2498,6 +2562,11 @@ public final class Landmark implements Model {
   private final @ModelField(targetType=\\"Location\\") Location parking;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
@@ -2994,6 +3063,11 @@ public final class task implements Model {
   private final @ModelField(targetType=\\"AWSDate\\") Temporal.Date createdOn;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
@@ -3207,6 +3281,11 @@ public final class Todo implements Model {
   private final @ModelField(targetType=\\"task\\") @HasMany(associatedWith = \\"todo\\", type = task.class) List<task> tasks = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
@@ -3352,6 +3431,11 @@ public final class SimpleModel implements Model {
   private final @ModelField(targetType=\\"String\\") String bar;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
@@ -3542,6 +3626,11 @@ public final class SimpleModel implements Model {
   private final @ModelField(targetType=\\"String\\") String bar;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
@@ -3744,6 +3833,11 @@ public final class ListContainer implements Model {
   private final @ModelField(targetType=\\"CustomType\\", isRequired = true) List<CustomType> requiredListOfCustomTypes;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
@@ -4111,6 +4205,11 @@ public final class task implements Model {
   private final @ModelField(targetType=\\"AWSDate\\") Temporal.Date createdOn;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
@@ -4396,6 +4495,11 @@ public final class Todo implements Model {
   private final @ModelField(targetType=\\"task\\") @HasMany(associatedWith = \\"todo\\", type = task.class) List<task> tasks = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
@@ -4708,6 +4812,11 @@ public final class TypeWithAWSDateScalars implements Model {
   private final @ModelField(targetType=\\"AWSTime\\") Temporal.Time time;
   private final @ModelField(targetType=\\"AWSTimestamp\\") Temporal.Timestamp timestamp;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
@@ -4958,6 +5067,11 @@ public final class authorBook implements Model {
   private final @ModelField(targetType=\\"String\\") String book;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
@@ -5206,6 +5320,11 @@ public final class NonCamelCaseField implements Model {
   private final @ModelField(targetType=\\"String\\") String employeePID;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
@@ -5369,6 +5488,11 @@ public final class snake_case implements Model {
   private final @ModelField(targetType=\\"String\\") String name;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
@@ -5532,6 +5656,11 @@ public final class SnakeCaseField implements Model {
   private final @ModelField(targetType=\\"String\\") String first_name;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  @NonNull
+   public String resolveIdentifier() {
+    return id;
+  }
+  
   public String getId() {
       return id;
   }
