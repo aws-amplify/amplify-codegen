@@ -213,14 +213,14 @@ public final class BlogOwnerWithCustomPKS implements Model {
     }
   }
   
+}
 
-  public class BlogOwnerWithCustomPKSPrimaryKey extends ModelPrimaryKey<BlogOwnerWithCustomPKS> {
-    private static final long serialVersionUID = 1L;
-    protected BlogOwnerWithCustomPKSPrimaryKey(String name, String wea) {
-      super(name, wea);
-    }
+
+public class BlogOwnerWithCustomPKSPrimaryKey extends ModelPrimaryKey<BlogOwnerWithCustomPKS> {
+  private static final long serialVersionUID = 1L;
+  protected BlogOwnerWithCustomPKSPrimaryKey(String name, String wea) {
+    super(name, wea);
   }
-  
 }
 "
 `;

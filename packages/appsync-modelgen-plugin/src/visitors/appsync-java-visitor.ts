@@ -208,11 +208,6 @@ export class AppSyncModelJavaVisitor<
     // copyOfBuilder for used for updating existing instance
     this.generateCopyOfBuilderClass(model, classDeclarationBlock);
 
-    // Model primary Key class for composite primary key
-    if (isCompositeKey) {
-      this.generateModelPrimaryKeyClass(model, classDeclarationBlock);
-    }
-
     // resolveIdentifier
     this.generateResolveIdentifier(model, classDeclarationBlock, isCompositeKey);
 
@@ -240,7 +235,10 @@ export class AppSyncModelJavaVisitor<
     // copyBuilder method
     this.generateCopyOfBuilderMethod(model, classDeclarationBlock);
 
-    return classDeclarationBlock.string;
+    // Model primary Key class for composite primary key
+    const modelPrimaryKeyClassBlock = isCompositeKey ? this.generateModelPrimaryKeyClass(model): '';
+
+    return [classDeclarationBlock.string, modelPrimaryKeyClassBlock].filter(f => f).join('\n\n');
   }
 
   generateNonModelClass(nonModel: CodeGenModel): string {
@@ -586,7 +584,7 @@ export class AppSyncModelJavaVisitor<
    * @param model
    * @param classDeclaration
    */
-  protected generateModelPrimaryKeyClass(model: CodeGenModel, classDeclaration: JavaDeclarationBlock): void {
+  protected generateModelPrimaryKeyClass(model: CodeGenModel): string {
     const primaryKeyField = model.fields.find(f => f.primaryKeyInfo)!;
     const { primaryKeyType, sortKeyFields } = primaryKeyField.primaryKeyInfo!;
     // Generate primary key class for composite key
@@ -604,7 +602,7 @@ export class AppSyncModelJavaVisitor<
     const constructorParams = primaryKeyComponentFields.map(field => ({name: this.getFieldName(field), type: this.getNativeType(field)}));
     const constructorImpl = `super(${primaryKeyComponentFields.map(field => this.getFieldName(field)).join(', ')});`;
     primaryKeyClassDeclaration.addClassMethod(modelPrimaryKeyClassName, null, constructorImpl, constructorParams, [], 'protected');
-    classDeclaration.nestedClass(primaryKeyClassDeclaration);
+    return primaryKeyClassDeclaration.string;
 }
 
   /**
