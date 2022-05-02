@@ -202,14 +202,14 @@ public final class BlogOwnerWithCustomPKS implements Model {
     }
   }
   
-}
 
-
-public static class BlogOwnerWithCustomPKSPrimaryKey extends ModelPrimaryKey<BlogOwnerWithCustomPKS> {
-  private static final long serialVersionUID = 1L;
-  public BlogOwnerWithCustomPKSPrimaryKey(String name, String wea) {
-    super(name, wea);
+  public static class BlogOwnerWithCustomPKSPrimaryKey extends ModelPrimaryKey<BlogOwnerWithCustomPKS> {
+    private static final long serialVersionUID = 1L;
+    public BlogOwnerWithCustomPKSPrimaryKey(String name, String wea) {
+      super(name, wea);
+    }
   }
+  
 }
 "
 `;
@@ -463,14 +463,14 @@ public final class Comment implements Model {
     }
   }
   
-}
 
-
-public static class CommentPrimaryKey extends ModelPrimaryKey<Comment> {
-  private static final long serialVersionUID = 1L;
-  public CommentPrimaryKey(String title, String content, Integer likes) {
-    super(title, content, likes);
+  public static class CommentPrimaryKey extends ModelPrimaryKey<Comment> {
+    private static final long serialVersionUID = 1L;
+    public CommentPrimaryKey(String title, String content, Integer likes) {
+      super(title, content, likes);
+    }
   }
+  
 }
 "
 `;

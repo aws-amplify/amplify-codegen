@@ -209,6 +209,11 @@ export class AppSyncModelJavaVisitor<
     // copyOfBuilder for used for updating existing instance
     this.generateCopyOfBuilderClass(model, classDeclarationBlock, isIdAsModelPrimaryKey);
 
+    if (isCompositeKey) {
+      // Model primary Key class for composite primary key
+      this.generateModelPrimaryKeyClass(model, classDeclarationBlock);
+    }
+
     // resolveIdentifier
     this.generateResolveIdentifier(model, classDeclarationBlock, isCompositeKey);
 
@@ -238,10 +243,7 @@ export class AppSyncModelJavaVisitor<
     // copyBuilder method
     this.generateCopyOfBuilderMethod(model, classDeclarationBlock);
 
-    // Model primary Key class for composite primary key
-    const modelPrimaryKeyClassBlock = isCompositeKey ? this.generateModelPrimaryKeyClass(model): '';
-
-    return [classDeclarationBlock.string, modelPrimaryKeyClassBlock].filter(f => f).join('\n\n');
+    return classDeclarationBlock.string;
   }
 
   generateNonModelClass(nonModel: CodeGenModel): string {
@@ -587,7 +589,7 @@ export class AppSyncModelJavaVisitor<
    * @param model
    * @param classDeclaration
    */
-  protected generateModelPrimaryKeyClass(model: CodeGenModel): string {
+  protected generateModelPrimaryKeyClass(model: CodeGenModel, classDeclaration: JavaDeclarationBlock): void {
     const primaryKeyField = model.fields.find(f => f.primaryKeyInfo)!;
     const { sortKeyFields } = primaryKeyField.primaryKeyInfo!;
     // Generate primary key class for composite key
@@ -606,7 +608,7 @@ export class AppSyncModelJavaVisitor<
     const constructorParams = primaryKeyComponentFields.map(field => ({name: this.getFieldName(field), type: this.getNativeType(field)}));
     const constructorImpl = `super(${primaryKeyComponentFields.map(field => this.getFieldName(field)).join(', ')});`;
     primaryKeyClassDeclaration.addClassMethod(modelPrimaryKeyClassName, null, constructorImpl, constructorParams, [], 'public');
-    return primaryKeyClassDeclaration.string;
+    classDeclaration.nestedClass(primaryKeyClassDeclaration);
 }
 
   /**
