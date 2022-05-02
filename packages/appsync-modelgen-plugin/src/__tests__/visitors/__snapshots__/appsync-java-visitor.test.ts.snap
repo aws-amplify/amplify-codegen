@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AppSyncModelVisitor Custom primary key tests Should generate correct model file for custom primary key type 1`] = `
+exports[`AppSyncModelVisitor Custom primary key tests Should generate correct model file for composite key type with id field defined 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
 import com.amplifyframework.core.model.annotations.HasMany;
@@ -36,8 +36,7 @@ public final class BlogOwnerWithCustomPKS implements Model {
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   private BlogOwnerWithCustomPKSPrimaryKey blogOwnerWithCustomPKSPrimaryKey;
-  @NonNull
-   public BlogOwnerWithCustomPKSPrimaryKey resolveIdentifier() {
+  public BlogOwnerWithCustomPKSPrimaryKey resolveIdentifier() {
     if (blogOwnerWithCustomPKSPrimaryKey == null) {
       this.blogOwnerWithCustomPKSPrimaryKey = new BlogOwnerWithCustomPKSPrimaryKey(name, wea);
     }
@@ -115,24 +114,8 @@ public final class BlogOwnerWithCustomPKS implements Model {
       .toString();
   }
   
-  public static NameStep builder() {
+  public static IdStep builder() {
       return new Builder();
-  }
-  
-  /** 
-   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
-   * This is a convenience method to return an instance of the object with only its ID populated
-   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
-   * in a relationship.
-   * @param id the id of the existing item this instance will represent
-   * @return an instance of this model with only ID populated
-   */
-  public static BlogOwnerWithCustomPKS justId(String id) {
-    return new BlogOwnerWithCustomPKS(
-      id,
-      null,
-      null
-    );
   }
   
   public CopyOfBuilder copyOfBuilder() {
@@ -140,6 +123,11 @@ public final class BlogOwnerWithCustomPKS implements Model {
       name,
       wea);
   }
+  public interface IdStep {
+    NameStep id(String id);
+  }
+  
+
   public interface NameStep {
     WeaStep name(String name);
   }
@@ -152,22 +140,27 @@ public final class BlogOwnerWithCustomPKS implements Model {
 
   public interface BuildStep {
     BlogOwnerWithCustomPKS build();
-    BuildStep id(String id);
   }
   
 
-  public static class Builder implements NameStep, WeaStep, BuildStep {
+  public static class Builder implements IdStep, NameStep, WeaStep, BuildStep {
     private String id;
     private String name;
     private String wea;
     @Override
      public BlogOwnerWithCustomPKS build() {
-        String id = this.id != null ? this.id : UUID.randomUUID().toString();
         
         return new BlogOwnerWithCustomPKS(
           id,
           name,
           wea);
+    }
+    
+    @Override
+     public NameStep id(String id) {
+        Objects.requireNonNull(id);
+        this.id = id;
+        return this;
     }
     
     @Override
@@ -183,23 +176,19 @@ public final class BlogOwnerWithCustomPKS implements Model {
         this.wea = wea;
         return this;
     }
-    
-    /** 
-     * @param id id
-     * @return Current Builder instance, for fluent method chaining
-     */
-    public BuildStep id(String id) {
-        this.id = id;
-        return this;
-    }
   }
   
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String wea) {
-      super.id(id);
-      super.name(name)
+      super.id(id)
+        .name(name)
         .wea(wea);
+    }
+    
+    @Override
+     public CopyOfBuilder id(String id) {
+      return (CopyOfBuilder) super.id(id);
     }
     
     @Override
@@ -216,11 +205,768 @@ public final class BlogOwnerWithCustomPKS implements Model {
 }
 
 
-public class BlogOwnerWithCustomPKSPrimaryKey extends ModelPrimaryKey<BlogOwnerWithCustomPKS> {
+public static class BlogOwnerWithCustomPKSPrimaryKey extends ModelPrimaryKey<BlogOwnerWithCustomPKS> {
   private static final long serialVersionUID = 1L;
-  protected BlogOwnerWithCustomPKSPrimaryKey(String name, String wea) {
+  public BlogOwnerWithCustomPKSPrimaryKey(String name, String wea) {
     super(name, wea);
   }
+}
+"
+`;
+
+exports[`AppSyncModelVisitor Custom primary key tests Should generate correct model file for composite key type without id field defined 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.BelongsTo;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.model.ModelPrimaryKey;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Comment type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Comments\\", type = Model.Type.USER, version = \\"V1\\")
+@Index(name = \\"undefined\\", fields = {\\"title\\",\\"content\\",\\"likes\\"})
+public final class Comment implements Model {
+  public static final QueryField POST = field(\\"Comment\\", \\"postCommentsId\\");
+  public static final QueryField TITLE = field(\\"Comment\\", \\"title\\");
+  public static final QueryField CONTENT = field(\\"Comment\\", \\"content\\");
+  public static final QueryField LIKES = field(\\"Comment\\", \\"likes\\");
+  public static final QueryField DESCRIPTION = field(\\"Comment\\", \\"description\\");
+  private final @ModelField(targetType=\\"Post\\") @BelongsTo(targetName = \\"postCommentsId\\", type = Post.class) Post post;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String title;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
+  private final @ModelField(targetType=\\"Int\\", isRequired = true) Integer likes;
+  private final @ModelField(targetType=\\"String\\") String description;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  private CommentPrimaryKey commentPrimaryKey;
+  public CommentPrimaryKey resolveIdentifier() {
+    if (commentPrimaryKey == null) {
+      this.commentPrimaryKey = new CommentPrimaryKey(title, content, likes);
+    }
+    return commentPrimaryKey;
+  }
+  
+  public Post getPost() {
+      return post;
+  }
+  
+  public String getTitle() {
+      return title;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public Integer getLikes() {
+      return likes;
+  }
+  
+  public String getDescription() {
+      return description;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Comment(Post post, String title, String content, Integer likes, String description) {
+    this.post = post;
+    this.title = title;
+    this.content = content;
+    this.likes = likes;
+    this.description = description;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Comment comment = (Comment) obj;
+      return ObjectsCompat.equals(getPost(), comment.getPost()) &&
+              ObjectsCompat.equals(getTitle(), comment.getTitle()) &&
+              ObjectsCompat.equals(getContent(), comment.getContent()) &&
+              ObjectsCompat.equals(getLikes(), comment.getLikes()) &&
+              ObjectsCompat.equals(getDescription(), comment.getDescription()) &&
+              ObjectsCompat.equals(getCreatedAt(), comment.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), comment.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getPost())
+      .append(getTitle())
+      .append(getContent())
+      .append(getLikes())
+      .append(getDescription())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Comment {\\")
+      .append(\\"post=\\" + String.valueOf(getPost()) + \\", \\")
+      .append(\\"title=\\" + String.valueOf(getTitle()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"likes=\\" + String.valueOf(getLikes()) + \\", \\")
+      .append(\\"description=\\" + String.valueOf(getDescription()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static TitleStep builder() {
+      return new Builder();
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(post,
+      title,
+      content,
+      likes,
+      description);
+  }
+  public interface TitleStep {
+    ContentStep title(String title);
+  }
+  
+
+  public interface ContentStep {
+    LikesStep content(String content);
+  }
+  
+
+  public interface LikesStep {
+    BuildStep likes(Integer likes);
+  }
+  
+
+  public interface BuildStep {
+    Comment build();
+    BuildStep post(Post post);
+    BuildStep description(String description);
+  }
+  
+
+  public static class Builder implements TitleStep, ContentStep, LikesStep, BuildStep {
+    private String title;
+    private String content;
+    private Integer likes;
+    private Post post;
+    private String description;
+    @Override
+     public Comment build() {
+        
+        return new Comment(
+          post,
+          title,
+          content,
+          likes,
+          description);
+    }
+    
+    @Override
+     public ContentStep title(String title) {
+        Objects.requireNonNull(title);
+        this.title = title;
+        return this;
+    }
+    
+    @Override
+     public LikesStep content(String content) {
+        Objects.requireNonNull(content);
+        this.content = content;
+        return this;
+    }
+    
+    @Override
+     public BuildStep likes(Integer likes) {
+        Objects.requireNonNull(likes);
+        this.likes = likes;
+        return this;
+    }
+    
+    @Override
+     public BuildStep post(Post post) {
+        this.post = post;
+        return this;
+    }
+    
+    @Override
+     public BuildStep description(String description) {
+        this.description = description;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(Post post, String title, String content, Integer likes, String description) {
+      super.title(title)
+        .content(content)
+        .likes(likes)
+        .post(post)
+        .description(description);
+    }
+    
+    @Override
+     public CopyOfBuilder title(String title) {
+      return (CopyOfBuilder) super.title(title);
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+    
+    @Override
+     public CopyOfBuilder likes(Integer likes) {
+      return (CopyOfBuilder) super.likes(likes);
+    }
+    
+    @Override
+     public CopyOfBuilder post(Post post) {
+      return (CopyOfBuilder) super.post(post);
+    }
+    
+    @Override
+     public CopyOfBuilder description(String description) {
+      return (CopyOfBuilder) super.description(description);
+    }
+  }
+  
+}
+
+
+public static class CommentPrimaryKey extends ModelPrimaryKey<Comment> {
+  private static final long serialVersionUID = 1L;
+  public CommentPrimaryKey(String title, String content, Integer likes) {
+    super(title, content, likes);
+  }
+}
+"
+`;
+
+exports[`AppSyncModelVisitor Custom primary key tests Should generate correct model file for custom primary key type 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.model.annotations.BelongsTo;
+import com.amplifyframework.core.model.annotations.HasMany;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Post type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Posts\\", type = Model.Type.USER, version = \\"V1\\")
+@Index(name = \\"undefined\\", fields = {\\"postId\\"})
+public final class Post implements Model {
+  public static final QueryField POST_ID = field(\\"Post\\", \\"postId\\");
+  public static final QueryField TITLE = field(\\"Post\\", \\"title\\");
+  public static final QueryField RATING = field(\\"Post\\", \\"rating\\");
+  public static final QueryField CREATED = field(\\"Post\\", \\"created\\");
+  public static final QueryField BLOG_ID = field(\\"Post\\", \\"blogID\\");
+  public static final QueryField BLOG = field(\\"Post\\", \\"blogPostsId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String postId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String title;
+  private final @ModelField(targetType=\\"Int\\", isRequired = true) Integer rating;
+  private final @ModelField(targetType=\\"AWSDateTime\\") Temporal.DateTime created;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String blogID;
+  private final @ModelField(targetType=\\"Blog\\") @BelongsTo(targetName = \\"blogPostsId\\", type = Blog.class) Blog blog;
+  private final @ModelField(targetType=\\"Comment\\") @HasMany(associatedWith = \\"post\\", type = Comment.class) List<Comment> comments = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String resolveIdentifier() {
+    return postId;
+  }
+  
+  public String getPostId() {
+      return postId;
+  }
+  
+  public String getTitle() {
+      return title;
+  }
+  
+  public Integer getRating() {
+      return rating;
+  }
+  
+  public Temporal.DateTime getCreated() {
+      return created;
+  }
+  
+  public String getBlogId() {
+      return blogID;
+  }
+  
+  public Blog getBlog() {
+      return blog;
+  }
+  
+  public List<Comment> getComments() {
+      return comments;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Post(String postId, String title, Integer rating, Temporal.DateTime created, String blogID, Blog blog) {
+    this.postId = postId;
+    this.title = title;
+    this.rating = rating;
+    this.created = created;
+    this.blogID = blogID;
+    this.blog = blog;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Post post = (Post) obj;
+      return ObjectsCompat.equals(getPostId(), post.getPostId()) &&
+              ObjectsCompat.equals(getTitle(), post.getTitle()) &&
+              ObjectsCompat.equals(getRating(), post.getRating()) &&
+              ObjectsCompat.equals(getCreated(), post.getCreated()) &&
+              ObjectsCompat.equals(getBlogId(), post.getBlogId()) &&
+              ObjectsCompat.equals(getBlog(), post.getBlog()) &&
+              ObjectsCompat.equals(getCreatedAt(), post.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), post.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getPostId())
+      .append(getTitle())
+      .append(getRating())
+      .append(getCreated())
+      .append(getBlogId())
+      .append(getBlog())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Post {\\")
+      .append(\\"postId=\\" + String.valueOf(getPostId()) + \\", \\")
+      .append(\\"title=\\" + String.valueOf(getTitle()) + \\", \\")
+      .append(\\"rating=\\" + String.valueOf(getRating()) + \\", \\")
+      .append(\\"created=\\" + String.valueOf(getCreated()) + \\", \\")
+      .append(\\"blogID=\\" + String.valueOf(getBlogId()) + \\", \\")
+      .append(\\"blog=\\" + String.valueOf(getBlog()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static PostIdStep builder() {
+      return new Builder();
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(postId,
+      title,
+      rating,
+      created,
+      blogID,
+      blog);
+  }
+  public interface PostIdStep {
+    TitleStep postId(String postId);
+  }
+  
+
+  public interface TitleStep {
+    RatingStep title(String title);
+  }
+  
+
+  public interface RatingStep {
+    BlogIdStep rating(Integer rating);
+  }
+  
+
+  public interface BlogIdStep {
+    BuildStep blogId(String blogId);
+  }
+  
+
+  public interface BuildStep {
+    Post build();
+    BuildStep created(Temporal.DateTime created);
+    BuildStep blog(Blog blog);
+  }
+  
+
+  public static class Builder implements PostIdStep, TitleStep, RatingStep, BlogIdStep, BuildStep {
+    private String postId;
+    private String title;
+    private Integer rating;
+    private String blogID;
+    private Temporal.DateTime created;
+    private Blog blog;
+    @Override
+     public Post build() {
+        
+        return new Post(
+          postId,
+          title,
+          rating,
+          created,
+          blogID,
+          blog);
+    }
+    
+    @Override
+     public TitleStep postId(String postId) {
+        Objects.requireNonNull(postId);
+        this.postId = postId;
+        return this;
+    }
+    
+    @Override
+     public RatingStep title(String title) {
+        Objects.requireNonNull(title);
+        this.title = title;
+        return this;
+    }
+    
+    @Override
+     public BlogIdStep rating(Integer rating) {
+        Objects.requireNonNull(rating);
+        this.rating = rating;
+        return this;
+    }
+    
+    @Override
+     public BuildStep blogId(String blogId) {
+        Objects.requireNonNull(blogId);
+        this.blogID = blogId;
+        return this;
+    }
+    
+    @Override
+     public BuildStep created(Temporal.DateTime created) {
+        this.created = created;
+        return this;
+    }
+    
+    @Override
+     public BuildStep blog(Blog blog) {
+        this.blog = blog;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String postId, String title, Integer rating, Temporal.DateTime created, String blogId, Blog blog) {
+      super.postId(postId)
+        .title(title)
+        .rating(rating)
+        .blogId(blogId)
+        .created(created)
+        .blog(blog);
+    }
+    
+    @Override
+     public CopyOfBuilder postId(String postId) {
+      return (CopyOfBuilder) super.postId(postId);
+    }
+    
+    @Override
+     public CopyOfBuilder title(String title) {
+      return (CopyOfBuilder) super.title(title);
+    }
+    
+    @Override
+     public CopyOfBuilder rating(Integer rating) {
+      return (CopyOfBuilder) super.rating(rating);
+    }
+    
+    @Override
+     public CopyOfBuilder blogId(String blogId) {
+      return (CopyOfBuilder) super.blogId(blogId);
+    }
+    
+    @Override
+     public CopyOfBuilder created(Temporal.DateTime created) {
+      return (CopyOfBuilder) super.created(created);
+    }
+    
+    @Override
+     public CopyOfBuilder blog(Blog blog) {
+      return (CopyOfBuilder) super.blog(blog);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncModelVisitor Custom primary key tests Should generate correct model file for default id as primary key type 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.BelongsTo;
+import com.amplifyframework.core.model.annotations.HasMany;
+import com.amplifyframework.core.model.temporal.Temporal;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Blog type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Blogs\\", type = Model.Type.USER, version = \\"V1\\")
+public final class Blog implements Model {
+  public static final QueryField ID = field(\\"Blog\\", \\"id\\");
+  public static final QueryField NAME = field(\\"Blog\\", \\"name\\");
+  public static final QueryField BLOG_OWNER = field(\\"Blog\\", \\"blogOwnerWithCustomPksBlogsId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
+  private final @ModelField(targetType=\\"BlogOwnerWithCustomPKS\\", isRequired = true) @BelongsTo(targetName = \\"blogOwnerWithCustomPksBlogsId\\", type = BlogOwnerWithCustomPKS.class) BlogOwnerWithCustomPKS blogOwner;
+  private final @ModelField(targetType=\\"Post\\") @HasMany(associatedWith = \\"blog\\", type = Post.class) List<Post> posts = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String resolveIdentifier() {
+    return id;
+  }
+  
+  public String getId() {
+      return id;
+  }
+  
+  public String getName() {
+      return name;
+  }
+  
+  public BlogOwnerWithCustomPKS getBlogOwner() {
+      return blogOwner;
+  }
+  
+  public List<Post> getPosts() {
+      return posts;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Blog(String id, String name, BlogOwnerWithCustomPKS blogOwner) {
+    this.id = id;
+    this.name = name;
+    this.blogOwner = blogOwner;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Blog blog = (Blog) obj;
+      return ObjectsCompat.equals(getId(), blog.getId()) &&
+              ObjectsCompat.equals(getName(), blog.getName()) &&
+              ObjectsCompat.equals(getBlogOwner(), blog.getBlogOwner()) &&
+              ObjectsCompat.equals(getCreatedAt(), blog.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), blog.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getName())
+      .append(getBlogOwner())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Blog {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
+      .append(\\"blogOwner=\\" + String.valueOf(getBlogOwner()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static NameStep builder() {
+      return new Builder();
+  }
+  
+  /** 
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Blog justId(String id) {
+    return new Blog(
+      id,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      name,
+      blogOwner);
+  }
+  public interface NameStep {
+    BlogOwnerStep name(String name);
+  }
+  
+
+  public interface BlogOwnerStep {
+    BuildStep blogOwner(BlogOwnerWithCustomPKS blogOwner);
+  }
+  
+
+  public interface BuildStep {
+    Blog build();
+    BuildStep id(String id);
+  }
+  
+
+  public static class Builder implements NameStep, BlogOwnerStep, BuildStep {
+    private String id;
+    private String name;
+    private BlogOwnerWithCustomPKS blogOwner;
+    @Override
+     public Blog build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Blog(
+          id,
+          name,
+          blogOwner);
+    }
+    
+    @Override
+     public BlogOwnerStep name(String name) {
+        Objects.requireNonNull(name);
+        this.name = name;
+        return this;
+    }
+    
+    @Override
+     public BuildStep blogOwner(BlogOwnerWithCustomPKS blogOwner) {
+        Objects.requireNonNull(blogOwner);
+        this.blogOwner = blogOwner;
+        return this;
+    }
+    
+    /** 
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String name, BlogOwnerWithCustomPKS blogOwner) {
+      super.id(id);
+      super.name(name)
+        .blogOwner(blogOwner);
+    }
+    
+    @Override
+     public CopyOfBuilder name(String name) {
+      return (CopyOfBuilder) super.name(name);
+    }
+    
+    @Override
+     public CopyOfBuilder blogOwner(BlogOwnerWithCustomPKS blogOwner) {
+      return (CopyOfBuilder) super.blogOwner(blogOwner);
+    }
+  }
+  
 }
 "
 `;
@@ -281,8 +1027,7 @@ public final class customClaim implements Model {
   private final @ModelField(targetType=\\"String\\") String bar;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   
@@ -481,8 +1226,7 @@ public final class customClaim implements Model {
   private final @ModelField(targetType=\\"String\\") String bar;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   
@@ -686,8 +1430,7 @@ public final class Employee implements Model {
   }) String ssn;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   
@@ -921,8 +1664,7 @@ public final class dynamicGroups implements Model {
   private final @ModelField(targetType=\\"String\\") String bar;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   
@@ -1126,8 +1868,7 @@ public final class Employee implements Model {
   }) String ssn;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   
@@ -1361,8 +2102,7 @@ public final class simpleOwnerAuth implements Model {
   private final @ModelField(targetType=\\"String\\") String bar;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   
@@ -1561,8 +2301,7 @@ public final class allowRead implements Model {
   private final @ModelField(targetType=\\"String\\") String bar;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   
@@ -1761,8 +2500,7 @@ public final class privateType implements Model {
   private final @ModelField(targetType=\\"String\\") String bar;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   
@@ -1963,8 +2701,7 @@ public final class privateType implements Model {
   }) String bar;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   
@@ -2163,8 +2900,7 @@ public final class publicType implements Model {
   private final @ModelField(targetType=\\"String\\") String bar;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   
@@ -2363,8 +3099,7 @@ public final class staticGroups implements Model {
   private final @ModelField(targetType=\\"String\\") String bar;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   
@@ -2562,8 +3297,7 @@ public final class Landmark implements Model {
   private final @ModelField(targetType=\\"Location\\") Location parking;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   
@@ -3063,8 +3797,7 @@ public final class task implements Model {
   private final @ModelField(targetType=\\"AWSDate\\") Temporal.Date createdOn;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   
@@ -3281,8 +4014,7 @@ public final class Todo implements Model {
   private final @ModelField(targetType=\\"task\\") @HasMany(associatedWith = \\"todo\\", type = task.class) List<task> tasks = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   
@@ -3431,8 +4163,7 @@ public final class SimpleModel implements Model {
   private final @ModelField(targetType=\\"String\\") String bar;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   
@@ -3626,8 +4357,7 @@ public final class SimpleModel implements Model {
   private final @ModelField(targetType=\\"String\\") String bar;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   
@@ -3833,8 +4563,7 @@ public final class ListContainer implements Model {
   private final @ModelField(targetType=\\"CustomType\\", isRequired = true) List<CustomType> requiredListOfCustomTypes;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   
@@ -4205,8 +4934,7 @@ public final class task implements Model {
   private final @ModelField(targetType=\\"AWSDate\\") Temporal.Date createdOn;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   
@@ -4495,8 +5223,7 @@ public final class Todo implements Model {
   private final @ModelField(targetType=\\"task\\") @HasMany(associatedWith = \\"todo\\", type = task.class) List<task> tasks = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   
@@ -4812,8 +5539,7 @@ public final class TypeWithAWSDateScalars implements Model {
   private final @ModelField(targetType=\\"AWSTime\\") Temporal.Time time;
   private final @ModelField(targetType=\\"AWSTimestamp\\") Temporal.Timestamp timestamp;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   
@@ -5067,8 +5793,7 @@ public final class authorBook implements Model {
   private final @ModelField(targetType=\\"String\\") String book;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   
@@ -5320,8 +6045,7 @@ public final class NonCamelCaseField implements Model {
   private final @ModelField(targetType=\\"String\\") String employeePID;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   
@@ -5488,8 +6212,7 @@ public final class snake_case implements Model {
   private final @ModelField(targetType=\\"String\\") String name;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   
@@ -5656,8 +6379,7 @@ public final class SnakeCaseField implements Model {
   private final @ModelField(targetType=\\"String\\") String first_name;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  @NonNull
-   public String resolveIdentifier() {
+  public String resolveIdentifier() {
     return id;
   }
   

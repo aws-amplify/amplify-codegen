@@ -605,31 +605,52 @@ describe('AppSyncModelVisitor', () => {
   });
 
   describe('Custom primary key tests', () => {
+    const schema = /* GraphQL */ `
+      type Blog @model {
+        id: ID!
+        name: String!
+        blogOwner: BlogOwnerWithCustomPKS!@belongsTo
+        posts: [Post] @hasMany
+      }
+      
+      type BlogOwnerWithCustomPKS @model {
+        id: ID!
+        name: String!@primaryKey(sortKeyFields: ["wea"])
+        wea: String!
+        blogs: [Blog] @hasMany
+      }
+      
+      type Post @model {
+        postId: ID! @primaryKey
+        title: String!
+        rating: Int!
+        created: AWSDateTime
+        blogID: ID!
+        blog: Blog @belongsTo
+        comments: [Comment] @hasMany
+      }
+
+      type Comment @model {
+        post: Post @belongsTo
+        title: String! @primaryKey(sortKeyFields: ["content","likes"])
+        content: String!
+        likes: Int!
+        description: String
+      }
+    `;
+    it('Should generate correct model file for default id as primary key type', () => {
+      const generatedCode = getVisitorPipelinedTransformer(schema, `Blog`, CodeGenGenerateEnum.code).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
     it('Should generate correct model file for custom primary key type', () => {
-      const schema = /* GraphQL */ `
-        type Blog @model {
-          id: ID!
-          name: String!
-          blogOwner: BlogOwnerWithCustomPKS!@belongsTo
-          posts: [Post] @hasMany
-        }
-        
-        type BlogOwnerWithCustomPKS @model {
-          id: ID!
-          name: String!@primaryKey(sortKeyFields: ["wea"])
-          wea: String!
-          blogs: [Blog] @hasMany
-        }
-        
-        type Post @model {
-          id: ID!
-          title: String!
-          rating: Int!
-          created: AWSDateTime
-          blogID: ID!
-          blog: Blog @belongsTo
-        }
-      `;
+      const generatedCode = getVisitorPipelinedTransformer(schema, `Post`, CodeGenGenerateEnum.code).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+    it('Should generate correct model file for composite key type without id field defined', () => {
+      const generatedCode = getVisitorPipelinedTransformer(schema, `Comment`, CodeGenGenerateEnum.code).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+    it('Should generate correct model file for composite key type with id field defined', () => {
       const generatedCode = getVisitorPipelinedTransformer(schema, `BlogOwnerWithCustomPKS`, CodeGenGenerateEnum.code).generate();
       expect(generatedCode).toMatchSnapshot();
     });

@@ -192,21 +192,22 @@ export class AppSyncModelJavaVisitor<
     });
     const primaryKeyField = model.fields.find(f => f.primaryKeyInfo)!;
     const { primaryKeyType, sortKeyFields } = primaryKeyField.primaryKeyInfo!;
-    // Generate primary key class for composite key
     const isCompositeKey = primaryKeyType === CodeGenPrimaryKeyType.CustomId && sortKeyFields.length > 0;
+    const isIdAsModelPrimaryKey = primaryKeyType !== CodeGenPrimaryKeyType.CustomId;
     if (isCompositeKey) {
+      // Generate primary key class for composite key
       this.generatePrimaryKeyClassField(model, classDeclarationBlock);
     }
     // step interface declarations
-    this.generateStepBuilderInterfaces(model).forEach((builderInterface: JavaDeclarationBlock) => {
+    this.generateStepBuilderInterfaces(model, isIdAsModelPrimaryKey).forEach((builderInterface: JavaDeclarationBlock) => {
       classDeclarationBlock.nestedClass(builderInterface);
     });
 
     // builder
-    this.generateBuilderClass(model, classDeclarationBlock);
+    this.generateBuilderClass(model, classDeclarationBlock, isIdAsModelPrimaryKey);
 
     // copyOfBuilder for used for updating existing instance
-    this.generateCopyOfBuilderClass(model, classDeclarationBlock);
+    this.generateCopyOfBuilderClass(model, classDeclarationBlock, isIdAsModelPrimaryKey);
 
     // resolveIdentifier
     this.generateResolveIdentifier(model, classDeclarationBlock, isCompositeKey);
@@ -227,10 +228,12 @@ export class AppSyncModelJavaVisitor<
     this.generateToStringMethod(model, classDeclarationBlock);
 
     // builder
-    this.generateBuilderMethod(model, classDeclarationBlock);
+    this.generateBuilderMethod(model, classDeclarationBlock, isIdAsModelPrimaryKey);
 
     // justId method
-    this.generateJustIdMethod(model, classDeclarationBlock);
+    if (isIdAsModelPrimaryKey) {
+      this.generateJustIdMethod(model, classDeclarationBlock);
+    }
 
     // copyBuilder method
     this.generateCopyOfBuilderMethod(model, classDeclarationBlock);
@@ -367,10 +370,10 @@ export class AppSyncModelJavaVisitor<
    * Generate step builder interfaces for each non-null field in the model
    *
    */
-  protected generateStepBuilderInterfaces(model: CodeGenModel, isModel: boolean = true): JavaDeclarationBlock[] {
+  protected generateStepBuilderInterfaces(model: CodeGenModel, isIdAsModelPrimaryKey: boolean = true): JavaDeclarationBlock[] {
     const nonNullableFields = this.getWritableFields(model).filter(field => this.isRequiredField(field));
     const nullableFields = this.getWritableFields(model).filter(field => !this.isRequiredField(field));
-    const requiredInterfaces = nonNullableFields.filter((field: CodeGenField) => !(isModel && this.READ_ONLY_FIELDS.includes(field.name)));
+    const requiredInterfaces = nonNullableFields.filter((field: CodeGenField) => !(isIdAsModelPrimaryKey && this.READ_ONLY_FIELDS.includes(field.name)));
     const interfaces = requiredInterfaces.map((field, idx) => {
       const isLastField = requiredInterfaces.length - 1 === idx ? true : false;
       const returnType = isLastField ? 'Build' : requiredInterfaces[idx + 1].name;
@@ -395,7 +398,7 @@ export class AppSyncModelJavaVisitor<
     // build method
     builderBody.push(`${this.getModelName(model)} build();`);
 
-    if (isModel) {
+    if (isIdAsModelPrimaryKey) {
       // id method. Special case as this can throw exception
       builderBody.push(`${this.getStepInterfaceName('Build')} id(String id);`);
     }
@@ -415,10 +418,10 @@ export class AppSyncModelJavaVisitor<
    * @param model
    * @returns JavaDeclarationBlock
    */
-  protected generateBuilderClass(model: CodeGenModel, classDeclaration: JavaDeclarationBlock, isModel: boolean = true): void {
+  protected generateBuilderClass(model: CodeGenModel, classDeclaration: JavaDeclarationBlock, isIdAsModelPrimaryKey: boolean = true): void {
     const nonNullableFields = this.getWritableFields(model).filter(field => this.isRequiredField(field));
     const nullableFields = this.getWritableFields(model).filter(field => !this.isRequiredField(field));
-    const stepFields = nonNullableFields.filter((field: CodeGenField) => !(isModel && this.READ_ONLY_FIELDS.includes(field.name)));
+    const stepFields = nonNullableFields.filter((field: CodeGenField) => !(isIdAsModelPrimaryKey && this.READ_ONLY_FIELDS.includes(field.name)));
     const stepInterfaces = stepFields.map((field: CodeGenField) => this.getStepInterfaceName(field.name));
 
     const builderClassDeclaration = new JavaDeclarationBlock()
@@ -436,7 +439,7 @@ export class AppSyncModelJavaVisitor<
 
     // methods
     // build();
-    const buildImplementation = isModel ? [`String id = this.id != null ? this.id : UUID.randomUUID().toString();`, ''] : [''];
+    const buildImplementation = isIdAsModelPrimaryKey ? [`String id = this.id != null ? this.id : UUID.randomUUID().toString();`, ''] : [''];
     const buildParams = this.getWritableFields(model)
       .map(field => this.getFieldName(field))
       .join(',\n');
@@ -493,7 +496,7 @@ export class AppSyncModelJavaVisitor<
       );
     });
 
-    if (isModel) {
+    if (isIdAsModelPrimaryKey) {
       // Add id builder
       const idBuildStepBody = dedent`this.id = id;
     return this;`;
@@ -525,7 +528,7 @@ export class AppSyncModelJavaVisitor<
    * @param model
    * @param classDeclaration
    */
-  protected generateCopyOfBuilderClass(model: CodeGenModel, classDeclaration: JavaDeclarationBlock, isModel: boolean = true): void {
+  protected generateCopyOfBuilderClass(model: CodeGenModel, classDeclaration: JavaDeclarationBlock, isIdAsModelPrimaryKey: boolean = true): void {
     const builderName = 'CopyOfBuilder';
     const copyOfBuilderClassDeclaration = new JavaDeclarationBlock()
       .access('public')
@@ -536,7 +539,7 @@ export class AppSyncModelJavaVisitor<
 
     const nonNullableFields = this.getWritableFields(model)
       .filter(field => this.isRequiredField(field))
-      .filter(f => (isModel ? f.name !== 'id' : true));
+      .filter(f => (isIdAsModelPrimaryKey ? f.name !== 'id' : true));
     const nullableFields = this.getWritableFields(model).filter(field => !this.isRequiredField(field));
 
     // constructor
@@ -551,7 +554,7 @@ export class AppSyncModelJavaVisitor<
     });
     const invocations =
       stepBuilderInvocation.length === 0 ? '' : ['super', indentMultiline(stepBuilderInvocation.join('\n')).trim(), ';'].join('');
-    const body = [...(isModel ? ['super.id(id);'] : []), invocations].join('\n');
+    const body = [...(isIdAsModelPrimaryKey ? ['super.id(id);'] : []), invocations].join('\n');
     copyOfBuilderClassDeclaration.addClassMethod(builderName, null, body, constructorArguments, [], 'private');
 
     // Non-nullable field setters need to be added to NewClass as this is not a step builder
@@ -592,6 +595,7 @@ export class AppSyncModelJavaVisitor<
     const modelPrimaryKeyClassName = this.getModelPrimaryKeyClassName(model);
     const primaryKeyClassDeclaration = new JavaDeclarationBlock()
       .access('public')
+      .static()
       .asKind('class')
       .withName(modelPrimaryKeyClassName)
       .extends([`ModelPrimaryKey<${this.getModelName(model)}>`]);
@@ -601,7 +605,7 @@ export class AppSyncModelJavaVisitor<
     const primaryKeyComponentFields: CodeGenField[] = [primaryKeyField, ...sortKeyFields];
     const constructorParams = primaryKeyComponentFields.map(field => ({name: this.getFieldName(field), type: this.getNativeType(field)}));
     const constructorImpl = `super(${primaryKeyComponentFields.map(field => this.getFieldName(field)).join(', ')});`;
-    primaryKeyClassDeclaration.addClassMethod(modelPrimaryKeyClassName, null, constructorImpl, constructorParams, [], 'protected');
+    primaryKeyClassDeclaration.addClassMethod(modelPrimaryKeyClassName, null, constructorImpl, constructorParams, [], 'public');
     return primaryKeyClassDeclaration.string;
 }
 
@@ -635,7 +639,7 @@ export class AppSyncModelJavaVisitor<
           `return ${modelPrimaryKeyClassFieldName};`
         ].join('\n')
       : `return ${this.getFieldName(primaryKeyField)};`;
-    declarationsBlock.addClassMethod('resolveIdentifier', returnType, body, undefined, undefined, 'public', undefined, ['NonNull']);
+    declarationsBlock.addClassMethod('resolveIdentifier', returnType, body, undefined, undefined, 'public');
   }
 
   /**
@@ -806,9 +810,9 @@ export class AppSyncModelJavaVisitor<
    * @param model
    * @param classDeclaration
    */
-  protected generateBuilderMethod(model: CodeGenModel, classDeclaration: JavaDeclarationBlock, isModel: boolean = true): void {
+  protected generateBuilderMethod(model: CodeGenModel, classDeclaration: JavaDeclarationBlock, isIdAsModelPrimaryKey: boolean = true): void {
     const requiredFields = this.getWritableFields(model).filter(
-      field => !field.isNullable && !(isModel && this.READ_ONLY_FIELDS.includes(field.name)),
+      field => !field.isNullable && !(isIdAsModelPrimaryKey && this.READ_ONLY_FIELDS.includes(field.name)),
     );
     const returnType = requiredFields.length ? this.getStepInterfaceName(requiredFields[0].name) : this.getStepInterfaceName('Build');
     classDeclaration.addClassMethod(
