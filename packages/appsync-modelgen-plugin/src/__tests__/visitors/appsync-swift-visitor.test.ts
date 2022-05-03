@@ -143,6 +143,7 @@ describe('AppSyncSwiftVisitor', () => {
           )
           }
       }
+
       extension SimpleModel: ModelIdentifiable {
         public typealias IdentifierFormat = ModelIdentifierFormat.Default
         public typealias Identifier = DefaultModelIdentifier<Self>
@@ -256,6 +257,7 @@ describe('AppSyncSwiftVisitor', () => {
           )
           }
       }
+
       extension snake_case: ModelIdentifiable {
         public typealias IdentifierFormat = ModelIdentifierFormat.Default
         public typealias Identifier = DefaultModelIdentifier<Self>
@@ -405,6 +407,7 @@ describe('AppSyncSwiftVisitor', () => {
           )
           }
       }
+
       extension authorBook: ModelIdentifiable {
         public typealias IdentifierFormat = ModelIdentifierFormat.Default
         public typealias Identifier = DefaultModelIdentifier<Self>
@@ -689,6 +692,7 @@ describe('AppSyncSwiftVisitor', () => {
               )
               }
           }
+
           extension Todo: ModelIdentifiable {
             public typealias IdentifierFormat = ModelIdentifierFormat.Default
             public typealias Identifier = DefaultModelIdentifier<Self>
@@ -793,6 +797,7 @@ describe('AppSyncSwiftVisitor', () => {
               )
               }
           }
+
           extension task: ModelIdentifiable {
             public typealias IdentifierFormat = ModelIdentifierFormat.Default
             public typealias Identifier = DefaultModelIdentifier<Self>
@@ -934,6 +939,7 @@ describe('AppSyncSwiftVisitor', () => {
               )
               }
           }
+
           extension Post: ModelIdentifiable {
             public typealias IdentifierFormat = ModelIdentifierFormat.Default
             public typealias Identifier = DefaultModelIdentifier<Self>
@@ -1013,6 +1019,7 @@ describe('AppSyncSwiftVisitor', () => {
               )
               }
           }
+
           extension Post: ModelIdentifiable {
             public typealias IdentifierFormat = ModelIdentifierFormat.Default
             public typealias Identifier = DefaultModelIdentifier<Self>
@@ -1141,6 +1148,7 @@ describe('AppSyncSwiftVisitor', () => {
           )
           }
       }
+
       extension ObjectWithNativeTypes: ModelIdentifiable {
         public typealias IdentifierFormat = ModelIdentifierFormat.Default
         public typealias Identifier = DefaultModelIdentifier<Self>
@@ -1271,6 +1279,7 @@ describe('AppSyncSwiftVisitor', () => {
           )
           }
       }
+
       extension Attraction: ModelIdentifiable {
         public typealias IdentifierFormat = ModelIdentifierFormat.Default
         public typealias Identifier = DefaultModelIdentifier<Self>
@@ -1524,6 +1533,7 @@ describe('AppSyncSwiftVisitor', () => {
               )
               }
           }
+
           extension Post: ModelIdentifiable {
             public typealias IdentifierFormat = ModelIdentifierFormat.Default
             public typealias Identifier = DefaultModelIdentifier<Self>
@@ -1581,6 +1591,7 @@ describe('AppSyncSwiftVisitor', () => {
               )
               }
           }
+
           extension Post: ModelIdentifiable {
             public typealias IdentifierFormat = ModelIdentifierFormat.Default
             public typealias Identifier = DefaultModelIdentifier<Self>
@@ -1639,6 +1650,7 @@ describe('AppSyncSwiftVisitor', () => {
               )
               }
           }
+
           extension Post: ModelIdentifiable {
             public typealias IdentifierFormat = ModelIdentifierFormat.Default
             public typealias Identifier = DefaultModelIdentifier<Self>
@@ -1697,6 +1709,7 @@ describe('AppSyncSwiftVisitor', () => {
               )
               }
           }
+
           extension Post: ModelIdentifiable {
             public typealias IdentifierFormat = ModelIdentifierFormat.Default
             public typealias Identifier = DefaultModelIdentifier<Self>
@@ -1751,6 +1764,7 @@ describe('AppSyncSwiftVisitor', () => {
               )
               }
           }
+
           extension Post: ModelIdentifiable {
             public typealias IdentifierFormat = ModelIdentifierFormat.Default
             public typealias Identifier = DefaultModelIdentifier<Self>
@@ -1805,6 +1819,7 @@ describe('AppSyncSwiftVisitor', () => {
               )
               }
           }
+
           extension Post: ModelIdentifiable {
             public typealias IdentifierFormat = ModelIdentifierFormat.Default
             public typealias Identifier = DefaultModelIdentifier<Self>
@@ -1868,6 +1883,7 @@ describe('AppSyncSwiftVisitor', () => {
               )
               }
           }
+
           extension Post: ModelIdentifiable {
             public typealias IdentifierFormat = ModelIdentifierFormat.Default
             public typealias Identifier = DefaultModelIdentifier<Self>
@@ -1929,6 +1945,7 @@ describe('AppSyncSwiftVisitor', () => {
               )
               }
           }
+
           extension Employee: ModelIdentifiable {
             public typealias IdentifierFormat = ModelIdentifierFormat.Default
             public typealias Identifier = DefaultModelIdentifier<Self>
@@ -1986,6 +2003,7 @@ describe('AppSyncSwiftVisitor', () => {
             )
             }
         }
+
         extension Post: ModelIdentifiable {
           public typealias IdentifierFormat = ModelIdentifierFormat.Default
           public typealias Identifier = DefaultModelIdentifier<Self>
@@ -2043,6 +2061,7 @@ describe('AppSyncSwiftVisitor', () => {
             )
             }
         }
+
         extension Post: ModelIdentifiable {
           public typealias IdentifierFormat = ModelIdentifierFormat.Default
           public typealias Identifier = DefaultModelIdentifier<Self>
@@ -2098,6 +2117,7 @@ describe('AppSyncSwiftVisitor', () => {
             )
             }
         }
+
         extension Post: ModelIdentifiable {
           public typealias IdentifierFormat = ModelIdentifierFormat.Default
           public typealias Identifier = DefaultModelIdentifier<Self>
@@ -2153,6 +2173,7 @@ describe('AppSyncSwiftVisitor', () => {
             )
             }
         }
+
         extension Post: ModelIdentifiable {
           public typealias IdentifierFormat = ModelIdentifierFormat.Default
           public typealias Identifier = DefaultModelIdentifier<Self>
@@ -2207,6 +2228,7 @@ describe('AppSyncSwiftVisitor', () => {
             )
             }
         }
+
         extension Post: ModelIdentifiable {
           public typealias IdentifierFormat = ModelIdentifierFormat.Default
           public typealias Identifier = DefaultModelIdentifier<Self>
@@ -2275,6 +2297,7 @@ describe('AppSyncSwiftVisitor', () => {
           )
           }
       }
+
       extension Post: ModelIdentifiable {
         public typealias IdentifierFormat = ModelIdentifierFormat.Default
         public typealias Identifier = DefaultModelIdentifier<Self>
@@ -2343,6 +2366,7 @@ describe('AppSyncSwiftVisitor', () => {
           )
           }
       }
+
       extension Post: ModelIdentifiable {
         public typealias IdentifierFormat = ModelIdentifierFormat.Default
         public typealias Identifier = DefaultModelIdentifier<Self>

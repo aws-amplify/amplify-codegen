@@ -244,7 +244,7 @@ export class AppSyncSwiftVisitor<
           this.generateModelSchema(this.getModelName(model), model, schemaDeclarations);
 
         result.push(schemaDeclarations.string);
-
+        result.push('');
         result.push(this.generatePrimaryKeyExtensions(model));
       });
 

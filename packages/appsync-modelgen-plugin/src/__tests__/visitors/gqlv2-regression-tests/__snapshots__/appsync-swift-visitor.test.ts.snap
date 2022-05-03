@@ -71,6 +71,7 @@ extension Post {
     )
     }
 }
+
 extension Post: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias Identifier = DefaultModelIdentifier<Self>
@@ -149,6 +150,7 @@ extension Comment {
     )
     }
 }
+
 extension Comment: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias Identifier = DefaultModelIdentifier<Self>
@@ -233,6 +235,7 @@ extension Project2 {
     )
     }
 }
+
 extension Project2: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias Identifier = DefaultModelIdentifier<Self>
@@ -310,6 +313,7 @@ extension Team2 {
     )
     }
 }
+
 extension Team2: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias Identifier = DefaultModelIdentifier<Self>
@@ -387,6 +391,7 @@ extension Blog7V2 {
     )
     }
 }
+
 extension Blog7V2: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias Identifier = DefaultModelIdentifier<Self>
@@ -471,6 +476,7 @@ extension Post7V2 {
     )
     }
 }
+
 extension Post7V2: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias Identifier = DefaultModelIdentifier<Self>
@@ -548,6 +554,7 @@ extension Comment7V2 {
     )
     }
 }
+
 extension Comment7V2: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias Identifier = DefaultModelIdentifier<Self>
@@ -632,6 +639,7 @@ extension Project {
     )
     }
 }
+
 extension Project: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias Identifier = DefaultModelIdentifier<Self>
@@ -709,6 +717,7 @@ extension Team {
     )
     }
 }
+
 extension Team: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias Identifier = DefaultModelIdentifier<Self>
@@ -793,6 +802,7 @@ extension Post {
     )
     }
 }
+
 extension Post: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias Identifier = DefaultModelIdentifier<Self>
@@ -870,6 +880,7 @@ extension Tag {
     )
     }
 }
+
 extension Tag: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias Identifier = DefaultModelIdentifier<Self>
@@ -940,6 +951,7 @@ extension Todo {
     )
     }
 }
+
 extension Todo: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias Identifier = DefaultModelIdentifier<Self>
@@ -1017,6 +1029,7 @@ extension Post2 {
     )
     }
 }
+
 extension Post2: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias Identifier = DefaultModelIdentifier<Self>
@@ -1095,6 +1108,7 @@ extension Comment2 {
     )
     }
 }
+
 extension Comment2: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias Identifier = DefaultModelIdentifier<Self>
@@ -1179,6 +1193,7 @@ extension Project2 {
     )
     }
 }
+
 extension Project2: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias Identifier = DefaultModelIdentifier<Self>
@@ -1249,6 +1264,7 @@ extension Team2 {
     )
     }
 }
+
 extension Team2: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias Identifier = DefaultModelIdentifier<Self>
@@ -1326,6 +1342,7 @@ extension Post {
     )
     }
 }
+
 extension Post: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias Identifier = DefaultModelIdentifier<Self>
@@ -1403,6 +1420,7 @@ extension Comment {
     )
     }
 }
+
 extension Comment: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias Identifier = DefaultModelIdentifier<Self>
@@ -1487,6 +1505,7 @@ extension Project {
     )
     }
 }
+
 extension Project: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias Identifier = DefaultModelIdentifier<Self>
@@ -1557,6 +1576,7 @@ extension Team {
     )
     }
 }
+
 extension Team: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias Identifier = DefaultModelIdentifier<Self>
@@ -1642,6 +1662,7 @@ extension Customer {
     )
     }
 }
+
 extension Customer: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias Identifier = DefaultModelIdentifier<Self>
