@@ -7,6 +7,62 @@ import Foundation
 "
 `;
 
+exports[`AppSyncSwiftVisitor Primary Key Tests Should generate model and metadata for a model with a composite PK 1`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+"
+`;
+
+exports[`AppSyncSwiftVisitor Primary Key Tests Should generate model and metadata for a model with a composite PK 2`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+"
+`;
+
+exports[`AppSyncSwiftVisitor Primary Key Tests Should generate model and metadata for a model with a custom PK 1`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+"
+`;
+
+exports[`AppSyncSwiftVisitor Primary Key Tests Should generate model and metadata for a model with a custom PK 2`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+"
+`;
+
+exports[`AppSyncSwiftVisitor Primary Key Tests Should generate model and metadata for a model with explicit PK named id 1`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+"
+`;
+
+exports[`AppSyncSwiftVisitor Primary Key Tests Should generate model and metadata for a model with explicit PK named id 2`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+"
+`;
+
+exports[`AppSyncSwiftVisitor Primary Key Tests Should generate model and metadata for a model with implicit PK 1`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+"
+`;
+
+exports[`AppSyncSwiftVisitor Primary Key Tests Should generate model and metadata for a model with implicit PK 2`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+"
+`;
+
 exports[`AppSyncSwiftVisitor Should handle nullability of lists appropriately 1`] = `
 "// swiftlint:disable all
 import Amplify
@@ -101,8 +157,12 @@ extension ListContainer {
     
     model.pluralName = \\"ListContainers\\"
     
+    model.attributes(
+      .primaryKey(fields: [listContainer.id])
+    )
+    
     model.fields(
-      .id(),
+      .field(listContainer.id, is: .required, ofType: .string),
       .field(listContainer.name, is: .optional, ofType: .string),
       .field(listContainer.list, is: .optional, ofType: .embeddedCollection(of: Int.self)),
       .field(listContainer.requiredList, is: .required, ofType: .embeddedCollection(of: String.self)),
@@ -115,6 +175,10 @@ extension ListContainer {
       .field(listContainer.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
+}
+extension ListContainer: ModelIdentifiable {
+  public typealias IdentifierFormat = ModelIdentifierFormat.Default
+  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -208,8 +272,12 @@ extension Todo {
     
     model.pluralName = \\"Todos\\"
     
+    model.attributes(
+      .primaryKey(fields: [todo.id])
+    )
+    
     model.fields(
-      .id(),
+      .field(todo.id, is: .required, ofType: .string),
       .field(todo.title, is: .required, ofType: .string),
       .hasMany(todo.requiredListOfTasks, is: .optional, ofType: task.self, associatedWith: task.keys.todo),
       .hasMany(todo.listOfRequiredTasks, is: .optional, ofType: task.self, associatedWith: task.keys.todo),
@@ -219,6 +287,10 @@ extension Todo {
       .field(todo.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
+}
+extension Todo: ModelIdentifiable {
+  public typealias IdentifierFormat = ModelIdentifierFormat.Default
+  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -280,13 +352,21 @@ extension task {
     
     model.pluralName = \\"tasks\\"
     
+    model.attributes(
+      .primaryKey(fields: [task.id])
+    )
+    
     model.fields(
-      .id(),
+      .field(task.id, is: .required, ofType: .string),
       .field(task.title, is: .required, ofType: .string),
       .belongsTo(task.todo, is: .optional, ofType: Todo.self, targetName: \\"taskTodoId\\"),
       .field(task.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(task.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
+}
+extension task: ModelIdentifiable {
+  public typealias IdentifierFormat = ModelIdentifierFormat.Default
+  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
