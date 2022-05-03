@@ -2486,10 +2486,10 @@ describe('AppSyncSwiftVisitor', () => {
           name: String
         }
       `;
-      const generatedCode = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.code).generate();
+      const generatedCode = getVisitorPipelinedTransformer(schema, 'ModelImplicitDefaultPk', CodeGenGenerateEnum.code).generate();
       expect(generatedCode).toMatchSnapshot();
 
-      const generatedMetadata = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.metadata).generate();
+      const generatedMetadata = getVisitorPipelinedTransformer(schema, 'ModelImplicitDefaultPk', CodeGenGenerateEnum.metadata).generate();
       expect(generatedMetadata).toMatchSnapshot();
     });
 
@@ -2500,9 +2500,9 @@ describe('AppSyncSwiftVisitor', () => {
           name: String
         }
       `;
-      const generatedCode = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.code).generate();
+      const generatedCode = getVisitorPipelinedTransformer(schema, 'ModelExplicitDefaultPk', CodeGenGenerateEnum.code).generate();
       expect(generatedCode).toMatchSnapshot();
-      const generatedMetadata = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.metadata).generate();
+      const generatedMetadata = getVisitorPipelinedTransformer(schema, 'ModelExplicitDefaultPk', CodeGenGenerateEnum.metadata).generate();
       expect(generatedMetadata).toMatchSnapshot();
     });
 
@@ -2513,9 +2513,9 @@ describe('AppSyncSwiftVisitor', () => {
           name: String
         }
       `;
-      const generatedCode = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.code).generate();
+      const generatedCode = getVisitorPipelinedTransformer(schema, 'ModelExplicitCustomPk', CodeGenGenerateEnum.code).generate();
       expect(generatedCode).toMatchSnapshot();
-      const generatedMetadata = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.metadata).generate();
+      const generatedMetadata = getVisitorPipelinedTransformer(schema, 'ModelExplicitCustomPk', CodeGenGenerateEnum.metadata).generate();
       expect(generatedMetadata).toMatchSnapshot();
     });
 
@@ -2527,9 +2527,9 @@ describe('AppSyncSwiftVisitor', () => {
           name: String
         }
       `;
-      const generatedCode = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.code).generate();
+      const generatedCode = getVisitorPipelinedTransformer(schema, 'ModelCompositePk', CodeGenGenerateEnum.code).generate();
       expect(generatedCode).toMatchSnapshot();
-      const generatedMetadata = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.metadata).generate();
+      const generatedMetadata = getVisitorPipelinedTransformer(schema, 'ModelCompositePk', CodeGenGenerateEnum.metadata).generate();
       expect(generatedMetadata).toMatchSnapshot();
     });
   });
