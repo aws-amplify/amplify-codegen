@@ -23,7 +23,7 @@ import {
 } from 'graphql';
 import { addFieldToModel, getDirective, removeFieldFromModel } from '../utils/fieldUtils';
 import { getTypeInfo } from '../utils/get-type-info';
-import { CodeGenConnectionType, CodeGenFieldConnection, processConnections } from '../utils/process-connections';
+import { CodeGenConnectionType, CodeGenFieldConnection, flattenFieldDirectives, processConnections } from '../utils/process-connections';
 import { sortFields } from '../utils/sort';
 import { printWarning } from '../utils/warn';
 import { processAuthDirective } from '../utils/process-auth';
@@ -153,7 +153,17 @@ export type CodeGenField = TypeInfo & {
   directives: CodeGenDirectives;
   connectionInfo?: CodeGenFieldConnection;
   isReadOnly?: boolean;
+  primaryKeyInfo?: CodeGenPrimaryKeyFieldInfo;
 };
+export type CodeGenPrimaryKeyFieldInfo = {
+  primaryKeyType: CodeGenPrimaryKeyType;
+  sortKeyFields: CodeGenField[];
+};
+export enum CodeGenPrimaryKeyType {
+  ManagedId = 'ManagedId',
+  OptionallyManagedId = 'OptionallyManagedId',
+  CustomId = 'CustomId',
+}
 export type TypeInfo = {
   type: string;
   isList: boolean;
@@ -252,7 +262,7 @@ export class AppSyncModelVisitor<
         directives,
         fields,
       };
-      this.ensureIdField(model);
+      this.ensurePrimaryKeyField(model, directives);
       this.addTimestampFields(model, modelDirective);
       this.sortFields(model);
       this.modelMap[node.name.value] = model;
@@ -428,6 +438,10 @@ export class AppSyncModelVisitor<
     return constantCase(value);
   }
 
+  protected getModelPrimaryKeyField(model: CodeGenModel): CodeGenField {
+    return model.fields.find(field => field.primaryKeyInfo)!;
+  }
+
   protected isEnumType(field: CodeGenField): boolean {
     const typeName = field.type;
     return typeName in this.enumMap;
@@ -498,6 +512,76 @@ export class AppSyncModelVisitor<
       }
       return acc;
     }, [] as CodeGenField[]);
+  }
+
+  /**
+   * Check out if primary key field exists in the model and generate primary key info
+   * @param model type defined with model directives
+   * @param directives directives defined at the type level of the model above
+   */
+  protected ensurePrimaryKeyField(model: CodeGenModel, directives: CodeGenDirective[]) {
+    let primaryKeyFieldName: string;
+    let primaryKeyField: CodeGenField;
+    //Transformer V2
+    if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
+      const fieldWithPrimaryKeyDirective = model.fields.find(f => f.directives.find(dir => dir.name === 'primaryKey'));
+      //No @primaryKey found, default to 'id' field
+      if (!fieldWithPrimaryKeyDirective) {
+        primaryKeyFieldName = 'id';
+        this.ensureIdField(model);
+        primaryKeyField = this.getPrimaryKeyFieldByName(model, primaryKeyFieldName);
+        //Managed Id Type
+        primaryKeyField.primaryKeyInfo = {
+          primaryKeyType: CodeGenPrimaryKeyType.ManagedId,
+          sortKeyFields: [],
+        };
+      } else {
+        primaryKeyFieldName = fieldWithPrimaryKeyDirective.name;
+        primaryKeyField = this.getPrimaryKeyFieldByName(model, primaryKeyFieldName);
+        const sortKeyFieldNames: string[] = flattenFieldDirectives(model).find(d => d.name === 'primaryKey')?.arguments.sortKeyFields;
+        const sortKeyFields = sortKeyFieldNames?.length > 0 ? sortKeyFieldNames.map(fieldName => model.fields.find(f => f.name === fieldName)!): [];
+        primaryKeyField.primaryKeyInfo = {
+          primaryKeyType: primaryKeyFieldName === 'id' ? CodeGenPrimaryKeyType.OptionallyManagedId : CodeGenPrimaryKeyType.CustomId,
+          sortKeyFields
+        };
+      }
+    }
+    //Transformer V1
+    else {
+      const keyDirective = directives.find(d => d.name === 'key' && !d.arguments.name);
+      if (keyDirective) {
+        primaryKeyFieldName = keyDirective.arguments.fields[0]!;
+        primaryKeyField = this.getPrimaryKeyFieldByName(model, primaryKeyFieldName);
+        const sortKeyFieldNames: string[] = keyDirective.arguments.fields.slice(1);
+        const sortKeyFields = sortKeyFieldNames?.length > 0 ? sortKeyFieldNames.map(fieldName => model.fields.find(f => f.name === fieldName)!): [];
+        primaryKeyField.primaryKeyInfo = {
+          primaryKeyType: primaryKeyFieldName === 'id' ? CodeGenPrimaryKeyType.OptionallyManagedId : CodeGenPrimaryKeyType.CustomId,
+          sortKeyFields,
+        };
+      }
+      //default primary key field as id
+      else {
+        primaryKeyFieldName = 'id';
+        this.ensureIdField(model);
+        primaryKeyField = this.getPrimaryKeyFieldByName(model, primaryKeyFieldName);
+        //Managed Id Type
+        primaryKeyField.primaryKeyInfo = {
+          primaryKeyType: CodeGenPrimaryKeyType.ManagedId,
+          sortKeyFields: [],
+        };
+      }
+    }
+  }
+
+  protected getPrimaryKeyFieldByName(model: CodeGenModel, primaryKeyFieldName: string): CodeGenField {
+    const primaryKeyField = model.fields.find(f => f.name === primaryKeyFieldName);
+    if (!primaryKeyField) {
+      throw new Error(`Cannot find primary key field in type ${model.name}`);
+    }
+    if (primaryKeyField.isNullable) {
+      throw new Error(`The primary key on type '${model.name}' must reference non-null fields.`);
+    }
+    return primaryKeyField;
   }
 
   protected ensureIdField(model: CodeGenModel) {
