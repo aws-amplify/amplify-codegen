@@ -1,4 +1,4 @@
-import { CodeGenModelMap } from '../../visitors/appsync-visitor';
+import { CodeGenModelMap, CodeGenPrimaryKeyType } from '../../visitors/appsync-visitor';
 import { processConnectionsV2 } from '../../utils/process-connections-v2';
 import {
   CodeGenConnectionType,
@@ -139,6 +139,17 @@ describe('GraphQL V2 process connections tests', () => {
               name: 'powerSource',
               directives: [{ name: 'hasOne', arguments: {} }],
             },
+            {
+              type: 'ID',
+              isNullable: false,
+              isList: false,
+              name: 'id',
+              directives: [],
+              primaryKeyInfo: {
+                primaryKeyType: CodeGenPrimaryKeyType.ManagedId,
+                sortKeyFields: []
+              }
+            },
           ],
         },
         PowerSource: {
@@ -151,7 +162,11 @@ describe('GraphQL V2 process connections tests', () => {
               isNullable: false,
               isList: false,
               name: 'id',
-              directives: []
+              directives: [],
+              primaryKeyInfo: {
+                primaryKeyType: CodeGenPrimaryKeyType.ManagedId,
+                sortKeyFields: []
+              }
             },
             {
               type: 'Float',
@@ -322,6 +337,78 @@ describe('GraphQL V2 process connections tests', () => {
         expect(connectionInfo.connectedModel).toEqual(hasOneWithFieldsModelMap.PowerSource);
         expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(false);
       });
+      it('disambiguates multiple connection directives in related type based on field type', () => {
+        const modelMap: CodeGenModelMap = {
+          Post: {
+            name: 'Post',
+            type: 'model',
+            directives: [],
+            fields: [
+              {
+                type: 'Comment',
+                isNullable: true,
+                isList: false,
+                name: 'comment',
+                directives: [{ name: 'hasOne', arguments: {} }],
+              },
+              {
+                type: 'ID',
+                isNullable: false,
+                isList: false,
+                name: 'id',
+                directives: [],
+                primaryKeyInfo: {
+                  primaryKeyType: CodeGenPrimaryKeyType.ManagedId,
+                  sortKeyFields: []
+                }
+              },
+            ],
+          },
+          Comment: {
+            name: 'Comment',
+            type: 'model',
+            directives: [],
+            fields: [
+              {
+                type: 'id',
+                isNullable: false,
+                isList: false,
+                name: 'id',
+                directives: [],
+                primaryKeyInfo: {
+                  primaryKeyType: CodeGenPrimaryKeyType.ManagedId,
+                  sortKeyFields: []
+                }
+              },
+              {
+                type: 'Like',
+                isNullable: true,
+                isList: true,
+                name: 'likes',
+                directives: [{ name: 'hasMany', arguments: { indexName: 'byComment', fields: ['id'] } }],
+              },
+            ],
+          },
+          Like: {
+            name: 'Like',
+            type: 'model',
+            directives: [],
+            fields: [
+              {
+                type: 'string',
+                isNullable: true,
+                isList: false,
+                name: 'likeString',
+                directives: [],
+              },
+            ],
+          },
+        };
+        const connectionInfo = processConnectionsV2(modelMap.Post.fields[0], modelMap.Post, modelMap);
+        expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
+        console.log(connectionInfo);
+        expect((connectionInfo as CodeGenFieldConnectionHasOne).associatedWith.name).toEqual('id');
+      });
     });
 
     describe('BelongsTo testing', () => {
@@ -350,6 +437,10 @@ describe('GraphQL V2 process connections tests', () => {
               isList: false,
               name: 'id',
               directives: [],
+              primaryKeyInfo: {
+                primaryKeyType: CodeGenPrimaryKeyType.ManagedId,
+                sortKeyFields: []
+              }
             },
             {
               type: 'String',

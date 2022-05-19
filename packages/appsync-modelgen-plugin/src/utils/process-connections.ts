@@ -16,12 +16,15 @@ export type CodeGenConnectionTypeBase = {
 };
 export type CodeGenFieldConnectionBelongsTo = CodeGenConnectionTypeBase & {
   kind: CodeGenConnectionType.BELONGS_TO;
-  targetName: string;
+  targetName: string; // Legacy field remained for backward compatability
+  targetNames: string[]; // New attribute for v2 custom pk support
+
 };
 export type CodeGenFieldConnectionHasOne = CodeGenConnectionTypeBase & {
   kind: CodeGenConnectionType.HAS_ONE;
   associatedWith: CodeGenField;
-  targetName: string;
+  targetName: string; // Legacy field remained for backward compatability
+  targetNames: string[]; // New attribute for v2 custom pk support
 };
 
 export type CodeGenFieldConnectionHasMany = CodeGenConnectionTypeBase & {
@@ -31,10 +34,10 @@ export type CodeGenFieldConnectionHasMany = CodeGenConnectionTypeBase & {
 
 export type CodeGenFieldConnection = CodeGenFieldConnectionBelongsTo | CodeGenFieldConnectionHasOne | CodeGenFieldConnectionHasMany;
 
-export function makeConnectionAttributeName(type: string, field?: string) {
+export function makeConnectionAttributeName(type: string, field?: string, otherSidePrimaryKeyComponentField: string = 'id') {
   // The same logic is used graphql-connection-transformer package to generate association field
   // Make sure the logic gets update in that package
-  return field ? camelCase([type, field, 'id'].join('_')) : camelCase([type, 'id'].join('_'));
+  return field ? camelCase([type, field, otherSidePrimaryKeyComponentField].join('_')) : camelCase([type, otherSidePrimaryKeyComponentField].join('_'));
 }
 
 export function flattenFieldDirectives(model: CodeGenModel) {
@@ -158,6 +161,7 @@ export function processConnections(
           connectedModel: otherSide,
           isConnectingFieldAutoCreated,
           targetName: connectionFields[0] || makeConnectionAttributeName(model.name, field.name),
+          targetNames: [] // New attribute for v2 custom pk support. Not used in v1 so use empty array.
         };
       } else if (!field.isList && !otherSideField.isList) {
         // One to One
@@ -179,6 +183,7 @@ export function processConnections(
             connectedModel: otherSide,
             isConnectingFieldAutoCreated,
             targetName: connectionFields[0] || makeConnectionAttributeName(model.name, field.name),
+            targetNames: [] // New attribute for v2 custom pk support. Not used in v1 so use empty array.
           };
         } else if (field.isNullable && !otherSideField.isNullable) {
           /*
@@ -197,6 +202,7 @@ export function processConnections(
             connectedModel: otherSide,
             isConnectingFieldAutoCreated,
             targetName: connectionFields[0] || makeConnectionAttributeName(model.name, field.name),
+            targetNames: [] // New attribute for v2 custom pk support. Not used in v1 so use empty array.
           };
         } else {
           /*
@@ -241,6 +247,7 @@ export function processConnections(
           connectedModel: otherSide,
           isConnectingFieldAutoCreated,
           targetName: connectionFields[0] || makeConnectionAttributeName(model.name, field.name),
+          targetNames: [] // New attribute for v2 custom pk support. Not used in v1 so use empty array.
         };
       }
     }

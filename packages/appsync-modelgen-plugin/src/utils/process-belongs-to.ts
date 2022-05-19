@@ -1,4 +1,5 @@
 import { CodeGenDirective, CodeGenField, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
+import { getModelPrimaryKeyComponentFields } from './get-model-primary-key-component-fields';
 import {
   CodeGenConnectionType,
   CodeGenFieldConnection,
@@ -13,6 +14,7 @@ export function processBelongsToConnection(
   model: CodeGenModel,
   modelMap: CodeGenModelMap,
   connectionDirective: CodeGenDirective,
+  useFieldNameForPrimaryKeyConnectionField: boolean = false,
 ): CodeGenFieldConnection | undefined {
   const otherSide = modelMap[field.type];
   const otherSideField = getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
@@ -48,12 +50,19 @@ export function processBelongsToConnection(
   const otherSideHasMany = otherSideField.isList;
   const isConnectingFieldAutoCreated = false;
 
+  // New metada type introduced by custom PK v2 support
+  const targetNames = connectionFields.length > 0
+    ? [ ...connectionFields ]
+    : (otherSideHasMany
+      ? [makeConnectionAttributeName(otherSide.name, otherSideField.name)]
+      : getModelPrimaryKeyComponentFields(otherSide).map(componentField => makeConnectionAttributeName(model.name, field.name, useFieldNameForPrimaryKeyConnectionField ? componentField.name : undefined)));
+
   return {
     kind: CodeGenConnectionType.BELONGS_TO,
     connectedModel: otherSide,
     isConnectingFieldAutoCreated,
-    targetName: connectionFields[0] || (otherSideHasMany ? makeConnectionAttributeName(otherSide.name, otherSideField.name) :
-      makeConnectionAttributeName(model.name, field.name)),
+    targetName: connectionFields[0] || targetNames[0],
+    targetNames,
   };
 }
 
@@ -68,3 +77,4 @@ export function getBelongsToConnectedField(field: CodeGenField, model: CodeGenMo
     return connectedModel.fields.find(connField => { return connField.name === otherSideDirectives[0].fieldName; });
   }
 }
+
