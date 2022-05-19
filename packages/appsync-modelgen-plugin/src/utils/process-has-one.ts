@@ -36,7 +36,7 @@ export function processHasOneConnection(
       associatedWith: otherSideField,
       connectedModel: otherSide,
       isConnectingFieldAutoCreated,
-      targetName: connectionFields[0] || targetNames[0],
+      targetName: targetNames[0],
       targetNames,
     };
   }

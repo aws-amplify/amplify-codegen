@@ -63,7 +63,7 @@ export function processBelongsToConnection(
     kind: CodeGenConnectionType.BELONGS_TO,
     connectedModel: otherSide,
     isConnectingFieldAutoCreated,
-    targetName: connectionFields[0] || targetNames[0],
+    targetName: targetNames[0],
     targetNames,
   };
 }
