@@ -1,18 +1,24 @@
 import { buildSchema, parse, visit } from 'graphql';
 import { directives, scalars } from '../../scalars/supported-directives';
-import { CodeGenConnectionType, CodeGenFieldConnectionBelongsTo, CodeGenFieldConnectionHasMany } from '../../utils/process-connections';
+import { CodeGenConnectionType, CodeGenFieldConnectionBelongsTo, CodeGenFieldConnectionHasMany, CodeGenFieldConnectionHasOne } from '../../utils/process-connections';
 import { AppSyncModelVisitor, CodeGenGenerateEnum, CodeGenPrimaryKeyType } from '../../visitors/appsync-visitor';
 
+const defaultBaseVisitorSettings = {
+  usePipelinedTransformer: false,
+  isTimestampFieldsAdded: true,
+  useFieldNameForPrimaryKeyConnectionField: false
+}
 const buildSchemaWithDirectives = (schema: String) => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-const createAndGenerateVisitor = (schema: string, usePipelinedTransformer: boolean = false) => {
+const createAndGenerateVisitor = (schema: string, settings: any = {}) => {
+  const visitorConfig = {...defaultBaseVisitorSettings, ...settings}
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelVisitor(
     builtSchema,
-    { directives, target: 'general', isTimestampFieldsAdded: true, usePipelinedTransformer: usePipelinedTransformer },
+    { directives, target: 'general', ...visitorConfig },
     { generate: CodeGenGenerateEnum.code },
   );
   visit(ast, { leave: visitor });
@@ -21,7 +27,7 @@ const createAndGenerateVisitor = (schema: string, usePipelinedTransformer: boole
 };
 
 const createAndGeneratePipelinedTransformerVisitor = (schema: string) => {
-  return createAndGenerateVisitor(schema, true);
+  return createAndGenerateVisitor(schema, { usePipelinedTransformer: true });
 };
 
 describe('AppSyncModelVisitor', () => {
@@ -361,7 +367,7 @@ describe('AppSyncModelVisitor', () => {
           name: String! @index(name: "teamNameIndex")
         }
       `;
-      const visitor = createAndGenerateVisitor(schema, true);
+      const visitor = createAndGeneratePipelinedTransformerVisitor(schema);
       visitor.generate();
       const projectKeyDirective = visitor.models.Project.directives.find(directive => directive.name === 'key');
       expect(projectKeyDirective).toEqual({
@@ -394,7 +400,7 @@ describe('AppSyncModelVisitor', () => {
           name: String! @primaryKey
         }
       `;
-      const visitor = createAndGenerateVisitor(schema, true);
+      const visitor = createAndGeneratePipelinedTransformerVisitor(schema);
       visitor.generate();
       const projectKeyDirective = visitor.models.Project.directives.find(directive => directive.name === 'key');
       expect(projectKeyDirective).toEqual({
@@ -419,7 +425,7 @@ describe('AppSyncModelVisitor', () => {
           name: String @index(name: "nameIndex", queryField: "myQuery")
         }
       `;
-      const visitor = createAndGenerateVisitor(schema, true);
+      const visitor = createAndGeneratePipelinedTransformerVisitor(schema);
       visitor.generate();
       const projectKeyDirective = visitor.models.Project.directives.find(directive => directive.name === 'key');
       expect(projectKeyDirective).toEqual({
@@ -1132,6 +1138,40 @@ describe('AppSyncModelVisitor', () => {
     `;
     it(`should not throw error when processing models`, () => {
       expect(() => createAndGeneratePipelinedTransformerVisitor(schema)).not.toThrow();
+    });
+  });
+  
+  describe('Connected models with custom primary key testing', () => {
+    const schema = /* GraphQL*/ `
+      type Project @model {
+        projectId: ID! @primaryKey(sortKeyFields: ["name"])
+        name: String!
+        team: Team @hasOne
+      }
+      type Team @model {
+        teamId: ID! @primaryKey(sortKeyFields: ["name"])
+        name: String!
+        project: Project @belongsTo
+      }
+    `;
+    it('should have correct output for hasOne and belongsTo connection info when model pk is compostie key', () => {
+      const { models } = createAndGenerateVisitor(schema, { usePipelinedTransformer: true, useFieldNameForPrimaryKeyConnectionField: true });
+      //hasOne for Project
+      const projectTeamField = models.Project.fields.find(field => field.name === 'team')!;
+      const projectTeamHasOneConnectionInfo = (projectTeamField.connectionInfo!) as CodeGenFieldConnectionHasOne;
+      expect(projectTeamHasOneConnectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
+      expect(projectTeamHasOneConnectionInfo.targetName).toEqual('projectTeamTeamId');
+      expect(projectTeamHasOneConnectionInfo.targetNames.length).toBe(2);
+      expect(projectTeamHasOneConnectionInfo.targetNames).toContain('projectTeamTeamId');
+      expect(projectTeamHasOneConnectionInfo.targetNames).toContain('projectTeamName');
+      //belongsTo for Team
+      const teamProjectField = models.Team.fields.find(field => field.name === 'project')!;
+      const teamProjectBelongsToConnectionInfo = (teamProjectField.connectionInfo!) as CodeGenFieldConnectionBelongsTo;
+      expect(teamProjectBelongsToConnectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
+      expect(teamProjectBelongsToConnectionInfo.targetName).toEqual('teamProjectProjectId');
+      expect(teamProjectBelongsToConnectionInfo.targetNames.length).toBe(2);
+      expect(teamProjectBelongsToConnectionInfo.targetNames).toContain('teamProjectProjectId');
+      expect(teamProjectBelongsToConnectionInfo.targetNames).toContain('teamProjectName');
     });
   });
 });

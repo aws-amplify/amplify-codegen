@@ -124,6 +124,12 @@ export interface RawAppSyncModelConfig extends RawConfig {
    * @descriptions optional number which determines which version of the GraphQL transformer to use
    */
   transformerVersion?: number;
+  /**
+   * @name useFieldNameForPrimaryKeyConnectionField
+   * @type boolean
+   * @descriptions optional boolean which determines whether to use custom primary key support
+   */
+  useFieldNameForPrimaryKeyConnectionField?: boolean;
 }
 
 // Todo: need to figure out how to share config
@@ -135,6 +141,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   handleListNullabilityTransparently?: boolean;
   usePipelinedTransformer?: boolean;
   transformerVersion?: number;
+  useFieldNameForPrimaryKeyConnectionField?: boolean;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
 
@@ -225,6 +232,7 @@ export class AppSyncModelVisitor<
       handleListNullabilityTransparently: rawConfig.handleListNullabilityTransparently,
       usePipelinedTransformer: rawConfig.usePipelinedTransformer,
       transformerVersion: rawConfig.transformerVersion,
+      useFieldNameForPrimaryKeyConnectionField: rawConfig.useFieldNameForPrimaryKeyConnectionField,
     });
 
     const typesUsedInDirectives: string[] = [];
@@ -816,7 +824,7 @@ export class AppSyncModelVisitor<
 
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
-        const connectionInfo = processConnectionsV2(field, model, this.modelMap, shouldUseModelNameFieldInHasManyAndBelongsTo);
+        const connectionInfo = processConnectionsV2(field, model, this.modelMap, shouldUseModelNameFieldInHasManyAndBelongsTo, this.config.useFieldNameForPrimaryKeyConnectionField);
         if (connectionInfo) {
           if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
             // Need to update the other side of the connection even if there is no connection directive
