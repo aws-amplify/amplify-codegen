@@ -190,13 +190,13 @@ export class AppSyncModelJavaVisitor<
       const value = nonConnectedFields.includes(field) ? '' : 'null';
       this.generateModelField(field, value, classDeclarationBlock);
     });
-    const primaryKeyField = model.fields.find(f => f.primaryKeyInfo)!;
+    const primaryKeyField = this.getModelPrimaryKeyField(model);
     const { primaryKeyType, sortKeyFields } = primaryKeyField.primaryKeyInfo!;
     const isCompositeKey = primaryKeyType === CodeGenPrimaryKeyType.CustomId && sortKeyFields.length > 0;
     const isIdAsModelPrimaryKey = primaryKeyType !== CodeGenPrimaryKeyType.CustomId;
     if (isCompositeKey) {
       // Generate primary key class for composite key
-      this.generatePrimaryKeyClassField(model, classDeclarationBlock);
+      this.generateIdentifierClassField(model, classDeclarationBlock);
     }
     // step interface declarations
     this.generateStepBuilderInterfaces(model, isIdAsModelPrimaryKey).forEach((builderInterface: JavaDeclarationBlock) => {
@@ -211,7 +211,7 @@ export class AppSyncModelJavaVisitor<
 
     if (isCompositeKey) {
       // Model primary Key class for composite primary key
-      this.generateModelPrimaryKeyClass(model, classDeclarationBlock);
+      this.generateModelIdentifierClass(model, classDeclarationBlock);
     }
 
     // resolveIdentifier
@@ -365,8 +365,8 @@ export class AppSyncModelJavaVisitor<
    * @param model
    * @param classDeclaration
    */
-  protected generatePrimaryKeyClassField(model: CodeGenModel, classDeclaration: JavaDeclarationBlock): void {
-    classDeclaration.addClassMember(this.getModelPrimaryKeyClassFieldName(model), this.getModelPrimaryKeyClassName(model), '', undefined, 'private');
+  protected generateIdentifierClassField(model: CodeGenModel, classDeclaration: JavaDeclarationBlock): void {
+    classDeclaration.addClassMember(this.getModelIdentifierClassFieldName(model), this.getModelIdentifierClassName(model), '', undefined, 'private');
   }
   /**
    * Generate step builder interfaces for each non-null field in the model
@@ -589,18 +589,18 @@ export class AppSyncModelJavaVisitor<
    * @param model
    * @param classDeclaration
    */
-  protected generateModelPrimaryKeyClass(model: CodeGenModel, classDeclaration: JavaDeclarationBlock): void {
-    const primaryKeyField = model.fields.find(f => f.primaryKeyInfo)!;
+  protected generateModelIdentifierClass(model: CodeGenModel, classDeclaration: JavaDeclarationBlock): void {
+    const primaryKeyField = this.getModelPrimaryKeyField(model);
     const { sortKeyFields } = primaryKeyField.primaryKeyInfo!;
     // Generate primary key class for composite key
     this.additionalPackages.add(CUSTOM_PRIMARY_KEY_IMPORT_PACKAGE);
-    const modelPrimaryKeyClassName = this.getModelPrimaryKeyClassName(model);
+    const modelPrimaryKeyClassName = this.getModelIdentifierClassName(model);
     const primaryKeyClassDeclaration = new JavaDeclarationBlock()
       .access('public')
       .static()
       .asKind('class')
       .withName(modelPrimaryKeyClassName)
-      .extends([`ModelPrimaryKey<${this.getModelName(model)}>`]);
+      .extends([`ModelIdentifier<${this.getModelName(model)}>`]);
     // serial version field
     primaryKeyClassDeclaration.addClassMember('serialVersionUID', 'long', '1L', [], 'private', { static: true, final: true });
     // constructor
@@ -629,16 +629,16 @@ export class AppSyncModelJavaVisitor<
    * @param declarationsBlock
    */
   protected generateResolveIdentifier(model: CodeGenModel, declarationsBlock: JavaDeclarationBlock, isCompositeKey: boolean): void {
-    const primaryKeyField = model.fields.find(f => f.primaryKeyInfo)!;
+    const primaryKeyField = this.getModelPrimaryKeyField(model);
     const { sortKeyFields } = primaryKeyField.primaryKeyInfo!;
-    const modelPrimaryKeyClassFieldName = this.getModelPrimaryKeyClassFieldName(model);
-    const returnType = isCompositeKey ? this.getModelPrimaryKeyClassName(model) : this.getNativeType(primaryKeyField);
+    const modelIdentifierClassFieldName = this.getModelIdentifierClassFieldName(model);
+    const returnType = isCompositeKey ? this.getModelIdentifierClassName(model) : this.getNativeType(primaryKeyField);
     const body = isCompositeKey
       ? [
-          `if (${modelPrimaryKeyClassFieldName} == null) {`,
-          indent(`this.${modelPrimaryKeyClassFieldName} = new ${this.getModelPrimaryKeyClassName(model)}(${[primaryKeyField, ...sortKeyFields].map(f => this.getFieldName(f)).join(', ')});`),
+          `if (${modelIdentifierClassFieldName} == null) {`,
+          indent(`this.${modelIdentifierClassFieldName} = new ${this.getModelIdentifierClassName(model)}(${[primaryKeyField, ...sortKeyFields].map(f => this.getFieldName(f)).join(', ')});`),
           '}',
-          `return ${modelPrimaryKeyClassFieldName};`
+          `return ${modelIdentifierClassFieldName};`
         ].join('\n')
       : `return ${this.getFieldName(primaryKeyField)};`;
     declarationsBlock.addClassMethod('resolveIdentifier', returnType, body, undefined, undefined, 'public');
@@ -649,12 +649,12 @@ export class AppSyncModelJavaVisitor<
    * @param model codegen model
    * @returns model primary key class name
    */
-  protected getModelPrimaryKeyClassName(model: CodeGenModel): string {
-    return `${this.getModelName(model)}PrimaryKey`;
+  protected getModelIdentifierClassName(model: CodeGenModel): string {
+    return `${this.getModelName(model)}Identifier`;
   }
 
-  protected getModelPrimaryKeyClassFieldName(model: CodeGenModel): string {
-    const className = this.getModelPrimaryKeyClassName(model);
+  protected getModelIdentifierClassFieldName(model: CodeGenModel): string {
+    const className = this.getModelIdentifierClassName(model);
     return className.charAt(0).toLowerCase() + className.slice(1);
   }
 

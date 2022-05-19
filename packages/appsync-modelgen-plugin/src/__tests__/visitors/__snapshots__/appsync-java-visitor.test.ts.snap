@@ -5,7 +5,7 @@ exports[`AppSyncModelVisitor Custom primary key tests Should generate correct mo
 
 import com.amplifyframework.core.model.annotations.HasMany;
 import com.amplifyframework.core.model.temporal.Temporal;
-import com.amplifyframework.core.model.ModelPrimaryKey;
+import com.amplifyframework.core.model.ModelIdentifier;
 
 import java.util.List;
 import java.util.UUID;
@@ -35,12 +35,12 @@ public final class BlogOwnerWithCustomPKS implements Model {
   private final @ModelField(targetType=\\"Blog\\") @HasMany(associatedWith = \\"blogOwner\\", type = Blog.class) List<Blog> blogs = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  private BlogOwnerWithCustomPKSPrimaryKey blogOwnerWithCustomPKSPrimaryKey;
-  public BlogOwnerWithCustomPKSPrimaryKey resolveIdentifier() {
-    if (blogOwnerWithCustomPKSPrimaryKey == null) {
-      this.blogOwnerWithCustomPKSPrimaryKey = new BlogOwnerWithCustomPKSPrimaryKey(name, wea);
+  private BlogOwnerWithCustomPKSIdentifier blogOwnerWithCustomPKSIdentifier;
+  public BlogOwnerWithCustomPKSIdentifier resolveIdentifier() {
+    if (blogOwnerWithCustomPKSIdentifier == null) {
+      this.blogOwnerWithCustomPKSIdentifier = new BlogOwnerWithCustomPKSIdentifier(name, wea);
     }
-    return blogOwnerWithCustomPKSPrimaryKey;
+    return blogOwnerWithCustomPKSIdentifier;
   }
   
   public String getId() {
@@ -203,9 +203,9 @@ public final class BlogOwnerWithCustomPKS implements Model {
   }
   
 
-  public static class BlogOwnerWithCustomPKSPrimaryKey extends ModelPrimaryKey<BlogOwnerWithCustomPKS> {
+  public static class BlogOwnerWithCustomPKSIdentifier extends ModelIdentifier<BlogOwnerWithCustomPKS> {
     private static final long serialVersionUID = 1L;
-    public BlogOwnerWithCustomPKSPrimaryKey(String name, String wea) {
+    public BlogOwnerWithCustomPKSIdentifier(String name, String wea) {
       super(name, wea);
     }
   }
@@ -219,7 +219,7 @@ exports[`AppSyncModelVisitor Custom primary key tests Should generate correct mo
 
 import com.amplifyframework.core.model.annotations.BelongsTo;
 import com.amplifyframework.core.model.temporal.Temporal;
-import com.amplifyframework.core.model.ModelPrimaryKey;
+import com.amplifyframework.core.model.ModelIdentifier;
 
 import java.util.List;
 import java.util.UUID;
@@ -252,12 +252,12 @@ public final class Comment implements Model {
   private final @ModelField(targetType=\\"String\\") String description;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  private CommentPrimaryKey commentPrimaryKey;
-  public CommentPrimaryKey resolveIdentifier() {
-    if (commentPrimaryKey == null) {
-      this.commentPrimaryKey = new CommentPrimaryKey(title, content, likes);
+  private CommentIdentifier commentIdentifier;
+  public CommentIdentifier resolveIdentifier() {
+    if (commentIdentifier == null) {
+      this.commentIdentifier = new CommentIdentifier(title, content, likes);
     }
-    return commentPrimaryKey;
+    return commentIdentifier;
   }
   
   public Post getPost() {
@@ -464,9 +464,9 @@ public final class Comment implements Model {
   }
   
 
-  public static class CommentPrimaryKey extends ModelPrimaryKey<Comment> {
+  public static class CommentIdentifier extends ModelIdentifier<Comment> {
     private static final long serialVersionUID = 1L;
-    public CommentPrimaryKey(String title, String content, Integer likes) {
+    public CommentIdentifier(String title, String content, Integer likes) {
       super(title, content, likes);
     }
   }
