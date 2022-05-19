@@ -27,7 +27,9 @@ export function processHasOneConnection(
   // New metada type introduced by custom PK v2 support
   const targetNames = connectionFields.length > 0
     ? [ ...connectionFields ]
-    : getModelPrimaryKeyComponentFields(otherSide).map(componentField => makeConnectionAttributeName(model.name, field.name, useFieldNameForPrimaryKeyConnectionField ? componentField.name : undefined));
+    : (useFieldNameForPrimaryKeyConnectionField
+      ? getModelPrimaryKeyComponentFields(otherSide).map(componentField => makeConnectionAttributeName(model.name, field.name, componentField.name))
+      : [makeConnectionAttributeName(model.name, field.name)])
   if (!field.isList && !otherSideField.isList) {
     return {
       kind: CodeGenConnectionType.HAS_ONE,

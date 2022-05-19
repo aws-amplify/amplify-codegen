@@ -139,17 +139,6 @@ describe('GraphQL V2 process connections tests', () => {
               name: 'powerSource',
               directives: [{ name: 'hasOne', arguments: {} }],
             },
-            {
-              type: 'ID',
-              isNullable: false,
-              isList: false,
-              name: 'id',
-              directives: [],
-              primaryKeyInfo: {
-                primaryKeyType: CodeGenPrimaryKeyType.ManagedId,
-                sortKeyFields: []
-              }
-            },
           ],
         },
         PowerSource: {
@@ -162,11 +151,7 @@ describe('GraphQL V2 process connections tests', () => {
               isNullable: false,
               isList: false,
               name: 'id',
-              directives: [],
-              primaryKeyInfo: {
-                primaryKeyType: CodeGenPrimaryKeyType.ManagedId,
-                sortKeyFields: []
-              }
+              directives: []
             },
             {
               type: 'Float',
@@ -357,10 +342,6 @@ describe('GraphQL V2 process connections tests', () => {
                 isList: false,
                 name: 'id',
                 directives: [],
-                primaryKeyInfo: {
-                  primaryKeyType: CodeGenPrimaryKeyType.ManagedId,
-                  sortKeyFields: []
-                }
               },
             ],
           },
@@ -375,10 +356,6 @@ describe('GraphQL V2 process connections tests', () => {
                 isList: false,
                 name: 'id',
                 directives: [],
-                primaryKeyInfo: {
-                  primaryKeyType: CodeGenPrimaryKeyType.ManagedId,
-                  sortKeyFields: []
-                }
               },
               {
                 type: 'Like',
@@ -437,10 +414,6 @@ describe('GraphQL V2 process connections tests', () => {
               isList: false,
               name: 'id',
               directives: [],
-              primaryKeyInfo: {
-                primaryKeyType: CodeGenPrimaryKeyType.ManagedId,
-                sortKeyFields: []
-              }
             },
             {
               type: 'String',

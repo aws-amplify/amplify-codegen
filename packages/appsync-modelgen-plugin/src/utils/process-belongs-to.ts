@@ -55,7 +55,9 @@ export function processBelongsToConnection(
     ? [ ...connectionFields ]
     : (otherSideHasMany
       ? [makeConnectionAttributeName(otherSide.name, otherSideField.name)]
-      : getModelPrimaryKeyComponentFields(otherSide).map(componentField => makeConnectionAttributeName(model.name, field.name, useFieldNameForPrimaryKeyConnectionField ? componentField.name : undefined)));
+      : (useFieldNameForPrimaryKeyConnectionField
+        ? getModelPrimaryKeyComponentFields(otherSide).map(componentField => makeConnectionAttributeName(model.name, field.name, componentField.name))
+        : [makeConnectionAttributeName(model.name, field.name)]));
 
   return {
     kind: CodeGenConnectionType.BELONGS_TO,
