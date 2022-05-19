@@ -1,4 +1,4 @@
-import { CodeGenModelMap, CodeGenPrimaryKeyType } from '../../visitors/appsync-visitor';
+import { CodeGenModelMap } from '../../visitors/appsync-visitor';
 import { processConnectionsV2 } from '../../utils/process-connections-v2';
 import {
   CodeGenConnectionType,
