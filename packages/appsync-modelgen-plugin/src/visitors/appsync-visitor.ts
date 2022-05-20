@@ -806,7 +806,7 @@ export class AppSyncModelVisitor<
         // Maps @primaryKey and @index of intermediate model to old @key
         processPrimaryKey(intermediateModel);
         processIndex(intermediateModel);
-        this.ensureIdField(intermediateModel);
+        this.ensurePrimaryKeyField(intermediateModel, intermediateModel.directives);
         this.addTimestampFields(intermediateModel, modelDirective);
         this.sortFields(intermediateModel);
       }
