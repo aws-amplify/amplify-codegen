@@ -958,7 +958,7 @@ export class AppSyncModelJavaVisitor<
         break;
       case CodeGenConnectionType.BELONGS_TO:
         connectionDirectiveName = 'BelongsTo';
-        const belongsToTargetNameArgs = this.config.useFieldNameForPrimaryKeyConnectionField 
+        const belongsToTargetNameArgs = this.config.useFieldNameForPrimaryKeyConnectionField
           ? `targetNames = {${connectionInfo.targetNames.map(target => `"${target}"`).join(', ')}}`
           : `targetName = "${connectionInfo.targetName}"`;
         connectionArguments.push(belongsToTargetNameArgs);
