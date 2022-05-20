@@ -320,6 +320,185 @@ extension ModelImplicitDefaultPk: ModelIdentifiable {
 }"
 `;
 
+exports[`AppSyncSwiftVisitor Primary Key Tests Should generate targetNames in hasOne/belongsTo relation for models with a composite PK 1`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct Project: Model {
+  public let projectId: String
+  public let name: String
+  public var team: Team?
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  public var projectTeamTeamId: String?
+  
+  public init(projectId: String,
+      name: String,
+      team: Team? = nil,
+      projectTeamTeamId: String? = nil) {
+    self.init(projectId: projectId,
+      name: name,
+      team: team,
+      createdAt: nil,
+      updatedAt: nil,
+      projectTeamTeamId: projectTeamTeamId)
+  }
+  internal init(projectId: String,
+      name: String,
+      team: Team? = nil,
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil,
+      projectTeamTeamId: String? = nil) {
+      self.projectId = projectId
+      self.name = name
+      self.team = team
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+      self.projectTeamTeamId = projectTeamTeamId
+  }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor Primary Key Tests Should generate targetNames in hasOne/belongsTo relation for models with a composite PK 2`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+extension Project {
+  // MARK: - CodingKeys 
+   public enum CodingKeys: String, ModelKey {
+    case projectId
+    case name
+    case team
+    case createdAt
+    case updatedAt
+    case projectTeamTeamId
+  }
+  
+  public static let keys = CodingKeys.self
+  //  MARK: - ModelSchema 
+  
+  public static let schema = defineSchema { model in
+    let project = Project.keys
+    
+    model.pluralName = \\"Projects\\"
+    
+    model.attributes(
+      .index(fields: [\\"projectId\\", \\"name\\"], name: nil),
+      .primaryKey(fields: [project.projectId, project.name])
+    )
+    
+    model.fields(
+      .field(project.projectId, is: .required, ofType: .string),
+      .field(project.name, is: .required, ofType: .string),
+      .hasOne(project.team, is: .optional, ofType: Team.self, associatedWith: Team.keys.teamId, targetNames: [\\"projectTeamTeamId\\", \\"projectTeamName\\"])),
+      .field(project.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(project.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(project.projectTeamTeamId, is: .optional, ofType: .string)
+    )
+    }
+}
+
+extension Project: ModelIdentifiable {
+  public typealias IdentifierFormat = ModelIdentifierFormat.Custom
+  public typealias Identifier = ModelIdentifier<Self, ModelIdentifierFormat.Custom>
+}
+
+extension Project.Identifier {
+  public static func identifier(projectId: String,
+      name: String) -> Self {
+    .make(fields:[(name: \\"projectId\\", value: projectId), (name: \\"name\\", value: name)])
+  }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor Primary Key Tests Should generate targetNames in hasOne/belongsTo relation for models with a composite PK 3`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct Team: Model {
+  public let teamId: String
+  public let name: String
+  public var project: Project?
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  
+  public init(teamId: String,
+      name: String,
+      project: Project? = nil) {
+    self.init(teamId: teamId,
+      name: name,
+      project: project,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(teamId: String,
+      name: String,
+      project: Project? = nil,
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
+      self.teamId = teamId
+      self.name = name
+      self.project = project
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+  }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor Primary Key Tests Should generate targetNames in hasOne/belongsTo relation for models with a composite PK 4`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+extension Team {
+  // MARK: - CodingKeys 
+   public enum CodingKeys: String, ModelKey {
+    case teamId
+    case name
+    case project
+    case createdAt
+    case updatedAt
+  }
+  
+  public static let keys = CodingKeys.self
+  //  MARK: - ModelSchema 
+  
+  public static let schema = defineSchema { model in
+    let team = Team.keys
+    
+    model.pluralName = \\"Teams\\"
+    
+    model.attributes(
+      .index(fields: [\\"teamId\\", \\"name\\"], name: nil),
+      .primaryKey(fields: [team.teamId, team.name])
+    )
+    
+    model.fields(
+      .field(team.teamId, is: .required, ofType: .string),
+      .field(team.name, is: .required, ofType: .string),
+      .belongsTo(team.project, is: .optional, ofType: Project.self, targetNames: [\\"teamProjectProjectId\\", \\"teamProjectName\\"])),
+      .field(team.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(team.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+    )
+    }
+}
+
+extension Team: ModelIdentifiable {
+  public typealias IdentifierFormat = ModelIdentifierFormat.Custom
+  public typealias Identifier = ModelIdentifier<Self, ModelIdentifierFormat.Custom>
+}
+
+extension Team.Identifier {
+  public static func identifier(teamId: String,
+      name: String) -> Self {
+    .make(fields:[(name: \\"teamId\\", value: teamId), (name: \\"name\\", value: name)])
+  }
+}"
+`;
+
 exports[`AppSyncSwiftVisitor Should handle nullability of lists appropriately 1`] = `
 "// swiftlint:disable all
 import Amplify

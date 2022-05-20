@@ -399,12 +399,18 @@ export class AppSyncSwiftVisitor<
           )}.keys.${this.getFieldName(connectionInfo.associatedWith)})`;
         }
       if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
+        const targetNameAttrStr = this.config.useFieldNameForPrimaryKeyConnectionField
+          ? `targetNames: [${connectionInfo.targetNames.map(target => `"${target}"`).join(', ')}])`
+          : `targetName: "${connectionInfo.targetName}"`;
         return `.hasOne(${name}, is: ${isRequired}, ofType: ${typeName}, associatedWith: ${this.getModelName(
           connectionInfo.connectedModel,
-        )}.keys.${this.getFieldName(connectionInfo.associatedWith)}, targetName: "${connectionInfo.targetName}")`;
+        )}.keys.${this.getFieldName(connectionInfo.associatedWith)}, ${targetNameAttrStr})`;
       }
       if (connectionInfo.kind === CodeGenConnectionType.BELONGS_TO) {
-        return `.belongsTo(${name}, is: ${isRequired}, ofType: ${typeName}, targetName: "${connectionInfo.targetName}")`;
+        const targetNameAttrStr = this.config.useFieldNameForPrimaryKeyConnectionField
+          ? `targetNames: [${connectionInfo.targetNames.map(target => `"${target}"`).join(', ')}])`
+          : `targetName: "${connectionInfo.targetName}"`;
+        return `.belongsTo(${name}, is: ${isRequired}, ofType: ${typeName}, ${targetNameAttrStr})`;
       }
     }
 

@@ -523,6 +523,7 @@ export class AppSyncModelVisitor<
       return acc;
     }, [] as CodeGenField[]);
   }
+
   /**
    * Check out if primary key field exists in the model and generate primary key info
    * @param model type defined with model directives
@@ -612,6 +613,7 @@ export class AppSyncModelVisitor<
     }
     return primaryKeyField;
   }
+
   protected ensureIdField(model: CodeGenModel) {
     const idField = model.fields.find(field => field.name === DEFAULT_HASH_KEY_FIELD);
     if (idField) {

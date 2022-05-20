@@ -4,6 +4,14 @@ import { SWIFT_SCALAR_MAP } from '../../scalars';
 import { AppSyncSwiftVisitor } from '../../visitors/appsync-swift-visitor';
 import { CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
 
+const defaultIosVisitorSetings = {
+  isTimestampFieldsAdded: true,
+  emitAuthProvider: true,
+  generateIndexRules: true,
+  handleListNullabilityTransparently: true,
+  transformerVersion: 1,
+  useFieldNameForPrimaryKeyConnectionField: false
+}
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
@@ -12,12 +20,9 @@ const getVisitor = (
   schema: string,
   selectedType?: string,
   generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
-  isTimestampFieldsAdded: boolean = true,
-  emitAuthProvider: boolean = true,
-  generateIndexRules: boolean = true,
-  handleListNullabilityTransparently: boolean = true,
-  transformerVersion: number = 1,
+  settings: any = {},
 ) => {
+  const visitorConfig = { ...defaultIosVisitorSetings, ...settings };
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncSwiftVisitor(
@@ -26,11 +31,7 @@ const getVisitor = (
       directives,
       target: 'swift',
       scalars: SWIFT_SCALAR_MAP,
-      isTimestampFieldsAdded,
-      emitAuthProvider,
-      generateIndexRules,
-      handleListNullabilityTransparently,
-      transformerVersion: transformerVersion,
+      ...visitorConfig
     },
     { selectedType, generate },
   );
@@ -42,20 +43,13 @@ const getVisitorPipelinedTransformer = (
   schema: string,
   selectedType?: string,
   generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
-  isTimestampFieldsAdded: boolean = true,
-  emitAuthProvider: boolean = true,
-  generateIndexRules: boolean = true,
-  handleListNullabilityTransparently: boolean = true,
+  settings: any = {}
 ) => {
   return getVisitor(
     schema,
     selectedType,
     generate,
-    isTimestampFieldsAdded,
-    emitAuthProvider,
-    generateIndexRules,
-    handleListNullabilityTransparently,
-    2,
+    { ...settings, transformerVersion: 2 }
   );
 };
 
@@ -2383,7 +2377,7 @@ describe('AppSyncSwiftVisitor', () => {
           bar: String
         }
       `;
-      const visitor = getVisitor(schema, 'SimpleModel', CodeGenGenerateEnum.code, true);
+      const visitor = getVisitor(schema, 'SimpleModel', CodeGenGenerateEnum.code);
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchInlineSnapshot(`
         "// swiftlint:disable all
@@ -2428,7 +2422,7 @@ describe('AppSyncSwiftVisitor', () => {
           bar: String
         }
       `;
-      const visitor = getVisitor(schema, 'SimpleModel', CodeGenGenerateEnum.code, false);
+      const visitor = getVisitor(schema, 'SimpleModel', CodeGenGenerateEnum.code, { isTimestampFieldsAdded: false });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchInlineSnapshot(`
         "// swiftlint:disable all
@@ -2458,7 +2452,7 @@ describe('AppSyncSwiftVisitor', () => {
           updatedAt: AWSDateTime
         }
       `;
-      const visitor = getVisitor(schema, 'SimpleModel', CodeGenGenerateEnum.code, true);
+      const visitor = getVisitor(schema, 'SimpleModel', CodeGenGenerateEnum.code);
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchInlineSnapshot(`
         "// swiftlint:disable all
@@ -2555,6 +2549,29 @@ describe('AppSyncSwiftVisitor', () => {
       expect(generatedCode).toMatchSnapshot();
       const generatedMetadata = getVisitorPipelinedTransformer(schema, 'ModelCompositePk', CodeGenGenerateEnum.metadata).generate();
       expect(generatedMetadata).toMatchSnapshot();
+    });
+
+    it('Should generate targetNames in hasOne/belongsTo relation for models with a composite PK', () => {
+      const schema = /* GraphQL */ `
+        type Project @model {
+          projectId: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          team: Team @hasOne
+        }
+        type Team @model {
+          teamId: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          project: Project @belongsTo
+        }
+      `;
+      const generatedCodeProject = getVisitorPipelinedTransformer(schema, 'Project', CodeGenGenerateEnum.code, { useFieldNameForPrimaryKeyConnectionField: true }).generate();
+      const generatedMetaProject = getVisitorPipelinedTransformer(schema, 'Project', CodeGenGenerateEnum.metadata, { useFieldNameForPrimaryKeyConnectionField: true }).generate();
+      const generatedCodeTeam = getVisitorPipelinedTransformer(schema, 'Team', CodeGenGenerateEnum.code, { useFieldNameForPrimaryKeyConnectionField: true }).generate();
+      const generatedMetaTeam = getVisitorPipelinedTransformer(schema, 'Team', CodeGenGenerateEnum.metadata, { useFieldNameForPrimaryKeyConnectionField: true }).generate();
+      expect(generatedCodeProject).toMatchSnapshot();
+      expect(generatedMetaProject).toMatchSnapshot();
+      expect(generatedCodeTeam).toMatchSnapshot();
+      expect(generatedMetaTeam).toMatchSnapshot();
     });
   });
 });
