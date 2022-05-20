@@ -1,5 +1,831 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`AppSyncModelVisitor Custom primary key for connected model tests Should generate correct model file for hasOne & belongsTo relation with composite primary key when feature flag is false 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.HasOne;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.model.ModelIdentifier;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Project type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Projects\\", type = Model.Type.USER, version = \\"V1\\")
+@Index(name = \\"undefined\\", fields = {\\"projectId\\",\\"name\\"})
+public final class Project implements Model {
+  public static final QueryField PROJECT_ID = field(\\"Project\\", \\"projectId\\");
+  public static final QueryField NAME = field(\\"Project\\", \\"name\\");
+  public static final QueryField PROJECT_TEAM_ID = field(\\"Project\\", \\"projectTeamId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String projectId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
+  private final @ModelField(targetType=\\"Team\\") @HasOne(associatedWith = \\"teamId\\", type = Team.class) Team team = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType=\\"ID\\") String projectTeamId;
+  private ProjectIdentifier projectIdentifier;
+  public ProjectIdentifier resolveIdentifier() {
+    if (projectIdentifier == null) {
+      this.projectIdentifier = new ProjectIdentifier(projectId, name);
+    }
+    return projectIdentifier;
+  }
+  
+  public String getProjectId() {
+      return projectId;
+  }
+  
+  public String getName() {
+      return name;
+  }
+  
+  public Team getTeam() {
+      return team;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  public String getProjectTeamId() {
+      return projectTeamId;
+  }
+  
+  private Project(String projectId, String name, String projectTeamId) {
+    this.projectId = projectId;
+    this.name = name;
+    this.projectTeamId = projectTeamId;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Project project = (Project) obj;
+      return ObjectsCompat.equals(getProjectId(), project.getProjectId()) &&
+              ObjectsCompat.equals(getName(), project.getName()) &&
+              ObjectsCompat.equals(getCreatedAt(), project.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), project.getUpdatedAt()) &&
+              ObjectsCompat.equals(getProjectTeamId(), project.getProjectTeamId());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getProjectId())
+      .append(getName())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .append(getProjectTeamId())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Project {\\")
+      .append(\\"projectId=\\" + String.valueOf(getProjectId()) + \\", \\")
+      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
+      .append(\\"projectTeamId=\\" + String.valueOf(getProjectTeamId()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static ProjectIdStep builder() {
+      return new Builder();
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(projectId,
+      name,
+      projectTeamId);
+  }
+  public interface ProjectIdStep {
+    NameStep projectId(String projectId);
+  }
+  
+
+  public interface NameStep {
+    BuildStep name(String name);
+  }
+  
+
+  public interface BuildStep {
+    Project build();
+    BuildStep projectTeamId(String projectTeamId);
+  }
+  
+
+  public static class Builder implements ProjectIdStep, NameStep, BuildStep {
+    private String projectId;
+    private String name;
+    private String projectTeamId;
+    @Override
+     public Project build() {
+        
+        return new Project(
+          projectId,
+          name,
+          projectTeamId);
+    }
+    
+    @Override
+     public NameStep projectId(String projectId) {
+        Objects.requireNonNull(projectId);
+        this.projectId = projectId;
+        return this;
+    }
+    
+    @Override
+     public BuildStep name(String name) {
+        Objects.requireNonNull(name);
+        this.name = name;
+        return this;
+    }
+    
+    @Override
+     public BuildStep projectTeamId(String projectTeamId) {
+        this.projectTeamId = projectTeamId;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String projectId, String name, String projectTeamId) {
+      super.projectId(projectId)
+        .name(name)
+        .projectTeamId(projectTeamId);
+    }
+    
+    @Override
+     public CopyOfBuilder projectId(String projectId) {
+      return (CopyOfBuilder) super.projectId(projectId);
+    }
+    
+    @Override
+     public CopyOfBuilder name(String name) {
+      return (CopyOfBuilder) super.name(name);
+    }
+    
+    @Override
+     public CopyOfBuilder projectTeamId(String projectTeamId) {
+      return (CopyOfBuilder) super.projectTeamId(projectTeamId);
+    }
+  }
+  
+
+  public static class ProjectIdentifier extends ModelIdentifier<Project> {
+    private static final long serialVersionUID = 1L;
+    public ProjectIdentifier(String projectId, String name) {
+      super(projectId, name);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncModelVisitor Custom primary key for connected model tests Should generate correct model file for hasOne & belongsTo relation with composite primary key when feature flag is false 2`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.BelongsTo;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.model.ModelIdentifier;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Team type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Teams\\", type = Model.Type.USER, version = \\"V1\\")
+@Index(name = \\"undefined\\", fields = {\\"teamId\\",\\"name\\"})
+public final class Team implements Model {
+  public static final QueryField TEAM_ID = field(\\"Team\\", \\"teamId\\");
+  public static final QueryField NAME = field(\\"Team\\", \\"name\\");
+  public static final QueryField PROJECT = field(\\"Team\\", \\"teamProjectId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String teamId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
+  private final @ModelField(targetType=\\"Project\\") @BelongsTo(targetName = \\"teamProjectId\\", type = Project.class) Project project;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  private TeamIdentifier teamIdentifier;
+  public TeamIdentifier resolveIdentifier() {
+    if (teamIdentifier == null) {
+      this.teamIdentifier = new TeamIdentifier(teamId, name);
+    }
+    return teamIdentifier;
+  }
+  
+  public String getTeamId() {
+      return teamId;
+  }
+  
+  public String getName() {
+      return name;
+  }
+  
+  public Project getProject() {
+      return project;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Team(String teamId, String name, Project project) {
+    this.teamId = teamId;
+    this.name = name;
+    this.project = project;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Team team = (Team) obj;
+      return ObjectsCompat.equals(getTeamId(), team.getTeamId()) &&
+              ObjectsCompat.equals(getName(), team.getName()) &&
+              ObjectsCompat.equals(getProject(), team.getProject()) &&
+              ObjectsCompat.equals(getCreatedAt(), team.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), team.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getTeamId())
+      .append(getName())
+      .append(getProject())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Team {\\")
+      .append(\\"teamId=\\" + String.valueOf(getTeamId()) + \\", \\")
+      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
+      .append(\\"project=\\" + String.valueOf(getProject()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static TeamIdStep builder() {
+      return new Builder();
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(teamId,
+      name,
+      project);
+  }
+  public interface TeamIdStep {
+    NameStep teamId(String teamId);
+  }
+  
+
+  public interface NameStep {
+    BuildStep name(String name);
+  }
+  
+
+  public interface BuildStep {
+    Team build();
+    BuildStep project(Project project);
+  }
+  
+
+  public static class Builder implements TeamIdStep, NameStep, BuildStep {
+    private String teamId;
+    private String name;
+    private Project project;
+    @Override
+     public Team build() {
+        
+        return new Team(
+          teamId,
+          name,
+          project);
+    }
+    
+    @Override
+     public NameStep teamId(String teamId) {
+        Objects.requireNonNull(teamId);
+        this.teamId = teamId;
+        return this;
+    }
+    
+    @Override
+     public BuildStep name(String name) {
+        Objects.requireNonNull(name);
+        this.name = name;
+        return this;
+    }
+    
+    @Override
+     public BuildStep project(Project project) {
+        this.project = project;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String teamId, String name, Project project) {
+      super.teamId(teamId)
+        .name(name)
+        .project(project);
+    }
+    
+    @Override
+     public CopyOfBuilder teamId(String teamId) {
+      return (CopyOfBuilder) super.teamId(teamId);
+    }
+    
+    @Override
+     public CopyOfBuilder name(String name) {
+      return (CopyOfBuilder) super.name(name);
+    }
+    
+    @Override
+     public CopyOfBuilder project(Project project) {
+      return (CopyOfBuilder) super.project(project);
+    }
+  }
+  
+
+  public static class TeamIdentifier extends ModelIdentifier<Team> {
+    private static final long serialVersionUID = 1L;
+    public TeamIdentifier(String teamId, String name) {
+      super(teamId, name);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncModelVisitor Custom primary key for connected model tests Should generate correct model file for hasOne & belongsTo relation with composite primary key when feature flag is true 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.HasOne;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.model.ModelIdentifier;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Project type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Projects\\", type = Model.Type.USER, version = \\"V1\\")
+@Index(name = \\"undefined\\", fields = {\\"projectId\\",\\"name\\"})
+public final class Project implements Model {
+  public static final QueryField PROJECT_ID = field(\\"Project\\", \\"projectId\\");
+  public static final QueryField NAME = field(\\"Project\\", \\"name\\");
+  public static final QueryField PROJECT_TEAM_TEAM_ID = field(\\"Project\\", \\"projectTeamTeamId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String projectId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
+  private final @ModelField(targetType=\\"Team\\") @HasOne(associatedWith = \\"teamId\\", type = Team.class) Team team = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType=\\"ID\\") String projectTeamTeamId;
+  private ProjectIdentifier projectIdentifier;
+  public ProjectIdentifier resolveIdentifier() {
+    if (projectIdentifier == null) {
+      this.projectIdentifier = new ProjectIdentifier(projectId, name);
+    }
+    return projectIdentifier;
+  }
+  
+  public String getProjectId() {
+      return projectId;
+  }
+  
+  public String getName() {
+      return name;
+  }
+  
+  public Team getTeam() {
+      return team;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  public String getProjectTeamTeamId() {
+      return projectTeamTeamId;
+  }
+  
+  private Project(String projectId, String name, String projectTeamTeamId) {
+    this.projectId = projectId;
+    this.name = name;
+    this.projectTeamTeamId = projectTeamTeamId;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Project project = (Project) obj;
+      return ObjectsCompat.equals(getProjectId(), project.getProjectId()) &&
+              ObjectsCompat.equals(getName(), project.getName()) &&
+              ObjectsCompat.equals(getCreatedAt(), project.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), project.getUpdatedAt()) &&
+              ObjectsCompat.equals(getProjectTeamTeamId(), project.getProjectTeamTeamId());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getProjectId())
+      .append(getName())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .append(getProjectTeamTeamId())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Project {\\")
+      .append(\\"projectId=\\" + String.valueOf(getProjectId()) + \\", \\")
+      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
+      .append(\\"projectTeamTeamId=\\" + String.valueOf(getProjectTeamTeamId()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static ProjectIdStep builder() {
+      return new Builder();
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(projectId,
+      name,
+      projectTeamTeamId);
+  }
+  public interface ProjectIdStep {
+    NameStep projectId(String projectId);
+  }
+  
+
+  public interface NameStep {
+    BuildStep name(String name);
+  }
+  
+
+  public interface BuildStep {
+    Project build();
+    BuildStep projectTeamTeamId(String projectTeamTeamId);
+  }
+  
+
+  public static class Builder implements ProjectIdStep, NameStep, BuildStep {
+    private String projectId;
+    private String name;
+    private String projectTeamTeamId;
+    @Override
+     public Project build() {
+        
+        return new Project(
+          projectId,
+          name,
+          projectTeamTeamId);
+    }
+    
+    @Override
+     public NameStep projectId(String projectId) {
+        Objects.requireNonNull(projectId);
+        this.projectId = projectId;
+        return this;
+    }
+    
+    @Override
+     public BuildStep name(String name) {
+        Objects.requireNonNull(name);
+        this.name = name;
+        return this;
+    }
+    
+    @Override
+     public BuildStep projectTeamTeamId(String projectTeamTeamId) {
+        this.projectTeamTeamId = projectTeamTeamId;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String projectId, String name, String projectTeamTeamId) {
+      super.projectId(projectId)
+        .name(name)
+        .projectTeamTeamId(projectTeamTeamId);
+    }
+    
+    @Override
+     public CopyOfBuilder projectId(String projectId) {
+      return (CopyOfBuilder) super.projectId(projectId);
+    }
+    
+    @Override
+     public CopyOfBuilder name(String name) {
+      return (CopyOfBuilder) super.name(name);
+    }
+    
+    @Override
+     public CopyOfBuilder projectTeamTeamId(String projectTeamTeamId) {
+      return (CopyOfBuilder) super.projectTeamTeamId(projectTeamTeamId);
+    }
+  }
+  
+
+  public static class ProjectIdentifier extends ModelIdentifier<Project> {
+    private static final long serialVersionUID = 1L;
+    public ProjectIdentifier(String projectId, String name) {
+      super(projectId, name);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncModelVisitor Custom primary key for connected model tests Should generate correct model file for hasOne & belongsTo relation with composite primary key when feature flag is true 2`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.BelongsTo;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.model.ModelIdentifier;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Team type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Teams\\", type = Model.Type.USER, version = \\"V1\\")
+@Index(name = \\"undefined\\", fields = {\\"teamId\\",\\"name\\"})
+public final class Team implements Model {
+  public static final QueryField TEAM_ID = field(\\"Team\\", \\"teamId\\");
+  public static final QueryField NAME = field(\\"Team\\", \\"name\\");
+  public static final QueryField PROJECT = field(\\"Team\\", \\"teamProjectProjectId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String teamId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
+  private final @ModelField(targetType=\\"Project\\") @BelongsTo(targetNames = {\\"teamProjectProjectId\\", \\"teamProjectName\\"}, type = Project.class) Project project;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  private TeamIdentifier teamIdentifier;
+  public TeamIdentifier resolveIdentifier() {
+    if (teamIdentifier == null) {
+      this.teamIdentifier = new TeamIdentifier(teamId, name);
+    }
+    return teamIdentifier;
+  }
+  
+  public String getTeamId() {
+      return teamId;
+  }
+  
+  public String getName() {
+      return name;
+  }
+  
+  public Project getProject() {
+      return project;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Team(String teamId, String name, Project project) {
+    this.teamId = teamId;
+    this.name = name;
+    this.project = project;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Team team = (Team) obj;
+      return ObjectsCompat.equals(getTeamId(), team.getTeamId()) &&
+              ObjectsCompat.equals(getName(), team.getName()) &&
+              ObjectsCompat.equals(getProject(), team.getProject()) &&
+              ObjectsCompat.equals(getCreatedAt(), team.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), team.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getTeamId())
+      .append(getName())
+      .append(getProject())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Team {\\")
+      .append(\\"teamId=\\" + String.valueOf(getTeamId()) + \\", \\")
+      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
+      .append(\\"project=\\" + String.valueOf(getProject()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static TeamIdStep builder() {
+      return new Builder();
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(teamId,
+      name,
+      project);
+  }
+  public interface TeamIdStep {
+    NameStep teamId(String teamId);
+  }
+  
+
+  public interface NameStep {
+    BuildStep name(String name);
+  }
+  
+
+  public interface BuildStep {
+    Team build();
+    BuildStep project(Project project);
+  }
+  
+
+  public static class Builder implements TeamIdStep, NameStep, BuildStep {
+    private String teamId;
+    private String name;
+    private Project project;
+    @Override
+     public Team build() {
+        
+        return new Team(
+          teamId,
+          name,
+          project);
+    }
+    
+    @Override
+     public NameStep teamId(String teamId) {
+        Objects.requireNonNull(teamId);
+        this.teamId = teamId;
+        return this;
+    }
+    
+    @Override
+     public BuildStep name(String name) {
+        Objects.requireNonNull(name);
+        this.name = name;
+        return this;
+    }
+    
+    @Override
+     public BuildStep project(Project project) {
+        this.project = project;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String teamId, String name, Project project) {
+      super.teamId(teamId)
+        .name(name)
+        .project(project);
+    }
+    
+    @Override
+     public CopyOfBuilder teamId(String teamId) {
+      return (CopyOfBuilder) super.teamId(teamId);
+    }
+    
+    @Override
+     public CopyOfBuilder name(String name) {
+      return (CopyOfBuilder) super.name(name);
+    }
+    
+    @Override
+     public CopyOfBuilder project(Project project) {
+      return (CopyOfBuilder) super.project(project);
+    }
+  }
+  
+
+  public static class TeamIdentifier extends ModelIdentifier<Team> {
+    private static final long serialVersionUID = 1L;
+    public TeamIdentifier(String teamId, String name) {
+      super(teamId, name);
+    }
+  }
+  
+}
+"
+`;
+
 exports[`AppSyncModelVisitor Custom primary key tests Should generate correct model file for composite key type with id field defined 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
