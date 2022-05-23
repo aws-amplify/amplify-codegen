@@ -766,5 +766,32 @@ describe('AppSync Dart Visitor', () => {
         },
       );
     });
+
+    it('should generate correct models for hasOne/belongsTo relation when feature flag is true', () => {
+      const schema = /* GraphQL */ `
+        type Project @model {
+          projectId: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          team: Team @hasOne
+        }
+        type Team @model {
+          teamId: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          project: Project @belongsTo
+        }
+      `;
+      ['Project', 'Team'].forEach(modelName => {
+        const generatedCode = getVisitor({
+          schema,
+          selectedType: modelName,
+          enableDartNullSafety: true,
+          enableDartZeroThreeFeatures: true,
+          isTimestampFieldsAdded: true,
+          useFieldNameForPrimaryKeyConnectionField: true,
+          transformerVersion: 2,
+        }).generate();
+        expect(generatedCode).toMatchSnapshot();
+      });
+    })
   });
 });

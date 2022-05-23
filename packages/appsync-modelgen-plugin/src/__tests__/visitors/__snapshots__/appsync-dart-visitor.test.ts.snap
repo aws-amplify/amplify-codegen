@@ -9371,3 +9371,555 @@ class ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelIdentifier impl
     rating.hashCode;
 }"
 `;
+
+exports[`AppSync Dart Visitor custom primary key model generation should generate correct models for hasOne/belongsTo relation when feature flag is true 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
+
+import 'ModelProvider.dart';
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:flutter/foundation.dart';
+
+
+/** This is an auto generated class representing the Project type in your schema. */
+@immutable
+class Project extends Model {
+  static const classType = const _ProjectModelType();
+  final String? _projectId;
+  final String? _name;
+  final Team? _team;
+  final TemporalDateTime? _createdAt;
+  final TemporalDateTime? _updatedAt;
+  final String? _projectTeamTeamId;
+
+  @override
+  getInstanceType() => classType;
+  
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
+  @override
+  String getId() => modelIdentifier.serializeAsString();
+  
+  ProjectModelIdentifier get modelIdentifier {
+    try {
+      return ProjectModelIdentifier(
+        projectId: _projectId!,
+        name: _name!
+      );
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get projectId {
+    try {
+      return _projectId!;
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get name {
+    try {
+      return _name!;
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  Team? get team {
+    return _team;
+  }
+  
+  TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  String? get projectTeamTeamId {
+    return _projectTeamTeamId;
+  }
+  
+  const Project._internal({required projectId, required name, team, createdAt, updatedAt, projectTeamTeamId}): _projectId = projectId, _name = name, _team = team, _createdAt = createdAt, _updatedAt = updatedAt, _projectTeamTeamId = projectTeamTeamId;
+  
+  factory Project({required String projectId, required String name, Team? team, String? projectTeamTeamId}) {
+    return Project._internal(
+      projectId: projectId,
+      name: name,
+      team: team,
+      projectTeamTeamId: projectTeamTeamId);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Project &&
+      _projectId == other._projectId &&
+      _name == other._name &&
+      _team == other._team &&
+      _projectTeamTeamId == other._projectTeamTeamId;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"Project {\\");
+    buffer.write(\\"projectId=\\" + \\"$_projectId\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$_name\\" + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"projectTeamTeamId=\\" + \\"$_projectTeamTeamId\\");
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  Project copyWith({Team? team, String? projectTeamTeamId}) {
+    return Project._internal(
+      projectId: projectId,
+      name: name,
+      team: team ?? this.team,
+      projectTeamTeamId: projectTeamTeamId ?? this.projectTeamTeamId);
+  }
+  
+  Project.fromJson(Map<String, dynamic> json)  
+    : _projectId = json['projectId'],
+      _name = json['name'],
+      _team = json['team']?['serializedData'] != null
+        ? Team.fromJson(new Map<String, dynamic>.from(json['team']['serializedData']))
+        : null,
+      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null,
+      _projectTeamTeamId = json['projectTeamTeamId'];
+  
+  Map<String, dynamic> toJson() => {
+    'projectId': _projectId, 'name': _name, 'team': _team?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format(), 'projectTeamTeamId': _projectTeamTeamId
+  };
+
+  static final QueryField PROJECTID = QueryField(fieldName: \\"projectId\\");
+  static final QueryField NAME = QueryField(fieldName: \\"name\\");
+  static final QueryField TEAM = QueryField(
+    fieldName: \\"team\\",
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Team).toString()));
+  static final QueryField PROJECTTEAMTEAMID = QueryField(fieldName: \\"projectTeamTeamId\\");
+  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"Project\\";
+    modelSchemaDefinition.pluralName = \\"Projects\\";
+    
+    modelSchemaDefinition.indexes = [
+      ModelIndex(fields: const [\\"projectId\\", \\"name\\"], name: null)
+    ];
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: Project.PROJECTID,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: Project.NAME,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.hasOne(
+      key: Project.TEAM,
+      isRequired: false,
+      ofModelName: (Team).toString(),
+      associatedKey: Team.TEAMID
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: Project.PROJECTTEAMTEAMID,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+  });
+}
+
+class _ProjectModelType extends ModelType<Project> {
+  const _ProjectModelType();
+  
+  @override
+  Project fromJson(Map<String, dynamic> jsonData) {
+    return Project.fromJson(jsonData);
+  }
+}
+
+/** 
+ * This is an auto generated class representing the model identifier
+ * of [Project] in your schema.
+ */
+@immutable
+class ProjectModelIdentifier implements ModelIdentifier<Project> {
+  final String projectId;
+  final String name;
+
+  /** 
+   * Create an instance of ProjectModelIdentifier using [projectId] the primary key.
+   * And [name] the sort key.
+   */
+  const ProjectModelIdentifier({
+    required this.projectId,
+    required this.name});
+  
+  @override
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'projectId': projectId,
+    'name': name
+  });
+  
+  @override
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  @override
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'ProjectModelIdentifier(projectId: $projectId, name: $name)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is ProjectModelIdentifier &&
+      projectId == other.projectId &&
+      name == other.name;
+  }
+  
+  @override
+  int get hashCode =>
+    projectId.hashCode ^
+    name.hashCode;
+}"
+`;
+
+exports[`AppSync Dart Visitor custom primary key model generation should generate correct models for hasOne/belongsTo relation when feature flag is true 2`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
+
+import 'ModelProvider.dart';
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:flutter/foundation.dart';
+
+
+/** This is an auto generated class representing the Team type in your schema. */
+@immutable
+class Team extends Model {
+  static const classType = const _TeamModelType();
+  final String? _teamId;
+  final String? _name;
+  final Project? _project;
+  final TemporalDateTime? _createdAt;
+  final TemporalDateTime? _updatedAt;
+
+  @override
+  getInstanceType() => classType;
+  
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
+  @override
+  String getId() => modelIdentifier.serializeAsString();
+  
+  TeamModelIdentifier get modelIdentifier {
+    try {
+      return TeamModelIdentifier(
+        teamId: _teamId!,
+        name: _name!
+      );
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get teamId {
+    try {
+      return _teamId!;
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get name {
+    try {
+      return _name!;
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  Project? get project {
+    return _project;
+  }
+  
+  TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  const Team._internal({required teamId, required name, project, createdAt, updatedAt}): _teamId = teamId, _name = name, _project = project, _createdAt = createdAt, _updatedAt = updatedAt;
+  
+  factory Team({required String teamId, required String name, Project? project}) {
+    return Team._internal(
+      teamId: teamId,
+      name: name,
+      project: project);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Team &&
+      _teamId == other._teamId &&
+      _name == other._name &&
+      _project == other._project;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"Team {\\");
+    buffer.write(\\"teamId=\\" + \\"$_teamId\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$_name\\" + \\", \\");
+    buffer.write(\\"project=\\" + (_project != null ? _project!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  Team copyWith({Project? project}) {
+    return Team._internal(
+      teamId: teamId,
+      name: name,
+      project: project ?? this.project);
+  }
+  
+  Team.fromJson(Map<String, dynamic> json)  
+    : _teamId = json['teamId'],
+      _name = json['name'],
+      _project = json['project']?['serializedData'] != null
+        ? Project.fromJson(new Map<String, dynamic>.from(json['project']['serializedData']))
+        : null,
+      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
+  
+  Map<String, dynamic> toJson() => {
+    'teamId': _teamId, 'name': _name, 'project': _project?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+
+  static final QueryField TEAMID = QueryField(fieldName: \\"teamId\\");
+  static final QueryField NAME = QueryField(fieldName: \\"name\\");
+  static final QueryField PROJECT = QueryField(
+    fieldName: \\"project\\",
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Project).toString()));
+  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"Team\\";
+    modelSchemaDefinition.pluralName = \\"Teams\\";
+    
+    modelSchemaDefinition.indexes = [
+      ModelIndex(fields: const [\\"teamId\\", \\"name\\"], name: null)
+    ];
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: Team.TEAMID,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: Team.NAME,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+      key: Team.PROJECT,
+      isRequired: false,
+      targetNames: [\\"teamProjectProjectId\\", \\"teamProjectName\\"],
+      ofModelName: (Project).toString()
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+    ));
+  });
+}
+
+class _TeamModelType extends ModelType<Team> {
+  const _TeamModelType();
+  
+  @override
+  Team fromJson(Map<String, dynamic> jsonData) {
+    return Team.fromJson(jsonData);
+  }
+}
+
+/** 
+ * This is an auto generated class representing the model identifier
+ * of [Team] in your schema.
+ */
+@immutable
+class TeamModelIdentifier implements ModelIdentifier<Team> {
+  final String teamId;
+  final String name;
+
+  /** 
+   * Create an instance of TeamModelIdentifier using [teamId] the primary key.
+   * And [name] the sort key.
+   */
+  const TeamModelIdentifier({
+    required this.teamId,
+    required this.name});
+  
+  @override
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'teamId': teamId,
+    'name': name
+  });
+  
+  @override
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  @override
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'TeamModelIdentifier(teamId: $teamId, name: $name)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is TeamModelIdentifier &&
+      teamId == other.teamId &&
+      name == other.name;
+  }
+  
+  @override
+  int get hashCode =>
+    teamId.hashCode ^
+    name.hashCode;
+}"
+`;
