@@ -5,7 +5,6 @@ import {
   CodeGenModel,
   CodeGenField,
   CodeGenGenerateEnum,
-  CodeGenPrimaryKeyType,
 } from './appsync-visitor';
 import { DartDeclarationBlock } from '../languages/dart-declaration-block';
 import { CodeGenConnectionType } from '../utils/process-connections';
