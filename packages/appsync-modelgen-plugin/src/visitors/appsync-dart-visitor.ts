@@ -1034,7 +1034,9 @@ export class AppSyncModelDartVisitor<
               fieldParam = [
                 `key: ${modelName}.${queryFieldName}`,
                 `isRequired: ${!field.isNullable}`,
-                `targetName: "${field.connectionInfo.targetName}"`,
+                this.customPKEnabled() 
+                  ? `targetNames: [${field.connectionInfo.targetNames.map(target => `"${target}"`).join(', ')}]`
+                  : `targetName: "${field.connectionInfo.targetName}"`,
                 `ofModelName: (${connectedModelName}).toString()`,
               ].join(',\n');
               fieldsToAdd.push(['ModelFieldDefinition.belongsTo(', indentMultiline(fieldParam), ')'].join('\n'));
