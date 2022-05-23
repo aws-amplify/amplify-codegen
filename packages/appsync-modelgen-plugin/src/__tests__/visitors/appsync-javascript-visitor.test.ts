@@ -10,13 +10,13 @@ const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
 export type JavaScriptVisitorConfig = {
   isDeclaration?: boolean;
   isTimestampFieldsAdded?: boolean;
-  useFieldNameForPrimaryKeyConnectionField ?: boolean;
+  useFieldNameForPrimaryKeyConnectionField?: boolean;
   transformerVersion?: number;
 };
 const defaultJavaScriptVisitorConfig: JavaScriptVisitorConfig = {
   isDeclaration: false,
   isTimestampFieldsAdded: false,
-  useFieldNameForPrimaryKeyConnectionField : false,
+  useFieldNameForPrimaryKeyConnectionField: false,
   transformerVersion: 1,
 };
 const getVisitor = (schema: string, settings: JavaScriptVisitorConfig = {}): AppSyncModelJavascriptVisitor => {
@@ -605,7 +605,11 @@ describe('Javascript visitor with custom primary key', () => {
   `;
 
   it('should generate correct declaration with custom primary key support in V1 GraphQL schema', () => {
-    const visitor = getVisitor(schemaV1, { isDeclaration: true, isTimestampFieldsAdded: true, useFieldNameForPrimaryKeyConnectionField: true });
+    const visitor = getVisitor(schemaV1, {
+      isDeclaration: true,
+      isTimestampFieldsAdded: true,
+      useFieldNameForPrimaryKeyConnectionField: true,
+    });
     const declarations = visitor.generate();
     validateTs(declarations);
     expect(declarations).toMatchInlineSnapshot(`
@@ -813,6 +817,11 @@ describe('New model meta field test', () => {
       name: String!
       description: String
     }
+    type ModelExplicitIdWithSk @model {
+      id: ID! @primaryKey(sortKeyFields: ["name"])
+      name: String!
+      description: String
+    }
     type ModelCustomPk @model {
       myId: ID! @primaryKey
       id: ID!
@@ -836,7 +845,7 @@ describe('New model meta field test', () => {
     const declarations = visitor.generate();
     validateTs(declarations);
     expect(declarations).toMatchInlineSnapshot(`
-      "import { ModelInit, MutableModel, PersistentModelConstructor, __modelMeta__, ManagedIdentifier, OptionallyManagedIdentifier, CustomIdentifier, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
+      "import { ModelInit, MutableModel, PersistentModelConstructor, __modelMeta__, ManagedIdentifier, OptionallyManagedIdentifier, CompositeIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -881,6 +890,20 @@ describe('New model meta field test', () => {
         readonly updatedAt?: string | null;
         constructor(init: ModelInit<ModelExplicitId>);
         static copyOf(source: ModelExplicitId, mutator: (draft: MutableModel<ModelExplicitId>) => MutableModel<ModelExplicitId> | void): ModelExplicitId;
+      }
+
+      export declare class ModelExplicitIdWithSk {
+        readonly [__modelMeta__]: {
+          identifier: CompositeIdentifier<ModelExplicitIdWithSk, ['id', 'name']>;
+          readOnlyFields: 'createdAt' | 'updatedAt';
+        };
+        readonly id: string;
+        readonly name: string;
+        readonly description?: string | null;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
+        constructor(init: ModelInit<ModelExplicitIdWithSk>);
+        static copyOf(source: ModelExplicitIdWithSk, mutator: (draft: MutableModel<ModelExplicitIdWithSk>) => MutableModel<ModelExplicitIdWithSk> | void): ModelExplicitIdWithSk;
       }
 
       export declare class ModelCustomPk {
