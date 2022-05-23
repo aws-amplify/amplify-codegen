@@ -5,7 +5,6 @@ import {
   CodeGenEnum,
   CodeGenField,
   CodeGenModel,
-  CodeGenPrimaryKeyType,
   ParsedAppSyncModelConfig,
   RawAppSyncModelConfig,
 } from './appsync-visitor';
@@ -34,10 +33,6 @@ export class AppSyncModelTypeScriptVisitor<
     'import { schema } from "./schema";',
   ];
 
-  protected BASE_DATASTORE_IMPORT = new Set(['ModelInit', 'MutableModel', 'PersistentModelConstructor']);
-
-  protected MODEL_META_FIELD_NAME = '__modelMeta__';
-
   generate(): string {
     // TODO: Remove us, leaving in to be explicit on why this flag is here.
     const shouldUseModelNameFieldInHasManyAndBelongsTo = false;
@@ -52,7 +47,7 @@ export class AppSyncModelTypeScriptVisitor<
       .join('\n\n');
 
     const nonModelDeclarations = Object.values(this.nonModelMap)
-      .map(typeObj => this.generateModelDeclaration(typeObj, true, false))
+      .map(typeObj => this.generateModelDeclaration(typeObj))
       .join('\n\n');
 
     const modelInitialization = this.generateModelInitialization([...Object.values(this.modelMap), ...Object.values(this.nonModelMap)]);
@@ -76,11 +71,6 @@ export class AppSyncModelTypeScriptVisitor<
     return enumDeclarations.string;
   }
 
-  /**
-   * Generate model meta data type. Old implementation before using custom primary key.
-   * @param modelObj model object
-   * @returns model meta data type string
-   */
   protected generateModelMetaData(modelObj: CodeGenModel): string {
     const modelName = this.generateModelTypeDeclarationName(modelObj);
     const modelDeclarations = new TypeScriptDeclarationBlock()
@@ -88,64 +78,17 @@ export class AppSyncModelTypeScriptVisitor<
       .withName(`${modelName}MetaData`)
       .export(false);
 
+    const isTimestampFeatureFlagEnabled = this.config.isTimestampFieldsAdded;
     let readOnlyFieldNames: string[] = [];
 
     modelObj.fields.forEach((field: CodeGenField) => {
-      if (field.isReadOnly) {
+      if (isTimestampFeatureFlagEnabled && field.isReadOnly) {
         readOnlyFieldNames.push(`'${field.name}'`);
       }
     });
-    if (readOnlyFieldNames.length) {
-      modelDeclarations.addProperty('readOnlyFields', readOnlyFieldNames.join(' | '));
-      return modelDeclarations.string;
-    }
-    //If no read only fields return empty string
-    return '';
-  }
+    modelDeclarations.addProperty('readOnlyFields', readOnlyFieldNames.join(' | '));
 
-  /**
-   * Generate model meta data type casting for __modelMeta__. New implementation after incorporating custome primary key.
-   * @param modelObj model object
-   * @returns model meta data type string
-   */
-  protected generateModelMetaDataType(modelObj: CodeGenModel): string {
-    let readOnlyFieldNames: string[] = [];
-    modelObj.fields.forEach((field: CodeGenField) => {
-      if (field.isReadOnly) {
-        readOnlyFieldNames.push(`'${field.name}'`);
-      }
-    });
-    let modelMetaFields: string[] = [];
-    //Custom primary key meta field
-    modelMetaFields.push(`identifier: ${this.constructIdentifier(modelObj)};`);
-    //Read only meta field
-    if (readOnlyFieldNames.length) {
-      modelMetaFields.push(`readOnlyFields: ${readOnlyFieldNames.join(' | ')};`);
-    }
-    const result = [
-      '{',
-      indentMultiline(modelMetaFields.join('\n')),
-      '}'
-    ];
-    return result.join('\n');
-  }
-
-  protected constructIdentifier(modelObj: CodeGenModel): string {
-    const primaryKeyField = modelObj.fields.find(f => f.primaryKeyInfo)!;
-    const { primaryKeyType, sortKeyFields } = primaryKeyField.primaryKeyInfo!;
-    switch (primaryKeyType) {
-      case CodeGenPrimaryKeyType.ManagedId:
-        this.BASE_DATASTORE_IMPORT.add('ManagedIdentifier');
-        return `ManagedIdentifier<${modelObj.name}, '${primaryKeyField.name}'>`;
-      case CodeGenPrimaryKeyType.OptionallyManagedId:
-        this.BASE_DATASTORE_IMPORT.add('OptionallyManagedIdentifier');
-        return `OptionallyManagedIdentifier<${modelObj.name}, '${primaryKeyField.name}'>`;
-      case CodeGenPrimaryKeyType.CustomId:
-        this.BASE_DATASTORE_IMPORT.add('CustomIdentifier');
-        const identifierFields: string[] = [primaryKeyField.name, ...sortKeyFields].filter(f => f);
-        const identifierFieldsStr = identifierFields.length === 1 ? `'${identifierFields[0]}'` : `[${identifierFields.map(fieldStr => `'${fieldStr}'`).join(', ')}]`
-        return `CustomIdentifier<${modelObj.name}, ${identifierFieldsStr}>`;
-    }
+    return modelDeclarations.string;
   }
 
   /**
@@ -153,7 +96,7 @@ export class AppSyncModelTypeScriptVisitor<
    * @param modelObj CodeGenModel object
    * @param isDeclaration flag indicates if the class needs to be exported
    */
-  protected generateModelDeclaration(modelObj: CodeGenModel, isDeclaration: boolean = true, isModelType: boolean = true): string {
+  protected generateModelDeclaration(modelObj: CodeGenModel, isDeclaration: boolean = true): string {
     const modelName = this.generateModelTypeDeclarationName(modelObj);
     const modelDeclarations = new TypeScriptDeclarationBlock()
       .asKind('class')
@@ -161,29 +104,22 @@ export class AppSyncModelTypeScriptVisitor<
       .withName(modelName)
       .export(true);
 
-      let readOnlyFieldNames: string[] = [];
-      let modelMetaDataFormatted: string | undefined;
-      let modelMetaDataDeclaration: string = '';
-    //Add new model meta field when custom primary key is enabled
-    if (isModelType && this.config.useCustomPrimaryKey) {
-      //Add new model meta import
-      this.BASE_DATASTORE_IMPORT.add(this.MODEL_META_FIELD_NAME);
-      modelDeclarations.addProperty(`[${this.MODEL_META_FIELD_NAME}]`, this.generateModelMetaDataType(modelObj), undefined, 'DEFAULT', {
-        readonly: true,
-        optional: false
-      });
-    }
+    const isTimestampFeatureFlagEnabled = this.config.isTimestampFieldsAdded;
+    let readOnlyFieldNames: string[] = [];
+    let modelMetaDataFormatted: string | undefined;
+    let modelMetaDataDeclaration: string = '';
+
     modelObj.fields.forEach((field: CodeGenField) => {
       modelDeclarations.addProperty(this.getFieldName(field), this.getNativeType(field), undefined, 'DEFAULT', {
         readonly: true,
         optional: field.isList ? field.isListNullable : field.isNullable,
       });
-      if (field.isReadOnly) {
+      if (isTimestampFeatureFlagEnabled && field.isReadOnly) {
         readOnlyFieldNames.push(`'${field.name}'`);
       }
     });
-    //Use old model meta when custom primary key is disabled
-    if (isModelType && !this.config.useCustomPrimaryKey) {
+
+    if (isTimestampFeatureFlagEnabled) {
       modelMetaDataFormatted = `, ${modelName}MetaData`;
       modelMetaDataDeclaration = readOnlyFieldNames.length > 0 ? modelMetaDataFormatted : '';
     }
