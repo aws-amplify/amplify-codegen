@@ -169,7 +169,7 @@ export class AppSyncModelTypeScriptVisitor<
       let modelMetaDataFormatted: string | undefined;
       let modelMetaDataDeclaration: string = '';
     //Add new model meta field when custom primary key is enabled
-    if (isModelType && this.config.useCustomPrimaryKey) {
+    if (isModelType && this.config.useFieldNameForPrimaryKeyConnectionField) {
       //Add new model meta import
       this.BASE_DATASTORE_IMPORT.add(this.MODEL_META_FIELD_NAME);
       modelDeclarations.addProperty(`[${this.MODEL_META_FIELD_NAME}]`, this.generateModelMetaDataType(modelObj), undefined, 'DEFAULT', {
@@ -187,7 +187,7 @@ export class AppSyncModelTypeScriptVisitor<
       }
     });
     //Use old model meta when custom primary key is disabled
-    if (isModelType && !this.config.useCustomPrimaryKey) {
+    if (isModelType && !this.config.useFieldNameForPrimaryKeyConnectionField) {
       modelMetaDataFormatted = `, ${modelName}MetaData`;
       modelMetaDataDeclaration = readOnlyFieldNames.length > 0 ? modelMetaDataFormatted : '';
     }

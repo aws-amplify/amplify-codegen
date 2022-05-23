@@ -62,7 +62,7 @@ export class AppSyncModelJavascriptVisitor<
 
       const imports = this.generateImports();
 
-      if (!this.config.useCustomPrimaryKey) {
+      if (!this.config.useFieldNameForPrimaryKeyConnectionField) {
         const modelMetaData = Object.values(this.modelMap)
           .map(typeObj => this.generateModelMetaData(typeObj))
           .join('\n\n');

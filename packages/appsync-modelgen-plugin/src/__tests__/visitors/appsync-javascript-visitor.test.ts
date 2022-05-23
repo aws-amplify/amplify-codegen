@@ -10,13 +10,13 @@ const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
 export type JavaScriptVisitorConfig = {
   isDeclaration?: boolean;
   isTimestampFieldsAdded?: boolean;
-  useCustomPrimaryKey?: boolean;
+  useFieldNameForPrimaryKeyConnectionField ?: boolean;
   transformerVersion?: number;
 };
 const defaultJavaScriptVisitorConfig: JavaScriptVisitorConfig = {
   isDeclaration: false,
   isTimestampFieldsAdded: false,
-  useCustomPrimaryKey: false,
+  useFieldNameForPrimaryKeyConnectionField : false,
   transformerVersion: 1,
 };
 const getVisitor = (schema: string, settings: JavaScriptVisitorConfig = {}): AppSyncModelJavascriptVisitor => {
@@ -605,7 +605,7 @@ describe('Javascript visitor with custom primary key', () => {
   `;
 
   it('should generate correct declaration with custom primary key support in V1 GraphQL schema', () => {
-    const visitor = getVisitor(schemaV1, { isDeclaration: true, isTimestampFieldsAdded: true, useCustomPrimaryKey: true });
+    const visitor = getVisitor(schemaV1, { isDeclaration: true, isTimestampFieldsAdded: true, useFieldNameForPrimaryKeyConnectionField: true });
     const declarations = visitor.generate();
     validateTs(declarations);
     expect(declarations).toMatchInlineSnapshot(`
@@ -700,7 +700,7 @@ describe('Javascript visitor with custom primary key', () => {
     const visitor = getVisitor(schemaV2, {
       isDeclaration: true,
       isTimestampFieldsAdded: true,
-      useCustomPrimaryKey: true,
+      useFieldNameForPrimaryKeyConnectionField: true,
       transformerVersion: 2,
     });
     const declarations = visitor.generate();
@@ -830,7 +830,7 @@ describe('New model meta field test', () => {
     const visitor = getVisitor(schemaV2, {
       isDeclaration: true,
       isTimestampFieldsAdded: true,
-      useCustomPrimaryKey: true,
+      useFieldNameForPrimaryKeyConnectionField: true,
       transformerVersion: 2,
     });
     const declarations = visitor.generate();
