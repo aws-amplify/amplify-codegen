@@ -27,9 +27,9 @@ Amplify Codegen is a JavaScript toolkit library for frontend and mobile develope
 | graphql-types-generator                                                | Generates type annotations from GraphQL schema and statements                                                                                                                               |
 ## Developing
 
-This section should get you running with **Amplify Codegen**. You will need the latest version of [nodejs](https://nodejs.org/en/) on your system and developing locally also requires `yarn` workspaces. You can install it [here](https://classic.yarnpkg.com/en/docs/install#mac-stable).
+This section should get you running with **Amplify Codegen**. You will need to set [nodejs](https://nodejs.org/en/) to a version less than v16 on your system. Developing locally also requires [yarn](https://classic.yarnpkg.com/en/docs/install#mac-stable).
 
-Start by, [Forking](https://help.github.com/en/github/getting-started-with-github/fork-a-repo) the main branch of [amplify-codegen](https://github.com/aws-amplify/amplify-codegen).
+Start by [Forking](https://help.github.com/en/github/getting-started-with-github/fork-a-repo) the main branch of [amplify-codegen](https://github.com/aws-amplify/amplify-codegen).
 
 ```
 $ git clone git@github.com:[username]/amplify-codegen.git
@@ -37,6 +37,9 @@ $ cd amplify-codegen
 
 $ yarn setup-dev
 ```
+
+To generate model files in an Amplify app using the local version of codegen, run `amplify-dev codegen models` in an Amplify app.
+
 Before pushing code or sending a pull request, do the following:
 
 - At the command line, run `npm run lint` at the top-level directory. This invokes lerna to check for lint errors in all of our packages.
