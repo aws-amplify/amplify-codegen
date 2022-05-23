@@ -980,10 +980,6 @@ describe('AppSyncModelVisitor', () => {
           project: ID!
           workItemId: ID!
         }
-<<<<<<< HEAD
-=======
-
->>>>>>> 84831b5... Chore/custom pk flutter (#393)
         type WorkItem1 @model @key(fields: ["project", "workItemId"]) {
           project: ID!
           workItemId: ID!

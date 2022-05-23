@@ -2,30 +2,25 @@ import { buildSchema, GraphQLSchema, parse, visit } from 'graphql';
 import { directives, scalars } from '../../../scalars/supported-directives';
 import { TYPESCRIPT_SCALAR_MAP } from '../../../scalars';
 import { AppSyncModelJavascriptVisitor } from '../../../visitors/appsync-javascript-visitor';
-import { JavaScriptVisitorConfig } from '../appsync-javascript-visitor.test';
+import { CodeGenGenerateEnum } from '../../../visitors/appsync-visitor';
 
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-const defaultJavaScriptVisitorConfigV2: JavaScriptVisitorConfig = {
-  isDeclaration: false,
-  isTimestampFieldsAdded: true,
-  useCustomPrimaryKey: false,
-  transformerVersion: 2
-}
-
 const getGQLv2Visitor = (
   schema: string,
-  settings: JavaScriptVisitorConfig = {},
+  selectedType?: string,
+  isDeclaration: boolean = false,
+  generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
+  isTimestampFieldsAdded: boolean = false,
 ): AppSyncModelJavascriptVisitor => {
-  const config = { ...defaultJavaScriptVisitorConfigV2, ...settings };
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelJavascriptVisitor(
     builtSchema,
-    { directives, target: 'javascript', scalars: TYPESCRIPT_SCALAR_MAP, ...config },
-    {},
+    { directives, target: 'javascript', scalars: TYPESCRIPT_SCALAR_MAP, isDeclaration, isTimestampFieldsAdded, transformerVersion: 2 },
+    { selectedType, generate },
   );
   visit(ast, { leave: visitor });
   return visitor;
@@ -41,16 +36,16 @@ describe('AppSyncJavascriptVisitor - GQLv2 Regression Tests', () => {
         accountRepresentativeID: ID! @index(name: "byRepresentative", queryField: "customerByRepresentative")
       }
     `;
-    expect(getGQLv2Visitor(schema).generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, { isDeclaration: true }).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Customer').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Customer', true).generate()).toMatchSnapshot();
   });
 
   it('Works on record creation and updating timestamp', () => {
     const schema = /* GraphQL */ `  
       type Todo @model(timestamps: { createdAt: "createdOn", updatedAt: "updatedOn" }) {content: String}
     `;
-    expect(getGQLv2Visitor(schema).generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, { isDeclaration: true }).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Todo').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Todo', true).generate()).toMatchSnapshot();
   });
 
   it('Works on uni-directional implicit has one relationship @hasOne', () => {
@@ -67,8 +62,10 @@ describe('AppSyncJavascriptVisitor - GQLv2 Regression Tests', () => {
         name: String!
       }
     `;
-    expect(getGQLv2Visitor(schema).generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, { isDeclaration: true }).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Project').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Project', true).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Team').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Team', true).generate()).toMatchSnapshot();
   });
 
   it('Works on uni-directional explicit has one relationship @hasOne', () => {
@@ -86,8 +83,10 @@ describe('AppSyncJavascriptVisitor - GQLv2 Regression Tests', () => {
         name: String!
       }
     `;
-    expect(getGQLv2Visitor(schema).generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, { isDeclaration: true }).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Project2').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Project2', true).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Team2').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Team2', true).generate()).toMatchSnapshot();
   });
 
   it('Works on uni-directional implicit has many relationship @hasMany', () => {
@@ -104,8 +103,10 @@ describe('AppSyncJavascriptVisitor - GQLv2 Regression Tests', () => {
         content: String!
       }
     `;
-    expect(getGQLv2Visitor(schema).generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, { isDeclaration: true }).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Post').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Post', true).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Comment').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Comment', true).generate()).toMatchSnapshot();
   });
 
   it('Works on uni-directional explicit has many relationship @hasMany', () => {
@@ -123,8 +124,10 @@ describe('AppSyncJavascriptVisitor - GQLv2 Regression Tests', () => {
         content: String!
       }
     `;
-    expect(getGQLv2Visitor(schema).generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, { isDeclaration: true }).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Post2').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Post2', true).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Comment2').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Comment2', true).generate()).toMatchSnapshot();
   });
 
   it('Works on many to many relationship @manyToMany', () => {
@@ -142,8 +145,10 @@ describe('AppSyncJavascriptVisitor - GQLv2 Regression Tests', () => {
         posts: [Post] @manyToMany(relationName: "PostTags")
       }
     `;
-    expect(getGQLv2Visitor(schema).generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, { isDeclaration: true }).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Post').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Post', true).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Tag').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Tag', true).generate()).toMatchSnapshot();
   });
 
   it('Works on implicit hasOne belongs to relationship @belongsTo', () => {
@@ -161,8 +166,10 @@ describe('AppSyncJavascriptVisitor - GQLv2 Regression Tests', () => {
         project: Project @belongsTo
       }
     `;
-    expect(getGQLv2Visitor(schema).generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, { isDeclaration: true }).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Project').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Project', true).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Team').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Team', true).generate()).toMatchSnapshot();
   });
 
   it('Works on explicit hasOne belongs to relationship @belongsTo', () => {
@@ -181,8 +188,10 @@ describe('AppSyncJavascriptVisitor - GQLv2 Regression Tests', () => {
         project: Project2 @belongsTo(fields: ["projectID"])
       }
     `;
-    expect(getGQLv2Visitor(schema).generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, { isDeclaration: true }).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Project2').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Project2', true).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Team2').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Team2', true).generate()).toMatchSnapshot();
   });
 
   it('Works on explicit hasMany belongs to relationship @belongsTo', () => {
@@ -201,8 +210,10 @@ describe('AppSyncJavascriptVisitor - GQLv2 Regression Tests', () => {
         post: Post @belongsTo(fields: ["postID"])
       }
     `;
-    expect(getGQLv2Visitor(schema).generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, { isDeclaration: true }).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Post').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Post', true).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Comment').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Comment', true).generate()).toMatchSnapshot();
   });
 
   it('Works on implicit hasMany belongs to relationship @belongsTo (extended)', () => {
@@ -225,7 +236,11 @@ describe('AppSyncJavascriptVisitor - GQLv2 Regression Tests', () => {
         post: Post7V2 @belongsTo
       }
     `;
-    expect(getGQLv2Visitor(schema).generate()).toMatchSnapshot();
-    expect(getGQLv2Visitor(schema, { isDeclaration: true }).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Blog7V2').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Blog7V2', true).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Post7V2').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Post7V2', true).generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Comment7V2').generate()).toMatchSnapshot();
+    expect(getGQLv2Visitor(schema, 'Comment7V2', true).generate()).toMatchSnapshot();
   });
 });
