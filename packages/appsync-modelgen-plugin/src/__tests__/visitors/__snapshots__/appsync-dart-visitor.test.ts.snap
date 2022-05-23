@@ -3194,6 +3194,11 @@ class PostTags extends Model {
     modelSchemaDefinition.name = \\"PostTags\\";
     modelSchemaDefinition.pluralName = \\"PostTags\\";
 
+    modelSchemaDefinition.indexes = [
+      ModelIndex(fields: const [\\"postID\\"], name: \\"byPost\\"),
+      ModelIndex(fields: const [\\"tagID\\"], name: \\"byTag\\")
+    ];
+
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
@@ -3628,6 +3633,11 @@ class PostTags extends Model {
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"PostTags\\";
     modelSchemaDefinition.pluralName = \\"PostTags\\";
+    
+    modelSchemaDefinition.indexes = [
+      ModelIndex(fields: const [\\"postID\\"], name: \\"byPost\\"),
+      ModelIndex(fields: const [\\"tagID\\"], name: \\"byTag\\")
+    ];
     
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
     

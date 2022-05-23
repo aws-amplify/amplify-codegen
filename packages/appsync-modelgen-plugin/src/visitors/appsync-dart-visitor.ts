@@ -55,7 +55,7 @@ export interface RawAppSyncModelDartConfig extends RawAppSyncModelConfig {
 }
 
 export interface ParsedAppSyncModelDartConfig extends ParsedAppSyncModelConfig {
-  useCustomPrimaryKey: boolean;
+  useFieldNameForPrimaryKeyConnectionField: boolean;
   enableDartNullSafety: boolean;
   enableDartZeroThreeFeatures: boolean;
   dartUpdateAmplifyCoreDependency: boolean;
@@ -1155,30 +1155,13 @@ export class AppSyncModelDartVisitor<
   }
 
   protected getModelIdentifierFields(model: CodeGenModel): CodeGenField[] {
-    // find the primary key field then get primaryKeyInfo
-    const primaryKeyField = model.fields.find(field => field.primaryKeyInfo)!;
-    const primaryKeyType = primaryKeyField?.primaryKeyInfo?.primaryKeyType;
-    const primaryKeySortKeyFields = primaryKeyField?.primaryKeyInfo?.sortKeyFields ?? [];
-
-    let identifierFieldsNames: string[] = [];
-
-    // identifier will contain primaryKey field + sortKeyFields or
-    // the default model `id` field
-    if (
-      (primaryKeyType === CodeGenPrimaryKeyType.ManagedId || primaryKeyType === CodeGenPrimaryKeyType.OptionallyManagedId) &&
-      !primaryKeySortKeyFields.length
-    ) {
-      identifierFieldsNames = ['id'];
-    } else {
-      identifierFieldsNames.push(primaryKeyField?.name);
-      identifierFieldsNames.push(...primaryKeySortKeyFields);
+    if (this.selectedTypeIsNonModel()) {
+      return [];
     }
-
-    // const identifierFieldsNames: string[] = primaryKeyInfo?.arguments?.fields ?? ['id'];
-    // get fields by names
-    return identifierFieldsNames
-      .map(name => model.fields.find(field => field.name === name))
-      .filter((field): field is CodeGenField => field !== undefined);
+    // find the primary key field then get primaryKeyInfo
+    const primaryKeyField = this.getModelPrimaryKeyField(model);
+    const { sortKeyFields } = primaryKeyField.primaryKeyInfo!;
+    return [ primaryKeyField, ...sortKeyFields ];
   }
 
   /**
@@ -1205,7 +1188,7 @@ export class AppSyncModelDartVisitor<
   }
 
   protected customPKEnabled(): boolean {
-    return this._parsedConfig.useCustomPrimaryKey;
+    return this._parsedConfig.useFieldNameForPrimaryKeyConnectionField;
   }
 
   protected getNullSafetyTypeStr(type: string): string {
