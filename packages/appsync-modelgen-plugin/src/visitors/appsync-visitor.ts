@@ -549,7 +549,7 @@ export class AppSyncModelVisitor<
         const sortKeyFieldNames: string[] = flattenFieldDirectives(model).find(d => d.name === 'primaryKey')?.arguments.sortKeyFields;
         const sortKeyFields = sortKeyFieldNames?.length > 0 ? sortKeyFieldNames.map(fieldName => model.fields.find(f => f.name === fieldName)!): [];
         primaryKeyField.primaryKeyInfo = {
-          primaryKeyType: primaryKeyFieldName === 'id' ? CodeGenPrimaryKeyType.OptionallyManagedId : CodeGenPrimaryKeyType.CustomId,
+          primaryKeyType: primaryKeyFieldName === 'id' && sortKeyFields.length === 0 ? CodeGenPrimaryKeyType.OptionallyManagedId : CodeGenPrimaryKeyType.CustomId,
           sortKeyFields
         };
       }
@@ -563,7 +563,7 @@ export class AppSyncModelVisitor<
         const sortKeyFieldNames: string[] = keyDirective.arguments.fields.slice(1);
         const sortKeyFields = sortKeyFieldNames?.length > 0 ? sortKeyFieldNames.map(fieldName => model.fields.find(f => f.name === fieldName)!): [];
         primaryKeyField.primaryKeyInfo = {
-          primaryKeyType: primaryKeyFieldName === 'id' ? CodeGenPrimaryKeyType.OptionallyManagedId : CodeGenPrimaryKeyType.CustomId,
+          primaryKeyType: primaryKeyFieldName === 'id' && sortKeyFields.length === 0 ? CodeGenPrimaryKeyType.OptionallyManagedId : CodeGenPrimaryKeyType.CustomId,
           sortKeyFields,
         };
       }

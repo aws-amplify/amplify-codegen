@@ -1013,7 +1013,7 @@ describe('AppSyncModelVisitor', () => {
       it('should have correct primary key info when custom primary key is defined as "id" and sort key defined', () => {
         const primaryKeyField = models.WorkItem4.fields.find(field => field.name === 'id');
         expect(primaryKeyField).toBeDefined();
-        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.OptionallyManagedId);
+        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
         expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(1);
       });
       it('should have correct primary key info in explicit simple model', () => {
@@ -1093,7 +1093,7 @@ describe('AppSyncModelVisitor', () => {
       it('should have correct primary key info when custom primary key is defined as "id" and sort key defined', () => {
         const primaryKeyField = models.WorkItem4.fields.find(field => field.name === 'id');
         expect(primaryKeyField).toBeDefined();
-        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.OptionallyManagedId);
+        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
         expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(1);
       });
       it('should have correct primary key info in explicit simple model', () => {
