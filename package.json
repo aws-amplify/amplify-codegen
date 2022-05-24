@@ -10,7 +10,7 @@
     "lint-fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "clean": "lerna run clean && lerna exec yarn rimraf tsconfig.tsbuildinfo && lerna clean --yes && yarn rimraf node_modules",
     "build": "lerna run build",
-    "production-build": "yarn && lerna run build --concurrency 3 --stream",
+    "production-build": "yarn --ignore-engines && lerna run build --concurrency 3 --stream",
     "publish:master": "lerna publish --canary --exact --force-publish --preid=dev --dist-tag=dev --include-merged-tags --conventional-prerelease --no-verify-access --yes",
     "publish:release": "lerna publish --exact --conventional-commits --message 'chore(release): Publish [ci skip]' --no-verify-access --yes",
     "publish:tag": "lerna publish --exact --dist-tag=$NPM_TAG --preid=$NPM_TAG --conventional-commits --conventional-prerelease --message 'chore(release): Publish tagged release $NPM_TAG [ci skip]' --no-verify-access --yes",
