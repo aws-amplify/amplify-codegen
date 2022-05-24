@@ -847,7 +847,7 @@ export class AppSyncModelJavaVisitor<
           const authRules = this.generateAuthRules(authDirectives);
           modelArgs.push(`pluralName = "${this.pluralizeModelName(model)}"`);
           modelArgs.push(`type = Model.Type.USER`);
-          modelArgs.push(`version = "V1"`);
+          modelArgs.push(`version = 1`);
           if (authRules.length) {
             this.usingAuth = true;
             modelArgs.push(`authRules = ${authRules}`);

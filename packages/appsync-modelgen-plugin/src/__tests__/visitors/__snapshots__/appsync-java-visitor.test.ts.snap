@@ -23,7 +23,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Project type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Projects\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"Projects\\", type = Model.Type.USER, version = 1)
 @Index(name = \\"undefined\\", fields = {\\"projectId\\",\\"name\\"})
 public final class Project implements Model {
   public static final QueryField PROJECT_ID = field(\\"Project\\", \\"projectId\\");
@@ -232,7 +232,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Team type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Teams\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"Teams\\", type = Model.Type.USER, version = 1)
 @Index(name = \\"undefined\\", fields = {\\"teamId\\",\\"name\\"})
 public final class Team implements Model {
   public static final QueryField TEAM_ID = field(\\"Team\\", \\"teamId\\");
@@ -436,7 +436,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Project type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Projects\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"Projects\\", type = Model.Type.USER, version = 1)
 @Index(name = \\"undefined\\", fields = {\\"projectId\\",\\"name\\"})
 public final class Project implements Model {
   public static final QueryField PROJECT_ID = field(\\"Project\\", \\"projectId\\");
@@ -645,7 +645,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Team type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Teams\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"Teams\\", type = Model.Type.USER, version = 1)
 @Index(name = \\"undefined\\", fields = {\\"teamId\\",\\"name\\"})
 public final class Team implements Model {
   public static final QueryField TEAM_ID = field(\\"Team\\", \\"teamId\\");
@@ -849,7 +849,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the BlogOwnerWithCustomPKS type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"BlogOwnerWithCustomPKS\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"BlogOwnerWithCustomPKS\\", type = Model.Type.USER, version = 1)
 @Index(name = \\"undefined\\", fields = {\\"name\\",\\"wea\\"})
 public final class BlogOwnerWithCustomPKS implements Model {
   public static final QueryField ID = field(\\"BlogOwnerWithCustomPKS\\", \\"id\\");
@@ -1063,7 +1063,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Comment type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Comments\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"Comments\\", type = Model.Type.USER, version = 1)
 @Index(name = \\"undefined\\", fields = {\\"title\\",\\"content\\",\\"likes\\"})
 public final class Comment implements Model {
   public static final QueryField POST = field(\\"Comment\\", \\"postCommentsId\\");
@@ -1324,7 +1324,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Post type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Posts\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"Posts\\", type = Model.Type.USER, version = 1)
 @Index(name = \\"undefined\\", fields = {\\"postId\\"})
 public final class Post implements Model {
   public static final QueryField POST_ID = field(\\"Post\\", \\"postId\\");
@@ -1609,7 +1609,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Blog type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Blogs\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"Blogs\\", type = Model.Type.USER, version = 1)
 public final class Blog implements Model {
   public static final QueryField ID = field(\\"Blog\\", \\"id\\");
   public static final QueryField NAME = field(\\"Blog\\", \\"name\\");
@@ -1820,7 +1820,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Post type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Posts\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"Posts\\", type = Model.Type.USER, version = 1)
 public final class Post implements Model {
   public static final QueryField ID = field(\\"Post\\", \\"id\\");
   public static final QueryField TITLE = field(\\"Post\\", \\"title\\");
@@ -2003,7 +2003,7 @@ public final class Post implements Model {
 
 /** This is an auto generated class representing the Tag type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Tags\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"Tags\\", type = Model.Type.USER, version = 1)
 public final class Tag implements Model {
   public static final QueryField ID = field(\\"Tag\\", \\"id\\");
   public static final QueryField LABEL = field(\\"Tag\\", \\"label\\");
@@ -2159,7 +2159,7 @@ public final class Tag implements Model {
 
 /** This is an auto generated class representing the PostTags type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"PostTags\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"PostTags\\", type = Model.Type.USER, version = 1)
 @Index(name = \\"byPost\\", fields = {\\"postID\\"})
 @Index(name = \\"byTag\\", fields = {\\"tagID\\"})
 public final class PostTags implements Model {
@@ -2368,7 +2368,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the customClaim type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"customClaims\\", type = Model.Type.USER, version = \\"V1\\", authRules = {
+@ModelConfig(pluralName = \\"customClaims\\", type = Model.Type.USER, version = 1, authRules = {
   @AuthRule(allow = AuthStrategy.OWNER, ownerField = \\"owner\\", identityClaim = \\"user_id\\", provider = \\"userPools\\", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class customClaim implements Model {
@@ -2567,7 +2567,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the customClaim type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"customClaims\\", type = Model.Type.USER, version = \\"V1\\", authRules = {
+@ModelConfig(pluralName = \\"customClaims\\", type = Model.Type.USER, version = 1, authRules = {
   @AuthRule(allow = AuthStrategy.GROUPS, groupClaim = \\"user_groups\\", groups = { \\"Moderator\\" }, provider = \\"userPools\\", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class customClaim implements Model {
@@ -2766,7 +2766,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Employee type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Employees\\", type = Model.Type.USER, version = \\"V1\\", authRules = {
+@ModelConfig(pluralName = \\"Employees\\", type = Model.Type.USER, version = 1, authRules = {
   @AuthRule(allow = AuthStrategy.OWNER, ownerField = \\"owner\\", identityClaim = \\"cognito:username\\", provider = \\"userPools\\", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ }),
   @AuthRule(allow = AuthStrategy.GROUPS, groupClaim = \\"cognito:groups\\", groups = { \\"Admins\\" }, provider = \\"userPools\\", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
@@ -3005,7 +3005,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the dynamicGroups type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"dynamicGroups\\", type = Model.Type.USER, version = \\"V1\\", authRules = {
+@ModelConfig(pluralName = \\"dynamicGroups\\", type = Model.Type.USER, version = 1, authRules = {
   @AuthRule(allow = AuthStrategy.GROUPS, groupClaim = \\"cognito:groups\\", groupsField = \\"groups\\", provider = \\"userPools\\", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class dynamicGroups implements Model {
@@ -3204,7 +3204,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Employee type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Employees\\", type = Model.Type.USER, version = \\"V1\\", authRules = {
+@ModelConfig(pluralName = \\"Employees\\", type = Model.Type.USER, version = 1, authRules = {
   @AuthRule(allow = AuthStrategy.OWNER, ownerField = \\"owner\\", identityClaim = \\"cognito:username\\", provider = \\"userPools\\", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ }),
   @AuthRule(allow = AuthStrategy.PRIVATE, provider = \\"iam\\", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
@@ -3443,7 +3443,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the simpleOwnerAuth type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"simpleOwnerAuths\\", type = Model.Type.USER, version = \\"V1\\", authRules = {
+@ModelConfig(pluralName = \\"simpleOwnerAuths\\", type = Model.Type.USER, version = 1, authRules = {
   @AuthRule(allow = AuthStrategy.OWNER, ownerField = \\"owner\\", identityClaim = \\"cognito:username\\", provider = \\"userPools\\", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class simpleOwnerAuth implements Model {
@@ -3642,7 +3642,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the allowRead type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"allowReads\\", type = Model.Type.USER, version = \\"V1\\", authRules = {
+@ModelConfig(pluralName = \\"allowReads\\", type = Model.Type.USER, version = 1, authRules = {
   @AuthRule(allow = AuthStrategy.OWNER, ownerField = \\"owner\\", identityClaim = \\"cognito:username\\", provider = \\"userPools\\", operations = { ModelOperation.CREATE, ModelOperation.DELETE, ModelOperation.UPDATE })
 })
 public final class allowRead implements Model {
@@ -3841,7 +3841,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the privateType type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"privateTypes\\", type = Model.Type.USER, version = \\"V1\\", authRules = {
+@ModelConfig(pluralName = \\"privateTypes\\", type = Model.Type.USER, version = 1, authRules = {
   @AuthRule(allow = AuthStrategy.PRIVATE, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class privateType implements Model {
@@ -4040,7 +4040,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the privateType type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"privateTypes\\", type = Model.Type.USER, version = \\"V1\\", authRules = {
+@ModelConfig(pluralName = \\"privateTypes\\", type = Model.Type.USER, version = 1, authRules = {
   @AuthRule(allow = AuthStrategy.PRIVATE, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class privateType implements Model {
@@ -4241,7 +4241,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the publicType type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"publicTypes\\", type = Model.Type.USER, version = \\"V1\\", authRules = {
+@ModelConfig(pluralName = \\"publicTypes\\", type = Model.Type.USER, version = 1, authRules = {
   @AuthRule(allow = AuthStrategy.PUBLIC, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class publicType implements Model {
@@ -4440,7 +4440,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the staticGroups type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"staticGroups\\", type = Model.Type.USER, version = \\"V1\\", authRules = {
+@ModelConfig(pluralName = \\"staticGroups\\", type = Model.Type.USER, version = 1, authRules = {
   @AuthRule(allow = AuthStrategy.GROUPS, groupClaim = \\"cognito:groups\\", groups = { \\"Admin\\" }, provider = \\"userPools\\", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class staticGroups implements Model {
@@ -4636,7 +4636,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Landmark type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Landmarks\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"Landmarks\\", type = Model.Type.USER, version = 1)
 public final class Landmark implements Model {
   public static final QueryField ID = field(\\"Landmark\\", \\"id\\");
   public static final QueryField NAME = field(\\"Landmark\\", \\"name\\");
@@ -5138,7 +5138,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the task type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"tasks\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"tasks\\", type = Model.Type.USER, version = 1)
 public final class task implements Model {
   public static final QueryField ID = field(\\"task\\", \\"id\\");
   public static final QueryField TODO = field(\\"task\\", \\"taskTodoId\\");
@@ -5360,7 +5360,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Todo type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Todos\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"Todos\\", type = Model.Type.USER, version = 1)
 public final class Todo implements Model {
   public static final QueryField ID = field(\\"Todo\\", \\"id\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
@@ -5506,7 +5506,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the SimpleModel type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"SimpleModels\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"SimpleModels\\", type = Model.Type.USER, version = 1)
 public final class SimpleModel implements Model {
   public static final QueryField ID = field(\\"SimpleModel\\", \\"id\\");
   public static final QueryField NAME = field(\\"SimpleModel\\", \\"name\\");
@@ -5700,7 +5700,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the SimpleModel type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"SimpleModels\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"SimpleModels\\", type = Model.Type.USER, version = 1)
 public final class SimpleModel implements Model {
   public static final QueryField ID = field(\\"SimpleModel\\", \\"id\\");
   public static final QueryField NAME = field(\\"SimpleModel\\", \\"name\\");
@@ -5894,7 +5894,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the ListContainer type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"ListContainers\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"ListContainers\\", type = Model.Type.USER, version = 1)
 public final class ListContainer implements Model {
   public static final QueryField ID = field(\\"ListContainer\\", \\"id\\");
   public static final QueryField NAME = field(\\"ListContainer\\", \\"name\\");
@@ -6271,7 +6271,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the task type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"tasks\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"tasks\\", type = Model.Type.USER, version = 1)
 public final class task implements Model {
   public static final QueryField ID = field(\\"task\\", \\"id\\");
   public static final QueryField TITLE = field(\\"task\\", \\"title\\");
@@ -6557,7 +6557,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Todo type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Todos\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"Todos\\", type = Model.Type.USER, version = 1)
 public final class Todo implements Model {
   public static final QueryField ID = field(\\"Todo\\", \\"id\\");
   public static final QueryField TITLE = field(\\"Todo\\", \\"title\\");
@@ -6879,7 +6879,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the TypeWithAWSDateScalars type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"TypeWithAWSDateScalars\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"TypeWithAWSDateScalars\\", type = Model.Type.USER, version = 1)
 public final class TypeWithAWSDateScalars implements Model {
   public static final QueryField ID = field(\\"TypeWithAWSDateScalars\\", \\"id\\");
   public static final QueryField DATE = field(\\"TypeWithAWSDateScalars\\", \\"date\\");
@@ -7130,7 +7130,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the authorBook type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"authorBooks\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"authorBooks\\", type = Model.Type.USER, version = 1)
 @Index(name = \\"byAuthor\\", fields = {\\"author_id\\"})
 @Index(name = \\"byBook\\", fields = {\\"book_id\\"})
 public final class authorBook implements Model {
@@ -7390,7 +7390,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the NonCamelCaseField type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"NonCamelCaseFields\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"NonCamelCaseFields\\", type = Model.Type.USER, version = 1)
 public final class NonCamelCaseField implements Model {
   public static final QueryField ID = field(\\"NonCamelCaseField\\", \\"id\\");
   public static final QueryField EMPLOYEE_PID = field(\\"NonCamelCaseField\\", \\"employeePID\\");
@@ -7557,7 +7557,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the snake_case type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"snake_cases\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"snake_cases\\", type = Model.Type.USER, version = 1)
 public final class snake_case implements Model {
   public static final QueryField ID = field(\\"snake_case\\", \\"id\\");
   public static final QueryField NAME = field(\\"snake_case\\", \\"name\\");
@@ -7724,7 +7724,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the SnakeCaseField type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"SnakeCaseFields\\", type = Model.Type.USER, version = \\"V1\\")
+@ModelConfig(pluralName = \\"SnakeCaseFields\\", type = Model.Type.USER, version = 1)
 public final class SnakeCaseField implements Model {
   public static final QueryField ID = field(\\"SnakeCaseField\\", \\"id\\");
   public static final QueryField FIRST_NAME = field(\\"SnakeCaseField\\", \\"first_name\\");
