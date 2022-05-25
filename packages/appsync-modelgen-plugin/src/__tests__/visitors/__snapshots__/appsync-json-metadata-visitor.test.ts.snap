@@ -30,7 +30,10 @@ exports[`Metadata visitor for custom PK support relation metadata for hasOne/bel
                     \\"attributes\\": [],
                     \\"association\\": {
                         \\"connectionType\\": \\"HAS_ONE\\",
-                        \\"associatedWith\\": \\"id\\",
+                        \\"associatedWith\\": [
+                            \\"id\\",
+                            \\"name\\"
+                        ],
                         \\"targetNames\\": [
                             \\"projectTeamId\\",
                             \\"projectTeamName\\"
@@ -207,7 +210,10 @@ export const schema: Schema = {
                     \\"attributes\\": [],
                     \\"association\\": {
                         \\"connectionType\\": \\"HAS_ONE\\",
-                        \\"associatedWith\\": \\"id\\",
+                        \\"associatedWith\\": [
+                            \\"id\\",
+                            \\"name\\"
+                        ],
                         \\"targetNames\\": [
                             \\"projectTeamId\\",
                             \\"projectTeamName\\"
