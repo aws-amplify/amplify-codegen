@@ -1,0 +1,311 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Metadata visitor for custom PK support relation metadata for hasOne/belongsTo when custom PK is enabled should generate correct metadata in js 1`] = `
+"export const schema = {
+    \\"models\\": {
+        \\"Project\\": {
+            \\"name\\": \\"Project\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"name\\": {
+                    \\"name\\": \\"name\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"team\\": {
+                    \\"name\\": \\"team\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"Team\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_ONE\\",
+                        \\"associatedWith\\": \\"id\\",
+                        \\"targetNames\\": [
+                            \\"projectTeamId\\",
+                            \\"projectTeamName\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"projectTeamId\\": {
+                    \\"name\\": \\"projectTeamId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Projects\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"id\\",
+                            \\"name\\"
+                        ]
+                    }
+                }
+            ]
+        },
+        \\"Team\\": {
+            \\"name\\": \\"Team\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"name\\": {
+                    \\"name\\": \\"name\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"project\\": {
+                    \\"name\\": \\"project\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"Project\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"BELONGS_TO\\",
+                        \\"targetNames\\": [
+                            \\"teamProjectId\\",
+                            \\"teamProjectName\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Teams\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"id\\",
+                            \\"name\\"
+                        ]
+                    }
+                }
+            ]
+        }
+    },
+    \\"enums\\": {},
+    \\"nonModels\\": {},
+    \\"version\\": \\"5d93ffa17fcd3c904e9d5ec4e148a9bc\\"
+};"
+`;
+
+exports[`Metadata visitor for custom PK support relation metadata for hasOne/belongsTo when custom PK is enabled should generate correct metadata in ts 1`] = `
+"import { Schema } from \\"@aws-amplify/datastore\\";
+
+export const schema: Schema = {
+    \\"models\\": {
+        \\"Project\\": {
+            \\"name\\": \\"Project\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"name\\": {
+                    \\"name\\": \\"name\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"team\\": {
+                    \\"name\\": \\"team\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"Team\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_ONE\\",
+                        \\"associatedWith\\": \\"id\\",
+                        \\"targetNames\\": [
+                            \\"projectTeamId\\",
+                            \\"projectTeamName\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"projectTeamId\\": {
+                    \\"name\\": \\"projectTeamId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Projects\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"id\\",
+                            \\"name\\"
+                        ]
+                    }
+                }
+            ]
+        },
+        \\"Team\\": {
+            \\"name\\": \\"Team\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"name\\": {
+                    \\"name\\": \\"name\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"project\\": {
+                    \\"name\\": \\"project\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"Project\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"BELONGS_TO\\",
+                        \\"targetNames\\": [
+                            \\"teamProjectId\\",
+                            \\"teamProjectName\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Teams\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"id\\",
+                            \\"name\\"
+                        ]
+                    }
+                }
+            ]
+        }
+    },
+    \\"enums\\": {},
+    \\"nonModels\\": {},
+    \\"version\\": \\"5d93ffa17fcd3c904e9d5ec4e148a9bc\\"
+};"
+`;

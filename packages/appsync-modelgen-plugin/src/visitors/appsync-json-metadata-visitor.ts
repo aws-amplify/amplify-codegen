@@ -176,9 +176,17 @@ export class AppSyncJSONVisitor<
         connectionAttribute.associatedWith = this.getFieldName(connectionInfo.associatedWith);
       } else if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
         connectionAttribute.associatedWith = this.getFieldName(connectionInfo.associatedWith);
-        connectionAttribute.targetName = connectionInfo.targetName;
+        if (this.config.useFieldNameForPrimaryKeyConnectionField) {
+          connectionAttribute.targetNames = connectionInfo.targetNames;
+        } else {
+          connectionAttribute.targetName = connectionInfo.targetName;
+        }
       } else {
-        connectionAttribute.targetName = connectionInfo.targetName;
+        if (this.config.useFieldNameForPrimaryKeyConnectionField) {
+          connectionAttribute.targetNames = connectionInfo.targetNames;
+        } else {
+          connectionAttribute.targetName = connectionInfo.targetName;
+        }
       }
       return connectionAttribute;
     }

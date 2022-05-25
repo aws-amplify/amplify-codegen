@@ -10,16 +10,23 @@ import {
 import { AppSyncJSONVisitor, AssociationHasMany, JSONSchemaNonModel } from '../../visitors/appsync-json-metadata-visitor';
 import { CodeGenEnum, CodeGenField, CodeGenModel } from '../../visitors/appsync-visitor';
 
+const defaultJSONVisitorSettings = {
+  isTimestampFieldsAdded: true,
+  useFieldNameForPrimaryKeyConnectionField: false,
+  transformerVersion: 1
+}
+
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-const getVisitor = (schema: string, target: 'typescript' | 'javascript' | 'typeDeclaration' = 'javascript'): AppSyncJSONVisitor => {
+const getVisitor = (schema: string, target: 'typescript' | 'javascript' | 'typeDeclaration' = 'javascript', settings: any = {}): AppSyncJSONVisitor => {
+  const visitorConfig = { ...defaultJSONVisitorSettings, ...settings }
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncJSONVisitor(
     builtSchema,
-    { directives, target: 'metadata', scalars: TYPESCRIPT_SCALAR_MAP, metadataTarget: target, isTimestampFieldsAdded: true },
+    { directives, target: 'metadata', scalars: TYPESCRIPT_SCALAR_MAP, metadataTarget: target, ...visitorConfig },
     {},
   );
   visit(ast, { leave: visitor });
@@ -1323,3 +1330,26 @@ describe('Metadata visitor has one relation', () => {
     `);
   });
 });
+
+describe('Metadata visitor for custom PK support', () => {
+  describe('relation metadata for hasOne/belongsTo when custom PK is enabled', () => {
+    const schema = /* GraphQL */ `
+      type Project @model {
+        id: ID! @primaryKey(sortKeyFields: ["name"])
+        name: String!
+        team: Team @hasOne
+      }
+      type Team @model {
+          id: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          project: Project @belongsTo
+      }
+    `;
+    it('should generate correct metadata in js', () => {
+      expect(getVisitor(schema, 'javascript', { useFieldNameForPrimaryKeyConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
+    });
+    it('should generate correct metadata in ts', () => {
+      expect(getVisitor(schema, 'typescript', { useFieldNameForPrimaryKeyConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
+    });   
+  });
+})
