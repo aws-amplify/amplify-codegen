@@ -46,6 +46,11 @@ Before pushing code or sending a pull request, do the following:
 - You can use `eslint` to fix some of the lint errors. To use it, go to the package that has errors and run `lint-fix`
 - If there are any remaining lint errors, resolve them manually. Linting your code is a best practice that ensures good code quality so it's important that you don't skip this step.
 
+## Troubleshooting
+Errors sometimes occur when a different version of `amplify-cli-core` is installed, typically during the time the CLI is updated. To resolve the error, execute the following command from the top-level directory:
+
+`rm -rf yarn.lock && yarn clean && yarn setup-dev`
+
 ## Contributing
 
 See the contribution guideline. https://github.com/aws-amplify/amplify-codegen/blob/master/CONTRIBUTING.md
