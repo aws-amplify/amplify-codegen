@@ -938,3 +938,32 @@ describe('New model meta field test', () => {
     `);
   });
 });
+
+describe('Javascript visitor with connected models of custom pk', () => {
+  describe('hasOne/belongsTo relation', () => {
+    const schema =  /* GraphQL */ `
+      type Project @model {
+        id: ID! @primaryKey(sortKeyFields: ["name"])
+        name: String!
+        team: Team @hasOne
+      }
+      type Team @model {
+          id: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          project: Project @belongsTo
+      }
+    `;
+    it('should generate correct declaration when custom pk support is enabled', () => {
+      const visitor = getVisitor(schema, {
+        isDeclaration: true,
+        isTimestampFieldsAdded: true,
+        useFieldNameForPrimaryKeyConnectionField: true,
+        transformerVersion: 2,
+      });
+      const declarations = visitor.generate();
+      validateTs(declarations);
+      expect(declarations).toMatchSnapshot();
+    });
+  });
+
+});

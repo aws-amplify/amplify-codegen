@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Javascript visitor with connected models of custom pk hasOne/belongsTo relation should generate correct declaration when custom pk support is enabled 1`] = `
+"import { ModelInit, MutableModel, PersistentModelConstructor, __modelMeta__, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
+
+
+
+
+
+export declare class Project {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Project, ['id', 'name']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly name: string;
+  readonly team?: Team | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly projectTeamId?: string | null;
+  readonly projectTeamName?: string | null;
+  constructor(init: ModelInit<Project>);
+  static copyOf(source: Project, mutator: (draft: MutableModel<Project>) => MutableModel<Project> | void): Project;
+}
+
+export declare class Team {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Team, ['id', 'name']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly name: string;
+  readonly project?: Project | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly teamProjectId?: string | null;
+  readonly teamProjectName?: string | null;
+  constructor(init: ModelInit<Team>);
+  static copyOf(source: Team, mutator: (draft: MutableModel<Team>) => MutableModel<Team> | void): Team;
+}"
+`;

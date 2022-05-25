@@ -59,6 +59,13 @@ exports[`Metadata visitor for custom PK support relation metadata for hasOne/bel
                     \\"type\\": \\"ID\\",
                     \\"isRequired\\": false,
                     \\"attributes\\": []
+                },
+                \\"projectTeamName\\": {
+                    \\"name\\": \\"projectTeamName\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
                 }
             },
             \\"syncable\\": true,
@@ -127,6 +134,20 @@ exports[`Metadata visitor for custom PK support relation metadata for hasOne/bel
                     \\"isRequired\\": false,
                     \\"attributes\\": [],
                     \\"isReadOnly\\": true
+                },
+                \\"teamProjectId\\": {
+                    \\"name\\": \\"teamProjectId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"teamProjectName\\": {
+                    \\"name\\": \\"teamProjectName\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
                 }
             },
             \\"syncable\\": true,
@@ -150,7 +171,7 @@ exports[`Metadata visitor for custom PK support relation metadata for hasOne/bel
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"version\\": \\"5d93ffa17fcd3c904e9d5ec4e148a9bc\\"
+    \\"version\\": \\"39349e48b05e585c89308037a29320cd\\"
 };"
 `;
 
@@ -215,6 +236,13 @@ export const schema: Schema = {
                     \\"type\\": \\"ID\\",
                     \\"isRequired\\": false,
                     \\"attributes\\": []
+                },
+                \\"projectTeamName\\": {
+                    \\"name\\": \\"projectTeamName\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
                 }
             },
             \\"syncable\\": true,
@@ -283,6 +311,20 @@ export const schema: Schema = {
                     \\"isRequired\\": false,
                     \\"attributes\\": [],
                     \\"isReadOnly\\": true
+                },
+                \\"teamProjectId\\": {
+                    \\"name\\": \\"teamProjectId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"teamProjectName\\": {
+                    \\"name\\": \\"teamProjectName\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
                 }
             },
             \\"syncable\\": true,
@@ -306,6 +348,6 @@ export const schema: Schema = {
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"version\\": \\"5d93ffa17fcd3c904e9d5ec4e148a9bc\\"
+    \\"version\\": \\"39349e48b05e585c89308037a29320cd\\"
 };"
 `;
