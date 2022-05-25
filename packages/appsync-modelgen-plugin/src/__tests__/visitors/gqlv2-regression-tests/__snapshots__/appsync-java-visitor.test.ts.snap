@@ -208,7 +208,7 @@ public final class Comment implements Model {
   public static final QueryField POST = field(\\"Comment\\", \\"postID\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
-  private final @ModelField(targetType=\\"Post\\") @BelongsTo(targetName = \\"postID\\", type = Post.class) Post post;
+  private final @ModelField(targetType=\\"Post\\") @BelongsTo(targetName = \\"postID\\", targetNames = {\\"postID\\"}, type = Post.class) Post post;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String resolveIdentifier() {
@@ -608,7 +608,7 @@ public final class Team2 implements Model {
   public static final QueryField PROJECT = field(\\"Team2\\", \\"projectID\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
-  private final @ModelField(targetType=\\"Project2\\") @BelongsTo(targetName = \\"projectID\\", type = Project2.class) Project2 project;
+  private final @ModelField(targetType=\\"Project2\\") @BelongsTo(targetName = \\"projectID\\", targetNames = {\\"projectID\\"}, type = Project2.class) Project2 project;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String resolveIdentifier() {
@@ -987,7 +987,7 @@ public final class Post7V2 implements Model {
   public static final QueryField BLOG = field(\\"Post7V2\\", \\"blog7V2PostsId\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String title;
-  private final @ModelField(targetType=\\"Blog7V2\\") @BelongsTo(targetName = \\"blog7V2PostsId\\", type = Blog7V2.class) Blog7V2 blog;
+  private final @ModelField(targetType=\\"Blog7V2\\") @BelongsTo(targetName = \\"blog7V2PostsId\\", targetNames = {\\"blog7V2PostsId\\"}, type = Blog7V2.class) Blog7V2 blog;
   private final @ModelField(targetType=\\"Comment7V2\\") @HasMany(associatedWith = \\"post\\", type = Comment7V2.class) List<Comment7V2> comments = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
@@ -1192,7 +1192,7 @@ public final class Comment7V2 implements Model {
   public static final QueryField POST = field(\\"Comment7V2\\", \\"post7V2CommentsId\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String content;
-  private final @ModelField(targetType=\\"Post7V2\\") @BelongsTo(targetName = \\"post7V2CommentsId\\", type = Post7V2.class) Post7V2 post;
+  private final @ModelField(targetType=\\"Post7V2\\") @BelongsTo(targetName = \\"post7V2CommentsId\\", targetNames = {\\"post7V2CommentsId\\"}, type = Post7V2.class) Post7V2 post;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String resolveIdentifier() {
@@ -1587,7 +1587,7 @@ public final class Team implements Model {
   public static final QueryField PROJECT = field(\\"Team\\", \\"teamProjectId\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
-  private final @ModelField(targetType=\\"Project\\") @BelongsTo(targetName = \\"teamProjectId\\", type = Project.class) Project project;
+  private final @ModelField(targetType=\\"Project\\") @BelongsTo(targetName = \\"teamProjectId\\", targetNames = {\\"teamProjectId\\"}, type = Project.class) Project project;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String resolveIdentifier() {

@@ -240,7 +240,7 @@ public final class Team implements Model {
   public static final QueryField PROJECT = field(\\"Team\\", \\"teamProjectId\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String teamId;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
-  private final @ModelField(targetType=\\"Project\\") @BelongsTo(targetName = \\"teamProjectId\\", type = Project.class) Project project;
+  private final @ModelField(targetType=\\"Project\\") @BelongsTo(targetName = \\"teamProjectId\\", targetNames = {\\"teamProjectId\\"}, type = Project.class) Project project;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   private TeamIdentifier teamIdentifier;
@@ -653,7 +653,7 @@ public final class Team implements Model {
   public static final QueryField PROJECT = field(\\"Team\\", \\"teamProjectProjectId\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String teamId;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
-  private final @ModelField(targetType=\\"Project\\") @BelongsTo(targetNames = {\\"teamProjectProjectId\\", \\"teamProjectName\\"}, type = Project.class) Project project;
+  private final @ModelField(targetType=\\"Project\\") @BelongsTo(targetName = \\"teamProjectProjectId\\", targetNames = {\\"teamProjectProjectId\\", \\"teamProjectName\\"}, type = Project.class) Project project;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   private TeamIdentifier teamIdentifier;
@@ -1071,7 +1071,7 @@ public final class Comment implements Model {
   public static final QueryField CONTENT = field(\\"Comment\\", \\"content\\");
   public static final QueryField LIKES = field(\\"Comment\\", \\"likes\\");
   public static final QueryField DESCRIPTION = field(\\"Comment\\", \\"description\\");
-  private final @ModelField(targetType=\\"Post\\") @BelongsTo(targetName = \\"postCommentsId\\", type = Post.class) Post post;
+  private final @ModelField(targetType=\\"Post\\") @BelongsTo(targetName = \\"postCommentsId\\", targetNames = {\\"postCommentsId\\"}, type = Post.class) Post post;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String title;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
   private final @ModelField(targetType=\\"Int\\", isRequired = true) Integer likes;
@@ -1338,7 +1338,7 @@ public final class Post implements Model {
   private final @ModelField(targetType=\\"Int\\", isRequired = true) Integer rating;
   private final @ModelField(targetType=\\"AWSDateTime\\") Temporal.DateTime created;
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String blogID;
-  private final @ModelField(targetType=\\"Blog\\") @BelongsTo(targetName = \\"blogPostsId\\", type = Blog.class) Blog blog;
+  private final @ModelField(targetType=\\"Blog\\") @BelongsTo(targetName = \\"blogPostsId\\", targetNames = {\\"blogPostsId\\"}, type = Blog.class) Blog blog;
   private final @ModelField(targetType=\\"Comment\\") @HasMany(associatedWith = \\"post\\", type = Comment.class) List<Comment> comments = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
@@ -1616,7 +1616,7 @@ public final class Blog implements Model {
   public static final QueryField BLOG_OWNER = field(\\"Blog\\", \\"blogOwnerWithCustomPksBlogsId\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
-  private final @ModelField(targetType=\\"BlogOwnerWithCustomPKS\\", isRequired = true) @BelongsTo(targetName = \\"blogOwnerWithCustomPksBlogsId\\", type = BlogOwnerWithCustomPKS.class) BlogOwnerWithCustomPKS blogOwner;
+  private final @ModelField(targetType=\\"BlogOwnerWithCustomPKS\\", isRequired = true) @BelongsTo(targetName = \\"blogOwnerWithCustomPksBlogsId\\", targetNames = {\\"blogOwnerWithCustomPksBlogsId\\"}, type = BlogOwnerWithCustomPKS.class) BlogOwnerWithCustomPKS blogOwner;
   private final @ModelField(targetType=\\"Post\\") @HasMany(associatedWith = \\"blog\\", type = Post.class) List<Post> posts = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
@@ -2167,8 +2167,8 @@ public final class PostTags implements Model {
   public static final QueryField POST = field(\\"PostTags\\", \\"postID\\");
   public static final QueryField TAG = field(\\"PostTags\\", \\"tagID\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"Post\\", isRequired = true) @BelongsTo(targetName = \\"postID\\", type = Post.class) Post post;
-  private final @ModelField(targetType=\\"Tag\\", isRequired = true) @BelongsTo(targetName = \\"tagID\\", type = Tag.class) Tag tag;
+  private final @ModelField(targetType=\\"Post\\", isRequired = true) @BelongsTo(targetName = \\"postID\\", targetNames = {\\"postID\\"}, type = Post.class) Post post;
+  private final @ModelField(targetType=\\"Tag\\", isRequired = true) @BelongsTo(targetName = \\"tagID\\", targetNames = {\\"tagID\\"}, type = Tag.class) Tag tag;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   public String resolveIdentifier() {
@@ -5145,7 +5145,7 @@ public final class task implements Model {
   public static final QueryField TIME = field(\\"task\\", \\"time\\");
   public static final QueryField CREATED_ON = field(\\"task\\", \\"createdOn\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"Todo\\") @BelongsTo(targetName = \\"taskTodoId\\", type = Todo.class) Todo todo;
+  private final @ModelField(targetType=\\"Todo\\") @BelongsTo(targetName = \\"taskTodoId\\", targetNames = {}, type = Todo.class) Todo todo;
   private final @ModelField(targetType=\\"AWSTime\\") Temporal.Time time;
   private final @ModelField(targetType=\\"AWSDate\\") Temporal.Date createdOn;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
@@ -6282,7 +6282,7 @@ public final class task implements Model {
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String title;
   private final @ModelField(targetType=\\"Boolean\\", isRequired = true) Boolean done;
-  private final @ModelField(targetType=\\"Todo\\") @BelongsTo(targetName = \\"taskTodoId\\", type = Todo.class) Todo todo;
+  private final @ModelField(targetType=\\"Todo\\") @BelongsTo(targetName = \\"taskTodoId\\", targetNames = {}, type = Todo.class) Todo todo;
   private final @ModelField(targetType=\\"AWSTime\\") Temporal.Time time;
   private final @ModelField(targetType=\\"AWSDate\\") Temporal.Date createdOn;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
