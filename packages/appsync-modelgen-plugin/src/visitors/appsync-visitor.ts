@@ -853,7 +853,7 @@ export class AppSyncModelVisitor<
               });
             }
           } else if (connectionInfo.kind === CodeGenConnectionType.BELONGS_TO) {
-            if (this.config.useFieldNameForPrimaryKeyConnectionField) {
+            if (updateModelFieldsWithForeignKeys && this.config.target !== 'java') {
               connectionInfo.targetNames.forEach(target => {
                 addFieldToModel(model, {
                   name: target,
