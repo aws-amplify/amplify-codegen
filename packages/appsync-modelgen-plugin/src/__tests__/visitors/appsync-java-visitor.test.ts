@@ -29,7 +29,7 @@ const getVisitor = (
     builtSchema,
     {
       directives,
-      target: 'android',
+      target: 'java',
       scalars: JAVA_SCALAR_MAP,
       ...visitorConfig
     },

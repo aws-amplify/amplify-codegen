@@ -442,12 +442,14 @@ public final class Project implements Model {
   public static final QueryField PROJECT_ID = field(\\"Project\\", \\"projectId\\");
   public static final QueryField NAME = field(\\"Project\\", \\"name\\");
   public static final QueryField PROJECT_TEAM_TEAM_ID = field(\\"Project\\", \\"projectTeamTeamId\\");
+  public static final QueryField PROJECT_TEAM_NAME = field(\\"Project\\", \\"projectTeamName\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String projectId;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
   private final @ModelField(targetType=\\"Team\\") @HasOne(associatedWith = \\"teamId\\", type = Team.class) Team team = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   private final @ModelField(targetType=\\"ID\\") String projectTeamTeamId;
+  private final @ModelField(targetType=\\"ID\\") String projectTeamName;
   private ProjectIdentifier projectIdentifier;
   public ProjectIdentifier resolveIdentifier() {
     if (projectIdentifier == null) {
@@ -480,10 +482,15 @@ public final class Project implements Model {
       return projectTeamTeamId;
   }
   
-  private Project(String projectId, String name, String projectTeamTeamId) {
+  public String getProjectTeamName() {
+      return projectTeamName;
+  }
+  
+  private Project(String projectId, String name, String projectTeamTeamId, String projectTeamName) {
     this.projectId = projectId;
     this.name = name;
     this.projectTeamTeamId = projectTeamTeamId;
+    this.projectTeamName = projectTeamName;
   }
   
   @Override
@@ -498,7 +505,8 @@ public final class Project implements Model {
               ObjectsCompat.equals(getName(), project.getName()) &&
               ObjectsCompat.equals(getCreatedAt(), project.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), project.getUpdatedAt()) &&
-              ObjectsCompat.equals(getProjectTeamTeamId(), project.getProjectTeamTeamId());
+              ObjectsCompat.equals(getProjectTeamTeamId(), project.getProjectTeamTeamId()) &&
+              ObjectsCompat.equals(getProjectTeamName(), project.getProjectTeamName());
       }
   }
   
@@ -510,6 +518,7 @@ public final class Project implements Model {
       .append(getCreatedAt())
       .append(getUpdatedAt())
       .append(getProjectTeamTeamId())
+      .append(getProjectTeamName())
       .toString()
       .hashCode();
   }
@@ -522,7 +531,8 @@ public final class Project implements Model {
       .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
       .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
       .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
-      .append(\\"projectTeamTeamId=\\" + String.valueOf(getProjectTeamTeamId()))
+      .append(\\"projectTeamTeamId=\\" + String.valueOf(getProjectTeamTeamId()) + \\", \\")
+      .append(\\"projectTeamName=\\" + String.valueOf(getProjectTeamName()))
       .append(\\"}\\")
       .toString();
   }
@@ -534,7 +544,8 @@ public final class Project implements Model {
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(projectId,
       name,
-      projectTeamTeamId);
+      projectTeamTeamId,
+      projectTeamName);
   }
   public interface ProjectIdStep {
     NameStep projectId(String projectId);
@@ -549,6 +560,7 @@ public final class Project implements Model {
   public interface BuildStep {
     Project build();
     BuildStep projectTeamTeamId(String projectTeamTeamId);
+    BuildStep projectTeamName(String projectTeamName);
   }
   
 
@@ -556,13 +568,15 @@ public final class Project implements Model {
     private String projectId;
     private String name;
     private String projectTeamTeamId;
+    private String projectTeamName;
     @Override
      public Project build() {
         
         return new Project(
           projectId,
           name,
-          projectTeamTeamId);
+          projectTeamTeamId,
+          projectTeamName);
     }
     
     @Override
@@ -584,14 +598,21 @@ public final class Project implements Model {
         this.projectTeamTeamId = projectTeamTeamId;
         return this;
     }
+    
+    @Override
+     public BuildStep projectTeamName(String projectTeamName) {
+        this.projectTeamName = projectTeamName;
+        return this;
+    }
   }
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String projectId, String name, String projectTeamTeamId) {
+    private CopyOfBuilder(String projectId, String name, String projectTeamTeamId, String projectTeamName) {
       super.projectId(projectId)
         .name(name)
-        .projectTeamTeamId(projectTeamTeamId);
+        .projectTeamTeamId(projectTeamTeamId)
+        .projectTeamName(projectTeamName);
     }
     
     @Override
@@ -607,6 +628,11 @@ public final class Project implements Model {
     @Override
      public CopyOfBuilder projectTeamTeamId(String projectTeamTeamId) {
       return (CopyOfBuilder) super.projectTeamTeamId(projectTeamTeamId);
+    }
+    
+    @Override
+     public CopyOfBuilder projectTeamName(String projectTeamName) {
+      return (CopyOfBuilder) super.projectTeamName(projectTeamName);
     }
   }
   
