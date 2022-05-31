@@ -8108,7 +8108,7 @@ class ModelWithImplicitID extends Model {
     'id': id, 'title': _title, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"modelWithImplicitID.id\\");
+  static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"ModelWithImplicitID\\";
@@ -8314,7 +8314,7 @@ class ModelWithExplicitID extends Model {
     'id': id, 'title': _title, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"modelWithExplicitID.id\\");
+  static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"ModelWithExplicitID\\";
@@ -8511,7 +8511,7 @@ class ModelWithExplicitIDAndSDI extends Model {
     'id': id, 'parentID': _parentID, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"modelWithExplicitIDAndSDI.id\\");
+  static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField PARENTID = QueryField(fieldName: \\"parentID\\");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"ModelWithExplicitIDAndSDI\\";
@@ -8751,7 +8751,7 @@ class ModelWithIDPlusSortKeys extends Model {
     'id': id, 'title': _title, 'rating': _rating, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"modelWithIDPlusSortKeys.id\\");
+  static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField RATING = QueryField(fieldName: \\"rating\\");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
