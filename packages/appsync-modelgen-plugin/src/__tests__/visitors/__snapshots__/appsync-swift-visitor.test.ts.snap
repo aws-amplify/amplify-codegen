@@ -392,7 +392,7 @@ extension Project {
     model.fields(
       .field(project.projectId, is: .required, ofType: .string),
       .field(project.name, is: .required, ofType: .string),
-      .hasOne(project.team, is: .optional, ofType: Team.self, associatedWith: Team.keys.teamId, targetNames: [\\"projectTeamTeamId\\", \\"projectTeamName\\"])),
+      .hasOne(project.team, is: .optional, ofType: Team.self, associatedWith: Team.keys.teamId, targetNames: [\\"projectTeamTeamId\\", \\"projectTeamName\\"]),
       .field(project.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(project.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(project.projectTeamTeamId, is: .optional, ofType: .string)
@@ -479,7 +479,7 @@ extension Team {
     model.fields(
       .field(team.teamId, is: .required, ofType: .string),
       .field(team.name, is: .required, ofType: .string),
-      .belongsTo(team.project, is: .optional, ofType: Project.self, targetNames: [\\"teamProjectProjectId\\", \\"teamProjectName\\"])),
+      .belongsTo(team.project, is: .optional, ofType: Project.self, targetNames: [\\"teamProjectProjectId\\", \\"teamProjectName\\"]),
       .field(team.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(team.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
