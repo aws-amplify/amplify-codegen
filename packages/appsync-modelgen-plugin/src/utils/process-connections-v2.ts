@@ -30,6 +30,7 @@ export function getConnectedFieldV2(
   const connectionFields = connectionInfo.arguments.fields;
   if (connectionFields || directiveName === 'hasOne') {
     let connectionDirective;
+    // Find gsi on other side if index is defined
     if (indexName) {
       connectionDirective = flattenFieldDirectives(connectedModel).find(dir => {
         return dir.name === 'index' && dir.arguments.name === indexName;
@@ -39,7 +40,9 @@ export function getConnectedFieldV2(
           `Error processing @${connectionInfo.name} directive on ${model.name}.${field.name}, @index directive with name ${indexName} was not found in connected model ${connectedModel.name}`,
         );
       }
-    } else {
+    }
+    // Otherwise find the pk on other side
+    else {
       connectionDirective = flattenFieldDirectives(connectedModel).find(dir => {
         return dir.name === 'primaryKey';
       });
