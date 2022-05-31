@@ -34,6 +34,9 @@ export function processHasOneConnection(
     return {
       kind: CodeGenConnectionType.HAS_ONE,
       associatedWith: otherSideField,
+      associatedWithFields: useFieldNameForPrimaryKeyConnectionField
+        ? getModelPrimaryKeyComponentFields(otherSide)
+        : [otherSideField],
       connectedModel: otherSide,
       isConnectingFieldAutoCreated,
       targetName: targetNames[0],

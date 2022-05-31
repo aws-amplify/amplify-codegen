@@ -822,6 +822,9 @@ export class AppSyncModelVisitor<
   ): void {
     this.processManyToManyDirectives();
 
+    // Only update model fields when it is js platform and custom pk ff is enabled
+    const updateModelFieldsWithForeignKeys: boolean = ['metadata', 'javascript', 'typescript', 'java'].includes(this.config.target ?? '') && (this.config.useFieldNameForPrimaryKeyConnectionField ?? false);
+
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
         const connectionInfo = processConnectionsV2(field, model, this.modelMap, shouldUseModelNameFieldInHasManyAndBelongsTo, this.config.useFieldNameForPrimaryKeyConnectionField);
@@ -830,13 +833,37 @@ export class AppSyncModelVisitor<
             // Need to update the other side of the connection even if there is no connection directive
             addFieldToModel(connectionInfo.connectedModel, connectionInfo.associatedWith);
           } else if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
-            addFieldToModel(model, {
-              name: connectionInfo.targetName,
-              directives: [],
-              type: 'ID',
-              isList: false,
-              isNullable: field.isNullable,
-            });
+            if (updateModelFieldsWithForeignKeys) {
+              connectionInfo.targetNames.forEach(target => {
+                addFieldToModel(model, {
+                  name: target,
+                  directives: [],
+                  type: 'ID',
+                  isList: false,
+                  isNullable: field.isNullable,
+                });
+              })
+            } else {
+              addFieldToModel(model, {
+                name: connectionInfo.targetName,
+                directives: [],
+                type: 'ID',
+                isList: false,
+                isNullable: field.isNullable,
+              });
+            }
+          } else if (connectionInfo.kind === CodeGenConnectionType.BELONGS_TO) {
+            if (this.config.useFieldNameForPrimaryKeyConnectionField) {
+              connectionInfo.targetNames.forEach(target => {
+                addFieldToModel(model, {
+                  name: target,
+                  directives: [],
+                  type: 'ID',
+                  isList: false,
+                  isNullable: field.isNullable,
+                });
+              })
+            }
           }
           field.connectionInfo = connectionInfo;
         }
@@ -859,20 +886,22 @@ export class AppSyncModelVisitor<
       });
     });
 
-    Object.values(this.modelMap).forEach(model => {
-      model.fields.forEach(field => {
-        const connectionInfo = field.connectionInfo;
-        if (
-          connectionInfo &&
-          connectionInfo.kind !== CodeGenConnectionType.HAS_MANY &&
-          connectionInfo.kind !== CodeGenConnectionType.HAS_ONE &&
-          connectionInfo.targetName !== 'id'
-        ) {
-          // Need to remove the field that is targetName
-          removeFieldFromModel(model, connectionInfo.targetName);
-        }
+    if(!updateModelFieldsWithForeignKeys || this.config.target === 'java') {
+      Object.values(this.modelMap).forEach(model => {
+        model.fields.forEach(field => {
+          const connectionInfo = field.connectionInfo;
+          if (
+            connectionInfo &&
+            connectionInfo.kind !== CodeGenConnectionType.HAS_MANY &&
+            connectionInfo.kind !== CodeGenConnectionType.HAS_ONE &&
+            connectionInfo.targetName !== 'id'
+          ) {
+            // Need to remove the field that is targetName
+            removeFieldFromModel(model, connectionInfo.targetName);
+          }
+        });
       });
-    });
+    }
   }
 
   protected processV2KeyDirectives(): void {

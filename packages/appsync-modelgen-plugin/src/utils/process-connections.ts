@@ -23,6 +23,7 @@ export type CodeGenFieldConnectionBelongsTo = CodeGenConnectionTypeBase & {
 export type CodeGenFieldConnectionHasOne = CodeGenConnectionTypeBase & {
   kind: CodeGenConnectionType.HAS_ONE;
   associatedWith: CodeGenField;
+  associatedWithFields: CodeGenField[]; // New attribute for v2 custom pk support
   targetName: string; // Legacy field remained for backward compatability
   targetNames: string[]; // New attribute for v2 custom pk support
 };
@@ -199,6 +200,7 @@ export function processConnections(
           return {
             kind: CodeGenConnectionType.HAS_ONE,
             associatedWith: otherSideField,
+            associatedWithFields: [], // New attribute for v2 custom pk support. Not used in v1 so use empty array.
             connectedModel: otherSide,
             isConnectingFieldAutoCreated,
             targetName: connectionFields[0] || makeConnectionAttributeName(model.name, field.name),
