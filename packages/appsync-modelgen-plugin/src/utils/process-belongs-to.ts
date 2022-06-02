@@ -14,7 +14,7 @@ export function processBelongsToConnection(
   model: CodeGenModel,
   modelMap: CodeGenModelMap,
   connectionDirective: CodeGenDirective,
-  useFieldNameForPrimaryKeyConnectionField: boolean = false,
+  isCustomPKEnabled: boolean = false,
 ): CodeGenFieldConnection | undefined {
   const otherSide = modelMap[field.type];
   const otherSideField = getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
@@ -55,7 +55,7 @@ export function processBelongsToConnection(
     ? [ ...connectionFields ]
     : (otherSideHasMany
       ? [makeConnectionAttributeName(otherSide.name, otherSideField.name)]
-      : (useFieldNameForPrimaryKeyConnectionField
+      : (isCustomPKEnabled
         ? getModelPrimaryKeyComponentFields(otherSide).map(componentField => makeConnectionAttributeName(model.name, field.name, componentField.name))
         : [makeConnectionAttributeName(model.name, field.name)]));
 

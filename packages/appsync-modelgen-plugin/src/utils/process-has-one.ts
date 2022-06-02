@@ -12,7 +12,7 @@ export function processHasOneConnection(
   model: CodeGenModel,
   modelMap: CodeGenModelMap,
   connectionDirective: CodeGenDirective,
-  useFieldNameForPrimaryKeyConnectionField: boolean = false
+  isCustomPKEnabled: boolean = false
 ): CodeGenFieldConnection | undefined {
   const otherSide = modelMap[field.type];
   const otherSideField = getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
@@ -27,14 +27,14 @@ export function processHasOneConnection(
   // New metada type introduced by custom PK v2 support
   const targetNames = connectionFields.length > 0
     ? [ ...connectionFields ]
-    : (useFieldNameForPrimaryKeyConnectionField
+    : (isCustomPKEnabled
       ? getModelPrimaryKeyComponentFields(otherSide).map(componentField => makeConnectionAttributeName(model.name, field.name, componentField.name))
       : [makeConnectionAttributeName(model.name, field.name)])
   if (!field.isList && !otherSideField.isList) {
     return {
       kind: CodeGenConnectionType.HAS_ONE,
       associatedWith: otherSideField,
-      associatedWithFields: useFieldNameForPrimaryKeyConnectionField
+      associatedWithFields: isCustomPKEnabled
         ? getModelPrimaryKeyComponentFields(otherSide)
         : [otherSideField],
       connectedModel: otherSide,
