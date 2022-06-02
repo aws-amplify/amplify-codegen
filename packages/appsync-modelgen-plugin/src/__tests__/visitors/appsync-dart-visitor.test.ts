@@ -767,7 +767,7 @@ describe('AppSync Dart Visitor', () => {
       );
     });
 
-    it('should generate correct models for hasOne/belongsTo relation when feature flag is true', () => {
+    it('should generate correct models for hasOne/belongsTo relation when custom PK is enabled', () => {
       const schema = /* GraphQL */ `
         type Project @model {
           projectId: ID! @primaryKey(sortKeyFields: ["name"])
@@ -792,6 +792,31 @@ describe('AppSync Dart Visitor', () => {
         }).generate();
         expect(generatedCode).toMatchSnapshot();
       });
+    });
+    it('should generate correct models for hasMany uni relation when custom PK is enabled', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          id: ID! @primaryKey(sortKeyFields: ["title"])
+          title: String!
+          comments: [Comment] @hasMany
+        }   
+        type Comment @model {
+          id: ID! @primaryKey(sortKeyFields: ["content"])
+          content: String!
+        }
+      `;
+      ['Post', 'Comment'].forEach(modelName => {
+        const generatedCode = getVisitor({
+          schema,
+          selectedType: modelName,
+          enableDartNullSafety: true,
+          enableDartZeroThreeFeatures: true,
+          isTimestampFieldsAdded: true,
+          useFieldNameForPrimaryKeyConnectionField: true,
+          transformerVersion: 2,
+        }).generate();
+        expect(generatedCode).toMatchSnapshot();
+      })
     })
   });
 });

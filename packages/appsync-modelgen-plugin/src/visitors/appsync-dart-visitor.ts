@@ -215,7 +215,7 @@ export class AppSyncModelDartVisitor<
       result.push(modelDeclaration);
       result.push(modelType);
 
-      if (this.customPKEnabled()) {
+      if (this.isCustomPKEnabled()) {
         const modelIdentifier = this.generateModelIdentifierClass(model);
         result.push(modelIdentifier);
       }
@@ -479,7 +479,7 @@ export class AppSyncModelDartVisitor<
 
   protected generateGetters(model: CodeGenModel, declarationBlock: DartDeclarationBlock, includeIdGetter: boolean = true): void {
     if (includeIdGetter) {
-      if (this.customPKEnabled()) {
+      if (this.isCustomPKEnabled()) {
         const identifierFields = this.getModelIdentifierFields(model);
         const isCustomPK = identifierFields[0].name !== 'id';
         const getIdImpl = isCustomPK ? ' => modelIdentifier.serializeAsString();' : ' => id;';
@@ -509,7 +509,7 @@ export class AppSyncModelDartVisitor<
       );`;
       }
 
-      if (includeIdGetter && this.customPKEnabled()) {
+      if (includeIdGetter && this.isCustomPKEnabled()) {
         this.generateModelIdentifierGetter(model, declarationBlock, forceCastException);
       }
 
@@ -691,7 +691,7 @@ export class AppSyncModelDartVisitor<
 
   protected generateCopyWithMethod(model: CodeGenModel, declarationBlock: DartDeclarationBlock): void {
     //copyWith
-    const writableFields = this.getWritableFields(model, this.customPKEnabled());
+    const writableFields = this.getWritableFields(model, this.isCustomPKEnabled());
     const copyParam = `{${writableFields
       .map(f => `${this.getNativeType(f)}${this.isNullSafety() ? '?' : ''} ${this.getFieldName(f)}`)
       .join(', ')}}`;
@@ -1033,7 +1033,7 @@ export class AppSyncModelDartVisitor<
               fieldParam = [
                 `key: ${modelName}.${queryFieldName}`,
                 `isRequired: ${!field.isNullable}`,
-                this.customPKEnabled()
+                this.isCustomPKEnabled()
                   ? `targetNames: [${field.connectionInfo.targetNames.map(target => `"${target}"`).join(', ')}]`
                   : `targetName: "${field.connectionInfo.targetName}"`,
                 `ofModelName: (${connectedModelName}).toString()`,
@@ -1186,10 +1186,6 @@ export class AppSyncModelDartVisitor<
 
   protected isNullSafety(): boolean {
     return this._parsedConfig.enableDartNullSafety;
-  }
-
-  protected customPKEnabled(): boolean {
-    return this._parsedConfig.useFieldNameForPrimaryKeyConnectionField;
   }
 
   protected getNullSafetyTypeStr(type: string): string {
