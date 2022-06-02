@@ -2573,5 +2573,28 @@ describe('AppSyncSwiftVisitor', () => {
       expect(generatedCodeTeam).toMatchSnapshot();
       expect(generatedMetaTeam).toMatchSnapshot();
     });
+
+    it('Should generate foreign key fields in hasMany uni relation for model with CPK', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          id: ID! @primaryKey(sortKeyFields: ["title"])
+          title: String!
+          comments: [Comment] @hasMany
+        }
+        
+        type Comment @model {
+          id: ID! @primaryKey(sortKeyFields: ["content"])
+          content: String!
+        }
+      `;
+      const generatedCodePost = getVisitorPipelinedTransformer(schema, 'Post', CodeGenGenerateEnum.code, { useFieldNameForPrimaryKeyConnectionField: true }).generate();
+      const generatedMetaPost = getVisitorPipelinedTransformer(schema, 'Post', CodeGenGenerateEnum.metadata, { useFieldNameForPrimaryKeyConnectionField: true }).generate();
+      const generatedCodeComment = getVisitorPipelinedTransformer(schema, 'Comment', CodeGenGenerateEnum.code, { useFieldNameForPrimaryKeyConnectionField: true }).generate();
+      const generatedMetaComment = getVisitorPipelinedTransformer(schema, 'Comment', CodeGenGenerateEnum.metadata, { useFieldNameForPrimaryKeyConnectionField: true }).generate();
+      expect(generatedCodePost).toMatchSnapshot();
+      expect(generatedMetaPost).toMatchSnapshot();
+      expect(generatedCodeComment).toMatchSnapshot();
+      expect(generatedMetaComment).toMatchSnapshot();
+    });
   });
 });
