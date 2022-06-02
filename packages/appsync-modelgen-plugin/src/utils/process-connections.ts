@@ -22,7 +22,7 @@ export type CodeGenFieldConnectionBelongsTo = CodeGenConnectionTypeBase & {
 };
 export type CodeGenFieldConnectionHasOne = CodeGenConnectionTypeBase & {
   kind: CodeGenConnectionType.HAS_ONE;
-  associatedWith: CodeGenField;
+  associatedWith: CodeGenField;// Legacy field remained for backward compatability
   associatedWithFields: CodeGenField[]; // New attribute for v2 custom pk support
   targetName: string; // Legacy field remained for backward compatability
   targetNames: string[]; // New attribute for v2 custom pk support
@@ -30,7 +30,8 @@ export type CodeGenFieldConnectionHasOne = CodeGenConnectionTypeBase & {
 
 export type CodeGenFieldConnectionHasMany = CodeGenConnectionTypeBase & {
   kind: CodeGenConnectionType.HAS_MANY;
-  associatedWith: CodeGenField;
+  associatedWith: CodeGenField;// Legacy field remained for backward compatability
+  associatedWithFields: CodeGenField[]; // New attribute for v2 custom pk support
 };
 
 export type CodeGenFieldConnection = CodeGenFieldConnectionBelongsTo | CodeGenFieldConnectionHasOne | CodeGenFieldConnectionHasMany;
@@ -148,8 +149,10 @@ export function processConnections(
         return {
           kind: CodeGenConnectionType.HAS_MANY,
           associatedWith: otherSideField,
+          associatedWithFields: [], // New attribute for v2 custom pk support. Not used in v1 so use empty array.
           isConnectingFieldAutoCreated,
           connectedModel: otherSide,
+          
         };
       } else if (!field.isList && otherSideField.isList) {
         //  One to Many
@@ -238,6 +241,7 @@ export function processConnections(
             isNullable: true,
             directives: [],
           },
+          associatedWithFields: [], // New attribute for v2 custom pk support. Not used in v1 so use empty array.
         };
       } else {
         if (connectionFields.length > 1) {

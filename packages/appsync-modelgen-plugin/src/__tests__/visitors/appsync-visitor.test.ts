@@ -27,7 +27,7 @@ const createAndGenerateVisitor = (schema: string, settings: any = {}) => {
 };
 
 const createAndGeneratePipelinedTransformerVisitor = (schema: string) => {
-  return createAndGenerateVisitor(schema, { usePipelinedTransformer: true });
+  return createAndGenerateVisitor(schema, { usePipelinedTransformer: true, transformerVersion: 2 });
 };
 
 describe('AppSyncModelVisitor', () => {
@@ -1142,20 +1142,20 @@ describe('AppSyncModelVisitor', () => {
   });
   
   describe('Connected models with custom primary key testing', () => {
-    const schema = /* GraphQL*/ `
-      type Project @model {
-        projectId: ID! @primaryKey(sortKeyFields: ["name"])
-        name: String!
-        team: Team @hasOne
-      }
-      type Team @model {
-        teamId: ID! @primaryKey(sortKeyFields: ["name"])
-        name: String!
-        project: Project @belongsTo
-      }
-    `;
     it('should have correct output for hasOne and belongsTo connection info when model pk is compostie key', () => {
-      const { models } = createAndGenerateVisitor(schema, { usePipelinedTransformer: true, useFieldNameForPrimaryKeyConnectionField: true });
+      const schema = /* GraphQL*/ `
+        type Project @model {
+          projectId: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          team: Team @hasOne
+        }
+        type Team @model {
+          teamId: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          project: Project @belongsTo
+        }
+      `;
+      const { models } = createAndGenerateVisitor(schema, { usePipelinedTransformer: true, useFieldNameForPrimaryKeyConnectionField: true, transformerVersion: 2 });
       //hasOne for Project
       const projectTeamField = models.Project.fields.find(field => field.name === 'team')!;
       const projectTeamHasOneConnectionInfo = (projectTeamField.connectionInfo!) as CodeGenFieldConnectionHasOne;
@@ -1172,6 +1172,32 @@ describe('AppSyncModelVisitor', () => {
       expect(teamProjectBelongsToConnectionInfo.targetNames.length).toBe(2);
       expect(teamProjectBelongsToConnectionInfo.targetNames).toContain('teamProjectProjectId');
       expect(teamProjectBelongsToConnectionInfo.targetNames).toContain('teamProjectName');
+    });
+    it('should have correct output for hasMany uni connection info when model pk is composite key', () => {
+      const schema = /* GraphQL*/ `
+        type Post @model {
+          id: ID! @primaryKey(sortKeyFields: ["title"])
+          title: String!
+          comments: [Comment] @hasMany
+        }
+        type Comment @model {
+          id: ID! @primaryKey(sortKeyFields: ["content"])
+          content: String!
+        }
+      `;
+      const { models } = createAndGenerateVisitor(schema, { usePipelinedTransformer: true, useFieldNameForPrimaryKeyConnectionField: true, transformerVersion: 2 });
+      const postCommentsField = models.Post.fields.find(field => field.name === 'comments')!;
+      const postCommentsConnectionInfo = (postCommentsField.connectionInfo!) as CodeGenFieldConnectionHasMany;
+      expect(postCommentsConnectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
+      expect(postCommentsConnectionInfo.associatedWith.name).toEqual('postCommentsId');
+      const associatedWithFieldNames = postCommentsConnectionInfo.associatedWithFields.map(f => f.name);
+      expect(associatedWithFieldNames.length).toEqual(2);
+      expect(associatedWithFieldNames).toContain('postCommentsId');
+      expect(associatedWithFieldNames).toContain('postCommentsTitle');
+      const commetModelFields = models.Comment.fields;
+      expect(commetModelFields.length).toBe(6);
+      expect(commetModelFields.find(f => f.name === 'postCommentsId')).toBeDefined();
+      expect(commetModelFields.find(f => f.name === 'postCommentsTitle')).toBeDefined();
     });
   });
 });

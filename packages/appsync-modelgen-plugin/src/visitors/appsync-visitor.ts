@@ -822,16 +822,22 @@ export class AppSyncModelVisitor<
   ): void {
     this.processManyToManyDirectives();
 
+    const isCustomPKEnabled = this.isCustomPKEnabled();
+
     // Only update model fields when it is js platform and custom pk ff is enabled
-    const updateModelFieldsWithForeignKeys: boolean = ['metadata', 'javascript', 'typescript', 'java'].includes(this.config.target ?? '') && (this.config.useFieldNameForPrimaryKeyConnectionField ?? false);
+    const updateModelFieldsWithForeignKeys: boolean = isCustomPKEnabled && ['metadata', 'javascript', 'typescript', 'java'].includes(this.config.target ?? '');
 
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
-        const connectionInfo = processConnectionsV2(field, model, this.modelMap, shouldUseModelNameFieldInHasManyAndBelongsTo, this.config.useFieldNameForPrimaryKeyConnectionField);
+        const connectionInfo = processConnectionsV2(field, model, this.modelMap, shouldUseModelNameFieldInHasManyAndBelongsTo, isCustomPKEnabled);
         if (connectionInfo) {
           if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
             // Need to update the other side of the connection even if there is no connection directive
-            addFieldToModel(connectionInfo.connectedModel, connectionInfo.associatedWith);
+            if (isCustomPKEnabled) {
+              connectionInfo.associatedWithFields.forEach(associateField => addFieldToModel(connectionInfo.connectedModel, associateField));
+            } else {
+              addFieldToModel(connectionInfo.connectedModel, connectionInfo.associatedWith);
+            }
           } else if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
             if (updateModelFieldsWithForeignKeys) {
               connectionInfo.targetNames.forEach(target => {
@@ -974,6 +980,13 @@ export class AppSyncModelVisitor<
    */
   protected isRequiredField(field: CodeGenField): boolean | undefined {
     return !(this.config.handleListNullabilityTransparently ? (field.isList ? field.isListNullable : field.isNullable) : field.isNullable);
+  }
+
+  /**
+   * Check if custom PK is enabled
+   */
+  protected isCustomPKEnabled(): boolean {
+    return this.config.transformerVersion === 2 && (this.config.useFieldNameForPrimaryKeyConnectionField ?? false);
   }
 
   get models() {

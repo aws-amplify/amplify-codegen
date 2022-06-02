@@ -128,18 +128,18 @@ export function processConnectionsV2(
   model: CodeGenModel,
   modelMap: CodeGenModelMap,
   shouldUseModelNameFieldInHasManyAndBelongsTo: boolean = false,
-  useFieldNameForPrimaryKeyConnectionField: boolean = false
+  isCustomPKEnabled: boolean = false
 ): CodeGenFieldConnection | undefined {
   const connectionDirective = field.directives.find(d => d.name === 'hasOne' || d.name === 'hasMany' || d.name === 'belongsTo');
 
   if (connectionDirective) {
     switch (connectionDirective.name) {
       case 'hasOne':
-        return processHasOneConnection(field, model, modelMap, connectionDirective, useFieldNameForPrimaryKeyConnectionField);
+        return processHasOneConnection(field, model, modelMap, connectionDirective, isCustomPKEnabled);
       case 'belongsTo':
-        return processBelongsToConnection(field, model, modelMap, connectionDirective, useFieldNameForPrimaryKeyConnectionField);
+        return processBelongsToConnection(field, model, modelMap, connectionDirective, isCustomPKEnabled);
       case 'hasMany':
-        return processHasManyConnection(field, model, modelMap, connectionDirective, shouldUseModelNameFieldInHasManyAndBelongsTo);
+        return processHasManyConnection(field, model, modelMap, connectionDirective, shouldUseModelNameFieldInHasManyAndBelongsTo, isCustomPKEnabled);
       default:
         break;
     }
