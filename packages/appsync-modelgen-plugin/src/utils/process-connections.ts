@@ -1,4 +1,4 @@
-import { CodeGenModel, CodeGenModelMap, CodeGenField, CodeGenDirective, CodeGenFieldDirective } from '../visitors/appsync-visitor';
+import { CodeGenModel, CodeGenModelMap, CodeGenField, CodeGenFieldDirective } from '../visitors/appsync-visitor';
 import { camelCase } from 'change-case';
 import { getDirective } from './fieldUtils';
 
@@ -152,7 +152,6 @@ export function processConnections(
           associatedWithFields: [], // New attribute for v2 custom pk support. Not used in v1 so use empty array.
           isConnectingFieldAutoCreated,
           connectedModel: otherSide,
-          
         };
       } else if (!field.isList && otherSideField.isList) {
         //  One to Many
