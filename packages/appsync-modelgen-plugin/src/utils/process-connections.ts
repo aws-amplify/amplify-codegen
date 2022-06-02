@@ -1,14 +1,13 @@
 import { CodeGenModel, CodeGenModelMap, CodeGenField, CodeGenFieldDirective } from '../visitors/appsync-visitor';
 import { camelCase } from 'change-case';
 import { getDirective } from './fieldUtils';
+import { DEFAULT_HASH_KEY_FIELD } from './constants';
 
 export enum CodeGenConnectionType {
   HAS_ONE = 'HAS_ONE',
   BELONGS_TO = 'BELONGS_TO',
   HAS_MANY = 'HAS_MANY',
 }
-export const DEFAULT_HASH_KEY_FIELD = 'id';
-
 export type CodeGenConnectionTypeBase = {
   kind: CodeGenConnectionType;
   connectedModel: CodeGenModel;
