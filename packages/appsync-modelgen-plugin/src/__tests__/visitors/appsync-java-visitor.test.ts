@@ -604,6 +604,7 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const generatedCode = getVisitorPipelinedTransformer(schema).generate();
+      expect(() => validateJava(generatedCode)).not.toThrow();
       expect(generatedCode).toMatchSnapshot();
     });
   });
@@ -644,10 +645,12 @@ describe('AppSyncModelVisitor', () => {
     `;
     it('Should generate correct model file for default id as primary key type', () => {
       const generatedCode = getVisitorPipelinedTransformer(schema, `Blog`).generate();
+      expect(() => validateJava(generatedCode)).not.toThrow();
       expect(generatedCode).toMatchSnapshot();
     });
     it('Should generate correct model file for custom primary key type', () => {
       const generatedCode = getVisitorPipelinedTransformer(schema, `Post`).generate();
+      expect(() => validateJava(generatedCode)).not.toThrow();
       expect(generatedCode).toMatchSnapshot();
     });
     it('Should generate correct model file for composite key type without id field defined', () => {
@@ -661,30 +664,61 @@ describe('AppSyncModelVisitor', () => {
   });
   
   describe('Custom primary key for connected model tests', () => {
-    const schema = /* GraphQL */ `
-      type Project @model {
-        projectId: ID! @primaryKey(sortKeyFields: ["name"])
-        name: String!
-        team: Team @hasOne
-      }
+    it('Should generate correct model file for hasOne & belongsTo relation with composite primary key when CPK is not enabled', () => {
+      const schema = /* GraphQL */ `
+        type Project @model {
+          projectId: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          team: Team @hasOne
+        }
 
-      type Team @model {
-        teamId: ID! @primaryKey(sortKeyFields: ["name"])
-        name: String!
-        project: Project @belongsTo
-      }
-    `;
-    it('Should generate correct model file for hasOne & belongsTo relation with composite primary key when feature flag is false', () => {
+        type Team @model {
+          teamId: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          project: Project @belongsTo
+        }
+      `;
       const generatedCodeProject = getVisitorPipelinedTransformer(schema, `Project`).generate();
       const generatedCodeTeam = getVisitorPipelinedTransformer(schema, `Team`).generate();
       expect(generatedCodeProject).toMatchSnapshot();
       expect(generatedCodeTeam).toMatchSnapshot();
     });
-    it('Should generate correct model file for hasOne & belongsTo relation with composite primary key when feature flag is true', () => {
+    it('Should generate correct model file for hasOne & belongsTo relation with composite primary key when CPK is enabled', () => {
+      const schema = /* GraphQL */ `
+        type Project @model {
+          projectId: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          team: Team @hasOne
+        }
+
+        type Team @model {
+          teamId: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          project: Project @belongsTo
+        }
+      `;
       const generatedCodeProject = getVisitorPipelinedTransformer(schema, `Project`, { useFieldNameForPrimaryKeyConnectionField: true }).generate();
       const generatedCodeTeam = getVisitorPipelinedTransformer(schema, `Team`, { useFieldNameForPrimaryKeyConnectionField: true }).generate();
       expect(generatedCodeProject).toMatchSnapshot();
       expect(generatedCodeTeam).toMatchSnapshot();
+    });
+    it('Should generate corect model file for hasMany uni relation with composite primary key when CPK is enabled', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          id: ID! @primaryKey(sortKeyFields: ["title"])
+          title: String!
+          comments: [Comment] @hasMany
+        }
+        
+        type Comment @model {
+          id: ID! @primaryKey(sortKeyFields: ["content"])
+          content: String!
+        }
+      `;
+      const generatedCodePost = getVisitorPipelinedTransformer(schema, 'Post', { useFieldNameForPrimaryKeyConnectionField: true }).generate();
+      const generatedCodeComment = getVisitorPipelinedTransformer(schema, 'Comment', { useFieldNameForPrimaryKeyConnectionField: true }).generate();      
+      expect(generatedCodePost).toMatchSnapshot();
+      expect(generatedCodeComment).toMatchSnapshot();
     });
   });
 });
