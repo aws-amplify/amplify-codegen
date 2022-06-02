@@ -34,7 +34,7 @@ export class AppSyncModelTypeScriptVisitor<
     'import { schema } from "./schema";',
   ];
 
-  protected BASE_DATASTORE_IMPORT = new Set(['ModelInit', 'MutableModel', 'PersistentModelConstructor']);
+  protected BASE_DATASTORE_IMPORT = new Set(['ModelInit', 'MutableModel']);
 
   protected MODEL_META_FIELD_NAME = '__modelMeta__';
 

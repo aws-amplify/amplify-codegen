@@ -209,6 +209,7 @@ describe('Metadata visitor', () => {
           name: 'associatedField',
           type: 'String',
         },
+        associatedWithFields: [],
         isConnectingFieldAutoCreated: false,
       };
       const getFieldNameSpy = jest.spyOn(visitor as any, 'getFieldName');
@@ -219,11 +220,12 @@ describe('Metadata visitor', () => {
       });
       expect(getFieldNameSpy).toHaveBeenCalledWith(hasManyAssociation.associatedWith);
 
-      const hasOneAssociation: CodeGenFieldConnectionHasOne = { ...hasManyAssociation, kind: CodeGenConnectionType.HAS_ONE };
+      const hasOneAssociation: CodeGenFieldConnectionHasOne = { ...hasManyAssociation, kind: CodeGenConnectionType.HAS_ONE, targetNames: [], targetName: 'targetField' };
       const fieldWithHasOneConnection = { ...baseField, connectionInfo: hasOneAssociation };
       expect((visitor as any).getFieldAssociation(fieldWithHasOneConnection)).toEqual({
         connectionType: CodeGenConnectionType.HAS_ONE,
         associatedWith: 'associatedField',
+        targetName: 'targetField'
       });
       expect(getFieldNameSpy).toHaveBeenCalledWith(hasOneAssociation.associatedWith);
     });
@@ -238,6 +240,7 @@ describe('Metadata visitor', () => {
           type: 'model',
         },
         targetName: 'connectedId',
+        targetNames: [],
         isConnectingFieldAutoCreated: false,
       };
       const getFieldNameSpy = jest.spyOn(visitor as any, 'getFieldName');
@@ -1351,5 +1354,24 @@ describe('Metadata visitor for custom PK support', () => {
     it('should generate correct metadata in ts', () => {
       expect(getVisitor(schema, 'typescript', { useFieldNameForPrimaryKeyConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
     });   
+  });
+  describe('relation metadata for hasMany/belongsTo when custom PK is enabled', () => {
+    const schema =  /* GraphQL */ `
+      type Post @model {
+        id: ID! @primaryKey(sortKeyFields: ["title"])
+        title: String!
+        comments: [Comment] @hasMany
+      }
+      type Comment @model {
+        id: ID! @primaryKey(sortKeyFields: ["content"])
+        content: String!
+      }
+    `;
+    it('should generate correct metadata in js', () => {
+      expect(getVisitor(schema, 'javascript', { useFieldNameForPrimaryKeyConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
+    });
+    it('should generate correct metadata in ts', () => {
+      expect(getVisitor(schema, 'typescript', { useFieldNameForPrimaryKeyConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
+    });
   });
 })

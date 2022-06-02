@@ -108,7 +108,7 @@ describe('Javascript visitor', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -166,7 +166,7 @@ describe('Javascript visitor', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -303,7 +303,7 @@ describe('Javascript visitor with default owner auth', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -377,7 +377,7 @@ describe('Javascript visitor with custom owner field auth', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -453,7 +453,7 @@ describe('Javascript visitor with multiple owner field auth', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -519,7 +519,7 @@ describe('Javascript visitor with auth directives in field level', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 
         export declare class Employee {
           readonly id: string;
@@ -613,7 +613,7 @@ describe('Javascript visitor with custom primary key', () => {
     const declarations = visitor.generate();
     validateTs(declarations);
     expect(declarations).toMatchInlineSnapshot(`
-      "import { ModelInit, MutableModel, PersistentModelConstructor, __modelMeta__, ManagedIdentifier, CompositeIdentifier, CustomIdentifier, OptionallyManagedIdentifier } from \\"@aws-amplify/datastore\\";
+      "import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier, CompositeIdentifier, CustomIdentifier, OptionallyManagedIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -710,7 +710,7 @@ describe('Javascript visitor with custom primary key', () => {
     const declarations = visitor.generate();
     validateTs(declarations);
     expect(declarations).toMatchInlineSnapshot(`
-      "import { ModelInit, MutableModel, PersistentModelConstructor, __modelMeta__, ManagedIdentifier, CompositeIdentifier, CustomIdentifier, OptionallyManagedIdentifier } from \\"@aws-amplify/datastore\\";
+      "import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier, CompositeIdentifier, CustomIdentifier, OptionallyManagedIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -845,7 +845,7 @@ describe('New model meta field test', () => {
     const declarations = visitor.generate();
     validateTs(declarations);
     expect(declarations).toMatchInlineSnapshot(`
-      "import { ModelInit, MutableModel, PersistentModelConstructor, __modelMeta__, ManagedIdentifier, OptionallyManagedIdentifier, CompositeIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
+      "import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier, OptionallyManagedIdentifier, CompositeIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -941,16 +941,16 @@ describe('New model meta field test', () => {
 
 describe('Javascript visitor with connected models of custom pk', () => {
   describe('hasOne/belongsTo relation', () => {
-    const schema =  /* GraphQL */ `
+    const schema = /* GraphQL */ `
       type Project @model {
         id: ID! @primaryKey(sortKeyFields: ["name"])
         name: String!
         team: Team @hasOne
       }
       type Team @model {
-          id: ID! @primaryKey(sortKeyFields: ["name"])
-          name: String!
-          project: Project @belongsTo
+        id: ID! @primaryKey(sortKeyFields: ["name"])
+        name: String!
+        project: Project @belongsTo
       }
     `;
     it('should generate correct declaration when custom pk support is enabled', () => {
@@ -965,5 +965,28 @@ describe('Javascript visitor with connected models of custom pk', () => {
       expect(declarations).toMatchSnapshot();
     });
   });
-
+  describe('hasMany/belongsTo relation', () => {
+    const schema = /* GraphQL */ `
+      type Post @model {
+        id: ID! @primaryKey(sortKeyFields: ["title"])
+        title: String!
+        comments: [Comment] @hasMany
+      }
+      type Comment @model {
+        id: ID! @primaryKey(sortKeyFields: ["content"])
+        content: String!
+      }
+    `;
+    it('should generate correct declaration for hasMany uni connection model when custom pk support is enabled', () => {
+      const visitor = getVisitor(schema, {
+        isDeclaration: true,
+        isTimestampFieldsAdded: true,
+        useFieldNameForPrimaryKeyConnectionField: true,
+        transformerVersion: 2,
+      });
+      const declarations = visitor.generate();
+      validateTs(declarations);
+      expect(declarations).toMatchSnapshot();
+    });
+  });
 });
