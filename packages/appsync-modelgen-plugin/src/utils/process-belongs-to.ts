@@ -20,11 +20,6 @@ export function processBelongsToConnection(
   const otherSideField = getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
   const connectionFields = connectionDirective.arguments.fields || [];
 
-  if (connectionFields.length > 1) {
-    // Todo: Move to a common function and update the error message
-    throw new Error('DataStore only support one key in field');
-  }
-
   if (field.isList) {
     throw new Error(
       `A list field does not support the 'belongsTo' relation`
