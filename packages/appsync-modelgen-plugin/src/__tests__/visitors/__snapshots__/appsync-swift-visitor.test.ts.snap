@@ -511,30 +511,35 @@ public struct Project: Model {
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
   public var projectTeamTeamId: String?
+  public var projectTeamName: String?
   
   public init(projectId: String,
       name: String,
       team: Team? = nil,
-      projectTeamTeamId: String? = nil) {
+      projectTeamTeamId: String? = nil,
+      projectTeamName: String? = nil) {
     self.init(projectId: projectId,
       name: name,
       team: team,
       createdAt: nil,
       updatedAt: nil,
-      projectTeamTeamId: projectTeamTeamId)
+      projectTeamTeamId: projectTeamTeamId,
+      projectTeamName: projectTeamName)
   }
   internal init(projectId: String,
       name: String,
       team: Team? = nil,
       createdAt: Temporal.DateTime? = nil,
       updatedAt: Temporal.DateTime? = nil,
-      projectTeamTeamId: String? = nil) {
+      projectTeamTeamId: String? = nil,
+      projectTeamName: String? = nil) {
       self.projectId = projectId
       self.name = name
       self.team = team
       self.createdAt = createdAt
       self.updatedAt = updatedAt
       self.projectTeamTeamId = projectTeamTeamId
+      self.projectTeamName = projectTeamName
   }
 }"
 `;
@@ -553,6 +558,7 @@ extension Project {
     case createdAt
     case updatedAt
     case projectTeamTeamId
+    case projectTeamName
   }
   
   public static let keys = CodingKeys.self
@@ -574,7 +580,8 @@ extension Project {
       .hasOne(project.team, is: .optional, ofType: Team.self, associatedWith: Team.keys.teamId, targetNames: [\\"projectTeamTeamId\\", \\"projectTeamName\\"]),
       .field(project.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(project.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(project.projectTeamTeamId, is: .optional, ofType: .string)
+      .field(project.projectTeamTeamId, is: .optional, ofType: .string),
+      .field(project.projectTeamName, is: .optional, ofType: .string)
     )
     }
 }
