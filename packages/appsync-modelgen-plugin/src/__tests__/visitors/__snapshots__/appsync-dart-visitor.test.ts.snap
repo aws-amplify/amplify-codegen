@@ -9925,6 +9925,7 @@ class Project extends Model {
   final TemporalDateTime? _createdAt;
   final TemporalDateTime? _updatedAt;
   final String? _projectTeamTeamId;
+  final String? _projectTeamName;
 
   @override
   getInstanceType() => classType;
@@ -9991,14 +9992,19 @@ class Project extends Model {
     return _projectTeamTeamId;
   }
   
-  const Project._internal({required projectId, required name, team, createdAt, updatedAt, projectTeamTeamId}): _projectId = projectId, _name = name, _team = team, _createdAt = createdAt, _updatedAt = updatedAt, _projectTeamTeamId = projectTeamTeamId;
+  String? get projectTeamName {
+    return _projectTeamName;
+  }
   
-  factory Project({required String projectId, required String name, Team? team, String? projectTeamTeamId}) {
+  const Project._internal({required projectId, required name, team, createdAt, updatedAt, projectTeamTeamId, projectTeamName}): _projectId = projectId, _name = name, _team = team, _createdAt = createdAt, _updatedAt = updatedAt, _projectTeamTeamId = projectTeamTeamId, _projectTeamName = projectTeamName;
+  
+  factory Project({required String projectId, required String name, Team? team, String? projectTeamTeamId, String? projectTeamName}) {
     return Project._internal(
       projectId: projectId,
       name: name,
       team: team,
-      projectTeamTeamId: projectTeamTeamId);
+      projectTeamTeamId: projectTeamTeamId,
+      projectTeamName: projectTeamName);
   }
   
   bool equals(Object other) {
@@ -10012,7 +10018,8 @@ class Project extends Model {
       _projectId == other._projectId &&
       _name == other._name &&
       _team == other._team &&
-      _projectTeamTeamId == other._projectTeamTeamId;
+      _projectTeamTeamId == other._projectTeamTeamId &&
+      _projectTeamName == other._projectTeamName;
   }
   
   @override
@@ -10027,18 +10034,20 @@ class Project extends Model {
     buffer.write(\\"name=\\" + \\"$_name\\" + \\", \\");
     buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
     buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\") + \\", \\");
-    buffer.write(\\"projectTeamTeamId=\\" + \\"$_projectTeamTeamId\\");
+    buffer.write(\\"projectTeamTeamId=\\" + \\"$_projectTeamTeamId\\" + \\", \\");
+    buffer.write(\\"projectTeamName=\\" + \\"$_projectTeamName\\");
     buffer.write(\\"}\\");
     
     return buffer.toString();
   }
   
-  Project copyWith({Team? team, String? projectTeamTeamId}) {
+  Project copyWith({Team? team, String? projectTeamTeamId, String? projectTeamName}) {
     return Project._internal(
       projectId: projectId,
       name: name,
       team: team ?? this.team,
-      projectTeamTeamId: projectTeamTeamId ?? this.projectTeamTeamId);
+      projectTeamTeamId: projectTeamTeamId ?? this.projectTeamTeamId,
+      projectTeamName: projectTeamName ?? this.projectTeamName);
   }
   
   Project.fromJson(Map<String, dynamic> json)  
@@ -10049,10 +10058,11 @@ class Project extends Model {
         : null,
       _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null,
-      _projectTeamTeamId = json['projectTeamTeamId'];
+      _projectTeamTeamId = json['projectTeamTeamId'],
+      _projectTeamName = json['projectTeamName'];
   
   Map<String, dynamic> toJson() => {
-    'projectId': _projectId, 'name': _name, 'team': _team?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format(), 'projectTeamTeamId': _projectTeamTeamId
+    'projectId': _projectId, 'name': _name, 'team': _team?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format(), 'projectTeamTeamId': _projectTeamTeamId, 'projectTeamName': _projectTeamName
   };
 
   static final QueryField PROJECTID = QueryField(fieldName: \\"projectId\\");
@@ -10061,6 +10071,7 @@ class Project extends Model {
     fieldName: \\"team\\",
     fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Team).toString()));
   static final QueryField PROJECTTEAMTEAMID = QueryField(fieldName: \\"projectTeamTeamId\\");
+  static final QueryField PROJECTTEAMNAME = QueryField(fieldName: \\"projectTeamName\\");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Project\\";
     modelSchemaDefinition.pluralName = \\"Projects\\";
@@ -10104,6 +10115,12 @@ class Project extends Model {
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: Project.PROJECTTEAMTEAMID,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: Project.PROJECTTEAMNAME,
       isRequired: false,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
@@ -10436,6 +10453,541 @@ class TeamModelIdentifier implements ModelIdentifier<Team> {
   @override
   int get hashCode =>
     teamId.hashCode ^
+    name.hashCode;
+}"
+`;
+
+exports[`AppSync Dart Visitor custom primary key model generation should generate correct models for hasOne/belongsTo relation when custom PK is enabled 3`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
+
+import 'ModelProvider.dart';
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:flutter/foundation.dart';
+
+
+/** This is an auto generated class representing the CpkOneToOneBidirectionalParent type in your schema. */
+@immutable
+class CpkOneToOneBidirectionalParent extends Model {
+  static const classType = const _CpkOneToOneBidirectionalParentModelType();
+  final String id;
+  final String? _name;
+  final CpkOneToOneBidirectionalChildExplicit? _explicitChild;
+  final TemporalDateTime? _createdAt;
+  final TemporalDateTime? _updatedAt;
+  final String? _cpkOneToOneBidirectionalParentExplicitChildId;
+  final String? _cpkOneToOneBidirectionalParentExplicitChildName;
+
+  @override
+  getInstanceType() => classType;
+  
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
+  @override
+  String getId() => id;
+  
+  CpkOneToOneBidirectionalParentModelIdentifier get modelIdentifier {
+    try {
+      return CpkOneToOneBidirectionalParentModelIdentifier(
+        id: id,
+        name: _name!
+      );
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get name {
+    try {
+      return _name!;
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  CpkOneToOneBidirectionalChildExplicit? get explicitChild {
+    return _explicitChild;
+  }
+  
+  TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  String? get cpkOneToOneBidirectionalParentExplicitChildId {
+    return _cpkOneToOneBidirectionalParentExplicitChildId;
+  }
+  
+  String? get cpkOneToOneBidirectionalParentExplicitChildName {
+    return _cpkOneToOneBidirectionalParentExplicitChildName;
+  }
+  
+  const CpkOneToOneBidirectionalParent._internal({required this.id, required name, explicitChild, createdAt, updatedAt, cpkOneToOneBidirectionalParentExplicitChildId, cpkOneToOneBidirectionalParentExplicitChildName}): _name = name, _explicitChild = explicitChild, _createdAt = createdAt, _updatedAt = updatedAt, _cpkOneToOneBidirectionalParentExplicitChildId = cpkOneToOneBidirectionalParentExplicitChildId, _cpkOneToOneBidirectionalParentExplicitChildName = cpkOneToOneBidirectionalParentExplicitChildName;
+  
+  factory CpkOneToOneBidirectionalParent({String? id, required String name, CpkOneToOneBidirectionalChildExplicit? explicitChild, String? cpkOneToOneBidirectionalParentExplicitChildId, String? cpkOneToOneBidirectionalParentExplicitChildName}) {
+    return CpkOneToOneBidirectionalParent._internal(
+      id: id == null ? UUID.getUUID() : id,
+      name: name,
+      explicitChild: explicitChild,
+      cpkOneToOneBidirectionalParentExplicitChildId: cpkOneToOneBidirectionalParentExplicitChildId,
+      cpkOneToOneBidirectionalParentExplicitChildName: cpkOneToOneBidirectionalParentExplicitChildName);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is CpkOneToOneBidirectionalParent &&
+      id == other.id &&
+      _name == other._name &&
+      _explicitChild == other._explicitChild &&
+      _cpkOneToOneBidirectionalParentExplicitChildId == other._cpkOneToOneBidirectionalParentExplicitChildId &&
+      _cpkOneToOneBidirectionalParentExplicitChildName == other._cpkOneToOneBidirectionalParentExplicitChildName;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"CpkOneToOneBidirectionalParent {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$_name\\" + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"cpkOneToOneBidirectionalParentExplicitChildId=\\" + \\"$_cpkOneToOneBidirectionalParentExplicitChildId\\" + \\", \\");
+    buffer.write(\\"cpkOneToOneBidirectionalParentExplicitChildName=\\" + \\"$_cpkOneToOneBidirectionalParentExplicitChildName\\");
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  CpkOneToOneBidirectionalParent copyWith({CpkOneToOneBidirectionalChildExplicit? explicitChild, String? cpkOneToOneBidirectionalParentExplicitChildId, String? cpkOneToOneBidirectionalParentExplicitChildName}) {
+    return CpkOneToOneBidirectionalParent._internal(
+      id: id,
+      name: name,
+      explicitChild: explicitChild ?? this.explicitChild,
+      cpkOneToOneBidirectionalParentExplicitChildId: cpkOneToOneBidirectionalParentExplicitChildId ?? this.cpkOneToOneBidirectionalParentExplicitChildId,
+      cpkOneToOneBidirectionalParentExplicitChildName: cpkOneToOneBidirectionalParentExplicitChildName ?? this.cpkOneToOneBidirectionalParentExplicitChildName);
+  }
+  
+  CpkOneToOneBidirectionalParent.fromJson(Map<String, dynamic> json)  
+    : id = json['id'],
+      _name = json['name'],
+      _explicitChild = json['explicitChild']?['serializedData'] != null
+        ? CpkOneToOneBidirectionalChildExplicit.fromJson(new Map<String, dynamic>.from(json['explicitChild']['serializedData']))
+        : null,
+      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null,
+      _cpkOneToOneBidirectionalParentExplicitChildId = json['cpkOneToOneBidirectionalParentExplicitChildId'],
+      _cpkOneToOneBidirectionalParentExplicitChildName = json['cpkOneToOneBidirectionalParentExplicitChildName'];
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'name': _name, 'explicitChild': _explicitChild?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format(), 'cpkOneToOneBidirectionalParentExplicitChildId': _cpkOneToOneBidirectionalParentExplicitChildId, 'cpkOneToOneBidirectionalParentExplicitChildName': _cpkOneToOneBidirectionalParentExplicitChildName
+  };
+
+  static final QueryField ID = QueryField(fieldName: \\"id\\");
+  static final QueryField NAME = QueryField(fieldName: \\"name\\");
+  static final QueryField EXPLICITCHILD = QueryField(
+    fieldName: \\"explicitChild\\",
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (CpkOneToOneBidirectionalChildExplicit).toString()));
+  static final QueryField CPKONETOONEBIDIRECTIONALPARENTEXPLICITCHILDID = QueryField(fieldName: \\"cpkOneToOneBidirectionalParentExplicitChildId\\");
+  static final QueryField CPKONETOONEBIDIRECTIONALPARENTEXPLICITCHILDNAME = QueryField(fieldName: \\"cpkOneToOneBidirectionalParentExplicitChildName\\");
+  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"CpkOneToOneBidirectionalParent\\";
+    modelSchemaDefinition.pluralName = \\"CpkOneToOneBidirectionalParents\\";
+    
+    modelSchemaDefinition.indexes = [
+      ModelIndex(fields: const [\\"id\\", \\"name\\"], name: null)
+    ];
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: CpkOneToOneBidirectionalParent.NAME,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.hasOne(
+      key: CpkOneToOneBidirectionalParent.EXPLICITCHILD,
+      isRequired: false,
+      ofModelName: (CpkOneToOneBidirectionalChildExplicit).toString(),
+      associatedKey: CpkOneToOneBidirectionalChildExplicit.ID
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: CpkOneToOneBidirectionalParent.CPKONETOONEBIDIRECTIONALPARENTEXPLICITCHILDID,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: CpkOneToOneBidirectionalParent.CPKONETOONEBIDIRECTIONALPARENTEXPLICITCHILDNAME,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+  });
+}
+
+class _CpkOneToOneBidirectionalParentModelType extends ModelType<CpkOneToOneBidirectionalParent> {
+  const _CpkOneToOneBidirectionalParentModelType();
+  
+  @override
+  CpkOneToOneBidirectionalParent fromJson(Map<String, dynamic> jsonData) {
+    return CpkOneToOneBidirectionalParent.fromJson(jsonData);
+  }
+}
+
+/** 
+ * This is an auto generated class representing the model identifier
+ * of [CpkOneToOneBidirectionalParent] in your schema.
+ */
+@immutable
+class CpkOneToOneBidirectionalParentModelIdentifier implements ModelIdentifier<CpkOneToOneBidirectionalParent> {
+  final String id;
+  final String name;
+
+  /** 
+   * Create an instance of CpkOneToOneBidirectionalParentModelIdentifier using [id] the primary key.
+   * And [name] the sort key.
+   */
+  const CpkOneToOneBidirectionalParentModelIdentifier({
+    required this.id,
+    required this.name});
+  
+  @override
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'id': id,
+    'name': name
+  });
+  
+  @override
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  @override
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'CpkOneToOneBidirectionalParentModelIdentifier(id: $id, name: $name)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is CpkOneToOneBidirectionalParentModelIdentifier &&
+      id == other.id &&
+      name == other.name;
+  }
+  
+  @override
+  int get hashCode =>
+    id.hashCode ^
+    name.hashCode;
+}"
+`;
+
+exports[`AppSync Dart Visitor custom primary key model generation should generate correct models for hasOne/belongsTo relation when custom PK is enabled 4`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
+
+import 'ModelProvider.dart';
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:flutter/foundation.dart';
+
+
+/** This is an auto generated class representing the CpkOneToOneBidirectionalChildExplicit type in your schema. */
+@immutable
+class CpkOneToOneBidirectionalChildExplicit extends Model {
+  static const classType = const _CpkOneToOneBidirectionalChildExplicitModelType();
+  final String id;
+  final String? _name;
+  final CpkOneToOneBidirectionalParent? _belongsToParent;
+  final TemporalDateTime? _createdAt;
+  final TemporalDateTime? _updatedAt;
+
+  @override
+  getInstanceType() => classType;
+  
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
+  @override
+  String getId() => id;
+  
+  CpkOneToOneBidirectionalChildExplicitModelIdentifier get modelIdentifier {
+    try {
+      return CpkOneToOneBidirectionalChildExplicitModelIdentifier(
+        id: id,
+        name: _name!
+      );
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get name {
+    try {
+      return _name!;
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  CpkOneToOneBidirectionalParent? get belongsToParent {
+    return _belongsToParent;
+  }
+  
+  TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  const CpkOneToOneBidirectionalChildExplicit._internal({required this.id, required name, belongsToParent, createdAt, updatedAt}): _name = name, _belongsToParent = belongsToParent, _createdAt = createdAt, _updatedAt = updatedAt;
+  
+  factory CpkOneToOneBidirectionalChildExplicit({String? id, required String name, CpkOneToOneBidirectionalParent? belongsToParent}) {
+    return CpkOneToOneBidirectionalChildExplicit._internal(
+      id: id == null ? UUID.getUUID() : id,
+      name: name,
+      belongsToParent: belongsToParent);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is CpkOneToOneBidirectionalChildExplicit &&
+      id == other.id &&
+      _name == other._name &&
+      _belongsToParent == other._belongsToParent;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"CpkOneToOneBidirectionalChildExplicit {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$_name\\" + \\", \\");
+    buffer.write(\\"belongsToParent=\\" + (_belongsToParent != null ? _belongsToParent!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  CpkOneToOneBidirectionalChildExplicit copyWith({CpkOneToOneBidirectionalParent? belongsToParent}) {
+    return CpkOneToOneBidirectionalChildExplicit._internal(
+      id: id,
+      name: name,
+      belongsToParent: belongsToParent ?? this.belongsToParent);
+  }
+  
+  CpkOneToOneBidirectionalChildExplicit.fromJson(Map<String, dynamic> json)  
+    : id = json['id'],
+      _name = json['name'],
+      _belongsToParent = json['belongsToParent']?['serializedData'] != null
+        ? CpkOneToOneBidirectionalParent.fromJson(new Map<String, dynamic>.from(json['belongsToParent']['serializedData']))
+        : null,
+      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'name': _name, 'belongsToParent': _belongsToParent?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+
+  static final QueryField ID = QueryField(fieldName: \\"id\\");
+  static final QueryField NAME = QueryField(fieldName: \\"name\\");
+  static final QueryField BELONGSTOPARENT = QueryField(
+    fieldName: \\"belongsToParent\\",
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (CpkOneToOneBidirectionalParent).toString()));
+  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"CpkOneToOneBidirectionalChildExplicit\\";
+    modelSchemaDefinition.pluralName = \\"CpkOneToOneBidirectionalChildExplicits\\";
+    
+    modelSchemaDefinition.indexes = [
+      ModelIndex(fields: const [\\"id\\", \\"name\\"], name: null)
+    ];
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: CpkOneToOneBidirectionalChildExplicit.NAME,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+      key: CpkOneToOneBidirectionalChildExplicit.BELONGSTOPARENT,
+      isRequired: false,
+      targetNames: [\\"belongsToParentID\\", \\"belongsToParentName\\"],
+      ofModelName: (CpkOneToOneBidirectionalParent).toString()
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+    ));
+  });
+}
+
+class _CpkOneToOneBidirectionalChildExplicitModelType extends ModelType<CpkOneToOneBidirectionalChildExplicit> {
+  const _CpkOneToOneBidirectionalChildExplicitModelType();
+  
+  @override
+  CpkOneToOneBidirectionalChildExplicit fromJson(Map<String, dynamic> jsonData) {
+    return CpkOneToOneBidirectionalChildExplicit.fromJson(jsonData);
+  }
+}
+
+/** 
+ * This is an auto generated class representing the model identifier
+ * of [CpkOneToOneBidirectionalChildExplicit] in your schema.
+ */
+@immutable
+class CpkOneToOneBidirectionalChildExplicitModelIdentifier implements ModelIdentifier<CpkOneToOneBidirectionalChildExplicit> {
+  final String id;
+  final String name;
+
+  /** 
+   * Create an instance of CpkOneToOneBidirectionalChildExplicitModelIdentifier using [id] the primary key.
+   * And [name] the sort key.
+   */
+  const CpkOneToOneBidirectionalChildExplicitModelIdentifier({
+    required this.id,
+    required this.name});
+  
+  @override
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'id': id,
+    'name': name
+  });
+  
+  @override
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  @override
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'CpkOneToOneBidirectionalChildExplicitModelIdentifier(id: $id, name: $name)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is CpkOneToOneBidirectionalChildExplicitModelIdentifier &&
+      id == other.id &&
+      name == other.name;
+  }
+  
+  @override
+  int get hashCode =>
+    id.hashCode ^
     name.hashCode;
 }"
 `;
