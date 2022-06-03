@@ -779,8 +779,21 @@ describe('AppSync Dart Visitor', () => {
           name: String!
           project: Project @belongsTo
         }
+        type CpkOneToOneBidirectionalParent @model {
+          id: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          explicitChild: CpkOneToOneBidirectionalChildExplicit @hasOne
+        }
+        type CpkOneToOneBidirectionalChildExplicit @model {
+          id: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          belongsToParentID: ID
+          belongsToParentName: String
+          belongsToParent: CpkOneToOneBidirectionalParent
+            @belongsTo(fields: ["belongsToParentID", "belongsToParentName"])
+        }
       `;
-      ['Project', 'Team'].forEach(modelName => {
+      ['Project', 'Team', 'CpkOneToOneBidirectionalParent', 'CpkOneToOneBidirectionalChildExplicit'].forEach(modelName => {
         const generatedCode = getVisitor({
           schema,
           selectedType: modelName,
