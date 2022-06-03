@@ -37,7 +37,6 @@ export function processBelongsToConnection(
   // we are reusing the field and it should be preserved in selection set
   const otherSideHasMany = otherSideField.isList;
   const isConnectingFieldAutoCreated = false;
-
   // New metada type introduced by custom PK v2 support
   let targetNames: string[] = [ ...connectionFields ];
   if (targetNames.length === 0) {

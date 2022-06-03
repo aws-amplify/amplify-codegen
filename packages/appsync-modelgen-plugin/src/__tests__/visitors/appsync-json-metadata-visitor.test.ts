@@ -1355,7 +1355,7 @@ describe('Metadata visitor for custom PK support', () => {
       expect(getVisitor(schema, 'typescript', { useFieldNameForPrimaryKeyConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
     });   
   });
-  describe('relation metadata for hasMany/belongsTo when custom PK is enabled', () => {
+  describe('relation metadata for hasMany uni when custom PK is enabled', () => {
     const schema =  /* GraphQL */ `
       type Post @model {
         id: ID! @primaryKey(sortKeyFields: ["title"])
@@ -1365,6 +1365,26 @@ describe('Metadata visitor for custom PK support', () => {
       type Comment @model {
         id: ID! @primaryKey(sortKeyFields: ["content"])
         content: String!
+      }
+    `;
+    it('should generate correct metadata in js', () => {
+      expect(getVisitor(schema, 'javascript', { useFieldNameForPrimaryKeyConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
+    });
+    it('should generate correct metadata in ts', () => {
+      expect(getVisitor(schema, 'typescript', { useFieldNameForPrimaryKeyConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
+    });
+  });
+  describe('relation metadata for hasMany & belongsTo when custom PK is enabled', () => {
+    const schema =  /* GraphQL */ `
+      type Post @model {
+        customPostId: ID! @primaryKey(sortKeyFields: ["title"])
+        title: String!
+        comments: [Comment] @hasMany
+      }
+      type Comment @model {
+        customPostId: ID! @primaryKey(sortKeyFields: ["content"])
+        content: String!
+        post: Post @belongsTo
       }
     `;
     it('should generate correct metadata in js', () => {
