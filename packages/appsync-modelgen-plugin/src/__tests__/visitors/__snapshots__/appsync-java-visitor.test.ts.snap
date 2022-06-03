@@ -2051,10 +2051,10 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 public final class Blog implements Model {
   public static final QueryField ID = field(\\"Blog\\", \\"id\\");
   public static final QueryField NAME = field(\\"Blog\\", \\"name\\");
-  public static final QueryField BLOG_OWNER = field(\\"Blog\\", \\"blogOwnerWithCustomPksBlogsId\\");
+  public static final QueryField BLOG_OWNER = field(\\"Blog\\", \\"blogOwnerWithCustomPKSBlogsId\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
-  private final @ModelField(targetType=\\"BlogOwnerWithCustomPKS\\", isRequired = true) @BelongsTo(targetName = \\"blogOwnerWithCustomPksBlogsId\\", targetNames = {\\"blogOwnerWithCustomPksBlogsId\\"}, type = BlogOwnerWithCustomPKS.class) BlogOwnerWithCustomPKS blogOwner;
+  private final @ModelField(targetType=\\"BlogOwnerWithCustomPKS\\", isRequired = true) @BelongsTo(targetName = \\"blogOwnerWithCustomPKSBlogsId\\", targetNames = {\\"blogOwnerWithCustomPKSBlogsId\\"}, type = BlogOwnerWithCustomPKS.class) BlogOwnerWithCustomPKS blogOwner;
   private final @ModelField(targetType=\\"Post\\") @HasMany(associatedWith = \\"blog\\", type = Post.class) List<Post> posts = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
