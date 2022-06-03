@@ -1,5 +1,5 @@
 import { CodeGenModel, CodeGenModelMap, CodeGenField, CodeGenFieldDirective } from '../visitors/appsync-visitor';
-import { camelCase } from 'change-case';
+import { toCamelCase } from './fieldUtils';
 import { getDirective } from './fieldUtils';
 import { DEFAULT_HASH_KEY_FIELD } from './constants';
 
@@ -38,7 +38,7 @@ export type CodeGenFieldConnection = CodeGenFieldConnectionBelongsTo | CodeGenFi
 export function makeConnectionAttributeName(type: string, field?: string, otherSidePrimaryKeyComponentField: string = 'id') {
   // The same logic is used graphql-connection-transformer package to generate association field
   // Make sure the logic gets update in that package
-  return field ? camelCase([type, field, otherSidePrimaryKeyComponentField].join('_')) : camelCase([type, otherSidePrimaryKeyComponentField].join('_'));
+  return field ? toCamelCase([type, field, otherSidePrimaryKeyComponentField]) : toCamelCase([type, otherSidePrimaryKeyComponentField]);
 }
 
 export function flattenFieldDirectives(model: CodeGenModel) {

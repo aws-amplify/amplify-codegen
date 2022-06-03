@@ -714,14 +714,14 @@ export class AppSyncModelVisitor<
           isNullable: false,
           isList: false,
           name: camelCase(firstModel.name),
-          directives: [{ name: 'belongsTo', arguments: { fields: [firstModelKeyFieldName] } }],
+          directives: [{ name: 'belongsTo', arguments: { fields: [firstModelKeyFieldName, ...firstModelSortKeyFields.map(f => this.generateIntermediateModelSortKeyFieldName(firstModel, f))] } }],
         },
         {
           type: secondModel.name,
           isNullable: false,
           isList: false,
           name: camelCase(secondModel.name),
-          directives: [{ name: 'belongsTo', arguments: { fields: [secondModelKeyFieldName] } }],
+          directives: [{ name: 'belongsTo', arguments: { fields: [secondModelKeyFieldName, ...secondModelSortKeyFields.map(f => this.generateIntermediateModelSortKeyFieldName(secondModel, f))] } }],
         },
       ],
     };
@@ -762,7 +762,7 @@ export class AppSyncModelVisitor<
         context.field.type = graphqlName(toUpper(context.directive.arguments.relationName));
         context.field.directives.push({
           name: 'hasMany',
-          arguments: { indexName: `by${context.model.name}`, fields: [this.determinePrimaryKeyFieldname(context.model)] },
+          arguments: { indexName: `by${context.model.name}`, fields: [this.determinePrimaryKeyFieldname(context.model), ...this.getSortKeyFields(context.model).map(f => this.getFieldName(f))] },
         });
       } else {
         throw new Error('manyToMany directive not found on manyToMany field...');
@@ -824,9 +824,6 @@ export class AppSyncModelVisitor<
 
     const isCustomPKEnabled = this.isCustomPKEnabled();
 
-    // Only update model fields when it is js platform and custom pk ff is enabled
-    const updateModelFieldsWithForeignKeys: boolean = isCustomPKEnabled && ['metadata', 'javascript', 'typescript', 'java'].includes(this.config.target ?? '');
-
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
         const connectionInfo = processConnectionsV2(field, model, this.modelMap, shouldUseModelNameFieldInHasManyAndBelongsTo, isCustomPKEnabled);
@@ -839,7 +836,7 @@ export class AppSyncModelVisitor<
               addFieldToModel(connectionInfo.connectedModel, connectionInfo.associatedWith);
             }
           } else if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
-            if (updateModelFieldsWithForeignKeys) {
+            if (isCustomPKEnabled) {
               connectionInfo.targetNames.forEach(target => {
                 addFieldToModel(model, {
                   name: target,
@@ -859,7 +856,7 @@ export class AppSyncModelVisitor<
               });
             }
           } else if (connectionInfo.kind === CodeGenConnectionType.BELONGS_TO) {
-            if (updateModelFieldsWithForeignKeys && this.config.target !== 'java') {
+            if (isCustomPKEnabled) {
               connectionInfo.targetNames.forEach(target => {
                 addFieldToModel(model, {
                   name: target,
@@ -869,6 +866,14 @@ export class AppSyncModelVisitor<
                   isNullable: field.isNullable,
                 });
               })
+            } else {
+              addFieldToModel(model, {
+                name: connectionInfo.targetName,
+                directives: [],
+                type: 'ID',
+                isList: false,
+                isNullable: field.isNullable,
+              });
             }
           }
           field.connectionInfo = connectionInfo;
@@ -891,8 +896,26 @@ export class AppSyncModelVisitor<
         return true;
       });
     });
-
-    if(!updateModelFieldsWithForeignKeys || this.config.target === 'java') {
+    // Remove foreign keys in belongsTo models
+    if(isCustomPKEnabled) {
+      // The native platforms need to remove targetNames fields in belongsTo model
+      if (['java', 'swift', 'dart'].includes(this.config.target ?? '')) {
+        Object.values(this.modelMap).forEach(model => {
+          model.fields.forEach(field => {
+            const connectionInfo = field.connectionInfo;
+            if (
+              connectionInfo &&
+              connectionInfo.kind !== CodeGenConnectionType.HAS_MANY &&
+              connectionInfo.kind !== CodeGenConnectionType.HAS_ONE &&
+              connectionInfo.targetName !== 'id'
+            ) {
+              // Need to remove the field that is targetName
+              connectionInfo.targetNames.forEach(targetName => removeFieldFromModel(model, targetName));
+            }
+          });
+        });
+      }
+    } else {
       Object.values(this.modelMap).forEach(model => {
         model.fields.forEach(field => {
           const connectionInfo = field.connectionInfo;

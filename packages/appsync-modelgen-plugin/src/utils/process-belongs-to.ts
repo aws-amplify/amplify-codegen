@@ -46,13 +46,19 @@ export function processBelongsToConnection(
   const isConnectingFieldAutoCreated = false;
 
   // New metada type introduced by custom PK v2 support
-  const targetNames = connectionFields.length > 0
-    ? [ ...connectionFields ]
-    : (otherSideHasMany
-      ? [makeConnectionAttributeName(otherSide.name, otherSideField.name)]
-      : (isCustomPKEnabled
+  let targetNames: string[] = [ ...connectionFields ];
+  if (targetNames.length === 0) {
+    if (otherSideHasMany) {
+      targetNames = isCustomPKEnabled
+        ? getModelPrimaryKeyComponentFields(otherSide).map(componentField => makeConnectionAttributeName(otherSide.name, otherSideField.name, componentField.name))
+        : [makeConnectionAttributeName(otherSide.name, otherSideField.name)];
+    }
+    else {
+      targetNames = isCustomPKEnabled
         ? getModelPrimaryKeyComponentFields(otherSide).map(componentField => makeConnectionAttributeName(model.name, field.name, componentField.name))
-        : [makeConnectionAttributeName(model.name, field.name)]));
+        : [makeConnectionAttributeName(model.name, field.name)];
+    }
+  }
 
   return {
     kind: CodeGenConnectionType.BELONGS_TO,
@@ -74,4 +80,3 @@ export function getBelongsToConnectedField(field: CodeGenField, model: CodeGenMo
     return connectedModel.fields.find(connField => { return connField.name === otherSideDirectives[0].fieldName; });
   }
 }
-
