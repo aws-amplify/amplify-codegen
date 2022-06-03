@@ -17,3 +17,9 @@ export const getDirective = (fieldOrModel: CodeGenField | CodeGenModel) => (dire
 
 export const getOtherSideBelongsToFieldName = (type: string, otherSideModel: CodeGenModel): string | undefined =>
   otherSideModel.fields.filter(f => f.type === type).find(f => f.directives.find(d => d.name === TransformerV2DiretiveName.BELONGS_TO))?.name;
+
+// Function matching to GraphQL transformer so that the auto-generated field
+export function toCamelCase(words: string[]): string {
+  const formatted = words.map((w, i) => (i === 0 ? w.charAt(0).toLowerCase() + w.slice(1) : w.charAt(0).toUpperCase() + w.slice(1)));
+  return formatted.join('');
+}

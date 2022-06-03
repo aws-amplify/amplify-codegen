@@ -932,11 +932,12 @@ describe('AppSyncModelVisitor', () => {
         models: [ModelA] @manyToMany(relationName: "ModelAModelB")
       }
     `;
-    const { models } = createAndGeneratePipelinedTransformerVisitor(schema);
-    const { ModelAModelB } = models;
+    // ManyToMany sort key feature needs custom pk support
+    const { models } = createAndGenerateVisitor(schema, { usePipelinedTransformer: true, useFieldNameForPrimaryKeyConnectionField: true, transformerVersion: 2 });
+    const { ModelAModelB, ModelA, ModelB } = models;
     it('should generate correct fields and secondary keys for intermediate type', () => {
       expect(ModelAModelB).toBeDefined();
-      expect(ModelAModelB.fields.length).toEqual(7);
+      expect(ModelAModelB.fields.length).toEqual(9);
       const modelASortKeyField = ModelAModelB.fields.find(f => f.name === 'modelAsortId');
       expect(modelASortKeyField).toBeDefined();
       expect(modelASortKeyField.type).toEqual('ID');
@@ -951,6 +952,24 @@ describe('AppSyncModelVisitor', () => {
       const modelBIndexDirective = ModelAModelB.directives.find(d => d.name === 'key' && d.arguments.name === 'byModelB');
       expect(modelBIndexDirective).toBeDefined();
       expect(modelBIndexDirective.arguments.fields).toEqual(['modelBID', 'modelBsortId']);
+      const modelABelongsToDirective = ModelAModelB.fields.find(f => f.name === 'modelA')!.directives.find(d => d.name === 'belongsTo');
+      expect(modelABelongsToDirective).toBeDefined();
+      expect(modelABelongsToDirective.arguments.fields).toEqual(['modelAID', 'modelAsortId']);
+      const modelBBelongsToDirective = ModelAModelB.fields.find(f => f.name === 'modelB')!.directives.find(d => d.name === 'belongsTo');
+      expect(modelBBelongsToDirective).toBeDefined();
+      expect(modelBBelongsToDirective.arguments.fields).toEqual(['modelBID', 'modelBsortId']);
+    });
+    it('should generate correct hasMany fields for original models', () => {
+      expect(ModelA).toBeDefined();
+      const modelAHasManyDirective = ModelA.fields.find(f => f.name === 'models')!.directives.find(d => d.name === 'hasMany');
+      expect(modelAHasManyDirective).toBeDefined();
+      expect(modelAHasManyDirective.arguments.indexName).toEqual('byModelA');
+      expect(modelAHasManyDirective.arguments.fields).toEqual(['id', 'sortId']);
+      expect(ModelB).toBeDefined();
+      const modelBHasManyDirective = ModelB.fields.find(f => f.name === 'models')!.directives.find(d => d.name === 'hasMany');
+      expect(modelBHasManyDirective).toBeDefined();
+      expect(modelBHasManyDirective.arguments.indexName).toEqual('byModelB');
+      expect(modelBHasManyDirective.arguments.fields).toEqual(['id', 'sortId']);
     });
   });
 
