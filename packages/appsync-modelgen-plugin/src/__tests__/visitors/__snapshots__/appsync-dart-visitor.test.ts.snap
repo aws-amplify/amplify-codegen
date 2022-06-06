@@ -10096,7 +10096,7 @@ class Project extends Model {
       key: Project.TEAM,
       isRequired: false,
       ofModelName: (Team).toString(),
-      associatedKey: Team.TEAMID
+      associatedKey: Team.PROJECT
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
@@ -10648,7 +10648,7 @@ class CpkOneToOneBidirectionalParent extends Model {
       key: CpkOneToOneBidirectionalParent.EXPLICITCHILD,
       isRequired: false,
       ofModelName: (CpkOneToOneBidirectionalChildExplicit).toString(),
-      associatedKey: CpkOneToOneBidirectionalChildExplicit.ID
+      associatedKey: CpkOneToOneBidirectionalChildExplicit.BELONGSTOPARENT
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
