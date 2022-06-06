@@ -23,3 +23,13 @@ export function toCamelCase(words: string[]): string {
   const formatted = words.map((w, i) => (i === 0 ? w.charAt(0).toLowerCase() + w.slice(1) : w.charAt(0).toUpperCase() + w.slice(1)));
   return formatted.join('');
 }
+
+export function getOtherSideBelongsToField(type: string, otherSideModel: CodeGenModel): CodeGenField | undefined {
+  return otherSideModel.fields.filter(f => f.type === type).find(f => f.directives.find(d => d.name === TransformerV2DiretiveName.BELONGS_TO));
+}
+
+export function getModelPrimaryKeyComponentFields(model: CodeGenModel): CodeGenField[] {
+  const primaryKeyField = model.fields.find(field => field.primaryKeyInfo)!;
+  const { sortKeyFields } = primaryKeyField.primaryKeyInfo!;
+  return [ primaryKeyField, ...sortKeyFields ];
+}

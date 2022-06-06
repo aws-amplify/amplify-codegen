@@ -1,7 +1,7 @@
 import { CodeGenDirective, CodeGenField, CodeGenFieldDirective, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
 import { TransformerV2DiretiveName, DEFAULT_HASH_KEY_FIELD } from './constants';
 import { getDirective, getOtherSideBelongsToFieldName } from './fieldUtils';
-import { getModelPrimaryKeyComponentFields } from './get-model-primary-key-component-fields';
+import { getModelPrimaryKeyComponentFields } from './fieldUtils';
 import {
   CodeGenConnectionType,
   CodeGenFieldConnection,
