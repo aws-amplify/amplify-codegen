@@ -175,7 +175,7 @@ export class AppSyncJSONVisitor<
       if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
         connectionAttribute.associatedWith = this.getFieldName(connectionInfo.associatedWith);
       } else if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
-        if (this.config.useFieldNameForPrimaryKeyConnectionField) {
+        if (this.isCustomPKEnabled()) {
           connectionAttribute.associatedWith = connectionInfo.associatedWithFields.map(f => this.getFieldName(f));
           connectionAttribute.targetNames = connectionInfo.targetNames;
         } else {
@@ -183,7 +183,7 @@ export class AppSyncJSONVisitor<
           connectionAttribute.targetName = connectionInfo.targetName;
         }
       } else {
-        if (this.config.useFieldNameForPrimaryKeyConnectionField) {
+        if (this.isCustomPKEnabled()) {
           connectionAttribute.targetNames = connectionInfo.targetNames;
         } else {
           connectionAttribute.targetName = connectionInfo.targetName;
