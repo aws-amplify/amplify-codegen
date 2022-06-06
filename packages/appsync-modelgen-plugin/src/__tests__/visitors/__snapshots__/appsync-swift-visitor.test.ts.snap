@@ -577,7 +577,7 @@ extension Project {
     model.fields(
       .field(project.projectId, is: .required, ofType: .string),
       .field(project.name, is: .required, ofType: .string),
-      .hasOne(project.team, is: .optional, ofType: Team.self, associatedWith: Team.keys.teamId, targetNames: [\\"projectTeamTeamId\\", \\"projectTeamName\\"]),
+      .hasOne(project.team, is: .optional, ofType: Team.self, associatedWith: Team.keys.project, targetNames: [\\"projectTeamTeamId\\", \\"projectTeamName\\"]),
       .field(project.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(project.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(project.projectTeamTeamId, is: .optional, ofType: .string),
