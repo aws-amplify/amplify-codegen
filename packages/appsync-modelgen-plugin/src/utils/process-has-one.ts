@@ -5,7 +5,8 @@ import {
   makeConnectionAttributeName,
 } from './process-connections';
 import { getConnectedFieldV2 } from './process-connections-v2';
-import { getModelPrimaryKeyComponentFields } from './get-model-primary-key-component-fields';
+import { getModelPrimaryKeyComponentFields } from './fieldUtils';
+import { getOtherSideBelongsToField } from './fieldUtils';
 
 export function processHasOneConnection(
   field: CodeGenField,
@@ -15,7 +16,25 @@ export function processHasOneConnection(
   isCustomPKEnabled: boolean = false
 ): CodeGenFieldConnection | undefined {
   const otherSide = modelMap[field.type];
-  const otherSideField = getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
+  // Find other side belongsTo field when in bi direction connection
+  const otherSideBelongsToField = getOtherSideBelongsToField(model.name, otherSide);
+  if (field.isList || (otherSideBelongsToField && otherSideBelongsToField.isList)) {
+    throw new Error("A hasOne relationship should be 1:1, no lists");
+  }
+  let associatedWithFields;
+  if (isCustomPKEnabled) {
+    // Return belongsTo field when in bi direction connenction
+    if (otherSideBelongsToField) {
+      associatedWithFields = [otherSideBelongsToField];
+    }
+    // Otherwise return child pk and sk fields
+    else {
+      associatedWithFields = getModelPrimaryKeyComponentFields(otherSide);
+    }
+  } else {
+    const otherSideField = getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
+    associatedWithFields = [otherSideField];
+  }
   const connectionFields = connectionDirective.arguments.fields || [];
 
   // TODO: Update comment, graphql-connection-transformer is the v1 package and this file is created for vNext
@@ -30,20 +49,13 @@ export function processHasOneConnection(
     : (isCustomPKEnabled
       ? getModelPrimaryKeyComponentFields(otherSide).map(componentField => makeConnectionAttributeName(model.name, field.name, componentField.name))
       : [makeConnectionAttributeName(model.name, field.name)])
-  if (!field.isList && !otherSideField.isList) {
-    return {
-      kind: CodeGenConnectionType.HAS_ONE,
-      associatedWith: otherSideField,
-      associatedWithFields: isCustomPKEnabled
-        ? getModelPrimaryKeyComponentFields(otherSide)
-        : [otherSideField],
-      connectedModel: otherSide,
-      isConnectingFieldAutoCreated,
-      targetName: targetNames[0],
-      targetNames,
-    };
-  }
-  else {
-    throw new Error("A hasOne relationship should be 1:1, no lists");
-  }
+  return {
+    kind: CodeGenConnectionType.HAS_ONE,
+    associatedWith: associatedWithFields[0],
+    associatedWithFields,
+    connectedModel: otherSide,
+    isConnectingFieldAutoCreated,
+    targetName: targetNames[0],
+    targetNames,
+  };
 }

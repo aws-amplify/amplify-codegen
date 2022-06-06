@@ -1,5 +1,5 @@
 import { CodeGenDirective, CodeGenField, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
-import { getModelPrimaryKeyComponentFields } from './get-model-primary-key-component-fields';
+import { getModelPrimaryKeyComponentFields } from './fieldUtils';
 import {
   CodeGenConnectionType,
   CodeGenFieldConnection,
