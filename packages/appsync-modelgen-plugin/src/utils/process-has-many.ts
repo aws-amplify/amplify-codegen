@@ -142,13 +142,13 @@ export function getConnectedFieldsForHasMany(
   }
   // Otherwise use auto-generated foreign keys
   return getModelPrimaryKeyComponentFields(model)
-    .map(compField => makeConnectionAttributeName(model.name, field.name, compField.name))
-    .map(foreignKeyFieldName => {
+    .map(compField => {
+      const foreignKeyFieldName = makeConnectionAttributeName(model.name, field.name, compField.name);
       otherSideConnectedField = connectedModel.fields.find(f => f.name === foreignKeyFieldName);
       return otherSideConnectedField ?? {
         name: foreignKeyFieldName,
         directives: [],
-        type: 'ID',
+        type: compField.type,
         isList: false,
         isNullable: true,
       }
