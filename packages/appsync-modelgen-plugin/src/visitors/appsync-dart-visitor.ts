@@ -54,7 +54,6 @@ export interface RawAppSyncModelDartConfig extends RawAppSyncModelConfig {
 }
 
 export interface ParsedAppSyncModelDartConfig extends ParsedAppSyncModelConfig {
-  useFieldNameForPrimaryKeyConnectionField: boolean;
   enableDartNullSafety: boolean;
   enableDartZeroThreeFeatures: boolean;
   dartUpdateAmplifyCoreDependency: boolean;
