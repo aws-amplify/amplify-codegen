@@ -10,7 +10,7 @@ const defaultIosVisitorSetings = {
   generateIndexRules: true,
   handleListNullabilityTransparently: true,
   transformerVersion: 1,
-  useFieldNameForPrimaryKeyConnectionField: false
+  respectPrimaryKeyAttributesOnConnectionField: false
 }
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
@@ -2564,10 +2564,10 @@ describe('AppSyncSwiftVisitor', () => {
           project: Project @belongsTo
         }
       `;
-      const generatedCodeProject = getVisitorPipelinedTransformer(schema, 'Project', CodeGenGenerateEnum.code, { useFieldNameForPrimaryKeyConnectionField: true }).generate();
-      const generatedMetaProject = getVisitorPipelinedTransformer(schema, 'Project', CodeGenGenerateEnum.metadata, { useFieldNameForPrimaryKeyConnectionField: true }).generate();
-      const generatedCodeTeam = getVisitorPipelinedTransformer(schema, 'Team', CodeGenGenerateEnum.code, { useFieldNameForPrimaryKeyConnectionField: true }).generate();
-      const generatedMetaTeam = getVisitorPipelinedTransformer(schema, 'Team', CodeGenGenerateEnum.metadata, { useFieldNameForPrimaryKeyConnectionField: true }).generate();
+      const generatedCodeProject = getVisitorPipelinedTransformer(schema, 'Project', CodeGenGenerateEnum.code, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      const generatedMetaProject = getVisitorPipelinedTransformer(schema, 'Project', CodeGenGenerateEnum.metadata, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      const generatedCodeTeam = getVisitorPipelinedTransformer(schema, 'Team', CodeGenGenerateEnum.code, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      const generatedMetaTeam = getVisitorPipelinedTransformer(schema, 'Team', CodeGenGenerateEnum.metadata, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
       expect(generatedCodeProject).toMatchSnapshot();
       expect(generatedMetaProject).toMatchSnapshot();
       expect(generatedCodeTeam).toMatchSnapshot();
@@ -2587,10 +2587,10 @@ describe('AppSyncSwiftVisitor', () => {
           content: String!
         }
       `;
-      const generatedCodePost = getVisitorPipelinedTransformer(schema, 'Post', CodeGenGenerateEnum.code, { useFieldNameForPrimaryKeyConnectionField: true }).generate();
-      const generatedMetaPost = getVisitorPipelinedTransformer(schema, 'Post', CodeGenGenerateEnum.metadata, { useFieldNameForPrimaryKeyConnectionField: true }).generate();
-      const generatedCodeComment = getVisitorPipelinedTransformer(schema, 'Comment', CodeGenGenerateEnum.code, { useFieldNameForPrimaryKeyConnectionField: true }).generate();
-      const generatedMetaComment = getVisitorPipelinedTransformer(schema, 'Comment', CodeGenGenerateEnum.metadata, { useFieldNameForPrimaryKeyConnectionField: true }).generate();
+      const generatedCodePost = getVisitorPipelinedTransformer(schema, 'Post', CodeGenGenerateEnum.code, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      const generatedMetaPost = getVisitorPipelinedTransformer(schema, 'Post', CodeGenGenerateEnum.metadata, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      const generatedCodeComment = getVisitorPipelinedTransformer(schema, 'Comment', CodeGenGenerateEnum.code, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      const generatedMetaComment = getVisitorPipelinedTransformer(schema, 'Comment', CodeGenGenerateEnum.metadata, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
       expect(generatedCodePost).toMatchSnapshot();
       expect(generatedMetaPost).toMatchSnapshot();
       expect(generatedCodeComment).toMatchSnapshot();
