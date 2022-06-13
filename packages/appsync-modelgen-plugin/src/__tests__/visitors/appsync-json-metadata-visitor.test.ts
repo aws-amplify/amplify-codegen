@@ -12,7 +12,7 @@ import { CodeGenEnum, CodeGenField, CodeGenModel } from '../../visitors/appsync-
 
 const defaultJSONVisitorSettings = {
   isTimestampFieldsAdded: true,
-  useFieldNameForPrimaryKeyConnectionField: false,
+  respectPrimaryKeyAttributesOnConnectionField: false,
   transformerVersion: 1
 }
 
@@ -1349,10 +1349,10 @@ describe('Metadata visitor for custom PK support', () => {
       }
     `;
     it('should generate correct metadata in js', () => {
-      expect(getVisitor(schema, 'javascript', { useFieldNameForPrimaryKeyConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
+      expect(getVisitor(schema, 'javascript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
     });
     it('should generate correct metadata in ts', () => {
-      expect(getVisitor(schema, 'typescript', { useFieldNameForPrimaryKeyConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
+      expect(getVisitor(schema, 'typescript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
     });   
   });
   describe('relation metadata for hasMany uni when custom PK is enabled', () => {
@@ -1368,10 +1368,10 @@ describe('Metadata visitor for custom PK support', () => {
       }
     `;
     it('should generate correct metadata in js', () => {
-      expect(getVisitor(schema, 'javascript', { useFieldNameForPrimaryKeyConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
+      expect(getVisitor(schema, 'javascript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
     });
     it('should generate correct metadata in ts', () => {
-      expect(getVisitor(schema, 'typescript', { useFieldNameForPrimaryKeyConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
+      expect(getVisitor(schema, 'typescript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
     });
   });
   describe('relation metadata for hasMany & belongsTo when custom PK is enabled', () => {
@@ -1388,10 +1388,10 @@ describe('Metadata visitor for custom PK support', () => {
       }
     `;
     it('should generate correct metadata in js', () => {
-      expect(getVisitor(schema, 'javascript', { useFieldNameForPrimaryKeyConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
+      expect(getVisitor(schema, 'javascript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
     });
     it('should generate correct metadata in ts', () => {
-      expect(getVisitor(schema, 'typescript', { useFieldNameForPrimaryKeyConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
+      expect(getVisitor(schema, 'typescript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
     });
   });
 })

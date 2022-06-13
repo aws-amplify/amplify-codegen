@@ -10,13 +10,13 @@ const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
 export type JavaScriptVisitorConfig = {
   isDeclaration?: boolean;
   isTimestampFieldsAdded?: boolean;
-  useFieldNameForPrimaryKeyConnectionField?: boolean;
+  respectPrimaryKeyAttributesOnConnectionField?: boolean;
   transformerVersion?: number;
 };
 const defaultJavaScriptVisitorConfig: JavaScriptVisitorConfig = {
   isDeclaration: false,
   isTimestampFieldsAdded: false,
-  useFieldNameForPrimaryKeyConnectionField: false,
+  respectPrimaryKeyAttributesOnConnectionField: false,
   transformerVersion: 1,
 };
 const getVisitor = (schema: string, settings: JavaScriptVisitorConfig = {}): AppSyncModelJavascriptVisitor => {
@@ -577,7 +577,7 @@ describe('Javascript visitor with custom primary key', () => {
     const visitor = getVisitor(schemaV2, {
       isDeclaration: true,
       isTimestampFieldsAdded: true,
-      useFieldNameForPrimaryKeyConnectionField: true,
+      respectPrimaryKeyAttributesOnConnectionField: true,
       transformerVersion: 2,
     });
     const declarations = visitor.generate();
@@ -712,7 +712,7 @@ describe('New model meta field test', () => {
     const visitor = getVisitor(schemaV2, {
       isDeclaration: true,
       isTimestampFieldsAdded: true,
-      useFieldNameForPrimaryKeyConnectionField: true,
+      respectPrimaryKeyAttributesOnConnectionField: true,
       transformerVersion: 2,
     });
     const declarations = visitor.generate();
@@ -830,7 +830,7 @@ describe('Javascript visitor with connected models of custom pk', () => {
       const visitor = getVisitor(schema, {
         isDeclaration: true,
         isTimestampFieldsAdded: true,
-        useFieldNameForPrimaryKeyConnectionField: true,
+        respectPrimaryKeyAttributesOnConnectionField: true,
         transformerVersion: 2,
       });
       const declarations = visitor.generate();
@@ -854,7 +854,7 @@ describe('Javascript visitor with connected models of custom pk', () => {
       const visitor = getVisitor(schema, {
         isDeclaration: true,
         isTimestampFieldsAdded: true,
-        useFieldNameForPrimaryKeyConnectionField: true,
+        respectPrimaryKeyAttributesOnConnectionField: true,
         transformerVersion: 2,
       });
       const declarations = visitor.generate();
@@ -877,7 +877,7 @@ describe('Javascript visitor with connected models of custom pk', () => {
       const visitor = getVisitor(schema, {
         isDeclaration: true,
         isTimestampFieldsAdded: true,
-        useFieldNameForPrimaryKeyConnectionField: true,
+        respectPrimaryKeyAttributesOnConnectionField: true,
         transformerVersion: 2,
       });
       const declarations = visitor.generate();

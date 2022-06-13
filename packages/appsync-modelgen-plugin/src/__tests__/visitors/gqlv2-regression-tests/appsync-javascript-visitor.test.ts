@@ -11,7 +11,7 @@ const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
 const defaultJavaScriptVisitorConfigV2: JavaScriptVisitorConfig = {
   isDeclaration: false,
   isTimestampFieldsAdded: true,
-  useFieldNameForPrimaryKeyConnectionField: false,
+  respectPrimaryKeyAttributesOnConnectionField: false,
   transformerVersion: 2
 }
 

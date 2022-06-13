@@ -128,7 +128,7 @@ exports[`Metadata visitor for custom PK support relation metadata for hasMany & 
                 \\"postCommentsTitle\\": {
                     \\"name\\": \\"postCommentsTitle\\",
                     \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
+                    \\"type\\": \\"String\\",
                     \\"isRequired\\": false,
                     \\"attributes\\": []
                 }
@@ -154,7 +154,7 @@ exports[`Metadata visitor for custom PK support relation metadata for hasMany & 
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"version\\": \\"b8fc7cf0f91588682ef15932d0868259\\"
+    \\"version\\": \\"659e1eb12939cc2501f6714dd47e38db\\"
 };"
 `;
 
@@ -288,7 +288,7 @@ export const schema: Schema = {
                 \\"postCommentsTitle\\": {
                     \\"name\\": \\"postCommentsTitle\\",
                     \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
+                    \\"type\\": \\"String\\",
                     \\"isRequired\\": false,
                     \\"attributes\\": []
                 }
@@ -314,7 +314,7 @@ export const schema: Schema = {
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"version\\": \\"b8fc7cf0f91588682ef15932d0868259\\"
+    \\"version\\": \\"659e1eb12939cc2501f6714dd47e38db\\"
 };"
 `;
 
@@ -430,7 +430,7 @@ exports[`Metadata visitor for custom PK support relation metadata for hasMany un
                 \\"postCommentsTitle\\": {
                     \\"name\\": \\"postCommentsTitle\\",
                     \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
+                    \\"type\\": \\"String\\",
                     \\"isRequired\\": false,
                     \\"attributes\\": []
                 }
@@ -456,7 +456,7 @@ exports[`Metadata visitor for custom PK support relation metadata for hasMany un
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"version\\": \\"2aa94c5eadd4c765f2bf87533c6a1e0f\\"
+    \\"version\\": \\"e23929793f7dde6f8adbcca0c2cc6ff0\\"
 };"
 `;
 
@@ -574,7 +574,7 @@ export const schema: Schema = {
                 \\"postCommentsTitle\\": {
                     \\"name\\": \\"postCommentsTitle\\",
                     \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
+                    \\"type\\": \\"String\\",
                     \\"isRequired\\": false,
                     \\"attributes\\": []
                 }
@@ -600,7 +600,7 @@ export const schema: Schema = {
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"version\\": \\"2aa94c5eadd4c765f2bf87533c6a1e0f\\"
+    \\"version\\": \\"e23929793f7dde6f8adbcca0c2cc6ff0\\"
 };"
 `;
 
@@ -669,7 +669,7 @@ exports[`Metadata visitor for custom PK support relation metadata for hasOne/bel
                 \\"projectTeamName\\": {
                     \\"name\\": \\"projectTeamName\\",
                     \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
+                    \\"type\\": \\"String\\",
                     \\"isRequired\\": false,
                     \\"attributes\\": []
                 }
@@ -751,7 +751,7 @@ exports[`Metadata visitor for custom PK support relation metadata for hasOne/bel
                 \\"teamProjectName\\": {
                     \\"name\\": \\"teamProjectName\\",
                     \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
+                    \\"type\\": \\"String\\",
                     \\"isRequired\\": false,
                     \\"attributes\\": []
                 }
@@ -777,7 +777,7 @@ exports[`Metadata visitor for custom PK support relation metadata for hasOne/bel
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"version\\": \\"39349e48b05e585c89308037a29320cd\\"
+    \\"version\\": \\"e44592ddc9b6514a18674da5baacfe68\\"
 };"
 `;
 
@@ -848,7 +848,7 @@ export const schema: Schema = {
                 \\"projectTeamName\\": {
                     \\"name\\": \\"projectTeamName\\",
                     \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
+                    \\"type\\": \\"String\\",
                     \\"isRequired\\": false,
                     \\"attributes\\": []
                 }
@@ -930,7 +930,7 @@ export const schema: Schema = {
                 \\"teamProjectName\\": {
                     \\"name\\": \\"teamProjectName\\",
                     \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
+                    \\"type\\": \\"String\\",
                     \\"isRequired\\": false,
                     \\"attributes\\": []
                 }
@@ -956,6 +956,6 @@ export const schema: Schema = {
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"version\\": \\"39349e48b05e585c89308037a29320cd\\"
+    \\"version\\": \\"e44592ddc9b6514a18674da5baacfe68\\"
 };"
 `;
