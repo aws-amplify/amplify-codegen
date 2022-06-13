@@ -10,7 +10,7 @@ const defaultJavaVisitorSettings = {
   handleListNullabilityTransparently: true,
   transformerVersion: 1,
   generate: CodeGenGenerateEnum.code,
-  useFieldNameForPrimaryKeyConnectionField: false,
+  respectPrimaryKeyAttributesOnConnectionField: false,
 }
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
@@ -697,8 +697,8 @@ describe('AppSyncModelVisitor', () => {
           project: Project @belongsTo
         }
       `;
-      const generatedCodeProject = getVisitorPipelinedTransformer(schema, `Project`, { useFieldNameForPrimaryKeyConnectionField: true }).generate();
-      const generatedCodeTeam = getVisitorPipelinedTransformer(schema, `Team`, { useFieldNameForPrimaryKeyConnectionField: true }).generate();
+      const generatedCodeProject = getVisitorPipelinedTransformer(schema, `Project`, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      const generatedCodeTeam = getVisitorPipelinedTransformer(schema, `Team`, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
       expect(generatedCodeProject).toMatchSnapshot();
       expect(generatedCodeTeam).toMatchSnapshot();
     });
@@ -715,8 +715,8 @@ describe('AppSyncModelVisitor', () => {
           content: String!
         }
       `;
-      const generatedCodePost = getVisitorPipelinedTransformer(schema, 'Post', { useFieldNameForPrimaryKeyConnectionField: true }).generate();
-      const generatedCodeComment = getVisitorPipelinedTransformer(schema, 'Comment', { useFieldNameForPrimaryKeyConnectionField: true }).generate();      
+      const generatedCodePost = getVisitorPipelinedTransformer(schema, 'Post', { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      const generatedCodeComment = getVisitorPipelinedTransformer(schema, 'Comment', { respectPrimaryKeyAttributesOnConnectionField: true }).generate();      
       expect(generatedCodePost).toMatchSnapshot();
       expect(generatedCodeComment).toMatchSnapshot();
     });

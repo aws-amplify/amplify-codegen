@@ -217,7 +217,7 @@ public final class Comment implements Model {
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   private final @ModelField(targetType=\\"ID\\") String postCommentsId;
-  private final @ModelField(targetType=\\"ID\\") String postCommentsTitle;
+  private final @ModelField(targetType=\\"String\\") String postCommentsTitle;
   private CommentIdentifier commentIdentifier;
   public CommentIdentifier resolveIdentifier() {
     if (commentIdentifier == null) {
@@ -448,7 +448,7 @@ public final class Project implements Model {
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   private final @ModelField(targetType=\\"ID\\") String projectTeamTeamId;
-  private final @ModelField(targetType=\\"ID\\") String projectTeamName;
+  private final @ModelField(targetType=\\"String\\") String projectTeamName;
   private ProjectIdentifier projectIdentifier;
   public ProjectIdentifier resolveIdentifier() {
     if (projectIdentifier == null) {
