@@ -17,7 +17,7 @@ const getVisitor = ({
   isTimestampFieldsAdded = false,
   transformerVersion = 1,
   dartUpdateAmplifyCoreDependency = false,
-  useFieldNameForPrimaryKeyConnectionField = false,
+  respectPrimaryKeyAttributesOnConnectionField = false,
 }: {
   schema: string;
   selectedType?: string;
@@ -27,7 +27,7 @@ const getVisitor = ({
   isTimestampFieldsAdded?: boolean;
   transformerVersion?: number;
   dartUpdateAmplifyCoreDependency?: boolean;
-  useFieldNameForPrimaryKeyConnectionField?: boolean;
+  respectPrimaryKeyAttributesOnConnectionField?: boolean;
 }) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -42,7 +42,7 @@ const getVisitor = ({
       isTimestampFieldsAdded,
       transformerVersion,
       dartUpdateAmplifyCoreDependency,
-      useFieldNameForPrimaryKeyConnectionField,
+      respectPrimaryKeyAttributesOnConnectionField,
     },
     { selectedType, generate },
   );
@@ -707,7 +707,7 @@ describe('AppSync Dart Visitor', () => {
           enableDartNullSafety: true,
           enableDartZeroThreeFeatures: true,
           isTimestampFieldsAdded: true,
-          useFieldNameForPrimaryKeyConnectionField: true,
+          respectPrimaryKeyAttributesOnConnectionField: true,
           transformerVersion: 2
         }).generate();
 
@@ -729,7 +729,7 @@ describe('AppSync Dart Visitor', () => {
         enableDartNullSafety: true,
         enableDartZeroThreeFeatures: true,
         isTimestampFieldsAdded: true,
-        useFieldNameForPrimaryKeyConnectionField: true,
+        respectPrimaryKeyAttributesOnConnectionField: true,
         transformerVersion: 2,
       }).generate();
 
@@ -758,7 +758,7 @@ describe('AppSync Dart Visitor', () => {
             enableDartNullSafety: true,
             enableDartZeroThreeFeatures: true,
             isTimestampFieldsAdded: true,
-            useFieldNameForPrimaryKeyConnectionField: true,
+            respectPrimaryKeyAttributesOnConnectionField: true,
             transformerVersion: 2,
           }).generate();
 
@@ -800,7 +800,7 @@ describe('AppSync Dart Visitor', () => {
           enableDartNullSafety: true,
           enableDartZeroThreeFeatures: true,
           isTimestampFieldsAdded: true,
-          useFieldNameForPrimaryKeyConnectionField: true,
+          respectPrimaryKeyAttributesOnConnectionField: true,
           transformerVersion: 2,
         }).generate();
         expect(generatedCode).toMatchSnapshot();
@@ -825,7 +825,7 @@ describe('AppSync Dart Visitor', () => {
           enableDartNullSafety: true,
           enableDartZeroThreeFeatures: true,
           isTimestampFieldsAdded: true,
-          useFieldNameForPrimaryKeyConnectionField: true,
+          respectPrimaryKeyAttributesOnConnectionField: true,
           transformerVersion: 2,
         }).generate();
         expect(generatedCode).toMatchSnapshot();
