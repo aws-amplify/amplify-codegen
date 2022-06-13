@@ -21,7 +21,7 @@ import {
   parse,
   valueFromASTUntyped,
 } from 'graphql';
-import { addFieldToModel, getDirective, removeFieldFromModel } from '../utils/fieldUtils';
+import { addFieldToModel, getDirective, getModelPrimaryKeyComponentFields, removeFieldFromModel } from '../utils/fieldUtils';
 import { getTypeInfo } from '../utils/get-type-info';
 import { CodeGenConnectionType, CodeGenFieldConnection, flattenFieldDirectives, processConnections } from '../utils/process-connections';
 import { sortFields } from '../utils/sort';
@@ -125,11 +125,11 @@ export interface RawAppSyncModelConfig extends RawConfig {
    */
   transformerVersion?: number;
   /**
-   * @name useFieldNameForPrimaryKeyConnectionField
+   * @name respectPrimaryKeyAttributesOnConnectionField
    * @type boolean
    * @descriptions optional boolean which determines whether to use custom primary key support
    */
-  useFieldNameForPrimaryKeyConnectionField?: boolean;
+  respectPrimaryKeyAttributesOnConnectionField?: boolean;
 }
 
 // Todo: need to figure out how to share config
@@ -141,7 +141,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   handleListNullabilityTransparently?: boolean;
   usePipelinedTransformer?: boolean;
   transformerVersion?: number;
-  useFieldNameForPrimaryKeyConnectionField?: boolean;
+  respectPrimaryKeyAttributesOnConnectionField?: boolean;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
 
@@ -232,7 +232,7 @@ export class AppSyncModelVisitor<
       handleListNullabilityTransparently: rawConfig.handleListNullabilityTransparently,
       usePipelinedTransformer: rawConfig.usePipelinedTransformer,
       transformerVersion: rawConfig.transformerVersion,
-      useFieldNameForPrimaryKeyConnectionField: rawConfig.useFieldNameForPrimaryKeyConnectionField,
+      respectPrimaryKeyAttributesOnConnectionField: rawConfig.respectPrimaryKeyAttributesOnConnectionField,
     });
 
     const typesUsedInDirectives: string[] = [];
@@ -837,11 +837,12 @@ export class AppSyncModelVisitor<
             }
           } else if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
             if (isCustomPKEnabled) {
-              connectionInfo.targetNames.forEach(target => {
+              const connectedModelFields = getModelPrimaryKeyComponentFields(connectionInfo.connectedModel);
+              connectionInfo.targetNames.forEach((target, index) => {
                 addFieldToModel(model, {
                   name: target,
                   directives: [],
-                  type: 'ID',
+                  type: connectedModelFields[index].type,
                   isList: false,
                   isNullable: field.isNullable,
                 });
@@ -857,11 +858,12 @@ export class AppSyncModelVisitor<
             }
           } else if (connectionInfo.kind === CodeGenConnectionType.BELONGS_TO) {
             if (isCustomPKEnabled) {
-              connectionInfo.targetNames.forEach(target => {
+              const connectedModelFields = getModelPrimaryKeyComponentFields(connectionInfo.connectedModel);
+              connectionInfo.targetNames.forEach((target, index) => {
                 addFieldToModel(model, {
                   name: target,
                   directives: [],
-                  type: 'ID',
+                  type: connectedModelFields[index].type,
                   isList: false,
                   isNullable: field.isNullable,
                 });
@@ -1009,7 +1011,7 @@ export class AppSyncModelVisitor<
    * Check if custom PK is enabled
    */
   protected isCustomPKEnabled(): boolean {
-    return this.config.transformerVersion === 2 && (this.config.useFieldNameForPrimaryKeyConnectionField ?? false);
+    return this.config.transformerVersion === 2 && (this.config.respectPrimaryKeyAttributesOnConnectionField ?? false);
   }
 
   get models() {

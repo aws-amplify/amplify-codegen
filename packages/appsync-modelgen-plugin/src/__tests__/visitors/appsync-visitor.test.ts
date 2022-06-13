@@ -6,7 +6,7 @@ import { AppSyncModelVisitor, CodeGenGenerateEnum, CodeGenPrimaryKeyType } from 
 const defaultBaseVisitorSettings = {
   usePipelinedTransformer: false,
   isTimestampFieldsAdded: true,
-  useFieldNameForPrimaryKeyConnectionField: false
+  respectPrimaryKeyAttributesOnConnectionField: false
 }
 const buildSchemaWithDirectives = (schema: String) => {
   return buildSchema([schema, directives, scalars].join('\n'));
@@ -933,7 +933,7 @@ describe('AppSyncModelVisitor', () => {
       }
     `;
     // ManyToMany sort key feature needs custom pk support
-    const { models } = createAndGenerateVisitor(schema, { usePipelinedTransformer: true, useFieldNameForPrimaryKeyConnectionField: true, transformerVersion: 2 });
+    const { models } = createAndGenerateVisitor(schema, { usePipelinedTransformer: true, respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 });
     const { ModelAModelB, ModelA, ModelB } = models;
     it('should generate correct fields and secondary keys for intermediate type', () => {
       expect(ModelAModelB).toBeDefined();
@@ -1174,7 +1174,7 @@ describe('AppSyncModelVisitor', () => {
           project: Project @belongsTo
         }
       `;
-      const { models } = createAndGenerateVisitor(schema, { usePipelinedTransformer: true, useFieldNameForPrimaryKeyConnectionField: true, transformerVersion: 2 });
+      const { models } = createAndGenerateVisitor(schema, { usePipelinedTransformer: true, respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 });
       //hasOne for Project
       const projectTeamField = models.Project.fields.find(field => field.name === 'team')!;
       const teamProjectField = models.Team.fields.find(field => field.name === 'project')!;
@@ -1186,6 +1186,11 @@ describe('AppSyncModelVisitor', () => {
       expect(projectTeamHasOneConnectionInfo.targetNames).toContain('projectTeamName');
       expect(projectTeamHasOneConnectionInfo.associatedWith).toEqual(teamProjectField);
       expect(projectTeamHasOneConnectionInfo.associatedWithFields).toEqual([teamProjectField]);
+      //hasOne foreign key fields
+      const projectTeamTeamIdField = models.Project.fields.find(field => field.name === 'projectTeamTeamId')!;
+      const projectTeamNameField = models.Project.fields.find(field => field.name === 'projectTeamName')!;
+      expect(projectTeamTeamIdField.type).toBe('ID');
+      expect(projectTeamNameField.type).toBe('String');
       //belongsTo for Team
       const teamProjectBelongsToConnectionInfo = (teamProjectField.connectionInfo!) as CodeGenFieldConnectionBelongsTo;
       expect(teamProjectBelongsToConnectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
@@ -1193,6 +1198,11 @@ describe('AppSyncModelVisitor', () => {
       expect(teamProjectBelongsToConnectionInfo.targetNames.length).toBe(2);
       expect(teamProjectBelongsToConnectionInfo.targetNames).toContain('teamProjectProjectId');
       expect(teamProjectBelongsToConnectionInfo.targetNames).toContain('teamProjectName');
+      //belongsTo foreign key fields
+      const teamProjectProjectIdField = models.Team.fields.find(field => field.name === 'teamProjectProjectId')!;
+      const teamProjectNameField = models.Team.fields.find(field => field.name === 'teamProjectName')!;
+      expect(teamProjectProjectIdField.type).toBe('ID');
+      expect(teamProjectNameField.type).toBe('String');
     });
     it('should have correct output for hasMany uni connection info when model pk is composite key', () => {
       const schema = /* GraphQL*/ `
@@ -1206,7 +1216,7 @@ describe('AppSyncModelVisitor', () => {
           content: String!
         }
       `;
-      const { models } = createAndGenerateVisitor(schema, { usePipelinedTransformer: true, useFieldNameForPrimaryKeyConnectionField: true, transformerVersion: 2 });
+      const { models } = createAndGenerateVisitor(schema, { usePipelinedTransformer: true, respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 });
       const postCommentsField = models.Post.fields.find(field => field.name === 'comments')!;
       const postCommentsConnectionInfo = (postCommentsField.connectionInfo!) as CodeGenFieldConnectionHasMany;
       expect(postCommentsConnectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
@@ -1217,8 +1227,11 @@ describe('AppSyncModelVisitor', () => {
       expect(associatedWithFieldNames).toContain('postCommentsTitle');
       const commetModelFields = models.Comment.fields;
       expect(commetModelFields.length).toBe(6);
-      expect(commetModelFields.find(f => f.name === 'postCommentsId')).toBeDefined();
-      expect(commetModelFields.find(f => f.name === 'postCommentsTitle')).toBeDefined();
+      //hasMany foreign key fields
+      const postCommentsIdField = commetModelFields.find(f => f.name === 'postCommentsId')!;
+      const postCommentsTitleField = commetModelFields.find(f => f.name === 'postCommentsTitle')!;
+      expect(postCommentsIdField.type).toBe('ID');
+      expect(postCommentsTitleField.type).toBe('String');
     });
     it('should have correct output for hasOne uni connection info when model pk is composite key', () => {
       const schema = /* GraphQL*/ `
@@ -1232,7 +1245,7 @@ describe('AppSyncModelVisitor', () => {
           name: String!
         }
       `;
-      const { models } = createAndGenerateVisitor(schema, { usePipelinedTransformer: true, useFieldNameForPrimaryKeyConnectionField: true, transformerVersion: 2 });
+      const { models } = createAndGenerateVisitor(schema, { usePipelinedTransformer: true, respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 });
       //hasOne for Project
       const projectTeamField = models.Project.fields.find(field => field.name === 'team')!;
       const teamPKField = models.Team.fields.find(field => field.name === 'teamId')!;
@@ -1245,6 +1258,11 @@ describe('AppSyncModelVisitor', () => {
       expect(projectTeamHasOneConnectionInfo.targetNames).toContain('projectTeamName');
       expect(projectTeamHasOneConnectionInfo.associatedWith).toEqual(teamPKField);
       expect(projectTeamHasOneConnectionInfo.associatedWithFields).toEqual([teamPKField, teamSKField]);
+      //hasOne foreign key field
+      const projectTeamTeamIdField = models.Project.fields.find(field => field.name === 'projectTeamTeamId')!;
+      const projectTeamNameField = models.Project.fields.find(field => field.name === 'projectTeamName')!;
+      expect(projectTeamTeamIdField.type).toBe('ID');
+      expect(projectTeamNameField.type).toBe('String');
     });
   });
 });
