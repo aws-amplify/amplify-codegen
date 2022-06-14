@@ -21,7 +21,7 @@ import {
   parse,
   valueFromASTUntyped,
 } from 'graphql';
-import { addFieldToModel, getDirective, getModelPrimaryKeyComponentFields, removeFieldFromModel } from '../utils/fieldUtils';
+import { addFieldToModel, getModelPrimaryKeyComponentFields, removeFieldFromModel } from '../utils/fieldUtils';
 import { getTypeInfo } from '../utils/get-type-info';
 import { CodeGenConnectionType, CodeGenFieldConnection, flattenFieldDirectives, processConnections } from '../utils/process-connections';
 import { sortFields } from '../utils/sort';
@@ -31,6 +31,7 @@ import { processConnectionsV2 } from '../utils/process-connections-v2';
 import { graphqlName, toUpper } from 'graphql-transformer-common';
 import { processPrimaryKey } from '../utils/process-primary-key';
 import { processIndex } from '../utils/process-index';
+import { DEFAULT_HASH_KEY_FIELD, DEFAULT_CREATED_TIME, DEFAULT_UPDATED_TIME } from '../utils/constants';
 
 export enum CodeGenGenerateEnum {
   metadata = 'metadata',
@@ -204,9 +205,6 @@ type ManyToManyContext = {
   field: CodeGenField;
   directive: CodeGenDirective;
 };
-
-const DEFAULT_CREATED_TIME = 'createdAt';
-const DEFAULT_UPDATED_TIME = 'updatedAt';
 
 export class AppSyncModelVisitor<
   TRawConfig extends RawAppSyncModelConfig = RawAppSyncModelConfig,
@@ -535,7 +533,7 @@ export class AppSyncModelVisitor<
       const fieldWithPrimaryKeyDirective = model.fields.find(f => f.directives.find(dir => dir.name === 'primaryKey'));
       //No @primaryKey found, default to 'id' field
       if (!fieldWithPrimaryKeyDirective) {
-        primaryKeyFieldName = 'id';
+        primaryKeyFieldName = DEFAULT_HASH_KEY_FIELD;
         this.ensureIdField(model);
         primaryKeyField = this.getPrimaryKeyFieldByName(model, primaryKeyFieldName);
         //Managed Id Type
@@ -549,7 +547,7 @@ export class AppSyncModelVisitor<
         const sortKeyFieldNames: string[] = flattenFieldDirectives(model).find(d => d.name === 'primaryKey')?.arguments.sortKeyFields;
         const sortKeyFields = sortKeyFieldNames?.length > 0 ? sortKeyFieldNames.map(fieldName => model.fields.find(f => f.name === fieldName)!): [];
         primaryKeyField.primaryKeyInfo = {
-          primaryKeyType: primaryKeyFieldName === 'id' && sortKeyFields.length === 0 ? CodeGenPrimaryKeyType.OptionallyManagedId : CodeGenPrimaryKeyType.CustomId,
+          primaryKeyType: primaryKeyFieldName === DEFAULT_HASH_KEY_FIELD && sortKeyFields.length === 0 ? CodeGenPrimaryKeyType.OptionallyManagedId : CodeGenPrimaryKeyType.CustomId,
           sortKeyFields
         };
       }
@@ -563,13 +561,13 @@ export class AppSyncModelVisitor<
         const sortKeyFieldNames: string[] = keyDirective.arguments.fields.slice(1);
         const sortKeyFields = sortKeyFieldNames?.length > 0 ? sortKeyFieldNames.map(fieldName => model.fields.find(f => f.name === fieldName)!): [];
         primaryKeyField.primaryKeyInfo = {
-          primaryKeyType: primaryKeyFieldName === 'id' && sortKeyFields.length === 0 ? CodeGenPrimaryKeyType.OptionallyManagedId : CodeGenPrimaryKeyType.CustomId,
+          primaryKeyType: primaryKeyFieldName === DEFAULT_HASH_KEY_FIELD && sortKeyFields.length === 0 ? CodeGenPrimaryKeyType.OptionallyManagedId : CodeGenPrimaryKeyType.CustomId,
           sortKeyFields,
         };
       }
       //default primary key field as id
       else {
-        primaryKeyFieldName = 'id';
+        primaryKeyFieldName = DEFAULT_HASH_KEY_FIELD;
         this.ensureIdField(model);
         primaryKeyField = this.getPrimaryKeyFieldByName(model, primaryKeyFieldName);
         //Managed Id Type
@@ -593,11 +591,8 @@ export class AppSyncModelVisitor<
   }
 
   protected ensureIdField(model: CodeGenModel) {
-    const idField = model.fields.find(field => field.name === 'id');
+    const idField = model.fields.find(field => field.name === DEFAULT_HASH_KEY_FIELD);
     if (idField) {
-      if (idField.type !== 'ID') {
-        throw new Error(`id field on ${model.name} should be of type ID`);
-      }
       // Make id field required
       idField.isNullable = false;
     } else {
