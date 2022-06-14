@@ -23,14 +23,7 @@ export function processHasOneConnection(
   }
   let associatedWithFields;
   if (isCustomPKEnabled) {
-    // Return belongsTo field when in bi direction connenction
-    if (otherSideBelongsToField) {
-      associatedWithFields = [otherSideBelongsToField];
-    }
-    // Otherwise return child pk and sk fields
-    else {
-      associatedWithFields = getModelPrimaryKeyComponentFields(otherSide);
-    }
+    associatedWithFields = getConnectedFieldsForHasOne(otherSideBelongsToField, otherSide);
   } else {
     const otherSideField = getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
     associatedWithFields = [otherSideField];
@@ -58,4 +51,14 @@ export function processHasOneConnection(
     targetName: targetNames[0],
     targetNames,
   };
+}
+
+/**
+ * Get connected fields for hasOne relation
+ * @param otherSideBelongsToField belongsTo field on other side
+ * @param otherSide other side model of hasOne connection
+ * @returns Array of connected fields. Return belongsTo field when in bi direction connenction. Otherwise return child pk and sk fields
+ */
+export function getConnectedFieldsForHasOne(otherSideBelongsToField: CodeGenField | undefined, otherSide: CodeGenModel): CodeGenField[] {
+  return otherSideBelongsToField ? [otherSideBelongsToField] : getModelPrimaryKeyComponentFields(otherSide);
 }

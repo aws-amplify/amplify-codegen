@@ -1,7 +1,7 @@
 import { CodeGenField, CodeGenFieldDirective, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
 import { CodeGenFieldConnection, flattenFieldDirectives, makeConnectionAttributeName } from './process-connections';
 import { processHasOneConnection } from './process-has-one';
-import { processBelongsToConnection, getBelongsToConnectedField } from './process-belongs-to';
+import { processBelongsToConnection, getBelongsToConnectedFields } from './process-belongs-to';
 import { processHasManyConnection } from './process-has-many';
 import { getDirective } from './fieldUtils';
 import { DEFAULT_HASH_KEY_FIELD } from './constants';
@@ -21,9 +21,9 @@ export function getConnectedFieldV2(
   }
 
   if (connectionInfo.name === 'belongsTo') {
-    let connectedFieldBelongsTo = getBelongsToConnectedField(field, model, connectedModel);
-    if (connectedFieldBelongsTo) {
-      return connectedFieldBelongsTo;
+    let connectedFieldsBelongsTo = getBelongsToConnectedFields(model, connectedModel);
+    if (connectedFieldsBelongsTo.length === 1) {
+      return connectedFieldsBelongsTo[0];
     }
   }
 
