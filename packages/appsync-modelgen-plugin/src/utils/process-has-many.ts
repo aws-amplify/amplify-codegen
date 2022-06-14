@@ -71,6 +71,14 @@ export function processHasManyConnection(
   }
 }
 
+/**
+ * Get connected fields for hasMany relation
+ * @param field field with hasMany directive
+ * @param model parent model with hasMany directive
+ * @param connectedModel child model
+ * @param shouldUseModelNameFieldInHasManyAndBelongsTo whether to use model name field as associateWith in hasMany/belongsTo. True for native platforms and false for JS
+ * @returns Array of fields refering parent model
+ */
 export function getConnectedFieldsForHasMany(
   field: CodeGenField,
   model: CodeGenModel,

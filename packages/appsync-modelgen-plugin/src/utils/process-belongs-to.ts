@@ -16,28 +16,21 @@ export function processBelongsToConnection(
   connectionDirective: CodeGenDirective,
   isCustomPKEnabled: boolean = false,
 ): CodeGenFieldConnection | undefined {
-  const otherSide = modelMap[field.type];
-  const otherSideField = getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
-  const connectionFields = connectionDirective.arguments.fields || [];
-
   if (field.isList) {
     throw new Error(
       `A list field does not support the 'belongsTo' relation`
     );
   }
-
-  let validOtherSideField = false;
-  otherSideField.directives.forEach(dir => {
-    if (dir.name === 'hasOne' || dir.name === 'hasMany') {
-      validOtherSideField = true;
-    }
-  });
-
-  if (!validOtherSideField) {
+  const otherSide = modelMap[field.type];
+  const otherSideConnectedFields = getBelongsToConnectedFields(model, otherSide);
+  if (otherSideConnectedFields.length === 0) {
     throw new Error(
       `A 'belongsTo' field should match to a corresponding 'hasMany' or 'hasOne' field`
     );
   }
+  const otherSideField = isCustomPKEnabled ? otherSideConnectedFields[0] : getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
+  const connectionFields = connectionDirective.arguments.fields || [];
+
   // if a type is connected using name, then amplify-graphql-relational-transformer adds a field to
   //  track the connection and that field is not part of the selection set
   // but if the field are connected using fields argument in connection directive
@@ -69,14 +62,17 @@ export function processBelongsToConnection(
   };
 }
 
-export function getBelongsToConnectedField(field: CodeGenField, model: CodeGenModel, connectedModel: CodeGenModel): CodeGenField | undefined {
+/**
+ * Get connected fields for belongsTo relaion
+ * @param model CodeGen model of belongsTo side
+ * @param connectedModel connected CodeGen model side
+ * @returns Array of fields which are child model types with hasOne/hasMany diretives on connected model
+ */
+export function getBelongsToConnectedFields(model: CodeGenModel, connectedModel: CodeGenModel): CodeGenField[] {
   let otherSideDirectives = flattenFieldDirectives(connectedModel).filter(dir => {
     const connectedField = connectedModel.fields.find(connField => { return connField.name === dir.fieldName; });
     const fieldType = connectedField?.type;
     return ((dir.name === 'hasOne' && !connectedField?.isList) || (dir.name === 'hasMany' && connectedField?.isList)) && model.name === fieldType;
   });
-
-  if (otherSideDirectives?.length === 1) {
-    return connectedModel.fields.find(connField => { return connField.name === otherSideDirectives[0].fieldName; });
-  }
+  return connectedModel.fields.filter(connField => { return connField.name === otherSideDirectives[0].fieldName; });
 }
