@@ -1,4 +1,5 @@
 import {
+  createIdentityClaim,
   processAuthDirective,
   AuthRule,
   AuthStrategy,
@@ -165,6 +166,24 @@ describe('process auth directive', () => {
       expect(processedAuthDirective[0].arguments.rules[0]).toEqual({
         ...groupsAuthRule,
         operations: [AuthModelOperation.create, AuthModelOperation.update, AuthModelOperation.delete, AuthModelOperation.read],
+      });
+    });
+  });
+
+  describe('createIdentityClaim', () => {
+    it('returns passed in value', () => {
+      expect(createIdentityClaim('foo')).toEqual('foo');
+    });
+
+    describe('when identity claim is username', () => {
+      it('returns cognito:username', () => {
+        expect(createIdentityClaim('username')).toEqual('cognito:username');
+      });
+    });
+
+    describe('when identity claim is sub::username', () => {
+      it('returns cognito:username', () => {
+        expect(createIdentityClaim('sub::username')).toEqual('cognito:username');
       });
     });
   });

@@ -26,7 +26,7 @@ export enum AuthModelMutation {
 }
 
 const DEFAULT_GROUP_CLAIM = 'cognito:groups';
-const DEFAULT_IDENTITY_CLAIM = 'username';
+const DEFAULT_IDENTITY_CLAIM = 'sub::username';
 const DEFAULT_OPERATIONS = [AuthModelOperation.create, AuthModelOperation.update, AuthModelOperation.delete, AuthModelOperation.read];
 const DEFAULT_AUTH_PROVIDER = AuthProvider.userPools;
 const DEFAULT_OWNER_FIELD = 'owner';
@@ -51,6 +51,12 @@ export type AuthDirective = CodeGenDirective & {
   };
 };
 
+export const createIdentityClaim = (identityClaim: string): string => {
+  if (identityClaim === 'username' || identityClaim === 'sub::username') identityClaim = 'cognito:username';
+
+  return identityClaim;
+};
+
 export function processAuthDirective(directives: CodeGenDirectives): AuthDirective[] {
   const authDirectives = directives.filter(d => d.name === 'auth');
 
@@ -61,7 +67,7 @@ export function processAuthDirective(directives: CodeGenDirectives): AuthDirecti
       .filter((rule: AuthRule) => !(rule.allow === AuthStrategy.groups && rule.groupField))
       .map((rule: AuthRule) => {
         const operations = rule.operations || rule.mutations || DEFAULT_OPERATIONS;
-        const identityClaim = rule.identityClaim || rule.identityField || DEFAULT_IDENTITY_CLAIM;
+        const identityClaim = createIdentityClaim(rule.identityClaim || rule.identityField || DEFAULT_IDENTITY_CLAIM);
 
         if (rule.allow === AuthStrategy.owner) {
           return {
@@ -69,7 +75,7 @@ export function processAuthDirective(directives: CodeGenDirectives): AuthDirecti
             provider: DEFAULT_AUTH_PROVIDER,
             ownerField: rule.ownerField ? rule.ownerField : DEFAULT_OWNER_FIELD,
             ...rule,
-            identityClaim: identityClaim === 'username' ? 'cognito:username' : identityClaim,
+            identityClaim,
             operations,
           };
         } else if (rule.allow === AuthStrategy.groups) {
