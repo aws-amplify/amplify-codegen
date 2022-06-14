@@ -10,3 +10,6 @@ export const TransformerV2DiretiveName = {
   SEARCHABLE: 'searchable'
 };
 export const DEFAULT_HASH_KEY_FIELD = 'id';
+export const DEFAULT_CREATED_TIME = 'createdAt';
+export const DEFAULT_UPDATED_TIME = 'updatedAt';
+

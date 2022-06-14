@@ -52,7 +52,7 @@ describe('AppSyncModelVisitor', () => {
     expect(postFields[0].isList).toEqual(false);
   });
 
-  it('should throw error when schema has id of Non ID type', () => {
+  it('should not throw error when schema has id of Non ID type', () => {
     const schema = /* GraphQL */ `
       type Post @model {
         id: String!
@@ -63,7 +63,7 @@ describe('AppSyncModelVisitor', () => {
     const ast = parse(schema);
     const builtSchema = buildSchemaWithDirectives(schema);
     const visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
-    expect(() => visit(ast, { leave: visitor })).toThrowError();
+    expect(() => visit(ast, { leave: visitor })).not.toThrowError();
   });
   it('should have id as the first field to ensure arity of constructors', () => {
     const schema = /* GraphQL */ `
