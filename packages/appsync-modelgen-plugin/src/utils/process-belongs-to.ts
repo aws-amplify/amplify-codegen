@@ -69,10 +69,12 @@ export function processBelongsToConnection(
  * @returns Array of fields which are child model types with hasOne/hasMany diretives on connected model
  */
 export function getBelongsToConnectedFields(model: CodeGenModel, connectedModel: CodeGenModel): CodeGenField[] {
-  let otherSideDirectives = flattenFieldDirectives(connectedModel).filter(dir => {
+  const otherSideDirectives = flattenFieldDirectives(connectedModel).filter(dir => {
     const connectedField = connectedModel.fields.find(connField => { return connField.name === dir.fieldName; });
     const fieldType = connectedField?.type;
     return ((dir.name === 'hasOne' && !connectedField?.isList) || (dir.name === 'hasMany' && connectedField?.isList)) && model.name === fieldType;
   });
-  return connectedModel.fields.filter(connField => { return connField.name === otherSideDirectives[0].fieldName; });
+  return otherSideDirectives.map(dir => {
+    return connectedModel.fields.find(connField => connField.name === dir.fieldName)!
+  });
 }
