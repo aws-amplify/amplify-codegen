@@ -1382,7 +1382,7 @@ describe('Metadata visitor for custom PK support', () => {
         comments: [Comment] @hasMany
       }
       type Comment @model {
-        customPostId: ID! @primaryKey(sortKeyFields: ["content"])
+        customCommentId: ID! @primaryKey(sortKeyFields: ["content"])
         content: String!
         post: Post @belongsTo
       }

@@ -31,7 +31,7 @@ exports[`Metadata visitor for custom PK support relation metadata for hasMany & 
                     \\"isArrayNullable\\": true,
                     \\"association\\": {
                         \\"connectionType\\": \\"HAS_MANY\\",
-                        \\"associatedWith\\": \\"postCommentsId\\"
+                        \\"associatedWith\\": \\"postCommentsCustomPostId\\"
                     }
                 },
                 \\"createdAt\\": {
@@ -72,8 +72,8 @@ exports[`Metadata visitor for custom PK support relation metadata for hasMany & 
         \\"Comment\\": {
             \\"name\\": \\"Comment\\",
             \\"fields\\": {
-                \\"customPostId\\": {
-                    \\"name\\": \\"customPostId\\",
+                \\"customCommentId\\": {
+                    \\"name\\": \\"customCommentId\\",
                     \\"isArray\\": false,
                     \\"type\\": \\"ID\\",
                     \\"isRequired\\": true,
@@ -144,7 +144,7 @@ exports[`Metadata visitor for custom PK support relation metadata for hasMany & 
                     \\"type\\": \\"key\\",
                     \\"properties\\": {
                         \\"fields\\": [
-                            \\"customPostId\\",
+                            \\"customCommentId\\",
                             \\"content\\"
                         ]
                     }
@@ -154,7 +154,7 @@ exports[`Metadata visitor for custom PK support relation metadata for hasMany & 
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"version\\": \\"659e1eb12939cc2501f6714dd47e38db\\"
+    \\"version\\": \\"290446a865c94f062804b805f754005d\\"
 };"
 `;
 
@@ -191,7 +191,7 @@ export const schema: Schema = {
                     \\"isArrayNullable\\": true,
                     \\"association\\": {
                         \\"connectionType\\": \\"HAS_MANY\\",
-                        \\"associatedWith\\": \\"postCommentsId\\"
+                        \\"associatedWith\\": \\"postCommentsCustomPostId\\"
                     }
                 },
                 \\"createdAt\\": {
@@ -232,8 +232,8 @@ export const schema: Schema = {
         \\"Comment\\": {
             \\"name\\": \\"Comment\\",
             \\"fields\\": {
-                \\"customPostId\\": {
-                    \\"name\\": \\"customPostId\\",
+                \\"customCommentId\\": {
+                    \\"name\\": \\"customCommentId\\",
                     \\"isArray\\": false,
                     \\"type\\": \\"ID\\",
                     \\"isRequired\\": true,
@@ -304,7 +304,7 @@ export const schema: Schema = {
                     \\"type\\": \\"key\\",
                     \\"properties\\": {
                         \\"fields\\": [
-                            \\"customPostId\\",
+                            \\"customCommentId\\",
                             \\"content\\"
                         ]
                     }
@@ -314,7 +314,7 @@ export const schema: Schema = {
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"version\\": \\"659e1eb12939cc2501f6714dd47e38db\\"
+    \\"version\\": \\"290446a865c94f062804b805f754005d\\"
 };"
 `;
 
