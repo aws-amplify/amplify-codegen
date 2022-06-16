@@ -119,7 +119,6 @@ class Post extends Model {
     'id': id, 'title': _title, 'comments': _comments?.map((Comment? e) => e?.toJson()).toList()
   };
 
-  static final QueryModelIdentifier<PostModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<PostModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField COMMENTS = QueryField(
@@ -272,7 +271,6 @@ class Comment extends Model {
     'id': id, 'content': _content, 'post': _post?.toJson()
   };
 
-  static final QueryModelIdentifier<CommentModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<CommentModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
   static final QueryField POST = QueryField(
@@ -429,7 +427,6 @@ class Project2 extends Model {
     'id': id, 'name': _name, 'team': _team?.toJson(), 'project2TeamId': _project2TeamId
   };
 
-  static final QueryModelIdentifier<Project2ModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<Project2ModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField TEAM = QueryField(
@@ -589,7 +586,6 @@ class Team2 extends Model {
     'id': id, 'name': _name, 'project': _project?.toJson()
   };
 
-  static final QueryModelIdentifier<Team2ModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<Team2ModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField PROJECT = QueryField(
@@ -745,7 +741,6 @@ class Blog7V2 extends Model {
     'id': id, 'name': _name, 'posts': _posts?.map((Post7V2? e) => e?.toJson()).toList()
   };
 
-  static final QueryModelIdentifier<Blog7V2ModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<Blog7V2ModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField POSTS = QueryField(
@@ -913,7 +908,6 @@ class Post7V2 extends Model {
     'id': id, 'title': _title, 'blog': _blog?.toJson(), 'comments': _comments?.map((Comment7V2? e) => e?.toJson()).toList()
   };
 
-  static final QueryModelIdentifier<Post7V2ModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<Post7V2ModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField BLOG = QueryField(
@@ -1067,7 +1061,6 @@ class Comment7V2 extends Model {
     'id': id, 'content': _content, 'post': _post?.toJson()
   };
 
-  static final QueryModelIdentifier<Comment7V2ModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<Comment7V2ModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
   static final QueryField POST = QueryField(
@@ -1220,7 +1213,6 @@ class Project extends Model {
     'id': id, 'name': _name, 'team': _team?.toJson(), 'projectTeamId': _projectTeamId
   };
 
-  static final QueryModelIdentifier<ProjectModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<ProjectModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField TEAM = QueryField(
@@ -1380,7 +1372,6 @@ class Team extends Model {
     'id': id, 'name': _name, 'project': _project?.toJson()
   };
 
-  static final QueryModelIdentifier<TeamModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<TeamModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField PROJECT = QueryField(
@@ -1546,7 +1537,6 @@ class Post extends Model {
     'id': id, 'title': _title, 'content': _content, 'tags': _tags?.map((PostTags? e) => e?.toJson()).toList()
   };
 
-  static final QueryModelIdentifier<PostModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<PostModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
@@ -1709,7 +1699,6 @@ class Tag extends Model {
     'id': id, 'label': _label, 'posts': _posts?.map((PostTags? e) => e?.toJson()).toList()
   };
 
-  static final QueryModelIdentifier<TagModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<TagModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField LABEL = QueryField(fieldName: \\"label\\");
   static final QueryField POSTS = QueryField(
@@ -1840,7 +1829,6 @@ class Todo extends Model {
     'id': id, 'content': _content
   };
 
-  static final QueryModelIdentifier<TodoModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<TodoModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
@@ -1986,7 +1974,6 @@ class Post2 extends Model {
     'id': id, 'title': _title, 'comments': _comments?.map((Comment2? e) => e?.toJson()).toList()
   };
 
-  static final QueryModelIdentifier<Post2ModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<Post2ModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField COMMENTS = QueryField(
@@ -2145,7 +2132,6 @@ class Comment2 extends Model {
     'id': id, 'postID': _postID, 'content': _content
   };
 
-  static final QueryModelIdentifier<Comment2ModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<Comment2ModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField POSTID = QueryField(fieldName: \\"postID\\");
   static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
@@ -2299,7 +2285,6 @@ class Project2 extends Model {
     'id': id, 'name': _name, 'teamID': _teamID, 'team': _team?.toJson()
   };
 
-  static final QueryModelIdentifier<Project2ModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<Project2ModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField TEAMID = QueryField(fieldName: \\"teamID\\");
@@ -2446,7 +2431,6 @@ class Team2 extends Model {
     'id': id, 'name': _name
   };
 
-  static final QueryModelIdentifier<Team2ModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<Team2ModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
@@ -2592,7 +2576,6 @@ class Post extends Model {
     'id': id, 'title': _title, 'comments': _comments?.map((Comment? e) => e?.toJson()).toList()
   };
 
-  static final QueryModelIdentifier<PostModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<PostModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField COMMENTS = QueryField(
@@ -2742,7 +2725,6 @@ class Comment extends Model {
     'id': id, 'content': _content, 'postCommentsId': _postCommentsId
   };
 
-  static final QueryModelIdentifier<CommentModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<CommentModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
   static final QueryField POSTCOMMENTSID = QueryField(fieldName: \\"postCommentsId\\");
@@ -2892,7 +2874,6 @@ class Project extends Model {
     'id': id, 'name': _name, 'team': _team?.toJson(), 'projectTeamId': _projectTeamId
   };
 
-  static final QueryModelIdentifier<ProjectModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<ProjectModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField TEAM = QueryField(
@@ -3039,7 +3020,6 @@ class Team extends Model {
     'id': id, 'name': _name
   };
 
-  static final QueryModelIdentifier<TeamModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<TeamModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
@@ -3198,7 +3178,6 @@ class Customer extends Model {
     'id': id, 'name': _name, 'phoneNumber': _phoneNumber, 'accountRepresentativeID': _accountRepresentativeID
   };
 
-  static final QueryModelIdentifier<CustomerModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<CustomerModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField PHONENUMBER = QueryField(fieldName: \\"phoneNumber\\");
@@ -3407,7 +3386,6 @@ class ModelWithPrimaryKey extends Model {
     'productID': _productID, 'name': _name, 'content': _content, 'albumID': _albumID, 'categoryID': _categoryID
   };
 
-  static final QueryModelIdentifier<ModelWithPrimaryKeyModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<ModelWithPrimaryKeyModelIdentifier>();
   static final QueryField PRODUCTID = QueryField(fieldName: \\"productID\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField CONTENT = QueryField(fieldName: \\"content\\");

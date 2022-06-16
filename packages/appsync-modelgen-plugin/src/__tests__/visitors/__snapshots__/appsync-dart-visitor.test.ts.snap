@@ -157,7 +157,6 @@ class Post extends Model {
     'id': id, 'title': _title, 'rating': _rating, 'status': enumToString(_status), 'comments': _comments?.map((Comment? e) => e?.toJson()).toList()
   };
 
-  static final QueryModelIdentifier<PostModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<PostModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField RATING = QueryField(fieldName: \\"rating\\");
@@ -305,7 +304,6 @@ class Comment extends Model {
     'id': id, 'post': _post?.toJson(), 'content': _content
   };
 
-  static final QueryModelIdentifier<CommentModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<CommentModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField POST = QueryField(
     fieldName: \\"post\\",
@@ -503,7 +501,6 @@ class Post extends Model {
     'id': id, 'title': _title, 'rating': _rating, 'status': enumToString(_status), 'comments': _comments?.map((Comment? e) => e?.toJson()).toList()
   };
 
-  static final QueryModelIdentifier<PostModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<PostModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField RATING = QueryField(fieldName: \\"rating\\");
@@ -651,7 +648,6 @@ class Comment extends Model {
     'id': id, 'post': _post?.toJson(), 'content': _content
   };
 
-  static final QueryModelIdentifier<CommentModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<CommentModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField POST = QueryField(
     fieldName: \\"post\\",
@@ -1567,8 +1563,6 @@ class Person extends Model {
             mailingAddresses?.map((Address e) => e?.toJson())?.toList()
       };
 
-  static final QueryModelIdentifier<PersonModelIdentifier> MODEL_IDENTIFIER =
-      QueryModelIdentifier<PersonModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField PHONE = QueryField(fieldName: \\"phone\\");
@@ -1753,7 +1747,6 @@ class Person extends Model {
     'id': id, 'name': _name, 'phone': _phone?.toJson(), 'mailingAddresses': _mailingAddresses?.map((Address? e) => e?.toJson()).toList()
   };
 
-  static final QueryModelIdentifier<PersonModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<PersonModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField PHONE = QueryField(fieldName: \\"phone\\");
@@ -1981,8 +1974,6 @@ class SimpleModel extends Model {
 
   Map<String, dynamic> toJson() => {'id': id, 'status': enumToString(status)};
 
-  static final QueryModelIdentifier<SimpleModelModelIdentifier>
-      MODEL_IDENTIFIER = QueryModelIdentifier<SimpleModelModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField STATUS = QueryField(fieldName: \\"status\\");
   static var schema =
@@ -2256,9 +2247,6 @@ class TemporalTimeModel extends Model {
         'intList': intList
       };
 
-  static final QueryModelIdentifier<TemporalTimeModelModelIdentifier>
-      MODEL_IDENTIFIER =
-      QueryModelIdentifier<TemporalTimeModelModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField DATE = QueryField(fieldName: \\"date\\");
   static final QueryField TIME = QueryField(fieldName: \\"time\\");
@@ -2539,8 +2527,6 @@ class TestEnumModel extends Model {
             nullableEnumNullableList?.map((e) => enumToString(e)).toList()
       };
 
-  static final QueryModelIdentifier<TestEnumModelModelIdentifier>
-      MODEL_IDENTIFIER = QueryModelIdentifier<TestEnumModelModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField ENUMVAL = QueryField(fieldName: \\"enumVal\\");
   static final QueryField NULLABLEENUMVAL =
@@ -2789,8 +2775,6 @@ class TestModel extends Model {
         'nullableFloatNullableList': nullableFloatNullableList
       };
 
-  static final QueryModelIdentifier<TestModelModelIdentifier> MODEL_IDENTIFIER =
-      QueryModelIdentifier<TestModelModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField FLOATVAL = QueryField(fieldName: \\"floatVal\\");
   static final QueryField FLOATNULLABLEVAL =
@@ -2975,8 +2959,6 @@ class Post extends Model {
         'tags': tags?.map((PostTags e) => e?.toJson())?.toList()
       };
 
-  static final QueryModelIdentifier<PostModelIdentifier> MODEL_IDENTIFIER =
-      QueryModelIdentifier<PostModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
@@ -3093,8 +3075,6 @@ class Tag extends Model {
         'posts': posts?.map((PostTags e) => e?.toJson())?.toList()
       };
 
-  static final QueryModelIdentifier<TagModelIdentifier> MODEL_IDENTIFIER =
-      QueryModelIdentifier<TagModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField LABEL = QueryField(fieldName: \\"label\\");
   static final QueryField POSTS = QueryField(
@@ -3200,8 +3180,6 @@ class PostTags extends Model {
   Map<String, dynamic> toJson() =>
       {'id': id, 'post': post?.toJson(), 'tag': tag?.toJson()};
 
-  static final QueryModelIdentifier<PostTagsModelIdentifier> MODEL_IDENTIFIER =
-      QueryModelIdentifier<PostTagsModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField POST = QueryField(
       fieldName: \\"post\\",
@@ -3377,7 +3355,6 @@ class Post extends Model {
     'id': id, 'title': _title, 'content': _content, 'tags': _tags?.map((PostTags? e) => e?.toJson()).toList()
   };
 
-  static final QueryModelIdentifier<PostModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<PostModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
@@ -3511,7 +3488,6 @@ class Tag extends Model {
     'id': id, 'label': _label, 'posts': _posts?.map((PostTags? e) => e?.toJson()).toList()
   };
 
-  static final QueryModelIdentifier<TagModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<TagModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField LABEL = QueryField(fieldName: \\"label\\");
   static final QueryField POSTS = QueryField(
@@ -3647,7 +3623,6 @@ class PostTags extends Model {
     'id': id, 'post': _post?.toJson(), 'tag': _tag?.toJson()
   };
 
-  static final QueryModelIdentifier<PostTagsModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<PostTagsModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField POST = QueryField(
     fieldName: \\"post\\",
@@ -3781,8 +3756,6 @@ class SimpleModel extends Model {
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
-  static final QueryModelIdentifier<SimpleModelModelIdentifier>
-      MODEL_IDENTIFIER = QueryModelIdentifier<SimpleModelModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
@@ -3905,8 +3878,6 @@ class SimpleModel extends Model {
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
-  static final QueryModelIdentifier<SimpleModelModelIdentifier>
-      MODEL_IDENTIFIER = QueryModelIdentifier<SimpleModelModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
@@ -4041,8 +4012,6 @@ class TodoWithAuth extends Model {
         'updatedAt': updatedAt?.format()
       };
 
-  static final QueryModelIdentifier<TodoWithAuthModelIdentifier>
-      MODEL_IDENTIFIER = QueryModelIdentifier<TodoWithAuthModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static var schema =
@@ -4223,7 +4192,6 @@ class TodoWithAuth extends Model {
     'id': id, 'name': _name, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
-  static final QueryModelIdentifier<TodoWithAuthModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<TodoWithAuthModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
@@ -4382,8 +4350,6 @@ class customClaim extends Model {
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
-  static final QueryModelIdentifier<customClaimModelIdentifier>
-      MODEL_IDENTIFIER = QueryModelIdentifier<customClaimModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
@@ -4519,8 +4485,6 @@ class customClaim extends Model {
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
-  static final QueryModelIdentifier<customClaimModelIdentifier>
-      MODEL_IDENTIFIER = QueryModelIdentifier<customClaimModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
@@ -4658,8 +4622,6 @@ class dynamicGroups extends Model {
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
-  static final QueryModelIdentifier<dynamicGroupsModelIdentifier>
-      MODEL_IDENTIFIER = QueryModelIdentifier<dynamicGroupsModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
@@ -4795,8 +4757,6 @@ class simpleOwnerAuth extends Model {
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
-  static final QueryModelIdentifier<simpleOwnerAuthModelIdentifier>
-      MODEL_IDENTIFIER = QueryModelIdentifier<simpleOwnerAuthModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
@@ -4932,8 +4892,6 @@ class allowRead extends Model {
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
-  static final QueryModelIdentifier<allowReadModelIdentifier> MODEL_IDENTIFIER =
-      QueryModelIdentifier<allowReadModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
@@ -5068,8 +5026,6 @@ class privateType extends Model {
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
-  static final QueryModelIdentifier<privateTypeModelIdentifier>
-      MODEL_IDENTIFIER = QueryModelIdentifier<privateTypeModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
@@ -5201,8 +5157,6 @@ class publicType extends Model {
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
-  static final QueryModelIdentifier<publicTypeModelIdentifier>
-      MODEL_IDENTIFIER = QueryModelIdentifier<publicTypeModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
@@ -5334,8 +5288,6 @@ class staticGroups extends Model {
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
-  static final QueryModelIdentifier<staticGroupsModelIdentifier>
-      MODEL_IDENTIFIER = QueryModelIdentifier<staticGroupsModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
@@ -5476,8 +5428,6 @@ class Post extends Model {
 
   Map<String, dynamic> toJson() => {'id': id, 'title': title, 'author': author};
 
-  static final QueryModelIdentifier<PostModelIdentifier> MODEL_IDENTIFIER =
-      QueryModelIdentifier<PostModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField AUTHOR = QueryField(fieldName: \\"author\\");
@@ -5616,8 +5566,6 @@ class Post extends Model {
 
   Map<String, dynamic> toJson() => {'id': id, 'title': title, 'owner': owner};
 
-  static final QueryModelIdentifier<PostModelIdentifier> MODEL_IDENTIFIER =
-      QueryModelIdentifier<PostModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField OWNER = QueryField(fieldName: \\"owner\\");
@@ -5768,8 +5716,6 @@ class Todo extends Model {
   Map<String, dynamic> toJson() =>
       {'id': id, 'tasks': tasks?.map((Task e) => e?.toJson())?.toList()};
 
-  static final QueryModelIdentifier<TodoModelIdentifier> MODEL_IDENTIFIER =
-      QueryModelIdentifier<TodoModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TASKS = QueryField(
       fieldName: \\"tasks\\",
@@ -5885,8 +5831,6 @@ class Task extends Model {
 
   Map<String, dynamic> toJson() => {'id': id, 'todo': todo?.toJson()};
 
-  static final QueryModelIdentifier<TaskModelIdentifier> MODEL_IDENTIFIER =
-      QueryModelIdentifier<TaskModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TODO = QueryField(
       fieldName: \\"todo\\",
@@ -6029,8 +5973,6 @@ class Blog extends Model {
         'test': test
       };
 
-  static final QueryModelIdentifier<BlogModelIdentifier> MODEL_IDENTIFIER =
-      QueryModelIdentifier<BlogModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField POSTS = QueryField(
@@ -6172,8 +6114,6 @@ class Comment extends Model {
   Map<String, dynamic> toJson() =>
       {'id': id, 'post': post?.toJson(), 'content': content};
 
-  static final QueryModelIdentifier<CommentModelIdentifier> MODEL_IDENTIFIER =
-      QueryModelIdentifier<CommentModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField POST = QueryField(
       fieldName: \\"post\\",
@@ -6329,8 +6269,6 @@ class Post extends Model {
         'comments': comments?.map((Comment e) => e?.toJson())?.toList()
       };
 
-  static final QueryModelIdentifier<PostModelIdentifier> MODEL_IDENTIFIER =
-      QueryModelIdentifier<PostModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField BLOG = QueryField(
@@ -6508,8 +6446,6 @@ class authorBook extends Model {
         'book': book
       };
 
-  static final QueryModelIdentifier<authorBookModelIdentifier>
-      MODEL_IDENTIFIER = QueryModelIdentifier<authorBookModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField AUTHOR_ID = QueryField(fieldName: \\"author_id\\");
   static final QueryField BOOK_ID = QueryField(fieldName: \\"book_id\\");
@@ -6644,7 +6580,6 @@ class TestModel extends Model {
     'id': id
   };
 
-  static final QueryModelIdentifier<TestModelModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<TestModelModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"TestModel\\";
@@ -6783,7 +6718,6 @@ class Blog extends Model {
     'id': id, 'name': _name, 'posts': _posts?.map((Post? e) => e?.toJson()).toList()
   };
 
-  static final QueryModelIdentifier<BlogModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<BlogModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField POSTS = QueryField(
@@ -6936,7 +6870,6 @@ class Comment extends Model {
     'id': id, 'post': _post?.toJson(), 'content': _content
   };
 
-  static final QueryModelIdentifier<CommentModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<CommentModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField POST = QueryField(
     fieldName: \\"post\\",
@@ -7108,7 +7041,6 @@ class Post extends Model {
     'id': id, 'title': _title, 'blog': _blog?.toJson(), 'comments': _comments?.map((Comment? e) => e?.toJson()).toList()
   };
 
-  static final QueryModelIdentifier<PostModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<PostModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField BLOG = QueryField(
@@ -7331,7 +7263,6 @@ class TestModel extends Model {
     'id': id, 'floatVal': _floatVal, 'floatNullableVal': _floatNullableVal, 'floatList': _floatList, 'floatNullableList': _floatNullableList, 'nullableFloatList': _nullableFloatList, 'nullableFloatNullableList': _nullableFloatNullableList
   };
 
-  static final QueryModelIdentifier<TestModelModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<TestModelModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField FLOATVAL = QueryField(fieldName: \\"floatVal\\");
   static final QueryField FLOATNULLABLEVAL = QueryField(fieldName: \\"floatNullableVal\\");
@@ -7656,7 +7587,6 @@ class TestModel extends Model {
     'id': id, 'floatVal': _floatVal, 'floatNullableVal': _floatNullableVal, 'floatList': _floatList, 'floatNullableList': _floatNullableList, 'nullableFloatList': _nullableFloatList, 'nullableFloatNullableList': _nullableFloatNullableList, 'intVal': _intVal, 'intNullableVal': _intNullableVal, 'intList': _intList, 'intNullableList': _intNullableList, 'nullableIntList': _nullableIntList, 'nullableIntNullableList': _nullableIntNullableList
   };
 
-  static final QueryModelIdentifier<TestModelModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<TestModelModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField FLOATVAL = QueryField(fieldName: \\"floatVal\\");
   static final QueryField FLOATNULLABLEVAL = QueryField(fieldName: \\"floatNullableVal\\");
@@ -7869,8 +7799,6 @@ class SimpleModel extends Model {
         'updatedAt': updatedAt?.format()
       };
 
-  static final QueryModelIdentifier<SimpleModelModelIdentifier>
-      MODEL_IDENTIFIER = QueryModelIdentifier<SimpleModelModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static var schema =
@@ -8018,7 +7946,6 @@ class SimpleModel extends Model {
     'id': id, 'name': _name, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
-  static final QueryModelIdentifier<SimpleModelModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<SimpleModelModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {

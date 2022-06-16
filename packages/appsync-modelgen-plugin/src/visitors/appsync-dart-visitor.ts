@@ -876,12 +876,17 @@ export class AppSyncModelDartVisitor<
   protected generateModelSchema(model: CodeGenModel, classDeclarationBlock: DartDeclarationBlock): void {
     const modelName = model.name;
     const schemaDeclarationBlock = new DartDeclarationBlock();
-    schemaDeclarationBlock.addClassMember(
-      'MODEL_IDENTIFIER',
-      `QueryModelIdentifier<${modelName}ModelIdentifier>`,
-      `QueryModelIdentifier<${modelName}ModelIdentifier>()`,
-      { static: true, final: true },
-    );
+
+    if (this.isCustomPKEnabled()) {
+      // QueryField that allows creating query predicate with custom PK
+      schemaDeclarationBlock.addClassMember(
+        'MODEL_IDENTIFIER',
+        `QueryModelIdentifier<${modelName}ModelIdentifier>`,
+        `QueryModelIdentifier<${modelName}ModelIdentifier>()`,
+        { static: true, final: true },
+      );
+    }
+
     //QueryField
     this.getWritableFields(model).forEach(field => {
       this.generateQueryField(model, field, schemaDeclarationBlock);
