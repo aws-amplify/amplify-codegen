@@ -8108,6 +8108,7 @@ class ModelWithImplicitID extends Model {
     'id': id, 'title': _title, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
+  static final QueryModelIdentifier<ModelWithImplicitIDModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<ModelWithImplicitIDModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
@@ -8314,6 +8315,7 @@ class ModelWithExplicitID extends Model {
     'id': id, 'title': _title, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
+  static final QueryModelIdentifier<ModelWithExplicitIDModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<ModelWithExplicitIDModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
@@ -8511,6 +8513,7 @@ class ModelWithExplicitIDAndSDI extends Model {
     'id': id, 'parentID': _parentID, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
+  static final QueryModelIdentifier<ModelWithExplicitIDAndSDIModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<ModelWithExplicitIDAndSDIModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField PARENTID = QueryField(fieldName: \\"parentID\\");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
@@ -8751,6 +8754,7 @@ class ModelWithIDPlusSortKeys extends Model {
     'id': id, 'title': _title, 'rating': _rating, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
+  static final QueryModelIdentifier<ModelWithIDPlusSortKeysModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<ModelWithIDPlusSortKeysModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField RATING = QueryField(fieldName: \\"rating\\");
@@ -9003,6 +9007,7 @@ class ModelWithExplicitlyDefinedPK extends Model {
     'modelID': _modelID, 'title': _title, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
+  static final QueryModelIdentifier<ModelWithExplicitlyDefinedPKModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<ModelWithExplicitlyDefinedPKModelIdentifier>();
   static final QueryField MODELID = QueryField(fieldName: \\"modelID\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
@@ -9260,6 +9265,7 @@ class ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey extends Model {
     'modelID': _modelID, 'title': _title, 'rating': _rating, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
+  static final QueryModelIdentifier<ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelIdentifier>();
   static final QueryField MODELID = QueryField(fieldName: \\"modelID\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField RATING = QueryField(fieldName: \\"rating\\");
@@ -9520,6 +9526,7 @@ class Post extends Model {
     'id': id, 'title': _title, 'comments': _comments?.map((Comment? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
+  static final QueryModelIdentifier<PostModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<PostModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField COMMENTS = QueryField(
@@ -9778,6 +9785,7 @@ class Comment extends Model {
     'id': id, 'content': _content, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format(), 'postCommentsId': _postCommentsId, 'postCommentsTitle': _postCommentsTitle
   };
 
+  static final QueryModelIdentifier<CommentModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<CommentModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
   static final QueryField POSTCOMMENTSID = QueryField(fieldName: \\"postCommentsId\\");
@@ -10065,6 +10073,7 @@ class Project extends Model {
     'projectId': _projectId, 'name': _name, 'team': _team?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format(), 'projectTeamTeamId': _projectTeamTeamId, 'projectTeamName': _projectTeamName
   };
 
+  static final QueryModelIdentifier<ProjectModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<ProjectModelIdentifier>();
   static final QueryField PROJECTID = QueryField(fieldName: \\"projectId\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField TEAM = QueryField(
@@ -10347,6 +10356,7 @@ class Team extends Model {
     'teamId': _teamId, 'name': _name, 'project': _project?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
+  static final QueryModelIdentifier<TeamModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<TeamModelIdentifier>();
   static final QueryField TEAMID = QueryField(fieldName: \\"teamId\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField PROJECT = QueryField(
@@ -10621,6 +10631,7 @@ class CpkOneToOneBidirectionalParent extends Model {
     'id': id, 'name': _name, 'explicitChild': _explicitChild?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format(), 'cpkOneToOneBidirectionalParentExplicitChildId': _cpkOneToOneBidirectionalParentExplicitChildId, 'cpkOneToOneBidirectionalParentExplicitChildName': _cpkOneToOneBidirectionalParentExplicitChildName
   };
 
+  static final QueryModelIdentifier<CpkOneToOneBidirectionalParentModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<CpkOneToOneBidirectionalParentModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField EXPLICITCHILD = QueryField(
@@ -10886,6 +10897,7 @@ class CpkOneToOneBidirectionalChildExplicit extends Model {
     'id': id, 'name': _name, 'belongsToParent': _belongsToParent?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
+  static final QueryModelIdentifier<CpkOneToOneBidirectionalChildExplicitModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<CpkOneToOneBidirectionalChildExplicitModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BELONGSTOPARENT = QueryField(
