@@ -1,4 +1,4 @@
-export const TransformerV2DiretiveName = {
+export const TransformerV2DirectiveName = {
   HAS_ONE: 'hasOne',
   HAS_MANY: 'hasMany',
   BELONGS_TO: 'belongsTo',

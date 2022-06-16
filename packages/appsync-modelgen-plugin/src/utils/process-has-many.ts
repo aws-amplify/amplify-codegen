@@ -1,6 +1,6 @@
 import { CodeGenDirective, CodeGenField, CodeGenFieldDirective, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
-import { TransformerV2DiretiveName, DEFAULT_HASH_KEY_FIELD } from './constants';
-import { getDirective, getOtherSideBelongsToFieldName } from './fieldUtils';
+import { TransformerV2DirectiveName, DEFAULT_HASH_KEY_FIELD } from './constants';
+import { getDirective, getOtherSideBelongsToField } from './fieldUtils';
 import { getModelPrimaryKeyComponentFields } from './fieldUtils';
 import {
   CodeGenConnectionType,
@@ -57,7 +57,7 @@ export function getConnectedFieldsForHasMany(
   connectedModel: CodeGenModel,
   shouldUseModelNameFieldInHasManyAndBelongsTo: boolean
 ): CodeGenField[] {
-  const hasManyDir = getDirective(field)(TransformerV2DiretiveName.HAS_MANY);
+  const hasManyDir = getDirective(field)(TransformerV2DirectiveName.HAS_MANY);
   if (!hasManyDir) {
     throw new Error(`The ${field.name} on model ${model.name} is not connected`);
   }
@@ -71,7 +71,7 @@ export function getConnectedFieldsForHasMany(
     // Find gsi on other side if index is defined
     if (indexName) {
       otherSideConnectedDir = otherSideFieldDirectives.find(dir => {
-        return dir.name === TransformerV2DiretiveName.INDEX && dir.arguments.name === indexName;
+        return dir.name === TransformerV2DirectiveName.INDEX && dir.arguments.name === indexName;
       });
       if (!otherSideConnectedDir) {
         throw new Error(
@@ -82,18 +82,18 @@ export function getConnectedFieldsForHasMany(
     // Otherwise find the pk on other side
     else {
       otherSideConnectedDir = otherSideFieldDirectives.find(dir => {
-        return dir.name === TransformerV2DiretiveName.PRIMARY_KEY;
+        return dir.name === TransformerV2DirectiveName.PRIMARY_KEY;
       });
     }
     // Find other side connected field name
-    const otherSideConnectedFieldName = otherSideConnectedDir?.fieldName ?? getOtherSideBelongsToFieldName(model.name, connectedModel) ?? DEFAULT_HASH_KEY_FIELD;
+    const otherSideConnectedFieldName = otherSideConnectedDir?.fieldName ?? getOtherSideBelongsToField(model.name, connectedModel)?.name ?? DEFAULT_HASH_KEY_FIELD;
     // First check if it is a bi-connection and find the belongsTo field on the other side with fields[0] matching connected field name
     otherSideConnectedField = connectedModel.fields
       .filter(f => f.type === model.name)
       .find(f =>
         f.directives.find(
           d =>
-            (d.name === TransformerV2DiretiveName.BELONGS_TO) &&
+            (d.name === TransformerV2DirectiveName.BELONGS_TO) &&
             d.arguments.fields &&
             d.arguments.fields[0] === otherSideConnectedFieldName,
         ),
@@ -115,7 +115,7 @@ export function getConnectedFieldsForHasMany(
   if (shouldUseModelNameFieldInHasManyAndBelongsTo) {
     otherSideConnectedField = connectedModel.fields
       .filter(f => f.type === model.name)
-      .find(f => f.directives.find(d => d.name === TransformerV2DiretiveName.BELONGS_TO));
+      .find(f => f.directives.find(d => d.name === TransformerV2DirectiveName.BELONGS_TO));
     if (otherSideConnectedField) {
       return [otherSideConnectedField];
     }
