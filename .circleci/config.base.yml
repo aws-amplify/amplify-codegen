@@ -1,25 +1,28 @@
 version: 2.1
+orbs:
+  aws-ecr: circleci/aws-ecr@6.15.3
 machine:
   environment:
     PATH: '${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin'
 executors:
-  linux_node12: &linux_node12
-    docker:
-      - image: circleci/node:12
-    resource_class: large
-  linux_node15: &linux_node15
-    docker:
-      - image: circleci/node:15
-    resource_class: large
-  windows_node12: &windows_node12
+  w: &windows-e2e-executor
     machine:
-      image: 'windows-server-2019-vs2019:stable'
-      resource_class: windows.large
+      image: "windows-server-2019-vs2019:stable"
+      resource_class: "windows.medium"
       shell: bash.exe
-  macos_node12: &macos_node12
-    macos:
-      xcode: 13.2.1
-      resource_class: large
+    working_directory: ~/repo
+    environment:
+      AMPLIFY_DIR: C:/home/circleci/repo/out
+      AMPLIFY_PATH: C:/home/circleci/repo/out/amplify.exe
+
+  l: &linux-e2e-executor
+    docker:
+      - image: public.ecr.aws/j4f5f3h7/amplify-cli-e2e-base-image-repo-public:latest
+    working_directory: ~/repo
+    resource_class: large
+    environment:
+      AMPLIFY_DIR: /home/circleci/repo/out
+      AMPLIFY_PATH: /home/circleci/repo/out/amplify-pkg-linux-x64
 
 defaults: &defaults
   working_directory: ~/repo
@@ -76,8 +79,7 @@ jobs:
       - when:
           condition:
             or:
-              - equal: [ *macos_node12, << parameters.os >> ]
-              - equal: [ *windows_node12, << parameters.os >> ]
+              - equal: [ *windows-e2e-executor, << parameters.os >> ]
           steps:
             - checkout
             - run: nvm install 12.22.7
@@ -88,8 +90,7 @@ jobs:
       - when:
           condition:
             or:
-              - equal: [ *linux_node12, << parameters.os >> ]
-              - equal: [ *linux_node15, << parameters.os >> ]
+              - equal: [ *linux-e2e-executor, << parameters.os >> ]
           steps:
             - attach_workspace:
                 at: ./
@@ -204,27 +205,27 @@ workflows:
                 - e2e-testing
     jobs:
       - build:
-          os: linux_node12
+          os: l
       - cleanup_resources:
           context:
             - cleanup-resources
-          os: linux_node12
+          os: l
           requires:
             - build
 
   build_test_deploy:
     jobs:
       - build:
-          os: linux_node12
+          os: l
       - test:
           name: test-<< matrix.os >>
           matrix:
             parameters:
-              os: [linux_node15, linux_node12, windows_node12, macos_node12]
+              os: [l, w]
           requires:
             - build
       - publish_to_local_registry:
-          os: linux_node12
+          os: l
           requires:
             - build
           filters:
@@ -236,7 +237,7 @@ workflows:
       - e2e-test:
           context:
             - cleanup-resources
-          os: linux_node15
+          os: l
           requires:
             - publish_to_local_registry
           post-steps:
@@ -248,7 +249,7 @@ workflows:
                 - e2e-testing
                 - /tagged-release\/.*/
       - deploy:
-          os: linux_node12
+          os: l
           requires:
             - build
             - test
@@ -261,6 +262,6 @@ workflows:
                 - /tagged-release\/.*/
                 - /tagged-release-without-e2e-tests\/.*/
       - done_with_node_e2e_tests:
-          os: linux_node12
+          os: l
           requires:
             - e2e-test
