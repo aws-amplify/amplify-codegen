@@ -1,4 +1,4 @@
-import { nspawn as spawn, getCLIPath } from 'amplify-codegen-e2e-core';
+import { nspawn as spawn, getCLIPath } from '@aws-amplify/amplify-codegen-e2e-core';
 
 export async function newPlugin(cwd: string): Promise<string> {
   const pluginPackageDirName = 'newpluginpackage';

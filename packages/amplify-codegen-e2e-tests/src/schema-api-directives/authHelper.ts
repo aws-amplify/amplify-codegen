@@ -1,5 +1,5 @@
 import { CognitoIdentityServiceProvider } from 'aws-sdk';
-import { getProjectMeta, getBackendAmplifyMeta } from 'amplify-codegen-e2e-core';
+import { getProjectMeta, getBackendAmplifyMeta } from '@aws-amplify/amplify-codegen-e2e-core';
 import Amplify, { Auth } from 'aws-amplify';
 import { AuthenticationDetails } from 'amazon-cognito-identity-js';
 import fs from 'fs-extra';

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { getProjectMeta, getBackendAmplifyMeta, getTeamProviderInfo, getBackendConfig } from 'amplify-codegen-e2e-core';
+import { getProjectMeta, getBackendAmplifyMeta, getTeamProviderInfo, getBackendConfig } from '@aws-amplify/amplify-codegen-e2e-core';
 import { AuthProjectDetails, DynamoDBProjectDetails, readRootStack, StorageProjectDetails } from '.';
 
 export const expectAuthProjectDetailsMatch = (projectDetails: AuthProjectDetails, ogProjectDetails: AuthProjectDetails) => {

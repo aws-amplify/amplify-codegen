@@ -11,7 +11,7 @@ import {
   amplifyPushWithoutCodegen,
   addFunction,
   initProjectWithAccessKey,
-} from 'amplify-codegen-e2e-core';
+} from '@aws-amplify/amplify-codegen-e2e-core';
 
 import { getApiKey, configureAmplify, getConfiguredAppsyncClientAPIKeyAuth } from '../authHelper';
 

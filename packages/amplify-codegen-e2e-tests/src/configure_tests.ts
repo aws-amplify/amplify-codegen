@@ -1,4 +1,4 @@
-import { amplifyConfigure as configure, isCI } from 'amplify-codegen-e2e-core';
+import { amplifyConfigure as configure, isCI } from '@aws-amplify/amplify-codegen-e2e-core';
 
 async function setupAmplify() {
   if (isCI()) {
