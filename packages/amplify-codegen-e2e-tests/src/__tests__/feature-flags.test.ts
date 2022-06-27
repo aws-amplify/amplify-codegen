@@ -1,5 +1,5 @@
 import * as fs from 'fs-extra';
-import { initJSProjectWithProfile, createNewProjectDir, deleteProject, deleteProjectDir } from 'amplify-codegen-e2e-core';
+import { initJSProjectWithProfile, createNewProjectDir, deleteProject, deleteProjectDir } from '@aws-amplify/amplify-codegen-e2e-core';
 import { pathManager } from 'amplify-cli-core';
 
 const codegenFeatureFlags = {

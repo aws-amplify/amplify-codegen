@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { addApiWithBlankSchemaAndConflictDetection, updateApiSchema, amplifyPush } from 'amplify-codegen-e2e-core';
+import { addApiWithBlankSchemaAndConflictDetection, updateApiSchema, amplifyPush } from '@aws-amplify/amplify-codegen-e2e-core';
 import { getApiKey, configureAmplify, getConfiguredAppsyncClientAPIKeyAuth } from '../authHelper';
 import { testQueries, testMutations } from '../common';
 
