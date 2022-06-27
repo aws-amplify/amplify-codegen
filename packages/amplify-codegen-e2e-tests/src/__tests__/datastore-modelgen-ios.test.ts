@@ -1,4 +1,4 @@
-import { createNewProjectDir, DEFAULT_IOS_CONFIG } from "amplify-codegen-e2e-core";
+import { createNewProjectDir, DEFAULT_IOS_CONFIG } from "@aws-amplify/amplify-codegen-e2e-core";
 import { deleteAmplifyProject, testCodegenModels } from '../codegen-tests-base';
 
 const schema = 'modelgen/model_gen_schema_with_aws_scalars.graphql';
