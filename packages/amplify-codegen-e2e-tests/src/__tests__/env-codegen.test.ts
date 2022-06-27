@@ -7,7 +7,7 @@ import {
   generateModels,
   addApiWithoutSchema,
   updateApiSchema
-} from "amplify-codegen-e2e-core";
+} from "@aws-amplify/amplify-codegen-e2e-core";
 import { addEnvironment, checkoutEnvironment } from "../environment/env";
 const schema = 'simple_model.graphql';
 const schemaWithError = 'modelgen/model_gen_schema_with_errors.graphql';

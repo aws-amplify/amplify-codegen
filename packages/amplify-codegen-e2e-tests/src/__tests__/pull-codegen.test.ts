@@ -17,7 +17,7 @@ import {
   getAdminApp,
   amplifyPullSandbox,
   getProjectSchema
-} from "amplify-codegen-e2e-core";
+} from "@aws-amplify/amplify-codegen-e2e-core";
 import { existsSync } from "fs";
 import path from 'path';
 import { isNotEmptyDir, generateSourceCode } from '../utils';

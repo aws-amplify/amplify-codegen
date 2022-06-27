@@ -6,7 +6,7 @@ import {
     configureCodegen,
     AmplifyFrontendConfig,
     createRandomName
-} from "amplify-codegen-e2e-core";
+} from "@aws-amplify/amplify-codegen-e2e-core";
 import { existsSync, readFileSync } from "fs";
 import path from 'path';
 import { isNotEmptyDir } from '../utils';

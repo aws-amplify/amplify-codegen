@@ -1,4 +1,4 @@
-import { createNewProjectDir, DEFAULT_ANDROID_CONFIG } from "amplify-codegen-e2e-core";
+import { createNewProjectDir, DEFAULT_ANDROID_CONFIG } from "@aws-amplify/amplify-codegen-e2e-core";
 import { deleteAmplifyProject, testConfigureCodegen } from '../codegen-tests-base';
 
 const schema = 'simple_model.graphql';
