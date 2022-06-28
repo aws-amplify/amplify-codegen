@@ -380,6 +380,9 @@ export class AppSyncSwiftVisitor<
   }
 
   private generateFieldSchema(field: CodeGenField, modelKeysName: string): string {
+    if (!this.isCustomPKEnabled() && field.type === 'ID' && field.name === 'id') {
+      return `.id()`;
+    }
     let ofType;
     let isReadOnly: string = '';
     const isEnumType = this.isEnumType(field);

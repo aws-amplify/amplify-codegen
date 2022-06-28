@@ -780,7 +780,7 @@ extension ListContainer {
     model.pluralName = \\"ListContainers\\"
     
     model.fields(
-      .field(listContainer.id, is: .required, ofType: .string),
+      .id(),
       .field(listContainer.name, is: .optional, ofType: .string),
       .field(listContainer.list, is: .optional, ofType: .embeddedCollection(of: Int.self)),
       .field(listContainer.requiredList, is: .required, ofType: .embeddedCollection(of: String.self)),
@@ -887,7 +887,7 @@ extension Todo {
     model.pluralName = \\"Todos\\"
     
     model.fields(
-      .field(todo.id, is: .required, ofType: .string),
+      .id(),
       .field(todo.title, is: .required, ofType: .string),
       .hasMany(todo.requiredListOfTasks, is: .optional, ofType: task.self, associatedWith: task.keys.todo),
       .hasMany(todo.listOfRequiredTasks, is: .optional, ofType: task.self, associatedWith: task.keys.todo),
@@ -959,7 +959,7 @@ extension task {
     model.pluralName = \\"tasks\\"
     
     model.fields(
-      .field(task.id, is: .required, ofType: .string),
+      .id(),
       .field(task.title, is: .required, ofType: .string),
       .belongsTo(task.todo, is: .optional, ofType: Todo.self, targetName: \\"taskTodoId\\"),
       .field(task.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),

@@ -120,7 +120,7 @@ describe('AppSyncSwiftVisitor', () => {
           model.pluralName = \\"SimpleModels\\"
           
           model.fields(
-            .field(simpleModel.id, is: .required, ofType: .string),
+            .id(),
             .field(simpleModel.name, is: .optional, ofType: .string),
             .field(simpleModel.bar, is: .optional, ofType: .string),
             .field(simpleModel.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -226,7 +226,7 @@ describe('AppSyncSwiftVisitor', () => {
           model.pluralName = \\"snake_cases\\"
           
           model.fields(
-            .field(snake_case.id, is: .required, ofType: .string),
+            .id(),
             .field(snake_case.name, is: .optional, ofType: .string),
             .field(snake_case.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
             .field(snake_case.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
@@ -367,7 +367,7 @@ describe('AppSyncSwiftVisitor', () => {
           )
           
           model.fields(
-            .field(authorBook.id, is: .required, ofType: .string),
+            .id(),
             .field(authorBook.author_id, is: .required, ofType: .string),
             .field(authorBook.book_id, is: .required, ofType: .string),
             .field(authorBook.author, is: .optional, ofType: .string),
@@ -640,7 +640,7 @@ describe('AppSyncSwiftVisitor', () => {
               model.pluralName = \\"Todos\\"
               
               model.fields(
-                .field(todo.id, is: .required, ofType: .string),
+                .id(),
                 .field(todo.title, is: .required, ofType: .string),
                 .field(todo.done, is: .required, ofType: .bool),
                 .field(todo.description, is: .optional, ofType: .string),
@@ -738,7 +738,7 @@ describe('AppSyncSwiftVisitor', () => {
               model.pluralName = \\"tasks\\"
               
               model.fields(
-                .field(task.id, is: .required, ofType: .string),
+                .id(),
                 .field(task.title, is: .required, ofType: .string),
                 .field(task.done, is: .required, ofType: .bool),
                 .belongsTo(task.todo, is: .optional, ofType: Todo.self, targetName: \\"taskTodoId\\"),
@@ -874,7 +874,7 @@ describe('AppSyncSwiftVisitor', () => {
               model.pluralName = \\"Posts\\"
               
               model.fields(
-                .field(post.id, is: .required, ofType: .string),
+                .id(),
                 .field(post.title, is: .required, ofType: .string),
                 .hasMany(post.editors, is: .optional, ofType: PostEditor.self, associatedWith: PostEditor.keys.id),
                 .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -945,7 +945,7 @@ describe('AppSyncSwiftVisitor', () => {
               model.pluralName = \\"Posts\\"
               
               model.fields(
-                .field(post.id, is: .required, ofType: .string),
+                .id(),
                 .field(post.title, is: .required, ofType: .string),
                 .hasMany(post.editors, is: .optional, ofType: PostEditor.self, associatedWith: PostEditor.keys.id),
                 .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -1061,7 +1061,7 @@ describe('AppSyncSwiftVisitor', () => {
           model.pluralName = \\"ObjectWithNativeTypes\\"
           
           model.fields(
-            .field(objectWithNativeTypes.id, is: .required, ofType: .string),
+            .id(),
             .field(objectWithNativeTypes.intArr, is: .optional, ofType: .embeddedCollection(of: Int.self)),
             .field(objectWithNativeTypes.strArr, is: .optional, ofType: .embeddedCollection(of: String.self)),
             .field(objectWithNativeTypes.floatArr, is: .optional, ofType: .embeddedCollection(of: Double.self)),
@@ -1183,7 +1183,7 @@ describe('AppSyncSwiftVisitor', () => {
           model.pluralName = \\"Attractions\\"
           
           model.fields(
-            .field(attraction.id, is: .required, ofType: .string),
+            .id(),
             .field(attraction.name, is: .required, ofType: .string),
             .field(attraction.location, is: .required, ofType: .embedded(type: Location.self)),
             .field(attraction.nearByLocations, is: .optional, ofType: .embeddedCollection(of: Location.self)),
@@ -1432,7 +1432,7 @@ describe('AppSyncSwiftVisitor', () => {
               model.pluralName = \\"Posts\\"
               
               model.fields(
-                .field(post.id, is: .required, ofType: .string),
+                .id(),
                 .field(post.title, is: .required, ofType: .string),
                 .field(post.owner, is: .required, ofType: .string),
                 .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -1481,7 +1481,7 @@ describe('AppSyncSwiftVisitor', () => {
               model.pluralName = \\"Posts\\"
               
               model.fields(
-                .field(post.id, is: .required, ofType: .string),
+                .id(),
                 .field(post.title, is: .required, ofType: .string),
                 .field(post.author, is: .required, ofType: .string),
                 .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -1531,7 +1531,7 @@ describe('AppSyncSwiftVisitor', () => {
               model.pluralName = \\"Posts\\"
               
               model.fields(
-                .field(post.id, is: .required, ofType: .string),
+                .id(),
                 .field(post.title, is: .required, ofType: .string),
                 .field(post.author, is: .required, ofType: .string),
                 .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -1581,7 +1581,7 @@ describe('AppSyncSwiftVisitor', () => {
               model.pluralName = \\"Posts\\"
               
               model.fields(
-                .field(post.id, is: .required, ofType: .string),
+                .id(),
                 .field(post.title, is: .required, ofType: .string),
                 .field(post.author, is: .required, ofType: .string),
                 .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -1628,7 +1628,7 @@ describe('AppSyncSwiftVisitor', () => {
               model.pluralName = \\"Posts\\"
               
               model.fields(
-                .field(post.id, is: .required, ofType: .string),
+                .id(),
                 .field(post.title, is: .required, ofType: .string),
                 .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
@@ -1674,7 +1674,7 @@ describe('AppSyncSwiftVisitor', () => {
               model.pluralName = \\"Posts\\"
               
               model.fields(
-                .field(post.id, is: .required, ofType: .string),
+                .id(),
                 .field(post.title, is: .required, ofType: .string),
                 .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
@@ -1727,7 +1727,7 @@ describe('AppSyncSwiftVisitor', () => {
               model.pluralName = \\"Posts\\"
               
               model.fields(
-                .field(post.id, is: .required, ofType: .string),
+                .id(),
                 .field(post.title, is: .required, ofType: .string),
                 .field(post.author, is: .required, ofType: .string),
                 .field(post.editors, is: .optional, ofType: .embeddedCollection(of: String.self)),
@@ -1780,7 +1780,7 @@ describe('AppSyncSwiftVisitor', () => {
               model.pluralName = \\"Employees\\"
               
               model.fields(
-                .field(employee.id, is: .required, ofType: .string),
+                .id(),
                 .field(employee.name, is: .required, ofType: .string),
                 .field(employee.address, is: .required, ofType: .string),
                 .field(employee.ssn, is: .optional, ofType: .string),
@@ -1831,7 +1831,7 @@ describe('AppSyncSwiftVisitor', () => {
             model.pluralName = \\"Posts\\"
             
             model.fields(
-              .field(post.id, is: .required, ofType: .string),
+              .id(),
               .field(post.title, is: .required, ofType: .string),
               .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
               .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
@@ -1879,7 +1879,7 @@ describe('AppSyncSwiftVisitor', () => {
             model.pluralName = \\"Posts\\"
             
             model.fields(
-              .field(post.id, is: .required, ofType: .string),
+              .id(),
               .field(post.title, is: .required, ofType: .string),
               .field(post.groups, is: .required, ofType: .embeddedCollection(of: String.self)),
               .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -1927,7 +1927,7 @@ describe('AppSyncSwiftVisitor', () => {
             model.pluralName = \\"Posts\\"
             
             model.fields(
-              .field(post.id, is: .required, ofType: .string),
+              .id(),
               .field(post.title, is: .required, ofType: .string),
               .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
               .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
@@ -1974,7 +1974,7 @@ describe('AppSyncSwiftVisitor', () => {
             model.pluralName = \\"Posts\\"
             
             model.fields(
-              .field(post.id, is: .required, ofType: .string),
+              .id(),
               .field(post.title, is: .required, ofType: .string),
               .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
               .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
@@ -2020,7 +2020,7 @@ describe('AppSyncSwiftVisitor', () => {
             model.pluralName = \\"Posts\\"
             
             model.fields(
-              .field(post.id, is: .required, ofType: .string),
+              .id(),
               .field(post.title, is: .required, ofType: .string),
               .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
               .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
@@ -2079,7 +2079,7 @@ describe('AppSyncSwiftVisitor', () => {
           model.pluralName = \\"Posts\\"
           
           model.fields(
-            .field(post.id, is: .required, ofType: .string),
+            .id(),
             .field(post.title, is: .required, ofType: .string),
             .field(post.owner, is: .required, ofType: .string),
             .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -2139,7 +2139,7 @@ describe('AppSyncSwiftVisitor', () => {
           model.pluralName = \\"Posts\\"
           
           model.fields(
-            .field(post.id, is: .required, ofType: .string),
+            .id(),
             .field(post.title, is: .required, ofType: .string),
             .field(post.owner, is: .required, ofType: .string),
             .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),

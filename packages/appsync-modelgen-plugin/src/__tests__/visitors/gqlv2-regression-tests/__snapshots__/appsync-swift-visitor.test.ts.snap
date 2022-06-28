@@ -59,7 +59,7 @@ extension Post {
     model.pluralName = \\"Posts\\"
     
     model.fields(
-      .field(post.id, is: .required, ofType: .string),
+      .id(),
       .field(post.title, is: .required, ofType: .string),
       .hasMany(post.comments, is: .optional, ofType: Comment.self, associatedWith: Comment.keys.post),
       .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -132,7 +132,7 @@ extension Comment {
     )
     
     model.fields(
-      .field(comment.id, is: .required, ofType: .string),
+      .id(),
       .field(comment.content, is: .required, ofType: .string),
       .belongsTo(comment.post, is: .optional, ofType: Post.self, targetName: \\"postID\\"),
       .field(comment.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -207,7 +207,7 @@ extension Project2 {
     model.pluralName = \\"Project2s\\"
     
     model.fields(
-      .field(project2.id, is: .required, ofType: .string),
+      .id(),
       .field(project2.name, is: .optional, ofType: .string),
       .hasOne(project2.team, is: .optional, ofType: Team2.self, associatedWith: Team2.keys.project, targetName: \\"project2TeamId\\"),
       .field(project2.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -277,7 +277,7 @@ extension Team2 {
     model.pluralName = \\"Team2s\\"
     
     model.fields(
-      .field(team2.id, is: .required, ofType: .string),
+      .id(),
       .field(team2.name, is: .required, ofType: .string),
       .belongsTo(team2.project, is: .optional, ofType: Project2.self, targetName: \\"projectID\\"),
       .field(team2.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -346,7 +346,7 @@ extension Blog7V2 {
     model.pluralName = \\"Blog7V2s\\"
     
     model.fields(
-      .field(blog7V2.id, is: .required, ofType: .string),
+      .id(),
       .field(blog7V2.name, is: .required, ofType: .string),
       .hasMany(blog7V2.posts, is: .optional, ofType: Post7V2.self, associatedWith: Post7V2.keys.blog),
       .field(blog7V2.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -421,7 +421,7 @@ extension Post7V2 {
     model.pluralName = \\"Post7V2s\\"
     
     model.fields(
-      .field(post7V2.id, is: .required, ofType: .string),
+      .id(),
       .field(post7V2.title, is: .required, ofType: .string),
       .belongsTo(post7V2.blog, is: .optional, ofType: Blog7V2.self, targetName: \\"blog7V2PostsId\\"),
       .hasMany(post7V2.comments, is: .optional, ofType: Comment7V2.self, associatedWith: Comment7V2.keys.post),
@@ -491,7 +491,7 @@ extension Comment7V2 {
     model.pluralName = \\"Comment7V2s\\"
     
     model.fields(
-      .field(comment7V2.id, is: .required, ofType: .string),
+      .id(),
       .field(comment7V2.content, is: .optional, ofType: .string),
       .belongsTo(comment7V2.post, is: .optional, ofType: Post7V2.self, targetName: \\"post7V2CommentsId\\"),
       .field(comment7V2.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -566,7 +566,7 @@ extension Project {
     model.pluralName = \\"Projects\\"
     
     model.fields(
-      .field(project.id, is: .required, ofType: .string),
+      .id(),
       .field(project.name, is: .optional, ofType: .string),
       .hasOne(project.team, is: .optional, ofType: Team.self, associatedWith: Team.keys.project, targetName: \\"projectTeamId\\"),
       .field(project.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -636,7 +636,7 @@ extension Team {
     model.pluralName = \\"Teams\\"
     
     model.fields(
-      .field(team.id, is: .required, ofType: .string),
+      .id(),
       .field(team.name, is: .required, ofType: .string),
       .belongsTo(team.project, is: .optional, ofType: Project.self, targetName: \\"teamProjectId\\"),
       .field(team.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -711,7 +711,7 @@ extension Post {
     model.pluralName = \\"Posts\\"
     
     model.fields(
-      .field(post.id, is: .required, ofType: .string),
+      .id(),
       .field(post.title, is: .required, ofType: .string),
       .field(post.content, is: .optional, ofType: .string),
       .hasMany(post.tags, is: .optional, ofType: PostTags.self, associatedWith: PostTags.keys.post),
@@ -781,7 +781,7 @@ extension Tag {
     model.pluralName = \\"Tags\\"
     
     model.fields(
-      .field(tag.id, is: .required, ofType: .string),
+      .id(),
       .field(tag.label, is: .required, ofType: .string),
       .hasMany(tag.posts, is: .optional, ofType: PostTags.self, associatedWith: PostTags.keys.tag),
       .field(tag.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -844,7 +844,7 @@ extension Todo {
     model.pluralName = \\"Todos\\"
     
     model.fields(
-      .field(todo.id, is: .required, ofType: .string),
+      .id(),
       .field(todo.content, is: .optional, ofType: .string),
       .field(todo.createdOn, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(todo.updatedOn, is: .optional, isReadOnly: true, ofType: .dateTime)
@@ -912,7 +912,7 @@ extension Post2 {
     model.pluralName = \\"Post2s\\"
     
     model.fields(
-      .field(post2.id, is: .required, ofType: .string),
+      .id(),
       .field(post2.title, is: .required, ofType: .string),
       .hasMany(post2.comments, is: .optional, ofType: Comment2.self, associatedWith: Comment2.keys.postID),
       .field(post2.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -985,7 +985,7 @@ extension Comment2 {
     )
     
     model.fields(
-      .field(comment2.id, is: .required, ofType: .string),
+      .id(),
       .field(comment2.postID, is: .required, ofType: .string),
       .field(comment2.content, is: .required, ofType: .string),
       .field(comment2.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -1060,7 +1060,7 @@ extension Project2 {
     model.pluralName = \\"Project2s\\"
     
     model.fields(
-      .field(project2.id, is: .required, ofType: .string),
+      .id(),
       .field(project2.name, is: .optional, ofType: .string),
       .field(project2.teamID, is: .optional, ofType: .string),
       .hasOne(project2.team, is: .optional, ofType: Team2.self, associatedWith: Team2.keys.id, targetName: \\"teamID\\"),
@@ -1124,7 +1124,7 @@ extension Team2 {
     model.pluralName = \\"Team2s\\"
     
     model.fields(
-      .field(team2.id, is: .required, ofType: .string),
+      .id(),
       .field(team2.name, is: .required, ofType: .string),
       .field(team2.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(team2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
@@ -1192,7 +1192,7 @@ extension Post {
     model.pluralName = \\"Posts\\"
     
     model.fields(
-      .field(post.id, is: .required, ofType: .string),
+      .id(),
       .field(post.title, is: .required, ofType: .string),
       .hasMany(post.comments, is: .optional, ofType: Comment.self, associatedWith: Comment.keys.postCommentsId),
       .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -1261,7 +1261,7 @@ extension Comment {
     model.pluralName = \\"Comments\\"
     
     model.fields(
-      .field(comment.id, is: .required, ofType: .string),
+      .id(),
       .field(comment.content, is: .required, ofType: .string),
       .field(comment.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(comment.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -1336,7 +1336,7 @@ extension Project {
     model.pluralName = \\"Projects\\"
     
     model.fields(
-      .field(project.id, is: .required, ofType: .string),
+      .id(),
       .field(project.name, is: .optional, ofType: .string),
       .hasOne(project.team, is: .optional, ofType: Team.self, associatedWith: Team.keys.id, targetName: \\"projectTeamId\\"),
       .field(project.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -1400,7 +1400,7 @@ extension Team {
     model.pluralName = \\"Teams\\"
     
     model.fields(
-      .field(team.id, is: .required, ofType: .string),
+      .id(),
       .field(team.name, is: .required, ofType: .string),
       .field(team.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(team.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
@@ -1478,7 +1478,7 @@ extension Customer {
     )
     
     model.fields(
-      .field(customer.id, is: .required, ofType: .string),
+      .id(),
       .field(customer.name, is: .required, ofType: .string),
       .field(customer.phoneNumber, is: .optional, ofType: .string),
       .field(customer.accountRepresentativeID, is: .required, ofType: .string),
