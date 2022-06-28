@@ -194,7 +194,7 @@ export class AppSyncModelJavaVisitor<
     const { primaryKeyType, sortKeyFields } = primaryKeyField.primaryKeyInfo!;
     const isCompositeKey = primaryKeyType === CodeGenPrimaryKeyType.CustomId && sortKeyFields.length > 0;
     const isIdAsModelPrimaryKey = primaryKeyType !== CodeGenPrimaryKeyType.CustomId;
-    if (isCompositeKey) {
+    if (isCompositeKey && this.isCustomPKEnabled()) {
       // Generate primary key class for composite key
       this.generateIdentifierClassField(model, classDeclarationBlock);
     }
@@ -209,13 +209,15 @@ export class AppSyncModelJavaVisitor<
     // copyOfBuilder for used for updating existing instance
     this.generateCopyOfBuilderClass(model, classDeclarationBlock, isIdAsModelPrimaryKey);
 
-    if (isCompositeKey) {
-      // Model primary Key class for composite primary key
-      this.generateModelIdentifierClass(model, classDeclarationBlock);
+    if (this.isCustomPKEnabled()) {
+      if (isCompositeKey) {
+        // Model primary Key class for composite primary key
+        this.generateModelIdentifierClass(model, classDeclarationBlock);
+      }
+  
+      // resolveIdentifier
+      this.generateResolveIdentifier(model, classDeclarationBlock, isCompositeKey);
     }
-
-    // resolveIdentifier
-    this.generateResolveIdentifier(model, classDeclarationBlock, isCompositeKey);
 
     // getters
     this.generateGetters(model, classDeclarationBlock);
@@ -846,8 +848,10 @@ export class AppSyncModelJavaVisitor<
           const authDirectives: AuthDirective[] = model.directives.filter(d => d.name === 'auth') as AuthDirective[];
           const authRules = this.generateAuthRules(authDirectives);
           modelArgs.push(`pluralName = "${this.pluralizeModelName(model)}"`);
-          modelArgs.push(`type = Model.Type.USER`);
-          modelArgs.push(`version = 1`);
+          if (this.isCustomPKEnabled()) {
+            modelArgs.push(`type = Model.Type.USER`);
+            modelArgs.push(`version = 1`);
+          }
           if (authRules.length) {
             this.usingAuth = true;
             modelArgs.push(`authRules = ${authRules}`);
@@ -960,8 +964,10 @@ export class AppSyncModelJavaVisitor<
         connectionDirectiveName = 'BelongsTo';
         const belongsToTargetNameArgs = `targetName = "${connectionInfo.targetName}"`;
         connectionArguments.push(belongsToTargetNameArgs);
-        const belongsToTargetNamesArgs = `targetNames = {${connectionInfo.targetNames.map(target => `"${target}"`).join(', ')}}`;
-        connectionArguments.push(belongsToTargetNamesArgs);
+        if (this.isCustomPKEnabled()) {
+          const belongsToTargetNamesArgs = `targetNames = {${connectionInfo.targetNames.map(target => `"${target}"`).join(', ')}}`;
+          connectionArguments.push(belongsToTargetNamesArgs);
+        }
         break;
     }
     connectionArguments.push(`type = ${this.getModelName(connectionInfo.connectedModel)}.class`);

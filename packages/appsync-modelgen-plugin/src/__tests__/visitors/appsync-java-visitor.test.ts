@@ -644,45 +644,26 @@ describe('AppSyncModelVisitor', () => {
       }
     `;
     it('Should generate correct model file for default id as primary key type', () => {
-      const generatedCode = getVisitorPipelinedTransformer(schema, `Blog`).generate();
+      const generatedCode = getVisitorPipelinedTransformer(schema, `Blog`, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
       expect(() => validateJava(generatedCode)).not.toThrow();
       expect(generatedCode).toMatchSnapshot();
     });
     it('Should generate correct model file for custom primary key type', () => {
-      const generatedCode = getVisitorPipelinedTransformer(schema, `Post`).generate();
+      const generatedCode = getVisitorPipelinedTransformer(schema, `Post`, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
       expect(() => validateJava(generatedCode)).not.toThrow();
       expect(generatedCode).toMatchSnapshot();
     });
     it('Should generate correct model file for composite key type without id field defined', () => {
-      const generatedCode = getVisitorPipelinedTransformer(schema, `Comment`).generate();
+      const generatedCode = getVisitorPipelinedTransformer(schema, `Comment`, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
       expect(generatedCode).toMatchSnapshot();
     });
     it('Should generate correct model file for composite key type with id field defined', () => {
-      const generatedCode = getVisitorPipelinedTransformer(schema, `BlogOwnerWithCustomPKS`).generate();
+      const generatedCode = getVisitorPipelinedTransformer(schema, `BlogOwnerWithCustomPKS`, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
       expect(generatedCode).toMatchSnapshot();
     });
   });
   
   describe('Custom primary key for connected model tests', () => {
-    it('Should generate correct model file for hasOne & belongsTo relation with composite primary key when CPK is not enabled', () => {
-      const schema = /* GraphQL */ `
-        type Project @model {
-          projectId: ID! @primaryKey(sortKeyFields: ["name"])
-          name: String!
-          team: Team @hasOne
-        }
-
-        type Team @model {
-          teamId: ID! @primaryKey(sortKeyFields: ["name"])
-          name: String!
-          project: Project @belongsTo
-        }
-      `;
-      const generatedCodeProject = getVisitorPipelinedTransformer(schema, `Project`).generate();
-      const generatedCodeTeam = getVisitorPipelinedTransformer(schema, `Team`).generate();
-      expect(generatedCodeProject).toMatchSnapshot();
-      expect(generatedCodeTeam).toMatchSnapshot();
-    });
     it('Should generate correct model file for hasOne & belongsTo relation with composite primary key when CPK is enabled', () => {
       const schema = /* GraphQL */ `
         type Project @model {

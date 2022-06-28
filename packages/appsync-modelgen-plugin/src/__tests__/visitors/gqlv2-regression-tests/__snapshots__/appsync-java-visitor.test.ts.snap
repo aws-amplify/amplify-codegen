@@ -22,7 +22,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Post type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Posts\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Posts\\")
 public final class Post implements Model {
   public static final QueryField ID = field(\\"Post\\", \\"id\\");
   public static final QueryField TITLE = field(\\"Post\\", \\"title\\");
@@ -31,10 +31,6 @@ public final class Post implements Model {
   private final @ModelField(targetType=\\"Comment\\") @HasMany(associatedWith = \\"post\\", type = Comment.class) List<Comment> comments = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  public String resolveIdentifier() {
-    return id;
-  }
-  
   public String getId() {
       return id;
   }
@@ -200,7 +196,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Comment type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Comments\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Comments\\")
 @Index(name = \\"byPost\\", fields = {\\"postID\\",\\"content\\"})
 public final class Comment implements Model {
   public static final QueryField ID = field(\\"Comment\\", \\"id\\");
@@ -208,13 +204,9 @@ public final class Comment implements Model {
   public static final QueryField POST = field(\\"Comment\\", \\"postID\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
-  private final @ModelField(targetType=\\"Post\\") @BelongsTo(targetName = \\"postID\\", targetNames = {\\"postID\\"}, type = Post.class) Post post;
+  private final @ModelField(targetType=\\"Post\\") @BelongsTo(targetName = \\"postID\\", type = Post.class) Post post;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  public String resolveIdentifier() {
-    return id;
-  }
-  
   public String getId() {
       return id;
   }
@@ -401,7 +393,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Project2 type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Project2s\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Project2s\\")
 public final class Project2 implements Model {
   public static final QueryField ID = field(\\"Project2\\", \\"id\\");
   public static final QueryField NAME = field(\\"Project2\\", \\"name\\");
@@ -412,10 +404,6 @@ public final class Project2 implements Model {
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   private final @ModelField(targetType=\\"ID\\") String project2TeamId;
-  public String resolveIdentifier() {
-    return id;
-  }
-  
   public String getId() {
       return id;
   }
@@ -601,20 +589,16 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Team2 type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Team2s\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Team2s\\")
 public final class Team2 implements Model {
   public static final QueryField ID = field(\\"Team2\\", \\"id\\");
   public static final QueryField NAME = field(\\"Team2\\", \\"name\\");
   public static final QueryField PROJECT = field(\\"Team2\\", \\"projectID\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
-  private final @ModelField(targetType=\\"Project2\\") @BelongsTo(targetName = \\"projectID\\", targetNames = {\\"projectID\\"}, type = Project2.class) Project2 project;
+  private final @ModelField(targetType=\\"Project2\\") @BelongsTo(targetName = \\"projectID\\", type = Project2.class) Project2 project;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  public String resolveIdentifier() {
-    return id;
-  }
-  
   public String getId() {
       return id;
   }
@@ -801,7 +785,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Blog7V2 type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Blog7V2s\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Blog7V2s\\")
 public final class Blog7V2 implements Model {
   public static final QueryField ID = field(\\"Blog7V2\\", \\"id\\");
   public static final QueryField NAME = field(\\"Blog7V2\\", \\"name\\");
@@ -810,10 +794,6 @@ public final class Blog7V2 implements Model {
   private final @ModelField(targetType=\\"Post7V2\\") @HasMany(associatedWith = \\"blog\\", type = Post7V2.class) List<Post7V2> posts = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  public String resolveIdentifier() {
-    return id;
-  }
-  
   public String getId() {
       return id;
   }
@@ -980,21 +960,17 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Post7V2 type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Post7V2s\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Post7V2s\\")
 public final class Post7V2 implements Model {
   public static final QueryField ID = field(\\"Post7V2\\", \\"id\\");
   public static final QueryField TITLE = field(\\"Post7V2\\", \\"title\\");
   public static final QueryField BLOG = field(\\"Post7V2\\", \\"blog7V2PostsId\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String title;
-  private final @ModelField(targetType=\\"Blog7V2\\") @BelongsTo(targetName = \\"blog7V2PostsId\\", targetNames = {\\"blog7V2PostsId\\"}, type = Blog7V2.class) Blog7V2 blog;
+  private final @ModelField(targetType=\\"Blog7V2\\") @BelongsTo(targetName = \\"blog7V2PostsId\\", type = Blog7V2.class) Blog7V2 blog;
   private final @ModelField(targetType=\\"Comment7V2\\") @HasMany(associatedWith = \\"post\\", type = Comment7V2.class) List<Comment7V2> comments = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  public String resolveIdentifier() {
-    return id;
-  }
-  
   public String getId() {
       return id;
   }
@@ -1185,20 +1161,16 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Comment7V2 type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Comment7V2s\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Comment7V2s\\")
 public final class Comment7V2 implements Model {
   public static final QueryField ID = field(\\"Comment7V2\\", \\"id\\");
   public static final QueryField CONTENT = field(\\"Comment7V2\\", \\"content\\");
   public static final QueryField POST = field(\\"Comment7V2\\", \\"post7V2CommentsId\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String content;
-  private final @ModelField(targetType=\\"Post7V2\\") @BelongsTo(targetName = \\"post7V2CommentsId\\", targetNames = {\\"post7V2CommentsId\\"}, type = Post7V2.class) Post7V2 post;
+  private final @ModelField(targetType=\\"Post7V2\\") @BelongsTo(targetName = \\"post7V2CommentsId\\", type = Post7V2.class) Post7V2 post;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  public String resolveIdentifier() {
-    return id;
-  }
-  
   public String getId() {
       return id;
   }
@@ -1380,7 +1352,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Project type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Projects\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Projects\\")
 public final class Project implements Model {
   public static final QueryField ID = field(\\"Project\\", \\"id\\");
   public static final QueryField NAME = field(\\"Project\\", \\"name\\");
@@ -1391,10 +1363,6 @@ public final class Project implements Model {
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   private final @ModelField(targetType=\\"ID\\") String projectTeamId;
-  public String resolveIdentifier() {
-    return id;
-  }
-  
   public String getId() {
       return id;
   }
@@ -1580,20 +1548,16 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Team type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Teams\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Teams\\")
 public final class Team implements Model {
   public static final QueryField ID = field(\\"Team\\", \\"id\\");
   public static final QueryField NAME = field(\\"Team\\", \\"name\\");
   public static final QueryField PROJECT = field(\\"Team\\", \\"teamProjectId\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
-  private final @ModelField(targetType=\\"Project\\") @BelongsTo(targetName = \\"teamProjectId\\", targetNames = {\\"teamProjectId\\"}, type = Project.class) Project project;
+  private final @ModelField(targetType=\\"Project\\") @BelongsTo(targetName = \\"teamProjectId\\", type = Project.class) Project project;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  public String resolveIdentifier() {
-    return id;
-  }
-  
   public String getId() {
       return id;
   }
@@ -1780,7 +1744,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Post type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Posts\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Posts\\")
 public final class Post implements Model {
   public static final QueryField ID = field(\\"Post\\", \\"id\\");
   public static final QueryField TITLE = field(\\"Post\\", \\"title\\");
@@ -1791,10 +1755,6 @@ public final class Post implements Model {
   private final @ModelField(targetType=\\"PostTags\\") @HasMany(associatedWith = \\"post\\", type = PostTags.class) List<PostTags> tags = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  public String resolveIdentifier() {
-    return id;
-  }
-  
   public String getId() {
       return id;
   }
@@ -1985,7 +1945,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Tag type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Tags\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Tags\\")
 public final class Tag implements Model {
   public static final QueryField ID = field(\\"Tag\\", \\"id\\");
   public static final QueryField LABEL = field(\\"Tag\\", \\"label\\");
@@ -1994,10 +1954,6 @@ public final class Tag implements Model {
   private final @ModelField(targetType=\\"PostTags\\") @HasMany(associatedWith = \\"tag\\", type = PostTags.class) List<PostTags> posts = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  public String resolveIdentifier() {
-    return id;
-  }
-  
   public String getId() {
       return id;
   }
@@ -2162,7 +2118,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Todo type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Todos\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Todos\\")
 public final class Todo implements Model {
   public static final QueryField ID = field(\\"Todo\\", \\"id\\");
   public static final QueryField CONTENT = field(\\"Todo\\", \\"content\\");
@@ -2170,10 +2126,6 @@ public final class Todo implements Model {
   private final @ModelField(targetType=\\"String\\") String content;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdOn;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedOn;
-  public String resolveIdentifier() {
-    return id;
-  }
-  
   public String getId() {
       return id;
   }
@@ -2330,7 +2282,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Post2 type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Post2s\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Post2s\\")
 public final class Post2 implements Model {
   public static final QueryField ID = field(\\"Post2\\", \\"id\\");
   public static final QueryField TITLE = field(\\"Post2\\", \\"title\\");
@@ -2339,10 +2291,6 @@ public final class Post2 implements Model {
   private final @ModelField(targetType=\\"Comment2\\") @HasMany(associatedWith = \\"postID\\", type = Comment2.class) List<Comment2> comments = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  public String resolveIdentifier() {
-    return id;
-  }
-  
   public String getId() {
       return id;
   }
@@ -2507,7 +2455,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Comment2 type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Comment2s\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Comment2s\\")
 @Index(name = \\"byPost\\", fields = {\\"postID\\",\\"content\\"})
 public final class Comment2 implements Model {
   public static final QueryField ID = field(\\"Comment2\\", \\"id\\");
@@ -2518,10 +2466,6 @@ public final class Comment2 implements Model {
   private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  public String resolveIdentifier() {
-    return id;
-  }
-  
   public String getId() {
       return id;
   }
@@ -2713,7 +2657,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Project2 type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Project2s\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Project2s\\")
 public final class Project2 implements Model {
   public static final QueryField ID = field(\\"Project2\\", \\"id\\");
   public static final QueryField NAME = field(\\"Project2\\", \\"name\\");
@@ -2724,10 +2668,6 @@ public final class Project2 implements Model {
   private final @ModelField(targetType=\\"Team2\\") @HasOne(associatedWith = \\"id\\", type = Team2.class) Team2 team = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  public String resolveIdentifier() {
-    return id;
-  }
-  
   public String getId() {
       return id;
   }
@@ -2912,7 +2852,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Team2 type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Team2s\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Team2s\\")
 public final class Team2 implements Model {
   public static final QueryField ID = field(\\"Team2\\", \\"id\\");
   public static final QueryField NAME = field(\\"Team2\\", \\"name\\");
@@ -2920,10 +2860,6 @@ public final class Team2 implements Model {
   private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  public String resolveIdentifier() {
-    return id;
-  }
-  
   public String getId() {
       return id;
   }
@@ -3085,7 +3021,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Post type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Posts\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Posts\\")
 public final class Post implements Model {
   public static final QueryField ID = field(\\"Post\\", \\"id\\");
   public static final QueryField TITLE = field(\\"Post\\", \\"title\\");
@@ -3094,10 +3030,6 @@ public final class Post implements Model {
   private final @ModelField(targetType=\\"Comment\\") @HasMany(associatedWith = \\"postCommentsId\\", type = Comment.class) List<Comment> comments = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  public String resolveIdentifier() {
-    return id;
-  }
-  
   public String getId() {
       return id;
   }
@@ -3262,7 +3194,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Comment type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Comments\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Comments\\")
 public final class Comment implements Model {
   public static final QueryField ID = field(\\"Comment\\", \\"id\\");
   public static final QueryField CONTENT = field(\\"Comment\\", \\"content\\");
@@ -3272,10 +3204,6 @@ public final class Comment implements Model {
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   private final @ModelField(targetType=\\"ID\\") String postCommentsId;
-  public String resolveIdentifier() {
-    return id;
-  }
-  
   public String getId() {
       return id;
   }
@@ -3462,7 +3390,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Project type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Projects\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Projects\\")
 public final class Project implements Model {
   public static final QueryField ID = field(\\"Project\\", \\"id\\");
   public static final QueryField NAME = field(\\"Project\\", \\"name\\");
@@ -3473,10 +3401,6 @@ public final class Project implements Model {
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   private final @ModelField(targetType=\\"ID\\") String projectTeamId;
-  public String resolveIdentifier() {
-    return id;
-  }
-  
   public String getId() {
       return id;
   }
@@ -3661,7 +3585,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Team type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Teams\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Teams\\")
 public final class Team implements Model {
   public static final QueryField ID = field(\\"Team\\", \\"id\\");
   public static final QueryField NAME = field(\\"Team\\", \\"name\\");
@@ -3669,10 +3593,6 @@ public final class Team implements Model {
   private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  public String resolveIdentifier() {
-    return id;
-  }
-  
   public String getId() {
       return id;
   }
@@ -3833,7 +3753,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Customer type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Customers\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Customers\\")
 @Index(name = \\"byRepresentative\\", fields = {\\"accountRepresentativeID\\"})
 public final class Customer implements Model {
   public static final QueryField ID = field(\\"Customer\\", \\"id\\");
@@ -3846,10 +3766,6 @@ public final class Customer implements Model {
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String accountRepresentativeID;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  public String resolveIdentifier() {
-    return id;
-  }
-  
   public String getId() {
       return id;
   }
@@ -4065,7 +3981,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Customer type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Customers\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Customers\\")
 @Index(name = \\"byRepresentative\\", fields = {\\"accountRepresentativeID\\"})
 public final class Customer implements Model {
   public static final QueryField ID = field(\\"Customer\\", \\"id\\");
@@ -4078,10 +3994,6 @@ public final class Customer implements Model {
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String accountRepresentativeID;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  public String resolveIdentifier() {
-    return id;
-  }
-  
   public String getId() {
       return id;
   }
