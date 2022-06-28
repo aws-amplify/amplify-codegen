@@ -214,7 +214,7 @@ export class AppSyncModelJavaVisitor<
         // Model primary Key class for composite primary key
         this.generateModelIdentifierClass(model, classDeclarationBlock);
       }
-  
+
       // resolveIdentifier
       this.generateResolveIdentifier(model, classDeclarationBlock, isCompositeKey);
     }
