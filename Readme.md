@@ -7,7 +7,7 @@
     <img src="https://img.shields.io/discord/308323056592486420?logo=discord"" alt="Discord Chat" />  
   </a>
   <a href="https://circleci.com/gh/aws-amplify/amplify-codegen">
-    <img src="https://img.shields.io/circleci/project/github/aws-amplify/amplify-codegen/master.svg" alt="build:started">
+    <img src="https://img.shields.io/circleci/project/github/aws-amplify/amplify-codegen/main.svg" alt="build:started">
   </a>
 </p>
 
@@ -53,4 +53,4 @@ Errors sometimes occur when a different version of `amplify-cli-core` is install
 
 ## Contributing
 
-See the contribution guideline. https://github.com/aws-amplify/amplify-codegen/blob/master/CONTRIBUTING.md
+See the contribution guideline. https://github.com/aws-amplify/amplify-codegen/blob/main/CONTRIBUTING.md

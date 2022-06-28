@@ -20,7 +20,7 @@ body:
         required: true
       - label: I have [searched for duplicate or closed issues](https://github.com/aws-amplify/amplify-codegen/issues?q=is%3Aissue+).
         required: true
-      - label: I have read the guide for [submitting bug reports](https://github.com/aws-amplify/amplify-codegen/blob/master/CONTRIBUTING.md#bugs).
+      - label: I have read the guide for [submitting bug reports](https://github.com/aws-amplify/amplify-codegen/blob/main/CONTRIBUTING.md#bugs).
         required: true
       - label: I have done my best to include a minimal, self-contained set of instructions for consistently reproducing the issue.
         required: true

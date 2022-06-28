@@ -201,7 +201,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
                 - e2e-testing
     jobs:
       - build:
@@ -231,7 +231,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
                 - e2e-testing
                 - /tagged-release\/.*/
       - e2e-test:
@@ -245,7 +245,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
                 - e2e-testing
                 - /tagged-release\/.*/
       - deploy:
@@ -258,7 +258,7 @@ workflows:
             branches:
               only:
                 - release
-                - master
+                - main
                 - /tagged-release\/.*/
                 - /tagged-release-without-e2e-tests\/.*/
       - done_with_node_e2e_tests:
