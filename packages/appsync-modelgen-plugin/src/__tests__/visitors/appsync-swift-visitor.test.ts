@@ -10,8 +10,8 @@ const defaultIosVisitorSetings = {
   generateIndexRules: true,
   handleListNullabilityTransparently: true,
   transformerVersion: 1,
-  respectPrimaryKeyAttributesOnConnectionField: false
-}
+  respectPrimaryKeyAttributesOnConnectionField: false,
+};
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
@@ -31,7 +31,7 @@ const getVisitor = (
       directives,
       target: 'swift',
       scalars: SWIFT_SCALAR_MAP,
-      ...visitorConfig
+      ...visitorConfig,
     },
     { selectedType, generate },
   );
@@ -43,14 +43,9 @@ const getVisitorPipelinedTransformer = (
   schema: string,
   selectedType?: string,
   generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
-  settings: any = {}
+  settings: any = {},
 ) => {
-  return getVisitor(
-    schema,
-    selectedType,
-    generate,
-    { ...settings, transformerVersion: 2 }
-  );
+  return getVisitor(schema, selectedType, generate, { ...settings, transformerVersion: 2 });
 };
 
 describe('AppSyncSwiftVisitor', () => {
@@ -124,10 +119,6 @@ describe('AppSyncSwiftVisitor', () => {
           
           model.pluralName = \\"SimpleModels\\"
           
-          model.attributes(
-            .primaryKey(fields: [simpleModel.id])
-          )
-          
           model.fields(
             .field(simpleModel.id, is: .required, ofType: .string),
             .field(simpleModel.name, is: .optional, ofType: .string),
@@ -136,11 +127,6 @@ describe('AppSyncSwiftVisitor', () => {
             .field(simpleModel.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
           )
           }
-      }
-
-      extension SimpleModel: ModelIdentifiable {
-        public typealias IdentifierFormat = ModelIdentifierFormat.Default
-        public typealias Identifier = DefaultModelIdentifier<Self>
       }"
     `);
   });
@@ -239,10 +225,6 @@ describe('AppSyncSwiftVisitor', () => {
           
           model.pluralName = \\"snake_cases\\"
           
-          model.attributes(
-            .primaryKey(fields: [snake_case.id])
-          )
-          
           model.fields(
             .field(snake_case.id, is: .required, ofType: .string),
             .field(snake_case.name, is: .optional, ofType: .string),
@@ -250,11 +232,6 @@ describe('AppSyncSwiftVisitor', () => {
             .field(snake_case.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
           )
           }
-      }
-
-      extension snake_case: ModelIdentifiable {
-        public typealias IdentifierFormat = ModelIdentifierFormat.Default
-        public typealias Identifier = DefaultModelIdentifier<Self>
       }"
     `);
   });
@@ -386,8 +363,7 @@ describe('AppSyncSwiftVisitor', () => {
           
           model.attributes(
             .index(fields: [\\"author_id\\"], name: \\"byAuthor\\"),
-            .index(fields: [\\"book_id\\"], name: \\"byBook\\"),
-            .primaryKey(fields: [authorBook.id])
+            .index(fields: [\\"book_id\\"], name: \\"byBook\\")
           )
           
           model.fields(
@@ -400,11 +376,6 @@ describe('AppSyncSwiftVisitor', () => {
             .field(authorBook.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
           )
           }
-      }
-
-      extension authorBook: ModelIdentifiable {
-        public typealias IdentifierFormat = ModelIdentifierFormat.Default
-        public typealias Identifier = DefaultModelIdentifier<Self>
       }"
     `);
   });
@@ -668,10 +639,6 @@ describe('AppSyncSwiftVisitor', () => {
               
               model.pluralName = \\"Todos\\"
               
-              model.attributes(
-                .primaryKey(fields: [todo.id])
-              )
-              
               model.fields(
                 .field(todo.id, is: .required, ofType: .string),
                 .field(todo.title, is: .required, ofType: .string),
@@ -685,11 +652,6 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(todo.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
-          }
-
-          extension Todo: ModelIdentifiable {
-            public typealias IdentifierFormat = ModelIdentifierFormat.Default
-            public typealias Identifier = DefaultModelIdentifier<Self>
           }"
         `);
       });
@@ -775,10 +737,6 @@ describe('AppSyncSwiftVisitor', () => {
               
               model.pluralName = \\"tasks\\"
               
-              model.attributes(
-                .primaryKey(fields: [task.id])
-              )
-              
               model.fields(
                 .field(task.id, is: .required, ofType: .string),
                 .field(task.title, is: .required, ofType: .string),
@@ -790,11 +748,6 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(task.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
-          }
-
-          extension task: ModelIdentifiable {
-            public typealias IdentifierFormat = ModelIdentifierFormat.Default
-            public typealias Identifier = DefaultModelIdentifier<Self>
           }"
         `);
       });
@@ -920,10 +873,6 @@ describe('AppSyncSwiftVisitor', () => {
               
               model.pluralName = \\"Posts\\"
               
-              model.attributes(
-                .primaryKey(fields: [post.id])
-              )
-              
               model.fields(
                 .field(post.id, is: .required, ofType: .string),
                 .field(post.title, is: .required, ofType: .string),
@@ -932,11 +881,6 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
-          }
-
-          extension Post: ModelIdentifiable {
-            public typealias IdentifierFormat = ModelIdentifierFormat.Default
-            public typealias Identifier = DefaultModelIdentifier<Self>
           }"
         `);
 
@@ -1000,10 +944,6 @@ describe('AppSyncSwiftVisitor', () => {
               
               model.pluralName = \\"Posts\\"
               
-              model.attributes(
-                .primaryKey(fields: [post.id])
-              )
-              
               model.fields(
                 .field(post.id, is: .required, ofType: .string),
                 .field(post.title, is: .required, ofType: .string),
@@ -1012,11 +952,6 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
-          }
-
-          extension Post: ModelIdentifiable {
-            public typealias IdentifierFormat = ModelIdentifierFormat.Default
-            public typealias Identifier = DefaultModelIdentifier<Self>
           }"
         `);
       });
@@ -1125,10 +1060,6 @@ describe('AppSyncSwiftVisitor', () => {
           
           model.pluralName = \\"ObjectWithNativeTypes\\"
           
-          model.attributes(
-            .primaryKey(fields: [objectWithNativeTypes.id])
-          )
-          
           model.fields(
             .field(objectWithNativeTypes.id, is: .required, ofType: .string),
             .field(objectWithNativeTypes.intArr, is: .optional, ofType: .embeddedCollection(of: Int.self)),
@@ -1141,11 +1072,6 @@ describe('AppSyncSwiftVisitor', () => {
             .field(objectWithNativeTypes.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
           )
           }
-      }
-
-      extension ObjectWithNativeTypes: ModelIdentifiable {
-        public typealias IdentifierFormat = ModelIdentifierFormat.Default
-        public typealias Identifier = DefaultModelIdentifier<Self>
       }"
     `);
   });
@@ -1256,10 +1182,6 @@ describe('AppSyncSwiftVisitor', () => {
           
           model.pluralName = \\"Attractions\\"
           
-          model.attributes(
-            .primaryKey(fields: [attraction.id])
-          )
-          
           model.fields(
             .field(attraction.id, is: .required, ofType: .string),
             .field(attraction.name, is: .required, ofType: .string),
@@ -1272,11 +1194,6 @@ describe('AppSyncSwiftVisitor', () => {
             .field(attraction.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
           )
           }
-      }
-
-      extension Attraction: ModelIdentifiable {
-        public typealias IdentifierFormat = ModelIdentifierFormat.Default
-        public typealias Identifier = DefaultModelIdentifier<Self>
       }"
     `);
 
@@ -1514,10 +1431,6 @@ describe('AppSyncSwiftVisitor', () => {
               
               model.pluralName = \\"Posts\\"
               
-              model.attributes(
-                .primaryKey(fields: [post.id])
-              )
-              
               model.fields(
                 .field(post.id, is: .required, ofType: .string),
                 .field(post.title, is: .required, ofType: .string),
@@ -1526,11 +1439,6 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
-          }
-
-          extension Post: ModelIdentifiable {
-            public typealias IdentifierFormat = ModelIdentifierFormat.Default
-            public typealias Identifier = DefaultModelIdentifier<Self>
           }"
         `);
       });
@@ -1572,10 +1480,6 @@ describe('AppSyncSwiftVisitor', () => {
               
               model.pluralName = \\"Posts\\"
               
-              model.attributes(
-                .primaryKey(fields: [post.id])
-              )
-              
               model.fields(
                 .field(post.id, is: .required, ofType: .string),
                 .field(post.title, is: .required, ofType: .string),
@@ -1584,11 +1488,6 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
-          }
-
-          extension Post: ModelIdentifiable {
-            public typealias IdentifierFormat = ModelIdentifierFormat.Default
-            public typealias Identifier = DefaultModelIdentifier<Self>
           }"
         `);
       });
@@ -1631,10 +1530,6 @@ describe('AppSyncSwiftVisitor', () => {
               
               model.pluralName = \\"Posts\\"
               
-              model.attributes(
-                .primaryKey(fields: [post.id])
-              )
-              
               model.fields(
                 .field(post.id, is: .required, ofType: .string),
                 .field(post.title, is: .required, ofType: .string),
@@ -1643,11 +1538,6 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
-          }
-
-          extension Post: ModelIdentifiable {
-            public typealias IdentifierFormat = ModelIdentifierFormat.Default
-            public typealias Identifier = DefaultModelIdentifier<Self>
           }"
         `);
       });
@@ -1690,10 +1580,6 @@ describe('AppSyncSwiftVisitor', () => {
               
               model.pluralName = \\"Posts\\"
               
-              model.attributes(
-                .primaryKey(fields: [post.id])
-              )
-              
               model.fields(
                 .field(post.id, is: .required, ofType: .string),
                 .field(post.title, is: .required, ofType: .string),
@@ -1702,11 +1588,6 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
-          }
-
-          extension Post: ModelIdentifiable {
-            public typealias IdentifierFormat = ModelIdentifierFormat.Default
-            public typealias Identifier = DefaultModelIdentifier<Self>
           }"
         `);
       });
@@ -1746,10 +1627,6 @@ describe('AppSyncSwiftVisitor', () => {
               
               model.pluralName = \\"Posts\\"
               
-              model.attributes(
-                .primaryKey(fields: [post.id])
-              )
-              
               model.fields(
                 .field(post.id, is: .required, ofType: .string),
                 .field(post.title, is: .required, ofType: .string),
@@ -1757,11 +1634,6 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
-          }
-
-          extension Post: ModelIdentifiable {
-            public typealias IdentifierFormat = ModelIdentifierFormat.Default
-            public typealias Identifier = DefaultModelIdentifier<Self>
           }"
         `);
       });
@@ -1801,10 +1673,6 @@ describe('AppSyncSwiftVisitor', () => {
               
               model.pluralName = \\"Posts\\"
               
-              model.attributes(
-                .primaryKey(fields: [post.id])
-              )
-              
               model.fields(
                 .field(post.id, is: .required, ofType: .string),
                 .field(post.title, is: .required, ofType: .string),
@@ -1812,11 +1680,6 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
-          }
-
-          extension Post: ModelIdentifiable {
-            public typealias IdentifierFormat = ModelIdentifierFormat.Default
-            public typealias Identifier = DefaultModelIdentifier<Self>
           }"
         `);
       });
@@ -1863,10 +1726,6 @@ describe('AppSyncSwiftVisitor', () => {
               
               model.pluralName = \\"Posts\\"
               
-              model.attributes(
-                .primaryKey(fields: [post.id])
-              )
-              
               model.fields(
                 .field(post.id, is: .required, ofType: .string),
                 .field(post.title, is: .required, ofType: .string),
@@ -1876,11 +1735,6 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
-          }
-
-          extension Post: ModelIdentifiable {
-            public typealias IdentifierFormat = ModelIdentifierFormat.Default
-            public typealias Identifier = DefaultModelIdentifier<Self>
           }"
         `);
       });
@@ -1925,10 +1779,6 @@ describe('AppSyncSwiftVisitor', () => {
               
               model.pluralName = \\"Employees\\"
               
-              model.attributes(
-                .primaryKey(fields: [employee.id])
-              )
-              
               model.fields(
                 .field(employee.id, is: .required, ofType: .string),
                 .field(employee.name, is: .required, ofType: .string),
@@ -1938,11 +1788,6 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(employee.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
-          }
-
-          extension Employee: ModelIdentifiable {
-            public typealias IdentifierFormat = ModelIdentifierFormat.Default
-            public typealias Identifier = DefaultModelIdentifier<Self>
           }"
         `);
       });
@@ -1985,10 +1830,6 @@ describe('AppSyncSwiftVisitor', () => {
             
             model.pluralName = \\"Posts\\"
             
-            model.attributes(
-              .primaryKey(fields: [post.id])
-            )
-            
             model.fields(
               .field(post.id, is: .required, ofType: .string),
               .field(post.title, is: .required, ofType: .string),
@@ -1996,11 +1837,6 @@ describe('AppSyncSwiftVisitor', () => {
               .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
             )
             }
-        }
-
-        extension Post: ModelIdentifiable {
-          public typealias IdentifierFormat = ModelIdentifierFormat.Default
-          public typealias Identifier = DefaultModelIdentifier<Self>
         }"
       `);
     });
@@ -2042,10 +1878,6 @@ describe('AppSyncSwiftVisitor', () => {
             
             model.pluralName = \\"Posts\\"
             
-            model.attributes(
-              .primaryKey(fields: [post.id])
-            )
-            
             model.fields(
               .field(post.id, is: .required, ofType: .string),
               .field(post.title, is: .required, ofType: .string),
@@ -2054,11 +1886,6 @@ describe('AppSyncSwiftVisitor', () => {
               .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
             )
             }
-        }
-
-        extension Post: ModelIdentifiable {
-          public typealias IdentifierFormat = ModelIdentifierFormat.Default
-          public typealias Identifier = DefaultModelIdentifier<Self>
         }"
       `);
     });
@@ -2099,10 +1926,6 @@ describe('AppSyncSwiftVisitor', () => {
             
             model.pluralName = \\"Posts\\"
             
-            model.attributes(
-              .primaryKey(fields: [post.id])
-            )
-            
             model.fields(
               .field(post.id, is: .required, ofType: .string),
               .field(post.title, is: .required, ofType: .string),
@@ -2110,11 +1933,6 @@ describe('AppSyncSwiftVisitor', () => {
               .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
             )
             }
-        }
-
-        extension Post: ModelIdentifiable {
-          public typealias IdentifierFormat = ModelIdentifierFormat.Default
-          public typealias Identifier = DefaultModelIdentifier<Self>
         }"
       `);
     });
@@ -2155,10 +1973,6 @@ describe('AppSyncSwiftVisitor', () => {
             
             model.pluralName = \\"Posts\\"
             
-            model.attributes(
-              .primaryKey(fields: [post.id])
-            )
-            
             model.fields(
               .field(post.id, is: .required, ofType: .string),
               .field(post.title, is: .required, ofType: .string),
@@ -2166,11 +1980,6 @@ describe('AppSyncSwiftVisitor', () => {
               .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
             )
             }
-        }
-
-        extension Post: ModelIdentifiable {
-          public typealias IdentifierFormat = ModelIdentifierFormat.Default
-          public typealias Identifier = DefaultModelIdentifier<Self>
         }"
       `);
     });
@@ -2210,10 +2019,6 @@ describe('AppSyncSwiftVisitor', () => {
             
             model.pluralName = \\"Posts\\"
             
-            model.attributes(
-              .primaryKey(fields: [post.id])
-            )
-            
             model.fields(
               .field(post.id, is: .required, ofType: .string),
               .field(post.title, is: .required, ofType: .string),
@@ -2221,11 +2026,6 @@ describe('AppSyncSwiftVisitor', () => {
               .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
             )
             }
-        }
-
-        extension Post: ModelIdentifiable {
-          public typealias IdentifierFormat = ModelIdentifierFormat.Default
-          public typealias Identifier = DefaultModelIdentifier<Self>
         }"
       `);
     });
@@ -2278,10 +2078,6 @@ describe('AppSyncSwiftVisitor', () => {
           
           model.pluralName = \\"Posts\\"
           
-          model.attributes(
-            .primaryKey(fields: [post.id])
-          )
-          
           model.fields(
             .field(post.id, is: .required, ofType: .string),
             .field(post.title, is: .required, ofType: .string),
@@ -2290,11 +2086,6 @@ describe('AppSyncSwiftVisitor', () => {
             .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
           )
           }
-      }
-
-      extension Post: ModelIdentifiable {
-        public typealias IdentifierFormat = ModelIdentifierFormat.Default
-        public typealias Identifier = DefaultModelIdentifier<Self>
       }"
     `);
   });
@@ -2347,10 +2138,6 @@ describe('AppSyncSwiftVisitor', () => {
           
           model.pluralName = \\"Posts\\"
           
-          model.attributes(
-            .primaryKey(fields: [post.id])
-          )
-          
           model.fields(
             .field(post.id, is: .required, ofType: .string),
             .field(post.title, is: .required, ofType: .string),
@@ -2359,11 +2146,6 @@ describe('AppSyncSwiftVisitor', () => {
             .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
           )
           }
-      }
-
-      extension Post: ModelIdentifiable {
-        public typealias IdentifierFormat = ModelIdentifierFormat.Default
-        public typealias Identifier = DefaultModelIdentifier<Self>
       }"
     `);
   });
@@ -2504,10 +2286,14 @@ describe('AppSyncSwiftVisitor', () => {
           name: String
         }
       `;
-      const generatedCode = getVisitorPipelinedTransformer(schema, 'ModelImplicitDefaultPk', CodeGenGenerateEnum.code).generate();
+      const generatedCode = getVisitorPipelinedTransformer(schema, 'ModelImplicitDefaultPk', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
       expect(generatedCode).toMatchSnapshot();
 
-      const generatedMetadata = getVisitorPipelinedTransformer(schema, 'ModelImplicitDefaultPk', CodeGenGenerateEnum.metadata).generate();
+      const generatedMetadata = getVisitorPipelinedTransformer(schema, 'ModelImplicitDefaultPk', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
       expect(generatedMetadata).toMatchSnapshot();
     });
 
@@ -2518,9 +2304,13 @@ describe('AppSyncSwiftVisitor', () => {
           name: String
         }
       `;
-      const generatedCode = getVisitorPipelinedTransformer(schema, 'ModelExplicitDefaultPk', CodeGenGenerateEnum.code).generate();
+      const generatedCode = getVisitorPipelinedTransformer(schema, 'ModelExplicitDefaultPk', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
       expect(generatedCode).toMatchSnapshot();
-      const generatedMetadata = getVisitorPipelinedTransformer(schema, 'ModelExplicitDefaultPk', CodeGenGenerateEnum.metadata).generate();
+      const generatedMetadata = getVisitorPipelinedTransformer(schema, 'ModelExplicitDefaultPk', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
       expect(generatedMetadata).toMatchSnapshot();
     });
 
@@ -2531,9 +2321,13 @@ describe('AppSyncSwiftVisitor', () => {
           name: String
         }
       `;
-      const generatedCode = getVisitorPipelinedTransformer(schema, 'ModelExplicitCustomPk', CodeGenGenerateEnum.code).generate();
+      const generatedCode = getVisitorPipelinedTransformer(schema, 'ModelExplicitCustomPk', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
       expect(generatedCode).toMatchSnapshot();
-      const generatedMetadata = getVisitorPipelinedTransformer(schema, 'ModelExplicitCustomPk', CodeGenGenerateEnum.metadata).generate();
+      const generatedMetadata = getVisitorPipelinedTransformer(schema, 'ModelExplicitCustomPk', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
       expect(generatedMetadata).toMatchSnapshot();
     });
 
@@ -2545,9 +2339,13 @@ describe('AppSyncSwiftVisitor', () => {
           name: String
         }
       `;
-      const generatedCode = getVisitorPipelinedTransformer(schema, 'ModelCompositePk', CodeGenGenerateEnum.code).generate();
+      const generatedCode = getVisitorPipelinedTransformer(schema, 'ModelCompositePk', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
       expect(generatedCode).toMatchSnapshot();
-      const generatedMetadata = getVisitorPipelinedTransformer(schema, 'ModelCompositePk', CodeGenGenerateEnum.metadata).generate();
+      const generatedMetadata = getVisitorPipelinedTransformer(schema, 'ModelCompositePk', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
       expect(generatedMetadata).toMatchSnapshot();
     });
 
@@ -2564,10 +2362,18 @@ describe('AppSyncSwiftVisitor', () => {
           project: Project @belongsTo
         }
       `;
-      const generatedCodeProject = getVisitorPipelinedTransformer(schema, 'Project', CodeGenGenerateEnum.code, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
-      const generatedMetaProject = getVisitorPipelinedTransformer(schema, 'Project', CodeGenGenerateEnum.metadata, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
-      const generatedCodeTeam = getVisitorPipelinedTransformer(schema, 'Team', CodeGenGenerateEnum.code, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
-      const generatedMetaTeam = getVisitorPipelinedTransformer(schema, 'Team', CodeGenGenerateEnum.metadata, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      const generatedCodeProject = getVisitorPipelinedTransformer(schema, 'Project', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedMetaProject = getVisitorPipelinedTransformer(schema, 'Project', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedCodeTeam = getVisitorPipelinedTransformer(schema, 'Team', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedMetaTeam = getVisitorPipelinedTransformer(schema, 'Team', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
       expect(generatedCodeProject).toMatchSnapshot();
       expect(generatedMetaProject).toMatchSnapshot();
       expect(generatedCodeTeam).toMatchSnapshot();
@@ -2581,16 +2387,24 @@ describe('AppSyncSwiftVisitor', () => {
           title: String!
           comments: [Comment] @hasMany
         }
-        
+
         type Comment @model {
           id: ID! @primaryKey(sortKeyFields: ["content"])
           content: String!
         }
       `;
-      const generatedCodePost = getVisitorPipelinedTransformer(schema, 'Post', CodeGenGenerateEnum.code, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
-      const generatedMetaPost = getVisitorPipelinedTransformer(schema, 'Post', CodeGenGenerateEnum.metadata, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
-      const generatedCodeComment = getVisitorPipelinedTransformer(schema, 'Comment', CodeGenGenerateEnum.code, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
-      const generatedMetaComment = getVisitorPipelinedTransformer(schema, 'Comment', CodeGenGenerateEnum.metadata, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      const generatedCodePost = getVisitorPipelinedTransformer(schema, 'Post', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedMetaPost = getVisitorPipelinedTransformer(schema, 'Post', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedCodeComment = getVisitorPipelinedTransformer(schema, 'Comment', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedMetaComment = getVisitorPipelinedTransformer(schema, 'Comment', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
       expect(generatedCodePost).toMatchSnapshot();
       expect(generatedMetaPost).toMatchSnapshot();
       expect(generatedCodeComment).toMatchSnapshot();

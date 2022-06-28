@@ -247,8 +247,10 @@ export class AppSyncSwiftVisitor<
           this.generateModelSchema(this.getModelName(model), model, schemaDeclarations);
 
         result.push(schemaDeclarations.string);
-        result.push('');
-        result.push(this.generatePrimaryKeyExtensions(model));
+        if (this.isCustomPKEnabled()) {
+          result.push('');
+          result.push(this.generatePrimaryKeyExtensions(model));  
+        }
       });
 
     Object.values(this.getSelectedNonModels()).forEach(model => {
@@ -491,7 +493,7 @@ export class AppSyncSwiftVisitor<
   }
 
   protected generatePrimaryKeyRules(model: CodeGenModel): string {
-    if (this.selectedTypeIsNonModel()) {
+    if (!this.isCustomPKEnabled() || this.selectedTypeIsNonModel()) {
       return '';
     }
     const primaryKeyField = model.fields.find(f => f.primaryKeyInfo)!;

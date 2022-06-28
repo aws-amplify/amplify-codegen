@@ -779,10 +779,6 @@ extension ListContainer {
     
     model.pluralName = \\"ListContainers\\"
     
-    model.attributes(
-      .primaryKey(fields: [listContainer.id])
-    )
-    
     model.fields(
       .field(listContainer.id, is: .required, ofType: .string),
       .field(listContainer.name, is: .optional, ofType: .string),
@@ -797,11 +793,6 @@ extension ListContainer {
       .field(listContainer.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
-}
-
-extension ListContainer: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -895,10 +886,6 @@ extension Todo {
     
     model.pluralName = \\"Todos\\"
     
-    model.attributes(
-      .primaryKey(fields: [todo.id])
-    )
-    
     model.fields(
       .field(todo.id, is: .required, ofType: .string),
       .field(todo.title, is: .required, ofType: .string),
@@ -910,11 +897,6 @@ extension Todo {
       .field(todo.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
-}
-
-extension Todo: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -976,10 +958,6 @@ extension task {
     
     model.pluralName = \\"tasks\\"
     
-    model.attributes(
-      .primaryKey(fields: [task.id])
-    )
-    
     model.fields(
       .field(task.id, is: .required, ofType: .string),
       .field(task.title, is: .required, ofType: .string),
@@ -988,10 +966,5 @@ extension task {
       .field(task.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
-}
-
-extension task: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;

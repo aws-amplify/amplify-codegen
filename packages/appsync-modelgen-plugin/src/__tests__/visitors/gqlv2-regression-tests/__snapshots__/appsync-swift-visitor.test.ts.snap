@@ -58,10 +58,6 @@ extension Post {
     
     model.pluralName = \\"Posts\\"
     
-    model.attributes(
-      .primaryKey(fields: [post.id])
-    )
-    
     model.fields(
       .field(post.id, is: .required, ofType: .string),
       .field(post.title, is: .required, ofType: .string),
@@ -70,11 +66,6 @@ extension Post {
       .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
-}
-
-extension Post: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -137,8 +128,7 @@ extension Comment {
     model.pluralName = \\"Comments\\"
     
     model.attributes(
-      .index(fields: [\\"postID\\", \\"content\\"], name: \\"byPost\\"),
-      .primaryKey(fields: [comment.id])
+      .index(fields: [\\"postID\\", \\"content\\"], name: \\"byPost\\")
     )
     
     model.fields(
@@ -149,11 +139,6 @@ extension Comment {
       .field(comment.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
-}
-
-extension Comment: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -221,10 +206,6 @@ extension Project2 {
     
     model.pluralName = \\"Project2s\\"
     
-    model.attributes(
-      .primaryKey(fields: [project2.id])
-    )
-    
     model.fields(
       .field(project2.id, is: .required, ofType: .string),
       .field(project2.name, is: .optional, ofType: .string),
@@ -234,11 +215,6 @@ extension Project2 {
       .field(project2.project2TeamId, is: .optional, ofType: .string)
     )
     }
-}
-
-extension Project2: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -300,10 +276,6 @@ extension Team2 {
     
     model.pluralName = \\"Team2s\\"
     
-    model.attributes(
-      .primaryKey(fields: [team2.id])
-    )
-    
     model.fields(
       .field(team2.id, is: .required, ofType: .string),
       .field(team2.name, is: .required, ofType: .string),
@@ -312,11 +284,6 @@ extension Team2 {
       .field(team2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
-}
-
-extension Team2: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -378,10 +345,6 @@ extension Blog7V2 {
     
     model.pluralName = \\"Blog7V2s\\"
     
-    model.attributes(
-      .primaryKey(fields: [blog7V2.id])
-    )
-    
     model.fields(
       .field(blog7V2.id, is: .required, ofType: .string),
       .field(blog7V2.name, is: .required, ofType: .string),
@@ -390,11 +353,6 @@ extension Blog7V2 {
       .field(blog7V2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
-}
-
-extension Blog7V2: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -462,10 +420,6 @@ extension Post7V2 {
     
     model.pluralName = \\"Post7V2s\\"
     
-    model.attributes(
-      .primaryKey(fields: [post7V2.id])
-    )
-    
     model.fields(
       .field(post7V2.id, is: .required, ofType: .string),
       .field(post7V2.title, is: .required, ofType: .string),
@@ -475,11 +429,6 @@ extension Post7V2 {
       .field(post7V2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
-}
-
-extension Post7V2: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -541,10 +490,6 @@ extension Comment7V2 {
     
     model.pluralName = \\"Comment7V2s\\"
     
-    model.attributes(
-      .primaryKey(fields: [comment7V2.id])
-    )
-    
     model.fields(
       .field(comment7V2.id, is: .required, ofType: .string),
       .field(comment7V2.content, is: .optional, ofType: .string),
@@ -553,11 +498,6 @@ extension Comment7V2 {
       .field(comment7V2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
-}
-
-extension Comment7V2: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -625,10 +565,6 @@ extension Project {
     
     model.pluralName = \\"Projects\\"
     
-    model.attributes(
-      .primaryKey(fields: [project.id])
-    )
-    
     model.fields(
       .field(project.id, is: .required, ofType: .string),
       .field(project.name, is: .optional, ofType: .string),
@@ -638,11 +574,6 @@ extension Project {
       .field(project.projectTeamId, is: .optional, ofType: .string)
     )
     }
-}
-
-extension Project: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -704,10 +635,6 @@ extension Team {
     
     model.pluralName = \\"Teams\\"
     
-    model.attributes(
-      .primaryKey(fields: [team.id])
-    )
-    
     model.fields(
       .field(team.id, is: .required, ofType: .string),
       .field(team.name, is: .required, ofType: .string),
@@ -716,11 +643,6 @@ extension Team {
       .field(team.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
-}
-
-extension Team: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -788,10 +710,6 @@ extension Post {
     
     model.pluralName = \\"Posts\\"
     
-    model.attributes(
-      .primaryKey(fields: [post.id])
-    )
-    
     model.fields(
       .field(post.id, is: .required, ofType: .string),
       .field(post.title, is: .required, ofType: .string),
@@ -801,11 +719,6 @@ extension Post {
       .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
-}
-
-extension Post: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -867,10 +780,6 @@ extension Tag {
     
     model.pluralName = \\"Tags\\"
     
-    model.attributes(
-      .primaryKey(fields: [tag.id])
-    )
-    
     model.fields(
       .field(tag.id, is: .required, ofType: .string),
       .field(tag.label, is: .required, ofType: .string),
@@ -879,11 +788,6 @@ extension Tag {
       .field(tag.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
-}
-
-extension Tag: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -939,10 +843,6 @@ extension Todo {
     
     model.pluralName = \\"Todos\\"
     
-    model.attributes(
-      .primaryKey(fields: [todo.id])
-    )
-    
     model.fields(
       .field(todo.id, is: .required, ofType: .string),
       .field(todo.content, is: .optional, ofType: .string),
@@ -950,11 +850,6 @@ extension Todo {
       .field(todo.updatedOn, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
-}
-
-extension Todo: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -1016,10 +911,6 @@ extension Post2 {
     
     model.pluralName = \\"Post2s\\"
     
-    model.attributes(
-      .primaryKey(fields: [post2.id])
-    )
-    
     model.fields(
       .field(post2.id, is: .required, ofType: .string),
       .field(post2.title, is: .required, ofType: .string),
@@ -1028,11 +919,6 @@ extension Post2 {
       .field(post2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
-}
-
-extension Post2: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -1095,8 +981,7 @@ extension Comment2 {
     model.pluralName = \\"Comment2s\\"
     
     model.attributes(
-      .index(fields: [\\"postID\\", \\"content\\"], name: \\"byPost\\"),
-      .primaryKey(fields: [comment2.id])
+      .index(fields: [\\"postID\\", \\"content\\"], name: \\"byPost\\")
     )
     
     model.fields(
@@ -1107,11 +992,6 @@ extension Comment2 {
       .field(comment2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
-}
-
-extension Comment2: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -1179,10 +1059,6 @@ extension Project2 {
     
     model.pluralName = \\"Project2s\\"
     
-    model.attributes(
-      .primaryKey(fields: [project2.id])
-    )
-    
     model.fields(
       .field(project2.id, is: .required, ofType: .string),
       .field(project2.name, is: .optional, ofType: .string),
@@ -1192,11 +1068,6 @@ extension Project2 {
       .field(project2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
-}
-
-extension Project2: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -1252,10 +1123,6 @@ extension Team2 {
     
     model.pluralName = \\"Team2s\\"
     
-    model.attributes(
-      .primaryKey(fields: [team2.id])
-    )
-    
     model.fields(
       .field(team2.id, is: .required, ofType: .string),
       .field(team2.name, is: .required, ofType: .string),
@@ -1263,11 +1130,6 @@ extension Team2 {
       .field(team2.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
-}
-
-extension Team2: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -1329,10 +1191,6 @@ extension Post {
     
     model.pluralName = \\"Posts\\"
     
-    model.attributes(
-      .primaryKey(fields: [post.id])
-    )
-    
     model.fields(
       .field(post.id, is: .required, ofType: .string),
       .field(post.title, is: .required, ofType: .string),
@@ -1341,11 +1199,6 @@ extension Post {
       .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
-}
-
-extension Post: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -1407,10 +1260,6 @@ extension Comment {
     
     model.pluralName = \\"Comments\\"
     
-    model.attributes(
-      .primaryKey(fields: [comment.id])
-    )
-    
     model.fields(
       .field(comment.id, is: .required, ofType: .string),
       .field(comment.content, is: .required, ofType: .string),
@@ -1419,11 +1268,6 @@ extension Comment {
       .field(comment.postCommentsId, is: .optional, ofType: .string)
     )
     }
-}
-
-extension Comment: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -1491,10 +1335,6 @@ extension Project {
     
     model.pluralName = \\"Projects\\"
     
-    model.attributes(
-      .primaryKey(fields: [project.id])
-    )
-    
     model.fields(
       .field(project.id, is: .required, ofType: .string),
       .field(project.name, is: .optional, ofType: .string),
@@ -1504,11 +1344,6 @@ extension Project {
       .field(project.projectTeamId, is: .optional, ofType: .string)
     )
     }
-}
-
-extension Project: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -1564,10 +1399,6 @@ extension Team {
     
     model.pluralName = \\"Teams\\"
     
-    model.attributes(
-      .primaryKey(fields: [team.id])
-    )
-    
     model.fields(
       .field(team.id, is: .required, ofType: .string),
       .field(team.name, is: .required, ofType: .string),
@@ -1575,11 +1406,6 @@ extension Team {
       .field(team.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
-}
-
-extension Team: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -1648,8 +1474,7 @@ extension Customer {
     model.pluralName = \\"Customers\\"
     
     model.attributes(
-      .index(fields: [\\"accountRepresentativeID\\"], name: \\"byRepresentative\\"),
-      .primaryKey(fields: [customer.id])
+      .index(fields: [\\"accountRepresentativeID\\"], name: \\"byRepresentative\\")
     )
     
     model.fields(
@@ -1661,10 +1486,5 @@ extension Customer {
       .field(customer.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
-}
-
-extension Customer: ModelIdentifiable {
-  public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
 }"
 `;
