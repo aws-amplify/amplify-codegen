@@ -249,7 +249,7 @@ export class AppSyncSwiftVisitor<
         result.push(schemaDeclarations.string);
         if (this.isCustomPKEnabled()) {
           result.push('');
-          result.push(this.generatePrimaryKeyExtensions(model));  
+          result.push(this.generatePrimaryKeyExtensions(model));
         }
       });
 
