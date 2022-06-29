@@ -28,8 +28,6 @@
     "fs-extra": "^8.1.0",
     "glob-all": "^3.1.0",
     "glob-parent": "^5.1.1",
-    "graphql": "^14.5.8",
-    "graphql-config": "^2.2.1",
     "inquirer": "^7.3.3",
     "js-yaml": "^4.0.0",
     "ora": "^4.0.3",
@@ -38,7 +36,14 @@
   },
   "peerDependencies": {
     "amplify-cli-core": "^2.3.0",
-    "graphql-transformer-core": "^7.2.1"
+    "graphql-transformer-core": "^7.2.1",
+    "graphql": "^14.5.8",
+    "graphql-config": "^2.2.1"
+  },
+  "devDependencies": {
+    "mock-fs": "^4.13.0",
+    "graphql": "^14.5.8",
+    "graphql-config": "^2.2.1"
   },
   "jest": {
     "collectCoverage": true,
@@ -49,8 +54,5 @@
       "jsx",
       "node"
     ]
-  },
-  "devDependencies": {
-    "mock-fs": "^4.13.0"
   }
 }
