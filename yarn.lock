@@ -12961,11 +12961,6 @@ promise-retry@^2.0.1:
     err-code "^2.0.2"
     retry "^0.12.0"
 
-promise-sequential@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.npmjs.org/promise-sequential/-/promise-sequential-1.1.1.tgz#f79e8950ef86e7a7a85bf320452643592f6d2fb2"
-  integrity sha512-gpziThEJPnPEeaHNqjy9f4PE1JwXb07fX3dz+41nhALpIAaEI9VZU8Q89eyBBAa2xAhnz0KgUTDtCA7FZYbZQQ==
-
 promise@^7.1.1:
   version "7.3.1"
   resolved "https://registry.npmjs.org/promise/-/promise-7.3.1.tgz#064b72602b18f90f29192b8b1bc418ffd1ebd3bf"
