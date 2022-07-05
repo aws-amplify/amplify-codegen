@@ -74,7 +74,7 @@ Pull requests are welcome!
 
 You should open an issue to discuss your pull request, unless it's a trivial change. It's best to ensure that your proposed change would be accepted so that you don't waste your own time. If you would like to implement support for a significant feature that is not yet available, please talk to us beforehand to avoid any duplication of effort.
 
-Pull requests should generally be opened against **master**.
+Pull requests should generally be opened against **main**.
 
 Don't include any build files i.e. `dist/`, `lib/`. These will be built upon publish to npm and when a release is created on GitHub.
 
