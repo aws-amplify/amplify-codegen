@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.0.0...@aws-amplify/appsync-modelgen-plugin@2.0.1) (2022-07-05)
+
+
+### Bug Fixes
+
+* **appsync-dart-visitor:** generate correct model id filed name ([#429](https://github.com/aws-amplify/amplify-codegen/issues/429)) ([59f049d](https://github.com/aws-amplify/amplify-codegen/commit/59f049dbb4dbe80f7a2767ccd3105abb3e017120))
+
+
+
+
+
 # [2.0.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.32.0...@aws-amplify/appsync-modelgen-plugin@2.0.0) (2022-04-25)
 
 
