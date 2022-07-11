@@ -24,7 +24,7 @@
     "verdaccio-disconnect": "source .circleci/local_publish_helpers.sh && unsetNpmRegistryUrl",
     "verdaccio-stop": "kill -9 $(lsof -n -t -iTCP:4873 -sTCP:LISTEN)",
     "setup-dev": "rm -rf yarn.lock && (yarn && lerna run build) && yarn add-cli-no-save && (yarn hoist-cli && yarn rm-dev-link && yarn link-dev)",
-    "add-cli-no-save": "yarn add @aws-amplify/cli-internal -W && git restore package.json yarn.lock",
+    "add-cli-no-save": "yarn add @aws-amplify/amplify-category-api @aws-amplify/cli-internal -W && git restore package.json yarn.lock",
     "hoist-cli": "rm -rf node_modules/amplify-cli-internal && mkdir node_modules/amplify-cli-internal && cp -r node_modules/@aws-amplify/cli-internal/ node_modules/amplify-cli-internal",
     "link-dev": "cd node_modules/amplify-cli-internal && ln -s \"$(pwd)/bin/amplify\" \"$(yarn global bin)/amplify-dev\" && cd -",
     "rm-dev-link": "rm -f \"$(yarn global bin)/amplify-dev\"",
@@ -98,8 +98,7 @@
     "typescript": "^3.8.3",
     "amplify-cli-core": "^2.3.0",
     "graphql-transformer-core": "^7.2.1",
-    "amplify-headless-interface": "^1.13.1",
-    "@aws-amplify/amplify-category-api": "^3.1.3"
+    "amplify-headless-interface": "^1.13.1"
   },
   "resolutions": {
     "minimist": "^1.2.6",
