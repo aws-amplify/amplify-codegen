@@ -4,7 +4,7 @@ const { parse } = require('graphql');
 const glob = require('glob-all');
 const { FeatureFlags, pathManager } = require('amplify-cli-core');
 const gqlCodeGen = require('@graphql-codegen/core');
-const { getModelgenPackage } = require('../utils/getModelgenPackage');
+const appSyncDataStoreCodeGen = require('@aws-amplify/appsync-modelgen-plugin');
 const { validateDartSDK } = require('../utils/validateDartSDK');
 const { validateAmplifyFlutterCapableZeroThreeFeatures } = require('../utils/validateAmplifyFlutterCapableZeroThreeFeatures');
 const { validateAmplifyFlutterCoreLibraryDependency } = require('../utils/validateAmplifyFlutterCoreLibraryDependency');
@@ -79,9 +79,6 @@ async function generateModels(context) {
   const outputPath = path.join(projectRoot, getModelOutputPath(context));
   const schema = parse(schemaContent);
   const projectConfig = context.amplify.getProjectConfig();
-  //get modelgen package
-  const modelgenPackageMigrationflag = 'codegen.useAppSyncModelgenPlugin';
-  const appSyncDataStoreCodeGen = getModelgenPackage(FeatureFlags.getBoolean(modelgenPackageMigrationflag));
 
   const generateIndexRules = readFeatureFlag('codegen.generateIndexRules');
   const emitAuthProvider = readFeatureFlag('codegen.emitAuthProvider');
@@ -129,8 +126,8 @@ async function generateModels(context) {
       usePipelinedTransformer,
       enableDartZeroThreeFeatures,
       transformerVersion,
-      improvePluralization,
       dartUpdateAmplifyCoreDependency,
+      improvePluralization,
     },
   });
 

@@ -27,7 +27,7 @@ describe('generateAllOperations', () => {
     jest.clearAllMocks();
   });
 
-  const generateOptions: GQLDocsGenOptions = { useExternalFragmentForS3Object: true, retainCaseStyle: true };
+  const generateOptions: GQLDocsGenOptions = { useExternalFragmentForS3Object: true };
   it('generateQueries - should call generateOperation', () => {
     expect(generateQueries(operations, mockSchema, maxDepth, generateOptions)).toEqual([
       {
@@ -67,54 +67,6 @@ describe('generateAllOperations', () => {
     expect(generateOperation).toHaveBeenCalledTimes(1);
     expect(getFields).toHaveBeenCalledTimes(1);
     expect(generateOperation).toHaveBeenCalledWith(mockFields.f1, mockSchema, maxDepth, generateOptions);
-  });
-});
-
-describe('Test generating operations by not retaining case style', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-    getFields.mockReturnValue({UPPERCASE: 'value'});
-  });
-  const generateOptions: GQLDocsGenOptions = { useExternalFragmentForS3Object: true, retainCaseStyle: false };
-  it('generateQueries - should call generateOperation', () => {
-    expect(generateQueries(operations, mockSchema, maxDepth, generateOptions)).toEqual([
-      {
-        type: 'query',
-        name: 'Uppercase',
-        ...mockOperationResult,
-      },
-    ]);
-    expect(generateOperation).toHaveBeenCalledWith('value', mockSchema, maxDepth, generateOptions);
-    expect(getFields).toHaveBeenCalled();
-    expect(generateOperation).toHaveBeenCalledTimes(1);
-    expect(getFields).toHaveBeenCalledTimes(1);
-  });
-
-  it('generateMutation - should call generateOperation', () => {
-    expect(generateMutations(operations, mockSchema, maxDepth, generateOptions)).toEqual([
-      {
-        type: 'mutation',
-        name: 'Uppercase',
-        ...mockOperationResult,
-      },
-    ]);
-    expect(generateOperation).toHaveBeenCalledWith('value', mockSchema, maxDepth, generateOptions);
-    expect(getFields).toHaveBeenCalled();
-    expect(generateOperation).toHaveBeenCalledTimes(1);
-    expect(getFields).toHaveBeenCalledTimes(1);
-  });
-
-  it('generateSubscription - should call generateOperation', () => {
-    expect(generateSubscriptions(operations, mockSchema, maxDepth, generateOptions)).toEqual([
-      {
-        type: 'subscription',
-        name: 'Uppercase',
-        ...mockOperationResult,
-      },
-    ]);
-    expect(generateOperation).toHaveBeenCalledTimes(1);
-    expect(getFields).toHaveBeenCalledTimes(1);
-    expect(generateOperation).toHaveBeenCalledWith('value', mockSchema, maxDepth, generateOptions);
   });
 });
 

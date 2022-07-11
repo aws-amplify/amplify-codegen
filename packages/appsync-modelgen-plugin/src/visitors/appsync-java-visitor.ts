@@ -514,9 +514,9 @@ export class AppSyncModelJavaVisitor<
       .extends(['Builder']);
 
     const nonNullableFields = this.getWritableFields(model)
-      .filter(field => !field.isNullable)
+      .filter(field => this.isRequiredField(field))
       .filter(f => (isModel ? f.name !== 'id' : true));
-    const nullableFields = this.getWritableFields(model).filter(field => field.isNullable);
+    const nullableFields = this.getWritableFields(model).filter(field => !this.isRequiredField(field));
 
     // constructor
     const constructorArguments = this.getWritableFields(model).map(field => ({

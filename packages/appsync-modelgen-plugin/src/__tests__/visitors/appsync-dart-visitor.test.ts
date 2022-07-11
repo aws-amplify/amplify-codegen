@@ -8,7 +8,6 @@ const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-
 const getVisitor = ({
   schema,
   selectedType,
@@ -17,8 +16,8 @@ const getVisitor = ({
   enableDartZeroThreeFeatures = false,
   isTimestampFieldsAdded = false,
   transformerVersion = 1,
+  dartUpdateAmplifyCoreDependency = false,
   improvePluralization: boolean = false,
-  dartUpdateAmplifyCoreDependency = false
 }: {
   schema: string;
   selectedType?: string;
@@ -27,8 +26,8 @@ const getVisitor = ({
   enableDartZeroThreeFeatures?: boolean;
   isTimestampFieldsAdded?: boolean;
   transformerVersion?: number;
-  improvePluralization?: boolean,
   dartUpdateAmplifyCoreDependency?: boolean;
+  improvePluralization?: boolean;
 }) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -42,8 +41,8 @@ const getVisitor = ({
       enableDartZeroThreeFeatures,
       isTimestampFieldsAdded,
       transformerVersion,
+      dartUpdateAmplifyCoreDependency,
       improvePluralization,
-      dartUpdateAmplifyCoreDependency
     },
     { selectedType, generate },
   );
@@ -251,7 +250,7 @@ describe('AppSync Dart Visitor', () => {
           name: String!
         }
       `;
-      
+
       [true, false].forEach(enableDartNullSafety => {
         const visitor = getVisitor({
           schema,

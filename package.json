@@ -3,34 +3,35 @@
   "version": "0.1.0",
   "description": "amplify-codegen",
   "scripts": {
-    "test-changed": "lerna run test --since master",
+    "test-changed": "lerna run test --since main",
     "test": "lerna run test",
     "test-ci": "lerna run test --concurrency 1 -- --ci -i",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --quiet",
     "lint-fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "clean": "lerna run clean && lerna exec yarn rimraf tsconfig.tsbuildinfo && lerna clean --yes && yarn rimraf node_modules",
     "build": "lerna run build",
-    "production-build": "yarn && lerna run build --concurrency 3 --stream",
-    "publish:master": "lerna publish --canary --exact --force-publish --preid=dev --dist-tag=dev --include-merged-tags --conventional-prerelease --yes",
-    "publish:release": "lerna publish --exact --conventional-commits --message 'chore(release): Publish [ci skip]' --yes",
+    "production-build": "yarn --ignore-engines && lerna run build --concurrency 3 --stream",
+    "publish:main": "lerna publish --canary --exact --force-publish --preid=dev --dist-tag=dev --include-merged-tags --conventional-prerelease --no-verify-access --yes",
+    "publish:release": "lerna publish --exact --conventional-commits --message 'chore(release): Publish [ci skip]' --no-verify-access --yes",
     "publish:tag": "lerna publish --exact --dist-tag=$NPM_TAG --preid=$NPM_TAG --conventional-commits --conventional-prerelease --message 'chore(release): Publish tagged release $NPM_TAG [ci skip]' --no-verify-access --yes",
-    "postpublish:release": "git fetch . release:master && git push origin master",
+    "postpublish:release": "git fetch . release:main && git push origin main",
     "yarn-use-bash": "yarn config set script-shell /bin/bash",
     "verdaccio-start": "yarn yarn-use-bash && source .circleci/local_publish_helpers.sh && startLocalRegistry \"$(pwd)/.circleci/verdaccio.yaml\"",
     "verdaccio-clean": "rimraf ../verdaccio-cache",
     "verdaccio-connect": "source .circleci/local_publish_helpers.sh && setNpmRegistryUrlToLocal && loginToLocalRegistry",
-    "publish-to-verdaccio": "lerna publish --yes --no-commit-hooks --no-push --exact --conventional-commits --no-changelog --no-git-tag-version --force-publish",
+    "publish-to-verdaccio": "lerna publish --yes --no-commit-hooks --no-push --exact --conventional-commits --no-changelog --no-git-tag-version --force-publish --no-verify-access",
     "verdaccio-publish": "yarn verdaccio-clean && yarn publish-to-verdaccio",
     "verdaccio-disconnect": "source .circleci/local_publish_helpers.sh && unsetNpmRegistryUrl",
     "verdaccio-stop": "kill -9 $(lsof -n -t -iTCP:4873 -sTCP:LISTEN)",
     "setup-dev": "(yarn && lerna run build) && yarn add-cli-no-save && (yarn hoist-cli && yarn rm-dev-link && yarn link-dev)",
-    "add-cli-no-save": "yarn add @aws-amplify/cli -W && git restore package.json",
-    "hoist-cli": "rm -rf node_modules/amplify-cli && mkdir node_modules/amplify-cli && cp -r node_modules/@aws-amplify/cli/ node_modules/amplify-cli",
-    "link-dev": "cd node_modules/amplify-cli && ln -s \"$(pwd)/bin/amplify\" \"$(yarn global bin)/amplify-dev\" && cd -",
+    "add-cli-no-save": "yarn add @aws-amplify/cli-internal -W && git restore package.json",
+    "hoist-cli": "rm -rf node_modules/amplify-cli-internal && mkdir node_modules/amplify-cli-internal && cp -r node_modules/@aws-amplify/cli-internal/ node_modules/amplify-cli-internal",
+    "link-dev": "cd node_modules/amplify-cli-internal && ln -s \"$(pwd)/bin/amplify\" \"$(yarn global bin)/amplify-dev\" && cd -",
     "rm-dev-link": "rm -f \"$(yarn global bin)/amplify-dev\"",
     "commit": "git-cz",
     "coverage": "codecov || exit 0",
-    "split-e2e-tests": "yarn ts-node ./scripts/split-e2e-tests.ts && git add .circleci/config.yml"
+    "split-e2e-tests": "yarn ts-node ./scripts/split-e2e-tests.ts && git add .circleci/config.yml",
+    "refresh-lockfile": "rimraf yarn.lock && yarn"
   },
   "bugs": {
     "url": "https://github.com/aws-amplify/amplify-codegen/issues"
@@ -52,24 +53,24 @@
   "author": "Amazon Web Services",
   "license": "Apache-2.0",
   "dependencies": {
-    "lerna": "^3.22.1"
+    "lerna": "^5.1.6"
   },
   "workspaces": [
     "packages/*"
   ],
   "devDependencies": {
-    "@commitlint/cli": "^8.1.0",
-    "@commitlint/config-conventional": "^8.1.0",
-    "@commitlint/config-lerna-scopes": "^8.1.0",
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
+    "@commitlint/config-lerna-scopes": "^17.0.2",
     "@types/jest": "^25.2.1",
     "@types/js-yaml": "^3.12.3",
     "@typescript-eslint/eslint-plugin": "^2.16.0",
     "@typescript-eslint/parser": "^2.16.0",
     "cmd-shim": "^3.0.3",
     "codecov": "^3.7.0",
-    "commitizen": "^3.1.2",
+    "commitizen": "^4.2.4",
     "copyfiles": "^2.2.0",
-    "cz-conventional-changelog": "^3.0.2",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.9.0",
@@ -98,6 +99,11 @@
     "amplify-cli-core": "^2.3.0",
     "graphql-transformer-core": "^7.2.1",
     "amplify-headless-interface": "^1.13.1"
+  },
+  "resolutions": {
+    "minimist": "^1.2.6",
+    "lodash": "^4.17.21",
+    "node-fetch": "^2.6.7"
   },
   "config": {
     "commitizen": {

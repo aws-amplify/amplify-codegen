@@ -3,6 +3,56 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.0.0...@aws-amplify/appsync-modelgen-plugin@2.0.1) (2022-07-05)
+
+
+### Bug Fixes
+
+* **appsync-dart-visitor:** generate correct model id filed name ([#429](https://github.com/aws-amplify/amplify-codegen/issues/429)) ([59f049d](https://github.com/aws-amplify/amplify-codegen/commit/59f049dbb4dbe80f7a2767ccd3105abb3e017120))
+
+
+
+
+
+# [2.0.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.32.0...@aws-amplify/appsync-modelgen-plugin@2.0.0) (2022-04-25)
+
+
+### Bug Fixes
+
+* **appsync-dart-visitor:** update ignored linter rules ([#404](https://github.com/aws-amplify/amplify-codegen/issues/404)) ([7d2fdaf](https://github.com/aws-amplify/amplify-codegen/commit/7d2fdaff6e0512d76ad0efbc19acf67b1b738d23))
+* **modelgen-java:** inconsistence of required fields between builder and copy ([#416](https://github.com/aws-amplify/amplify-codegen/issues/416)) ([c434a69](https://github.com/aws-amplify/amplify-codegen/commit/c434a69129eb16f7bb20f7672b2d869f31d8a678))
+
+
+### chore
+
+* mv bump associated with revert to caret-versioning in CLI ([#412](https://github.com/aws-amplify/amplify-codegen/issues/412)) ([8f00f73](https://github.com/aws-amplify/amplify-codegen/commit/8f00f73a561aebea18009104e95096cc626e7a65))
+
+
+### Features
+
+* **appsync-modelgen-plugin:** add sort key field in manyToMany models ([#401](https://github.com/aws-amplify/amplify-codegen/issues/401)) ([5716d10](https://github.com/aws-amplify/amplify-codegen/commit/5716d1015c4b1a46c6677b0b028ee19d31bb2a92))
+
+
+### BREAKING CHANGES
+
+* no-op to bump major-version
+
+
+
+
+
+
+# [1.32.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.31.0...@aws-amplify/appsync-modelgen-plugin@1.32.0) (2022-02-24)
+
+
+### Features
+
+* add null type union to optional fields ([48b10f1](https://github.com/aws-amplify/amplify-codegen/commit/48b10f1236889b0cbd93a242ef339dadccd4cc84))
+
+
+
+
+
 # [1.31.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@1.30.2...@aws-amplify/appsync-modelgen-plugin@1.31.0) (2022-02-03)
 
 

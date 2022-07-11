@@ -1,7 +1,7 @@
 import path from 'path';
 import uuid from 'uuid';
 import fs from 'fs-extra';
-import { amplifyPush, addFunction, addApi } from 'amplify-codegen-e2e-core';
+import { amplifyPush, addFunction, addApi } from '@aws-amplify/amplify-codegen-e2e-core';
 
 import { configureAmplify, getApiKey, getConfiguredAppsyncClientAPIKeyAuth } from './authHelper';
 

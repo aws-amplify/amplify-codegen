@@ -24,7 +24,6 @@ import {
 } from '../configs/dart-config';
 import dartStyle from 'dart-style';
 import { generateLicense } from '../utils/generateLicense';
-import { lowerCaseFirst } from 'lower-case-first';
 import { GraphQLSchema } from 'graphql';
 import { DART_SCALAR_MAP } from '../scalars';
 
@@ -748,8 +747,6 @@ export class AppSyncModelDartVisitor<
         indent(`fieldName: "${fieldName}",`),
         indent(`fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (${modelName}).toString()))`),
       ].join('\n');
-    } else if (fieldName === 'id') {
-      value = `QueryField(fieldName: "${lowerCaseFirst(model.name)}.id")`;
     }
     declarationBlock.addClassMember(queryFieldName, 'QueryField', value, { static: true, final: true });
   }

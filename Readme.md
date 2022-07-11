@@ -1,13 +1,13 @@
 <a href="https://aws-amplify.github.io/" target="_blank">
     <img src="https://s3.amazonaws.com/aws-mobile-hub-images/aws-amplify-logo.png" alt="AWS Amplify" width="550" >
 </a>
-
+ 
 <p>
   <a href="https://discord.gg/jWVbPfC" target="_blank">
     <img src="https://img.shields.io/discord/308323056592486420?logo=discord"" alt="Discord Chat" />  
   </a>
   <a href="https://circleci.com/gh/aws-amplify/amplify-codegen">
-    <img src="https://img.shields.io/circleci/project/github/aws-amplify/amplify-codegen/master.svg" alt="build:started">
+    <img src="https://img.shields.io/circleci/project/github/aws-amplify/amplify-codegen/main.svg" alt="build:started">
   </a>
 </p>
 
@@ -27,9 +27,9 @@ Amplify Codegen is a JavaScript toolkit library for frontend and mobile develope
 | graphql-types-generator                                                | Generates type annotations from GraphQL schema and statements                                                                                                                               |
 ## Developing
 
-This section should get you running with **Amplify Codegen**. You will need the latest version of [nodejs](https://nodejs.org/en/) on your system and developing locally also requires `yarn` workspaces. You can install it [here](https://classic.yarnpkg.com/en/docs/install#mac-stable).
+This section should get you running with **Amplify Codegen**. You will need to set [nodejs](https://nodejs.org/en/) to a version less than v16 on your system. Developing locally also requires [yarn](https://classic.yarnpkg.com/en/docs/install#mac-stable).
 
-Start by, [Forking](https://help.github.com/en/github/getting-started-with-github/fork-a-repo) the main branch of [amplify-codegen](https://github.com/aws-amplify/amplify-codegen).
+Start by [Forking](https://help.github.com/en/github/getting-started-with-github/fork-a-repo) the main branch of [amplify-codegen](https://github.com/aws-amplify/amplify-codegen).
 
 ```
 $ git clone git@github.com:[username]/amplify-codegen.git
@@ -37,12 +37,20 @@ $ cd amplify-codegen
 
 $ yarn setup-dev
 ```
+
+To generate model files in an Amplify app using the local version of codegen, run `amplify-dev codegen models` in an Amplify app.
+
 Before pushing code or sending a pull request, do the following:
 
 - At the command line, run `npm run lint` at the top-level directory. This invokes lerna to check for lint errors in all of our packages.
 - You can use `eslint` to fix some of the lint errors. To use it, go to the package that has errors and run `lint-fix`
 - If there are any remaining lint errors, resolve them manually. Linting your code is a best practice that ensures good code quality so it's important that you don't skip this step.
 
+## Troubleshooting
+Errors sometimes occur when a different version of `amplify-cli-core` is installed, typically during the time the CLI is updated. To resolve the error, execute the following command from the top-level directory:
+
+`rm -rf yarn.lock && yarn clean && yarn setup-dev`
+
 ## Contributing
 
-See the contribution guideline. https://github.com/aws-amplify/amplify-codegen/blob/master/CONTRIBUTING.md
+See the contribution guideline. https://github.com/aws-amplify/amplify-codegen/blob/main/CONTRIBUTING.md

@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@2.8.6...@aws-amplify/graphql-types-generator@3.0.0) (2022-04-25)
+
+
+### chore
+
+* mv bump associated with revert to caret-versioning in CLI ([#412](https://github.com/aws-amplify/amplify-codegen/issues/412)) ([8f00f73](https://github.com/aws-amplify/amplify-codegen/commit/8f00f73a561aebea18009104e95096cc626e7a65))
+
+
+### BREAKING CHANGES
+
+* no-op to bump major-version
+
+
+
+
+
+
 ## [2.8.6](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@2.8.5...@aws-amplify/graphql-types-generator@2.8.6) (2021-11-17)
 
 **Note:** Version bump only for package @aws-amplify/graphql-types-generator
