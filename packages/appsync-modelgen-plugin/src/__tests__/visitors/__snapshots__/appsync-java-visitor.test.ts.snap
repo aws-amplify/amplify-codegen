@@ -127,7 +127,7 @@ public final class customClaim implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -182,7 +182,7 @@ public final class customClaim implements Model {
         return this;
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -322,7 +322,7 @@ public final class customClaim implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -377,7 +377,7 @@ public final class customClaim implements Model {
         return this;
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -530,7 +530,7 @@ public final class Employee implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -606,7 +606,7 @@ public final class Employee implements Model {
         return this;
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -752,7 +752,7 @@ public final class dynamicGroups implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -807,7 +807,7 @@ public final class dynamicGroups implements Model {
         return this;
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -960,7 +960,7 @@ public final class Employee implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -1036,7 +1036,7 @@ public final class Employee implements Model {
         return this;
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -1182,7 +1182,7 @@ public final class simpleOwnerAuth implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -1237,7 +1237,7 @@ public final class simpleOwnerAuth implements Model {
         return this;
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -1377,7 +1377,7 @@ public final class allowRead implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -1432,7 +1432,7 @@ public final class allowRead implements Model {
         return this;
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -1572,7 +1572,7 @@ public final class privateType implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -1627,7 +1627,7 @@ public final class privateType implements Model {
         return this;
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -1769,7 +1769,7 @@ public final class privateType implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -1824,7 +1824,7 @@ public final class privateType implements Model {
         return this;
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -1964,7 +1964,7 @@ public final class publicType implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -2019,7 +2019,7 @@ public final class publicType implements Model {
         return this;
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -2159,7 +2159,7 @@ public final class staticGroups implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -2214,7 +2214,7 @@ public final class staticGroups implements Model {
         return this;
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -2369,7 +2369,7 @@ public final class Landmark implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -2461,7 +2461,7 @@ public final class Landmark implements Model {
         return this;
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -2857,7 +2857,7 @@ public final class task implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -2923,7 +2923,7 @@ public final class task implements Model {
         return this;
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -3050,7 +3050,7 @@ public final class Todo implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -3083,7 +3083,7 @@ public final class Todo implements Model {
           id);
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -3207,7 +3207,7 @@ public final class SimpleModel implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -3262,7 +3262,7 @@ public final class SimpleModel implements Model {
         return this;
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -3397,7 +3397,7 @@ public final class SimpleModel implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -3452,7 +3452,7 @@ public final class SimpleModel implements Model {
         return this;
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -3647,7 +3647,7 @@ public final class ListContainer implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -3788,7 +3788,7 @@ public final class ListContainer implements Model {
         return this;
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -4272,7 +4272,7 @@ public final class task implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -4370,7 +4370,7 @@ public final class task implements Model {
         return this;
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -4569,7 +4569,7 @@ public final class Todo implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -4683,7 +4683,7 @@ public final class Todo implements Model {
         return this;
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -4854,7 +4854,7 @@ public final class TypeWithAWSDateScalars implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -4931,7 +4931,7 @@ public final class TypeWithAWSDateScalars implements Model {
         return this;
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -5111,7 +5111,7 @@ public final class authorBook implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -5198,7 +5198,7 @@ public final class authorBook implements Model {
         return this;
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -5335,7 +5335,7 @@ public final class NonCamelCaseField implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -5379,7 +5379,7 @@ public final class NonCamelCaseField implements Model {
         return this;
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -5498,7 +5498,7 @@ public final class snake_case implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -5542,7 +5542,7 @@ public final class snake_case implements Model {
         return this;
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */
@@ -5661,7 +5661,7 @@ public final class SnakeCaseField implements Model {
       return new Builder();
   }
   
-  /**
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -5705,7 +5705,7 @@ public final class SnakeCaseField implements Model {
         return this;
     }
     
-    /**
+    /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
      */

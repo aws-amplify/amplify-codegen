@@ -17,7 +17,6 @@ const getVisitor = ({
   isTimestampFieldsAdded = false,
   transformerVersion = 1,
   dartUpdateAmplifyCoreDependency = false,
-  improvePluralization: boolean = false,
 }: {
   schema: string;
   selectedType?: string;
@@ -27,7 +26,6 @@ const getVisitor = ({
   isTimestampFieldsAdded?: boolean;
   transformerVersion?: number;
   dartUpdateAmplifyCoreDependency?: boolean;
-  improvePluralization?: boolean;
 }) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -42,7 +40,6 @@ const getVisitor = ({
       isTimestampFieldsAdded,
       transformerVersion,
       dartUpdateAmplifyCoreDependency,
-      improvePluralization,
     },
     { selectedType, generate },
   );
