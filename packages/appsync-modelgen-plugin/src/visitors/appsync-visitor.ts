@@ -21,7 +21,7 @@ import {
   parse,
   valueFromASTUntyped,
 } from 'graphql';
-import { addFieldToModel, getModelPrimaryKeyComponentFields, removeFieldFromModel } from '../utils/fieldUtils';
+import { addFieldToModel, getModelPrimaryKeyComponentFields, removeFieldFromModel, toCamelCase } from '../utils/fieldUtils';
 import { getTypeInfo } from '../utils/get-type-info';
 import { CodeGenConnectionType, CodeGenFieldConnection, flattenFieldDirectives, processConnections } from '../utils/process-connections';
 import { sortFields } from '../utils/sort';
@@ -639,9 +639,9 @@ export class AppSyncModelVisitor<
   }
 
   protected generateIntermediateModel(firstModel: CodeGenModel, secondModel: CodeGenModel, relationName: string) {
-    const firstModelKeyFieldName = `${camelCase(firstModel.name)}ID`;
+    const firstModelKeyFieldName = this.generateIntermediateModelPrimaryKeyFieldName(firstModel)
     const firstModelSortKeyFields: CodeGenField[] = this.getSortKeyFields(firstModel);
-    const secondModelKeyFieldName = `${camelCase(secondModel.name)}ID`;
+    const secondModelKeyFieldName = this.generateIntermediateModelPrimaryKeyFieldName(secondModel);
     const secondModelSortKeyFields: CodeGenField[] = this.getSortKeyFields(secondModel);
 
     let intermediateModel: CodeGenModel = {
@@ -722,6 +722,14 @@ export class AppSyncModelVisitor<
     };
 
     return intermediateModel;
+  }
+
+  protected generateIntermediateModelPrimaryKeyFieldName(model: CodeGenModel): string {
+    if (this.isCustomPKEnabled()) {
+      const primaryKeyField = model.fields.find(f => f.primaryKeyInfo)!;
+      return toCamelCase([model.name, primaryKeyField.name]);
+    }
+    return `${camelCase(model.name)}ID`;
   }
 
   protected generateIntermediateModelSortKeyFieldName(model: CodeGenModel, sortKeyField: CodeGenField): string {

@@ -922,12 +922,12 @@ describe('AppSyncModelVisitor', () => {
   describe('manyToMany with sort key testing', () => {
     const schema = /* GraphQL */ `
       type ModelA @model {
-        id: ID! @primaryKey(sortKeyFields: ["sortId"])
+        customId: ID! @primaryKey(sortKeyFields: ["sortId"])
         sortId: ID!
         models: [ModelB] @manyToMany(relationName: "ModelAModelB")
       }
       type ModelB @model {
-        id: ID! @primaryKey(sortKeyFields: ["sortId"])
+        customId: ID! @primaryKey(sortKeyFields: ["sortId"])
         sortId: ID!
         models: [ModelA] @manyToMany(relationName: "ModelAModelB")
       }
@@ -948,28 +948,28 @@ describe('AppSyncModelVisitor', () => {
       expect(modelBSortKeyField.isNullable).toBe(false);
       const modelAIndexDirective = ModelAModelB.directives.find(d => d.name === 'key' && d.arguments.name === 'byModelA');
       expect(modelAIndexDirective).toBeDefined();
-      expect(modelAIndexDirective.arguments.fields).toEqual(['modelAID', 'modelAsortId']);
+      expect(modelAIndexDirective.arguments.fields).toEqual(['modelACustomId', 'modelAsortId']);
       const modelBIndexDirective = ModelAModelB.directives.find(d => d.name === 'key' && d.arguments.name === 'byModelB');
       expect(modelBIndexDirective).toBeDefined();
-      expect(modelBIndexDirective.arguments.fields).toEqual(['modelBID', 'modelBsortId']);
+      expect(modelBIndexDirective.arguments.fields).toEqual(['modelBCustomId', 'modelBsortId']);
       const modelABelongsToDirective = ModelAModelB.fields.find(f => f.name === 'modelA')!.directives.find(d => d.name === 'belongsTo');
       expect(modelABelongsToDirective).toBeDefined();
-      expect(modelABelongsToDirective.arguments.fields).toEqual(['modelAID', 'modelAsortId']);
+      expect(modelABelongsToDirective.arguments.fields).toEqual(['modelACustomId', 'modelAsortId']);
       const modelBBelongsToDirective = ModelAModelB.fields.find(f => f.name === 'modelB')!.directives.find(d => d.name === 'belongsTo');
       expect(modelBBelongsToDirective).toBeDefined();
-      expect(modelBBelongsToDirective.arguments.fields).toEqual(['modelBID', 'modelBsortId']);
+      expect(modelBBelongsToDirective.arguments.fields).toEqual(['modelBCustomId', 'modelBsortId']);
     });
     it('should generate correct hasMany fields for original models', () => {
       expect(ModelA).toBeDefined();
       const modelAHasManyDirective = ModelA.fields.find(f => f.name === 'models')!.directives.find(d => d.name === 'hasMany');
       expect(modelAHasManyDirective).toBeDefined();
       expect(modelAHasManyDirective.arguments.indexName).toEqual('byModelA');
-      expect(modelAHasManyDirective.arguments.fields).toEqual(['id', 'sortId']);
+      expect(modelAHasManyDirective.arguments.fields).toEqual(['customId', 'sortId']);
       expect(ModelB).toBeDefined();
       const modelBHasManyDirective = ModelB.fields.find(f => f.name === 'models')!.directives.find(d => d.name === 'hasMany');
       expect(modelBHasManyDirective).toBeDefined();
       expect(modelBHasManyDirective.arguments.indexName).toEqual('byModelB');
-      expect(modelBHasManyDirective.arguments.fields).toEqual(['id', 'sortId']);
+      expect(modelBHasManyDirective.arguments.fields).toEqual(['customId', 'sortId']);
     });
   });
 
