@@ -5,6 +5,13 @@ import { AppSyncModelJavaVisitor } from '../../visitors/appsync-java-visitor';
 import { CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
 import { JAVA_SCALAR_MAP } from '../../scalars';
 
+const defaultJavaVisitorSettings = {
+  isTimestampFieldsAdded: true,
+  handleListNullabilityTransparently: true,
+  transformerVersion: 1,
+  generate: CodeGenGenerateEnum.code,
+  respectPrimaryKeyAttributesOnConnectionField: false,
+}
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
@@ -13,21 +20,18 @@ const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
 const getVisitor = (
   schema: string,
   selectedType?: string,
-  generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
-  transformerVersion: number = 1,
+  settings: any = {}
 ) => {
+  const visitorConfig = { ...defaultJavaVisitorSettings, ...settings };
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelJavaVisitor(
     builtSchema,
     {
       directives,
-      target: 'android',
-      generate,
+      target: 'java',
       scalars: JAVA_SCALAR_MAP,
-      isTimestampFieldsAdded: true,
-      handleListNullabilityTransparently: true,
-      transformerVersion: transformerVersion,
+      ...visitorConfig
     },
     { selectedType },
   );
@@ -38,9 +42,9 @@ const getVisitor = (
 const getVisitorPipelinedTransformer = (
   schema: string,
   selectedType?: string,
-  generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
+  settings: any = {}
 ) => {
-  return getVisitor(schema, selectedType, generate, 2);
+  return getVisitor(schema, selectedType, { ...settings, transformerVersion: 2 });
 };
 
 describe('AppSyncModelVisitor', () => {
@@ -599,8 +603,103 @@ describe('AppSyncModelVisitor', () => {
           posts: [Post] @manyToMany(relationName: "PostTags")
         }
       `;
-      const generatedCode = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.code).generate();
+      const generatedCode = getVisitorPipelinedTransformer(schema).generate();
+      expect(() => validateJava(generatedCode)).not.toThrow();
       expect(generatedCode).toMatchSnapshot();
+    });
+  });
+
+  describe('Custom primary key tests', () => {
+    const schema = /* GraphQL */ `
+      type Blog @model {
+        id: ID!
+        name: String!
+        blogOwner: BlogOwnerWithCustomPKS!@belongsTo
+        posts: [Post] @hasMany
+      }
+      
+      type BlogOwnerWithCustomPKS @model {
+        id: ID!
+        name: String!@primaryKey(sortKeyFields: ["wea"])
+        wea: String!
+        blogs: [Blog] @hasMany
+      }
+      
+      type Post @model {
+        postId: ID! @primaryKey
+        title: String!
+        rating: Int!
+        created: AWSDateTime
+        blogID: ID!
+        blog: Blog @belongsTo
+        comments: [Comment] @hasMany
+      }
+
+      type Comment @model {
+        post: Post @belongsTo
+        title: String! @primaryKey(sortKeyFields: ["content","likes"])
+        content: String!
+        likes: Int!
+        description: String
+      }
+    `;
+    it('Should generate correct model file for default id as primary key type', () => {
+      const generatedCode = getVisitorPipelinedTransformer(schema, `Blog`, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      expect(() => validateJava(generatedCode)).not.toThrow();
+      expect(generatedCode).toMatchSnapshot();
+    });
+    it('Should generate correct model file for custom primary key type', () => {
+      const generatedCode = getVisitorPipelinedTransformer(schema, `Post`, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      expect(() => validateJava(generatedCode)).not.toThrow();
+      expect(generatedCode).toMatchSnapshot();
+    });
+    it('Should generate correct model file for composite key type without id field defined', () => {
+      const generatedCode = getVisitorPipelinedTransformer(schema, `Comment`, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+    it('Should generate correct model file for composite key type with id field defined', () => {
+      const generatedCode = getVisitorPipelinedTransformer(schema, `BlogOwnerWithCustomPKS`, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+  });
+  
+  describe('Custom primary key for connected model tests', () => {
+    it('Should generate correct model file for hasOne & belongsTo relation with composite primary key when CPK is enabled', () => {
+      const schema = /* GraphQL */ `
+        type Project @model {
+          projectId: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          team: Team @hasOne
+        }
+
+        type Team @model {
+          teamId: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          project: Project @belongsTo
+        }
+      `;
+      const generatedCodeProject = getVisitorPipelinedTransformer(schema, `Project`, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      const generatedCodeTeam = getVisitorPipelinedTransformer(schema, `Team`, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      expect(generatedCodeProject).toMatchSnapshot();
+      expect(generatedCodeTeam).toMatchSnapshot();
+    });
+    it('Should generate corect model file for hasMany uni relation with composite primary key when CPK is enabled', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          id: ID! @primaryKey(sortKeyFields: ["title"])
+          title: String!
+          comments: [Comment] @hasMany
+        }
+        
+        type Comment @model {
+          id: ID! @primaryKey(sortKeyFields: ["content"])
+          content: String!
+        }
+      `;
+      const generatedCodePost = getVisitorPipelinedTransformer(schema, 'Post', { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      const generatedCodeComment = getVisitorPipelinedTransformer(schema, 'Comment', { respectPrimaryKeyAttributesOnConnectionField: true }).generate();      
+      expect(generatedCodePost).toMatchSnapshot();
+      expect(generatedCodeComment).toMatchSnapshot();
     });
   });
 });
