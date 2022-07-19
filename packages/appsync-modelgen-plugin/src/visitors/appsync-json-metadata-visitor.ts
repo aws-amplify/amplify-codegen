@@ -175,10 +175,19 @@ export class AppSyncJSONVisitor<
       if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
         connectionAttribute.associatedWith = this.getFieldName(connectionInfo.associatedWith);
       } else if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
-        connectionAttribute.associatedWith = this.getFieldName(connectionInfo.associatedWith);
-        connectionAttribute.targetName = connectionInfo.targetName;
+        if (this.isCustomPKEnabled()) {
+          connectionAttribute.associatedWith = connectionInfo.associatedWithFields.map(f => this.getFieldName(f));
+          connectionAttribute.targetNames = connectionInfo.targetNames;
+        } else {
+          connectionAttribute.associatedWith = this.getFieldName(connectionInfo.associatedWith);
+          connectionAttribute.targetName = connectionInfo.targetName;
+        }
       } else {
-        connectionAttribute.targetName = connectionInfo.targetName;
+        if (this.isCustomPKEnabled()) {
+          connectionAttribute.targetNames = connectionInfo.targetNames;
+        } else {
+          connectionAttribute.targetName = connectionInfo.targetName;
+        }
       }
       return connectionAttribute;
     }
