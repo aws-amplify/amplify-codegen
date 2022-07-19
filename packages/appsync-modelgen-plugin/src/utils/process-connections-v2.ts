@@ -1,9 +1,10 @@
 import { CodeGenField, CodeGenFieldDirective, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
-import { CodeGenFieldConnection, DEFAULT_HASH_KEY_FIELD, flattenFieldDirectives, makeConnectionAttributeName } from './process-connections';
+import { CodeGenFieldConnection, flattenFieldDirectives, makeConnectionAttributeName } from './process-connections';
 import { processHasOneConnection } from './process-has-one';
-import { processBelongsToConnection, getBelongsToConnectedField } from './process-belongs-to';
+import { processBelongsToConnection, getBelongsToConnectedFields } from './process-belongs-to';
 import { processHasManyConnection } from './process-has-many';
 import { getDirective } from './fieldUtils';
+import { DEFAULT_HASH_KEY_FIELD } from './constants';
 
 // TODO: This file holds several references to utility functions in the v1 process connections file, those functions need to go here before that file is removed
 
@@ -20,9 +21,9 @@ export function getConnectedFieldV2(
   }
 
   if (connectionInfo.name === 'belongsTo') {
-    let connectedFieldBelongsTo = getBelongsToConnectedField(field, model, connectedModel);
-    if (connectedFieldBelongsTo) {
-      return connectedFieldBelongsTo;
+    let connectedFieldsBelongsTo = getBelongsToConnectedFields(model, connectedModel);
+    if (connectedFieldsBelongsTo.length === 1) {
+      return connectedFieldsBelongsTo[0];
     }
   }
 
@@ -30,6 +31,7 @@ export function getConnectedFieldV2(
   const connectionFields = connectionInfo.arguments.fields;
   if (connectionFields || directiveName === 'hasOne') {
     let connectionDirective;
+    // Find gsi on other side if index is defined
     if (indexName) {
       connectionDirective = flattenFieldDirectives(connectedModel).find(dir => {
         return dir.name === 'index' && dir.arguments.name === indexName;
@@ -39,7 +41,9 @@ export function getConnectedFieldV2(
           `Error processing @${connectionInfo.name} directive on ${model.name}.${field.name}, @index directive with name ${indexName} was not found in connected model ${connectedModel.name}`,
         );
       }
-    } else {
+    }
+    // Otherwise find the pk on other side
+    else {
       connectionDirective = flattenFieldDirectives(connectedModel).find(dir => {
         return dir.name === 'primaryKey';
       });
@@ -124,18 +128,19 @@ export function processConnectionsV2(
   field: CodeGenField,
   model: CodeGenModel,
   modelMap: CodeGenModelMap,
-  shouldUseModelNameFieldInHasManyAndBelongsTo: boolean
+  shouldUseModelNameFieldInHasManyAndBelongsTo: boolean = false,
+  isCustomPKEnabled: boolean = false
 ): CodeGenFieldConnection | undefined {
   const connectionDirective = field.directives.find(d => d.name === 'hasOne' || d.name === 'hasMany' || d.name === 'belongsTo');
 
   if (connectionDirective) {
     switch (connectionDirective.name) {
       case 'hasOne':
-        return processHasOneConnection(field, model, modelMap, connectionDirective);
+        return processHasOneConnection(field, model, modelMap, connectionDirective, isCustomPKEnabled);
       case 'belongsTo':
-        return processBelongsToConnection(field, model, modelMap, connectionDirective);
+        return processBelongsToConnection(field, model, modelMap, connectionDirective, isCustomPKEnabled);
       case 'hasMany':
-        return processHasManyConnection(field, model, modelMap, connectionDirective, shouldUseModelNameFieldInHasManyAndBelongsTo);
+        return processHasManyConnection(field, model, modelMap, connectionDirective, shouldUseModelNameFieldInHasManyAndBelongsTo, isCustomPKEnabled);
       default:
         break;
     }

@@ -12,6 +12,7 @@ import {
   CodeGenModel,
   RawAppSyncModelConfig,
   ParsedAppSyncModelConfig,
+  CodeGenPrimaryKeyType,
 } from './appsync-visitor';
 import { AuthDirective, AuthStrategy } from '../utils/process-auth';
 import { printWarning } from '../utils/warn';
@@ -82,9 +83,15 @@ export class AppSyncSwiftVisitor<
         .withName(this.getModelName(obj))
         .access('public')
         .withProtocols(['Model']);
+      let primaryKeyComponentFieldsName: string[] = ['id'];
+      if (this.config.respectPrimaryKeyAttributesOnConnectionField) {
+        const primaryKeyField = this.getModelPrimaryKeyField(obj);
+        const { sortKeyFields } = primaryKeyField.primaryKeyInfo!;
+        primaryKeyComponentFieldsName = [primaryKeyField, ...sortKeyFields].map(field => field.name);
+      }
       Object.entries(obj.fields).forEach(([fieldName, field]) => {
         const fieldType = this.getNativeType(field);
-        const isVariable = field.name !== 'id';
+        const isVariable = !primaryKeyComponentFieldsName.includes(field.name);
         const listType: ListType = field.connectionInfo ? ListType.LIST : ListType.ARRAY;
         structBlock.addProperty(this.getFieldName(field), fieldType, undefined, 'public', {
           optional: !this.isFieldRequired(field),
@@ -243,6 +250,10 @@ export class AppSyncSwiftVisitor<
           this.generateModelSchema(this.getModelName(model), model, schemaDeclarations);
 
         result.push(schemaDeclarations.string);
+        if (this.isCustomPKEnabled()) {
+          result.push('');
+          result.push(this.generatePrimaryKeyExtensions(model));
+        }
       });
 
     Object.values(this.getSelectedNonModels()).forEach(model => {
@@ -280,6 +291,8 @@ export class AppSyncSwiftVisitor<
     const fields = model.fields.map(field => this.generateFieldSchema(field, keysName));
     const authRules = this.generateAuthRules(model);
     const keyDirectives = this.config.generateIndexRules ? this.generateKeyRules(model) : [];
+    const priamryKeyRules = this.generatePrimaryKeyRules(model);
+    const attributes = [ ...keyDirectives, priamryKeyRules ].filter(f => f);
     const closure = [
       '{ model in',
       `let ${keysName} = ${this.getModelName(model)}.keys`,
@@ -287,7 +300,7 @@ export class AppSyncSwiftVisitor<
       ...(authRules.length ? [`model.authRules = ${authRules}`, ''] : []),
       `model.pluralName = "${this.pluralizeModelName(model)}"`,
       '',
-      ...(keyDirectives.length ? ['model.attributes(', indentMultiline(keyDirectives.join(',\n')), ')', ''] : []),
+      ...(attributes.length ? ['model.attributes(', indentMultiline(attributes.join(',\n')), ')', ''] : []),
       'model.fields(',
       indentMultiline(fields.join(',\n')),
       ')',
@@ -301,6 +314,32 @@ export class AppSyncSwiftVisitor<
       { static: true, variable: false },
       ' MARK: - ModelSchema',
     );
+  }
+
+  protected generatePrimaryKeyExtensions(model: CodeGenModel): string {
+    let result: string[] = [];
+    const primaryKeyField = model.fields.find(field => field.primaryKeyInfo)!;
+    const { primaryKeyType, sortKeyFields } = primaryKeyField.primaryKeyInfo!;
+    const useDefaultExplicitID = primaryKeyType === CodeGenPrimaryKeyType.ManagedId;
+
+    const identifiableExtension = new SwiftDeclarationBlock().asKind('extension').withName(`${this.getModelName(model)}: ModelIdentifiable`);
+    // identifier format
+    const identifierFormatValue = `ModelIdentifierFormat.${useDefaultExplicitID ? 'Default' : 'Custom'}`;
+    identifiableExtension.addProperty('IdentifierFormat', '', identifierFormatValue, 'public', { isTypeAlias: true });
+    // identifier
+    const identifierValue = useDefaultExplicitID ? 'DefaultModelIdentifier<Self>' : 'ModelIdentifier<Self, ModelIdentifierFormat.Custom>';
+    identifiableExtension.addProperty('Identifier', '', identifierValue, 'public', { isTypeAlias: true });
+    result.push(identifiableExtension.string);
+
+    if (!useDefaultExplicitID) {
+      const identifierExtension = new SwiftDeclarationBlock().asKind('extension').withName(`${this.getModelName(model)}.Identifier`);
+      const primaryKeyComponentFields = [ primaryKeyField, ...sortKeyFields ];
+      const identifierArgs = primaryKeyComponentFields.map(field => ({name: this.getFieldName(field), type: this.getNativeType(field), flags: {}, value: undefined}));
+      const identifierBody = `.make(fields:[${primaryKeyComponentFields.map(field => `(name: "${this.getFieldName(field)}", value: ${this.getFieldName(field)})`).join(', ')}])`;
+      identifierExtension.addClassMethod('identifier', 'Self', identifierBody, identifierArgs, 'public', { static: true });
+      result.push(identifierExtension.string);
+    }
+    return result.join('\n\n');
   }
 
   protected generateClassLoader(): string {
@@ -344,7 +383,7 @@ export class AppSyncSwiftVisitor<
   }
 
   private generateFieldSchema(field: CodeGenField, modelKeysName: string): string {
-    if (field.type === 'ID' && field.name === 'id') {
+    if (!this.isCustomPKEnabled() && field.type === 'ID' && field.name === 'id') {
       return `.id()`;
     }
     let ofType;
@@ -368,12 +407,18 @@ export class AppSyncSwiftVisitor<
           )}.keys.${this.getFieldName(connectionInfo.associatedWith)})`;
         }
       if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
+        const targetNameAttrStr = this.isCustomPKEnabled()
+          ? `targetNames: [${connectionInfo.targetNames.map(target => `"${target}"`).join(', ')}]`
+          : `targetName: "${connectionInfo.targetName}"`;
         return `.hasOne(${name}, is: ${isRequired}, ofType: ${typeName}, associatedWith: ${this.getModelName(
           connectionInfo.connectedModel,
-        )}.keys.${this.getFieldName(connectionInfo.associatedWith)}, targetName: "${connectionInfo.targetName}")`;
+        )}.keys.${this.getFieldName(connectionInfo.associatedWith)}, ${targetNameAttrStr})`;
       }
       if (connectionInfo.kind === CodeGenConnectionType.BELONGS_TO) {
-        return `.belongsTo(${name}, is: ${isRequired}, ofType: ${typeName}, targetName: "${connectionInfo.targetName}")`;
+        const targetNameAttrStr = this.isCustomPKEnabled()
+          ? `targetNames: [${connectionInfo.targetNames.map(target => `"${target}"`).join(', ')}]`
+          : `targetName: "${connectionInfo.targetName}"`;
+        return `.belongsTo(${name}, is: ${isRequired}, ofType: ${typeName}, ${targetNameAttrStr})`;
       }
     }
 
@@ -451,6 +496,16 @@ export class AppSyncSwiftVisitor<
         const fields: string = directive.arguments.fields.map((field: string) => `"${field}"`).join(', ');
         return `.index(fields: [${fields}], name: ${name})`;
       });
+  }
+
+  protected generatePrimaryKeyRules(model: CodeGenModel): string {
+    if (!this.isCustomPKEnabled() || this.selectedTypeIsNonModel()) {
+      return '';
+    }
+    const primaryKeyField = model.fields.find(f => f.primaryKeyInfo)!;
+    const { sortKeyFields } = primaryKeyField.primaryKeyInfo!;
+    const modelName = lowerCaseFirst(this.getModelName(model));
+    return `.primaryKey(fields: [${[primaryKeyField, ...sortKeyFields].map(field => `${modelName}.${this.getFieldName(field)}`).join(', ')}])`
   }
 
   protected isHasManyConnectionField(field: CodeGenField): boolean {

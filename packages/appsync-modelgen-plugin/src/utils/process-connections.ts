@@ -1,14 +1,13 @@
-import { CodeGenModel, CodeGenModelMap, CodeGenField, CodeGenDirective, CodeGenFieldDirective } from '../visitors/appsync-visitor';
-import { camelCase } from 'change-case';
+import { CodeGenModel, CodeGenModelMap, CodeGenField, CodeGenFieldDirective } from '../visitors/appsync-visitor';
+import { toCamelCase } from './fieldUtils';
 import { getDirective } from './fieldUtils';
+import { DEFAULT_HASH_KEY_FIELD } from './constants';
 
 export enum CodeGenConnectionType {
   HAS_ONE = 'HAS_ONE',
   BELONGS_TO = 'BELONGS_TO',
   HAS_MANY = 'HAS_MANY',
 }
-export const DEFAULT_HASH_KEY_FIELD = 'id';
-
 export type CodeGenConnectionTypeBase = {
   kind: CodeGenConnectionType;
   connectedModel: CodeGenModel;
@@ -16,25 +15,30 @@ export type CodeGenConnectionTypeBase = {
 };
 export type CodeGenFieldConnectionBelongsTo = CodeGenConnectionTypeBase & {
   kind: CodeGenConnectionType.BELONGS_TO;
-  targetName: string;
+  targetName: string; // Legacy field remained for backward compatability
+  targetNames: string[]; // New attribute for v2 custom pk support
+
 };
 export type CodeGenFieldConnectionHasOne = CodeGenConnectionTypeBase & {
   kind: CodeGenConnectionType.HAS_ONE;
-  associatedWith: CodeGenField;
-  targetName: string;
+  associatedWith: CodeGenField;// Legacy field remained for backward compatability
+  associatedWithFields: CodeGenField[]; // New attribute for v2 custom pk support
+  targetName: string; // Legacy field remained for backward compatability
+  targetNames: string[]; // New attribute for v2 custom pk support
 };
 
 export type CodeGenFieldConnectionHasMany = CodeGenConnectionTypeBase & {
   kind: CodeGenConnectionType.HAS_MANY;
-  associatedWith: CodeGenField;
+  associatedWith: CodeGenField;// Legacy field remained for backward compatability
+  associatedWithFields: CodeGenField[]; // New attribute for v2 custom pk support
 };
 
 export type CodeGenFieldConnection = CodeGenFieldConnectionBelongsTo | CodeGenFieldConnectionHasOne | CodeGenFieldConnectionHasMany;
 
-export function makeConnectionAttributeName(type: string, field?: string) {
+export function makeConnectionAttributeName(type: string, field?: string, otherSidePrimaryKeyComponentField: string = 'id') {
   // The same logic is used graphql-connection-transformer package to generate association field
   // Make sure the logic gets update in that package
-  return field ? camelCase([type, field, 'id'].join('_')) : camelCase([type, 'id'].join('_'));
+  return field ? toCamelCase([type, field, otherSidePrimaryKeyComponentField]) : toCamelCase([type, otherSidePrimaryKeyComponentField]);
 }
 
 export function flattenFieldDirectives(model: CodeGenModel) {
@@ -144,6 +148,7 @@ export function processConnections(
         return {
           kind: CodeGenConnectionType.HAS_MANY,
           associatedWith: otherSideField,
+          associatedWithFields: [], // New attribute for v2 custom pk support. Not used in v1 so use empty array.
           isConnectingFieldAutoCreated,
           connectedModel: otherSide,
         };
@@ -158,6 +163,7 @@ export function processConnections(
           connectedModel: otherSide,
           isConnectingFieldAutoCreated,
           targetName: connectionFields[0] || makeConnectionAttributeName(model.name, field.name),
+          targetNames: [] // New attribute for v2 custom pk support. Not used in v1 so use empty array.
         };
       } else if (!field.isList && !otherSideField.isList) {
         // One to One
@@ -179,6 +185,7 @@ export function processConnections(
             connectedModel: otherSide,
             isConnectingFieldAutoCreated,
             targetName: connectionFields[0] || makeConnectionAttributeName(model.name, field.name),
+            targetNames: [] // New attribute for v2 custom pk support. Not used in v1 so use empty array.
           };
         } else if (field.isNullable && !otherSideField.isNullable) {
           /*
@@ -194,9 +201,11 @@ export function processConnections(
           return {
             kind: CodeGenConnectionType.HAS_ONE,
             associatedWith: otherSideField,
+            associatedWithFields: [], // New attribute for v2 custom pk support. Not used in v1 so use empty array.
             connectedModel: otherSide,
             isConnectingFieldAutoCreated,
             targetName: connectionFields[0] || makeConnectionAttributeName(model.name, field.name),
+            targetNames: [] // New attribute for v2 custom pk support. Not used in v1 so use empty array.
           };
         } else {
           /*
@@ -230,6 +239,7 @@ export function processConnections(
             isNullable: true,
             directives: [],
           },
+          associatedWithFields: [], // New attribute for v2 custom pk support. Not used in v1 so use empty array.
         };
       } else {
         if (connectionFields.length > 1) {
@@ -241,6 +251,7 @@ export function processConnections(
           connectedModel: otherSide,
           isConnectingFieldAutoCreated,
           targetName: connectionFields[0] || makeConnectionAttributeName(model.name, field.name),
+          targetNames: [] // New attribute for v2 custom pk support. Not used in v1 so use empty array.
         };
       }
     }
