@@ -83,9 +83,12 @@ export class AppSyncSwiftVisitor<
         .withName(this.getModelName(obj))
         .access('public')
         .withProtocols(['Model']);
-      const primaryKeyField = this.getModelPrimaryKeyField(obj);
-      const { sortKeyFields } = primaryKeyField.primaryKeyInfo!;
-      const primaryKeyComponentFieldsName = [primaryKeyField, ...sortKeyFields].map(field => field.name);
+      let primaryKeyComponentFieldsName: string[] = ['id'];
+      if (this.config.respectPrimaryKeyAttributesOnConnectionField) {
+        const primaryKeyField = this.getModelPrimaryKeyField(obj);
+        const { sortKeyFields } = primaryKeyField.primaryKeyInfo!;
+        primaryKeyComponentFieldsName = [primaryKeyField, ...sortKeyFields].map(field => field.name);
+      }
       Object.entries(obj.fields).forEach(([fieldName, field]) => {
         const fieldType = this.getNativeType(field);
         const isVariable = !primaryKeyComponentFieldsName.includes(field.name);
