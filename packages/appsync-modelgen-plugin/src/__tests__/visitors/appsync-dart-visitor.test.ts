@@ -16,7 +16,8 @@ const getVisitor = ({
   enableDartZeroThreeFeatures = false,
   isTimestampFieldsAdded = false,
   transformerVersion = 1,
-  dartUpdateAmplifyCoreDependency = false
+  dartUpdateAmplifyCoreDependency = false,
+  respectPrimaryKeyAttributesOnConnectionField = false,
 }: {
   schema: string;
   selectedType?: string;
@@ -26,6 +27,7 @@ const getVisitor = ({
   isTimestampFieldsAdded?: boolean;
   transformerVersion?: number;
   dartUpdateAmplifyCoreDependency?: boolean;
+  respectPrimaryKeyAttributesOnConnectionField?: boolean;
 }) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -39,7 +41,8 @@ const getVisitor = ({
       enableDartZeroThreeFeatures,
       isTimestampFieldsAdded,
       transformerVersion,
-      dartUpdateAmplifyCoreDependency
+      dartUpdateAmplifyCoreDependency,
+      respectPrimaryKeyAttributesOnConnectionField,
     },
     { selectedType, generate },
   );
@@ -599,6 +602,8 @@ describe('AppSync Dart Visitor', () => {
         }
       `;
       const visitor = getVisitor({ schema, enableDartNullSafety: true, isTimestampFieldsAdded: true, enableDartZeroThreeFeatures: false });
+
+
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -650,7 +655,6 @@ describe('AppSync Dart Visitor', () => {
         ACTIVE
         INACTIVE
       }
-      
       type Post @model {
         id: ID!
         title: String!
@@ -659,7 +663,6 @@ describe('AppSync Dart Visitor', () => {
         # New field with @hasMany
         comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
       }
-      
       # New model
       type Comment @model {
         id: ID!
@@ -677,5 +680,156 @@ describe('AppSync Dart Visitor', () => {
       const generatedCode = getVisitor({ schema, transformerVersion: 2, enableDartNullSafety: true, dartUpdateAmplifyCoreDependency: true }).generate();
       expect(generatedCode).toMatchSnapshot();
     });
+  });
+
+  describe('custom primary key model generation', () => {
+    it('should generate correct model and helper class for model that is NOT using custom primary key', () => {
+      const schema = /* GraphQL */ `
+        type ModelWithImplicitID @model {
+          title: String!
+        }
+
+        type ModelWithExplicitID @model {
+          id: ID!
+          title: String!
+        }
+
+        type ModelWithExplicitIDAndSDI @model {
+          id: ID!
+          parentID: ID @index(name: "byParent")
+        }
+      `;
+
+      ['ModelWithImplicitID', 'ModelWithExplicitID', 'ModelWithExplicitIDAndSDI'].forEach(modelName => {
+        const generatedCode = getVisitor({
+          schema,
+          selectedType: modelName,
+          enableDartNullSafety: true,
+          enableDartZeroThreeFeatures: true,
+          isTimestampFieldsAdded: true,
+          respectPrimaryKeyAttributesOnConnectionField: true,
+          transformerVersion: 2
+        }).generate();
+
+        expect(generatedCode).toMatchSnapshot();
+      });
+    });
+
+    it('should generate correct model and helper class for model that is using `id` field as primary key plus sort keys', () => {
+      const schema = /* GraphQL */ `
+        type ModelWithIDPlusSortKeys @model {
+          id: ID! @primaryKey(sortKeyFields: ["title", "rating"])
+          title: String!
+          rating: Int!
+        }
+      `;
+
+      const generatedCode = getVisitor({
+        schema,
+        enableDartNullSafety: true,
+        enableDartZeroThreeFeatures: true,
+        isTimestampFieldsAdded: true,
+        respectPrimaryKeyAttributesOnConnectionField: true,
+        transformerVersion: 2,
+      }).generate();
+
+      expect(generatedCode).toMatchSnapshot();
+    });
+
+    it('should generate correct model and helper class for model that is using custom primary key', () => {
+      const schema = /* GraphQL */ `
+        type ModelWithExplicitlyDefinedPK @model {
+          modelID: ID! @primaryKey
+          title: String!
+        }
+
+        type ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey @model {
+          modelID: ID! @primaryKey(sortKeyFields: ["title", "rating"])
+          title: String!
+          rating: Int!
+        }
+      `;
+
+      ['ModelWithExplicitlyDefinedPK', 'ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey'].forEach(
+        modelName => {
+          const generatedCode = getVisitor({
+            schema,
+            selectedType: modelName,
+            enableDartNullSafety: true,
+            enableDartZeroThreeFeatures: true,
+            isTimestampFieldsAdded: true,
+            respectPrimaryKeyAttributesOnConnectionField: true,
+            transformerVersion: 2,
+          }).generate();
+
+          expect(generatedCode).toMatchSnapshot();
+        },
+      );
+    });
+
+    it('should generate correct models for hasOne/belongsTo relation when custom PK is enabled', () => {
+      const schema = /* GraphQL */ `
+        type Project @model {
+          projectId: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          team: Team @hasOne
+        }
+        type Team @model {
+          teamId: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          project: Project @belongsTo
+        }
+        type CpkOneToOneBidirectionalParent @model {
+          id: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          explicitChild: CpkOneToOneBidirectionalChildExplicit @hasOne
+        }
+        type CpkOneToOneBidirectionalChildExplicit @model {
+          id: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          belongsToParentID: ID
+          belongsToParentName: String
+          belongsToParent: CpkOneToOneBidirectionalParent
+            @belongsTo(fields: ["belongsToParentID", "belongsToParentName"])
+        }
+      `;
+      ['Project', 'Team', 'CpkOneToOneBidirectionalParent', 'CpkOneToOneBidirectionalChildExplicit'].forEach(modelName => {
+        const generatedCode = getVisitor({
+          schema,
+          selectedType: modelName,
+          enableDartNullSafety: true,
+          enableDartZeroThreeFeatures: true,
+          isTimestampFieldsAdded: true,
+          respectPrimaryKeyAttributesOnConnectionField: true,
+          transformerVersion: 2,
+        }).generate();
+        expect(generatedCode).toMatchSnapshot();
+      });
+    });
+    it('should generate correct models for hasMany uni relation when custom PK is enabled', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          id: ID! @primaryKey(sortKeyFields: ["title"])
+          title: String!
+          comments: [Comment] @hasMany
+        }   
+        type Comment @model {
+          id: ID! @primaryKey(sortKeyFields: ["content"])
+          content: String!
+        }
+      `;
+      ['Post', 'Comment'].forEach(modelName => {
+        const generatedCode = getVisitor({
+          schema,
+          selectedType: modelName,
+          enableDartNullSafety: true,
+          enableDartZeroThreeFeatures: true,
+          isTimestampFieldsAdded: true,
+          respectPrimaryKeyAttributesOnConnectionField: true,
+          transformerVersion: 2,
+        }).generate();
+        expect(generatedCode).toMatchSnapshot();
+      })
+    })
   });
 });

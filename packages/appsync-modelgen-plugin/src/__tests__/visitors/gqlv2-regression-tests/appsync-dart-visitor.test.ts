@@ -234,4 +234,21 @@ describe('AppSyncDartVisitor - GQLv2 Regression Tests', () => {
     expect(getGQLv2Visitor(schema, 'Post7V2').generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, 'Comment7V2').generate()).toMatchSnapshot();
   });
+
+  describe('model indexes', () => {
+    it('should correct indexes for @primaryKey and @index directive', () => {
+      const schema = /* GraphQL */ `
+        type ModelWithPrimaryKey @model {
+          productID: ID! @primaryKey
+          name: String!
+          content: String
+          albumID: ID! @index(name: "byAlbum", sortKeyFields: ["name"])
+          categoryID: ID! @index(name: "byCategory", sortKeyFields: ["name", "content"])
+        }
+      `;
+
+      const generatedCode = getGQLv2Visitor(schema, 'ModelWithPrimaryKey').generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+  });
 });
