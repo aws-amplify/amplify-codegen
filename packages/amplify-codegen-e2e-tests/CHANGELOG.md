@@ -3,6 +3,78 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 2.41.0 (2022-07-19)
+
+
+### Bug Fixes
+
+* **e2e:** use cli internal for e2e ([#444](https://github.com/aws-amplify/amplify-codegen/issues/444)) ([2d4e993](https://github.com/aws-amplify/amplify-codegen/commit/2d4e993bc399f3e89ae54b87af647502fb44b91f))
+* repo dev dependencies of cli components ([#304](https://github.com/aws-amplify/amplify-codegen/issues/304)) ([e4a7456](https://github.com/aws-amplify/amplify-codegen/commit/e4a745660552b643adfedc91481e4f5798778edc))
+* update expected messages per change to CLI https://github.com/aws-amplify/amplify-cli/pull/8573 ([7f4bf48](https://github.com/aws-amplify/amplify-codegen/commit/7f4bf48cae98241467a3191e62315ce0e8213a2a))
+
+
+### Reverts
+
+* Revert "build: update packages (#325)" (#343) ([694856a](https://github.com/aws-amplify/amplify-codegen/commit/694856a38513aacfa071a02090de8fdc7fc9a1fd)), closes [#325](https://github.com/aws-amplify/amplify-codegen/issues/325) [#343](https://github.com/aws-amplify/amplify-codegen/issues/343)
+
+
+
+## 2.26.15 (2021-11-12)
+
+
+### Bug Fixes
+
+* **amplify-codegen-e2e-core:** API walkthrough changes ([1f125ac](https://github.com/aws-amplify/amplify-codegen/commit/1f125ac4bf3ba64d6f374221c417e7e6e40f6898))
+* **amplify-codegen-e2e-tests:** fix env codegen tests ([f72a9b7](https://github.com/aws-amplify/amplify-codegen/commit/f72a9b758c5cf14df5f4a3e052f94a0735fc7250))
+* **amplify-codegen-e2e-tests:** modelgen test fixes ([0a95ec8](https://github.com/aws-amplify/amplify-codegen/commit/0a95ec88c0df0bd801c3c742c3315323c7b0bb8c))
+
+
+
+## 2.26.6 (2021-09-29)
+
+
+
+## 2.26.4 (2021-08-27)
+
+
+
+## 2.26.2 (2021-07-28)
+
+
+### Bug Fixes
+
+* E2e testing ([#206](https://github.com/aws-amplify/amplify-codegen/issues/206)) ([bc13041](https://github.com/aws-amplify/amplify-codegen/commit/bc130412e3b65c9c44a17360d933f2b50f5e9974))
+
+
+
+## 2.26.1 (2021-07-12)
+
+
+
+# 2.26.0 (2021-06-30)
+
+
+### Features
+
+* **codegen:** iOS index directive support ([#174](https://github.com/aws-amplify/amplify-codegen/issues/174)) ([abb966c](https://github.com/aws-amplify/amplify-codegen/commit/abb966c647b08537564f85314a4266a5cbe33ffd))
+
+
+
+## 2.25.1 (2021-06-02)
+
+
+
+# 2.25.0 (2021-05-25)
+
+
+### Features
+
+* add E2e testing ([#169](https://github.com/aws-amplify/amplify-codegen/issues/169)) ([19e17df](https://github.com/aws-amplify/amplify-codegen/commit/19e17df3c04bf5c18341efa1a53a5ecf4a7cc42e)), closes [#151](https://github.com/aws-amplify/amplify-codegen/issues/151) [#156](https://github.com/aws-amplify/amplify-codegen/issues/156) [#157](https://github.com/aws-amplify/amplify-codegen/issues/157) [#163](https://github.com/aws-amplify/amplify-codegen/issues/163)
+
+
+
+
+
 # 2.40.0 (2022-07-05)
 
 
