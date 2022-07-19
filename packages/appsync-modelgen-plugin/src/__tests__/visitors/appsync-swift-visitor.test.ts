@@ -4,6 +4,14 @@ import { SWIFT_SCALAR_MAP } from '../../scalars';
 import { AppSyncSwiftVisitor } from '../../visitors/appsync-swift-visitor';
 import { CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
 
+const defaultIosVisitorSetings = {
+  isTimestampFieldsAdded: true,
+  emitAuthProvider: true,
+  generateIndexRules: true,
+  handleListNullabilityTransparently: true,
+  transformerVersion: 1,
+  respectPrimaryKeyAttributesOnConnectionField: false,
+};
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
@@ -12,12 +20,9 @@ const getVisitor = (
   schema: string,
   selectedType?: string,
   generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
-  isTimestampFieldsAdded: boolean = true,
-  emitAuthProvider: boolean = true,
-  generateIndexRules: boolean = true,
-  handleListNullabilityTransparently: boolean = true,
-  transformerVersion: number = 1
+  settings: any = {},
 ) => {
+  const visitorConfig = { ...defaultIosVisitorSetings, ...settings };
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncSwiftVisitor(
@@ -26,11 +31,7 @@ const getVisitor = (
       directives,
       target: 'swift',
       scalars: SWIFT_SCALAR_MAP,
-      isTimestampFieldsAdded,
-      emitAuthProvider,
-      generateIndexRules,
-      handleListNullabilityTransparently,
-      transformerVersion: transformerVersion
+      ...visitorConfig,
     },
     { selectedType, generate },
   );
@@ -42,13 +43,10 @@ const getVisitorPipelinedTransformer = (
   schema: string,
   selectedType?: string,
   generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
-  isTimestampFieldsAdded: boolean = true,
-  emitAuthProvider: boolean = true,
-  generateIndexRules: boolean = true,
-  handleListNullabilityTransparently: boolean = true
+  settings: any = {},
 ) => {
-  return getVisitor(schema, selectedType, generate, isTimestampFieldsAdded, emitAuthProvider, generateIndexRules, handleListNullabilityTransparently, 2);
-}
+  return getVisitor(schema, selectedType, generate, { ...settings, transformerVersion: 2 });
+};
 
 describe('AppSyncSwiftVisitor', () => {
   it('Should generate a class for a Model', () => {
@@ -2161,7 +2159,7 @@ describe('AppSyncSwiftVisitor', () => {
           bar: String
         }
       `;
-      const visitor = getVisitor(schema, 'SimpleModel', CodeGenGenerateEnum.code, true);
+      const visitor = getVisitor(schema, 'SimpleModel', CodeGenGenerateEnum.code);
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchInlineSnapshot(`
         "// swiftlint:disable all
@@ -2206,7 +2204,7 @@ describe('AppSyncSwiftVisitor', () => {
           bar: String
         }
       `;
-      const visitor = getVisitor(schema, 'SimpleModel', CodeGenGenerateEnum.code, false);
+      const visitor = getVisitor(schema, 'SimpleModel', CodeGenGenerateEnum.code, { isTimestampFieldsAdded: false });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchInlineSnapshot(`
         "// swiftlint:disable all
@@ -2236,7 +2234,7 @@ describe('AppSyncSwiftVisitor', () => {
           updatedAt: AWSDateTime
         }
       `;
-      const visitor = getVisitor(schema, 'SimpleModel', CodeGenGenerateEnum.code, true);
+      const visitor = getVisitor(schema, 'SimpleModel', CodeGenGenerateEnum.code);
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchInlineSnapshot(`
         "// swiftlint:disable all
@@ -2269,7 +2267,7 @@ describe('AppSyncSwiftVisitor', () => {
           content: String
           tags: [Tag] @manyToMany(relationName: "PostTags")
         }
-        
+
         type Tag @model {
           id: ID!
           label: String!
@@ -2278,6 +2276,139 @@ describe('AppSyncSwiftVisitor', () => {
       `;
       const generatedCode = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.code).generate();
       expect(generatedCode).toMatchSnapshot();
+    });
+  });
+
+  describe('Primary Key Tests', () => {
+    it('Should generate model and metadata for a model with implicit PK', () => {
+      const schema = /* GraphQL */ `
+        type ModelImplicitDefaultPk @model {
+          name: String
+        }
+      `;
+      const generatedCode = getVisitorPipelinedTransformer(schema, 'ModelImplicitDefaultPk', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      expect(generatedCode).toMatchSnapshot();
+
+      const generatedMetadata = getVisitorPipelinedTransformer(schema, 'ModelImplicitDefaultPk', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      expect(generatedMetadata).toMatchSnapshot();
+    });
+
+    it('Should generate model and metadata for a model with explicit PK named id', () => {
+      const schema = /* GraphQL */ `
+        type ModelExplicitDefaultPk @model {
+          id: ID! @primaryKey
+          name: String
+        }
+      `;
+      const generatedCode = getVisitorPipelinedTransformer(schema, 'ModelExplicitDefaultPk', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      expect(generatedCode).toMatchSnapshot();
+      const generatedMetadata = getVisitorPipelinedTransformer(schema, 'ModelExplicitDefaultPk', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      expect(generatedMetadata).toMatchSnapshot();
+    });
+
+    it('Should generate model and metadata for a model with a custom PK', () => {
+      const schema = /* GraphQL */ `
+        type ModelExplicitCustomPk @model {
+          userId: ID! @primaryKey
+          name: String
+        }
+      `;
+      const generatedCode = getVisitorPipelinedTransformer(schema, 'ModelExplicitCustomPk', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      expect(generatedCode).toMatchSnapshot();
+      const generatedMetadata = getVisitorPipelinedTransformer(schema, 'ModelExplicitCustomPk', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      expect(generatedMetadata).toMatchSnapshot();
+    });
+
+    it('Should generate model and metadata for a model with a composite PK', () => {
+      const schema = /* GraphQL */ `
+        type ModelCompositePk @model {
+          id: ID! @primaryKey(sortKeyFields: ["dob"])
+          dob: AWSDateTime!
+          name: String
+        }
+      `;
+      const generatedCode = getVisitorPipelinedTransformer(schema, 'ModelCompositePk', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      expect(generatedCode).toMatchSnapshot();
+      const generatedMetadata = getVisitorPipelinedTransformer(schema, 'ModelCompositePk', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      expect(generatedMetadata).toMatchSnapshot();
+    });
+
+    it('Should generate targetNames in hasOne/belongsTo relation for models with a composite PK', () => {
+      const schema = /* GraphQL */ `
+        type Project @model {
+          projectId: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          team: Team @hasOne
+        }
+        type Team @model {
+          teamId: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          project: Project @belongsTo
+        }
+      `;
+      const generatedCodeProject = getVisitorPipelinedTransformer(schema, 'Project', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedMetaProject = getVisitorPipelinedTransformer(schema, 'Project', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedCodeTeam = getVisitorPipelinedTransformer(schema, 'Team', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedMetaTeam = getVisitorPipelinedTransformer(schema, 'Team', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      expect(generatedCodeProject).toMatchSnapshot();
+      expect(generatedMetaProject).toMatchSnapshot();
+      expect(generatedCodeTeam).toMatchSnapshot();
+      expect(generatedMetaTeam).toMatchSnapshot();
+    });
+
+    it('Should generate foreign key fields in hasMany uni relation for model with CPK', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          id: ID! @primaryKey(sortKeyFields: ["title"])
+          title: String!
+          comments: [Comment] @hasMany
+        }
+
+        type Comment @model {
+          id: ID! @primaryKey(sortKeyFields: ["content"])
+          content: String!
+        }
+      `;
+      const generatedCodePost = getVisitorPipelinedTransformer(schema, 'Post', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedMetaPost = getVisitorPipelinedTransformer(schema, 'Post', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedCodeComment = getVisitorPipelinedTransformer(schema, 'Comment', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedMetaComment = getVisitorPipelinedTransformer(schema, 'Comment', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      expect(generatedCodePost).toMatchSnapshot();
+      expect(generatedMetaPost).toMatchSnapshot();
+      expect(generatedCodeComment).toMatchSnapshot();
+      expect(generatedMetaComment).toMatchSnapshot();
     });
   });
 });

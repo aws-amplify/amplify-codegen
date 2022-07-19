@@ -121,6 +121,7 @@ export type VariableFlags = {
   listType?: ListType;
   variable?: boolean;
   isEnum?: boolean;
+  isTypeAlias?: boolean;
 };
 export type StructFlags = VariableFlags & { optional?: boolean; static?: boolean; isListNullable?: boolean, handleListNullabilityTransparently?: boolean };
 export type PropertyFlags = StructFlags;
@@ -364,7 +365,7 @@ export class SwiftDeclarationBlock {
     let resultArr: string[] = [
       prop.access === 'DEFAULT' ? '' : prop.access,
       prop.flags.static ? 'static' : '',
-      prop.flags.variable ? 'var' : 'let',
+      prop.flags.isTypeAlias ? 'typealias' : prop.flags.variable ? 'var' : 'let',
       `${escapeKeywords(prop.name)}${propertyType}`,
     ];
 
