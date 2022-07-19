@@ -84,8 +84,7 @@ async function generateModels(context) {
   const emitAuthProvider = readFeatureFlag('codegen.emitAuthProvider');
   const usePipelinedTransformer = readFeatureFlag('graphQLTransformer.useExperimentalPipelinedTransformer')
   const transformerVersion = readNumericFeatureFlag('graphQLTransformer.transformerVersion');
-  //TODO: Placeholder for custom pk feature flag change. Replace with read value once it is about to release
-  const respectPrimaryKeyAttributesOnConnectionField = true
+  const respectPrimaryKeyAttributesOnConnectionField = readFeatureFlag('graphQLTransformer.respectPrimaryKeyAttributesOnConnectionField');
 
   let isTimestampFieldsAdded = readFeatureFlag('codegen.addTimestampFields');
   let enableDartNullSafety = readFeatureFlag('codegen.enableDartNullSafety');
