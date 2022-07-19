@@ -192,7 +192,7 @@ export class AppSyncModelJavaVisitor<
     });
     let isCompositeKey: boolean = false;
     let isIdAsModelPrimaryKey: boolean = true;
-    if (this.isCustomPKEnabled()) {
+    if (this.config.respectPrimaryKeyAttributesOnConnectionField) {
       const primaryKeyField = this.getModelPrimaryKeyField(model);
       const { primaryKeyType, sortKeyFields } = primaryKeyField.primaryKeyInfo!;
       isCompositeKey = primaryKeyType === CodeGenPrimaryKeyType.CustomId && sortKeyFields.length > 0;
