@@ -104,7 +104,7 @@ describe('GraphQL V2 process connections tests', () => {
           directives: [],
           fields: [
             {
-              type: 'id',
+              type: 'ID',
               isNullable: false,
               isList: false,
               name: 'sourceID',
@@ -194,7 +194,7 @@ describe('GraphQL V2 process connections tests', () => {
           directives: [],
           fields: [
             {
-              type: 'id',
+              type: 'ID',
               isNullable: false,
               isList: false,
               name: 'postID',
@@ -353,7 +353,7 @@ describe('GraphQL V2 process connections tests', () => {
             directives: [],
             fields: [
               {
-                type: 'id',
+                type: 'ID',
                 isNullable: false,
                 isList: false,
                 name: 'id',
@@ -374,7 +374,7 @@ describe('GraphQL V2 process connections tests', () => {
             directives: [],
             fields: [
               {
-                type: 'string',
+                type: 'String',
                 isNullable: true,
                 isList: false,
                 name: 'likeString',
@@ -384,7 +384,7 @@ describe('GraphQL V2 process connections tests', () => {
           },
         };
         const connectionInfo = processConnectionsV2(modelMap.Post.fields[0], modelMap.Post, modelMap);
-        expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
+        expect(connectionInfo?.kind).toEqual(CodeGenConnectionType.HAS_ONE);
         expect((connectionInfo as CodeGenFieldConnectionHasOne).associatedWith.name).toEqual('id');
       });
     });

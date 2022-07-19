@@ -62,8 +62,20 @@ describe('AppSyncModelVisitor', () => {
     `;
     const ast = parse(schema);
     const builtSchema = buildSchemaWithDirectives(schema);
-    const visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+    const visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'general', generate: CodeGenGenerateEnum.code }, {});
     expect(() => visit(ast, { leave: visitor })).not.toThrowError();
+  });
+  it('should change field to non-nullable when schema has id of nullable type', () => {
+    const schema = /* GraphQL */ `
+      type Post @model {
+        id: String
+        title: String!
+        content: String!
+      }
+    `;
+    const { models } = createAndGenerateVisitor(schema);
+    const idField = models.Post.fields.find(f => f.name === 'id')!;
+    expect(idField.isNullable).toBe(false);
   });
   it('should have id as the first field to ensure arity of constructors', () => {
     const schema = /* GraphQL */ `
@@ -349,7 +361,7 @@ describe('AppSyncModelVisitor', () => {
         return field.name === 'projectTeamId';
       });
       expect(projectTeamIdField).toBeDefined();
-      expect(projectTeamIdField.isNullable).toBeTruthy();
+      expect(projectTeamIdField?.isNullable).toBeTruthy();
     });
   });
 
@@ -652,7 +664,7 @@ describe('AppSyncModelVisitor', () => {
       const postFields = visitor.models.Post.fields;
       const createdAtField = postFields.find(field => field.name === 'createdAt');
       expect(createdAtField).toMatchObject(createdAtFieldObj);
-      expect(createdAtField.isReadOnly).not.toBeDefined();
+      expect(createdAtField?.isReadOnly).not.toBeDefined();
       const updatedAtField = postFields.find(field => field.name === 'updatedAt');
       expect(updatedAtField).toMatchObject(updatedAtFieldObj);
     });
@@ -682,7 +694,7 @@ describe('AppSyncModelVisitor', () => {
       const postFields = visitor.models.Post.fields;
       const createdAtField = postFields.find(field => field.name === 'createdOn');
       expect(createdAtField).toMatchObject(createdAtFieldObj);
-      expect(createdAtField.isReadOnly).not.toBeDefined();
+      expect(createdAtField?.isReadOnly).not.toBeDefined();
       const updatedAtField = postFields.find(field => field.name === 'updatedOn');
       expect(updatedAtField).toMatchObject(updatedAtFieldObj);
     });
@@ -868,11 +880,11 @@ describe('AppSyncModelVisitor', () => {
     it('Should correctly convert the model map of a simple manyToMany', () => {
       const visitor = createAndGeneratePipelinedTransformerVisitor(simpleManyToManySchema);
 
-      expect(visitor.models.Human.fields.length).toEqual(4);
-      expect(visitor.models.Human.fields[1].directives[0].name).toEqual('hasMany');
-      expect(visitor.models.Human.fields[1].directives[0].arguments.fields.length).toEqual(1);
-      expect(visitor.models.Human.fields[1].directives[0].arguments.fields[0]).toEqual('governmentID');
-      expect(visitor.models.Human.fields[1].directives[0].arguments.indexName).toEqual('byHuman');
+      expect(visitor.models.Human.fields.length).toEqual(5);
+      expect(visitor.models.Human.fields[2].directives[0].name).toEqual('hasMany');
+      expect(visitor.models.Human.fields[2].directives[0].arguments.fields.length).toEqual(1);
+      expect(visitor.models.Human.fields[2].directives[0].arguments.fields[0]).toEqual('governmentID');
+      expect(visitor.models.Human.fields[2].directives[0].arguments.indexName).toEqual('byHuman');
       expect(visitor.models.PetFriend).toBeDefined();
       expect(visitor.models.PetFriend.fields.length).toEqual(5);
       expect(visitor.models.PetFriend.fields[2].directives[0].name).toEqual('belongsTo');
@@ -899,13 +911,13 @@ describe('AppSyncModelVisitor', () => {
       expect(visitor.models.Models).toBeDefined();
       expect(visitor.models.Models.fields.length).toEqual(5);
 
-      const modelA = visitor.models.Models.fields.find(f => f.name === 'modelA');
+      const modelA = visitor.models.Models.fields.find(f => f.name === 'modelA')!;
       expect(modelA).toBeDefined();
       expect(modelA.directives[0].name).toEqual('belongsTo');
       expect(modelA.directives[0].arguments.fields.length).toEqual(1);
       expect(modelA.directives[0].arguments.fields[0]).toEqual('modelAID');
 
-      const modelB = visitor.models.Models.fields.find(f => f.name === 'modelB');
+      const modelB = visitor.models.Models.fields.find(f => f.name === 'modelB')!;
       expect(modelB).toBeDefined();
       expect(modelB.directives[0].name).toEqual('belongsTo');
       expect(modelB.directives[0].arguments.fields.length).toEqual(1);
@@ -938,35 +950,35 @@ describe('AppSyncModelVisitor', () => {
     it('should generate correct fields and secondary keys for intermediate type', () => {
       expect(ModelAModelB).toBeDefined();
       expect(ModelAModelB.fields.length).toEqual(9);
-      const modelASortKeyField = ModelAModelB.fields.find(f => f.name === 'modelAsortId');
+      const modelASortKeyField = ModelAModelB.fields.find(f => f.name === 'modelAsortId')!;
       expect(modelASortKeyField).toBeDefined();
       expect(modelASortKeyField.type).toEqual('ID');
       expect(modelASortKeyField.isNullable).toBe(false);
-      const modelBSortKeyField = ModelAModelB.fields.find(f => f.name === 'modelBsortId');
+      const modelBSortKeyField = ModelAModelB.fields.find(f => f.name === 'modelBsortId')!;
       expect(modelBSortKeyField).toBeDefined();
       expect(modelBSortKeyField.type).toEqual('ID');
       expect(modelBSortKeyField.isNullable).toBe(false);
-      const modelAIndexDirective = ModelAModelB.directives.find(d => d.name === 'key' && d.arguments.name === 'byModelA');
+      const modelAIndexDirective = ModelAModelB.directives.find(d => d.name === 'key' && d.arguments.name === 'byModelA')!;
       expect(modelAIndexDirective).toBeDefined();
       expect(modelAIndexDirective.arguments.fields).toEqual(['modelACustomId', 'modelAsortId']);
-      const modelBIndexDirective = ModelAModelB.directives.find(d => d.name === 'key' && d.arguments.name === 'byModelB');
+      const modelBIndexDirective = ModelAModelB.directives.find(d => d.name === 'key' && d.arguments.name === 'byModelB')!;
       expect(modelBIndexDirective).toBeDefined();
       expect(modelBIndexDirective.arguments.fields).toEqual(['modelBCustomId', 'modelBsortId']);
-      const modelABelongsToDirective = ModelAModelB.fields.find(f => f.name === 'modelA')!.directives.find(d => d.name === 'belongsTo');
+      const modelABelongsToDirective = ModelAModelB.fields.find(f => f.name === 'modelA')!.directives.find(d => d.name === 'belongsTo')!;
       expect(modelABelongsToDirective).toBeDefined();
       expect(modelABelongsToDirective.arguments.fields).toEqual(['modelACustomId', 'modelAsortId']);
-      const modelBBelongsToDirective = ModelAModelB.fields.find(f => f.name === 'modelB')!.directives.find(d => d.name === 'belongsTo');
+      const modelBBelongsToDirective = ModelAModelB.fields.find(f => f.name === 'modelB')!.directives.find(d => d.name === 'belongsTo')!;
       expect(modelBBelongsToDirective).toBeDefined();
       expect(modelBBelongsToDirective.arguments.fields).toEqual(['modelBCustomId', 'modelBsortId']);
     });
     it('should generate correct hasMany fields for original models', () => {
       expect(ModelA).toBeDefined();
-      const modelAHasManyDirective = ModelA.fields.find(f => f.name === 'models')!.directives.find(d => d.name === 'hasMany');
+      const modelAHasManyDirective = ModelA.fields.find(f => f.name === 'models')!.directives.find(d => d.name === 'hasMany')!;
       expect(modelAHasManyDirective).toBeDefined();
       expect(modelAHasManyDirective.arguments.indexName).toEqual('byModelA');
       expect(modelAHasManyDirective.arguments.fields).toEqual(['customId', 'sortId']);
       expect(ModelB).toBeDefined();
-      const modelBHasManyDirective = ModelB.fields.find(f => f.name === 'models')!.directives.find(d => d.name === 'hasMany');
+      const modelBHasManyDirective = ModelB.fields.find(f => f.name === 'models')!.directives.find(d => d.name === 'hasMany')!;
       expect(modelBHasManyDirective).toBeDefined();
       expect(modelBHasManyDirective.arguments.indexName).toEqual('byModelB');
       expect(modelBHasManyDirective.arguments.fields).toEqual(['customId', 'sortId']);
@@ -1004,51 +1016,51 @@ describe('AppSyncModelVisitor', () => {
           id: ID!
         }
       `;
-      const { models, nonModels } = createAndGenerateVisitor(schemaV1);
+      const { models, nonModels } = createAndGenerateVisitor(schemaV1, { respectPrimaryKeyAttributesOnConnectionField: true });
       it('should have id field as primary key when no custom PK defined', () => {
-        const primaryKeyField = models.WorkItem0.fields.find(field => field.name === 'id');
+        const primaryKeyField = models.WorkItem0.fields.find(field => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
-        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
-        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(0);
+        expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
+        expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(0);
       });
       it('should have correct primary key info when custom primary key and sort key defined', () => {
-        const primaryKeyField = models.WorkItem1.fields.find(field => field.name === 'project');
+        const primaryKeyField = models.WorkItem1.fields.find(field => field.name === 'project')!;
         expect(primaryKeyField).toBeDefined();
-        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
-        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(1);
+        expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
+        expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(1);
       });
       it('should have correct primary key info when custom primary key defined', () => {
-        const primaryKeyField = models.WorkItem2.fields.find(field => field.name === 'project');
+        const primaryKeyField = models.WorkItem2.fields.find(field => field.name === 'project')!;
         expect(primaryKeyField).toBeDefined();
-        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
-        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(0);
+        expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
+        expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(0);
       });
       it('should have correct primary key info when custom primary key is defined as "id"', () => {
-        const primaryKeyField = models.WorkItem3.fields.find(field => field.name === 'id');
+        const primaryKeyField = models.WorkItem3.fields.find(field => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
-        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.OptionallyManagedId);
-        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(0);
+        expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.OptionallyManagedId);
+        expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(0);
       });
       it('should have correct primary key info when custom primary key is defined as "id" and sort key defined', () => {
-        const primaryKeyField = models.WorkItem4.fields.find(field => field.name === 'id');
+        const primaryKeyField = models.WorkItem4.fields.find(field => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
-        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
-        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(1);
+        expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
+        expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(1);
       });
       it('should have correct primary key info in explicit simple model', () => {
-        const primaryKeyField = models.WorkItem5.fields.find(field => field.name === 'id');
+        const primaryKeyField = models.WorkItem5.fields.find(field => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
-        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
-        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(0);
+        expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
+        expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(0);
       });
       it('should have correct primary key info in implicit simple model', () => {
-        const primaryKeyField = models.WorkItem6.fields.find(field => field.name === 'id');
+        const primaryKeyField = models.WorkItem6.fields.find(field => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
-        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
-        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(0);
+        expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
+        expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(0);
       });
       it('should not have primary key info in non model', () => {
-        const primaryKeyField = nonModels.WorkItem7.fields.find(field => field.name === 'id');
+        const primaryKeyField = nonModels.WorkItem7.fields.find(field => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
         expect(primaryKeyField.primaryKeyInfo).not.toBeDefined();
       });
@@ -1084,51 +1096,51 @@ describe('AppSyncModelVisitor', () => {
           id: ID!
         }
       `;
-      const { models, nonModels } = createAndGeneratePipelinedTransformerVisitor(schemaV2);
+      const { models, nonModels } = createAndGenerateVisitor(schemaV2, { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 });
       it('should have id field as primary key when no custom PK defined', () => {
-        const primaryKeyField = models.WorkItem0.fields.find(field => field.name === 'id');
+        const primaryKeyField = models.WorkItem0.fields.find(field => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
-        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
-        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(0);
+        expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
+        expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(0);
       });
       it('should have correct primary key info when custom primary key and sort key defined', () => {
-        const primaryKeyField = models.WorkItem1.fields.find(field => field.name === 'project');
+        const primaryKeyField = models.WorkItem1.fields.find(field => field.name === 'project')!;
         expect(primaryKeyField).toBeDefined();
-        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
-        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(1);
+        expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
+        expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(1);
       });
       it('should have correct primary key info when custom primary key defined', () => {
-        const primaryKeyField = models.WorkItem2.fields.find(field => field.name === 'project');
+        const primaryKeyField = models.WorkItem2.fields.find(field => field.name === 'project')!;
         expect(primaryKeyField).toBeDefined();
-        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
-        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(0);
+        expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
+        expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(0);
       });
       it('should have correct primary key info when custom primary key is defined as "id"', () => {
-        const primaryKeyField = models.WorkItem3.fields.find(field => field.name === 'id');
+        const primaryKeyField = models.WorkItem3.fields.find(field => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
-        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.OptionallyManagedId);
-        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(0);
+        expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.OptionallyManagedId);
+        expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(0);
       });
       it('should have correct primary key info when custom primary key is defined as "id" and sort key defined', () => {
-        const primaryKeyField = models.WorkItem4.fields.find(field => field.name === 'id');
+        const primaryKeyField = models.WorkItem4.fields.find(field => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
-        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
-        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(1);
+        expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
+        expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(1);
       });
       it('should have correct primary key info in explicit simple model', () => {
-        const primaryKeyField = models.WorkItem5.fields.find(field => field.name === 'id');
+        const primaryKeyField = models.WorkItem5.fields.find(field => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
-        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
-        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(0);
+        expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
+        expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(0);
       });
       it('should have correct primary key info in implicit simple model', () => {
-        const primaryKeyField = models.WorkItem6.fields.find(field => field.name === 'id');
+        const primaryKeyField = models.WorkItem6.fields.find(field => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
-        expect(primaryKeyField.primaryKeyInfo.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
-        expect(primaryKeyField.primaryKeyInfo.sortKeyFields.length).toBe(0);
+        expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
+        expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(0);
       });
       it('should not have primary key info in non model', () => {
-        const primaryKeyField = nonModels.WorkItem7.fields.find(field => field.name === 'id');
+        const primaryKeyField = nonModels.WorkItem7.fields.find(field => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
         expect(primaryKeyField.primaryKeyInfo).not.toBeDefined();
       });
@@ -1182,8 +1194,8 @@ describe('AppSyncModelVisitor', () => {
       expect(projectTeamHasOneConnectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
       expect(projectTeamHasOneConnectionInfo.targetName).toEqual('projectTeamTeamId');
       expect(projectTeamHasOneConnectionInfo.targetNames.length).toBe(2);
-      expect(projectTeamHasOneConnectionInfo.targetNames).toContain('projectTeamTeamId');
-      expect(projectTeamHasOneConnectionInfo.targetNames).toContain('projectTeamName');
+      expect(projectTeamHasOneConnectionInfo.targetNames[0]).toBe('projectTeamTeamId');
+      expect(projectTeamHasOneConnectionInfo.targetNames[1]).toBe('projectTeamName');
       expect(projectTeamHasOneConnectionInfo.associatedWith).toEqual(teamProjectField);
       expect(projectTeamHasOneConnectionInfo.associatedWithFields).toEqual([teamProjectField]);
       //hasOne foreign key fields
@@ -1196,8 +1208,8 @@ describe('AppSyncModelVisitor', () => {
       expect(teamProjectBelongsToConnectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
       expect(teamProjectBelongsToConnectionInfo.targetName).toEqual('teamProjectProjectId');
       expect(teamProjectBelongsToConnectionInfo.targetNames.length).toBe(2);
-      expect(teamProjectBelongsToConnectionInfo.targetNames).toContain('teamProjectProjectId');
-      expect(teamProjectBelongsToConnectionInfo.targetNames).toContain('teamProjectName');
+      expect(teamProjectBelongsToConnectionInfo.targetNames[0]).toBe('teamProjectProjectId');
+      expect(teamProjectBelongsToConnectionInfo.targetNames[1]).toBe('teamProjectName');
       //belongsTo foreign key fields
       const teamProjectProjectIdField = models.Team.fields.find(field => field.name === 'teamProjectProjectId')!;
       const teamProjectNameField = models.Team.fields.find(field => field.name === 'teamProjectName')!;
@@ -1223,8 +1235,8 @@ describe('AppSyncModelVisitor', () => {
       expect(postCommentsConnectionInfo.associatedWith.name).toEqual('postCommentsId');
       const associatedWithFieldNames = postCommentsConnectionInfo.associatedWithFields.map(f => f.name);
       expect(associatedWithFieldNames.length).toEqual(2);
-      expect(associatedWithFieldNames).toContain('postCommentsId');
-      expect(associatedWithFieldNames).toContain('postCommentsTitle');
+      expect(associatedWithFieldNames[0]).toBe('postCommentsId');
+      expect(associatedWithFieldNames[1]).toBe('postCommentsTitle');
       const commetModelFields = models.Comment.fields;
       expect(commetModelFields.length).toBe(6);
       //hasMany foreign key fields
@@ -1254,8 +1266,8 @@ describe('AppSyncModelVisitor', () => {
       expect(projectTeamHasOneConnectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
       expect(projectTeamHasOneConnectionInfo.targetName).toEqual('projectTeamTeamId');
       expect(projectTeamHasOneConnectionInfo.targetNames.length).toBe(2);
-      expect(projectTeamHasOneConnectionInfo.targetNames).toContain('projectTeamTeamId');
-      expect(projectTeamHasOneConnectionInfo.targetNames).toContain('projectTeamName');
+      expect(projectTeamHasOneConnectionInfo.targetNames[0]).toBe('projectTeamTeamId');
+      expect(projectTeamHasOneConnectionInfo.targetNames[1]).toBe('projectTeamName');
       expect(projectTeamHasOneConnectionInfo.associatedWith).toEqual(teamPKField);
       expect(projectTeamHasOneConnectionInfo.associatedWithFields).toEqual([teamPKField, teamSKField]);
       //hasOne foreign key field
