@@ -1170,7 +1170,9 @@ export class AppSyncModelDartVisitor<
     if (this.selectedTypeIsNonModel()) {
       return [];
     }
-    // find the primary key field then get primaryKeyInfo
+    if (!this.config.respectPrimaryKeyAttributesOnConnectionField) {
+      return [model.fields.find(f => f.name === 'id')!]
+    }
     const primaryKeyField = this.getModelPrimaryKeyField(model);
     const { sortKeyFields } = primaryKeyField.primaryKeyInfo!;
     return [ primaryKeyField, ...sortKeyFields ];
