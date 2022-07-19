@@ -190,10 +190,15 @@ export class AppSyncModelJavaVisitor<
       const value = nonConnectedFields.includes(field) ? '' : 'null';
       this.generateModelField(field, value, classDeclarationBlock);
     });
-    const primaryKeyField = this.getModelPrimaryKeyField(model);
-    const { primaryKeyType, sortKeyFields } = primaryKeyField.primaryKeyInfo!;
-    const isCompositeKey = primaryKeyType === CodeGenPrimaryKeyType.CustomId && sortKeyFields.length > 0;
-    const isIdAsModelPrimaryKey = primaryKeyType !== CodeGenPrimaryKeyType.CustomId;
+    let isCompositeKey: boolean = false;
+    let isIdAsModelPrimaryKey: boolean = true;
+    if (this.isCustomPKEnabled()) {
+      const primaryKeyField = this.getModelPrimaryKeyField(model);
+      const { primaryKeyType, sortKeyFields } = primaryKeyField.primaryKeyInfo!;
+      isCompositeKey = primaryKeyType === CodeGenPrimaryKeyType.CustomId && sortKeyFields.length > 0;
+      isIdAsModelPrimaryKey = primaryKeyType !== CodeGenPrimaryKeyType.CustomId;
+    }
+
     if (isCompositeKey && this.isCustomPKEnabled()) {
       // Generate primary key class for composite key
       this.generateIdentifierClassField(model, classDeclarationBlock);
