@@ -280,6 +280,10 @@ class Comment extends Model {
     modelSchemaDefinition.name = \\"Comment\\";
     modelSchemaDefinition.pluralName = \\"Comments\\";
     
+    modelSchemaDefinition.indexes = [
+      ModelIndex(fields: const [\\"postID\\", \\"content\\"], name: \\"byPost\\")
+    ];
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
@@ -2135,6 +2139,10 @@ class Comment2 extends Model {
     modelSchemaDefinition.name = \\"Comment2\\";
     modelSchemaDefinition.pluralName = \\"Comment2s\\";
     
+    modelSchemaDefinition.indexes = [
+      ModelIndex(fields: const [\\"postID\\", \\"content\\"], name: \\"byPost\\")
+    ];
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
@@ -3178,6 +3186,10 @@ class Customer extends Model {
     modelSchemaDefinition.name = \\"Customer\\";
     modelSchemaDefinition.pluralName = \\"Customers\\";
     
+    modelSchemaDefinition.indexes = [
+      ModelIndex(fields: const [\\"accountRepresentativeID\\"], name: \\"byRepresentative\\")
+    ];
+    
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
@@ -3206,6 +3218,236 @@ class _CustomerModelType extends ModelType<Customer> {
   @override
   Customer fromJson(Map<String, dynamic> jsonData) {
     return Customer.fromJson(jsonData);
+  }
+}"
+`;
+
+exports[`AppSyncDartVisitor - GQLv2 Regression Tests model indexes should correct indexes for @primaryKey and @index directive 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
+
+import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:flutter/foundation.dart';
+
+
+/** This is an auto generated class representing the ModelWithPrimaryKey type in your schema. */
+@immutable
+class ModelWithPrimaryKey extends Model {
+  static const classType = const _ModelWithPrimaryKeyModelType();
+  final String id;
+  final String? _productID;
+  final String? _name;
+  final String? _content;
+  final String? _albumID;
+  final String? _categoryID;
+
+  @override
+  getInstanceType() => classType;
+  
+  @override
+  String getId() {
+    return id;
+  }
+  
+  String get productID {
+    try {
+      return _productID!;
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get name {
+    try {
+      return _name!;
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String? get content {
+    return _content;
+  }
+  
+  String get albumID {
+    try {
+      return _albumID!;
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get categoryID {
+    try {
+      return _categoryID!;
+    } catch(e) {
+      throw new DataStoreException(
+          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  const ModelWithPrimaryKey._internal({required this.id, required productID, required name, content, required albumID, required categoryID}): _productID = productID, _name = name, _content = content, _albumID = albumID, _categoryID = categoryID;
+  
+  factory ModelWithPrimaryKey({String? id, required String productID, required String name, String? content, required String albumID, required String categoryID}) {
+    return ModelWithPrimaryKey._internal(
+      id: id == null ? UUID.getUUID() : id,
+      productID: productID,
+      name: name,
+      content: content,
+      albumID: albumID,
+      categoryID: categoryID);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ModelWithPrimaryKey &&
+      id == other.id &&
+      _productID == other._productID &&
+      _name == other._name &&
+      _content == other._content &&
+      _albumID == other._albumID &&
+      _categoryID == other._categoryID;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"ModelWithPrimaryKey {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"productID=\\" + \\"$_productID\\" + \\", \\");
+    buffer.write(\\"name=\\" + \\"$_name\\" + \\", \\");
+    buffer.write(\\"content=\\" + \\"$_content\\" + \\", \\");
+    buffer.write(\\"albumID=\\" + \\"$_albumID\\" + \\", \\");
+    buffer.write(\\"categoryID=\\" + \\"$_categoryID\\");
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  ModelWithPrimaryKey copyWith({String? id, String? productID, String? name, String? content, String? albumID, String? categoryID}) {
+    return ModelWithPrimaryKey(
+      id: id ?? this.id,
+      productID: productID ?? this.productID,
+      name: name ?? this.name,
+      content: content ?? this.content,
+      albumID: albumID ?? this.albumID,
+      categoryID: categoryID ?? this.categoryID);
+  }
+  
+  ModelWithPrimaryKey.fromJson(Map<String, dynamic> json)  
+    : id = json['id'],
+      _productID = json['productID'],
+      _name = json['name'],
+      _content = json['content'],
+      _albumID = json['albumID'],
+      _categoryID = json['categoryID'];
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'productID': _productID, 'name': _name, 'content': _content, 'albumID': _albumID, 'categoryID': _categoryID
+  };
+
+  static final QueryField ID = QueryField(fieldName: \\"id\\");
+  static final QueryField PRODUCTID = QueryField(fieldName: \\"productID\\");
+  static final QueryField NAME = QueryField(fieldName: \\"name\\");
+  static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
+  static final QueryField ALBUMID = QueryField(fieldName: \\"albumID\\");
+  static final QueryField CATEGORYID = QueryField(fieldName: \\"categoryID\\");
+  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"ModelWithPrimaryKey\\";
+    modelSchemaDefinition.pluralName = \\"ModelWithPrimaryKeys\\";
+    
+    modelSchemaDefinition.indexes = [
+      ModelIndex(fields: const [\\"productID\\"], name: null),
+      ModelIndex(fields: const [\\"albumID\\", \\"name\\"], name: \\"byAlbum\\"),
+      ModelIndex(fields: const [\\"categoryID\\", \\"name\\", \\"content\\"], name: \\"byCategory\\")
+    ];
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: ModelWithPrimaryKey.PRODUCTID,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: ModelWithPrimaryKey.NAME,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: ModelWithPrimaryKey.CONTENT,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: ModelWithPrimaryKey.ALBUMID,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: ModelWithPrimaryKey.CATEGORYID,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+  });
+}
+
+class _ModelWithPrimaryKeyModelType extends ModelType<ModelWithPrimaryKey> {
+  const _ModelWithPrimaryKeyModelType();
+  
+  @override
+  ModelWithPrimaryKey fromJson(Map<String, dynamic> jsonData) {
+    return ModelWithPrimaryKey.fromJson(jsonData);
   }
 }"
 `;

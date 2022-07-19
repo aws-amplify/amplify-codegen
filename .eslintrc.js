@@ -119,6 +119,7 @@ module.exports = {
     'no-plusplus': 'off',
 
     // TODO enable later
+    'camelcase': 'off',
     'consistent-return': 'off', // https://eslint.org/docs/rules/consistent-return
     'no-console': 'off', // https://eslint.org/docs/rules/no-console
     'no-prototype-builtins': 'off', // https://eslint.org/docs/rules/no-prototype-builtins
@@ -138,7 +139,13 @@ module.exports = {
     'no-return-await': 'off', // https://eslint.org/docs/rules/no-return-await
 
     // TSLint existing rules
-    '@typescript-eslint/class-name-casing': 'error',
+    '@typescript-eslint/naming-convention': [
+      'error',
+      {
+        'selector': ['class', 'interface'],
+        'format': ['PascalCase'],
+      }
+    ],
     'curly': 'off', // Enable later
     'guard-for-in': 'error',
     'indent': 'off', // Enable later

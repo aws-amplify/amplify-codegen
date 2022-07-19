@@ -19,7 +19,7 @@ const getGQLv2Visitor = (
     builtSchema,
     {
       directives,
-      target: 'android',
+      target: 'java',
       generate,
       scalars: JAVA_SCALAR_MAP,
       isTimestampFieldsAdded: true,
