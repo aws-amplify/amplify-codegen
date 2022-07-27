@@ -682,7 +682,7 @@ export class AppSyncModelVisitor<
         },
         {
           type: 'ID',
-          isNullable: false,
+          isNullable: true,
           isList: false,
           name: firstModelKeyFieldName,
           directives: [
@@ -698,7 +698,7 @@ export class AppSyncModelVisitor<
         ...firstModelSortKeyFields.map(field => {
           return {
             type: field.type,
-            isNullable: false,
+            isNullable: true,
             isList: field.isList,
             name: this.generateIntermediateModelSortKeyFieldName(firstModel, field),
             directives: [],
@@ -706,7 +706,7 @@ export class AppSyncModelVisitor<
         }),
         {
           type: 'ID',
-          isNullable: false,
+          isNullable: true,
           isList: false,
           name: secondModelKeyFieldName,
           directives: [
@@ -722,7 +722,7 @@ export class AppSyncModelVisitor<
         ...secondModelSortKeyFields.map(field => {
           return {
             type: field.type,
-            isNullable: false,
+            isNullable: true,
             isList: field.isList,
             name: this.generateIntermediateModelSortKeyFieldName(secondModel, field),
             directives: [],

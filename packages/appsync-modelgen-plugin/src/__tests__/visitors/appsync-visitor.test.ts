@@ -953,11 +953,11 @@ describe('AppSyncModelVisitor', () => {
       const modelASortKeyField = ModelAModelB.fields.find(f => f.name === 'modelAsortId')!;
       expect(modelASortKeyField).toBeDefined();
       expect(modelASortKeyField.type).toEqual('ID');
-      expect(modelASortKeyField.isNullable).toBe(false);
+      expect(modelASortKeyField.isNullable).toBe(true);
       const modelBSortKeyField = ModelAModelB.fields.find(f => f.name === 'modelBsortId')!;
       expect(modelBSortKeyField).toBeDefined();
       expect(modelBSortKeyField.type).toEqual('ID');
-      expect(modelBSortKeyField.isNullable).toBe(false);
+      expect(modelBSortKeyField.isNullable).toBe(true);
       const modelAIndexDirective = ModelAModelB.directives.find(d => d.name === 'key' && d.arguments.name === 'byModelA')!;
       expect(modelAIndexDirective).toBeDefined();
       expect(modelAIndexDirective.arguments.fields).toEqual(['modelACustomId', 'modelAsortId']);
