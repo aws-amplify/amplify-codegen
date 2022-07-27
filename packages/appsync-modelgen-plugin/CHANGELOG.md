@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.0.2...@aws-amplify/appsync-modelgen-plugin@2.0.3) (2022-07-27)
+
+
+### Bug Fixes
+
+* **modelgen-js:** use optional fields for FK in manyToMany ([#462](https://github.com/aws-amplify/amplify-codegen/issues/462)) ([5c6c91c](https://github.com/aws-amplify/amplify-codegen/commit/5c6c91c0fea090962481f9c68c7762f11b54f1db))
+
+
+
+
+
 ## [2.0.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.0.0...@aws-amplify/appsync-modelgen-plugin@2.0.2) (2022-07-19)
 
 
