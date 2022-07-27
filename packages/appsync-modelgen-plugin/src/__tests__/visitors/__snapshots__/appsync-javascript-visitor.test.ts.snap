@@ -114,3 +114,58 @@ export declare class Team {
   static copyOf(source: Team, mutator: (draft: MutableModel<Team>) => MutableModel<Team> | void): Team;
 }"
 `;
+
+exports[`Javascript visitor with connected models of custom pk manyToMany relation should generate correct declaration for manyToMany model when custom pk is enabled 1`] = `
+"import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier, ManagedIdentifier } from \\"@aws-amplify/datastore\\";
+
+
+
+
+
+export declare class Post {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Post, ['customPostId', 'title']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly customPostId: string;
+  readonly title: string;
+  readonly content?: string | null;
+  readonly tags?: (PostTags | null)[] | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<Post>);
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+}
+
+export declare class Tag {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Tag, ['customTagId', 'label']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly customTagId: string;
+  readonly label: string;
+  readonly posts?: (PostTags | null)[] | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<Tag>);
+  static copyOf(source: Tag, mutator: (draft: MutableModel<Tag>) => MutableModel<Tag> | void): Tag;
+}
+
+export declare class PostTags {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<PostTags, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly postCustomPostId?: string | null;
+  readonly posttitle?: string | null;
+  readonly tagCustomTagId?: string | null;
+  readonly taglabel?: string | null;
+  readonly post: Post;
+  readonly tag: Tag;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<PostTags>);
+  static copyOf(source: PostTags, mutator: (draft: MutableModel<PostTags>) => MutableModel<PostTags> | void): PostTags;
+}"
+`;

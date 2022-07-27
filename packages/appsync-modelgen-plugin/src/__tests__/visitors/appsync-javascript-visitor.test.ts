@@ -885,4 +885,30 @@ describe('Javascript visitor with connected models of custom pk', () => {
       expect(declarations).toMatchSnapshot();
     });
   });
+  describe('manyToMany relation', () => {
+    it('should generate correct declaration for manyToMany model when custom pk is enabled', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          customPostId: ID! @primaryKey(sortKeyFields: ["title"])
+          title: String!
+          content: String
+          tags: [Tag] @manyToMany(relationName: "PostTags")
+        }
+        type Tag @model {
+          customTagId: ID! @primaryKey(sortKeyFields: ["label"])
+          label: String!
+          posts: [Post] @manyToMany(relationName: "PostTags")
+        }
+      `;
+      const visitor = getVisitor(schema, {
+        isDeclaration: true,
+        isTimestampFieldsAdded: true,
+        respectPrimaryKeyAttributesOnConnectionField: true,
+        transformerVersion: 2,
+      });
+      const declarations = visitor.generate();
+      validateTs(declarations);
+      expect(declarations).toMatchSnapshot();
+    });
+  });
 });
