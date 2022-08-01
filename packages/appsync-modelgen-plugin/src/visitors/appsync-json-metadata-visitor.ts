@@ -173,7 +173,11 @@ export class AppSyncJSONVisitor<
       const { connectionInfo } = field;
       const connectionAttribute: any = { connectionType: connectionInfo.kind };
       if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
-        connectionAttribute.associatedWith = this.getFieldName(connectionInfo.associatedWith);
+        if (this.isCustomPKEnabled()) {
+          connectionAttribute.associatedWith = connectionInfo.associatedWithFields.map(f => this.getFieldName(f));
+        } else {
+          connectionAttribute.associatedWith = this.getFieldName(connectionInfo.associatedWith);
+        }
       } else if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
         if (this.isCustomPKEnabled()) {
           connectionAttribute.associatedWith = connectionInfo.associatedWithFields.map(f => this.getFieldName(f));
