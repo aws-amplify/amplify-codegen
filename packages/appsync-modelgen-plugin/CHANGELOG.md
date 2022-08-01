@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.4](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.0.3...@aws-amplify/appsync-modelgen-plugin@2.0.4) (2022-08-01)
+
+
+### Bug Fixes
+
+* **modelgen-js:** use string array for associateWith ([#464](https://github.com/aws-amplify/amplify-codegen/issues/464)) ([45d4010](https://github.com/aws-amplify/amplify-codegen/commit/45d401026af006942a1070ce3b8106afdb4ad6b8))
+
+
+
+
+
 ## [2.0.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.0.2...@aws-amplify/appsync-modelgen-plugin@2.0.3) (2022-07-27)
 
 
