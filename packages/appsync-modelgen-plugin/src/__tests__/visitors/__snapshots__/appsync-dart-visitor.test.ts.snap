@@ -8148,7 +8148,7 @@ class _ModelWithImplicitIDModelType extends ModelType<ModelWithImplicitID> {
   }
 }
 
-/**
+/** 
  * This is an auto generated class representing the model identifier
  * of [ModelWithImplicitID] in your schema.
  */
@@ -8355,7 +8355,7 @@ class _ModelWithExplicitIDModelType extends ModelType<ModelWithExplicitID> {
   }
 }
 
-/**
+/** 
  * This is an auto generated class representing the model identifier
  * of [ModelWithExplicitID] in your schema.
  */
@@ -8557,7 +8557,7 @@ class _ModelWithExplicitIDAndSDIModelType extends ModelType<ModelWithExplicitIDA
   }
 }
 
-/**
+/** 
  * This is an auto generated class representing the model identifier
  * of [ModelWithExplicitIDAndSDI] in your schema.
  */
@@ -8805,7 +8805,7 @@ class _ModelWithIDPlusSortKeysModelType extends ModelType<ModelWithIDPlusSortKey
   }
 }
 
-/**
+/** 
  * This is an auto generated class representing the model identifier
  * of [ModelWithIDPlusSortKeys] in your schema.
  */
@@ -8815,7 +8815,7 @@ class ModelWithIDPlusSortKeysModelIdentifier implements ModelIdentifier<ModelWit
   final String title;
   final int rating;
 
-  /**
+  /** 
    * Create an instance of ModelWithIDPlusSortKeysModelIdentifier using [id] the primary key.
    * And [title], [rating] the sort keys.
    */
@@ -9055,7 +9055,7 @@ class _ModelWithExplicitlyDefinedPKModelType extends ModelType<ModelWithExplicit
   }
 }
 
-/**
+/** 
  * This is an auto generated class representing the model identifier
  * of [ModelWithExplicitlyDefinedPK] in your schema.
  */
@@ -9320,7 +9320,7 @@ class _ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelType extends M
   }
 }
 
-/**
+/** 
  * This is an auto generated class representing the model identifier
  * of [ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey] in your schema.
  */
@@ -9330,7 +9330,7 @@ class ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelIdentifier impl
   final String title;
   final int rating;
 
-  /**
+  /** 
    * Create an instance of ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelIdentifier using [modelID] the primary key.
    * And [title], [rating] the sort keys.
    */
@@ -9580,7 +9580,7 @@ class _PostModelType extends ModelType<Post> {
   }
 }
 
-/**
+/** 
  * This is an auto generated class representing the model identifier
  * of [Post] in your schema.
  */
@@ -9589,7 +9589,7 @@ class PostModelIdentifier implements ModelIdentifier<Post> {
   final String id;
   final String title;
 
-  /**
+  /** 
    * Create an instance of PostModelIdentifier using [id] the primary key.
    * And [title] the sort key.
    */
@@ -9843,7 +9843,7 @@ class _CommentModelType extends ModelType<Comment> {
   }
 }
 
-/**
+/** 
  * This is an auto generated class representing the model identifier
  * of [Comment] in your schema.
  */
@@ -9852,7 +9852,7 @@ class CommentModelIdentifier implements ModelIdentifier<Comment> {
   final String id;
   final String content;
 
-  /**
+  /** 
    * Create an instance of CommentModelIdentifier using [id] the primary key.
    * And [content] the sort key.
    */
@@ -10145,7 +10145,7 @@ class _ProjectModelType extends ModelType<Project> {
   }
 }
 
-/**
+/** 
  * This is an auto generated class representing the model identifier
  * of [Project] in your schema.
  */
@@ -10154,7 +10154,7 @@ class ProjectModelIdentifier implements ModelIdentifier<Project> {
   final String projectId;
   final String name;
 
-  /**
+  /** 
    * Create an instance of ProjectModelIdentifier using [projectId] the primary key.
    * And [name] the sort key.
    */
@@ -10414,7 +10414,7 @@ class _TeamModelType extends ModelType<Team> {
   }
 }
 
-/**
+/** 
  * This is an auto generated class representing the model identifier
  * of [Team] in your schema.
  */
@@ -10423,7 +10423,7 @@ class TeamModelIdentifier implements ModelIdentifier<Team> {
   final String teamId;
   final String name;
 
-  /**
+  /** 
    * Create an instance of TeamModelIdentifier using [teamId] the primary key.
    * And [name] the sort key.
    */
@@ -10699,7 +10699,7 @@ class _CpkOneToOneBidirectionalParentModelType extends ModelType<CpkOneToOneBidi
   }
 }
 
-/**
+/** 
  * This is an auto generated class representing the model identifier
  * of [CpkOneToOneBidirectionalParent] in your schema.
  */
@@ -10708,7 +10708,7 @@ class CpkOneToOneBidirectionalParentModelIdentifier implements ModelIdentifier<C
   final String id;
   final String name;
 
-  /**
+  /** 
    * Create an instance of CpkOneToOneBidirectionalParentModelIdentifier using [id] the primary key.
    * And [name] the sort key.
    */
@@ -10951,7 +10951,7 @@ class _CpkOneToOneBidirectionalChildExplicitModelType extends ModelType<CpkOneTo
   }
 }
 
-/**
+/** 
  * This is an auto generated class representing the model identifier
  * of [CpkOneToOneBidirectionalChildExplicit] in your schema.
  */
@@ -10960,7 +10960,7 @@ class CpkOneToOneBidirectionalChildExplicitModelIdentifier implements ModelIdent
   final String id;
   final String name;
 
-  /**
+  /** 
    * Create an instance of CpkOneToOneBidirectionalChildExplicitModelIdentifier using [id] the primary key.
    * And [name] the sort key.
    */
