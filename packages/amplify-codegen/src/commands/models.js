@@ -84,6 +84,7 @@ async function generateModels(context) {
   const emitAuthProvider = readFeatureFlag('codegen.emitAuthProvider');
   const usePipelinedTransformer = readFeatureFlag('graphQLTransformer.useExperimentalPipelinedTransformer')
   const transformerVersion = readNumericFeatureFlag('graphQLTransformer.transformerVersion');
+  const respectPrimaryKeyAttributesOnConnectionField = readFeatureFlag('graphQLTransformer.respectPrimaryKeyAttributesOnConnectionField');
   const improvePluralization = readFeatureFlag('graphQLTransformer.improvePluralization');
 
   let isTimestampFieldsAdded = readFeatureFlag('codegen.addTimestampFields');
@@ -127,6 +128,7 @@ async function generateModels(context) {
       enableDartZeroThreeFeatures,
       transformerVersion,
       dartUpdateAmplifyCoreDependency,
+      respectPrimaryKeyAttributesOnConnectionField,
       improvePluralization,
     },
   });

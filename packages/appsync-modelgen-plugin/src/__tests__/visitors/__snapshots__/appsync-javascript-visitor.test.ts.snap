@@ -1,0 +1,171 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Javascript visitor with connected models of custom pk hasMany/belongsTo relation should generate correct declaration for hasMany bi-connection model when custom pk support is enabled 1`] = `
+"import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
+
+
+
+
+
+export declare class Post {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Post, ['customPostId', 'title']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly customPostId: string;
+  readonly title: string;
+  readonly comments?: (Comment | null)[] | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<Post>);
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+}
+
+export declare class Comment {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Comment, ['customPostId', 'content']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly customPostId: string;
+  readonly content: string;
+  readonly post?: Post | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly postCommentsCustomPostId?: string | null;
+  readonly postCommentsTitle?: string | null;
+  constructor(init: ModelInit<Comment>);
+  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
+}"
+`;
+
+exports[`Javascript visitor with connected models of custom pk hasMany/belongsTo relation should generate correct declaration for hasMany uni-connection model when custom pk support is enabled 1`] = `
+"import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
+
+
+
+
+
+export declare class Post {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Post, ['id', 'title']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly title: string;
+  readonly comments?: (Comment | null)[] | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<Post>);
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+}
+
+export declare class Comment {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Comment, ['id', 'content']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly content: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly postCommentsId?: string | null;
+  readonly postCommentsTitle?: string | null;
+  constructor(init: ModelInit<Comment>);
+  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
+}"
+`;
+
+exports[`Javascript visitor with connected models of custom pk hasOne/belongsTo relation should generate correct declaration when custom pk support is enabled 1`] = `
+"import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
+
+
+
+
+
+export declare class Project {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Project, ['id', 'name']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly name: string;
+  readonly team?: Team | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly projectTeamId?: string | null;
+  readonly projectTeamName?: string | null;
+  constructor(init: ModelInit<Project>);
+  static copyOf(source: Project, mutator: (draft: MutableModel<Project>) => MutableModel<Project> | void): Project;
+}
+
+export declare class Team {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Team, ['id', 'name']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly name: string;
+  readonly project?: Project | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly teamProjectId?: string | null;
+  readonly teamProjectName?: string | null;
+  constructor(init: ModelInit<Team>);
+  static copyOf(source: Team, mutator: (draft: MutableModel<Team>) => MutableModel<Team> | void): Team;
+}"
+`;
+
+exports[`Javascript visitor with connected models of custom pk manyToMany relation should generate correct declaration for manyToMany model when custom pk is enabled 1`] = `
+"import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier, ManagedIdentifier } from \\"@aws-amplify/datastore\\";
+
+
+
+
+
+export declare class Post {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Post, ['customPostId', 'title']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly customPostId: string;
+  readonly title: string;
+  readonly content?: string | null;
+  readonly tags?: (PostTags | null)[] | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<Post>);
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+}
+
+export declare class Tag {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Tag, ['customTagId', 'label']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly customTagId: string;
+  readonly label: string;
+  readonly posts?: (PostTags | null)[] | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<Tag>);
+  static copyOf(source: Tag, mutator: (draft: MutableModel<Tag>) => MutableModel<Tag> | void): Tag;
+}
+
+export declare class PostTags {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<PostTags, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly postCustomPostId?: string | null;
+  readonly posttitle?: string | null;
+  readonly tagCustomTagId?: string | null;
+  readonly taglabel?: string | null;
+  readonly post: Post;
+  readonly tag: Tag;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<PostTags>);
+  static copyOf(source: PostTags, mutator: (draft: MutableModel<PostTags>) => MutableModel<PostTags> | void): PostTags;
+}"
+`;

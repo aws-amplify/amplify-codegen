@@ -21,9 +21,9 @@ import {
   parse,
   valueFromASTUntyped,
 } from 'graphql';
-import { addFieldToModel, getDirective, removeFieldFromModel } from '../utils/fieldUtils';
+import { addFieldToModel, getModelPrimaryKeyComponentFields, removeFieldFromModel, toCamelCase } from '../utils/fieldUtils';
 import { getTypeInfo } from '../utils/get-type-info';
-import { CodeGenConnectionType, CodeGenFieldConnection, processConnections } from '../utils/process-connections';
+import { CodeGenConnectionType, CodeGenFieldConnection, flattenFieldDirectives, processConnections } from '../utils/process-connections';
 import { sortFields } from '../utils/sort';
 import { printWarning } from '../utils/warn';
 import { processAuthDirective } from '../utils/process-auth';
@@ -31,6 +31,7 @@ import { processConnectionsV2 } from '../utils/process-connections-v2';
 import { graphqlName, toUpper } from 'graphql-transformer-common';
 import { processPrimaryKey } from '../utils/process-primary-key';
 import { processIndex } from '../utils/process-index';
+import { DEFAULT_HASH_KEY_FIELD, DEFAULT_CREATED_TIME, DEFAULT_UPDATED_TIME } from '../utils/constants';
 
 export enum CodeGenGenerateEnum {
   metadata = 'metadata',
@@ -125,6 +126,12 @@ export interface RawAppSyncModelConfig extends RawConfig {
    */
   transformerVersion?: number;
   /**
+   * @name respectPrimaryKeyAttributesOnConnectionField
+   * @type boolean
+   * @descriptions optional boolean which determines whether to use custom primary key support
+   */
+  respectPrimaryKeyAttributesOnConnectionField?: boolean;
+  /**
    * @name improvePluralization
    * @type boolean
    * @descriptions optional boolean which determines whether improved pluralization logic should be used
@@ -141,6 +148,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   handleListNullabilityTransparently?: boolean;
   usePipelinedTransformer?: boolean;
   transformerVersion?: number;
+  respectPrimaryKeyAttributesOnConnectionField?: boolean;
   improvePluralization?: boolean;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
@@ -160,7 +168,17 @@ export type CodeGenField = TypeInfo & {
   directives: CodeGenDirectives;
   connectionInfo?: CodeGenFieldConnection;
   isReadOnly?: boolean;
+  primaryKeyInfo?: CodeGenPrimaryKeyFieldInfo;
 };
+export type CodeGenPrimaryKeyFieldInfo = {
+  primaryKeyType: CodeGenPrimaryKeyType;
+  sortKeyFields: CodeGenField[];
+};
+export enum CodeGenPrimaryKeyType {
+  ManagedId = 'ManagedId',
+  OptionallyManagedId = 'OptionallyManagedId',
+  CustomId = 'CustomId',
+}
 export type TypeInfo = {
   type: string;
   isList: boolean;
@@ -195,9 +213,6 @@ type ManyToManyContext = {
   directive: CodeGenDirective;
 };
 
-const DEFAULT_CREATED_TIME = 'createdAt';
-const DEFAULT_UPDATED_TIME = 'updatedAt';
-
 export class AppSyncModelVisitor<
   TRawConfig extends RawAppSyncModelConfig = RawAppSyncModelConfig,
   TPluginConfig extends ParsedAppSyncModelConfig = ParsedAppSyncModelConfig
@@ -222,6 +237,7 @@ export class AppSyncModelVisitor<
       handleListNullabilityTransparently: rawConfig.handleListNullabilityTransparently,
       usePipelinedTransformer: rawConfig.usePipelinedTransformer,
       transformerVersion: rawConfig.transformerVersion,
+      respectPrimaryKeyAttributesOnConnectionField: rawConfig.respectPrimaryKeyAttributesOnConnectionField,
       improvePluralization: rawConfig.improvePluralization,
     });
 
@@ -260,7 +276,11 @@ export class AppSyncModelVisitor<
         directives,
         fields,
       };
-      this.ensureIdField(model);
+      if (this.config.respectPrimaryKeyAttributesOnConnectionField) {
+        this.ensurePrimaryKeyField(model, directives);
+      } else {
+        this.ensureIdField(model);
+      }
       this.addTimestampFields(model, modelDirective);
       this.sortFields(model);
       this.modelMap[node.name.value] = model;
@@ -436,6 +456,10 @@ export class AppSyncModelVisitor<
     return constantCase(value);
   }
 
+  protected getModelPrimaryKeyField(model: CodeGenModel): CodeGenField {
+    return model.fields.find(field => field.primaryKeyInfo)!;
+  }
+
   protected isEnumType(field: CodeGenField): boolean {
     const typeName = field.type;
     return typeName in this.enumMap;
@@ -508,12 +532,99 @@ export class AppSyncModelVisitor<
     }, [] as CodeGenField[]);
   }
 
+  /**
+   * Check out if primary key field exists in the model and generate primary key info
+   * @param model type defined with model directives
+   * @param directives directives defined at the type level of the model above
+   */
+  protected ensurePrimaryKeyField(model: CodeGenModel, directives: CodeGenDirective[]) {
+    //Transformer V2
+    if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
+      this.ensurePrimaryKeyFieldV2(model, directives);
+    }
+    //Transformer V1
+    else {
+      this.ensurePrimaryKeyFieldV1(model, directives);
+    }
+  }
+
+  /**
+   * Check out if primary key field exists in the transformer V2 model and generate primary key info
+   * @param model type defined with model directives
+   * @param directives directives defined at the type level of the model above
+   */
+  protected ensurePrimaryKeyFieldV2(model: CodeGenModel, directives: CodeGenDirective[]) {
+    let primaryKeyFieldName: string;
+    let primaryKeyField: CodeGenField;
+    const fieldWithPrimaryKeyDirective = model.fields.find(f => f.directives.find(dir => dir.name === 'primaryKey'));
+    //No @primaryKey found, default to 'id' field
+    if (!fieldWithPrimaryKeyDirective) {
+      primaryKeyFieldName = DEFAULT_HASH_KEY_FIELD;
+      this.ensureIdField(model);
+      primaryKeyField = this.getPrimaryKeyFieldByName(model, primaryKeyFieldName);
+      //Managed Id Type
+      primaryKeyField.primaryKeyInfo = {
+        primaryKeyType: CodeGenPrimaryKeyType.ManagedId,
+        sortKeyFields: [],
+      };
+    } else {
+      primaryKeyFieldName = fieldWithPrimaryKeyDirective.name;
+      primaryKeyField = this.getPrimaryKeyFieldByName(model, primaryKeyFieldName);
+      const sortKeyFieldNames: string[] = flattenFieldDirectives(model).find(d => d.name === 'primaryKey')?.arguments.sortKeyFields;
+      const sortKeyFields = sortKeyFieldNames?.length > 0 ? sortKeyFieldNames.map(fieldName => model.fields.find(f => f.name === fieldName)!): [];
+      primaryKeyField.primaryKeyInfo = {
+        primaryKeyType: primaryKeyFieldName === DEFAULT_HASH_KEY_FIELD && sortKeyFields.length === 0 ? CodeGenPrimaryKeyType.OptionallyManagedId : CodeGenPrimaryKeyType.CustomId,
+        sortKeyFields
+      };
+    }
+  }
+
+  /**
+   * Check out if primary key field exists in the transformer V1 model and generate primary key info
+   * @param model type defined with model directives
+   * @param directives directives defined at the type level of the model above
+   */
+  protected ensurePrimaryKeyFieldV1(model: CodeGenModel, directives: CodeGenDirective[]) {
+    let primaryKeyFieldName: string;
+    let primaryKeyField: CodeGenField;
+    const keyDirective = directives.find(d => d.name === 'key' && !d.arguments.name);
+    if (keyDirective) {
+      primaryKeyFieldName = keyDirective.arguments.fields[0]!;
+      primaryKeyField = this.getPrimaryKeyFieldByName(model, primaryKeyFieldName);
+      const sortKeyFieldNames: string[] = keyDirective.arguments.fields.slice(1);
+      const sortKeyFields = sortKeyFieldNames?.length > 0 ? sortKeyFieldNames.map(fieldName => model.fields.find(f => f.name === fieldName)!): [];
+      primaryKeyField.primaryKeyInfo = {
+        primaryKeyType: primaryKeyFieldName === DEFAULT_HASH_KEY_FIELD && sortKeyFields.length === 0 ? CodeGenPrimaryKeyType.OptionallyManagedId : CodeGenPrimaryKeyType.CustomId,
+        sortKeyFields,
+      };
+    }
+    //default primary key field as id
+    else {
+      primaryKeyFieldName = DEFAULT_HASH_KEY_FIELD;
+      this.ensureIdField(model);
+      primaryKeyField = this.getPrimaryKeyFieldByName(model, primaryKeyFieldName);
+      //Managed Id Type
+      primaryKeyField.primaryKeyInfo = {
+        primaryKeyType: CodeGenPrimaryKeyType.ManagedId,
+        sortKeyFields: [],
+      };
+    }
+  }
+
+  protected getPrimaryKeyFieldByName(model: CodeGenModel, primaryKeyFieldName: string): CodeGenField {
+    const primaryKeyField = model.fields.find(f => f.name === primaryKeyFieldName);
+    if (!primaryKeyField) {
+      throw new Error(`Cannot find primary key field in type ${model.name}`);
+    }
+    if (primaryKeyField.isNullable) {
+      throw new Error(`The primary key on type '${model.name}' must reference non-null fields.`);
+    }
+    return primaryKeyField;
+  }
+
   protected ensureIdField(model: CodeGenModel) {
-    const idField = model.fields.find(field => field.name === 'id');
+    const idField = model.fields.find(field => field.name === DEFAULT_HASH_KEY_FIELD);
     if (idField) {
-      if (idField.type !== 'ID') {
-        throw new Error(`id field on ${model.name} should be of type ID`);
-      }
       // Make id field required
       idField.isNullable = false;
     } else {
@@ -560,9 +671,9 @@ export class AppSyncModelVisitor<
   }
 
   protected generateIntermediateModel(firstModel: CodeGenModel, secondModel: CodeGenModel, relationName: string) {
-    const firstModelKeyFieldName = `${camelCase(firstModel.name)}ID`;
+    const firstModelKeyFieldName = this.generateIntermediateModelPrimaryKeyFieldName(firstModel)
     const firstModelSortKeyFields: CodeGenField[] = this.getSortKeyFields(firstModel);
-    const secondModelKeyFieldName = `${camelCase(secondModel.name)}ID`;
+    const secondModelKeyFieldName = this.generateIntermediateModelPrimaryKeyFieldName(secondModel);
     const secondModelSortKeyFields: CodeGenField[] = this.getSortKeyFields(secondModel);
 
     let intermediateModel: CodeGenModel = {
@@ -579,7 +690,7 @@ export class AppSyncModelVisitor<
         },
         {
           type: 'ID',
-          isNullable: false,
+          isNullable: true,
           isList: false,
           name: firstModelKeyFieldName,
           directives: [
@@ -595,7 +706,7 @@ export class AppSyncModelVisitor<
         ...firstModelSortKeyFields.map(field => {
           return {
             type: field.type,
-            isNullable: false,
+            isNullable: true,
             isList: field.isList,
             name: this.generateIntermediateModelSortKeyFieldName(firstModel, field),
             directives: [],
@@ -603,7 +714,7 @@ export class AppSyncModelVisitor<
         }),
         {
           type: 'ID',
-          isNullable: false,
+          isNullable: true,
           isList: false,
           name: secondModelKeyFieldName,
           directives: [
@@ -619,7 +730,7 @@ export class AppSyncModelVisitor<
         ...secondModelSortKeyFields.map(field => {
           return {
             type: field.type,
-            isNullable: false,
+            isNullable: true,
             isList: field.isList,
             name: this.generateIntermediateModelSortKeyFieldName(secondModel, field),
             directives: [],
@@ -630,19 +741,27 @@ export class AppSyncModelVisitor<
           isNullable: false,
           isList: false,
           name: camelCase(firstModel.name),
-          directives: [{ name: 'belongsTo', arguments: { fields: [firstModelKeyFieldName] } }],
+          directives: [{ name: 'belongsTo', arguments: { fields: [firstModelKeyFieldName, ...firstModelSortKeyFields.map(f => this.generateIntermediateModelSortKeyFieldName(firstModel, f))] } }],
         },
         {
           type: secondModel.name,
           isNullable: false,
           isList: false,
           name: camelCase(secondModel.name),
-          directives: [{ name: 'belongsTo', arguments: { fields: [secondModelKeyFieldName] } }],
+          directives: [{ name: 'belongsTo', arguments: { fields: [secondModelKeyFieldName, ...secondModelSortKeyFields.map(f => this.generateIntermediateModelSortKeyFieldName(secondModel, f))] } }],
         },
       ],
     };
 
     return intermediateModel;
+  }
+
+  protected generateIntermediateModelPrimaryKeyFieldName(model: CodeGenModel): string {
+    if (this.isCustomPKEnabled()) {
+      const primaryKeyField = model.fields.find(f => f.primaryKeyInfo)!;
+      return toCamelCase([model.name, primaryKeyField.name]);
+    }
+    return `${camelCase(model.name)}ID`;
   }
 
   protected generateIntermediateModelSortKeyFieldName(model: CodeGenModel, sortKeyField: CodeGenField): string {
@@ -678,7 +797,7 @@ export class AppSyncModelVisitor<
         context.field.type = graphqlName(toUpper(context.directive.arguments.relationName));
         context.field.directives.push({
           name: 'hasMany',
-          arguments: { indexName: `by${context.model.name}`, fields: [this.determinePrimaryKeyFieldname(context.model)] },
+          arguments: { indexName: `by${context.model.name}`, fields: [this.determinePrimaryKeyFieldname(context.model), ...this.getSortKeyFields(context.model).map(f => this.getFieldName(f))] },
         });
       } else {
         throw new Error('manyToMany directive not found on manyToMany field...');
@@ -722,7 +841,7 @@ export class AppSyncModelVisitor<
         // Maps @primaryKey and @index of intermediate model to old @key
         processPrimaryKey(intermediateModel);
         processIndex(intermediateModel);
-        this.ensureIdField(intermediateModel);
+        this.ensurePrimaryKeyField(intermediateModel, intermediateModel.directives);
         this.addTimestampFields(intermediateModel, modelDirective);
         this.sortFields(intermediateModel);
       }
@@ -738,21 +857,61 @@ export class AppSyncModelVisitor<
   ): void {
     this.processManyToManyDirectives();
 
+    const isCustomPKEnabled = this.isCustomPKEnabled();
+
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
-        const connectionInfo = processConnectionsV2(field, model, this.modelMap, shouldUseModelNameFieldInHasManyAndBelongsTo);
+        const connectionInfo = processConnectionsV2(field, model, this.modelMap, shouldUseModelNameFieldInHasManyAndBelongsTo, isCustomPKEnabled);
         if (connectionInfo) {
           if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
             // Need to update the other side of the connection even if there is no connection directive
-            addFieldToModel(connectionInfo.connectedModel, connectionInfo.associatedWith);
+            if (isCustomPKEnabled) {
+              connectionInfo.associatedWithFields.forEach(associateField => addFieldToModel(connectionInfo.connectedModel, associateField));
+            } else {
+              addFieldToModel(connectionInfo.connectedModel, connectionInfo.associatedWith);
+            }
           } else if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
-            addFieldToModel(model, {
-              name: connectionInfo.targetName,
-              directives: [],
-              type: 'ID',
-              isList: false,
-              isNullable: field.isNullable,
-            });
+            if (isCustomPKEnabled) {
+              const connectedModelFields = getModelPrimaryKeyComponentFields(connectionInfo.connectedModel);
+              connectionInfo.targetNames.forEach((target, index) => {
+                addFieldToModel(model, {
+                  name: target,
+                  directives: [],
+                  type: connectedModelFields[index].type,
+                  isList: false,
+                  isNullable: field.isNullable,
+                });
+              })
+            } else {
+              addFieldToModel(model, {
+                name: connectionInfo.targetName,
+                directives: [],
+                type: 'ID',
+                isList: false,
+                isNullable: field.isNullable,
+              });
+            }
+          } else if (connectionInfo.kind === CodeGenConnectionType.BELONGS_TO) {
+            if (isCustomPKEnabled) {
+              const connectedModelFields = getModelPrimaryKeyComponentFields(connectionInfo.connectedModel);
+              connectionInfo.targetNames.forEach((target, index) => {
+                addFieldToModel(model, {
+                  name: target,
+                  directives: [],
+                  type: connectedModelFields[index].type,
+                  isList: false,
+                  isNullable: field.isNullable,
+                });
+              })
+            } else {
+              addFieldToModel(model, {
+                name: connectionInfo.targetName,
+                directives: [],
+                type: 'ID',
+                isList: false,
+                isNullable: field.isNullable,
+              });
+            }
           }
           field.connectionInfo = connectionInfo;
         }
@@ -774,21 +933,41 @@ export class AppSyncModelVisitor<
         return true;
       });
     });
-
-    Object.values(this.modelMap).forEach(model => {
-      model.fields.forEach(field => {
-        const connectionInfo = field.connectionInfo;
-        if (
-          connectionInfo &&
-          connectionInfo.kind !== CodeGenConnectionType.HAS_MANY &&
-          connectionInfo.kind !== CodeGenConnectionType.HAS_ONE &&
-          connectionInfo.targetName !== 'id'
-        ) {
-          // Need to remove the field that is targetName
-          removeFieldFromModel(model, connectionInfo.targetName);
-        }
+    // Remove foreign keys in belongsTo models
+    if(isCustomPKEnabled) {
+      // The native platforms need to remove targetNames fields in belongsTo model
+      if (['java', 'swift', 'dart'].includes(this.config.target ?? '')) {
+        Object.values(this.modelMap).forEach(model => {
+          model.fields.forEach(field => {
+            const connectionInfo = field.connectionInfo;
+            if (
+              connectionInfo &&
+              connectionInfo.kind !== CodeGenConnectionType.HAS_MANY &&
+              connectionInfo.kind !== CodeGenConnectionType.HAS_ONE &&
+              connectionInfo.targetName !== 'id'
+            ) {
+              // Need to remove the field that is targetName
+              connectionInfo.targetNames.forEach(targetName => removeFieldFromModel(model, targetName));
+            }
+          });
+        });
+      }
+    } else {
+      Object.values(this.modelMap).forEach(model => {
+        model.fields.forEach(field => {
+          const connectionInfo = field.connectionInfo;
+          if (
+            connectionInfo &&
+            connectionInfo.kind !== CodeGenConnectionType.HAS_MANY &&
+            connectionInfo.kind !== CodeGenConnectionType.HAS_ONE &&
+            connectionInfo.targetName !== 'id'
+          ) {
+            // Need to remove the field that is targetName
+            removeFieldFromModel(model, connectionInfo.targetName);
+          }
+        });
       });
-    });
+    }
   }
 
   protected processV2KeyDirectives(): void {
@@ -861,6 +1040,13 @@ export class AppSyncModelVisitor<
    */
   protected isRequiredField(field: CodeGenField): boolean | undefined {
     return !(this.config.handleListNullabilityTransparently ? (field.isList ? field.isListNullable : field.isNullable) : field.isNullable);
+  }
+
+  /**
+   * Check if custom PK is enabled
+   */
+  protected isCustomPKEnabled(): boolean {
+    return (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) && (this.config.respectPrimaryKeyAttributesOnConnectionField ?? false);
   }
 
   get models() {

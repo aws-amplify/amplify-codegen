@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.4](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.0.3...@aws-amplify/appsync-modelgen-plugin@2.0.4) (2022-08-01)
+
+
+### Bug Fixes
+
+* **modelgen-js:** use string array for associateWith ([#464](https://github.com/aws-amplify/amplify-codegen/issues/464)) ([45d4010](https://github.com/aws-amplify/amplify-codegen/commit/45d401026af006942a1070ce3b8106afdb4ad6b8))
+
+
+
+
+
+## [2.0.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.0.2...@aws-amplify/appsync-modelgen-plugin@2.0.3) (2022-07-27)
+
+
+### Bug Fixes
+
+* **modelgen-js:** use optional fields for FK in manyToMany ([#462](https://github.com/aws-amplify/amplify-codegen/issues/462)) ([5c6c91c](https://github.com/aws-amplify/amplify-codegen/commit/5c6c91c0fea090962481f9c68c7762f11b54f1db))
+
+
+
+
+
+## [2.0.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.0.0...@aws-amplify/appsync-modelgen-plugin@2.0.2) (2022-07-19)
+
+
+### Bug Fixes
+
+* **appsync-dart-visitor:** generate correct model id filed name ([#429](https://github.com/aws-amplify/amplify-codegen/issues/429)) ([59f049d](https://github.com/aws-amplify/amplify-codegen/commit/59f049dbb4dbe80f7a2767ccd3105abb3e017120))
+
+
+
+
+
 ## [2.0.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.0.0...@aws-amplify/appsync-modelgen-plugin@2.0.1) (2022-07-05)
 
 
