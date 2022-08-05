@@ -82,10 +82,10 @@ extension Post {
 
 extension Post: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Custom
-  public typealias Identifier = ModelIdentifier<Self, ModelIdentifierFormat.Custom>
+  public typealias IdentifierProtocol = ModelIdentifier<Self, ModelIdentifierFormat.Custom>
 }
 
-extension Post.Identifier {
+extension Post.IdentifierProtocol {
   public static func identifier(id: String,
       title: String) -> Self {
     .make(fields:[(name: \\"id\\", value: id), (name: \\"title\\", value: title)])
@@ -175,10 +175,10 @@ extension Comment {
 
 extension Comment: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Custom
-  public typealias Identifier = ModelIdentifier<Self, ModelIdentifierFormat.Custom>
+  public typealias IdentifierProtocol = ModelIdentifier<Self, ModelIdentifierFormat.Custom>
 }
 
-extension Comment.Identifier {
+extension Comment.IdentifierProtocol {
   public static func identifier(id: String,
       content: String) -> Self {
     .make(fields:[(name: \\"id\\", value: id), (name: \\"content\\", value: content)])
@@ -261,10 +261,10 @@ extension ModelCompositePk {
 
 extension ModelCompositePk: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Custom
-  public typealias Identifier = ModelIdentifier<Self, ModelIdentifierFormat.Custom>
+  public typealias IdentifierProtocol = ModelIdentifier<Self, ModelIdentifierFormat.Custom>
 }
 
-extension ModelCompositePk.Identifier {
+extension ModelCompositePk.IdentifierProtocol {
   public static func identifier(id: String,
       dob: Temporal.DateTime) -> Self {
     .make(fields:[(name: \\"id\\", value: id), (name: \\"dob\\", value: dob)])
@@ -340,10 +340,10 @@ extension ModelExplicitCustomPk {
 
 extension ModelExplicitCustomPk: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Custom
-  public typealias Identifier = ModelIdentifier<Self, ModelIdentifierFormat.Custom>
+  public typealias IdentifierProtocol = ModelIdentifier<Self, ModelIdentifierFormat.Custom>
 }
 
-extension ModelExplicitCustomPk.Identifier {
+extension ModelExplicitCustomPk.IdentifierProtocol {
   public static func identifier(userId: String) -> Self {
     .make(fields:[(name: \\"userId\\", value: userId)])
   }
@@ -418,10 +418,10 @@ extension ModelExplicitDefaultPk {
 
 extension ModelExplicitDefaultPk: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Custom
-  public typealias Identifier = ModelIdentifier<Self, ModelIdentifierFormat.Custom>
+  public typealias IdentifierProtocol = ModelIdentifier<Self, ModelIdentifierFormat.Custom>
 }
 
-extension ModelExplicitDefaultPk.Identifier {
+extension ModelExplicitDefaultPk.IdentifierProtocol {
   public static func identifier(id: String) -> Self {
     .make(fields:[(name: \\"id\\", value: id)])
   }
@@ -495,7 +495,7 @@ extension ModelImplicitDefaultPk {
 
 extension ModelImplicitDefaultPk: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
-  public typealias Identifier = DefaultModelIdentifier<Self>
+  public typealias IdentifierProtocol = DefaultModelIdentifier<Self>
 }"
 `;
 
@@ -588,10 +588,10 @@ extension Project {
 
 extension Project: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Custom
-  public typealias Identifier = ModelIdentifier<Self, ModelIdentifierFormat.Custom>
+  public typealias IdentifierProtocol = ModelIdentifier<Self, ModelIdentifierFormat.Custom>
 }
 
-extension Project.Identifier {
+extension Project.IdentifierProtocol {
   public static func identifier(projectId: String,
       name: String) -> Self {
     .make(fields:[(name: \\"projectId\\", value: projectId), (name: \\"name\\", value: name)])
@@ -674,10 +674,10 @@ extension Team {
 
 extension Team: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Custom
-  public typealias Identifier = ModelIdentifier<Self, ModelIdentifierFormat.Custom>
+  public typealias IdentifierProtocol = ModelIdentifier<Self, ModelIdentifierFormat.Custom>
 }
 
-extension Team.Identifier {
+extension Team.IdentifierProtocol {
   public static func identifier(teamId: String,
       name: String) -> Self {
     .make(fields:[(name: \\"teamId\\", value: teamId), (name: \\"name\\", value: name)])
