@@ -292,7 +292,7 @@ export class AppSyncSwiftVisitor<
     const authRules = this.generateAuthRules(model);
     const keyDirectives = this.config.generateIndexRules ? this.generateKeyRules(model) : [];
     const priamryKeyRules = this.generatePrimaryKeyRules(model);
-    const attributes = [ ...keyDirectives, priamryKeyRules ].filter(f => f);
+    const attributes = [...keyDirectives, priamryKeyRules].filter(f => f);
     const closure = [
       '{ model in',
       `let ${keysName} = ${this.getModelName(model)}.keys`,
@@ -320,22 +320,34 @@ export class AppSyncSwiftVisitor<
     let result: string[] = [];
     const primaryKeyField = model.fields.find(field => field.primaryKeyInfo)!;
     const { primaryKeyType, sortKeyFields } = primaryKeyField.primaryKeyInfo!;
-    const useDefaultExplicitID = primaryKeyType === CodeGenPrimaryKeyType.ManagedId;
+    const useDefaultExplicitID =
+      primaryKeyType === CodeGenPrimaryKeyType.ManagedId || primaryKeyType === CodeGenPrimaryKeyType.OptionallyManagedId;
 
-    const identifiableExtension = new SwiftDeclarationBlock().asKind('extension').withName(`${this.getModelName(model)}: ModelIdentifiable`);
+    const identifiableExtension = new SwiftDeclarationBlock()
+      .asKind('extension')
+      .withName(`${this.getModelName(model)}: ModelIdentifiable`);
     // identifier format
     const identifierFormatValue = `ModelIdentifierFormat.${useDefaultExplicitID ? 'Default' : 'Custom'}`;
     identifiableExtension.addProperty('IdentifierFormat', '', identifierFormatValue, 'public', { isTypeAlias: true });
     // identifier
     const identifierValue = useDefaultExplicitID ? 'DefaultModelIdentifier<Self>' : 'ModelIdentifier<Self, ModelIdentifierFormat.Custom>';
-    identifiableExtension.addProperty('Identifier', '', identifierValue, 'public', { isTypeAlias: true });
+    identifiableExtension.addProperty('IdentifierProtocol', '', identifierValue, 'public', { isTypeAlias: true });
     result.push(identifiableExtension.string);
 
     if (!useDefaultExplicitID) {
-      const identifierExtension = new SwiftDeclarationBlock().asKind('extension').withName(`${this.getModelName(model)}.Identifier`);
-      const primaryKeyComponentFields = [ primaryKeyField, ...sortKeyFields ];
-      const identifierArgs = primaryKeyComponentFields.map(field => ({name: this.getFieldName(field), type: this.getNativeType(field), flags: {}, value: undefined}));
-      const identifierBody = `.make(fields:[${primaryKeyComponentFields.map(field => `(name: "${this.getFieldName(field)}", value: ${this.getFieldName(field)})`).join(', ')}])`;
+      const identifierExtension = new SwiftDeclarationBlock()
+        .asKind('extension')
+        .withName(`${this.getModelName(model)}.IdentifierProtocol`);
+      const primaryKeyComponentFields = [primaryKeyField, ...sortKeyFields];
+      const identifierArgs = primaryKeyComponentFields.map(field => ({
+        name: this.getFieldName(field),
+        type: this.getNativeType(field),
+        flags: {},
+        value: undefined,
+      }));
+      const identifierBody = `.make(fields:[${primaryKeyComponentFields
+        .map(field => `(name: "${this.getFieldName(field)}", value: ${this.getFieldName(field)})`)
+        .join(', ')}])`;
       identifierExtension.addClassMethod('identifier', 'Self', identifierBody, identifierArgs, 'public', { static: true });
       result.push(identifierExtension.string);
     }
@@ -404,8 +416,8 @@ export class AppSyncSwiftVisitor<
       if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
         return `.hasMany(${name}, is: ${isRequired}, ofType: ${typeName}, associatedWith: ${this.getModelName(
           connectionInfo.connectedModel,
-          )}.keys.${this.getFieldName(connectionInfo.associatedWith)})`;
-        }
+        )}.keys.${this.getFieldName(connectionInfo.associatedWith)})`;
+      }
       if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
         const targetNameAttrStr = this.isCustomPKEnabled()
           ? `targetNames: [${connectionInfo.targetNames.map(target => `"${target}"`).join(', ')}]`
@@ -505,7 +517,9 @@ export class AppSyncSwiftVisitor<
     const primaryKeyField = model.fields.find(f => f.primaryKeyInfo)!;
     const { sortKeyFields } = primaryKeyField.primaryKeyInfo!;
     const modelName = lowerCaseFirst(this.getModelName(model));
-    return `.primaryKey(fields: [${[primaryKeyField, ...sortKeyFields].map(field => `${modelName}.${this.getFieldName(field)}`).join(', ')}])`
+    return `.primaryKey(fields: [${[primaryKeyField, ...sortKeyFields]
+      .map(field => `${modelName}.${this.getFieldName(field)}`)
+      .join(', ')}])`;
   }
 
   protected isHasManyConnectionField(field: CodeGenField): boolean {
