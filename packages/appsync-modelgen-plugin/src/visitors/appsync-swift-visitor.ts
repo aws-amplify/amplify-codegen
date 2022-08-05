@@ -320,7 +320,8 @@ export class AppSyncSwiftVisitor<
     let result: string[] = [];
     const primaryKeyField = model.fields.find(field => field.primaryKeyInfo)!;
     const { primaryKeyType, sortKeyFields } = primaryKeyField.primaryKeyInfo!;
-    const useDefaultExplicitID = primaryKeyType === CodeGenPrimaryKeyType.ManagedId;
+    const useDefaultExplicitID =
+      primaryKeyType === CodeGenPrimaryKeyType.ManagedId || primaryKeyType === CodeGenPrimaryKeyType.OptionallyManagedId;
 
     const identifiableExtension = new SwiftDeclarationBlock()
       .asKind('extension')
