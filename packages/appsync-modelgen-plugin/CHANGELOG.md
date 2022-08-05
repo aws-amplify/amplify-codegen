@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.5](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.0.4...@aws-amplify/appsync-modelgen-plugin@2.0.5) (2022-08-05)
+
+
+### Bug Fixes
+
+* **amplify-codegen:** iOS use default when PK.OptionallyManagedId ([#469](https://github.com/aws-amplify/amplify-codegen/issues/469)) ([750ba15](https://github.com/aws-amplify/amplify-codegen/commit/750ba15b7669b3c569837aef884cff8998ba5e7d))
+* **amplify-codegen:** rename ModelIdentifiable.Identifier to IdentifierProtocol ([#467](https://github.com/aws-amplify/amplify-codegen/issues/467)) ([463fef4](https://github.com/aws-amplify/amplify-codegen/commit/463fef4ce6ba32b04079c70a4a14875c5a0e4527))
+
+
+
+
+
 ## [2.0.4](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.0.3...@aws-amplify/appsync-modelgen-plugin@2.0.4) (2022-08-01)
 
 
