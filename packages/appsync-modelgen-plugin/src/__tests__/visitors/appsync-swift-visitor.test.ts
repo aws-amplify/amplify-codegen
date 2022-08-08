@@ -2284,29 +2284,36 @@ describe('AppSyncSwiftVisitor', () => {
     let wishSchema: string;
     beforeEach(() => {
       wishSchema = /* GraphQL */ `
-        enum StatusEnum {
-          pass
-          fail
+        type NoteData
+        @model
+        {
+            id: ID!
+            name: String!
+            description: String
+            image: String
         }
-  
-        type CustomType {
-          name: String
-          list: [Int]
-          requiredList: [String]!
-          requiredListOfRequired: [StatusEnum!]!
-          listOfRequired: [Boolean!]
-        }
-  
-        type ListContainer @model {
+        
+        type Wishes @model 
+        @key(name: "byUsers", fields: ["idUser"]) 
+        {
+        
           id: ID!
-          name: String
-          list: [Int]
-          requiredList: [String]!
-          requiredListOfRequired: [StatusEnum!]!
-          listOfRequired: [Boolean!]
-          requiredListOfRequiredDates: [AWSDate!]!
-          listOfRequiredFloats: [Float!]
-          requiredListOfCustomTypes: [CustomType]!
+          date: AWSDateTime!
+          idUser: ID!
+          ev: ID! 
+          deprecated: Boolean!  
+          owner: String         
+        }
+        
+        type Wish @model 
+        @key(name: "byUsers", fields: ["idUser"]) {
+        
+          id: ID!
+          date: AWSDateTime!
+          idUser: ID!
+          ev: ID! 
+          deprecated: Boolean!  
+          owner: String         
         }
       `;
     });
