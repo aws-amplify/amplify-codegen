@@ -1438,4 +1438,19 @@ describe('Metadata visitor for custom PK support', () => {
       expect(getVisitor(schema, 'typescript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
     });
   });
+  describe('Pluralization when improved pluralization is enabled', () => {
+    const schema =  /* GraphQL */ `
+      type Wish @model {
+        id: ID!
+        name: String
+      }
+      type Wishes @model {
+        id: ID!
+        collection: [String]
+      }
+    `;
+    it('Should pluralize wish as wishes with improved pluralization', () => {
+      expect(getVisitor(schema, 'typescript', { improvePluralization: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
+    });
+  });
 })
