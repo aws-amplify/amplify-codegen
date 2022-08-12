@@ -4,7 +4,7 @@
   "description": "amplify-codegen",
   "scripts": {
     "test-changed": "lerna run test --since main",
-    "test": "lerna run test -- -u",
+    "test": "lerna run test",
     "test-ci": "lerna run test --concurrency 1 -- --ci -i",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --quiet",
     "lint-fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
