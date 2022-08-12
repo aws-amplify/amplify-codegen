@@ -53,7 +53,7 @@ export interface RawAppSyncModelConfig extends RawConfig {
    *  plugins:
    *    - amplify-codegen-appsync-model-plugin
    * ```
-   * target: 'swift'| 'javascript'| 'typescript' | 'java' | 'metadata' | 'dart'
+   * target: 'swift'| 'javascript'| 'typescript' | 'java' | 'metadata' | 'dart' | 'introspection'
    */
   target: string;
 

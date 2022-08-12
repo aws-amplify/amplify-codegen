@@ -44,7 +44,12 @@ const readNumericFeatureFlag = key => {
   }
 };
 
-async function generateModels(context) {
+const defaultGenerateOptions = {
+  generateIntrospectionSchema: false,
+  outputFilePath: null,
+};
+
+async function generateModels(context, generateOptions = defaultGenerateOptions) {
   // steps:
   // 1. Load the schema and validate using transformer
   // 2. get all the directives supported by transformer
@@ -116,7 +121,7 @@ async function generateModels(context) {
     baseOutputDir: outputPath,
     schema,
     config: {
-      target: platformToLanguageMap[projectConfig.frontend] || projectConfig.frontend,
+      target: generateOptions.generateIntrospectionSchema ? 'model-introspection' : platformToLanguageMap[projectConfig.frontend] || projectConfig.frontend,
       directives: directiveDefinitions,
       isTimestampFieldsAdded,
       emitAuthProvider,
@@ -128,6 +133,7 @@ async function generateModels(context) {
       transformerVersion,
       dartUpdateAmplifyCoreDependency,
       respectPrimaryKeyAttributesOnConnectionField,
+      outputFilePath: generateOptions.outputFilePath,
     },
   });
 

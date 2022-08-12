@@ -188,6 +188,24 @@ const generateJavasScriptPreset = (
   return config;
 };
 
+const generateModelIntrospectionPreset = (
+  options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>,
+  models: TypeDefinitionNode[],
+): Types.GenerateOptions[] => {
+  const config: Types.GenerateOptions[] = [];
+  const defaultOutputPath = join(options.baseOutputDir, 'models', 'model-introspection.json');
+  config.push({
+    ...options,
+    filename: options.config.outputFilePath ? options.config.outputFilePath : defaultOutputPath,
+    config: {
+      ...options.config,
+      scalars: { ...TYPESCRIPT_SCALAR_MAP, ...options.config.scalars },
+      target: 'model-introspection',
+    },
+  });
+  return config;
+};
+
 const generateDartPreset = (
   options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>,
   models: TypeDefinitionNode[],
@@ -270,6 +288,8 @@ export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
         return generateJavasScriptPreset(options, models);
       case 'typescript':
         return generateTypeScriptPreset(options, models);
+      case 'model-introspection':
+        return generateModelIntrospectionPreset(options, models);
       case 'dart':
         return generateDartPreset(options, models);
       default:

@@ -1,0 +1,1058 @@
+{
+  "type": "object",
+  "properties": {
+    "models": {
+      "type": "object",
+      "properties": {
+        "Blog": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "fields": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "isArray": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "isRequired": {
+                      "type": "boolean"
+                    },
+                    "attributes": {
+                      "type": "array",
+                      "items": {}
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "isArray",
+                    "type",
+                    "isRequired",
+                    "attributes"
+                  ]
+                },
+                "author": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "isArray": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "isRequired": {
+                      "type": "boolean"
+                    },
+                    "attributes": {
+                      "type": "array",
+                      "items": {}
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "isArray",
+                    "type",
+                    "isRequired",
+                    "attributes"
+                  ]
+                },
+                "title": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "isArray": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "isRequired": {
+                      "type": "boolean"
+                    },
+                    "attributes": {
+                      "type": "array",
+                      "items": {}
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "isArray",
+                    "type",
+                    "isRequired",
+                    "attributes"
+                  ]
+                },
+                "posts": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "isArray": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "type": "object",
+                      "properties": {
+                        "model": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "model"
+                      ]
+                    },
+                    "isRequired": {
+                      "type": "boolean"
+                    },
+                    "attributes": {
+                      "type": "array",
+                      "items": {}
+                    },
+                    "isArrayNullable": {
+                      "type": "boolean"
+                    },
+                    "association": {
+                      "type": "object",
+                      "properties": {
+                        "connectionType": {
+                          "type": "string"
+                        },
+                        "associatedWith": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "connectionType",
+                        "associatedWith"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "isArray",
+                    "type",
+                    "isRequired",
+                    "attributes",
+                    "isArrayNullable",
+                    "association"
+                  ]
+                },
+                "createdAt": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "isArray": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "isRequired": {
+                      "type": "boolean"
+                    },
+                    "attributes": {
+                      "type": "array",
+                      "items": {}
+                    },
+                    "isReadOnly": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "isArray",
+                    "type",
+                    "isRequired",
+                    "attributes",
+                    "isReadOnly"
+                  ]
+                },
+                "updatedAt": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "isArray": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "isRequired": {
+                      "type": "boolean"
+                    },
+                    "attributes": {
+                      "type": "array",
+                      "items": {}
+                    },
+                    "isReadOnly": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "isArray",
+                    "type",
+                    "isRequired",
+                    "attributes",
+                    "isReadOnly"
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "author",
+                "title",
+                "posts",
+                "createdAt",
+                "updatedAt"
+              ]
+            },
+            "syncable": {
+              "type": "boolean"
+            },
+            "pluralName": {
+              "type": "string"
+            },
+            "attributes": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "properties": {
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "properties"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "properties": {
+                      "type": "object",
+                      "properties": {
+                        "rules": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "provider": {
+                                  "type": "string"
+                                },
+                                "allow": {
+                                  "type": "string"
+                                },
+                                "operations": {
+                                  "type": "array",
+                                  "items": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "provider",
+                                "allow",
+                                "operations"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "provider": {
+                                  "type": "string"
+                                },
+                                "allow": {
+                                  "type": "string"
+                                },
+                                "operations": {
+                                  "type": "array",
+                                  "items": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "provider",
+                                "allow",
+                                "operations"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "provider": {
+                                  "type": "string"
+                                },
+                                "allow": {
+                                  "type": "string"
+                                },
+                                "operations": {
+                                  "type": "array",
+                                  "items": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "provider",
+                                "allow",
+                                "operations"
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "rules"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "properties"
+                  ]
+                }
+              ]
+            }
+          },
+          "required": [
+            "name",
+            "fields",
+            "syncable",
+            "pluralName",
+            "attributes"
+          ]
+        },
+        "Post": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "fields": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "isArray": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "isRequired": {
+                      "type": "boolean"
+                    },
+                    "attributes": {
+                      "type": "array",
+                      "items": {}
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "isArray",
+                    "type",
+                    "isRequired",
+                    "attributes"
+                  ]
+                },
+                "title": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "isArray": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "isRequired": {
+                      "type": "boolean"
+                    },
+                    "attributes": {
+                      "type": "array",
+                      "items": {}
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "isArray",
+                    "type",
+                    "isRequired",
+                    "attributes"
+                  ]
+                },
+                "content": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "isArray": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "isRequired": {
+                      "type": "boolean"
+                    },
+                    "attributes": {
+                      "type": "array",
+                      "items": {}
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "isArray",
+                    "type",
+                    "isRequired",
+                    "attributes"
+                  ]
+                },
+                "createdAt": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "isArray": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "isRequired": {
+                      "type": "boolean"
+                    },
+                    "attributes": {
+                      "type": "array",
+                      "items": {}
+                    },
+                    "isReadOnly": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "isArray",
+                    "type",
+                    "isRequired",
+                    "attributes",
+                    "isReadOnly"
+                  ]
+                },
+                "updatedAt": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "isArray": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "isRequired": {
+                      "type": "boolean"
+                    },
+                    "attributes": {
+                      "type": "array",
+                      "items": {}
+                    },
+                    "isReadOnly": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "isArray",
+                    "type",
+                    "isRequired",
+                    "attributes",
+                    "isReadOnly"
+                  ]
+                },
+                "blogPostsId": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "isArray": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "isRequired": {
+                      "type": "boolean"
+                    },
+                    "attributes": {
+                      "type": "array",
+                      "items": {}
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "isArray",
+                    "type",
+                    "isRequired",
+                    "attributes"
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "title",
+                "content",
+                "createdAt",
+                "updatedAt",
+                "blogPostsId"
+              ]
+            },
+            "syncable": {
+              "type": "boolean"
+            },
+            "pluralName": {
+              "type": "string"
+            },
+            "attributes": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "properties": {
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "properties"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "properties": {
+                      "type": "object",
+                      "properties": {
+                        "rules": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "provider": {
+                                  "type": "string"
+                                },
+                                "allow": {
+                                  "type": "string"
+                                },
+                                "operations": {
+                                  "type": "array",
+                                  "items": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "provider",
+                                "allow",
+                                "operations"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "provider": {
+                                  "type": "string"
+                                },
+                                "allow": {
+                                  "type": "string"
+                                },
+                                "operations": {
+                                  "type": "array",
+                                  "items": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "provider",
+                                "allow",
+                                "operations"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "provider": {
+                                  "type": "string"
+                                },
+                                "allow": {
+                                  "type": "string"
+                                },
+                                "operations": {
+                                  "type": "array",
+                                  "items": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "provider",
+                                "allow",
+                                "operations"
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "rules"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "properties"
+                  ]
+                }
+              ]
+            }
+          },
+          "required": [
+            "name",
+            "fields",
+            "syncable",
+            "pluralName",
+            "attributes"
+          ]
+        },
+        "Todo": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "fields": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "isArray": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "isRequired": {
+                      "type": "boolean"
+                    },
+                    "attributes": {
+                      "type": "array",
+                      "items": {}
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "isArray",
+                    "type",
+                    "isRequired",
+                    "attributes"
+                  ]
+                },
+                "content": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "isArray": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "isRequired": {
+                      "type": "boolean"
+                    },
+                    "attributes": {
+                      "type": "array",
+                      "items": {}
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "isArray",
+                    "type",
+                    "isRequired",
+                    "attributes"
+                  ]
+                },
+                "createdAt": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "isArray": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "isRequired": {
+                      "type": "boolean"
+                    },
+                    "attributes": {
+                      "type": "array",
+                      "items": {}
+                    },
+                    "isReadOnly": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "isArray",
+                    "type",
+                    "isRequired",
+                    "attributes",
+                    "isReadOnly"
+                  ]
+                },
+                "updatedAt": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "isArray": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "isRequired": {
+                      "type": "boolean"
+                    },
+                    "attributes": {
+                      "type": "array",
+                      "items": {}
+                    },
+                    "isReadOnly": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "isArray",
+                    "type",
+                    "isRequired",
+                    "attributes",
+                    "isReadOnly"
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "content",
+                "createdAt",
+                "updatedAt"
+              ]
+            },
+            "syncable": {
+              "type": "boolean"
+            },
+            "pluralName": {
+              "type": "string"
+            },
+            "attributes": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "properties": {
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "properties"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "properties": {
+                      "type": "object",
+                      "properties": {
+                        "rules": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "provider": {
+                                  "type": "string"
+                                },
+                                "allow": {
+                                  "type": "string"
+                                },
+                                "operations": {
+                                  "type": "array",
+                                  "items": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "provider",
+                                "allow",
+                                "operations"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "provider": {
+                                  "type": "string"
+                                },
+                                "allow": {
+                                  "type": "string"
+                                },
+                                "operations": {
+                                  "type": "array",
+                                  "items": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "provider",
+                                "allow",
+                                "operations"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "provider": {
+                                  "type": "string"
+                                },
+                                "allow": {
+                                  "type": "string"
+                                },
+                                "operations": {
+                                  "type": "array",
+                                  "items": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "string"
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "provider",
+                                "allow",
+                                "operations"
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "rules"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "properties"
+                  ]
+                }
+              ]
+            }
+          },
+          "required": [
+            "name",
+            "fields",
+            "syncable",
+            "pluralName",
+            "attributes"
+          ]
+        }
+      },
+      "required": [
+        "Blog",
+        "Post",
+        "Todo"
+      ]
+    },
+    "enums": {
+      "type": "object"
+    },
+    "nonModels": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "models",
+    "enums",
+    "nonModels"
+  ]
+}
