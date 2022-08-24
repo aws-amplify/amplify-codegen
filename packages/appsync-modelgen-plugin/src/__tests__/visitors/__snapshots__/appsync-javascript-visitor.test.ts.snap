@@ -169,3 +169,151 @@ export declare class PostTags {
   static copyOf(source: PostTags, mutator: (draft: MutableModel<PostTags>) => MutableModel<PostTags> | void): PostTags;
 }"
 `;
+
+exports[`Javascript visitor with lazy connected models hasMany/belongsTo relation should generate correct declaration for hasMany bi-connection model 1`] = `
+"import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+
+type PostMetaData = {
+  readOnlyFields: 'createdAt' | 'updatedAt';
+}
+
+type CommentMetaData = {
+  readOnlyFields: 'createdAt' | 'updatedAt';
+}
+
+export declare class Post {
+  readonly id: string;
+  readonly customPostId: string;
+  readonly title: string;
+  readonly comments?: AsyncCollection<Comment | null>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<Post, PostMetaData>);
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post, PostMetaData>) => MutableModel<Post, PostMetaData> | void): Post;
+}
+
+export declare class Comment {
+  readonly id: string;
+  readonly customPostId: string;
+  readonly content: string;
+  readonly post?: Promise<Post | null>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<Comment, CommentMetaData>);
+  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment, CommentMetaData>) => MutableModel<Comment, CommentMetaData> | void): Comment;
+}"
+`;
+
+exports[`Javascript visitor with lazy connected models hasMany/belongsTo relation should generate correct declaration for hasMany uni-connection model 1`] = `
+"import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+
+type PostMetaData = {
+  readOnlyFields: 'createdAt' | 'updatedAt';
+}
+
+type CommentMetaData = {
+  readOnlyFields: 'createdAt' | 'updatedAt';
+}
+
+export declare class Post {
+  readonly id: string;
+  readonly title: string;
+  readonly comments?: AsyncCollection<Comment | null>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<Post, PostMetaData>);
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post, PostMetaData>) => MutableModel<Post, PostMetaData> | void): Post;
+}
+
+export declare class Comment {
+  readonly id: string;
+  readonly content: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly postCommentsId?: string | null;
+  constructor(init: ModelInit<Comment, CommentMetaData>);
+  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment, CommentMetaData>) => MutableModel<Comment, CommentMetaData> | void): Comment;
+}"
+`;
+
+exports[`Javascript visitor with lazy connected models hasOne/belongsTo relation should generate correct declaration 1`] = `
+"import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+
+type ProjectMetaData = {
+  readOnlyFields: 'createdAt' | 'updatedAt';
+}
+
+type TeamMetaData = {
+  readOnlyFields: 'createdAt' | 'updatedAt';
+}
+
+export declare class Project {
+  readonly id: string;
+  readonly name: string;
+  readonly team?: Promise<Team | null>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly projectTeamId?: string | null;
+  constructor(init: ModelInit<Project, ProjectMetaData>);
+  static copyOf(source: Project, mutator: (draft: MutableModel<Project, ProjectMetaData>) => MutableModel<Project, ProjectMetaData> | void): Project;
+}
+
+export declare class Team {
+  readonly id: string;
+  readonly name: string;
+  readonly project?: Promise<Project | null>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<Team, TeamMetaData>);
+  static copyOf(source: Team, mutator: (draft: MutableModel<Team, TeamMetaData>) => MutableModel<Team, TeamMetaData> | void): Team;
+}"
+`;
+
+exports[`Javascript visitor with lazy connected models manyToMany relation should generate correct declaration for manyToMany model 1`] = `
+"import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+
+type PostMetaData = {
+  readOnlyFields: 'createdAt' | 'updatedAt';
+}
+
+type TagMetaData = {
+  readOnlyFields: 'createdAt' | 'updatedAt';
+}
+
+type PostTagsMetaData = {
+  readOnlyFields: 'createdAt' | 'updatedAt';
+}
+
+export declare class Post {
+  readonly id: string;
+  readonly customPostId: string;
+  readonly title: string;
+  readonly content?: string | null;
+  readonly tags?: AsyncCollection<PostTags | null>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<Post, PostMetaData>);
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post, PostMetaData>) => MutableModel<Post, PostMetaData> | void): Post;
+}
+
+export declare class Tag {
+  readonly id: string;
+  readonly customTagId: string;
+  readonly label: string;
+  readonly posts?: AsyncCollection<PostTags | null>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<Tag, TagMetaData>);
+  static copyOf(source: Tag, mutator: (draft: MutableModel<Tag, TagMetaData>) => MutableModel<Tag, TagMetaData> | void): Tag;
+}
+
+export declare class PostTags {
+  readonly id: string;
+  readonly post: Promise<Post>;
+  readonly tag: Promise<Tag>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<PostTags, PostTagsMetaData>);
+  static copyOf(source: PostTags, mutator: (draft: MutableModel<PostTags, PostTagsMetaData>) => MutableModel<PostTags, PostTagsMetaData> | void): PostTags;
+}"
+`;

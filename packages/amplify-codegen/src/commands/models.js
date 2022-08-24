@@ -82,9 +82,10 @@ async function generateModels(context) {
 
   const generateIndexRules = readFeatureFlag('codegen.generateIndexRules');
   const emitAuthProvider = readFeatureFlag('codegen.emitAuthProvider');
-  const usePipelinedTransformer = readFeatureFlag('graphQLTransformer.useExperimentalPipelinedTransformer')
+  const usePipelinedTransformer = readFeatureFlag('graphQLTransformer.useExperimentalPipelinedTransformer');
   const transformerVersion = readNumericFeatureFlag('graphQLTransformer.transformerVersion');
   const respectPrimaryKeyAttributesOnConnectionField = readFeatureFlag('graphQLTransformer.respectPrimaryKeyAttributesOnConnectionField');
+  const useLazyLoading = readFeatureFlag('graphQLTransformer.useLazyLoading');
 
   let isTimestampFieldsAdded = readFeatureFlag('codegen.addTimestampFields');
   let enableDartNullSafety = readFeatureFlag('codegen.enableDartNullSafety');
@@ -128,6 +129,7 @@ async function generateModels(context) {
       transformerVersion,
       dartUpdateAmplifyCoreDependency,
       respectPrimaryKeyAttributesOnConnectionField,
+      useLazyLoading,
     },
   });
 

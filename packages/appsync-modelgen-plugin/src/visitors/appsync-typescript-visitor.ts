@@ -122,11 +122,7 @@ export class AppSyncModelTypeScriptVisitor<
     if (readOnlyFieldNames.length) {
       modelMetaFields.push(`readOnlyFields: ${readOnlyFieldNames.join(' | ')};`);
     }
-    const result = [
-      '{',
-      indentMultiline(modelMetaFields.join('\n')),
-      '}'
-    ];
+    const result = ['{', indentMultiline(modelMetaFields.join('\n')), '}'];
     return result.join('\n');
   }
 
@@ -142,7 +138,8 @@ export class AppSyncModelTypeScriptVisitor<
         return `OptionallyManagedIdentifier<${modelObj.name}, '${primaryKeyField.name}'>`;
       case CodeGenPrimaryKeyType.CustomId:
         const identifierFields: string[] = [primaryKeyField.name, ...sortKeyFields.map(f => f.name)].filter(f => f);
-        const identifierFieldsStr = identifierFields.length === 1 ? `'${identifierFields[0]}'` : `[${identifierFields.map(fieldStr => `'${fieldStr}'`).join(', ')}]`
+        const identifierFieldsStr =
+          identifierFields.length === 1 ? `'${identifierFields[0]}'` : `[${identifierFields.map(fieldStr => `'${fieldStr}'`).join(', ')}]`;
         if (identifierFields.length > 1) {
           this.BASE_DATASTORE_IMPORT.add('CompositeIdentifier');
           return `CompositeIdentifier<${modelObj.name}, ${identifierFieldsStr}>`;
@@ -165,16 +162,16 @@ export class AppSyncModelTypeScriptVisitor<
       .withName(modelName)
       .export(true);
 
-      let readOnlyFieldNames: string[] = [];
-      let modelMetaDataFormatted: string | undefined;
-      let modelMetaDataDeclaration: string = '';
+    let readOnlyFieldNames: string[] = [];
+    let modelMetaDataFormatted: string | undefined;
+    let modelMetaDataDeclaration: string = '';
     //Add new model meta field when custom primary key is enabled
     if (isModelType && this.isCustomPKEnabled()) {
       //Add new model meta import
       this.BASE_DATASTORE_IMPORT.add(this.MODEL_META_FIELD_NAME);
       modelDeclarations.addProperty(`[${this.MODEL_META_FIELD_NAME}]`, this.generateModelMetaDataType(modelObj), undefined, 'DEFAULT', {
         readonly: true,
-        optional: false
+        optional: false,
       });
     }
     modelObj.fields.forEach((field: CodeGenField) => {
@@ -319,6 +316,9 @@ export class AppSyncModelTypeScriptVisitor<
     if (this.isModelType(field)) {
       const modelType = this.modelMap[typeName];
       const typeNameStr = this.generateModelTypeDeclarationName(modelType);
+      if (this._parsedConfig.useLazyLoading) {
+        return `${field.isList ? 'AsyncCollection' : 'Promise'}<${typeNameStr}${nullableTypeUnion}>`;
+      }
       return (field.isList ? this.getListType(typeNameStr, field) : typeNameStr) + nullableTypeUnion;
     }
 

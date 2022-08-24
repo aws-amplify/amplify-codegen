@@ -11,6 +11,7 @@ export type JavaScriptVisitorConfig = {
   isDeclaration?: boolean;
   isTimestampFieldsAdded?: boolean;
   respectPrimaryKeyAttributesOnConnectionField?: boolean;
+  useLazyLoading?: boolean;
   transformerVersion?: number;
 };
 const defaultJavaScriptVisitorConfig: JavaScriptVisitorConfig = {
@@ -904,6 +905,107 @@ describe('Javascript visitor with connected models of custom pk', () => {
         isDeclaration: true,
         isTimestampFieldsAdded: true,
         respectPrimaryKeyAttributesOnConnectionField: true,
+        transformerVersion: 2,
+      });
+      const declarations = visitor.generate();
+      validateTs(declarations);
+      expect(declarations).toMatchSnapshot();
+    });
+  });
+});
+
+describe('Javascript visitor with lazy connected models', () => {
+  describe('hasOne/belongsTo relation', () => {
+    const schema = /* GraphQL */ `
+      type Project @model {
+        id: ID!
+        name: String!
+        team: Team @hasOne
+      }
+      type Team @model {
+        id: ID!
+        name: String!
+        project: Project @belongsTo
+      }
+    `;
+    it('should generate correct declaration', () => {
+      const visitor = getVisitor(schema, {
+        isDeclaration: true,
+        isTimestampFieldsAdded: true,
+        useLazyLoading: true,
+        transformerVersion: 2,
+      });
+      const declarations = visitor.generate();
+      validateTs(declarations);
+      expect(declarations).toMatchSnapshot();
+    });
+  });
+  describe('hasMany/belongsTo relation', () => {
+    it('should generate correct declaration for hasMany uni-connection model', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          id: ID!
+          title: String!
+          comments: [Comment] @hasMany
+        }
+        type Comment @model {
+          id: ID!
+          content: String!
+        }
+      `;
+      const visitor = getVisitor(schema, {
+        isDeclaration: true,
+        isTimestampFieldsAdded: true,
+        useLazyLoading: true,
+        transformerVersion: 2,
+      });
+      const declarations = visitor.generate();
+      validateTs(declarations);
+      expect(declarations).toMatchSnapshot();
+    });
+    it('should generate correct declaration for hasMany bi-connection model', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          customPostId: ID!
+          title: String!
+          comments: [Comment] @hasMany
+        }
+        type Comment @model {
+          customPostId: ID!
+          content: String!
+          post: Post @belongsTo
+        }
+      `;
+      const visitor = getVisitor(schema, {
+        isDeclaration: true,
+        isTimestampFieldsAdded: true,
+        useLazyLoading: true,
+        transformerVersion: 2,
+      });
+      const declarations = visitor.generate();
+      validateTs(declarations);
+      expect(declarations).toMatchSnapshot();
+    });
+  });
+  describe('manyToMany relation', () => {
+    it('should generate correct declaration for manyToMany model', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          customPostId: ID!
+          title: String!
+          content: String
+          tags: [Tag] @manyToMany(relationName: "PostTags")
+        }
+        type Tag @model {
+          customTagId: ID!
+          label: String!
+          posts: [Post] @manyToMany(relationName: "PostTags")
+        }
+      `;
+      const visitor = getVisitor(schema, {
+        isDeclaration: true,
+        isTimestampFieldsAdded: true,
+        useLazyLoading: true,
         transformerVersion: 2,
       });
       const declarations = visitor.generate();
