@@ -16,7 +16,7 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on explicit hasMany belongs to relationship @belongsTo 2`] = `
-"import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 type PostMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -29,7 +29,7 @@ type CommentMetaData = {
 export declare class Post {
   readonly id: string;
   readonly title: string;
-  readonly comments?: (Comment | null)[] | null;
+  readonly comments?: (LazyLoading extends Disabled ? (Comment | null)[] : AsyncCollection<Comment>) | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<Post, PostMetaData>);
@@ -39,7 +39,7 @@ export declare class Post {
 export declare class Comment {
   readonly id: string;
   readonly content: string;
-  readonly post?: Post | null;
+  readonly post?: (LazyLoading extends Disabled ? Post : Promise<Post>) | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<Comment, CommentMetaData>);
@@ -63,7 +63,7 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on explicit hasOne belongs to relationship @belongsTo 2`] = `
-"import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 type Project2MetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -76,7 +76,7 @@ type Team2MetaData = {
 export declare class Project2 {
   readonly id: string;
   readonly name?: string | null;
-  readonly team?: Team2 | null;
+  readonly team?: (LazyLoading extends Disabled ? Team2 : Promise<Team2>) | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly project2TeamId?: string | null;
@@ -87,7 +87,7 @@ export declare class Project2 {
 export declare class Team2 {
   readonly id: string;
   readonly name: string;
-  readonly project?: Project2 | null;
+  readonly project?: (LazyLoading extends Disabled ? Project2 : Promise<Project2>) | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<Team2, Team2MetaData>);
@@ -112,7 +112,7 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on implicit hasMany belongs to relationship @belongsTo (extended) 2`] = `
-"import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 type Blog7V2MetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -129,7 +129,7 @@ type Comment7V2MetaData = {
 export declare class Blog7V2 {
   readonly id: string;
   readonly name: string;
-  readonly posts?: (Post7V2 | null)[] | null;
+  readonly posts?: (LazyLoading extends Disabled ? (Post7V2 | null)[] : AsyncCollection<Post7V2>) | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<Blog7V2, Blog7V2MetaData>);
@@ -139,8 +139,8 @@ export declare class Blog7V2 {
 export declare class Post7V2 {
   readonly id: string;
   readonly title: string;
-  readonly blog?: Blog7V2 | null;
-  readonly comments?: (Comment7V2 | null)[] | null;
+  readonly blog?: (LazyLoading extends Disabled ? Blog7V2 : Promise<Blog7V2>) | null;
+  readonly comments?: (LazyLoading extends Disabled ? (Comment7V2 | null)[] : AsyncCollection<Comment7V2>) | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<Post7V2, Post7V2MetaData>);
@@ -150,7 +150,7 @@ export declare class Post7V2 {
 export declare class Comment7V2 {
   readonly id: string;
   readonly content?: string | null;
-  readonly post?: Post7V2 | null;
+  readonly post?: (LazyLoading extends Disabled ? Post7V2 : Promise<Post7V2>) | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<Comment7V2, Comment7V2MetaData>);
@@ -174,7 +174,7 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on implicit hasOne belongs to relationship @belongsTo 2`] = `
-"import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 type ProjectMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -187,7 +187,7 @@ type TeamMetaData = {
 export declare class Project {
   readonly id: string;
   readonly name?: string | null;
-  readonly team?: Team | null;
+  readonly team?: (LazyLoading extends Disabled ? Team : Promise<Team>) | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly projectTeamId?: string | null;
@@ -198,7 +198,7 @@ export declare class Project {
 export declare class Team {
   readonly id: string;
   readonly name: string;
-  readonly project?: Project | null;
+  readonly project?: (LazyLoading extends Disabled ? Project : Promise<Project>) | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<Team, TeamMetaData>);
@@ -223,7 +223,7 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on many to many relationship @manyToMany 2`] = `
-"import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 type PostMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -241,7 +241,7 @@ export declare class Post {
   readonly id: string;
   readonly title: string;
   readonly content?: string | null;
-  readonly tags?: (PostTags | null)[] | null;
+  readonly tags?: (LazyLoading extends Disabled ? (PostTags | null)[] : AsyncCollection<PostTags>) | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<Post, PostMetaData>);
@@ -251,7 +251,7 @@ export declare class Post {
 export declare class Tag {
   readonly id: string;
   readonly label: string;
-  readonly posts?: (PostTags | null)[] | null;
+  readonly posts?: (LazyLoading extends Disabled ? (PostTags | null)[] : AsyncCollection<PostTags>) | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<Tag, TagMetaData>);
@@ -260,8 +260,8 @@ export declare class Tag {
 
 export declare class PostTags {
   readonly id: string;
-  readonly post: Post;
-  readonly tag: Tag;
+  readonly post: (LazyLoading extends Disabled ? Post : Promise<Post>);
+  readonly tag: (LazyLoading extends Disabled ? Tag : Promise<Tag>);
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<PostTags, PostTagsMetaData>);
@@ -284,7 +284,7 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on record creation and updating timestamp 2`] = `
-"import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 type TodoMetaData = {
   readOnlyFields: 'createdOn' | 'updatedOn';
@@ -316,7 +316,7 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional explicit has many relationship @hasMany 2`] = `
-"import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 type Post2MetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -329,7 +329,7 @@ type Comment2MetaData = {
 export declare class Post2 {
   readonly id: string;
   readonly title: string;
-  readonly comments?: (Comment2 | null)[] | null;
+  readonly comments?: (LazyLoading extends Disabled ? (Comment2 | null)[] : AsyncCollection<Comment2>) | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<Post2, Post2MetaData>);
@@ -363,7 +363,7 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional explicit has one relationship @hasOne 2`] = `
-"import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 type Project2MetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -377,7 +377,7 @@ export declare class Project2 {
   readonly id: string;
   readonly name?: string | null;
   readonly teamID?: string | null;
-  readonly team?: Team2 | null;
+  readonly team?: (LazyLoading extends Disabled ? Team2 : Promise<Team2>) | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<Project2, Project2MetaData>);
@@ -410,7 +410,7 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional implicit has many relationship @hasMany 2`] = `
-"import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 type PostMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -423,7 +423,7 @@ type CommentMetaData = {
 export declare class Post {
   readonly id: string;
   readonly title: string;
-  readonly comments?: (Comment | null)[] | null;
+  readonly comments?: (LazyLoading extends Disabled ? (Comment | null)[] : AsyncCollection<Comment>) | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<Post, PostMetaData>);
@@ -457,7 +457,7 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional implicit has one relationship @hasOne 2`] = `
-"import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 type ProjectMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -470,7 +470,7 @@ type TeamMetaData = {
 export declare class Project {
   readonly id: string;
   readonly name?: string | null;
-  readonly team?: Team | null;
+  readonly team?: (LazyLoading extends Disabled ? Team : Promise<Team>) | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly projectTeamId?: string | null;
@@ -503,7 +503,7 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works when configuring a secondary index 2`] = `
-"import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 type CustomerMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';

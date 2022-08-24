@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Javascript visitor with connected models of custom pk hasMany/belongsTo relation should generate correct declaration for hasMany bi-connection model when custom pk support is enabled 1`] = `
-"import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection, __modelMeta__, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -14,7 +14,7 @@ export declare class Post {
   };
   readonly customPostId: string;
   readonly title: string;
-  readonly comments?: (Comment | null)[] | null;
+  readonly comments?: (LazyLoading extends Disabled ? (Comment | null)[] : AsyncCollection<Comment>) | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<Post>);
@@ -28,7 +28,7 @@ export declare class Comment {
   };
   readonly customPostId: string;
   readonly content: string;
-  readonly post?: Post | null;
+  readonly post?: (LazyLoading extends Disabled ? Post : Promise<Post>) | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly postCommentsCustomPostId?: string | null;
@@ -39,7 +39,7 @@ export declare class Comment {
 `;
 
 exports[`Javascript visitor with connected models of custom pk hasMany/belongsTo relation should generate correct declaration for hasMany uni-connection model when custom pk support is enabled 1`] = `
-"import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection, __modelMeta__, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -52,7 +52,7 @@ export declare class Post {
   };
   readonly id: string;
   readonly title: string;
-  readonly comments?: (Comment | null)[] | null;
+  readonly comments?: (LazyLoading extends Disabled ? (Comment | null)[] : AsyncCollection<Comment>) | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<Post>);
@@ -76,7 +76,7 @@ export declare class Comment {
 `;
 
 exports[`Javascript visitor with connected models of custom pk hasOne/belongsTo relation should generate correct declaration when custom pk support is enabled 1`] = `
-"import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection, __modelMeta__, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -89,7 +89,7 @@ export declare class Project {
   };
   readonly id: string;
   readonly name: string;
-  readonly team?: Team | null;
+  readonly team?: (LazyLoading extends Disabled ? Team : Promise<Team>) | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly projectTeamId?: string | null;
@@ -105,7 +105,7 @@ export declare class Team {
   };
   readonly id: string;
   readonly name: string;
-  readonly project?: Project | null;
+  readonly project?: (LazyLoading extends Disabled ? Project : Promise<Project>) | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly teamProjectId?: string | null;
@@ -116,7 +116,7 @@ export declare class Team {
 `;
 
 exports[`Javascript visitor with connected models of custom pk manyToMany relation should generate correct declaration for manyToMany model when custom pk is enabled 1`] = `
-"import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier, ManagedIdentifier } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection, __modelMeta__, CompositeIdentifier, ManagedIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -130,7 +130,7 @@ export declare class Post {
   readonly customPostId: string;
   readonly title: string;
   readonly content?: string | null;
-  readonly tags?: (PostTags | null)[] | null;
+  readonly tags?: (LazyLoading extends Disabled ? (PostTags | null)[] : AsyncCollection<PostTags>) | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<Post>);
@@ -144,7 +144,7 @@ export declare class Tag {
   };
   readonly customTagId: string;
   readonly label: string;
-  readonly posts?: (PostTags | null)[] | null;
+  readonly posts?: (LazyLoading extends Disabled ? (PostTags | null)[] : AsyncCollection<PostTags>) | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<Tag>);
@@ -161,8 +161,8 @@ export declare class PostTags {
   readonly posttitle?: string | null;
   readonly tagCustomTagId?: string | null;
   readonly taglabel?: string | null;
-  readonly post: Post;
-  readonly tag: Tag;
+  readonly post: (LazyLoading extends Disabled ? Post : Promise<Post>);
+  readonly tag: (LazyLoading extends Disabled ? Tag : Promise<Tag>);
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<PostTags>);

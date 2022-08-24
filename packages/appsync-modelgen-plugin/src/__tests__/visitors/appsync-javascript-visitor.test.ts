@@ -108,7 +108,7 @@ describe('Javascript visitor', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -129,7 +129,7 @@ describe('Javascript visitor', () => {
           readonly id: string;
           readonly name?: string | null;
           readonly bar?: string | null;
-          readonly foo?: Bar[] | null;
+          readonly foo?: (LazyLoading extends Disabled ? Bar[] : AsyncCollection<Bar>) | null;
           constructor(init: ModelInit<SimpleModel>);
           static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
         }
@@ -166,7 +166,7 @@ describe('Javascript visitor', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -191,7 +191,7 @@ describe('Javascript visitor', () => {
           readonly id: string;
           readonly name?: string | null;
           readonly bar?: string | null;
-          readonly foo?: Bar[] | null;
+          readonly foo?: (LazyLoading extends Disabled ? Bar[] : AsyncCollection<Bar>) | null;
           readonly createdAt?: string | null;
           readonly updatedAt?: string | null;
           constructor(init: ModelInit<SimpleModel, SimpleModelMetaData>);
@@ -303,7 +303,7 @@ describe('Javascript visitor with default owner auth', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -377,7 +377,7 @@ describe('Javascript visitor with custom owner field auth', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -453,7 +453,7 @@ describe('Javascript visitor with multiple owner field auth', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -519,7 +519,7 @@ describe('Javascript visitor with auth directives in field level', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
         export declare class Employee {
           readonly id: string;
@@ -583,7 +583,7 @@ describe('Javascript visitor with custom primary key', () => {
     const declarations = visitor.generate();
     validateTs(declarations);
     expect(declarations).toMatchInlineSnapshot(`
-      "import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier, CompositeIdentifier, CustomIdentifier, OptionallyManagedIdentifier } from \\"@aws-amplify/datastore\\";
+      "import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection, __modelMeta__, ManagedIdentifier, CompositeIdentifier, CustomIdentifier, OptionallyManagedIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -718,7 +718,7 @@ describe('New model meta field test', () => {
     const declarations = visitor.generate();
     validateTs(declarations);
     expect(declarations).toMatchInlineSnapshot(`
-      "import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier, OptionallyManagedIdentifier, CompositeIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
+      "import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection, __modelMeta__, ManagedIdentifier, OptionallyManagedIdentifier, CompositeIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
 
 
 
