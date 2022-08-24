@@ -1,0 +1,370 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "version": {
+            "type": "number",
+            "const": 1
+        },
+        "models": {
+            "$ref": "#/definitions/SchemaModels"
+        },
+        "nonModels": {
+            "$ref": "#/definitions/SchemaNonModels"
+        },
+        "enums": {
+            "$ref": "#/definitions/SchemaEnums"
+        }
+    },
+    "required": [
+        "version",
+        "models",
+        "nonModels",
+        "enums"
+    ],
+    "additionalProperties": false,
+    "description": "Root Schema Representation",
+    "definitions": {
+        "SchemaModels": {
+            "$ref": "#/definitions/Record%3Cstring%2CSchemaModel%3E",
+            "description": "Top-level Entities on a Schema"
+        },
+        "Record<string,SchemaModel>": {
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/definitions/SchemaModel"
+            }
+        },
+        "SchemaModel": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "attributes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ModelAttribute"
+                    }
+                },
+                "fields": {
+                    "$ref": "#/definitions/Fields"
+                },
+                "pluralName": {
+                    "type": "string"
+                },
+                "syncable": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "name",
+                "fields",
+                "pluralName"
+            ],
+            "additionalProperties": false
+        },
+        "ModelAttribute": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string"
+                },
+                "properties": {
+                    "type": "object"
+                }
+            },
+            "required": [
+                "type"
+            ],
+            "additionalProperties": false
+        },
+        "Fields": {
+            "$ref": "#/definitions/Record%3Cstring%2CField%3E",
+            "description": "Field Definition"
+        },
+        "Record<string,Field>": {
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/definitions/Field"
+            }
+        },
+        "Field": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/FieldType"
+                },
+                "isArray": {
+                    "type": "boolean"
+                },
+                "isRequired": {
+                    "type": "boolean"
+                },
+                "isReadOnly": {
+                    "type": "boolean"
+                },
+                "isArrayNullable": {
+                    "type": "boolean"
+                },
+                "attributes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FieldAttribute"
+                    }
+                },
+                "association": {
+                    "$ref": "#/definitions/AssociationType"
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "isArray",
+                "isRequired"
+            ],
+            "additionalProperties": false
+        },
+        "FieldType": {
+            "anyOf": [
+                {
+                    "type": "string",
+                    "const": "ID"
+                },
+                {
+                    "type": "string",
+                    "const": "String"
+                },
+                {
+                    "type": "string",
+                    "const": "Int"
+                },
+                {
+                    "type": "string",
+                    "const": "Float"
+                },
+                {
+                    "type": "string",
+                    "const": "AWSDate"
+                },
+                {
+                    "type": "string",
+                    "const": "AWSTime"
+                },
+                {
+                    "type": "string",
+                    "const": "AWSDateTime"
+                },
+                {
+                    "type": "string",
+                    "const": "AWSTimestamp"
+                },
+                {
+                    "type": "string",
+                    "const": "AWSEmail"
+                },
+                {
+                    "type": "string",
+                    "const": "AWSURL"
+                },
+                {
+                    "type": "string",
+                    "const": "AWSIPAddress"
+                },
+                {
+                    "type": "string",
+                    "const": "Boolean"
+                },
+                {
+                    "type": "string",
+                    "const": "AWSJSON"
+                },
+                {
+                    "type": "string",
+                    "const": "AWSPhone"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "enum": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "enum"
+                    ],
+                    "additionalProperties": false
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "model": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "model"
+                    ],
+                    "additionalProperties": false
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "nonModel": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "nonModel"
+                    ],
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "FieldAttribute": {
+            "$ref": "#/definitions/ModelAttribute"
+        },
+        "AssociationType": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/AssociationHasMany"
+                },
+                {
+                    "$ref": "#/definitions/AssociationHasOne"
+                },
+                {
+                    "$ref": "#/definitions/AssociationBelongsTo"
+                }
+            ]
+        },
+        "AssociationHasMany": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "connectionType": {
+                    "$ref": "#/definitions/CodeGenConnectionType"
+                },
+                "associatedWith": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "associatedWith",
+                "connectionType"
+            ]
+        },
+        "CodeGenConnectionType": {
+            "type": "string",
+            "enum": [
+                "HAS_ONE",
+                "BELONGS_TO",
+                "HAS_MANY"
+            ],
+            "description": "Field-level Relationship Definitions"
+        },
+        "AssociationHasOne": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "connectionType": {
+                    "$ref": "#/definitions/CodeGenConnectionType"
+                },
+                "associatedWith": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "targetNames": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "associatedWith",
+                "connectionType",
+                "targetNames"
+            ]
+        },
+        "AssociationBelongsTo": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "connectionType": {
+                    "$ref": "#/definitions/CodeGenConnectionType"
+                },
+                "targetNames": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "connectionType",
+                "targetNames"
+            ]
+        },
+        "SchemaNonModels": {
+            "$ref": "#/definitions/Record%3Cstring%2CSchemaNonModel%3E"
+        },
+        "Record<string,SchemaNonModel>": {
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/definitions/SchemaNonModel"
+            }
+        },
+        "SchemaNonModel": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "fields": {
+                    "$ref": "#/definitions/Fields"
+                }
+            },
+            "required": [
+                "name",
+                "fields"
+            ],
+            "additionalProperties": false
+        },
+        "SchemaEnums": {
+            "$ref": "#/definitions/Record%3Cstring%2CSchemaEnum%3E"
+        },
+        "Record<string,SchemaEnum>": {
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/definitions/SchemaEnum"
+            }
+        },
+        "SchemaEnum": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "values": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "name",
+                "values"
+            ],
+            "additionalProperties": false
+        }
+    }
+}
