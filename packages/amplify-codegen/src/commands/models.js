@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs-extra');
+const semver = require('semver');
 const { parse } = require('graphql');
 const glob = require('glob-all');
 const { FeatureFlags, pathManager } = require('amplify-cli-core');
@@ -44,6 +45,85 @@ const readNumericFeatureFlag = key => {
   }
 };
 
+/**
+ * Returns the version number of package installed
+ * @param {string} target language target
+ * @returns
+ */
+const readDependencyVersionInstalled = (dependency, target) => {
+  // TODO: other platforms and error handling
+  const projectPath = pathManager.findProjectRoot();
+  switch (target) {
+    case 'java':
+      return '';
+    case 'swift':
+      return '';
+    case 'dart':
+      return '';
+    case 'javascript':
+      // there are a few ways to get the version of an installed package
+      // just choosing one for PoC
+      // Will assess the best option later
+      const dependencyInstallPath = path.join(projectPath, 'node_modules', dependency, 'package.json');
+      if (fs.pathExistsSync(dependencyInstallPath)) {
+        const packageJson = JSON.parse(fs.readFileSync(dependencyInstallPath, 'utf8'));
+        return packageJson.version;
+      }
+      throw new Error(`Dependency ${dependency} is not installed.`);
+    default:
+      throw new Error(`Target ${target} is not available`);
+  }
+};
+
+const shouldUseLazyLoading = (target, context) => {
+  const minLanguageLibraryVersionMap = {
+    java: '',
+    swift: '',
+    dart: '',
+    javascrpt: '5.0.0',
+  };
+  const minLanguageDataStoreVersionMap = {
+    java: '',
+    swift: '',
+    dart: '',
+    javascrpt: '4.0.0',
+  };
+  const lazyLoadingFeatureFlag = readFeatureFlag('graphQLTransformer.useLazyLoading');
+  // TODO: is this the correct behavior? Will version 5.0.0 support non lazy loading as well?
+  if (!lazyLoadingFeatureFlag) {
+    return false;
+  }
+
+  try {
+    let libraryVersion = '';
+    let onlyDataStoreInstalled = false;
+
+    // some may have only datastore installed
+    try {
+      libraryVersion = readDependencyVersionInstalled('aws-amplify', target);
+    } catch {
+      libraryVersion = readDependencyVersionInstalled('@aws-amplify/datastore', target);
+      onlyDataStoreInstalled = true;
+    }
+    const libraryVersionSupported = semver.gte(libraryVersion, minLanguageLibraryVersionMap[target]);
+    if (!libraryVersionSupported) {
+      // TODO: string for other platforms
+      const dependencyInstalled = onlyDataStoreInstalled ? '@aws-amplify/datastore' : 'aws-amplify';
+      const libraryVersionString = `${dependencyInstalled}@${libraryVersion}`;
+      const minVersionString = `${dependencyInstalled}@${
+        onlyDataStoreInstalled ? minLanguageDataStoreVersionMap[target] : minLanguageLibraryVersionMap[target]
+      }`;
+      context.print.warning(
+        `"useLazyLoading" feature flag is enabled, but the installed library version (${libraryVersionString}) does not support lazy loading. Models will be generated with lazy loading disabled. Library version must be at least ${minVersionString} to enable lazy loading.`,
+      );
+      return false;
+    }
+  } catch {
+    context.print.warning('Unable to infer lazy loading based on Amplify library version. Using "useLazyLoading" feature flag instead.');
+    return lazyLoadingFeatureFlag;
+  }
+};
+
 async function generateModels(context) {
   // steps:
   // 1. Load the schema and validate using transformer
@@ -80,12 +160,14 @@ async function generateModels(context) {
   const schema = parse(schemaContent);
   const projectConfig = context.amplify.getProjectConfig();
 
+  const target = platformToLanguageMap[projectConfig.frontend] || projectConfig.frontend;
+
   const generateIndexRules = readFeatureFlag('codegen.generateIndexRules');
   const emitAuthProvider = readFeatureFlag('codegen.emitAuthProvider');
   const usePipelinedTransformer = readFeatureFlag('graphQLTransformer.useExperimentalPipelinedTransformer');
   const transformerVersion = readNumericFeatureFlag('graphQLTransformer.transformerVersion');
   const respectPrimaryKeyAttributesOnConnectionField = readFeatureFlag('graphQLTransformer.respectPrimaryKeyAttributesOnConnectionField');
-  const useLazyLoading = readFeatureFlag('graphQLTransformer.useLazyLoading');
+  const useLazyLoading = shouldUseLazyLoading(target, context);
 
   let isTimestampFieldsAdded = readFeatureFlag('codegen.addTimestampFields');
   let enableDartNullSafety = readFeatureFlag('codegen.enableDartNullSafety');
@@ -117,7 +199,7 @@ async function generateModels(context) {
     baseOutputDir: outputPath,
     schema,
     config: {
-      target: platformToLanguageMap[projectConfig.frontend] || projectConfig.frontend,
+      target,
       directives: directiveDefinitions,
       isTimestampFieldsAdded,
       emitAuthProvider,
