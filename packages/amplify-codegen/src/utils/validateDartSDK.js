@@ -9,7 +9,7 @@ function validateDartSDK(context, projectRoot) {
   try {
     const config = yaml.load(fs.readFileSync(path.join(projectRoot, PUBSPEC_FILE_NAME), 'utf8'));
     const version = semver.minVersion(config.environment.sdk);
-    if (semver.satisfies(version, '>= 2.12.0')) {
+    if (semver.satisfies(version, '>= 2.12.0', { includePrerelease: true })) {
       context.print.warning('\nDetected Dart SDK version 2.12.0 or above');
       return true;
     }

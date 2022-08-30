@@ -26,6 +26,7 @@ describe('Validate Dart SDK version tests', () => {
       mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
       expect(validateDartSDK(MOCK_CONTEXT, MOCK_PROJECT_ROOT)).toBe(true);
     });
+
     it('with caret version', () => {
       const config = {
         environment: {
@@ -35,10 +36,31 @@ describe('Validate Dart SDK version tests', () => {
       mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
       expect(validateDartSDK(MOCK_CONTEXT, MOCK_PROJECT_ROOT)).toBe(true);
     });
+
+    it('with preRelease caret version', () => {
+      const config = {
+        environment: {
+          sdk: '^2.18.0-release1',
+        },
+      };
+      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
+      expect(validateDartSDK(MOCK_CONTEXT, MOCK_PROJECT_ROOT)).toBe(true);
+    });
+
     it('with ranged version', () => {
       const config = {
         environment: {
           sdk: '>=2.12.0 <3.0.0',
+        },
+      };
+      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
+      expect(validateDartSDK(MOCK_CONTEXT, MOCK_PROJECT_ROOT)).toBe(true);
+    });
+
+    it('with preRelease range', () => {
+      const config = {
+        environment: {
+          sdk: '>=2.18.0-release1 <3.0.0',
         },
       };
       mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
@@ -56,6 +78,7 @@ describe('Validate Dart SDK version tests', () => {
       mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
       expect(validateDartSDK(MOCK_CONTEXT, MOCK_PROJECT_ROOT)).toBe(false);
     });
+
     it('with caret version', () => {
       const config = {
         environment: {
@@ -65,10 +88,31 @@ describe('Validate Dart SDK version tests', () => {
       mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
       expect(validateDartSDK(MOCK_CONTEXT, MOCK_PROJECT_ROOT)).toBe(false);
     });
+
+    it('with preRelease caret version', () => {
+      const config = {
+        environment: {
+          sdk: '^2.0.0-release1',
+        },
+      };
+      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
+      expect(validateDartSDK(MOCK_CONTEXT, MOCK_PROJECT_ROOT)).toBe(false);
+    });
+
     it('with ranged version', () => {
       const config = {
         environment: {
           sdk: '>=2.0.0 <3.0.0',
+        },
+      };
+      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
+      expect(validateDartSDK(MOCK_CONTEXT, MOCK_PROJECT_ROOT)).toBe(false);
+    });
+
+    it('with preRelease range', () => {
+      const config = {
+        environment: {
+          sdk: '>=2.0.0-release1 <3.0.0',
         },
       };
       mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
