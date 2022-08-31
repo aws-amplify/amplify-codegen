@@ -1,7 +1,7 @@
 import { Types } from '@graphql-codegen/plugin-helpers';
 import { Kind, TypeDefinitionNode } from 'graphql';
 import { join } from 'path';
-import { JAVA_SCALAR_MAP, SWIFT_SCALAR_MAP, TYPESCRIPT_SCALAR_MAP, DART_SCALAR_MAP } from './scalars';
+import { JAVA_SCALAR_MAP, SWIFT_SCALAR_MAP, TYPESCRIPT_SCALAR_MAP, DART_SCALAR_MAP, METADATA_SCALAR_MAP } from './scalars';
 import { LOADER_CLASS_NAME, GENERATED_PACKAGE_NAME } from './configs/java-config';
 import { graphqlName, toUpper } from 'graphql-transformer-common';
 
@@ -248,6 +248,24 @@ const generateManyToManyModelStubs = (options: Types.PresetFnArgs<AppSyncModelCo
   return models;
 }
 
+const generateIntrospectionPreset = (
+  options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>,
+  models: TypeDefinitionNode[],
+): Types.GenerateOptions[] => {
+  const config: Types.GenerateOptions[] = [];
+  // model-intropection.json
+  config.push({
+    ...options,
+    filename: join(options.baseOutputDir, 'model-introspection.json'),
+    config: {
+      ...options.config,
+      scalars: { ...METADATA_SCALAR_MAP, ...options.config.scalars },
+      target: 'introspection',
+    },
+  });
+  return config;
+}
+
 export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
   buildGeneratesSection: (options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>): Types.GenerateOptions[] => {
     const codeGenTarget = options.config.target;
@@ -272,6 +290,8 @@ export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
         return generateTypeScriptPreset(options, models);
       case 'dart':
         return generateDartPreset(options, models);
+      case 'introspection':
+        return generateIntrospectionPreset(options, models);
       default:
         throw new Error(
           `amplify-codegen-appsync-model-plugin not support language target ${codeGenTarget}. Supported codegen targets arr ${APPSYNC_DATA_STORE_CODEGEN_TARGETS.join(

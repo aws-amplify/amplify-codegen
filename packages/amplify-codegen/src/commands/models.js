@@ -44,7 +44,7 @@ const readNumericFeatureFlag = key => {
   }
 };
 
-async function generateModels(context) {
+async function generateModels(context, outputDirPath = null, isIntrospection = false) {
   // steps:
   // 1. Load the schema and validate using transformer
   // 2. get all the directives supported by transformer
@@ -76,7 +76,7 @@ async function generateModels(context) {
   });
 
   const schemaContent = loadSchema(apiResourcePath);
-  const outputPath = path.join(projectRoot, getModelOutputPath(context));
+  const outputPath = outputDirPath || path.join(projectRoot, getModelOutputPath(context));
   const schema = parse(schemaContent);
   const projectConfig = context.amplify.getProjectConfig();
 
@@ -116,7 +116,7 @@ async function generateModels(context) {
     baseOutputDir: outputPath,
     schema,
     config: {
-      target: platformToLanguageMap[projectConfig.frontend] || projectConfig.frontend,
+      target: isIntrospection ? 'introspection' : (platformToLanguageMap[projectConfig.frontend] || projectConfig.frontend),
       directives: directiveDefinitions,
       isTimestampFieldsAdded,
       emitAuthProvider,

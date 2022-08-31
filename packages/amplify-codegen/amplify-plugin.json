@@ -1,7 +1,7 @@
 {
   "name": "codegen",
   "type": "util",
-  "commands": ["add", "codegen", "configure", "remove", "statements", "types", "models"],
+  "commands": ["add", "codegen", "configure", "remove", "statements", "types", "models", "model-introspection"],
   "commandAliases": {
     "update": "configure",
     "statement": "statements",
