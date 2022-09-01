@@ -36,9 +36,10 @@ install_cli_with_local_codegen: &install_cli
     source .circleci/local_publish_helpers.sh
     startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
     setNpmRegistryUrlToLocal
-    sudo npm install -g @aws-amplify/cli-internal
+    changeNpmGlobalPath
+    npm install -g @aws-amplify/cli-internal
     amplify -v
-    sudo npm list --global --depth=1
+    npm list --global --depth=1
     unsetNpmRegistryUrl
   working_directory: ~/repo
         

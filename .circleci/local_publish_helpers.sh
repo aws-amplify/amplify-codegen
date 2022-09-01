@@ -28,3 +28,9 @@ function setNpmRegistryUrlToLocal {
   npm set registry "$custom_registry_url"
   yarn config set registry "$custom_registry_url"
 }
+
+function changeNpmGlobalPath {
+  mkdir -p ~/.npm-global
+  npm config set prefix '~/.npm-global'
+  export PATH=~/.npm-global/bin:$PATH
+}
