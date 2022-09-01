@@ -78,7 +78,7 @@ async function generateModels(context, outputDirPath = null, isIntrospection = f
   const schemaContent = loadSchema(apiResourcePath);
 
   const outputDirParam = context.parameters?.options?.['output-dir'];
-  if ( !outputDirPath && typeof(outputDirParam) !== 'string' ) {
+  if ( !outputDirPath && outputDirParam && typeof(outputDirParam) !== 'string' ) {
     throw new Error('Expected provided --output-dir flag to be given output location as input.');
   }
   const outputPath = outputDirPath ?? outputDirParam ?? path.join(projectRoot, getModelOutputPath(context));
