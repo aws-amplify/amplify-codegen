@@ -38,6 +38,7 @@ install_cli_with_local_codegen: &ref_3
     sudo npm install -g amplify-app
     amplify -v
     amplify-app --version
+    sudo npm list --global --depth=1
     unsetNpmRegistryUrl
   working_directory: ~/repo
 clean_up_e2e_resources: &ref_5
