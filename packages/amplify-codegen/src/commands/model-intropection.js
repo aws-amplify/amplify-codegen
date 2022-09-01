@@ -3,7 +3,7 @@ const path = require('path');
 
 async function generateModelIntrospection(context) {
   // Verify override path flag is provided
-  const outputDirParam = context.parameters.options ? context.parameters.options['output-dir'] : null;
+  const outputDirParam = context.parameters?.options?.['output-dir'];
   if ( !outputDirParam || typeof(outputDirParam) !== 'string' ) {
     throw new Error('Expected --output-dir flag with value to be set for model introspection command.');
   }
