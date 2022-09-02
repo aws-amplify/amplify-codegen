@@ -35,6 +35,7 @@ const KNOWN_SUITES_SORTED_ACCORDING_TO_RUNTIME = [
   'src/__tests__/datastore-modelgen-flutter.test.ts',
   'src/__tests__/add-codegen-android.test.ts',
   'src/__tests__/add-codegen-ios.test.ts',
+  'src/__tests__/model-introspection-codegen.test.ts',
   // <11m
   'src/__tests__/add-codegen-js.test.ts',
   'src/__tests__/env-codegen.test.ts',

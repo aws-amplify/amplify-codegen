@@ -44,7 +44,7 @@ const readNumericFeatureFlag = key => {
   }
 };
 
-async function generateModels(context) {
+async function generateModels(context, overrideOutputDir = null, isIntrospection = false) {
   // steps:
   // 1. Load the schema and validate using transformer
   // 2. get all the directives supported by transformer
@@ -76,7 +76,8 @@ async function generateModels(context) {
   });
 
   const schemaContent = loadSchema(apiResourcePath);
-  const outputPath = path.join(projectRoot, getModelOutputPath(context));
+
+  const baseOutputDir = path.join(projectRoot, getModelOutputPath(context))
   const schema = parse(schemaContent);
   const projectConfig = context.amplify.getProjectConfig();
 
@@ -113,10 +114,10 @@ async function generateModels(context) {
 
   const handleListNullabilityTransparently = readFeatureFlag('codegen.handleListNullabilityTransparently');
   const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
-    baseOutputDir: outputPath,
+    baseOutputDir,
     schema,
     config: {
-      target: platformToLanguageMap[projectConfig.frontend] || projectConfig.frontend,
+      target: isIntrospection ? 'introspection' : (platformToLanguageMap[projectConfig.frontend] || projectConfig.frontend),
       directives: directiveDefinitions,
       isTimestampFieldsAdded,
       emitAuthProvider,
@@ -128,6 +129,7 @@ async function generateModels(context) {
       transformerVersion,
       dartUpdateAmplifyCoreDependency,
       respectPrimaryKeyAttributesOnConnectionField,
+      overrideOutputDir, // This needs to live under `config` in order for the GraphQL types to work out.
     },
   });
 
@@ -155,7 +157,7 @@ async function generateModels(context) {
 
   generateEslintIgnore(context);
 
-  context.print.info(`Successfully generated models. Generated models can be found in ${outputPath}`);
+  context.print.info(`Successfully generated models. Generated models can be found in ${overrideOutputDir ?? baseOutputDir}`);
 }
 
 async function validateSchema(context) {

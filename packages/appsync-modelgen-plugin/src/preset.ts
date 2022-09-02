@@ -1,7 +1,7 @@
 import { Types } from '@graphql-codegen/plugin-helpers';
 import { Kind, TypeDefinitionNode } from 'graphql';
 import { join } from 'path';
-import { JAVA_SCALAR_MAP, SWIFT_SCALAR_MAP, TYPESCRIPT_SCALAR_MAP, DART_SCALAR_MAP } from './scalars';
+import { JAVA_SCALAR_MAP, SWIFT_SCALAR_MAP, TYPESCRIPT_SCALAR_MAP, DART_SCALAR_MAP, METADATA_SCALAR_MAP } from './scalars';
 import { LOADER_CLASS_NAME, GENERATED_PACKAGE_NAME } from './configs/java-config';
 import { graphqlName, toUpper } from 'graphql-transformer-common';
 
@@ -24,6 +24,7 @@ export type AppSyncModelCodeGenPresetConfig = {
    *    - amplify-codegen-appsync-model-plugin
    * ```
    */
+  overrideOutputDir: string | null;
   target: 'java' | 'swift' | 'javascript' | 'typescript' | 'dart';
 };
 
@@ -32,12 +33,12 @@ const generateJavaPreset = (
   models: TypeDefinitionNode[],
 ): Types.GenerateOptions[] => {
   const config: Types.GenerateOptions[] = [];
-  const baseOutputDir = [options.baseOutputDir, ...GENERATED_PACKAGE_NAME.split('.')];
+  const modelFolder = options.config.overrideOutputDir ? [options.config.overrideOutputDir] : [options.baseOutputDir, ...GENERATED_PACKAGE_NAME.split('.')];
   models.forEach(model => {
     const modelName = model.name.value;
     config.push({
       ...options,
-      filename: join(...baseOutputDir, `${modelName}.java`),
+      filename: join(...modelFolder, `${modelName}.java`),
       config: {
         ...options.config,
         scalars: { ...JAVA_SCALAR_MAP, ...options.config.scalars },
@@ -49,7 +50,7 @@ const generateJavaPreset = (
   // Class loader
   config.push({
     ...options,
-    filename: join(...baseOutputDir, `${LOADER_CLASS_NAME}.java`),
+    filename: join(...modelFolder, `${LOADER_CLASS_NAME}.java`),
     config: {
       ...options.config,
       scalars: { ...JAVA_SCALAR_MAP, ...options.config.scalars },
@@ -65,11 +66,12 @@ const generateSwiftPreset = (
   models: TypeDefinitionNode[],
 ): Types.GenerateOptions[] => {
   const config: Types.GenerateOptions[] = [];
+  const modelFolder = options.config.overrideOutputDir ? options.config.overrideOutputDir : options.baseOutputDir;
   models.forEach(model => {
     const modelName = model.name.value;
     config.push({
       ...options,
-      filename: join(options.baseOutputDir, `${modelName}.swift`),
+      filename: join(modelFolder, `${modelName}.swift`),
       config: {
         ...options.config,
         scalars: { ...SWIFT_SCALAR_MAP, ...options.config.scalars },
@@ -80,7 +82,7 @@ const generateSwiftPreset = (
     if (model.kind !== Kind.ENUM_TYPE_DEFINITION) {
       config.push({
         ...options,
-        filename: join(options.baseOutputDir, `${modelName}+Schema.swift`),
+        filename: join(modelFolder, `${modelName}+Schema.swift`),
         config: {
           ...options.config,
           target: 'swift',
@@ -95,7 +97,7 @@ const generateSwiftPreset = (
   // class loader
   config.push({
     ...options,
-    filename: join(options.baseOutputDir, `AmplifyModels.swift`),
+    filename: join(modelFolder, `AmplifyModels.swift`),
     config: {
       ...options.config,
       scalars: { ...SWIFT_SCALAR_MAP, ...options.config.scalars },
@@ -111,7 +113,7 @@ const generateTypeScriptPreset = (
   models: TypeDefinitionNode[],
 ): Types.GenerateOptions[] => {
   const config: Types.GenerateOptions[] = [];
-  const modelFolder = join(options.baseOutputDir, 'models');
+  const modelFolder = options.config.overrideOutputDir ? options.config.overrideOutputDir : join(options.baseOutputDir, 'models');
   config.push({
     ...options,
     filename: join(modelFolder, 'index.ts'),
@@ -140,7 +142,7 @@ const generateJavasScriptPreset = (
   models: TypeDefinitionNode[],
 ): Types.GenerateOptions[] => {
   const config: Types.GenerateOptions[] = [];
-  const modelFolder = join(options.baseOutputDir, 'models');
+  const modelFolder = options.config.overrideOutputDir ? options.config.overrideOutputDir : join(options.baseOutputDir, 'models');
   config.push({
     ...options,
     filename: join(modelFolder, 'index.js'),
@@ -193,11 +195,12 @@ const generateDartPreset = (
   models: TypeDefinitionNode[],
 ): Types.GenerateOptions[] => {
   const config: Types.GenerateOptions[] = [];
+  const modelFolder = options.config.overrideOutputDir ?? options.baseOutputDir;
   models.forEach(model => {
     const modelName = model.name.value;
     config.push({
       ...options,
-      filename: join(options.baseOutputDir, `${modelName}.dart`),
+      filename: join(modelFolder, `${modelName}.dart`),
       config: {
         ...options.config,
         scalars: { ...DART_SCALAR_MAP, ...options.config.scalars },
@@ -208,7 +211,7 @@ const generateDartPreset = (
   // Class loader
   config.push({
     ...options,
-    filename: join(options.baseOutputDir, `ModelProvider.dart`),
+    filename: join(modelFolder, `ModelProvider.dart`),
     config: {
       ...options.config,
       scalars: { ...DART_SCALAR_MAP, ...options.config.scalars },
@@ -248,6 +251,24 @@ const generateManyToManyModelStubs = (options: Types.PresetFnArgs<AppSyncModelCo
   return models;
 }
 
+const generateIntrospectionPreset = (
+  options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>,
+  models: TypeDefinitionNode[],
+): Types.GenerateOptions[] => {
+  const config: Types.GenerateOptions[] = [];
+  // model-intropection.json
+  config.push({
+    ...options,
+    filename: join(options.config.overrideOutputDir!, 'model-introspection.json'),
+    config: {
+      ...options.config,
+      scalars: { ...METADATA_SCALAR_MAP, ...options.config.scalars },
+      target: 'introspection',
+    },
+  });
+  return config;
+}
+
 export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
   buildGeneratesSection: (options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>): Types.GenerateOptions[] => {
     const codeGenTarget = options.config.target;
@@ -272,6 +293,8 @@ export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
         return generateTypeScriptPreset(options, models);
       case 'dart':
         return generateDartPreset(options, models);
+      case 'introspection':
+        return generateIntrospectionPreset(options, models);
       default:
         throw new Error(
           `amplify-codegen-appsync-model-plugin not support language target ${codeGenTarget}. Supported codegen targets arr ${APPSYNC_DATA_STORE_CODEGEN_TARGETS.join(

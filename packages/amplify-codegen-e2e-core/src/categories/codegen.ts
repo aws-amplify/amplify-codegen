@@ -1,9 +1,10 @@
 import { AmplifyFrontend } from '../utils';
 import { getCLIPath, nspawn as spawn } from '..';
 
-export function generateModels(cwd: string): Promise<void> {
+export function generateModels(cwd: string, outputDir?: string): Promise<void> {
   return new Promise((resolve, reject) => {
-    spawn(getCLIPath(), ['codegen', 'models'], { cwd, stripColors: true })
+    const params = ['codegen', 'models', ...(outputDir ? ['--output-dir', outputDir] : [])]
+    spawn(getCLIPath(), params, { cwd, stripColors: true })
     .run((err: Error) => {
       if (!err) {
         resolve();
@@ -124,6 +125,19 @@ export function configureCodegen(cwd: string, settings: any = {}): Promise<void>
     }
 
     chain.run((err: Error) => {
+      if (!err) {
+        resolve();
+      } else {
+        reject(err);
+      }
+    });
+  });
+}
+
+export function generateModelIntrospection(cwd: string, settings: { outputDir?: string} = {}): Promise<void> {
+  return new Promise((resolve, reject) => {
+    spawn(getCLIPath(), ['codegen', 'model-introspection', '--output-dir', settings.outputDir ?? ''], { cwd, stripColors: true })
+    .run((err: Error) => {
       if (!err) {
         resolve();
       } else {

@@ -8,6 +8,7 @@ import { AppSyncModelJavaVisitor } from './visitors/appsync-java-visitor';
 import { AppSyncModelTypeScriptVisitor } from './visitors/appsync-typescript-visitor';
 import { AppSyncModelJavascriptVisitor } from './visitors/appsync-javascript-visitor';
 import { AppSyncModelDartVisitor } from './visitors/appsync-dart-visitor';
+import { AppSyncModelIntrospectionVisitor } from './visitors/appsync-model-introspection-visitor';
 export const plugin: PluginFunction<RawAppSyncModelConfig> = (
   schema: GraphQLSchema,
   rawDocuments: Types.DocumentFile[],
@@ -41,6 +42,9 @@ export const plugin: PluginFunction<RawAppSyncModelConfig> = (
         selectedType: config.selectedType,
         generate: config.generate,
       });
+      break;
+    case 'introspection':
+      visitor = new AppSyncModelIntrospectionVisitor(schema, config, {});
       break;
     default:
       return '';
