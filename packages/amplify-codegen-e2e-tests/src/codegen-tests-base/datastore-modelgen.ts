@@ -29,5 +29,8 @@ export async function testCodegenModels(config: AmplifyFrontendConfig, projectRo
     // pre-existing file should still exist
     expect(existsSync(userSourceCodePath)).toBe(true);
     // datastore models are generated at correct location
-    expect(isNotEmptyDir(outputDir ? outputDir : path.join(projectRoot, config.modelgenDir))).toBe(true);
+    const dirToCheck = outputDir
+        ? path.join(projectRoot, outputDir)
+        : path.join(projectRoot, config.modelgenDir);
+    expect(isNotEmptyDir(dirToCheck)).toBe(true);
 }
