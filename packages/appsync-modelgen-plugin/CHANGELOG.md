@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.0.5...@aws-amplify/appsync-modelgen-plugin@2.1.0) (2022-09-02)
+
+
+### Bug Fixes
+
+* simplify outputDirParam handling ([#483](https://github.com/aws-amplify/amplify-codegen/issues/483)) ([e6f75ca](https://github.com/aws-amplify/amplify-codegen/commit/e6f75cae5521ddb7ceab0766765ba239a8ddb7f1))
+
+
+### Features
+
+* **amplify-codegen:** new codegen command of  model intropection ([#476](https://github.com/aws-amplify/amplify-codegen/issues/476)) ([ab991c3](https://github.com/aws-amplify/amplify-codegen/commit/ab991c302eb4fad540422ba2099ac6a15176e2cb))
+
+
+
+
+
 ## [2.0.5](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.0.4...@aws-amplify/appsync-modelgen-plugin@2.0.5) (2022-08-05)
 
 

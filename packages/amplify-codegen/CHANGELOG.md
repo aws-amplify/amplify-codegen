@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@3.0.5...amplify-codegen@3.1.0) (2022-09-02)
+
+
+### Bug Fixes
+
+* simplify outputDirParam handling ([#483](https://github.com/aws-amplify/amplify-codegen/issues/483)) ([e6f75ca](https://github.com/aws-amplify/amplify-codegen/commit/e6f75cae5521ddb7ceab0766765ba239a8ddb7f1))
+* support pre-release version tags for dart version check ([#477](https://github.com/aws-amplify/amplify-codegen/issues/477)) ([cf712a6](https://github.com/aws-amplify/amplify-codegen/commit/cf712a6f562ef89fd3e4eed80fb5ef1986a41ccf))
+
+
+### Features
+
+* **amplify-codegen:** new codegen command of  model intropection ([#476](https://github.com/aws-amplify/amplify-codegen/issues/476)) ([ab991c3](https://github.com/aws-amplify/amplify-codegen/commit/ab991c302eb4fad540422ba2099ac6a15176e2cb))
+
+
+
+
+
 ## [3.0.5](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@3.0.4...amplify-codegen@3.0.5) (2022-08-05)
 
 **Note:** Version bump only for package amplify-codegen

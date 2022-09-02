@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-core@1.3.0...@aws-amplify/amplify-codegen-e2e-core@1.4.0) (2022-09-02)
+
+
+### Features
+
+* **amplify-codegen:** new codegen command of  model intropection ([#476](https://github.com/aws-amplify/amplify-codegen/issues/476)) ([ab991c3](https://github.com/aws-amplify/amplify-codegen/commit/ab991c302eb4fad540422ba2099ac6a15176e2cb))
+
+
+
+
+
 # 1.3.0 (2022-07-19)
 
 
