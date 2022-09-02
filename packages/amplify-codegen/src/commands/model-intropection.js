@@ -1,14 +1,8 @@
 const generateModels = require('./models');
-const path = require('path');
+const getOutputDirParam = require('../utils/getOutputDirParam');
 
 async function generateModelIntrospection(context) {
-  // Verify override path flag is provided
-  const outputDirParam = context.parameters?.options?.['output-dir'];
-  if ( !outputDirParam || typeof(outputDirParam) !== 'string' ) {
-    throw new Error('Expected --output-dir flag with value to be set for model introspection command.');
-  }
-  const outputDirPath = path.isAbsolute(outputDirParam) ? outputDirParam : path.join(context.amplify.getEnvInfo().projectPath, outputDirParam);
-  await generateModels(context, outputDirPath, true);
+  await generateModels(context, getOutputDirParam(context, true), true);
 }
 
 module.exports = generateModelIntrospection;
