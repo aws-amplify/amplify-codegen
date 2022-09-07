@@ -37,7 +37,7 @@
     "slash": "^3.0.0"
   },
   "peerDependencies": {
-    "amplify-cli-core": "^2.3.0",
+    "amplify-cli-core": "^3.0.0",
     "graphql-transformer-core": "^7.2.1"
   },
   "jest": {
