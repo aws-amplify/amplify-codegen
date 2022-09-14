@@ -34,7 +34,7 @@ export class AppSyncModelTypeScriptVisitor<
     'import { schema } from "./schema";',
   ];
 
-  protected BASE_DATASTORE_IMPORT = new Set(['ModelInit', 'MutableModel', 'LazyLoading', 'Enabled', 'Disabled', 'AsyncCollection']);
+  protected BASE_DATASTORE_IMPORT = new Set(['ModelInit', 'MutableModel']);
 
   protected MODEL_META_FIELD_NAME = '__modelMeta__';
 
@@ -314,8 +314,16 @@ export class AppSyncModelTypeScriptVisitor<
     const isNullable = field.isList ? field.isListNullable : field.isNullable;
     const nullableTypeUnion = isNullable ? ' | null' : '';
     if (this.isModelType(field)) {
+      this.BASE_DATASTORE_IMPORT.add('LazyLoading');
+      this.BASE_DATASTORE_IMPORT.add('Enabled');
+      this.BASE_DATASTORE_IMPORT.add('Disabled');
+
       const modelType = this.modelMap[typeName];
       const typeNameStr = this.generateModelTypeDeclarationName(modelType);
+      if (field.isList) {
+        this.BASE_DATASTORE_IMPORT.add('AsyncCollection');
+      }
+
       const lazyType = `${field.isList ? 'AsyncCollection' : 'Promise'}<${typeNameStr}>`;
       const eagerType = field.isList ? this.getListType(typeNameStr, field) : typeNameStr;
       const conditionalTypeExpression = 'LazyLoading extends Disabled';

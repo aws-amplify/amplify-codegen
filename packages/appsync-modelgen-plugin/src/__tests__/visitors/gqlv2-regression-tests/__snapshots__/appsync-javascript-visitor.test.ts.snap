@@ -63,7 +63,7 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on explicit hasOne belongs to relationship @belongsTo 2`] = `
-"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled } from \\"@aws-amplify/datastore\\";
 
 type Project2MetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -174,7 +174,7 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on implicit hasOne belongs to relationship @belongsTo 2`] = `
-"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled } from \\"@aws-amplify/datastore\\";
 
 type ProjectMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -284,7 +284,7 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on record creation and updating timestamp 2`] = `
-"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 
 type TodoMetaData = {
   readOnlyFields: 'createdOn' | 'updatedOn';
@@ -363,7 +363,7 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional explicit has one relationship @hasOne 2`] = `
-"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled } from \\"@aws-amplify/datastore\\";
 
 type Project2MetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -457,7 +457,7 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional implicit has one relationship @hasOne 2`] = `
-"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled } from \\"@aws-amplify/datastore\\";
 
 type ProjectMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -503,7 +503,7 @@ export {
 `;
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works when configuring a secondary index 2`] = `
-"import { ModelInit, MutableModel, LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 
 type CustomerMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
