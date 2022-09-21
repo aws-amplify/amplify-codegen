@@ -115,30 +115,82 @@ describe('Javascript visitor', () => {
           ENUM_VAL2 = \\"enumVal2\\"
         }
 
-        export declare class SimpleNonModelType {
+        class EagerSimpleNonModelType {
           readonly id: string;
           readonly names?: (string | null)[] | null;
-          constructor(init: ModelInit<SimpleNonModelType>);
+          constructor(init: ModelInit<SimpleNonModelType>)
+          {
+          
+          }
+        }
+
+        class LazySimpleNonModelType {
+          readonly id: string;
+          readonly names?: (string | null)[] | null;
+          constructor(init: ModelInit<SimpleNonModelType>)
+          {
+          
+          }
         }
 
 
 
 
 
-        export declare class SimpleModel {
+        class EagerSimpleModel {
           readonly id: string;
           readonly name?: string | null;
           readonly bar?: string | null;
-          readonly foo?: (LazyLoading extends Disabled ? Bar[] : AsyncCollection<Bar>) | null;
-          constructor(init: ModelInit<SimpleModel>);
-          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
+          readonly foo?: Bar[] | null;
+          constructor(init: ModelInit<SimpleModel>)
+          {
+          
+          }
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel
+          {
+          
+          }
         }
 
-        export declare class Bar {
+        class LazySimpleModel {
+          readonly id: string;
+          readonly name?: string | null;
+          readonly bar?: string | null;
+          readonly foo: AsyncCollection<Bar>;
+          constructor(init: ModelInit<SimpleModel>)
+          {
+          
+          }
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel
+          {
+          
+          }
+        }
+
+        class EagerBar {
           readonly id: string;
           readonly simpleModelFooId?: string | null;
-          constructor(init: ModelInit<Bar>);
-          static copyOf(source: Bar, mutator: (draft: MutableModel<Bar>) => MutableModel<Bar> | void): Bar;
+          constructor(init: ModelInit<Bar>)
+          {
+          
+          }
+          static copyOf(source: Bar, mutator: (draft: MutableModel<Bar>) => MutableModel<Bar> | void): Bar
+          {
+          
+          }
+        }
+
+        class LazyBar {
+          readonly id: string;
+          readonly simpleModelFooId?: string | null;
+          constructor(init: ModelInit<Bar>)
+          {
+          
+          }
+          static copyOf(source: Bar, mutator: (draft: MutableModel<Bar>) => MutableModel<Bar> | void): Bar
+          {
+          
+          }
         }"
       `);
       expect(generateImportSpy).toBeCalledTimes(1);
@@ -173,10 +225,22 @@ describe('Javascript visitor', () => {
           ENUM_VAL2 = \\"enumVal2\\"
         }
 
-        export declare class SimpleNonModelType {
+        class EagerSimpleNonModelType {
           readonly id: string;
           readonly names?: (string | null)[] | null;
-          constructor(init: ModelInit<SimpleNonModelType>);
+          constructor(init: ModelInit<SimpleNonModelType>)
+          {
+          
+          }
+        }
+
+        class LazySimpleNonModelType {
+          readonly id: string;
+          readonly names?: (string | null)[] | null;
+          constructor(init: ModelInit<SimpleNonModelType>)
+          {
+          
+          }
         }
 
         type SimpleModelMetaData = {
@@ -187,24 +251,68 @@ describe('Javascript visitor', () => {
           readOnlyFields: 'createdAt' | 'updatedAt';
         }
 
-        export declare class SimpleModel {
+        class EagerSimpleModel {
           readonly id: string;
           readonly name?: string | null;
           readonly bar?: string | null;
-          readonly foo?: (LazyLoading extends Disabled ? Bar[] : AsyncCollection<Bar>) | null;
+          readonly foo?: Bar[] | null;
           readonly createdAt?: string | null;
           readonly updatedAt?: string | null;
-          constructor(init: ModelInit<SimpleModel, SimpleModelMetaData>);
-          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel, SimpleModelMetaData>) => MutableModel<SimpleModel, SimpleModelMetaData> | void): SimpleModel;
+          constructor(init: ModelInit<SimpleModel, SimpleModelMetaData>)
+          {
+          
+          }
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel, SimpleModelMetaData>) => MutableModel<SimpleModel, SimpleModelMetaData> | void): SimpleModel
+          {
+          
+          }
         }
 
-        export declare class Bar {
+        class LazySimpleModel {
+          readonly id: string;
+          readonly name?: string | null;
+          readonly bar?: string | null;
+          readonly foo: AsyncCollection<Bar>;
+          readonly createdAt?: string | null;
+          readonly updatedAt?: string | null;
+          constructor(init: ModelInit<SimpleModel, SimpleModelMetaData>)
+          {
+          
+          }
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel, SimpleModelMetaData>) => MutableModel<SimpleModel, SimpleModelMetaData> | void): SimpleModel
+          {
+          
+          }
+        }
+
+        class EagerBar {
           readonly id: string;
           readonly createdAt?: string | null;
           readonly updatedAt?: string | null;
           readonly simpleModelFooId?: string | null;
-          constructor(init: ModelInit<Bar, BarMetaData>);
-          static copyOf(source: Bar, mutator: (draft: MutableModel<Bar, BarMetaData>) => MutableModel<Bar, BarMetaData> | void): Bar;
+          constructor(init: ModelInit<Bar, BarMetaData>)
+          {
+          
+          }
+          static copyOf(source: Bar, mutator: (draft: MutableModel<Bar, BarMetaData>) => MutableModel<Bar, BarMetaData> | void): Bar
+          {
+          
+          }
+        }
+
+        class LazyBar {
+          readonly id: string;
+          readonly createdAt?: string | null;
+          readonly updatedAt?: string | null;
+          readonly simpleModelFooId?: string | null;
+          constructor(init: ModelInit<Bar, BarMetaData>)
+          {
+          
+          }
+          static copyOf(source: Bar, mutator: (draft: MutableModel<Bar, BarMetaData>) => MutableModel<Bar, BarMetaData> | void): Bar
+          {
+          
+          }
         }"
       `);
       expect(generateImportSpy).toBeCalledTimes(1);
@@ -310,18 +418,50 @@ describe('Javascript visitor with default owner auth', () => {
           ENUM_VAL2 = \\"enumVal2\\"
         }
 
-        export declare class SimpleNonModelType {
+        class EagerSimpleNonModelType {
           readonly id: string;
           readonly names?: (string | null)[] | null;
-          constructor(init: ModelInit<SimpleNonModelType>);
+          constructor(init: ModelInit<SimpleNonModelType>)
+          {
+          
+          }
         }
 
-        export declare class SimpleModel {
+        class LazySimpleNonModelType {
+          readonly id: string;
+          readonly names?: (string | null)[] | null;
+          constructor(init: ModelInit<SimpleNonModelType>)
+          {
+          
+          }
+        }
+
+        class EagerSimpleModel {
           readonly id: string;
           readonly name?: string | null;
           readonly bar?: string | null;
-          constructor(init: ModelInit<SimpleModel>);
-          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
+          constructor(init: ModelInit<SimpleModel>)
+          {
+          
+          }
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel
+          {
+          
+          }
+        }
+
+        class LazySimpleModel {
+          readonly id: string;
+          readonly name?: string | null;
+          readonly bar?: string | null;
+          constructor(init: ModelInit<SimpleModel>)
+          {
+          
+          }
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel
+          {
+          
+          }
         }"
       `);
       expect(generateImportSpy).toBeCalledTimes(1);
@@ -384,18 +524,50 @@ describe('Javascript visitor with custom owner field auth', () => {
           ENUM_VAL2 = \\"enumVal2\\"
         }
 
-        export declare class SimpleNonModelType {
+        class EagerSimpleNonModelType {
           readonly id: string;
           readonly names?: (string | null)[] | null;
-          constructor(init: ModelInit<SimpleNonModelType>);
+          constructor(init: ModelInit<SimpleNonModelType>)
+          {
+          
+          }
         }
 
-        export declare class SimpleModel {
+        class LazySimpleNonModelType {
+          readonly id: string;
+          readonly names?: (string | null)[] | null;
+          constructor(init: ModelInit<SimpleNonModelType>)
+          {
+          
+          }
+        }
+
+        class EagerSimpleModel {
           readonly id: string;
           readonly name?: string | null;
           readonly bar?: string | null;
-          constructor(init: ModelInit<SimpleModel>);
-          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
+          constructor(init: ModelInit<SimpleModel>)
+          {
+          
+          }
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel
+          {
+          
+          }
+        }
+
+        class LazySimpleModel {
+          readonly id: string;
+          readonly name?: string | null;
+          readonly bar?: string | null;
+          constructor(init: ModelInit<SimpleModel>)
+          {
+          
+          }
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel
+          {
+          
+          }
         }"
       `);
       expect(generateImportSpy).toBeCalledTimes(1);
@@ -460,18 +632,50 @@ describe('Javascript visitor with multiple owner field auth', () => {
           ENUM_VAL2 = \\"enumVal2\\"
         }
 
-        export declare class SimpleNonModelType {
+        class EagerSimpleNonModelType {
           readonly id: string;
           readonly names?: (string | null)[] | null;
-          constructor(init: ModelInit<SimpleNonModelType>);
+          constructor(init: ModelInit<SimpleNonModelType>)
+          {
+          
+          }
         }
 
-        export declare class SimpleModel {
+        class LazySimpleNonModelType {
+          readonly id: string;
+          readonly names?: (string | null)[] | null;
+          constructor(init: ModelInit<SimpleNonModelType>)
+          {
+          
+          }
+        }
+
+        class EagerSimpleModel {
           readonly id: string;
           readonly name?: string | null;
           readonly bar?: string | null;
-          constructor(init: ModelInit<SimpleModel>);
-          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
+          constructor(init: ModelInit<SimpleModel>)
+          {
+          
+          }
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel
+          {
+          
+          }
+        }
+
+        class LazySimpleModel {
+          readonly id: string;
+          readonly name?: string | null;
+          readonly bar?: string | null;
+          constructor(init: ModelInit<SimpleModel>)
+          {
+          
+          }
+          static copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel
+          {
+          
+          }
         }"
       `);
       expect(generateImportSpy).toBeCalledTimes(1);
@@ -521,13 +725,34 @@ describe('Javascript visitor with auth directives in field level', () => {
       expect(declarations).toMatchInlineSnapshot(`
         "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 
-        export declare class Employee {
+        class EagerEmployee {
           readonly id: string;
           readonly name: string;
           readonly address: string;
           readonly ssn?: string | null;
-          constructor(init: ModelInit<Employee>);
-          static copyOf(source: Employee, mutator: (draft: MutableModel<Employee>) => MutableModel<Employee> | void): Employee;
+          constructor(init: ModelInit<Employee>)
+          {
+          
+          }
+          static copyOf(source: Employee, mutator: (draft: MutableModel<Employee>) => MutableModel<Employee> | void): Employee
+          {
+          
+          }
+        }
+
+        class LazyEmployee {
+          readonly id: string;
+          readonly name: string;
+          readonly address: string;
+          readonly ssn?: string | null;
+          constructor(init: ModelInit<Employee>)
+          {
+          
+          }
+          static copyOf(source: Employee, mutator: (draft: MutableModel<Employee>) => MutableModel<Employee> | void): Employee
+          {
+          
+          }
         }"
       `);
 
@@ -587,12 +812,23 @@ describe('Javascript visitor with custom primary key', () => {
 
 
 
-      export declare class WorkItem6 {
+      class EagerWorkItem6 {
         readonly id: string;
-        constructor(init: ModelInit<WorkItem6>);
+        constructor(init: ModelInit<WorkItem6>)
+        {
+        
+        }
       }
 
-      export declare class WorkItem0 {
+      class LazyWorkItem6 {
+        readonly id: string;
+        constructor(init: ModelInit<WorkItem6>)
+        {
+        
+        }
+      }
+
+      class EagerWorkItem0 {
         readonly [__modelMeta__]: {
           identifier: ManagedIdentifier<WorkItem0, 'id'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -602,11 +838,37 @@ describe('Javascript visitor with custom primary key', () => {
         readonly workItemId: string;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        constructor(init: ModelInit<WorkItem0>);
-        static copyOf(source: WorkItem0, mutator: (draft: MutableModel<WorkItem0>) => MutableModel<WorkItem0> | void): WorkItem0;
+        constructor(init: ModelInit<WorkItem0>)
+        {
+        
+        }
+        static copyOf(source: WorkItem0, mutator: (draft: MutableModel<WorkItem0>) => MutableModel<WorkItem0> | void): WorkItem0
+        {
+        
+        }
       }
 
-      export declare class WorkItem1 {
+      class LazyWorkItem0 {
+        readonly [__modelMeta__]: {
+          identifier: ManagedIdentifier<WorkItem0, 'id'>;
+          readOnlyFields: 'createdAt' | 'updatedAt';
+        };
+        readonly id: string;
+        readonly project: string;
+        readonly workItemId: string;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
+        constructor(init: ModelInit<WorkItem0>)
+        {
+        
+        }
+        static copyOf(source: WorkItem0, mutator: (draft: MutableModel<WorkItem0>) => MutableModel<WorkItem0> | void): WorkItem0
+        {
+        
+        }
+      }
+
+      class EagerWorkItem1 {
         readonly [__modelMeta__]: {
           identifier: CompositeIdentifier<WorkItem1, ['project', 'workItemId']>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -615,11 +877,36 @@ describe('Javascript visitor with custom primary key', () => {
         readonly workItemId: string;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        constructor(init: ModelInit<WorkItem1>);
-        static copyOf(source: WorkItem1, mutator: (draft: MutableModel<WorkItem1>) => MutableModel<WorkItem1> | void): WorkItem1;
+        constructor(init: ModelInit<WorkItem1>)
+        {
+        
+        }
+        static copyOf(source: WorkItem1, mutator: (draft: MutableModel<WorkItem1>) => MutableModel<WorkItem1> | void): WorkItem1
+        {
+        
+        }
       }
 
-      export declare class WorkItem2 {
+      class LazyWorkItem1 {
+        readonly [__modelMeta__]: {
+          identifier: CompositeIdentifier<WorkItem1, ['project', 'workItemId']>;
+          readOnlyFields: 'createdAt' | 'updatedAt';
+        };
+        readonly project: string;
+        readonly workItemId: string;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
+        constructor(init: ModelInit<WorkItem1>)
+        {
+        
+        }
+        static copyOf(source: WorkItem1, mutator: (draft: MutableModel<WorkItem1>) => MutableModel<WorkItem1> | void): WorkItem1
+        {
+        
+        }
+      }
+
+      class EagerWorkItem2 {
         readonly [__modelMeta__]: {
           identifier: CustomIdentifier<WorkItem2, 'project'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -627,11 +914,35 @@ describe('Javascript visitor with custom primary key', () => {
         readonly project: string;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        constructor(init: ModelInit<WorkItem2>);
-        static copyOf(source: WorkItem2, mutator: (draft: MutableModel<WorkItem2>) => MutableModel<WorkItem2> | void): WorkItem2;
+        constructor(init: ModelInit<WorkItem2>)
+        {
+        
+        }
+        static copyOf(source: WorkItem2, mutator: (draft: MutableModel<WorkItem2>) => MutableModel<WorkItem2> | void): WorkItem2
+        {
+        
+        }
       }
 
-      export declare class WorkItem3 {
+      class LazyWorkItem2 {
+        readonly [__modelMeta__]: {
+          identifier: CustomIdentifier<WorkItem2, 'project'>;
+          readOnlyFields: 'createdAt' | 'updatedAt';
+        };
+        readonly project: string;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
+        constructor(init: ModelInit<WorkItem2>)
+        {
+        
+        }
+        static copyOf(source: WorkItem2, mutator: (draft: MutableModel<WorkItem2>) => MutableModel<WorkItem2> | void): WorkItem2
+        {
+        
+        }
+      }
+
+      class EagerWorkItem3 {
         readonly [__modelMeta__]: {
           identifier: OptionallyManagedIdentifier<WorkItem3, 'id'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -639,11 +950,35 @@ describe('Javascript visitor with custom primary key', () => {
         readonly id: string;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        constructor(init: ModelInit<WorkItem3>);
-        static copyOf(source: WorkItem3, mutator: (draft: MutableModel<WorkItem3>) => MutableModel<WorkItem3> | void): WorkItem3;
+        constructor(init: ModelInit<WorkItem3>)
+        {
+        
+        }
+        static copyOf(source: WorkItem3, mutator: (draft: MutableModel<WorkItem3>) => MutableModel<WorkItem3> | void): WorkItem3
+        {
+        
+        }
       }
 
-      export declare class WorkItem4 {
+      class LazyWorkItem3 {
+        readonly [__modelMeta__]: {
+          identifier: OptionallyManagedIdentifier<WorkItem3, 'id'>;
+          readOnlyFields: 'createdAt' | 'updatedAt';
+        };
+        readonly id: string;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
+        constructor(init: ModelInit<WorkItem3>)
+        {
+        
+        }
+        static copyOf(source: WorkItem3, mutator: (draft: MutableModel<WorkItem3>) => MutableModel<WorkItem3> | void): WorkItem3
+        {
+        
+        }
+      }
+
+      class EagerWorkItem4 {
         readonly [__modelMeta__]: {
           identifier: ManagedIdentifier<WorkItem4, 'id'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -651,11 +986,35 @@ describe('Javascript visitor with custom primary key', () => {
         readonly id: string;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        constructor(init: ModelInit<WorkItem4>);
-        static copyOf(source: WorkItem4, mutator: (draft: MutableModel<WorkItem4>) => MutableModel<WorkItem4> | void): WorkItem4;
+        constructor(init: ModelInit<WorkItem4>)
+        {
+        
+        }
+        static copyOf(source: WorkItem4, mutator: (draft: MutableModel<WorkItem4>) => MutableModel<WorkItem4> | void): WorkItem4
+        {
+        
+        }
       }
 
-      export declare class WorkItem5 {
+      class LazyWorkItem4 {
+        readonly [__modelMeta__]: {
+          identifier: ManagedIdentifier<WorkItem4, 'id'>;
+          readOnlyFields: 'createdAt' | 'updatedAt';
+        };
+        readonly id: string;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
+        constructor(init: ModelInit<WorkItem4>)
+        {
+        
+        }
+        static copyOf(source: WorkItem4, mutator: (draft: MutableModel<WorkItem4>) => MutableModel<WorkItem4> | void): WorkItem4
+        {
+        
+        }
+      }
+
+      class EagerWorkItem5 {
         readonly [__modelMeta__]: {
           identifier: ManagedIdentifier<WorkItem5, 'id'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -664,8 +1023,33 @@ describe('Javascript visitor with custom primary key', () => {
         readonly title?: string | null;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        constructor(init: ModelInit<WorkItem5>);
-        static copyOf(source: WorkItem5, mutator: (draft: MutableModel<WorkItem5>) => MutableModel<WorkItem5> | void): WorkItem5;
+        constructor(init: ModelInit<WorkItem5>)
+        {
+        
+        }
+        static copyOf(source: WorkItem5, mutator: (draft: MutableModel<WorkItem5>) => MutableModel<WorkItem5> | void): WorkItem5
+        {
+        
+        }
+      }
+
+      class LazyWorkItem5 {
+        readonly [__modelMeta__]: {
+          identifier: ManagedIdentifier<WorkItem5, 'id'>;
+          readOnlyFields: 'createdAt' | 'updatedAt';
+        };
+        readonly id: string;
+        readonly title?: string | null;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
+        constructor(init: ModelInit<WorkItem5>)
+        {
+        
+        }
+        static copyOf(source: WorkItem5, mutator: (draft: MutableModel<WorkItem5>) => MutableModel<WorkItem5> | void): WorkItem5
+        {
+        
+        }
       }"
     `);
   });
@@ -724,7 +1108,7 @@ describe('New model meta field test', () => {
 
 
 
-      export declare class ModelDefault {
+      class EagerModelDefault {
         readonly [__modelMeta__]: {
           identifier: ManagedIdentifier<ModelDefault, 'id'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -734,11 +1118,37 @@ describe('New model meta field test', () => {
         readonly description?: string | null;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        constructor(init: ModelInit<ModelDefault>);
-        static copyOf(source: ModelDefault, mutator: (draft: MutableModel<ModelDefault>) => MutableModel<ModelDefault> | void): ModelDefault;
+        constructor(init: ModelInit<ModelDefault>)
+        {
+        
+        }
+        static copyOf(source: ModelDefault, mutator: (draft: MutableModel<ModelDefault>) => MutableModel<ModelDefault> | void): ModelDefault
+        {
+        
+        }
       }
 
-      export declare class ModelDefaultExplicitTimestamps {
+      class LazyModelDefault {
+        readonly [__modelMeta__]: {
+          identifier: ManagedIdentifier<ModelDefault, 'id'>;
+          readOnlyFields: 'createdAt' | 'updatedAt';
+        };
+        readonly id: string;
+        readonly name: string;
+        readonly description?: string | null;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
+        constructor(init: ModelInit<ModelDefault>)
+        {
+        
+        }
+        static copyOf(source: ModelDefault, mutator: (draft: MutableModel<ModelDefault>) => MutableModel<ModelDefault> | void): ModelDefault
+        {
+        
+        }
+      }
+
+      class EagerModelDefaultExplicitTimestamps {
         readonly [__modelMeta__]: {
           identifier: ManagedIdentifier<ModelDefaultExplicitTimestamps, 'id'>;
         };
@@ -747,11 +1157,36 @@ describe('New model meta field test', () => {
         readonly description?: string | null;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        constructor(init: ModelInit<ModelDefaultExplicitTimestamps>);
-        static copyOf(source: ModelDefaultExplicitTimestamps, mutator: (draft: MutableModel<ModelDefaultExplicitTimestamps>) => MutableModel<ModelDefaultExplicitTimestamps> | void): ModelDefaultExplicitTimestamps;
+        constructor(init: ModelInit<ModelDefaultExplicitTimestamps>)
+        {
+        
+        }
+        static copyOf(source: ModelDefaultExplicitTimestamps, mutator: (draft: MutableModel<ModelDefaultExplicitTimestamps>) => MutableModel<ModelDefaultExplicitTimestamps> | void): ModelDefaultExplicitTimestamps
+        {
+        
+        }
       }
 
-      export declare class ModelExplicitId {
+      class LazyModelDefaultExplicitTimestamps {
+        readonly [__modelMeta__]: {
+          identifier: ManagedIdentifier<ModelDefaultExplicitTimestamps, 'id'>;
+        };
+        readonly id: string;
+        readonly name: string;
+        readonly description?: string | null;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
+        constructor(init: ModelInit<ModelDefaultExplicitTimestamps>)
+        {
+        
+        }
+        static copyOf(source: ModelDefaultExplicitTimestamps, mutator: (draft: MutableModel<ModelDefaultExplicitTimestamps>) => MutableModel<ModelDefaultExplicitTimestamps> | void): ModelDefaultExplicitTimestamps
+        {
+        
+        }
+      }
+
+      class EagerModelExplicitId {
         readonly [__modelMeta__]: {
           identifier: OptionallyManagedIdentifier<ModelExplicitId, 'id'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -761,11 +1196,37 @@ describe('New model meta field test', () => {
         readonly description?: string | null;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        constructor(init: ModelInit<ModelExplicitId>);
-        static copyOf(source: ModelExplicitId, mutator: (draft: MutableModel<ModelExplicitId>) => MutableModel<ModelExplicitId> | void): ModelExplicitId;
+        constructor(init: ModelInit<ModelExplicitId>)
+        {
+        
+        }
+        static copyOf(source: ModelExplicitId, mutator: (draft: MutableModel<ModelExplicitId>) => MutableModel<ModelExplicitId> | void): ModelExplicitId
+        {
+        
+        }
       }
 
-      export declare class ModelExplicitIdWithSk {
+      class LazyModelExplicitId {
+        readonly [__modelMeta__]: {
+          identifier: OptionallyManagedIdentifier<ModelExplicitId, 'id'>;
+          readOnlyFields: 'createdAt' | 'updatedAt';
+        };
+        readonly id: string;
+        readonly name: string;
+        readonly description?: string | null;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
+        constructor(init: ModelInit<ModelExplicitId>)
+        {
+        
+        }
+        static copyOf(source: ModelExplicitId, mutator: (draft: MutableModel<ModelExplicitId>) => MutableModel<ModelExplicitId> | void): ModelExplicitId
+        {
+        
+        }
+      }
+
+      class EagerModelExplicitIdWithSk {
         readonly [__modelMeta__]: {
           identifier: CompositeIdentifier<ModelExplicitIdWithSk, ['id', 'name']>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -775,11 +1236,37 @@ describe('New model meta field test', () => {
         readonly description?: string | null;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        constructor(init: ModelInit<ModelExplicitIdWithSk>);
-        static copyOf(source: ModelExplicitIdWithSk, mutator: (draft: MutableModel<ModelExplicitIdWithSk>) => MutableModel<ModelExplicitIdWithSk> | void): ModelExplicitIdWithSk;
+        constructor(init: ModelInit<ModelExplicitIdWithSk>)
+        {
+        
+        }
+        static copyOf(source: ModelExplicitIdWithSk, mutator: (draft: MutableModel<ModelExplicitIdWithSk>) => MutableModel<ModelExplicitIdWithSk> | void): ModelExplicitIdWithSk
+        {
+        
+        }
       }
 
-      export declare class ModelCustomPk {
+      class LazyModelExplicitIdWithSk {
+        readonly [__modelMeta__]: {
+          identifier: CompositeIdentifier<ModelExplicitIdWithSk, ['id', 'name']>;
+          readOnlyFields: 'createdAt' | 'updatedAt';
+        };
+        readonly id: string;
+        readonly name: string;
+        readonly description?: string | null;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
+        constructor(init: ModelInit<ModelExplicitIdWithSk>)
+        {
+        
+        }
+        static copyOf(source: ModelExplicitIdWithSk, mutator: (draft: MutableModel<ModelExplicitIdWithSk>) => MutableModel<ModelExplicitIdWithSk> | void): ModelExplicitIdWithSk
+        {
+        
+        }
+      }
+
+      class EagerModelCustomPk {
         readonly [__modelMeta__]: {
           identifier: CustomIdentifier<ModelCustomPk, 'myId'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -790,11 +1277,38 @@ describe('New model meta field test', () => {
         readonly description?: string | null;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        constructor(init: ModelInit<ModelCustomPk>);
-        static copyOf(source: ModelCustomPk, mutator: (draft: MutableModel<ModelCustomPk>) => MutableModel<ModelCustomPk> | void): ModelCustomPk;
+        constructor(init: ModelInit<ModelCustomPk>)
+        {
+        
+        }
+        static copyOf(source: ModelCustomPk, mutator: (draft: MutableModel<ModelCustomPk>) => MutableModel<ModelCustomPk> | void): ModelCustomPk
+        {
+        
+        }
       }
 
-      export declare class ModelCustomPkSk {
+      class LazyModelCustomPk {
+        readonly [__modelMeta__]: {
+          identifier: CustomIdentifier<ModelCustomPk, 'myId'>;
+          readOnlyFields: 'createdAt' | 'updatedAt';
+        };
+        readonly id: string;
+        readonly myId: string;
+        readonly name: string;
+        readonly description?: string | null;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
+        constructor(init: ModelInit<ModelCustomPk>)
+        {
+        
+        }
+        static copyOf(source: ModelCustomPk, mutator: (draft: MutableModel<ModelCustomPk>) => MutableModel<ModelCustomPk> | void): ModelCustomPk
+        {
+        
+        }
+      }
+
+      class EagerModelCustomPkSk {
         readonly [__modelMeta__]: {
           identifier: CompositeIdentifier<ModelCustomPkSk, ['tenant', 'dob']>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -805,8 +1319,35 @@ describe('New model meta field test', () => {
         readonly description?: string | null;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        constructor(init: ModelInit<ModelCustomPkSk>);
-        static copyOf(source: ModelCustomPkSk, mutator: (draft: MutableModel<ModelCustomPkSk>) => MutableModel<ModelCustomPkSk> | void): ModelCustomPkSk;
+        constructor(init: ModelInit<ModelCustomPkSk>)
+        {
+        
+        }
+        static copyOf(source: ModelCustomPkSk, mutator: (draft: MutableModel<ModelCustomPkSk>) => MutableModel<ModelCustomPkSk> | void): ModelCustomPkSk
+        {
+        
+        }
+      }
+
+      class LazyModelCustomPkSk {
+        readonly [__modelMeta__]: {
+          identifier: CompositeIdentifier<ModelCustomPkSk, ['tenant', 'dob']>;
+          readOnlyFields: 'createdAt' | 'updatedAt';
+        };
+        readonly tenant: string;
+        readonly dob: string;
+        readonly name: string;
+        readonly description?: string | null;
+        readonly createdAt?: string | null;
+        readonly updatedAt?: string | null;
+        constructor(init: ModelInit<ModelCustomPkSk>)
+        {
+        
+        }
+        static copyOf(source: ModelCustomPkSk, mutator: (draft: MutableModel<ModelCustomPkSk>) => MutableModel<ModelCustomPkSk> | void): ModelCustomPkSk
+        {
+        
+        }
       }"
     `);
   });

@@ -156,11 +156,8 @@ export class AppSyncModelTypeScriptVisitor<
    */
   protected generateModelDeclaration(modelObj: CodeGenModel, isDeclaration: boolean = true, isModelType: boolean = true): string {
     const modelName = this.generateModelTypeDeclarationName(modelObj);
-    const modelDeclarations = new TypeScriptDeclarationBlock()
-      .asKind('class')
-      .withFlag({ isDeclaration })
-      .withName(modelName)
-      .export(true);
+    const eagerModelDeclaration = new TypeScriptDeclarationBlock().asKind('class').withName(`Eager${modelName}`);
+    const lazyModelDeclaration = new TypeScriptDeclarationBlock().asKind('class').withName(`Lazy${modelName}`);
 
     let readOnlyFieldNames: string[] = [];
     let modelMetaDataFormatted: string | undefined;
@@ -169,15 +166,26 @@ export class AppSyncModelTypeScriptVisitor<
     if (isModelType && this.isCustomPKEnabled()) {
       //Add new model meta import
       this.BASE_DATASTORE_IMPORT.add(this.MODEL_META_FIELD_NAME);
-      modelDeclarations.addProperty(`[${this.MODEL_META_FIELD_NAME}]`, this.generateModelMetaDataType(modelObj), undefined, 'DEFAULT', {
+      const modelMetaDataType = this.generateModelMetaDataType(modelObj);
+      eagerModelDeclaration.addProperty(`[${this.MODEL_META_FIELD_NAME}]`, modelMetaDataType, undefined, 'DEFAULT', {
+        readonly: true,
+        optional: false,
+      });
+      lazyModelDeclaration.addProperty(`[${this.MODEL_META_FIELD_NAME}]`, modelMetaDataType, undefined, 'DEFAULT', {
         readonly: true,
         optional: false,
       });
     }
     modelObj.fields.forEach((field: CodeGenField) => {
-      modelDeclarations.addProperty(this.getFieldName(field), this.getNativeType(field), undefined, 'DEFAULT', {
+      console.log(field);
+      const fieldName = this.getFieldName(field);
+      eagerModelDeclaration.addProperty(fieldName, this.getNativeType(field, false), undefined, 'DEFAULT', {
         readonly: true,
         optional: field.isList ? field.isListNullable : field.isNullable,
+      });
+      lazyModelDeclaration.addProperty(fieldName, this.getNativeType(field, true), undefined, 'DEFAULT', {
+        readonly: true,
+        optional: !this.isModelType(field) && (field.isList ? field.isListNullable : field.isNullable),
       });
       if (field.isReadOnly) {
         readOnlyFieldNames.push(`'${field.name}'`);
@@ -190,7 +198,20 @@ export class AppSyncModelTypeScriptVisitor<
     }
 
     // Constructor
-    modelDeclarations.addClassMethod(
+    eagerModelDeclaration.addClassMethod(
+      'constructor',
+      null,
+      null,
+      [
+        {
+          name: 'init',
+          type: `ModelInit<${modelName}${modelMetaDataDeclaration}>`,
+        },
+      ],
+      'DEFAULT',
+      {},
+    );
+    lazyModelDeclaration.addClassMethod(
       'constructor',
       null,
       null,
@@ -206,7 +227,24 @@ export class AppSyncModelTypeScriptVisitor<
 
     // copyOf method
     if (Object.values(this.modelMap).includes(modelObj)) {
-      modelDeclarations.addClassMethod(
+      eagerModelDeclaration.addClassMethod(
+        'copyOf',
+        modelName,
+        null,
+        [
+          {
+            name: 'source',
+            type: modelName,
+          },
+          {
+            name: 'mutator',
+            type: `(draft: MutableModel<${modelName}${modelMetaDataDeclaration}>) => MutableModel<${modelName}${modelMetaDataDeclaration}> | void`,
+          },
+        ],
+        'DEFAULT',
+        { static: true },
+      );
+      lazyModelDeclaration.addClassMethod(
         'copyOf',
         modelName,
         null,
@@ -224,7 +262,7 @@ export class AppSyncModelTypeScriptVisitor<
         { static: true },
       );
     }
-    return modelDeclarations.string;
+    return [eagerModelDeclaration.string, lazyModelDeclaration.string].join('\n\n');
   }
 
   /**
@@ -309,7 +347,7 @@ export class AppSyncModelTypeScriptVisitor<
     return `${type}[]`;
   }
 
-  protected getNativeType(field: CodeGenField): string {
+  protected getNativeType(field: CodeGenField, lazy: boolean): string {
     const typeName = field.type;
     const isNullable = field.isList ? field.isListNullable : field.isNullable;
     const nullableTypeUnion = isNullable ? ' | null' : '';
@@ -324,11 +362,11 @@ export class AppSyncModelTypeScriptVisitor<
         this.BASE_DATASTORE_IMPORT.add('AsyncCollection');
       }
 
-      const lazyType = `${field.isList ? 'AsyncCollection' : 'Promise'}<${typeNameStr}>`;
-      const eagerType = field.isList ? this.getListType(typeNameStr, field) : typeNameStr;
-      const conditionalTypeExpression = 'LazyLoading extends Disabled';
+      if (lazy) {
+        return `${field.isList ? 'AsyncCollection' : 'Promise'}<${typeNameStr}${!field.isList && isNullable ? ' | undefined' : ''}>`;
+      }
 
-      return `(${conditionalTypeExpression} ? ${eagerType} : ${lazyType})${nullableTypeUnion}`;
+      return (field.isList ? this.getListType(typeNameStr, field) : typeNameStr) + nullableTypeUnion;
     }
 
     let nativeType = super.getNativeType(field);

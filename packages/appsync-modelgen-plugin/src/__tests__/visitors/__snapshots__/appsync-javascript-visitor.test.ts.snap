@@ -7,34 +7,88 @@ exports[`Javascript visitor with connected models of custom pk hasMany/belongsTo
 
 
 
-export declare class Post {
+class EagerPost {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Post, ['customPostId', 'title']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly customPostId: string;
   readonly title: string;
-  readonly comments?: (LazyLoading extends Disabled ? (Comment | null)[] : AsyncCollection<Comment>) | null;
+  readonly comments?: (Comment | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Post>);
-  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+  constructor(init: ModelInit<Post>)
+  {
+  
+  }
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post
+  {
+  
+  }
 }
 
-export declare class Comment {
+class LazyPost {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Post, ['customPostId', 'title']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly customPostId: string;
+  readonly title: string;
+  readonly comments: AsyncCollection<Comment>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<Post>)
+  {
+  
+  }
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post
+  {
+  
+  }
+}
+
+class EagerComment {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Comment, ['customPostId', 'content']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly customPostId: string;
   readonly content: string;
-  readonly post?: (LazyLoading extends Disabled ? Post : Promise<Post>) | null;
+  readonly post?: Post | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly postCommentsCustomPostId?: string | null;
   readonly postCommentsTitle?: string | null;
-  constructor(init: ModelInit<Comment>);
-  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
+  constructor(init: ModelInit<Comment>)
+  {
+  
+  }
+  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment
+  {
+  
+  }
+}
+
+class LazyComment {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Comment, ['customPostId', 'content']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly customPostId: string;
+  readonly content: string;
+  readonly post: Promise<Post | undefined>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly postCommentsCustomPostId?: string | null;
+  readonly postCommentsTitle?: string | null;
+  constructor(init: ModelInit<Comment>)
+  {
+  
+  }
+  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment
+  {
+  
+  }
 }"
 `;
 
@@ -45,21 +99,47 @@ exports[`Javascript visitor with connected models of custom pk hasMany/belongsTo
 
 
 
-export declare class Post {
+class EagerPost {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Post, ['id', 'title']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
   readonly title: string;
-  readonly comments?: (LazyLoading extends Disabled ? (Comment | null)[] : AsyncCollection<Comment>) | null;
+  readonly comments?: (Comment | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Post>);
-  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+  constructor(init: ModelInit<Post>)
+  {
+  
+  }
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post
+  {
+  
+  }
 }
 
-export declare class Comment {
+class LazyPost {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Post, ['id', 'title']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly title: string;
+  readonly comments: AsyncCollection<Comment>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<Post>)
+  {
+  
+  }
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post
+  {
+  
+  }
+}
+
+class EagerComment {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Comment, ['id', 'content']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
@@ -70,8 +150,35 @@ export declare class Comment {
   readonly updatedAt?: string | null;
   readonly postCommentsId?: string | null;
   readonly postCommentsTitle?: string | null;
-  constructor(init: ModelInit<Comment>);
-  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
+  constructor(init: ModelInit<Comment>)
+  {
+  
+  }
+  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment
+  {
+  
+  }
+}
+
+class LazyComment {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Comment, ['id', 'content']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly content: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly postCommentsId?: string | null;
+  readonly postCommentsTitle?: string | null;
+  constructor(init: ModelInit<Comment>)
+  {
+  
+  }
+  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment
+  {
+  
+  }
 }"
 `;
 
@@ -82,36 +189,92 @@ exports[`Javascript visitor with connected models of custom pk hasOne/belongsTo 
 
 
 
-export declare class Project {
+class EagerProject {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Project, ['id', 'name']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
   readonly name: string;
-  readonly team?: (LazyLoading extends Disabled ? Team : Promise<Team>) | null;
+  readonly team?: Team | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly projectTeamId?: string | null;
   readonly projectTeamName?: string | null;
-  constructor(init: ModelInit<Project>);
-  static copyOf(source: Project, mutator: (draft: MutableModel<Project>) => MutableModel<Project> | void): Project;
+  constructor(init: ModelInit<Project>)
+  {
+  
+  }
+  static copyOf(source: Project, mutator: (draft: MutableModel<Project>) => MutableModel<Project> | void): Project
+  {
+  
+  }
 }
 
-export declare class Team {
+class LazyProject {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Project, ['id', 'name']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly name: string;
+  readonly team: Promise<Team | undefined>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly projectTeamId?: string | null;
+  readonly projectTeamName?: string | null;
+  constructor(init: ModelInit<Project>)
+  {
+  
+  }
+  static copyOf(source: Project, mutator: (draft: MutableModel<Project>) => MutableModel<Project> | void): Project
+  {
+  
+  }
+}
+
+class EagerTeam {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Team, ['id', 'name']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
   readonly name: string;
-  readonly project?: (LazyLoading extends Disabled ? Project : Promise<Project>) | null;
+  readonly project?: Project | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly teamProjectId?: string | null;
   readonly teamProjectName?: string | null;
-  constructor(init: ModelInit<Team>);
-  static copyOf(source: Team, mutator: (draft: MutableModel<Team>) => MutableModel<Team> | void): Team;
+  constructor(init: ModelInit<Team>)
+  {
+  
+  }
+  static copyOf(source: Team, mutator: (draft: MutableModel<Team>) => MutableModel<Team> | void): Team
+  {
+  
+  }
+}
+
+class LazyTeam {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Team, ['id', 'name']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly name: string;
+  readonly project: Promise<Project | undefined>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly teamProjectId?: string | null;
+  readonly teamProjectName?: string | null;
+  constructor(init: ModelInit<Team>)
+  {
+  
+  }
+  static copyOf(source: Team, mutator: (draft: MutableModel<Team>) => MutableModel<Team> | void): Team
+  {
+  
+  }
 }"
 `;
 
@@ -122,7 +285,7 @@ exports[`Javascript visitor with connected models of custom pk manyToMany relati
 
 
 
-export declare class Post {
+class EagerPost {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Post, ['customPostId', 'title']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
@@ -130,28 +293,81 @@ export declare class Post {
   readonly customPostId: string;
   readonly title: string;
   readonly content?: string | null;
-  readonly tags?: (LazyLoading extends Disabled ? (PostTags | null)[] : AsyncCollection<PostTags>) | null;
+  readonly tags?: (PostTags | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Post>);
-  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+  constructor(init: ModelInit<Post>)
+  {
+  
+  }
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post
+  {
+  
+  }
 }
 
-export declare class Tag {
+class LazyPost {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Post, ['customPostId', 'title']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly customPostId: string;
+  readonly title: string;
+  readonly content?: string | null;
+  readonly tags: AsyncCollection<PostTags>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<Post>)
+  {
+  
+  }
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post
+  {
+  
+  }
+}
+
+class EagerTag {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Tag, ['customTagId', 'label']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly customTagId: string;
   readonly label: string;
-  readonly posts?: (LazyLoading extends Disabled ? (PostTags | null)[] : AsyncCollection<PostTags>) | null;
+  readonly posts?: (PostTags | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Tag>);
-  static copyOf(source: Tag, mutator: (draft: MutableModel<Tag>) => MutableModel<Tag> | void): Tag;
+  constructor(init: ModelInit<Tag>)
+  {
+  
+  }
+  static copyOf(source: Tag, mutator: (draft: MutableModel<Tag>) => MutableModel<Tag> | void): Tag
+  {
+  
+  }
 }
 
-export declare class PostTags {
+class LazyTag {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Tag, ['customTagId', 'label']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly customTagId: string;
+  readonly label: string;
+  readonly posts: AsyncCollection<PostTags>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<Tag>)
+  {
+  
+  }
+  static copyOf(source: Tag, mutator: (draft: MutableModel<Tag>) => MutableModel<Tag> | void): Tag
+  {
+  
+  }
+}
+
+class EagerPostTags {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<PostTags, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
@@ -161,11 +377,41 @@ export declare class PostTags {
   readonly posttitle?: string | null;
   readonly tagCustomTagId?: string | null;
   readonly taglabel?: string | null;
-  readonly post: (LazyLoading extends Disabled ? Post : Promise<Post>);
-  readonly tag: (LazyLoading extends Disabled ? Tag : Promise<Tag>);
+  readonly post: Post;
+  readonly tag: Tag;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<PostTags>);
-  static copyOf(source: PostTags, mutator: (draft: MutableModel<PostTags>) => MutableModel<PostTags> | void): PostTags;
+  constructor(init: ModelInit<PostTags>)
+  {
+  
+  }
+  static copyOf(source: PostTags, mutator: (draft: MutableModel<PostTags>) => MutableModel<PostTags> | void): PostTags
+  {
+  
+  }
+}
+
+class LazyPostTags {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<PostTags, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly postCustomPostId?: string | null;
+  readonly posttitle?: string | null;
+  readonly tagCustomTagId?: string | null;
+  readonly taglabel?: string | null;
+  readonly post: Promise<Post>;
+  readonly tag: Promise<Tag>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<PostTags>)
+  {
+  
+  }
+  static copyOf(source: PostTags, mutator: (draft: MutableModel<PostTags>) => MutableModel<PostTags> | void): PostTags
+  {
+  
+  }
 }"
 `;
