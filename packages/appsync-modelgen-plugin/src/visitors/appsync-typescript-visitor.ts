@@ -196,73 +196,20 @@ export class AppSyncModelTypeScriptVisitor<
       modelMetaDataFormatted = `, ${modelName}MetaData`;
       modelMetaDataDeclaration = readOnlyFieldNames.length > 0 ? modelMetaDataFormatted : '';
     }
+    const conditionalType = `export declare type ${modelName} = LazyLoading extends Disabled ? Eager${modelName} : Lazy${modelName}`;
 
-    // Constructor
-    eagerModelDeclaration.addClassMethod(
-      'constructor',
-      null,
-      null,
-      [
-        {
-          name: 'init',
-          type: `ModelInit<${modelName}${modelMetaDataDeclaration}>`,
-        },
-      ],
-      'DEFAULT',
-      {},
-    );
-    lazyModelDeclaration.addClassMethod(
-      'constructor',
-      null,
-      null,
-      [
-        {
-          name: 'init',
-          type: `ModelInit<${modelName}${modelMetaDataDeclaration}>`,
-        },
-      ],
-      'DEFAULT',
-      {},
-    );
-
-    // copyOf method
+    const modelVariableBuilder = [
+      `export declare const ${modelName}: (new (init: ModelInit<${modelName}${modelMetaDataDeclaration}>) => ${modelName})`,
+      modelName,
+    ];
     if (Object.values(this.modelMap).includes(modelObj)) {
-      eagerModelDeclaration.addClassMethod(
-        'copyOf',
-        modelName,
-        null,
-        [
-          {
-            name: 'source',
-            type: modelName,
-          },
-          {
-            name: 'mutator',
-            type: `(draft: MutableModel<${modelName}${modelMetaDataDeclaration}>) => MutableModel<${modelName}${modelMetaDataDeclaration}> | void`,
-          },
-        ],
-        'DEFAULT',
-        { static: true },
-      );
-      lazyModelDeclaration.addClassMethod(
-        'copyOf',
-        modelName,
-        null,
-        [
-          {
-            name: 'source',
-            type: modelName,
-          },
-          {
-            name: 'mutator',
-            type: `(draft: MutableModel<${modelName}${modelMetaDataDeclaration}>) => MutableModel<${modelName}${modelMetaDataDeclaration}> | void`,
-          },
-        ],
-        'DEFAULT',
-        { static: true },
+      modelVariableBuilder.push(
+        `{\n  static copyOf(source: ${modelName}, mutator: (draft: MutableModel<${modelName}${modelMetaDataDeclaration}>) => MutableModel<${modelName}${modelMetaDataDeclaration}> | void): ${modelName};\n}`,
       );
     }
-    return [eagerModelDeclaration.string, lazyModelDeclaration.string].join('\n\n');
+    const modelVariable = modelVariableBuilder.join(' & ');
+
+    return [eagerModelDeclaration.string, lazyModelDeclaration.string, conditionalType, modelVariable].join('\n\n');
   }
 
   /**

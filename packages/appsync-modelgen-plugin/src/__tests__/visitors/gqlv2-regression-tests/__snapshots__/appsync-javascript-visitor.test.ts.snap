@@ -32,14 +32,7 @@ class EagerPost {
   readonly comments?: (Comment | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Post, PostMetaData>)
-  {
   
-  }
-  static copyOf(source: Post, mutator: (draft: MutableModel<Post, PostMetaData>) => MutableModel<Post, PostMetaData> | void): Post
-  {
-  
-  }
 }
 
 class LazyPost {
@@ -48,14 +41,13 @@ class LazyPost {
   readonly comments: AsyncCollection<Comment>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Post, PostMetaData>)
-  {
   
-  }
-  static copyOf(source: Post, mutator: (draft: MutableModel<Post, PostMetaData>) => MutableModel<Post, PostMetaData> | void): Post
-  {
-  
-  }
+}
+
+export declare type Post = LazyLoading extends Disabled ? EagerPost : LazyPost
+
+export declare const Post: (new (init: ModelInit<Post, PostMetaData>) => Post) & Post & {
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post, PostMetaData>) => MutableModel<Post, PostMetaData> | void): Post;
 }
 
 class EagerComment {
@@ -64,14 +56,7 @@ class EagerComment {
   readonly post?: Post | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Comment, CommentMetaData>)
-  {
   
-  }
-  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment, CommentMetaData>) => MutableModel<Comment, CommentMetaData> | void): Comment
-  {
-  
-  }
 }
 
 class LazyComment {
@@ -80,14 +65,13 @@ class LazyComment {
   readonly post: Promise<Post | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Comment, CommentMetaData>)
-  {
   
-  }
-  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment, CommentMetaData>) => MutableModel<Comment, CommentMetaData> | void): Comment
-  {
-  
-  }
+}
+
+export declare type Comment = LazyLoading extends Disabled ? EagerComment : LazyComment
+
+export declare const Comment: (new (init: ModelInit<Comment, CommentMetaData>) => Comment) & Comment & {
+  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment, CommentMetaData>) => MutableModel<Comment, CommentMetaData> | void): Comment;
 }"
 `;
 
@@ -124,14 +108,7 @@ class EagerProject2 {
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly project2TeamId?: string | null;
-  constructor(init: ModelInit<Project2, Project2MetaData>)
-  {
   
-  }
-  static copyOf(source: Project2, mutator: (draft: MutableModel<Project2, Project2MetaData>) => MutableModel<Project2, Project2MetaData> | void): Project2
-  {
-  
-  }
 }
 
 class LazyProject2 {
@@ -141,14 +118,13 @@ class LazyProject2 {
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly project2TeamId?: string | null;
-  constructor(init: ModelInit<Project2, Project2MetaData>)
-  {
   
-  }
-  static copyOf(source: Project2, mutator: (draft: MutableModel<Project2, Project2MetaData>) => MutableModel<Project2, Project2MetaData> | void): Project2
-  {
-  
-  }
+}
+
+export declare type Project2 = LazyLoading extends Disabled ? EagerProject2 : LazyProject2
+
+export declare const Project2: (new (init: ModelInit<Project2, Project2MetaData>) => Project2) & Project2 & {
+  static copyOf(source: Project2, mutator: (draft: MutableModel<Project2, Project2MetaData>) => MutableModel<Project2, Project2MetaData> | void): Project2;
 }
 
 class EagerTeam2 {
@@ -157,14 +133,7 @@ class EagerTeam2 {
   readonly project?: Project2 | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Team2, Team2MetaData>)
-  {
   
-  }
-  static copyOf(source: Team2, mutator: (draft: MutableModel<Team2, Team2MetaData>) => MutableModel<Team2, Team2MetaData> | void): Team2
-  {
-  
-  }
 }
 
 class LazyTeam2 {
@@ -173,14 +142,13 @@ class LazyTeam2 {
   readonly project: Promise<Project2 | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Team2, Team2MetaData>)
-  {
   
-  }
-  static copyOf(source: Team2, mutator: (draft: MutableModel<Team2, Team2MetaData>) => MutableModel<Team2, Team2MetaData> | void): Team2
-  {
-  
-  }
+}
+
+export declare type Team2 = LazyLoading extends Disabled ? EagerTeam2 : LazyTeam2
+
+export declare const Team2: (new (init: ModelInit<Team2, Team2MetaData>) => Team2) & Team2 & {
+  static copyOf(source: Team2, mutator: (draft: MutableModel<Team2, Team2MetaData>) => MutableModel<Team2, Team2MetaData> | void): Team2;
 }"
 `;
 
@@ -221,14 +189,7 @@ class EagerBlog7V2 {
   readonly posts?: (Post7V2 | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Blog7V2, Blog7V2MetaData>)
-  {
   
-  }
-  static copyOf(source: Blog7V2, mutator: (draft: MutableModel<Blog7V2, Blog7V2MetaData>) => MutableModel<Blog7V2, Blog7V2MetaData> | void): Blog7V2
-  {
-  
-  }
 }
 
 class LazyBlog7V2 {
@@ -237,14 +198,13 @@ class LazyBlog7V2 {
   readonly posts: AsyncCollection<Post7V2>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Blog7V2, Blog7V2MetaData>)
-  {
   
-  }
-  static copyOf(source: Blog7V2, mutator: (draft: MutableModel<Blog7V2, Blog7V2MetaData>) => MutableModel<Blog7V2, Blog7V2MetaData> | void): Blog7V2
-  {
-  
-  }
+}
+
+export declare type Blog7V2 = LazyLoading extends Disabled ? EagerBlog7V2 : LazyBlog7V2
+
+export declare const Blog7V2: (new (init: ModelInit<Blog7V2, Blog7V2MetaData>) => Blog7V2) & Blog7V2 & {
+  static copyOf(source: Blog7V2, mutator: (draft: MutableModel<Blog7V2, Blog7V2MetaData>) => MutableModel<Blog7V2, Blog7V2MetaData> | void): Blog7V2;
 }
 
 class EagerPost7V2 {
@@ -254,14 +214,7 @@ class EagerPost7V2 {
   readonly comments?: (Comment7V2 | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Post7V2, Post7V2MetaData>)
-  {
   
-  }
-  static copyOf(source: Post7V2, mutator: (draft: MutableModel<Post7V2, Post7V2MetaData>) => MutableModel<Post7V2, Post7V2MetaData> | void): Post7V2
-  {
-  
-  }
 }
 
 class LazyPost7V2 {
@@ -271,14 +224,13 @@ class LazyPost7V2 {
   readonly comments: AsyncCollection<Comment7V2>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Post7V2, Post7V2MetaData>)
-  {
   
-  }
-  static copyOf(source: Post7V2, mutator: (draft: MutableModel<Post7V2, Post7V2MetaData>) => MutableModel<Post7V2, Post7V2MetaData> | void): Post7V2
-  {
-  
-  }
+}
+
+export declare type Post7V2 = LazyLoading extends Disabled ? EagerPost7V2 : LazyPost7V2
+
+export declare const Post7V2: (new (init: ModelInit<Post7V2, Post7V2MetaData>) => Post7V2) & Post7V2 & {
+  static copyOf(source: Post7V2, mutator: (draft: MutableModel<Post7V2, Post7V2MetaData>) => MutableModel<Post7V2, Post7V2MetaData> | void): Post7V2;
 }
 
 class EagerComment7V2 {
@@ -287,14 +239,7 @@ class EagerComment7V2 {
   readonly post?: Post7V2 | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Comment7V2, Comment7V2MetaData>)
-  {
   
-  }
-  static copyOf(source: Comment7V2, mutator: (draft: MutableModel<Comment7V2, Comment7V2MetaData>) => MutableModel<Comment7V2, Comment7V2MetaData> | void): Comment7V2
-  {
-  
-  }
 }
 
 class LazyComment7V2 {
@@ -303,14 +248,13 @@ class LazyComment7V2 {
   readonly post: Promise<Post7V2 | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Comment7V2, Comment7V2MetaData>)
-  {
   
-  }
-  static copyOf(source: Comment7V2, mutator: (draft: MutableModel<Comment7V2, Comment7V2MetaData>) => MutableModel<Comment7V2, Comment7V2MetaData> | void): Comment7V2
-  {
-  
-  }
+}
+
+export declare type Comment7V2 = LazyLoading extends Disabled ? EagerComment7V2 : LazyComment7V2
+
+export declare const Comment7V2: (new (init: ModelInit<Comment7V2, Comment7V2MetaData>) => Comment7V2) & Comment7V2 & {
+  static copyOf(source: Comment7V2, mutator: (draft: MutableModel<Comment7V2, Comment7V2MetaData>) => MutableModel<Comment7V2, Comment7V2MetaData> | void): Comment7V2;
 }"
 `;
 
@@ -347,14 +291,7 @@ class EagerProject {
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly projectTeamId?: string | null;
-  constructor(init: ModelInit<Project, ProjectMetaData>)
-  {
   
-  }
-  static copyOf(source: Project, mutator: (draft: MutableModel<Project, ProjectMetaData>) => MutableModel<Project, ProjectMetaData> | void): Project
-  {
-  
-  }
 }
 
 class LazyProject {
@@ -364,14 +301,13 @@ class LazyProject {
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly projectTeamId?: string | null;
-  constructor(init: ModelInit<Project, ProjectMetaData>)
-  {
   
-  }
-  static copyOf(source: Project, mutator: (draft: MutableModel<Project, ProjectMetaData>) => MutableModel<Project, ProjectMetaData> | void): Project
-  {
-  
-  }
+}
+
+export declare type Project = LazyLoading extends Disabled ? EagerProject : LazyProject
+
+export declare const Project: (new (init: ModelInit<Project, ProjectMetaData>) => Project) & Project & {
+  static copyOf(source: Project, mutator: (draft: MutableModel<Project, ProjectMetaData>) => MutableModel<Project, ProjectMetaData> | void): Project;
 }
 
 class EagerTeam {
@@ -380,14 +316,7 @@ class EagerTeam {
   readonly project?: Project | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Team, TeamMetaData>)
-  {
   
-  }
-  static copyOf(source: Team, mutator: (draft: MutableModel<Team, TeamMetaData>) => MutableModel<Team, TeamMetaData> | void): Team
-  {
-  
-  }
 }
 
 class LazyTeam {
@@ -396,14 +325,13 @@ class LazyTeam {
   readonly project: Promise<Project | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Team, TeamMetaData>)
-  {
   
-  }
-  static copyOf(source: Team, mutator: (draft: MutableModel<Team, TeamMetaData>) => MutableModel<Team, TeamMetaData> | void): Team
-  {
-  
-  }
+}
+
+export declare type Team = LazyLoading extends Disabled ? EagerTeam : LazyTeam
+
+export declare const Team: (new (init: ModelInit<Team, TeamMetaData>) => Team) & Team & {
+  static copyOf(source: Team, mutator: (draft: MutableModel<Team, TeamMetaData>) => MutableModel<Team, TeamMetaData> | void): Team;
 }"
 `;
 
@@ -445,14 +373,7 @@ class EagerPost {
   readonly tags?: (PostTags | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Post, PostMetaData>)
-  {
   
-  }
-  static copyOf(source: Post, mutator: (draft: MutableModel<Post, PostMetaData>) => MutableModel<Post, PostMetaData> | void): Post
-  {
-  
-  }
 }
 
 class LazyPost {
@@ -462,14 +383,13 @@ class LazyPost {
   readonly tags: AsyncCollection<PostTags>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Post, PostMetaData>)
-  {
   
-  }
-  static copyOf(source: Post, mutator: (draft: MutableModel<Post, PostMetaData>) => MutableModel<Post, PostMetaData> | void): Post
-  {
-  
-  }
+}
+
+export declare type Post = LazyLoading extends Disabled ? EagerPost : LazyPost
+
+export declare const Post: (new (init: ModelInit<Post, PostMetaData>) => Post) & Post & {
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post, PostMetaData>) => MutableModel<Post, PostMetaData> | void): Post;
 }
 
 class EagerTag {
@@ -478,14 +398,7 @@ class EagerTag {
   readonly posts?: (PostTags | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Tag, TagMetaData>)
-  {
   
-  }
-  static copyOf(source: Tag, mutator: (draft: MutableModel<Tag, TagMetaData>) => MutableModel<Tag, TagMetaData> | void): Tag
-  {
-  
-  }
 }
 
 class LazyTag {
@@ -494,14 +407,13 @@ class LazyTag {
   readonly posts: AsyncCollection<PostTags>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Tag, TagMetaData>)
-  {
   
-  }
-  static copyOf(source: Tag, mutator: (draft: MutableModel<Tag, TagMetaData>) => MutableModel<Tag, TagMetaData> | void): Tag
-  {
-  
-  }
+}
+
+export declare type Tag = LazyLoading extends Disabled ? EagerTag : LazyTag
+
+export declare const Tag: (new (init: ModelInit<Tag, TagMetaData>) => Tag) & Tag & {
+  static copyOf(source: Tag, mutator: (draft: MutableModel<Tag, TagMetaData>) => MutableModel<Tag, TagMetaData> | void): Tag;
 }
 
 class EagerPostTags {
@@ -510,14 +422,7 @@ class EagerPostTags {
   readonly tag: Tag;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<PostTags, PostTagsMetaData>)
-  {
   
-  }
-  static copyOf(source: PostTags, mutator: (draft: MutableModel<PostTags, PostTagsMetaData>) => MutableModel<PostTags, PostTagsMetaData> | void): PostTags
-  {
-  
-  }
 }
 
 class LazyPostTags {
@@ -526,14 +431,13 @@ class LazyPostTags {
   readonly tag: Promise<Tag>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<PostTags, PostTagsMetaData>)
-  {
   
-  }
-  static copyOf(source: PostTags, mutator: (draft: MutableModel<PostTags, PostTagsMetaData>) => MutableModel<PostTags, PostTagsMetaData> | void): PostTags
-  {
-  
-  }
+}
+
+export declare type PostTags = LazyLoading extends Disabled ? EagerPostTags : LazyPostTags
+
+export declare const PostTags: (new (init: ModelInit<PostTags, PostTagsMetaData>) => PostTags) & PostTags & {
+  static copyOf(source: PostTags, mutator: (draft: MutableModel<PostTags, PostTagsMetaData>) => MutableModel<PostTags, PostTagsMetaData> | void): PostTags;
 }"
 `;
 
@@ -563,14 +467,7 @@ class EagerTodo {
   readonly content?: string | null;
   readonly createdOn?: string | null;
   readonly updatedOn?: string | null;
-  constructor(init: ModelInit<Todo, TodoMetaData>)
-  {
   
-  }
-  static copyOf(source: Todo, mutator: (draft: MutableModel<Todo, TodoMetaData>) => MutableModel<Todo, TodoMetaData> | void): Todo
-  {
-  
-  }
 }
 
 class LazyTodo {
@@ -578,14 +475,13 @@ class LazyTodo {
   readonly content?: string | null;
   readonly createdOn?: string | null;
   readonly updatedOn?: string | null;
-  constructor(init: ModelInit<Todo, TodoMetaData>)
-  {
   
-  }
-  static copyOf(source: Todo, mutator: (draft: MutableModel<Todo, TodoMetaData>) => MutableModel<Todo, TodoMetaData> | void): Todo
-  {
-  
-  }
+}
+
+export declare type Todo = LazyLoading extends Disabled ? EagerTodo : LazyTodo
+
+export declare const Todo: (new (init: ModelInit<Todo, TodoMetaData>) => Todo) & Todo & {
+  static copyOf(source: Todo, mutator: (draft: MutableModel<Todo, TodoMetaData>) => MutableModel<Todo, TodoMetaData> | void): Todo;
 }"
 `;
 
@@ -621,14 +517,7 @@ class EagerPost2 {
   readonly comments?: (Comment2 | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Post2, Post2MetaData>)
-  {
   
-  }
-  static copyOf(source: Post2, mutator: (draft: MutableModel<Post2, Post2MetaData>) => MutableModel<Post2, Post2MetaData> | void): Post2
-  {
-  
-  }
 }
 
 class LazyPost2 {
@@ -637,14 +526,13 @@ class LazyPost2 {
   readonly comments: AsyncCollection<Comment2>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Post2, Post2MetaData>)
-  {
   
-  }
-  static copyOf(source: Post2, mutator: (draft: MutableModel<Post2, Post2MetaData>) => MutableModel<Post2, Post2MetaData> | void): Post2
-  {
-  
-  }
+}
+
+export declare type Post2 = LazyLoading extends Disabled ? EagerPost2 : LazyPost2
+
+export declare const Post2: (new (init: ModelInit<Post2, Post2MetaData>) => Post2) & Post2 & {
+  static copyOf(source: Post2, mutator: (draft: MutableModel<Post2, Post2MetaData>) => MutableModel<Post2, Post2MetaData> | void): Post2;
 }
 
 class EagerComment2 {
@@ -653,14 +541,7 @@ class EagerComment2 {
   readonly content: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Comment2, Comment2MetaData>)
-  {
   
-  }
-  static copyOf(source: Comment2, mutator: (draft: MutableModel<Comment2, Comment2MetaData>) => MutableModel<Comment2, Comment2MetaData> | void): Comment2
-  {
-  
-  }
 }
 
 class LazyComment2 {
@@ -669,14 +550,13 @@ class LazyComment2 {
   readonly content: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Comment2, Comment2MetaData>)
-  {
   
-  }
-  static copyOf(source: Comment2, mutator: (draft: MutableModel<Comment2, Comment2MetaData>) => MutableModel<Comment2, Comment2MetaData> | void): Comment2
-  {
-  
-  }
+}
+
+export declare type Comment2 = LazyLoading extends Disabled ? EagerComment2 : LazyComment2
+
+export declare const Comment2: (new (init: ModelInit<Comment2, Comment2MetaData>) => Comment2) & Comment2 & {
+  static copyOf(source: Comment2, mutator: (draft: MutableModel<Comment2, Comment2MetaData>) => MutableModel<Comment2, Comment2MetaData> | void): Comment2;
 }"
 `;
 
@@ -713,14 +593,7 @@ class EagerProject2 {
   readonly team?: Team2 | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Project2, Project2MetaData>)
-  {
   
-  }
-  static copyOf(source: Project2, mutator: (draft: MutableModel<Project2, Project2MetaData>) => MutableModel<Project2, Project2MetaData> | void): Project2
-  {
-  
-  }
 }
 
 class LazyProject2 {
@@ -730,14 +603,13 @@ class LazyProject2 {
   readonly team: Promise<Team2 | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Project2, Project2MetaData>)
-  {
   
-  }
-  static copyOf(source: Project2, mutator: (draft: MutableModel<Project2, Project2MetaData>) => MutableModel<Project2, Project2MetaData> | void): Project2
-  {
-  
-  }
+}
+
+export declare type Project2 = LazyLoading extends Disabled ? EagerProject2 : LazyProject2
+
+export declare const Project2: (new (init: ModelInit<Project2, Project2MetaData>) => Project2) & Project2 & {
+  static copyOf(source: Project2, mutator: (draft: MutableModel<Project2, Project2MetaData>) => MutableModel<Project2, Project2MetaData> | void): Project2;
 }
 
 class EagerTeam2 {
@@ -745,14 +617,7 @@ class EagerTeam2 {
   readonly name: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Team2, Team2MetaData>)
-  {
   
-  }
-  static copyOf(source: Team2, mutator: (draft: MutableModel<Team2, Team2MetaData>) => MutableModel<Team2, Team2MetaData> | void): Team2
-  {
-  
-  }
 }
 
 class LazyTeam2 {
@@ -760,14 +625,13 @@ class LazyTeam2 {
   readonly name: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Team2, Team2MetaData>)
-  {
   
-  }
-  static copyOf(source: Team2, mutator: (draft: MutableModel<Team2, Team2MetaData>) => MutableModel<Team2, Team2MetaData> | void): Team2
-  {
-  
-  }
+}
+
+export declare type Team2 = LazyLoading extends Disabled ? EagerTeam2 : LazyTeam2
+
+export declare const Team2: (new (init: ModelInit<Team2, Team2MetaData>) => Team2) & Team2 & {
+  static copyOf(source: Team2, mutator: (draft: MutableModel<Team2, Team2MetaData>) => MutableModel<Team2, Team2MetaData> | void): Team2;
 }"
 `;
 
@@ -803,14 +667,7 @@ class EagerPost {
   readonly comments?: (Comment | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Post, PostMetaData>)
-  {
   
-  }
-  static copyOf(source: Post, mutator: (draft: MutableModel<Post, PostMetaData>) => MutableModel<Post, PostMetaData> | void): Post
-  {
-  
-  }
 }
 
 class LazyPost {
@@ -819,14 +676,13 @@ class LazyPost {
   readonly comments: AsyncCollection<Comment>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Post, PostMetaData>)
-  {
   
-  }
-  static copyOf(source: Post, mutator: (draft: MutableModel<Post, PostMetaData>) => MutableModel<Post, PostMetaData> | void): Post
-  {
-  
-  }
+}
+
+export declare type Post = LazyLoading extends Disabled ? EagerPost : LazyPost
+
+export declare const Post: (new (init: ModelInit<Post, PostMetaData>) => Post) & Post & {
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post, PostMetaData>) => MutableModel<Post, PostMetaData> | void): Post;
 }
 
 class EagerComment {
@@ -835,14 +691,7 @@ class EagerComment {
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly postCommentsId?: string | null;
-  constructor(init: ModelInit<Comment, CommentMetaData>)
-  {
   
-  }
-  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment, CommentMetaData>) => MutableModel<Comment, CommentMetaData> | void): Comment
-  {
-  
-  }
 }
 
 class LazyComment {
@@ -851,14 +700,13 @@ class LazyComment {
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly postCommentsId?: string | null;
-  constructor(init: ModelInit<Comment, CommentMetaData>)
-  {
   
-  }
-  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment, CommentMetaData>) => MutableModel<Comment, CommentMetaData> | void): Comment
-  {
-  
-  }
+}
+
+export declare type Comment = LazyLoading extends Disabled ? EagerComment : LazyComment
+
+export declare const Comment: (new (init: ModelInit<Comment, CommentMetaData>) => Comment) & Comment & {
+  static copyOf(source: Comment, mutator: (draft: MutableModel<Comment, CommentMetaData>) => MutableModel<Comment, CommentMetaData> | void): Comment;
 }"
 `;
 
@@ -895,14 +743,7 @@ class EagerProject {
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly projectTeamId?: string | null;
-  constructor(init: ModelInit<Project, ProjectMetaData>)
-  {
   
-  }
-  static copyOf(source: Project, mutator: (draft: MutableModel<Project, ProjectMetaData>) => MutableModel<Project, ProjectMetaData> | void): Project
-  {
-  
-  }
 }
 
 class LazyProject {
@@ -912,14 +753,13 @@ class LazyProject {
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly projectTeamId?: string | null;
-  constructor(init: ModelInit<Project, ProjectMetaData>)
-  {
   
-  }
-  static copyOf(source: Project, mutator: (draft: MutableModel<Project, ProjectMetaData>) => MutableModel<Project, ProjectMetaData> | void): Project
-  {
-  
-  }
+}
+
+export declare type Project = LazyLoading extends Disabled ? EagerProject : LazyProject
+
+export declare const Project: (new (init: ModelInit<Project, ProjectMetaData>) => Project) & Project & {
+  static copyOf(source: Project, mutator: (draft: MutableModel<Project, ProjectMetaData>) => MutableModel<Project, ProjectMetaData> | void): Project;
 }
 
 class EagerTeam {
@@ -927,14 +767,7 @@ class EagerTeam {
   readonly name: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Team, TeamMetaData>)
-  {
   
-  }
-  static copyOf(source: Team, mutator: (draft: MutableModel<Team, TeamMetaData>) => MutableModel<Team, TeamMetaData> | void): Team
-  {
-  
-  }
 }
 
 class LazyTeam {
@@ -942,14 +775,13 @@ class LazyTeam {
   readonly name: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Team, TeamMetaData>)
-  {
   
-  }
-  static copyOf(source: Team, mutator: (draft: MutableModel<Team, TeamMetaData>) => MutableModel<Team, TeamMetaData> | void): Team
-  {
-  
-  }
+}
+
+export declare type Team = LazyLoading extends Disabled ? EagerTeam : LazyTeam
+
+export declare const Team: (new (init: ModelInit<Team, TeamMetaData>) => Team) & Team & {
+  static copyOf(source: Team, mutator: (draft: MutableModel<Team, TeamMetaData>) => MutableModel<Team, TeamMetaData> | void): Team;
 }"
 `;
 
@@ -981,14 +813,7 @@ class EagerCustomer {
   readonly accountRepresentativeID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Customer, CustomerMetaData>)
-  {
   
-  }
-  static copyOf(source: Customer, mutator: (draft: MutableModel<Customer, CustomerMetaData>) => MutableModel<Customer, CustomerMetaData> | void): Customer
-  {
-  
-  }
 }
 
 class LazyCustomer {
@@ -998,13 +823,12 @@ class LazyCustomer {
   readonly accountRepresentativeID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Customer, CustomerMetaData>)
-  {
   
-  }
-  static copyOf(source: Customer, mutator: (draft: MutableModel<Customer, CustomerMetaData>) => MutableModel<Customer, CustomerMetaData> | void): Customer
-  {
-  
-  }
+}
+
+export declare type Customer = LazyLoading extends Disabled ? EagerCustomer : LazyCustomer
+
+export declare const Customer: (new (init: ModelInit<Customer, CustomerMetaData>) => Customer) & Customer & {
+  static copyOf(source: Customer, mutator: (draft: MutableModel<Customer, CustomerMetaData>) => MutableModel<Customer, CustomerMetaData> | void): Customer;
 }"
 `;
