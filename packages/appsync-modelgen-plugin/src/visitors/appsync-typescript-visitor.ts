@@ -298,17 +298,16 @@ export class AppSyncModelTypeScriptVisitor<
     const isNullable = field.isList ? field.isListNullable : field.isNullable;
     const nullableTypeUnion = isNullable ? ' | null' : '';
     if (this.isModelType(field)) {
-      this.BASE_DATASTORE_IMPORT.add('LazyLoading');
-      this.BASE_DATASTORE_IMPORT.add('Enabled');
-      this.BASE_DATASTORE_IMPORT.add('Disabled');
-
       const modelType = this.modelMap[typeName];
       const typeNameStr = this.generateModelTypeDeclarationName(modelType);
-      if (field.isList) {
-        this.BASE_DATASTORE_IMPORT.add('AsyncCollection');
-      }
 
       if (options?.lazy) {
+        this.BASE_DATASTORE_IMPORT.add('LazyLoading');
+        this.BASE_DATASTORE_IMPORT.add('Enabled');
+        this.BASE_DATASTORE_IMPORT.add('Disabled');
+        if (field.isList) {
+          this.BASE_DATASTORE_IMPORT.add('AsyncCollection');
+        }
         return `${field.isList ? 'AsyncCollection' : 'Promise'}<${typeNameStr}${!field.isList && isNullable ? ' | undefined' : ''}>`;
       }
 
