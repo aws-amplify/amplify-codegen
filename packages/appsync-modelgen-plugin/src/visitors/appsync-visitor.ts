@@ -403,7 +403,7 @@ export class AppSyncModelVisitor<
    * returns the Java type or class name
    * @param field
    */
-  protected getNativeType(field: CodeGenField): string {
+  protected getNativeType(field: CodeGenField, options?: {}): string {
     const typeName = field.type;
     let typeNameStr: string = '';
     if (typeName in this.scalars) {

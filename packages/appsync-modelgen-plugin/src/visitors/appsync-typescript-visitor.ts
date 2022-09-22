@@ -179,11 +179,11 @@ export class AppSyncModelTypeScriptVisitor<
     modelObj.fields.forEach((field: CodeGenField) => {
       console.log(field);
       const fieldName = this.getFieldName(field);
-      eagerModelDeclaration.addProperty(fieldName, this.getNativeType(field, false), undefined, 'DEFAULT', {
+      eagerModelDeclaration.addProperty(fieldName, this.getNativeType(field), undefined, 'DEFAULT', {
         readonly: true,
         optional: field.isList ? field.isListNullable : field.isNullable,
       });
-      lazyModelDeclaration.addProperty(fieldName, this.getNativeType(field, true), undefined, 'DEFAULT', {
+      lazyModelDeclaration.addProperty(fieldName, this.getNativeType(field, { lazy: true }), undefined, 'DEFAULT', {
         readonly: true,
         optional: !this.isModelType(field) && (field.isList ? field.isListNullable : field.isNullable),
       });
@@ -294,7 +294,7 @@ export class AppSyncModelTypeScriptVisitor<
     return `${type}[]`;
   }
 
-  protected getNativeType(field: CodeGenField, lazy: boolean): string {
+  protected getNativeType(field: CodeGenField, options?: { lazy: boolean }): string {
     const typeName = field.type;
     const isNullable = field.isList ? field.isListNullable : field.isNullable;
     const nullableTypeUnion = isNullable ? ' | null' : '';
@@ -309,7 +309,7 @@ export class AppSyncModelTypeScriptVisitor<
         this.BASE_DATASTORE_IMPORT.add('AsyncCollection');
       }
 
-      if (lazy) {
+      if (options?.lazy) {
         return `${field.isList ? 'AsyncCollection' : 'Promise'}<${typeNameStr}${!field.isList && isNullable ? ' | undefined' : ''}>`;
       }
 
