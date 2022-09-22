@@ -563,14 +563,10 @@ export class AppSyncModelVisitor<
       primaryKeyFieldName = fieldWithPrimaryKeyDirective.name;
       primaryKeyField = this.getPrimaryKeyFieldByName(model, primaryKeyFieldName);
       const sortKeyFieldNames: string[] = flattenFieldDirectives(model).find(d => d.name === 'primaryKey')?.arguments.sortKeyFields;
-      const sortKeyFields =
-        sortKeyFieldNames?.length > 0 ? sortKeyFieldNames.map(fieldName => model.fields.find(f => f.name === fieldName)!) : [];
+      const sortKeyFields = sortKeyFieldNames?.length > 0 ? sortKeyFieldNames.map(fieldName => model.fields.find(f => f.name === fieldName)!): [];
       primaryKeyField.primaryKeyInfo = {
-        primaryKeyType:
-          primaryKeyFieldName === DEFAULT_HASH_KEY_FIELD && sortKeyFields.length === 0
-            ? CodeGenPrimaryKeyType.OptionallyManagedId
-            : CodeGenPrimaryKeyType.CustomId,
-        sortKeyFields,
+        primaryKeyType: primaryKeyFieldName === DEFAULT_HASH_KEY_FIELD && sortKeyFields.length === 0 ? CodeGenPrimaryKeyType.OptionallyManagedId : CodeGenPrimaryKeyType.CustomId,
+        sortKeyFields
       };
     }
   }
@@ -588,13 +584,9 @@ export class AppSyncModelVisitor<
       primaryKeyFieldName = keyDirective.arguments.fields[0]!;
       primaryKeyField = this.getPrimaryKeyFieldByName(model, primaryKeyFieldName);
       const sortKeyFieldNames: string[] = keyDirective.arguments.fields.slice(1);
-      const sortKeyFields =
-        sortKeyFieldNames?.length > 0 ? sortKeyFieldNames.map(fieldName => model.fields.find(f => f.name === fieldName)!) : [];
+      const sortKeyFields = sortKeyFieldNames?.length > 0 ? sortKeyFieldNames.map(fieldName => model.fields.find(f => f.name === fieldName)!): [];
       primaryKeyField.primaryKeyInfo = {
-        primaryKeyType:
-          primaryKeyFieldName === DEFAULT_HASH_KEY_FIELD && sortKeyFields.length === 0
-            ? CodeGenPrimaryKeyType.OptionallyManagedId
-            : CodeGenPrimaryKeyType.CustomId,
+        primaryKeyType: primaryKeyFieldName === DEFAULT_HASH_KEY_FIELD && sortKeyFields.length === 0 ? CodeGenPrimaryKeyType.OptionallyManagedId : CodeGenPrimaryKeyType.CustomId,
         sortKeyFields,
       };
     }
@@ -671,7 +663,7 @@ export class AppSyncModelVisitor<
   }
 
   protected generateIntermediateModel(firstModel: CodeGenModel, secondModel: CodeGenModel, relationName: string) {
-    const firstModelKeyFieldName = this.generateIntermediateModelPrimaryKeyFieldName(firstModel);
+    const firstModelKeyFieldName = this.generateIntermediateModelPrimaryKeyFieldName(firstModel)
     const firstModelSortKeyFields: CodeGenField[] = this.getSortKeyFields(firstModel);
     const secondModelKeyFieldName = this.generateIntermediateModelPrimaryKeyFieldName(secondModel);
     const secondModelSortKeyFields: CodeGenField[] = this.getSortKeyFields(secondModel);
@@ -741,34 +733,14 @@ export class AppSyncModelVisitor<
           isNullable: false,
           isList: false,
           name: camelCase(firstModel.name),
-          directives: [
-            {
-              name: 'belongsTo',
-              arguments: {
-                fields: [
-                  firstModelKeyFieldName,
-                  ...firstModelSortKeyFields.map(f => this.generateIntermediateModelSortKeyFieldName(firstModel, f)),
-                ],
-              },
-            },
-          ],
+          directives: [{ name: 'belongsTo', arguments: { fields: [firstModelKeyFieldName, ...firstModelSortKeyFields.map(f => this.generateIntermediateModelSortKeyFieldName(firstModel, f))] } }],
         },
         {
           type: secondModel.name,
           isNullable: false,
           isList: false,
           name: camelCase(secondModel.name),
-          directives: [
-            {
-              name: 'belongsTo',
-              arguments: {
-                fields: [
-                  secondModelKeyFieldName,
-                  ...secondModelSortKeyFields.map(f => this.generateIntermediateModelSortKeyFieldName(secondModel, f)),
-                ],
-              },
-            },
-          ],
+          directives: [{ name: 'belongsTo', arguments: { fields: [secondModelKeyFieldName, ...secondModelSortKeyFields.map(f => this.generateIntermediateModelSortKeyFieldName(secondModel, f))] } }],
         },
       ],
     };
@@ -817,13 +789,7 @@ export class AppSyncModelVisitor<
         context.field.type = graphqlName(toUpper(context.directive.arguments.relationName));
         context.field.directives.push({
           name: 'hasMany',
-          arguments: {
-            indexName: `by${context.model.name}`,
-            fields: [
-              this.determinePrimaryKeyFieldname(context.model),
-              ...this.getSortKeyFields(context.model).map(f => this.getFieldName(f)),
-            ],
-          },
+          arguments: { indexName: `by${context.model.name}`, fields: [this.determinePrimaryKeyFieldname(context.model), ...this.getSortKeyFields(context.model).map(f => this.getFieldName(f))] },
         });
       } else {
         throw new Error('manyToMany directive not found on manyToMany field...');
@@ -887,13 +853,7 @@ export class AppSyncModelVisitor<
 
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
-        const connectionInfo = processConnectionsV2(
-          field,
-          model,
-          this.modelMap,
-          shouldUseModelNameFieldInHasManyAndBelongsTo,
-          isCustomPKEnabled,
-        );
+        const connectionInfo = processConnectionsV2(field, model, this.modelMap, shouldUseModelNameFieldInHasManyAndBelongsTo, isCustomPKEnabled);
         if (connectionInfo) {
           if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
             // Need to update the other side of the connection even if there is no connection directive
@@ -913,7 +873,7 @@ export class AppSyncModelVisitor<
                   isList: false,
                   isNullable: field.isNullable,
                 });
-              });
+              })
             } else {
               addFieldToModel(model, {
                 name: connectionInfo.targetName,
@@ -934,7 +894,7 @@ export class AppSyncModelVisitor<
                   isList: false,
                   isNullable: field.isNullable,
                 });
-              });
+              })
             } else {
               addFieldToModel(model, {
                 name: connectionInfo.targetName,
@@ -966,7 +926,7 @@ export class AppSyncModelVisitor<
       });
     });
     // Remove foreign keys in belongsTo models
-    if (isCustomPKEnabled) {
+    if(isCustomPKEnabled) {
       // The native platforms need to remove targetNames fields in belongsTo model
       if (['java', 'swift', 'dart'].includes(this.config.target ?? '')) {
         Object.values(this.modelMap).forEach(model => {
@@ -1078,10 +1038,7 @@ export class AppSyncModelVisitor<
    * Check if custom PK is enabled
    */
   protected isCustomPKEnabled(): boolean {
-    return (
-      (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) &&
-      (this.config.respectPrimaryKeyAttributesOnConnectionField ?? false)
-    );
+    return (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) && (this.config.respectPrimaryKeyAttributesOnConnectionField ?? false);
   }
 
   get models() {

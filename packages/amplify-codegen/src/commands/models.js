@@ -77,13 +77,13 @@ async function generateModels(context, overrideOutputDir = null, isIntrospection
 
   const schemaContent = loadSchema(apiResourcePath);
 
-  const baseOutputDir = path.join(projectRoot, getModelOutputPath(context));
+  const baseOutputDir = path.join(projectRoot, getModelOutputPath(context))
   const schema = parse(schemaContent);
   const projectConfig = context.amplify.getProjectConfig();
 
   const generateIndexRules = readFeatureFlag('codegen.generateIndexRules');
   const emitAuthProvider = readFeatureFlag('codegen.emitAuthProvider');
-  const usePipelinedTransformer = readFeatureFlag('graphQLTransformer.useExperimentalPipelinedTransformer');
+  const usePipelinedTransformer = readFeatureFlag('graphQLTransformer.useExperimentalPipelinedTransformer')
   const transformerVersion = readNumericFeatureFlag('graphQLTransformer.transformerVersion');
   const respectPrimaryKeyAttributesOnConnectionField = readFeatureFlag('graphQLTransformer.respectPrimaryKeyAttributesOnConnectionField');
 
@@ -117,7 +117,7 @@ async function generateModels(context, overrideOutputDir = null, isIntrospection
     baseOutputDir,
     schema,
     config: {
-      target: isIntrospection ? 'introspection' : platformToLanguageMap[projectConfig.frontend] || projectConfig.frontend,
+      target: isIntrospection ? 'introspection' : (platformToLanguageMap[projectConfig.frontend] || projectConfig.frontend),
       directives: directiveDefinitions,
       isTimestampFieldsAdded,
       emitAuthProvider,
