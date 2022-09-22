@@ -13,15 +13,19 @@ import { CodeGenEnum, CodeGenField, CodeGenModel } from '../../visitors/appsync-
 const defaultJSONVisitorSettings = {
   isTimestampFieldsAdded: true,
   respectPrimaryKeyAttributesOnConnectionField: false,
-  transformerVersion: 1
-}
+  transformerVersion: 1,
+};
 
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-const getVisitor = (schema: string, target: 'typescript' | 'javascript' | 'typeDeclaration' = 'javascript', settings: any = {}): AppSyncJSONVisitor => {
-  const visitorConfig = { ...defaultJSONVisitorSettings, ...settings }
+const getVisitor = (
+  schema: string,
+  target: 'typescript' | 'javascript' | 'typeDeclaration' = 'javascript',
+  settings: any = {},
+): AppSyncJSONVisitor => {
+  const visitorConfig = { ...defaultJSONVisitorSettings, ...settings };
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncJSONVisitor(
@@ -34,7 +38,6 @@ const getVisitor = (schema: string, target: 'typescript' | 'javascript' | 'typeD
 };
 
 describe('Metadata visitor', () => {
-
   const schema = /* GraphQL */ `
     type SimpleModel @model {
       id: ID!
@@ -220,12 +223,17 @@ describe('Metadata visitor', () => {
       });
       expect(getFieldNameSpy).toHaveBeenCalledWith(hasManyAssociation.associatedWith);
 
-      const hasOneAssociation: CodeGenFieldConnectionHasOne = { ...hasManyAssociation, kind: CodeGenConnectionType.HAS_ONE, targetNames: [], targetName: 'targetField' };
+      const hasOneAssociation: CodeGenFieldConnectionHasOne = {
+        ...hasManyAssociation,
+        kind: CodeGenConnectionType.HAS_ONE,
+        targetNames: [],
+        targetName: 'targetField',
+      };
       const fieldWithHasOneConnection = { ...baseField, connectionInfo: hasOneAssociation };
       expect((visitor as any).getFieldAssociation(fieldWithHasOneConnection)).toEqual({
         connectionType: CodeGenConnectionType.HAS_ONE,
         associatedWith: 'associatedField',
-        targetName: 'targetField'
+        targetName: 'targetField',
       });
       expect(getFieldNameSpy).toHaveBeenCalledWith(hasOneAssociation.associatedWith);
     });
@@ -365,6 +373,7 @@ describe('Metadata visitor', () => {
                 "name": "SimpleNonModelType",
               },
             },
+            "pragma": "1.0",
             "version": "5eb36909e822fd40c657cc69b22c919a",
           }
         `);
@@ -465,6 +474,7 @@ describe('Metadata visitor', () => {
                     }
                 }
             },
+            \\"pragma\\": \\"1.0\\",
             \\"version\\": \\"5eb36909e822fd40c657cc69b22c919a\\"
         };"
       `);
@@ -558,6 +568,7 @@ describe('Metadata visitor', () => {
                     }
                 }
             },
+            \\"pragma\\": \\"1.0\\",
             \\"version\\": \\"5eb36909e822fd40c657cc69b22c919a\\"
         };"
       `);
@@ -717,6 +728,7 @@ describe('Metadata visitor', () => {
                     }
                 }
             },
+            \\"pragma\\": \\"1.0\\",
             \\"version\\": \\"5eb36909e822fd40c657cc69b22c919a\\"
         };"
       `);
@@ -841,6 +853,7 @@ describe('Metadata visitor', () => {
                     }
                 }
             },
+            \\"pragma\\": \\"1.0\\",
             \\"version\\": \\"5eb36909e822fd40c657cc69b22c919a\\"
         };"
       `);
@@ -961,6 +974,7 @@ describe('Metadata visitor for auth process in field level', () => {
             },
             \\"enums\\": {},
             \\"nonModels\\": {},
+            \\"pragma\\": \\"1.0\\",
             \\"version\\": \\"0fffb966ea9b8954eb89d00d74d474ac\\"
         };"
       `);
@@ -1066,6 +1080,7 @@ describe('Metadata visitor for auth process in field level', () => {
             },
             \\"enums\\": {},
             \\"nonModels\\": {},
+            \\"pragma\\": \\"1.0\\",
             \\"version\\": \\"0fffb966ea9b8954eb89d00d74d474ac\\"
         };"
       `);
@@ -1206,6 +1221,7 @@ describe('Metadata visitor has one relation', () => {
           },
           \\"enums\\": {},
           \\"nonModels\\": {},
+          \\"pragma\\": \\"1.0\\",
           \\"version\\": \\"27c53665371915d89e2b47bb22ec29af\\"
       };"
     `);
@@ -1328,6 +1344,7 @@ describe('Metadata visitor has one relation', () => {
           },
           \\"enums\\": {},
           \\"nonModels\\": {},
+          \\"pragma\\": \\"1.0\\",
           \\"version\\": \\"27c53665371915d89e2b47bb22ec29af\\"
       };"
     `);
@@ -1349,14 +1366,18 @@ describe('Metadata visitor for custom PK support', () => {
       }
     `;
     it('should generate correct metadata in js', () => {
-      expect(getVisitor(schema, 'javascript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
+      expect(
+        getVisitor(schema, 'javascript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate(),
+      ).toMatchSnapshot();
     });
     it('should generate correct metadata in ts', () => {
-      expect(getVisitor(schema, 'typescript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
-    });   
+      expect(
+        getVisitor(schema, 'typescript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate(),
+      ).toMatchSnapshot();
+    });
   });
   describe('relation metadata for hasMany uni when custom PK is enabled', () => {
-    const schema =  /* GraphQL */ `
+    const schema = /* GraphQL */ `
       type Post @model {
         id: ID! @primaryKey(sortKeyFields: ["title"])
         title: String!
@@ -1367,26 +1388,30 @@ describe('Metadata visitor for custom PK support', () => {
         content: String!
       }
       type Post1 @model {
-        postId: ID! @primaryKey(sortKeyFields:["title"])
+        postId: ID! @primaryKey(sortKeyFields: ["title"])
         title: String!
-        comments: [Comment1] @hasMany(indexName:"byPost", fields:["postId", "title"])
+        comments: [Comment1] @hasMany(indexName: "byPost", fields: ["postId", "title"])
       }
       type Comment1 @model {
-        commentId: ID! @primaryKey(sortKeyFields:["content"])
+        commentId: ID! @primaryKey(sortKeyFields: ["content"])
         content: String!
-        postId: ID @index(name: "byPost", sortKeyFields:["postTitle"])
+        postId: ID @index(name: "byPost", sortKeyFields: ["postTitle"])
         postTitle: String
       }
     `;
     it('should generate correct metadata in js', () => {
-      expect(getVisitor(schema, 'javascript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
+      expect(
+        getVisitor(schema, 'javascript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate(),
+      ).toMatchSnapshot();
     });
     it('should generate correct metadata in ts', () => {
-      expect(getVisitor(schema, 'typescript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
+      expect(
+        getVisitor(schema, 'typescript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate(),
+      ).toMatchSnapshot();
     });
   });
   describe('relation metadata for hasMany & belongsTo when custom PK is enabled', () => {
-    const schema =  /* GraphQL */ `
+    const schema = /* GraphQL */ `
       type Post @model {
         customPostId: ID! @primaryKey(sortKeyFields: ["title"])
         title: String!
@@ -1398,27 +1423,31 @@ describe('Metadata visitor for custom PK support', () => {
         post: Post @belongsTo
       }
       type Post1 @model {
-        postId: ID! @primaryKey(sortKeyFields:["title"])
+        postId: ID! @primaryKey(sortKeyFields: ["title"])
         title: String!
-        comments: [Comment1] @hasMany(indexName:"byPost", fields:["postId", "title"])
+        comments: [Comment1] @hasMany(indexName: "byPost", fields: ["postId", "title"])
       }
       type Comment1 @model {
-        commentId: ID! @primaryKey(sortKeyFields:["content"])
+        commentId: ID! @primaryKey(sortKeyFields: ["content"])
         content: String!
-        post: Post1 @belongsTo(fields:["postId", "postTitle"])
-        postId: ID @index(name: "byPost", sortKeyFields:["postTitle"])
-        postTitle: String 
+        post: Post1 @belongsTo(fields: ["postId", "postTitle"])
+        postId: ID @index(name: "byPost", sortKeyFields: ["postTitle"])
+        postTitle: String
       }
     `;
     it('should generate correct metadata in js', () => {
-      expect(getVisitor(schema, 'javascript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
+      expect(
+        getVisitor(schema, 'javascript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate(),
+      ).toMatchSnapshot();
     });
     it('should generate correct metadata in ts', () => {
-      expect(getVisitor(schema, 'typescript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
+      expect(
+        getVisitor(schema, 'typescript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate(),
+      ).toMatchSnapshot();
     });
   });
   describe('relation metadata for manyToMany when custom PK is enabled', () => {
-    const schema =  /* GraphQL */ `
+    const schema = /* GraphQL */ `
       type Post @model {
         customPostId: ID! @primaryKey(sortKeyFields: ["title"])
         title: String!
@@ -1426,16 +1455,20 @@ describe('Metadata visitor for custom PK support', () => {
         tags: [Tag] @manyToMany(relationName: "PostTags")
       }
       type Tag @model {
-          customTagId: ID! @primaryKey(sortKeyFields: ["label"])
-          label: String!
-          posts: [Post] @manyToMany(relationName: "PostTags")
+        customTagId: ID! @primaryKey(sortKeyFields: ["label"])
+        label: String!
+        posts: [Post] @manyToMany(relationName: "PostTags")
       }
     `;
     it('should generate correct metadata in js', () => {
-      expect(getVisitor(schema, 'javascript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
+      expect(
+        getVisitor(schema, 'javascript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate(),
+      ).toMatchSnapshot();
     });
     it('should generate correct metadata in ts', () => {
-      expect(getVisitor(schema, 'typescript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
+      expect(
+        getVisitor(schema, 'typescript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate(),
+      ).toMatchSnapshot();
     });
   });
-})
+});

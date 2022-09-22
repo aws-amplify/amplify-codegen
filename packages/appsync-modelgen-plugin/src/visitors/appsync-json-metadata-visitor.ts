@@ -10,11 +10,13 @@ import {
   CodeGenEnum,
 } from './appsync-visitor';
 import { METADATA_SCALAR_MAP } from '../scalars';
+import { PRAGMA } from '../utils/constants';
 export type JSONSchema = {
   models: JSONSchemaModels;
   enums: JSONSchemaEnums;
   nonModels: JSONSchemaTypes;
   version: string;
+  pragma: string;
 };
 export type JSONSchemaModels = Record<string, JSONSchemaModel>;
 export type JSONSchemaTypes = Record<string, JSONSchemaNonModel>;
@@ -150,6 +152,7 @@ export class AppSyncJSONVisitor<
       models: {},
       enums: {},
       nonModels: {},
+      pragma: PRAGMA,
       version: this.computeVersion(),
     };
 
