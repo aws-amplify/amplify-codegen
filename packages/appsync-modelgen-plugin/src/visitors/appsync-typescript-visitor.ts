@@ -177,7 +177,6 @@ export class AppSyncModelTypeScriptVisitor<
       });
     }
     modelObj.fields.forEach((field: CodeGenField) => {
-      console.log(field);
       const fieldName = this.getFieldName(field);
       eagerModelDeclaration.addProperty(fieldName, this.getNativeType(field), undefined, 'DEFAULT', {
         readonly: true,
