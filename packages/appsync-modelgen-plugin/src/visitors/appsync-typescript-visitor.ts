@@ -35,6 +35,7 @@ export class AppSyncModelTypeScriptVisitor<
   ];
 
   protected BASE_DATASTORE_IMPORT = new Set(['ModelInit', 'MutableModel']);
+  protected TS_IGNORE_DATASTORE_IMPORT = new Set();
 
   protected MODEL_META_FIELD_NAME = '__modelMeta__';
 
@@ -302,11 +303,11 @@ export class AppSyncModelTypeScriptVisitor<
       const typeNameStr = this.generateModelTypeDeclarationName(modelType);
 
       if (options?.lazy) {
-        this.BASE_DATASTORE_IMPORT.add('LazyLoading');
-        this.BASE_DATASTORE_IMPORT.add('Enabled');
-        this.BASE_DATASTORE_IMPORT.add('Disabled');
+        this.TS_IGNORE_DATASTORE_IMPORT.add('LazyLoading');
+        this.TS_IGNORE_DATASTORE_IMPORT.add('Enabled');
+        this.TS_IGNORE_DATASTORE_IMPORT.add('Disabled');
         if (field.isList) {
-          this.BASE_DATASTORE_IMPORT.add('AsyncCollection');
+          this.TS_IGNORE_DATASTORE_IMPORT.add('AsyncCollection');
         }
         return `${field.isList ? 'AsyncCollection' : 'Promise'}<${typeNameStr}${!field.isList && isNullable ? ' | undefined' : ''}>`;
       }
