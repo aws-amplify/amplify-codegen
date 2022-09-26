@@ -156,6 +156,10 @@ class Post extends Model {
   Map<String, dynamic> toJson() => {
     'id': id, 'title': _title, 'rating': _rating, 'status': enumToString(_status), 'comments': _comments?.map((Comment? e) => e?.toJson()).toList()
   };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'title': _title, 'rating': _rating, 'status': _status, 'comments': _comments
+  };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
@@ -302,6 +306,10 @@ class Comment extends Model {
   
   Map<String, dynamic> toJson() => {
     'id': id, 'post': _post?.toJson(), 'content': _content
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'post': _post, 'content': _content
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -500,6 +508,10 @@ class Post extends Model {
   Map<String, dynamic> toJson() => {
     'id': id, 'title': _title, 'rating': _rating, 'status': enumToString(_status), 'comments': _comments?.map((Comment? e) => e?.toJson()).toList()
   };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'title': _title, 'rating': _rating, 'status': _status, 'comments': _comments
+  };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
@@ -646,6 +658,10 @@ class Comment extends Model {
   
   Map<String, dynamic> toJson() => {
     'id': id, 'post': _post?.toJson(), 'content': _content
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'post': _post, 'content': _content
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -798,6 +814,14 @@ class Address {
         postalCode = json['postalCode'];
 
   Map<String, dynamic> toJson() => {
+        'line1': line1,
+        'line2': line2,
+        'city': city,
+        'state': state,
+        'postalCode': postalCode
+      };
+
+  Map<String, Object?> toMap() => {
         'line1': line1,
         'line2': line2,
         'city': city,
@@ -993,6 +1017,10 @@ class Address {
   Map<String, dynamic> toJson() => {
     'line1': _line1, 'line2': _line2, 'city': _city, 'state': _state, 'postalCode': _postalCode
   };
+  
+  Map<String, Object?> toMap() => {
+    'line1': _line1, 'line2': _line2, 'city': _city, 'state': _state, 'postalCode': _postalCode
+  };
 
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Address\\";
@@ -1138,6 +1166,12 @@ class Contact {
         'phone': phone?.toJson(),
         'mailingAddresses':
             mailingAddresses?.map((Address e) => e?.toJson())?.toList()
+      };
+
+  Map<String, Object?> toMap() => {
+        'contactName': contactName,
+        'phone': phone,
+        'mailingAddresses': mailingAddresses
       };
 
   static var schema =
@@ -1291,6 +1325,10 @@ class Contact {
   
   Map<String, dynamic> toJson() => {
     'contactName': _contactName, 'phone': _phone?.toJson(), 'mailingAddresses': _mailingAddresses?.map((Address? e) => e?.toJson()).toList()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'contactName': _contactName, 'phone': _phone, 'mailingAddresses': _mailingAddresses
   };
 
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
@@ -1563,6 +1601,13 @@ class Person extends Model {
             mailingAddresses?.map((Address e) => e?.toJson())?.toList()
       };
 
+  Map<String, Object?> toMap() => {
+        'id': id,
+        'name': name,
+        'phone': phone,
+        'mailingAddresses': mailingAddresses
+      };
+
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField PHONE = QueryField(fieldName: \\"phone\\");
@@ -1745,6 +1790,10 @@ class Person extends Model {
   
   Map<String, dynamic> toJson() => {
     'id': id, 'name': _name, 'phone': _phone?.toJson(), 'mailingAddresses': _mailingAddresses?.map((Address? e) => e?.toJson()).toList()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'name': _name, 'phone': _phone, 'mailingAddresses': _mailingAddresses
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -1973,6 +2022,8 @@ class SimpleModel extends Model {
         status = enumFromString<Status>(json['status'], Status.values);
 
   Map<String, dynamic> toJson() => {'id': id, 'status': enumToString(status)};
+
+  Map<String, Object?> toMap() => {'id': id, 'status': status};
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField STATUS = QueryField(fieldName: \\"status\\");
@@ -2244,6 +2295,20 @@ class TemporalTimeModel extends Model {
         'timeList': timeList?.map((e) => e.format()).toList(),
         'dateTimeList': dateTimeList?.map((e) => e.format()).toList(),
         'timestampList': timestampList?.map((e) => e.toSeconds()).toList(),
+        'intList': intList
+      };
+
+  Map<String, Object?> toMap() => {
+        'id': id,
+        'date': date,
+        'time': time,
+        'dateTime': dateTime,
+        'timestamp': timestamp,
+        'intNum': intNum,
+        'dateList': dateList,
+        'timeList': timeList,
+        'dateTimeList': dateTimeList,
+        'timestampList': timestampList,
         'intList': intList
       };
 
@@ -2527,6 +2592,16 @@ class TestEnumModel extends Model {
             nullableEnumNullableList?.map((e) => enumToString(e)).toList()
       };
 
+  Map<String, Object?> toMap() => {
+        'id': id,
+        'enumVal': enumVal,
+        'nullableEnumVal': nullableEnumVal,
+        'enumList': enumList,
+        'enumNullableList': enumNullableList,
+        'nullableEnumList': nullableEnumList,
+        'nullableEnumNullableList': nullableEnumNullableList
+      };
+
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField ENUMVAL = QueryField(fieldName: \\"enumVal\\");
   static final QueryField NULLABLEENUMVAL =
@@ -2775,6 +2850,16 @@ class TestModel extends Model {
         'nullableFloatNullableList': nullableFloatNullableList
       };
 
+  Map<String, Object?> toMap() => {
+        'id': id,
+        'floatVal': floatVal,
+        'floatNullableVal': floatNullableVal,
+        'floatList': floatList,
+        'floatNullableList': floatNullableList,
+        'nullableFloatList': nullableFloatList,
+        'nullableFloatNullableList': nullableFloatNullableList
+      };
+
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField FLOATVAL = QueryField(fieldName: \\"floatVal\\");
   static final QueryField FLOATNULLABLEVAL =
@@ -2959,6 +3044,9 @@ class Post extends Model {
         'tags': tags?.map((PostTags e) => e?.toJson())?.toList()
       };
 
+  Map<String, Object?> toMap() =>
+      {'id': id, 'title': title, 'content': content, 'tags': tags};
+
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
@@ -3075,6 +3163,8 @@ class Tag extends Model {
         'posts': posts?.map((PostTags e) => e?.toJson())?.toList()
       };
 
+  Map<String, Object?> toMap() => {'id': id, 'label': label, 'posts': posts};
+
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField LABEL = QueryField(fieldName: \\"label\\");
   static final QueryField POSTS = QueryField(
@@ -3179,6 +3269,8 @@ class PostTags extends Model {
 
   Map<String, dynamic> toJson() =>
       {'id': id, 'post': post?.toJson(), 'tag': tag?.toJson()};
+
+  Map<String, Object?> toMap() => {'id': id, 'post': post, 'tag': tag};
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField POST = QueryField(
@@ -3354,6 +3446,10 @@ class Post extends Model {
   Map<String, dynamic> toJson() => {
     'id': id, 'title': _title, 'content': _content, 'tags': _tags?.map((PostTags? e) => e?.toJson()).toList()
   };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'title': _title, 'content': _content, 'tags': _tags
+  };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
@@ -3486,6 +3582,10 @@ class Tag extends Model {
   
   Map<String, dynamic> toJson() => {
     'id': id, 'label': _label, 'posts': _posts?.map((PostTags? e) => e?.toJson()).toList()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'label': _label, 'posts': _posts
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -3622,6 +3722,10 @@ class PostTags extends Model {
   Map<String, dynamic> toJson() => {
     'id': id, 'post': _post?.toJson(), 'tag': _tag?.toJson()
   };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'post': _post, 'tag': _tag
+  };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField POST = QueryField(
@@ -3756,6 +3860,8 @@ class SimpleModel extends Model {
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
+  Map<String, Object?> toMap() => {'id': id, 'name': name, 'bar': bar};
+
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
@@ -3877,6 +3983,8 @@ class SimpleModel extends Model {
         bar = json['bar'];
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
+
+  Map<String, Object?> toMap() => {'id': id, 'name': name, 'bar': bar};
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
@@ -4011,6 +4119,9 @@ class TodoWithAuth extends Model {
         'createdAt': createdAt?.format(),
         'updatedAt': updatedAt?.format()
       };
+
+  Map<String, Object?> toMap() =>
+      {'id': id, 'name': name, 'createdAt': createdAt, 'updatedAt': updatedAt};
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
@@ -4191,6 +4302,10 @@ class TodoWithAuth extends Model {
   Map<String, dynamic> toJson() => {
     'id': id, 'name': _name, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'name': _name, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+  };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
@@ -4350,6 +4465,8 @@ class customClaim extends Model {
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
+  Map<String, Object?> toMap() => {'id': id, 'name': name, 'bar': bar};
+
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
@@ -4484,6 +4601,8 @@ class customClaim extends Model {
         bar = json['bar'];
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
+
+  Map<String, Object?> toMap() => {'id': id, 'name': name, 'bar': bar};
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
@@ -4622,6 +4741,8 @@ class dynamicGroups extends Model {
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
+  Map<String, Object?> toMap() => {'id': id, 'name': name, 'bar': bar};
+
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
@@ -4756,6 +4877,8 @@ class simpleOwnerAuth extends Model {
         bar = json['bar'];
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
+
+  Map<String, Object?> toMap() => {'id': id, 'name': name, 'bar': bar};
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
@@ -4892,6 +5015,8 @@ class allowRead extends Model {
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
+  Map<String, Object?> toMap() => {'id': id, 'name': name, 'bar': bar};
+
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
@@ -5026,6 +5151,8 @@ class privateType extends Model {
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
+  Map<String, Object?> toMap() => {'id': id, 'name': name, 'bar': bar};
+
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
@@ -5157,6 +5284,8 @@ class publicType extends Model {
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
 
+  Map<String, Object?> toMap() => {'id': id, 'name': name, 'bar': bar};
+
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BAR = QueryField(fieldName: \\"bar\\");
@@ -5287,6 +5416,8 @@ class staticGroups extends Model {
         bar = json['bar'];
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'bar': bar};
+
+  Map<String, Object?> toMap() => {'id': id, 'name': name, 'bar': bar};
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
@@ -5428,6 +5559,8 @@ class Post extends Model {
 
   Map<String, dynamic> toJson() => {'id': id, 'title': title, 'author': author};
 
+  Map<String, Object?> toMap() => {'id': id, 'title': title, 'author': author};
+
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField AUTHOR = QueryField(fieldName: \\"author\\");
@@ -5565,6 +5698,8 @@ class Post extends Model {
         owner = json['owner'];
 
   Map<String, dynamic> toJson() => {'id': id, 'title': title, 'owner': owner};
+
+  Map<String, Object?> toMap() => {'id': id, 'title': title, 'owner': owner};
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
@@ -5716,6 +5851,8 @@ class Todo extends Model {
   Map<String, dynamic> toJson() =>
       {'id': id, 'tasks': tasks?.map((Task e) => e?.toJson())?.toList()};
 
+  Map<String, Object?> toMap() => {'id': id, 'tasks': tasks};
+
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TASKS = QueryField(
       fieldName: \\"tasks\\",
@@ -5830,6 +5967,8 @@ class Task extends Model {
             : null;
 
   Map<String, dynamic> toJson() => {'id': id, 'todo': todo?.toJson()};
+
+  Map<String, Object?> toMap() => {'id': id, 'todo': todo};
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TODO = QueryField(
@@ -5973,6 +6112,9 @@ class Blog extends Model {
         'test': test
       };
 
+  Map<String, Object?> toMap() =>
+      {'id': id, 'name': name, 'posts': posts, 'test': test};
+
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField POSTS = QueryField(
@@ -6113,6 +6255,8 @@ class Comment extends Model {
 
   Map<String, dynamic> toJson() =>
       {'id': id, 'post': post?.toJson(), 'content': content};
+
+  Map<String, Object?> toMap() => {'id': id, 'post': post, 'content': content};
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField POST = QueryField(
@@ -6268,6 +6412,9 @@ class Post extends Model {
         'blog': blog?.toJson(),
         'comments': comments?.map((Comment e) => e?.toJson())?.toList()
       };
+
+  Map<String, Object?> toMap() =>
+      {'id': id, 'title': title, 'blog': blog, 'comments': comments};
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
@@ -6446,6 +6593,14 @@ class authorBook extends Model {
         'book': book
       };
 
+  Map<String, Object?> toMap() => {
+        'id': id,
+        'author_id': author_id,
+        'book_id': book_id,
+        'author': author,
+        'book': book
+      };
+
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField AUTHOR_ID = QueryField(fieldName: \\"author_id\\");
   static final QueryField BOOK_ID = QueryField(fieldName: \\"book_id\\");
@@ -6577,6 +6732,10 @@ class TestModel extends Model {
     : id = json['id'];
   
   Map<String, dynamic> toJson() => {
+    'id': id
+  };
+  
+  Map<String, Object?> toMap() => {
     'id': id
   };
 
@@ -6716,6 +6875,10 @@ class Blog extends Model {
   
   Map<String, dynamic> toJson() => {
     'id': id, 'name': _name, 'posts': _posts?.map((Post? e) => e?.toJson()).toList()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'name': _name, 'posts': _posts
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -6868,6 +7031,10 @@ class Comment extends Model {
   
   Map<String, dynamic> toJson() => {
     'id': id, 'post': _post?.toJson(), 'content': _content
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'post': _post, 'content': _content
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -7039,6 +7206,10 @@ class Post extends Model {
   
   Map<String, dynamic> toJson() => {
     'id': id, 'title': _title, 'blog': _blog?.toJson(), 'comments': _comments?.map((Comment? e) => e?.toJson()).toList()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'title': _title, 'blog': _blog, 'comments': _comments
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -7260,6 +7431,10 @@ class TestModel extends Model {
       _nullableFloatNullableList = (json['nullableFloatNullableList'] as List?)?.map((e) => (e as num).toDouble()).toList();
   
   Map<String, dynamic> toJson() => {
+    'id': id, 'floatVal': _floatVal, 'floatNullableVal': _floatNullableVal, 'floatList': _floatList, 'floatNullableList': _floatNullableList, 'nullableFloatList': _nullableFloatList, 'nullableFloatNullableList': _nullableFloatNullableList
+  };
+  
+  Map<String, Object?> toMap() => {
     'id': id, 'floatVal': _floatVal, 'floatNullableVal': _floatNullableVal, 'floatList': _floatList, 'floatNullableList': _floatNullableList, 'nullableFloatList': _nullableFloatList, 'nullableFloatNullableList': _nullableFloatNullableList
   };
 
@@ -7586,6 +7761,10 @@ class TestModel extends Model {
   Map<String, dynamic> toJson() => {
     'id': id, 'floatVal': _floatVal, 'floatNullableVal': _floatNullableVal, 'floatList': _floatList, 'floatNullableList': _floatNullableList, 'nullableFloatList': _nullableFloatList, 'nullableFloatNullableList': _nullableFloatNullableList, 'intVal': _intVal, 'intNullableVal': _intNullableVal, 'intList': _intList, 'intNullableList': _intNullableList, 'nullableIntList': _nullableIntList, 'nullableIntNullableList': _nullableIntNullableList
   };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'floatVal': _floatVal, 'floatNullableVal': _floatNullableVal, 'floatList': _floatList, 'floatNullableList': _floatNullableList, 'nullableFloatList': _nullableFloatList, 'nullableFloatNullableList': _nullableFloatNullableList, 'intVal': _intVal, 'intNullableVal': _intNullableVal, 'intList': _intList, 'intNullableList': _intNullableList, 'nullableIntList': _nullableIntList, 'nullableIntNullableList': _nullableIntNullableList
+  };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField FLOATVAL = QueryField(fieldName: \\"floatVal\\");
@@ -7799,6 +7978,9 @@ class SimpleModel extends Model {
         'updatedAt': updatedAt?.format()
       };
 
+  Map<String, Object?> toMap() =>
+      {'id': id, 'name': name, 'createdAt': createdAt, 'updatedAt': updatedAt};
+
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static var schema =
@@ -7944,6 +8126,10 @@ class SimpleModel extends Model {
   
   Map<String, dynamic> toJson() => {
     'id': id, 'name': _name, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'name': _name, 'createdAt': _createdAt, 'updatedAt': _updatedAt
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -8106,6 +8292,10 @@ class ModelWithImplicitID extends Model {
   
   Map<String, dynamic> toJson() => {
     'id': id, 'title': _title, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'title': _title, 'createdAt': _createdAt, 'updatedAt': _updatedAt
   };
 
   static final QueryModelIdentifier<ModelWithImplicitIDModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<ModelWithImplicitIDModelIdentifier>();
@@ -8314,6 +8504,10 @@ class ModelWithExplicitID extends Model {
   Map<String, dynamic> toJson() => {
     'id': id, 'title': _title, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'title': _title, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+  };
 
   static final QueryModelIdentifier<ModelWithExplicitIDModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<ModelWithExplicitIDModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -8511,6 +8705,10 @@ class ModelWithExplicitIDAndSDI extends Model {
   
   Map<String, dynamic> toJson() => {
     'id': id, 'parentID': _parentID, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'parentID': _parentID, 'createdAt': _createdAt, 'updatedAt': _updatedAt
   };
 
   static final QueryModelIdentifier<ModelWithExplicitIDAndSDIModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<ModelWithExplicitIDAndSDIModelIdentifier>();
@@ -8752,6 +8950,10 @@ class ModelWithIDPlusSortKeys extends Model {
   
   Map<String, dynamic> toJson() => {
     'id': id, 'title': _title, 'rating': _rating, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'title': _title, 'rating': _rating, 'createdAt': _createdAt, 'updatedAt': _updatedAt
   };
 
   static final QueryModelIdentifier<ModelWithIDPlusSortKeysModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<ModelWithIDPlusSortKeysModelIdentifier>();
@@ -9005,6 +9207,10 @@ class ModelWithExplicitlyDefinedPK extends Model {
   
   Map<String, dynamic> toJson() => {
     'modelID': _modelID, 'title': _title, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'modelID': _modelID, 'title': _title, 'createdAt': _createdAt, 'updatedAt': _updatedAt
   };
 
   static final QueryModelIdentifier<ModelWithExplicitlyDefinedPKModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<ModelWithExplicitlyDefinedPKModelIdentifier>();
@@ -9263,6 +9469,10 @@ class ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey extends Model {
   
   Map<String, dynamic> toJson() => {
     'modelID': _modelID, 'title': _title, 'rating': _rating, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'modelID': _modelID, 'title': _title, 'rating': _rating, 'createdAt': _createdAt, 'updatedAt': _updatedAt
   };
 
   static final QueryModelIdentifier<ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelIdentifier>();
@@ -9525,6 +9735,10 @@ class Post extends Model {
   Map<String, dynamic> toJson() => {
     'id': id, 'title': _title, 'comments': _comments?.map((Comment? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'title': _title, 'comments': _comments, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+  };
 
   static final QueryModelIdentifier<PostModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<PostModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -9783,6 +9997,10 @@ class Comment extends Model {
   
   Map<String, dynamic> toJson() => {
     'id': id, 'content': _content, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format(), 'postCommentsId': _postCommentsId, 'postCommentsTitle': _postCommentsTitle
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'content': _content, 'createdAt': _createdAt, 'updatedAt': _updatedAt, 'postCommentsId': _postCommentsId, 'postCommentsTitle': _postCommentsTitle
   };
 
   static final QueryModelIdentifier<CommentModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<CommentModelIdentifier>();
@@ -10072,6 +10290,10 @@ class Project extends Model {
   Map<String, dynamic> toJson() => {
     'projectId': _projectId, 'name': _name, 'team': _team?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format(), 'projectTeamTeamId': _projectTeamTeamId, 'projectTeamName': _projectTeamName
   };
+  
+  Map<String, Object?> toMap() => {
+    'projectId': _projectId, 'name': _name, 'team': _team, 'createdAt': _createdAt, 'updatedAt': _updatedAt, 'projectTeamTeamId': _projectTeamTeamId, 'projectTeamName': _projectTeamName
+  };
 
   static final QueryModelIdentifier<ProjectModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<ProjectModelIdentifier>();
   static final QueryField PROJECTID = QueryField(fieldName: \\"projectId\\");
@@ -10355,6 +10577,10 @@ class Team extends Model {
   Map<String, dynamic> toJson() => {
     'teamId': _teamId, 'name': _name, 'project': _project?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
+  
+  Map<String, Object?> toMap() => {
+    'teamId': _teamId, 'name': _name, 'project': _project, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+  };
 
   static final QueryModelIdentifier<TeamModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<TeamModelIdentifier>();
   static final QueryField TEAMID = QueryField(fieldName: \\"teamId\\");
@@ -10630,6 +10856,10 @@ class CpkOneToOneBidirectionalParent extends Model {
   Map<String, dynamic> toJson() => {
     'id': id, 'name': _name, 'explicitChild': _explicitChild?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format(), 'cpkOneToOneBidirectionalParentExplicitChildId': _cpkOneToOneBidirectionalParentExplicitChildId, 'cpkOneToOneBidirectionalParentExplicitChildName': _cpkOneToOneBidirectionalParentExplicitChildName
   };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'name': _name, 'explicitChild': _explicitChild, 'createdAt': _createdAt, 'updatedAt': _updatedAt, 'cpkOneToOneBidirectionalParentExplicitChildId': _cpkOneToOneBidirectionalParentExplicitChildId, 'cpkOneToOneBidirectionalParentExplicitChildName': _cpkOneToOneBidirectionalParentExplicitChildName
+  };
 
   static final QueryModelIdentifier<CpkOneToOneBidirectionalParentModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<CpkOneToOneBidirectionalParentModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -10895,6 +11125,10 @@ class CpkOneToOneBidirectionalChildExplicit extends Model {
   
   Map<String, dynamic> toJson() => {
     'id': id, 'name': _name, 'belongsToParent': _belongsToParent?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'name': _name, 'belongsToParent': _belongsToParent, 'createdAt': _createdAt, 'updatedAt': _updatedAt
   };
 
   static final QueryModelIdentifier<CpkOneToOneBidirectionalChildExplicitModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<CpkOneToOneBidirectionalChildExplicitModelIdentifier>();
