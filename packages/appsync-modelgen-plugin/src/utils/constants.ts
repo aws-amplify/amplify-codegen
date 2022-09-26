@@ -12,4 +12,3 @@ export const TransformerV2DirectiveName = {
 export const DEFAULT_HASH_KEY_FIELD = 'id';
 export const DEFAULT_CREATED_TIME = 'createdAt';
 export const DEFAULT_UPDATED_TIME = 'updatedAt';
-export const PRAGMA = '1.0';

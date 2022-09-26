@@ -18,8 +18,8 @@
     "codegen"
   ],
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
+    "build": "tsc --build src",
+    "watch": "tsc --build src -w",
     "test-watch": "jest --watch",
     "test": "jest",
     "generate-schemas": "ts-node ./scripts/generateSchemas.ts"
