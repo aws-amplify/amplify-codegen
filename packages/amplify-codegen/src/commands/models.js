@@ -5,6 +5,7 @@ const glob = require('glob-all');
 const { FeatureFlags, pathManager } = require('amplify-cli-core');
 const gqlCodeGen = require('@graphql-codegen/core');
 const appSyncDataStoreCodeGen = require('@aws-amplify/appsync-modelgen-plugin');
+const { version: packageVersion } = require('../../package.json');
 const { validateDartSDK } = require('../utils/validateDartSDK');
 const { validateAmplifyFlutterCapableZeroThreeFeatures } = require('../utils/validateAmplifyFlutterCapableZeroThreeFeatures');
 const { validateAmplifyFlutterCoreLibraryDependency } = require('../utils/validateAmplifyFlutterCoreLibraryDependency');
@@ -77,13 +78,13 @@ async function generateModels(context, overrideOutputDir = null, isIntrospection
 
   const schemaContent = loadSchema(apiResourcePath);
 
-  const baseOutputDir = path.join(projectRoot, getModelOutputPath(context))
+  const baseOutputDir = path.join(projectRoot, getModelOutputPath(context));
   const schema = parse(schemaContent);
   const projectConfig = context.amplify.getProjectConfig();
 
   const generateIndexRules = readFeatureFlag('codegen.generateIndexRules');
   const emitAuthProvider = readFeatureFlag('codegen.emitAuthProvider');
-  const usePipelinedTransformer = readFeatureFlag('graphQLTransformer.useExperimentalPipelinedTransformer')
+  const usePipelinedTransformer = readFeatureFlag('graphQLTransformer.useExperimentalPipelinedTransformer');
   const transformerVersion = readNumericFeatureFlag('graphQLTransformer.transformerVersion');
   const respectPrimaryKeyAttributesOnConnectionField = readFeatureFlag('graphQLTransformer.respectPrimaryKeyAttributesOnConnectionField');
 
@@ -117,7 +118,7 @@ async function generateModels(context, overrideOutputDir = null, isIntrospection
     baseOutputDir,
     schema,
     config: {
-      target: isIntrospection ? 'introspection' : (platformToLanguageMap[projectConfig.frontend] || projectConfig.frontend),
+      target: isIntrospection ? 'introspection' : platformToLanguageMap[projectConfig.frontend] || projectConfig.frontend,
       directives: directiveDefinitions,
       isTimestampFieldsAdded,
       emitAuthProvider,
@@ -129,6 +130,7 @@ async function generateModels(context, overrideOutputDir = null, isIntrospection
       transformerVersion,
       dartUpdateAmplifyCoreDependency,
       respectPrimaryKeyAttributesOnConnectionField,
+      pragma: packageVersion,
       overrideOutputDir, // This needs to live under `config` in order for the GraphQL types to work out.
     },
   });
