@@ -30,7 +30,7 @@ const getVisitor = (
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncJSONVisitor(
     builtSchema,
-    { directives, target: 'metadata', scalars: TYPESCRIPT_SCALAR_MAP, metadataTarget: target, ...visitorConfig },
+    { directives, target: 'metadata', scalars: TYPESCRIPT_SCALAR_MAP, metadataTarget: target, pragma: '1.0.0', ...visitorConfig },
     {},
   );
   visit(ast, { leave: visitor });
@@ -373,7 +373,7 @@ describe('Metadata visitor', () => {
                 "name": "SimpleNonModelType",
               },
             },
-            "pragma": "2.1.0",
+            "pragma": "1.0.0",
             "version": "5eb36909e822fd40c657cc69b22c919a",
           }
         `);
@@ -474,7 +474,7 @@ describe('Metadata visitor', () => {
                     }
                 }
             },
-            \\"pragma\\": \\"2.1.0\\",
+            \\"pragma\\": \\"1.0.0\\",
             \\"version\\": \\"5eb36909e822fd40c657cc69b22c919a\\"
         };"
       `);
@@ -568,7 +568,7 @@ describe('Metadata visitor', () => {
                     }
                 }
             },
-            \\"pragma\\": \\"2.1.0\\",
+            \\"pragma\\": \\"1.0.0\\",
             \\"version\\": \\"5eb36909e822fd40c657cc69b22c919a\\"
         };"
       `);
@@ -728,7 +728,7 @@ describe('Metadata visitor', () => {
                     }
                 }
             },
-            \\"pragma\\": \\"2.1.0\\",
+            \\"pragma\\": \\"1.0.0\\",
             \\"version\\": \\"5eb36909e822fd40c657cc69b22c919a\\"
         };"
       `);
@@ -853,7 +853,7 @@ describe('Metadata visitor', () => {
                     }
                 }
             },
-            \\"pragma\\": \\"2.1.0\\",
+            \\"pragma\\": \\"1.0.0\\",
             \\"version\\": \\"5eb36909e822fd40c657cc69b22c919a\\"
         };"
       `);
@@ -974,7 +974,7 @@ describe('Metadata visitor for auth process in field level', () => {
             },
             \\"enums\\": {},
             \\"nonModels\\": {},
-            \\"pragma\\": \\"2.1.0\\",
+            \\"pragma\\": \\"1.0.0\\",
             \\"version\\": \\"0fffb966ea9b8954eb89d00d74d474ac\\"
         };"
       `);
@@ -1080,7 +1080,7 @@ describe('Metadata visitor for auth process in field level', () => {
             },
             \\"enums\\": {},
             \\"nonModels\\": {},
-            \\"pragma\\": \\"2.1.0\\",
+            \\"pragma\\": \\"1.0.0\\",
             \\"version\\": \\"0fffb966ea9b8954eb89d00d74d474ac\\"
         };"
       `);
@@ -1221,7 +1221,7 @@ describe('Metadata visitor has one relation', () => {
           },
           \\"enums\\": {},
           \\"nonModels\\": {},
-          \\"pragma\\": \\"2.1.0\\",
+          \\"pragma\\": \\"1.0.0\\",
           \\"version\\": \\"27c53665371915d89e2b47bb22ec29af\\"
       };"
     `);
@@ -1344,7 +1344,7 @@ describe('Metadata visitor has one relation', () => {
           },
           \\"enums\\": {},
           \\"nonModels\\": {},
-          \\"pragma\\": \\"2.1.0\\",
+          \\"pragma\\": \\"1.0.0\\",
           \\"version\\": \\"27c53665371915d89e2b47bb22ec29af\\"
       };"
     `);

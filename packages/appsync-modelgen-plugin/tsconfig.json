@@ -1,18 +1,13 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": ".",
-    "outDir": ".",
-    "resolveJsonModule": true,
-    "composite": true
+    "rootDir": "src",
+    "outDir": "lib"
   },
   "exclude": [
     "scripts",
     "schemas",
     "lib",
     "src/__tests__"
-  ],
-  "files": [
-    "package.json"
   ]
 }

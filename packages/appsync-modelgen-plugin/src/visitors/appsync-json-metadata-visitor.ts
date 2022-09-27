@@ -10,7 +10,6 @@ import {
   CodeGenEnum,
 } from './appsync-visitor';
 import { METADATA_SCALAR_MAP } from '../scalars';
-import { version as packageVersion } from '../../package.json';
 export type JSONSchema = {
   models: JSONSchemaModels;
   enums: JSONSchemaEnums;
@@ -109,6 +108,7 @@ export class AppSyncJSONVisitor<
   ) {
     super(schema, rawConfig, additionalConfig, defaultScalars);
     this._parsedConfig.metadataTarget = rawConfig.metadataTarget || 'javascript';
+    this._parsedConfig.pragma = rawConfig.pragma;
   }
   generate(): string {
     // TODO: Remove us, leaving in to be explicit on why this flag is here.
@@ -152,7 +152,7 @@ export class AppSyncJSONVisitor<
       models: {},
       enums: {},
       nonModels: {},
-      pragma: packageVersion,
+      pragma: this._parsedConfig.pragma || 'unknown',
       version: this.computeVersion(),
     };
 
