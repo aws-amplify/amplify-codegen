@@ -17,6 +17,7 @@ import {
 import { AuthDirective, AuthStrategy } from '../utils/process-auth';
 import { printWarning } from '../utils/warn';
 import { SWIFT_SCALAR_MAP } from '../scalars';
+import { plurality } from 'graphql-transformer-common';
 
 export interface RawAppSyncModelSwiftConfig extends RawAppSyncModelConfig {
   /**
@@ -293,12 +294,15 @@ export class AppSyncSwiftVisitor<
     const keyDirectives = this.config.generateIndexRules ? this.generateKeyRules(model) : [];
     const priamryKeyRules = this.generatePrimaryKeyRules(model);
     const attributes = [...keyDirectives, priamryKeyRules].filter(f => f);
+    const pluralFields = this.config.improvePluralization ?
+      [`model.listPluralName = "${plurality(model.name, this.config.improvePluralization)}"`, `model.syncPluralName = "${this.pluralizeModelName(model)}"`] :
+      [`model.pluralName = "${this.pluralizeModelName(model)}"`];
     const closure = [
       '{ model in',
       `let ${keysName} = ${this.getModelName(model)}.keys`,
       '',
       ...(authRules.length ? [`model.authRules = ${authRules}`, ''] : []),
-      `model.pluralName = "${this.pluralizeModelName(model)}"`,
+      ...pluralFields,
       '',
       ...(attributes.length ? ['model.attributes(', indentMultiline(attributes.join(',\n')), ')', ''] : []),
       'model.fields(',

@@ -86,6 +86,7 @@ async function generateModels(context, overrideOutputDir = null, isIntrospection
   const usePipelinedTransformer = readFeatureFlag('graphQLTransformer.useExperimentalPipelinedTransformer')
   const transformerVersion = readNumericFeatureFlag('graphQLTransformer.transformerVersion');
   const respectPrimaryKeyAttributesOnConnectionField = readFeatureFlag('graphQLTransformer.respectPrimaryKeyAttributesOnConnectionField');
+  const improvePluralization = readFeatureFlag('graphQLTransformer.improvePluralization');
 
   let isTimestampFieldsAdded = readFeatureFlag('codegen.addTimestampFields');
   let enableDartNullSafety = readFeatureFlag('codegen.enableDartNullSafety');
@@ -130,6 +131,7 @@ async function generateModels(context, overrideOutputDir = null, isIntrospection
       dartUpdateAmplifyCoreDependency,
       respectPrimaryKeyAttributesOnConnectionField,
       overrideOutputDir, // This needs to live under `config` in order for the GraphQL types to work out.
+      improvePluralization,
     },
   });
 

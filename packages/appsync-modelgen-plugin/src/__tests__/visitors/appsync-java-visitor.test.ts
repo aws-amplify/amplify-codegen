@@ -555,6 +555,20 @@ describe('AppSyncModelVisitor', () => {
         expect(() => validateJava(generatedCode)).not.toThrow();
         expect(generatedCode).toMatchSnapshot();
       });
+
+      it('should generate correct pluralization', () => {
+        const visitor = getVisitor(
+          schema,
+          'task',
+          {
+            transformerVersion: 1,
+            improvePluralization: true,
+          }
+        );
+        const generatedCode = visitor.generate();
+        expect(() => validateJava(generatedCode)).not.toThrow();
+        expect(generatedCode).toMatchSnapshot();
+      });
     });
   });
 
@@ -662,7 +676,7 @@ describe('AppSyncModelVisitor', () => {
       expect(generatedCode).toMatchSnapshot();
     });
   });
-  
+
   describe('Custom primary key for connected model tests', () => {
     it('Should generate correct model file for hasOne & belongsTo relation with composite primary key when CPK is enabled', () => {
       const schema = /* GraphQL */ `
@@ -697,7 +711,7 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const generatedCodePost = getVisitorPipelinedTransformer(schema, 'Post', { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
-      const generatedCodeComment = getVisitorPipelinedTransformer(schema, 'Comment', { respectPrimaryKeyAttributesOnConnectionField: true }).generate();      
+      const generatedCodeComment = getVisitorPipelinedTransformer(schema, 'Comment', { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
       expect(generatedCodePost).toMatchSnapshot();
       expect(generatedCodeComment).toMatchSnapshot();
     });

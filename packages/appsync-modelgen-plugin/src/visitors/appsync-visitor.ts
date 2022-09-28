@@ -131,6 +131,12 @@ export interface RawAppSyncModelConfig extends RawConfig {
    * @descriptions optional boolean which determines whether to use custom primary key support
    */
   respectPrimaryKeyAttributesOnConnectionField?: boolean;
+  /**
+   * @name improvePluralization
+   * @type boolean
+   * @descriptions optional boolean which determines whether improved pluralization logic should be used
+   */
+  improvePluralization?: boolean;
 }
 
 // Todo: need to figure out how to share config
@@ -143,6 +149,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   usePipelinedTransformer?: boolean;
   transformerVersion?: number;
   respectPrimaryKeyAttributesOnConnectionField?: boolean;
+  improvePluralization?: boolean;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
 
@@ -231,6 +238,7 @@ export class AppSyncModelVisitor<
       usePipelinedTransformer: rawConfig.usePipelinedTransformer,
       transformerVersion: rawConfig.transformerVersion,
       respectPrimaryKeyAttributesOnConnectionField: rawConfig.respectPrimaryKeyAttributesOnConnectionField,
+      improvePluralization: rawConfig.improvePluralization,
     });
 
     const typesUsedInDirectives: string[] = [];

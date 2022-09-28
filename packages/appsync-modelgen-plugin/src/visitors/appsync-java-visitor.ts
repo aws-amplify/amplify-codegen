@@ -18,6 +18,7 @@ import { CodeGenConnectionType } from '../utils/process-connections';
 import { AuthDirective, AuthStrategy } from '../utils/process-auth';
 import { printWarning } from '../utils/warn';
 import { validateFieldName } from '../utils/validate-field-name';
+import { plurality } from 'graphql-transformer-common';
 
 export class AppSyncModelJavaVisitor<
   TRawConfig extends RawAppSyncModelConfig = RawAppSyncModelConfig,
@@ -852,7 +853,13 @@ export class AppSyncModelJavaVisitor<
           const modelArgs: string[] = [];
           const authDirectives: AuthDirective[] = model.directives.filter(d => d.name === 'auth') as AuthDirective[];
           const authRules = this.generateAuthRules(authDirectives);
-          modelArgs.push(`pluralName = "${this.pluralizeModelName(model)}"`);
+          if (this.config.improvePluralization) {
+            modelArgs.push(`listPluralName = "${plurality(model.name, this.config.improvePluralization)}"`);
+            modelArgs.push(`syncPluralName = "${this.pluralizeModelName(model)}"`);
+          }
+          else {
+            modelArgs.push(`pluralName = "${this.pluralizeModelName(model)}"`);
+          }
           if (this.isCustomPKEnabled()) {
             modelArgs.push(`type = Model.Type.USER`);
             modelArgs.push(`version = 1`);

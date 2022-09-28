@@ -8,7 +8,7 @@ import {
   CodeGenFieldConnectionHasOne,
 } from '../../utils/process-connections';
 import { AppSyncJSONVisitor, AssociationHasMany, JSONSchemaNonModel } from '../../visitors/appsync-json-metadata-visitor';
-import { CodeGenEnum, CodeGenField, CodeGenModel } from '../../visitors/appsync-visitor';
+import { CodeGenEnum, CodeGenField, CodeGenGenerateEnum, CodeGenModel } from '../../visitors/appsync-visitor';
 
 const defaultJSONVisitorSettings = {
   isTimestampFieldsAdded: true,
@@ -1353,7 +1353,7 @@ describe('Metadata visitor for custom PK support', () => {
     });
     it('should generate correct metadata in ts', () => {
       expect(getVisitor(schema, 'typescript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
-    });   
+    });
   });
   describe('relation metadata for hasMany uni when custom PK is enabled', () => {
     const schema =  /* GraphQL */ `
@@ -1436,6 +1436,21 @@ describe('Metadata visitor for custom PK support', () => {
     });
     it('should generate correct metadata in ts', () => {
       expect(getVisitor(schema, 'typescript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
+    });
+  });
+  describe('Pluralization when improved pluralization is enabled', () => {
+    const schema =  /* GraphQL */ `
+      type Wish @model {
+        id: ID!
+        name: String
+      }
+      type Wishes @model {
+        id: ID!
+        collection: [String]
+      }
+    `;
+    it('Should pluralize wish as wishes with improved pluralization', () => {
+      expect(getVisitor(schema, 'typescript', { improvePluralization: true, transformerVersion: 2 }).generate()).toMatchSnapshot();
     });
   });
 })

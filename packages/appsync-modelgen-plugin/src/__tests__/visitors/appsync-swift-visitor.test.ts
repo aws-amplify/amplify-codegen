@@ -11,6 +11,7 @@ const defaultIosVisitorSetings = {
   handleListNullabilityTransparently: true,
   transformerVersion: 1,
   respectPrimaryKeyAttributesOnConnectionField: false,
+  improvePluralization: false,
 };
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
@@ -2276,6 +2277,79 @@ describe('AppSyncSwiftVisitor', () => {
       `;
       const generatedCode = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.code).generate();
       expect(generatedCode).toMatchSnapshot();
+    });
+  });
+
+  describe('Use Improved Pluralization', () => {
+    let wishSchema: string;
+    beforeEach(() => {
+      wishSchema = /* GraphQL */ `
+        type NoteData
+        @model
+        {
+            id: ID!
+            name: String!
+            description: String
+            image: String
+        }
+        
+        type Wishes @model 
+        @key(name: "byUsers", fields: ["idUser"]) 
+        {
+        
+          id: ID!
+          date: AWSDateTime!
+          idUser: ID!
+          ev: ID! 
+          deprecated: Boolean!  
+          owner: String         
+        }
+        
+        type Wish @model 
+        @key(name: "byUsers", fields: ["idUser"]) {
+        
+          id: ID!
+          date: AWSDateTime!
+          idUser: ID!
+          ev: ID! 
+          deprecated: Boolean!  
+          owner: String         
+        }
+      `;
+    });
+
+    it('Should work with potentially pluralized collision', () => {
+      const visitor = getVisitor(
+        wishSchema,
+        'ListContainer',
+        CodeGenGenerateEnum.code,
+        {
+          improvePluralization: true,
+        },
+      );
+      const generatedCode = visitor.generate();
+      expect(generatedCode).toMatchSnapshot();
+
+      const metadataVisitor = getVisitor(
+        wishSchema,
+        'ListContainer',
+        CodeGenGenerateEnum.metadata,
+        {
+          improvePluralization: true,
+        },
+      );
+      const generatedMetadata = metadataVisitor.generate();
+      expect(generatedMetadata).toMatchSnapshot();
+
+      const customTypeVisitor = getVisitor(
+        wishSchema,
+        'CustomType',
+        CodeGenGenerateEnum.code,
+        {
+          improvePluralization: true,
+        },
+      );
+      expect(customTypeVisitor.generate()).toMatchSnapshot();
     });
   });
 

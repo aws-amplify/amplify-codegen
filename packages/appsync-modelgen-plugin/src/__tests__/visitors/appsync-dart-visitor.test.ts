@@ -250,7 +250,7 @@ describe('AppSync Dart Visitor', () => {
           name: String!
         }
       `;
-      
+
       [true, false].forEach(enableDartNullSafety => {
         const visitor = getVisitor({
           schema,

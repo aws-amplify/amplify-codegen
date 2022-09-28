@@ -962,3 +962,24 @@ extension task {
     }
 }"
 `;
+
+exports[`AppSyncSwiftVisitor Use Improved Pluralization Should work with potentially pluralized collision 1`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+"
+`;
+
+exports[`AppSyncSwiftVisitor Use Improved Pluralization Should work with potentially pluralized collision 2`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+"
+`;
+
+exports[`AppSyncSwiftVisitor Use Improved Pluralization Should work with potentially pluralized collision 3`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+"
+`;
