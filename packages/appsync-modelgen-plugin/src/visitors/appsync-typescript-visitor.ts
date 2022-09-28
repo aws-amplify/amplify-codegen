@@ -304,7 +304,6 @@ export class AppSyncModelTypeScriptVisitor<
 
       if (options?.lazy) {
         this.TS_IGNORE_DATASTORE_IMPORT.add('LazyLoading');
-        this.TS_IGNORE_DATASTORE_IMPORT.add('Enabled');
         this.TS_IGNORE_DATASTORE_IMPORT.add('Disabled');
         if (field.isList) {
           this.TS_IGNORE_DATASTORE_IMPORT.add('AsyncCollection');

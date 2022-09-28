@@ -110,7 +110,7 @@ describe('Javascript visitor', () => {
       expect(declarations).toMatchInlineSnapshot(`
         "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
         // @ts-ignore
-        import { LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+        import { LazyLoading, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -204,7 +204,7 @@ describe('Javascript visitor', () => {
       expect(declarations).toMatchInlineSnapshot(`
         "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
         // @ts-ignore
-        import { LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+        import { LazyLoading, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",

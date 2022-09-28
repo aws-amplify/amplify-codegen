@@ -18,7 +18,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on explicit hasMany belongs to relationship @belongsTo 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 type PostMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -95,7 +95,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on explicit hasOne belongs to relationship @belongsTo 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Enabled, Disabled } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, Disabled } from \\"@aws-amplify/datastore\\";
 
 type Project2MetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -175,7 +175,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on implicit hasMany belongs to relationship @belongsTo (extended) 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 type Blog7V2MetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -282,7 +282,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on implicit hasOne belongs to relationship @belongsTo 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Enabled, Disabled } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, Disabled } from \\"@aws-amplify/datastore\\";
 
 type ProjectMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -362,7 +362,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on many to many relationship @manyToMany 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 type PostMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -513,7 +513,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional explicit has many relationship @hasMany 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 type Post2MetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -590,7 +590,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional explicit has one relationship @hasOne 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Enabled, Disabled } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, Disabled } from \\"@aws-amplify/datastore\\";
 
 type Project2MetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -667,7 +667,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional implicit has many relationship @hasMany 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 type PostMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -744,7 +744,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional implicit has one relationship @hasOne 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Enabled, Disabled } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, Disabled } from \\"@aws-amplify/datastore\\";
 
 type ProjectMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';

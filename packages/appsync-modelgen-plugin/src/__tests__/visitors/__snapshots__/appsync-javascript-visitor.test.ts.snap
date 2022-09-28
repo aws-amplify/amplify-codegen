@@ -3,7 +3,7 @@
 exports[`Javascript visitor with connected models of custom pk hasMany/belongsTo relation should generate correct declaration for hasMany bi-connection model when custom pk support is enabled 1`] = `
 "import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -81,7 +81,7 @@ export declare const Comment: (new (init: ModelInit<Comment>) => Comment) & Comm
 exports[`Javascript visitor with connected models of custom pk hasMany/belongsTo relation should generate correct declaration for hasMany uni-connection model when custom pk support is enabled 1`] = `
 "import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -157,7 +157,7 @@ export declare const Comment: (new (init: ModelInit<Comment>) => Comment) & Comm
 exports[`Javascript visitor with connected models of custom pk hasOne/belongsTo relation should generate correct declaration when custom pk support is enabled 1`] = `
 "import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Enabled, Disabled } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, Disabled } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -239,7 +239,7 @@ export declare const Team: (new (init: ModelInit<Team>) => Team) & Team & {
 exports[`Javascript visitor with connected models of custom pk manyToMany relation should generate correct declaration for manyToMany model when custom pk is enabled 1`] = `
 "import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier, ManagedIdentifier } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Enabled, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 
 
