@@ -18,7 +18,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on explicit hasMany belongs to relationship @belongsTo 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, Disabled, AsyncCollection, AsyncItem } from \\"@aws-amplify/datastore\\";
 
 type PostMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -64,7 +64,7 @@ class EagerComment {
 class LazyComment {
   readonly id: string;
   readonly content: string;
-  readonly post: Promise<Post | undefined>;
+  readonly post: AsyncItem<Post | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   
@@ -95,7 +95,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on explicit hasOne belongs to relationship @belongsTo 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Disabled } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, Disabled, AsyncItem } from \\"@aws-amplify/datastore\\";
 
 type Project2MetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -118,7 +118,7 @@ class EagerProject2 {
 class LazyProject2 {
   readonly id: string;
   readonly name?: string | null;
-  readonly team: Promise<Team2 | undefined>;
+  readonly team: AsyncItem<Team2 | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly project2TeamId?: string | null;
@@ -143,7 +143,7 @@ class EagerTeam2 {
 class LazyTeam2 {
   readonly id: string;
   readonly name: string;
-  readonly project: Promise<Project2 | undefined>;
+  readonly project: AsyncItem<Project2 | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   
@@ -175,7 +175,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on implicit hasMany belongs to relationship @belongsTo (extended) 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, Disabled, AsyncCollection, AsyncItem } from \\"@aws-amplify/datastore\\";
 
 type Blog7V2MetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -226,7 +226,7 @@ class EagerPost7V2 {
 class LazyPost7V2 {
   readonly id: string;
   readonly title: string;
-  readonly blog: Promise<Blog7V2 | undefined>;
+  readonly blog: AsyncItem<Blog7V2 | undefined>;
   readonly comments: AsyncCollection<Comment7V2>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -251,7 +251,7 @@ class EagerComment7V2 {
 class LazyComment7V2 {
   readonly id: string;
   readonly content?: string | null;
-  readonly post: Promise<Post7V2 | undefined>;
+  readonly post: AsyncItem<Post7V2 | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   
@@ -282,7 +282,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on implicit hasOne belongs to relationship @belongsTo 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Disabled } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, Disabled, AsyncItem } from \\"@aws-amplify/datastore\\";
 
 type ProjectMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -305,7 +305,7 @@ class EagerProject {
 class LazyProject {
   readonly id: string;
   readonly name?: string | null;
-  readonly team: Promise<Team | undefined>;
+  readonly team: AsyncItem<Team | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly projectTeamId?: string | null;
@@ -330,7 +330,7 @@ class EagerTeam {
 class LazyTeam {
   readonly id: string;
   readonly name: string;
-  readonly project: Promise<Project | undefined>;
+  readonly project: AsyncItem<Project | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   
@@ -362,7 +362,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on many to many relationship @manyToMany 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, Disabled, AsyncCollection, AsyncItem } from \\"@aws-amplify/datastore\\";
 
 type PostMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -437,8 +437,8 @@ class EagerPostTags {
 
 class LazyPostTags {
   readonly id: string;
-  readonly post: Promise<Post>;
-  readonly tag: Promise<Tag>;
+  readonly post: AsyncItem<Post>;
+  readonly tag: AsyncItem<Tag>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   
@@ -590,7 +590,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional explicit has one relationship @hasOne 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Disabled } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, Disabled, AsyncItem } from \\"@aws-amplify/datastore\\";
 
 type Project2MetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -614,7 +614,7 @@ class LazyProject2 {
   readonly id: string;
   readonly name?: string | null;
   readonly teamID?: string | null;
-  readonly team: Promise<Team2 | undefined>;
+  readonly team: AsyncItem<Team2 | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   
@@ -744,7 +744,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional implicit has one relationship @hasOne 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Disabled } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, Disabled, AsyncItem } from \\"@aws-amplify/datastore\\";
 
 type ProjectMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -767,7 +767,7 @@ class EagerProject {
 class LazyProject {
   readonly id: string;
   readonly name?: string | null;
-  readonly team: Promise<Team | undefined>;
+  readonly team: AsyncItem<Team | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly projectTeamId?: string | null;

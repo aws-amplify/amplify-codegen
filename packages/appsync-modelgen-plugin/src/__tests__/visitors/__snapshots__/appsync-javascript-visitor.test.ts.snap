@@ -3,7 +3,7 @@
 exports[`Javascript visitor with connected models of custom pk hasMany/belongsTo relation should generate correct declaration for hasMany bi-connection model when custom pk support is enabled 1`] = `
 "import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, Disabled, AsyncCollection, AsyncItem } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -63,7 +63,7 @@ class LazyComment {
   };
   readonly customPostId: string;
   readonly content: string;
-  readonly post: Promise<Post | undefined>;
+  readonly post: AsyncItem<Post | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly postCommentsCustomPostId?: string | null;
@@ -157,7 +157,7 @@ export declare const Comment: (new (init: ModelInit<Comment>) => Comment) & Comm
 exports[`Javascript visitor with connected models of custom pk hasOne/belongsTo relation should generate correct declaration when custom pk support is enabled 1`] = `
 "import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Disabled } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, Disabled, AsyncItem } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -185,7 +185,7 @@ class LazyProject {
   };
   readonly id: string;
   readonly name: string;
-  readonly team: Promise<Team | undefined>;
+  readonly team: AsyncItem<Team | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly projectTeamId?: string | null;
@@ -221,7 +221,7 @@ class LazyTeam {
   };
   readonly id: string;
   readonly name: string;
-  readonly project: Promise<Project | undefined>;
+  readonly project: AsyncItem<Project | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly teamProjectId?: string | null;
@@ -239,7 +239,7 @@ export declare const Team: (new (init: ModelInit<Team>) => Team) & Team & {
 exports[`Javascript visitor with connected models of custom pk manyToMany relation should generate correct declaration for manyToMany model when custom pk is enabled 1`] = `
 "import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier, ManagedIdentifier } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, Disabled, AsyncCollection, AsyncItem } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -338,8 +338,8 @@ class LazyPostTags {
   readonly posttitle?: string | null;
   readonly tagCustomTagId?: string | null;
   readonly taglabel?: string | null;
-  readonly post: Promise<Post>;
-  readonly tag: Promise<Tag>;
+  readonly post: AsyncItem<Post>;
+  readonly tag: AsyncItem<Tag>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   

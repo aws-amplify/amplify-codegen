@@ -307,8 +307,10 @@ export class AppSyncModelTypeScriptVisitor<
         this.TS_IGNORE_DATASTORE_IMPORT.add('Disabled');
         if (field.isList) {
           this.TS_IGNORE_DATASTORE_IMPORT.add('AsyncCollection');
+        } else {
+          this.TS_IGNORE_DATASTORE_IMPORT.add('AsyncItem');
         }
-        return `${field.isList ? 'AsyncCollection' : 'Promise'}<${typeNameStr}${!field.isList && isNullable ? ' | undefined' : ''}>`;
+        return `${field.isList ? 'AsyncCollection' : 'AsyncItem'}<${typeNameStr}${!field.isList && isNullable ? ' | undefined' : ''}>`;
       }
 
       return (field.isList ? this.getListType(typeNameStr, field) : typeNameStr) + nullableTypeUnion;
