@@ -108,7 +108,6 @@ export class AppSyncJSONVisitor<
   ) {
     super(schema, rawConfig, additionalConfig, defaultScalars);
     this._parsedConfig.metadataTarget = rawConfig.metadataTarget || 'javascript';
-    this._parsedConfig.codegenVersion = rawConfig.codegenVersion;
   }
   generate(): string {
     // TODO: Remove us, leaving in to be explicit on why this flag is here.

@@ -238,6 +238,7 @@ export class AppSyncModelVisitor<
       usePipelinedTransformer: rawConfig.usePipelinedTransformer,
       transformerVersion: rawConfig.transformerVersion,
       respectPrimaryKeyAttributesOnConnectionField: rawConfig.respectPrimaryKeyAttributesOnConnectionField,
+      codegenVersion: rawConfig.codegenVersion,
     });
 
     const typesUsedInDirectives: string[] = [];
