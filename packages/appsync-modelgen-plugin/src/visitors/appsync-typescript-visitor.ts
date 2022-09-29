@@ -196,7 +196,7 @@ export class AppSyncModelTypeScriptVisitor<
       modelMetaDataFormatted = `, ${modelName}MetaData`;
       modelMetaDataDeclaration = readOnlyFieldNames.length > 0 ? modelMetaDataFormatted : '';
     }
-    const conditionalType = `export declare type ${modelName} = LazyLoading extends Disabled ? Eager${modelName} : Lazy${modelName}`;
+    const conditionalType = `export declare type ${modelName} = LazyLoading extends undefined ? Eager${modelName} : Lazy${modelName}`;
 
     const modelVariableBuilder = [
       `export declare const ${modelName}: (new (init: ModelInit<${modelName}${modelMetaDataDeclaration}>) => ${modelName})`,
@@ -304,7 +304,6 @@ export class AppSyncModelTypeScriptVisitor<
 
       if (options?.lazy) {
         this.TS_IGNORE_DATASTORE_IMPORT.add('LazyLoading');
-        this.TS_IGNORE_DATASTORE_IMPORT.add('Disabled');
         if (field.isList) {
           this.TS_IGNORE_DATASTORE_IMPORT.add('AsyncCollection');
         } else {

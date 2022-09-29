@@ -3,7 +3,7 @@
 exports[`Javascript visitor with connected models of custom pk hasMany/belongsTo relation should generate correct declaration for hasMany bi-connection model when custom pk support is enabled 1`] = `
 "import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Disabled, AsyncCollection, AsyncItem } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, AsyncCollection, AsyncItem } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -35,7 +35,7 @@ class LazyPost {
   
 }
 
-export declare type Post = LazyLoading extends Disabled ? EagerPost : LazyPost
+export declare type Post = LazyLoading extends undefined ? EagerPost : LazyPost
 
 export declare const Post: (new (init: ModelInit<Post>) => Post) & Post & {
   static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
@@ -71,7 +71,7 @@ class LazyComment {
   
 }
 
-export declare type Comment = LazyLoading extends Disabled ? EagerComment : LazyComment
+export declare type Comment = LazyLoading extends undefined ? EagerComment : LazyComment
 
 export declare const Comment: (new (init: ModelInit<Comment>) => Comment) & Comment & {
   static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
@@ -81,7 +81,7 @@ export declare const Comment: (new (init: ModelInit<Comment>) => Comment) & Comm
 exports[`Javascript visitor with connected models of custom pk hasMany/belongsTo relation should generate correct declaration for hasMany uni-connection model when custom pk support is enabled 1`] = `
 "import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Disabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -113,7 +113,7 @@ class LazyPost {
   
 }
 
-export declare type Post = LazyLoading extends Disabled ? EagerPost : LazyPost
+export declare type Post = LazyLoading extends undefined ? EagerPost : LazyPost
 
 export declare const Post: (new (init: ModelInit<Post>) => Post) & Post & {
   static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
@@ -147,7 +147,7 @@ class LazyComment {
   
 }
 
-export declare type Comment = LazyLoading extends Disabled ? EagerComment : LazyComment
+export declare type Comment = LazyLoading extends undefined ? EagerComment : LazyComment
 
 export declare const Comment: (new (init: ModelInit<Comment>) => Comment) & Comment & {
   static copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
@@ -157,7 +157,7 @@ export declare const Comment: (new (init: ModelInit<Comment>) => Comment) & Comm
 exports[`Javascript visitor with connected models of custom pk hasOne/belongsTo relation should generate correct declaration when custom pk support is enabled 1`] = `
 "import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Disabled, AsyncItem } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, AsyncItem } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -193,7 +193,7 @@ class LazyProject {
   
 }
 
-export declare type Project = LazyLoading extends Disabled ? EagerProject : LazyProject
+export declare type Project = LazyLoading extends undefined ? EagerProject : LazyProject
 
 export declare const Project: (new (init: ModelInit<Project>) => Project) & Project & {
   static copyOf(source: Project, mutator: (draft: MutableModel<Project>) => MutableModel<Project> | void): Project;
@@ -229,7 +229,7 @@ class LazyTeam {
   
 }
 
-export declare type Team = LazyLoading extends Disabled ? EagerTeam : LazyTeam
+export declare type Team = LazyLoading extends undefined ? EagerTeam : LazyTeam
 
 export declare const Team: (new (init: ModelInit<Team>) => Team) & Team & {
   static copyOf(source: Team, mutator: (draft: MutableModel<Team>) => MutableModel<Team> | void): Team;
@@ -239,7 +239,7 @@ export declare const Team: (new (init: ModelInit<Team>) => Team) & Team & {
 exports[`Javascript visitor with connected models of custom pk manyToMany relation should generate correct declaration for manyToMany model when custom pk is enabled 1`] = `
 "import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier, ManagedIdentifier } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, Disabled, AsyncCollection, AsyncItem } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, AsyncCollection, AsyncItem } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -273,7 +273,7 @@ class LazyPost {
   
 }
 
-export declare type Post = LazyLoading extends Disabled ? EagerPost : LazyPost
+export declare type Post = LazyLoading extends undefined ? EagerPost : LazyPost
 
 export declare const Post: (new (init: ModelInit<Post>) => Post) & Post & {
   static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
@@ -305,7 +305,7 @@ class LazyTag {
   
 }
 
-export declare type Tag = LazyLoading extends Disabled ? EagerTag : LazyTag
+export declare type Tag = LazyLoading extends undefined ? EagerTag : LazyTag
 
 export declare const Tag: (new (init: ModelInit<Tag>) => Tag) & Tag & {
   static copyOf(source: Tag, mutator: (draft: MutableModel<Tag>) => MutableModel<Tag> | void): Tag;
@@ -345,7 +345,7 @@ class LazyPostTags {
   
 }
 
-export declare type PostTags = LazyLoading extends Disabled ? EagerPostTags : LazyPostTags
+export declare type PostTags = LazyLoading extends undefined ? EagerPostTags : LazyPostTags
 
 export declare const PostTags: (new (init: ModelInit<PostTags>) => PostTags) & PostTags & {
   static copyOf(source: PostTags, mutator: (draft: MutableModel<PostTags>) => MutableModel<PostTags> | void): PostTags;
