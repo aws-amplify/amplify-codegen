@@ -204,7 +204,7 @@ export class AppSyncModelTypeScriptVisitor<
     ];
     if (Object.values(this.modelMap).includes(modelObj)) {
       modelVariableBuilder.push(
-        `{\n  static copyOf(source: ${modelName}, mutator: (draft: MutableModel<${modelName}${modelMetaDataDeclaration}>) => MutableModel<${modelName}${modelMetaDataDeclaration}> | void): ${modelName};\n}`,
+        `{\n  copyOf(source: ${modelName}, mutator: (draft: MutableModel<${modelName}${modelMetaDataDeclaration}>) => MutableModel<${modelName}${modelMetaDataDeclaration}> | void): ${modelName};\n}`,
       );
     }
     const modelVariable = modelVariableBuilder.join(' & ');
