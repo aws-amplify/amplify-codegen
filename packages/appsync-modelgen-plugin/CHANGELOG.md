@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0-v3.0.2.beta.improved-pluralization.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.1.0...@aws-amplify/appsync-modelgen-plugin@2.2.0-v3.0.2.beta.improved-pluralization.0) (2022-09-29)
+
+
+### Features
+
+* update imports generated for flutter datastore plugin dependency ([#382](https://github.com/aws-amplify/amplify-codegen/issues/382)) ([59e7a35](https://github.com/aws-amplify/amplify-codegen/commit/59e7a3589a2a0cf92bfe117be3387b07a04f1ca3)), closes [#380](https://github.com/aws-amplify/amplify-codegen/issues/380)
+
+
+
+
+
 # [2.1.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.0.5...@aws-amplify/appsync-modelgen-plugin@2.1.0) (2022-09-02)
 
 
