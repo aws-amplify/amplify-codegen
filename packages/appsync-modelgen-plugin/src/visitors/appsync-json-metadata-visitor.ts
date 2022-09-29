@@ -15,7 +15,7 @@ export type JSONSchema = {
   enums: JSONSchemaEnums;
   nonModels: JSONSchemaTypes;
   version: string;
-  pragma: string;
+  codegenVersion: string;
 };
 export type JSONSchemaModels = Record<string, JSONSchemaModel>;
 export type JSONSchemaTypes = Record<string, JSONSchemaNonModel>;
@@ -108,7 +108,7 @@ export class AppSyncJSONVisitor<
   ) {
     super(schema, rawConfig, additionalConfig, defaultScalars);
     this._parsedConfig.metadataTarget = rawConfig.metadataTarget || 'javascript';
-    this._parsedConfig.pragma = rawConfig.pragma;
+    this._parsedConfig.codegenVersion = rawConfig.codegenVersion;
   }
   generate(): string {
     // TODO: Remove us, leaving in to be explicit on why this flag is here.
@@ -152,7 +152,7 @@ export class AppSyncJSONVisitor<
       models: {},
       enums: {},
       nonModels: {},
-      pragma: this._parsedConfig.pragma || 'unknown',
+      codegenVersion: this._parsedConfig.codegenVersion || 'unknown',
       version: this.computeVersion(),
     };
 

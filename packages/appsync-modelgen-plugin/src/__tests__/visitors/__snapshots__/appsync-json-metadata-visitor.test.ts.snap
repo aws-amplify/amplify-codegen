@@ -317,7 +317,7 @@ exports[`Metadata visitor for custom PK support relation metadata for hasMany & 
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"pragma\\": \\"1.0.0\\",
+    \\"codegenVersion\\": \\"1.0.0\\",
     \\"version\\": \\"cb8f120e36ffc33e0b01e0874ba14f7a\\"
 };"
 `;
@@ -641,7 +641,7 @@ export const schema: Schema = {
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"pragma\\": \\"1.0.0\\",
+    \\"codegenVersion\\": \\"1.0.0\\",
     \\"version\\": \\"cb8f120e36ffc33e0b01e0874ba14f7a\\"
 };"
 `;
@@ -931,7 +931,7 @@ exports[`Metadata visitor for custom PK support relation metadata for hasMany un
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"pragma\\": \\"1.0.0\\",
+    \\"codegenVersion\\": \\"1.0.0\\",
     \\"version\\": \\"aa7ec83a3846aece824a211c5304dd88\\"
 };"
 `;
@@ -1223,7 +1223,7 @@ export const schema: Schema = {
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"pragma\\": \\"1.0.0\\",
+    \\"codegenVersion\\": \\"1.0.0\\",
     \\"version\\": \\"aa7ec83a3846aece824a211c5304dd88\\"
 };"
 `;
@@ -1401,7 +1401,7 @@ exports[`Metadata visitor for custom PK support relation metadata for hasOne/bel
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"pragma\\": \\"1.0.0\\",
+    \\"codegenVersion\\": \\"1.0.0\\",
     \\"version\\": \\"e44592ddc9b6514a18674da5baacfe68\\"
 };"
 `;
@@ -1581,7 +1581,7 @@ export const schema: Schema = {
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"pragma\\": \\"1.0.0\\",
+    \\"codegenVersion\\": \\"1.0.0\\",
     \\"version\\": \\"e44592ddc9b6514a18674da5baacfe68\\"
 };"
 `;
@@ -1851,7 +1851,7 @@ exports[`Metadata visitor for custom PK support relation metadata for manyToMany
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"pragma\\": \\"1.0.0\\",
+    \\"codegenVersion\\": \\"1.0.0\\",
     \\"version\\": \\"7c85f0b3f2df2a63cd6e1c28593a5381\\"
 };"
 `;
@@ -2123,7 +2123,7 @@ export const schema: Schema = {
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"pragma\\": \\"1.0.0\\",
+    \\"codegenVersion\\": \\"1.0.0\\",
     \\"version\\": \\"7c85f0b3f2df2a63cd6e1c28593a5381\\"
 };"
 `;

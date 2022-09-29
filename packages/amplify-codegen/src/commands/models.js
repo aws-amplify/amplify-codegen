@@ -130,7 +130,7 @@ async function generateModels(context, overrideOutputDir = null, isIntrospection
       transformerVersion,
       dartUpdateAmplifyCoreDependency,
       respectPrimaryKeyAttributesOnConnectionField,
-      pragma: packageVersion,
+      codegenVersion: packageVersion,
       overrideOutputDir, // This needs to live under `config` in order for the GraphQL types to work out.
     },
   });

@@ -132,11 +132,11 @@ export interface RawAppSyncModelConfig extends RawConfig {
    */
   respectPrimaryKeyAttributesOnConnectionField?: boolean;
   /**
-   * @name pragma
+   * @name codegenVersion
    * @type string
    * @description semantic version of amplify-codegen package
    */
-  pragma: string;
+  codegenVersion: string;
 }
 
 // Todo: need to figure out how to share config
@@ -149,7 +149,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   usePipelinedTransformer?: boolean;
   transformerVersion?: number;
   respectPrimaryKeyAttributesOnConnectionField?: boolean;
-  pragma?: string;
+  codegenVersion?: string;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
 
