@@ -157,8 +157,8 @@ export class AppSyncModelTypeScriptVisitor<
    */
   protected generateModelDeclaration(modelObj: CodeGenModel, isDeclaration: boolean = true, isModelType: boolean = true): string {
     const modelName = this.generateModelTypeDeclarationName(modelObj);
-    const eagerModelDeclaration = new TypeScriptDeclarationBlock().asKind('class').withName(`Eager${modelName}`);
-    const lazyModelDeclaration = new TypeScriptDeclarationBlock().asKind('class').withName(`Lazy${modelName}`);
+    const eagerModelDeclaration = new TypeScriptDeclarationBlock().asKind('type').withName(`Eager${modelName}`);
+    const lazyModelDeclaration = new TypeScriptDeclarationBlock().asKind('type').withName(`Lazy${modelName}`);
 
     let readOnlyFieldNames: string[] = [];
     let modelMetaDataFormatted: string | undefined;

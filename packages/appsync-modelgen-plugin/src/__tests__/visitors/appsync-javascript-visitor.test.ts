@@ -117,16 +117,14 @@ describe('Javascript visitor', () => {
           ENUM_VAL2 = \\"enumVal2\\"
         }
 
-        class EagerSimpleNonModelType {
+        type EagerSimpleNonModelType = {
           readonly id: string;
           readonly names?: (string | null)[] | null;
-          
         }
 
-        class LazySimpleNonModelType {
+        type LazySimpleNonModelType = {
           readonly id: string;
           readonly names?: (string | null)[] | null;
-          
         }
 
         export declare type SimpleNonModelType = LazyLoading extends undefined ? EagerSimpleNonModelType : LazySimpleNonModelType
@@ -137,20 +135,18 @@ describe('Javascript visitor', () => {
 
 
 
-        class EagerSimpleModel {
+        type EagerSimpleModel = {
           readonly id: string;
           readonly name?: string | null;
           readonly bar?: string | null;
           readonly foo?: Bar[] | null;
-          
         }
 
-        class LazySimpleModel {
+        type LazySimpleModel = {
           readonly id: string;
           readonly name?: string | null;
           readonly bar?: string | null;
           readonly foo: AsyncCollection<Bar>;
-          
         }
 
         export declare type SimpleModel = LazyLoading extends undefined ? EagerSimpleModel : LazySimpleModel
@@ -159,16 +155,14 @@ describe('Javascript visitor', () => {
           copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel>) => MutableModel<SimpleModel> | void): SimpleModel;
         }
 
-        class EagerBar {
+        type EagerBar = {
           readonly id: string;
           readonly simpleModelFooId?: string | null;
-          
         }
 
-        class LazyBar {
+        type LazyBar = {
           readonly id: string;
           readonly simpleModelFooId?: string | null;
-          
         }
 
         export declare type Bar = LazyLoading extends undefined ? EagerBar : LazyBar
@@ -211,16 +205,14 @@ describe('Javascript visitor', () => {
           ENUM_VAL2 = \\"enumVal2\\"
         }
 
-        class EagerSimpleNonModelType {
+        type EagerSimpleNonModelType = {
           readonly id: string;
           readonly names?: (string | null)[] | null;
-          
         }
 
-        class LazySimpleNonModelType {
+        type LazySimpleNonModelType = {
           readonly id: string;
           readonly names?: (string | null)[] | null;
-          
         }
 
         export declare type SimpleNonModelType = LazyLoading extends undefined ? EagerSimpleNonModelType : LazySimpleNonModelType
@@ -235,24 +227,22 @@ describe('Javascript visitor', () => {
           readOnlyFields: 'createdAt' | 'updatedAt';
         }
 
-        class EagerSimpleModel {
+        type EagerSimpleModel = {
           readonly id: string;
           readonly name?: string | null;
           readonly bar?: string | null;
           readonly foo?: Bar[] | null;
           readonly createdAt?: string | null;
           readonly updatedAt?: string | null;
-          
         }
 
-        class LazySimpleModel {
+        type LazySimpleModel = {
           readonly id: string;
           readonly name?: string | null;
           readonly bar?: string | null;
           readonly foo: AsyncCollection<Bar>;
           readonly createdAt?: string | null;
           readonly updatedAt?: string | null;
-          
         }
 
         export declare type SimpleModel = LazyLoading extends undefined ? EagerSimpleModel : LazySimpleModel
@@ -261,20 +251,18 @@ describe('Javascript visitor', () => {
           copyOf(source: SimpleModel, mutator: (draft: MutableModel<SimpleModel, SimpleModelMetaData>) => MutableModel<SimpleModel, SimpleModelMetaData> | void): SimpleModel;
         }
 
-        class EagerBar {
+        type EagerBar = {
           readonly id: string;
           readonly createdAt?: string | null;
           readonly updatedAt?: string | null;
           readonly simpleModelFooId?: string | null;
-          
         }
 
-        class LazyBar {
+        type LazyBar = {
           readonly id: string;
           readonly createdAt?: string | null;
           readonly updatedAt?: string | null;
           readonly simpleModelFooId?: string | null;
-          
         }
 
         export declare type Bar = LazyLoading extends undefined ? EagerBar : LazyBar
@@ -386,34 +374,30 @@ describe('Javascript visitor with default owner auth', () => {
           ENUM_VAL2 = \\"enumVal2\\"
         }
 
-        class EagerSimpleNonModelType {
+        type EagerSimpleNonModelType = {
           readonly id: string;
           readonly names?: (string | null)[] | null;
-          
         }
 
-        class LazySimpleNonModelType {
+        type LazySimpleNonModelType = {
           readonly id: string;
           readonly names?: (string | null)[] | null;
-          
         }
 
         export declare type SimpleNonModelType = LazyLoading extends undefined ? EagerSimpleNonModelType : LazySimpleNonModelType
 
         export declare const SimpleNonModelType: (new (init: ModelInit<SimpleNonModelType>) => SimpleNonModelType) & SimpleNonModelType
 
-        class EagerSimpleModel {
+        type EagerSimpleModel = {
           readonly id: string;
           readonly name?: string | null;
           readonly bar?: string | null;
-          
         }
 
-        class LazySimpleModel {
+        type LazySimpleModel = {
           readonly id: string;
           readonly name?: string | null;
           readonly bar?: string | null;
-          
         }
 
         export declare type SimpleModel = LazyLoading extends undefined ? EagerSimpleModel : LazySimpleModel
@@ -482,34 +466,30 @@ describe('Javascript visitor with custom owner field auth', () => {
           ENUM_VAL2 = \\"enumVal2\\"
         }
 
-        class EagerSimpleNonModelType {
+        type EagerSimpleNonModelType = {
           readonly id: string;
           readonly names?: (string | null)[] | null;
-          
         }
 
-        class LazySimpleNonModelType {
+        type LazySimpleNonModelType = {
           readonly id: string;
           readonly names?: (string | null)[] | null;
-          
         }
 
         export declare type SimpleNonModelType = LazyLoading extends undefined ? EagerSimpleNonModelType : LazySimpleNonModelType
 
         export declare const SimpleNonModelType: (new (init: ModelInit<SimpleNonModelType>) => SimpleNonModelType) & SimpleNonModelType
 
-        class EagerSimpleModel {
+        type EagerSimpleModel = {
           readonly id: string;
           readonly name?: string | null;
           readonly bar?: string | null;
-          
         }
 
-        class LazySimpleModel {
+        type LazySimpleModel = {
           readonly id: string;
           readonly name?: string | null;
           readonly bar?: string | null;
-          
         }
 
         export declare type SimpleModel = LazyLoading extends undefined ? EagerSimpleModel : LazySimpleModel
@@ -580,34 +560,30 @@ describe('Javascript visitor with multiple owner field auth', () => {
           ENUM_VAL2 = \\"enumVal2\\"
         }
 
-        class EagerSimpleNonModelType {
+        type EagerSimpleNonModelType = {
           readonly id: string;
           readonly names?: (string | null)[] | null;
-          
         }
 
-        class LazySimpleNonModelType {
+        type LazySimpleNonModelType = {
           readonly id: string;
           readonly names?: (string | null)[] | null;
-          
         }
 
         export declare type SimpleNonModelType = LazyLoading extends undefined ? EagerSimpleNonModelType : LazySimpleNonModelType
 
         export declare const SimpleNonModelType: (new (init: ModelInit<SimpleNonModelType>) => SimpleNonModelType) & SimpleNonModelType
 
-        class EagerSimpleModel {
+        type EagerSimpleModel = {
           readonly id: string;
           readonly name?: string | null;
           readonly bar?: string | null;
-          
         }
 
-        class LazySimpleModel {
+        type LazySimpleModel = {
           readonly id: string;
           readonly name?: string | null;
           readonly bar?: string | null;
-          
         }
 
         export declare type SimpleModel = LazyLoading extends undefined ? EagerSimpleModel : LazySimpleModel
@@ -663,20 +639,18 @@ describe('Javascript visitor with auth directives in field level', () => {
       expect(declarations).toMatchInlineSnapshot(`
         "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 
-        class EagerEmployee {
+        type EagerEmployee = {
           readonly id: string;
           readonly name: string;
           readonly address: string;
           readonly ssn?: string | null;
-          
         }
 
-        class LazyEmployee {
+        type LazyEmployee = {
           readonly id: string;
           readonly name: string;
           readonly address: string;
           readonly ssn?: string | null;
-          
         }
 
         export declare type Employee = LazyLoading extends undefined ? EagerEmployee : LazyEmployee
@@ -742,21 +716,19 @@ describe('Javascript visitor with custom primary key', () => {
 
 
 
-      class EagerWorkItem6 {
+      type EagerWorkItem6 = {
         readonly id: string;
-        
       }
 
-      class LazyWorkItem6 {
+      type LazyWorkItem6 = {
         readonly id: string;
-        
       }
 
       export declare type WorkItem6 = LazyLoading extends undefined ? EagerWorkItem6 : LazyWorkItem6
 
       export declare const WorkItem6: (new (init: ModelInit<WorkItem6>) => WorkItem6) & WorkItem6
 
-      class EagerWorkItem0 {
+      type EagerWorkItem0 = {
         readonly [__modelMeta__]: {
           identifier: ManagedIdentifier<WorkItem0, 'id'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -766,10 +738,9 @@ describe('Javascript visitor with custom primary key', () => {
         readonly workItemId: string;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
-      class LazyWorkItem0 {
+      type LazyWorkItem0 = {
         readonly [__modelMeta__]: {
           identifier: ManagedIdentifier<WorkItem0, 'id'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -779,7 +750,6 @@ describe('Javascript visitor with custom primary key', () => {
         readonly workItemId: string;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
       export declare type WorkItem0 = LazyLoading extends undefined ? EagerWorkItem0 : LazyWorkItem0
@@ -788,7 +758,7 @@ describe('Javascript visitor with custom primary key', () => {
         copyOf(source: WorkItem0, mutator: (draft: MutableModel<WorkItem0>) => MutableModel<WorkItem0> | void): WorkItem0;
       }
 
-      class EagerWorkItem1 {
+      type EagerWorkItem1 = {
         readonly [__modelMeta__]: {
           identifier: CompositeIdentifier<WorkItem1, ['project', 'workItemId']>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -797,10 +767,9 @@ describe('Javascript visitor with custom primary key', () => {
         readonly workItemId: string;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
-      class LazyWorkItem1 {
+      type LazyWorkItem1 = {
         readonly [__modelMeta__]: {
           identifier: CompositeIdentifier<WorkItem1, ['project', 'workItemId']>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -809,7 +778,6 @@ describe('Javascript visitor with custom primary key', () => {
         readonly workItemId: string;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
       export declare type WorkItem1 = LazyLoading extends undefined ? EagerWorkItem1 : LazyWorkItem1
@@ -818,7 +786,7 @@ describe('Javascript visitor with custom primary key', () => {
         copyOf(source: WorkItem1, mutator: (draft: MutableModel<WorkItem1>) => MutableModel<WorkItem1> | void): WorkItem1;
       }
 
-      class EagerWorkItem2 {
+      type EagerWorkItem2 = {
         readonly [__modelMeta__]: {
           identifier: CustomIdentifier<WorkItem2, 'project'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -826,10 +794,9 @@ describe('Javascript visitor with custom primary key', () => {
         readonly project: string;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
-      class LazyWorkItem2 {
+      type LazyWorkItem2 = {
         readonly [__modelMeta__]: {
           identifier: CustomIdentifier<WorkItem2, 'project'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -837,7 +804,6 @@ describe('Javascript visitor with custom primary key', () => {
         readonly project: string;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
       export declare type WorkItem2 = LazyLoading extends undefined ? EagerWorkItem2 : LazyWorkItem2
@@ -846,7 +812,7 @@ describe('Javascript visitor with custom primary key', () => {
         copyOf(source: WorkItem2, mutator: (draft: MutableModel<WorkItem2>) => MutableModel<WorkItem2> | void): WorkItem2;
       }
 
-      class EagerWorkItem3 {
+      type EagerWorkItem3 = {
         readonly [__modelMeta__]: {
           identifier: OptionallyManagedIdentifier<WorkItem3, 'id'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -854,10 +820,9 @@ describe('Javascript visitor with custom primary key', () => {
         readonly id: string;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
-      class LazyWorkItem3 {
+      type LazyWorkItem3 = {
         readonly [__modelMeta__]: {
           identifier: OptionallyManagedIdentifier<WorkItem3, 'id'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -865,7 +830,6 @@ describe('Javascript visitor with custom primary key', () => {
         readonly id: string;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
       export declare type WorkItem3 = LazyLoading extends undefined ? EagerWorkItem3 : LazyWorkItem3
@@ -874,7 +838,7 @@ describe('Javascript visitor with custom primary key', () => {
         copyOf(source: WorkItem3, mutator: (draft: MutableModel<WorkItem3>) => MutableModel<WorkItem3> | void): WorkItem3;
       }
 
-      class EagerWorkItem4 {
+      type EagerWorkItem4 = {
         readonly [__modelMeta__]: {
           identifier: ManagedIdentifier<WorkItem4, 'id'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -882,10 +846,9 @@ describe('Javascript visitor with custom primary key', () => {
         readonly id: string;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
-      class LazyWorkItem4 {
+      type LazyWorkItem4 = {
         readonly [__modelMeta__]: {
           identifier: ManagedIdentifier<WorkItem4, 'id'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -893,7 +856,6 @@ describe('Javascript visitor with custom primary key', () => {
         readonly id: string;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
       export declare type WorkItem4 = LazyLoading extends undefined ? EagerWorkItem4 : LazyWorkItem4
@@ -902,7 +864,7 @@ describe('Javascript visitor with custom primary key', () => {
         copyOf(source: WorkItem4, mutator: (draft: MutableModel<WorkItem4>) => MutableModel<WorkItem4> | void): WorkItem4;
       }
 
-      class EagerWorkItem5 {
+      type EagerWorkItem5 = {
         readonly [__modelMeta__]: {
           identifier: ManagedIdentifier<WorkItem5, 'id'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -911,10 +873,9 @@ describe('Javascript visitor with custom primary key', () => {
         readonly title?: string | null;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
-      class LazyWorkItem5 {
+      type LazyWorkItem5 = {
         readonly [__modelMeta__]: {
           identifier: ManagedIdentifier<WorkItem5, 'id'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -923,7 +884,6 @@ describe('Javascript visitor with custom primary key', () => {
         readonly title?: string | null;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
       export declare type WorkItem5 = LazyLoading extends undefined ? EagerWorkItem5 : LazyWorkItem5
@@ -988,7 +948,7 @@ describe('New model meta field test', () => {
 
 
 
-      class EagerModelDefault {
+      type EagerModelDefault = {
         readonly [__modelMeta__]: {
           identifier: ManagedIdentifier<ModelDefault, 'id'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -998,10 +958,9 @@ describe('New model meta field test', () => {
         readonly description?: string | null;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
-      class LazyModelDefault {
+      type LazyModelDefault = {
         readonly [__modelMeta__]: {
           identifier: ManagedIdentifier<ModelDefault, 'id'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -1011,7 +970,6 @@ describe('New model meta field test', () => {
         readonly description?: string | null;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
       export declare type ModelDefault = LazyLoading extends undefined ? EagerModelDefault : LazyModelDefault
@@ -1020,7 +978,7 @@ describe('New model meta field test', () => {
         copyOf(source: ModelDefault, mutator: (draft: MutableModel<ModelDefault>) => MutableModel<ModelDefault> | void): ModelDefault;
       }
 
-      class EagerModelDefaultExplicitTimestamps {
+      type EagerModelDefaultExplicitTimestamps = {
         readonly [__modelMeta__]: {
           identifier: ManagedIdentifier<ModelDefaultExplicitTimestamps, 'id'>;
         };
@@ -1029,10 +987,9 @@ describe('New model meta field test', () => {
         readonly description?: string | null;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
-      class LazyModelDefaultExplicitTimestamps {
+      type LazyModelDefaultExplicitTimestamps = {
         readonly [__modelMeta__]: {
           identifier: ManagedIdentifier<ModelDefaultExplicitTimestamps, 'id'>;
         };
@@ -1041,7 +998,6 @@ describe('New model meta field test', () => {
         readonly description?: string | null;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
       export declare type ModelDefaultExplicitTimestamps = LazyLoading extends undefined ? EagerModelDefaultExplicitTimestamps : LazyModelDefaultExplicitTimestamps
@@ -1050,7 +1006,7 @@ describe('New model meta field test', () => {
         copyOf(source: ModelDefaultExplicitTimestamps, mutator: (draft: MutableModel<ModelDefaultExplicitTimestamps>) => MutableModel<ModelDefaultExplicitTimestamps> | void): ModelDefaultExplicitTimestamps;
       }
 
-      class EagerModelExplicitId {
+      type EagerModelExplicitId = {
         readonly [__modelMeta__]: {
           identifier: OptionallyManagedIdentifier<ModelExplicitId, 'id'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -1060,10 +1016,9 @@ describe('New model meta field test', () => {
         readonly description?: string | null;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
-      class LazyModelExplicitId {
+      type LazyModelExplicitId = {
         readonly [__modelMeta__]: {
           identifier: OptionallyManagedIdentifier<ModelExplicitId, 'id'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -1073,7 +1028,6 @@ describe('New model meta field test', () => {
         readonly description?: string | null;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
       export declare type ModelExplicitId = LazyLoading extends undefined ? EagerModelExplicitId : LazyModelExplicitId
@@ -1082,7 +1036,7 @@ describe('New model meta field test', () => {
         copyOf(source: ModelExplicitId, mutator: (draft: MutableModel<ModelExplicitId>) => MutableModel<ModelExplicitId> | void): ModelExplicitId;
       }
 
-      class EagerModelExplicitIdWithSk {
+      type EagerModelExplicitIdWithSk = {
         readonly [__modelMeta__]: {
           identifier: CompositeIdentifier<ModelExplicitIdWithSk, ['id', 'name']>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -1092,10 +1046,9 @@ describe('New model meta field test', () => {
         readonly description?: string | null;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
-      class LazyModelExplicitIdWithSk {
+      type LazyModelExplicitIdWithSk = {
         readonly [__modelMeta__]: {
           identifier: CompositeIdentifier<ModelExplicitIdWithSk, ['id', 'name']>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -1105,7 +1058,6 @@ describe('New model meta field test', () => {
         readonly description?: string | null;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
       export declare type ModelExplicitIdWithSk = LazyLoading extends undefined ? EagerModelExplicitIdWithSk : LazyModelExplicitIdWithSk
@@ -1114,7 +1066,7 @@ describe('New model meta field test', () => {
         copyOf(source: ModelExplicitIdWithSk, mutator: (draft: MutableModel<ModelExplicitIdWithSk>) => MutableModel<ModelExplicitIdWithSk> | void): ModelExplicitIdWithSk;
       }
 
-      class EagerModelCustomPk {
+      type EagerModelCustomPk = {
         readonly [__modelMeta__]: {
           identifier: CustomIdentifier<ModelCustomPk, 'myId'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -1125,10 +1077,9 @@ describe('New model meta field test', () => {
         readonly description?: string | null;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
-      class LazyModelCustomPk {
+      type LazyModelCustomPk = {
         readonly [__modelMeta__]: {
           identifier: CustomIdentifier<ModelCustomPk, 'myId'>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -1139,7 +1090,6 @@ describe('New model meta field test', () => {
         readonly description?: string | null;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
       export declare type ModelCustomPk = LazyLoading extends undefined ? EagerModelCustomPk : LazyModelCustomPk
@@ -1148,7 +1098,7 @@ describe('New model meta field test', () => {
         copyOf(source: ModelCustomPk, mutator: (draft: MutableModel<ModelCustomPk>) => MutableModel<ModelCustomPk> | void): ModelCustomPk;
       }
 
-      class EagerModelCustomPkSk {
+      type EagerModelCustomPkSk = {
         readonly [__modelMeta__]: {
           identifier: CompositeIdentifier<ModelCustomPkSk, ['tenant', 'dob']>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -1159,10 +1109,9 @@ describe('New model meta field test', () => {
         readonly description?: string | null;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
-      class LazyModelCustomPkSk {
+      type LazyModelCustomPkSk = {
         readonly [__modelMeta__]: {
           identifier: CompositeIdentifier<ModelCustomPkSk, ['tenant', 'dob']>;
           readOnlyFields: 'createdAt' | 'updatedAt';
@@ -1173,7 +1122,6 @@ describe('New model meta field test', () => {
         readonly description?: string | null;
         readonly createdAt?: string | null;
         readonly updatedAt?: string | null;
-        
       }
 
       export declare type ModelCustomPkSk = LazyLoading extends undefined ? EagerModelCustomPkSk : LazyModelCustomPkSk

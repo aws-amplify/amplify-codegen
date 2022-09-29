@@ -28,22 +28,20 @@ type CommentMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
-class EagerPost {
+type EagerPost = {
   readonly id: string;
   readonly title: string;
   readonly comments?: (Comment | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
-class LazyPost {
+type LazyPost = {
   readonly id: string;
   readonly title: string;
   readonly comments: AsyncCollection<Comment>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
 export declare type Post = LazyLoading extends undefined ? EagerPost : LazyPost
@@ -52,22 +50,20 @@ export declare const Post: (new (init: ModelInit<Post, PostMetaData>) => Post) &
   copyOf(source: Post, mutator: (draft: MutableModel<Post, PostMetaData>) => MutableModel<Post, PostMetaData> | void): Post;
 }
 
-class EagerComment {
+type EagerComment = {
   readonly id: string;
   readonly content: string;
   readonly post?: Post | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
-class LazyComment {
+type LazyComment = {
   readonly id: string;
   readonly content: string;
   readonly post: AsyncItem<Post | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
 export declare type Comment = LazyLoading extends undefined ? EagerComment : LazyComment
@@ -105,24 +101,22 @@ type Team2MetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
-class EagerProject2 {
+type EagerProject2 = {
   readonly id: string;
   readonly name?: string | null;
   readonly team?: Team2 | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly project2TeamId?: string | null;
-  
 }
 
-class LazyProject2 {
+type LazyProject2 = {
   readonly id: string;
   readonly name?: string | null;
   readonly team: AsyncItem<Team2 | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly project2TeamId?: string | null;
-  
 }
 
 export declare type Project2 = LazyLoading extends undefined ? EagerProject2 : LazyProject2
@@ -131,22 +125,20 @@ export declare const Project2: (new (init: ModelInit<Project2, Project2MetaData>
   copyOf(source: Project2, mutator: (draft: MutableModel<Project2, Project2MetaData>) => MutableModel<Project2, Project2MetaData> | void): Project2;
 }
 
-class EagerTeam2 {
+type EagerTeam2 = {
   readonly id: string;
   readonly name: string;
   readonly project?: Project2 | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
-class LazyTeam2 {
+type LazyTeam2 = {
   readonly id: string;
   readonly name: string;
   readonly project: AsyncItem<Project2 | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
 export declare type Team2 = LazyLoading extends undefined ? EagerTeam2 : LazyTeam2
@@ -189,22 +181,20 @@ type Comment7V2MetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
-class EagerBlog7V2 {
+type EagerBlog7V2 = {
   readonly id: string;
   readonly name: string;
   readonly posts?: (Post7V2 | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
-class LazyBlog7V2 {
+type LazyBlog7V2 = {
   readonly id: string;
   readonly name: string;
   readonly posts: AsyncCollection<Post7V2>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
 export declare type Blog7V2 = LazyLoading extends undefined ? EagerBlog7V2 : LazyBlog7V2
@@ -213,24 +203,22 @@ export declare const Blog7V2: (new (init: ModelInit<Blog7V2, Blog7V2MetaData>) =
   copyOf(source: Blog7V2, mutator: (draft: MutableModel<Blog7V2, Blog7V2MetaData>) => MutableModel<Blog7V2, Blog7V2MetaData> | void): Blog7V2;
 }
 
-class EagerPost7V2 {
+type EagerPost7V2 = {
   readonly id: string;
   readonly title: string;
   readonly blog?: Blog7V2 | null;
   readonly comments?: (Comment7V2 | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
-class LazyPost7V2 {
+type LazyPost7V2 = {
   readonly id: string;
   readonly title: string;
   readonly blog: AsyncItem<Blog7V2 | undefined>;
   readonly comments: AsyncCollection<Comment7V2>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
 export declare type Post7V2 = LazyLoading extends undefined ? EagerPost7V2 : LazyPost7V2
@@ -239,22 +227,20 @@ export declare const Post7V2: (new (init: ModelInit<Post7V2, Post7V2MetaData>) =
   copyOf(source: Post7V2, mutator: (draft: MutableModel<Post7V2, Post7V2MetaData>) => MutableModel<Post7V2, Post7V2MetaData> | void): Post7V2;
 }
 
-class EagerComment7V2 {
+type EagerComment7V2 = {
   readonly id: string;
   readonly content?: string | null;
   readonly post?: Post7V2 | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
-class LazyComment7V2 {
+type LazyComment7V2 = {
   readonly id: string;
   readonly content?: string | null;
   readonly post: AsyncItem<Post7V2 | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
 export declare type Comment7V2 = LazyLoading extends undefined ? EagerComment7V2 : LazyComment7V2
@@ -292,24 +278,22 @@ type TeamMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
-class EagerProject {
+type EagerProject = {
   readonly id: string;
   readonly name?: string | null;
   readonly team?: Team | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly projectTeamId?: string | null;
-  
 }
 
-class LazyProject {
+type LazyProject = {
   readonly id: string;
   readonly name?: string | null;
   readonly team: AsyncItem<Team | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly projectTeamId?: string | null;
-  
 }
 
 export declare type Project = LazyLoading extends undefined ? EagerProject : LazyProject
@@ -318,22 +302,20 @@ export declare const Project: (new (init: ModelInit<Project, ProjectMetaData>) =
   copyOf(source: Project, mutator: (draft: MutableModel<Project, ProjectMetaData>) => MutableModel<Project, ProjectMetaData> | void): Project;
 }
 
-class EagerTeam {
+type EagerTeam = {
   readonly id: string;
   readonly name: string;
   readonly project?: Project | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
-class LazyTeam {
+type LazyTeam = {
   readonly id: string;
   readonly name: string;
   readonly project: AsyncItem<Project | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
 export declare type Team = LazyLoading extends undefined ? EagerTeam : LazyTeam
@@ -376,24 +358,22 @@ type PostTagsMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
-class EagerPost {
+type EagerPost = {
   readonly id: string;
   readonly title: string;
   readonly content?: string | null;
   readonly tags?: (PostTags | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
-class LazyPost {
+type LazyPost = {
   readonly id: string;
   readonly title: string;
   readonly content?: string | null;
   readonly tags: AsyncCollection<PostTags>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
 export declare type Post = LazyLoading extends undefined ? EagerPost : LazyPost
@@ -402,22 +382,20 @@ export declare const Post: (new (init: ModelInit<Post, PostMetaData>) => Post) &
   copyOf(source: Post, mutator: (draft: MutableModel<Post, PostMetaData>) => MutableModel<Post, PostMetaData> | void): Post;
 }
 
-class EagerTag {
+type EagerTag = {
   readonly id: string;
   readonly label: string;
   readonly posts?: (PostTags | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
-class LazyTag {
+type LazyTag = {
   readonly id: string;
   readonly label: string;
   readonly posts: AsyncCollection<PostTags>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
 export declare type Tag = LazyLoading extends undefined ? EagerTag : LazyTag
@@ -426,22 +404,20 @@ export declare const Tag: (new (init: ModelInit<Tag, TagMetaData>) => Tag) & Tag
   copyOf(source: Tag, mutator: (draft: MutableModel<Tag, TagMetaData>) => MutableModel<Tag, TagMetaData> | void): Tag;
 }
 
-class EagerPostTags {
+type EagerPostTags = {
   readonly id: string;
   readonly post: Post;
   readonly tag: Tag;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
-class LazyPostTags {
+type LazyPostTags = {
   readonly id: string;
   readonly post: AsyncItem<Post>;
   readonly tag: AsyncItem<Tag>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
 export declare type PostTags = LazyLoading extends undefined ? EagerPostTags : LazyPostTags
@@ -472,20 +448,18 @@ type TodoMetaData = {
   readOnlyFields: 'createdOn' | 'updatedOn';
 }
 
-class EagerTodo {
+type EagerTodo = {
   readonly id: string;
   readonly content?: string | null;
   readonly createdOn?: string | null;
   readonly updatedOn?: string | null;
-  
 }
 
-class LazyTodo {
+type LazyTodo = {
   readonly id: string;
   readonly content?: string | null;
   readonly createdOn?: string | null;
   readonly updatedOn?: string | null;
-  
 }
 
 export declare type Todo = LazyLoading extends undefined ? EagerTodo : LazyTodo
@@ -523,22 +497,20 @@ type Comment2MetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
-class EagerPost2 {
+type EagerPost2 = {
   readonly id: string;
   readonly title: string;
   readonly comments?: (Comment2 | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
-class LazyPost2 {
+type LazyPost2 = {
   readonly id: string;
   readonly title: string;
   readonly comments: AsyncCollection<Comment2>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
 export declare type Post2 = LazyLoading extends undefined ? EagerPost2 : LazyPost2
@@ -547,22 +519,20 @@ export declare const Post2: (new (init: ModelInit<Post2, Post2MetaData>) => Post
   copyOf(source: Post2, mutator: (draft: MutableModel<Post2, Post2MetaData>) => MutableModel<Post2, Post2MetaData> | void): Post2;
 }
 
-class EagerComment2 {
+type EagerComment2 = {
   readonly id: string;
   readonly postID: string;
   readonly content: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
-class LazyComment2 {
+type LazyComment2 = {
   readonly id: string;
   readonly postID: string;
   readonly content: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
 export declare type Comment2 = LazyLoading extends undefined ? EagerComment2 : LazyComment2
@@ -600,24 +570,22 @@ type Team2MetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
-class EagerProject2 {
+type EagerProject2 = {
   readonly id: string;
   readonly name?: string | null;
   readonly teamID?: string | null;
   readonly team?: Team2 | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
-class LazyProject2 {
+type LazyProject2 = {
   readonly id: string;
   readonly name?: string | null;
   readonly teamID?: string | null;
   readonly team: AsyncItem<Team2 | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
 export declare type Project2 = LazyLoading extends undefined ? EagerProject2 : LazyProject2
@@ -626,20 +594,18 @@ export declare const Project2: (new (init: ModelInit<Project2, Project2MetaData>
   copyOf(source: Project2, mutator: (draft: MutableModel<Project2, Project2MetaData>) => MutableModel<Project2, Project2MetaData> | void): Project2;
 }
 
-class EagerTeam2 {
+type EagerTeam2 = {
   readonly id: string;
   readonly name: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
-class LazyTeam2 {
+type LazyTeam2 = {
   readonly id: string;
   readonly name: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
 export declare type Team2 = LazyLoading extends undefined ? EagerTeam2 : LazyTeam2
@@ -677,22 +643,20 @@ type CommentMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
-class EagerPost {
+type EagerPost = {
   readonly id: string;
   readonly title: string;
   readonly comments?: (Comment | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
-class LazyPost {
+type LazyPost = {
   readonly id: string;
   readonly title: string;
   readonly comments: AsyncCollection<Comment>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
 export declare type Post = LazyLoading extends undefined ? EagerPost : LazyPost
@@ -701,22 +665,20 @@ export declare const Post: (new (init: ModelInit<Post, PostMetaData>) => Post) &
   copyOf(source: Post, mutator: (draft: MutableModel<Post, PostMetaData>) => MutableModel<Post, PostMetaData> | void): Post;
 }
 
-class EagerComment {
+type EagerComment = {
   readonly id: string;
   readonly content: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly postCommentsId?: string | null;
-  
 }
 
-class LazyComment {
+type LazyComment = {
   readonly id: string;
   readonly content: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly postCommentsId?: string | null;
-  
 }
 
 export declare type Comment = LazyLoading extends undefined ? EagerComment : LazyComment
@@ -754,24 +716,22 @@ type TeamMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
-class EagerProject {
+type EagerProject = {
   readonly id: string;
   readonly name?: string | null;
   readonly team?: Team | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly projectTeamId?: string | null;
-  
 }
 
-class LazyProject {
+type LazyProject = {
   readonly id: string;
   readonly name?: string | null;
   readonly team: AsyncItem<Team | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly projectTeamId?: string | null;
-  
 }
 
 export declare type Project = LazyLoading extends undefined ? EagerProject : LazyProject
@@ -780,20 +740,18 @@ export declare const Project: (new (init: ModelInit<Project, ProjectMetaData>) =
   copyOf(source: Project, mutator: (draft: MutableModel<Project, ProjectMetaData>) => MutableModel<Project, ProjectMetaData> | void): Project;
 }
 
-class EagerTeam {
+type EagerTeam = {
   readonly id: string;
   readonly name: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
-class LazyTeam {
+type LazyTeam = {
   readonly id: string;
   readonly name: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
 export declare type Team = LazyLoading extends undefined ? EagerTeam : LazyTeam
@@ -824,24 +782,22 @@ type CustomerMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
-class EagerCustomer {
+type EagerCustomer = {
   readonly id: string;
   readonly name: string;
   readonly phoneNumber?: string | null;
   readonly accountRepresentativeID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
-class LazyCustomer {
+type LazyCustomer = {
   readonly id: string;
   readonly name: string;
   readonly phoneNumber?: string | null;
   readonly accountRepresentativeID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
 export declare type Customer = LazyLoading extends undefined ? EagerCustomer : LazyCustomer

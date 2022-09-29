@@ -9,7 +9,7 @@ import { LazyLoading, AsyncCollection, AsyncItem } from \\"@aws-amplify/datastor
 
 
 
-class EagerPost {
+type EagerPost = {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Post, ['customPostId', 'title']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
@@ -19,10 +19,9 @@ class EagerPost {
   readonly comments?: (Comment | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
-class LazyPost {
+type LazyPost = {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Post, ['customPostId', 'title']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
@@ -32,7 +31,6 @@ class LazyPost {
   readonly comments: AsyncCollection<Comment>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
 export declare type Post = LazyLoading extends undefined ? EagerPost : LazyPost
@@ -41,7 +39,7 @@ export declare const Post: (new (init: ModelInit<Post>) => Post) & Post & {
   copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
 }
 
-class EagerComment {
+type EagerComment = {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Comment, ['customPostId', 'content']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
@@ -53,10 +51,9 @@ class EagerComment {
   readonly updatedAt?: string | null;
   readonly postCommentsCustomPostId?: string | null;
   readonly postCommentsTitle?: string | null;
-  
 }
 
-class LazyComment {
+type LazyComment = {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Comment, ['customPostId', 'content']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
@@ -68,7 +65,6 @@ class LazyComment {
   readonly updatedAt?: string | null;
   readonly postCommentsCustomPostId?: string | null;
   readonly postCommentsTitle?: string | null;
-  
 }
 
 export declare type Comment = LazyLoading extends undefined ? EagerComment : LazyComment
@@ -87,7 +83,7 @@ import { LazyLoading, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 
 
-class EagerPost {
+type EagerPost = {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Post, ['id', 'title']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
@@ -97,10 +93,9 @@ class EagerPost {
   readonly comments?: (Comment | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
-class LazyPost {
+type LazyPost = {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Post, ['id', 'title']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
@@ -110,7 +105,6 @@ class LazyPost {
   readonly comments: AsyncCollection<Comment>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
 export declare type Post = LazyLoading extends undefined ? EagerPost : LazyPost
@@ -119,7 +113,7 @@ export declare const Post: (new (init: ModelInit<Post>) => Post) & Post & {
   copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
 }
 
-class EagerComment {
+type EagerComment = {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Comment, ['id', 'content']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
@@ -130,10 +124,9 @@ class EagerComment {
   readonly updatedAt?: string | null;
   readonly postCommentsId?: string | null;
   readonly postCommentsTitle?: string | null;
-  
 }
 
-class LazyComment {
+type LazyComment = {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Comment, ['id', 'content']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
@@ -144,7 +137,6 @@ class LazyComment {
   readonly updatedAt?: string | null;
   readonly postCommentsId?: string | null;
   readonly postCommentsTitle?: string | null;
-  
 }
 
 export declare type Comment = LazyLoading extends undefined ? EagerComment : LazyComment
@@ -163,7 +155,7 @@ import { LazyLoading, AsyncItem } from \\"@aws-amplify/datastore\\";
 
 
 
-class EagerProject {
+type EagerProject = {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Project, ['id', 'name']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
@@ -175,10 +167,9 @@ class EagerProject {
   readonly updatedAt?: string | null;
   readonly projectTeamId?: string | null;
   readonly projectTeamName?: string | null;
-  
 }
 
-class LazyProject {
+type LazyProject = {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Project, ['id', 'name']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
@@ -190,7 +181,6 @@ class LazyProject {
   readonly updatedAt?: string | null;
   readonly projectTeamId?: string | null;
   readonly projectTeamName?: string | null;
-  
 }
 
 export declare type Project = LazyLoading extends undefined ? EagerProject : LazyProject
@@ -199,7 +189,7 @@ export declare const Project: (new (init: ModelInit<Project>) => Project) & Proj
   copyOf(source: Project, mutator: (draft: MutableModel<Project>) => MutableModel<Project> | void): Project;
 }
 
-class EagerTeam {
+type EagerTeam = {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Team, ['id', 'name']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
@@ -211,10 +201,9 @@ class EagerTeam {
   readonly updatedAt?: string | null;
   readonly teamProjectId?: string | null;
   readonly teamProjectName?: string | null;
-  
 }
 
-class LazyTeam {
+type LazyTeam = {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Team, ['id', 'name']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
@@ -226,7 +215,6 @@ class LazyTeam {
   readonly updatedAt?: string | null;
   readonly teamProjectId?: string | null;
   readonly teamProjectName?: string | null;
-  
 }
 
 export declare type Team = LazyLoading extends undefined ? EagerTeam : LazyTeam
@@ -245,7 +233,7 @@ import { LazyLoading, AsyncCollection, AsyncItem } from \\"@aws-amplify/datastor
 
 
 
-class EagerPost {
+type EagerPost = {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Post, ['customPostId', 'title']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
@@ -256,10 +244,9 @@ class EagerPost {
   readonly tags?: (PostTags | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
-class LazyPost {
+type LazyPost = {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Post, ['customPostId', 'title']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
@@ -270,7 +257,6 @@ class LazyPost {
   readonly tags: AsyncCollection<PostTags>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
 export declare type Post = LazyLoading extends undefined ? EagerPost : LazyPost
@@ -279,7 +265,7 @@ export declare const Post: (new (init: ModelInit<Post>) => Post) & Post & {
   copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
 }
 
-class EagerTag {
+type EagerTag = {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Tag, ['customTagId', 'label']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
@@ -289,10 +275,9 @@ class EagerTag {
   readonly posts?: (PostTags | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
-class LazyTag {
+type LazyTag = {
   readonly [__modelMeta__]: {
     identifier: CompositeIdentifier<Tag, ['customTagId', 'label']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
@@ -302,7 +287,6 @@ class LazyTag {
   readonly posts: AsyncCollection<PostTags>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
 export declare type Tag = LazyLoading extends undefined ? EagerTag : LazyTag
@@ -311,7 +295,7 @@ export declare const Tag: (new (init: ModelInit<Tag>) => Tag) & Tag & {
   copyOf(source: Tag, mutator: (draft: MutableModel<Tag>) => MutableModel<Tag> | void): Tag;
 }
 
-class EagerPostTags {
+type EagerPostTags = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<PostTags, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
@@ -325,10 +309,9 @@ class EagerPostTags {
   readonly tag: Tag;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
-class LazyPostTags {
+type LazyPostTags = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<PostTags, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
@@ -342,7 +325,6 @@ class LazyPostTags {
   readonly tag: AsyncItem<Tag>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  
 }
 
 export declare type PostTags = LazyLoading extends undefined ? EagerPostTags : LazyPostTags
