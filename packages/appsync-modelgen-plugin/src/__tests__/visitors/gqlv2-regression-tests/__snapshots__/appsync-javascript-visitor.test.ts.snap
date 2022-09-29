@@ -18,7 +18,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on explicit hasMany belongs to relationship @belongsTo 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, AsyncCollection, AsyncItem } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from \\"@aws-amplify/datastore\\";
 
 type PostMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -44,7 +44,7 @@ type LazyPost = {
   readonly updatedAt?: string | null;
 }
 
-export declare type Post = LazyLoading extends undefined ? EagerPost : LazyPost
+export declare type Post = LazyLoading extends LazyLoadingDisabled ? EagerPost : LazyPost
 
 export declare const Post: (new (init: ModelInit<Post, PostMetaData>) => Post) & Post & {
   copyOf(source: Post, mutator: (draft: MutableModel<Post, PostMetaData>) => MutableModel<Post, PostMetaData> | void): Post;
@@ -66,7 +66,7 @@ type LazyComment = {
   readonly updatedAt?: string | null;
 }
 
-export declare type Comment = LazyLoading extends undefined ? EagerComment : LazyComment
+export declare type Comment = LazyLoading extends LazyLoadingDisabled ? EagerComment : LazyComment
 
 export declare const Comment: (new (init: ModelInit<Comment, CommentMetaData>) => Comment) & Comment & {
   copyOf(source: Comment, mutator: (draft: MutableModel<Comment, CommentMetaData>) => MutableModel<Comment, CommentMetaData> | void): Comment;
@@ -91,7 +91,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on explicit hasOne belongs to relationship @belongsTo 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, AsyncItem } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, LazyLoadingDisabled, AsyncItem } from \\"@aws-amplify/datastore\\";
 
 type Project2MetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -119,7 +119,7 @@ type LazyProject2 = {
   readonly project2TeamId?: string | null;
 }
 
-export declare type Project2 = LazyLoading extends undefined ? EagerProject2 : LazyProject2
+export declare type Project2 = LazyLoading extends LazyLoadingDisabled ? EagerProject2 : LazyProject2
 
 export declare const Project2: (new (init: ModelInit<Project2, Project2MetaData>) => Project2) & Project2 & {
   copyOf(source: Project2, mutator: (draft: MutableModel<Project2, Project2MetaData>) => MutableModel<Project2, Project2MetaData> | void): Project2;
@@ -141,7 +141,7 @@ type LazyTeam2 = {
   readonly updatedAt?: string | null;
 }
 
-export declare type Team2 = LazyLoading extends undefined ? EagerTeam2 : LazyTeam2
+export declare type Team2 = LazyLoading extends LazyLoadingDisabled ? EagerTeam2 : LazyTeam2
 
 export declare const Team2: (new (init: ModelInit<Team2, Team2MetaData>) => Team2) & Team2 & {
   copyOf(source: Team2, mutator: (draft: MutableModel<Team2, Team2MetaData>) => MutableModel<Team2, Team2MetaData> | void): Team2;
@@ -167,7 +167,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on implicit hasMany belongs to relationship @belongsTo (extended) 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, AsyncCollection, AsyncItem } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from \\"@aws-amplify/datastore\\";
 
 type Blog7V2MetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -197,7 +197,7 @@ type LazyBlog7V2 = {
   readonly updatedAt?: string | null;
 }
 
-export declare type Blog7V2 = LazyLoading extends undefined ? EagerBlog7V2 : LazyBlog7V2
+export declare type Blog7V2 = LazyLoading extends LazyLoadingDisabled ? EagerBlog7V2 : LazyBlog7V2
 
 export declare const Blog7V2: (new (init: ModelInit<Blog7V2, Blog7V2MetaData>) => Blog7V2) & Blog7V2 & {
   copyOf(source: Blog7V2, mutator: (draft: MutableModel<Blog7V2, Blog7V2MetaData>) => MutableModel<Blog7V2, Blog7V2MetaData> | void): Blog7V2;
@@ -221,7 +221,7 @@ type LazyPost7V2 = {
   readonly updatedAt?: string | null;
 }
 
-export declare type Post7V2 = LazyLoading extends undefined ? EagerPost7V2 : LazyPost7V2
+export declare type Post7V2 = LazyLoading extends LazyLoadingDisabled ? EagerPost7V2 : LazyPost7V2
 
 export declare const Post7V2: (new (init: ModelInit<Post7V2, Post7V2MetaData>) => Post7V2) & Post7V2 & {
   copyOf(source: Post7V2, mutator: (draft: MutableModel<Post7V2, Post7V2MetaData>) => MutableModel<Post7V2, Post7V2MetaData> | void): Post7V2;
@@ -243,7 +243,7 @@ type LazyComment7V2 = {
   readonly updatedAt?: string | null;
 }
 
-export declare type Comment7V2 = LazyLoading extends undefined ? EagerComment7V2 : LazyComment7V2
+export declare type Comment7V2 = LazyLoading extends LazyLoadingDisabled ? EagerComment7V2 : LazyComment7V2
 
 export declare const Comment7V2: (new (init: ModelInit<Comment7V2, Comment7V2MetaData>) => Comment7V2) & Comment7V2 & {
   copyOf(source: Comment7V2, mutator: (draft: MutableModel<Comment7V2, Comment7V2MetaData>) => MutableModel<Comment7V2, Comment7V2MetaData> | void): Comment7V2;
@@ -268,7 +268,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on implicit hasOne belongs to relationship @belongsTo 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, AsyncItem } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, LazyLoadingDisabled, AsyncItem } from \\"@aws-amplify/datastore\\";
 
 type ProjectMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -296,7 +296,7 @@ type LazyProject = {
   readonly projectTeamId?: string | null;
 }
 
-export declare type Project = LazyLoading extends undefined ? EagerProject : LazyProject
+export declare type Project = LazyLoading extends LazyLoadingDisabled ? EagerProject : LazyProject
 
 export declare const Project: (new (init: ModelInit<Project, ProjectMetaData>) => Project) & Project & {
   copyOf(source: Project, mutator: (draft: MutableModel<Project, ProjectMetaData>) => MutableModel<Project, ProjectMetaData> | void): Project;
@@ -318,7 +318,7 @@ type LazyTeam = {
   readonly updatedAt?: string | null;
 }
 
-export declare type Team = LazyLoading extends undefined ? EagerTeam : LazyTeam
+export declare type Team = LazyLoading extends LazyLoadingDisabled ? EagerTeam : LazyTeam
 
 export declare const Team: (new (init: ModelInit<Team, TeamMetaData>) => Team) & Team & {
   copyOf(source: Team, mutator: (draft: MutableModel<Team, TeamMetaData>) => MutableModel<Team, TeamMetaData> | void): Team;
@@ -344,7 +344,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on many to many relationship @manyToMany 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, AsyncCollection, AsyncItem } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from \\"@aws-amplify/datastore\\";
 
 type PostMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -376,7 +376,7 @@ type LazyPost = {
   readonly updatedAt?: string | null;
 }
 
-export declare type Post = LazyLoading extends undefined ? EagerPost : LazyPost
+export declare type Post = LazyLoading extends LazyLoadingDisabled ? EagerPost : LazyPost
 
 export declare const Post: (new (init: ModelInit<Post, PostMetaData>) => Post) & Post & {
   copyOf(source: Post, mutator: (draft: MutableModel<Post, PostMetaData>) => MutableModel<Post, PostMetaData> | void): Post;
@@ -398,7 +398,7 @@ type LazyTag = {
   readonly updatedAt?: string | null;
 }
 
-export declare type Tag = LazyLoading extends undefined ? EagerTag : LazyTag
+export declare type Tag = LazyLoading extends LazyLoadingDisabled ? EagerTag : LazyTag
 
 export declare const Tag: (new (init: ModelInit<Tag, TagMetaData>) => Tag) & Tag & {
   copyOf(source: Tag, mutator: (draft: MutableModel<Tag, TagMetaData>) => MutableModel<Tag, TagMetaData> | void): Tag;
@@ -420,7 +420,7 @@ type LazyPostTags = {
   readonly updatedAt?: string | null;
 }
 
-export declare type PostTags = LazyLoading extends undefined ? EagerPostTags : LazyPostTags
+export declare type PostTags = LazyLoading extends LazyLoadingDisabled ? EagerPostTags : LazyPostTags
 
 export declare const PostTags: (new (init: ModelInit<PostTags, PostTagsMetaData>) => PostTags) & PostTags & {
   copyOf(source: PostTags, mutator: (draft: MutableModel<PostTags, PostTagsMetaData>) => MutableModel<PostTags, PostTagsMetaData> | void): PostTags;
@@ -462,7 +462,7 @@ type LazyTodo = {
   readonly updatedOn?: string | null;
 }
 
-export declare type Todo = LazyLoading extends undefined ? EagerTodo : LazyTodo
+export declare type Todo = LazyLoading extends LazyLoadingDisabled ? EagerTodo : LazyTodo
 
 export declare const Todo: (new (init: ModelInit<Todo, TodoMetaData>) => Todo) & Todo & {
   copyOf(source: Todo, mutator: (draft: MutableModel<Todo, TodoMetaData>) => MutableModel<Todo, TodoMetaData> | void): Todo;
@@ -487,7 +487,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional explicit has many relationship @hasMany 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, AsyncCollection } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, LazyLoadingDisabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 type Post2MetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -513,7 +513,7 @@ type LazyPost2 = {
   readonly updatedAt?: string | null;
 }
 
-export declare type Post2 = LazyLoading extends undefined ? EagerPost2 : LazyPost2
+export declare type Post2 = LazyLoading extends LazyLoadingDisabled ? EagerPost2 : LazyPost2
 
 export declare const Post2: (new (init: ModelInit<Post2, Post2MetaData>) => Post2) & Post2 & {
   copyOf(source: Post2, mutator: (draft: MutableModel<Post2, Post2MetaData>) => MutableModel<Post2, Post2MetaData> | void): Post2;
@@ -535,7 +535,7 @@ type LazyComment2 = {
   readonly updatedAt?: string | null;
 }
 
-export declare type Comment2 = LazyLoading extends undefined ? EagerComment2 : LazyComment2
+export declare type Comment2 = LazyLoading extends LazyLoadingDisabled ? EagerComment2 : LazyComment2
 
 export declare const Comment2: (new (init: ModelInit<Comment2, Comment2MetaData>) => Comment2) & Comment2 & {
   copyOf(source: Comment2, mutator: (draft: MutableModel<Comment2, Comment2MetaData>) => MutableModel<Comment2, Comment2MetaData> | void): Comment2;
@@ -560,7 +560,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional explicit has one relationship @hasOne 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, AsyncItem } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, LazyLoadingDisabled, AsyncItem } from \\"@aws-amplify/datastore\\";
 
 type Project2MetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -588,7 +588,7 @@ type LazyProject2 = {
   readonly updatedAt?: string | null;
 }
 
-export declare type Project2 = LazyLoading extends undefined ? EagerProject2 : LazyProject2
+export declare type Project2 = LazyLoading extends LazyLoadingDisabled ? EagerProject2 : LazyProject2
 
 export declare const Project2: (new (init: ModelInit<Project2, Project2MetaData>) => Project2) & Project2 & {
   copyOf(source: Project2, mutator: (draft: MutableModel<Project2, Project2MetaData>) => MutableModel<Project2, Project2MetaData> | void): Project2;
@@ -608,7 +608,7 @@ type LazyTeam2 = {
   readonly updatedAt?: string | null;
 }
 
-export declare type Team2 = LazyLoading extends undefined ? EagerTeam2 : LazyTeam2
+export declare type Team2 = LazyLoading extends LazyLoadingDisabled ? EagerTeam2 : LazyTeam2
 
 export declare const Team2: (new (init: ModelInit<Team2, Team2MetaData>) => Team2) & Team2 & {
   copyOf(source: Team2, mutator: (draft: MutableModel<Team2, Team2MetaData>) => MutableModel<Team2, Team2MetaData> | void): Team2;
@@ -633,7 +633,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional implicit has many relationship @hasMany 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, AsyncCollection } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, LazyLoadingDisabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 type PostMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -659,7 +659,7 @@ type LazyPost = {
   readonly updatedAt?: string | null;
 }
 
-export declare type Post = LazyLoading extends undefined ? EagerPost : LazyPost
+export declare type Post = LazyLoading extends LazyLoadingDisabled ? EagerPost : LazyPost
 
 export declare const Post: (new (init: ModelInit<Post, PostMetaData>) => Post) & Post & {
   copyOf(source: Post, mutator: (draft: MutableModel<Post, PostMetaData>) => MutableModel<Post, PostMetaData> | void): Post;
@@ -681,7 +681,7 @@ type LazyComment = {
   readonly postCommentsId?: string | null;
 }
 
-export declare type Comment = LazyLoading extends undefined ? EagerComment : LazyComment
+export declare type Comment = LazyLoading extends LazyLoadingDisabled ? EagerComment : LazyComment
 
 export declare const Comment: (new (init: ModelInit<Comment, CommentMetaData>) => Comment) & Comment & {
   copyOf(source: Comment, mutator: (draft: MutableModel<Comment, CommentMetaData>) => MutableModel<Comment, CommentMetaData> | void): Comment;
@@ -706,7 +706,7 @@ export {
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on uni-directional implicit has one relationship @hasOne 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, AsyncItem } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, LazyLoadingDisabled, AsyncItem } from \\"@aws-amplify/datastore\\";
 
 type ProjectMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -734,7 +734,7 @@ type LazyProject = {
   readonly projectTeamId?: string | null;
 }
 
-export declare type Project = LazyLoading extends undefined ? EagerProject : LazyProject
+export declare type Project = LazyLoading extends LazyLoadingDisabled ? EagerProject : LazyProject
 
 export declare const Project: (new (init: ModelInit<Project, ProjectMetaData>) => Project) & Project & {
   copyOf(source: Project, mutator: (draft: MutableModel<Project, ProjectMetaData>) => MutableModel<Project, ProjectMetaData> | void): Project;
@@ -754,7 +754,7 @@ type LazyTeam = {
   readonly updatedAt?: string | null;
 }
 
-export declare type Team = LazyLoading extends undefined ? EagerTeam : LazyTeam
+export declare type Team = LazyLoading extends LazyLoadingDisabled ? EagerTeam : LazyTeam
 
 export declare const Team: (new (init: ModelInit<Team, TeamMetaData>) => Team) & Team & {
   copyOf(source: Team, mutator: (draft: MutableModel<Team, TeamMetaData>) => MutableModel<Team, TeamMetaData> | void): Team;
@@ -800,7 +800,7 @@ type LazyCustomer = {
   readonly updatedAt?: string | null;
 }
 
-export declare type Customer = LazyLoading extends undefined ? EagerCustomer : LazyCustomer
+export declare type Customer = LazyLoading extends LazyLoadingDisabled ? EagerCustomer : LazyCustomer
 
 export declare const Customer: (new (init: ModelInit<Customer, CustomerMetaData>) => Customer) & Customer & {
   copyOf(source: Customer, mutator: (draft: MutableModel<Customer, CustomerMetaData>) => MutableModel<Customer, CustomerMetaData> | void): Customer;
