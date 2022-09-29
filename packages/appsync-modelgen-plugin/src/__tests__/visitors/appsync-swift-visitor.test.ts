@@ -2321,7 +2321,7 @@ describe('AppSyncSwiftVisitor', () => {
     it('Should work with potentially pluralized collision', () => {
       const visitor = getVisitor(
         wishSchema,
-        'ListContainer',
+        'Wish',
         CodeGenGenerateEnum.code,
         {
           improvePluralization: true,
@@ -2332,7 +2332,7 @@ describe('AppSyncSwiftVisitor', () => {
 
       const metadataVisitor = getVisitor(
         wishSchema,
-        'ListContainer',
+        'Wish',
         CodeGenGenerateEnum.metadata,
         {
           improvePluralization: true,
@@ -2343,7 +2343,7 @@ describe('AppSyncSwiftVisitor', () => {
 
       const customTypeVisitor = getVisitor(
         wishSchema,
-        'CustomType',
+        'Wishes',
         CodeGenGenerateEnum.code,
         {
           improvePluralization: true,
