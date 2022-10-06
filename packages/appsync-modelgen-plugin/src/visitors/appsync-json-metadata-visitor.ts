@@ -15,6 +15,7 @@ export type JSONSchema = {
   enums: JSONSchemaEnums;
   nonModels: JSONSchemaTypes;
   version: string;
+  codegenVersion: string;
 };
 export type JSONSchemaModels = Record<string, JSONSchemaModel>;
 export type JSONSchemaTypes = Record<string, JSONSchemaNonModel>;
@@ -150,6 +151,7 @@ export class AppSyncJSONVisitor<
       models: {},
       enums: {},
       nonModels: {},
+      codegenVersion: this._parsedConfig.codegenVersion || 'unknown',
       version: this.computeVersion(),
     };
 
