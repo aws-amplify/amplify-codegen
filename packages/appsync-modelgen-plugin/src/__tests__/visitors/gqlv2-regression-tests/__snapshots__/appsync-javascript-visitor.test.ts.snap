@@ -46,7 +46,7 @@ type LazyPost = {
 
 export declare type Post = LazyLoading extends LazyLoadingDisabled ? EagerPost : LazyPost
 
-export declare const Post: (new (init: ModelInit<Post, PostMetaData>) => Post) & Post & {
+export declare const Post: (new (init: ModelInit<Post, PostMetaData>) => Post) & {
   copyOf(source: Post, mutator: (draft: MutableModel<Post, PostMetaData>) => MutableModel<Post, PostMetaData> | void): Post;
 }
 
@@ -68,7 +68,7 @@ type LazyComment = {
 
 export declare type Comment = LazyLoading extends LazyLoadingDisabled ? EagerComment : LazyComment
 
-export declare const Comment: (new (init: ModelInit<Comment, CommentMetaData>) => Comment) & Comment & {
+export declare const Comment: (new (init: ModelInit<Comment, CommentMetaData>) => Comment) & {
   copyOf(source: Comment, mutator: (draft: MutableModel<Comment, CommentMetaData>) => MutableModel<Comment, CommentMetaData> | void): Comment;
 }"
 `;
@@ -121,7 +121,7 @@ type LazyProject2 = {
 
 export declare type Project2 = LazyLoading extends LazyLoadingDisabled ? EagerProject2 : LazyProject2
 
-export declare const Project2: (new (init: ModelInit<Project2, Project2MetaData>) => Project2) & Project2 & {
+export declare const Project2: (new (init: ModelInit<Project2, Project2MetaData>) => Project2) & {
   copyOf(source: Project2, mutator: (draft: MutableModel<Project2, Project2MetaData>) => MutableModel<Project2, Project2MetaData> | void): Project2;
 }
 
@@ -143,7 +143,7 @@ type LazyTeam2 = {
 
 export declare type Team2 = LazyLoading extends LazyLoadingDisabled ? EagerTeam2 : LazyTeam2
 
-export declare const Team2: (new (init: ModelInit<Team2, Team2MetaData>) => Team2) & Team2 & {
+export declare const Team2: (new (init: ModelInit<Team2, Team2MetaData>) => Team2) & {
   copyOf(source: Team2, mutator: (draft: MutableModel<Team2, Team2MetaData>) => MutableModel<Team2, Team2MetaData> | void): Team2;
 }"
 `;
@@ -199,7 +199,7 @@ type LazyBlog7V2 = {
 
 export declare type Blog7V2 = LazyLoading extends LazyLoadingDisabled ? EagerBlog7V2 : LazyBlog7V2
 
-export declare const Blog7V2: (new (init: ModelInit<Blog7V2, Blog7V2MetaData>) => Blog7V2) & Blog7V2 & {
+export declare const Blog7V2: (new (init: ModelInit<Blog7V2, Blog7V2MetaData>) => Blog7V2) & {
   copyOf(source: Blog7V2, mutator: (draft: MutableModel<Blog7V2, Blog7V2MetaData>) => MutableModel<Blog7V2, Blog7V2MetaData> | void): Blog7V2;
 }
 
@@ -223,7 +223,7 @@ type LazyPost7V2 = {
 
 export declare type Post7V2 = LazyLoading extends LazyLoadingDisabled ? EagerPost7V2 : LazyPost7V2
 
-export declare const Post7V2: (new (init: ModelInit<Post7V2, Post7V2MetaData>) => Post7V2) & Post7V2 & {
+export declare const Post7V2: (new (init: ModelInit<Post7V2, Post7V2MetaData>) => Post7V2) & {
   copyOf(source: Post7V2, mutator: (draft: MutableModel<Post7V2, Post7V2MetaData>) => MutableModel<Post7V2, Post7V2MetaData> | void): Post7V2;
 }
 
@@ -245,7 +245,7 @@ type LazyComment7V2 = {
 
 export declare type Comment7V2 = LazyLoading extends LazyLoadingDisabled ? EagerComment7V2 : LazyComment7V2
 
-export declare const Comment7V2: (new (init: ModelInit<Comment7V2, Comment7V2MetaData>) => Comment7V2) & Comment7V2 & {
+export declare const Comment7V2: (new (init: ModelInit<Comment7V2, Comment7V2MetaData>) => Comment7V2) & {
   copyOf(source: Comment7V2, mutator: (draft: MutableModel<Comment7V2, Comment7V2MetaData>) => MutableModel<Comment7V2, Comment7V2MetaData> | void): Comment7V2;
 }"
 `;
@@ -298,7 +298,7 @@ type LazyProject = {
 
 export declare type Project = LazyLoading extends LazyLoadingDisabled ? EagerProject : LazyProject
 
-export declare const Project: (new (init: ModelInit<Project, ProjectMetaData>) => Project) & Project & {
+export declare const Project: (new (init: ModelInit<Project, ProjectMetaData>) => Project) & {
   copyOf(source: Project, mutator: (draft: MutableModel<Project, ProjectMetaData>) => MutableModel<Project, ProjectMetaData> | void): Project;
 }
 
@@ -320,7 +320,7 @@ type LazyTeam = {
 
 export declare type Team = LazyLoading extends LazyLoadingDisabled ? EagerTeam : LazyTeam
 
-export declare const Team: (new (init: ModelInit<Team, TeamMetaData>) => Team) & Team & {
+export declare const Team: (new (init: ModelInit<Team, TeamMetaData>) => Team) & {
   copyOf(source: Team, mutator: (draft: MutableModel<Team, TeamMetaData>) => MutableModel<Team, TeamMetaData> | void): Team;
 }"
 `;
@@ -378,7 +378,7 @@ type LazyPost = {
 
 export declare type Post = LazyLoading extends LazyLoadingDisabled ? EagerPost : LazyPost
 
-export declare const Post: (new (init: ModelInit<Post, PostMetaData>) => Post) & Post & {
+export declare const Post: (new (init: ModelInit<Post, PostMetaData>) => Post) & {
   copyOf(source: Post, mutator: (draft: MutableModel<Post, PostMetaData>) => MutableModel<Post, PostMetaData> | void): Post;
 }
 
@@ -400,7 +400,7 @@ type LazyTag = {
 
 export declare type Tag = LazyLoading extends LazyLoadingDisabled ? EagerTag : LazyTag
 
-export declare const Tag: (new (init: ModelInit<Tag, TagMetaData>) => Tag) & Tag & {
+export declare const Tag: (new (init: ModelInit<Tag, TagMetaData>) => Tag) & {
   copyOf(source: Tag, mutator: (draft: MutableModel<Tag, TagMetaData>) => MutableModel<Tag, TagMetaData> | void): Tag;
 }
 
@@ -422,7 +422,7 @@ type LazyPostTags = {
 
 export declare type PostTags = LazyLoading extends LazyLoadingDisabled ? EagerPostTags : LazyPostTags
 
-export declare const PostTags: (new (init: ModelInit<PostTags, PostTagsMetaData>) => PostTags) & PostTags & {
+export declare const PostTags: (new (init: ModelInit<PostTags, PostTagsMetaData>) => PostTags) & {
   copyOf(source: PostTags, mutator: (draft: MutableModel<PostTags, PostTagsMetaData>) => MutableModel<PostTags, PostTagsMetaData> | void): PostTags;
 }"
 `;
@@ -464,7 +464,7 @@ type LazyTodo = {
 
 export declare type Todo = LazyLoading extends LazyLoadingDisabled ? EagerTodo : LazyTodo
 
-export declare const Todo: (new (init: ModelInit<Todo, TodoMetaData>) => Todo) & Todo & {
+export declare const Todo: (new (init: ModelInit<Todo, TodoMetaData>) => Todo) & {
   copyOf(source: Todo, mutator: (draft: MutableModel<Todo, TodoMetaData>) => MutableModel<Todo, TodoMetaData> | void): Todo;
 }"
 `;
@@ -515,7 +515,7 @@ type LazyPost2 = {
 
 export declare type Post2 = LazyLoading extends LazyLoadingDisabled ? EagerPost2 : LazyPost2
 
-export declare const Post2: (new (init: ModelInit<Post2, Post2MetaData>) => Post2) & Post2 & {
+export declare const Post2: (new (init: ModelInit<Post2, Post2MetaData>) => Post2) & {
   copyOf(source: Post2, mutator: (draft: MutableModel<Post2, Post2MetaData>) => MutableModel<Post2, Post2MetaData> | void): Post2;
 }
 
@@ -537,7 +537,7 @@ type LazyComment2 = {
 
 export declare type Comment2 = LazyLoading extends LazyLoadingDisabled ? EagerComment2 : LazyComment2
 
-export declare const Comment2: (new (init: ModelInit<Comment2, Comment2MetaData>) => Comment2) & Comment2 & {
+export declare const Comment2: (new (init: ModelInit<Comment2, Comment2MetaData>) => Comment2) & {
   copyOf(source: Comment2, mutator: (draft: MutableModel<Comment2, Comment2MetaData>) => MutableModel<Comment2, Comment2MetaData> | void): Comment2;
 }"
 `;
@@ -590,7 +590,7 @@ type LazyProject2 = {
 
 export declare type Project2 = LazyLoading extends LazyLoadingDisabled ? EagerProject2 : LazyProject2
 
-export declare const Project2: (new (init: ModelInit<Project2, Project2MetaData>) => Project2) & Project2 & {
+export declare const Project2: (new (init: ModelInit<Project2, Project2MetaData>) => Project2) & {
   copyOf(source: Project2, mutator: (draft: MutableModel<Project2, Project2MetaData>) => MutableModel<Project2, Project2MetaData> | void): Project2;
 }
 
@@ -610,7 +610,7 @@ type LazyTeam2 = {
 
 export declare type Team2 = LazyLoading extends LazyLoadingDisabled ? EagerTeam2 : LazyTeam2
 
-export declare const Team2: (new (init: ModelInit<Team2, Team2MetaData>) => Team2) & Team2 & {
+export declare const Team2: (new (init: ModelInit<Team2, Team2MetaData>) => Team2) & {
   copyOf(source: Team2, mutator: (draft: MutableModel<Team2, Team2MetaData>) => MutableModel<Team2, Team2MetaData> | void): Team2;
 }"
 `;
@@ -661,7 +661,7 @@ type LazyPost = {
 
 export declare type Post = LazyLoading extends LazyLoadingDisabled ? EagerPost : LazyPost
 
-export declare const Post: (new (init: ModelInit<Post, PostMetaData>) => Post) & Post & {
+export declare const Post: (new (init: ModelInit<Post, PostMetaData>) => Post) & {
   copyOf(source: Post, mutator: (draft: MutableModel<Post, PostMetaData>) => MutableModel<Post, PostMetaData> | void): Post;
 }
 
@@ -683,7 +683,7 @@ type LazyComment = {
 
 export declare type Comment = LazyLoading extends LazyLoadingDisabled ? EagerComment : LazyComment
 
-export declare const Comment: (new (init: ModelInit<Comment, CommentMetaData>) => Comment) & Comment & {
+export declare const Comment: (new (init: ModelInit<Comment, CommentMetaData>) => Comment) & {
   copyOf(source: Comment, mutator: (draft: MutableModel<Comment, CommentMetaData>) => MutableModel<Comment, CommentMetaData> | void): Comment;
 }"
 `;
@@ -736,7 +736,7 @@ type LazyProject = {
 
 export declare type Project = LazyLoading extends LazyLoadingDisabled ? EagerProject : LazyProject
 
-export declare const Project: (new (init: ModelInit<Project, ProjectMetaData>) => Project) & Project & {
+export declare const Project: (new (init: ModelInit<Project, ProjectMetaData>) => Project) & {
   copyOf(source: Project, mutator: (draft: MutableModel<Project, ProjectMetaData>) => MutableModel<Project, ProjectMetaData> | void): Project;
 }
 
@@ -756,7 +756,7 @@ type LazyTeam = {
 
 export declare type Team = LazyLoading extends LazyLoadingDisabled ? EagerTeam : LazyTeam
 
-export declare const Team: (new (init: ModelInit<Team, TeamMetaData>) => Team) & Team & {
+export declare const Team: (new (init: ModelInit<Team, TeamMetaData>) => Team) & {
   copyOf(source: Team, mutator: (draft: MutableModel<Team, TeamMetaData>) => MutableModel<Team, TeamMetaData> | void): Team;
 }"
 `;
@@ -802,7 +802,7 @@ type LazyCustomer = {
 
 export declare type Customer = LazyLoading extends LazyLoadingDisabled ? EagerCustomer : LazyCustomer
 
-export declare const Customer: (new (init: ModelInit<Customer, CustomerMetaData>) => Customer) & Customer & {
+export declare const Customer: (new (init: ModelInit<Customer, CustomerMetaData>) => Customer) & {
   copyOf(source: Customer, mutator: (draft: MutableModel<Customer, CustomerMetaData>) => MutableModel<Customer, CustomerMetaData> | void): Customer;
 }"
 `;

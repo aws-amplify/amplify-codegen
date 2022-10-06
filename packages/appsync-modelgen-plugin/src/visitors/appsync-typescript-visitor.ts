@@ -198,16 +198,12 @@ export class AppSyncModelTypeScriptVisitor<
     }
     const conditionalType = `export declare type ${modelName} = LazyLoading extends LazyLoadingDisabled ? Eager${modelName} : Lazy${modelName}`;
 
-    const modelVariableBuilder = [
-      `export declare const ${modelName}: (new (init: ModelInit<${modelName}${modelMetaDataDeclaration}>) => ${modelName})`,
-      modelName,
-    ];
-    if (Object.values(this.modelMap).includes(modelObj)) {
-      modelVariableBuilder.push(
-        `{\n  copyOf(source: ${modelName}, mutator: (draft: MutableModel<${modelName}${modelMetaDataDeclaration}>) => MutableModel<${modelName}${modelMetaDataDeclaration}> | void): ${modelName};\n}`,
-      );
-    }
-    const modelVariable = modelVariableBuilder.join(' & ');
+    const modelVariableBase = `export declare const ${modelName}: (new (init: ModelInit<${modelName}${modelMetaDataDeclaration}>) => ${modelName})`;
+    const modelVariable =
+      modelVariableBase +
+      (Object.values(this.modelMap).includes(modelObj)
+        ? ` & {\n  copyOf(source: ${modelName}, mutator: (draft: MutableModel<${modelName}${modelMetaDataDeclaration}>) => MutableModel<${modelName}${modelMetaDataDeclaration}> | void): ${modelName};\n}`
+        : '');
 
     return [eagerModelDeclaration.string, lazyModelDeclaration.string, conditionalType, modelVariable].join('\n\n');
   }
