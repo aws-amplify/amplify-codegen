@@ -105,7 +105,8 @@
     "lodash": "^4.17.21",
     "node-fetch": "^2.6.7",
     "cross-fetch": "^2.2.6",
-    "glob-parent": "^6.0.2"
+    "glob-parent": "^6.0.2",
+    "parse-url": "^8.1.0"
   },
   "config": {
     "commitizen": {
