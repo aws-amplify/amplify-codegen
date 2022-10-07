@@ -444,7 +444,7 @@ export class AppSyncSwiftVisitor<
       if (isEnumType) {
         ofType = `.enum(type: ${typeName})`;
       } else if (isModelType) {
-        ofType = `.model(${typeName})`;
+        ofType = `.model(type: ${typeName})`;
       } else if (isNonModelType) {
         ofType = `.embedded(type: ${typeName})`;
       } else {
