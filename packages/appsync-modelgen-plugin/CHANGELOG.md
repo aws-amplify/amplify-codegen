@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.1.0...@aws-amplify/appsync-modelgen-plugin@2.2.0) (2022-10-12)
+
+
+### Features
+
+* **appsync-modelgen-plugin:** add toMap method in dart modelgen([#491](https://github.com/aws-amplify/amplify-codegen/issues/491)) ([68f7fb1](https://github.com/aws-amplify/amplify-codegen/commit/68f7fb191e9c82d741c0babbf5e5b76e2a69362d))
+* lazy loading conditional type ([#489](https://github.com/aws-amplify/amplify-codegen/issues/489)) ([43d81af](https://github.com/aws-amplify/amplify-codegen/commit/43d81af60871f072c8aa13b110d61aaafa78e967))
+
+
+
+
+
 # [2.1.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.0.5...@aws-amplify/appsync-modelgen-plugin@2.1.0) (2022-09-02)
 
 

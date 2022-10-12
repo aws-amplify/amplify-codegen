@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@3.1.0...amplify-codegen@3.2.0) (2022-10-12)
+
+
+### Features
+
+* lazy loading conditional type ([#489](https://github.com/aws-amplify/amplify-codegen/issues/489)) ([43d81af](https://github.com/aws-amplify/amplify-codegen/commit/43d81af60871f072c8aa13b110d61aaafa78e967))
+
+
+
+
+
 # [3.1.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@3.0.5...amplify-codegen@3.1.0) (2022-09-02)
 
 

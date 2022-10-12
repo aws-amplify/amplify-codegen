@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.42.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-tests@2.42.0...@aws-amplify/amplify-codegen-e2e-tests@2.42.1) (2022-10-12)
+
+**Note:** Version bump only for package @aws-amplify/amplify-codegen-e2e-tests
+
+
+
+
+
 # [2.42.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-tests@2.41.0...@aws-amplify/amplify-codegen-e2e-tests@2.42.0) (2022-09-02)
 
 
