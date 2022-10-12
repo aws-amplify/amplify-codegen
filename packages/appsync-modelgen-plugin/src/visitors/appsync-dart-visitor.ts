@@ -401,7 +401,7 @@ export class AppSyncModelDartVisitor<
         '\n',
       ),
       { isBlock: false },
-      ['override']
+      ['override'],
     );
 
     classDeclarationBlock.addClassMethod(
@@ -871,6 +871,16 @@ export class AppSyncModelDartVisitor<
       .join(', ');
     const deserializationImpl = [' => {', indentMultiline(toJsonFields), '};'].join('\n');
     declarationBlock.addClassMethod('toJson', 'Map<String, dynamic>', [], deserializationImpl, { isBlock: false });
+
+    const toMapFields = model.fields
+      .map(field => {
+        const varName = this.getFieldName(field);
+        const fieldName = `${this.isNullSafety() && field.name !== 'id' ? '_' : ''}${this.getFieldName(field)}`;
+        return `'${varName}': ${fieldName}`;
+      })
+      .join(', ');
+    const toMapImpl = [' => {', indentMultiline(toMapFields), '};'].join('\n');
+    declarationBlock.addClassMethod('toMap', 'Map<String, Object?>', [], toMapImpl, { isBlock: false });
   }
 
   protected generateModelSchema(model: CodeGenModel, classDeclarationBlock: DartDeclarationBlock): void {
@@ -1171,11 +1181,11 @@ export class AppSyncModelDartVisitor<
       return [];
     }
     if (!this.config.respectPrimaryKeyAttributesOnConnectionField) {
-      return [model.fields.find(f => f.name === 'id')!]
+      return [model.fields.find(f => f.name === 'id')!];
     }
     const primaryKeyField = this.getModelPrimaryKeyField(model);
     const { sortKeyFields } = primaryKeyField.primaryKeyInfo!;
-    return [ primaryKeyField, ...sortKeyFields ];
+    return [primaryKeyField, ...sortKeyFields];
   }
 
   /**

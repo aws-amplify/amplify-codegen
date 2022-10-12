@@ -32,7 +32,6 @@ export class AppSyncModelJavascriptVisitor<
   TRawConfig extends RawAppSyncModelJavaScriptConfig = RawAppSyncModelJavaScriptConfig,
   TPluginConfig extends ParsedAppSyncModelJavaScriptConfig = ParsedAppSyncModelJavaScriptConfig
 > extends AppSyncModelTypeScriptVisitor<TRawConfig, TPluginConfig> {
-
   constructor(
     schema: GraphQLSchema,
     rawConfig: TRawConfig,
@@ -123,7 +122,13 @@ export class AppSyncModelJavascriptVisitor<
   }
 
   protected generateImports(): string {
-    const importComponents = Array.from(this.BASE_DATASTORE_IMPORT);
-    return `import { ${importComponents.join(', ')} } from "@aws-amplify/datastore";`
+    const baseImportComponents = Array.from(this.BASE_DATASTORE_IMPORT);
+    const baseImport = `import { ${baseImportComponents.join(', ')} } from "@aws-amplify/datastore";`;
+    if (this.TS_IGNORE_DATASTORE_IMPORT.size) {
+      const tsIgnoreImportComponents = Array.from(this.TS_IGNORE_DATASTORE_IMPORT);
+      const tsIgnoreImport = `// @ts-ignore\nimport { ${tsIgnoreImportComponents.join(', ')} } from "@aws-amplify/datastore";`;
+      return [baseImport, tsIgnoreImport].join('\n');
+    }
+    return baseImport;
   }
 }

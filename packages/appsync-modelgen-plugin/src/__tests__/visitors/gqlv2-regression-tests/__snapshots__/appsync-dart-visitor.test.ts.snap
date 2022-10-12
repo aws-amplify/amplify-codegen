@@ -118,6 +118,10 @@ class Post extends Model {
   Map<String, dynamic> toJson() => {
     'id': id, 'title': _title, 'comments': _comments?.map((Comment? e) => e?.toJson()).toList()
   };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'title': _title, 'comments': _comments
+  };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
@@ -269,6 +273,10 @@ class Comment extends Model {
   
   Map<String, dynamic> toJson() => {
     'id': id, 'content': _content, 'post': _post?.toJson()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'content': _content, 'post': _post
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -425,6 +433,10 @@ class Project2 extends Model {
   
   Map<String, dynamic> toJson() => {
     'id': id, 'name': _name, 'team': _team?.toJson(), 'project2TeamId': _project2TeamId
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'name': _name, 'team': _team, 'project2TeamId': _project2TeamId
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -585,6 +597,10 @@ class Team2 extends Model {
   Map<String, dynamic> toJson() => {
     'id': id, 'name': _name, 'project': _project?.toJson()
   };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'name': _name, 'project': _project
+  };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
@@ -739,6 +755,10 @@ class Blog7V2 extends Model {
   
   Map<String, dynamic> toJson() => {
     'id': id, 'name': _name, 'posts': _posts?.map((Post7V2? e) => e?.toJson()).toList()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'name': _name, 'posts': _posts
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -907,6 +927,10 @@ class Post7V2 extends Model {
   Map<String, dynamic> toJson() => {
     'id': id, 'title': _title, 'blog': _blog?.toJson(), 'comments': _comments?.map((Comment7V2? e) => e?.toJson()).toList()
   };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'title': _title, 'blog': _blog, 'comments': _comments
+  };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
@@ -1060,6 +1084,10 @@ class Comment7V2 extends Model {
   Map<String, dynamic> toJson() => {
     'id': id, 'content': _content, 'post': _post?.toJson()
   };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'content': _content, 'post': _post
+  };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
@@ -1211,6 +1239,10 @@ class Project extends Model {
   
   Map<String, dynamic> toJson() => {
     'id': id, 'name': _name, 'team': _team?.toJson(), 'projectTeamId': _projectTeamId
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'name': _name, 'team': _team, 'projectTeamId': _projectTeamId
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -1370,6 +1402,10 @@ class Team extends Model {
   
   Map<String, dynamic> toJson() => {
     'id': id, 'name': _name, 'project': _project?.toJson()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'name': _name, 'project': _project
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -1536,6 +1572,10 @@ class Post extends Model {
   Map<String, dynamic> toJson() => {
     'id': id, 'title': _title, 'content': _content, 'tags': _tags?.map((PostTags? e) => e?.toJson()).toList()
   };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'title': _title, 'content': _content, 'tags': _tags
+  };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
@@ -1698,6 +1738,10 @@ class Tag extends Model {
   Map<String, dynamic> toJson() => {
     'id': id, 'label': _label, 'posts': _posts?.map((PostTags? e) => e?.toJson()).toList()
   };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'label': _label, 'posts': _posts
+  };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField LABEL = QueryField(fieldName: \\"label\\");
@@ -1826,6 +1870,10 @@ class Todo extends Model {
       _content = json['content'];
   
   Map<String, dynamic> toJson() => {
+    'id': id, 'content': _content
+  };
+  
+  Map<String, Object?> toMap() => {
     'id': id, 'content': _content
   };
 
@@ -1972,6 +2020,10 @@ class Post2 extends Model {
   
   Map<String, dynamic> toJson() => {
     'id': id, 'title': _title, 'comments': _comments?.map((Comment2? e) => e?.toJson()).toList()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'title': _title, 'comments': _comments
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -2131,6 +2183,10 @@ class Comment2 extends Model {
   Map<String, dynamic> toJson() => {
     'id': id, 'postID': _postID, 'content': _content
   };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'postID': _postID, 'content': _content
+  };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField POSTID = QueryField(fieldName: \\"postID\\");
@@ -2284,6 +2340,10 @@ class Project2 extends Model {
   Map<String, dynamic> toJson() => {
     'id': id, 'name': _name, 'teamID': _teamID, 'team': _team?.toJson()
   };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'name': _name, 'teamID': _teamID, 'team': _team
+  };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
@@ -2430,6 +2490,10 @@ class Team2 extends Model {
   Map<String, dynamic> toJson() => {
     'id': id, 'name': _name
   };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'name': _name
+  };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
@@ -2574,6 +2638,10 @@ class Post extends Model {
   
   Map<String, dynamic> toJson() => {
     'id': id, 'title': _title, 'comments': _comments?.map((Comment? e) => e?.toJson()).toList()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'title': _title, 'comments': _comments
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -2722,6 +2790,10 @@ class Comment extends Model {
       _postCommentsId = json['postCommentsId'];
   
   Map<String, dynamic> toJson() => {
+    'id': id, 'content': _content, 'postCommentsId': _postCommentsId
+  };
+  
+  Map<String, Object?> toMap() => {
     'id': id, 'content': _content, 'postCommentsId': _postCommentsId
   };
 
@@ -2873,6 +2945,10 @@ class Project extends Model {
   Map<String, dynamic> toJson() => {
     'id': id, 'name': _name, 'team': _team?.toJson(), 'projectTeamId': _projectTeamId
   };
+  
+  Map<String, Object?> toMap() => {
+    'id': id, 'name': _name, 'team': _team, 'projectTeamId': _projectTeamId
+  };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
@@ -3017,6 +3093,10 @@ class Team extends Model {
       _name = json['name'];
   
   Map<String, dynamic> toJson() => {
+    'id': id, 'name': _name
+  };
+  
+  Map<String, Object?> toMap() => {
     'id': id, 'name': _name
   };
 
@@ -3175,6 +3255,10 @@ class Customer extends Model {
       _accountRepresentativeID = json['accountRepresentativeID'];
   
   Map<String, dynamic> toJson() => {
+    'id': id, 'name': _name, 'phoneNumber': _phoneNumber, 'accountRepresentativeID': _accountRepresentativeID
+  };
+  
+  Map<String, Object?> toMap() => {
     'id': id, 'name': _name, 'phoneNumber': _phoneNumber, 'accountRepresentativeID': _accountRepresentativeID
   };
 
@@ -3389,6 +3473,10 @@ class ModelWithPrimaryKey extends Model {
       _categoryID = json['categoryID'];
   
   Map<String, dynamic> toJson() => {
+    'id': id, 'productID': _productID, 'name': _name, 'content': _content, 'albumID': _albumID, 'categoryID': _categoryID
+  };
+  
+  Map<String, Object?> toMap() => {
     'id': id, 'productID': _productID, 'name': _name, 'content': _content, 'albumID': _albumID, 'categoryID': _categoryID
   };
 

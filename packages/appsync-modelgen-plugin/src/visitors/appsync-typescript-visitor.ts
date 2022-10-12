@@ -35,6 +35,7 @@ export class AppSyncModelTypeScriptVisitor<
   ];
 
   protected BASE_DATASTORE_IMPORT = new Set(['ModelInit', 'MutableModel']);
+  protected TS_IGNORE_DATASTORE_IMPORT = new Set();
 
   protected MODEL_META_FIELD_NAME = '__modelMeta__';
 
@@ -122,11 +123,7 @@ export class AppSyncModelTypeScriptVisitor<
     if (readOnlyFieldNames.length) {
       modelMetaFields.push(`readOnlyFields: ${readOnlyFieldNames.join(' | ')};`);
     }
-    const result = [
-      '{',
-      indentMultiline(modelMetaFields.join('\n')),
-      '}'
-    ];
+    const result = ['{', indentMultiline(modelMetaFields.join('\n')), '}'];
     return result.join('\n');
   }
 
@@ -142,7 +139,8 @@ export class AppSyncModelTypeScriptVisitor<
         return `OptionallyManagedIdentifier<${modelObj.name}, '${primaryKeyField.name}'>`;
       case CodeGenPrimaryKeyType.CustomId:
         const identifierFields: string[] = [primaryKeyField.name, ...sortKeyFields.map(f => f.name)].filter(f => f);
-        const identifierFieldsStr = identifierFields.length === 1 ? `'${identifierFields[0]}'` : `[${identifierFields.map(fieldStr => `'${fieldStr}'`).join(', ')}]`
+        const identifierFieldsStr =
+          identifierFields.length === 1 ? `'${identifierFields[0]}'` : `[${identifierFields.map(fieldStr => `'${fieldStr}'`).join(', ')}]`;
         if (identifierFields.length > 1) {
           this.BASE_DATASTORE_IMPORT.add('CompositeIdentifier');
           return `CompositeIdentifier<${modelObj.name}, ${identifierFieldsStr}>`;
@@ -159,28 +157,35 @@ export class AppSyncModelTypeScriptVisitor<
    */
   protected generateModelDeclaration(modelObj: CodeGenModel, isDeclaration: boolean = true, isModelType: boolean = true): string {
     const modelName = this.generateModelTypeDeclarationName(modelObj);
-    const modelDeclarations = new TypeScriptDeclarationBlock()
-      .asKind('class')
-      .withFlag({ isDeclaration })
-      .withName(modelName)
-      .export(true);
+    const eagerModelDeclaration = new TypeScriptDeclarationBlock().asKind('type').withName(`Eager${modelName}`);
+    const lazyModelDeclaration = new TypeScriptDeclarationBlock().asKind('type').withName(`Lazy${modelName}`);
 
-      let readOnlyFieldNames: string[] = [];
-      let modelMetaDataFormatted: string | undefined;
-      let modelMetaDataDeclaration: string = '';
+    let readOnlyFieldNames: string[] = [];
+    let modelMetaDataFormatted: string | undefined;
+    let modelMetaDataDeclaration: string = '';
     //Add new model meta field when custom primary key is enabled
     if (isModelType && this.isCustomPKEnabled()) {
       //Add new model meta import
       this.BASE_DATASTORE_IMPORT.add(this.MODEL_META_FIELD_NAME);
-      modelDeclarations.addProperty(`[${this.MODEL_META_FIELD_NAME}]`, this.generateModelMetaDataType(modelObj), undefined, 'DEFAULT', {
+      const modelMetaDataType = this.generateModelMetaDataType(modelObj);
+      eagerModelDeclaration.addProperty(`[${this.MODEL_META_FIELD_NAME}]`, modelMetaDataType, undefined, 'DEFAULT', {
         readonly: true,
-        optional: false
+        optional: false,
+      });
+      lazyModelDeclaration.addProperty(`[${this.MODEL_META_FIELD_NAME}]`, modelMetaDataType, undefined, 'DEFAULT', {
+        readonly: true,
+        optional: false,
       });
     }
     modelObj.fields.forEach((field: CodeGenField) => {
-      modelDeclarations.addProperty(this.getFieldName(field), this.getNativeType(field), undefined, 'DEFAULT', {
+      const fieldName = this.getFieldName(field);
+      eagerModelDeclaration.addProperty(fieldName, this.getNativeType(field), undefined, 'DEFAULT', {
         readonly: true,
         optional: field.isList ? field.isListNullable : field.isNullable,
+      });
+      lazyModelDeclaration.addProperty(fieldName, this.getNativeType(field, { lazy: true }), undefined, 'DEFAULT', {
+        readonly: true,
+        optional: !this.isModelType(field) && (field.isList ? field.isListNullable : field.isNullable),
       });
       if (field.isReadOnly) {
         readOnlyFieldNames.push(`'${field.name}'`);
@@ -191,43 +196,16 @@ export class AppSyncModelTypeScriptVisitor<
       modelMetaDataFormatted = `, ${modelName}MetaData`;
       modelMetaDataDeclaration = readOnlyFieldNames.length > 0 ? modelMetaDataFormatted : '';
     }
+    const conditionalType = `export declare type ${modelName} = LazyLoading extends LazyLoadingDisabled ? Eager${modelName} : Lazy${modelName}`;
 
-    // Constructor
-    modelDeclarations.addClassMethod(
-      'constructor',
-      null,
-      null,
-      [
-        {
-          name: 'init',
-          type: `ModelInit<${modelName}${modelMetaDataDeclaration}>`,
-        },
-      ],
-      'DEFAULT',
-      {},
-    );
+    const modelVariableBase = `export declare const ${modelName}: (new (init: ModelInit<${modelName}${modelMetaDataDeclaration}>) => ${modelName})`;
+    const modelVariable =
+      modelVariableBase +
+      (Object.values(this.modelMap).includes(modelObj)
+        ? ` & {\n  copyOf(source: ${modelName}, mutator: (draft: MutableModel<${modelName}${modelMetaDataDeclaration}>) => MutableModel<${modelName}${modelMetaDataDeclaration}> | void): ${modelName};\n}`
+        : '');
 
-    // copyOf method
-    if (Object.values(this.modelMap).includes(modelObj)) {
-      modelDeclarations.addClassMethod(
-        'copyOf',
-        modelName,
-        null,
-        [
-          {
-            name: 'source',
-            type: modelName,
-          },
-          {
-            name: 'mutator',
-            type: `(draft: MutableModel<${modelName}${modelMetaDataDeclaration}>) => MutableModel<${modelName}${modelMetaDataDeclaration}> | void`,
-          },
-        ],
-        'DEFAULT',
-        { static: true },
-      );
-    }
-    return modelDeclarations.string;
+    return [eagerModelDeclaration.string, lazyModelDeclaration.string, conditionalType, modelVariable].join('\n\n');
   }
 
   /**
@@ -312,13 +290,25 @@ export class AppSyncModelTypeScriptVisitor<
     return `${type}[]`;
   }
 
-  protected getNativeType(field: CodeGenField): string {
+  protected getNativeType(field: CodeGenField, options?: { lazy: boolean }): string {
     const typeName = field.type;
     const isNullable = field.isList ? field.isListNullable : field.isNullable;
     const nullableTypeUnion = isNullable ? ' | null' : '';
     if (this.isModelType(field)) {
       const modelType = this.modelMap[typeName];
       const typeNameStr = this.generateModelTypeDeclarationName(modelType);
+
+      if (options?.lazy) {
+        this.TS_IGNORE_DATASTORE_IMPORT.add('LazyLoading');
+        this.TS_IGNORE_DATASTORE_IMPORT.add('LazyLoadingDisabled');
+        if (field.isList) {
+          this.TS_IGNORE_DATASTORE_IMPORT.add('AsyncCollection');
+        } else {
+          this.TS_IGNORE_DATASTORE_IMPORT.add('AsyncItem');
+        }
+        return `${field.isList ? 'AsyncCollection' : 'AsyncItem'}<${typeNameStr}${!field.isList && isNullable ? ' | undefined' : ''}>`;
+      }
+
       return (field.isList ? this.getListType(typeNameStr, field) : typeNameStr) + nullableTypeUnion;
     }
 
