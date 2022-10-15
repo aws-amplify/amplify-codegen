@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.3.0-get-model-introspection.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@3.2.0...amplify-codegen@3.3.0-get-model-introspection.0) (2022-10-15)
+
+
+### Features
+
+* allow model-introspection to be invoked internally to the CLI ([2da95ee](https://github.com/aws-amplify/amplify-codegen/commit/2da95ee94e01ccb8faf4268d9af970eaf218a398))
+
+
+
+
+
 # [3.2.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@3.1.0...amplify-codegen@3.2.0) (2022-10-12)
 
 
