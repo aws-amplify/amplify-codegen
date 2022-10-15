@@ -45,7 +45,23 @@ const readNumericFeatureFlag = key => {
   }
 };
 
-async function generateModels(context, overrideOutputDir = null, isIntrospection = false) {
+// type GenerateModelsOptions = {
+//   overrideOutputDir?: String;
+//   isIntrospection: Boolean;
+//   writeToDisk: Boolean;
+// }
+
+const defaultGenerateModelsOption = {
+  overrideOutputDir: null,
+  isIntrospection: false,
+  writeToDisk: true,
+};
+
+async function generateModels(context, generateOptions = null) {
+  const { overrideOutputDir, isIntrospection, writeToDisk } = generateOptions
+    ? { ...defaultGenerateModelsOption, ...generateOptions }
+    : defaultGenerateModelsOption;
+
   // steps:
   // 1. Load the schema and validate using transformer
   // 2. get all the directives supported by transformer
@@ -151,15 +167,19 @@ async function generateModels(context, overrideOutputDir = null, isIntrospection
 
   const generatedCode = await Promise.all(codeGenPromises);
 
-  appsyncLocalConfig.forEach((cfg, idx) => {
-    const outPutPath = cfg.filename;
-    fs.ensureFileSync(outPutPath);
-    fs.writeFileSync(outPutPath, generatedCode[idx]);
-  });
+  if (writeToDisk) {
+    appsyncLocalConfig.forEach((cfg, idx) => {
+      const outPutPath = cfg.filename;
+      fs.ensureFileSync(outPutPath);
+      fs.writeFileSync(outPutPath, generatedCode[idx]);
+    });
 
-  generateEslintIgnore(context);
+    generateEslintIgnore(context);
 
-  context.print.info(`Successfully generated models. Generated models can be found in ${overrideOutputDir ?? baseOutputDir}`);
+    context.print.info(`Successfully generated models. Generated models can be found in ${overrideOutputDir ?? baseOutputDir}`);
+  }
+
+  return generatedCode;
 }
 
 async function validateSchema(context) {

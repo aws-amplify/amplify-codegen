@@ -8,7 +8,7 @@ module.exports = {
   name: featureName,
   run: async context => {
     try {
-      await codeGen.generateModels(context, getOutputDirParam(context, false));
+      await codeGen.generateModels(context, { overrideOutputDir: getOutputDirParam(context, false) });
     } catch (ex) {
       context.print.info(ex.message);
       console.log(ex.stack);
