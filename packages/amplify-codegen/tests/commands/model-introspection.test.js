@@ -1,4 +1,4 @@
-const generateModelIntrospection = require('../../src/commands/model-intropection');
+const { generateModelIntrospection, getModelIntrospection } = require('../../src/commands/model-intropection');
 const graphqlCodegen = require('@graphql-codegen/core');
 const mockFs = require('mock-fs');
 const path = require('path');
@@ -10,7 +10,8 @@ const MOCK_OUTPUT_DIR = 'output';
 const MOCK_PROJECT_ROOT = 'project';
 const MOCK_PROJECT_NAME = 'myapp';
 const MOCK_BACKEND_DIRECTORY = 'backend';
-const MOCK_GENERATED_CODE = 'This code is auto-generated!';
+const MOCK_GENERATED_INTROSPECTION = { schemaVersion: 1 }
+const MOCK_GENERATED_CODE = JSON.stringify(MOCK_GENERATED_INTROSPECTION);
 const MOCK_CONTEXT = {
   print: {
     info: jest.fn(),
@@ -39,7 +40,7 @@ const MOCK_CONTEXT = {
 
 
 
-describe('model-intropection command test', () => {
+describe('generateModelIntrospection', () => {
   graphqlCodegen.codegen.mockReturnValue(MOCK_GENERATED_CODE);
   const schemaFilePath = path.join(MOCK_BACKEND_DIRECTORY, 'api', MOCK_PROJECT_NAME);
   const outputDirectory = path.join(MOCK_PROJECT_ROOT, MOCK_OUTPUT_DIR);
@@ -81,4 +82,32 @@ describe('model-intropection command test', () => {
   });
 
   afterEach(mockFs.restore);
+});
+
+describe('getModelIntrospection', () => {
+  graphqlCodegen.codegen.mockReturnValue(MOCK_GENERATED_CODE);
+  const schemaFilePath = path.join(MOCK_BACKEND_DIRECTORY, 'api', MOCK_PROJECT_NAME);
+  const outputDirectory = path.join(MOCK_PROJECT_ROOT, MOCK_OUTPUT_DIR);
+  const mockedFiles = {};
+  mockedFiles[schemaFilePath] = {
+    'schema.graphql': ' type SimpleModel { id: ID! status: String } ',
+  };
+  mockedFiles[outputDirectory] = {};
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should return model intropection schema', async () => {
+    mockFs(mockedFiles);
+    // assert empty folder before generation
+    expect(fs.readdirSync(outputDirectory).length).toEqual(0);
+
+    const responseObject = await getModelIntrospection(MOCK_CONTEXT);
+    expect(responseObject).toEqual(MOCK_GENERATED_INTROSPECTION);
+
+    // assert model generation succeeds with no file written
+    expect(graphqlCodegen.codegen).toBeCalled();
+    expect(fs.readdirSync(outputDirectory).length).toEqual(0); 
+  });
 });
