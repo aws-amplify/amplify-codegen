@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.2.0...@aws-amplify/appsync-modelgen-plugin@2.2.1) (2022-10-21)
+
+
+### Bug Fixes
+
+* **model-introspection:** add type export at package root ([#497](https://github.com/aws-amplify/amplify-codegen/issues/497)) ([c930769](https://github.com/aws-amplify/amplify-codegen/commit/c930769419a182870abcf02f1d313a8372c505c5))
+
+
+
+
+
 # [2.2.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.1.0...@aws-amplify/appsync-modelgen-plugin@2.2.0) (2022-10-12)
 
 
