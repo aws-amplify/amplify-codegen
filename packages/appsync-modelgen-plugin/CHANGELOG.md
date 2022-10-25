@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.2.1...@aws-amplify/appsync-modelgen-plugin@2.2.2) (2022-10-25)
+
+
+### Bug Fixes
+
+* lazy codegen for schemas without relationships ([#500](https://github.com/aws-amplify/amplify-codegen/issues/500)) ([7cb219f](https://github.com/aws-amplify/amplify-codegen/commit/7cb219f679f3792791b6a011e5d3f1ab317cb9bd))
+
+
+
+
+
 ## [2.2.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.2.0...@aws-amplify/appsync-modelgen-plugin@2.2.1) (2022-10-21)
 
 
