@@ -35,7 +35,7 @@ export class AppSyncModelTypeScriptVisitor<
   ];
 
   protected BASE_DATASTORE_IMPORT = new Set(['ModelInit', 'MutableModel']);
-  protected TS_IGNORE_DATASTORE_IMPORT = new Set();
+  protected TS_IGNORE_DATASTORE_IMPORT = new Set(['LazyLoading', 'LazyLoadingDisabled']);
 
   protected MODEL_META_FIELD_NAME = '__modelMeta__';
 
@@ -299,8 +299,6 @@ export class AppSyncModelTypeScriptVisitor<
       const typeNameStr = this.generateModelTypeDeclarationName(modelType);
 
       if (options?.lazy) {
-        this.TS_IGNORE_DATASTORE_IMPORT.add('LazyLoading');
-        this.TS_IGNORE_DATASTORE_IMPORT.add('LazyLoadingDisabled');
         if (field.isList) {
           this.TS_IGNORE_DATASTORE_IMPORT.add('AsyncCollection');
         } else {
