@@ -443,6 +443,8 @@ export {
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works on record creation and updating timestamp 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+// @ts-ignore
+import { LazyLoading, LazyLoadingDisabled } from \\"@aws-amplify/datastore\\";
 
 type TodoMetaData = {
   readOnlyFields: 'createdOn' | 'updatedOn';
@@ -777,6 +779,8 @@ export {
 
 exports[`AppSyncJavascriptVisitor - GQLv2 Regression Tests Works when configuring a secondary index 2`] = `
 "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+// @ts-ignore
+import { LazyLoading, LazyLoadingDisabled } from \\"@aws-amplify/datastore\\";
 
 type CustomerMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';

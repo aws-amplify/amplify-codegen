@@ -368,6 +368,8 @@ describe('Javascript visitor with default owner auth', () => {
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
         "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+        // @ts-ignore
+        import { LazyLoading, LazyLoadingDisabled } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -460,6 +462,8 @@ describe('Javascript visitor with custom owner field auth', () => {
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
         "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+        // @ts-ignore
+        import { LazyLoading, LazyLoadingDisabled } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -554,6 +558,8 @@ describe('Javascript visitor with multiple owner field auth', () => {
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
         "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+        // @ts-ignore
+        import { LazyLoading, LazyLoadingDisabled } from \\"@aws-amplify/datastore\\";
 
         export enum SimpleEnum {
           ENUM_VAL1 = \\"enumVal1\\",
@@ -638,6 +644,8 @@ describe('Javascript visitor with auth directives in field level', () => {
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
         "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+        // @ts-ignore
+        import { LazyLoading, LazyLoadingDisabled } from \\"@aws-amplify/datastore\\";
 
         type EagerEmployee = {
           readonly id: string;
@@ -713,6 +721,8 @@ describe('Javascript visitor with custom primary key', () => {
     validateTs(declarations);
     expect(declarations).toMatchInlineSnapshot(`
       "import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier, CompositeIdentifier, CustomIdentifier, OptionallyManagedIdentifier } from \\"@aws-amplify/datastore\\";
+      // @ts-ignore
+      import { LazyLoading, LazyLoadingDisabled } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -943,6 +953,8 @@ describe('New model meta field test', () => {
     validateTs(declarations);
     expect(declarations).toMatchInlineSnapshot(`
       "import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier, OptionallyManagedIdentifier, CompositeIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
+      // @ts-ignore
+      import { LazyLoading, LazyLoadingDisabled } from \\"@aws-amplify/datastore\\";
 
 
 
