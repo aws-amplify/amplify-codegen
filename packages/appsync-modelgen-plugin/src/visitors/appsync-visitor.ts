@@ -53,7 +53,7 @@ export interface RawAppSyncModelConfig extends RawConfig {
    *  plugins:
    *    - amplify-codegen-appsync-model-plugin
    * ```
-   * target: 'swift'| 'javascript'| 'typescript' | 'java' | 'metadata' | 'dart'
+   * target: 'swift'| 'javascript'| 'typescript' | 'java' | 'metadata' | 'dart' | 'introspection'
    */
   target: string;
 
@@ -276,7 +276,7 @@ export class AppSyncModelVisitor<
         directives,
         fields,
       };
-      if (this.config.respectPrimaryKeyAttributesOnConnectionField) {
+      if (this.config.respectPrimaryKeyAttributesOnConnectionField || this.config.target === 'introspection') {
         this.ensurePrimaryKeyField(model, directives);
       } else {
         this.ensureIdField(model);

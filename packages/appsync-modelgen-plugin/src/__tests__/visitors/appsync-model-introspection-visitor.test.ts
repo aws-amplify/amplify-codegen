@@ -26,7 +26,7 @@ const getVisitor = (schema: string, settings: any = {}): AppSyncModelIntrospecti
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelIntrospectionVisitor(
     builtSchema,
-    { directives, scalars: METADATA_SCALAR_MAP, ...visitorConfig },
+    { directives, scalars: METADATA_SCALAR_MAP, ...visitorConfig, target: 'introspection' },
     {},
   );
   visit(ast, { leave: visitor });
@@ -188,4 +188,33 @@ describe('Custom primary key tests', () => {
     const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
     expect(visitor.generate()).toMatchSnapshot();
   });
-})
+});
+
+describe('Primary Key Info tests', () => {
+  const schema = /* GraphQL */ `
+    type Todo1 @model {
+      todoId: ID! @primaryKey
+    }
+    type Todo2 @model {
+      todoId: ID! @primaryKey(sortKeyFields:["title"])
+      title: String!
+    }
+    type Todo3 @model {
+      id: ID! @primaryKey(sortKeyFields:["title"])
+      title: String!
+    }
+    type Todo4 @model {
+      title: String!
+    }
+    type Todo5 @model {
+      id: ID! @primaryKey
+    }
+    type Todo6 @model {
+      id: ID!
+    }
+  `;
+  it('should generate correct primary key info for model with/without custom primary key', () => {
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(visitor.generate()).toMatchSnapshot();
+  });
+});

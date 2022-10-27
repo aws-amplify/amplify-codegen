@@ -87,7 +87,14 @@ exports[`Custom primary key tests should generate correct model intropection fil
                         ]
                     }
                 }
-            ]
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"projectId\\",
+                \\"sortKeyFieldNames\\": [
+                    \\"name\\"
+                ]
+            }
         },
         \\"Team1\\": {
             \\"name\\": \\"Team1\\",
@@ -169,7 +176,14 @@ exports[`Custom primary key tests should generate correct model intropection fil
                         ]
                     }
                 }
-            ]
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"teamId\\",
+                \\"sortKeyFieldNames\\": [
+                    \\"name\\"
+                ]
+            }
         },
         \\"Project2\\": {
             \\"name\\": \\"Project2\\",
@@ -255,7 +269,14 @@ exports[`Custom primary key tests should generate correct model intropection fil
                         ]
                     }
                 }
-            ]
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"projectId\\",
+                \\"sortKeyFieldNames\\": [
+                    \\"name\\"
+                ]
+            }
         },
         \\"Team2\\": {
             \\"name\\": \\"Team2\\",
@@ -307,7 +328,14 @@ exports[`Custom primary key tests should generate correct model intropection fil
                         ]
                     }
                 }
-            ]
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"teamId\\",
+                \\"sortKeyFieldNames\\": [
+                    \\"name\\"
+                ]
+            }
         },
         \\"Project3\\": {
             \\"name\\": \\"Project3\\",
@@ -392,7 +420,14 @@ exports[`Custom primary key tests should generate correct model intropection fil
                         ]
                     }
                 }
-            ]
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"projectId\\",
+                \\"sortKeyFieldNames\\": [
+                    \\"name\\"
+                ]
+            }
         },
         \\"Team3\\": {
             \\"name\\": \\"Team3\\",
@@ -474,7 +509,14 @@ exports[`Custom primary key tests should generate correct model intropection fil
                         ]
                     }
                 }
-            ]
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"teamId\\",
+                \\"sortKeyFieldNames\\": [
+                    \\"name\\"
+                ]
+            }
         },
         \\"Project4\\": {
             \\"name\\": \\"Project4\\",
@@ -560,7 +602,14 @@ exports[`Custom primary key tests should generate correct model intropection fil
                         ]
                     }
                 }
-            ]
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"projectId\\",
+                \\"sortKeyFieldNames\\": [
+                    \\"name\\"
+                ]
+            }
         },
         \\"Team4\\": {
             \\"name\\": \\"Team4\\",
@@ -612,7 +661,14 @@ exports[`Custom primary key tests should generate correct model intropection fil
                         ]
                     }
                 }
-            ]
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"teamId\\",
+                \\"sortKeyFieldNames\\": [
+                    \\"name\\"
+                ]
+            }
         },
         \\"Post1\\": {
             \\"name\\": \\"Post1\\",
@@ -681,7 +737,14 @@ exports[`Custom primary key tests should generate correct model intropection fil
                         ]
                     }
                 }
-            ]
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"postId\\",
+                \\"sortKeyFieldNames\\": [
+                    \\"title\\"
+                ]
+            }
         },
         \\"Comment1\\": {
             \\"name\\": \\"Comment1\\",
@@ -763,7 +826,14 @@ exports[`Custom primary key tests should generate correct model intropection fil
                         ]
                     }
                 }
-            ]
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"commentId\\",
+                \\"sortKeyFieldNames\\": [
+                    \\"content\\"
+                ]
+            }
         },
         \\"Post2\\": {
             \\"name\\": \\"Post2\\",
@@ -832,7 +902,14 @@ exports[`Custom primary key tests should generate correct model intropection fil
                         ]
                     }
                 }
-            ]
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"postId\\",
+                \\"sortKeyFieldNames\\": [
+                    \\"title\\"
+                ]
+            }
         },
         \\"Comment2\\": {
             \\"name\\": \\"Comment2\\",
@@ -898,7 +975,14 @@ exports[`Custom primary key tests should generate correct model intropection fil
                         ]
                     }
                 }
-            ]
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"commentId\\",
+                \\"sortKeyFieldNames\\": [
+                    \\"content\\"
+                ]
+            }
         },
         \\"Post3\\": {
             \\"name\\": \\"Post3\\",
@@ -966,7 +1050,14 @@ exports[`Custom primary key tests should generate correct model intropection fil
                         ]
                     }
                 }
-            ]
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"postId\\",
+                \\"sortKeyFieldNames\\": [
+                    \\"title\\"
+                ]
+            }
         },
         \\"Comment3\\": {
             \\"name\\": \\"Comment3\\",
@@ -1058,7 +1149,14 @@ exports[`Custom primary key tests should generate correct model intropection fil
                         ]
                     }
                 }
-            ]
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"commentId\\",
+                \\"sortKeyFieldNames\\": [
+                    \\"content\\"
+                ]
+            }
         },
         \\"Post4\\": {
             \\"name\\": \\"Post4\\",
@@ -1126,7 +1224,14 @@ exports[`Custom primary key tests should generate correct model intropection fil
                         ]
                     }
                 }
-            ]
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"postId\\",
+                \\"sortKeyFieldNames\\": [
+                    \\"title\\"
+                ]
+            }
         },
         \\"Comment4\\": {
             \\"name\\": \\"Comment4\\",
@@ -1202,7 +1307,14 @@ exports[`Custom primary key tests should generate correct model intropection fil
                         ]
                     }
                 }
-            ]
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"commentId\\",
+                \\"sortKeyFieldNames\\": [
+                    \\"content\\"
+                ]
+            }
         },
         \\"Post\\": {
             \\"name\\": \\"Post\\",
@@ -1277,7 +1389,14 @@ exports[`Custom primary key tests should generate correct model intropection fil
                         ]
                     }
                 }
-            ]
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"customPostId\\",
+                \\"sortKeyFieldNames\\": [
+                    \\"title\\"
+                ]
+            }
         },
         \\"Tag\\": {
             \\"name\\": \\"Tag\\",
@@ -1345,7 +1464,14 @@ exports[`Custom primary key tests should generate correct model intropection fil
                         ]
                     }
                 }
-            ]
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"customTagId\\",
+                \\"sortKeyFieldNames\\": [
+                    \\"label\\"
+                ]
+            }
         },
         \\"PostTags\\": {
             \\"name\\": \\"PostTags\\",
@@ -1461,7 +1587,12 @@ exports[`Custom primary key tests should generate correct model intropection fil
                         ]
                     }
                 }
-            ]
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
         }
     },
     \\"enums\\": {},
@@ -1562,7 +1693,12 @@ exports[`Model Introspection Visitor Metadata snapshot should generate correct m
                     \\"type\\": \\"model\\",
                     \\"properties\\": {}
                 }
-            ]
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
         },
         \\"Child\\": {
             \\"name\\": \\"Child\\",
@@ -1613,7 +1749,12 @@ exports[`Model Introspection Visitor Metadata snapshot should generate correct m
                     \\"type\\": \\"model\\",
                     \\"properties\\": {}
                 }
-            ]
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
         },
         \\"SSN\\": {
             \\"name\\": \\"SSN\\",
@@ -1664,7 +1805,12 @@ exports[`Model Introspection Visitor Metadata snapshot should generate correct m
                     \\"type\\": \\"model\\",
                     \\"properties\\": {}
                 }
-            ]
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
         }
     },
     \\"enums\\": {
@@ -1698,5 +1844,320 @@ exports[`Model Introspection Visitor Metadata snapshot should generate correct m
             }
         }
     }
+}"
+`;
+
+exports[`Primary Key Info tests should generate correct primary key info for model with/without custom primary key 1`] = `
+"{
+    \\"version\\": 1,
+    \\"models\\": {
+        \\"Todo1\\": {
+            \\"name\\": \\"Todo1\\",
+            \\"fields\\": {
+                \\"todoId\\": {
+                    \\"name\\": \\"todoId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Todo1s\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"todoId\\"
+                        ]
+                    }
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"todoId\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        },
+        \\"Todo2\\": {
+            \\"name\\": \\"Todo2\\",
+            \\"fields\\": {
+                \\"todoId\\": {
+                    \\"name\\": \\"todoId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"title\\": {
+                    \\"name\\": \\"title\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Todo2s\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"todoId\\",
+                            \\"title\\"
+                        ]
+                    }
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"todoId\\",
+                \\"sortKeyFieldNames\\": [
+                    \\"title\\"
+                ]
+            }
+        },
+        \\"Todo3\\": {
+            \\"name\\": \\"Todo3\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"title\\": {
+                    \\"name\\": \\"title\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Todo3s\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"id\\",
+                            \\"title\\"
+                        ]
+                    }
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": [
+                    \\"title\\"
+                ]
+            }
+        },
+        \\"Todo4\\": {
+            \\"name\\": \\"Todo4\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"title\\": {
+                    \\"name\\": \\"title\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Todo4s\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        },
+        \\"Todo5\\": {
+            \\"name\\": \\"Todo5\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Todo5s\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"id\\"
+                        ]
+                    }
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        },
+        \\"Todo6\\": {
+            \\"name\\": \\"Todo6\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Todo6s\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        }
+    },
+    \\"enums\\": {},
+    \\"nonModels\\": {}
 }"
 `;
