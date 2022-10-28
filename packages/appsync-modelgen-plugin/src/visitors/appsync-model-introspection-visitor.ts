@@ -148,7 +148,7 @@ export class AppSyncModelIntrospectionVisitor<
     return {
       isCustomPrimaryKey: primaryKeyType === CodeGenPrimaryKeyType.CustomId,
       primaryKeyFieldName: this.getFieldName(primaryKeyField),
-      sortKeyFieldNames:[...sortKeyFields.map(field => this.getFieldName(field))]
+      sortKeyFieldNames: sortKeyFields.map(field => this.getFieldName(field))
     };
   }
 }
