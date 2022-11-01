@@ -55,12 +55,16 @@
                 },
                 "syncable": {
                     "type": "boolean"
+                },
+                "primaryKeyInfo": {
+                    "$ref": "#/definitions/PrimaryKeyInfo"
                 }
             },
             "required": [
                 "name",
                 "fields",
-                "pluralName"
+                "pluralName",
+                "primaryKeyInfo"
             ],
             "additionalProperties": false
         },
@@ -312,6 +316,29 @@
                 "connectionType",
                 "targetNames"
             ]
+        },
+        "PrimaryKeyInfo": {
+            "type": "object",
+            "properties": {
+                "isCustomPrimaryKey": {
+                    "type": "boolean"
+                },
+                "primaryKeyFieldName": {
+                    "type": "string"
+                },
+                "sortKeyFieldNames": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "isCustomPrimaryKey",
+                "primaryKeyFieldName",
+                "sortKeyFieldNames"
+            ],
+            "additionalProperties": false
         },
         "SchemaNonModels": {
             "$ref": "#/definitions/Record%3Cstring%2CSchemaNonModel%3E"

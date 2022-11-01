@@ -1,9 +1,9 @@
 import { DEFAULT_SCALARS, NormalizedScalarsMap } from "@graphql-codegen/visitor-plugin-common";
 import { GraphQLSchema } from "graphql";
-import { AssociationType, Field, Fields, FieldType, ModelAttribute, ModelIntrospectionSchema, SchemaEnum, SchemaModel, SchemaNonModel } from "../interfaces/introspection";
+import { AssociationType, Field, Fields, FieldType, ModelAttribute, ModelIntrospectionSchema, PrimaryKeyInfo, SchemaEnum, SchemaModel, SchemaNonModel } from "../interfaces/introspection";
 import { METADATA_SCALAR_MAP } from "../scalars";
 import { CodeGenConnectionType } from "../utils/process-connections";
-import { RawAppSyncModelConfig, ParsedAppSyncModelConfig, AppSyncModelVisitor, CodeGenEnum, CodeGenField, CodeGenModel } from "./appsync-visitor";
+import { RawAppSyncModelConfig, ParsedAppSyncModelConfig, AppSyncModelVisitor, CodeGenEnum, CodeGenField, CodeGenModel, CodeGenPrimaryKeyType } from "./appsync-visitor";
 import fs from 'fs';
 import path from 'path';
 import Ajv from 'ajv';
@@ -85,6 +85,7 @@ export class AppSyncModelIntrospectionVisitor<
       syncable: true,
       pluralName: this.pluralizeModelName(model),
       attributes: this.generateModelAttributes(model),
+      primaryKeyInfo: this.generateModelPrimaryKeyInfo(model),
     };
   }
 
@@ -139,5 +140,15 @@ export class AppSyncModelIntrospectionVisitor<
       return { model: gqlType };
     }
     throw new Error(`Unknown type ${gqlType}`);
+  }
+
+  private generateModelPrimaryKeyInfo(model: CodeGenModel): PrimaryKeyInfo {
+    const primaryKeyField = this.getModelPrimaryKeyField(model);
+    const { primaryKeyType, sortKeyFields } = primaryKeyField.primaryKeyInfo!;
+    return {
+      isCustomPrimaryKey: primaryKeyType === CodeGenPrimaryKeyType.CustomId,
+      primaryKeyFieldName: this.getFieldName(primaryKeyField),
+      sortKeyFieldNames: sortKeyFields.map(field => this.getFieldName(field))
+    };
   }
 }
