@@ -46,10 +46,10 @@ export class AppSyncModelJavascriptVisitor<
     // TODO: Remove us, leaving in to be explicit on why this flag is here.
     const shouldUseModelNameFieldInHasManyAndBelongsTo = false;
     // This flag is going to be used to tight-trigger on JS implementations only.
-    const shouldImputeKeyForUnidirectionalHasMany = true;
+    const shouldImputeKeyForUniDirectionalHasMany = true;
     this.processDirectives(
       shouldUseModelNameFieldInHasManyAndBelongsTo,
-      shouldImputeKeyForUnidirectionalHasMany
+      shouldImputeKeyForUniDirectionalHasMany
     );
 
     if (this._parsedConfig.isDeclaration) {

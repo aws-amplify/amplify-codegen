@@ -176,25 +176,30 @@ function doesHasManyConnectionHaveCorrespondingBelongsTo(model: CodeGenModel, ha
 }
 
 /**
- * Look through the connectedModel, and look for a field with the name of the first associated field, with an index on it.
+ * Couple of helper types to make the filtering logic below more concise.
  */
-function doesHasManyConnectionHaveCorrespondingIndex(hasManyConnection: CodeGenFieldConnectionHasMany): boolean {
-  const associatedPartitionFieldName = getConnectionAssociatedFields(hasManyConnection)[0].name;
+type FieldFilter = (f: CodeGenField) => boolean;
+type DirectiveFiter = (d: CodeGenDirective) => boolean;
 
-  const connectedModelPartitionField = hasManyConnection.connectedModel.fields.find(f => f.name === associatedPartitionFieldName);
-  if (!connectedModelPartitionField) {
-    return false;
-  }
-  return connectedModelPartitionField.directives.some(d => d.name === TransformerV2DirectiveName.INDEX);
+/**
+ * This is a bit backwards, but we need to check if this connection directive specifies an index.
+ */
+function doesHasManySpecifyIndexName(model: CodeGenModel, hasManyConnection: CodeGenFieldConnectionHasMany): boolean {
+  const directiveIsHasMany: DirectiveFiter = (d) => d.name === TransformerV2DirectiveName.HAS_MANY;
+  const directiveHasIndexName: DirectiveFiter = (d) => d.arguments.indexName;
+  const fieldHasHasManyDirectiveWithIndex: FieldFilter = (f) => f.directives.some(d => directiveIsHasMany(d) && directiveHasIndexName(d));
+  const fieldMatchesConnectedModelName: FieldFilter = (f) => f.type === hasManyConnection.connectedModel.name;
+  return model.fields.some(f => fieldMatchesConnectedModelName(f) && fieldHasHasManyDirectiveWithIndex(f));
 }
 
 /**
  * Return whether or not a hasMany connection has an implicit key defined.
+ * This is determined if there is a belongsTo directive on the connected model, or if there is an index defined on the directive.
  */
 export function hasManyHasImplicitKey(model: CodeGenModel, hasManyConnection: CodeGenFieldConnectionHasMany): boolean {
   const hasCorrespondingBelongsTo = doesHasManyConnectionHaveCorrespondingBelongsTo(model, hasManyConnection);
-  const hasCorrespondingIndex = doesHasManyConnectionHaveCorrespondingIndex(hasManyConnection);
-  return !(hasCorrespondingBelongsTo || hasCorrespondingIndex);
+  const hasIndexNameSpecified = doesHasManySpecifyIndexName(model, hasManyConnection);
+  return !(hasCorrespondingBelongsTo || hasIndexNameSpecified);
 }
 
 /**

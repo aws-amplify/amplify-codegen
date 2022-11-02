@@ -30,10 +30,10 @@ export class AppSyncModelIntrospectionVisitor<
   generate(): string {
     const shouldUseModelNameFieldInHasManyAndBelongsTo = false;
     // This flag is going to be used to tight-trigger on JS implementations only.
-    const shouldImputeKeyForUnidirectionalHasMany = true;
+    const shouldImputeKeyForUniDirectionalHasMany = true;
     this.processDirectives(
       shouldUseModelNameFieldInHasManyAndBelongsTo,
-      shouldImputeKeyForUnidirectionalHasMany
+      shouldImputeKeyForUniDirectionalHasMany
     );
 
     const modelIntrosepctionSchema = this.generateModelIntrospectionSchema();
