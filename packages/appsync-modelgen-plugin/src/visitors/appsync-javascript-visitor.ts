@@ -45,7 +45,13 @@ export class AppSyncModelJavascriptVisitor<
   generate(): string {
     // TODO: Remove us, leaving in to be explicit on why this flag is here.
     const shouldUseModelNameFieldInHasManyAndBelongsTo = false;
-    this.processDirectives(shouldUseModelNameFieldInHasManyAndBelongsTo);
+    // This flag is going to be used to tight-trigger on JS implementations only.
+    const shouldImputeKeyForUnidirectionalHasMany = true;
+    this.processDirectives(
+      shouldUseModelNameFieldInHasManyAndBelongsTo,
+      shouldImputeKeyForUnidirectionalHasMany
+    );
+
     if (this._parsedConfig.isDeclaration) {
       const enumDeclarations = Object.values(this.enumMap)
         .map(enumObj => this.generateEnumDeclarations(enumObj, true))

@@ -7,6 +7,7 @@ import {
   CodeGenFieldConnection,
   makeConnectionAttributeName,
   flattenFieldDirectives,
+  CodeGenFieldConnectionHasMany,
 } from './process-connections';
 import { getConnectedFieldV2 } from './process-connections-v2';
 
@@ -133,4 +134,35 @@ export function getConnectedFieldsForHasMany(
         isNullable: true,
       }
     });
+}
+
+/**
+ * Helper to add a key directive to a given model.
+ */
+ function addKeyToModel(model: CodeGenModel, name: string, fields: string[]): void {
+  model.directives.push({
+    name: 'key',
+    arguments: {
+      name,
+      fields,
+    },
+  });
+}
+
+/**
+ * Return whether or not a hasMany connection has an implicit key defined.
+ */
+export function hasManyHasImplicitKey(hasManyConnection: CodeGenFieldConnectionHasMany): boolean {
+  return true;
+}
+
+/**
+ * Extract the name and list of keys from the connection information, and add the key to
+ * the related model.
+ */
+export function addHasManyKey(hasManyConnection: CodeGenFieldConnectionHasMany): void {
+  const model = hasManyConnection.connectedModel;
+  const name = 'byFoo';
+  const fields = ['fooBarsId'];
+  addKeyToModel(model, name, fields);
 }

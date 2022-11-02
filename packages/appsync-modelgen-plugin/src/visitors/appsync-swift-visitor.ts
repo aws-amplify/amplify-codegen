@@ -60,7 +60,12 @@ export class AppSyncSwiftVisitor<
   generate(): string {
     // TODO: Remove us, leaving in to be explicit on why this flag is here.
     const shouldUseModelNameFieldInHasManyAndBelongsTo = true;
-    this.processDirectives(shouldUseModelNameFieldInHasManyAndBelongsTo);
+    // This flag is going to be used to tight-trigger on JS implementations only.
+    const shouldImputeKeyForUnidirectionalHasMany = false;
+    this.processDirectives(
+      shouldUseModelNameFieldInHasManyAndBelongsTo,
+      shouldImputeKeyForUnidirectionalHasMany
+    );
 
     const code = [`// swiftlint:disable all`];
     if (this._parsedConfig.generate === CodeGenGenerateEnum.metadata) {
