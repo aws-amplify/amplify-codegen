@@ -151,15 +151,6 @@ exports[`Metadata visitor for custom PK support relation metadata for hasMany & 
                             \\"content\\"
                         ]
                     }
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"name\\": \\"byFoo\\",
-                        \\"fields\\": [
-                            \\"fooBarsId\\"
-                        ]
-                    }
                 }
             ]
         },
@@ -318,15 +309,6 @@ exports[`Metadata visitor for custom PK support relation metadata for hasMany & 
                         \\"fields\\": [
                             \\"postId\\",
                             \\"postTitle\\"
-                        ]
-                    }
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"name\\": \\"byFoo\\",
-                        \\"fields\\": [
-                            \\"fooBarsId\\"
                         ]
                     }
                 }
@@ -493,15 +475,6 @@ export const schema: Schema = {
                             \\"content\\"
                         ]
                     }
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"name\\": \\"byFoo\\",
-                        \\"fields\\": [
-                            \\"fooBarsId\\"
-                        ]
-                    }
                 }
             ]
         },
@@ -662,15 +635,6 @@ export const schema: Schema = {
                             \\"postTitle\\"
                         ]
                     }
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"name\\": \\"byFoo\\",
-                        \\"fields\\": [
-                            \\"fooBarsId\\"
-                        ]
-                    }
                 }
             ]
         }
@@ -821,9 +785,10 @@ exports[`Metadata visitor for custom PK support relation metadata for hasMany un
                 {
                     \\"type\\": \\"key\\",
                     \\"properties\\": {
-                        \\"name\\": \\"byFoo\\",
+                        \\"name\\": \\"gsi-Comment.postCommentsId\\",
                         \\"fields\\": [
-                            \\"fooBarsId\\"
+                            \\"postCommentsId\\",
+                            \\"postCommentsTitle\\"
                         ]
                     }
                 }
@@ -968,15 +933,6 @@ exports[`Metadata visitor for custom PK support relation metadata for hasMany un
                         \\"fields\\": [
                             \\"postId\\",
                             \\"postTitle\\"
-                        ]
-                    }
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"name\\": \\"byFoo\\",
-                        \\"fields\\": [
-                            \\"fooBarsId\\"
                         ]
                     }
                 }
@@ -1131,9 +1087,10 @@ export const schema: Schema = {
                 {
                     \\"type\\": \\"key\\",
                     \\"properties\\": {
-                        \\"name\\": \\"byFoo\\",
+                        \\"name\\": \\"gsi-Comment.postCommentsId\\",
                         \\"fields\\": [
-                            \\"fooBarsId\\"
+                            \\"postCommentsId\\",
+                            \\"postCommentsTitle\\"
                         ]
                     }
                 }
@@ -1278,15 +1235,6 @@ export const schema: Schema = {
                         \\"fields\\": [
                             \\"postId\\",
                             \\"postTitle\\"
-                        ]
-                    }
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"name\\": \\"byFoo\\",
-                        \\"fields\\": [
-                            \\"fooBarsId\\"
                         ]
                     }
                 }
@@ -1917,24 +1865,6 @@ exports[`Metadata visitor for custom PK support relation metadata for manyToMany
                             \\"taglabel\\"
                         ]
                     }
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"name\\": \\"byFoo\\",
-                        \\"fields\\": [
-                            \\"fooBarsId\\"
-                        ]
-                    }
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"name\\": \\"byFoo\\",
-                        \\"fields\\": [
-                            \\"fooBarsId\\"
-                        ]
-                    }
                 }
             ]
         }
@@ -2205,24 +2135,6 @@ export const schema: Schema = {
                         \\"fields\\": [
                             \\"tagCustomTagId\\",
                             \\"taglabel\\"
-                        ]
-                    }
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"name\\": \\"byFoo\\",
-                        \\"fields\\": [
-                            \\"fooBarsId\\"
-                        ]
-                    }
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"name\\": \\"byFoo\\",
-                        \\"fields\\": [
-                            \\"fooBarsId\\"
                         ]
                     }
                 }

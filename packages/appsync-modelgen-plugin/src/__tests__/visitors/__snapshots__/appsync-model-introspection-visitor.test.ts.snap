@@ -825,15 +825,6 @@ exports[`Custom primary key tests should generate correct model intropection fil
                             \\"content\\"
                         ]
                     }
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"name\\": \\"byFoo\\",
-                        \\"fields\\": [
-                            \\"fooBarsId\\"
-                        ]
-                    }
                 }
             ],
             \\"primaryKeyInfo\\": {
@@ -987,9 +978,10 @@ exports[`Custom primary key tests should generate correct model intropection fil
                 {
                     \\"type\\": \\"key\\",
                     \\"properties\\": {
-                        \\"name\\": \\"byFoo\\",
+                        \\"name\\": \\"gsi-Comment2.post2CommentsPostId\\",
                         \\"fields\\": [
-                            \\"fooBarsId\\"
+                            \\"post2CommentsPostId\\",
+                            \\"post2CommentsTitle\\"
                         ]
                     }
                 }
@@ -1166,15 +1158,6 @@ exports[`Custom primary key tests should generate correct model intropection fil
                             \\"postTitle\\"
                         ]
                     }
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"name\\": \\"byFoo\\",
-                        \\"fields\\": [
-                            \\"fooBarsId\\"
-                        ]
-                    }
                 }
             ],
             \\"primaryKeyInfo\\": {
@@ -1331,15 +1314,6 @@ exports[`Custom primary key tests should generate correct model intropection fil
                         \\"fields\\": [
                             \\"postId\\",
                             \\"postTitle\\"
-                        ]
-                    }
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"name\\": \\"byFoo\\",
-                        \\"fields\\": [
-                            \\"fooBarsId\\"
                         ]
                     }
                 }
@@ -1622,24 +1596,6 @@ exports[`Custom primary key tests should generate correct model intropection fil
                             \\"taglabel\\"
                         ]
                     }
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"name\\": \\"byFoo\\",
-                        \\"fields\\": [
-                            \\"fooBarsId\\"
-                        ]
-                    }
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"name\\": \\"byFoo\\",
-                        \\"fields\\": [
-                            \\"fooBarsId\\"
-                        ]
-                    }
                 }
             ],
             \\"primaryKeyInfo\\": {
@@ -1802,15 +1758,6 @@ exports[`Model Introspection Visitor Metadata snapshot should generate correct m
                 {
                     \\"type\\": \\"model\\",
                     \\"properties\\": {}
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"name\\": \\"byFoo\\",
-                        \\"fields\\": [
-                            \\"fooBarsId\\"
-                        ]
-                    }
                 }
             ],
             \\"primaryKeyInfo\\": {

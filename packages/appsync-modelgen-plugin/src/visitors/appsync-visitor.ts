@@ -922,7 +922,7 @@ export class AppSyncModelVisitor<
             }
             // Add the key to the connected model if it's not explicitly defined
             //   (either via @index or @belongsTo)
-            if (shouldImputeKeyForUnidirectionalHasMany && hasManyHasImplicitKey(connectionInfo)) {
+            if (shouldImputeKeyForUnidirectionalHasMany && hasManyHasImplicitKey(model, connectionInfo)) {
               addHasManyKey(connectionInfo);
             }
           } else if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
