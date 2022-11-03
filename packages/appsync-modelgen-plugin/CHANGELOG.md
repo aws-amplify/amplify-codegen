@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.2.2...@aws-amplify/appsync-modelgen-plugin@2.3.0) (2022-11-03)
+
+
+### Bug Fixes
+
+* addressing missing key for unidirectional [@has](https://github.com/has)Many on JS ([#507](https://github.com/aws-amplify/amplify-codegen/issues/507)) ([51fd6de](https://github.com/aws-amplify/amplify-codegen/commit/51fd6dea1193bc67cce3167dd972d589c82b63b2))
+
+
+### Features
+
+* **introspection:** add primary key info in model schema ([#503](https://github.com/aws-amplify/amplify-codegen/issues/503)) ([82b6625](https://github.com/aws-amplify/amplify-codegen/commit/82b662523965b9ae73ef5d6f5f2c4c9ab7a12ba3))
+
+
+
+
+
 ## [2.2.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.2.1...@aws-amplify/appsync-modelgen-plugin@2.2.2) (2022-10-25)
 
 
