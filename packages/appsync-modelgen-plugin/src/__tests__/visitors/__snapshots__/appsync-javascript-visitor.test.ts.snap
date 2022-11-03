@@ -146,6 +146,78 @@ export declare const Comment: (new (init: ModelInit<Comment>) => Comment) & {
 }"
 `;
 
+exports[`Javascript visitor with connected models of custom pk hasMany/belongsTo relation should generate correct declaration for hasMany uni-connection model with custom index 1`] = `
+"import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
+// @ts-ignore
+import { LazyLoading, LazyLoadingDisabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+
+
+
+
+
+type EagerPost = {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Post, ['id', 'title']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly title: string;
+  readonly comments?: (Comment | null)[] | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyPost = {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Post, ['id', 'title']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly title: string;
+  readonly comments: AsyncCollection<Comment>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Post = LazyLoading extends LazyLoadingDisabled ? EagerPost : LazyPost
+
+export declare const Post: (new (init: ModelInit<Post>) => Post) & {
+  copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+}
+
+type EagerComment = {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Comment, ['id', 'content']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly content: string;
+  readonly thePostId?: string | null;
+  readonly thePostTitle?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyComment = {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Comment, ['id', 'content']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly content: string;
+  readonly thePostId?: string | null;
+  readonly thePostTitle?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Comment = LazyLoading extends LazyLoadingDisabled ? EagerComment : LazyComment
+
+export declare const Comment: (new (init: ModelInit<Comment>) => Comment) & {
+  copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
+}"
+`;
+
 exports[`Javascript visitor with connected models of custom pk hasOne/belongsTo relation should generate correct declaration when custom pk support is enabled 1`] = `
 "import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
 // @ts-ignore

@@ -176,29 +176,19 @@ function doesHasManyConnectionHaveCorrespondingBelongsTo(model: CodeGenModel, ha
 }
 
 /**
- * Couple of helper types to make the filtering logic below more concise.
- */
-type FieldFilter = (f: CodeGenField) => boolean;
-type DirectiveFiter = (d: CodeGenDirective) => boolean;
-
-/**
  * This is a bit backwards, but we need to check if this connection directive specifies an index.
  */
-function doesHasManySpecifyIndexName(model: CodeGenModel, hasManyConnection: CodeGenFieldConnectionHasMany): boolean {
-  const directiveIsHasMany: DirectiveFiter = (d) => d.name === TransformerV2DirectiveName.HAS_MANY;
-  const directiveHasIndexName: DirectiveFiter = (d) => d.arguments.indexName;
-  const fieldHasHasManyDirectiveWithIndex: FieldFilter = (f) => f.directives.some(d => directiveIsHasMany(d) && directiveHasIndexName(d));
-  const fieldMatchesConnectedModelName: FieldFilter = (f) => f.type === hasManyConnection.connectedModel.name;
-  return model.fields.some(f => fieldMatchesConnectedModelName(f) && fieldHasHasManyDirectiveWithIndex(f));
+function doesHasManySpecifyIndexName(field: CodeGenField): boolean {
+  return field.directives.some(d => d.name === TransformerV2DirectiveName.HAS_MANY && d.arguments.indexName);
 }
 
 /**
  * Return whether or not a hasMany connection has an implicit key defined.
  * This is determined if there is a belongsTo directive on the connected model, or if there is an index defined on the directive.
  */
-export function hasManyHasImplicitKey(model: CodeGenModel, hasManyConnection: CodeGenFieldConnectionHasMany): boolean {
+export function hasManyHasImplicitKey(field: CodeGenField, model: CodeGenModel, hasManyConnection: CodeGenFieldConnectionHasMany): boolean {
   const hasCorrespondingBelongsTo = doesHasManyConnectionHaveCorrespondingBelongsTo(model, hasManyConnection);
-  const hasIndexNameSpecified = doesHasManySpecifyIndexName(model, hasManyConnection);
+  const hasIndexNameSpecified = doesHasManySpecifyIndexName(field);
   return !(hasCorrespondingBelongsTo || hasIndexNameSpecified);
 }
 

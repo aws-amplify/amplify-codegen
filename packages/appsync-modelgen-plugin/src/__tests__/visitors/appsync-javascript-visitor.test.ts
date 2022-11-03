@@ -1194,6 +1194,30 @@ describe('Javascript visitor with connected models of custom pk', () => {
       validateTs(declarations);
       expect(declarations).toMatchSnapshot();
     });
+    it('should generate correct declaration for hasMany uni-connection model with custom index', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          id: ID! @primaryKey(sortKeyFields: ["title"])
+          title: String!
+          comments: [Comment] @hasMany(indexName: "byCommentIds", fields: ["id", "title"])
+        }
+        type Comment @model {
+          id: ID! @primaryKey(sortKeyFields: ["content"])
+          content: String!
+          thePostId: ID @index(name: "byCommentIds", sortKeyFields: ["thePostTitle"])
+          thePostTitle: String
+        }
+      `;
+      const visitor = getVisitor(schema, {
+        isDeclaration: true,
+        isTimestampFieldsAdded: true,
+        respectPrimaryKeyAttributesOnConnectionField: true,
+        transformerVersion: 2,
+      });
+      const declarations = visitor.generate();
+      validateTs(declarations);
+      expect(declarations).toMatchSnapshot();
+    });
     it('should generate correct declaration for hasMany bi-connection model when custom pk support is enabled', () => {
       const schema = /* GraphQL */ `
         type Post @model {
