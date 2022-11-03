@@ -71,7 +71,7 @@ describe('hasManyHasImplicitKey', () => {
       associatedWith: associationField,
       associatedWithFields: [associationField],
     };
-    expect(hasManyHasImplicitKey(hasManyField, fooModel, connection)).toBeTruthy();
+    expect(hasManyHasImplicitKey(hasManyField, fooModel, connection)).toEqual(true);
   });
 
   it('returns false for implicit primary key with belongsTo', () => {
@@ -150,7 +150,7 @@ describe('hasManyHasImplicitKey', () => {
       associatedWith: associationField,
       associatedWithFields: [associationField],
     };
-    expect(hasManyHasImplicitKey(hasManyField, fooModel, connection)).toBeFalsy();
+    expect(hasManyHasImplicitKey(hasManyField, fooModel, connection)).toEqual(false);
   });
 
   it('returns false for explicit index and id', () => {
@@ -228,7 +228,7 @@ describe('hasManyHasImplicitKey', () => {
       associatedWith: associationField,
       associatedWithFields: [associationField],
     };
-    expect(hasManyHasImplicitKey(hasManyField, fooModel, connection)).toBeFalsy();
+    expect(hasManyHasImplicitKey(hasManyField, fooModel, connection)).toEqual(false);
   });
 });
 
@@ -246,6 +246,29 @@ describe('addHasManyKey', () => {
      *   id: ID!
      * }
      */
+    const fooModel: CodeGenModel = {
+      name: 'Foo',
+      type: 'model',
+      directives: [
+        { name: 'model', arguments: {} },
+      ],
+      fields: [
+        {
+          name: 'id',
+          type: 'ID',
+          isList: false,
+          isNullable: false,
+          directives: [],
+        },
+        {
+          name: 'bar',
+          type: 'Bar',
+          isList: true,
+          isNullable: true,
+          directives: [{ name: 'hasMany', arguments: {} }],
+        },
+      ],
+    };
     const associationField: CodeGenField = {
       name: 'fooBarsId',
       type: 'ID',
@@ -269,7 +292,7 @@ describe('addHasManyKey', () => {
         },
         associationField,
       ],
-    }
+    };
     const connection: CodeGenFieldConnectionHasMany = {
       kind: CodeGenConnectionType.HAS_MANY,
       connectedModel: barModel,
@@ -277,9 +300,9 @@ describe('addHasManyKey', () => {
       associatedWith: associationField,
       associatedWithFields: [associationField],
     };
-    const expectedKeyDirective = { name: 'key', arguments: { name: 'gsi-Bar.fooBarsId', fields: ['fooBarsId'] } };
+    const expectedKeyDirective = { name: 'key', arguments: { name: 'gsi-Foo.fooBarsId', fields: ['fooBarsId'] } };
 
-    addHasManyKey(connection);
+    addHasManyKey(fooModel, connection);
     expect(barModel.directives).toEqual(expect.arrayContaining([expectedKeyDirective]));
   });
 
@@ -297,6 +320,36 @@ describe('addHasManyKey', () => {
      *   id: ID!
      * }
      */
+     const fooModel: CodeGenModel = {
+      name: 'Foo',
+      type: 'model',
+      directives: [
+        { name: 'model', arguments: {} },
+      ],
+      fields: [
+        {
+          name: 'id',
+          type: 'String',
+          isList: false,
+          isNullable: false,
+          directives: [{ name: 'primaryKey', arguments: { sortKeyFields: ['warehouseId'] } }],
+        },
+        {
+          name: 'warehouseId',
+          type: 'ID',
+          isList: false,
+          isNullable: false,
+          directives: [],
+        },
+        {
+          name: 'bar',
+          type: 'Bar',
+          isList: true,
+          isNullable: true,
+          directives: [{ name: 'hasMany', arguments: {} }],
+        },
+      ],
+    };
     const associationFieldPartitionKey: CodeGenField = {
       name: 'fooBarsId',
       type: 'ID',
@@ -336,13 +389,36 @@ describe('addHasManyKey', () => {
       associatedWith: associationFieldPartitionKey,
       associatedWithFields: [associationFieldPartitionKey, associationFieldSortKey],
     };
-    const expectedKeyDirective = { name: 'key', arguments: { name: 'gsi-Bar.fooBarsId', fields: ['fooBarsId', 'fooBarsWarehouseId'] } };
+    const expectedKeyDirective = { name: 'key', arguments: { name: 'gsi-Foo.fooBarsId', fields: ['fooBarsId', 'fooBarsWarehouseId'] } };
 
-    addHasManyKey(connection);
+    addHasManyKey(fooModel, connection);
     expect(barModel.directives).toEqual(expect.arrayContaining([expectedKeyDirective]));
   });
 
-  it('works with non-cpk fallback connection', () => {
+  it('works with non-cpk fallback connection for empty list', () => {
+    const fooModel: CodeGenModel = {
+      name: 'Foo',
+      type: 'model',
+      directives: [
+        { name: 'model', arguments: {} },
+      ],
+      fields: [
+        {
+          name: 'id',
+          type: 'ID',
+          isList: false,
+          isNullable: false,
+          directives: [],
+        },
+        {
+          name: 'bar',
+          type: 'Bar',
+          isList: true,
+          isNullable: true,
+          directives: [{ name: 'hasMany', arguments: {} }],
+        },
+      ],
+    };
     const associationField: CodeGenField = {
       name: 'fooBarsId',
       type: 'ID',
@@ -374,9 +450,70 @@ describe('addHasManyKey', () => {
       associatedWith: associationField,
       associatedWithFields: [],
     };
-    const expectedKeyDirective = { name: 'key', arguments: { name: 'gsi-Bar.fooBarsId', fields: ['fooBarsId'] } };
+    const expectedKeyDirective = { name: 'key', arguments: { name: 'gsi-Foo.fooBarsId', fields: ['fooBarsId'] } };
 
-    addHasManyKey(connection);
+    addHasManyKey(fooModel, connection);
+    expect(barModel.directives).toEqual(expect.arrayContaining([expectedKeyDirective]));
+  });
+
+  it('works with non-cpk fallback connection for null assocatedWithFields', () => {
+    const fooModel: CodeGenModel = {
+      name: 'Foo',
+      type: 'model',
+      directives: [
+        { name: 'model', arguments: {} },
+      ],
+      fields: [
+        {
+          name: 'id',
+          type: 'ID',
+          isList: false,
+          isNullable: false,
+          directives: [],
+        },
+        {
+          name: 'bar',
+          type: 'Bar',
+          isList: true,
+          isNullable: true,
+          directives: [{ name: 'hasMany', arguments: {} }],
+        },
+      ],
+    };
+    const associationField: CodeGenField = {
+      name: 'fooBarsId',
+      type: 'ID',
+      isList: false,
+      isNullable: true,
+      directives: [],
+    };
+    const barModel: CodeGenModel = {
+      name: 'Bar',
+      type: 'model',
+      directives: [
+        { name: 'model', arguments: {} },
+      ],
+      fields: [
+        {
+          name: 'id',
+          type: 'ID',
+          isList: false,
+          isNullable: false,
+          directives: [],
+        },
+        associationField,
+      ],
+    }
+    const connection: CodeGenFieldConnectionHasMany = {
+      kind: CodeGenConnectionType.HAS_MANY,
+      connectedModel: barModel,
+      isConnectingFieldAutoCreated: true,
+      associatedWith: associationField,
+      associatedWithFields: null,
+    } as any;
+    const expectedKeyDirective = { name: 'key', arguments: { name: 'gsi-Foo.fooBarsId', fields: ['fooBarsId'] } };
+
+    addHasManyKey(fooModel, connection);
     expect(barModel.directives).toEqual(expect.arrayContaining([expectedKeyDirective]));
   });
 });

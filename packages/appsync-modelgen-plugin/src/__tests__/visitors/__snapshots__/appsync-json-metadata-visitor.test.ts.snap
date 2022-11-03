@@ -130,7 +130,7 @@ exports[`Metadata visitor for custom PK support HasMany without corresponding be
                 {
                     \\"type\\": \\"key\\",
                     \\"properties\\": {
-                        \\"name\\": \\"gsi-Team.projectTeamsId\\",
+                        \\"name\\": \\"gsi-Project.projectTeamsId\\",
                         \\"fields\\": [
                             \\"projectTeamsId\\",
                             \\"projectTeamsName\\"
@@ -260,7 +260,7 @@ exports[`Metadata visitor for custom PK support HasMany without corresponding be
                 {
                     \\"type\\": \\"key\\",
                     \\"properties\\": {
-                        \\"name\\": \\"gsi-Team.projectTeamsId\\",
+                        \\"name\\": \\"gsi-Project.projectTeamsId\\",
                         \\"fields\\": [
                             \\"projectTeamsId\\"
                         ]
@@ -1727,7 +1727,7 @@ exports[`relation metadata for hasMany uni when custom PK is enabled should gene
                 {
                     \\"type\\": \\"key\\",
                     \\"properties\\": {
-                        \\"name\\": \\"gsi-Comment.postCommentsId\\",
+                        \\"name\\": \\"gsi-Post.postCommentsId\\",
                         \\"fields\\": [
                             \\"postCommentsId\\",
                             \\"postCommentsTitle\\"
@@ -2029,7 +2029,7 @@ export const schema: Schema = {
                 {
                     \\"type\\": \\"key\\",
                     \\"properties\\": {
-                        \\"name\\": \\"gsi-Comment.postCommentsId\\",
+                        \\"name\\": \\"gsi-Post.postCommentsId\\",
                         \\"fields\\": [
                             \\"postCommentsId\\",
                             \\"postCommentsTitle\\"
