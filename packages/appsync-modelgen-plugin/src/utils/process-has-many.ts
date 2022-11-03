@@ -196,11 +196,11 @@ export function hasManyHasImplicitKey(field: CodeGenField, model: CodeGenModel, 
  * Extract the name and list of keys from the connection information, and add the key to
  * the related model.
  */
-export function addHasManyKey(model: CodeGenModel, hasManyConnection: CodeGenFieldConnectionHasMany): void {
+export function addHasManyKey(field: CodeGenField, model: CodeGenModel, hasManyConnection: CodeGenFieldConnectionHasMany): void {
   const associatedFieldNames = getConnectionAssociatedFields(hasManyConnection).map(f => f.name);
   const connectedModel = hasManyConnection.connectedModel;
   // Applying consistent auto-naming as the transformer does today
   // https://github.com/aws-amplify/amplify-category-api/blob/main/packages/amplify-graphql-relational-transformer/src/resolvers.ts#L334-L396
-  const name = `gsi-${model.name}.${associatedFieldNames[0]}`;
+  const name = `gsi-${model.name}.${field.name}`;
   addKeyToModel(connectedModel, name, associatedFieldNames);
 }
