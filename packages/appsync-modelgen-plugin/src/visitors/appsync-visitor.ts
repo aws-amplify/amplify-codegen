@@ -32,6 +32,7 @@ import { graphqlName, toUpper } from 'graphql-transformer-common';
 import { processPrimaryKey } from '../utils/process-primary-key';
 import { processIndex } from '../utils/process-index';
 import { DEFAULT_HASH_KEY_FIELD, DEFAULT_CREATED_TIME, DEFAULT_UPDATED_TIME } from '../utils/constants';
+import { hasManyHasImplicitKey, addHasManyKey } from '../utils/process-has-many';
 
 export enum CodeGenGenerateEnum {
   metadata = 'metadata',
@@ -53,7 +54,7 @@ export interface RawAppSyncModelConfig extends RawConfig {
    *  plugins:
    *    - amplify-codegen-appsync-model-plugin
    * ```
-   * target: 'swift'| 'javascript'| 'typescript' | 'java' | 'metadata' | 'dart'
+   * target: 'swift'| 'javascript'| 'typescript' | 'java' | 'metadata' | 'dart' | 'introspection'
    */
   target: string;
 
@@ -276,7 +277,7 @@ export class AppSyncModelVisitor<
         directives,
         fields,
       };
-      if (this.config.respectPrimaryKeyAttributesOnConnectionField) {
+      if (this.config.respectPrimaryKeyAttributesOnConnectionField || this.config.target === 'introspection') {
         this.ensurePrimaryKeyField(model, directives);
       } else {
         this.ensureIdField(model);
@@ -325,10 +326,15 @@ export class AppSyncModelVisitor<
   processDirectives(
     // TODO: Remove us when we have a fix to roll-forward.
     shouldUseModelNameFieldInHasManyAndBelongsTo: boolean,
+    // This flag is going to be used to tight-trigger on JS implementations only.
+    shouldImputeKeyForUniDirectionalHasMany: boolean,
   ) {
     if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
       this.processV2KeyDirectives();
-      this.processConnectionDirectivesV2(shouldUseModelNameFieldInHasManyAndBelongsTo);
+      this.processConnectionDirectivesV2(
+        shouldUseModelNameFieldInHasManyAndBelongsTo,
+        shouldImputeKeyForUniDirectionalHasMany
+      );
     } else {
       this.processConnectionDirective();
     }
@@ -337,7 +343,9 @@ export class AppSyncModelVisitor<
   generate(): string {
     // TODO: Remove me, leaving in to be explicit on why this flag is here.
     const shouldUseModelNameFieldInHasManyAndBelongsTo = false;
-    this.processDirectives(shouldUseModelNameFieldInHasManyAndBelongsTo);
+    // TODO: Remove me, leaving in to be explicit on why this flag is here.
+    const shouldImputeKeyForUniDirectionalHasMany = false;
+    this.processDirectives(shouldUseModelNameFieldInHasManyAndBelongsTo, shouldImputeKeyForUniDirectionalHasMany);
     return '';
   }
 
@@ -888,6 +896,8 @@ export class AppSyncModelVisitor<
   protected processConnectionDirectivesV2(
     // TODO: Remove us when we have a fix to roll-forward.
     shouldUseModelNameFieldInHasManyAndBelongsTo: boolean,
+    // This flag is going to be used to tight-trigger on JS implementations only.
+    shouldImputeKeyForUniDirectionalHasMany: boolean,
   ): void {
     this.processManyToManyDirectives();
 
@@ -909,6 +919,11 @@ export class AppSyncModelVisitor<
               connectionInfo.associatedWithFields.forEach(associateField => addFieldToModel(connectionInfo.connectedModel, associateField));
             } else {
               addFieldToModel(connectionInfo.connectedModel, connectionInfo.associatedWith);
+            }
+            // Add the key to the connected model if it's not explicitly defined
+            //   (either via @index or @belongsTo)
+            if (shouldImputeKeyForUniDirectionalHasMany && hasManyHasImplicitKey(field, model, connectionInfo)) {
+              addHasManyKey(field, model, connectionInfo);
             }
           } else if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
             if (isCustomPKEnabled) {

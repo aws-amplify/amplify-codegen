@@ -20,6 +20,7 @@ export type SchemaModel = {
   fields: Fields;
   pluralName: string;
   syncable?: boolean;
+  primaryKeyInfo: PrimaryKeyInfo;
 };
 export type SchemaNonModel = {
   name: string;
@@ -92,3 +93,9 @@ export type AssociationBelongsTo = AssociationBaseType & {
 export type AssociationType = AssociationHasMany
 | AssociationHasOne
 | AssociationBelongsTo;
+
+export type PrimaryKeyInfo = {
+  isCustomPrimaryKey: boolean;
+  primaryKeyFieldName: string;
+  sortKeyFieldNames: string[];
+};
