@@ -112,7 +112,13 @@ export class AppSyncJSONVisitor<
   generate(): string {
     // TODO: Remove us, leaving in to be explicit on why this flag is here.
     const shouldUseModelNameFieldInHasManyAndBelongsTo = false;
-    this.processDirectives(shouldUseModelNameFieldInHasManyAndBelongsTo);
+    // This flag is going to be used to tight-trigger on JS implementations only.
+    const shouldImputeKeyForUniDirectionalHasMany = true;
+    this.processDirectives(
+      shouldUseModelNameFieldInHasManyAndBelongsTo,
+      shouldImputeKeyForUniDirectionalHasMany
+    );
+
     if (this._parsedConfig.metadataTarget === 'typescript') {
       return this.generateTypeScriptMetadata();
     } else if (this._parsedConfig.metadataTarget === 'javascript') {

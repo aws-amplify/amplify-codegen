@@ -1376,6 +1376,72 @@ describe('Metadata visitor for custom PK support', () => {
       ).toMatchSnapshot();
     });
   });
+  describe('HasMany without corresponding belongsTo', () => {
+    it('generates for implicit pk', () => {
+      const schema = /* GraphQL */ `
+        type Project @model {
+          name: String!
+          teams: [Team] @hasMany
+        }
+        type Team @model {
+          name: String!
+        }
+      `;
+      expect(
+        getVisitor(schema, 'javascript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate(),
+      ).toMatchSnapshot();
+    });
+    it('generates for composite pk', () => {
+      const schema = /* GraphQL */ `
+        type Project @model {
+          id: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          teams: [Team] @hasMany
+        }
+        type Team @model {
+          name: String!
+        }
+      `;
+      expect(
+        getVisitor(schema, 'javascript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate(),
+      ).toMatchSnapshot();
+    });
+  });
+  it('generates with belongsTo', () => {
+    const schema = /* GraphQL */ `
+      type Project @model {
+        id: ID! @primaryKey(sortKeyFields: ["name"])
+        name: String!
+        teams: [Team] @hasMany
+      }
+      type Team @model {
+        name: String!
+        project: Project @belongsTo
+      }
+    `;
+    expect(
+      getVisitor(schema, 'javascript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate(),
+    ).toMatchSnapshot();
+  });
+  it('generates with explicit index', () => {
+    const schema = /* GraphQL */ `
+      type Post @model {
+        id: ID! @primaryKey(sortKeyFields: ["title"])
+        title: String!
+        comments: [Comment] @hasMany(indexName: "byCommentIds", fields: ["id", "title"])
+      }
+      type Comment @model {
+        id: ID! @primaryKey(sortKeyFields: ["content"])
+        content: String!
+        thePostId: ID @index(name: "byCommentIds", sortKeyFields: ["thePostTitle"])
+        thePostTitle: String
+      }
+    `;
+    expect(
+      getVisitor(schema, 'javascript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate(),
+    ).toMatchSnapshot();
+  });
+});
   describe('relation metadata for hasMany uni when custom PK is enabled', () => {
     const schema = /* GraphQL */ `
       type Post @model {

@@ -7,6 +7,7 @@ import {
   CodeGenFieldConnection,
   makeConnectionAttributeName,
   flattenFieldDirectives,
+  CodeGenFieldConnectionHasMany,
 } from './process-connections';
 import { getConnectedFieldV2 } from './process-connections-v2';
 
@@ -133,4 +134,73 @@ export function getConnectedFieldsForHasMany(
         isNullable: true,
       }
     });
+}
+
+/**
+ * Helper to add a key directive to a given model.
+ */
+ function addKeyToModel(model: CodeGenModel, name: string, fields: string[]): void {
+  model.directives.push({
+    name: 'key',
+    arguments: {
+      name,
+      fields,
+    },
+  });
+}
+
+/**
+ * Helper to simplify retrieving either CPK-enabled or standard connection fields.
+ * Returns a list of fields of at least length 1.
+ */
+function getConnectionAssociatedFields(hasManyConnection: CodeGenFieldConnectionHasMany): CodeGenField[] {
+  const associatedFields = hasManyConnection.associatedWithFields && hasManyConnection.associatedWithFields.length > 0
+  ? hasManyConnection.associatedWithFields
+  : [hasManyConnection.associatedWith]
+  if (associatedFields.length === 0) {
+    throw new Error('Expected at least one associated field for the hasMany relationship.');
+  }
+  return associatedFields;
+}
+
+/**
+ * A corresponding belongsTo means that the corresponding model has a field with type that is the name of this model, and with a @belongsTo
+ * directive attached to it.
+ */
+function doesHasManyConnectionHaveCorrespondingBelongsTo(model: CodeGenModel, hasManyConnection: CodeGenFieldConnectionHasMany): boolean {
+  const fieldReferencingParent = hasManyConnection.connectedModel.fields.find(f => f.type === model.name);
+  if (!fieldReferencingParent) {
+    return false;
+  }
+  return fieldReferencingParent.directives.some(d => d.name === TransformerV2DirectiveName.BELONGS_TO);
+}
+
+/**
+ * Check if the @hasMany directive on this field specifies an indexName.
+ */
+function doesHasManySpecifyIndexName(field: CodeGenField): boolean {
+  return field.directives.some(d => d.name === TransformerV2DirectiveName.HAS_MANY && d.arguments.indexName);
+}
+
+/**
+ * Return whether or not a hasMany connection has an implicit key defined.
+ * This is determined if there is a belongsTo directive on the connected model, or if there is an index defined on the directive.
+ */
+export function hasManyHasImplicitKey(field: CodeGenField, model: CodeGenModel, hasManyConnection: CodeGenFieldConnectionHasMany): boolean {
+  const hasCorrespondingBelongsTo = doesHasManyConnectionHaveCorrespondingBelongsTo(model, hasManyConnection);
+  const hasIndexNameSpecified = doesHasManySpecifyIndexName(field);
+  return !(hasCorrespondingBelongsTo || hasIndexNameSpecified);
+}
+
+/**
+ * Extract the name and list of keys from the connection information, and add the key to
+ * the related model.
+ */
+export function addHasManyKey(field: CodeGenField, model: CodeGenModel, hasManyConnection: CodeGenFieldConnectionHasMany): void {
+  const associatedFieldNames = getConnectionAssociatedFields(hasManyConnection).map(f => f.name);
+  const connectedModel = hasManyConnection.connectedModel;
+  // Applying consistent auto-naming as the transformer does today
+  // https://github.com/aws-amplify/amplify-category-api/blob/main/packages/amplify-graphql-relational-transformer/src/resolvers.ts#L334-L396
+  const name = `gsi-${model.name}.${field.name}`;
+  addKeyToModel(connectedModel, name, associatedFieldNames);
 }

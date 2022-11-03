@@ -29,7 +29,13 @@ export class AppSyncModelIntrospectionVisitor<
   }
   generate(): string {
     const shouldUseModelNameFieldInHasManyAndBelongsTo = false;
-    this.processDirectives(shouldUseModelNameFieldInHasManyAndBelongsTo);
+    // This flag is going to be used to tight-trigger on JS implementations only.
+    const shouldImputeKeyForUniDirectionalHasMany = true;
+    this.processDirectives(
+      shouldUseModelNameFieldInHasManyAndBelongsTo,
+      shouldImputeKeyForUniDirectionalHasMany
+    );
+
     const modelIntrosepctionSchema = this.generateModelIntrospectionSchema();
     if (!this.schemaValidator(modelIntrosepctionSchema)) {
       throw new Error(`Data did not validate against the supplied schema. Underlying errors were ${JSON.stringify(this.schemaValidator.errors)}`);

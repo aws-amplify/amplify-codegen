@@ -974,6 +974,16 @@ exports[`Custom primary key tests should generate correct model intropection fil
                             \\"content\\"
                         ]
                     }
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"name\\": \\"gsi-Post2.comments\\",
+                        \\"fields\\": [
+                            \\"post2CommentsPostId\\",
+                            \\"post2CommentsTitle\\"
+                        ]
+                    }
                 }
             ],
             \\"primaryKeyInfo\\": {
