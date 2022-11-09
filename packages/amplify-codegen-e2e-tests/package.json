@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@aws-amplify/amplify-codegen-e2e-core": "1.4.1",
+    "@aws-amplify/graphql-schema-test-library": "^1.1.18",
     "aws-amplify": "^4.3.26",
     "aws-appsync": "^4.0.3",
     "aws-sdk": "^2.845.0",
