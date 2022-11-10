@@ -1,0 +1,41 @@
+name: "CodeQL"
+
+on:
+  push:
+    branches: [ "main", "release", "tagged-release/custom-type-preview", "tagged-release/flutter-preview", "tagged-release/get-model-introspection", "tagged-release/gqlv2-fix", "tagged-release/gqlv2-fix-flutter", "tagged-release/gqlv2-hasone-bug", "tagged-release/has-many-delete", "tagged-release/update-dependency", "tagged-release/v3.0.2.beta.improved-pluralization" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    - cron: "38 16 * * 1"
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ javascript ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ matrix.language }}
+          queries: +security-and-quality
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          category: "/language:${{ matrix.language }}"
