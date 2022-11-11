@@ -7,7 +7,7 @@ if (!schemaName) {
 }
 const schema = schemas[schemaName];
 if (!schema) {
-  throw new Error(`${schemaName} does not exist in the schema test library.`);
+  throw new Error(`${schemaName} does not exist in the schema test library.\nPossible schemas: ${Object.keys(schemas).join(', ')}`);
 }
 
 const projectName = 'tsjo0dz';
