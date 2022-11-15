@@ -79,10 +79,7 @@ export class AppSyncModelDartVisitor<
     const shouldUseModelNameFieldInHasManyAndBelongsTo = true;
     // This flag is going to be used to tight-trigger on JS implementations only.
     const shouldImputeKeyForUniDirectionalHasMany = false;
-    this.processDirectives(
-      shouldUseModelNameFieldInHasManyAndBelongsTo,
-      shouldImputeKeyForUniDirectionalHasMany
-    );
+    this.processDirectives(shouldUseModelNameFieldInHasManyAndBelongsTo, shouldImputeKeyForUniDirectionalHasMany);
 
     this.validateReservedKeywords();
     if (this._parsedConfig.generate === CodeGenGenerateEnum.loader) {
@@ -359,6 +356,7 @@ export class AppSyncModelDartVisitor<
       undefined,
       ['override'],
     );
+    classDeclarationBlock.addClassMethod('modelName', 'String', [], `return '${modelName}';`, undefined, ['override']);
     return classDeclarationBlock.string;
   }
 
@@ -929,7 +927,7 @@ export class AppSyncModelDartVisitor<
       value = [
         'QueryField(',
         indent(`fieldName: "${fieldName}",`),
-        indent(`fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (${modelName}).toString()))`),
+        indent(`fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: '${modelName}'))`),
       ].join('\n');
     }
     declarationBlock.addClassMember(queryFieldName, 'QueryField', value, { static: true, final: true });
@@ -1042,7 +1040,7 @@ export class AppSyncModelDartVisitor<
               fieldParam = [
                 `key: ${modelName}.${queryFieldName}`,
                 `isRequired: ${!field.isNullable}`,
-                `ofModelName: (${connectedModelName}).toString()`,
+                `ofModelName: '${connectedModelName}'`,
                 `associatedKey: ${connectedModelName}.${this.getQueryFieldName(field.connectionInfo.associatedWith)}`,
               ].join(',\n');
               fieldsToAdd.push(['ModelFieldDefinition.hasOne(', indentMultiline(fieldParam), ')'].join('\n'));
@@ -1051,7 +1049,7 @@ export class AppSyncModelDartVisitor<
               fieldParam = [
                 `key: ${modelName}.${queryFieldName}`,
                 `isRequired: ${!field.isNullable}`,
-                `ofModelName: (${connectedModelName}).toString()`,
+                `ofModelName: '${connectedModelName}'`,
                 `associatedKey: ${connectedModelName}.${this.getQueryFieldName(field.connectionInfo.associatedWith)}`,
               ].join(',\n');
               fieldsToAdd.push(['ModelFieldDefinition.hasMany(', indentMultiline(fieldParam), ')'].join('\n'));
@@ -1061,9 +1059,9 @@ export class AppSyncModelDartVisitor<
                 `key: ${modelName}.${queryFieldName}`,
                 `isRequired: ${!field.isNullable}`,
                 this.isCustomPKEnabled()
-                  ? `targetNames: [${field.connectionInfo.targetNames.map(target => `"${target}"`).join(', ')}]`
-                  : `targetName: "${field.connectionInfo.targetName}"`,
-                `ofModelName: (${connectedModelName}).toString()`,
+                  ? `targetNames: [${field.connectionInfo.targetNames.map(target => `'${target}'`).join(', ')}]`
+                  : `targetName: '${field.connectionInfo.targetName}'`,
+                `ofModelName: '${connectedModelName}'`,
               ].join(',\n');
               fieldsToAdd.push(['ModelFieldDefinition.belongsTo(', indentMultiline(fieldParam), ')'].join('\n'));
               break;
