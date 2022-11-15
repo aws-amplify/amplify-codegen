@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const { schemas } = require('@aws-amplify/graphql-schema-test-library');
 
 const schemaName = process.argv.slice(2, 3)[0];
@@ -10,10 +11,14 @@ if (!schema) {
   throw new Error(`${schemaName} does not exist in the schema test library.\nPossible schemas: ${Object.keys(schemas).join(', ')}`);
 }
 
-const projectName = 'tsjo0dz';
-
-console.log(`${schemaName}: ${schema.description}`);
 console.log(schema.sdl);
 
+let projectName = '';
+try {
+  projectName = fs.readdirSync(path.join('amplify', 'backend', 'api'))[0];
+} catch (e) {
+  throw new Error('No API found. Follow instructions in README to setup.');
+}
+
 const fileContents = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${schema.sdl}`;
-fs.writeFileSync(`amplify/backend/api/${projectName}/schema.graphql`, fileContents);
+fs.writeFileSync(path.join('amplify/backend/api', projectName, 'schema.graphql'), fileContents);
