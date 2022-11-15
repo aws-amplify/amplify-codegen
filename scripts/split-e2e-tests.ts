@@ -45,6 +45,9 @@ const KNOWN_SUITES_SORTED_ACCORDING_TO_RUNTIME = [
   'src/__tests__/push-codegen-js.test.ts',
   'src/__tests__/push-codegen-android.test.ts',
   'src/__tests__/push-codegen-ios.test.ts',
+
+  // <18m
+  'src/__tests__/build-app-ts.test.ts',
 ];
 
 /**
