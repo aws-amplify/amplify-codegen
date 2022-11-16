@@ -28,6 +28,7 @@ package-lock.json
 
 amplify
 src/models
+.graphqlconfig.yml
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
