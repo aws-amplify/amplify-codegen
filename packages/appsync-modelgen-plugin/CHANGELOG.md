@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.3.0...@aws-amplify/appsync-modelgen-plugin@2.3.1) (2022-11-16)
+
+
+### Bug Fixes
+
+* **amplify-codegen:** dart, add hardcoded modelName method for ModelType classes ([#514](https://github.com/aws-amplify/amplify-codegen/issues/514)) ([89f00a5](https://github.com/aws-amplify/amplify-codegen/commit/89f00a5bd74fc30ddb07263d9ac770ccf44df12d))
+
+
+
+
+
 # [2.3.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.2.2...@aws-amplify/appsync-modelgen-plugin@2.3.0) (2022-11-03)
 
 
