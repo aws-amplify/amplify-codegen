@@ -167,7 +167,7 @@ class Post extends Model {
   static final QueryField STATUS = QueryField(fieldName: \\"status\\");
   static final QueryField COMMENTS = QueryField(
     fieldName: \\"comments\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Comment).toString()));
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Comment'));
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Post\\";
     modelSchemaDefinition.pluralName = \\"Posts\\";
@@ -195,7 +195,7 @@ class Post extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
       key: Post.COMMENTS,
       isRequired: false,
-      ofModelName: (Comment).toString(),
+      ofModelName: 'Comment',
       associatedKey: Comment.POST
     ));
   });
@@ -207,6 +207,11 @@ class _PostModelType extends ModelType<Post> {
   @override
   Post fromJson(Map<String, dynamic> jsonData) {
     return Post.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'Post';
   }
 }
 
@@ -315,7 +320,7 @@ class Comment extends Model {
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField POST = QueryField(
     fieldName: \\"post\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Post).toString()));
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Post'));
   static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Comment\\";
@@ -330,8 +335,8 @@ class Comment extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
       key: Comment.POST,
       isRequired: true,
-      targetName: \\"postID\\",
-      ofModelName: (Post).toString()
+      targetName: 'postID',
+      ofModelName: 'Post'
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
@@ -348,6 +353,11 @@ class _CommentModelType extends ModelType<Comment> {
   @override
   Comment fromJson(Map<String, dynamic> jsonData) {
     return Comment.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'Comment';
   }
 }"
 `;
@@ -519,7 +529,7 @@ class Post extends Model {
   static final QueryField STATUS = QueryField(fieldName: \\"status\\");
   static final QueryField COMMENTS = QueryField(
     fieldName: \\"comments\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Comment).toString()));
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Comment'));
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Post\\";
     modelSchemaDefinition.pluralName = \\"Posts\\";
@@ -547,7 +557,7 @@ class Post extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
       key: Post.COMMENTS,
       isRequired: false,
-      ofModelName: (Comment).toString(),
+      ofModelName: 'Comment',
       associatedKey: Comment.POST
     ));
   });
@@ -559,6 +569,11 @@ class _PostModelType extends ModelType<Post> {
   @override
   Post fromJson(Map<String, dynamic> jsonData) {
     return Post.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'Post';
   }
 }
 
@@ -667,7 +682,7 @@ class Comment extends Model {
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField POST = QueryField(
     fieldName: \\"post\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Post).toString()));
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Post'));
   static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Comment\\";
@@ -682,8 +697,8 @@ class Comment extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
       key: Comment.POST,
       isRequired: true,
-      targetName: \\"postID\\",
-      ofModelName: (Post).toString()
+      targetName: 'postID',
+      ofModelName: 'Post'
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
@@ -700,6 +715,11 @@ class _CommentModelType extends ModelType<Comment> {
   @override
   Comment fromJson(Map<String, dynamic> jsonData) {
     return Comment.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'Comment';
   }
 }"
 `;
@@ -1647,6 +1667,11 @@ class _PersonModelType extends ModelType<Person> {
   Person fromJson(Map<String, dynamic> jsonData) {
     return Person.fromJson(jsonData);
   }
+
+  @override
+  String modelName() {
+    return 'Person';
+  }
 }
 "
 `;
@@ -1833,6 +1858,11 @@ class _PersonModelType extends ModelType<Person> {
   @override
   Person fromJson(Map<String, dynamic> jsonData) {
     return Person.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'Person';
   }
 }"
 `;
@@ -2047,6 +2077,11 @@ class _SimpleModelModelType extends ModelType<SimpleModel> {
   @override
   SimpleModel fromJson(Map<String, dynamic> jsonData) {
     return SimpleModel.fromJson(jsonData);
+  }
+
+  @override
+  String modelName() {
+    return 'SimpleModel';
   }
 }
 "
@@ -2400,6 +2435,11 @@ class _TemporalTimeModelModelType extends ModelType<TemporalTimeModel> {
   TemporalTimeModel fromJson(Map<String, dynamic> jsonData) {
     return TemporalTimeModel.fromJson(jsonData);
   }
+
+  @override
+  String modelName() {
+    return 'TemporalTimeModel';
+  }
 }
 "
 `;
@@ -2667,6 +2707,11 @@ class _TestEnumModelModelType extends ModelType<TestEnumModel> {
   TestEnumModel fromJson(Map<String, dynamic> jsonData) {
     return TestEnumModel.fromJson(jsonData);
   }
+
+  @override
+  String modelName() {
+    return 'TestEnumModel';
+  }
 }
 "
 `;
@@ -2925,6 +2970,11 @@ class _TestModelModelType extends ModelType<TestModel> {
   TestModel fromJson(Map<String, dynamic> jsonData) {
     return TestModel.fromJson(jsonData);
   }
+
+  @override
+  String modelName() {
+    return 'TestModel';
+  }
 }
 "
 `;
@@ -3052,8 +3102,8 @@ class Post extends Model {
   static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
   static final QueryField TAGS = QueryField(
       fieldName: \\"tags\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (PostTags).toString()));
+      fieldType:
+          ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'PostTags'));
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Post\\";
@@ -3074,7 +3124,7 @@ class Post extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
         key: Post.TAGS,
         isRequired: false,
-        ofModelName: (PostTags).toString(),
+        ofModelName: 'PostTags',
         associatedKey: PostTags.POST));
   });
 }
@@ -3085,6 +3135,11 @@ class _PostModelType extends ModelType<Post> {
   @override
   Post fromJson(Map<String, dynamic> jsonData) {
     return Post.fromJson(jsonData);
+  }
+
+  @override
+  String modelName() {
+    return 'Post';
   }
 }
 
@@ -3169,8 +3224,8 @@ class Tag extends Model {
   static final QueryField LABEL = QueryField(fieldName: \\"label\\");
   static final QueryField POSTS = QueryField(
       fieldName: \\"posts\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (PostTags).toString()));
+      fieldType:
+          ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'PostTags'));
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Tag\\";
@@ -3186,7 +3241,7 @@ class Tag extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
         key: Tag.POSTS,
         isRequired: false,
-        ofModelName: (PostTags).toString(),
+        ofModelName: 'PostTags',
         associatedKey: PostTags.TAG));
   });
 }
@@ -3197,6 +3252,11 @@ class _TagModelType extends ModelType<Tag> {
   @override
   Tag fromJson(Map<String, dynamic> jsonData) {
     return Tag.fromJson(jsonData);
+  }
+
+  @override
+  String modelName() {
+    return 'Tag';
   }
 }
 
@@ -3275,12 +3335,10 @@ class PostTags extends Model {
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField POST = QueryField(
       fieldName: \\"post\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Post).toString()));
+      fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Post'));
   static final QueryField TAG = QueryField(
       fieldName: \\"tag\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Tag).toString()));
+      fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Tag'));
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"PostTags\\";
@@ -3296,14 +3354,14 @@ class PostTags extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
         key: PostTags.POST,
         isRequired: true,
-        targetName: \\"postID\\",
-        ofModelName: (Post).toString()));
+        targetName: 'postID',
+        ofModelName: 'Post'));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
         key: PostTags.TAG,
         isRequired: true,
-        targetName: \\"tagID\\",
-        ofModelName: (Tag).toString()));
+        targetName: 'tagID',
+        ofModelName: 'Tag'));
   });
 }
 
@@ -3313,6 +3371,11 @@ class _PostTagsModelType extends ModelType<PostTags> {
   @override
   PostTags fromJson(Map<String, dynamic> jsonData) {
     return PostTags.fromJson(jsonData);
+  }
+
+  @override
+  String modelName() {
+    return 'PostTags';
   }
 }
 "
@@ -3456,7 +3519,7 @@ class Post extends Model {
   static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
   static final QueryField TAGS = QueryField(
     fieldName: \\"tags\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (PostTags).toString()));
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'PostTags'));
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Post\\";
     modelSchemaDefinition.pluralName = \\"Posts\\";
@@ -3478,7 +3541,7 @@ class Post extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
       key: Post.TAGS,
       isRequired: false,
-      ofModelName: (PostTags).toString(),
+      ofModelName: 'PostTags',
       associatedKey: PostTags.POST
     ));
   });
@@ -3490,6 +3553,11 @@ class _PostModelType extends ModelType<Post> {
   @override
   Post fromJson(Map<String, dynamic> jsonData) {
     return Post.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'Post';
   }
 }
 
@@ -3592,7 +3660,7 @@ class Tag extends Model {
   static final QueryField LABEL = QueryField(fieldName: \\"label\\");
   static final QueryField POSTS = QueryField(
     fieldName: \\"posts\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (PostTags).toString()));
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'PostTags'));
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Tag\\";
     modelSchemaDefinition.pluralName = \\"Tags\\";
@@ -3608,7 +3676,7 @@ class Tag extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
       key: Tag.POSTS,
       isRequired: false,
-      ofModelName: (PostTags).toString(),
+      ofModelName: 'PostTags',
       associatedKey: PostTags.TAG
     ));
   });
@@ -3620,6 +3688,11 @@ class _TagModelType extends ModelType<Tag> {
   @override
   Tag fromJson(Map<String, dynamic> jsonData) {
     return Tag.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'Tag';
   }
 }
 
@@ -3730,10 +3803,10 @@ class PostTags extends Model {
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField POST = QueryField(
     fieldName: \\"post\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Post).toString()));
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Post'));
   static final QueryField TAG = QueryField(
     fieldName: \\"tag\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Tag).toString()));
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Tag'));
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"PostTags\\";
     modelSchemaDefinition.pluralName = \\"PostTags\\";
@@ -3748,15 +3821,15 @@ class PostTags extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
       key: PostTags.POST,
       isRequired: true,
-      targetName: \\"postID\\",
-      ofModelName: (Post).toString()
+      targetName: 'postID',
+      ofModelName: 'Post'
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
       key: PostTags.TAG,
       isRequired: true,
-      targetName: \\"tagID\\",
-      ofModelName: (Tag).toString()
+      targetName: 'tagID',
+      ofModelName: 'Tag'
     ));
   });
 }
@@ -3767,6 +3840,11 @@ class _PostTagsModelType extends ModelType<PostTags> {
   @override
   PostTags fromJson(Map<String, dynamic> jsonData) {
     return PostTags.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'PostTags';
   }
 }"
 `;
@@ -3891,6 +3969,11 @@ class _SimpleModelModelType extends ModelType<SimpleModel> {
   SimpleModel fromJson(Map<String, dynamic> jsonData) {
     return SimpleModel.fromJson(jsonData);
   }
+
+  @override
+  String modelName() {
+    return 'SimpleModel';
+  }
 }
 "
 `;
@@ -4014,6 +4097,11 @@ class _SimpleModelModelType extends ModelType<SimpleModel> {
   @override
   SimpleModel fromJson(Map<String, dynamic> jsonData) {
     return SimpleModel.fromJson(jsonData);
+  }
+
+  @override
+  String modelName() {
+    return 'SimpleModel';
   }
 }
 "
@@ -4181,6 +4269,11 @@ class _TodoWithAuthModelType extends ModelType<TodoWithAuth> {
   @override
   TodoWithAuth fromJson(Map<String, dynamic> jsonData) {
     return TodoWithAuth.fromJson(jsonData);
+  }
+
+  @override
+  String modelName() {
+    return 'TodoWithAuth';
   }
 }
 "
@@ -4373,6 +4466,11 @@ class _TodoWithAuthModelType extends ModelType<TodoWithAuth> {
   TodoWithAuth fromJson(Map<String, dynamic> jsonData) {
     return TodoWithAuth.fromJson(jsonData);
   }
+  
+  @override
+  String modelName() {
+    return 'TodoWithAuth';
+  }
 }"
 `;
 
@@ -4508,6 +4606,11 @@ class _customClaimModelType extends ModelType<customClaim> {
   @override
   customClaim fromJson(Map<String, dynamic> jsonData) {
     return customClaim.fromJson(jsonData);
+  }
+
+  @override
+  String modelName() {
+    return 'customClaim';
   }
 }
 "
@@ -4648,6 +4751,11 @@ class _customClaimModelType extends ModelType<customClaim> {
   customClaim fromJson(Map<String, dynamic> jsonData) {
     return customClaim.fromJson(jsonData);
   }
+
+  @override
+  String modelName() {
+    return 'customClaim';
+  }
 }
 "
 `;
@@ -4784,6 +4892,11 @@ class _dynamicGroupsModelType extends ModelType<dynamicGroups> {
   @override
   dynamicGroups fromJson(Map<String, dynamic> jsonData) {
     return dynamicGroups.fromJson(jsonData);
+  }
+
+  @override
+  String modelName() {
+    return 'dynamicGroups';
   }
 }
 "
@@ -4922,6 +5035,11 @@ class _simpleOwnerAuthModelType extends ModelType<simpleOwnerAuth> {
   simpleOwnerAuth fromJson(Map<String, dynamic> jsonData) {
     return simpleOwnerAuth.fromJson(jsonData);
   }
+
+  @override
+  String modelName() {
+    return 'simpleOwnerAuth';
+  }
 }
 "
 `;
@@ -5058,6 +5176,11 @@ class _allowReadModelType extends ModelType<allowRead> {
   allowRead fromJson(Map<String, dynamic> jsonData) {
     return allowRead.fromJson(jsonData);
   }
+
+  @override
+  String modelName() {
+    return 'allowRead';
+  }
 }
 "
 `;
@@ -5191,6 +5314,11 @@ class _privateTypeModelType extends ModelType<privateType> {
   privateType fromJson(Map<String, dynamic> jsonData) {
     return privateType.fromJson(jsonData);
   }
+
+  @override
+  String modelName() {
+    return 'privateType';
+  }
 }
 "
 `;
@@ -5323,6 +5451,11 @@ class _publicTypeModelType extends ModelType<publicType> {
   @override
   publicType fromJson(Map<String, dynamic> jsonData) {
     return publicType.fromJson(jsonData);
+  }
+
+  @override
+  String modelName() {
+    return 'publicType';
   }
 }
 "
@@ -5463,6 +5596,11 @@ class _staticGroupsModelType extends ModelType<staticGroups> {
   staticGroups fromJson(Map<String, dynamic> jsonData) {
     return staticGroups.fromJson(jsonData);
   }
+
+  @override
+  String modelName() {
+    return 'staticGroups';
+  }
 }
 "
 `;
@@ -5602,6 +5740,11 @@ class _PostModelType extends ModelType<Post> {
   @override
   Post fromJson(Map<String, dynamic> jsonData) {
     return Post.fromJson(jsonData);
+  }
+
+  @override
+  String modelName() {
+    return 'Post';
   }
 }
 "
@@ -5756,6 +5899,11 @@ class _PostModelType extends ModelType<Post> {
   Post fromJson(Map<String, dynamic> jsonData) {
     return Post.fromJson(jsonData);
   }
+
+  @override
+  String modelName() {
+    return 'Post';
+  }
 }
 "
 `;
@@ -5856,8 +6004,7 @@ class Todo extends Model {
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TASKS = QueryField(
       fieldName: \\"tasks\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Task).toString()));
+      fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Task'));
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Todo\\";
@@ -5868,7 +6015,7 @@ class Todo extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
         key: Todo.TASKS,
         isRequired: false,
-        ofModelName: (Task).toString(),
+        ofModelName: 'Task',
         associatedKey: Task.TODO));
   });
 }
@@ -5879,6 +6026,11 @@ class _TodoModelType extends ModelType<Todo> {
   @override
   Todo fromJson(Map<String, dynamic> jsonData) {
     return Todo.fromJson(jsonData);
+  }
+
+  @override
+  String modelName() {
+    return 'Todo';
   }
 }
 "
@@ -5973,8 +6125,7 @@ class Task extends Model {
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField TODO = QueryField(
       fieldName: \\"todo\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Todo).toString()));
+      fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Todo'));
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Task\\";
@@ -5985,8 +6136,8 @@ class Task extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
         key: Task.TODO,
         isRequired: false,
-        targetName: \\"taskTodoId\\",
-        ofModelName: (Todo).toString()));
+        targetName: 'taskTodoId',
+        ofModelName: 'Todo'));
   });
 }
 
@@ -5996,6 +6147,11 @@ class _TaskModelType extends ModelType<Task> {
   @override
   Task fromJson(Map<String, dynamic> jsonData) {
     return Task.fromJson(jsonData);
+  }
+
+  @override
+  String modelName() {
+    return 'Task';
   }
 }
 "
@@ -6119,8 +6275,7 @@ class Blog extends Model {
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField POSTS = QueryField(
       fieldName: \\"posts\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Post).toString()));
+      fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Post'));
   static final QueryField TEST = QueryField(fieldName: \\"test\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
@@ -6137,7 +6292,7 @@ class Blog extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
         key: Blog.POSTS,
         isRequired: false,
-        ofModelName: (Post).toString(),
+        ofModelName: 'Post',
         associatedKey: Post.BLOG));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
@@ -6155,6 +6310,11 @@ class _BlogModelType extends ModelType<Blog> {
   @override
   Blog fromJson(Map<String, dynamic> jsonData) {
     return Blog.fromJson(jsonData);
+  }
+
+  @override
+  String modelName() {
+    return 'Blog';
   }
 }
 "
@@ -6261,8 +6421,7 @@ class Comment extends Model {
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField POST = QueryField(
       fieldName: \\"post\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Post).toString()));
+      fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Post'));
   static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
@@ -6278,8 +6437,8 @@ class Comment extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
         key: Comment.POST,
         isRequired: false,
-        targetName: \\"postID\\",
-        ofModelName: (Post).toString()));
+        targetName: 'postID',
+        ofModelName: 'Post'));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
         key: Comment.CONTENT,
@@ -6294,6 +6453,11 @@ class _CommentModelType extends ModelType<Comment> {
   @override
   Comment fromJson(Map<String, dynamic> jsonData) {
     return Comment.fromJson(jsonData);
+  }
+
+  @override
+  String modelName() {
+    return 'Comment';
   }
 }
 "
@@ -6420,12 +6584,11 @@ class Post extends Model {
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField BLOG = QueryField(
       fieldName: \\"blog\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Blog).toString()));
+      fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Blog'));
   static final QueryField COMMENTS = QueryField(
       fieldName: \\"comments\\",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Comment).toString()));
+      fieldType:
+          ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Comment'));
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Post\\";
@@ -6445,13 +6608,13 @@ class Post extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
         key: Post.BLOG,
         isRequired: false,
-        targetName: \\"blogID\\",
-        ofModelName: (Blog).toString()));
+        targetName: 'blogID',
+        ofModelName: 'Blog'));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
         key: Post.COMMENTS,
         isRequired: false,
-        ofModelName: (Comment).toString(),
+        ofModelName: 'Comment',
         associatedKey: Comment.POST));
   });
 }
@@ -6462,6 +6625,11 @@ class _PostModelType extends ModelType<Post> {
   @override
   Post fromJson(Map<String, dynamic> jsonData) {
     return Post.fromJson(jsonData);
+  }
+
+  @override
+  String modelName() {
+    return 'Post';
   }
 }
 "
@@ -6647,6 +6815,11 @@ class _authorBookModelType extends ModelType<authorBook> {
   authorBook fromJson(Map<String, dynamic> jsonData) {
     return authorBook.fromJson(jsonData);
   }
+
+  @override
+  String modelName() {
+    return 'authorBook';
+  }
 }
 "
 `;
@@ -6754,6 +6927,11 @@ class _TestModelModelType extends ModelType<TestModel> {
   @override
   TestModel fromJson(Map<String, dynamic> jsonData) {
     return TestModel.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'TestModel';
   }
 }"
 `;
@@ -6885,7 +7063,7 @@ class Blog extends Model {
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField POSTS = QueryField(
     fieldName: \\"posts\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Post).toString()));
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Post'));
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Blog\\";
     modelSchemaDefinition.pluralName = \\"Blogs\\";
@@ -6901,7 +7079,7 @@ class Blog extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
       key: Blog.POSTS,
       isRequired: false,
-      ofModelName: (Post).toString(),
+      ofModelName: 'Post',
       associatedKey: Post.BLOG
     ));
   });
@@ -6913,6 +7091,11 @@ class _BlogModelType extends ModelType<Blog> {
   @override
   Blog fromJson(Map<String, dynamic> jsonData) {
     return Blog.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'Blog';
   }
 }"
 `;
@@ -7040,7 +7223,7 @@ class Comment extends Model {
   static final QueryField ID = QueryField(fieldName: \\"id\\");
   static final QueryField POST = QueryField(
     fieldName: \\"post\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Post).toString()));
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Post'));
   static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Comment\\";
@@ -7055,8 +7238,8 @@ class Comment extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
       key: Comment.POST,
       isRequired: false,
-      targetName: \\"postID\\",
-      ofModelName: (Post).toString()
+      targetName: 'postID',
+      ofModelName: 'Post'
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
@@ -7073,6 +7256,11 @@ class _CommentModelType extends ModelType<Comment> {
   @override
   Comment fromJson(Map<String, dynamic> jsonData) {
     return Comment.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'Comment';
   }
 }"
 `;
@@ -7216,10 +7404,10 @@ class Post extends Model {
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField BLOG = QueryField(
     fieldName: \\"blog\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Blog).toString()));
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Blog'));
   static final QueryField COMMENTS = QueryField(
     fieldName: \\"comments\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Comment).toString()));
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Comment'));
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Post\\";
     modelSchemaDefinition.pluralName = \\"Posts\\";
@@ -7239,14 +7427,14 @@ class Post extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
       key: Post.BLOG,
       isRequired: false,
-      targetName: \\"blogID\\",
-      ofModelName: (Blog).toString()
+      targetName: 'blogID',
+      ofModelName: 'Blog'
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
       key: Post.COMMENTS,
       isRequired: false,
-      ofModelName: (Comment).toString(),
+      ofModelName: 'Comment',
       associatedKey: Comment.POST
     ));
   });
@@ -7258,6 +7446,11 @@ class _PostModelType extends ModelType<Post> {
   @override
   Post fromJson(Map<String, dynamic> jsonData) {
     return Post.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'Post';
   }
 }"
 `;
@@ -7499,6 +7692,11 @@ class _TestModelModelType extends ModelType<TestModel> {
   @override
   TestModel fromJson(Map<String, dynamic> jsonData) {
     return TestModel.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'TestModel';
   }
 }"
 `;
@@ -7874,6 +8072,11 @@ class _TestModelModelType extends ModelType<TestModel> {
   TestModel fromJson(Map<String, dynamic> jsonData) {
     return TestModel.fromJson(jsonData);
   }
+  
+  @override
+  String modelName() {
+    return 'TestModel';
+  }
 }"
 `;
 
@@ -8015,6 +8218,11 @@ class _SimpleModelModelType extends ModelType<SimpleModel> {
   @override
   SimpleModel fromJson(Map<String, dynamic> jsonData) {
     return SimpleModel.fromJson(jsonData);
+  }
+
+  @override
+  String modelName() {
+    return 'SimpleModel';
   }
 }
 "
@@ -8168,6 +8376,11 @@ class _SimpleModelModelType extends ModelType<SimpleModel> {
   @override
   SimpleModel fromJson(Map<String, dynamic> jsonData) {
     return SimpleModel.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'SimpleModel';
   }
 }"
 `;
@@ -8335,6 +8548,11 @@ class _ModelWithImplicitIDModelType extends ModelType<ModelWithImplicitID> {
   @override
   ModelWithImplicitID fromJson(Map<String, dynamic> jsonData) {
     return ModelWithImplicitID.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'ModelWithImplicitID';
   }
 }
 
@@ -8547,6 +8765,11 @@ class _ModelWithExplicitIDModelType extends ModelType<ModelWithExplicitID> {
   ModelWithExplicitID fromJson(Map<String, dynamic> jsonData) {
     return ModelWithExplicitID.fromJson(jsonData);
   }
+  
+  @override
+  String modelName() {
+    return 'ModelWithExplicitID';
+  }
 }
 
 /**
@@ -8752,6 +8975,11 @@ class _ModelWithExplicitIDAndSDIModelType extends ModelType<ModelWithExplicitIDA
   @override
   ModelWithExplicitIDAndSDI fromJson(Map<String, dynamic> jsonData) {
     return ModelWithExplicitIDAndSDI.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'ModelWithExplicitIDAndSDI';
   }
 }
 
@@ -9004,6 +9232,11 @@ class _ModelWithIDPlusSortKeysModelType extends ModelType<ModelWithIDPlusSortKey
   @override
   ModelWithIDPlusSortKeys fromJson(Map<String, dynamic> jsonData) {
     return ModelWithIDPlusSortKeys.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'ModelWithIDPlusSortKeys';
   }
 }
 
@@ -9258,6 +9491,11 @@ class _ModelWithExplicitlyDefinedPKModelType extends ModelType<ModelWithExplicit
   @override
   ModelWithExplicitlyDefinedPK fromJson(Map<String, dynamic> jsonData) {
     return ModelWithExplicitlyDefinedPK.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'ModelWithExplicitlyDefinedPK';
   }
 }
 
@@ -9528,6 +9766,11 @@ class _ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelType extends M
   ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey fromJson(Map<String, dynamic> jsonData) {
     return ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey.fromJson(jsonData);
   }
+  
+  @override
+  String modelName() {
+    return 'ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey';
+  }
 }
 
 /**
@@ -9745,7 +9988,7 @@ class Post extends Model {
   static final QueryField TITLE = QueryField(fieldName: \\"title\\");
   static final QueryField COMMENTS = QueryField(
     fieldName: \\"comments\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Comment).toString()));
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Comment'));
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Post\\";
     modelSchemaDefinition.pluralName = \\"Posts\\";
@@ -9765,7 +10008,7 @@ class Post extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
       key: Post.COMMENTS,
       isRequired: false,
-      ofModelName: (Comment).toString(),
+      ofModelName: 'Comment',
       associatedKey: Comment.POSTCOMMENTSID
     ));
     
@@ -9791,6 +10034,11 @@ class _PostModelType extends ModelType<Post> {
   @override
   Post fromJson(Map<String, dynamic> jsonData) {
     return Post.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'Post';
   }
 }
 
@@ -10059,6 +10307,11 @@ class _CommentModelType extends ModelType<Comment> {
   Comment fromJson(Map<String, dynamic> jsonData) {
     return Comment.fromJson(jsonData);
   }
+  
+  @override
+  String modelName() {
+    return 'Comment';
+  }
 }
 
 /**
@@ -10300,7 +10553,7 @@ class Project extends Model {
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField TEAM = QueryField(
     fieldName: \\"team\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Team).toString()));
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Team'));
   static final QueryField PROJECTTEAMTEAMID = QueryField(fieldName: \\"projectTeamTeamId\\");
   static final QueryField PROJECTTEAMNAME = QueryField(fieldName: \\"projectTeamName\\");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
@@ -10326,7 +10579,7 @@ class Project extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.hasOne(
       key: Project.TEAM,
       isRequired: false,
-      ofModelName: (Team).toString(),
+      ofModelName: 'Team',
       associatedKey: Team.PROJECT
     ));
     
@@ -10364,6 +10617,11 @@ class _ProjectModelType extends ModelType<Project> {
   @override
   Project fromJson(Map<String, dynamic> jsonData) {
     return Project.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'Project';
   }
 }
 
@@ -10587,7 +10845,7 @@ class Team extends Model {
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField PROJECT = QueryField(
     fieldName: \\"project\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Project).toString()));
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Project'));
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Team\\";
     modelSchemaDefinition.pluralName = \\"Teams\\";
@@ -10611,8 +10869,8 @@ class Team extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
       key: Team.PROJECT,
       isRequired: false,
-      targetNames: [\\"teamProjectProjectId\\", \\"teamProjectName\\"],
-      ofModelName: (Project).toString()
+      targetNames: ['teamProjectProjectId', 'teamProjectName'],
+      ofModelName: 'Project'
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
@@ -10637,6 +10895,11 @@ class _TeamModelType extends ModelType<Team> {
   @override
   Team fromJson(Map<String, dynamic> jsonData) {
     return Team.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'Team';
   }
 }
 
@@ -10866,7 +11129,7 @@ class CpkOneToOneBidirectionalParent extends Model {
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField EXPLICITCHILD = QueryField(
     fieldName: \\"explicitChild\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (CpkOneToOneBidirectionalChildExplicit).toString()));
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'CpkOneToOneBidirectionalChildExplicit'));
   static final QueryField CPKONETOONEBIDIRECTIONALPARENTEXPLICITCHILDID = QueryField(fieldName: \\"cpkOneToOneBidirectionalParentExplicitChildId\\");
   static final QueryField CPKONETOONEBIDIRECTIONALPARENTEXPLICITCHILDNAME = QueryField(fieldName: \\"cpkOneToOneBidirectionalParentExplicitChildName\\");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
@@ -10888,7 +11151,7 @@ class CpkOneToOneBidirectionalParent extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.hasOne(
       key: CpkOneToOneBidirectionalParent.EXPLICITCHILD,
       isRequired: false,
-      ofModelName: (CpkOneToOneBidirectionalChildExplicit).toString(),
+      ofModelName: 'CpkOneToOneBidirectionalChildExplicit',
       associatedKey: CpkOneToOneBidirectionalChildExplicit.BELONGSTOPARENT
     ));
     
@@ -10926,6 +11189,11 @@ class _CpkOneToOneBidirectionalParentModelType extends ModelType<CpkOneToOneBidi
   @override
   CpkOneToOneBidirectionalParent fromJson(Map<String, dynamic> jsonData) {
     return CpkOneToOneBidirectionalParent.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'CpkOneToOneBidirectionalParent';
   }
 }
 
@@ -11136,7 +11404,7 @@ class CpkOneToOneBidirectionalChildExplicit extends Model {
   static final QueryField NAME = QueryField(fieldName: \\"name\\");
   static final QueryField BELONGSTOPARENT = QueryField(
     fieldName: \\"belongsToParent\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (CpkOneToOneBidirectionalParent).toString()));
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'CpkOneToOneBidirectionalParent'));
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"CpkOneToOneBidirectionalChildExplicit\\";
     modelSchemaDefinition.pluralName = \\"CpkOneToOneBidirectionalChildExplicits\\";
@@ -11156,8 +11424,8 @@ class CpkOneToOneBidirectionalChildExplicit extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
       key: CpkOneToOneBidirectionalChildExplicit.BELONGSTOPARENT,
       isRequired: false,
-      targetNames: [\\"belongsToParentID\\", \\"belongsToParentName\\"],
-      ofModelName: (CpkOneToOneBidirectionalParent).toString()
+      targetNames: ['belongsToParentID', 'belongsToParentName'],
+      ofModelName: 'CpkOneToOneBidirectionalParent'
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
@@ -11182,6 +11450,11 @@ class _CpkOneToOneBidirectionalChildExplicitModelType extends ModelType<CpkOneTo
   @override
   CpkOneToOneBidirectionalChildExplicit fromJson(Map<String, dynamic> jsonData) {
     return CpkOneToOneBidirectionalChildExplicit.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'CpkOneToOneBidirectionalChildExplicit';
   }
 }
 

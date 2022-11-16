@@ -115,6 +115,12 @@ $ amplify-dev init
 $ amplify-dev codegen <subcommand>
 ```
 
+To update snapshots:
+
+```sh
+$ npx jest -u
+```
+
 ## Code Style
 
 Generally, match the style of the surrounding code. Please ensure your changes don't wildly deviate from those rules. You can run `yarn lint-fix` to identify and automatically fix most style issues.
