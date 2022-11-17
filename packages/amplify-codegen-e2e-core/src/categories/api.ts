@@ -29,7 +29,7 @@ interface AddApiOptions {
 
 const defaultOptions: AddApiOptions = {
   apiName: '\r',
-  testingWithLatestCodebase: false
+  testingWithLatestCodebase: false,
 };
 
 export function addApiWithoutSchema(cwd: string, opts: Partial<AddApiOptions & { apiKeyExpirationDays: number }> = {}) {
@@ -129,6 +129,10 @@ export function addApiWithBlankSchemaAndConflictDetection(cwd: string) {
 export function updateApiSchema(cwd: string, projectName: string, schemaName: string, forceUpdate: boolean = false) {
   const testSchemaPath = getSchemaPath(schemaName);
   let schemaText = fs.readFileSync(testSchemaPath).toString();
+  updateApiSchemaWithText(cwd, projectName, schemaText, forceUpdate);
+}
+
+export function updateApiSchemaWithText(cwd: string, projectName: string, schemaText: string, forceUpdate: boolean = false) {
   if (forceUpdate) {
     schemaText += '  ';
   }
