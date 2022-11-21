@@ -387,6 +387,14 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/graphql-codegen-ios.test.ts
       CLI_REGION: eu-west-2
+  build-app-swift-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_4
+    environment:
+      TEST_SUITE: src/__tests__/build-app-swift.test.ts
+      CLI_REGION: eu-central-1
 workflows:
   version: 2
   e2e_resource_cleanup:
@@ -461,6 +469,7 @@ workflows:
             - push-codegen-js-e2e-test
             - datastore-modelgen-flutter-e2e-test
             - feature-flags-e2e-test
+            - build-app-swift-e2e-test
             - pull-codegen-e2e-test
             - datastore-modelgen-ios-e2e-test
             - configure-codegen-ios-e2e-test
@@ -576,6 +585,13 @@ workflows:
           post-steps: *ref_7
           filters: *ref_8
       - feature-flags-e2e-test:
+          context: *ref_6
+          os: l
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_7
+          filters: *ref_8
+      - build-app-swift-e2e-test:
           context: *ref_6
           os: l
           requires:
