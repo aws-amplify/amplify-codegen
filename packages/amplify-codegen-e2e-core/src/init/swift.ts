@@ -16,7 +16,7 @@ export function swiftBuild(cwd: string, settings: Object = {}): Promise<void> {
     if (s.scheme) args.push('-scheme', s.scheme);
     if (s.target) args.push('-target', s.target);
     if (s.project) args.push('-project', s.project);
-    const chain = spawn('xcodebuild', args, { cwd, stripColors: true, disableCIDetection: s.disableCIDetection, noOutputTimeout: 1000 });
+    const chain = spawn('xcodebuild', args, { cwd, stripColors: true, disableCIDetection: s.disableCIDetection });
 
     chain.run((err: Error) => {
       if (err) {
