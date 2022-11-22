@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@6.15.3
+  node: circleci/node@5.0.3
 machine:
   environment:
     PATH: '${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin'
@@ -24,6 +25,15 @@ executors:
       AMPLIFY_DIR: /home/circleci/repo/out
       AMPLIFY_PATH: /home/circleci/repo/out/amplify-pkg-linux-x64
 
+  m: &macos-e2e-executor
+    macos:
+      xcode: 13.2.1
+    working_directory: ~/repo
+    resource_class: large
+    environment:
+      AMPLIFY_DIR: /home/circleci/repo/out
+      AMPLIFY_PATH: /home/circleci/repo/out/amplify-pkg-linux-x64
+
 defaults: &defaults
   working_directory: ~/repo
   parameters:
@@ -37,9 +47,9 @@ install_cli_with_local_codegen: &install_cli
     startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
     setNpmRegistryUrlToLocal
     changeNpmGlobalPath
+    npm install -g graphql@14.5.8 jest react react-dom
     npm install -g @aws-amplify/cli-internal
     amplify -v
-    npm list --global --depth=1
     unsetNpmRegistryUrl
   working_directory: ~/repo
         
@@ -60,6 +70,8 @@ jobs:
       - run: yarn config set workspaces-experimental true
       - run: yarn cache clean --force
       - run: yarn run production-build
+      - run: cp -r ~/.cache /tmp/.cache
+      - run: cp -r ~/.ssh /tmp/.ssh
       - save_cache:
           key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
@@ -68,6 +80,14 @@ jobs:
           key: amplify-codegen-ssh-deps-{{ .Branch }}
           paths:
             - ~/.ssh
+      - save_cache:
+          key: 'amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-mac'
+          paths:
+            - /tmp/.cache
+      - save_cache:
+          key: 'amplify-codegen-ssh-deps-{{ .Branch }}-mac'
+          paths:
+            - /tmp/.ssh
       - persist_to_workspace:
           root: .
           paths: .
@@ -143,10 +163,15 @@ jobs:
             git config user.name "Doesnt Matter"
             yarn publish-to-verdaccio
             unsetNpmRegistryUrl
+      - run: cp -r ~/verdaccio-cache /tmp/verdaccio-cache
       - save_cache:
           key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}
           paths:
             - ~/verdaccio-cache/
+      - save_cache:
+          key: 'amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}-mac'
+          paths:
+            - /tmp/verdaccio-cache/
 
   e2e-test:
     <<: *defaults
@@ -158,6 +183,34 @@ jobs:
           key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - restore_cache:
           key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}
+      - run: *install_cli
+      - run:
+          name: Run e2e tests
+          command: |
+            cd packages/amplify-codegen-e2e-tests
+            yarn e2e --maxWorkers=3 $TEST_SUITE
+          no_output_timeout: 20m
+      - store_test_results:
+          path: packages/amplify-codegen-e2e-tests/
+      - store_artifacts:
+          path: ~/repo/packages/amplify-codegen-e2e-tests/amplify-e2e-reports
+
+  e2e-test-macos:
+    <<: *defaults
+    executor: << parameters.os >>
+    steps:
+      - attach_workspace:
+          at: ./
+      - restore_cache:
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-mac
+      - restore_cache:
+          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}-mac
+      - run: cp -r /tmp/.cache ~/.cache
+      - run: cp -r /tmp/verdaccio-cache ~/verdaccio-cache
+      - node/install:
+          install-yarn: true
+          node-version: "14.18"
+      - run: yarn run production-build
       - run: *install_cli
       - run:
           name: Run e2e tests
@@ -250,6 +303,21 @@ workflows:
                 - main
                 - e2e-testing
                 - /tagged-release\/.*/
+      - e2e-test-macos:
+          context:
+            - cleanup-resources
+          os: l
+          requires:
+            - publish_to_local_registry
+          post-steps:
+            - run: *cleanup_e2e
+          filters:
+            branches:
+              only:
+                - main
+                - e2e-testing
+                - /tagged-release\/.*/
+
       - deploy:
           os: l
           requires:

@@ -48,7 +48,10 @@ const KNOWN_SUITES_SORTED_ACCORDING_TO_RUNTIME = [
 
   // <18m
   'src/__tests__/build-app-ts.test.ts',
+  'src/__tests__/build-app-swift.test.ts',
 ];
+
+const runSuitesOnMacOS = new Set(['src/__tests__/build-app-swift.test.ts']);
 
 /**
  * Sorts the test suite in ascending order. If the test is not included in known
@@ -116,10 +119,13 @@ function splitTests(
 ): CircleCIConfig {
   const output: CircleCIConfig = { ...config };
   const jobs = { ...config.jobs };
-  const job = jobs[jobName];
+  const baseJob = jobs[jobName];
+  const macOSJob = jobs[`${jobName}-macos`];
   const testSuites = getTestFiles(jobRootDir);
 
   const newJobs = testSuites.reduce((acc, suite, index) => {
+    const job = runSuitesOnMacOS.has(suite) ? macOSJob : baseJob;
+    const runOnMacOS = runSuitesOnMacOS.has(suite);
     const testRegion = AWS_REGIONS_TO_RUN_TESTS[index % AWS_REGIONS_TO_RUN_TESTS.length];
     const newJob = {
       ...job,
