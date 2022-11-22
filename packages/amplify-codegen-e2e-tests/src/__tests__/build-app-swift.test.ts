@@ -1,29 +1,33 @@
 import {
-  initProjectWithProfile,
+  initProjectWithQuickstart,
   DEFAULT_IOS_CONFIG,
   addApiWithBlankSchemaAndConflictDetection,
   updateApiSchemaWithText,
   generateModels,
-  swiftInstall,
   swiftBuild,
 } from '@aws-amplify/amplify-codegen-e2e-core';
 const { schemas } = require('@aws-amplify/graphql-schema-test-library');
-import { existsSync, writeFileSync, readdirSync, rmSync } from 'fs';
+import { existsSync, writeFileSync, readdirSync, rmSync, readFileSync } from 'fs';
 import path from 'path';
 
 describe('build app - Swift', () => {
   let apiName: string;
+  let projectPBXProjCache: Buffer;
   const projectRoot = path.resolve('test-apps/swift');
   const config = DEFAULT_IOS_CONFIG;
 
   beforeAll(async () => {
-    await initProjectWithProfile(projectRoot, { ...config });
-    await addApiWithBlankSchemaAndConflictDetection(projectRoot);
+    await initProjectWithQuickstart(projectRoot, { ...config });
     apiName = readdirSync(path.join(projectRoot, 'amplify', 'backend', 'api'))[0];
+    projectPBXProjCache = readFileSync(path.join(projectRoot, 'swift.xcodeproj', 'project.pbxproj'));
   });
 
   afterAll(async () => {
     await rmSync(path.join(projectRoot, 'amplify'), { recursive: true, force: true });
+  });
+
+  beforeEach(() => {
+    writeFileSync(path.join(projectRoot, 'swift.xcodeproj', 'project.pbxproj'), projectPBXProjCache);
   });
 
   afterEach(async () => {
@@ -42,7 +46,8 @@ describe('build app - Swift', () => {
   });
 
   it('fails build with syntax error', async () => {
-    await writeFileSync(path.join(projectRoot, 'src', 'models', 'index.d.ts'), 'foo\nbar');
+    await generateModels(projectRoot);
+    await writeFileSync(path.join(projectRoot, 'amplify', 'generated', 'models', 'AmplifyModels.swift'), 'foo\nbar');
     await expect(swiftBuild(projectRoot, { ...config })).rejects.toThrowError();
   });
 });
