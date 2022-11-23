@@ -19,7 +19,7 @@ const defaultSettings = {
   local: false,
   disableAmplifyAppCreation: true,
   disableCIDetection: false,
-  providerConfig: undefined
+  providerConfig: undefined,
 };
 
 export function initJSProjectWithProfile(cwd: string, settings: Object = {}): Promise<void> {
@@ -61,18 +61,18 @@ export function initJSProjectWithProfile(cwd: string, settings: Object = {}): Pr
       .wait('Build Command:')
       .sendLine(s.buildCmd)
       .wait('Start Command:')
-      .sendCarriageReturn()
+      .sendCarriageReturn();
 
-      if (!providerConfigSpecified) {
-        chain
-          .wait('Using default provider  awscloudformation')
-          .wait('Select the authentication method you want to use:')
-          .sendCarriageReturn()
-          .wait('Please choose the profile you want to use')
-          .sendLine(s.profileName);
-      }
-
+    if (!providerConfigSpecified) {
       chain
+        .wait('Using default provider  awscloudformation')
+        .wait('Select the authentication method you want to use:')
+        .sendCarriageReturn()
+        .wait('Please choose the profile you want to use')
+        .sendLine(s.profileName);
+    }
+
+    chain
       .wait('Help improve Amplify CLI by sharing non sensitive configurations on failures')
       .sendConfirmYes()
       .wait('Try "amplify add api" to create a backend API and then "amplify push" to deploy everything')
@@ -203,16 +203,16 @@ export function initFlutterProjectWithProfile(cwd: string, settings: Object): Pr
     singleSelect(chain, s.region, amplifyRegions);
 
     chain
-    .wait('Help improve Amplify CLI by sharing non sensitive configurations on failures')
-    .sendConfirmYes()
-    .wait('Try "amplify add api" to create a backend API and then "amplify push" to deploy everything')
-    .run((err: Error) => {
-      if (!err) {
-        resolve();
-      } else {
-        reject(err);
-      }
-    });
+      .wait('Help improve Amplify CLI by sharing non sensitive configurations on failures')
+      .sendConfirmYes()
+      .wait('Try "amplify add api" to create a backend API and then "amplify push" to deploy everything')
+      .run((err: Error) => {
+        if (!err) {
+          resolve();
+        } else {
+          reject(err);
+        }
+      });
   });
 }
 
@@ -429,23 +429,37 @@ export function amplifyStatus(cwd: string, expectedStatus: string, testingWithLa
   });
 }
 
-export async function initProjectWithProfile(cwd: string, settings: any) : Promise<void> {
+export async function initProjectWithProfile(cwd: string, settings: any): Promise<void> {
   switch (settings.frontendType) {
     case AmplifyFrontend.javascript:
       return initJSProjectWithProfile(cwd, settings);
     case AmplifyFrontend.android:
       return initAndroidProjectWithProfile(cwd, settings);
     case AmplifyFrontend.ios:
-      return initIosProjectWithProfile(cwd,settings);
+      return initIosProjectWithProfile(cwd, settings);
     case AmplifyFrontend.flutter:
-      return initFlutterProjectWithProfile(cwd,settings);
+      return initFlutterProjectWithProfile(cwd, settings);
     default:
       throw Error(`${settings.frontendType} is an invalid frontend type`);
   }
 }
 
+export async function initProjectWithQuickstart(cwd: string, settings: any): Promise<void> {
+  return new Promise((resolve, reject) => {
+    spawn(getCLIPath(), ['init', '--quickstart', '--frontend', settings.frontendType], { cwd, stripColors: true }).run((err: Error) => {
+      if (!err) {
+        resolve();
+      } else {
+        reject(err);
+      }
+    });
+  });
+}
+
 export function createRandomName() {
   const length = 20;
   const regExp = new RegExp('-', 'g');
-  return uuid().replace(regExp, '').substring(0, length);
+  return uuid()
+    .replace(regExp, '')
+    .substring(0, length);
 }
