@@ -48,6 +48,7 @@ const KNOWN_SUITES_SORTED_ACCORDING_TO_RUNTIME = [
 
   // <18m
   'src/__tests__/build-app-ts.test.ts',
+  'src/__tests__/build-app-android.test.ts',
 ];
 
 /**
