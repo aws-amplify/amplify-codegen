@@ -502,20 +502,6 @@ workflows:
                 - main
                 - e2e-testing
                 - /tagged-release\/.*/
-      - e2e-test-macos:
-          context:
-            - cleanup-resources
-          os: l
-          requires:
-            - publish_to_local_registry
-          post-steps:
-            - run: *ref_6
-          filters:
-            branches:
-              only:
-                - main
-                - e2e-testing
-                - /tagged-release\/.*/
       - deploy:
           os: l
           requires:

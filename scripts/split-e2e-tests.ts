@@ -206,7 +206,7 @@ function removeWorkflowJob(jobs: WorkflowJob[], jobName: string): WorkflowJob[] 
       return j !== jobName;
     } else {
       const name = Object.keys(j)[0];
-      return name !== jobName;
+      return name !== jobName && name !== `${jobName}-macos`;
     }
   });
 }
@@ -235,7 +235,7 @@ function replaceWorkflowDependency(jobs: WorkflowJob[], jobName: string, jobsToR
     const [currentJobName, jobObj] = Object.entries(j)[0];
     const requires = jobObj.requires || [];
     if (requires.includes(jobName)) {
-      jobObj.requires = [...requires.filter(r => r !== jobName), ...jobsToReplaceWith];
+      jobObj.requires = [...requires.filter(r => r !== jobName && r !== `${jobName}-macos`), ...jobsToReplaceWith];
     }
     return {
       [currentJobName]: jobObj,

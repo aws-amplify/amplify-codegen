@@ -317,7 +317,6 @@ workflows:
                 - main
                 - e2e-testing
                 - /tagged-release\/.*/
-
       - deploy:
           os: l
           requires:
