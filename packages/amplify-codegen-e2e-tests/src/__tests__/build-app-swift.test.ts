@@ -39,6 +39,7 @@ describe('build app - Swift', () => {
     it(`builds with ${schemaName}: ${schema.description}`, async () => {
       // @ts-ignore
       const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${schema.sdl}`;
+      console.log(schemaText); // log so that circleci does not timeout
       updateApiSchemaWithText(projectRoot, 'amplifyDatasource', schemaText);
       await generateModels(projectRoot);
       await swiftBuild(projectRoot, { ...config, scheme: 'swift' });
