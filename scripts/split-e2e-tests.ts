@@ -52,6 +52,11 @@ const KNOWN_SUITES_SORTED_ACCORDING_TO_RUNTIME = [
 ];
 
 const runSuitesOnMacOS = new Set(['src/__tests__/build-app-swift.test.ts']);
+const runJobOnMacOS = new Set(['build-app-swift-e2e-test']);
+
+function getMacOSJobName(jobName: string): string {
+  return `${jobName}-macos`;
+}
 
 /**
  * Sorts the test suite in ascending order. If the test is not included in known
@@ -117,15 +122,16 @@ function splitTests(
   jobRootDir: string,
   concurrency: number = CONCURRENCY,
 ): CircleCIConfig {
+  const macOSJobName = getMacOSJobName(jobName);
   const output: CircleCIConfig = { ...config };
   const jobs = { ...config.jobs };
   const baseJob = jobs[jobName];
-  const macOSJob = jobs[`${jobName}-macos`];
+  const macOSJob = jobs[macOSJobName];
   const testSuites = getTestFiles(jobRootDir);
 
   const newJobs = testSuites.reduce((acc, suite, index) => {
-    const job = runSuitesOnMacOS.has(suite) ? macOSJob : baseJob;
-    const runOnMacOS = runSuitesOnMacOS.has(suite);
+    const shouldRunOnMacOS = runSuitesOnMacOS.has(suite);
+    const job = shouldRunOnMacOS ? macOSJob : baseJob;
     const testRegion = AWS_REGIONS_TO_RUN_TESTS[index % AWS_REGIONS_TO_RUN_TESTS.length];
     const newJob = {
       ...job,
@@ -152,30 +158,29 @@ function splitTests(
   if (workflows[workflowName]) {
     const workflow = workflows[workflowName];
 
-    const workflowJob = workflow.jobs.find(j => {
-      if (typeof j === 'string') {
-        return j === jobName;
-      } else {
-        const name = Object.keys(j)[0];
-        return name === jobName;
-      }
+    const workflowJobBase: {} = workflow.jobs.find(j => {
+      const name = Object.keys(j)[0];
+      return name === jobName;
+    });
+    const workflowJobMacOS: {} = workflow.jobs.find(j => {
+      const name = Object.keys(j)[0];
+      return name === macOSJobName;
     });
 
-    if (workflowJob) {
+    if (workflowJobBase && workflowJobMacOS) {
+      const workflowJobs = { ...workflowJobBase, ...workflowJobMacOS };
       Object.values(jobByRegion).forEach(regionJobs => {
-        const newJobNames = Object.keys(regionJobs);
-        const jobs = newJobNames.map((newJobName, index) => {
+        const newJobs = Object.entries(regionJobs);
+        const newJobNames = newJobs.map(([newJobName]) => newJobName);
+        const jobs = newJobs.map(([newJobName, newJob], index) => {
           const requires = getRequiredJob(newJobNames, index, concurrency);
-          if (typeof workflowJob === 'string') {
-            return newJobName;
-          } else {
-            return {
-              [newJobName]: {
-                ...Object.values(workflowJob)[0],
-                requires: [...(requires ? [requires] : workflowJob[jobName].requires || [])],
-              },
-            };
-          }
+          const shouldRunOnMacOS = runJobOnMacOS.has(newJobName);
+          return {
+            [newJobName]: {
+              ...workflowJobs[shouldRunOnMacOS ? macOSJobName : jobName],
+              requires: [...(requires ? [requires] : workflowJobs[shouldRunOnMacOS ? macOSJobName : jobName].requires || [])],
+            },
+          };
         });
         workflow.jobs = [...workflow.jobs, ...jobs];
       });
@@ -206,7 +211,7 @@ function removeWorkflowJob(jobs: WorkflowJob[], jobName: string): WorkflowJob[] 
       return j !== jobName;
     } else {
       const name = Object.keys(j)[0];
-      return name !== jobName && name !== `${jobName}-macos`;
+      return name !== jobName && name !== getMacOSJobName(jobName);
     }
   });
 }

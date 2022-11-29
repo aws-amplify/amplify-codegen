@@ -544,6 +544,20 @@ workflows:
             - datastore-modelgen-android-e2e-test
             - configure-codegen-android-e2e-test
       - build-app-swift-e2e-test:
+          context:
+            - cleanup-resources
+          os: m
+          requires:
+            - publish_to_local_registry
+          post-steps:
+            - run: *ref_6
+          filters:
+            branches:
+              only:
+                - main
+                - e2e-testing
+                - /tagged-release\/.*/
+      - add-codegen-js-e2e-test:
           context: &ref_7
             - cleanup-resources
           os: l
@@ -557,13 +571,6 @@ workflows:
                 - main
                 - e2e-testing
                 - /tagged-release\/.*/
-      - add-codegen-js-e2e-test:
-          context: *ref_7
-          os: l
-          requires:
-            - publish_to_local_registry
-          post-steps: *ref_8
-          filters: *ref_9
       - datastore-modelgen-js-e2e-test:
           context: *ref_7
           os: l

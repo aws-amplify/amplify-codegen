@@ -306,7 +306,7 @@ workflows:
       - e2e-test-macos:
           context:
             - cleanup-resources
-          os: l
+          os: m
           requires:
             - publish_to_local_registry
           post-steps:
