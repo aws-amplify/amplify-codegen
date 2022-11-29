@@ -22,16 +22,9 @@ describe('build app - Swift', () => {
     projectPBXProjCache = readFileSync(path.join(projectRoot, 'swift.xcodeproj', 'project.pbxproj'));
   });
 
-  afterAll(async () => {
-    await rmSync(path.join(projectRoot, 'amplify'), { recursive: true, force: true });
-  });
-
-  beforeEach(() => {
-    writeFileSync(path.join(projectRoot, 'swift.xcodeproj', 'project.pbxproj'), projectPBXProjCache);
-  });
-
   afterEach(async () => {
     await rmSync(path.join(projectRoot, 'amplify', 'generated', 'models'), { recursive: true, force: true });
+    writeFileSync(path.join(projectRoot, 'swift.xcodeproj', 'project.pbxproj'), projectPBXProjCache);
   });
 
   Object.entries(schemas).forEach(([schemaName, schema]) => {
