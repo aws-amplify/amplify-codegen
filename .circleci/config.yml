@@ -26,7 +26,7 @@ executors:
       AMPLIFY_PATH: /home/circleci/repo/out/amplify-pkg-linux-x64
   m:
     macos:
-      xcode: 13.2.1
+      xcode: 14.1.0
     working_directory: ~/repo
     resource_class: large
     environment:
