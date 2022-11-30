@@ -212,10 +212,7 @@ jobs:
           key: 'amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}-mac'
       - run: cp -r /tmp/.cache ~/.cache
       - run: cp -r /tmp/verdaccio-cache ~/verdaccio-cache
-      - node/install:
-          install-yarn: true
-          node-version: '18'
-      - run: yarn run production-build
+      - run: CXXFLAGS="--std=c++17" yarn run production-build
       - run: *ref_3
       - run:
           name: Run e2e tests
