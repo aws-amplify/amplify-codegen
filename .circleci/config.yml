@@ -46,6 +46,7 @@ install_cli_with_local_codegen: &ref_3
     changeNpmGlobalPath
     npm install -g @aws-amplify/cli-internal
     amplify -v
+    npm list --global --depth=1
     unsetNpmRegistryUrl
   working_directory: ~/repo
 clean_up_e2e_resources: &ref_6

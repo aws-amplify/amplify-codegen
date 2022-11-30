@@ -49,6 +49,7 @@ install_cli_with_local_codegen: &install_cli
     changeNpmGlobalPath
     npm install -g @aws-amplify/cli-internal
     amplify -v
+    npm list --global --depth=1
     unsetNpmRegistryUrl
   working_directory: ~/repo
 
