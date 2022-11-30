@@ -18,7 +18,6 @@
   "private": true,
   "scripts": {
     "e2e": "npm run setup-profile && jest --verbose",
-    "e2e-skip-configure": "jest --verbose",
     "setup-profile": "ts-node ./src/configure_tests.ts",
     "clean-e2e-resources": "ts-node ./src/cleanup-e2e-resources.ts"
   },
