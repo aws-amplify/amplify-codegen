@@ -25,3 +25,4 @@ packages/**/reports/junit/*
 test.out.log
 *.tsbuildinfo
 package-lock.json
+.idea

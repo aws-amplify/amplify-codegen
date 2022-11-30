@@ -77,7 +77,12 @@ import Foundation
 public struct Comment: Model {
   public let id: String
   public var content: String
-  public var post: Post?
+  internal var _post: LazyReference<Post>
+  public var post: Post?   {
+      get async throws { 
+        try await _post.get()
+      } 
+    }
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
   
@@ -97,7 +102,7 @@ public struct Comment: Model {
       updatedAt: Temporal.DateTime? = nil) {
       self.id = id
       self.content = content
-      self.post = post
+      self._post = LazyReference(post)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
@@ -150,7 +155,12 @@ import Foundation
 public struct Project2: Model {
   public let id: String
   public var name: String?
-  public var team: Team2?
+  internal var _team: LazyReference<Team2>
+  public var team: Team2?   {
+      get async throws { 
+        try await _team.get()
+      } 
+    }
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
   public var project2TeamId: String?
@@ -174,7 +184,7 @@ public struct Project2: Model {
       project2TeamId: String? = nil) {
       self.id = id
       self.name = name
-      self.team = team
+      self._team = LazyReference(team)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
       self.project2TeamId = project2TeamId
@@ -226,7 +236,12 @@ import Foundation
 public struct Team2: Model {
   public let id: String
   public var name: String
-  public var project: Project2?
+  internal var _project: LazyReference<Project2>
+  public var project: Project2?   {
+      get async throws { 
+        try await _project.get()
+      } 
+    }
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
   
@@ -246,7 +261,7 @@ public struct Team2: Model {
       updatedAt: Temporal.DateTime? = nil) {
       self.id = id
       self.name = name
-      self.project = project
+      self._project = LazyReference(project)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
@@ -364,7 +379,12 @@ import Foundation
 public struct Post7V2: Model {
   public let id: String
   public var title: String
-  public var blog: Blog7V2?
+  internal var _blog: LazyReference<Blog7V2>
+  public var blog: Blog7V2?   {
+      get async throws { 
+        try await _blog.get()
+      } 
+    }
   public var comments: List<Comment7V2>?
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
@@ -388,7 +408,7 @@ public struct Post7V2: Model {
       updatedAt: Temporal.DateTime? = nil) {
       self.id = id
       self.title = title
-      self.blog = blog
+      self._blog = LazyReference(blog)
       self.comments = comments
       self.createdAt = createdAt
       self.updatedAt = updatedAt
@@ -440,7 +460,12 @@ import Foundation
 public struct Comment7V2: Model {
   public let id: String
   public var content: String?
-  public var post: Post7V2?
+  internal var _post: LazyReference<Post7V2>
+  public var post: Post7V2?   {
+      get async throws { 
+        try await _post.get()
+      } 
+    }
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
   
@@ -460,7 +485,7 @@ public struct Comment7V2: Model {
       updatedAt: Temporal.DateTime? = nil) {
       self.id = id
       self.content = content
-      self.post = post
+      self._post = LazyReference(post)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
@@ -509,7 +534,12 @@ import Foundation
 public struct Project: Model {
   public let id: String
   public var name: String?
-  public var team: Team?
+  internal var _team: LazyReference<Team>
+  public var team: Team?   {
+      get async throws { 
+        try await _team.get()
+      } 
+    }
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
   public var projectTeamId: String?
@@ -533,7 +563,7 @@ public struct Project: Model {
       projectTeamId: String? = nil) {
       self.id = id
       self.name = name
-      self.team = team
+      self._team = LazyReference(team)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
       self.projectTeamId = projectTeamId
@@ -585,7 +615,12 @@ import Foundation
 public struct Team: Model {
   public let id: String
   public var name: String
-  public var project: Project?
+  internal var _project: LazyReference<Project>
+  public var project: Project?   {
+      get async throws { 
+        try await _project.get()
+      } 
+    }
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
   
@@ -605,7 +640,7 @@ public struct Team: Model {
       updatedAt: Temporal.DateTime? = nil) {
       self.id = id
       self.name = name
-      self.project = project
+      self._project = LazyReference(project)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
@@ -1004,7 +1039,12 @@ public struct Project2: Model {
   public let id: String
   public var name: String?
   public var teamID: String?
-  public var team: Team2?
+  internal var _team: LazyReference<Team2>
+  public var team: Team2?   {
+      get async throws { 
+        try await _team.get()
+      } 
+    }
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
   
@@ -1028,7 +1068,7 @@ public struct Project2: Model {
       self.id = id
       self.name = name
       self.teamID = teamID
-      self.team = team
+      self._team = LazyReference(team)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
@@ -1279,7 +1319,12 @@ import Foundation
 public struct Project: Model {
   public let id: String
   public var name: String?
-  public var team: Team?
+  internal var _team: LazyReference<Team>
+  public var team: Team?   {
+      get async throws { 
+        try await _team.get()
+      } 
+    }
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
   public var projectTeamId: String?
@@ -1303,7 +1348,7 @@ public struct Project: Model {
       projectTeamId: String? = nil) {
       self.id = id
       self.name = name
-      self.team = team
+      self._team = LazyReference(team)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
       self.projectTeamId = projectTeamId

@@ -501,7 +501,12 @@ import Foundation
 public struct Project: Model {
   public let projectId: String
   public let name: String
-  public var team: Team?
+  internal var _team: LazyReference<Team>
+  public var team: Team?   {
+      get async throws { 
+        try await _team.get()
+      } 
+    }
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
   public var projectTeamTeamId: String?
@@ -529,7 +534,7 @@ public struct Project: Model {
       projectTeamName: String? = nil) {
       self.projectId = projectId
       self.name = name
-      self.team = team
+      self._team = LazyReference(team)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
       self.projectTeamTeamId = projectTeamTeamId
@@ -601,7 +606,12 @@ import Foundation
 public struct Team: Model {
   public let teamId: String
   public let name: String
-  public var project: Project?
+  internal var _project: LazyReference<Project>
+  public var project: Project?   {
+      get async throws { 
+        try await _project.get()
+      } 
+    }
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
   
@@ -621,7 +631,7 @@ public struct Team: Model {
       updatedAt: Temporal.DateTime? = nil) {
       self.teamId = teamId
       self.name = name
-      self.project = project
+      self._project = LazyReference(project)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
@@ -902,7 +912,12 @@ import Foundation
 public struct task: Model {
   public let id: String
   public var title: String
-  public var todo: Todo?
+  internal var _todo: LazyReference<Todo>
+  public var todo: Todo?   {
+      get async throws { 
+        try await _todo.get()
+      } 
+    }
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
   
@@ -922,7 +937,7 @@ public struct task: Model {
       updatedAt: Temporal.DateTime? = nil) {
       self.id = id
       self.title = title
-      self.todo = todo
+      self._todo = LazyReference(todo)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
