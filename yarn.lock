@@ -143,6 +143,11 @@
     "@turf/boolean-clockwise" "6.5.0"
     camelcase-keys "6.2.2"
 
+"@aws-amplify/graphql-schema-test-library@^1.1.18":
+  version "1.1.18"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-schema-test-library/-/graphql-schema-test-library-1.1.18.tgz#3edc82c16f431e24de325296a50d9518341537fa"
+  integrity sha512-da+9NWj7RPXW0y7jEgrI/Nqroi+uUf7ZY9s1oorVf+UQdKGjHDwUbBaEWqq/KkDl1HpYiBdqkCShyp+XuYKPEg==
+
 "@aws-amplify/graphql-transformer-core@^0.17.11":
   version "0.17.12"
   resolved "https://registry.npmjs.org/@aws-amplify/graphql-transformer-core/-/graphql-transformer-core-0.17.12.tgz#b965a07a8d23df2cf349366f39656a7ed2908154"
