@@ -208,7 +208,7 @@ jobs:
       - run: cp -r /tmp/verdaccio-cache ~/verdaccio-cache
       - node/install: # builds will fail on node 16. Possibly due to Apple Silicon
           install-yarn: true
-          node-version: '15.14'
+          node-version: '18'
       - run: yarn run production-build
       - run: *install_cli
       - run:

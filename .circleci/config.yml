@@ -214,7 +214,7 @@ jobs:
       - run: cp -r /tmp/verdaccio-cache ~/verdaccio-cache
       - node/install:
           install-yarn: true
-          node-version: '15.14'
+          node-version: '18'
       - run: yarn run production-build
       - run: *ref_3
       - run:
