@@ -668,7 +668,12 @@ describe('AppSyncSwiftVisitor', () => {
             public let id: String
             public var title: String
             public var done: Bool
-            public var todo: Todo?
+            internal var _todo: LazyReference<Todo>
+            public var todo: Todo?   {
+                get async throws { 
+                  try await _todo.get()
+                } 
+              }
             public var time: Temporal.Time?
             public var createdOn: Temporal.Date?
             public var createdAt: Temporal.DateTime?
@@ -700,7 +705,7 @@ describe('AppSyncSwiftVisitor', () => {
                 self.id = id
                 self.title = title
                 self.done = done
-                self.todo = todo
+                self._todo = LazyReference(todo)
                 self.time = time
                 self.createdOn = createdOn
                 self.createdAt = createdAt

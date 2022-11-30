@@ -62,10 +62,7 @@ export class AppSyncSwiftVisitor<
     const shouldUseModelNameFieldInHasManyAndBelongsTo = true;
     // This flag is going to be used to tight-trigger on JS implementations only.
     const shouldImputeKeyForUniDirectionalHasMany = false;
-    this.processDirectives(
-      shouldUseModelNameFieldInHasManyAndBelongsTo,
-      shouldImputeKeyForUniDirectionalHasMany
-    );
+    this.processDirectives(shouldUseModelNameFieldInHasManyAndBelongsTo, shouldImputeKeyForUniDirectionalHasMany);
 
     const code = [`// swiftlint:disable all`];
     if (this._parsedConfig.generate === CodeGenGenerateEnum.metadata) {
@@ -98,15 +95,53 @@ export class AppSyncSwiftVisitor<
         const fieldType = this.getNativeType(field);
         const isVariable = !primaryKeyComponentFieldsName.includes(field.name);
         const listType: ListType = field.connectionInfo ? ListType.LIST : ListType.ARRAY;
-        structBlock.addProperty(this.getFieldName(field), fieldType, undefined, 'public', {
-          optional: !this.isFieldRequired(field),
-          isList: field.isList,
-          variable: isVariable,
-          isEnum: this.isEnumType(field),
-          listType: field.isList ? listType : undefined,
-          isListNullable: field.isListNullable,
-          handleListNullabilityTransparently: this.isHasManyConnectionField(field) ? false : this.config.handleListNullabilityTransparently,
-        });
+        const connectionHasOneOrBelongsTo: boolean = field.connectionInfo
+          ? field.connectionInfo.kind === CodeGenConnectionType.HAS_ONE || field.connectionInfo.kind === CodeGenConnectionType.BELONGS_TO
+          : false;
+        if (connectionHasOneOrBelongsTo) {
+          structBlock.addProperty(`_${this.getFieldName(field)}`, `LazyReference<${fieldType}>`, undefined, `internal`, {
+            optional: false,
+            isList: field.isList,
+            variable: isVariable,
+            isEnum: this.isEnumType(field),
+            listType: field.isList ? listType : undefined,
+            isListNullable: field.isListNullable,
+            handleListNullabilityTransparently: this.isHasManyConnectionField(field)
+              ? false
+              : this.config.handleListNullabilityTransparently,
+          });
+          structBlock.addProperty(
+            this.getFieldName(field),
+            fieldType,
+            undefined,
+            'public',
+            {
+              optional: !this.isFieldRequired(field),
+              isList: field.isList,
+              variable: isVariable,
+              isEnum: this.isEnumType(field),
+              listType: field.isList ? listType : undefined,
+              isListNullable: field.isListNullable,
+              handleListNullabilityTransparently: this.isHasManyConnectionField(field)
+                ? false
+                : this.config.handleListNullabilityTransparently,
+            },
+            undefined,
+            `get async throws { \n  try await _${this.getFieldName(field)}.get()\n}`,
+          );
+        } else {
+          structBlock.addProperty(this.getFieldName(field), fieldType, undefined, 'public', {
+            optional: !this.isFieldRequired(field),
+            isList: field.isList,
+            variable: isVariable,
+            isEnum: this.isEnumType(field),
+            listType: field.isList ? listType : undefined,
+            isListNullable: field.isListNullable,
+            handleListNullabilityTransparently: this.isHasManyConnectionField(field)
+              ? false
+              : this.config.handleListNullabilityTransparently,
+          });
+        }
       });
       const initParams: CodeGenField[] = this.getWritableFields(obj);
       const initImpl: string = `self.init(${indentMultiline(
@@ -389,8 +424,13 @@ export class AppSyncSwiftVisitor<
 
   private getInitBody(fields: CodeGenField[]): string {
     let result = fields.map(field => {
-      const fieldName = escapeKeywords(this.getFieldName(field));
-      return indent(`self.${fieldName} = ${fieldName}`);
+      const connectionHasOneOrBelongsTo: boolean = field.connectionInfo
+        ? field.connectionInfo.kind === CodeGenConnectionType.HAS_ONE || field.connectionInfo.kind === CodeGenConnectionType.BELONGS_TO
+        : false;
+      const propertyName = connectionHasOneOrBelongsTo ? `_${this.getFieldName(field)}` : escapeKeywords(this.getFieldName(field));
+      const escapedFieldName = escapeKeywords(this.getFieldName(field));
+      const fieldValue = connectionHasOneOrBelongsTo ? `LazyReference(${escapedFieldName})` : escapedFieldName;
+      return indent(`self.${propertyName} = ${fieldValue}`);
     });
 
     return result.join('\n');
