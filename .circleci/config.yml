@@ -39,22 +39,13 @@ defaults:
       type: executor
 install_cli_with_local_codegen: &ref_3
   name: install Amplify CLI and amplify-app with local Amplify Codegen
-  command: >
+  command: |
     source .circleci/local_publish_helpers.sh
-
     startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
-
     setNpmRegistryUrlToLocal
-
     changeNpmGlobalPath
-
-    npm install -g graphql@14.5.8 jest react react-dom # some versions 3-6 of
-    npm won't install peer deps
-
     npm install -g @aws-amplify/cli-internal
-
     amplify -v
-
     unsetNpmRegistryUrl
   working_directory: ~/repo
 clean_up_e2e_resources: &ref_6
@@ -223,7 +214,7 @@ jobs:
       - run: cp -r /tmp/verdaccio-cache ~/verdaccio-cache
       - node/install:
           install-yarn: true
-          node-version: '14.18'
+          node-version: '15.14'
       - run: yarn run production-build
       - run: *ref_3
       - run:

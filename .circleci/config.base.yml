@@ -47,7 +47,6 @@ install_cli_with_local_codegen: &install_cli
     startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
     setNpmRegistryUrlToLocal
     changeNpmGlobalPath
-    npm install -g graphql@14.5.8 jest react react-dom # some versions 3-6 of npm won't install peer deps
     npm install -g @aws-amplify/cli-internal
     amplify -v
     unsetNpmRegistryUrl
@@ -209,7 +208,7 @@ jobs:
       - run: cp -r /tmp/verdaccio-cache ~/verdaccio-cache
       - node/install: # builds will fail on node 16. Possibly due to Apple Silicon
           install-yarn: true
-          node-version: '14.18'
+          node-version: '15.14'
       - run: yarn run production-build
       - run: *install_cli
       - run:
