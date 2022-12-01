@@ -288,20 +288,6 @@ workflows:
                 - main
                 - e2e-testing
                 - /tagged-release\/.*/
-      - e2e-test-macos:
-          context:
-            - cleanup-resources
-          os: m
-          requires:
-            - publish_to_local_registry-m
-          post-steps:
-            - run: *cleanup_e2e
-          filters:
-            branches:
-              only:
-                - main
-                - e2e-testing
-                - /tagged-release\/.*/
       - deploy:
           os: l
           requires:

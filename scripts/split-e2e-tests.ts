@@ -51,13 +51,6 @@ const KNOWN_SUITES_SORTED_ACCORDING_TO_RUNTIME = [
   'src/__tests__/build-app-swift.test.ts',
 ];
 
-const runSuitesOnMacOS = new Set(['src/__tests__/build-app-swift.test.ts']);
-const runJobOnMacOS = new Set(['build-app-swift-e2e-test']);
-
-function getMacOSJobName(jobName: string): string {
-  return `${jobName}-macos`;
-}
-
 /**
  * Sorts the test suite in ascending order. If the test is not included in known
  * tests it would be inserted at the begining of the array
@@ -93,6 +86,8 @@ export type CircleCIConfig = {
   };
 };
 
+const runJobOnMacOS = new Set(['build-app-swift-e2e-test']);
+
 function getTestFiles(dir: string, pattern = 'src/**/*.test.ts'): string[] {
   return sortTestsBasedOnTime(glob.sync(pattern, { cwd: dir })).reverse();
 }
@@ -122,16 +117,12 @@ function splitTests(
   jobRootDir: string,
   concurrency: number = CONCURRENCY,
 ): CircleCIConfig {
-  const macOSJobName = getMacOSJobName(jobName);
   const output: CircleCIConfig = { ...config };
   const jobs = { ...config.jobs };
-  const baseJob = jobs[jobName];
-  const macOSJob = jobs[macOSJobName];
+  const job = jobs[jobName];
   const testSuites = getTestFiles(jobRootDir);
 
   const newJobs = testSuites.reduce((acc, suite, index) => {
-    const shouldRunOnMacOS = runSuitesOnMacOS.has(suite);
-    const job = shouldRunOnMacOS ? macOSJob : baseJob;
     const testRegion = AWS_REGIONS_TO_RUN_TESTS[index % AWS_REGIONS_TO_RUN_TESTS.length];
     const newJob = {
       ...job,
@@ -158,29 +149,36 @@ function splitTests(
   if (workflows[workflowName]) {
     const workflow = workflows[workflowName];
 
-    const workflowJobBase: {} = workflow.jobs.find(j => {
-      const name = Object.keys(j)[0];
-      return name === jobName;
-    });
-    const workflowJobMacOS: {} = workflow.jobs.find(j => {
-      const name = Object.keys(j)[0];
-      return name === macOSJobName;
+    const workflowJob = workflow.jobs.find(j => {
+      if (typeof j === 'string') {
+        return j === jobName;
+      } else {
+        const name = Object.keys(j)[0];
+        return name === jobName;
+      }
     });
 
-    if (workflowJobBase && workflowJobMacOS) {
-      const workflowJobs = { ...workflowJobBase, ...workflowJobMacOS };
+    if (workflowJob) {
       Object.values(jobByRegion).forEach(regionJobs => {
-        const newJobs = Object.entries(regionJobs);
-        const newJobNames = newJobs.map(([newJobName]) => newJobName);
-        const jobs = newJobs.map(([newJobName, newJob], index) => {
+        const newJobNames = Object.keys(regionJobs);
+        const jobs = newJobNames.map((newJobName, index) => {
           const requires = getRequiredJob(newJobNames, index, concurrency);
-          const shouldRunOnMacOS = runJobOnMacOS.has(newJobName);
-          return {
-            [newJobName]: {
-              ...workflowJobs[shouldRunOnMacOS ? macOSJobName : jobName],
-              requires: [...(requires ? [requires] : workflowJobs[shouldRunOnMacOS ? macOSJobName : jobName].requires || [])],
-            },
-          };
+          if (typeof workflowJob === 'string') {
+            return newJobName;
+          } else {
+            const shouldRunJobOnMacOS = runJobOnMacOS.has(newJobName);
+            const newJob = {
+              ...Object.values(workflowJob)[0],
+              os: shouldRunJobOnMacOS ? 'm' : 'l',
+              requires: [...(requires ? [requires] : workflowJob[jobName].requires || [])],
+            };
+            if (runJobOnMacOS.has(newJobName)) {
+              newJob.requires = newJob.requires.map(r => r.replace(new RegExp('-l$'), '-m'));
+            }
+            return {
+              [newJobName]: newJob,
+            };
+          }
         });
         workflow.jobs = [...workflow.jobs, ...jobs];
       });
@@ -211,7 +209,7 @@ function removeWorkflowJob(jobs: WorkflowJob[], jobName: string): WorkflowJob[] 
       return j !== jobName;
     } else {
       const name = Object.keys(j)[0];
-      return name !== jobName && name !== getMacOSJobName(jobName);
+      return name !== jobName;
     }
   });
 }
@@ -240,7 +238,7 @@ function replaceWorkflowDependency(jobs: WorkflowJob[], jobName: string, jobsToR
     const [currentJobName, jobObj] = Object.entries(j)[0];
     const requires = jobObj.requires || [];
     if (requires.includes(jobName)) {
-      jobObj.requires = [...requires.filter(r => r !== jobName && r !== `${jobName}-macos`), ...jobsToReplaceWith];
+      jobObj.requires = [...requires.filter(r => r !== jobName), ...jobsToReplaceWith];
     }
     return {
       [currentJobName]: jobObj,
