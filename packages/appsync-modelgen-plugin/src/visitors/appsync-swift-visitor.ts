@@ -110,6 +110,7 @@ export class AppSyncSwiftVisitor<
               ? false
               : this.config.handleListNullabilityTransparently,
           });
+          const lazyLoadGetOrRequired = !this.isFieldRequired(field) ? 'get()' : 'require()';
           structBlock.addProperty(
             this.getFieldName(field),
             fieldType,
@@ -127,7 +128,7 @@ export class AppSyncSwiftVisitor<
                 : this.config.handleListNullabilityTransparently,
             },
             undefined,
-            `get async throws { \n  try await _${this.getFieldName(field)}.get()\n}`,
+            `get async throws { \n  try await _${this.getFieldName(field)}.${lazyLoadGetOrRequired}\n}`,
           );
         } else {
           structBlock.addProperty(this.getFieldName(field), fieldType, undefined, 'public', {
