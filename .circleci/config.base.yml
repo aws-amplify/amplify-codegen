@@ -69,25 +69,15 @@ jobs:
       - checkout
       - run: yarn config set workspaces-experimental true
       - run: yarn cache clean --force
-      - run: yarn run production-build
-      - run: cp -r ~/.cache /tmp/.cache # copy cache to directory shared between linux and macos executors
-      - run: cp -r ~/.ssh /tmp/.ssh
+      - run: CXXFLAGS="--std=c++17" yarn run production-build
       - save_cache:
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-<< parameters.os >>
           paths:
             - ~/.cache
       - save_cache:
-          key: amplify-codegen-ssh-deps-{{ .Branch }}
+          key: amplify-codegen-ssh-deps-{{ .Branch }}-<< parameters.os >>
           paths:
             - ~/.ssh
-      - save_cache:
-          key: 'amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-mac'
-          paths:
-            - /tmp/.cache
-      - save_cache:
-          key: 'amplify-codegen-ssh-deps-{{ .Branch }}-mac'
-          paths:
-            - /tmp/.ssh
       - persist_to_workspace:
           root: .
           paths: .
@@ -115,7 +105,7 @@ jobs:
             - attach_workspace:
                 at: ./
             - restore_cache:
-                key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+                key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-l
       - run:
           name: Lint
           command: yarn lint
@@ -134,8 +124,8 @@ jobs:
           at: ./
       - restore_cache:
           keys:
-            - amplify-codegen-ssh-deps-{{ .Branch }}
-            - amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - amplify-codegen-ssh-deps-{{ .Branch }}-l
+            - amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-l
       - run:
           name: Authenticate with npm
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
@@ -151,7 +141,7 @@ jobs:
       - attach_workspace:
           at: ./
       - restore_cache:
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-<< parameters.os >>
       - run:
           name: Publish to verdaccio
           command: |
@@ -163,15 +153,10 @@ jobs:
             git config user.name "Doesnt Matter"
             yarn publish-to-verdaccio
             unsetNpmRegistryUrl
-      - run: cp -r ~/verdaccio-cache /tmp/verdaccio-cache
       - save_cache:
-          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}
+          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}-<< parameters.os >>
           paths:
             - ~/verdaccio-cache/
-      - save_cache:
-          key: 'amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}-mac'
-          paths:
-            - /tmp/verdaccio-cache/
 
   e2e-test:
     <<: *defaults
@@ -180,9 +165,9 @@ jobs:
       - attach_workspace:
           at: ./
       - restore_cache:
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-<< parameters.os >>
       - restore_cache:
-          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}
+          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}-<< parameters.os >>
       - run: *install_cli
       - run:
           name: Run e2e tests
@@ -202,12 +187,9 @@ jobs:
       - attach_workspace:
           at: ./
       - restore_cache:
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-mac
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-<< parameters.os >>
       - restore_cache:
-          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}-mac
-      - run: cp -r /tmp/.cache ~/.cache
-      - run: cp -r /tmp/verdaccio-cache ~/verdaccio-cache
-      - run: CXXFLAGS="--std=c++17" yarn run production-build
+          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}-<< parameters.os >>
       - run: *install_cli
       - run:
           name: Run e2e tests
