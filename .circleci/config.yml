@@ -471,7 +471,12 @@ workflows:
   build_test_deploy:
     jobs:
       - build:
-          os: l
+          name: test-<< matrix.os >>
+          matrix:
+            parameters:
+              os:
+                - l
+                - m
       - test:
           name: test-<< matrix.os >>
           matrix:
@@ -482,9 +487,14 @@ workflows:
           requires:
             - build
       - publish_to_local_registry:
-          os: l
+          name: publish_to_local_registry-<< matrix.os >>
+          matrix:
+            parameters:
+              os:
+                - l
+                - m
           requires:
-            - build
+            - build-<< matrix.os >>
           filters:
             branches:
               only:
@@ -537,7 +547,7 @@ workflows:
             - cleanup-resources
           os: m
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-m
           post-steps:
             - run: *ref_6
           filters:
@@ -551,7 +561,7 @@ workflows:
             - cleanup-resources
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: &ref_8
             - run: *ref_6
           filters: &ref_9
@@ -564,160 +574,160 @@ workflows:
           context: *ref_7
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: *ref_8
           filters: *ref_9
       - configure-codegen-js-e2e-test:
           context: *ref_7
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: *ref_8
           filters: *ref_9
       - build-app-ts-e2e-test:
           context: *ref_7
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: *ref_8
           filters: *ref_9
       - model-introspection-codegen-e2e-test:
           context: *ref_7
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: *ref_8
           filters: *ref_9
       - remove-codegen-android-e2e-test:
           context: *ref_7
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: *ref_8
           filters: *ref_9
       - graphql-codegen-android-e2e-test:
           context: *ref_7
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: *ref_8
           filters: *ref_9
       - push-codegen-ios-e2e-test:
           context: *ref_7
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: *ref_8
           filters: *ref_9
       - add-codegen-ios-e2e-test:
           context: *ref_7
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: *ref_8
           filters: *ref_9
       - remove-codegen-ios-e2e-test:
           context: *ref_7
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: *ref_8
           filters: *ref_9
       - graphql-codegen-js-e2e-test:
           context: *ref_7
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: *ref_8
           filters: *ref_9
       - push-codegen-android-e2e-test:
           context: *ref_7
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: *ref_8
           filters: *ref_9
       - add-codegen-android-e2e-test:
           context: *ref_7
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: *ref_8
           filters: *ref_9
       - remove-codegen-js-e2e-test:
           context: *ref_7
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: *ref_8
           filters: *ref_9
       - graphql-codegen-ios-e2e-test:
           context: *ref_7
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: *ref_8
           filters: *ref_9
       - push-codegen-js-e2e-test:
           context: *ref_7
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: *ref_8
           filters: *ref_9
       - datastore-modelgen-flutter-e2e-test:
           context: *ref_7
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: *ref_8
           filters: *ref_9
       - feature-flags-e2e-test:
           context: *ref_7
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: *ref_8
           filters: *ref_9
       - pull-codegen-e2e-test:
           context: *ref_7
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: *ref_8
           filters: *ref_9
       - datastore-modelgen-ios-e2e-test:
           context: *ref_7
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: *ref_8
           filters: *ref_9
       - configure-codegen-ios-e2e-test:
           context: *ref_7
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: *ref_8
           filters: *ref_9
       - env-codegen-e2e-test:
           context: *ref_7
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: *ref_8
           filters: *ref_9
       - datastore-modelgen-android-e2e-test:
           context: *ref_7
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: *ref_8
           filters: *ref_9
       - configure-codegen-android-e2e-test:
           context: *ref_7
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps: *ref_8
           filters: *ref_9
