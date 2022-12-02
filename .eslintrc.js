@@ -240,6 +240,9 @@ module.exports = {
     '/packages/*/lib',
 
     // Ignore CHANGELOG.md files
-    '/packages/*/CHANGELOG.md'
+    '/packages/*/CHANGELOG.md',
+
+    // Ignore lint in e2e test apps
+    'test-apps'
   ]
 };

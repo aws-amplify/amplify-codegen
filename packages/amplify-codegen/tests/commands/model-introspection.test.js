@@ -110,4 +110,8 @@ describe('getModelIntrospection', () => {
     expect(graphqlCodegen.codegen).toBeCalled();
     expect(fs.readdirSync(outputDirectory).length).toEqual(0); 
   });
+
+  afterEach(() => {
+    mockFs.restore();
+  });
 });
