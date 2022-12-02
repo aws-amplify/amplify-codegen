@@ -511,7 +511,6 @@ workflows:
       - done_with_node_e2e_tests:
           os: l
           requires:
-            - e2e-test-macos
             - build-app-swift-e2e-test
             - add-codegen-js-e2e-test
             - datastore-modelgen-js-e2e-test

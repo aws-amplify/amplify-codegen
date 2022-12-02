@@ -305,4 +305,3 @@ workflows:
           os: l
           requires:
             - e2e-test
-            - e2e-test-macos
