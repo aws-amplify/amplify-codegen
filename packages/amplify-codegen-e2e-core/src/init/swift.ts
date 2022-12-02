@@ -12,7 +12,7 @@ export function swiftBuild(cwd: string, settings: Object = {}): Promise<void> {
   return new Promise((resolve, reject) => {
     const s = { ...defaultSettings, ...settings };
 
-    const args = ['CODE_SIGN_IDENTITY="Apple Development"', 'CODE_SIGNING_REQUIRED=NO'];
+    const args = ['build', 'CODE_SIGN_IDENTITY=""', 'CODE_SIGNING_REQUIRED=NO'];
     if (s.scheme) args.push('-scheme', s.scheme);
     if (s.target) args.push('-target', s.target);
     if (s.project) args.push('-project', s.project);
