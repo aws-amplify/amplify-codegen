@@ -295,6 +295,8 @@ export class AppSyncSwiftVisitor<
           result.push('');
           result.push(this.generatePrimaryKeyExtensions(model));
         }
+        // TODO: Most likely we will have a flag here as well, `if (this.isLazyLoadingEnabled())`
+        result.push(this.generateModelPathExtensions(model));
       });
 
     Object.values(this.getSelectedNonModels()).forEach(model => {
@@ -346,6 +348,9 @@ export class AppSyncSwiftVisitor<
       indentMultiline(fields.join(',\n')),
       ')',
       '}',
+      `public class Path: ModelPath<${this.getModelName(model)}> { }`,
+      '',
+      'public static var rootPath: PropertyContainerPath? { Path() }',
     ].join('\n');
     extensionDeclaration.addProperty(
       'schema',
@@ -393,6 +398,40 @@ export class AppSyncSwiftVisitor<
       result.push(identifierExtension.string);
     }
     return result.join('\n\n');
+  }
+
+  protected generateModelPathExtensions(model: CodeGenModel): string {
+    const modelPathExtension = new SwiftDeclarationBlock()
+      .asKind('extension')
+      .withName(`ModelPath where ModelType == ${this.getModelName(model)}`);
+
+    Object.values(model.fields).forEach(field => {
+      if (this.isEnumType(field) || this.isNonModelType(field)) {
+        return;
+      }
+      const fieldName = this.getFieldName(field);
+      const fieldType = this.getNativeType(field);
+      const pathType = field.connectionInfo ? 'ModelPath' : 'FieldPath';
+      const pathValue = field.connectionInfo
+        ? field.connectionInfo.kind === CodeGenConnectionType.HAS_MANY
+          ? `${fieldType}.Path(name: \"${fieldName}\", isCollection: true, parent: self)`
+          : `${fieldType}.Path(name: \"${fieldName}\", parent: self)`
+        : `${this.getFieldTypePathValue(fieldType)}(\"${fieldName}\")`;
+
+      modelPathExtension.addProperty(
+        `${fieldName}`,
+        `${pathType}<${fieldType}>`,
+        '',
+        undefined,
+        {
+          variable: true,
+        },
+        undefined,
+        pathValue,
+      );
+    });
+
+    return modelPathExtension.string;
   }
 
   protected generateClassLoader(): string {
@@ -525,6 +564,25 @@ export class AppSyncSwiftVisitor<
     }
     // TODO: investigate if returning string is acceptable or should throw an exception
     return '.string';
+  }
+
+  private getFieldTypePathValue(fieldType: String) {
+    if (fieldType === 'String') {
+      return 'string';
+    } else if (fieldType === 'Int') {
+      return 'int';
+    } else if (fieldType === 'Double') {
+      return 'double';
+    } else if (fieldType === 'Bool') {
+      return 'bool';
+    } else if (fieldType === 'Temporal.Date') {
+      return 'date';
+    } else if (fieldType === 'Temporal.DateTime') {
+      return 'datetime';
+    } else if (fieldType === 'Temporal.Time') {
+      return 'time';
+    }
+    return fieldType;
   }
 
   protected getEnumValue(value: string): string {
