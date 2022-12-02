@@ -42,7 +42,7 @@
   },
   "peerDependencies": {
     "amplify-cli-core": "^3.0.0",
-    "graphql-transformer-core": "^7.2.1"
+    "graphql-transformer-core": "^7.6.6"
   },
   "jest": {
     "verbose": false,

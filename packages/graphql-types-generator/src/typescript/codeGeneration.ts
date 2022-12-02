@@ -1,4 +1,5 @@
 import { LegacyCompilerContext, LegacyInlineFragment, LegacyFragment, LegacyField, LegacyOperation } from '../compiler/legacyIR';
+import { Maybe } from '../compiler';
 import {
   GraphQLError,
   getNamedType,
@@ -26,7 +27,6 @@ import { CodeGenerator } from '../utilities/CodeGenerator';
 import { interfaceDeclaration, propertyDeclaration, pickedPropertySetsDeclaration, Property } from './language';
 
 import { typeNameFromGraphQLType } from './types';
-import Maybe from 'graphql/tsutils/Maybe';
 
 export function generateSource(context: LegacyCompilerContext) {
   const generator = new CodeGenerator<LegacyCompilerContext>(context);
