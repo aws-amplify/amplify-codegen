@@ -444,3 +444,5 @@ function wrapInBooleanConditionsIfNeeded(
 
   return selection;
 }
+
+export type Maybe<T> = null | undefined | T;
