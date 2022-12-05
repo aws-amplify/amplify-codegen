@@ -126,6 +126,9 @@ public struct Comment3: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
+  public mutating func setPost(post: Post3) {
+    self._post = LazyReference(post)
+  }
 }"
 `;
 
@@ -313,6 +316,9 @@ public struct Comment: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
+  public mutating func setPost(post: Post? = nil) {
+    self._post = LazyReference(post)
+  }
 }"
 `;
 
@@ -416,6 +422,9 @@ public struct Project2: Model {
       self.updatedAt = updatedAt
       self.project2TeamId = project2TeamId
   }
+  public mutating func setTeam(team: Team2? = nil) {
+    self._team = LazyReference(team)
+  }
 }"
 `;
 
@@ -514,6 +523,9 @@ public struct Team2: Model {
       self._project = LazyReference(project)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
+  }
+  public mutating func setProject(project: Project2? = nil) {
+    self._project = LazyReference(project)
   }
 }"
 `;
@@ -703,6 +715,9 @@ public struct Post7V2: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
+  public mutating func setBlog(blog: Blog7V2? = nil) {
+    self._blog = LazyReference(blog)
+  }
 }"
 `;
 
@@ -801,6 +816,9 @@ public struct Comment7V2: Model {
       self._post = LazyReference(post)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
+  }
+  public mutating func setPost(post: Post7V2? = nil) {
+    self._post = LazyReference(post)
   }
 }"
 `;
@@ -990,6 +1008,9 @@ public struct Post8V2: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
+  public mutating func setBlog(blog: Blog8V2) {
+    self._blog = LazyReference(blog)
+  }
 }"
 `;
 
@@ -1088,6 +1109,9 @@ public struct Comment8V2: Model {
       self._post = LazyReference(post)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
+  }
+  public mutating func setPost(post: Post8V2) {
+    self._post = LazyReference(post)
   }
 }"
 `;
@@ -1188,6 +1212,9 @@ public struct Project: Model {
       self.updatedAt = updatedAt
       self.projectTeamId = projectTeamId
   }
+  public mutating func setTeam(team: Team? = nil) {
+    self._team = LazyReference(team)
+  }
 }"
 `;
 
@@ -1286,6 +1313,9 @@ public struct Team: Model {
       self._project = LazyReference(project)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
+  }
+  public mutating func setProject(project: Project? = nil) {
+    self._project = LazyReference(project)
   }
 }"
 `;
@@ -1835,6 +1865,9 @@ public struct Project2: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
+  public mutating func setTeam(team: Team2? = nil) {
+    self._team = LazyReference(team)
+  }
 }"
 `;
 
@@ -2195,6 +2228,9 @@ public struct Project: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
       self.projectTeamId = projectTeamId
+  }
+  public mutating func setTeam(team: Team? = nil) {
+    self._team = LazyReference(team)
   }
 }"
 `;

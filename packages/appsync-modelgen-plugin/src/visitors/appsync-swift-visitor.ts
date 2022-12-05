@@ -99,6 +99,7 @@ export class AppSyncSwiftVisitor<
           ? field.connectionInfo.kind === CodeGenConnectionType.HAS_ONE || field.connectionInfo.kind === CodeGenConnectionType.BELONGS_TO
           : false;
         if (connectionHasOneOrBelongsTo) {
+          // lazy loading - create computed property of LazyReference
           structBlock.addProperty(`_${this.getFieldName(field)}`, `LazyReference<${fieldType}>`, undefined, `internal`, {
             optional: false,
             isList: field.isList,
@@ -234,6 +235,38 @@ export class AppSyncSwiftVisitor<
           {},
         );
       }
+
+      // mutating functions for updating/deleting
+      Object.entries(obj.fields).forEach(([fieldName, field]) => {
+        const connectionHasOneOrBelongsTo: boolean = field.connectionInfo
+          ? field.connectionInfo.kind === CodeGenConnectionType.HAS_ONE || field.connectionInfo.kind === CodeGenConnectionType.BELONGS_TO
+          : false;
+        if (connectionHasOneOrBelongsTo) {
+          // lazy loading - create setter functions for LazyReference
+          let fieldName = this.getFieldName(field);
+          let capitalizedFieldName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
+          structBlock.addClassMethod(
+            `set${capitalizedFieldName}`,
+            null,
+            `self._${fieldName} = LazyReference(${fieldName})`,
+            [
+              {
+                name: this.getFieldName(field),
+                type: this.getNativeType(field),
+                value: undefined,
+                flags: { optional: !this.isFieldRequired(field) },
+              },
+            ],
+            'public',
+            {
+              mutating: true,
+            },
+          );
+        }
+      });
+
+      // custom decoder/encoder
+
       result.push(structBlock.string);
     });
     return result.join('\n');
