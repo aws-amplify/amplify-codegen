@@ -130,7 +130,7 @@ export type StructFlags = VariableFlags & {
   handleListNullabilityTransparently?: boolean;
 };
 export type PropertyFlags = StructFlags;
-export type MethodFlags = { static?: boolean; mutating?: boolean };
+export type MethodFlags = { static?: boolean; mutating?: boolean; throws?: boolean };
 export type DeclarationFlag = { final?: boolean };
 export type Kind = 'class' | 'struct' | 'extension' | 'enum';
 export type VariableDeclaration = {
@@ -314,6 +314,7 @@ export class SwiftDeclarationBlock {
             method.flags.mutating ? 'mutating' : '',
             ['init', 'deinit'].includes(method.name) ? '' : 'func',
             `${escapeKeywords(method.name)}${argWithParenthesis}`,
+            method.flags.throws ? 'throws' : '',
             method.returnType ? `-> ${method.returnType}` : '',
             '{',
           ],
