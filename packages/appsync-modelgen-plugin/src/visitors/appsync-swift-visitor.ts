@@ -266,6 +266,36 @@ export class AppSyncSwiftVisitor<
       });
 
       // custom decoder/encoder
+      structBlock.addClassMethod(
+        'init',
+        null,
+        this.getDecoderBody(obj.fields),
+        [
+          {
+            value: undefined,
+            name: 'from',
+            type: 'Decoder',
+            flags: {},
+          },
+        ],
+        'public',
+        { throws: true },
+      );
+      structBlock.addClassMethod(
+        'encode',
+        null,
+        this.getEncoderBody(obj.fields),
+        [
+          {
+            value: undefined,
+            name: 'to encoder',
+            type: 'Encoder',
+            flags: {},
+          },
+        ],
+        'public',
+        { throws: true },
+      );
 
       result.push(structBlock.string);
     });
@@ -508,6 +538,48 @@ export class AppSyncSwiftVisitor<
 
     return result.join('\n');
   }
+
+  private getDecoderBody(fields: CodeGenField[]): string {
+    let result: string[] = [];
+    result.push(indent('let values = try decoder.container(keyedBy: CodingKeys.self)'));
+    fields.forEach(field => {
+      const connectionHasOneOrBelongsTo: boolean = field.connectionInfo
+        ? field.connectionInfo.kind === CodeGenConnectionType.HAS_ONE || field.connectionInfo.kind === CodeGenConnectionType.BELONGS_TO
+        : false;
+      const escapedFieldName = escapeKeywords(this.getFieldName(field));
+      const assignedFieldName = connectionHasOneOrBelongsTo ? `_${this.getFieldName(field)}` : escapedFieldName;
+
+      const nativeType = this.getNativeType(field);
+      const optionality = !this.isFieldRequired(field) ? '?' : '';
+      const fieldType = connectionHasOneOrBelongsTo
+        ? `LazyReference<${nativeType}>)`
+        : field.isList
+        ? field.connectionInfo
+          ? `List<${nativeType}>${optionality}`
+          : `[${nativeType}]`
+        : `${nativeType}${optionality}`;
+      result.push(indent(`${assignedFieldName} = try values.decode(${fieldType}.self, .${escapedFieldName})`));
+    });
+
+    return result.join('\n');
+  }
+
+  private getEncoderBody(fields: CodeGenField[]): string {
+    let result: string[] = [];
+    result.push(indent('var container = encoder.container(keyedBy: CodingKeys.self)'));
+    fields.forEach(field => {
+      const connectionHasOneOrBelongsTo: boolean = field.connectionInfo
+        ? field.connectionInfo.kind === CodeGenConnectionType.HAS_ONE || field.connectionInfo.kind === CodeGenConnectionType.BELONGS_TO
+        : false;
+
+      const escapedFieldName = escapeKeywords(this.getFieldName(field));
+      const fieldValue = connectionHasOneOrBelongsTo ? `LazyReference(${escapedFieldName})` : escapedFieldName;
+      result.push(indent(`try container.encode(${fieldValue}, forKey: .${fieldValue})`));
+    });
+
+    return result.join('\n');
+  }
+
   protected getListType(typeStr: string, field: CodeGenField): string {
     return `${typeStr}`;
   }
