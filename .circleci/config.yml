@@ -2,6 +2,7 @@
 version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@6.15.3
+  android: circleci/android@2.1.2
 machine:
   environment:
     PATH: '${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin'

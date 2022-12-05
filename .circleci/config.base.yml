@@ -1,14 +1,15 @@
 version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@6.15.3
+  android: circleci/android@2.1.2
 machine:
   environment:
     PATH: '${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin'
 executors:
   w: &windows-e2e-executor
     machine:
-      image: "windows-server-2019-vs2019:stable"
-      resource_class: "windows.medium"
+      image: 'windows-server-2019-vs2019:stable'
+      resource_class: 'windows.medium'
       shell: bash.exe
     working_directory: ~/repo
     environment:
@@ -27,8 +28,8 @@ executors:
 defaults: &defaults
   working_directory: ~/repo
   parameters:
-      os:
-        type: executor
+    os:
+      type: executor
 
 install_cli_with_local_codegen: &install_cli
   name: install Amplify CLI and amplify-app with local Amplify Codegen
@@ -42,7 +43,7 @@ install_cli_with_local_codegen: &install_cli
     npm list --global --depth=1
     unsetNpmRegistryUrl
   working_directory: ~/repo
-        
+
 clean_up_e2e_resources: &cleanup_e2e
   name: Clean up e2e resources
   command: |
@@ -79,7 +80,7 @@ jobs:
       - when:
           condition:
             or:
-              - equal: [ *windows-e2e-executor, << parameters.os >> ]
+              - equal: [*windows-e2e-executor, << parameters.os >>]
           steps:
             - checkout
             - run: nvm install 12.22.7
@@ -90,7 +91,7 @@ jobs:
       - when:
           condition:
             or:
-              - equal: [ *linux-e2e-executor, << parameters.os >> ]
+              - equal: [*linux-e2e-executor, << parameters.os >>]
           steps:
             - attach_workspace:
                 at: ./
@@ -175,7 +176,7 @@ jobs:
     executor: << parameters.os >>
     steps:
       - run: echo 'Done with Node CLI E2E Tests'
-  
+
   cleanup_resources:
     <<: *defaults
     executor: << parameters.os >>
