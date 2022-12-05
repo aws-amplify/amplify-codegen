@@ -10,6 +10,13 @@ const { schemas } = require('@aws-amplify/graphql-schema-test-library');
 import { existsSync, writeFileSync, readdirSync, rmSync, readFileSync } from 'fs';
 import path from 'path';
 
+const skip = new Set([
+  'v2-recursive-has-one-dependency',
+  'v2-cyclic-has-one-dependency',
+  '@hasOne-with-@belongsTo-with-implicit-parameters',
+  '@hasOne-with-@belongsTo-with-explicit-parameters',
+]);
+
 describe('build app - Swift', () => {
   let apiName: string;
   let projectPBXProjCache: Buffer;
@@ -29,14 +36,20 @@ describe('build app - Swift', () => {
 
   Object.entries(schemas).forEach(([schemaName, schema]) => {
     // @ts-ignore
-    it(`builds with ${schemaName}: ${schema.description}`, async () => {
+    const testName = `builds with ${schemaName}: ${schema.description}`;
+    const testFunction = async () => {
       // @ts-ignore
       const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${schema.sdl}`;
       console.log(schemaText); // log so that circleci does not timeout
       updateApiSchemaWithText(projectRoot, 'amplifyDatasource', schemaText);
       await generateModels(projectRoot);
       await swiftBuild(projectRoot, { ...config, scheme: 'swift' });
-    });
+    };
+    if (skip.has(schemaName)) {
+      it.skip(testName, testFunction);
+    } else {
+      it(testName, testFunction);
+    }
   });
 
   it('fails build with syntax error', async () => {
