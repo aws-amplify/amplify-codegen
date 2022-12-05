@@ -654,6 +654,9 @@ public struct Project: Model {
       self.projectTeamTeamId = projectTeamTeamId
       self.projectTeamName = projectTeamName
   }
+  public mutating func setTeam(team: Team? = nil) {
+    self._team = LazyReference(team)
+  }
 }"
 `;
 
@@ -774,6 +777,9 @@ public struct Team: Model {
       self._project = LazyReference(project)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
+  }
+  public mutating func setProject(project: Project? = nil) {
+    self._project = LazyReference(project)
   }
 }"
 `;
@@ -1161,6 +1167,9 @@ public struct task: Model {
       self._todo = LazyReference(todo)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
+  }
+  public mutating func setTodo(todo: Todo? = nil) {
+    self._todo = LazyReference(todo)
   }
 }"
 `;
