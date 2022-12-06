@@ -39,7 +39,7 @@ public struct Post: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       title = try values.decode(String.self, .title)
@@ -166,7 +166,7 @@ public struct Comment: Model {
       self.postCommentsId = postCommentsId
       self.postCommentsTitle = postCommentsTitle
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       content = try values.decode(String.self, .content)
@@ -295,7 +295,7 @@ public struct ModelCompositePk: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       dob = try values.decode(Temporal.DateTime.self, .dob)
@@ -412,7 +412,7 @@ public struct ModelExplicitCustomPk: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       userId = try values.decode(String.self, .userId)
       name = try values.decode(String?.self, .name)
@@ -521,7 +521,7 @@ public struct ModelExplicitDefaultPk: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       name = try values.decode(String?.self, .name)
@@ -624,7 +624,7 @@ public struct ModelImplicitDefaultPk: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       name = try values.decode(String?.self, .name)
@@ -749,7 +749,7 @@ public struct Project: Model {
   public mutating func setTeam(team: Team? = nil) {
     self._team = LazyReference(team)
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       projectId = try values.decode(String.self, .projectId)
       name = try values.decode(String.self, .name)
@@ -893,7 +893,7 @@ public struct Team: Model {
   public mutating func setProject(project: Project? = nil) {
     self._project = LazyReference(project)
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       teamId = try values.decode(String.self, .teamId)
       name = try values.decode(String.self, .name)
@@ -1045,7 +1045,7 @@ public struct ListContainer: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       name = try values.decode(String?.self, .name)
@@ -1215,7 +1215,7 @@ public struct Todo: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       title = try values.decode(String.self, .title)
@@ -1349,7 +1349,7 @@ public struct task: Model {
   public mutating func setTodo(todo: Todo? = nil) {
     self._todo = LazyReference(todo)
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       title = try values.decode(String.self, .title)
