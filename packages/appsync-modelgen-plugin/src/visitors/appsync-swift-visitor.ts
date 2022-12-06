@@ -552,7 +552,7 @@ export class AppSyncSwiftVisitor<
       const nativeType = this.getNativeType(field);
       const optionality = !this.isFieldRequired(field) ? '?' : '';
       const fieldType = connectionHasOneOrBelongsTo
-        ? `LazyReference<${nativeType}>)`
+        ? `LazyReference<${nativeType}>`
         : field.isList
         ? field.connectionInfo
           ? `List<${nativeType}>${optionality}`
@@ -561,7 +561,7 @@ export class AppSyncSwiftVisitor<
       const decodeMethod = connectionHasOneOrBelongsTo ? 'decodeIfPresent' : 'decode';
       const defaultLazyReference = connectionHasOneOrBelongsTo ? ' ?? LazyReference(identifiers: nil)' : '';
       result.push(
-        indent(`${assignedFieldName} = try values.${decodeMethod}(${fieldType}.self, .${escapedFieldName})${defaultLazyReference}`),
+        indent(`${assignedFieldName} = try values.${decodeMethod}(${fieldType}.self, forKey: .${escapedFieldName})${defaultLazyReference}`),
       );
     });
 
@@ -577,8 +577,8 @@ export class AppSyncSwiftVisitor<
         : false;
 
       const escapedFieldName = escapeKeywords(this.getFieldName(field));
-      const fieldValue = connectionHasOneOrBelongsTo ? `LazyReference(${escapedFieldName})` : escapedFieldName;
-      result.push(indent(`try container.encode(${fieldValue}, forKey: .${fieldValue})`));
+      const fieldValue = connectionHasOneOrBelongsTo ? `_${this.getFieldName(field)}` : escapeKeywords(this.getFieldName(field));
+      result.push(indent(`try container.encode(${fieldValue}, forKey: .${escapedFieldName})`));
     });
 
     return result.join('\n');
