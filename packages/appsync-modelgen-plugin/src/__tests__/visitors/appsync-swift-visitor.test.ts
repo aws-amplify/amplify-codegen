@@ -94,11 +94,11 @@ describe('AppSyncSwiftVisitor', () => {
         }
         public init(from decoder: Decoder) throws {
             let values = try decoder.container(keyedBy: CodingKeys.self)
-            id = try values.decode(String.self, .id)
-            name = try values.decode(String?.self, .name)
-            bar = try values.decode(String?.self, .bar)
-            createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-            updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+            id = try values.decode(String.self, forKey: .id)
+            name = try values.decode(String?.self, forKey: .name)
+            bar = try values.decode(String?.self, forKey: .bar)
+            createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+            updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
         }
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -236,10 +236,10 @@ describe('AppSyncSwiftVisitor', () => {
         }
         public init(from decoder: Decoder) throws {
             let values = try decoder.container(keyedBy: CodingKeys.self)
-            id = try values.decode(String.self, .id)
-            name = try values.decode(String?.self, .name)
-            createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-            updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+            id = try values.decode(String.self, forKey: .id)
+            name = try values.decode(String?.self, forKey: .name)
+            createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+            updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
         }
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -342,10 +342,10 @@ describe('AppSyncSwiftVisitor', () => {
         }
         public init(from decoder: Decoder) throws {
             let values = try decoder.container(keyedBy: CodingKeys.self)
-            id = try values.decode(String.self, .id)
-            first_name = try values.decode(String?.self, .first_name)
-            createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-            updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+            id = try values.decode(String.self, forKey: .id)
+            first_name = try values.decode(String?.self, forKey: .first_name)
+            createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+            updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
         }
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -414,13 +414,13 @@ describe('AppSyncSwiftVisitor', () => {
         }
         public init(from decoder: Decoder) throws {
             let values = try decoder.container(keyedBy: CodingKeys.self)
-            id = try values.decode(String.self, .id)
-            author_id = try values.decode(String.self, .author_id)
-            book_id = try values.decode(String.self, .book_id)
-            author = try values.decode(String?.self, .author)
-            book = try values.decode(String?.self, .book)
-            createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-            updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+            id = try values.decode(String.self, forKey: .id)
+            author_id = try values.decode(String.self, forKey: .author_id)
+            book_id = try values.decode(String.self, forKey: .book_id)
+            author = try values.decode(String?.self, forKey: .author)
+            book = try values.decode(String?.self, forKey: .book)
+            createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+            updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
         }
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -735,16 +735,16 @@ describe('AppSyncSwiftVisitor', () => {
             }
             public init(from decoder: Decoder) throws {
                 let values = try decoder.container(keyedBy: CodingKeys.self)
-                id = try values.decode(String.self, .id)
-                title = try values.decode(String.self, .title)
-                done = try values.decode(Bool.self, .done)
-                description = try values.decode(String?.self, .description)
-                due_date = try values.decode(String?.self, .due_date)
-                version = try values.decode(Int.self, .version)
-                value = try values.decode(Double?.self, .value)
-                tasks = try values.decode(List<task>?.self, .tasks)
-                createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-                updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+                id = try values.decode(String.self, forKey: .id)
+                title = try values.decode(String.self, forKey: .title)
+                done = try values.decode(Bool.self, forKey: .done)
+                description = try values.decode(String?.self, forKey: .description)
+                due_date = try values.decode(String?.self, forKey: .due_date)
+                version = try values.decode(Int.self, forKey: .version)
+                value = try values.decode(Double?.self, forKey: .value)
+                tasks = try values.decode(List<task>?.self, forKey: .tasks)
+                createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+                updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
             }
             public func encode(to encoder: Encoder) throws {
                 var container = encoder.container(keyedBy: CodingKeys.self)
@@ -904,21 +904,21 @@ describe('AppSyncSwiftVisitor', () => {
             }
             public init(from decoder: Decoder) throws {
                 let values = try decoder.container(keyedBy: CodingKeys.self)
-                id = try values.decode(String.self, .id)
-                title = try values.decode(String.self, .title)
-                done = try values.decode(Bool.self, .done)
-                _todo = try values.decodeIfPresent(LazyReference<Todo>).self, .todo) ?? LazyReference(identifiers: nil)
-                time = try values.decode(Temporal.Time?.self, .time)
-                createdOn = try values.decode(Temporal.Date?.self, .createdOn)
-                createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-                updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+                id = try values.decode(String.self, forKey: .id)
+                title = try values.decode(String.self, forKey: .title)
+                done = try values.decode(Bool.self, forKey: .done)
+                _todo = try values.decodeIfPresent(LazyReference<Todo>.self, forKey: .todo) ?? LazyReference(identifiers: nil)
+                time = try values.decode(Temporal.Time?.self, forKey: .time)
+                createdOn = try values.decode(Temporal.Date?.self, forKey: .createdOn)
+                createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+                updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
             }
             public func encode(to encoder: Encoder) throws {
                 var container = encoder.container(keyedBy: CodingKeys.self)
                 try container.encode(id, forKey: .id)
                 try container.encode(title, forKey: .title)
                 try container.encode(done, forKey: .done)
-                try container.encode(LazyReference(todo), forKey: .LazyReference(todo))
+                try container.encode(_todo, forKey: .todo)
                 try container.encode(time, forKey: .time)
                 try container.encode(createdOn, forKey: .createdOn)
                 try container.encode(createdAt, forKey: .createdAt)
@@ -1095,11 +1095,11 @@ describe('AppSyncSwiftVisitor', () => {
             }
             public init(from decoder: Decoder) throws {
                 let values = try decoder.container(keyedBy: CodingKeys.self)
-                id = try values.decode(String.self, .id)
-                title = try values.decode(String.self, .title)
-                editors = try values.decode(List<PostEditor>?.self, .editors)
-                createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-                updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+                id = try values.decode(String.self, forKey: .id)
+                title = try values.decode(String.self, forKey: .title)
+                editors = try values.decode(List<PostEditor>?.self, forKey: .editors)
+                createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+                updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
             }
             public func encode(to encoder: Encoder) throws {
                 var container = encoder.container(keyedBy: CodingKeys.self)
@@ -1202,11 +1202,11 @@ describe('AppSyncSwiftVisitor', () => {
             }
             public init(from decoder: Decoder) throws {
                 let values = try decoder.container(keyedBy: CodingKeys.self)
-                id = try values.decode(String.self, .id)
-                title = try values.decode(String.self, .title)
-                editors = try values.decode(List<PostEditor>?.self, .editors)
-                createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-                updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+                id = try values.decode(String.self, forKey: .id)
+                title = try values.decode(String.self, forKey: .title)
+                editors = try values.decode(List<PostEditor>?.self, forKey: .editors)
+                createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+                updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
             }
             public func encode(to encoder: Encoder) throws {
                 var container = encoder.container(keyedBy: CodingKeys.self)
@@ -1349,15 +1349,15 @@ describe('AppSyncSwiftVisitor', () => {
         }
         public init(from decoder: Decoder) throws {
             let values = try decoder.container(keyedBy: CodingKeys.self)
-            id = try values.decode(String.self, .id)
-            intArr = try values.decode([Int].self, .intArr)
-            strArr = try values.decode([String].self, .strArr)
-            floatArr = try values.decode([Double].self, .floatArr)
-            boolArr = try values.decode([Bool].self, .boolArr)
-            dateArr = try values.decode([Temporal.Date].self, .dateArr)
-            enumArr = try values.decode([EnumType].self, .enumArr)
-            createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-            updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+            id = try values.decode(String.self, forKey: .id)
+            intArr = try values.decode([Int].self, forKey: .intArr)
+            strArr = try values.decode([String].self, forKey: .strArr)
+            floatArr = try values.decode([Double].self, forKey: .floatArr)
+            boolArr = try values.decode([Bool].self, forKey: .boolArr)
+            dateArr = try values.decode([Temporal.Date].self, forKey: .dateArr)
+            enumArr = try values.decode([EnumType].self, forKey: .enumArr)
+            createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+            updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
         }
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -1525,15 +1525,15 @@ describe('AppSyncSwiftVisitor', () => {
         }
         public init(from decoder: Decoder) throws {
             let values = try decoder.container(keyedBy: CodingKeys.self)
-            id = try values.decode(String.self, .id)
-            name = try values.decode(String.self, .name)
-            location = try values.decode(Location.self, .location)
-            nearByLocations = try values.decode([Location].self, .nearByLocations)
-            status = try values.decode(Status.self, .status)
-            statusHistory = try values.decode([Status].self, .statusHistory)
-            tags = try values.decode([String].self, .tags)
-            createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-            updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+            id = try values.decode(String.self, forKey: .id)
+            name = try values.decode(String.self, forKey: .name)
+            location = try values.decode(Location.self, forKey: .location)
+            nearByLocations = try values.decode([Location].self, forKey: .nearByLocations)
+            status = try values.decode(Status.self, forKey: .status)
+            statusHistory = try values.decode([Status].self, forKey: .statusHistory)
+            tags = try values.decode([String].self, forKey: .tags)
+            createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+            updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
         }
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -1809,13 +1809,13 @@ describe('AppSyncSwiftVisitor', () => {
           }
           public init(from decoder: Decoder) throws {
               let values = try decoder.container(keyedBy: CodingKeys.self)
-              id = try values.decode(String.self, .id)
-              \`Class\` = try values.decode(Class?.self, .\`Class\`)
-              nonNullClass = try values.decode(Class.self, .nonNullClass)
-              classes = try values.decode([Class].self, .classes)
-              nonNullClasses = try values.decode([Class].self, .nonNullClasses)
-              createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-              updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+              id = try values.decode(String.self, forKey: .id)
+              \`Class\` = try values.decode(Class?.self, forKey: .\`Class\`)
+              nonNullClass = try values.decode(Class.self, forKey: .nonNullClass)
+              classes = try values.decode([Class].self, forKey: .classes)
+              nonNullClasses = try values.decode([Class].self, forKey: .nonNullClasses)
+              createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+              updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
           }
           public func encode(to encoder: Encoder) throws {
               var container = encoder.container(keyedBy: CodingKeys.self)
@@ -2922,11 +2922,11 @@ describe('AppSyncSwiftVisitor', () => {
           }
           public init(from decoder: Decoder) throws {
               let values = try decoder.container(keyedBy: CodingKeys.self)
-              id = try values.decode(String.self, .id)
-              name = try values.decode(String?.self, .name)
-              bar = try values.decode(String?.self, .bar)
-              createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-              updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+              id = try values.decode(String.self, forKey: .id)
+              name = try values.decode(String?.self, forKey: .name)
+              bar = try values.decode(String?.self, forKey: .bar)
+              createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+              updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
           }
           public func encode(to encoder: Encoder) throws {
               var container = encoder.container(keyedBy: CodingKeys.self)
@@ -2968,9 +2968,9 @@ describe('AppSyncSwiftVisitor', () => {
           }
           public init(from decoder: Decoder) throws {
               let values = try decoder.container(keyedBy: CodingKeys.self)
-              id = try values.decode(String.self, .id)
-              name = try values.decode(String?.self, .name)
-              bar = try values.decode(String?.self, .bar)
+              id = try values.decode(String.self, forKey: .id)
+              name = try values.decode(String?.self, forKey: .name)
+              bar = try values.decode(String?.self, forKey: .bar)
           }
           public func encode(to encoder: Encoder) throws {
               var container = encoder.container(keyedBy: CodingKeys.self)
@@ -3010,9 +3010,9 @@ describe('AppSyncSwiftVisitor', () => {
           }
           public init(from decoder: Decoder) throws {
               let values = try decoder.container(keyedBy: CodingKeys.self)
-              id = try values.decode(String.self, .id)
-              createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-              updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+              id = try values.decode(String.self, forKey: .id)
+              createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+              updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
           }
           public func encode(to encoder: Encoder) throws {
               var container = encoder.container(keyedBy: CodingKeys.self)
