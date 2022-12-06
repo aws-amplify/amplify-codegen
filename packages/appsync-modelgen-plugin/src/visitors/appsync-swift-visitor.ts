@@ -558,7 +558,11 @@ export class AppSyncSwiftVisitor<
           ? `List<${nativeType}>${optionality}`
           : `[${nativeType}]`
         : `${nativeType}${optionality}`;
-      result.push(indent(`${assignedFieldName} = try values.decode(${fieldType}.self, .${escapedFieldName})`));
+      const decodeMethod = connectionHasOneOrBelongsTo ? 'decodeIfPresent' : 'decode';
+      const defaultLazyReference = connectionHasOneOrBelongsTo ? ' ?? LazyReference(identifiers: nil)' : '';
+      result.push(
+        indent(`${assignedFieldName} = try values.${decodeMethod}(${fieldType}.self, .${escapedFieldName})${defaultLazyReference}`),
+      );
     });
 
     return result.join('\n');

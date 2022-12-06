@@ -753,7 +753,7 @@ public struct Project: Model {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       projectId = try values.decode(String.self, .projectId)
       name = try values.decode(String.self, .name)
-      _team = try values.decode(LazyReference<Team>).self, .team)
+      _team = try values.decodeIfPresent(LazyReference<Team>).self, .team) ?? LazyReference(identifiers: nil)
       createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
       updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
       projectTeamTeamId = try values.decode(String?.self, .projectTeamTeamId)
@@ -897,7 +897,7 @@ public struct Team: Model {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       teamId = try values.decode(String.self, .teamId)
       name = try values.decode(String.self, .name)
-      _project = try values.decode(LazyReference<Project>).self, .project)
+      _project = try values.decodeIfPresent(LazyReference<Project>).self, .project) ?? LazyReference(identifiers: nil)
       createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
       updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
   }
@@ -1353,7 +1353,7 @@ public struct task: Model {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       title = try values.decode(String.self, .title)
-      _todo = try values.decode(LazyReference<Todo>).self, .todo)
+      _todo = try values.decodeIfPresent(LazyReference<Todo>).self, .todo) ?? LazyReference(identifiers: nil)
       createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
       updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
   }
