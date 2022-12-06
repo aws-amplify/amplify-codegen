@@ -251,7 +251,7 @@ export class AppSyncSwiftVisitor<
             `self._${fieldName} = LazyReference(${fieldName})`,
             [
               {
-                name: this.getFieldName(field),
+                name: `_ ${this.getFieldName(field)}`,
                 type: this.getNativeType(field),
                 value: undefined,
                 flags: { optional: !this.isFieldRequired(field) },

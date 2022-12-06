@@ -746,7 +746,7 @@ public struct Project: Model {
       self.projectTeamTeamId = projectTeamTeamId
       self.projectTeamName = projectTeamName
   }
-  public mutating func setTeam(team: Team? = nil) {
+  public mutating func setTeam(_ team: Team? = nil) {
     self._team = LazyReference(team)
   }
   public init(from decoder: Decoder) throws {
@@ -890,7 +890,7 @@ public struct Team: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public mutating func setProject(project: Project? = nil) {
+  public mutating func setProject(_ project: Project? = nil) {
     self._project = LazyReference(project)
   }
   public init(from decoder: Decoder) throws {
@@ -1346,7 +1346,7 @@ public struct task: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public mutating func setTodo(todo: Todo? = nil) {
+  public mutating func setTodo(_ todo: Todo? = nil) {
     self._todo = LazyReference(todo)
   }
   public init(from decoder: Decoder) throws {
