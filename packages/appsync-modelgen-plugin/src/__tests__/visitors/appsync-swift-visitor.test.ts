@@ -899,7 +899,7 @@ describe('AppSyncSwiftVisitor', () => {
                 self.createdAt = createdAt
                 self.updatedAt = updatedAt
             }
-            public mutating func setTodo(todo: Todo? = nil) {
+            public mutating func setTodo(_ todo: Todo? = nil) {
               self._todo = LazyReference(todo)
             }
             public init(from decoder: Decoder) throws {
