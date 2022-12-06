@@ -273,7 +273,7 @@ export class AppSyncSwiftVisitor<
         [
           {
             value: undefined,
-            name: 'from',
+            name: 'from decoder',
             type: 'Decoder',
             flags: {},
           },

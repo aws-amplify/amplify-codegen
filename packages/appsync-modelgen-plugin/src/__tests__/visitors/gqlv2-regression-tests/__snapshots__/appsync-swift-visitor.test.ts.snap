@@ -32,7 +32,7 @@ public struct Post3: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       title = try values.decode(String.self, .title)
@@ -145,7 +145,7 @@ public struct Comment3: Model {
   public mutating func setPost(post: Post3) {
     self._post = LazyReference(post)
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       content = try values.decode(String.self, .content)
@@ -254,7 +254,7 @@ public struct Post: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       title = try values.decode(String.self, .title)
@@ -367,7 +367,7 @@ public struct Comment: Model {
   public mutating func setPost(post: Post? = nil) {
     self._post = LazyReference(post)
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       content = try values.decode(String.self, .content)
@@ -489,7 +489,7 @@ public struct Project2: Model {
   public mutating func setTeam(team: Team2? = nil) {
     self._team = LazyReference(team)
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       name = try values.decode(String?.self, .name)
@@ -609,7 +609,7 @@ public struct Team2: Model {
   public mutating func setProject(project: Project2? = nil) {
     self._project = LazyReference(project)
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       name = try values.decode(String.self, .name)
@@ -714,7 +714,7 @@ public struct Blog7V2: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       name = try values.decode(String.self, .name)
@@ -832,7 +832,7 @@ public struct Post7V2: Model {
   public mutating func setBlog(blog: Blog7V2? = nil) {
     self._blog = LazyReference(blog)
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       title = try values.decode(String.self, .title)
@@ -952,7 +952,7 @@ public struct Comment7V2: Model {
   public mutating func setPost(post: Post7V2? = nil) {
     self._post = LazyReference(post)
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       content = try values.decode(String?.self, .content)
@@ -1057,7 +1057,7 @@ public struct Blog8V2: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       name = try values.decode(String.self, .name)
@@ -1175,7 +1175,7 @@ public struct Post8V2: Model {
   public mutating func setBlog(blog: Blog8V2) {
     self._blog = LazyReference(blog)
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       title = try values.decode(String.self, .title)
@@ -1295,7 +1295,7 @@ public struct Comment8V2: Model {
   public mutating func setPost(post: Post8V2) {
     self._post = LazyReference(post)
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       content = try values.decode(String?.self, .content)
@@ -1413,7 +1413,7 @@ public struct Project: Model {
   public mutating func setTeam(team: Team? = nil) {
     self._team = LazyReference(team)
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       name = try values.decode(String?.self, .name)
@@ -1533,7 +1533,7 @@ public struct Team: Model {
   public mutating func setProject(project: Project? = nil) {
     self._project = LazyReference(project)
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       name = try values.decode(String.self, .name)
@@ -1643,7 +1643,7 @@ public struct Post: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       title = try values.decode(String.self, .title)
@@ -1755,7 +1755,7 @@ public struct Tag: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       label = try values.decode(String.self, .label)
@@ -1855,7 +1855,7 @@ public struct Todo: Model {
       self.createdOn = createdOn
       self.updatedOn = updatedOn
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       content = try values.decode(String?.self, .content)
@@ -1953,7 +1953,7 @@ public struct Post2: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       title = try values.decode(String.self, .title)
@@ -2058,7 +2058,7 @@ public struct Comment2: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       postID = try values.decode(String.self, .postID)
@@ -2180,7 +2180,7 @@ public struct Project2: Model {
   public mutating func setTeam(team: Team2? = nil) {
     self._team = LazyReference(team)
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       name = try values.decode(String?.self, .name)
@@ -2287,7 +2287,7 @@ public struct Team2: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       name = try values.decode(String.self, .name)
@@ -2385,7 +2385,7 @@ public struct Post: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       title = try values.decode(String.self, .title)
@@ -2490,7 +2490,7 @@ public struct Comment: Model {
       self.updatedAt = updatedAt
       self.postCommentsId = postCommentsId
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       content = try values.decode(String.self, .content)
@@ -2608,7 +2608,7 @@ public struct Project: Model {
   public mutating func setTeam(team: Team? = nil) {
     self._team = LazyReference(team)
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       name = try values.decode(String?.self, .name)
@@ -2715,7 +2715,7 @@ public struct Team: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       name = try values.decode(String.self, .name)
@@ -2818,7 +2818,7 @@ public struct Customer: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from: Decoder) throws {
+  public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       id = try values.decode(String.self, .id)
       name = try values.decode(String.self, .name)
