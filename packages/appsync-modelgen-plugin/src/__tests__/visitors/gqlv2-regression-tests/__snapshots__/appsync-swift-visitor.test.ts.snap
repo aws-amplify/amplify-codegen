@@ -34,11 +34,11 @@ public struct Post3: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      title = try values.decode(String.self, .title)
-      comments = try values.decode(List<Comment3>?.self, .comments)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+      id = try values.decode(String.self, forKey: .id)
+      title = try values.decode(String.self, forKey: .title)
+      comments = try values.decode(List<Comment3>?.self, forKey: .comments)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
@@ -147,17 +147,17 @@ public struct Comment3: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      content = try values.decode(String.self, .content)
-      _post = try values.decodeIfPresent(LazyReference<Post3>).self, .post) ?? LazyReference(identifiers: nil)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+      id = try values.decode(String.self, forKey: .id)
+      content = try values.decode(String.self, forKey: .content)
+      _post = try values.decodeIfPresent(LazyReference<Post3>.self, forKey: .post) ?? LazyReference(identifiers: nil)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
       try container.encode(id, forKey: .id)
       try container.encode(content, forKey: .content)
-      try container.encode(LazyReference(post), forKey: .LazyReference(post))
+      try container.encode(_post, forKey: .post)
       try container.encode(createdAt, forKey: .createdAt)
       try container.encode(updatedAt, forKey: .updatedAt)
   }
@@ -256,11 +256,11 @@ public struct Post: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      title = try values.decode(String.self, .title)
-      comments = try values.decode(List<Comment>?.self, .comments)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+      id = try values.decode(String.self, forKey: .id)
+      title = try values.decode(String.self, forKey: .title)
+      comments = try values.decode(List<Comment>?.self, forKey: .comments)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
@@ -369,17 +369,17 @@ public struct Comment: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      content = try values.decode(String.self, .content)
-      _post = try values.decodeIfPresent(LazyReference<Post>).self, .post) ?? LazyReference(identifiers: nil)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+      id = try values.decode(String.self, forKey: .id)
+      content = try values.decode(String.self, forKey: .content)
+      _post = try values.decodeIfPresent(LazyReference<Post>.self, forKey: .post) ?? LazyReference(identifiers: nil)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
       try container.encode(id, forKey: .id)
       try container.encode(content, forKey: .content)
-      try container.encode(LazyReference(post), forKey: .LazyReference(post))
+      try container.encode(_post, forKey: .post)
       try container.encode(createdAt, forKey: .createdAt)
       try container.encode(updatedAt, forKey: .updatedAt)
   }
@@ -491,18 +491,18 @@ public struct Project2: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      name = try values.decode(String?.self, .name)
-      _team = try values.decodeIfPresent(LazyReference<Team2>).self, .team) ?? LazyReference(identifiers: nil)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
-      project2TeamId = try values.decode(String?.self, .project2TeamId)
+      id = try values.decode(String.self, forKey: .id)
+      name = try values.decode(String?.self, forKey: .name)
+      _team = try values.decodeIfPresent(LazyReference<Team2>.self, forKey: .team) ?? LazyReference(identifiers: nil)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
+      project2TeamId = try values.decode(String?.self, forKey: .project2TeamId)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
       try container.encode(id, forKey: .id)
       try container.encode(name, forKey: .name)
-      try container.encode(LazyReference(team), forKey: .LazyReference(team))
+      try container.encode(_team, forKey: .team)
       try container.encode(createdAt, forKey: .createdAt)
       try container.encode(updatedAt, forKey: .updatedAt)
       try container.encode(project2TeamId, forKey: .project2TeamId)
@@ -611,17 +611,17 @@ public struct Team2: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      name = try values.decode(String.self, .name)
-      _project = try values.decodeIfPresent(LazyReference<Project2>).self, .project) ?? LazyReference(identifiers: nil)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+      id = try values.decode(String.self, forKey: .id)
+      name = try values.decode(String.self, forKey: .name)
+      _project = try values.decodeIfPresent(LazyReference<Project2>.self, forKey: .project) ?? LazyReference(identifiers: nil)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
       try container.encode(id, forKey: .id)
       try container.encode(name, forKey: .name)
-      try container.encode(LazyReference(project), forKey: .LazyReference(project))
+      try container.encode(_project, forKey: .project)
       try container.encode(createdAt, forKey: .createdAt)
       try container.encode(updatedAt, forKey: .updatedAt)
   }
@@ -716,11 +716,11 @@ public struct Blog7V2: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      name = try values.decode(String.self, .name)
-      posts = try values.decode(List<Post7V2>?.self, .posts)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+      id = try values.decode(String.self, forKey: .id)
+      name = try values.decode(String.self, forKey: .name)
+      posts = try values.decode(List<Post7V2>?.self, forKey: .posts)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
@@ -834,18 +834,18 @@ public struct Post7V2: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      title = try values.decode(String.self, .title)
-      _blog = try values.decodeIfPresent(LazyReference<Blog7V2>).self, .blog) ?? LazyReference(identifiers: nil)
-      comments = try values.decode(List<Comment7V2>?.self, .comments)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+      id = try values.decode(String.self, forKey: .id)
+      title = try values.decode(String.self, forKey: .title)
+      _blog = try values.decodeIfPresent(LazyReference<Blog7V2>.self, forKey: .blog) ?? LazyReference(identifiers: nil)
+      comments = try values.decode(List<Comment7V2>?.self, forKey: .comments)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
       try container.encode(id, forKey: .id)
       try container.encode(title, forKey: .title)
-      try container.encode(LazyReference(blog), forKey: .LazyReference(blog))
+      try container.encode(_blog, forKey: .blog)
       try container.encode(comments, forKey: .comments)
       try container.encode(createdAt, forKey: .createdAt)
       try container.encode(updatedAt, forKey: .updatedAt)
@@ -954,17 +954,17 @@ public struct Comment7V2: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      content = try values.decode(String?.self, .content)
-      _post = try values.decodeIfPresent(LazyReference<Post7V2>).self, .post) ?? LazyReference(identifiers: nil)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+      id = try values.decode(String.self, forKey: .id)
+      content = try values.decode(String?.self, forKey: .content)
+      _post = try values.decodeIfPresent(LazyReference<Post7V2>.self, forKey: .post) ?? LazyReference(identifiers: nil)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
       try container.encode(id, forKey: .id)
       try container.encode(content, forKey: .content)
-      try container.encode(LazyReference(post), forKey: .LazyReference(post))
+      try container.encode(_post, forKey: .post)
       try container.encode(createdAt, forKey: .createdAt)
       try container.encode(updatedAt, forKey: .updatedAt)
   }
@@ -1059,11 +1059,11 @@ public struct Blog8V2: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      name = try values.decode(String.self, .name)
-      posts = try values.decode(List<Post8V2>?.self, .posts)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+      id = try values.decode(String.self, forKey: .id)
+      name = try values.decode(String.self, forKey: .name)
+      posts = try values.decode(List<Post8V2>?.self, forKey: .posts)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
@@ -1177,18 +1177,18 @@ public struct Post8V2: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      title = try values.decode(String.self, .title)
-      _blog = try values.decodeIfPresent(LazyReference<Blog8V2>).self, .blog) ?? LazyReference(identifiers: nil)
-      comments = try values.decode(List<Comment8V2>?.self, .comments)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+      id = try values.decode(String.self, forKey: .id)
+      title = try values.decode(String.self, forKey: .title)
+      _blog = try values.decodeIfPresent(LazyReference<Blog8V2>.self, forKey: .blog) ?? LazyReference(identifiers: nil)
+      comments = try values.decode(List<Comment8V2>?.self, forKey: .comments)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
       try container.encode(id, forKey: .id)
       try container.encode(title, forKey: .title)
-      try container.encode(LazyReference(blog), forKey: .LazyReference(blog))
+      try container.encode(_blog, forKey: .blog)
       try container.encode(comments, forKey: .comments)
       try container.encode(createdAt, forKey: .createdAt)
       try container.encode(updatedAt, forKey: .updatedAt)
@@ -1297,17 +1297,17 @@ public struct Comment8V2: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      content = try values.decode(String?.self, .content)
-      _post = try values.decodeIfPresent(LazyReference<Post8V2>).self, .post) ?? LazyReference(identifiers: nil)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+      id = try values.decode(String.self, forKey: .id)
+      content = try values.decode(String?.self, forKey: .content)
+      _post = try values.decodeIfPresent(LazyReference<Post8V2>.self, forKey: .post) ?? LazyReference(identifiers: nil)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
       try container.encode(id, forKey: .id)
       try container.encode(content, forKey: .content)
-      try container.encode(LazyReference(post), forKey: .LazyReference(post))
+      try container.encode(_post, forKey: .post)
       try container.encode(createdAt, forKey: .createdAt)
       try container.encode(updatedAt, forKey: .updatedAt)
   }
@@ -1415,18 +1415,18 @@ public struct Project: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      name = try values.decode(String?.self, .name)
-      _team = try values.decodeIfPresent(LazyReference<Team>).self, .team) ?? LazyReference(identifiers: nil)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
-      projectTeamId = try values.decode(String?.self, .projectTeamId)
+      id = try values.decode(String.self, forKey: .id)
+      name = try values.decode(String?.self, forKey: .name)
+      _team = try values.decodeIfPresent(LazyReference<Team>.self, forKey: .team) ?? LazyReference(identifiers: nil)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
+      projectTeamId = try values.decode(String?.self, forKey: .projectTeamId)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
       try container.encode(id, forKey: .id)
       try container.encode(name, forKey: .name)
-      try container.encode(LazyReference(team), forKey: .LazyReference(team))
+      try container.encode(_team, forKey: .team)
       try container.encode(createdAt, forKey: .createdAt)
       try container.encode(updatedAt, forKey: .updatedAt)
       try container.encode(projectTeamId, forKey: .projectTeamId)
@@ -1535,17 +1535,17 @@ public struct Team: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      name = try values.decode(String.self, .name)
-      _project = try values.decodeIfPresent(LazyReference<Project>).self, .project) ?? LazyReference(identifiers: nil)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+      id = try values.decode(String.self, forKey: .id)
+      name = try values.decode(String.self, forKey: .name)
+      _project = try values.decodeIfPresent(LazyReference<Project>.self, forKey: .project) ?? LazyReference(identifiers: nil)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
       try container.encode(id, forKey: .id)
       try container.encode(name, forKey: .name)
-      try container.encode(LazyReference(project), forKey: .LazyReference(project))
+      try container.encode(_project, forKey: .project)
       try container.encode(createdAt, forKey: .createdAt)
       try container.encode(updatedAt, forKey: .updatedAt)
   }
@@ -1645,12 +1645,12 @@ public struct Post: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      title = try values.decode(String.self, .title)
-      content = try values.decode(String?.self, .content)
-      tags = try values.decode(List<PostTags>?.self, .tags)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+      id = try values.decode(String.self, forKey: .id)
+      title = try values.decode(String.self, forKey: .title)
+      content = try values.decode(String?.self, forKey: .content)
+      tags = try values.decode(List<PostTags>?.self, forKey: .tags)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
@@ -1757,11 +1757,11 @@ public struct Tag: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      label = try values.decode(String.self, .label)
-      posts = try values.decode(List<PostTags>?.self, .posts)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+      id = try values.decode(String.self, forKey: .id)
+      label = try values.decode(String.self, forKey: .label)
+      posts = try values.decode(List<PostTags>?.self, forKey: .posts)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
@@ -1857,10 +1857,10 @@ public struct Todo: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      content = try values.decode(String?.self, .content)
-      createdOn = try values.decode(Temporal.DateTime?.self, .createdOn)
-      updatedOn = try values.decode(Temporal.DateTime?.self, .updatedOn)
+      id = try values.decode(String.self, forKey: .id)
+      content = try values.decode(String?.self, forKey: .content)
+      createdOn = try values.decode(Temporal.DateTime?.self, forKey: .createdOn)
+      updatedOn = try values.decode(Temporal.DateTime?.self, forKey: .updatedOn)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
@@ -1955,11 +1955,11 @@ public struct Post2: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      title = try values.decode(String.self, .title)
-      comments = try values.decode(List<Comment2>?.self, .comments)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+      id = try values.decode(String.self, forKey: .id)
+      title = try values.decode(String.self, forKey: .title)
+      comments = try values.decode(List<Comment2>?.self, forKey: .comments)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
@@ -2060,11 +2060,11 @@ public struct Comment2: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      postID = try values.decode(String.self, .postID)
-      content = try values.decode(String.self, .content)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+      id = try values.decode(String.self, forKey: .id)
+      postID = try values.decode(String.self, forKey: .postID)
+      content = try values.decode(String.self, forKey: .content)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
@@ -2182,19 +2182,19 @@ public struct Project2: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      name = try values.decode(String?.self, .name)
-      teamID = try values.decode(String?.self, .teamID)
-      _team = try values.decodeIfPresent(LazyReference<Team2>).self, .team) ?? LazyReference(identifiers: nil)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+      id = try values.decode(String.self, forKey: .id)
+      name = try values.decode(String?.self, forKey: .name)
+      teamID = try values.decode(String?.self, forKey: .teamID)
+      _team = try values.decodeIfPresent(LazyReference<Team2>.self, forKey: .team) ?? LazyReference(identifiers: nil)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
       try container.encode(id, forKey: .id)
       try container.encode(name, forKey: .name)
       try container.encode(teamID, forKey: .teamID)
-      try container.encode(LazyReference(team), forKey: .LazyReference(team))
+      try container.encode(_team, forKey: .team)
       try container.encode(createdAt, forKey: .createdAt)
       try container.encode(updatedAt, forKey: .updatedAt)
   }
@@ -2289,10 +2289,10 @@ public struct Team2: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      name = try values.decode(String.self, .name)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+      id = try values.decode(String.self, forKey: .id)
+      name = try values.decode(String.self, forKey: .name)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
@@ -2387,11 +2387,11 @@ public struct Post: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      title = try values.decode(String.self, .title)
-      comments = try values.decode(List<Comment>?.self, .comments)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+      id = try values.decode(String.self, forKey: .id)
+      title = try values.decode(String.self, forKey: .title)
+      comments = try values.decode(List<Comment>?.self, forKey: .comments)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
@@ -2492,11 +2492,11 @@ public struct Comment: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      content = try values.decode(String.self, .content)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
-      postCommentsId = try values.decode(String?.self, .postCommentsId)
+      id = try values.decode(String.self, forKey: .id)
+      content = try values.decode(String.self, forKey: .content)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
+      postCommentsId = try values.decode(String?.self, forKey: .postCommentsId)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
@@ -2610,18 +2610,18 @@ public struct Project: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      name = try values.decode(String?.self, .name)
-      _team = try values.decodeIfPresent(LazyReference<Team>).self, .team) ?? LazyReference(identifiers: nil)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
-      projectTeamId = try values.decode(String?.self, .projectTeamId)
+      id = try values.decode(String.self, forKey: .id)
+      name = try values.decode(String?.self, forKey: .name)
+      _team = try values.decodeIfPresent(LazyReference<Team>.self, forKey: .team) ?? LazyReference(identifiers: nil)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
+      projectTeamId = try values.decode(String?.self, forKey: .projectTeamId)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
       try container.encode(id, forKey: .id)
       try container.encode(name, forKey: .name)
-      try container.encode(LazyReference(team), forKey: .LazyReference(team))
+      try container.encode(_team, forKey: .team)
       try container.encode(createdAt, forKey: .createdAt)
       try container.encode(updatedAt, forKey: .updatedAt)
       try container.encode(projectTeamId, forKey: .projectTeamId)
@@ -2717,10 +2717,10 @@ public struct Team: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      name = try values.decode(String.self, .name)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+      id = try values.decode(String.self, forKey: .id)
+      name = try values.decode(String.self, forKey: .name)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
@@ -2820,12 +2820,12 @@ public struct Customer: Model {
   }
   public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, .id)
-      name = try values.decode(String.self, .name)
-      phoneNumber = try values.decode(String?.self, .phoneNumber)
-      accountRepresentativeID = try values.decode(String.self, .accountRepresentativeID)
-      createdAt = try values.decode(Temporal.DateTime?.self, .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, .updatedAt)
+      id = try values.decode(String.self, forKey: .id)
+      name = try values.decode(String.self, forKey: .name)
+      phoneNumber = try values.decode(String?.self, forKey: .phoneNumber)
+      accountRepresentativeID = try values.decode(String.self, forKey: .accountRepresentativeID)
+      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
