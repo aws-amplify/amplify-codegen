@@ -24,6 +24,14 @@ executors:
     environment:
       AMPLIFY_DIR: /home/circleci/repo/out
       AMPLIFY_PATH: /home/circleci/repo/out/amplify-pkg-linux-x64
+  a:
+    docker:
+      - image: 'cimg/android:2022.09'
+    working_directory: ~/repo
+    resource_class: large
+    environment:
+      AMPLIFY_DIR: /home/circleci/repo/out
+      AMPLIFY_PATH: /home/circleci/repo/out/amplify-pkg-linux-x64
 defaults:
   working_directory: ~/repo
   parameters: &ref_0
@@ -204,6 +212,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/build-app-android.test.ts
       CLI_REGION: us-east-2
+      DONT_SET_NPM_PREFIX: true
   build-app-ts-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -212,6 +221,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/build-app-ts.test.ts
       CLI_REGION: us-west-1
+      DONT_SET_NPM_PREFIX: false
   push-codegen-ios-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -220,6 +230,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/push-codegen-ios.test.ts
       CLI_REGION: eu-west-2
+      DONT_SET_NPM_PREFIX: false
   push-codegen-android-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -228,6 +239,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/push-codegen-android.test.ts
       CLI_REGION: eu-central-1
+      DONT_SET_NPM_PREFIX: false
   push-codegen-js-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -236,6 +248,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/push-codegen-js.test.ts
       CLI_REGION: ap-northeast-1
+      DONT_SET_NPM_PREFIX: false
   pull-codegen-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -244,6 +257,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/pull-codegen.test.ts
       CLI_REGION: ap-southeast-1
+      DONT_SET_NPM_PREFIX: false
   env-codegen-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -252,6 +266,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/env-codegen.test.ts
       CLI_REGION: ap-southeast-2
+      DONT_SET_NPM_PREFIX: false
   add-codegen-js-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -260,6 +275,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/add-codegen-js.test.ts
       CLI_REGION: us-east-2
+      DONT_SET_NPM_PREFIX: false
   model-introspection-codegen-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -268,6 +284,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/model-introspection-codegen.test.ts
       CLI_REGION: us-west-1
+      DONT_SET_NPM_PREFIX: false
   add-codegen-ios-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -276,6 +293,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/add-codegen-ios.test.ts
       CLI_REGION: eu-west-2
+      DONT_SET_NPM_PREFIX: false
   add-codegen-android-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -284,6 +302,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/add-codegen-android.test.ts
       CLI_REGION: eu-central-1
+      DONT_SET_NPM_PREFIX: false
   datastore-modelgen-flutter-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -292,6 +311,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/datastore-modelgen-flutter.test.ts
       CLI_REGION: ap-northeast-1
+      DONT_SET_NPM_PREFIX: false
   datastore-modelgen-ios-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -300,6 +320,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/datastore-modelgen-ios.test.ts
       CLI_REGION: ap-southeast-1
+      DONT_SET_NPM_PREFIX: false
   datastore-modelgen-android-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -308,6 +329,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/datastore-modelgen-android.test.ts
       CLI_REGION: ap-southeast-2
+      DONT_SET_NPM_PREFIX: false
   datastore-modelgen-js-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -316,6 +338,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/datastore-modelgen-js.test.ts
       CLI_REGION: us-east-2
+      DONT_SET_NPM_PREFIX: false
   remove-codegen-android-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -324,6 +347,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/remove-codegen-android.test.ts
       CLI_REGION: us-west-1
+      DONT_SET_NPM_PREFIX: false
   remove-codegen-ios-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -332,6 +356,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/remove-codegen-ios.test.ts
       CLI_REGION: eu-west-2
+      DONT_SET_NPM_PREFIX: false
   remove-codegen-js-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -340,6 +365,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/remove-codegen-js.test.ts
       CLI_REGION: eu-central-1
+      DONT_SET_NPM_PREFIX: false
   feature-flags-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -348,6 +374,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/feature-flags.test.ts
       CLI_REGION: ap-northeast-1
+      DONT_SET_NPM_PREFIX: false
   configure-codegen-ios-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -356,6 +383,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/configure-codegen-ios.test.ts
       CLI_REGION: ap-southeast-1
+      DONT_SET_NPM_PREFIX: false
   configure-codegen-android-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -364,6 +392,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/configure-codegen-android.test.ts
       CLI_REGION: ap-southeast-2
+      DONT_SET_NPM_PREFIX: false
   configure-codegen-js-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -372,6 +401,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/configure-codegen-js.test.ts
       CLI_REGION: us-east-2
+      DONT_SET_NPM_PREFIX: false
   graphql-codegen-android-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -380,6 +410,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/graphql-codegen-android.test.ts
       CLI_REGION: us-west-1
+      DONT_SET_NPM_PREFIX: false
   graphql-codegen-js-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -388,6 +419,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/graphql-codegen-js.test.ts
       CLI_REGION: eu-west-2
+      DONT_SET_NPM_PREFIX: false
   graphql-codegen-ios-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
@@ -396,6 +428,7 @@ jobs:
     environment:
       TEST_SUITE: src/__tests__/graphql-codegen-ios.test.ts
       CLI_REGION: eu-central-1
+      DONT_SET_NPM_PREFIX: false
 workflows:
   version: 2
   e2e_resource_cleanup:
@@ -483,7 +516,7 @@ workflows:
       - build-app-android-e2e-test:
           context: &ref_6
             - cleanup-resources
-          os: l
+          os: a
           requires:
             - publish_to_local_registry
           post-steps: &ref_7

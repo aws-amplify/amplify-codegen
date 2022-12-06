@@ -51,6 +51,8 @@ const KNOWN_SUITES_SORTED_ACCORDING_TO_RUNTIME = [
   'src/__tests__/build-app-android.test.ts',
 ];
 
+const runJobOnAndroid = new Set(['build-app-android-e2e-test']);
+
 /**
  * Sorts the test suite in ascending order. If the test is not included in known
  * tests it would be inserted at the begining of the array
@@ -122,15 +124,19 @@ function splitTests(
 
   const newJobs = testSuites.reduce((acc, suite, index) => {
     const testRegion = AWS_REGIONS_TO_RUN_TESTS[index % AWS_REGIONS_TO_RUN_TESTS.length];
+    const newJobName = generateJobName(jobName, suite);
     const newJob = {
       ...job,
       environment: {
         ...job.environment,
         TEST_SUITE: suite,
         CLI_REGION: testRegion,
+        // the npm prefix should not be set because this test runs on an executor
+        // that needs to install Node separately. Setting the NPM prefix interferes
+        // with the separate Node installation
+        DONT_SET_NPM_PREFIX: runJobOnAndroid.has(newJobName),
       },
     };
-    const newJobName = generateJobName(jobName, suite);
     return { ...acc, [newJobName]: newJob };
   }, {});
 
@@ -164,9 +170,11 @@ function splitTests(
           if (typeof workflowJob === 'string') {
             return newJobName;
           } else {
+            const shouldRunJobOnAndroid = runJobOnAndroid.has(newJobName);
             return {
               [newJobName]: {
                 ...Object.values(workflowJob)[0],
+                os: shouldRunJobOnAndroid ? 'a' : 'l',
                 requires: [...(requires ? [requires] : workflowJob[jobName].requires || [])],
               },
             };

@@ -25,6 +25,15 @@ executors:
       AMPLIFY_DIR: /home/circleci/repo/out
       AMPLIFY_PATH: /home/circleci/repo/out/amplify-pkg-linux-x64
 
+  a: &android-e2e-executor
+    docker:
+      - image: cimg/android:2022.09
+    working_directory: ~/repo
+    resource_class: large
+    environment:
+      AMPLIFY_DIR: /home/circleci/repo/out
+      AMPLIFY_PATH: /home/circleci/repo/out/amplify-pkg-linux-x64
+
 defaults: &defaults
   working_directory: ~/repo
   parameters:
