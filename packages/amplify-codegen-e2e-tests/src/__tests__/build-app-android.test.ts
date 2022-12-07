@@ -10,7 +10,7 @@ const { schemas } = require('@aws-amplify/graphql-schema-test-library');
 import { existsSync, writeFileSync, readdirSync, rmSync } from 'fs';
 import path from 'path';
 
-const schema = 'simple_model.graphql';
+const skip = new Set(['v2-primary-key-with-composite-sort-key', 'custom-@primaryKey-with-sort-fields']);
 
 describe('build app - Android', () => {
   let apiName: string;
@@ -33,13 +33,19 @@ describe('build app - Android', () => {
 
   Object.entries(schemas).forEach(([schemaName, schema]) => {
     // @ts-ignore
-    it(`builds with ${schemaName}: ${schema.description}`, async () => {
+    const testName = `builds with ${schemaName}: ${schema.description}`;
+    const testFunction = async () => {
       // @ts-ignore
       const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${schema.sdl}`;
       updateApiSchemaWithText(projectRoot, apiName, schemaText);
       await generateModels(projectRoot);
       await androidBuild(projectRoot, { ...config });
-    });
+    };
+    if (skip.has(schemaName)) {
+      it.skip(testName, testFunction);
+    } else {
+      it(testName, testFunction);
+    }
   });
 
   it('fails build with syntax error', async () => {
