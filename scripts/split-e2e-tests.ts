@@ -120,13 +120,16 @@ function splitTests(
   const output: CircleCIConfig = { ...config };
   const jobs = { ...config.jobs };
   const job = jobs[jobName];
+  const jobWithNodeInstall = jobs[`${jobName}-with-node-install`];
   const testSuites = getTestFiles(jobRootDir);
 
   const newJobs = testSuites.reduce((acc, suite, index) => {
     const testRegion = AWS_REGIONS_TO_RUN_TESTS[index % AWS_REGIONS_TO_RUN_TESTS.length];
     const newJobName = generateJobName(jobName, suite);
+    const shouldRunJobOnAndroid = runJobOnAndroid.has(newJobName);
     const newJob = {
       ...job,
+      steps: jobWithNodeInstall && shouldRunJobOnAndroid ? jobWithNodeInstall.steps : job.steps,
       environment: {
         ...job.environment,
         TEST_SUITE: suite,
@@ -134,7 +137,7 @@ function splitTests(
         // the npm prefix should not be set because this test runs on an executor
         // that needs to install Node separately. Setting the NPM prefix interferes
         // with the separate Node installation
-        DONT_SET_NPM_PREFIX: runJobOnAndroid.has(newJobName),
+        DONT_SET_NPM_PREFIX: shouldRunJobOnAndroid,
       },
     };
     return { ...acc, [newJobName]: newJob };

@@ -180,6 +180,32 @@ jobs:
       - store_artifacts:
           path: ~/repo/packages/amplify-codegen-e2e-tests/amplify-e2e-reports
 
+  e2e-test-with-node-install:
+    <<: *defaults
+    executor: << parameters.os >>
+    steps:
+      - attach_workspace:
+          at: ./
+      - restore_cache:
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - restore_cache:
+          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}
+      - node/install:
+          install-yarn: true
+          node-version: '16.13'
+      - run: yarn run production-build
+      - run: *install_cli
+      - run:
+          name: Run e2e tests
+          command: |
+            cd packages/amplify-codegen-e2e-tests
+            yarn e2e --maxWorkers=3 $TEST_SUITE
+          no_output_timeout: 20m
+      - store_test_results:
+          path: packages/amplify-codegen-e2e-tests/
+      - store_artifacts:
+          path: ~/repo/packages/amplify-codegen-e2e-tests/amplify-e2e-reports
+
   done_with_node_e2e_tests:
     <<: *defaults
     executor: << parameters.os >>
