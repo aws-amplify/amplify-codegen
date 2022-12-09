@@ -11,6 +11,7 @@ const defaultIosVisitorSetings = {
   handleListNullabilityTransparently: true,
   transformerVersion: 1,
   respectPrimaryKeyAttributesOnConnectionField: false,
+  generateLazyReferenceAndModelPath: true,
 };
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));

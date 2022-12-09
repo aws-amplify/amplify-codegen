@@ -133,6 +133,12 @@ export interface RawAppSyncModelConfig extends RawConfig {
    */
   respectPrimaryKeyAttributesOnConnectionField?: boolean;
   /**
+   * @name generateLazyReferenceAndModelPath
+   * @type boolean
+   * @descriptions optional boolean which determines whether to generate LazyReference and ModelPath for iOS
+   */
+  generateLazyReferenceAndModelPath?: boolean;
+  /**
    * @name codegenVersion
    * @type string
    * @description semantic version of amplify-codegen package
@@ -150,6 +156,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   usePipelinedTransformer?: boolean;
   transformerVersion?: number;
   respectPrimaryKeyAttributesOnConnectionField?: boolean;
+  generateLazyReferenceAndModelPath?: boolean;
   codegenVersion?: string;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
@@ -239,6 +246,7 @@ export class AppSyncModelVisitor<
       usePipelinedTransformer: rawConfig.usePipelinedTransformer,
       transformerVersion: rawConfig.transformerVersion,
       respectPrimaryKeyAttributesOnConnectionField: rawConfig.respectPrimaryKeyAttributesOnConnectionField,
+      generateLazyReferenceAndModelPath: rawConfig.generateLazyReferenceAndModelPath,
       codegenVersion: rawConfig.codegenVersion,
     });
 
@@ -331,10 +339,7 @@ export class AppSyncModelVisitor<
   ) {
     if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
       this.processV2KeyDirectives();
-      this.processConnectionDirectivesV2(
-        shouldUseModelNameFieldInHasManyAndBelongsTo,
-        shouldImputeKeyForUniDirectionalHasMany
-      );
+      this.processConnectionDirectivesV2(shouldUseModelNameFieldInHasManyAndBelongsTo, shouldImputeKeyForUniDirectionalHasMany);
     } else {
       this.processConnectionDirective();
     }
@@ -1105,6 +1110,10 @@ export class AppSyncModelVisitor<
       (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) &&
       (this.config.respectPrimaryKeyAttributesOnConnectionField ?? false)
     );
+  }
+
+  protected isGenerateLazyReferenceModelPathEnabled(): boolean {
+    return this.config.generateLazyReferenceAndModelPath ?? false;
   }
 
   get models() {
