@@ -95,7 +95,7 @@ export class AppSyncSwiftVisitor<
         const fieldType = this.getNativeType(field);
         const isVariable = !primaryKeyComponentFieldsName.includes(field.name);
         const listType: ListType = field.connectionInfo ? ListType.LIST : ListType.ARRAY;
-        if (this.isHasOneOrBelongsToConnectionField(field)) {
+        if (this.isGenerateLazyReferenceModelPathEnabled() && this.isHasOneOrBelongsToConnectionField(field)) {
           // lazy loading - create computed property of LazyReference
           structBlock.addProperty(`_${this.getFieldName(field)}`, `LazyReference<${fieldType}>`, undefined, `internal`, {
             optional: false,
@@ -229,63 +229,65 @@ export class AppSyncSwiftVisitor<
         );
       }
 
-      // mutating functions for updating/deleting
-      Object.entries(obj.fields).forEach(([fieldName, field]) => {
-        if (this.isHasOneOrBelongsToConnectionField(field)) {
-          // lazy loading - create setter functions for LazyReference
-          let fieldName = this.getFieldName(field);
-          let capitalizedFieldName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
-          structBlock.addClassMethod(
-            `set${capitalizedFieldName}`,
-            null,
-            `self._${fieldName} = LazyReference(${fieldName})`,
-            [
+      if (this.isGenerateLazyReferenceModelPathEnabled()) {
+        // mutating functions for updating/deleting
+        Object.entries(obj.fields).forEach(([fieldName, field]) => {
+          if (this.isHasOneOrBelongsToConnectionField(field)) {
+            // lazy loading - create setter functions for LazyReference
+            let fieldName = this.getFieldName(field);
+            let capitalizedFieldName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
+            structBlock.addClassMethod(
+              `set${capitalizedFieldName}`,
+              null,
+              `self._${fieldName} = LazyReference(${fieldName})`,
+              [
+                {
+                  name: `_ ${this.getFieldName(field)}`,
+                  type: this.getNativeType(field),
+                  value: undefined,
+                  flags: { optional: !this.isFieldRequired(field) },
+                },
+              ],
+              'public',
               {
-                name: `_ ${this.getFieldName(field)}`,
-                type: this.getNativeType(field),
-                value: undefined,
-                flags: { optional: !this.isFieldRequired(field) },
+                mutating: true,
               },
-            ],
-            'public',
-            {
-              mutating: true,
-            },
-          );
-        }
-      });
+            );
+          }
+        });
 
-      // custom decoder/encoder
-      structBlock.addClassMethod(
-        'init',
-        null,
-        this.getDecoderBody(obj.fields),
-        [
-          {
-            value: undefined,
-            name: 'from decoder',
-            type: 'Decoder',
-            flags: {},
-          },
-        ],
-        'public',
-        { throws: true },
-      );
-      structBlock.addClassMethod(
-        'encode',
-        null,
-        this.getEncoderBody(obj.fields),
-        [
-          {
-            value: undefined,
-            name: 'to encoder',
-            type: 'Encoder',
-            flags: {},
-          },
-        ],
-        'public',
-        { throws: true },
-      );
+        // custom decoder/encoder
+        structBlock.addClassMethod(
+          'init',
+          null,
+          this.getDecoderBody(obj.fields),
+          [
+            {
+              value: undefined,
+              name: 'from decoder',
+              type: 'Decoder',
+              flags: {},
+            },
+          ],
+          'public',
+          { throws: true },
+        );
+        structBlock.addClassMethod(
+          'encode',
+          null,
+          this.getEncoderBody(obj.fields),
+          [
+            {
+              value: undefined,
+              name: 'to encoder',
+              type: 'Encoder',
+              flags: {},
+            },
+          ],
+          'public',
+          { throws: true },
+        );
+      }
 
       result.push(structBlock.string);
     });
@@ -348,8 +350,9 @@ export class AppSyncSwiftVisitor<
           result.push('');
           result.push(this.generatePrimaryKeyExtensions(model));
         }
-        // TODO: Most likely we will have a flag here as well, `if (this.isLazyLoadingEnabled())`
-        result.push(this.generateModelPathExtensions(model));
+        if (this.isGenerateLazyReferenceModelPathEnabled()) {
+          result.push(this.generateModelPathExtensions(model));
+        }
       });
 
     Object.values(this.getSelectedNonModels()).forEach(model => {
@@ -389,6 +392,7 @@ export class AppSyncSwiftVisitor<
     const keyDirectives = this.config.generateIndexRules ? this.generateKeyRules(model) : [];
     const priamryKeyRules = this.generatePrimaryKeyRules(model);
     const attributes = [...keyDirectives, priamryKeyRules].filter(f => f);
+    const isGenerateModelPathEnabled = this.isGenerateLazyReferenceModelPathEnabled();
     const closure = [
       '{ model in',
       `let ${keysName} = ${this.getModelName(model)}.keys`,
@@ -401,9 +405,9 @@ export class AppSyncSwiftVisitor<
       indentMultiline(fields.join(',\n')),
       ')',
       '}',
-      `public class Path: ModelPath<${this.getModelName(model)}> { }`,
+      isGenerateModelPathEnabled ? `public class Path: ModelPath<${this.getModelName(model)}> { }` : '',
       '',
-      'public static var rootPath: PropertyContainerPath? { Path() }',
+      isGenerateModelPathEnabled ? 'public static var rootPath: PropertyContainerPath? { Path() }' : '',
     ].join('\n');
     extensionDeclaration.addProperty(
       'schema',
@@ -518,11 +522,16 @@ export class AppSyncSwiftVisitor<
 
   private getInitBody(fields: CodeGenField[]): string {
     let result = fields.map(field => {
-      const connectionHasOneOrBelongsTo = this.isHasOneOrBelongsToConnectionField(field);
-      const escapedFieldName = escapeKeywords(this.getFieldName(field));
-      const propertyName = connectionHasOneOrBelongsTo ? `_${this.getFieldName(field)}` : escapedFieldName;
-      const fieldValue = connectionHasOneOrBelongsTo ? `LazyReference(${escapedFieldName})` : escapedFieldName;
-      return indent(`self.${propertyName} = ${fieldValue}`);
+      if (this.isGenerateLazyReferenceModelPathEnabled()) {
+        const connectionHasOneOrBelongsTo = this.isHasOneOrBelongsToConnectionField(field);
+        const escapedFieldName = escapeKeywords(this.getFieldName(field));
+        const propertyName = connectionHasOneOrBelongsTo ? `_${this.getFieldName(field)}` : escapedFieldName;
+        const fieldValue = connectionHasOneOrBelongsTo ? `LazyReference(${escapedFieldName})` : escapedFieldName;
+        return indent(`self.${propertyName} = ${fieldValue}`);
+      } else {
+        const fieldName = escapeKeywords(this.getFieldName(field));
+        return indent(`self.${fieldName} = ${fieldName}`);
+      }
     });
 
     return result.join('\n');
