@@ -160,6 +160,7 @@ export type StructMethod = {
 };
 export class SwiftDeclarationBlock {
   _name: string = '';
+  _condition: string = '';
   _kind: Kind = 'struct';
   _protocols: string[] = [];
   _access: Access = 'DEFAULT';
@@ -191,6 +192,11 @@ export class SwiftDeclarationBlock {
   withName(name: string | NameNode): SwiftDeclarationBlock {
     this._name = typeof name === 'object' ? (name as NameNode).value : name;
 
+    return this;
+  }
+
+  withCondition(condition: string): SwiftDeclarationBlock {
+    this._condition = condition;
     return this;
   }
 
@@ -332,7 +338,9 @@ export class SwiftDeclarationBlock {
         this._flags.final ? 'final' : '',
         this.getAccessStr(),
         this._kind,
-        `${escapeKeywords(this._name)}${this._protocols.length ? `: ${this._protocols.join(', ')}` : ''}`,
+        `${escapeKeywords(this._name)}${this._protocols.length ? `: ${this._protocols.join(', ')}` : ''}${
+          this._condition ? ` where ${this._condition}` : ''
+        }`,
         '{',
       ],
       false,

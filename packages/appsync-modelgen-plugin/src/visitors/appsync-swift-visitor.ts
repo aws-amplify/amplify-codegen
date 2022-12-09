@@ -3,16 +3,16 @@ import { camelCase } from 'change-case';
 import { GraphQLSchema } from 'graphql';
 import { lowerCaseFirst } from 'lower-case-first';
 import { schemaTypeMap } from '../configs/swift-config';
-import { SwiftDeclarationBlock, escapeKeywords, ListType } from '../languages/swift-declaration-block';
+import { escapeKeywords, ListType, SwiftDeclarationBlock } from '../languages/swift-declaration-block';
 import { CodeGenConnectionType } from '../utils/process-connections';
 import {
   AppSyncModelVisitor,
   CodeGenField,
   CodeGenGenerateEnum,
   CodeGenModel,
-  RawAppSyncModelConfig,
-  ParsedAppSyncModelConfig,
   CodeGenPrimaryKeyType,
+  ParsedAppSyncModelConfig,
+  RawAppSyncModelConfig,
 } from './appsync-visitor';
 import { AuthDirective, AuthStrategy } from '../utils/process-auth';
 import { printWarning } from '../utils/warn';
@@ -95,10 +95,7 @@ export class AppSyncSwiftVisitor<
         const fieldType = this.getNativeType(field);
         const isVariable = !primaryKeyComponentFieldsName.includes(field.name);
         const listType: ListType = field.connectionInfo ? ListType.LIST : ListType.ARRAY;
-        const connectionHasOneOrBelongsTo: boolean = field.connectionInfo
-          ? field.connectionInfo.kind === CodeGenConnectionType.HAS_ONE || field.connectionInfo.kind === CodeGenConnectionType.BELONGS_TO
-          : false;
-        if (connectionHasOneOrBelongsTo) {
+        if (this.isHasOneOrBelongsToConnectionField(field)) {
           // lazy loading - create computed property of LazyReference
           structBlock.addProperty(`_${this.getFieldName(field)}`, `LazyReference<${fieldType}>`, undefined, `internal`, {
             optional: false,
@@ -107,9 +104,7 @@ export class AppSyncSwiftVisitor<
             isEnum: this.isEnumType(field),
             listType: field.isList ? listType : undefined,
             isListNullable: field.isListNullable,
-            handleListNullabilityTransparently: this.isHasManyConnectionField(field)
-              ? false
-              : this.config.handleListNullabilityTransparently,
+            handleListNullabilityTransparently: this.config.handleListNullabilityTransparently,
           });
           const lazyLoadGetOrRequired = !this.isFieldRequired(field) ? 'get()' : 'require()';
           structBlock.addProperty(
@@ -124,9 +119,7 @@ export class AppSyncSwiftVisitor<
               isEnum: this.isEnumType(field),
               listType: field.isList ? listType : undefined,
               isListNullable: field.isListNullable,
-              handleListNullabilityTransparently: this.isHasManyConnectionField(field)
-                ? false
-                : this.config.handleListNullabilityTransparently,
+              handleListNullabilityTransparently: this.config.handleListNullabilityTransparently,
             },
             undefined,
             `get async throws { \n  try await _${this.getFieldName(field)}.${lazyLoadGetOrRequired}\n}`,
@@ -238,10 +231,7 @@ export class AppSyncSwiftVisitor<
 
       // mutating functions for updating/deleting
       Object.entries(obj.fields).forEach(([fieldName, field]) => {
-        const connectionHasOneOrBelongsTo: boolean = field.connectionInfo
-          ? field.connectionInfo.kind === CodeGenConnectionType.HAS_ONE || field.connectionInfo.kind === CodeGenConnectionType.BELONGS_TO
-          : false;
-        if (connectionHasOneOrBelongsTo) {
+        if (this.isHasOneOrBelongsToConnectionField(field)) {
           // lazy loading - create setter functions for LazyReference
           let fieldName = this.getFieldName(field);
           let capitalizedFieldName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
@@ -466,7 +456,8 @@ export class AppSyncSwiftVisitor<
   protected generateModelPathExtensions(model: CodeGenModel): string {
     const modelPathExtension = new SwiftDeclarationBlock()
       .asKind('extension')
-      .withName(`ModelPath where ModelType == ${this.getModelName(model)}`);
+      .withName(`ModelPath`)
+      .withCondition(`ModelType == ${this.getModelName(model)}`);
 
     Object.values(model.fields).forEach(field => {
       if (this.isEnumType(field) || this.isNonModelType(field)) {
@@ -482,7 +473,7 @@ export class AppSyncSwiftVisitor<
         : `${this.getFieldTypePathValue(fieldType)}(\"${fieldName}\")`;
 
       modelPathExtension.addProperty(
-        `${fieldName}`,
+        fieldName,
         `${pathType}<${fieldType}>`,
         '',
         undefined,
@@ -527,11 +518,9 @@ export class AppSyncSwiftVisitor<
 
   private getInitBody(fields: CodeGenField[]): string {
     let result = fields.map(field => {
-      const connectionHasOneOrBelongsTo: boolean = field.connectionInfo
-        ? field.connectionInfo.kind === CodeGenConnectionType.HAS_ONE || field.connectionInfo.kind === CodeGenConnectionType.BELONGS_TO
-        : false;
-      const propertyName = connectionHasOneOrBelongsTo ? `_${this.getFieldName(field)}` : escapeKeywords(this.getFieldName(field));
+      const connectionHasOneOrBelongsTo = this.isHasOneOrBelongsToConnectionField(field);
       const escapedFieldName = escapeKeywords(this.getFieldName(field));
+      const propertyName = connectionHasOneOrBelongsTo ? `_${this.getFieldName(field)}` : escapedFieldName;
       const fieldValue = connectionHasOneOrBelongsTo ? `LazyReference(${escapedFieldName})` : escapedFieldName;
       return indent(`self.${propertyName} = ${fieldValue}`);
     });
@@ -543,21 +532,10 @@ export class AppSyncSwiftVisitor<
     let result: string[] = [];
     result.push(indent('let values = try decoder.container(keyedBy: CodingKeys.self)'));
     fields.forEach(field => {
-      const connectionHasOneOrBelongsTo: boolean = field.connectionInfo
-        ? field.connectionInfo.kind === CodeGenConnectionType.HAS_ONE || field.connectionInfo.kind === CodeGenConnectionType.BELONGS_TO
-        : false;
+      const connectionHasOneOrBelongsTo = this.isHasOneOrBelongsToConnectionField(field);
       const escapedFieldName = escapeKeywords(this.getFieldName(field));
       const assignedFieldName = connectionHasOneOrBelongsTo ? `_${this.getFieldName(field)}` : escapedFieldName;
-
-      const nativeType = this.getNativeType(field);
-      const optionality = !this.isFieldRequired(field) ? '?' : '';
-      const fieldType = connectionHasOneOrBelongsTo
-        ? `LazyReference<${nativeType}>`
-        : field.isList
-        ? field.connectionInfo
-          ? `List<${nativeType}>${optionality}`
-          : `[${nativeType}]`
-        : `${nativeType}${optionality}`;
+      const fieldType = this.getDecoderBodyFieldType(field);
       const decodeMethod = connectionHasOneOrBelongsTo ? 'decodeIfPresent' : 'decode';
       const defaultLazyReference = connectionHasOneOrBelongsTo ? ' ?? LazyReference(identifiers: nil)' : '';
       result.push(
@@ -568,16 +546,28 @@ export class AppSyncSwiftVisitor<
     return result.join('\n');
   }
 
+  private getDecoderBodyFieldType(field: CodeGenField): string {
+    const nativeType = this.getNativeType(field);
+    const optionality = !this.isFieldRequired(field) ? '?' : '';
+
+    if (this.isHasOneOrBelongsToConnectionField(field)) {
+      return `LazyReference<${nativeType}>`;
+    }
+    if (field.isList) {
+      if (field.connectionInfo) {
+        return `List<${nativeType}>${optionality}`;
+      }
+      return `[${nativeType}]`;
+    }
+    return `${nativeType}${optionality}`;
+  }
+
   private getEncoderBody(fields: CodeGenField[]): string {
     let result: string[] = [];
     result.push(indent('var container = encoder.container(keyedBy: CodingKeys.self)'));
     fields.forEach(field => {
-      const connectionHasOneOrBelongsTo: boolean = field.connectionInfo
-        ? field.connectionInfo.kind === CodeGenConnectionType.HAS_ONE || field.connectionInfo.kind === CodeGenConnectionType.BELONGS_TO
-        : false;
-
       const escapedFieldName = escapeKeywords(this.getFieldName(field));
-      const fieldValue = connectionHasOneOrBelongsTo ? `_${this.getFieldName(field)}` : escapeKeywords(this.getFieldName(field));
+      const fieldValue = this.isHasOneOrBelongsToConnectionField(field) ? `_${this.getFieldName(field)}` : escapedFieldName;
       result.push(indent(`try container.encode(${fieldValue}, forKey: .${escapedFieldName})`));
     });
 
@@ -737,6 +727,16 @@ export class AppSyncSwiftVisitor<
 
   protected isHasManyConnectionField(field: CodeGenField): boolean {
     if (field.connectionInfo && field.connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
+      return true;
+    }
+    return false;
+  }
+
+  protected isHasOneOrBelongsToConnectionField(field: CodeGenField): boolean {
+    if (
+      field.connectionInfo &&
+      (field.connectionInfo.kind === CodeGenConnectionType.HAS_ONE || field.connectionInfo.kind === CodeGenConnectionType.BELONGS_TO)
+    ) {
       return true;
     }
     return false;
