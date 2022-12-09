@@ -231,9 +231,11 @@ export class AppSyncSwiftVisitor<
 
       if (this.isGenerateLazyReferenceModelPathEnabled()) {
         // mutating functions for updating/deleting
+        var customEncodingAndDecodingRequired = false;
         Object.entries(obj.fields).forEach(([fieldName, field]) => {
           if (this.isHasOneOrBelongsToConnectionField(field)) {
             // lazy loading - create setter functions for LazyReference
+            customEncodingAndDecodingRequired = true;
             let fieldName = this.getFieldName(field);
             let capitalizedFieldName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
             structBlock.addClassMethod(
@@ -256,37 +258,39 @@ export class AppSyncSwiftVisitor<
           }
         });
 
-        // custom decoder/encoder
-        structBlock.addClassMethod(
-          'init',
-          null,
-          this.getDecoderBody(obj.fields),
-          [
-            {
-              value: undefined,
-              name: 'from decoder',
-              type: 'Decoder',
-              flags: {},
-            },
-          ],
-          'public',
-          { throws: true },
-        );
-        structBlock.addClassMethod(
-          'encode',
-          null,
-          this.getEncoderBody(obj.fields),
-          [
-            {
-              value: undefined,
-              name: 'to encoder',
-              type: 'Encoder',
-              flags: {},
-            },
-          ],
-          'public',
-          { throws: true },
-        );
+        if (customEncodingAndDecodingRequired) {
+          // custom decoder/encoder
+          structBlock.addClassMethod(
+            'init',
+            null,
+            this.getDecoderBody(obj.fields),
+            [
+              {
+                value: undefined,
+                name: 'from decoder',
+                type: 'Decoder',
+                flags: {},
+              },
+            ],
+            'public',
+            { throws: true },
+          );
+          structBlock.addClassMethod(
+            'encode',
+            null,
+            this.getEncoderBody(obj.fields),
+            [
+              {
+                value: undefined,
+                name: 'to encoder',
+                type: 'Encoder',
+                flags: {},
+              },
+            ],
+            'public',
+            { throws: true },
+          );
+        }
       }
 
       result.push(structBlock.string);
