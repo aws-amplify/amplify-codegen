@@ -32,22 +32,6 @@ public struct Post3: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from decoder: Decoder) throws {
-      let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, forKey: .id)
-      title = try values.decode(String.self, forKey: .title)
-      comments = try values.decode(List<Comment3>?.self, forKey: .comments)
-      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
-  }
-  public func encode(to encoder: Encoder) throws {
-      var container = encoder.container(keyedBy: CodingKeys.self)
-      try container.encode(id, forKey: .id)
-      try container.encode(title, forKey: .title)
-      try container.encode(comments, forKey: .comments)
-      try container.encode(createdAt, forKey: .createdAt)
-      try container.encode(updatedAt, forKey: .updatedAt)
-  }
 }"
 `;
 
@@ -253,22 +237,6 @@ public struct Post: Model {
       self.comments = comments
       self.createdAt = createdAt
       self.updatedAt = updatedAt
-  }
-  public init(from decoder: Decoder) throws {
-      let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, forKey: .id)
-      title = try values.decode(String.self, forKey: .title)
-      comments = try values.decode(List<Comment>?.self, forKey: .comments)
-      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
-  }
-  public func encode(to encoder: Encoder) throws {
-      var container = encoder.container(keyedBy: CodingKeys.self)
-      try container.encode(id, forKey: .id)
-      try container.encode(title, forKey: .title)
-      try container.encode(comments, forKey: .comments)
-      try container.encode(createdAt, forKey: .createdAt)
-      try container.encode(updatedAt, forKey: .updatedAt)
   }
 }"
 `;
@@ -714,22 +682,6 @@ public struct Blog7V2: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from decoder: Decoder) throws {
-      let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, forKey: .id)
-      name = try values.decode(String.self, forKey: .name)
-      posts = try values.decode(List<Post7V2>?.self, forKey: .posts)
-      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
-  }
-  public func encode(to encoder: Encoder) throws {
-      var container = encoder.container(keyedBy: CodingKeys.self)
-      try container.encode(id, forKey: .id)
-      try container.encode(name, forKey: .name)
-      try container.encode(posts, forKey: .posts)
-      try container.encode(createdAt, forKey: .createdAt)
-      try container.encode(updatedAt, forKey: .updatedAt)
-  }
 }"
 `;
 
@@ -1056,22 +1008,6 @@ public struct Blog8V2: Model {
       self.posts = posts
       self.createdAt = createdAt
       self.updatedAt = updatedAt
-  }
-  public init(from decoder: Decoder) throws {
-      let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, forKey: .id)
-      name = try values.decode(String.self, forKey: .name)
-      posts = try values.decode(List<Post8V2>?.self, forKey: .posts)
-      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
-  }
-  public func encode(to encoder: Encoder) throws {
-      var container = encoder.container(keyedBy: CodingKeys.self)
-      try container.encode(id, forKey: .id)
-      try container.encode(name, forKey: .name)
-      try container.encode(posts, forKey: .posts)
-      try container.encode(createdAt, forKey: .createdAt)
-      try container.encode(updatedAt, forKey: .updatedAt)
   }
 }"
 `;
@@ -1643,24 +1579,6 @@ public struct Post: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from decoder: Decoder) throws {
-      let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, forKey: .id)
-      title = try values.decode(String.self, forKey: .title)
-      content = try values.decode(String?.self, forKey: .content)
-      tags = try values.decode(List<PostTags>?.self, forKey: .tags)
-      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
-  }
-  public func encode(to encoder: Encoder) throws {
-      var container = encoder.container(keyedBy: CodingKeys.self)
-      try container.encode(id, forKey: .id)
-      try container.encode(title, forKey: .title)
-      try container.encode(content, forKey: .content)
-      try container.encode(tags, forKey: .tags)
-      try container.encode(createdAt, forKey: .createdAt)
-      try container.encode(updatedAt, forKey: .updatedAt)
-  }
 }"
 `;
 
@@ -1755,22 +1673,6 @@ public struct Tag: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from decoder: Decoder) throws {
-      let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, forKey: .id)
-      label = try values.decode(String.self, forKey: .label)
-      posts = try values.decode(List<PostTags>?.self, forKey: .posts)
-      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
-  }
-  public func encode(to encoder: Encoder) throws {
-      var container = encoder.container(keyedBy: CodingKeys.self)
-      try container.encode(id, forKey: .id)
-      try container.encode(label, forKey: .label)
-      try container.encode(posts, forKey: .posts)
-      try container.encode(createdAt, forKey: .createdAt)
-      try container.encode(updatedAt, forKey: .updatedAt)
-  }
 }"
 `;
 
@@ -1855,20 +1757,6 @@ public struct Todo: Model {
       self.createdOn = createdOn
       self.updatedOn = updatedOn
   }
-  public init(from decoder: Decoder) throws {
-      let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, forKey: .id)
-      content = try values.decode(String?.self, forKey: .content)
-      createdOn = try values.decode(Temporal.DateTime?.self, forKey: .createdOn)
-      updatedOn = try values.decode(Temporal.DateTime?.self, forKey: .updatedOn)
-  }
-  public func encode(to encoder: Encoder) throws {
-      var container = encoder.container(keyedBy: CodingKeys.self)
-      try container.encode(id, forKey: .id)
-      try container.encode(content, forKey: .content)
-      try container.encode(createdOn, forKey: .createdOn)
-      try container.encode(updatedOn, forKey: .updatedOn)
-  }
 }"
 `;
 
@@ -1952,22 +1840,6 @@ public struct Post2: Model {
       self.comments = comments
       self.createdAt = createdAt
       self.updatedAt = updatedAt
-  }
-  public init(from decoder: Decoder) throws {
-      let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, forKey: .id)
-      title = try values.decode(String.self, forKey: .title)
-      comments = try values.decode(List<Comment2>?.self, forKey: .comments)
-      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
-  }
-  public func encode(to encoder: Encoder) throws {
-      var container = encoder.container(keyedBy: CodingKeys.self)
-      try container.encode(id, forKey: .id)
-      try container.encode(title, forKey: .title)
-      try container.encode(comments, forKey: .comments)
-      try container.encode(createdAt, forKey: .createdAt)
-      try container.encode(updatedAt, forKey: .updatedAt)
   }
 }"
 `;
@@ -2057,22 +1929,6 @@ public struct Comment2: Model {
       self.content = content
       self.createdAt = createdAt
       self.updatedAt = updatedAt
-  }
-  public init(from decoder: Decoder) throws {
-      let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, forKey: .id)
-      postID = try values.decode(String.self, forKey: .postID)
-      content = try values.decode(String.self, forKey: .content)
-      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
-  }
-  public func encode(to encoder: Encoder) throws {
-      var container = encoder.container(keyedBy: CodingKeys.self)
-      try container.encode(id, forKey: .id)
-      try container.encode(postID, forKey: .postID)
-      try container.encode(content, forKey: .content)
-      try container.encode(createdAt, forKey: .createdAt)
-      try container.encode(updatedAt, forKey: .updatedAt)
   }
 }"
 `;
@@ -2287,20 +2143,6 @@ public struct Team2: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from decoder: Decoder) throws {
-      let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, forKey: .id)
-      name = try values.decode(String.self, forKey: .name)
-      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
-  }
-  public func encode(to encoder: Encoder) throws {
-      var container = encoder.container(keyedBy: CodingKeys.self)
-      try container.encode(id, forKey: .id)
-      try container.encode(name, forKey: .name)
-      try container.encode(createdAt, forKey: .createdAt)
-      try container.encode(updatedAt, forKey: .updatedAt)
-  }
 }"
 `;
 
@@ -2384,22 +2226,6 @@ public struct Post: Model {
       self.comments = comments
       self.createdAt = createdAt
       self.updatedAt = updatedAt
-  }
-  public init(from decoder: Decoder) throws {
-      let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, forKey: .id)
-      title = try values.decode(String.self, forKey: .title)
-      comments = try values.decode(List<Comment>?.self, forKey: .comments)
-      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
-  }
-  public func encode(to encoder: Encoder) throws {
-      var container = encoder.container(keyedBy: CodingKeys.self)
-      try container.encode(id, forKey: .id)
-      try container.encode(title, forKey: .title)
-      try container.encode(comments, forKey: .comments)
-      try container.encode(createdAt, forKey: .createdAt)
-      try container.encode(updatedAt, forKey: .updatedAt)
   }
 }"
 `;
@@ -2489,22 +2315,6 @@ public struct Comment: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
       self.postCommentsId = postCommentsId
-  }
-  public init(from decoder: Decoder) throws {
-      let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, forKey: .id)
-      content = try values.decode(String.self, forKey: .content)
-      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
-      postCommentsId = try values.decode(String?.self, forKey: .postCommentsId)
-  }
-  public func encode(to encoder: Encoder) throws {
-      var container = encoder.container(keyedBy: CodingKeys.self)
-      try container.encode(id, forKey: .id)
-      try container.encode(content, forKey: .content)
-      try container.encode(createdAt, forKey: .createdAt)
-      try container.encode(updatedAt, forKey: .updatedAt)
-      try container.encode(postCommentsId, forKey: .postCommentsId)
   }
 }"
 `;
@@ -2715,20 +2525,6 @@ public struct Team: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public init(from decoder: Decoder) throws {
-      let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, forKey: .id)
-      name = try values.decode(String.self, forKey: .name)
-      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
-  }
-  public func encode(to encoder: Encoder) throws {
-      var container = encoder.container(keyedBy: CodingKeys.self)
-      try container.encode(id, forKey: .id)
-      try container.encode(name, forKey: .name)
-      try container.encode(createdAt, forKey: .createdAt)
-      try container.encode(updatedAt, forKey: .updatedAt)
-  }
 }"
 `;
 
@@ -2817,24 +2613,6 @@ public struct Customer: Model {
       self.accountRepresentativeID = accountRepresentativeID
       self.createdAt = createdAt
       self.updatedAt = updatedAt
-  }
-  public init(from decoder: Decoder) throws {
-      let values = try decoder.container(keyedBy: CodingKeys.self)
-      id = try values.decode(String.self, forKey: .id)
-      name = try values.decode(String.self, forKey: .name)
-      phoneNumber = try values.decode(String?.self, forKey: .phoneNumber)
-      accountRepresentativeID = try values.decode(String.self, forKey: .accountRepresentativeID)
-      createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
-      updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
-  }
-  public func encode(to encoder: Encoder) throws {
-      var container = encoder.container(keyedBy: CodingKeys.self)
-      try container.encode(id, forKey: .id)
-      try container.encode(name, forKey: .name)
-      try container.encode(phoneNumber, forKey: .phoneNumber)
-      try container.encode(accountRepresentativeID, forKey: .accountRepresentativeID)
-      try container.encode(createdAt, forKey: .createdAt)
-      try container.encode(updatedAt, forKey: .updatedAt)
   }
 }"
 `;
