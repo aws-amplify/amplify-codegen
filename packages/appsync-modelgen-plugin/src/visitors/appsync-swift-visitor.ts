@@ -392,7 +392,7 @@ export class AppSyncSwiftVisitor<
     const keyDirectives = this.config.generateIndexRules ? this.generateKeyRules(model) : [];
     const priamryKeyRules = this.generatePrimaryKeyRules(model);
     const attributes = [...keyDirectives, priamryKeyRules].filter(f => f);
-    const isGenerateModelPathEnabled = this.isGenerateLazyReferenceModelPathEnabled();
+    const isGenerateModelPathEnabled = this.isGenerateLazyReferenceModelPathEnabled() && !this.selectedTypeIsNonModel();
     const closure = [
       '{ model in',
       `let ${keysName} = ${this.getModelName(model)}.keys`,
