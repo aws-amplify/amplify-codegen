@@ -1667,9 +1667,6 @@ describe('AppSyncSwiftVisitor', () => {
             .field(location.tags, is: .optional, ofType: .embeddedCollection(of: String.self))
           )
           }
-          public class Path: ModelPath<Location> { }
-          
-          public static var rootPath: PropertyContainerPath? { Path() }
       }"
     `);
 
