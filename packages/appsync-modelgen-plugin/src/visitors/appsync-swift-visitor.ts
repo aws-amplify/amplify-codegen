@@ -549,10 +549,13 @@ export class AppSyncSwiftVisitor<
       const escapedFieldName = escapeKeywords(this.getFieldName(field));
       const assignedFieldName = connectionHasOneOrBelongsTo ? `_${this.getFieldName(field)}` : escapedFieldName;
       const fieldType = this.getDecoderBodyFieldType(field);
-      const decodeMethod = connectionHasOneOrBelongsTo ? 'decodeIfPresent' : 'decode';
+      const decodeMethod = field.connectionInfo ? 'decodeIfPresent' : 'decode';
       const defaultLazyReference = connectionHasOneOrBelongsTo ? ' ?? LazyReference(identifiers: nil)' : '';
+      const defaultListReference = this.isHasManyConnectionField(field) ? ' ?? .init()' : '';
       result.push(
-        indent(`${assignedFieldName} = try values.${decodeMethod}(${fieldType}.self, forKey: .${escapedFieldName})${defaultLazyReference}`),
+        indent(
+          `${assignedFieldName} = try values.${decodeMethod}(${fieldType}.self, forKey: .${escapedFieldName})${defaultLazyReference}${defaultListReference}`,
+        ),
       );
     });
 
