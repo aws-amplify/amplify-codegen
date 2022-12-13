@@ -17,7 +17,7 @@ const getGQLv2Visitor = (
   generateIndexRules: boolean = true,
   handleListNullabilityTransparently: boolean = true,
   transformerVersion: number = 2,
-  generateLazyReferenceAndModelPath: boolean = true,
+  generateModelsForLazyLoadAndCustomSelectionSet: boolean = true,
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -32,7 +32,7 @@ const getGQLv2Visitor = (
       generateIndexRules,
       handleListNullabilityTransparently,
       transformerVersion: transformerVersion,
-      generateLazyReferenceAndModelPath: generateLazyReferenceAndModelPath,
+      generateModelsForLazyLoadAndCustomSelectionSet: generateModelsForLazyLoadAndCustomSelectionSet,
     },
     { selectedType, generate },
   );
