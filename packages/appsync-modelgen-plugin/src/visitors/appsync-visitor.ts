@@ -133,11 +133,11 @@ export interface RawAppSyncModelConfig extends RawConfig {
    */
   respectPrimaryKeyAttributesOnConnectionField?: boolean;
   /**
-   * @name generateLazyReferenceAndModelPath
+   * @name generateModelsForLazyLoadAndCustomSelectionSet
    * @type boolean
    * @descriptions optional boolean which determines whether to generate LazyReference and ModelPath for iOS
    */
-  generateLazyReferenceAndModelPath?: boolean;
+  generateModelsForLazyLoadAndCustomSelectionSet?: boolean;
   /**
    * @name codegenVersion
    * @type string
@@ -156,7 +156,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   usePipelinedTransformer?: boolean;
   transformerVersion?: number;
   respectPrimaryKeyAttributesOnConnectionField?: boolean;
-  generateLazyReferenceAndModelPath?: boolean;
+  generateModelsForLazyLoadAndCustomSelectionSet?: boolean;
   codegenVersion?: string;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
@@ -246,7 +246,7 @@ export class AppSyncModelVisitor<
       usePipelinedTransformer: rawConfig.usePipelinedTransformer,
       transformerVersion: rawConfig.transformerVersion,
       respectPrimaryKeyAttributesOnConnectionField: rawConfig.respectPrimaryKeyAttributesOnConnectionField,
-      generateLazyReferenceAndModelPath: rawConfig.generateLazyReferenceAndModelPath,
+      generateModelsForLazyLoadAndCustomSelectionSet: rawConfig.generateModelsForLazyLoadAndCustomSelectionSet,
       codegenVersion: rawConfig.codegenVersion,
     });
 
@@ -1120,8 +1120,8 @@ export class AppSyncModelVisitor<
     );
   }
 
-  protected isGenerateLazyReferenceModelPathEnabled(): boolean {
-    return this.config.generateLazyReferenceAndModelPath ?? false;
+  protected isGenerateModelsForLazyLoadAndCustomSelectionSet(): boolean {
+    return this.config.generateModelsForLazyLoadAndCustomSelectionSet ?? false;
   }
 
   get models() {

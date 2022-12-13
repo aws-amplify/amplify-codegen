@@ -95,7 +95,7 @@ export class AppSyncSwiftVisitor<
         const fieldType = this.getNativeType(field);
         const isVariable = !primaryKeyComponentFieldsName.includes(field.name);
         const listType: ListType = field.connectionInfo ? ListType.LIST : ListType.ARRAY;
-        if (this.isGenerateLazyReferenceModelPathEnabled() && this.isHasOneOrBelongsToConnectionField(field)) {
+        if (this.isGenerateModelsForLazyLoadAndCustomSelectionSet() && this.isHasOneOrBelongsToConnectionField(field)) {
           // lazy loading - create computed property of LazyReference
           structBlock.addProperty(`_${this.getFieldName(field)}`, `LazyReference<${fieldType}>`, undefined, `internal`, {
             optional: false,
@@ -229,7 +229,7 @@ export class AppSyncSwiftVisitor<
         );
       }
 
-      if (this.isGenerateLazyReferenceModelPathEnabled()) {
+      if (this.isGenerateModelsForLazyLoadAndCustomSelectionSet()) {
         // mutating functions for updating/deleting
         var customEncodingAndDecodingRequired = false;
         Object.entries(obj.fields).forEach(([fieldName, field]) => {
@@ -354,7 +354,7 @@ export class AppSyncSwiftVisitor<
           result.push('');
           result.push(this.generatePrimaryKeyExtensions(model));
         }
-        if (this.isGenerateLazyReferenceModelPathEnabled()) {
+        if (this.isGenerateModelsForLazyLoadAndCustomSelectionSet()) {
           result.push(this.generateModelPathExtensions(model));
         }
       });
@@ -396,7 +396,7 @@ export class AppSyncSwiftVisitor<
     const keyDirectives = this.config.generateIndexRules ? this.generateKeyRules(model) : [];
     const priamryKeyRules = this.generatePrimaryKeyRules(model);
     const attributes = [...keyDirectives, priamryKeyRules].filter(f => f);
-    const isGenerateModelPathEnabled = this.isGenerateLazyReferenceModelPathEnabled() && !this.selectedTypeIsNonModel();
+    const isGenerateModelPathEnabled = this.isGenerateModelsForLazyLoadAndCustomSelectionSet() && !this.selectedTypeIsNonModel();
     const closure = [
       '{ model in',
       `let ${keysName} = ${this.getModelName(model)}.keys`,
@@ -526,7 +526,7 @@ export class AppSyncSwiftVisitor<
 
   private getInitBody(fields: CodeGenField[]): string {
     let result = fields.map(field => {
-      if (this.isGenerateLazyReferenceModelPathEnabled()) {
+      if (this.isGenerateModelsForLazyLoadAndCustomSelectionSet()) {
         const connectionHasOneOrBelongsTo = this.isHasOneOrBelongsToConnectionField(field);
         const escapedFieldName = escapeKeywords(this.getFieldName(field));
         const propertyName = connectionHasOneOrBelongsTo ? `_${this.getFieldName(field)}` : escapedFieldName;
