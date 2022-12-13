@@ -789,7 +789,7 @@ public struct Post7V2: Model {
       id = try values.decode(String.self, forKey: .id)
       title = try values.decode(String.self, forKey: .title)
       _blog = try values.decodeIfPresent(LazyReference<Blog7V2>.self, forKey: .blog) ?? LazyReference(identifiers: nil)
-      comments = try values.decode(List<Comment7V2>?.self, forKey: .comments)
+      comments = try values.decodeIfPresent(List<Comment7V2>?.self, forKey: .comments) ?? .init()
       createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
       updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
   }
@@ -1116,7 +1116,7 @@ public struct Post8V2: Model {
       id = try values.decode(String.self, forKey: .id)
       title = try values.decode(String.self, forKey: .title)
       _blog = try values.decodeIfPresent(LazyReference<Blog8V2>.self, forKey: .blog) ?? LazyReference(identifiers: nil)
-      comments = try values.decode(List<Comment8V2>?.self, forKey: .comments)
+      comments = try values.decodeIfPresent(List<Comment8V2>?.self, forKey: .comments) ?? .init()
       createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
       updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
   }
