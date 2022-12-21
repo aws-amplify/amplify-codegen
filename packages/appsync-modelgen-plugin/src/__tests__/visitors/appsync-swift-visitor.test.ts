@@ -819,10 +819,10 @@ describe('AppSyncSwiftVisitor', () => {
                 title = try values.decode(String.self, forKey: .title)
                 done = try values.decode(Bool.self, forKey: .done)
                 _todo = try values.decodeIfPresent(LazyReference<Todo>.self, forKey: .todo) ?? LazyReference(identifiers: nil)
-                time = try values.decode(Temporal.Time?.self, forKey: .time)
-                createdOn = try values.decode(Temporal.Date?.self, forKey: .createdOn)
-                createdAt = try values.decode(Temporal.DateTime?.self, forKey: .createdAt)
-                updatedAt = try values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
+                time = try? values.decode(Temporal.Time?.self, forKey: .time)
+                createdOn = try? values.decode(Temporal.Date?.self, forKey: .createdOn)
+                createdAt = try? values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+                updatedAt = try? values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
             }
             public func encode(to encoder: Encoder) throws {
                 var container = encoder.container(keyedBy: CodingKeys.self)

@@ -552,9 +552,10 @@ export class AppSyncSwiftVisitor<
       const decodeMethod = field.connectionInfo ? 'decodeIfPresent' : 'decode';
       const defaultLazyReference = connectionHasOneOrBelongsTo ? ' ?? LazyReference(identifiers: nil)' : '';
       const defaultListReference = this.isHasManyConnectionField(field) ? ' ?? .init()' : '';
+      const optionalTry = !this.isFieldRequired(field) && !field.connectionInfo ? '?' : '';
       result.push(
         indent(
-          `${assignedFieldName} = try values.${decodeMethod}(${fieldType}.self, forKey: .${escapedFieldName})${defaultLazyReference}${defaultListReference}`,
+          `${assignedFieldName} = try${optionalTry} values.${decodeMethod}(${fieldType}.self, forKey: .${escapedFieldName})${defaultLazyReference}${defaultListReference}`,
         ),
       );
     });
