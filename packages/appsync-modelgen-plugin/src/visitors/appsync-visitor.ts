@@ -1121,7 +1121,7 @@ export class AppSyncModelVisitor<
   }
 
   protected isGenerateModelsForLazyLoadAndCustomSelectionSet(): boolean {
-    return this.config.generateModelsForLazyLoadAndCustomSelectionSet ?? false;
+    return true;
   }
 
   get models() {
