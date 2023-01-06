@@ -328,12 +328,15 @@ export class AppSyncModelVisitor<
     shouldUseModelNameFieldInHasManyAndBelongsTo: boolean,
     // This flag is going to be used to tight-trigger on JS implementations only.
     shouldImputeKeyForUniDirectionalHasMany: boolean,
+    // This flag is currently used only in the Model Introspection visitor
+    shouldUseFieldsInAssociatedWithInHasOne: boolean = false
   ) {
     if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
       this.processV2KeyDirectives();
       this.processConnectionDirectivesV2(
         shouldUseModelNameFieldInHasManyAndBelongsTo,
-        shouldImputeKeyForUniDirectionalHasMany
+        shouldImputeKeyForUniDirectionalHasMany,
+        shouldUseFieldsInAssociatedWithInHasOne
       );
     } else {
       this.processConnectionDirective();
@@ -898,6 +901,7 @@ export class AppSyncModelVisitor<
     shouldUseModelNameFieldInHasManyAndBelongsTo: boolean,
     // This flag is going to be used to tight-trigger on JS implementations only.
     shouldImputeKeyForUniDirectionalHasMany: boolean,
+    shouldUseFieldsInAssociatedWithInHasOne: boolean
   ): void {
     this.processManyToManyDirectives();
 
@@ -911,6 +915,7 @@ export class AppSyncModelVisitor<
           this.modelMap,
           shouldUseModelNameFieldInHasManyAndBelongsTo,
           isCustomPKEnabled,
+          shouldUseFieldsInAssociatedWithInHasOne
         );
         if (connectionInfo) {
           if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {

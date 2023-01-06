@@ -13,7 +13,8 @@ export function processHasOneConnection(
   model: CodeGenModel,
   modelMap: CodeGenModelMap,
   connectionDirective: CodeGenDirective,
-  isCustomPKEnabled: boolean = false
+  isCustomPKEnabled: boolean = false,
+  shouldUseFieldsInAssociatedWithInHasOne:boolean = false
 ): CodeGenFieldConnection | undefined {
   const otherSide = modelMap[field.type];
   // Find other side belongsTo field when in bi direction connection
@@ -23,7 +24,7 @@ export function processHasOneConnection(
   }
   let associatedWithFields;
   if (isCustomPKEnabled) {
-    associatedWithFields = getConnectedFieldsForHasOne(otherSideBelongsToField, otherSide);
+    associatedWithFields = getConnectedFieldsForHasOne(otherSideBelongsToField, otherSide, shouldUseFieldsInAssociatedWithInHasOne);
   } else {
     const otherSideField = getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
     associatedWithFields = [otherSideField];
@@ -59,6 +60,6 @@ export function processHasOneConnection(
  * @param otherSide other side model of hasOne connection
  * @returns Array of connected fields. Return belongsTo field when in bi direction connenction. Otherwise return child pk and sk fields
  */
-export function getConnectedFieldsForHasOne(otherSideBelongsToField: CodeGenField | undefined, otherSide: CodeGenModel): CodeGenField[] {
-  return otherSideBelongsToField ? [otherSideBelongsToField] : getModelPrimaryKeyComponentFields(otherSide);
+export function getConnectedFieldsForHasOne(otherSideBelongsToField: CodeGenField | undefined, otherSide: CodeGenModel, shouldUseFieldsInAssociatedWithInHasOne: boolean = false): CodeGenField[] {
+  return (!shouldUseFieldsInAssociatedWithInHasOne && otherSideBelongsToField) ? [otherSideBelongsToField] : getModelPrimaryKeyComponentFields(otherSide);
 }

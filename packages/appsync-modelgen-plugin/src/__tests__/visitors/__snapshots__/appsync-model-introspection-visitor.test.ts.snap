@@ -32,7 +32,8 @@ exports[`Custom primary key tests should generate correct model intropection fil
                     \\"association\\": {
                         \\"connectionType\\": \\"HAS_ONE\\",
                         \\"associatedWith\\": [
-                            \\"project\\"
+                            \\"teamId\\",
+                            \\"name\\"
                         ],
                         \\"targetNames\\": [
                             \\"project1TeamTeamId\\",
@@ -365,7 +366,8 @@ exports[`Custom primary key tests should generate correct model intropection fil
                     \\"association\\": {
                         \\"connectionType\\": \\"HAS_ONE\\",
                         \\"associatedWith\\": [
-                            \\"project\\"
+                            \\"teamId\\",
+                            \\"name\\"
                         ],
                         \\"targetNames\\": [
                             \\"teamId\\",
