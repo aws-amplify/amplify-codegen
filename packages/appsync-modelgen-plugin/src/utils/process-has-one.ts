@@ -58,6 +58,7 @@ export function processHasOneConnection(
  * Get connected fields for hasOne relation
  * @param otherSideBelongsToField belongsTo field on other side
  * @param otherSide other side model of hasOne connection
+ * @param shouldUseFieldsInAssociatedWithInHasOne Return the connected fields instead of the connected model
  * @returns Array of connected fields. Return belongsTo field when in bi direction connenction. Otherwise return child pk and sk fields
  */
 export function getConnectedFieldsForHasOne(otherSideBelongsToField: CodeGenField | undefined, otherSide: CodeGenModel, shouldUseFieldsInAssociatedWithInHasOne: boolean = false): CodeGenField[] {

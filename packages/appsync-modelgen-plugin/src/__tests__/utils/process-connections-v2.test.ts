@@ -955,7 +955,7 @@ describe('Connection process with custom Primary Key support tests', () => {
       });
     });
 
-    it('With shouldUseFieldsInAssociatedWithInHasOne and CPK enabled, should return correct connection info for bi-directional has-one with CPK', () => {
+    it('With shouldUseFieldsInAssociatedWithInHasOne and CPK enabled, should return correct connection info for bi-directional has-one with composite primary key', () => {
       const schema = /* GraphQL */ `
         type CompositeOwner @model {
           lastName: ID! @primaryKey(sortKeyFields: ["firstName"])
@@ -994,7 +994,7 @@ describe('Connection process with custom Primary Key support tests', () => {
       });
     });
 
-    it('With shouldUseFieldsInAssociatedWithInHasOne and CPK enabled, should return correct connection info for bi-directional has-one without CPK', () => {
+    it('With shouldUseFieldsInAssociatedWithInHasOne and CPK enabled, should return correct connection info for bi-directional has-one without Composite primary key', () => {
       const schema = /* GraphQL */ `
         type BoringOwner @model {
           id: ID!
