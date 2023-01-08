@@ -328,7 +328,7 @@ export class AppSyncModelVisitor<
     shouldUseModelNameFieldInHasManyAndBelongsTo: boolean,
     // This flag is going to be used to tight-trigger on JS implementations only.
     shouldImputeKeyForUniDirectionalHasMany: boolean,
-    // This flag is currently used only in the Model Introspection visitor
+    // This flag is currently used in JS/TS and Model introspection generation only.
     shouldUseFieldsInAssociatedWithInHasOne: boolean = false
   ) {
     if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
