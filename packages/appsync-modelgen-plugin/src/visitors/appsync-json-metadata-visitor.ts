@@ -114,9 +114,12 @@ export class AppSyncJSONVisitor<
     const shouldUseModelNameFieldInHasManyAndBelongsTo = false;
     // This flag is going to be used to tight-trigger on JS implementations only.
     const shouldImputeKeyForUniDirectionalHasMany = true;
+    const shouldUseFieldsInAssociatedWithInHasOne = true;
+
     this.processDirectives(
       shouldUseModelNameFieldInHasManyAndBelongsTo,
-      shouldImputeKeyForUniDirectionalHasMany
+      shouldImputeKeyForUniDirectionalHasMany,
+      shouldUseFieldsInAssociatedWithInHasOne
     );
 
     if (this._parsedConfig.metadataTarget === 'typescript') {
