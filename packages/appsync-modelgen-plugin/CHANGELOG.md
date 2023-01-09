@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.3.1...@aws-amplify/appsync-modelgen-plugin@2.3.2) (2023-01-09)
+
+
+### Bug Fixes
+
+* **appsync-modelgen-plugin:** associatedWith fields in bidirectional hasone ([6055503](https://github.com/aws-amplify/amplify-codegen/commit/6055503e490a99f2f372d399d1af8c11ff3362ab))
+* update JS/TS MIPR ([4846f83](https://github.com/aws-amplify/amplify-codegen/commit/4846f83d9dcb7770c5e38b7e60ff5926de4f0df0))
+
+
+
+
+
 ## [2.3.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.3.0...@aws-amplify/appsync-modelgen-plugin@2.3.1) (2022-11-16)
 
 
