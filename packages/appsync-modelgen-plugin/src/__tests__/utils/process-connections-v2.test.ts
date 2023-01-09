@@ -9,6 +9,7 @@ import {
 import { buildSchema, parse, visit } from 'graphql';
 import { directives, scalars } from '../../scalars/supported-directives';
 import { AppSyncModelVisitor, CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
+
 describe('GraphQL V2 process connections tests', () => {
   describe('GraphQL vNext getConnectedField tests with @primaryKey and @index', () => {
     let hasOneWithFieldsModelMap: CodeGenModelMap;
@@ -625,6 +626,7 @@ describe('GraphQL V2 process connections tests', () => {
     });
   });
 });
+
 describe('Connection process with custom Primary Key support tests', () => {
   const createBaseVisitorWithCustomPrimaryKeyEnabled = (schema: string) => {
     const visitorConfig = {
@@ -901,6 +903,7 @@ describe('Connection process with custom Primary Key support tests', () => {
       });
     });
   });
+
   describe('belongsTo special case tests', () => {
     it('should return correct connection info in multiple hasOne defined in parent', () => {
       const schema = /* GraphQL */ `
@@ -948,6 +951,84 @@ describe('Connection process with custom Primary Key support tests', () => {
         targetName: 'teamProjectProjectId',
         targetNames: ['teamProjectProjectId', 'teamProjectName'],
         connectedModel: project,
+        isConnectingFieldAutoCreated: false,
+      });
+    });
+
+    it('With shouldUseFieldsInAssociatedWithInHasOne and CPK enabled, should return correct connection info for bi-directional has-one with composite primary key', () => {
+      const schema = /* GraphQL */ `
+        type CompositeOwner @model {
+          lastName: ID! @primaryKey(sortKeyFields: ["firstName"])
+          firstName: String!
+          compositeDog: CompositeDog @hasOne
+        }
+        type CompositeDog @model {
+          name: ID! @primaryKey(sortKeyFields: ["description"])
+          description: String!
+          compositeOwner: CompositeOwner @belongsTo
+        }
+      `;
+      const modelMap: CodeGenModelMap = createBaseVisitorWithCustomPrimaryKeyEnabled(schema).models;
+      const compositeOwner: CodeGenModel = modelMap.CompositeOwner;
+      const compositeDog: CodeGenModel = modelMap.CompositeDog;
+      const hasOneField = compositeOwner.fields.find(f => f.name === 'compositeDog')!;
+      const belongsToField = compositeDog.fields.find(f => f.name === 'compositeOwner')!;
+      const hasOneAssociatedWithFields = compositeDog.fields.filter(f => f.name === 'name' || f.name === 'description')!;
+      const hasOneRelationInfo = processConnectionsV2(hasOneField, compositeOwner, modelMap, false, true, true);
+      const belongsToRelationInfo = processConnectionsV2(belongsToField, compositeDog, modelMap, false, true, true);
+      expect(hasOneRelationInfo).toEqual({
+        kind: CodeGenConnectionType.HAS_ONE,
+        associatedWith: hasOneAssociatedWithFields[0],
+        associatedWithFields: hasOneAssociatedWithFields,
+        targetName: 'compositeOwnerCompositeDogName',
+        targetNames: ['compositeOwnerCompositeDogName', 'compositeOwnerCompositeDogDescription'],
+        connectedModel: compositeDog,
+        isConnectingFieldAutoCreated: true,
+      });
+      expect(belongsToRelationInfo).toEqual({
+        kind: CodeGenConnectionType.BELONGS_TO,
+        targetName: 'compositeDogCompositeOwnerLastName',
+        targetNames: ['compositeDogCompositeOwnerLastName', 'compositeDogCompositeOwnerFirstName'],
+        connectedModel: compositeOwner,
+        isConnectingFieldAutoCreated: false,
+      });
+    });
+
+    it('With shouldUseFieldsInAssociatedWithInHasOne and CPK enabled, should return correct connection info for bi-directional has-one without Composite primary key', () => {
+      const schema = /* GraphQL */ `
+        type BoringOwner @model {
+          id: ID!
+          name: String
+          boringDog: BoringDog @hasOne
+        }
+        type BoringDog @model {
+          id: ID!
+          name: String
+          boringOwner: BoringOwner @belongsTo
+        }
+      `;
+      const modelMap: CodeGenModelMap = createBaseVisitorWithCustomPrimaryKeyEnabled(schema).models;
+      const boringOwner: CodeGenModel = modelMap.BoringOwner;
+      const boringDog: CodeGenModel = modelMap.BoringDog;
+      const hasOneField = boringOwner.fields.find(f => f.name === 'boringDog')!;
+      const belongsToField = boringDog.fields.find(f => f.name === 'boringOwner')!;
+      const hasOneAssociatedWithFields = boringDog.fields.filter(f => f.name === 'id')!;
+      const hasOneRelationInfo = processConnectionsV2(hasOneField, boringOwner, modelMap, false, true, true);
+      const belongsToRelationInfo = processConnectionsV2(belongsToField, boringDog, modelMap, false, true, true);
+      expect(hasOneRelationInfo).toEqual({
+        kind: CodeGenConnectionType.HAS_ONE,
+        associatedWith: hasOneAssociatedWithFields[0],
+        associatedWithFields: hasOneAssociatedWithFields,
+        targetName: 'boringOwnerBoringDogId',
+        targetNames: ['boringOwnerBoringDogId'],
+        connectedModel: boringDog,
+        isConnectingFieldAutoCreated: true,
+      });
+      expect(belongsToRelationInfo).toEqual({
+        kind: CodeGenConnectionType.BELONGS_TO,
+        targetName: 'boringDogBoringOwnerId',
+        targetNames: ['boringDogBoringOwnerId'],
+        connectedModel: boringOwner,
         isConnectingFieldAutoCreated: false,
       });
     });
