@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0-lazyloadingios-no-graphql15.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.3.1...@aws-amplify/appsync-modelgen-plugin@2.4.0-lazyloadingios-no-graphql15.0) (2023-01-25)
+
+
+### Features
+
+* **amplify-codegen:** add feature flag generateLazyReferenceAndModelPath check ([07116b1](https://github.com/aws-amplify/amplify-codegen/commit/07116b1dcdc05a18ca951ae90d6a4a55ef6d5bf0))
+* **amplify-codegen:** add ModelPath extension ([6f3826c](https://github.com/aws-amplify/amplify-codegen/commit/6f3826c890619bda3074293f87a6a3da6e821a33))
+* **amplify-codegen:** add mutating func to allow update/delete association ([7ce0f20](https://github.com/aws-amplify/amplify-codegen/commit/7ce0f206d1803daa9e1675a06e7f4e8299e3621c))
+* **amplify-codegen:** address PR feedback ([907b9f7](https://github.com/aws-amplify/amplify-codegen/commit/907b9f74e1515991e3e6022578b2f39509ae71e8))
+* **amplify-codegen:** custom decoder encoder for LazyReference ([71d29f7](https://github.com/aws-amplify/amplify-codegen/commit/71d29f773279c04c9f217b82d93f5a26babe0d15))
+* **amplify-codegen:** custom decoder encoder for LazyReference 2 ([ad497f3](https://github.com/aws-amplify/amplify-codegen/commit/ad497f3533837a8c514dd5b5579631aca2b8d978))
+* **amplify-codegen:** custom decoder encoder for LazyReference 3 ([ab2b0e5](https://github.com/aws-amplify/amplify-codegen/commit/ab2b0e5a317aee0ee4bfc67987e9612aee3cab46))
+* **amplify-codegen:** custom decoder encoder for LazyReference 4 ([3c8f6bd](https://github.com/aws-amplify/amplify-codegen/commit/3c8f6bd486bedb0715f3802cf42dfb2ecf8be7ca))
+* **amplify-codegen:** custom decoder encoder for LazyReference 5 ([cb4c82b](https://github.com/aws-amplify/amplify-codegen/commit/cb4c82b151faf9285812fa777f8fdca8592fc463))
+* **amplify-codegen:** do not generate custom encoder/decoder if not necessary ([418fa40](https://github.com/aws-amplify/amplify-codegen/commit/418fa408e34084e2619e768ad6034d8fe3e9571f))
+* **amplify-codegen:** do not generate ModelPath for embedded types ([fd9974c](https://github.com/aws-amplify/amplify-codegen/commit/fd9974c774a2e8cd577cb54020645925ac58ca33))
+* **amplify-codegen:** feature flag rename ([82b7f0a](https://github.com/aws-amplify/amplify-codegen/commit/82b7f0a1944d4405f7dbfd8e95e0d5136f57a23a))
+* **amplify-codegen:** fix decoder for optional fields that are not connections ([1bf0601](https://github.com/aws-amplify/amplify-codegen/commit/1bf060159eb79dbd61c959f3ee39d87b140b43e9))
+* **amplify-codegen:** generate decodeIfPresent for List ([18b3146](https://github.com/aws-amplify/amplify-codegen/commit/18b3146ae0df8c575a3f0a2af6c2a4374ca6de16))
+* **amplify-codegen:** iOS LazyReference ([94cc68b](https://github.com/aws-amplify/amplify-codegen/commit/94cc68b75dcd9d922290cbf8f019453237055902))
+* **amplify-codegen:** optionality should be reflected in the computed property ([f2154f2](https://github.com/aws-amplify/amplify-codegen/commit/f2154f2a2e228f368ad19d3a5d133bffdb7f1e9f))
+
+
+
+
+
 ## [2.3.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.3.0...@aws-amplify/appsync-modelgen-plugin@2.3.1) (2022-11-16)
 
 
