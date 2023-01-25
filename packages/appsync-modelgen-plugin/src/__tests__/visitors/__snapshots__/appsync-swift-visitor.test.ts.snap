@@ -78,6 +78,9 @@ extension Post {
       .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
+    public class Path: ModelPath<Post> { }
+    
+    public static var rootPath: PropertyContainerPath? { Path() }
 }
 
 extension Post: ModelIdentifiable {
@@ -90,6 +93,23 @@ extension Post.IdentifierProtocol {
       title: String) -> Self {
     .make(fields:[(name: \\"id\\", value: id), (name: \\"title\\", value: title)])
   }
+}
+extension ModelPath where ModelType == Post {
+  public var id: FieldPath<String>   {
+      string(\\"id\\") 
+    }
+  public var title: FieldPath<String>   {
+      string(\\"title\\") 
+    }
+  public var comments: ModelPath<Comment>   {
+      Comment.Path(name: \\"comments\\", isCollection: true, parent: self) 
+    }
+  public var createdAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"createdAt\\") 
+    }
+  public var updatedAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"updatedAt\\") 
+    }
 }"
 `;
 
@@ -171,6 +191,9 @@ extension Comment {
       .field(comment.postCommentsTitle, is: .optional, ofType: .string)
     )
     }
+    public class Path: ModelPath<Comment> { }
+    
+    public static var rootPath: PropertyContainerPath? { Path() }
 }
 
 extension Comment: ModelIdentifiable {
@@ -183,6 +206,26 @@ extension Comment.IdentifierProtocol {
       content: String) -> Self {
     .make(fields:[(name: \\"id\\", value: id), (name: \\"content\\", value: content)])
   }
+}
+extension ModelPath where ModelType == Comment {
+  public var id: FieldPath<String>   {
+      string(\\"id\\") 
+    }
+  public var content: FieldPath<String>   {
+      string(\\"content\\") 
+    }
+  public var createdAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"createdAt\\") 
+    }
+  public var updatedAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"updatedAt\\") 
+    }
+  public var postCommentsId: FieldPath<String>   {
+      string(\\"postCommentsId\\") 
+    }
+  public var postCommentsTitle: FieldPath<String>   {
+      string(\\"postCommentsTitle\\") 
+    }
 }"
 `;
 
@@ -257,6 +300,9 @@ extension ModelCompositePk {
       .field(modelCompositePk.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
+    public class Path: ModelPath<ModelCompositePk> { }
+    
+    public static var rootPath: PropertyContainerPath? { Path() }
 }
 
 extension ModelCompositePk: ModelIdentifiable {
@@ -269,6 +315,23 @@ extension ModelCompositePk.IdentifierProtocol {
       dob: Temporal.DateTime) -> Self {
     .make(fields:[(name: \\"id\\", value: id), (name: \\"dob\\", value: dob)])
   }
+}
+extension ModelPath where ModelType == ModelCompositePk {
+  public var id: FieldPath<String>   {
+      string(\\"id\\") 
+    }
+  public var dob: FieldPath<Temporal.DateTime>   {
+      datetime(\\"dob\\") 
+    }
+  public var name: FieldPath<String>   {
+      string(\\"name\\") 
+    }
+  public var createdAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"createdAt\\") 
+    }
+  public var updatedAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"updatedAt\\") 
+    }
 }"
 `;
 
@@ -336,6 +399,9 @@ extension ModelExplicitCustomPk {
       .field(modelExplicitCustomPk.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
+    public class Path: ModelPath<ModelExplicitCustomPk> { }
+    
+    public static var rootPath: PropertyContainerPath? { Path() }
 }
 
 extension ModelExplicitCustomPk: ModelIdentifiable {
@@ -347,6 +413,20 @@ extension ModelExplicitCustomPk.IdentifierProtocol {
   public static func identifier(userId: String) -> Self {
     .make(fields:[(name: \\"userId\\", value: userId)])
   }
+}
+extension ModelPath where ModelType == ModelExplicitCustomPk {
+  public var userId: FieldPath<String>   {
+      string(\\"userId\\") 
+    }
+  public var name: FieldPath<String>   {
+      string(\\"name\\") 
+    }
+  public var createdAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"createdAt\\") 
+    }
+  public var updatedAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"updatedAt\\") 
+    }
 }"
 `;
 
@@ -414,11 +494,28 @@ extension ModelExplicitDefaultPk {
       .field(modelExplicitDefaultPk.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
+    public class Path: ModelPath<ModelExplicitDefaultPk> { }
+    
+    public static var rootPath: PropertyContainerPath? { Path() }
 }
 
 extension ModelExplicitDefaultPk: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias IdentifierProtocol = DefaultModelIdentifier<Self>
+}
+extension ModelPath where ModelType == ModelExplicitDefaultPk {
+  public var id: FieldPath<String>   {
+      string(\\"id\\") 
+    }
+  public var name: FieldPath<String>   {
+      string(\\"name\\") 
+    }
+  public var createdAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"createdAt\\") 
+    }
+  public var updatedAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"updatedAt\\") 
+    }
 }"
 `;
 
@@ -485,11 +582,28 @@ extension ModelImplicitDefaultPk {
       .field(modelImplicitDefaultPk.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
+    public class Path: ModelPath<ModelImplicitDefaultPk> { }
+    
+    public static var rootPath: PropertyContainerPath? { Path() }
 }
 
 extension ModelImplicitDefaultPk: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias IdentifierProtocol = DefaultModelIdentifier<Self>
+}
+extension ModelPath where ModelType == ModelImplicitDefaultPk {
+  public var id: FieldPath<String>   {
+      string(\\"id\\") 
+    }
+  public var name: FieldPath<String>   {
+      string(\\"name\\") 
+    }
+  public var createdAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"createdAt\\") 
+    }
+  public var updatedAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"updatedAt\\") 
+    }
 }"
 `;
 
@@ -501,7 +615,12 @@ import Foundation
 public struct Project: Model {
   public let projectId: String
   public let name: String
-  public var team: Team?
+  internal var _team: LazyReference<Team>
+  public var team: Team?   {
+      get async throws { 
+        try await _team.get()
+      } 
+    }
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
   public var projectTeamTeamId: String?
@@ -529,11 +648,34 @@ public struct Project: Model {
       projectTeamName: String? = nil) {
       self.projectId = projectId
       self.name = name
-      self.team = team
+      self._team = LazyReference(team)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
       self.projectTeamTeamId = projectTeamTeamId
       self.projectTeamName = projectTeamName
+  }
+  public mutating func setTeam(_ team: Team? = nil) {
+    self._team = LazyReference(team)
+  }
+  public init(from decoder: Decoder) throws {
+      let values = try decoder.container(keyedBy: CodingKeys.self)
+      projectId = try values.decode(String.self, forKey: .projectId)
+      name = try values.decode(String.self, forKey: .name)
+      _team = try values.decodeIfPresent(LazyReference<Team>.self, forKey: .team) ?? LazyReference(identifiers: nil)
+      createdAt = try? values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try? values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
+      projectTeamTeamId = try? values.decode(String?.self, forKey: .projectTeamTeamId)
+      projectTeamName = try? values.decode(String?.self, forKey: .projectTeamName)
+  }
+  public func encode(to encoder: Encoder) throws {
+      var container = encoder.container(keyedBy: CodingKeys.self)
+      try container.encode(projectId, forKey: .projectId)
+      try container.encode(name, forKey: .name)
+      try container.encode(_team, forKey: .team)
+      try container.encode(createdAt, forKey: .createdAt)
+      try container.encode(updatedAt, forKey: .updatedAt)
+      try container.encode(projectTeamTeamId, forKey: .projectTeamTeamId)
+      try container.encode(projectTeamName, forKey: .projectTeamName)
   }
 }"
 `;
@@ -578,6 +720,9 @@ extension Project {
       .field(project.projectTeamName, is: .optional, ofType: .string)
     )
     }
+    public class Path: ModelPath<Project> { }
+    
+    public static var rootPath: PropertyContainerPath? { Path() }
 }
 
 extension Project: ModelIdentifiable {
@@ -590,6 +735,29 @@ extension Project.IdentifierProtocol {
       name: String) -> Self {
     .make(fields:[(name: \\"projectId\\", value: projectId), (name: \\"name\\", value: name)])
   }
+}
+extension ModelPath where ModelType == Project {
+  public var projectId: FieldPath<String>   {
+      string(\\"projectId\\") 
+    }
+  public var name: FieldPath<String>   {
+      string(\\"name\\") 
+    }
+  public var team: ModelPath<Team>   {
+      Team.Path(name: \\"team\\", parent: self) 
+    }
+  public var createdAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"createdAt\\") 
+    }
+  public var updatedAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"updatedAt\\") 
+    }
+  public var projectTeamTeamId: FieldPath<String>   {
+      string(\\"projectTeamTeamId\\") 
+    }
+  public var projectTeamName: FieldPath<String>   {
+      string(\\"projectTeamName\\") 
+    }
 }"
 `;
 
@@ -601,7 +769,12 @@ import Foundation
 public struct Team: Model {
   public let teamId: String
   public let name: String
-  public var project: Project?
+  internal var _project: LazyReference<Project>
+  public var project: Project?   {
+      get async throws { 
+        try await _project.get()
+      } 
+    }
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
   
@@ -621,9 +794,28 @@ public struct Team: Model {
       updatedAt: Temporal.DateTime? = nil) {
       self.teamId = teamId
       self.name = name
-      self.project = project
+      self._project = LazyReference(project)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
+  }
+  public mutating func setProject(_ project: Project? = nil) {
+    self._project = LazyReference(project)
+  }
+  public init(from decoder: Decoder) throws {
+      let values = try decoder.container(keyedBy: CodingKeys.self)
+      teamId = try values.decode(String.self, forKey: .teamId)
+      name = try values.decode(String.self, forKey: .name)
+      _project = try values.decodeIfPresent(LazyReference<Project>.self, forKey: .project) ?? LazyReference(identifiers: nil)
+      createdAt = try? values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try? values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
+  }
+  public func encode(to encoder: Encoder) throws {
+      var container = encoder.container(keyedBy: CodingKeys.self)
+      try container.encode(teamId, forKey: .teamId)
+      try container.encode(name, forKey: .name)
+      try container.encode(_project, forKey: .project)
+      try container.encode(createdAt, forKey: .createdAt)
+      try container.encode(updatedAt, forKey: .updatedAt)
   }
 }"
 `;
@@ -664,6 +856,9 @@ extension Team {
       .field(team.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
+    public class Path: ModelPath<Team> { }
+    
+    public static var rootPath: PropertyContainerPath? { Path() }
 }
 
 extension Team: ModelIdentifiable {
@@ -676,6 +871,23 @@ extension Team.IdentifierProtocol {
       name: String) -> Self {
     .make(fields:[(name: \\"teamId\\", value: teamId), (name: \\"name\\", value: name)])
   }
+}
+extension ModelPath where ModelType == Team {
+  public var teamId: FieldPath<String>   {
+      string(\\"teamId\\") 
+    }
+  public var name: FieldPath<String>   {
+      string(\\"name\\") 
+    }
+  public var project: ModelPath<Project>   {
+      Project.Path(name: \\"project\\", parent: self) 
+    }
+  public var createdAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"createdAt\\") 
+    }
+  public var updatedAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"updatedAt\\") 
+    }
 }"
 `;
 
@@ -787,6 +999,38 @@ extension ListContainer {
       .field(listContainer.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
+    public class Path: ModelPath<ListContainer> { }
+    
+    public static var rootPath: PropertyContainerPath? { Path() }
+}
+extension ModelPath where ModelType == ListContainer {
+  public var id: FieldPath<String>   {
+      string(\\"id\\") 
+    }
+  public var name: FieldPath<String>   {
+      string(\\"name\\") 
+    }
+  public var list: FieldPath<Int>   {
+      int(\\"list\\") 
+    }
+  public var requiredList: FieldPath<String>   {
+      string(\\"requiredList\\") 
+    }
+  public var listOfRequired: FieldPath<Bool>   {
+      bool(\\"listOfRequired\\") 
+    }
+  public var requiredListOfRequiredDates: FieldPath<Temporal.Date>   {
+      date(\\"requiredListOfRequiredDates\\") 
+    }
+  public var listOfRequiredFloats: FieldPath<Double>   {
+      double(\\"listOfRequiredFloats\\") 
+    }
+  public var createdAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"createdAt\\") 
+    }
+  public var updatedAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"updatedAt\\") 
+    }
 }"
 `;
 
@@ -891,6 +1135,35 @@ extension Todo {
       .field(todo.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
+    public class Path: ModelPath<Todo> { }
+    
+    public static var rootPath: PropertyContainerPath? { Path() }
+}
+extension ModelPath where ModelType == Todo {
+  public var id: FieldPath<String>   {
+      string(\\"id\\") 
+    }
+  public var title: FieldPath<String>   {
+      string(\\"title\\") 
+    }
+  public var requiredListOfTasks: ModelPath<task>   {
+      task.Path(name: \\"requiredListOfTasks\\", isCollection: true, parent: self) 
+    }
+  public var listOfRequiredTasks: ModelPath<task>   {
+      task.Path(name: \\"listOfRequiredTasks\\", isCollection: true, parent: self) 
+    }
+  public var listOfTasks: ModelPath<task>   {
+      task.Path(name: \\"listOfTasks\\", isCollection: true, parent: self) 
+    }
+  public var requiredListOfRequiredTasks: ModelPath<task>   {
+      task.Path(name: \\"requiredListOfRequiredTasks\\", isCollection: true, parent: self) 
+    }
+  public var createdAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"createdAt\\") 
+    }
+  public var updatedAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"updatedAt\\") 
+    }
 }"
 `;
 
@@ -902,7 +1175,12 @@ import Foundation
 public struct task: Model {
   public let id: String
   public var title: String
-  public var todo: Todo?
+  internal var _todo: LazyReference<Todo>
+  public var todo: Todo?   {
+      get async throws { 
+        try await _todo.get()
+      } 
+    }
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
   
@@ -922,9 +1200,28 @@ public struct task: Model {
       updatedAt: Temporal.DateTime? = nil) {
       self.id = id
       self.title = title
-      self.todo = todo
+      self._todo = LazyReference(todo)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
+  }
+  public mutating func setTodo(_ todo: Todo? = nil) {
+    self._todo = LazyReference(todo)
+  }
+  public init(from decoder: Decoder) throws {
+      let values = try decoder.container(keyedBy: CodingKeys.self)
+      id = try values.decode(String.self, forKey: .id)
+      title = try values.decode(String.self, forKey: .title)
+      _todo = try values.decodeIfPresent(LazyReference<Todo>.self, forKey: .todo) ?? LazyReference(identifiers: nil)
+      createdAt = try? values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try? values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
+  }
+  public func encode(to encoder: Encoder) throws {
+      var container = encoder.container(keyedBy: CodingKeys.self)
+      try container.encode(id, forKey: .id)
+      try container.encode(title, forKey: .title)
+      try container.encode(_todo, forKey: .todo)
+      try container.encode(createdAt, forKey: .createdAt)
+      try container.encode(updatedAt, forKey: .updatedAt)
   }
 }"
 `;
@@ -959,6 +1256,26 @@ extension task {
       .field(task.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(task.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
+    }
+    public class Path: ModelPath<task> { }
+    
+    public static var rootPath: PropertyContainerPath? { Path() }
+}
+extension ModelPath where ModelType == task {
+  public var id: FieldPath<String>   {
+      string(\\"id\\") 
+    }
+  public var title: FieldPath<String>   {
+      string(\\"title\\") 
+    }
+  public var todo: ModelPath<Todo>   {
+      Todo.Path(name: \\"todo\\", parent: self) 
+    }
+  public var createdAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"createdAt\\") 
+    }
+  public var updatedAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"updatedAt\\") 
     }
 }"
 `;
