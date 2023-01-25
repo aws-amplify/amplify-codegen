@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.4.0-lazyloadingios.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@3.3.6...amplify-codegen@3.4.0-lazyloadingios.0) (2023-01-25)
+
+
+### Features
+
+* **amplify-codegen:** add feature flag generateLazyReferenceAndModelPath check ([d760bca](https://github.com/aws-amplify/amplify-codegen/commit/d760bca3aa44cb99ca9c892988a3bfd9de69375f))
+* **amplify-codegen:** feature flag rename ([110f06b](https://github.com/aws-amplify/amplify-codegen/commit/110f06b2e9696b3fb6da4f462ef177ea1ec2f382))
+
+
+
+
+
 ## [3.3.6](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@3.3.5...amplify-codegen@3.3.6) (2023-01-24)
 
 **Note:** Version bump only for package amplify-codegen
