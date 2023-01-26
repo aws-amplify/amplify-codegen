@@ -31,6 +31,7 @@ executors:
     working_directory: ~/repo
     resource_class: large
     environment:
+      CXXFLAGS: '--std=c++17'
       AMPLIFY_DIR: /home/circleci/repo/out
       AMPLIFY_PATH: /home/circleci/repo/out/amplify-pkg-linux-x64
 
@@ -69,7 +70,7 @@ jobs:
       - checkout
       - run: yarn config set workspaces-experimental true
       - run: yarn cache clean --force
-      - run: CXXFLAGS="--std=c++17" yarn run production-build
+      - run: yarn run production-build
       - save_cache:
           key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-<< parameters.os >>
           paths:
