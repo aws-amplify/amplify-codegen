@@ -11,6 +11,7 @@ const defaultIosVisitorSetings = {
   handleListNullabilityTransparently: true,
   transformerVersion: 1,
   respectPrimaryKeyAttributesOnConnectionField: false,
+  generateModelsForLazyLoadAndCustomSelectionSet: true,
 };
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
@@ -127,6 +128,26 @@ describe('AppSyncSwiftVisitor', () => {
             .field(simpleModel.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
           )
           }
+          public class Path: ModelPath<SimpleModel> { }
+          
+          public static var rootPath: PropertyContainerPath? { Path() }
+      }
+      extension ModelPath where ModelType == SimpleModel {
+        public var id: FieldPath<String>   {
+            string(\\"id\\") 
+          }
+        public var name: FieldPath<String>   {
+            string(\\"name\\") 
+          }
+        public var bar: FieldPath<String>   {
+            string(\\"bar\\") 
+          }
+        public var createdAt: FieldPath<Temporal.DateTime>   {
+            datetime(\\"createdAt\\") 
+          }
+        public var updatedAt: FieldPath<Temporal.DateTime>   {
+            datetime(\\"updatedAt\\") 
+          }
       }"
     `);
   });
@@ -231,6 +252,23 @@ describe('AppSyncSwiftVisitor', () => {
             .field(snake_case.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
             .field(snake_case.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
           )
+          }
+          public class Path: ModelPath<snake_case> { }
+          
+          public static var rootPath: PropertyContainerPath? { Path() }
+      }
+      extension ModelPath where ModelType == snake_case {
+        public var id: FieldPath<String>   {
+            string(\\"id\\") 
+          }
+        public var name: FieldPath<String>   {
+            string(\\"name\\") 
+          }
+        public var createdAt: FieldPath<Temporal.DateTime>   {
+            datetime(\\"createdAt\\") 
+          }
+        public var updatedAt: FieldPath<Temporal.DateTime>   {
+            datetime(\\"updatedAt\\") 
           }
       }"
     `);
@@ -375,6 +413,32 @@ describe('AppSyncSwiftVisitor', () => {
             .field(authorBook.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
             .field(authorBook.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
           )
+          }
+          public class Path: ModelPath<authorBook> { }
+          
+          public static var rootPath: PropertyContainerPath? { Path() }
+      }
+      extension ModelPath where ModelType == authorBook {
+        public var id: FieldPath<String>   {
+            string(\\"id\\") 
+          }
+        public var author_id: FieldPath<String>   {
+            string(\\"author_id\\") 
+          }
+        public var book_id: FieldPath<String>   {
+            string(\\"book_id\\") 
+          }
+        public var author: FieldPath<String>   {
+            string(\\"author\\") 
+          }
+        public var book: FieldPath<String>   {
+            string(\\"book\\") 
+          }
+        public var createdAt: FieldPath<Temporal.DateTime>   {
+            datetime(\\"createdAt\\") 
+          }
+        public var updatedAt: FieldPath<Temporal.DateTime>   {
+            datetime(\\"updatedAt\\") 
           }
       }"
     `);
@@ -652,6 +716,41 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(todo.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
+              public class Path: ModelPath<Todo> { }
+              
+              public static var rootPath: PropertyContainerPath? { Path() }
+          }
+          extension ModelPath where ModelType == Todo {
+            public var id: FieldPath<String>   {
+                string(\\"id\\") 
+              }
+            public var title: FieldPath<String>   {
+                string(\\"title\\") 
+              }
+            public var done: FieldPath<Bool>   {
+                bool(\\"done\\") 
+              }
+            public var description: FieldPath<String>   {
+                string(\\"description\\") 
+              }
+            public var due_date: FieldPath<String>   {
+                string(\\"due_date\\") 
+              }
+            public var version: FieldPath<Int>   {
+                int(\\"version\\") 
+              }
+            public var value: FieldPath<Double>   {
+                double(\\"value\\") 
+              }
+            public var tasks: ModelPath<task>   {
+                task.Path(name: \\"tasks\\", isCollection: true, parent: self) 
+              }
+            public var createdAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"createdAt\\") 
+              }
+            public var updatedAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"updatedAt\\") 
+              }
           }"
         `);
       });
@@ -668,7 +767,12 @@ describe('AppSyncSwiftVisitor', () => {
             public let id: String
             public var title: String
             public var done: Bool
-            public var todo: Todo?
+            internal var _todo: LazyReference<Todo>
+            public var todo: Todo?   {
+                get async throws { 
+                  try await _todo.get()
+                } 
+              }
             public var time: Temporal.Time?
             public var createdOn: Temporal.Date?
             public var createdAt: Temporal.DateTime?
@@ -700,11 +804,36 @@ describe('AppSyncSwiftVisitor', () => {
                 self.id = id
                 self.title = title
                 self.done = done
-                self.todo = todo
+                self._todo = LazyReference(todo)
                 self.time = time
                 self.createdOn = createdOn
                 self.createdAt = createdAt
                 self.updatedAt = updatedAt
+            }
+            public mutating func setTodo(_ todo: Todo? = nil) {
+              self._todo = LazyReference(todo)
+            }
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: CodingKeys.self)
+                id = try values.decode(String.self, forKey: .id)
+                title = try values.decode(String.self, forKey: .title)
+                done = try values.decode(Bool.self, forKey: .done)
+                _todo = try values.decodeIfPresent(LazyReference<Todo>.self, forKey: .todo) ?? LazyReference(identifiers: nil)
+                time = try? values.decode(Temporal.Time?.self, forKey: .time)
+                createdOn = try? values.decode(Temporal.Date?.self, forKey: .createdOn)
+                createdAt = try? values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+                updatedAt = try? values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
+            }
+            public func encode(to encoder: Encoder) throws {
+                var container = encoder.container(keyedBy: CodingKeys.self)
+                try container.encode(id, forKey: .id)
+                try container.encode(title, forKey: .title)
+                try container.encode(done, forKey: .done)
+                try container.encode(_todo, forKey: .todo)
+                try container.encode(time, forKey: .time)
+                try container.encode(createdOn, forKey: .createdOn)
+                try container.encode(createdAt, forKey: .createdAt)
+                try container.encode(updatedAt, forKey: .updatedAt)
             }
           }"
         `);
@@ -747,6 +876,35 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(task.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
                 .field(task.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
+              }
+              public class Path: ModelPath<task> { }
+              
+              public static var rootPath: PropertyContainerPath? { Path() }
+          }
+          extension ModelPath where ModelType == task {
+            public var id: FieldPath<String>   {
+                string(\\"id\\") 
+              }
+            public var title: FieldPath<String>   {
+                string(\\"title\\") 
+              }
+            public var done: FieldPath<Bool>   {
+                bool(\\"done\\") 
+              }
+            public var todo: ModelPath<Todo>   {
+                Todo.Path(name: \\"todo\\", parent: self) 
+              }
+            public var time: FieldPath<Temporal.Time>   {
+                time(\\"time\\") 
+              }
+            public var createdOn: FieldPath<Temporal.Date>   {
+                date(\\"createdOn\\") 
+              }
+            public var createdAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"createdAt\\") 
+              }
+            public var updatedAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"updatedAt\\") 
               }
           }"
         `);
@@ -881,6 +1039,26 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
+              public class Path: ModelPath<Post> { }
+              
+              public static var rootPath: PropertyContainerPath? { Path() }
+          }
+          extension ModelPath where ModelType == Post {
+            public var id: FieldPath<String>   {
+                string(\\"id\\") 
+              }
+            public var title: FieldPath<String>   {
+                string(\\"title\\") 
+              }
+            public var editors: ModelPath<PostEditor>   {
+                PostEditor.Path(name: \\"editors\\", isCollection: true, parent: self) 
+              }
+            public var createdAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"createdAt\\") 
+              }
+            public var updatedAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"updatedAt\\") 
+              }
           }"
         `);
 
@@ -951,6 +1129,26 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
+              }
+              public class Path: ModelPath<Post> { }
+              
+              public static var rootPath: PropertyContainerPath? { Path() }
+          }
+          extension ModelPath where ModelType == Post {
+            public var id: FieldPath<String>   {
+                string(\\"id\\") 
+              }
+            public var title: FieldPath<String>   {
+                string(\\"title\\") 
+              }
+            public var editors: ModelPath<PostEditor>   {
+                PostEditor.Path(name: \\"editors\\", isCollection: true, parent: self) 
+              }
+            public var createdAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"createdAt\\") 
+              }
+            public var updatedAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"updatedAt\\") 
               }
           }"
         `);
@@ -1071,6 +1269,35 @@ describe('AppSyncSwiftVisitor', () => {
             .field(objectWithNativeTypes.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
             .field(objectWithNativeTypes.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
           )
+          }
+          public class Path: ModelPath<ObjectWithNativeTypes> { }
+          
+          public static var rootPath: PropertyContainerPath? { Path() }
+      }
+      extension ModelPath where ModelType == ObjectWithNativeTypes {
+        public var id: FieldPath<String>   {
+            string(\\"id\\") 
+          }
+        public var intArr: FieldPath<Int>   {
+            int(\\"intArr\\") 
+          }
+        public var strArr: FieldPath<String>   {
+            string(\\"strArr\\") 
+          }
+        public var floatArr: FieldPath<Double>   {
+            double(\\"floatArr\\") 
+          }
+        public var boolArr: FieldPath<Bool>   {
+            bool(\\"boolArr\\") 
+          }
+        public var dateArr: FieldPath<Temporal.Date>   {
+            date(\\"dateArr\\") 
+          }
+        public var createdAt: FieldPath<Temporal.DateTime>   {
+            datetime(\\"createdAt\\") 
+          }
+        public var updatedAt: FieldPath<Temporal.DateTime>   {
+            datetime(\\"updatedAt\\") 
           }
       }"
     `);
@@ -1193,6 +1420,26 @@ describe('AppSyncSwiftVisitor', () => {
             .field(attraction.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
             .field(attraction.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
           )
+          }
+          public class Path: ModelPath<Attraction> { }
+          
+          public static var rootPath: PropertyContainerPath? { Path() }
+      }
+      extension ModelPath where ModelType == Attraction {
+        public var id: FieldPath<String>   {
+            string(\\"id\\") 
+          }
+        public var name: FieldPath<String>   {
+            string(\\"name\\") 
+          }
+        public var tags: FieldPath<String>   {
+            string(\\"tags\\") 
+          }
+        public var createdAt: FieldPath<Temporal.DateTime>   {
+            datetime(\\"createdAt\\") 
+          }
+        public var updatedAt: FieldPath<Temporal.DateTime>   {
+            datetime(\\"updatedAt\\") 
           }
       }"
     `);
@@ -1439,6 +1686,26 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
+              public class Path: ModelPath<Post> { }
+              
+              public static var rootPath: PropertyContainerPath? { Path() }
+          }
+          extension ModelPath where ModelType == Post {
+            public var id: FieldPath<String>   {
+                string(\\"id\\") 
+              }
+            public var title: FieldPath<String>   {
+                string(\\"title\\") 
+              }
+            public var owner: FieldPath<String>   {
+                string(\\"owner\\") 
+              }
+            public var createdAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"createdAt\\") 
+              }
+            public var updatedAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"updatedAt\\") 
+              }
           }"
         `);
       });
@@ -1487,6 +1754,26 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
+              }
+              public class Path: ModelPath<Post> { }
+              
+              public static var rootPath: PropertyContainerPath? { Path() }
+          }
+          extension ModelPath where ModelType == Post {
+            public var id: FieldPath<String>   {
+                string(\\"id\\") 
+              }
+            public var title: FieldPath<String>   {
+                string(\\"title\\") 
+              }
+            public var author: FieldPath<String>   {
+                string(\\"author\\") 
+              }
+            public var createdAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"createdAt\\") 
+              }
+            public var updatedAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"updatedAt\\") 
               }
           }"
         `);
@@ -1538,6 +1825,26 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
+              public class Path: ModelPath<Post> { }
+              
+              public static var rootPath: PropertyContainerPath? { Path() }
+          }
+          extension ModelPath where ModelType == Post {
+            public var id: FieldPath<String>   {
+                string(\\"id\\") 
+              }
+            public var title: FieldPath<String>   {
+                string(\\"title\\") 
+              }
+            public var author: FieldPath<String>   {
+                string(\\"author\\") 
+              }
+            public var createdAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"createdAt\\") 
+              }
+            public var updatedAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"updatedAt\\") 
+              }
           }"
         `);
       });
@@ -1588,6 +1895,26 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
+              public class Path: ModelPath<Post> { }
+              
+              public static var rootPath: PropertyContainerPath? { Path() }
+          }
+          extension ModelPath where ModelType == Post {
+            public var id: FieldPath<String>   {
+                string(\\"id\\") 
+              }
+            public var title: FieldPath<String>   {
+                string(\\"title\\") 
+              }
+            public var author: FieldPath<String>   {
+                string(\\"author\\") 
+              }
+            public var createdAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"createdAt\\") 
+              }
+            public var updatedAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"updatedAt\\") 
+              }
           }"
         `);
       });
@@ -1634,6 +1961,23 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
+              public class Path: ModelPath<Post> { }
+              
+              public static var rootPath: PropertyContainerPath? { Path() }
+          }
+          extension ModelPath where ModelType == Post {
+            public var id: FieldPath<String>   {
+                string(\\"id\\") 
+              }
+            public var title: FieldPath<String>   {
+                string(\\"title\\") 
+              }
+            public var createdAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"createdAt\\") 
+              }
+            public var updatedAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"updatedAt\\") 
+              }
           }"
         `);
       });
@@ -1679,6 +2023,23 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
+              }
+              public class Path: ModelPath<Post> { }
+              
+              public static var rootPath: PropertyContainerPath? { Path() }
+          }
+          extension ModelPath where ModelType == Post {
+            public var id: FieldPath<String>   {
+                string(\\"id\\") 
+              }
+            public var title: FieldPath<String>   {
+                string(\\"title\\") 
+              }
+            public var createdAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"createdAt\\") 
+              }
+            public var updatedAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"updatedAt\\") 
               }
           }"
         `);
@@ -1735,6 +2096,29 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
+              public class Path: ModelPath<Post> { }
+              
+              public static var rootPath: PropertyContainerPath? { Path() }
+          }
+          extension ModelPath where ModelType == Post {
+            public var id: FieldPath<String>   {
+                string(\\"id\\") 
+              }
+            public var title: FieldPath<String>   {
+                string(\\"title\\") 
+              }
+            public var author: FieldPath<String>   {
+                string(\\"author\\") 
+              }
+            public var editors: FieldPath<String>   {
+                string(\\"editors\\") 
+              }
+            public var createdAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"createdAt\\") 
+              }
+            public var updatedAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"updatedAt\\") 
+              }
           }"
         `);
       });
@@ -1788,6 +2172,29 @@ describe('AppSyncSwiftVisitor', () => {
                 .field(employee.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
               )
               }
+              public class Path: ModelPath<Employee> { }
+              
+              public static var rootPath: PropertyContainerPath? { Path() }
+          }
+          extension ModelPath where ModelType == Employee {
+            public var id: FieldPath<String>   {
+                string(\\"id\\") 
+              }
+            public var name: FieldPath<String>   {
+                string(\\"name\\") 
+              }
+            public var address: FieldPath<String>   {
+                string(\\"address\\") 
+              }
+            public var ssn: FieldPath<String>   {
+                string(\\"ssn\\") 
+              }
+            public var createdAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"createdAt\\") 
+              }
+            public var updatedAt: FieldPath<Temporal.DateTime>   {
+                datetime(\\"updatedAt\\") 
+              }
           }"
         `);
       });
@@ -1836,6 +2243,23 @@ describe('AppSyncSwiftVisitor', () => {
               .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
               .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
             )
+            }
+            public class Path: ModelPath<Post> { }
+            
+            public static var rootPath: PropertyContainerPath? { Path() }
+        }
+        extension ModelPath where ModelType == Post {
+          public var id: FieldPath<String>   {
+              string(\\"id\\") 
+            }
+          public var title: FieldPath<String>   {
+              string(\\"title\\") 
+            }
+          public var createdAt: FieldPath<Temporal.DateTime>   {
+              datetime(\\"createdAt\\") 
+            }
+          public var updatedAt: FieldPath<Temporal.DateTime>   {
+              datetime(\\"updatedAt\\") 
             }
         }"
       `);
@@ -1886,6 +2310,26 @@ describe('AppSyncSwiftVisitor', () => {
               .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
             )
             }
+            public class Path: ModelPath<Post> { }
+            
+            public static var rootPath: PropertyContainerPath? { Path() }
+        }
+        extension ModelPath where ModelType == Post {
+          public var id: FieldPath<String>   {
+              string(\\"id\\") 
+            }
+          public var title: FieldPath<String>   {
+              string(\\"title\\") 
+            }
+          public var groups: FieldPath<String>   {
+              string(\\"groups\\") 
+            }
+          public var createdAt: FieldPath<Temporal.DateTime>   {
+              datetime(\\"createdAt\\") 
+            }
+          public var updatedAt: FieldPath<Temporal.DateTime>   {
+              datetime(\\"updatedAt\\") 
+            }
         }"
       `);
     });
@@ -1932,6 +2376,23 @@ describe('AppSyncSwiftVisitor', () => {
               .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
               .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
             )
+            }
+            public class Path: ModelPath<Post> { }
+            
+            public static var rootPath: PropertyContainerPath? { Path() }
+        }
+        extension ModelPath where ModelType == Post {
+          public var id: FieldPath<String>   {
+              string(\\"id\\") 
+            }
+          public var title: FieldPath<String>   {
+              string(\\"title\\") 
+            }
+          public var createdAt: FieldPath<Temporal.DateTime>   {
+              datetime(\\"createdAt\\") 
+            }
+          public var updatedAt: FieldPath<Temporal.DateTime>   {
+              datetime(\\"updatedAt\\") 
             }
         }"
       `);
@@ -1980,6 +2441,23 @@ describe('AppSyncSwiftVisitor', () => {
               .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
             )
             }
+            public class Path: ModelPath<Post> { }
+            
+            public static var rootPath: PropertyContainerPath? { Path() }
+        }
+        extension ModelPath where ModelType == Post {
+          public var id: FieldPath<String>   {
+              string(\\"id\\") 
+            }
+          public var title: FieldPath<String>   {
+              string(\\"title\\") 
+            }
+          public var createdAt: FieldPath<Temporal.DateTime>   {
+              datetime(\\"createdAt\\") 
+            }
+          public var updatedAt: FieldPath<Temporal.DateTime>   {
+              datetime(\\"updatedAt\\") 
+            }
         }"
       `);
     });
@@ -2025,6 +2503,23 @@ describe('AppSyncSwiftVisitor', () => {
               .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
               .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
             )
+            }
+            public class Path: ModelPath<Post> { }
+            
+            public static var rootPath: PropertyContainerPath? { Path() }
+        }
+        extension ModelPath where ModelType == Post {
+          public var id: FieldPath<String>   {
+              string(\\"id\\") 
+            }
+          public var title: FieldPath<String>   {
+              string(\\"title\\") 
+            }
+          public var createdAt: FieldPath<Temporal.DateTime>   {
+              datetime(\\"createdAt\\") 
+            }
+          public var updatedAt: FieldPath<Temporal.DateTime>   {
+              datetime(\\"updatedAt\\") 
             }
         }"
       `);
@@ -2086,6 +2581,26 @@ describe('AppSyncSwiftVisitor', () => {
             .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
           )
           }
+          public class Path: ModelPath<Post> { }
+          
+          public static var rootPath: PropertyContainerPath? { Path() }
+      }
+      extension ModelPath where ModelType == Post {
+        public var id: FieldPath<String>   {
+            string(\\"id\\") 
+          }
+        public var title: FieldPath<String>   {
+            string(\\"title\\") 
+          }
+        public var owner: FieldPath<String>   {
+            string(\\"owner\\") 
+          }
+        public var createdAt: FieldPath<Temporal.DateTime>   {
+            datetime(\\"createdAt\\") 
+          }
+        public var updatedAt: FieldPath<Temporal.DateTime>   {
+            datetime(\\"updatedAt\\") 
+          }
       }"
     `);
   });
@@ -2145,6 +2660,26 @@ describe('AppSyncSwiftVisitor', () => {
             .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
             .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
           )
+          }
+          public class Path: ModelPath<Post> { }
+          
+          public static var rootPath: PropertyContainerPath? { Path() }
+      }
+      extension ModelPath where ModelType == Post {
+        public var id: FieldPath<String>   {
+            string(\\"id\\") 
+          }
+        public var title: FieldPath<String>   {
+            string(\\"title\\") 
+          }
+        public var owner: FieldPath<String>   {
+            string(\\"owner\\") 
+          }
+        public var createdAt: FieldPath<Temporal.DateTime>   {
+            datetime(\\"createdAt\\") 
+          }
+        public var updatedAt: FieldPath<Temporal.DateTime>   {
+            datetime(\\"updatedAt\\") 
           }
       }"
     `);
