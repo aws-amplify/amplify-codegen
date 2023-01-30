@@ -26,6 +26,16 @@ executors:
       AMPLIFY_DIR: /home/circleci/repo/out
       AMPLIFY_PATH: /home/circleci/repo/out/amplify-pkg-linux-x64
 
+  m: &macos-e2e-executor
+    macos:
+      xcode: 14.1.0
+    working_directory: ~/repo
+    resource_class: large
+    environment:
+      CXXFLAGS: '--std=c++17'
+      AMPLIFY_DIR: /home/circleci/repo/out
+      AMPLIFY_PATH: /home/circleci/repo/out/amplify-pkg-linux-x64
+
   a: &android-e2e-executor
     docker:
       - image: cimg/android:2022.09
@@ -72,11 +82,11 @@ jobs:
       - run: yarn cache clean --force
       - run: yarn run production-build
       - save_cache:
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-<< parameters.os >>
           paths:
             - ~/.cache
       - save_cache:
-          key: amplify-codegen-ssh-deps-{{ .Branch }}
+          key: amplify-codegen-ssh-deps-{{ .Branch }}-<< parameters.os >>
           paths:
             - ~/.ssh
       - persist_to_workspace:
@@ -106,7 +116,7 @@ jobs:
             - attach_workspace:
                 at: ./
             - restore_cache:
-                key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+                key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-l
       - run:
           name: Lint
           command: yarn lint
@@ -125,8 +135,8 @@ jobs:
           at: ./
       - restore_cache:
           keys:
-            - amplify-codegen-ssh-deps-{{ .Branch }}
-            - amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - amplify-codegen-ssh-deps-{{ .Branch }}-l
+            - amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-l
       - run:
           name: Authenticate with npm
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
@@ -142,7 +152,7 @@ jobs:
       - attach_workspace:
           at: ./
       - restore_cache:
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-<< parameters.os >>
       - run:
           name: Publish to verdaccio
           command: |
@@ -155,7 +165,7 @@ jobs:
             yarn publish-to-verdaccio
             unsetNpmRegistryUrl
       - save_cache:
-          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}
+          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}-<< parameters.os >>
           paths:
             - ~/verdaccio-cache/
 
@@ -166,9 +176,31 @@ jobs:
       - attach_workspace:
           at: ./
       - restore_cache:
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-<< parameters.os >>
       - restore_cache:
-          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}
+          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}-<< parameters.os >>
+      - run: *install_cli
+      - run:
+          name: Run e2e tests
+          command: |
+            cd packages/amplify-codegen-e2e-tests
+            yarn e2e --maxWorkers=3 $TEST_SUITE
+          no_output_timeout: 20m
+      - store_test_results:
+          path: packages/amplify-codegen-e2e-tests/
+      - store_artifacts:
+          path: ~/repo/packages/amplify-codegen-e2e-tests/amplify-e2e-reports
+
+  e2e-test-macos:
+    <<: *defaults
+    executor: << parameters.os >>
+    steps:
+      - attach_workspace:
+          at: ./
+      - restore_cache:
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-<< parameters.os >>
+      - restore_cache:
+          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}-<< parameters.os >>
       - run: *install_cli
       - run:
           name: Run e2e tests
@@ -255,18 +287,24 @@ workflows:
   build_test_deploy:
     jobs:
       - build:
-          os: l
+          name: build-<< matrix.os >>
+          matrix:
+            parameters:
+              os: [l, m]
       - test:
           name: test-<< matrix.os >>
           matrix:
             parameters:
               os: [l, w]
           requires:
-            - build
+            - build-l
       - publish_to_local_registry:
-          os: l
+          name: publish_to_local_registry-<< matrix.os >>
+          matrix:
+            parameters:
+              os: [l, m]
           requires:
-            - build
+            - build-<< matrix.os >>
           filters:
             branches:
               only:
@@ -278,7 +316,7 @@ workflows:
             - cleanup-resources
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps:
             - run: *cleanup_e2e
           filters:

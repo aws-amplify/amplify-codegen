@@ -48,6 +48,7 @@ const KNOWN_SUITES_SORTED_ACCORDING_TO_RUNTIME = [
 
   // <18m
   'src/__tests__/build-app-ts.test.ts',
+  'src/__tests__/build-app-swift.test.ts',
   'src/__tests__/build-app-android.test.ts',
 ];
 
@@ -87,6 +88,8 @@ export type CircleCIConfig = {
     };
   };
 };
+
+const runJobOnMacOS = new Set(['build-app-swift-e2e-test']);
 
 function getTestFiles(dir: string, pattern = 'src/**/*.test.ts'): string[] {
   return sortTestsBasedOnTime(glob.sync(pattern, { cwd: dir })).reverse();
@@ -174,12 +177,24 @@ function splitTests(
             return newJobName;
           } else {
             const shouldRunJobOnAndroid = runJobOnAndroid.has(newJobName);
+            const shouldRunJobOnMacOS = runJobOnMacOS.has(newJobName);
+            let os = 'l';
+            if (shouldRunJobOnAndroid) {
+              os = 'a';
+            }
+            if (shouldRunJobOnMacOS) {
+              os = 'm';
+            }
+            const newJob = {
+              ...Object.values(workflowJob)[0],
+              os,
+              requires: [...(requires ? [requires] : workflowJob[jobName].requires || [])],
+            };
+            if (runJobOnMacOS.has(newJobName)) {
+              newJob.requires = newJob.requires.map(r => r.replace(new RegExp('-l$'), '-m'));
+            }
             return {
-              [newJobName]: {
-                ...Object.values(workflowJob)[0],
-                os: shouldRunJobOnAndroid ? 'a' : 'l',
-                requires: [...(requires ? [requires] : workflowJob[jobName].requires || [])],
-              },
+              [newJobName]: newJob,
             };
           }
         });
