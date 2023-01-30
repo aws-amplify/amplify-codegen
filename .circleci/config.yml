@@ -2,6 +2,7 @@
 version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@6.15.3
+  android: circleci/android@2.1.2
   node: circleci/node@5.0.3
 machine:
   environment:
@@ -33,6 +34,14 @@ executors:
       CXXFLAGS: '--std=c++17'
       AMPLIFY_DIR: /home/circleci/repo/out
       AMPLIFY_PATH: /home/circleci/repo/out/amplify-pkg-linux-x64
+  a:
+    docker:
+      - image: 'cimg/android:2022.09'
+    working_directory: ~/repo
+    resource_class: large
+    environment:
+      AMPLIFY_DIR: /home/circleci/repo/out
+      AMPLIFY_PATH: /home/circleci/repo/out/amplify-pkg-linux-x64
 defaults:
   working_directory: ~/repo
   parameters: &ref_0
@@ -50,7 +59,7 @@ install_cli_with_local_codegen: &ref_3
     npm list --global --depth=1
     unsetNpmRegistryUrl
   working_directory: ~/repo
-clean_up_e2e_resources: &ref_5
+clean_up_e2e_resources: &ref_6
   name: Clean up e2e resources
   command: |
     cd packages/amplify-codegen-e2e-tests
@@ -172,7 +181,7 @@ jobs:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: &ref_4
+    steps: &ref_5
       - attach_workspace:
           at: ./
       - restore_cache:
@@ -220,6 +229,32 @@ jobs:
           path: packages/amplify-codegen-e2e-tests/
       - store_artifacts:
           path: ~/repo/packages/amplify-codegen-e2e-tests/amplify-e2e-reports
+  e2e-test-with-node-install:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: &ref_4
+      - attach_workspace:
+          at: ./
+      - restore_cache:
+          key: 'amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}'
+      - restore_cache:
+          key: 'amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}'
+      - node/install:
+          install-yarn: true
+          node-version: '16.13'
+      - run: yarn run production-build
+      - run: *ref_3
+      - run:
+          name: Run e2e tests
+          command: |
+            cd packages/amplify-codegen-e2e-tests
+            yarn e2e --maxWorkers=3 $TEST_SUITE
+          no_output_timeout: 20m
+      - store_test_results:
+          path: packages/amplify-codegen-e2e-tests/
+      - store_artifacts:
+          path: ~/repo/packages/amplify-codegen-e2e-tests/amplify-e2e-reports
   done_with_node_e2e_tests:
     working_directory: ~/repo
     parameters: *ref_0
@@ -243,206 +278,240 @@ jobs:
           no_output_timeout: 20m
       - store_artifacts:
           path: ~/repo/packages/amplify-e2e-tests/amplify-e2e-reports
+  build-app-android-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_4
+    environment:
+      TEST_SUITE: src/__tests__/build-app-android.test.ts
+      CLI_REGION: us-east-2
+      DONT_SET_NPM_PREFIX: true
   build-app-swift-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/build-app-swift.test.ts
-      CLI_REGION: us-east-2
+      CLI_REGION: us-west-1
+      DONT_SET_NPM_PREFIX: false
   build-app-ts-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/build-app-ts.test.ts
-      CLI_REGION: us-west-1
+      CLI_REGION: eu-west-2
+      DONT_SET_NPM_PREFIX: false
   push-codegen-ios-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/push-codegen-ios.test.ts
-      CLI_REGION: eu-west-2
+      CLI_REGION: eu-central-1
+      DONT_SET_NPM_PREFIX: false
   push-codegen-android-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/push-codegen-android.test.ts
-      CLI_REGION: eu-central-1
+      CLI_REGION: ap-northeast-1
+      DONT_SET_NPM_PREFIX: false
   push-codegen-js-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/push-codegen-js.test.ts
-      CLI_REGION: ap-northeast-1
+      CLI_REGION: ap-southeast-1
+      DONT_SET_NPM_PREFIX: false
   pull-codegen-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/pull-codegen.test.ts
-      CLI_REGION: ap-southeast-1
+      CLI_REGION: ap-southeast-2
+      DONT_SET_NPM_PREFIX: false
   env-codegen-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/env-codegen.test.ts
-      CLI_REGION: ap-southeast-2
+      CLI_REGION: us-east-2
+      DONT_SET_NPM_PREFIX: false
   add-codegen-js-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/add-codegen-js.test.ts
-      CLI_REGION: us-east-2
+      CLI_REGION: us-west-1
+      DONT_SET_NPM_PREFIX: false
   model-introspection-codegen-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/model-introspection-codegen.test.ts
-      CLI_REGION: us-west-1
+      CLI_REGION: eu-west-2
+      DONT_SET_NPM_PREFIX: false
   add-codegen-ios-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/add-codegen-ios.test.ts
-      CLI_REGION: eu-west-2
+      CLI_REGION: eu-central-1
+      DONT_SET_NPM_PREFIX: false
   add-codegen-android-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/add-codegen-android.test.ts
-      CLI_REGION: eu-central-1
+      CLI_REGION: ap-northeast-1
+      DONT_SET_NPM_PREFIX: false
   datastore-modelgen-flutter-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/datastore-modelgen-flutter.test.ts
-      CLI_REGION: ap-northeast-1
+      CLI_REGION: ap-southeast-1
+      DONT_SET_NPM_PREFIX: false
   datastore-modelgen-ios-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/datastore-modelgen-ios.test.ts
-      CLI_REGION: ap-southeast-1
+      CLI_REGION: ap-southeast-2
+      DONT_SET_NPM_PREFIX: false
   datastore-modelgen-android-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/datastore-modelgen-android.test.ts
-      CLI_REGION: ap-southeast-2
+      CLI_REGION: us-east-2
+      DONT_SET_NPM_PREFIX: false
   datastore-modelgen-js-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/datastore-modelgen-js.test.ts
-      CLI_REGION: us-east-2
+      CLI_REGION: us-west-1
+      DONT_SET_NPM_PREFIX: false
   remove-codegen-android-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/remove-codegen-android.test.ts
-      CLI_REGION: us-west-1
+      CLI_REGION: eu-west-2
+      DONT_SET_NPM_PREFIX: false
   remove-codegen-ios-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/remove-codegen-ios.test.ts
-      CLI_REGION: eu-west-2
+      CLI_REGION: eu-central-1
+      DONT_SET_NPM_PREFIX: false
   remove-codegen-js-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/remove-codegen-js.test.ts
-      CLI_REGION: eu-central-1
+      CLI_REGION: ap-northeast-1
+      DONT_SET_NPM_PREFIX: false
   feature-flags-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/feature-flags.test.ts
-      CLI_REGION: ap-northeast-1
+      CLI_REGION: ap-southeast-1
+      DONT_SET_NPM_PREFIX: false
   configure-codegen-ios-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/configure-codegen-ios.test.ts
-      CLI_REGION: ap-southeast-1
+      CLI_REGION: ap-southeast-2
+      DONT_SET_NPM_PREFIX: false
   configure-codegen-android-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/configure-codegen-android.test.ts
-      CLI_REGION: ap-southeast-2
+      CLI_REGION: us-east-2
+      DONT_SET_NPM_PREFIX: false
   configure-codegen-js-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/configure-codegen-js.test.ts
-      CLI_REGION: us-east-2
+      CLI_REGION: us-west-1
+      DONT_SET_NPM_PREFIX: false
   graphql-codegen-android-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/graphql-codegen-android.test.ts
-      CLI_REGION: us-west-1
+      CLI_REGION: eu-west-2
+      DONT_SET_NPM_PREFIX: false
   graphql-codegen-js-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/graphql-codegen-js.test.ts
-      CLI_REGION: eu-west-2
+      CLI_REGION: eu-central-1
+      DONT_SET_NPM_PREFIX: false
   graphql-codegen-ios-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_4
+    steps: *ref_5
     environment:
       TEST_SUITE: src/__tests__/graphql-codegen-ios.test.ts
-      CLI_REGION: eu-central-1
+      CLI_REGION: ap-northeast-1
+      DONT_SET_NPM_PREFIX: false
 workflows:
   version: 2
   e2e_resource_cleanup:
@@ -512,6 +581,10 @@ workflows:
       - done_with_node_e2e_tests:
           os: l
           requires:
+            - build-app-android-e2e-test
+            - env-codegen-e2e-test
+            - datastore-modelgen-android-e2e-test
+            - configure-codegen-android-e2e-test
             - build-app-swift-e2e-test
             - add-codegen-js-e2e-test
             - datastore-modelgen-js-e2e-test
@@ -534,188 +607,192 @@ workflows:
             - pull-codegen-e2e-test
             - datastore-modelgen-ios-e2e-test
             - configure-codegen-ios-e2e-test
-            - env-codegen-e2e-test
-            - datastore-modelgen-android-e2e-test
-            - configure-codegen-android-e2e-test
-      - build-app-swift-e2e-test:
-          context: &ref_6
+      - build-app-android-e2e-test:
+          context: &ref_7
             - cleanup-resources
-          os: m
+          os: a
           requires:
-            - publish_to_local_registry-m
-          post-steps: &ref_7
-            - run: *ref_5
-          filters: &ref_8
+            - publish_to_local_registry-l
+          post-steps: &ref_8
+            - run: *ref_6
+          filters: &ref_9
             branches:
               only:
                 - main
                 - e2e-testing
                 - /tagged-release\/.*/
-      - add-codegen-js-e2e-test:
-          context: *ref_6
-          os: l
-          requires:
-            - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
-      - datastore-modelgen-js-e2e-test:
-          context: *ref_6
-          os: l
-          requires:
-            - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
-      - configure-codegen-js-e2e-test:
-          context: *ref_6
-          os: l
-          requires:
-            - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
-      - build-app-ts-e2e-test:
-          context: *ref_6
-          os: l
-          requires:
-            - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
-      - model-introspection-codegen-e2e-test:
-          context: *ref_6
-          os: l
-          requires:
-            - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
-      - remove-codegen-android-e2e-test:
-          context: *ref_6
-          os: l
-          requires:
-            - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
-      - graphql-codegen-android-e2e-test:
-          context: *ref_6
-          os: l
-          requires:
-            - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
-      - push-codegen-ios-e2e-test:
-          context: *ref_6
-          os: l
-          requires:
-            - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
-      - add-codegen-ios-e2e-test:
-          context: *ref_6
-          os: l
-          requires:
-            - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
-      - remove-codegen-ios-e2e-test:
-          context: *ref_6
-          os: l
-          requires:
-            - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
-      - graphql-codegen-js-e2e-test:
-          context: *ref_6
-          os: l
-          requires:
-            - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
-      - push-codegen-android-e2e-test:
-          context: *ref_6
-          os: l
-          requires:
-            - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
-      - add-codegen-android-e2e-test:
-          context: *ref_6
-          os: l
-          requires:
-            - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
-      - remove-codegen-js-e2e-test:
-          context: *ref_6
-          os: l
-          requires:
-            - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
-      - graphql-codegen-ios-e2e-test:
-          context: *ref_6
-          os: l
-          requires:
-            - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
-      - push-codegen-js-e2e-test:
-          context: *ref_6
-          os: l
-          requires:
-            - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
-      - datastore-modelgen-flutter-e2e-test:
-          context: *ref_6
-          os: l
-          requires:
-            - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
-      - feature-flags-e2e-test:
-          context: *ref_6
-          os: l
-          requires:
-            - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
-      - pull-codegen-e2e-test:
-          context: *ref_6
-          os: l
-          requires:
-            - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
-      - datastore-modelgen-ios-e2e-test:
-          context: *ref_6
-          os: l
-          requires:
-            - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
-      - configure-codegen-ios-e2e-test:
-          context: *ref_6
-          os: l
-          requires:
-            - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
       - env-codegen-e2e-test:
-          context: *ref_6
+          context: *ref_7
           os: l
           requires:
             - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
+          post-steps: *ref_8
+          filters: *ref_9
       - datastore-modelgen-android-e2e-test:
-          context: *ref_6
+          context: *ref_7
           os: l
           requires:
             - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
+          post-steps: *ref_8
+          filters: *ref_9
       - configure-codegen-android-e2e-test:
-          context: *ref_6
+          context: *ref_7
           os: l
           requires:
             - publish_to_local_registry-l
-          post-steps: *ref_7
-          filters: *ref_8
+          post-steps: *ref_8
+          filters: *ref_9
+      - build-app-swift-e2e-test:
+          context: *ref_7
+          os: m
+          requires:
+            - publish_to_local_registry-m
+          post-steps: *ref_8
+          filters: *ref_9
+      - add-codegen-js-e2e-test:
+          context: *ref_7
+          os: l
+          requires:
+            - publish_to_local_registry-l
+          post-steps: *ref_8
+          filters: *ref_9
+      - datastore-modelgen-js-e2e-test:
+          context: *ref_7
+          os: l
+          requires:
+            - publish_to_local_registry-l
+          post-steps: *ref_8
+          filters: *ref_9
+      - configure-codegen-js-e2e-test:
+          context: *ref_7
+          os: l
+          requires:
+            - publish_to_local_registry-l
+          post-steps: *ref_8
+          filters: *ref_9
+      - build-app-ts-e2e-test:
+          context: *ref_7
+          os: l
+          requires:
+            - publish_to_local_registry-l
+          post-steps: *ref_8
+          filters: *ref_9
+      - model-introspection-codegen-e2e-test:
+          context: *ref_7
+          os: l
+          requires:
+            - publish_to_local_registry-l
+          post-steps: *ref_8
+          filters: *ref_9
+      - remove-codegen-android-e2e-test:
+          context: *ref_7
+          os: l
+          requires:
+            - publish_to_local_registry-l
+          post-steps: *ref_8
+          filters: *ref_9
+      - graphql-codegen-android-e2e-test:
+          context: *ref_7
+          os: l
+          requires:
+            - publish_to_local_registry-l
+          post-steps: *ref_8
+          filters: *ref_9
+      - push-codegen-ios-e2e-test:
+          context: *ref_7
+          os: l
+          requires:
+            - publish_to_local_registry-l
+          post-steps: *ref_8
+          filters: *ref_9
+      - add-codegen-ios-e2e-test:
+          context: *ref_7
+          os: l
+          requires:
+            - publish_to_local_registry-l
+          post-steps: *ref_8
+          filters: *ref_9
+      - remove-codegen-ios-e2e-test:
+          context: *ref_7
+          os: l
+          requires:
+            - publish_to_local_registry-l
+          post-steps: *ref_8
+          filters: *ref_9
+      - graphql-codegen-js-e2e-test:
+          context: *ref_7
+          os: l
+          requires:
+            - publish_to_local_registry-l
+          post-steps: *ref_8
+          filters: *ref_9
+      - push-codegen-android-e2e-test:
+          context: *ref_7
+          os: l
+          requires:
+            - publish_to_local_registry-l
+          post-steps: *ref_8
+          filters: *ref_9
+      - add-codegen-android-e2e-test:
+          context: *ref_7
+          os: l
+          requires:
+            - publish_to_local_registry-l
+          post-steps: *ref_8
+          filters: *ref_9
+      - remove-codegen-js-e2e-test:
+          context: *ref_7
+          os: l
+          requires:
+            - publish_to_local_registry-l
+          post-steps: *ref_8
+          filters: *ref_9
+      - graphql-codegen-ios-e2e-test:
+          context: *ref_7
+          os: l
+          requires:
+            - publish_to_local_registry-l
+          post-steps: *ref_8
+          filters: *ref_9
+      - push-codegen-js-e2e-test:
+          context: *ref_7
+          os: l
+          requires:
+            - publish_to_local_registry-l
+          post-steps: *ref_8
+          filters: *ref_9
+      - datastore-modelgen-flutter-e2e-test:
+          context: *ref_7
+          os: l
+          requires:
+            - publish_to_local_registry-l
+          post-steps: *ref_8
+          filters: *ref_9
+      - feature-flags-e2e-test:
+          context: *ref_7
+          os: l
+          requires:
+            - publish_to_local_registry-l
+          post-steps: *ref_8
+          filters: *ref_9
+      - pull-codegen-e2e-test:
+          context: *ref_7
+          os: l
+          requires:
+            - publish_to_local_registry-l
+          post-steps: *ref_8
+          filters: *ref_9
+      - datastore-modelgen-ios-e2e-test:
+          context: *ref_7
+          os: l
+          requires:
+            - publish_to_local_registry-l
+          post-steps: *ref_8
+          filters: *ref_9
+      - configure-codegen-ios-e2e-test:
+          context: *ref_7
+          os: l
+          requires:
+            - publish_to_local_registry-l
+          post-steps: *ref_8
+          filters: *ref_9

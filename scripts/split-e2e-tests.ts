@@ -48,10 +48,11 @@ const KNOWN_SUITES_SORTED_ACCORDING_TO_RUNTIME = [
 
   // <18m
   'src/__tests__/build-app-ts.test.ts',
-
-  // <25m
   'src/__tests__/build-app-swift.test.ts',
+  'src/__tests__/build-app-android.test.ts',
 ];
+
+const runJobOnAndroid = new Set(['build-app-android-e2e-test']);
 
 /**
  * Sorts the test suite in ascending order. If the test is not included in known
@@ -122,19 +123,26 @@ function splitTests(
   const output: CircleCIConfig = { ...config };
   const jobs = { ...config.jobs };
   const job = jobs[jobName];
+  const jobWithNodeInstall = jobs[`${jobName}-with-node-install`];
   const testSuites = getTestFiles(jobRootDir);
 
   const newJobs = testSuites.reduce((acc, suite, index) => {
     const testRegion = AWS_REGIONS_TO_RUN_TESTS[index % AWS_REGIONS_TO_RUN_TESTS.length];
+    const newJobName = generateJobName(jobName, suite);
+    const shouldRunJobOnAndroid = runJobOnAndroid.has(newJobName);
     const newJob = {
       ...job,
+      steps: jobWithNodeInstall && shouldRunJobOnAndroid ? jobWithNodeInstall.steps : job.steps,
       environment: {
         ...job.environment,
         TEST_SUITE: suite,
         CLI_REGION: testRegion,
+        // the npm prefix should not be set because this test runs on an executor
+        // that needs to install Node separately. Setting the NPM prefix interferes
+        // with the separate Node installation
+        DONT_SET_NPM_PREFIX: shouldRunJobOnAndroid,
       },
     };
-    const newJobName = generateJobName(jobName, suite);
     return { ...acc, [newJobName]: newJob };
   }, {});
 
@@ -168,10 +176,18 @@ function splitTests(
           if (typeof workflowJob === 'string') {
             return newJobName;
           } else {
+            const shouldRunJobOnAndroid = runJobOnAndroid.has(newJobName);
             const shouldRunJobOnMacOS = runJobOnMacOS.has(newJobName);
+            let os = 'l';
+            if (shouldRunJobOnAndroid) {
+              os = 'a';
+            }
+            if (shouldRunJobOnMacOS) {
+              os = 'm';
+            }
             const newJob = {
               ...Object.values(workflowJob)[0],
-              os: shouldRunJobOnMacOS ? 'm' : 'l',
+              os,
               requires: [...(requires ? [requires] : workflowJob[jobName].requires || [])],
             };
             if (runJobOnMacOS.has(newJobName)) {
