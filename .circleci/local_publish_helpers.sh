@@ -31,7 +31,7 @@ function setNpmRegistryUrlToLocal {
 
 function changeNpmGlobalPath {
   mkdir -p ~/.npm-global
-  if [ ! $DONT_SET_NPM_PREFIX ]
+  if [ $SET_NPM_PREFIX = true ]
   then
     npm config set prefix '~/.npm-global'
   fi
