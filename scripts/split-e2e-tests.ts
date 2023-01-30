@@ -48,6 +48,9 @@ const KNOWN_SUITES_SORTED_ACCORDING_TO_RUNTIME = [
 
   // <18m
   'src/__tests__/build-app-ts.test.ts',
+
+  // <25m
+  'src/__tests__/build-app-swift.test.ts',
 ];
 
 /**
@@ -84,6 +87,8 @@ export type CircleCIConfig = {
     };
   };
 };
+
+const runJobOnMacOS = new Set(['build-app-swift-e2e-test']);
 
 function getTestFiles(dir: string, pattern = 'src/**/*.test.ts'): string[] {
   return sortTestsBasedOnTime(glob.sync(pattern, { cwd: dir })).reverse();
@@ -163,11 +168,17 @@ function splitTests(
           if (typeof workflowJob === 'string') {
             return newJobName;
           } else {
+            const shouldRunJobOnMacOS = runJobOnMacOS.has(newJobName);
+            const newJob = {
+              ...Object.values(workflowJob)[0],
+              os: shouldRunJobOnMacOS ? 'm' : 'l',
+              requires: [...(requires ? [requires] : workflowJob[jobName].requires || [])],
+            };
+            if (runJobOnMacOS.has(newJobName)) {
+              newJob.requires = newJob.requires.map(r => r.replace(new RegExp('-l$'), '-m'));
+            }
             return {
-              [newJobName]: {
-                ...Object.values(workflowJob)[0],
-                requires: [...(requires ? [requires] : workflowJob[jobName].requires || [])],
-              },
+              [newJobName]: newJob,
             };
           }
         });

@@ -1,14 +1,15 @@
 version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@6.15.3
+  node: circleci/node@5.0.3
 machine:
   environment:
     PATH: '${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin'
 executors:
   w: &windows-e2e-executor
     machine:
-      image: "windows-server-2019-vs2019:stable"
-      resource_class: "windows.medium"
+      image: 'windows-server-2019-vs2019:stable'
+      resource_class: 'windows.medium'
       shell: bash.exe
     working_directory: ~/repo
     environment:
@@ -24,11 +25,21 @@ executors:
       AMPLIFY_DIR: /home/circleci/repo/out
       AMPLIFY_PATH: /home/circleci/repo/out/amplify-pkg-linux-x64
 
+  m: &macos-e2e-executor
+    macos:
+      xcode: 14.1.0
+    working_directory: ~/repo
+    resource_class: large
+    environment:
+      CXXFLAGS: '--std=c++17'
+      AMPLIFY_DIR: /home/circleci/repo/out
+      AMPLIFY_PATH: /home/circleci/repo/out/amplify-pkg-linux-x64
+
 defaults: &defaults
   working_directory: ~/repo
   parameters:
-      os:
-        type: executor
+    os:
+      type: executor
 
 install_cli_with_local_codegen: &install_cli
   name: install Amplify CLI and amplify-app with local Amplify Codegen
@@ -42,7 +53,7 @@ install_cli_with_local_codegen: &install_cli
     npm list --global --depth=1
     unsetNpmRegistryUrl
   working_directory: ~/repo
-        
+
 clean_up_e2e_resources: &cleanup_e2e
   name: Clean up e2e resources
   command: |
@@ -61,11 +72,11 @@ jobs:
       - run: yarn cache clean --force
       - run: yarn run production-build
       - save_cache:
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-<< parameters.os >>
           paths:
             - ~/.cache
       - save_cache:
-          key: amplify-codegen-ssh-deps-{{ .Branch }}
+          key: amplify-codegen-ssh-deps-{{ .Branch }}-<< parameters.os >>
           paths:
             - ~/.ssh
       - persist_to_workspace:
@@ -79,7 +90,7 @@ jobs:
       - when:
           condition:
             or:
-              - equal: [ *windows-e2e-executor, << parameters.os >> ]
+              - equal: [*windows-e2e-executor, << parameters.os >>]
           steps:
             - checkout
             - run: nvm install 12.22.7
@@ -90,12 +101,12 @@ jobs:
       - when:
           condition:
             or:
-              - equal: [ *linux-e2e-executor, << parameters.os >> ]
+              - equal: [*linux-e2e-executor, << parameters.os >>]
           steps:
             - attach_workspace:
                 at: ./
             - restore_cache:
-                key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+                key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-l
       - run:
           name: Lint
           command: yarn lint
@@ -114,8 +125,8 @@ jobs:
           at: ./
       - restore_cache:
           keys:
-            - amplify-codegen-ssh-deps-{{ .Branch }}
-            - amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - amplify-codegen-ssh-deps-{{ .Branch }}-l
+            - amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-l
       - run:
           name: Authenticate with npm
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
@@ -131,7 +142,7 @@ jobs:
       - attach_workspace:
           at: ./
       - restore_cache:
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-<< parameters.os >>
       - run:
           name: Publish to verdaccio
           command: |
@@ -144,7 +155,7 @@ jobs:
             yarn publish-to-verdaccio
             unsetNpmRegistryUrl
       - save_cache:
-          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}
+          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}-<< parameters.os >>
           paths:
             - ~/verdaccio-cache/
 
@@ -155,9 +166,31 @@ jobs:
       - attach_workspace:
           at: ./
       - restore_cache:
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-<< parameters.os >>
       - restore_cache:
-          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}
+          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}-<< parameters.os >>
+      - run: *install_cli
+      - run:
+          name: Run e2e tests
+          command: |
+            cd packages/amplify-codegen-e2e-tests
+            yarn e2e --maxWorkers=3 $TEST_SUITE
+          no_output_timeout: 20m
+      - store_test_results:
+          path: packages/amplify-codegen-e2e-tests/
+      - store_artifacts:
+          path: ~/repo/packages/amplify-codegen-e2e-tests/amplify-e2e-reports
+
+  e2e-test-macos:
+    <<: *defaults
+    executor: << parameters.os >>
+    steps:
+      - attach_workspace:
+          at: ./
+      - restore_cache:
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-<< parameters.os >>
+      - restore_cache:
+          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}-<< parameters.os >>
       - run: *install_cli
       - run:
           name: Run e2e tests
@@ -175,7 +208,7 @@ jobs:
     executor: << parameters.os >>
     steps:
       - run: echo 'Done with Node CLI E2E Tests'
-  
+
   cleanup_resources:
     <<: *defaults
     executor: << parameters.os >>
@@ -218,18 +251,24 @@ workflows:
   build_test_deploy:
     jobs:
       - build:
-          os: l
+          name: build-<< matrix.os >>
+          matrix:
+            parameters:
+              os: [l, m]
       - test:
           name: test-<< matrix.os >>
           matrix:
             parameters:
               os: [l, w]
           requires:
-            - build
+            - build-l
       - publish_to_local_registry:
-          os: l
+          name: publish_to_local_registry-<< matrix.os >>
+          matrix:
+            parameters:
+              os: [l, m]
           requires:
-            - build
+            - build-<< matrix.os >>
           filters:
             branches:
               only:
@@ -241,7 +280,7 @@ workflows:
             - cleanup-resources
           os: l
           requires:
-            - publish_to_local_registry
+            - publish_to_local_registry-l
           post-steps:
             - run: *cleanup_e2e
           filters:
