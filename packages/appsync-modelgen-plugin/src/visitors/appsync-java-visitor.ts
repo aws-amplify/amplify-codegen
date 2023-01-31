@@ -888,6 +888,12 @@ export class AppSyncModelJavaVisitor<
       read: 'ModelOperation.READ',
       update: 'ModelOperation.UPDATE',
       delete: 'ModelOperation.DELETE',
+      //granular read
+      get: 'ModelOperation.GET',
+      list: 'ModelOperation.LIST',
+      sync: 'ModelOperation.SYNC',
+      listen: 'ModelOperation.LISTEN',
+      search: 'ModelOperation.SEARCH',
     };
     const rules: string[] = [];
     authDirectives.forEach(directive => {
