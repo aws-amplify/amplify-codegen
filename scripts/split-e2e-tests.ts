@@ -140,7 +140,7 @@ function splitTests(
         // the npm prefix should not be set because this test runs on an executor
         // that needs to install Node separately. Setting the NPM prefix interferes
         // with the separate Node installation
-        DONT_SET_NPM_PREFIX: shouldRunJobOnAndroid,
+        SET_NPM_PREFIX: !shouldRunJobOnAndroid,
       },
     };
     return { ...acc, [newJobName]: newJob };
