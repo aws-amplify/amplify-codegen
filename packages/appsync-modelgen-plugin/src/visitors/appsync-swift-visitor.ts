@@ -615,9 +615,13 @@ export class AppSyncSwiftVisitor<
     // connected field
     if (connectionInfo) {
       if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
-        return `.hasMany(${name}, is: ${isRequired}, ofType: ${typeName}, associatedWith: ${this.getModelName(
-          connectionInfo.connectedModel,
-        )}.keys.${this.getFieldName(connectionInfo.associatedWith)})`;
+        let connectedModelName = this.getModelName(connectionInfo.connectedModel);
+        const associatedWithAttrStr = this.isCustomPKEnabled()
+          ? `associatedFields: [${connectionInfo.associatedWithFields
+              .map(target => `${connectedModelName}.keys.${this.getFieldName(target)}`)
+              .join(', ')}]`
+          : `associatedWith: ${connectedModelName}.keys.${this.getFieldName(connectionInfo.associatedWith)}`;
+        return `.hasMany(${name}, is: ${isRequired}, ofType: ${typeName}, ${associatedWithAttrStr})`;
       }
       if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
         const targetNameAttrStr = this.isCustomPKEnabled()

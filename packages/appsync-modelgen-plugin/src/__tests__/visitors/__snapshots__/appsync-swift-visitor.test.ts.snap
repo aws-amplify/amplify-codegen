@@ -73,7 +73,7 @@ extension Post {
     model.fields(
       .field(post.id, is: .required, ofType: .string),
       .field(post.title, is: .required, ofType: .string),
-      .hasMany(post.comments, is: .optional, ofType: Comment.self, associatedWith: Comment.keys.postCommentsId),
+      .hasMany(post.comments, is: .optional, ofType: Comment.self, associatedFields: [Comment.keys.postCommentsId, Comment.keys.postCommentsTitle]),
       .field(post.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(post.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
