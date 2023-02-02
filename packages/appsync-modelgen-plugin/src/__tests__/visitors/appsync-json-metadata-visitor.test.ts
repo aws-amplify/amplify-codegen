@@ -1441,7 +1441,6 @@ describe('Metadata visitor for custom PK support', () => {
       getVisitor(schema, 'javascript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate(),
     ).toMatchSnapshot();
   });
-});
   describe('relation metadata for hasMany uni when custom PK is enabled', () => {
     const schema = /* GraphQL */ `
       type Post @model {
@@ -1536,5 +1535,24 @@ describe('Metadata visitor for custom PK support', () => {
         getVisitor(schema, 'typescript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate(),
       ).toMatchSnapshot();
     });
+  });
+});
+
+describe('Metadata visitor for granular read operations', () => {
+  const schema = /* GraphQL */ `
+    type Todo @model @auth(rules:[{allow:public, operations:[get, list, listen, sync, search]}]) {
+      id: ID!
+      name: String
+    }
+  `;
+  it('should generate correct metadata in js', () => {
+    expect(
+      getVisitor(schema, 'javascript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate(),
+    ).toMatchSnapshot();
+  });
+  it('should generate correct metadata in ts', () => {
+    expect(
+      getVisitor(schema, 'typescript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate(),
+    ).toMatchSnapshot();
   });
 });

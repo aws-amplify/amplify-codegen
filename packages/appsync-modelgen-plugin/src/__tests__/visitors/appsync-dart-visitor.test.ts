@@ -832,4 +832,25 @@ describe('AppSync Dart Visitor', () => {
       })
     })
   });
+
+  describe('Granular read operation test', () => {
+    it('should generate correct model file for GraphQL schema with granular read operation', () => {
+      const schema = /* GraphQL */ `
+        type Todo @model @auth(rules:[{allow:public, operations:[get, list, listen, sync, search]}]) {
+          id: ID!
+          name: String
+        }
+      `;
+      const generatedCode = getVisitor({
+        schema,
+        selectedType: 'Todo',
+        enableDartNullSafety: true,
+        enableDartZeroThreeFeatures: true,
+        isTimestampFieldsAdded: true,
+        respectPrimaryKeyAttributesOnConnectionField: true,
+        transformerVersion: 2
+      }).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+  });
 });

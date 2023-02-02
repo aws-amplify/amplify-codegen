@@ -2946,4 +2946,24 @@ describe('AppSyncSwiftVisitor', () => {
       expect(generatedMetaComment).toMatchSnapshot();
     });
   });
+
+  describe('Granular read ops test', () => {
+    it('Should generate model and metadata for a model with granular read operations', () => {
+      const schema = /* GraphQL */ `
+        type Todo @model @auth(rules:[{allow:public, operations:[get, list, listen, sync, search]}]) {
+          id: ID!
+          name: String
+        }
+      `;
+      const generatedCode = getVisitorPipelinedTransformer(schema, 'Todo', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      expect(generatedCode).toMatchSnapshot();
+
+      const generatedMetadata = getVisitorPipelinedTransformer(schema, 'Todo', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      expect(generatedMetadata).toMatchSnapshot();
+    });
+  })
 });
