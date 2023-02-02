@@ -2945,5 +2945,70 @@ describe('AppSyncSwiftVisitor', () => {
       expect(generatedCodeComment).toMatchSnapshot();
       expect(generatedMetaComment).toMatchSnapshot();
     });
+
+    it('Should generate foreign key fields in hasMany uni relation for model with CPK customized foreign key names', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          postId: ID! @primaryKey(sortKeyFields: ["title"])
+          title: String!
+          comments: [Comment] @hasMany(indexName: "byPost", fields: ["postId", "title"])
+        }
+
+        type Comment @model {
+          commentId: ID! @primaryKey(sortKeyFields: ["content"])
+          content: String!
+          postId: ID @index(name: "byPost", sortKeyFields: ["postTitle"]) # customized foreign key for parent primary key
+          postTitle: String # customized foreign key for parent sort key
+        }
+      `;
+      const generatedCodePost = getVisitorPipelinedTransformer(schema, 'Post', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedMetaPost = getVisitorPipelinedTransformer(schema, 'Post', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedCodeComment = getVisitorPipelinedTransformer(schema, 'Comment', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedMetaComment = getVisitorPipelinedTransformer(schema, 'Comment', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      expect(generatedCodePost).toMatchSnapshot();
+      expect(generatedMetaPost).toMatchSnapshot();
+      expect(generatedCodeComment).toMatchSnapshot();
+      expect(generatedMetaComment).toMatchSnapshot();
+    });
+
+    it('Should generate foreign key fields in hasMany bi-directional relation for model with CPK', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          id: ID! @primaryKey(sortKeyFields: ["title"])
+          title: String!
+          comments: [Comment] @hasMany
+        }
+
+        type Comment @model {
+          id: ID! @primaryKey(sortKeyFields: ["content"])
+          content: String!
+          post: Post @belongsTo
+        }
+      `;
+      const generatedCodePost = getVisitorPipelinedTransformer(schema, 'Post', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedMetaPost = getVisitorPipelinedTransformer(schema, 'Post', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedCodeComment = getVisitorPipelinedTransformer(schema, 'Comment', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedMetaComment = getVisitorPipelinedTransformer(schema, 'Comment', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      expect(generatedCodePost).toMatchSnapshot();
+      expect(generatedMetaPost).toMatchSnapshot();
+      expect(generatedCodeComment).toMatchSnapshot();
+      expect(generatedMetaComment).toMatchSnapshot();
+    });
   });
 });
