@@ -1441,7 +1441,6 @@ describe('Metadata visitor for custom PK support', () => {
       getVisitor(schema, 'javascript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate(),
     ).toMatchSnapshot();
   });
-});
   describe('relation metadata for hasMany uni when custom PK is enabled', () => {
     const schema = /* GraphQL */ `
       type Post @model {

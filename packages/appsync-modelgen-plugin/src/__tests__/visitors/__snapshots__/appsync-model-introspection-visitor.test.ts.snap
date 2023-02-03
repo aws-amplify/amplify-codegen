@@ -1199,7 +1199,8 @@ exports[`Custom primary key tests should generate correct model intropection fil
                     \\"association\\": {
                         \\"connectionType\\": \\"HAS_MANY\\",
                         \\"associatedWith\\": [
-                            \\"postId\\"
+                            \\"postId\\",
+                            \\"postTitle\\"
                         ]
                     }
                 },

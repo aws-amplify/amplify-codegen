@@ -107,7 +107,8 @@ export function getConnectedFieldsForHasMany(
     if (!otherSideConnectedField) {
       throw new Error(`Can not find key field ${otherSideConnectedFieldName} in ${connectedModel.name}`);
     }
-    return [otherSideConnectedField];
+    const sortKeyFieldNames: string[] = otherSideConnectedDir?.arguments.sortKeyFields ?? [];
+    return [otherSideConnectedField, ...sortKeyFieldNames.map(sk => connectedModel.fields.find(f => f.name === sk)!)];
   }
 
   // When fields argument is not defined, auto generate connected fields

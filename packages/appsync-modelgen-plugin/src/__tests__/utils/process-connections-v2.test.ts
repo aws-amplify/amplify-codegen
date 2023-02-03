@@ -893,11 +893,12 @@ describe('Connection process with custom Primary Key support tests', () => {
       const comment: CodeGenModel = modelMap.Comment;
       const postCommentsField = post.fields.find(f => f.name === 'comments')!;
       const commentPostIdField = comment.fields.find(f => f.name === 'postId')!;
+      const commentPostTitleField = comment.fields.find(f => f.name === 'postTitle')!;
       const hasManyRelationInfo = processConnectionsV2(postCommentsField, post, modelMap, false, true);
       expect(hasManyRelationInfo).toEqual({
         kind: CodeGenConnectionType.HAS_MANY,
         associatedWith: commentPostIdField,
-        associatedWithFields: [commentPostIdField],
+        associatedWithFields: [commentPostIdField, commentPostTitleField],
         connectedModel: comment,
         isConnectingFieldAutoCreated: false,
       });
