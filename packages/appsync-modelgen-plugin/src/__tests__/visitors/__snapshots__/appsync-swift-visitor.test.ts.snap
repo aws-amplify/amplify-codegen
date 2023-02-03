@@ -7,6 +7,256 @@ import Foundation
 "
 `;
 
+exports[`AppSyncSwiftVisitor Primary Key Tests Should generate associatedFields in hasOne uni-directional relation for models with a composite PK 1`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct Project: Model {
+  public let projectId: String
+  public let name: String
+  internal var _team: LazyReference<Team>
+  public var team: Team?   {
+      get async throws { 
+        try await _team.get()
+      } 
+    }
+  public var teamId: String?
+  public var teamName: String?
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  
+  public init(projectId: String,
+      name: String,
+      team: Team? = nil,
+      teamId: String? = nil,
+      teamName: String? = nil) {
+    self.init(projectId: projectId,
+      name: name,
+      team: team,
+      teamId: teamId,
+      teamName: teamName,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(projectId: String,
+      name: String,
+      team: Team? = nil,
+      teamId: String? = nil,
+      teamName: String? = nil,
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
+      self.projectId = projectId
+      self.name = name
+      self._team = LazyReference(team)
+      self.teamId = teamId
+      self.teamName = teamName
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+  }
+  public mutating func setTeam(_ team: Team? = nil) {
+    self._team = LazyReference(team)
+  }
+  public init(from decoder: Decoder) throws {
+      let values = try decoder.container(keyedBy: CodingKeys.self)
+      projectId = try values.decode(String.self, forKey: .projectId)
+      name = try values.decode(String.self, forKey: .name)
+      _team = try values.decodeIfPresent(LazyReference<Team>.self, forKey: .team) ?? LazyReference(identifiers: nil)
+      teamId = try? values.decode(String?.self, forKey: .teamId)
+      teamName = try? values.decode(String?.self, forKey: .teamName)
+      createdAt = try? values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try? values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
+  }
+  public func encode(to encoder: Encoder) throws {
+      var container = encoder.container(keyedBy: CodingKeys.self)
+      try container.encode(projectId, forKey: .projectId)
+      try container.encode(name, forKey: .name)
+      try container.encode(_team, forKey: .team)
+      try container.encode(teamId, forKey: .teamId)
+      try container.encode(teamName, forKey: .teamName)
+      try container.encode(createdAt, forKey: .createdAt)
+      try container.encode(updatedAt, forKey: .updatedAt)
+  }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor Primary Key Tests Should generate associatedFields in hasOne uni-directional relation for models with a composite PK 2`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+extension Project {
+  // MARK: - CodingKeys 
+   public enum CodingKeys: String, ModelKey {
+    case projectId
+    case name
+    case team
+    case teamId
+    case teamName
+    case createdAt
+    case updatedAt
+  }
+  
+  public static let keys = CodingKeys.self
+  //  MARK: - ModelSchema 
+  
+  public static let schema = defineSchema { model in
+    let project = Project.keys
+    
+    model.pluralName = \\"Projects\\"
+    
+    model.attributes(
+      .index(fields: [\\"projectId\\", \\"name\\"], name: nil),
+      .primaryKey(fields: [project.projectId, project.name])
+    )
+    
+    model.fields(
+      .field(project.projectId, is: .required, ofType: .string),
+      .field(project.name, is: .required, ofType: .string),
+      .hasOne(project.team, is: .optional, ofType: Team.self, associatedFields: [Team.keys.teamId, Team.keys.name], targetNames: [\\"teamId\\", \\"teamName\\"]),
+      .field(project.teamId, is: .optional, ofType: .string),
+      .field(project.teamName, is: .optional, ofType: .string),
+      .field(project.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(project.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+    )
+    }
+    public class Path: ModelPath<Project> { }
+    
+    public static var rootPath: PropertyContainerPath? { Path() }
+}
+
+extension Project: ModelIdentifiable {
+  public typealias IdentifierFormat = ModelIdentifierFormat.Custom
+  public typealias IdentifierProtocol = ModelIdentifier<Self, ModelIdentifierFormat.Custom>
+}
+
+extension Project.IdentifierProtocol {
+  public static func identifier(projectId: String,
+      name: String) -> Self {
+    .make(fields:[(name: \\"projectId\\", value: projectId), (name: \\"name\\", value: name)])
+  }
+}
+extension ModelPath where ModelType == Project {
+  public var projectId: FieldPath<String>   {
+      string(\\"projectId\\") 
+    }
+  public var name: FieldPath<String>   {
+      string(\\"name\\") 
+    }
+  public var team: ModelPath<Team>   {
+      Team.Path(name: \\"team\\", parent: self) 
+    }
+  public var teamId: FieldPath<String>   {
+      string(\\"teamId\\") 
+    }
+  public var teamName: FieldPath<String>   {
+      string(\\"teamName\\") 
+    }
+  public var createdAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"createdAt\\") 
+    }
+  public var updatedAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"updatedAt\\") 
+    }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor Primary Key Tests Should generate associatedFields in hasOne uni-directional relation for models with a composite PK 3`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct Team: Model {
+  public let teamId: String
+  public let name: String
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  
+  public init(teamId: String,
+      name: String) {
+    self.init(teamId: teamId,
+      name: name,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(teamId: String,
+      name: String,
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
+      self.teamId = teamId
+      self.name = name
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+  }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor Primary Key Tests Should generate associatedFields in hasOne uni-directional relation for models with a composite PK 4`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+extension Team {
+  // MARK: - CodingKeys 
+   public enum CodingKeys: String, ModelKey {
+    case teamId
+    case name
+    case createdAt
+    case updatedAt
+  }
+  
+  public static let keys = CodingKeys.self
+  //  MARK: - ModelSchema 
+  
+  public static let schema = defineSchema { model in
+    let team = Team.keys
+    
+    model.pluralName = \\"Teams\\"
+    
+    model.attributes(
+      .index(fields: [\\"teamId\\", \\"name\\"], name: nil),
+      .primaryKey(fields: [team.teamId, team.name])
+    )
+    
+    model.fields(
+      .field(team.teamId, is: .required, ofType: .string),
+      .field(team.name, is: .required, ofType: .string),
+      .field(team.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(team.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+    )
+    }
+    public class Path: ModelPath<Team> { }
+    
+    public static var rootPath: PropertyContainerPath? { Path() }
+}
+
+extension Team: ModelIdentifiable {
+  public typealias IdentifierFormat = ModelIdentifierFormat.Custom
+  public typealias IdentifierProtocol = ModelIdentifier<Self, ModelIdentifierFormat.Custom>
+}
+
+extension Team.IdentifierProtocol {
+  public static func identifier(teamId: String,
+      name: String) -> Self {
+    .make(fields:[(name: \\"teamId\\", value: teamId), (name: \\"name\\", value: name)])
+  }
+}
+extension ModelPath where ModelType == Team {
+  public var teamId: FieldPath<String>   {
+      string(\\"teamId\\") 
+    }
+  public var name: FieldPath<String>   {
+      string(\\"name\\") 
+    }
+  public var createdAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"createdAt\\") 
+    }
+  public var updatedAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"updatedAt\\") 
+    }
+}"
+`;
+
 exports[`AppSyncSwiftVisitor Primary Key Tests Should generate foreign key fields in hasMany uni relation for model with CPK 1`] = `
 "// swiftlint:disable all
 import Amplify
@@ -713,7 +963,7 @@ extension Project {
     model.fields(
       .field(project.projectId, is: .required, ofType: .string),
       .field(project.name, is: .required, ofType: .string),
-      .hasOne(project.team, is: .optional, ofType: Team.self, associatedWith: Team.keys.project, targetNames: [\\"projectTeamTeamId\\", \\"projectTeamName\\"]),
+      .hasOne(project.team, is: .optional, ofType: Team.self, associatedFields: [Team.keys.project], targetNames: [\\"projectTeamTeamId\\", \\"projectTeamName\\"]),
       .field(project.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(project.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(project.projectTeamTeamId, is: .optional, ofType: .string),

@@ -2915,6 +2915,38 @@ describe('AppSyncSwiftVisitor', () => {
       expect(generatedMetaTeam).toMatchSnapshot();
     });
 
+    it('Should generate associatedFields in hasOne uni-directional relation for models with a composite PK', () => {
+      const schema = /* GraphQL */ `
+        type Project @model {
+          projectId: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+          team: Team @hasOne(fields: ["teamId", "teamName"])
+          teamId: ID # customized foreign key for child primary key
+          teamName: String # customized foreign key for child sort key
+        }
+        type Team @model {
+          teamId: ID! @primaryKey(sortKeyFields: ["name"])
+          name: String!
+        }
+      `;
+      const generatedCodeProject = getVisitorPipelinedTransformer(schema, 'Project', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedMetaProject = getVisitorPipelinedTransformer(schema, 'Project', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedCodeTeam = getVisitorPipelinedTransformer(schema, 'Team', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedMetaTeam = getVisitorPipelinedTransformer(schema, 'Team', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      expect(generatedCodeProject).toMatchSnapshot();
+      expect(generatedMetaProject).toMatchSnapshot();
+      expect(generatedCodeTeam).toMatchSnapshot();
+      expect(generatedMetaTeam).toMatchSnapshot();
+    });
+
     it('Should generate foreign key fields in hasMany uni relation for model with CPK', () => {
       const schema = /* GraphQL */ `
         type Post @model {

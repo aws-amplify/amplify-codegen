@@ -620,12 +620,16 @@ export class AppSyncSwiftVisitor<
         )}.keys.${this.getFieldName(connectionInfo.associatedWith)})`;
       }
       if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
+        let connectedModelName = this.getModelName(connectionInfo.connectedModel);
+        const associatedWithAttrStr = this.isCustomPKEnabled()
+          ? `associatedFields: [${connectionInfo.associatedWithFields
+              .map(target => `${connectedModelName}.keys.${this.getFieldName(target)}`)
+              .join(', ')}]`
+          : `associatedWith: ${connectedModelName}.keys.${this.getFieldName(connectionInfo.associatedWith)}`;
         const targetNameAttrStr = this.isCustomPKEnabled()
           ? `targetNames: [${connectionInfo.targetNames.map(target => `"${target}"`).join(', ')}]`
           : `targetName: "${connectionInfo.targetName}"`;
-        return `.hasOne(${name}, is: ${isRequired}, ofType: ${typeName}, associatedWith: ${this.getModelName(
-          connectionInfo.connectedModel,
-        )}.keys.${this.getFieldName(connectionInfo.associatedWith)}, ${targetNameAttrStr})`;
+        return `.hasOne(${name}, is: ${isRequired}, ofType: ${typeName}, ${associatedWithAttrStr}, ${targetNameAttrStr})`;
       }
       if (connectionInfo.kind === CodeGenConnectionType.BELONGS_TO) {
         const targetNameAttrStr = this.isCustomPKEnabled()
