@@ -106,7 +106,8 @@
     "node-fetch": "^2.6.7",
     "cross-fetch": "^2.2.6",
     "glob-parent": "^6.0.2",
-    "parse-url": "^8.1.0"
+    "parse-url": "^8.1.0",
+    "graphql": "15.8.0"
   },
   "config": {
     "commitizen": {
