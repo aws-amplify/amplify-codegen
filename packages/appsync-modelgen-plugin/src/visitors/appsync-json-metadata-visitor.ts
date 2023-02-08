@@ -110,17 +110,13 @@ export class AppSyncJSONVisitor<
     this._parsedConfig.metadataTarget = rawConfig.metadataTarget || 'javascript';
   }
   generate(): string {
-    // TODO: Remove us, leaving in to be explicit on why this flag is here.
-    const shouldUseModelNameFieldInHasManyAndBelongsTo = false;
-    // This flag is going to be used to tight-trigger on JS implementations only.
-    const shouldImputeKeyForUniDirectionalHasMany = true;
-    const shouldUseFieldsInAssociatedWithInHasOne = true;
-
-    this.processDirectives(
-      shouldUseModelNameFieldInHasManyAndBelongsTo,
-      shouldImputeKeyForUniDirectionalHasMany,
-      shouldUseFieldsInAssociatedWithInHasOne
-    );
+    this.processDirectives({
+      isCustomPKEnabled: this.isCustomPKEnabled(),
+      shouldUseModelNameFieldInHasManyAndBelongsTo: false,
+      // This flag is going to be used to tight-trigger on JS implementations only.
+      shouldImputeKeyForUniDirectionalHasMany: true,
+      shouldUseFieldsInAssociatedWithInHasOne: true,
+    });
 
     if (this._parsedConfig.metadataTarget === 'typescript') {
       return this.generateTypeScriptMetadata();

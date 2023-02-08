@@ -1,4 +1,4 @@
-import { CodeGenField, CodeGenFieldDirective, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
+import { CodeGenDirectiveProcessConfig, CodeGenField, CodeGenFieldDirective, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
 import { CodeGenFieldConnection, flattenFieldDirectives, makeConnectionAttributeName } from './process-connections';
 import { processHasOneConnection } from './process-has-one';
 import { processBelongsToConnection, getBelongsToConnectedFields } from './process-belongs-to';
@@ -128,20 +128,18 @@ export function processConnectionsV2(
   field: CodeGenField,
   model: CodeGenModel,
   modelMap: CodeGenModelMap,
-  shouldUseModelNameFieldInHasManyAndBelongsTo: boolean = false,
-  isCustomPKEnabled: boolean = false,
-  shouldUseFieldsInAssociatedWithInHasOne: boolean = false,
+  directiveProcessConfig: CodeGenDirectiveProcessConfig
 ): CodeGenFieldConnection | undefined {
   const connectionDirective = field.directives.find(d => d.name === 'hasOne' || d.name === 'hasMany' || d.name === 'belongsTo');
 
   if (connectionDirective) {
     switch (connectionDirective.name) {
       case 'hasOne':
-        return processHasOneConnection(field, model, modelMap, connectionDirective, isCustomPKEnabled, shouldUseFieldsInAssociatedWithInHasOne);
+        return processHasOneConnection(field, model, modelMap, connectionDirective, directiveProcessConfig);
       case 'belongsTo':
-        return processBelongsToConnection(field, model, modelMap, connectionDirective, isCustomPKEnabled);
+        return processBelongsToConnection(field, model, modelMap, connectionDirective, directiveProcessConfig);
       case 'hasMany':
-        return processHasManyConnection(field, model, modelMap, connectionDirective, shouldUseModelNameFieldInHasManyAndBelongsTo, isCustomPKEnabled);
+        return processHasManyConnection(field, model, modelMap, connectionDirective, directiveProcessConfig);
       default:
         break;
     }

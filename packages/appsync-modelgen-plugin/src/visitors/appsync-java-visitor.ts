@@ -27,14 +27,12 @@ export class AppSyncModelJavaVisitor<
   protected usingAuth: boolean = false;
 
   generate(): string {
-    // TODO: Remove us, leaving in to be explicit on why this flag is here.
-    const shouldUseModelNameFieldInHasManyAndBelongsTo = true;
-    // This flag is going to be used to tight-trigger on JS implementations only.
-    const shouldImputeKeyForUniDirectionalHasMany = false;
-    this.processDirectives(
-      shouldUseModelNameFieldInHasManyAndBelongsTo,
-      shouldImputeKeyForUniDirectionalHasMany
-    );
+    this.processDirectives({
+      isCustomPKEnabled: this.isCustomPKEnabled(),
+      shouldUseModelNameFieldInHasManyAndBelongsTo: true,
+      shouldImputeKeyForUniDirectionalHasMany: false,
+      shouldUseFieldsInAssociatedWithInHasOne: false,
+    });
 
     if (this._parsedConfig.generate === 'loader') {
       return this.generateClassLoader();

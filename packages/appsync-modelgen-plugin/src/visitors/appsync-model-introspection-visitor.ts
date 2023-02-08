@@ -28,15 +28,13 @@ export class AppSyncModelIntrospectionVisitor<
     this.schemaValidator = new Ajv().compile(modelIntrospectionSchema);
   }
   generate(): string {
-    const shouldUseModelNameFieldInHasManyAndBelongsTo = false;
-    // This flag is going to be used to tight-trigger on JS implementations only.
-    const shouldImputeKeyForUniDirectionalHasMany = true;
-    const shouldUseFieldsInAssociatedWithInHasOne = true;
-    this.processDirectives(
-      shouldUseModelNameFieldInHasManyAndBelongsTo,
-      shouldImputeKeyForUniDirectionalHasMany,
-      shouldUseFieldsInAssociatedWithInHasOne
-    );
+    this.processDirectives({
+      isCustomPKEnabled: this.isCustomPKEnabled(),
+      shouldUseModelNameFieldInHasManyAndBelongsTo: false,
+      // This flag is going to be used to tight-trigger on JS implementations only.
+      shouldImputeKeyForUniDirectionalHasMany: true,
+      shouldUseFieldsInAssociatedWithInHasOne: true,
+    });
 
     const modelIntrosepctionSchema = this.generateModelIntrospectionSchema();
     if (!this.schemaValidator(modelIntrosepctionSchema)) {

@@ -1,4 +1,4 @@
-import { CodeGenDirective, CodeGenField, CodeGenFieldDirective, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
+import { CodeGenDirective, CodeGenDirectiveProcessConfig, CodeGenField, CodeGenFieldDirective, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
 import { TransformerV2DirectiveName, DEFAULT_HASH_KEY_FIELD } from './constants';
 import { getDirective, getOtherSideBelongsToField } from './fieldUtils';
 import { getModelPrimaryKeyComponentFields } from './fieldUtils';
@@ -17,9 +17,9 @@ export function processHasManyConnection(
   model: CodeGenModel,
   modelMap: CodeGenModelMap,
   connectionDirective: CodeGenDirective,
-  shouldUseModelNameFieldInHasManyAndBelongsTo: boolean,
-  isCustomPKEnabled: boolean = false,
+  directiveProcessConfig: CodeGenDirectiveProcessConfig,
 ): CodeGenFieldConnection | undefined {
+  const { isCustomPKEnabled, shouldUseModelNameFieldInHasManyAndBelongsTo } = directiveProcessConfig;
   if (!field.isList) {
     throw new Error("A field with hasMany must be a list type");
   }
