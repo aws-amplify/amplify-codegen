@@ -30,8 +30,6 @@ export class AppSyncModelJavaVisitor<
     this.processDirectives({
       isCustomPKEnabled: this.isCustomPKEnabled(),
       shouldUseModelNameFieldInHasManyAndBelongsTo: true,
-      shouldImputeKeyForUniDirectionalHasMany: false,
-      shouldUseFieldsInAssociatedWithInHasOne: false,
     });
 
     if (this._parsedConfig.generate === 'loader') {

@@ -225,12 +225,22 @@ type ManyToManyContext = {
 export type CodeGenDirectiveProcessConfig = {
   // This flag is going to be used for using custom primary key feature
   isCustomPKEnabled: boolean,
-  // TODO: Remove us when we have a fix to roll-forward.
+  // This flag is used for native platforms(Android, iOS, Flutter) to use model name field as associatedWith field in implicit bi-dir hasMany
   shouldUseModelNameFieldInHasManyAndBelongsTo: boolean,
   // This flag is going to be used to tight-trigger on JS implementations only.
   shouldImputeKeyForUniDirectionalHasMany: boolean,
   // This flag is currently used in JS/TS and Model introspection generation only.
-  shouldUseFieldsInAssociatedWithInHasOne: boolean
+  shouldUseFieldsInAssociatedWithInHasOne: boolean,
+  // This flag is currently used in Swift only to have sort key fields of index included in associatedWith fields
+  shouldRespectSortKeyFieldsOfIndexInAssociatedWithFields:boolean,
+}
+
+export const defaultCodegenDirectiveProcessConfig: CodeGenDirectiveProcessConfig = {
+  isCustomPKEnabled: true,
+  shouldUseModelNameFieldInHasManyAndBelongsTo: false,
+  shouldImputeKeyForUniDirectionalHasMany: false,
+  shouldUseFieldsInAssociatedWithInHasOne: false,
+  shouldRespectSortKeyFieldsOfIndexInAssociatedWithFields: false,
 }
 
 export class AppSyncModelVisitor<
@@ -343,23 +353,17 @@ export class AppSyncModelVisitor<
       values,
     };
   }
-  processDirectives(directiveConfig: CodeGenDirectiveProcessConfig) {
+  processDirectives(directiveConfig: Partial<CodeGenDirectiveProcessConfig>) {
     if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
       this.processV2KeyDirectives();
-      this.processConnectionDirectivesV2(directiveConfig);
+      this.processConnectionDirectivesV2({...defaultCodegenDirectiveProcessConfig, ...directiveConfig});
     } else {
       this.processConnectionDirective();
     }
     this.processAuthDirectives();
   }
   generate(): string {
-    const defaultCodegenDirectiveConfig: CodeGenDirectiveProcessConfig = {
-      isCustomPKEnabled: this.isCustomPKEnabled(),
-      shouldUseModelNameFieldInHasManyAndBelongsTo: false,
-      shouldImputeKeyForUniDirectionalHasMany: false,
-      shouldUseFieldsInAssociatedWithInHasOne: false,
-    }
-    this.processDirectives(defaultCodegenDirectiveConfig);
+    this.processDirectives({ isCustomPKEnabled: this.isCustomPKEnabled() });
     return '';
   }
 

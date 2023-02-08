@@ -461,8 +461,7 @@ exports[`Metadata visitor for custom PK support generates with explicit index 1`
                     \\"association\\": {
                         \\"connectionType\\": \\"HAS_MANY\\",
                         \\"associatedWith\\": [
-                            \\"thePostId\\",
-                            \\"thePostTitle\\"
+                            \\"thePostId\\"
                         ]
                     }
                 },
@@ -1408,8 +1407,7 @@ exports[`Metadata visitor for custom PK support relation metadata for hasMany un
                     \\"association\\": {
                         \\"connectionType\\": \\"HAS_MANY\\",
                         \\"associatedWith\\": [
-                            \\"postId\\",
-                            \\"postTitle\\"
+                            \\"postId\\"
                         ]
                     }
                 },
@@ -1711,8 +1709,7 @@ export const schema: Schema = {
                     \\"association\\": {
                         \\"connectionType\\": \\"HAS_MANY\\",
                         \\"associatedWith\\": [
-                            \\"postId\\",
-                            \\"postTitle\\"
+                            \\"postId\\"
                         ]
                     }
                 },

@@ -61,8 +61,7 @@ export class AppSyncSwiftVisitor<
     this.processDirectives({
       isCustomPKEnabled: this.isCustomPKEnabled(),
       shouldUseModelNameFieldInHasManyAndBelongsTo: true,
-      shouldImputeKeyForUniDirectionalHasMany: false,
-      shouldUseFieldsInAssociatedWithInHasOne: false,
+      shouldRespectSortKeyFieldsOfIndexInAssociatedWithFields: true,
     });
     const code = [`// swiftlint:disable all`];
     if (this._parsedConfig.generate === CodeGenGenerateEnum.metadata) {

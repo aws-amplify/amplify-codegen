@@ -30,7 +30,6 @@ export class AppSyncModelIntrospectionVisitor<
   generate(): string {
     this.processDirectives({
       isCustomPKEnabled: this.isCustomPKEnabled(),
-      shouldUseModelNameFieldInHasManyAndBelongsTo: false,
       // This flag is going to be used to tight-trigger on JS implementations only.
       shouldImputeKeyForUniDirectionalHasMany: true,
       shouldUseFieldsInAssociatedWithInHasOne: true,

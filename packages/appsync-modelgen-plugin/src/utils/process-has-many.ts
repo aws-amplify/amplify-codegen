@@ -19,14 +19,14 @@ export function processHasManyConnection(
   connectionDirective: CodeGenDirective,
   directiveProcessConfig: CodeGenDirectiveProcessConfig,
 ): CodeGenFieldConnection | undefined {
-  const { isCustomPKEnabled, shouldUseModelNameFieldInHasManyAndBelongsTo } = directiveProcessConfig;
+  const { isCustomPKEnabled, shouldUseModelNameFieldInHasManyAndBelongsTo, shouldRespectSortKeyFieldsOfIndexInAssociatedWithFields } = directiveProcessConfig;
   if (!field.isList) {
     throw new Error("A field with hasMany must be a list type");
   }
   const otherSide = modelMap[field.type];
   const connectionFields = connectionDirective.arguments.fields || [];
   const otherSideFields = isCustomPKEnabled
-    ? getConnectedFieldsForHasMany(field, model, otherSide, shouldUseModelNameFieldInHasManyAndBelongsTo)
+    ? getConnectedFieldsForHasMany(field, model, otherSide, shouldUseModelNameFieldInHasManyAndBelongsTo, shouldRespectSortKeyFieldsOfIndexInAssociatedWithFields)
     : [getConnectedFieldV2(field, model, otherSide, connectionDirective.name, shouldUseModelNameFieldInHasManyAndBelongsTo)];
   const otherSideField = otherSideFields[0];
 
@@ -56,7 +56,8 @@ export function getConnectedFieldsForHasMany(
   field: CodeGenField,
   model: CodeGenModel,
   connectedModel: CodeGenModel,
-  shouldUseModelNameFieldInHasManyAndBelongsTo: boolean
+  shouldUseModelNameFieldInHasManyAndBelongsTo: boolean,
+  shouldRespectSortKeyFieldsOfIndexInAssociatedWithFields: boolean
 ): CodeGenField[] {
   const hasManyDir = getDirective(field)(TransformerV2DirectiveName.HAS_MANY);
   if (!hasManyDir) {
@@ -108,7 +109,9 @@ export function getConnectedFieldsForHasMany(
       throw new Error(`Can not find key field ${otherSideConnectedFieldName} in ${connectedModel.name}`);
     }
     const sortKeyFieldNames: string[] = otherSideConnectedDir?.arguments.sortKeyFields ?? [];
-    return [otherSideConnectedField, ...sortKeyFieldNames.map(sk => connectedModel.fields.find(f => f.name === sk)!)];
+    return shouldRespectSortKeyFieldsOfIndexInAssociatedWithFields
+      ? [otherSideConnectedField, ...sortKeyFieldNames.map(sk => connectedModel.fields.find(f => f.name === sk)!)]
+      : [otherSideConnectedField];
   }
 
   // When fields argument is not defined, auto generate connected fields

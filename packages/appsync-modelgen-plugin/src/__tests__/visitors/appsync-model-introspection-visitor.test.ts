@@ -1,14 +1,7 @@
 import { buildSchema, GraphQLSchema, parse, visit } from 'graphql';
 import { METADATA_SCALAR_MAP } from '../../scalars';
 import { directives, scalars } from '../../scalars/supported-directives';
-import {
-  CodeGenConnectionType,
-  CodeGenFieldConnectionBelongsTo,
-  CodeGenFieldConnectionHasMany,
-  CodeGenFieldConnectionHasOne,
-} from '../../utils/process-connections';
 import { AppSyncModelIntrospectionVisitor } from '../../visitors/appsync-model-introspection-visitor';
-import { CodeGenEnum, CodeGenField, CodeGenModel } from '../../visitors/appsync-visitor';
 
 const defaultModelIntropectionVisitorSettings = {
   isTimestampFieldsAdded: true,

@@ -78,8 +78,6 @@ export class AppSyncModelDartVisitor<
     this.processDirectives({
       isCustomPKEnabled: this.isCustomPKEnabled(),
       shouldUseModelNameFieldInHasManyAndBelongsTo: true,
-      shouldImputeKeyForUniDirectionalHasMany: false,
-      shouldUseFieldsInAssociatedWithInHasOne: false,
     });
 
     this.validateReservedKeywords();

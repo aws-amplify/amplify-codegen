@@ -8,14 +8,8 @@ import {
 } from '../../utils/process-connections';
 import { buildSchema, parse, visit } from 'graphql';
 import { directives, scalars } from '../../scalars/supported-directives';
-import { AppSyncModelVisitor, CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
+import { AppSyncModelVisitor, CodeGenGenerateEnum, defaultCodegenDirectiveProcessConfig } from '../../visitors/appsync-visitor';
 
-const defaultDirectiveProcessConfig: CodeGenDirectiveProcessConfig = {
-  isCustomPKEnabled: true,
-  shouldImputeKeyForUniDirectionalHasMany: false,
-  shouldUseFieldsInAssociatedWithInHasOne: false,
-  shouldUseModelNameFieldInHasManyAndBelongsTo: false
-}
 describe('GraphQL V2 process connections tests', () => {
   describe('GraphQL vNext getConnectedField tests with @primaryKey and @index', () => {
     let hasOneWithFieldsModelMap: CodeGenModelMap;
@@ -288,7 +282,7 @@ describe('GraphQL V2 process connections tests', () => {
     describe('Has many comparison', () => {
       it('should support connection with @primaryKey on BELONGS_TO side', () => {
         const postField = v2ModelMap.Comment.fields[2];
-        const connectionInfo = (processConnectionsV2(postField, v2ModelMap.Comment, v2ModelMap, defaultDirectiveProcessConfig) as any) as CodeGenFieldConnectionBelongsTo;
+        const connectionInfo = (processConnectionsV2(postField, v2ModelMap.Comment, v2ModelMap, defaultCodegenDirectiveProcessConfig) as any) as CodeGenFieldConnectionBelongsTo;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
         expect(connectionInfo.targetName).toEqual(v2ModelMap.Comment.fields[0].name);
@@ -297,7 +291,7 @@ describe('GraphQL V2 process connections tests', () => {
 
       it('should support connection with @primaryKey on HAS_MANY side', () => {
         const commentsField = v2ModelMap.Post.fields[0];
-        const connectionInfo = (processConnectionsV2(commentsField, v2ModelMap.Post, v2ModelMap, defaultDirectiveProcessConfig) as any) as CodeGenFieldConnectionHasMany;
+        const connectionInfo = (processConnectionsV2(commentsField, v2ModelMap.Post, v2ModelMap, defaultCodegenDirectiveProcessConfig) as any) as CodeGenFieldConnectionHasMany;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
         expect(connectionInfo.connectedModel).toEqual(v2ModelMap.Comment);
@@ -306,7 +300,7 @@ describe('GraphQL V2 process connections tests', () => {
 
       it('Should support connection with @index on BELONGS_TO side', () => {
         const commentsField = v2IndexModelMap.Post.fields[2];
-        const connectionInfo = (processConnectionsV2(commentsField, v2IndexModelMap.Post, v2IndexModelMap, defaultDirectiveProcessConfig) as any) as CodeGenFieldConnectionHasMany;
+        const connectionInfo = (processConnectionsV2(commentsField, v2IndexModelMap.Post, v2IndexModelMap, defaultCodegenDirectiveProcessConfig) as any) as CodeGenFieldConnectionHasMany;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
         expect(connectionInfo.connectedModel).toEqual(v2IndexModelMap.Comment);
@@ -315,7 +309,7 @@ describe('GraphQL V2 process connections tests', () => {
     });
 
     describe('Has one testing', () => {
-      const directiveProcessConfig = { ...defaultDirectiveProcessConfig, isCustomPKEnabled: false }
+      const directiveProcessConfig = { ...defaultCodegenDirectiveProcessConfig, isCustomPKEnabled: false }
       it('Should support @hasOne with no explicit primary key', () => {
         const powerSourceField = hasOneNoFieldsModelMap.BatteryCharger.fields[0];
         const connectionInfo = (processConnectionsV2(powerSourceField, hasOneNoFieldsModelMap.BatteryCharger, hasOneNoFieldsModelMap, directiveProcessConfig)) as CodeGenFieldConnectionHasOne;
@@ -469,7 +463,7 @@ describe('GraphQL V2 process connections tests', () => {
           ],
         },
       };
-      const directiveProcessConfig = { ...defaultDirectiveProcessConfig, isCustomPKEnabled: false }
+      const directiveProcessConfig = { ...defaultCodegenDirectiveProcessConfig, isCustomPKEnabled: false }
 
       it('Should support belongsTo and detect connected field', () => {
         const projectField = belongsToModelMap.Team2.fields[2];
@@ -595,7 +589,7 @@ describe('GraphQL V2 process connections tests', () => {
           ],
         },
       };
-      const directiveProcessConfig = { ...defaultDirectiveProcessConfig, isCustomPKEnabled: false }
+      const directiveProcessConfig = { ...defaultCodegenDirectiveProcessConfig, isCustomPKEnabled: false }
       it('Should detect first has many', () => {
         const postField = hasManyModelMap.Blog.fields[2];
         const connectionInfo = (processConnectionsV2(postField, hasManyModelMap.Blog, hasManyModelMap, directiveProcessConfig)) as CodeGenFieldConnectionHasOne;
@@ -671,7 +665,7 @@ describe('Connection process with custom Primary Key support tests', () => {
       const project: CodeGenModel = modelMap.Project;
       const team: CodeGenModel = modelMap.Team;
       const projectTeamField = project.fields.find(f => f.name === 'team')!;
-      const hasOneRelationInfo = processConnectionsV2(projectTeamField, project, modelMap, defaultDirectiveProcessConfig);
+      const hasOneRelationInfo = processConnectionsV2(projectTeamField, project, modelMap, defaultCodegenDirectiveProcessConfig);
       expect(hasOneRelationInfo).toEqual({
         kind: CodeGenConnectionType.HAS_ONE,
         associatedWith: team.fields[0],
@@ -700,7 +694,7 @@ describe('Connection process with custom Primary Key support tests', () => {
       const team: CodeGenModel = modelMap.Team;
       const projectTeamField = project.fields.find(f => f.name === 'team')!;
       const teamProjectField = team.fields.find(f => f.name === 'project')!;
-      const hasOneRelationInfo = processConnectionsV2(projectTeamField, project, modelMap, defaultDirectiveProcessConfig);
+      const hasOneRelationInfo = processConnectionsV2(projectTeamField, project, modelMap, defaultCodegenDirectiveProcessConfig);
       expect(hasOneRelationInfo).toEqual({
         kind: CodeGenConnectionType.HAS_ONE,
         associatedWith: teamProjectField,
@@ -710,7 +704,7 @@ describe('Connection process with custom Primary Key support tests', () => {
         connectedModel: team,
         isConnectingFieldAutoCreated: true,
       });
-      const belongsToRelationInfo = processConnectionsV2(teamProjectField, team, modelMap, defaultDirectiveProcessConfig);
+      const belongsToRelationInfo = processConnectionsV2(teamProjectField, team, modelMap, defaultCodegenDirectiveProcessConfig);
       expect(belongsToRelationInfo).toEqual({
         kind: CodeGenConnectionType.BELONGS_TO,
         targetName: 'teamProjectProjectId',
@@ -737,7 +731,7 @@ describe('Connection process with custom Primary Key support tests', () => {
       const post: CodeGenModel = modelMap.Post;
       const comment: CodeGenModel = modelMap.Comment;
       const postCommentsField = post.fields.find(f => f.name === 'comments')!;
-      const hasManyRelationInfo = processConnectionsV2(postCommentsField, post, modelMap, defaultDirectiveProcessConfig);
+      const hasManyRelationInfo = processConnectionsV2(postCommentsField, post, modelMap, defaultCodegenDirectiveProcessConfig);
       const postCommentsPKField: CodeGenField = {
         name: 'postCommentsPostId',
         type: 'ID',
@@ -778,7 +772,7 @@ describe('Connection process with custom Primary Key support tests', () => {
       const comment: CodeGenModel = modelMap.Comment;
       const postCommentsField = post.fields.find(f => f.name === 'comments')!;
       const commentPostField = comment.fields.find(f => f.name === 'post')!;
-      const directiveProcessConfig = { ...defaultDirectiveProcessConfig, shouldUseModelNameFieldInHasManyAndBelongsTo: true }
+      const directiveProcessConfig = { ...defaultCodegenDirectiveProcessConfig, shouldUseModelNameFieldInHasManyAndBelongsTo: true }
       //Model name field is used in asscociatedWith in native platforms
       const hasManyRelationInfo = processConnectionsV2(postCommentsField, post, modelMap, directiveProcessConfig);
       expect(hasManyRelationInfo).toEqual({
@@ -830,7 +824,7 @@ describe('Connection process with custom Primary Key support tests', () => {
         directives: [],
       }
       //Model name field is used in asscociatedWith in native platforms
-      const hasManyRelationInfo = processConnectionsV2(postCommentsField, post, modelMap, defaultDirectiveProcessConfig);
+      const hasManyRelationInfo = processConnectionsV2(postCommentsField, post, modelMap, defaultCodegenDirectiveProcessConfig);
       expect(hasManyRelationInfo).toEqual({
         kind: CodeGenConnectionType.HAS_MANY,
         associatedWith: postCommentsPKField,
@@ -838,7 +832,7 @@ describe('Connection process with custom Primary Key support tests', () => {
         connectedModel: comment,
         isConnectingFieldAutoCreated: true,
       });
-      const belongsToRelationInfo = processConnectionsV2(commentPostField, comment, modelMap, defaultDirectiveProcessConfig)
+      const belongsToRelationInfo = processConnectionsV2(commentPostField, comment, modelMap, defaultCodegenDirectiveProcessConfig)
       expect(belongsToRelationInfo).toEqual({
         kind: CodeGenConnectionType.BELONGS_TO,
         targetName: "postCommentsPostId",
@@ -867,7 +861,7 @@ describe('Connection process with custom Primary Key support tests', () => {
       const comment: CodeGenModel = modelMap.Comment;
       const postCommentsField = post.fields.find(f => f.name === 'comments')!;
       const commentPostField = comment.fields.find(f => f.name === 'post')!;
-      const hasManyRelationInfo = processConnectionsV2(postCommentsField, post, modelMap, defaultDirectiveProcessConfig);
+      const hasManyRelationInfo = processConnectionsV2(postCommentsField, post, modelMap, defaultCodegenDirectiveProcessConfig);
       expect(hasManyRelationInfo).toEqual({
         kind: CodeGenConnectionType.HAS_MANY,
         associatedWith: commentPostField,
@@ -875,7 +869,7 @@ describe('Connection process with custom Primary Key support tests', () => {
         connectedModel: comment,
         isConnectingFieldAutoCreated: false,
       });
-      const belongsToRelationInfo = processConnectionsV2(commentPostField, comment, modelMap, defaultDirectiveProcessConfig)
+      const belongsToRelationInfo = processConnectionsV2(commentPostField, comment, modelMap, defaultCodegenDirectiveProcessConfig)
       expect(belongsToRelationInfo).toEqual({
         kind: CodeGenConnectionType.BELONGS_TO,
         targetName: "postId",
@@ -903,12 +897,11 @@ describe('Connection process with custom Primary Key support tests', () => {
       const comment: CodeGenModel = modelMap.Comment;
       const postCommentsField = post.fields.find(f => f.name === 'comments')!;
       const commentPostIdField = comment.fields.find(f => f.name === 'postId')!;
-      const commentPostTitleField = comment.fields.find(f => f.name === 'postTitle')!;
-      const hasManyRelationInfo = processConnectionsV2(postCommentsField, post, modelMap, defaultDirectiveProcessConfig);
+      const hasManyRelationInfo = processConnectionsV2(postCommentsField, post, modelMap, defaultCodegenDirectiveProcessConfig);
       expect(hasManyRelationInfo).toEqual({
         kind: CodeGenConnectionType.HAS_MANY,
         associatedWith: commentPostIdField,
-        associatedWithFields: [commentPostIdField, commentPostTitleField],
+        associatedWithFields: [commentPostIdField],
         connectedModel: comment,
         isConnectingFieldAutoCreated: false,
       });
@@ -936,8 +929,8 @@ describe('Connection process with custom Primary Key support tests', () => {
       const projectDevTeamField = project.fields.find(f => f.name === 'devTeam')!;
       const projectProductTeamField = project.fields.find(f => f.name === 'productTeam')!;
       const teamProjectField = team.fields.find(f => f.name === 'project')!;
-      const hasOneRelationInfoDevTeam = processConnectionsV2(projectDevTeamField, project, modelMap, defaultDirectiveProcessConfig);
-      const hasOneRelationInfoProductTeam = processConnectionsV2(projectProductTeamField, project, modelMap, defaultDirectiveProcessConfig);
+      const hasOneRelationInfoDevTeam = processConnectionsV2(projectDevTeamField, project, modelMap, defaultCodegenDirectiveProcessConfig);
+      const hasOneRelationInfoProductTeam = processConnectionsV2(projectProductTeamField, project, modelMap, defaultCodegenDirectiveProcessConfig);
       expect(hasOneRelationInfoDevTeam).toEqual({
         kind: CodeGenConnectionType.HAS_ONE,
         associatedWith: teamProjectField,
@@ -956,7 +949,7 @@ describe('Connection process with custom Primary Key support tests', () => {
         connectedModel: team,
         isConnectingFieldAutoCreated: true,
       });
-      const belongsToRelationInfo = processConnectionsV2(teamProjectField, team, modelMap, defaultDirectiveProcessConfig);
+      const belongsToRelationInfo = processConnectionsV2(teamProjectField, team, modelMap, defaultCodegenDirectiveProcessConfig);
       expect(belongsToRelationInfo).toEqual({
         kind: CodeGenConnectionType.BELONGS_TO,
         targetName: 'teamProjectProjectId',
@@ -985,7 +978,7 @@ describe('Connection process with custom Primary Key support tests', () => {
       const hasOneField = compositeOwner.fields.find(f => f.name === 'compositeDog')!;
       const belongsToField = compositeDog.fields.find(f => f.name === 'compositeOwner')!;
       const hasOneAssociatedWithFields = compositeDog.fields.filter(f => f.name === 'name' || f.name === 'description')!;
-      const directiveProcessConfig = { ...defaultDirectiveProcessConfig, shouldUseFieldsInAssociatedWithInHasOne: true }
+      const directiveProcessConfig = { ...defaultCodegenDirectiveProcessConfig, shouldUseFieldsInAssociatedWithInHasOne: true }
       const hasOneRelationInfo = processConnectionsV2(hasOneField, compositeOwner, modelMap, directiveProcessConfig);
       const belongsToRelationInfo = processConnectionsV2(belongsToField, compositeDog, modelMap, directiveProcessConfig);
       expect(hasOneRelationInfo).toEqual({
@@ -1025,7 +1018,7 @@ describe('Connection process with custom Primary Key support tests', () => {
       const hasOneField = boringOwner.fields.find(f => f.name === 'boringDog')!;
       const belongsToField = boringDog.fields.find(f => f.name === 'boringOwner')!;
       const hasOneAssociatedWithFields = boringDog.fields.filter(f => f.name === 'id')!;
-      const directiveProcessConfig = { ...defaultDirectiveProcessConfig, shouldUseFieldsInAssociatedWithInHasOne: true }
+      const directiveProcessConfig = { ...defaultCodegenDirectiveProcessConfig, shouldUseFieldsInAssociatedWithInHasOne: true }
       const hasOneRelationInfo = processConnectionsV2(hasOneField, boringOwner, modelMap, directiveProcessConfig);
       const belongsToRelationInfo = processConnectionsV2(belongsToField, boringDog, modelMap, directiveProcessConfig);
       expect(hasOneRelationInfo).toEqual({
