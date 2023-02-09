@@ -906,6 +906,36 @@ describe('Connection process with custom Primary Key support tests', () => {
         isConnectingFieldAutoCreated: false,
       });
     });
+    it('should return correct connection info in hasMany uni direction when index is defined and sortKeyFields are respected', () => {
+      const schema = /* GraphQL */ `
+        type Post @model {
+          postId: ID! @primaryKey(sortKeyFields:["title"])
+          title: String!
+          comments: [Comment] @hasMany(indexName: "byPost", fields:["postId", "title"])
+        }
+        type Comment @model {
+          commentId: ID! @primaryKey(sortKeyFields:["content"])
+          content: String!
+          postId: ID! @index(name: "byPost", sortKeyFields:["postTitle"])
+          postTitle: String!
+        }
+      `;
+      const modelMap: CodeGenModelMap = createBaseVisitorWithCustomPrimaryKeyEnabled(schema).models;
+      const post: CodeGenModel = modelMap.Post;
+      const comment: CodeGenModel = modelMap.Comment;
+      const postCommentsField = post.fields.find(f => f.name === 'comments')!;
+      const commentPostIdField = comment.fields.find(f => f.name === 'postId')!;
+      const commentPostTitleField = comment.fields.find(f => f.name === 'postTitle')!;
+      const directiveProcessConfig = { ...defaultCodegenDirectiveProcessConfig, shouldRespectSortKeyFieldsOfIndexInAssociatedWithFields: true }
+      const hasManyRelationInfo = processConnectionsV2(postCommentsField, post, modelMap, directiveProcessConfig);
+      expect(hasManyRelationInfo).toEqual({
+        kind: CodeGenConnectionType.HAS_MANY,
+        associatedWith: commentPostIdField,
+        associatedWithFields: [commentPostIdField, commentPostTitleField],
+        connectedModel: comment,
+        isConnectingFieldAutoCreated: false,
+      });
+    });
   });
 
   describe('belongsTo special case tests', () => {
