@@ -236,7 +236,7 @@ export type CodeGenDirectiveProcessConfig = {
 }
 
 export const defaultCodegenDirectiveProcessConfig: CodeGenDirectiveProcessConfig = {
-  isCustomPKEnabled: true,
+  isCustomPKEnabled: false,
   shouldUseModelNameFieldInHasManyAndBelongsTo: false,
   shouldImputeKeyForUniDirectionalHasMany: false,
   shouldUseFieldsInAssociatedWithInHasOne: false,
