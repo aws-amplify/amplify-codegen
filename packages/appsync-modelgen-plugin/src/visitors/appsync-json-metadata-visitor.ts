@@ -1,5 +1,6 @@
 import { DEFAULT_SCALARS, NormalizedScalarsMap } from '@graphql-codegen/visitor-plugin-common';
 import { GraphQLSchema } from 'graphql';
+import { plurality } from 'graphql-transformer-common';
 import { CodeGenConnectionType } from '../utils/process-connections';
 import {
   AppSyncModelVisitor,
@@ -215,11 +216,18 @@ export class AppSyncJSONVisitor<
     }));
   }
   private generateModelMetadata(model: CodeGenModel): JSONSchemaModel {
+    const useImprovedPluralization = this.config.improvePluralization || (this.config.transformerVersion === 2);
+    const pluralAttributes = this.config.improvePluralization ?
+      {
+        listPluralName: plurality(model.name, useImprovedPluralization),
+        syncPluralName: this.pluralizeModelName(model),
+      } : {};
     return {
       ...this.generateNonModelMetadata(model),
       syncable: true,
       pluralName: this.pluralizeModelName(model),
       attributes: this.generateModelAttributes(model),
+      ...pluralAttributes,
     };
   }
 

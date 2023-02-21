@@ -11,6 +11,7 @@ const defaultJavaVisitorSettings = {
   transformerVersion: 1,
   generate: CodeGenGenerateEnum.code,
   respectPrimaryKeyAttributesOnConnectionField: false,
+  improvePluralization: false,
 }
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
@@ -235,7 +236,7 @@ describe('AppSyncModelVisitor', () => {
           book: String
         }
       `;
-      const visitorV1 = getVisitor(schemaV1, 'authorBook');
+      const visitorV1 = getVisitor(schemaV1, 'authorBook', { improvePluralization: true });
       const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook');
       const version1Code = visitorV1.generate();
       const version2Code = visitorV2.generate();
@@ -262,7 +263,7 @@ describe('AppSyncModelVisitor', () => {
           book: String
         }
       `;
-      const visitorV1 = getVisitor(schemaV1, 'authorBook');
+      const visitorV1 = getVisitor(schemaV1, 'authorBook', { improvePluralization: true });
       const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook');
       const version1Code = visitorV1.generate();
       const version2Code = visitorV2.generate();
@@ -585,6 +586,20 @@ describe('AppSyncModelVisitor', () => {
       expect(() => validateJava(generatedCode)).not.toThrow();
       expect(generatedCode).toMatchSnapshot();
     });
+
+    it('should generate correct pluralization', () => {
+      const visitor = getVisitor(
+        schema,
+        'task',
+        {
+          transformerVersion: 1,
+          improvePluralization: true,
+        }
+      );
+      const generatedCode = visitor.generate();
+      expect(() => validateJava(generatedCode)).not.toThrow();
+      expect(generatedCode).toMatchSnapshot();
+    });
   });
 
   describe('Many To Many V2 Tests', () => {
@@ -662,7 +677,7 @@ describe('AppSyncModelVisitor', () => {
       expect(generatedCode).toMatchSnapshot();
     });
   });
-  
+
   describe('Custom primary key for connected model tests', () => {
     it('Should generate correct model file for hasOne & belongsTo relation with composite primary key when CPK is enabled', () => {
       const schema = /* GraphQL */ `
@@ -697,7 +712,7 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const generatedCodePost = getVisitorPipelinedTransformer(schema, 'Post', { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
-      const generatedCodeComment = getVisitorPipelinedTransformer(schema, 'Comment', { respectPrimaryKeyAttributesOnConnectionField: true }).generate();      
+      const generatedCodeComment = getVisitorPipelinedTransformer(schema, 'Comment', { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
       expect(generatedCodePost).toMatchSnapshot();
       expect(generatedCodeComment).toMatchSnapshot();
     });

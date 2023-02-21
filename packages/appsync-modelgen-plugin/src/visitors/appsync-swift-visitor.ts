@@ -2,6 +2,7 @@ import { indent, indentMultiline, NormalizedScalarsMap } from '@graphql-codegen/
 import { camelCase } from 'change-case';
 import { GraphQLSchema } from 'graphql';
 import { lowerCaseFirst } from 'lower-case-first';
+import { plurality } from 'graphql-transformer-common';
 import { schemaTypeMap } from '../configs/swift-config';
 import { escapeKeywords, ListType, SwiftDeclarationBlock } from '../languages/swift-declaration-block';
 import { CodeGenConnectionType } from '../utils/process-connections';
@@ -390,19 +391,23 @@ export class AppSyncSwiftVisitor<
   }
 
   generateModelSchema(name: string, model: CodeGenModel, extensionDeclaration: SwiftDeclarationBlock): void {
+    const useImprovedPluralization = this.config.improvePluralization || (this.config.transformerVersion === 2);
     const keysName = lowerCaseFirst(model.name);
     const fields = model.fields.map(field => this.generateFieldSchema(field, keysName));
     const authRules = this.generateAuthRules(model);
     const keyDirectives = this.config.generateIndexRules ? this.generateKeyRules(model) : [];
     const priamryKeyRules = this.generatePrimaryKeyRules(model);
     const attributes = [...keyDirectives, priamryKeyRules].filter(f => f);
+    const pluralFields = useImprovedPluralization ?
+      [`model.listPluralName = "${plurality(model.name, useImprovedPluralization)}"`, `model.syncPluralName = "${this.pluralizeModelName(model)}"`] :
+      [`model.pluralName = "${this.pluralizeModelName(model)}"`];
     const isGenerateModelPathEnabled = this.isGenerateModelsForLazyLoadAndCustomSelectionSet() && !this.selectedTypeIsNonModel();
     const closure = [
       '{ model in',
       `let ${keysName} = ${this.getModelName(model)}.keys`,
       '',
       ...(authRules.length ? [`model.authRules = ${authRules}`, ''] : []),
-      `model.pluralName = "${this.pluralizeModelName(model)}"`,
+      ...pluralFields,
       '',
       ...(attributes.length ? ['model.attributes(', indentMultiline(attributes.join(',\n')), ')', ''] : []),
       'model.fields(',

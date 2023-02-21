@@ -23,7 +23,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Post type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Posts\\", type = Model.Type.USER, version = 1)
+@ModelConfig(listPluralName = \\"Posts\\", syncPluralName = \\"Posts\\", type = Model.Type.USER, version = 1)
 @Index(name = \\"undefined\\", fields = {\\"id\\",\\"title\\"})
 public final class Post implements Model {
   public static final QueryField ID = field(\\"Post\\", \\"id\\");
@@ -205,7 +205,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Comment type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Comments\\", type = Model.Type.USER, version = 1)
+@ModelConfig(listPluralName = \\"Comments\\", syncPluralName = \\"Comments\\", type = Model.Type.USER, version = 1)
 @Index(name = \\"undefined\\", fields = {\\"id\\",\\"content\\"})
 public final class Comment implements Model {
   public static final QueryField ID = field(\\"Comment\\", \\"id\\");
@@ -435,7 +435,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Project type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Projects\\", type = Model.Type.USER, version = 1)
+@ModelConfig(listPluralName = \\"Projects\\", syncPluralName = \\"Projects\\", type = Model.Type.USER, version = 1)
 @Index(name = \\"undefined\\", fields = {\\"projectId\\",\\"name\\"})
 public final class Project implements Model {
   public static final QueryField PROJECT_ID = field(\\"Project\\", \\"projectId\\");
@@ -670,7 +670,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Team type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Teams\\", type = Model.Type.USER, version = 1)
+@ModelConfig(listPluralName = \\"Teams\\", syncPluralName = \\"Teams\\", type = Model.Type.USER, version = 1)
 @Index(name = \\"undefined\\", fields = {\\"teamId\\",\\"name\\"})
 public final class Team implements Model {
   public static final QueryField TEAM_ID = field(\\"Team\\", \\"teamId\\");
@@ -874,7 +874,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the BlogOwnerWithCustomPKS type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"BlogOwnerWithCustomPKS\\", type = Model.Type.USER, version = 1)
+@ModelConfig(listPluralName = \\"BlogOwnerWithCustomPKS\\", syncPluralName = \\"BlogOwnerWithCustomPKS\\", type = Model.Type.USER, version = 1)
 @Index(name = \\"undefined\\", fields = {\\"name\\",\\"wea\\"})
 public final class BlogOwnerWithCustomPKS implements Model {
   public static final QueryField ID = field(\\"BlogOwnerWithCustomPKS\\", \\"id\\");
@@ -1088,7 +1088,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Comment type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Comments\\", type = Model.Type.USER, version = 1)
+@ModelConfig(listPluralName = \\"Comments\\", syncPluralName = \\"Comments\\", type = Model.Type.USER, version = 1)
 @Index(name = \\"undefined\\", fields = {\\"title\\",\\"content\\",\\"likes\\"})
 public final class Comment implements Model {
   public static final QueryField POST = field(\\"Comment\\", \\"postCommentsPostId\\");
@@ -1349,7 +1349,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Post type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Posts\\", type = Model.Type.USER, version = 1)
+@ModelConfig(listPluralName = \\"Posts\\", syncPluralName = \\"Posts\\", type = Model.Type.USER, version = 1)
 @Index(name = \\"undefined\\", fields = {\\"postId\\"})
 public final class Post implements Model {
   public static final QueryField POST_ID = field(\\"Post\\", \\"postId\\");
@@ -1634,7 +1634,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Blog type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Blogs\\", type = Model.Type.USER, version = 1)
+@ModelConfig(listPluralName = \\"Blogs\\", syncPluralName = \\"Blogs\\", type = Model.Type.USER, version = 1)
 public final class Blog implements Model {
   public static final QueryField ID = field(\\"Blog\\", \\"id\\");
   public static final QueryField NAME = field(\\"Blog\\", \\"name\\");
@@ -1845,7 +1845,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Post type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Posts\\")
+@ModelConfig(listPluralName = \\"Posts\\", syncPluralName = \\"Posts\\")
 public final class Post implements Model {
   public static final QueryField ID = field(\\"Post\\", \\"id\\");
   public static final QueryField TITLE = field(\\"Post\\", \\"title\\");
@@ -2024,7 +2024,7 @@ public final class Post implements Model {
 
 /** This is an auto generated class representing the Tag type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Tags\\")
+@ModelConfig(listPluralName = \\"Tags\\", syncPluralName = \\"Tags\\")
 public final class Tag implements Model {
   public static final QueryField ID = field(\\"Tag\\", \\"id\\");
   public static final QueryField LABEL = field(\\"Tag\\", \\"label\\");
@@ -2176,7 +2176,7 @@ public final class Tag implements Model {
 
 /** This is an auto generated class representing the PostTags type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"PostTags\\")
+@ModelConfig(listPluralName = \\"PostTags\\", syncPluralName = \\"PostTags\\")
 @Index(name = \\"byPost\\", fields = {\\"postID\\"})
 @Index(name = \\"byTag\\", fields = {\\"tagID\\"})
 public final class PostTags implements Model {
@@ -5435,6 +5435,224 @@ public final class Todo implements Model {
     private CopyOfBuilder(String id) {
       super.id(id);
       
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncModelVisitor One to Many connection with no nullable and non nullable fields should generate correct pluralization 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.BelongsTo;
+import com.amplifyframework.core.model.temporal.Temporal;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the task type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(listPluralName = \\"tasks\\", syncPluralName = \\"tasks\\")
+public final class task implements Model {
+  public static final QueryField ID = field(\\"task\\", \\"id\\");
+  public static final QueryField TODO = field(\\"task\\", \\"taskTodoId\\");
+  public static final QueryField TIME = field(\\"task\\", \\"time\\");
+  public static final QueryField CREATED_ON = field(\\"task\\", \\"createdOn\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"Todo\\") @BelongsTo(targetName = \\"taskTodoId\\", type = Todo.class) Todo todo;
+  private final @ModelField(targetType=\\"AWSTime\\") Temporal.Time time;
+  private final @ModelField(targetType=\\"AWSDate\\") Temporal.Date createdOn;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public Todo getTodo() {
+      return todo;
+  }
+  
+  public Temporal.Time getTime() {
+      return time;
+  }
+  
+  public Temporal.Date getCreatedOn() {
+      return createdOn;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private task(String id, Todo todo, Temporal.Time time, Temporal.Date createdOn) {
+    this.id = id;
+    this.todo = todo;
+    this.time = time;
+    this.createdOn = createdOn;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      task task = (task) obj;
+      return ObjectsCompat.equals(getId(), task.getId()) &&
+              ObjectsCompat.equals(getTodo(), task.getTodo()) &&
+              ObjectsCompat.equals(getTime(), task.getTime()) &&
+              ObjectsCompat.equals(getCreatedOn(), task.getCreatedOn()) &&
+              ObjectsCompat.equals(getCreatedAt(), task.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), task.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getTodo())
+      .append(getTime())
+      .append(getCreatedOn())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"task {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"todo=\\" + String.valueOf(getTodo()) + \\", \\")
+      .append(\\"time=\\" + String.valueOf(getTime()) + \\", \\")
+      .append(\\"createdOn=\\" + String.valueOf(getCreatedOn()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BuildStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static task justId(String id) {
+    return new task(
+      id,
+      null,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      todo,
+      time,
+      createdOn);
+  }
+  public interface BuildStep {
+    task build();
+    BuildStep id(String id);
+    BuildStep todo(Todo todo);
+    BuildStep time(Temporal.Time time);
+    BuildStep createdOn(Temporal.Date createdOn);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private Todo todo;
+    private Temporal.Time time;
+    private Temporal.Date createdOn;
+    @Override
+     public task build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new task(
+          id,
+          todo,
+          time,
+          createdOn);
+    }
+    
+    @Override
+     public BuildStep todo(Todo todo) {
+        this.todo = todo;
+        return this;
+    }
+    
+    @Override
+     public BuildStep time(Temporal.Time time) {
+        this.time = time;
+        return this;
+    }
+    
+    @Override
+     public BuildStep createdOn(Temporal.Date createdOn) {
+        this.createdOn = createdOn;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, Todo todo, Temporal.Time time, Temporal.Date createdOn) {
+      super.id(id);
+      super.todo(todo)
+        .time(time)
+        .createdOn(createdOn);
+    }
+    
+    @Override
+     public CopyOfBuilder todo(Todo todo) {
+      return (CopyOfBuilder) super.todo(todo);
+    }
+    
+    @Override
+     public CopyOfBuilder time(Temporal.Time time) {
+      return (CopyOfBuilder) super.time(time);
+    }
+    
+    @Override
+     public CopyOfBuilder createdOn(Temporal.Date createdOn) {
+      return (CopyOfBuilder) super.createdOn(createdOn);
     }
   }
   

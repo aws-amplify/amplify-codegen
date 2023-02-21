@@ -63,7 +63,8 @@ extension Post {
   public static let schema = defineSchema { model in
     let post = Post.keys
     
-    model.pluralName = \\"Posts\\"
+    model.listPluralName = \\"Posts\\"
+    model.syncPluralName = \\"Posts\\"
     
     model.attributes(
       .index(fields: [\\"id\\", \\"title\\"], name: nil),
@@ -175,7 +176,8 @@ extension Comment {
   public static let schema = defineSchema { model in
     let comment = Comment.keys
     
-    model.pluralName = \\"Comments\\"
+    model.listPluralName = \\"Comments\\"
+    model.syncPluralName = \\"Comments\\"
     
     model.attributes(
       .index(fields: [\\"id\\", \\"content\\"], name: nil),
@@ -285,7 +287,8 @@ extension ModelCompositePk {
   public static let schema = defineSchema { model in
     let modelCompositePk = ModelCompositePk.keys
     
-    model.pluralName = \\"ModelCompositePks\\"
+    model.listPluralName = \\"ModelCompositePks\\"
+    model.syncPluralName = \\"ModelCompositePks\\"
     
     model.attributes(
       .index(fields: [\\"id\\", \\"dob\\"], name: nil),
@@ -385,7 +388,8 @@ extension ModelExplicitCustomPk {
   public static let schema = defineSchema { model in
     let modelExplicitCustomPk = ModelExplicitCustomPk.keys
     
-    model.pluralName = \\"ModelExplicitCustomPks\\"
+    model.listPluralName = \\"ModelExplicitCustomPks\\"
+    model.syncPluralName = \\"ModelExplicitCustomPks\\"
     
     model.attributes(
       .index(fields: [\\"userId\\"], name: nil),
@@ -480,7 +484,8 @@ extension ModelExplicitDefaultPk {
   public static let schema = defineSchema { model in
     let modelExplicitDefaultPk = ModelExplicitDefaultPk.keys
     
-    model.pluralName = \\"ModelExplicitDefaultPks\\"
+    model.listPluralName = \\"ModelExplicitDefaultPks\\"
+    model.syncPluralName = \\"ModelExplicitDefaultPks\\"
     
     model.attributes(
       .index(fields: [\\"id\\"], name: nil),
@@ -569,7 +574,8 @@ extension ModelImplicitDefaultPk {
   public static let schema = defineSchema { model in
     let modelImplicitDefaultPk = ModelImplicitDefaultPk.keys
     
-    model.pluralName = \\"ModelImplicitDefaultPks\\"
+    model.listPluralName = \\"ModelImplicitDefaultPks\\"
+    model.syncPluralName = \\"ModelImplicitDefaultPks\\"
     
     model.attributes(
       .primaryKey(fields: [modelImplicitDefaultPk.id])
@@ -703,7 +709,8 @@ extension Project {
   public static let schema = defineSchema { model in
     let project = Project.keys
     
-    model.pluralName = \\"Projects\\"
+    model.listPluralName = \\"Projects\\"
+    model.syncPluralName = \\"Projects\\"
     
     model.attributes(
       .index(fields: [\\"projectId\\", \\"name\\"], name: nil),
@@ -841,7 +848,8 @@ extension Team {
   public static let schema = defineSchema { model in
     let team = Team.keys
     
-    model.pluralName = \\"Teams\\"
+    model.listPluralName = \\"Teams\\"
+    model.syncPluralName = \\"Teams\\"
     
     model.attributes(
       .index(fields: [\\"teamId\\", \\"name\\"], name: nil),
@@ -983,7 +991,8 @@ extension ListContainer {
   public static let schema = defineSchema { model in
     let listContainer = ListContainer.keys
     
-    model.pluralName = \\"ListContainers\\"
+    model.listPluralName = \\"ListContainers\\"
+    model.syncPluralName = \\"ListContainers\\"
     
     model.fields(
       .id(),
@@ -1122,7 +1131,8 @@ extension Todo {
   public static let schema = defineSchema { model in
     let todo = Todo.keys
     
-    model.pluralName = \\"Todos\\"
+    model.listPluralName = \\"Todos\\"
+    model.syncPluralName = \\"Todos\\"
     
     model.fields(
       .id(),
@@ -1247,7 +1257,8 @@ extension task {
   public static let schema = defineSchema { model in
     let task = task.keys
     
-    model.pluralName = \\"tasks\\"
+    model.listPluralName = \\"tasks\\"
+    model.syncPluralName = \\"tasks\\"
     
     model.fields(
       .id(),
@@ -1277,5 +1288,179 @@ extension ModelPath where ModelType == task {
   public var updatedAt: FieldPath<Temporal.DateTime>   {
       datetime(\\"updatedAt\\") 
     }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor Use Improved Pluralization Should work with potentially pluralized collision 1`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct Wish: Model {
+  public let id: String
+  public var date: Temporal.DateTime
+  public var idUser: String
+  public var ev: String
+  public var deprecated: Bool
+  public var owner: String?
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  
+  public init(id: String = UUID().uuidString,
+      date: Temporal.DateTime,
+      idUser: String,
+      ev: String,
+      deprecated: Bool,
+      owner: String? = nil) {
+    self.init(id: id,
+      date: date,
+      idUser: idUser,
+      ev: ev,
+      deprecated: deprecated,
+      owner: owner,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(id: String = UUID().uuidString,
+      date: Temporal.DateTime,
+      idUser: String,
+      ev: String,
+      deprecated: Bool,
+      owner: String? = nil,
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
+      self.id = id
+      self.date = date
+      self.idUser = idUser
+      self.ev = ev
+      self.deprecated = deprecated
+      self.owner = owner
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+  }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor Use Improved Pluralization Should work with potentially pluralized collision 2`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+extension Wish {
+  // MARK: - CodingKeys 
+   public enum CodingKeys: String, ModelKey {
+    case id
+    case date
+    case idUser
+    case ev
+    case deprecated
+    case owner
+    case createdAt
+    case updatedAt
+  }
+  
+  public static let keys = CodingKeys.self
+  //  MARK: - ModelSchema 
+  
+  public static let schema = defineSchema { model in
+    let wish = Wish.keys
+    
+    model.listPluralName = \\"Wishes\\"
+    model.syncPluralName = \\"Wishes\\"
+    
+    model.attributes(
+      .index(fields: [\\"idUser\\"], name: \\"byUsers\\")
+    )
+    
+    model.fields(
+      .id(),
+      .field(wish.date, is: .required, ofType: .dateTime),
+      .field(wish.idUser, is: .required, ofType: .string),
+      .field(wish.ev, is: .required, ofType: .string),
+      .field(wish.deprecated, is: .required, ofType: .bool),
+      .field(wish.owner, is: .optional, ofType: .string),
+      .field(wish.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(wish.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+    )
+    }
+    public class Path: ModelPath<Wish> { }
+    
+    public static var rootPath: PropertyContainerPath? { Path() }
+}
+extension ModelPath where ModelType == Wish {
+  public var id: FieldPath<String>   {
+      string(\\"id\\") 
+    }
+  public var date: FieldPath<Temporal.DateTime>   {
+      datetime(\\"date\\") 
+    }
+  public var idUser: FieldPath<String>   {
+      string(\\"idUser\\") 
+    }
+  public var ev: FieldPath<String>   {
+      string(\\"ev\\") 
+    }
+  public var deprecated: FieldPath<Bool>   {
+      bool(\\"deprecated\\") 
+    }
+  public var owner: FieldPath<String>   {
+      string(\\"owner\\") 
+    }
+  public var createdAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"createdAt\\") 
+    }
+  public var updatedAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"updatedAt\\") 
+    }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor Use Improved Pluralization Should work with potentially pluralized collision 3`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct Wishes: Model {
+  public let id: String
+  public var date: Temporal.DateTime
+  public var idUser: String
+  public var ev: String
+  public var deprecated: Bool
+  public var owner: String?
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  
+  public init(id: String = UUID().uuidString,
+      date: Temporal.DateTime,
+      idUser: String,
+      ev: String,
+      deprecated: Bool,
+      owner: String? = nil) {
+    self.init(id: id,
+      date: date,
+      idUser: idUser,
+      ev: ev,
+      deprecated: deprecated,
+      owner: owner,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(id: String = UUID().uuidString,
+      date: Temporal.DateTime,
+      idUser: String,
+      ev: String,
+      deprecated: Bool,
+      owner: String? = nil,
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
+      self.id = id
+      self.date = date
+      self.idUser = idUser
+      self.ev = ev
+      self.deprecated = deprecated
+      self.owner = owner
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+  }
 }"
 `;
