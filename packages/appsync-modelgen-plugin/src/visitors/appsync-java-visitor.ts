@@ -1,6 +1,7 @@
 import { indent, indentMultiline, transformComment } from '@graphql-codegen/visitor-plugin-common';
 import { camelCase, constantCase, pascalCase } from 'change-case';
 import dedent from 'ts-dedent';
+import { plurality } from 'graphql-transformer-common';
 import {
   MODEL_CLASS_IMPORT_PACKAGES,
   GENERATED_PACKAGE_NAME,
@@ -852,13 +853,20 @@ export class AppSyncModelJavaVisitor<
   }
 
   protected generateModelAnnotations(model: CodeGenModel): string[] {
+    const useImprovedPluralization = this.config.improvePluralization || (this.config.transformerVersion === 2);
     const annotations: string[] = model.directives.map(directive => {
       switch (directive.name) {
         case 'model':
           const modelArgs: string[] = [];
           const authDirectives: AuthDirective[] = model.directives.filter(d => d.name === 'auth') as AuthDirective[];
           const authRules = this.generateAuthRules(authDirectives);
-          modelArgs.push(`pluralName = "${this.pluralizeModelName(model)}"`);
+          if (useImprovedPluralization) {
+            modelArgs.push(`listPluralName = "${plurality(model.name, useImprovedPluralization)}"`);
+            modelArgs.push(`syncPluralName = "${this.pluralizeModelName(model)}"`);
+          }
+          else {
+            modelArgs.push(`pluralName = "${this.pluralizeModelName(model)}"`);
+          }
           if (this.isCustomPKEnabled()) {
             modelArgs.push(`type = Model.Type.USER`);
             modelArgs.push(`version = 1`);
