@@ -13,6 +13,7 @@ const codegenFeatureFlags = {
     "generateindexrules": true,
     "emitauthprovider": true,
     "enabledartnullsafety": true,
+    "generatemodelsforlazyloadandcustomselectionset": false,
 };
 
 describe('codegen related feature flags - new project', () => {
