@@ -3,16 +3,16 @@ import { camelCase } from 'change-case';
 import { GraphQLSchema } from 'graphql';
 import { lowerCaseFirst } from 'lower-case-first';
 import { schemaTypeMap } from '../configs/swift-config';
-import { SwiftDeclarationBlock, escapeKeywords, ListType } from '../languages/swift-declaration-block';
+import { escapeKeywords, ListType, SwiftDeclarationBlock } from '../languages/swift-declaration-block';
 import { CodeGenConnectionType } from '../utils/process-connections';
 import {
   AppSyncModelVisitor,
   CodeGenField,
   CodeGenGenerateEnum,
   CodeGenModel,
-  RawAppSyncModelConfig,
-  ParsedAppSyncModelConfig,
   CodeGenPrimaryKeyType,
+  ParsedAppSyncModelConfig,
+  RawAppSyncModelConfig,
 } from './appsync-visitor';
 import { AuthDirective, AuthStrategy } from '../utils/process-auth';
 import { printWarning } from '../utils/warn';
@@ -62,10 +62,7 @@ export class AppSyncSwiftVisitor<
     const shouldUseModelNameFieldInHasManyAndBelongsTo = true;
     // This flag is going to be used to tight-trigger on JS implementations only.
     const shouldImputeKeyForUniDirectionalHasMany = false;
-    this.processDirectives(
-      shouldUseModelNameFieldInHasManyAndBelongsTo,
-      shouldImputeKeyForUniDirectionalHasMany
-    );
+    this.processDirectives(shouldUseModelNameFieldInHasManyAndBelongsTo, shouldImputeKeyForUniDirectionalHasMany);
 
     const code = [`// swiftlint:disable all`];
     if (this._parsedConfig.generate === CodeGenGenerateEnum.metadata) {
@@ -98,15 +95,48 @@ export class AppSyncSwiftVisitor<
         const fieldType = this.getNativeType(field);
         const isVariable = !primaryKeyComponentFieldsName.includes(field.name);
         const listType: ListType = field.connectionInfo ? ListType.LIST : ListType.ARRAY;
-        structBlock.addProperty(this.getFieldName(field), fieldType, undefined, 'public', {
-          optional: !this.isFieldRequired(field),
-          isList: field.isList,
-          variable: isVariable,
-          isEnum: this.isEnumType(field),
-          listType: field.isList ? listType : undefined,
-          isListNullable: field.isListNullable,
-          handleListNullabilityTransparently: this.isHasManyConnectionField(field) ? false : this.config.handleListNullabilityTransparently,
-        });
+        if (this.isGenerateModelsForLazyLoadAndCustomSelectionSet() && this.isHasOneOrBelongsToConnectionField(field)) {
+          // lazy loading - create computed property of LazyReference
+          structBlock.addProperty(`_${this.getFieldName(field)}`, `LazyReference<${fieldType}>`, undefined, `internal`, {
+            optional: false,
+            isList: field.isList,
+            variable: isVariable,
+            isEnum: this.isEnumType(field),
+            listType: field.isList ? listType : undefined,
+            isListNullable: field.isListNullable,
+            handleListNullabilityTransparently: this.config.handleListNullabilityTransparently,
+          });
+          const lazyLoadGetOrRequired = !this.isFieldRequired(field) ? 'get()' : 'require()';
+          structBlock.addProperty(
+            this.getFieldName(field),
+            fieldType,
+            undefined,
+            'public',
+            {
+              optional: !this.isFieldRequired(field),
+              isList: field.isList,
+              variable: isVariable,
+              isEnum: this.isEnumType(field),
+              listType: field.isList ? listType : undefined,
+              isListNullable: field.isListNullable,
+              handleListNullabilityTransparently: this.config.handleListNullabilityTransparently,
+            },
+            undefined,
+            `get async throws { \n  try await _${this.getFieldName(field)}.${lazyLoadGetOrRequired}\n}`,
+          );
+        } else {
+          structBlock.addProperty(this.getFieldName(field), fieldType, undefined, 'public', {
+            optional: !this.isFieldRequired(field),
+            isList: field.isList,
+            variable: isVariable,
+            isEnum: this.isEnumType(field),
+            listType: field.isList ? listType : undefined,
+            isListNullable: field.isListNullable,
+            handleListNullabilityTransparently: this.isHasManyConnectionField(field)
+              ? false
+              : this.config.handleListNullabilityTransparently,
+          });
+        }
       });
       const initParams: CodeGenField[] = this.getWritableFields(obj);
       const initImpl: string = `self.init(${indentMultiline(
@@ -198,6 +228,71 @@ export class AppSyncSwiftVisitor<
           {},
         );
       }
+
+      if (this.isGenerateModelsForLazyLoadAndCustomSelectionSet()) {
+        // mutating functions for updating/deleting
+        var customEncodingAndDecodingRequired = false;
+        Object.entries(obj.fields).forEach(([fieldName, field]) => {
+          if (this.isHasOneOrBelongsToConnectionField(field)) {
+            // lazy loading - create setter functions for LazyReference
+            customEncodingAndDecodingRequired = true;
+            let fieldName = this.getFieldName(field);
+            let capitalizedFieldName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
+            structBlock.addClassMethod(
+              `set${capitalizedFieldName}`,
+              null,
+              `self._${fieldName} = LazyReference(${fieldName})`,
+              [
+                {
+                  name: `_ ${this.getFieldName(field)}`,
+                  type: this.getNativeType(field),
+                  value: undefined,
+                  flags: { optional: !this.isFieldRequired(field) },
+                },
+              ],
+              'public',
+              {
+                mutating: true,
+              },
+            );
+          }
+        });
+
+        if (customEncodingAndDecodingRequired) {
+          // custom decoder/encoder
+          structBlock.addClassMethod(
+            'init',
+            null,
+            this.getDecoderBody(obj.fields),
+            [
+              {
+                value: undefined,
+                name: 'from decoder',
+                type: 'Decoder',
+                flags: {},
+              },
+            ],
+            'public',
+            { throws: true },
+          );
+          structBlock.addClassMethod(
+            'encode',
+            null,
+            this.getEncoderBody(obj.fields),
+            [
+              {
+                value: undefined,
+                name: 'to encoder',
+                type: 'Encoder',
+                flags: {},
+              },
+            ],
+            'public',
+            { throws: true },
+          );
+        }
+      }
+
       result.push(structBlock.string);
     });
     return result.join('\n');
@@ -259,6 +354,9 @@ export class AppSyncSwiftVisitor<
           result.push('');
           result.push(this.generatePrimaryKeyExtensions(model));
         }
+        if (this.isGenerateModelsForLazyLoadAndCustomSelectionSet()) {
+          result.push(this.generateModelPathExtensions(model));
+        }
       });
 
     Object.values(this.getSelectedNonModels()).forEach(model => {
@@ -298,6 +396,7 @@ export class AppSyncSwiftVisitor<
     const keyDirectives = this.config.generateIndexRules ? this.generateKeyRules(model) : [];
     const priamryKeyRules = this.generatePrimaryKeyRules(model);
     const attributes = [...keyDirectives, priamryKeyRules].filter(f => f);
+    const isGenerateModelPathEnabled = this.isGenerateModelsForLazyLoadAndCustomSelectionSet() && !this.selectedTypeIsNonModel();
     const closure = [
       '{ model in',
       `let ${keysName} = ${this.getModelName(model)}.keys`,
@@ -310,6 +409,9 @@ export class AppSyncSwiftVisitor<
       indentMultiline(fields.join(',\n')),
       ')',
       '}',
+      isGenerateModelPathEnabled ? `public class Path: ModelPath<${this.getModelName(model)}> { }` : '',
+      '',
+      isGenerateModelPathEnabled ? 'public static var rootPath: PropertyContainerPath? { Path() }' : '',
     ].join('\n');
     extensionDeclaration.addProperty(
       'schema',
@@ -359,6 +461,41 @@ export class AppSyncSwiftVisitor<
     return result.join('\n\n');
   }
 
+  protected generateModelPathExtensions(model: CodeGenModel): string {
+    const modelPathExtension = new SwiftDeclarationBlock()
+      .asKind('extension')
+      .withName(`ModelPath`)
+      .withCondition(`ModelType == ${this.getModelName(model)}`);
+
+    Object.values(model.fields).forEach(field => {
+      if (this.isEnumType(field) || this.isNonModelType(field)) {
+        return;
+      }
+      const fieldName = this.getFieldName(field);
+      const fieldType = this.getNativeType(field);
+      const pathType = field.connectionInfo ? 'ModelPath' : 'FieldPath';
+      const pathValue = field.connectionInfo
+        ? field.connectionInfo.kind === CodeGenConnectionType.HAS_MANY
+          ? `${fieldType}.Path(name: \"${fieldName}\", isCollection: true, parent: self)`
+          : `${fieldType}.Path(name: \"${fieldName}\", parent: self)`
+        : `${this.getFieldTypePathValue(fieldType)}(\"${fieldName}\")`;
+
+      modelPathExtension.addProperty(
+        fieldName,
+        `${pathType}<${fieldType}>`,
+        '',
+        undefined,
+        {
+          variable: true,
+        },
+        undefined,
+        pathValue,
+      );
+    });
+
+    return modelPathExtension.string;
+  }
+
   protected generateClassLoader(): string {
     const structList = Object.values(this.modelMap).map(typeObj => `${this.getModelName(typeObj)}.self`);
 
@@ -389,12 +526,71 @@ export class AppSyncSwiftVisitor<
 
   private getInitBody(fields: CodeGenField[]): string {
     let result = fields.map(field => {
-      const fieldName = escapeKeywords(this.getFieldName(field));
-      return indent(`self.${fieldName} = ${fieldName}`);
+      if (this.isGenerateModelsForLazyLoadAndCustomSelectionSet()) {
+        const connectionHasOneOrBelongsTo = this.isHasOneOrBelongsToConnectionField(field);
+        const escapedFieldName = escapeKeywords(this.getFieldName(field));
+        const propertyName = connectionHasOneOrBelongsTo ? `_${this.getFieldName(field)}` : escapedFieldName;
+        const fieldValue = connectionHasOneOrBelongsTo ? `LazyReference(${escapedFieldName})` : escapedFieldName;
+        return indent(`self.${propertyName} = ${fieldValue}`);
+      } else {
+        const fieldName = escapeKeywords(this.getFieldName(field));
+        return indent(`self.${fieldName} = ${fieldName}`);
+      }
     });
 
     return result.join('\n');
   }
+
+  private getDecoderBody(fields: CodeGenField[]): string {
+    let result: string[] = [];
+    result.push(indent('let values = try decoder.container(keyedBy: CodingKeys.self)'));
+    fields.forEach(field => {
+      const connectionHasOneOrBelongsTo = this.isHasOneOrBelongsToConnectionField(field);
+      const escapedFieldName = escapeKeywords(this.getFieldName(field));
+      const assignedFieldName = connectionHasOneOrBelongsTo ? `_${this.getFieldName(field)}` : escapedFieldName;
+      const fieldType = this.getDecoderBodyFieldType(field);
+      const decodeMethod = field.connectionInfo ? 'decodeIfPresent' : 'decode';
+      const defaultLazyReference = connectionHasOneOrBelongsTo ? ' ?? LazyReference(identifiers: nil)' : '';
+      const defaultListReference = this.isHasManyConnectionField(field) ? ' ?? .init()' : '';
+      const optionalTry = !this.isFieldRequired(field) && !field.connectionInfo ? '?' : '';
+      result.push(
+        indent(
+          `${assignedFieldName} = try${optionalTry} values.${decodeMethod}(${fieldType}.self, forKey: .${escapedFieldName})${defaultLazyReference}${defaultListReference}`,
+        ),
+      );
+    });
+
+    return result.join('\n');
+  }
+
+  private getDecoderBodyFieldType(field: CodeGenField): string {
+    const nativeType = this.getNativeType(field);
+    const optionality = !this.isFieldRequired(field) ? '?' : '';
+
+    if (this.isHasOneOrBelongsToConnectionField(field)) {
+      return `LazyReference<${nativeType}>`;
+    }
+    if (field.isList) {
+      if (field.connectionInfo) {
+        return `List<${nativeType}>${optionality}`;
+      }
+      return `[${nativeType}]`;
+    }
+    return `${nativeType}${optionality}`;
+  }
+
+  private getEncoderBody(fields: CodeGenField[]): string {
+    let result: string[] = [];
+    result.push(indent('var container = encoder.container(keyedBy: CodingKeys.self)'));
+    fields.forEach(field => {
+      const escapedFieldName = escapeKeywords(this.getFieldName(field));
+      const fieldValue = this.isHasOneOrBelongsToConnectionField(field) ? `_${this.getFieldName(field)}` : escapedFieldName;
+      result.push(indent(`try container.encode(${fieldValue}, forKey: .${escapedFieldName})`));
+    });
+
+    return result.join('\n');
+  }
+
   protected getListType(typeStr: string, field: CodeGenField): string {
     return `${typeStr}`;
   }
@@ -486,6 +682,25 @@ export class AppSyncSwiftVisitor<
     return '.string';
   }
 
+  private getFieldTypePathValue(fieldType: String) {
+    if (fieldType === 'String') {
+      return 'string';
+    } else if (fieldType === 'Int') {
+      return 'int';
+    } else if (fieldType === 'Double') {
+      return 'double';
+    } else if (fieldType === 'Bool') {
+      return 'bool';
+    } else if (fieldType === 'Temporal.Date') {
+      return 'date';
+    } else if (fieldType === 'Temporal.DateTime') {
+      return 'datetime';
+    } else if (fieldType === 'Temporal.Time') {
+      return 'time';
+    }
+    return fieldType;
+  }
+
   protected getEnumValue(value: string): string {
     return camelCase(value);
   }
@@ -529,6 +744,16 @@ export class AppSyncSwiftVisitor<
 
   protected isHasManyConnectionField(field: CodeGenField): boolean {
     if (field.connectionInfo && field.connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
+      return true;
+    }
+    return false;
+  }
+
+  protected isHasOneOrBelongsToConnectionField(field: CodeGenField): boolean {
+    if (
+      field.connectionInfo &&
+      (field.connectionInfo.kind === CodeGenConnectionType.HAS_ONE || field.connectionInfo.kind === CodeGenConnectionType.BELONGS_TO)
+    ) {
       return true;
     }
     return false;
