@@ -314,6 +314,7 @@ workflows:
       - e2e-test:
           context:
             - cleanup-resources
+            - api-e2e-test-context
           os: l
           requires:
             - publish_to_local_registry-l
