@@ -54,7 +54,7 @@ install_cli_with_local_codegen: &ref_3
     startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
     setNpmRegistryUrlToLocal
     changeNpmGlobalPath
-    npm install -g @aws-amplify/cli-internal
+    npm install -g @aws-amplify/cli-internal@10.7.3
     amplify -v
     npm list --global --depth=1
     unsetNpmRegistryUrl
@@ -610,7 +610,6 @@ workflows:
       - build-app-android-e2e-test:
           context: &ref_7
             - cleanup-resources
-            - api-e2e-test-context
           os: a
           requires:
             - publish_to_local_registry-l
