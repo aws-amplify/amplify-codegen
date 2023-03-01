@@ -129,10 +129,10 @@ function splitTests(
   const newJobs = testSuites.reduce((acc, suite, index) => {
     const testRegion = AWS_REGIONS_TO_RUN_TESTS[index % AWS_REGIONS_TO_RUN_TESTS.length];
     const newJobName = generateJobName(jobName, suite);
-    const shouldRunJobOnAndroid = runJobOnAndroid.has(newJobName);
+    const shouldRunJobOnNonLinux = runJobOnAndroid.has(newJobName) || runJobOnMacOS.has(newJobName);
     const newJob = {
       ...job,
-      steps: jobWithNodeInstall && shouldRunJobOnAndroid ? jobWithNodeInstall.steps : job.steps,
+      steps: jobWithNodeInstall && shouldRunJobOnNonLinux ? jobWithNodeInstall.steps : job.steps,
       environment: {
         ...job.environment,
         TEST_SUITE: suite,
@@ -140,7 +140,7 @@ function splitTests(
         // the npm prefix should not be set because this test runs on an executor
         // that needs to install Node separately. Setting the NPM prefix interferes
         // with the separate Node installation
-        SET_NPM_PREFIX: !shouldRunJobOnAndroid,
+        SET_NPM_PREFIX: !shouldRunJobOnNonLinux,
       },
     };
     return { ...acc, [newJobName]: newJob };

@@ -291,11 +291,11 @@ jobs:
     working_directory: ~/repo
     parameters: *ref_0
     executor: << parameters.os >>
-    steps: *ref_5
+    steps: *ref_4
     environment:
       TEST_SUITE: src/__tests__/build-app-swift.test.ts
       CLI_REGION: us-west-1
-      SET_NPM_PREFIX: true
+      SET_NPM_PREFIX: false
   build-app-ts-e2e-test:
     working_directory: ~/repo
     parameters: *ref_0
