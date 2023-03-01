@@ -190,9 +190,6 @@ function splitTests(
               os,
               requires: [...(requires ? [requires] : workflowJob[jobName].requires || [])],
             };
-            if (runJobOnMacOS.has(newJobName)) {
-              newJob.requires = newJob.requires.map(r => r.replace(new RegExp('-l$'), '-m'));
-            }
             return {
               [newJobName]: newJob,
             };

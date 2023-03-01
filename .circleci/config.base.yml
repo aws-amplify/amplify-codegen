@@ -287,24 +287,18 @@ workflows:
   build_test_deploy:
     jobs:
       - build:
-          name: build-<< matrix.os >>
-          matrix:
-            parameters:
-              os: [l, m]
+          os: l
       - test:
           name: test-<< matrix.os >>
           matrix:
             parameters:
               os: [l, w]
           requires:
-            - build-l
+            - build
       - publish_to_local_registry:
-          name: publish_to_local_registry-<< matrix.os >>
-          matrix:
-            parameters:
-              os: [l, m]
+          os: l
           requires:
-            - build-<< matrix.os >>
+            - build
           filters:
             branches:
               only:
@@ -316,7 +310,7 @@ workflows:
             - cleanup-resources
           os: l
           requires:
-            - publish_to_local_registry-l
+            - publish_to_local_registry
           post-steps:
             - run: *cleanup_e2e
           filters:
