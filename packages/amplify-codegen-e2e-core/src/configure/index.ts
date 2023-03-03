@@ -19,6 +19,7 @@ export const amplifyRegions = [
   'us-west-1',
   'us-west-2',
   'eu-north-1',
+  "eu-south-1",
   'eu-west-1',
   'eu-west-2',
   'eu-west-3',
@@ -55,8 +56,6 @@ export function amplifyConfigure(settings: AmplifyConfiguration): Promise<void> 
     singleSelect(chain, s.region, amplifyRegions);
 
     chain
-      .wait('user name:')
-      .sendCarriageReturn()
       .wait('Press Enter to continue')
       .sendCarriageReturn()
       .wait('accessKeyId')
