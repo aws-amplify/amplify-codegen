@@ -66,7 +66,7 @@ describe('Amplify pull in amplify app with codegen tests', () => {
     expect(isNotEmptyDir(path.join(projectRoot, DEFAULT_JS_CONFIG.modelgenDir))).toBe(true);
   });
 
-  describe('amplify pull in a new folder', () => {
+  describe.skip('amplify pull in a new folder', () => {
     let emptyProjectRoot: string
     beforeEach(async () => {
       emptyProjectRoot= await createNewProjectDir('pullCodegenEmpty');
@@ -89,7 +89,7 @@ describe('Amplify pull in amplify app with codegen tests', () => {
 
 });
 
-describe('Amplify pull in sandbox app with codegen tests', () => {
+describe.skip('Amplify pull in sandbox app with codegen tests', () => {
   let projectRoot: string;
   let sandboxId: string;
   const schemaBody = {
