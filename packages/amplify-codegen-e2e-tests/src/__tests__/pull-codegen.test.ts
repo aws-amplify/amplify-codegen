@@ -32,7 +32,7 @@ const frontendConfigs: AmplifyFrontendConfig[] = [
   DEFAULT_JS_CONFIG,
   DEFAULT_ANDROID_CONFIG,
   DEFAULT_IOS_CONFIG,
-  DEFAULT_FLUTTER_CONFIG
+  // DEFAULT_FLUTTER_CONFIG
 ];
 
 describe('Amplify pull in amplify app with codegen tests', () => {

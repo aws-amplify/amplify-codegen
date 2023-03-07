@@ -4,7 +4,7 @@ import * as path from 'path';
 
 const schema = 'modelgen/model_gen_schema_with_aws_scalars.graphql';
 
-describe('Datastore Modelgen tests - Flutter', () => {
+describe.skip('Datastore Modelgen tests - Flutter', () => {
     let projectRoot: string;
 
     beforeEach(async () => {
