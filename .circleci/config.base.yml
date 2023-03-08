@@ -58,7 +58,7 @@ install_cli_with_local_codegen: &install_cli
     startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
     setNpmRegistryUrlToLocal
     changeNpmGlobalPath
-    npm install -g @aws-amplify/cli-internal
+    npm install -g @aws-amplify/cli-internal@11.0.0-rc.e5f00c392.0
     amplify -v
     npm list --global --depth=1
     unsetNpmRegistryUrl
@@ -184,7 +184,7 @@ jobs:
           name: Run e2e tests
           command: |
             cd packages/amplify-codegen-e2e-tests
-            yarn e2e --maxWorkers=3 $TEST_SUITE
+            yarn e2e --forceExit --maxWorkers=3 $TEST_SUITE
           no_output_timeout: 20m
       - store_test_results:
           path: packages/amplify-codegen-e2e-tests/
@@ -195,18 +195,27 @@ jobs:
     <<: *defaults
     executor: << parameters.os >>
     steps:
-      - attach_workspace:
-          at: ./
-      - restore_cache:
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-<< parameters.os >>
-      - restore_cache:
-          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}-<< parameters.os >>
+      - checkout
+      - run: yarn config set workspaces-experimental true
+      - run: yarn cache clean --force
+      - run: yarn run production-build
+      - run:
+          name: Publish to verdaccio
+          command: |
+            source .circleci/local_publish_helpers.sh
+            startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
+            setNpmRegistryUrlToLocal
+            loginToLocalRegistry
+            git config user.email not@used.com
+            git config user.name "Doesnt Matter"
+            yarn publish-to-verdaccio
+            unsetNpmRegistryUrl
       - run: *install_cli
       - run:
           name: Run e2e tests
           command: |
             cd packages/amplify-codegen-e2e-tests
-            yarn e2e --maxWorkers=3 $TEST_SUITE
+            yarn e2e --forceExit --maxWorkers=3 $TEST_SUITE
           no_output_timeout: 20m
       - store_test_results:
           path: packages/amplify-codegen-e2e-tests/
@@ -232,7 +241,7 @@ jobs:
           name: Run e2e tests
           command: |
             cd packages/amplify-codegen-e2e-tests
-            yarn e2e --maxWorkers=3 $TEST_SUITE
+            yarn e2e --forceExit --maxWorkers=3 $TEST_SUITE
           no_output_timeout: 20m
       - store_test_results:
           path: packages/amplify-codegen-e2e-tests/
@@ -287,24 +296,18 @@ workflows:
   build_test_deploy:
     jobs:
       - build:
-          name: build-<< matrix.os >>
-          matrix:
-            parameters:
-              os: [l, m]
+          os: l
       - test:
           name: test-<< matrix.os >>
           matrix:
             parameters:
               os: [l, w]
           requires:
-            - build-l
+            - build
       - publish_to_local_registry:
-          name: publish_to_local_registry-<< matrix.os >>
-          matrix:
-            parameters:
-              os: [l, m]
+          os: l
           requires:
-            - build-<< matrix.os >>
+            - build
           filters:
             branches:
               only:
@@ -316,7 +319,7 @@ workflows:
             - cleanup-resources
           os: l
           requires:
-            - publish_to_local_registry-l
+            - publish_to_local_registry
           post-steps:
             - run: *cleanup_e2e
           filters:

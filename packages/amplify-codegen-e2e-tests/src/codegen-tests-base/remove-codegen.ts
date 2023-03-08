@@ -34,5 +34,5 @@ export async function testRemoveCodegen(config: AmplifyFrontendConfig, projectRo
     expect(isNotEmptyDir(path.join(projectRoot, config.graphqlCodegenDir))).toBe(true);
     // graphql configuration should be updated to remove previous configuration
     const generatedConfig = load(readFileSync(getGraphQLConfigFilePath(projectRoot)).toString());
-    expect(Object.keys(generatedConfig.projects).length).toEqual(0);
+    expect(Object.keys(generatedConfig['projects']).length).toEqual(0);
 }

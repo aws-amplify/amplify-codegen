@@ -124,15 +124,22 @@ function splitTests(
   const jobs = { ...config.jobs };
   const job = jobs[jobName];
   const jobWithNodeInstall = jobs[`${jobName}-with-node-install`];
+  const jobOnMacOs = jobs[`${jobName}-macos`]
   const testSuites = getTestFiles(jobRootDir);
 
   const newJobs = testSuites.reduce((acc, suite, index) => {
     const testRegion = AWS_REGIONS_TO_RUN_TESTS[index % AWS_REGIONS_TO_RUN_TESTS.length];
     const newJobName = generateJobName(jobName, suite);
     const shouldRunJobOnAndroid = runJobOnAndroid.has(newJobName);
+    const shouldRunJobOnMacOs = runJobOnMacOS.has(newJobName);
+    const steps = jobWithNodeInstall && shouldRunJobOnAndroid
+      ? jobWithNodeInstall.steps
+      : jobOnMacOs && shouldRunJobOnMacOs
+        ? jobOnMacOs.steps
+        : job.steps;
     const newJob = {
       ...job,
-      steps: jobWithNodeInstall && shouldRunJobOnAndroid ? jobWithNodeInstall.steps : job.steps,
+      steps,
       environment: {
         ...job.environment,
         TEST_SUITE: suite,
@@ -190,9 +197,6 @@ function splitTests(
               os,
               requires: [...(requires ? [requires] : workflowJob[jobName].requires || [])],
             };
-            if (runJobOnMacOS.has(newJobName)) {
-              newJob.requires = newJob.requires.map(r => r.replace(new RegExp('-l$'), '-m'));
-            }
             return {
               [newJobName]: newJob,
             };
