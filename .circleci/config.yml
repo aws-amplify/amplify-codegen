@@ -54,7 +54,7 @@ install_cli_with_local_codegen: &ref_3
     startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
     setNpmRegistryUrlToLocal
     changeNpmGlobalPath
-    npm install -g @aws-amplify/cli-internal
+    npm install -g @aws-amplify/cli-internal@11.0.0-rc.e5f00c392.0
     amplify -v
     npm list --global --depth=1
     unsetNpmRegistryUrl
@@ -197,7 +197,7 @@ jobs:
           name: Run e2e tests
           command: |
             cd packages/amplify-codegen-e2e-tests
-            yarn e2e --maxWorkers=3 $TEST_SUITE
+            yarn e2e --forceExit --maxWorkers=3 $TEST_SUITE
           no_output_timeout: 20m
       - store_test_results:
           path: packages/amplify-codegen-e2e-tests/
@@ -228,7 +228,7 @@ jobs:
           name: Run e2e tests
           command: |
             cd packages/amplify-codegen-e2e-tests
-            yarn e2e --maxWorkers=3 $TEST_SUITE
+            yarn e2e --forceExit --maxWorkers=3 $TEST_SUITE
           no_output_timeout: 20m
       - store_test_results:
           path: packages/amplify-codegen-e2e-tests/
@@ -254,7 +254,7 @@ jobs:
           name: Run e2e tests
           command: |
             cd packages/amplify-codegen-e2e-tests
-            yarn e2e --maxWorkers=3 $TEST_SUITE
+            yarn e2e --forceExit --maxWorkers=3 $TEST_SUITE
           no_output_timeout: 20m
       - store_test_results:
           path: packages/amplify-codegen-e2e-tests/
