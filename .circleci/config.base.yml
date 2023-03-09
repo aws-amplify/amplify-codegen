@@ -82,11 +82,11 @@ jobs:
       - run: yarn cache clean --force
       - run: yarn run production-build
       - save_cache:
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-<< parameters.os >>
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache
       - save_cache:
-          key: amplify-codegen-ssh-deps-{{ .Branch }}-<< parameters.os >>
+          key: amplify-codegen-ssh-deps-{{ .Branch }}
           paths:
             - ~/.ssh
       - persist_to_workspace:
@@ -116,7 +116,7 @@ jobs:
             - attach_workspace:
                 at: ./
             - restore_cache:
-                key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-l
+                key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
           name: Lint
           command: yarn lint
@@ -135,8 +135,8 @@ jobs:
           at: ./
       - restore_cache:
           keys:
-            - amplify-codegen-ssh-deps-{{ .Branch }}-l
-            - amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-l
+            - amplify-codegen-ssh-deps-{{ .Branch }}
+            - amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
           name: Authenticate with npm
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
@@ -152,7 +152,7 @@ jobs:
       - attach_workspace:
           at: ./
       - restore_cache:
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-<< parameters.os >>
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
           name: Publish to verdaccio
           command: |
@@ -165,7 +165,7 @@ jobs:
             yarn publish-to-verdaccio
             unsetNpmRegistryUrl
       - save_cache:
-          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}-<< parameters.os >>
+          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}
           paths:
             - ~/verdaccio-cache/
 
@@ -176,9 +176,9 @@ jobs:
       - attach_workspace:
           at: ./
       - restore_cache:
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}-<< parameters.os >>
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - restore_cache:
-          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}-<< parameters.os >>
+          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}
       - run: *install_cli
       - run:
           name: Run e2e tests
