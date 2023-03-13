@@ -35,7 +35,7 @@
     "uuid": "7.0.1"
   },
   "peerDependencies": {
-    "amplify-cli-core": "4.0.0-rc.e5f00c392.0",
+    "amplify-cli-core": "^4.0.0",
     "amplify-headless-interface": "^1.13.1",
     "graphql-transformer-core": "^8.0.0"
   }
