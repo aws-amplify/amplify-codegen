@@ -22,7 +22,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Post type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Posts\\", syncPluralName = \\"Posts\\")
+@ModelConfig(pluralName = \\"Posts\\")
 public final class Post implements Model {
   public static final QueryField ID = field(\\"Post\\", \\"id\\");
   public static final QueryField TITLE = field(\\"Post\\", \\"title\\");
@@ -196,7 +196,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Comment type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Comments\\", syncPluralName = \\"Comments\\")
+@ModelConfig(pluralName = \\"Comments\\")
 @Index(name = \\"byPost\\", fields = {\\"postID\\",\\"content\\"})
 public final class Comment implements Model {
   public static final QueryField ID = field(\\"Comment\\", \\"id\\");
@@ -393,7 +393,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Project2 type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Project2s\\", syncPluralName = \\"Project2s\\")
+@ModelConfig(pluralName = \\"Project2s\\")
 public final class Project2 implements Model {
   public static final QueryField ID = field(\\"Project2\\", \\"id\\");
   public static final QueryField NAME = field(\\"Project2\\", \\"name\\");
@@ -589,7 +589,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Team2 type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Team2s\\", syncPluralName = \\"Team2s\\")
+@ModelConfig(pluralName = \\"Team2s\\")
 public final class Team2 implements Model {
   public static final QueryField ID = field(\\"Team2\\", \\"id\\");
   public static final QueryField NAME = field(\\"Team2\\", \\"name\\");
@@ -785,7 +785,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Blog7V2 type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Blog7V2s\\", syncPluralName = \\"Blog7V2s\\")
+@ModelConfig(pluralName = \\"Blog7V2s\\")
 public final class Blog7V2 implements Model {
   public static final QueryField ID = field(\\"Blog7V2\\", \\"id\\");
   public static final QueryField NAME = field(\\"Blog7V2\\", \\"name\\");
@@ -960,7 +960,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Post7V2 type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Post7V2s\\", syncPluralName = \\"Post7V2s\\")
+@ModelConfig(pluralName = \\"Post7V2s\\")
 public final class Post7V2 implements Model {
   public static final QueryField ID = field(\\"Post7V2\\", \\"id\\");
   public static final QueryField TITLE = field(\\"Post7V2\\", \\"title\\");
@@ -1161,7 +1161,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Comment7V2 type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Comment7V2s\\", syncPluralName = \\"Comment7V2s\\")
+@ModelConfig(pluralName = \\"Comment7V2s\\")
 public final class Comment7V2 implements Model {
   public static final QueryField ID = field(\\"Comment7V2\\", \\"id\\");
   public static final QueryField CONTENT = field(\\"Comment7V2\\", \\"content\\");
@@ -1352,7 +1352,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Project type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Projects\\", syncPluralName = \\"Projects\\")
+@ModelConfig(pluralName = \\"Projects\\")
 public final class Project implements Model {
   public static final QueryField ID = field(\\"Project\\", \\"id\\");
   public static final QueryField NAME = field(\\"Project\\", \\"name\\");
@@ -1548,7 +1548,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Team type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Teams\\", syncPluralName = \\"Teams\\")
+@ModelConfig(pluralName = \\"Teams\\")
 public final class Team implements Model {
   public static final QueryField ID = field(\\"Team\\", \\"id\\");
   public static final QueryField NAME = field(\\"Team\\", \\"name\\");
@@ -1744,7 +1744,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Post type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Posts\\", syncPluralName = \\"Posts\\")
+@ModelConfig(pluralName = \\"Posts\\")
 public final class Post implements Model {
   public static final QueryField ID = field(\\"Post\\", \\"id\\");
   public static final QueryField TITLE = field(\\"Post\\", \\"title\\");
@@ -1945,7 +1945,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Tag type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Tags\\", syncPluralName = \\"Tags\\")
+@ModelConfig(pluralName = \\"Tags\\")
 public final class Tag implements Model {
   public static final QueryField ID = field(\\"Tag\\", \\"id\\");
   public static final QueryField LABEL = field(\\"Tag\\", \\"label\\");
@@ -2118,7 +2118,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Todo type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Todos\\", syncPluralName = \\"Todos\\")
+@ModelConfig(pluralName = \\"Todos\\")
 public final class Todo implements Model {
   public static final QueryField ID = field(\\"Todo\\", \\"id\\");
   public static final QueryField CONTENT = field(\\"Todo\\", \\"content\\");
@@ -2282,7 +2282,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Post2 type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Post2s\\", syncPluralName = \\"Post2s\\")
+@ModelConfig(pluralName = \\"Post2s\\")
 public final class Post2 implements Model {
   public static final QueryField ID = field(\\"Post2\\", \\"id\\");
   public static final QueryField TITLE = field(\\"Post2\\", \\"title\\");
@@ -2455,7 +2455,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Comment2 type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Comment2s\\", syncPluralName = \\"Comment2s\\")
+@ModelConfig(pluralName = \\"Comment2s\\")
 @Index(name = \\"byPost\\", fields = {\\"postID\\",\\"content\\"})
 public final class Comment2 implements Model {
   public static final QueryField ID = field(\\"Comment2\\", \\"id\\");
@@ -2657,7 +2657,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Project2 type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Project2s\\", syncPluralName = \\"Project2s\\")
+@ModelConfig(pluralName = \\"Project2s\\")
 public final class Project2 implements Model {
   public static final QueryField ID = field(\\"Project2\\", \\"id\\");
   public static final QueryField NAME = field(\\"Project2\\", \\"name\\");
@@ -2852,7 +2852,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Team2 type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Team2s\\", syncPluralName = \\"Team2s\\")
+@ModelConfig(pluralName = \\"Team2s\\")
 public final class Team2 implements Model {
   public static final QueryField ID = field(\\"Team2\\", \\"id\\");
   public static final QueryField NAME = field(\\"Team2\\", \\"name\\");
@@ -3021,7 +3021,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Post type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Posts\\", syncPluralName = \\"Posts\\")
+@ModelConfig(pluralName = \\"Posts\\")
 public final class Post implements Model {
   public static final QueryField ID = field(\\"Post\\", \\"id\\");
   public static final QueryField TITLE = field(\\"Post\\", \\"title\\");
@@ -3194,7 +3194,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Comment type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Comments\\", syncPluralName = \\"Comments\\")
+@ModelConfig(pluralName = \\"Comments\\")
 public final class Comment implements Model {
   public static final QueryField ID = field(\\"Comment\\", \\"id\\");
   public static final QueryField CONTENT = field(\\"Comment\\", \\"content\\");
@@ -3390,7 +3390,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Project type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Projects\\", syncPluralName = \\"Projects\\")
+@ModelConfig(pluralName = \\"Projects\\")
 public final class Project implements Model {
   public static final QueryField ID = field(\\"Project\\", \\"id\\");
   public static final QueryField NAME = field(\\"Project\\", \\"name\\");
@@ -3585,7 +3585,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Team type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Teams\\", syncPluralName = \\"Teams\\")
+@ModelConfig(pluralName = \\"Teams\\")
 public final class Team implements Model {
   public static final QueryField ID = field(\\"Team\\", \\"id\\");
   public static final QueryField NAME = field(\\"Team\\", \\"name\\");
@@ -3753,7 +3753,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Customer type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Customers\\", syncPluralName = \\"Customers\\")
+@ModelConfig(pluralName = \\"Customers\\")
 @Index(name = \\"byRepresentative\\", fields = {\\"accountRepresentativeID\\"})
 public final class Customer implements Model {
   public static final QueryField ID = field(\\"Customer\\", \\"id\\");
@@ -3981,7 +3981,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Customer type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Customers\\", syncPluralName = \\"Customers\\")
+@ModelConfig(pluralName = \\"Customers\\")
 @Index(name = \\"byRepresentative\\", fields = {\\"accountRepresentativeID\\"})
 public final class Customer implements Model {
   public static final QueryField ID = field(\\"Customer\\", \\"id\\");

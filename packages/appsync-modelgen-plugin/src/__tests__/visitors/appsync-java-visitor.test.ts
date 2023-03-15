@@ -237,7 +237,7 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const visitorV1 = getVisitor(schemaV1, 'authorBook', { improvePluralization: true });
-      const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook');
+      const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook', { improvePluralization: true });
       const version1Code = visitorV1.generate();
       const version2Code = visitorV2.generate();
 
@@ -264,7 +264,7 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const visitorV1 = getVisitor(schemaV1, 'authorBook', { improvePluralization: true });
-      const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook');
+      const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook', { improvePluralization: true });
       const version1Code = visitorV1.generate();
       const version2Code = visitorV2.generate();
 

@@ -853,7 +853,7 @@ export class AppSyncModelJavaVisitor<
   }
 
   protected generateModelAnnotations(model: CodeGenModel): string[] {
-    const useImprovedPluralization = this.config.improvePluralization || (this.config.transformerVersion === 2);
+    const useImprovedPluralization = this.config.improvePluralization;
     const annotations: string[] = model.directives.map(directive => {
       switch (directive.name) {
         case 'model':

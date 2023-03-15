@@ -56,8 +56,7 @@ extension Post3 {
   public static let schema = defineSchema { model in
     let post3 = Post3.keys
     
-    model.listPluralName = \\"Post3s\\"
-    model.syncPluralName = \\"Post3s\\"
+    model.pluralName = \\"Post3s\\"
     
     model.fields(
       .id(),
@@ -126,8 +125,7 @@ extension Comment3 {
   public static let schema = defineSchema { model in
     let comment3 = Comment3.keys
     
-    model.listPluralName = \\"Comment3s\\"
-    model.syncPluralName = \\"Comment3s\\"
+    model.pluralName = \\"Comment3s\\"
     
     model.attributes(
       .index(fields: [\\"postID\\", \\"content\\"], name: \\"byPost\\")
@@ -200,8 +198,7 @@ extension Post {
   public static let schema = defineSchema { model in
     let post = Post.keys
     
-    model.listPluralName = \\"Posts\\"
-    model.syncPluralName = \\"Posts\\"
+    model.pluralName = \\"Posts\\"
     
     model.fields(
       .id(),
@@ -270,8 +267,7 @@ extension Comment {
   public static let schema = defineSchema { model in
     let comment = Comment.keys
     
-    model.listPluralName = \\"Comments\\"
-    model.syncPluralName = \\"Comments\\"
+    model.pluralName = \\"Comments\\"
     
     model.attributes(
       .index(fields: [\\"postID\\", \\"content\\"], name: \\"byPost\\")
@@ -350,8 +346,7 @@ extension Project2 {
   public static let schema = defineSchema { model in
     let project2 = Project2.keys
     
-    model.listPluralName = \\"Project2s\\"
-    model.syncPluralName = \\"Project2s\\"
+    model.pluralName = \\"Project2s\\"
     
     model.fields(
       .id(),
@@ -421,8 +416,7 @@ extension Team2 {
   public static let schema = defineSchema { model in
     let team2 = Team2.keys
     
-    model.listPluralName = \\"Team2s\\"
-    model.syncPluralName = \\"Team2s\\"
+    model.pluralName = \\"Team2s\\"
     
     model.fields(
       .id(),
@@ -491,8 +485,7 @@ extension Blog7V2 {
   public static let schema = defineSchema { model in
     let blog7V2 = Blog7V2.keys
     
-    model.listPluralName = \\"Blog7V2s\\"
-    model.syncPluralName = \\"Blog7V2s\\"
+    model.pluralName = \\"Blog7V2s\\"
     
     model.fields(
       .id(),
@@ -567,8 +560,7 @@ extension Post7V2 {
   public static let schema = defineSchema { model in
     let post7V2 = Post7V2.keys
     
-    model.listPluralName = \\"Post7V2s\\"
-    model.syncPluralName = \\"Post7V2s\\"
+    model.pluralName = \\"Post7V2s\\"
     
     model.fields(
       .id(),
@@ -638,8 +630,7 @@ extension Comment7V2 {
   public static let schema = defineSchema { model in
     let comment7V2 = Comment7V2.keys
     
-    model.listPluralName = \\"Comment7V2s\\"
-    model.syncPluralName = \\"Comment7V2s\\"
+    model.pluralName = \\"Comment7V2s\\"
     
     model.fields(
       .id(),
@@ -708,8 +699,7 @@ extension Blog8V2 {
   public static let schema = defineSchema { model in
     let blog8V2 = Blog8V2.keys
     
-    model.listPluralName = \\"Blog8V2s\\"
-    model.syncPluralName = \\"Blog8V2s\\"
+    model.pluralName = \\"Blog8V2s\\"
     
     model.fields(
       .id(),
@@ -784,8 +774,7 @@ extension Post8V2 {
   public static let schema = defineSchema { model in
     let post8V2 = Post8V2.keys
     
-    model.listPluralName = \\"Post8V2s\\"
-    model.syncPluralName = \\"Post8V2s\\"
+    model.pluralName = \\"Post8V2s\\"
     
     model.fields(
       .id(),
@@ -855,8 +844,7 @@ extension Comment8V2 {
   public static let schema = defineSchema { model in
     let comment8V2 = Comment8V2.keys
     
-    model.listPluralName = \\"Comment8V2s\\"
-    model.syncPluralName = \\"Comment8V2s\\"
+    model.pluralName = \\"Comment8V2s\\"
     
     model.fields(
       .id(),
@@ -931,8 +919,7 @@ extension Project {
   public static let schema = defineSchema { model in
     let project = Project.keys
     
-    model.listPluralName = \\"Projects\\"
-    model.syncPluralName = \\"Projects\\"
+    model.pluralName = \\"Projects\\"
     
     model.fields(
       .id(),
@@ -1002,8 +989,7 @@ extension Team {
   public static let schema = defineSchema { model in
     let team = Team.keys
     
-    model.listPluralName = \\"Teams\\"
-    model.syncPluralName = \\"Teams\\"
+    model.pluralName = \\"Teams\\"
     
     model.fields(
       .id(),
@@ -1078,8 +1064,7 @@ extension Post {
   public static let schema = defineSchema { model in
     let post = Post.keys
     
-    model.listPluralName = \\"Posts\\"
-    model.syncPluralName = \\"Posts\\"
+    model.pluralName = \\"Posts\\"
     
     model.fields(
       .id(),
@@ -1149,8 +1134,7 @@ extension Tag {
   public static let schema = defineSchema { model in
     let tag = Tag.keys
     
-    model.listPluralName = \\"Tags\\"
-    model.syncPluralName = \\"Tags\\"
+    model.pluralName = \\"Tags\\"
     
     model.fields(
       .id(),
@@ -1213,8 +1197,7 @@ extension Todo {
   public static let schema = defineSchema { model in
     let todo = Todo.keys
     
-    model.listPluralName = \\"Todos\\"
-    model.syncPluralName = \\"Todos\\"
+    model.pluralName = \\"Todos\\"
     
     model.fields(
       .id(),
@@ -1282,8 +1265,7 @@ extension Post2 {
   public static let schema = defineSchema { model in
     let post2 = Post2.keys
     
-    model.listPluralName = \\"Post2s\\"
-    model.syncPluralName = \\"Post2s\\"
+    model.pluralName = \\"Post2s\\"
     
     model.fields(
       .id(),
@@ -1352,8 +1334,7 @@ extension Comment2 {
   public static let schema = defineSchema { model in
     let comment2 = Comment2.keys
     
-    model.listPluralName = \\"Comment2s\\"
-    model.syncPluralName = \\"Comment2s\\"
+    model.pluralName = \\"Comment2s\\"
     
     model.attributes(
       .index(fields: [\\"postID\\", \\"content\\"], name: \\"byPost\\")
@@ -1432,8 +1413,7 @@ extension Project2 {
   public static let schema = defineSchema { model in
     let project2 = Project2.keys
     
-    model.listPluralName = \\"Project2s\\"
-    model.syncPluralName = \\"Project2s\\"
+    model.pluralName = \\"Project2s\\"
     
     model.fields(
       .id(),
@@ -1497,8 +1477,7 @@ extension Team2 {
   public static let schema = defineSchema { model in
     let team2 = Team2.keys
     
-    model.listPluralName = \\"Team2s\\"
-    model.syncPluralName = \\"Team2s\\"
+    model.pluralName = \\"Team2s\\"
     
     model.fields(
       .id(),
@@ -1566,8 +1545,7 @@ extension Post {
   public static let schema = defineSchema { model in
     let post = Post.keys
     
-    model.listPluralName = \\"Posts\\"
-    model.syncPluralName = \\"Posts\\"
+    model.pluralName = \\"Posts\\"
     
     model.fields(
       .id(),
@@ -1636,8 +1614,7 @@ extension Comment {
   public static let schema = defineSchema { model in
     let comment = Comment.keys
     
-    model.listPluralName = \\"Comments\\"
-    model.syncPluralName = \\"Comments\\"
+    model.pluralName = \\"Comments\\"
     
     model.fields(
       .id(),
@@ -1712,8 +1689,7 @@ extension Project {
   public static let schema = defineSchema { model in
     let project = Project.keys
     
-    model.listPluralName = \\"Projects\\"
-    model.syncPluralName = \\"Projects\\"
+    model.pluralName = \\"Projects\\"
     
     model.fields(
       .id(),
@@ -1777,8 +1753,7 @@ extension Team {
   public static let schema = defineSchema { model in
     let team = Team.keys
     
-    model.listPluralName = \\"Teams\\"
-    model.syncPluralName = \\"Teams\\"
+    model.pluralName = \\"Teams\\"
     
     model.fields(
       .id(),
@@ -1852,8 +1827,7 @@ extension Customer {
   public static let schema = defineSchema { model in
     let customer = Customer.keys
     
-    model.listPluralName = \\"Customers\\"
-    model.syncPluralName = \\"Customers\\"
+    model.pluralName = \\"Customers\\"
     
     model.attributes(
       .index(fields: [\\"accountRepresentativeID\\"], name: \\"byRepresentative\\")
