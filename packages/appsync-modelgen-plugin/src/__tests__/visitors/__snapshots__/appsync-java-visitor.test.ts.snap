@@ -23,7 +23,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Post type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Posts\\", syncPluralName = \\"Posts\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Posts\\", type = Model.Type.USER, version = 1)
 @Index(name = \\"undefined\\", fields = {\\"id\\",\\"title\\"})
 public final class Post implements Model {
   public static final QueryField ID = field(\\"Post\\", \\"id\\");
@@ -205,7 +205,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Comment type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Comments\\", syncPluralName = \\"Comments\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Comments\\", type = Model.Type.USER, version = 1)
 @Index(name = \\"undefined\\", fields = {\\"id\\",\\"content\\"})
 public final class Comment implements Model {
   public static final QueryField ID = field(\\"Comment\\", \\"id\\");
@@ -435,7 +435,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Project type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Projects\\", syncPluralName = \\"Projects\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Projects\\", type = Model.Type.USER, version = 1)
 @Index(name = \\"undefined\\", fields = {\\"projectId\\",\\"name\\"})
 public final class Project implements Model {
   public static final QueryField PROJECT_ID = field(\\"Project\\", \\"projectId\\");
@@ -670,7 +670,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Team type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Teams\\", syncPluralName = \\"Teams\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Teams\\", type = Model.Type.USER, version = 1)
 @Index(name = \\"undefined\\", fields = {\\"teamId\\",\\"name\\"})
 public final class Team implements Model {
   public static final QueryField TEAM_ID = field(\\"Team\\", \\"teamId\\");
@@ -874,7 +874,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the BlogOwnerWithCustomPKS type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"BlogOwnerWithCustomPKS\\", syncPluralName = \\"BlogOwnerWithCustomPKS\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"BlogOwnerWithCustomPKS\\", type = Model.Type.USER, version = 1)
 @Index(name = \\"undefined\\", fields = {\\"name\\",\\"wea\\"})
 public final class BlogOwnerWithCustomPKS implements Model {
   public static final QueryField ID = field(\\"BlogOwnerWithCustomPKS\\", \\"id\\");
@@ -1088,7 +1088,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Comment type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Comments\\", syncPluralName = \\"Comments\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Comments\\", type = Model.Type.USER, version = 1)
 @Index(name = \\"undefined\\", fields = {\\"title\\",\\"content\\",\\"likes\\"})
 public final class Comment implements Model {
   public static final QueryField POST = field(\\"Comment\\", \\"postCommentsPostId\\");
@@ -1349,7 +1349,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Post type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Posts\\", syncPluralName = \\"Posts\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Posts\\", type = Model.Type.USER, version = 1)
 @Index(name = \\"undefined\\", fields = {\\"postId\\"})
 public final class Post implements Model {
   public static final QueryField POST_ID = field(\\"Post\\", \\"postId\\");
@@ -1634,7 +1634,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Blog type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Blogs\\", syncPluralName = \\"Blogs\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Blogs\\", type = Model.Type.USER, version = 1)
 public final class Blog implements Model {
   public static final QueryField ID = field(\\"Blog\\", \\"id\\");
   public static final QueryField NAME = field(\\"Blog\\", \\"name\\");
@@ -1845,7 +1845,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Post type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Posts\\", syncPluralName = \\"Posts\\")
+@ModelConfig(pluralName = \\"Posts\\")
 public final class Post implements Model {
   public static final QueryField ID = field(\\"Post\\", \\"id\\");
   public static final QueryField TITLE = field(\\"Post\\", \\"title\\");
@@ -2024,7 +2024,7 @@ public final class Post implements Model {
 
 /** This is an auto generated class representing the Tag type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"Tags\\", syncPluralName = \\"Tags\\")
+@ModelConfig(pluralName = \\"Tags\\")
 public final class Tag implements Model {
   public static final QueryField ID = field(\\"Tag\\", \\"id\\");
   public static final QueryField LABEL = field(\\"Tag\\", \\"label\\");
@@ -2176,7 +2176,7 @@ public final class Tag implements Model {
 
 /** This is an auto generated class representing the PostTags type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(listPluralName = \\"PostTags\\", syncPluralName = \\"PostTags\\")
+@ModelConfig(pluralName = \\"PostTags\\")
 @Index(name = \\"byPost\\", fields = {\\"postID\\"})
 @Index(name = \\"byTag\\", fields = {\\"tagID\\"})
 public final class PostTags implements Model {

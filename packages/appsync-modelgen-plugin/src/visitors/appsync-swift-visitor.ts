@@ -391,7 +391,7 @@ export class AppSyncSwiftVisitor<
   }
 
   generateModelSchema(name: string, model: CodeGenModel, extensionDeclaration: SwiftDeclarationBlock): void {
-    const useImprovedPluralization = this.config.improvePluralization || (this.config.transformerVersion === 2);
+    const useImprovedPluralization = this.config.improvePluralization;
     const keysName = lowerCaseFirst(model.name);
     const fields = model.fields.map(field => this.generateFieldSchema(field, keysName));
     const authRules = this.generateAuthRules(model);
