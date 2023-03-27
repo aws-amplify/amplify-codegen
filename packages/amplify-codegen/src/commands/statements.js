@@ -71,6 +71,9 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
 
 async function writeGeneratedStatements(language, generatedStatements, outputPath, separateFiles) {
   const fileExtension = FILE_EXTENSION_MAP[language];
+  if(!generatedStatements) {
+    return;
+  }
   if (separateFiles) {
     ['queries', 'mutations', 'subscriptions', 'fragments'].forEach(op => {
       const ops = generatedStatements[op];
