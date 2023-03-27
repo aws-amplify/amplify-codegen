@@ -4,6 +4,7 @@ exports[`end 2 end tests should generate statements 1`] = `
 Object {
   "fragments": "",
   "mutations": "# this is an auto generated file. This will be overwritten
+
 mutation CreateReview($episode: Episode, $review: ReviewInput!) {
   createReview(episode: $episode, review: $review) {
     episode
@@ -13,6 +14,7 @@ mutation CreateReview($episode: Episode, $review: ReviewInput!) {
 }
 ",
   "queries": "# this is an auto generated file. This will be overwritten
+
 query Hero($episode: Episode) {
   hero(episode: $episode) {
     id
@@ -24,6 +26,7 @@ query Hero($episode: Episode) {
         id
         name
         appearsIn
+
         ... on Human {
           homePlanet
           height
@@ -37,6 +40,7 @@ query Hero($episode: Episode) {
         totalCount
       }
       appearsIn
+
       ... on Human {
         homePlanet
         height
@@ -61,6 +65,7 @@ query Hero($episode: Episode) {
         id
         name
         appearsIn
+
         ... on Human {
           homePlanet
           height
@@ -77,6 +82,7 @@ query Hero($episode: Episode) {
       }
     }
     appearsIn
+
     ... on Human {
       homePlanet
       height
@@ -93,6 +99,7 @@ query Hero($episode: Episode) {
     }
   }
 }
+
 query Reviews($episode: Episode!) {
   reviews(episode: $episode) {
     episode
@@ -100,6 +107,7 @@ query Reviews($episode: Episode!) {
     commentary
   }
 }
+
 query Search($text: String) {
   search(text: $text) {
     ... on Human {
@@ -115,6 +123,7 @@ query Search($text: String) {
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -128,6 +137,7 @@ query Search($text: String) {
           totalCount
         }
         appearsIn
+
         ... on Human {
           homePlanet
           height
@@ -152,6 +162,7 @@ query Search($text: String) {
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -185,6 +196,7 @@ query Search($text: String) {
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -198,6 +210,7 @@ query Search($text: String) {
           totalCount
         }
         appearsIn
+
         ... on Human {
           homePlanet
           height
@@ -222,6 +235,7 @@ query Search($text: String) {
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -248,6 +262,7 @@ query Search($text: String) {
     }
   }
 }
+
 query Character($id: ID!) {
   character(id: $id) {
     id
@@ -259,6 +274,7 @@ query Character($id: ID!) {
         id
         name
         appearsIn
+
         ... on Human {
           homePlanet
           height
@@ -272,6 +288,7 @@ query Character($id: ID!) {
         totalCount
       }
       appearsIn
+
       ... on Human {
         homePlanet
         height
@@ -296,6 +313,7 @@ query Character($id: ID!) {
         id
         name
         appearsIn
+
         ... on Human {
           homePlanet
           height
@@ -312,6 +330,7 @@ query Character($id: ID!) {
       }
     }
     appearsIn
+
     ... on Human {
       homePlanet
       height
@@ -328,6 +347,7 @@ query Character($id: ID!) {
     }
   }
 }
+
 query Droid($id: ID!) {
   droid(id: $id) {
     id
@@ -339,6 +359,7 @@ query Droid($id: ID!) {
         id
         name
         appearsIn
+
         ... on Human {
           homePlanet
           height
@@ -352,6 +373,7 @@ query Droid($id: ID!) {
         totalCount
       }
       appearsIn
+
       ... on Human {
         homePlanet
         height
@@ -376,6 +398,7 @@ query Droid($id: ID!) {
         id
         name
         appearsIn
+
         ... on Human {
           homePlanet
           height
@@ -395,6 +418,7 @@ query Droid($id: ID!) {
     primaryFunction
   }
 }
+
 query Human($id: ID!) {
   human(id: $id) {
     id
@@ -409,6 +433,7 @@ query Human($id: ID!) {
         id
         name
         appearsIn
+
         ... on Human {
           homePlanet
           height
@@ -422,6 +447,7 @@ query Human($id: ID!) {
         totalCount
       }
       appearsIn
+
       ... on Human {
         homePlanet
         height
@@ -446,6 +472,7 @@ query Human($id: ID!) {
         id
         name
         appearsIn
+
         ... on Human {
           homePlanet
           height
@@ -470,6 +497,7 @@ query Human($id: ID!) {
     }
   }
 }
+
 query Starship($id: ID!) {
   starship(id: $id) {
     id
@@ -480,6 +508,7 @@ query Starship($id: ID!) {
 }
 ",
   "subscriptions": "# this is an auto generated file. This will be overwritten
+
 subscription ReviewAdded($episode: Episode) {
   reviewAdded(episode: $episode) {
     episode
@@ -522,6 +551,7 @@ export const hero = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -535,6 +565,7 @@ export const hero = /* GraphQL */ \`
           totalCount
         }
         appearsIn
+
         ... on Human {
           homePlanet
           height
@@ -559,6 +590,7 @@ export const hero = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -575,6 +607,7 @@ export const hero = /* GraphQL */ \`
         }
       }
       appearsIn
+
       ... on Human {
         homePlanet
         height
@@ -617,6 +650,7 @@ export const search = /* GraphQL */ \`
             id
             name
             appearsIn
+
             ... on Human {
               homePlanet
               height
@@ -630,6 +664,7 @@ export const search = /* GraphQL */ \`
             totalCount
           }
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -654,6 +689,7 @@ export const search = /* GraphQL */ \`
             id
             name
             appearsIn
+
             ... on Human {
               homePlanet
               height
@@ -687,6 +723,7 @@ export const search = /* GraphQL */ \`
             id
             name
             appearsIn
+
             ... on Human {
               homePlanet
               height
@@ -700,6 +737,7 @@ export const search = /* GraphQL */ \`
             totalCount
           }
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -724,6 +762,7 @@ export const search = /* GraphQL */ \`
             id
             name
             appearsIn
+
             ... on Human {
               homePlanet
               height
@@ -763,6 +802,7 @@ export const character = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -776,6 +816,7 @@ export const character = /* GraphQL */ \`
           totalCount
         }
         appearsIn
+
         ... on Human {
           homePlanet
           height
@@ -800,6 +841,7 @@ export const character = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -816,6 +858,7 @@ export const character = /* GraphQL */ \`
         }
       }
       appearsIn
+
       ... on Human {
         homePlanet
         height
@@ -845,6 +888,7 @@ export const droid = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -858,6 +902,7 @@ export const droid = /* GraphQL */ \`
           totalCount
         }
         appearsIn
+
         ... on Human {
           homePlanet
           height
@@ -882,6 +927,7 @@ export const droid = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -917,6 +963,7 @@ export const human = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -930,6 +977,7 @@ export const human = /* GraphQL */ \`
           totalCount
         }
         appearsIn
+
         ... on Human {
           homePlanet
           height
@@ -954,6 +1002,7 @@ export const human = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -1039,6 +1088,7 @@ export const hero = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -1052,6 +1102,7 @@ export const hero = /* GraphQL */ \`
           totalCount
         }
         appearsIn
+
         ... on Human {
           homePlanet
           height
@@ -1076,6 +1127,7 @@ export const hero = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -1092,6 +1144,7 @@ export const hero = /* GraphQL */ \`
         }
       }
       appearsIn
+
       ... on Human {
         homePlanet
         height
@@ -1134,6 +1187,7 @@ export const search = /* GraphQL */ \`
             id
             name
             appearsIn
+
             ... on Human {
               homePlanet
               height
@@ -1147,6 +1201,7 @@ export const search = /* GraphQL */ \`
             totalCount
           }
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -1171,6 +1226,7 @@ export const search = /* GraphQL */ \`
             id
             name
             appearsIn
+
             ... on Human {
               homePlanet
               height
@@ -1204,6 +1260,7 @@ export const search = /* GraphQL */ \`
             id
             name
             appearsIn
+
             ... on Human {
               homePlanet
               height
@@ -1217,6 +1274,7 @@ export const search = /* GraphQL */ \`
             totalCount
           }
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -1241,6 +1299,7 @@ export const search = /* GraphQL */ \`
             id
             name
             appearsIn
+
             ... on Human {
               homePlanet
               height
@@ -1280,6 +1339,7 @@ export const character = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -1293,6 +1353,7 @@ export const character = /* GraphQL */ \`
           totalCount
         }
         appearsIn
+
         ... on Human {
           homePlanet
           height
@@ -1317,6 +1378,7 @@ export const character = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -1333,6 +1395,7 @@ export const character = /* GraphQL */ \`
         }
       }
       appearsIn
+
       ... on Human {
         homePlanet
         height
@@ -1362,6 +1425,7 @@ export const droid = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -1375,6 +1439,7 @@ export const droid = /* GraphQL */ \`
           totalCount
         }
         appearsIn
+
         ... on Human {
           homePlanet
           height
@@ -1399,6 +1464,7 @@ export const droid = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -1434,6 +1500,7 @@ export const human = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -1447,6 +1514,7 @@ export const human = /* GraphQL */ \`
           totalCount
         }
         appearsIn
+
         ... on Human {
           homePlanet
           height
@@ -1471,6 +1539,7 @@ export const human = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -1555,6 +1624,7 @@ export const hero = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -1568,6 +1638,7 @@ export const hero = /* GraphQL */ \`
           totalCount
         }
         appearsIn
+
         ... on Human {
           homePlanet
           height
@@ -1592,6 +1663,7 @@ export const hero = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -1608,6 +1680,7 @@ export const hero = /* GraphQL */ \`
         }
       }
       appearsIn
+
       ... on Human {
         homePlanet
         height
@@ -1650,6 +1723,7 @@ export const search = /* GraphQL */ \`
             id
             name
             appearsIn
+
             ... on Human {
               homePlanet
               height
@@ -1663,6 +1737,7 @@ export const search = /* GraphQL */ \`
             totalCount
           }
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -1687,6 +1762,7 @@ export const search = /* GraphQL */ \`
             id
             name
             appearsIn
+
             ... on Human {
               homePlanet
               height
@@ -1720,6 +1796,7 @@ export const search = /* GraphQL */ \`
             id
             name
             appearsIn
+
             ... on Human {
               homePlanet
               height
@@ -1733,6 +1810,7 @@ export const search = /* GraphQL */ \`
             totalCount
           }
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -1757,6 +1835,7 @@ export const search = /* GraphQL */ \`
             id
             name
             appearsIn
+
             ... on Human {
               homePlanet
               height
@@ -1796,6 +1875,7 @@ export const character = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -1809,6 +1889,7 @@ export const character = /* GraphQL */ \`
           totalCount
         }
         appearsIn
+
         ... on Human {
           homePlanet
           height
@@ -1833,6 +1914,7 @@ export const character = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -1849,6 +1931,7 @@ export const character = /* GraphQL */ \`
         }
       }
       appearsIn
+
       ... on Human {
         homePlanet
         height
@@ -1878,6 +1961,7 @@ export const droid = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -1891,6 +1975,7 @@ export const droid = /* GraphQL */ \`
           totalCount
         }
         appearsIn
+
         ... on Human {
           homePlanet
           height
@@ -1915,6 +2000,7 @@ export const droid = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -1950,6 +2036,7 @@ export const human = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -1963,6 +2050,7 @@ export const human = /* GraphQL */ \`
           totalCount
         }
         appearsIn
+
         ... on Human {
           homePlanet
           height
@@ -1987,6 +2075,7 @@ export const human = /* GraphQL */ \`
           id
           name
           appearsIn
+
           ... on Human {
             homePlanet
             height
@@ -2043,6 +2132,7 @@ exports[`end 2 end tests to test if the case style is retained for type names sh
 Object {
   "fragments": "",
   "mutations": "# this is an auto generated file. This will be overwritten
+
 mutation CreateUPPERCASE(
   $input: CreateUPPERCASEInput!
   $condition: ModelUPPERCASEConditionInput
@@ -2054,6 +2144,7 @@ mutation CreateUPPERCASE(
     updatedAt
   }
 }
+
 mutation UpdateUPPERCASE(
   $input: UpdateUPPERCASEInput!
   $condition: ModelUPPERCASEConditionInput
@@ -2065,6 +2156,7 @@ mutation UpdateUPPERCASE(
     updatedAt
   }
 }
+
 mutation DeleteUPPERCASE(
   $input: DeleteUPPERCASEInput!
   $condition: ModelUPPERCASEConditionInput
@@ -2076,6 +2168,7 @@ mutation DeleteUPPERCASE(
     updatedAt
   }
 }
+
 mutation CreateLowercase(
   $input: CreateLowercaseInput!
   $condition: ModellowercaseConditionInput
@@ -2087,6 +2180,7 @@ mutation CreateLowercase(
     updatedAt
   }
 }
+
 mutation UpdateLowercase(
   $input: UpdateLowercaseInput!
   $condition: ModellowercaseConditionInput
@@ -2098,6 +2192,7 @@ mutation UpdateLowercase(
     updatedAt
   }
 }
+
 mutation DeleteLowercase(
   $input: DeleteLowercaseInput!
   $condition: ModellowercaseConditionInput
@@ -2109,6 +2204,7 @@ mutation DeleteLowercase(
     updatedAt
   }
 }
+
 mutation CreateCamelCase(
   $input: CreateCamelCaseInput!
   $condition: ModelcamelCaseConditionInput
@@ -2120,6 +2216,7 @@ mutation CreateCamelCase(
     updatedAt
   }
 }
+
 mutation UpdateCamelCase(
   $input: UpdateCamelCaseInput!
   $condition: ModelcamelCaseConditionInput
@@ -2131,6 +2228,7 @@ mutation UpdateCamelCase(
     updatedAt
   }
 }
+
 mutation DeleteCamelCase(
   $input: DeleteCamelCaseInput!
   $condition: ModelcamelCaseConditionInput
@@ -2142,6 +2240,7 @@ mutation DeleteCamelCase(
     updatedAt
   }
 }
+
 mutation CreatePascalCase(
   $input: CreatePascalCaseInput!
   $condition: ModelPascalCaseConditionInput
@@ -2153,6 +2252,7 @@ mutation CreatePascalCase(
     updatedAt
   }
 }
+
 mutation UpdatePascalCase(
   $input: UpdatePascalCaseInput!
   $condition: ModelPascalCaseConditionInput
@@ -2164,6 +2264,7 @@ mutation UpdatePascalCase(
     updatedAt
   }
 }
+
 mutation DeletePascalCase(
   $input: DeletePascalCaseInput!
   $condition: ModelPascalCaseConditionInput
@@ -2175,6 +2276,7 @@ mutation DeletePascalCase(
     updatedAt
   }
 }
+
 mutation CreateSnake_case(
   $input: CreateSnake_caseInput!
   $condition: Modelsnake_caseConditionInput
@@ -2186,6 +2288,7 @@ mutation CreateSnake_case(
     updatedAt
   }
 }
+
 mutation UpdateSnake_case(
   $input: UpdateSnake_caseInput!
   $condition: Modelsnake_caseConditionInput
@@ -2197,6 +2300,7 @@ mutation UpdateSnake_case(
     updatedAt
   }
 }
+
 mutation DeleteSnake_case(
   $input: DeleteSnake_caseInput!
   $condition: Modelsnake_caseConditionInput
@@ -2208,6 +2312,7 @@ mutation DeleteSnake_case(
     updatedAt
   }
 }
+
 mutation CreateUPPER_SNAKE_CASE(
   $input: CreateUPPER_SNAKE_CASEInput!
   $condition: ModelUPPER_SNAKE_CASEConditionInput
@@ -2219,6 +2324,7 @@ mutation CreateUPPER_SNAKE_CASE(
     updatedAt
   }
 }
+
 mutation UpdateUPPER_SNAKE_CASE(
   $input: UpdateUPPER_SNAKE_CASEInput!
   $condition: ModelUPPER_SNAKE_CASEConditionInput
@@ -2230,6 +2336,7 @@ mutation UpdateUPPER_SNAKE_CASE(
     updatedAt
   }
 }
+
 mutation DeleteUPPER_SNAKE_CASE(
   $input: DeleteUPPER_SNAKE_CASEInput!
   $condition: ModelUPPER_SNAKE_CASEConditionInput
@@ -2243,6 +2350,7 @@ mutation DeleteUPPER_SNAKE_CASE(
 }
 ",
   "queries": "# this is an auto generated file. This will be overwritten
+
 query GetUPPERCASE($id: ID!) {
   getUPPERCASE(id: $id) {
     id
@@ -2251,6 +2359,7 @@ query GetUPPERCASE($id: ID!) {
     updatedAt
   }
 }
+
 query ListUPPERCASEs(
   $filter: ModelUPPERCASEFilterInput
   $limit: Int
@@ -2266,6 +2375,7 @@ query ListUPPERCASEs(
     nextToken
   }
 }
+
 query GetLowercase($id: ID!) {
   getLowercase(id: $id) {
     id
@@ -2274,6 +2384,7 @@ query GetLowercase($id: ID!) {
     updatedAt
   }
 }
+
 query ListLowercases(
   $filter: ModellowercaseFilterInput
   $limit: Int
@@ -2289,6 +2400,7 @@ query ListLowercases(
     nextToken
   }
 }
+
 query GetCamelCase($id: ID!) {
   getCamelCase(id: $id) {
     id
@@ -2297,6 +2409,7 @@ query GetCamelCase($id: ID!) {
     updatedAt
   }
 }
+
 query ListCamelCases(
   $filter: ModelcamelCaseFilterInput
   $limit: Int
@@ -2312,6 +2425,7 @@ query ListCamelCases(
     nextToken
   }
 }
+
 query GetPascalCase($id: ID!) {
   getPascalCase(id: $id) {
     id
@@ -2320,6 +2434,7 @@ query GetPascalCase($id: ID!) {
     updatedAt
   }
 }
+
 query ListPascalCases(
   $filter: ModelPascalCaseFilterInput
   $limit: Int
@@ -2335,6 +2450,7 @@ query ListPascalCases(
     nextToken
   }
 }
+
 query GetSnake_case($id: ID!) {
   getSnake_case(id: $id) {
     id
@@ -2343,6 +2459,7 @@ query GetSnake_case($id: ID!) {
     updatedAt
   }
 }
+
 query ListSnake_cases(
   $filter: Modelsnake_caseFilterInput
   $limit: Int
@@ -2358,6 +2475,7 @@ query ListSnake_cases(
     nextToken
   }
 }
+
 query GetUPPER_SNAKE_CASE($id: ID!) {
   getUPPER_SNAKE_CASE(id: $id) {
     id
@@ -2366,6 +2484,7 @@ query GetUPPER_SNAKE_CASE($id: ID!) {
     updatedAt
   }
 }
+
 query ListUPPER_SNAKE_CASEs(
   $filter: ModelUPPER_SNAKE_CASEFilterInput
   $limit: Int
@@ -2381,6 +2500,7 @@ query ListUPPER_SNAKE_CASEs(
     nextToken
   }
 }
+
 query QueryByOwner(
   $owner: String
   $sortDirection: ModelSortDirection
@@ -2406,6 +2526,7 @@ query QueryByOwner(
 }
 ",
   "subscriptions": "# this is an auto generated file. This will be overwritten
+
 subscription OnCreateUPPERCASE {
   onCreateUPPERCASE {
     id
@@ -2414,6 +2535,7 @@ subscription OnCreateUPPERCASE {
     updatedAt
   }
 }
+
 subscription OnUpdateUPPERCASE {
   onUpdateUPPERCASE {
     id
@@ -2422,6 +2544,7 @@ subscription OnUpdateUPPERCASE {
     updatedAt
   }
 }
+
 subscription OnDeleteUPPERCASE {
   onDeleteUPPERCASE {
     id
@@ -2430,6 +2553,7 @@ subscription OnDeleteUPPERCASE {
     updatedAt
   }
 }
+
 subscription OnCreateLowercase {
   onCreateLowercase {
     id
@@ -2438,6 +2562,7 @@ subscription OnCreateLowercase {
     updatedAt
   }
 }
+
 subscription OnUpdateLowercase {
   onUpdateLowercase {
     id
@@ -2446,6 +2571,7 @@ subscription OnUpdateLowercase {
     updatedAt
   }
 }
+
 subscription OnDeleteLowercase {
   onDeleteLowercase {
     id
@@ -2454,6 +2580,7 @@ subscription OnDeleteLowercase {
     updatedAt
   }
 }
+
 subscription OnCreateCamelCase {
   onCreateCamelCase {
     id
@@ -2462,6 +2589,7 @@ subscription OnCreateCamelCase {
     updatedAt
   }
 }
+
 subscription OnUpdateCamelCase {
   onUpdateCamelCase {
     id
@@ -2470,6 +2598,7 @@ subscription OnUpdateCamelCase {
     updatedAt
   }
 }
+
 subscription OnDeleteCamelCase {
   onDeleteCamelCase {
     id
@@ -2478,6 +2607,7 @@ subscription OnDeleteCamelCase {
     updatedAt
   }
 }
+
 subscription OnCreatePascalCase {
   onCreatePascalCase {
     id
@@ -2486,6 +2616,7 @@ subscription OnCreatePascalCase {
     updatedAt
   }
 }
+
 subscription OnUpdatePascalCase {
   onUpdatePascalCase {
     id
@@ -2494,6 +2625,7 @@ subscription OnUpdatePascalCase {
     updatedAt
   }
 }
+
 subscription OnDeletePascalCase {
   onDeletePascalCase {
     id
@@ -2502,6 +2634,7 @@ subscription OnDeletePascalCase {
     updatedAt
   }
 }
+
 subscription OnCreateSnake_case {
   onCreateSnake_case {
     id
@@ -2510,6 +2643,7 @@ subscription OnCreateSnake_case {
     updatedAt
   }
 }
+
 subscription OnUpdateSnake_case {
   onUpdateSnake_case {
     id
@@ -2518,6 +2652,7 @@ subscription OnUpdateSnake_case {
     updatedAt
   }
 }
+
 subscription OnDeleteSnake_case {
   onDeleteSnake_case {
     id
@@ -2526,6 +2661,7 @@ subscription OnDeleteSnake_case {
     updatedAt
   }
 }
+
 subscription OnCreateUPPER_SNAKE_CASE {
   onCreateUPPER_SNAKE_CASE {
     id
@@ -2534,6 +2670,7 @@ subscription OnCreateUPPER_SNAKE_CASE {
     updatedAt
   }
 }
+
 subscription OnUpdateUPPER_SNAKE_CASE {
   onUpdateUPPER_SNAKE_CASE {
     id
@@ -2542,6 +2679,7 @@ subscription OnUpdateUPPER_SNAKE_CASE {
     updatedAt
   }
 }
+
 subscription OnDeleteUPPER_SNAKE_CASE {
   onDeleteUPPER_SNAKE_CASE {
     id
