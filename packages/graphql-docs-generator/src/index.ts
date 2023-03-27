@@ -6,6 +6,8 @@ const DEFAULT_MAX_DEPTH = 3;
 
 import generateAllOps, { GQLTemplateOp, GQLAllOperations, GQLTemplateFragment, lowerCaseFirstLetter } from './generator';
 import { loadSchema } from './generator/utils/loading';
+export { loadSchema } from './generator/utils/loading';
+
 const TEMPLATE_DIR = path.resolve(path.join(__dirname, '../templates'));
 const FILE_EXTENSION_MAP = {
   javascript: 'js',
@@ -16,12 +18,10 @@ const FILE_EXTENSION_MAP = {
 };
 
 export function generate(
-  schemaPath: string,
-  outputPath: string,
-  options: { separateFiles: boolean; language: string; maxDepth: number; typenameIntrospection: boolean },
-): void {
+  schema: string,
+  options: { language: string; maxDepth: number; isSDLSchema: boolean; typenameIntrospection: boolean },
+): GeneratedOperations {
   const language = options.language || 'graphql';
-  const schemaData = loadSchema(schemaPath);
   if (!Object.keys(FILE_EXTENSION_MAP).includes(language)) {
     throw new Error(`Language ${language} not supported`);
   }
@@ -29,34 +29,43 @@ export function generate(
   const maxDepth = options.maxDepth || DEFAULT_MAX_DEPTH;
   const useExternalFragmentForS3Object = options.language === 'graphql';
   const { typenameIntrospection = true } = options;
-  const gqlOperations: GQLAllOperations = generateAllOps(schemaData, maxDepth, {
+  const extendedSchema = loadSchema(schema, options.isSDLSchema);
+
+  const gqlOperations: GQLAllOperations = generateAllOps(extendedSchema, maxDepth, {
     useExternalFragmentForS3Object,
     typenameIntrospection,
   });
   registerPartials();
   registerHelpers();
+  
+  const allOperations = {
+    queries: '',
+    mutations: '',
+    subscriptions: '',
+    fragments: ''
+  };
 
-  const fileExtension = FILE_EXTENSION_MAP[language];
-  if (options.separateFiles) {
-    ['queries', 'mutations', 'subscriptions'].forEach(op => {
-      const ops = gqlOperations[op];
-      if (ops.length) {
-        const gql = render({ operations: gqlOperations[op], fragments: [] }, language);
-        fs.writeFileSync(path.resolve(path.join(outputPath, `${op}.${fileExtension}`)), gql);
-      }
-    });
-
-    if (gqlOperations.fragments.length) {
-      const gql = render({ operations: [], fragments: gqlOperations.fragments }, language);
-      fs.writeFileSync(path.resolve(path.join(outputPath, `fragments.${fileExtension}`)), gql);
-    }
-  } else {
-    const ops = [...gqlOperations.queries, ...gqlOperations.mutations, ...gqlOperations.subscriptions];
+  ['queries', 'mutations', 'subscriptions'].forEach(op => {
+    const ops = gqlOperations[op];
     if (ops.length) {
-      const gql = render({ operations: ops, fragments: gqlOperations.fragments }, language);
-      fs.writeFileSync(path.resolve(outputPath), gql);
+      const gql = render({ operations: gqlOperations[op], fragments: [] }, language);
+      allOperations[op] = gql;
     }
+  });
+
+  if (gqlOperations.fragments.length) {
+    const gql = render({ operations: [], fragments: gqlOperations.fragments }, language);
+    allOperations['fragments'] = gql;
   }
+
+  return allOperations;
+}
+
+type GeneratedOperations = {
+  queries: string;
+  mutations: string;
+  subscriptions: string;
+  fragments: string;
 }
 
 function render(doc: { operations: Array<GQLTemplateOp>; fragments?: GQLTemplateFragment[] }, language: string = 'graphql') {
