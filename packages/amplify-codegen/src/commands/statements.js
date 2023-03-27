@@ -83,9 +83,9 @@ async function writeGeneratedStatements(language, generatedStatements, outputPat
     });
   } else {
     const ops = [
-      ...generatedStatements.queries, 
-      ...generatedStatements.mutations, 
-      ...generatedStatements.subscriptions, 
+      ...generatedStatements.queries,
+      ...generatedStatements.mutations,
+      ...generatedStatements.subscriptions,
       ...generatedStatements.fragments
     ].join();
     if (ops.length) {
