@@ -4,8 +4,8 @@ const Ora = require('ora');
 
 const loadConfig = require('../codegen-config');
 const constants = require('../constants');
-const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails } = require('../utils');
-const { generate } = require('@aws-amplify/graphql-docs-generator')
+const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails, loadSchema, isSDLSchema } = require('../utils');
+const { generate } = require('@aws-amplify/graphql-docs-generator');
 
 async function generateStatements(context, forceDownloadSchema, maxDepth, withoutInit = false, decoupleFrontend = '') {
   try {
@@ -55,15 +55,48 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
 
     try {
       fs.ensureDirSync(opsGenDirectory);
-      generate(schemaPath, opsGenDirectory, {
-        separateFiles: true,
-        language,
+      const schemaData = loadSchema(schemaPath);
+      const generatedOps = generate(schemaData, {
+        language: language,
         maxDepth: maxDepth || cfg.amplifyExtension.maxDepth,
+        isSDLSchema: isSDLSchema(schemaPath)
       });
+      await writeGeneratedStatements(language, generatedOps, opsGenDirectory, true);
       opsGenSpinner.succeed(constants.INFO_MESSAGE_OPS_GEN_SUCCESS + path.relative(path.resolve('.'), opsGenDirectory));
     } finally {
       opsGenSpinner.stop();
     }
   }
 }
+
+async function writeGeneratedStatements(language, generatedStatements, outputPath, separateFiles) {
+  const fileExtension = FILE_EXTENSION_MAP[language];
+  if (separateFiles) {
+    ['queries', 'mutations', 'subscriptions', 'fragments'].forEach(op => {
+      const ops = generatedStatements[op];
+      if (ops.length) {
+        fs.writeFileSync(path.resolve(path.join(outputPath, `${op}.${fileExtension}`)), ops);
+      }
+    });
+  } else {
+    const ops = [
+      ...generatedStatements.queries, 
+      ...generatedStatements.mutations, 
+      ...generatedStatements.subscriptions, 
+      ...generatedStatements.fragments
+    ].join();
+    if (ops.length) {
+      fs.writeFileSync(path.resolve(outputPath), ops);
+    }
+  }
+}
+
+const FILE_EXTENSION_MAP = {
+  javascript: 'js',
+  graphql: 'graphql',
+  flow: 'js',
+  typescript: 'ts',
+  angular: 'graphql',
+}
+
 module.exports = generateStatements;
