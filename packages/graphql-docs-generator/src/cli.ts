@@ -1,7 +1,6 @@
 import * as yargs from 'yargs';
 import { logError } from './logger';
 import { generate } from './index';
-import { buildSchema } from 'graphql';
 
 // / Make sure unhandled errors in async code are propagated correctly
 process.on('unhandledRejection', error => {
@@ -38,10 +37,6 @@ export function run(argv: Array<String>): void {
           default: 2,
           normalize: true,
           type: 'number',
-        },
-        retainCaseStyle: {
-          default: true,
-          type: 'boolean'
         },
         typenameIntrospection: {
           default: true,
