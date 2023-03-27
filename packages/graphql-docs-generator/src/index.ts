@@ -19,7 +19,7 @@ const FILE_EXTENSION_MAP = {
 
 export function generate(
   schema: string,
-  options: { language: string; maxDepth: number; isSDLSchema: boolean; typenameIntrospection: boolean },
+  options: { language?: string; maxDepth?: number; isSDLSchema?: boolean; typenameIntrospection: boolean },
 ): GeneratedOperations {
   const language = options.language || 'graphql';
   if (!Object.keys(FILE_EXTENSION_MAP).includes(language)) {
@@ -29,7 +29,8 @@ export function generate(
   const maxDepth = options.maxDepth || DEFAULT_MAX_DEPTH;
   const useExternalFragmentForS3Object = options.language === 'graphql';
   const { typenameIntrospection = true } = options;
-  const extendedSchema = loadSchema(schema, options.isSDLSchema);
+  const isSDLSchema = (options.isSDLSchema === undefined) ? true : options.isSDLSchema;
+  const extendedSchema = loadSchema(schema, isSDLSchema);
 
   const gqlOperations: GQLAllOperations = generateAllOps(extendedSchema, maxDepth, {
     useExternalFragmentForS3Object,
