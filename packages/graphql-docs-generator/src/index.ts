@@ -38,7 +38,7 @@ export function generate(
   });
   registerPartials();
   registerHelpers();
-  
+
   const allOperations = {
     queries: '',
     mutations: '',
