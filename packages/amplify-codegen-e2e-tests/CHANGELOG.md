@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.42.5-studio-graphql.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-tests@2.42.4...@aws-amplify/amplify-codegen-e2e-tests@2.42.5-studio-graphql.0) (2023-03-27)
+
+### Bug Fixes
+
+- bump cli versions ([43a4b01](https://github.com/aws-amplify/amplify-codegen/commit/43a4b0153c659a65c08f0e909e7dcd4dd11b37c7))
+
 ## [2.42.4](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-tests@2.42.3...@aws-amplify/amplify-codegen-e2e-tests@2.42.4) (2023-03-10)
 
 ### Bug Fixes
