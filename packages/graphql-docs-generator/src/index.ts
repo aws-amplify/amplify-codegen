@@ -1,14 +1,13 @@
-import * as fs from 'fs';
-import * as path from 'path';
 import * as handlebars from 'handlebars';
 import * as prettier from 'prettier';
 const DEFAULT_MAX_DEPTH = 3;
 
 import generateAllOps, { GQLTemplateOp, GQLAllOperations, GQLTemplateFragment, lowerCaseFirstLetter } from './generator';
 import { loadSchema } from './generator/utils/loading';
+import { getLanguageTemplate, getTemplatePartials } from './generator/utils/templates';
+
 export { loadSchema } from './generator/utils/loading';
 
-const TEMPLATE_DIR = path.resolve(path.join(__dirname, '../templates'));
 const FILE_EXTENSION_MAP = {
   javascript: 'js',
   graphql: 'graphql',
@@ -78,9 +77,7 @@ function render(doc: { operations: Array<GQLTemplateOp>; fragments?: GQLTemplate
     angular: 'graphql.hbs',
   };
 
-  const templatePath = path.join(TEMPLATE_DIR, templateFiles[language]);
-  const templateStr = fs.readFileSync(templatePath, 'utf8');
-
+  const templateStr = getLanguageTemplate(language);
   const template = handlebars.compile(templateStr, {
     noEscape: true,
     preventIndent: true,
@@ -90,16 +87,10 @@ function render(doc: { operations: Array<GQLTemplateOp>; fragments?: GQLTemplate
 }
 
 function registerPartials() {
-  const partials = fs.readdirSync(TEMPLATE_DIR);
-  partials.forEach(partial => {
-    if (!partial.startsWith('_') || !partial.endsWith('.hbs')) {
-      return;
-    }
-    const partialPath = path.join(TEMPLATE_DIR, partial);
-    const partialName = path.basename(partial).split('.')[0];
-    const partialContent = fs.readFileSync(partialPath, 'utf8');
-    handlebars.registerPartial(partialName.substring(1), partialContent);
-  });
+  const partials = getTemplatePartials();
+  for (const [partialName, partialContent] of Object.entries(partials)) {
+    handlebars.registerPartial(partialName, partialContent);
+  }
 }
 
 function registerHelpers() {
