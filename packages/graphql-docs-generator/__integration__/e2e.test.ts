@@ -4,76 +4,50 @@ import { generate } from '../src';
 
 describe('end 2 end tests', () => {
   const schemaPath = resolve(__dirname, '../fixtures/schema.json');
-  const outputpath = resolve(__dirname, './output.graphql');
-
-  afterEach(() => {
-    // delete the generated file
-    try {
-      fs.unlinkSync(outputpath);
-    } catch (e) {
-      // CircleCI throws exception, no harm done if the file is not deleted
-    }
-  });
+  const schema = fs.readFileSync(schemaPath, 'utf8');
 
   it('should generate statements', () => {
-    generate(schemaPath, outputpath, { separateFiles: false, maxDepth: 3, language: 'graphql' });
-    const generatedOutput = fs.readFileSync(outputpath, 'utf8');
+    const generatedOutput = generate(schema, { maxDepth: 3, isSDLSchema: false });
     expect(generatedOutput).toMatchSnapshot();
   });
 
   it('should generate statements in JS', () => {
-    generate(schemaPath, outputpath, { separateFiles: false, maxDepth: 3, language: 'javascript' });
-    const generatedOutput = fs.readFileSync(outputpath, 'utf8');
+    const generatedOutput = generate(schema, { maxDepth: 3, language: 'javascript', isSDLSchema: false });
     expect(generatedOutput).toMatchSnapshot();
   });
 
   it('should generate statements in Typescript', () => {
-    generate(schemaPath, outputpath, { separateFiles: false, maxDepth: 3, language: 'typescript' });
-    const generatedOutput = fs.readFileSync(outputpath, 'utf8');
+    const generatedOutput = generate(schema, { maxDepth: 3, language: 'typescript', isSDLSchema: false });
     expect(generatedOutput).toMatchSnapshot();
   });
 
   it('should generate statements in flow', () => {
-    generate(schemaPath, outputpath, { separateFiles: false, maxDepth: 3, language: 'flow' });
-    const generatedOutput = fs.readFileSync(outputpath, 'utf8');
+    const generatedOutput = generate(schema, { maxDepth: 3, language: 'flow', isSDLSchema: false });
     expect(generatedOutput).toMatchSnapshot();
   });
 });
 
 describe('end 2 end tests to test if the case style is retained for type names', () => {
   const schemaPath = resolve(__dirname, '../fixtures/caseTypes.graphql');
-  const outputpath = resolve(__dirname, './output.graphql');
-
-  afterEach(() => {
-    // delete the generated file
-    try {
-      fs.unlinkSync(outputpath);
-    } catch (e) {
-      // CircleCI throws exception, no harm done if the file is not deleted
-    }
-  });
+  const schema = fs.readFileSync(schemaPath, 'utf8');
 
   it('should generate statements', () => {
-    generate(schemaPath, outputpath, { separateFiles: false, maxDepth: 3, language: 'graphql' });
-    const generatedOutput = fs.readFileSync(outputpath, 'utf8');
+    const generatedOutput = generate(schema, { maxDepth: 3, language: 'graphql' });
     expect(generatedOutput).toMatchSnapshot();
   });
 
   it('should generate statements in JS', () => {
-    generate(schemaPath, outputpath, { separateFiles: false, maxDepth: 3, language: 'javascript' });
-    const generatedOutput = fs.readFileSync(outputpath, 'utf8');
+    const generatedOutput = generate(schema, { maxDepth: 3, language: 'javascript' });
     expect(generatedOutput).toMatchSnapshot();
   });
 
   it('should generate statements in Typescript', () => {
-    generate(schemaPath, outputpath, { separateFiles: false, maxDepth: 3, language: 'typescript' });
-    const generatedOutput = fs.readFileSync(outputpath, 'utf8');
+    const generatedOutput = generate(schema, { maxDepth: 3, language: 'typescript' });
     expect(generatedOutput).toMatchSnapshot();
   });
 
   it('should generate statements in flow', () => {
-    generate(schemaPath, outputpath, { separateFiles: false, maxDepth: 3, language: 'flow' });
-    const generatedOutput = fs.readFileSync(outputpath, 'utf8');
+    const generatedOutput = generate(schema, { maxDepth: 3, language: 'flow' });
     expect(generatedOutput).toMatchSnapshot();
   });
 });

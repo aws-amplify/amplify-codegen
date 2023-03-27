@@ -8,7 +8,7 @@ export function loadSchema(schema: string, isSDLSchema: boolean): GraphQLSchema 
 }
 
 function loadIntrospectionSchema(schema: string): GraphQLSchema {
-  const schemaData = require(schema);
+  const schemaData = JSON.parse(schema);
 
   if (!schemaData.data && !schemaData.__schema) {
     throw new Error('GraphQL schema file should contain a valid GraphQL introspection query result');
