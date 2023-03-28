@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.4.1-studio-graphql-3.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@3.4.0...amplify-codegen@3.4.1-studio-graphql-3.0) (2023-03-28)
+
+### Bug Fixes
+
+- bump cli versions ([43a4b01](https://github.com/aws-amplify/amplify-codegen/commit/43a4b0153c659a65c08f0e909e7dcd4dd11b37c7))
+
 # [3.4.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@3.3.6...amplify-codegen@3.4.0) (2023-03-10)
 
 ### Bug Fixes
