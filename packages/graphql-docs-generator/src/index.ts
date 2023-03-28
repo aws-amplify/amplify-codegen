@@ -1,10 +1,9 @@
-import * as handlebars from 'handlebars';
+const handlebars = require('handlebars/dist/handlebars');
 const prettier = require("prettier/standalone");
 const graphqlParser = require("prettier/parser-graphql");
 const babelParser = require("prettier/parser-babylon");
 const typescriptParser = require("prettier/parser-typescript");
 const flowParser = require("prettier/parser-flow");
-const DEFAULT_MAX_DEPTH = 3;
 
 import generateAllOps, { GQLTemplateOp, GQLAllOperations, GQLTemplateFragment, lowerCaseFirstLetter } from './generator';
 import { loadSchema } from './generator/utils/loading';
@@ -24,17 +23,22 @@ export function generate(
   schema: string,
   options: { language?: string; maxDepth?: number; isSDLSchema?: boolean },
 ): GeneratedOperations {
-  const language = options.language || 'graphql';
-  if (!Object.keys(FILE_EXTENSION_MAP).includes(language)) {
-    throw new Error(`Language ${language} not supported`);
+  const opts = {
+    language: 'graphql',
+    maxDepth: 2,
+    isSDLSchema: true,
+    ...options,
+  };
+
+  if (!Object.keys(FILE_EXTENSION_MAP).includes(opts.language)) {
+    throw new Error(`Language ${opts.language} not supported`);
   }
 
-  const maxDepth = options.maxDepth || DEFAULT_MAX_DEPTH;
-  const useExternalFragmentForS3Object = options.language === 'graphql';
-  const isSDLSchema = (options.isSDLSchema === undefined) ? true : options.isSDLSchema;
+  const useExternalFragmentForS3Object = opts.language === 'graphql';
+  const isSDLSchema = (opts.isSDLSchema === undefined) ? true : opts.isSDLSchema;
   const extendedSchema = loadSchema(schema, isSDLSchema);
 
-  const gqlOperations: GQLAllOperations = generateAllOps(extendedSchema, maxDepth, {
+  const gqlOperations: GQLAllOperations = generateAllOps(extendedSchema, opts.maxDepth, {
     useExternalFragmentForS3Object,
   });
   registerPartials();
@@ -50,13 +54,13 @@ export function generate(
   ['queries', 'mutations', 'subscriptions'].forEach(op => {
     const ops = gqlOperations[op];
     if (ops.length) {
-      const gql = render({ operations: gqlOperations[op], fragments: [] }, language);
+      const gql = render({ operations: gqlOperations[op], fragments: [] }, opts.language);
       allOperations[op] = gql;
     }
   });
 
   if (gqlOperations.fragments.length) {
-    const gql = render({ operations: [], fragments: gqlOperations.fragments }, language);
+    const gql = render({ operations: [], fragments: gqlOperations.fragments }, opts.language);
     allOperations['fragments'] = gql;
   }
 
