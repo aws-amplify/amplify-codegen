@@ -1,5 +1,9 @@
 import * as handlebars from 'handlebars';
-import * as prettier from 'prettier';
+const prettier = require("prettier/standalone");
+const graphqlParser = require("prettier/parser-graphql");
+const babelParser = require("prettier/parser-babylon");
+const typescriptParser = require("prettier/parser-typescript");
+const flowParser = require("prettier/parser-flow");
 const DEFAULT_MAX_DEPTH = 3;
 
 import generateAllOps, { GQLTemplateOp, GQLAllOperations, GQLTemplateFragment, lowerCaseFirstLetter } from './generator';
@@ -69,14 +73,6 @@ type GeneratedOperations = {
 }
 
 function render(doc: { operations: Array<GQLTemplateOp>; fragments?: GQLTemplateFragment[] }, language: string = 'graphql') {
-  const templateFiles = {
-    javascript: 'javascript.hbs',
-    graphql: 'graphql.hbs',
-    typescript: 'typescript.hbs',
-    flow: 'flow.hbs',
-    angular: 'graphql.hbs',
-  };
-
   const templateStr = getLanguageTemplate(language);
   const template = handlebars.compile(templateStr, {
     noEscape: true,
@@ -111,5 +107,5 @@ function format(str: string, language: string = 'graphql'): string {
     flow: 'flow',
     angular: 'graphql',
   };
-  return prettier.format(str, { parser: parserMap[language] });
+  return prettier.format(str, { parser: parserMap[language], plugins: [graphqlParser, babelParser, typescriptParser, flowParser] });
 }
