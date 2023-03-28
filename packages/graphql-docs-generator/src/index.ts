@@ -1,4 +1,4 @@
-import * as handlebars from 'handlebars';
+const handlebars = require('handlebars/dist/handlebars');
 const prettier = require("prettier/standalone");
 const graphqlParser = require("prettier/parser-graphql");
 const babelParser = require("prettier/parser-babylon");
