@@ -53,8 +53,6 @@
   "author": "Amazon Web Services",
   "license": "Apache-2.0",
   "dependencies": {
-    "@aws-amplify/amplify-category-api": "^5.1.1",
-    "@aws-amplify/cli-internal": "^11.0.3",
     "lerna": "^5.1.6"
   },
   "workspaces": [
