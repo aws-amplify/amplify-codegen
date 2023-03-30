@@ -6,7 +6,7 @@ const { getFrontEndHandler, isCodegenConfigured } = require('../utils');
 const prePushUpdateCallback = require('./prePushUpdateCallback');
 const path = require('path');
 const { isDataStoreEnabled } = require('graphql-transformer-core');
-const { pathManager } = require('amplify-cli-core');
+const { pathManager } = require('@aws-amplify/amplify-cli-core');
 
 async function prePushAddCallback(context, resourceName) {
   // when codegen is already configured

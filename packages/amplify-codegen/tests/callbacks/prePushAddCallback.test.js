@@ -17,7 +17,7 @@ jest.mock('../../src/utils');
 jest.mock('../../src/callbacks/prePushUpdateCallback');
 
 jest.mock('graphql-transformer-core');
-jest.mock('amplify-cli-core', () => ({
+jest.mock('@aws-amplify/amplify-cli-core', () => ({
   pathManager: {
     getBackendDirPath: () => 'backend',
   },
