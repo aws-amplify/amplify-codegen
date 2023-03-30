@@ -1,5 +1,5 @@
 const { join, dirname } = require('path');
-const { pathManager } = require('amplify-cli-core');
+const { pathManager } = require('@aws-amplify/amplify-cli-core');
 
 const getSchemaDownloadLocation = require('../../src/utils/getSchemaDownloadLocation');
 const getAndroidResDir = require('../../src/utils/getAndroidResDir');
@@ -7,7 +7,7 @@ const getFrontendHandler = require('../../src/utils/getFrontEndHandler');
 
 jest.mock('../../src/utils/getAndroidResDir');
 jest.mock('../../src/utils/getFrontEndHandler');
-jest.mock('amplify-cli-core');
+jest.mock('@aws-amplify/amplify-cli-core');
 
 let mockContext;
 const mockProjectConfigDefault = 'MOCK_PROJECT_CONFIG';

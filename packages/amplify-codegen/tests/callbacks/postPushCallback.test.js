@@ -1,5 +1,5 @@
 const path = require('path');
-const { pathManager } = require('amplify-cli-core');
+const { pathManager } = require('@aws-amplify/amplify-cli-core');
 const loadConfig = require('../../src/codegen-config');
 const { downloadIntrospectionSchema, getAppSyncAPIDetails, getSchemaDownloadLocation } = require('../../src/utils');
 const generateStatements = require('../../src/commands/statements');
@@ -13,13 +13,13 @@ const MOCK_CONTEXT = {
 };
 const MOCK_PATH_MANAGER_PROJECT_ROOT = '/project';
 
-jest.mock('amplify-cli-core');
+jest.mock('@aws-amplify/amplify-cli-core');
 jest.mock('../../src/codegen-config');
 jest.mock('../../src/utils');
 jest.mock('../../src/commands/statements');
 jest.mock('../../src/commands/types');
 // Mock the Feature flags for statements and types generation to use migrated packages
-jest.mock('amplify-cli-core', () => {
+jest.mock('@aws-amplify/amplify-cli-core', () => {
   return {
     FeatureFlags: {
       getBoolean: jest.fn().mockImplementation((name, defaultValue) => {
