@@ -1,6 +1,6 @@
 const constants = require('../../src/constants');
 const codeGen = require('../../src');
-const { InvalidSubCommandError, exitOnNextTick } = require('amplify-cli-core');
+const { InvalidSubCommandError, exitOnNextTick } = require('@aws-amplify/amplify-cli-core');
 const featureName = 'codegen';
 
 module.exports = {
