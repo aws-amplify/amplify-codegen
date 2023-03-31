@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.5](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-core@1.4.4...@aws-amplify/amplify-codegen-e2e-core@1.4.5) (2023-03-31)
+
+### Bug Fixes
+
+- bump cli versions ([43a4b01](https://github.com/aws-amplify/amplify-codegen/commit/43a4b0153c659a65c08f0e909e7dcd4dd11b37c7))
+
 ## [1.4.4](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-core@1.4.3...@aws-amplify/amplify-codegen-e2e-core@1.4.4) (2023-03-10)
 
 ### Bug Fixes
