@@ -10,7 +10,7 @@ machine:
 executors:
   w: &ref_1
     machine:
-      image: windows-server-2019-vs2019:stable
+      image: windows-server-2022-gui:current
       resource_class: windows.medium
       shell: bash.exe
     working_directory: ~/repo
@@ -19,7 +19,7 @@ executors:
       AMPLIFY_PATH: C:/home/circleci/repo/out/amplify.exe
   l: &ref_2
     docker:
-      - image: public.ecr.aws/j4f5f3h7/amplify-cli-e2e-base-image-repo-public:latest
+      - image: public.ecr.aws/j4f5f3h7/amplify-cli-e2e-base-image-repo-public:node18
     working_directory: ~/repo
     resource_class: large
     environment:
@@ -73,6 +73,27 @@ jobs:
     executor: << parameters.os >>
     steps:
       - checkout
+      - when:
+          condition:
+            equal:
+              - *ref_1
+              - << parameters.os >>
+          steps:
+            - run:
+                name: Install Node 18
+                command: |
+                  nvm version
+                  nvm install 18.15.0
+                  nvm use 18.15.0
+                  nvm ls
+            - run:
+                name: Install Yarn
+                command: |
+                  npm install -g yarn
+                  yarn --version
+      - run:
+          name: Check node version
+          command: node -v
       - run: yarn config set workspaces-experimental true
       - run: yarn cache clean --force
       - run: yarn run production-build
@@ -100,8 +121,8 @@ jobs:
                   - << parameters.os >>
           steps:
             - checkout
-            - run: nvm install 12.22.7
-            - run: nvm alias default 12.22.7
+            - run: nvm install 18.15.0
+            - run: nvm alias default 18.15.0
             - run: yarn config set workspaces-experimental true
             - run: yarn cache clean --force
             - run: yarn run production-build
@@ -235,7 +256,7 @@ jobs:
           key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}
       - node/install:
           install-yarn: true
-          node-version: '16.13'
+          node-version: '18.15'
       - run: yarn run production-build
       - run: *ref_3
       - run:
