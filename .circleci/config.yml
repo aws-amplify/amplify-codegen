@@ -121,13 +121,21 @@ jobs:
                   - << parameters.os >>
           steps:
             - checkout
-            - run: nvm install 18.15.0
-            - run: nvm alias default 18.15.0
+            - run:
+                name: Install Node 18
+                command: |
+                  nvm version
+                  nvm install 18.15.0
+                  nvm use 18.15.0
+                  nvm ls
             - run:
                 name: Install Yarn
                 command: |
                   npm install -g yarn
                   yarn --version
+            - run:
+                name: Check node version
+                command: node -v
             - run: yarn config set workspaces-experimental true
             - run: yarn cache clean --force
             - run: yarn run production-build
