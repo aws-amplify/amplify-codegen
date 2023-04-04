@@ -36,7 +36,7 @@ executors:
       AMPLIFY_PATH: /home/circleci/repo/out/amplify-pkg-linux-x64
   a:
     docker:
-      - image: cimg/android:2022.09
+      - image: cimg/android:2023.03
     working_directory: ~/repo
     resource_class: large
     environment:
@@ -123,6 +123,11 @@ jobs:
             - checkout
             - run: nvm install 18.15.0
             - run: nvm alias default 18.15.0
+            - run:
+                name: Install Yarn
+                command: |
+                  npm install -g yarn
+                  yarn --version
             - run: yarn config set workspaces-experimental true
             - run: yarn cache clean --force
             - run: yarn run production-build
@@ -257,6 +262,8 @@ jobs:
       - node/install:
           install-yarn: true
           node-version: '18.15'
+      - run: yarn config set workspaces-experimental true
+      - run: yarn cache clean --force
       - run: yarn run production-build
       - run: *ref_3
       - run:
