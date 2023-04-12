@@ -73,3 +73,8 @@ export type GQLAllOperations = {
 export type GQLDocsGenOptions = {
   useExternalFragmentForS3Object: boolean,
 };
+
+export enum SchemaType {
+  SDL,
+  INTROSPECTION
+};

@@ -1,6 +1,6 @@
 import * as yargs from 'yargs';
 import { logError } from './logger';
-import { generate } from './index';
+import { generateGraphQLDocuments } from './index';
 
 // / Make sure unhandled errors in async code are propagated correctly
 process.on('unhandledRejection', error => {
@@ -26,25 +26,15 @@ export function run(argv: Array<String>): void {
           describe: 'GraphQL introspection or SDL schema',
           normalize: true,
         },
-        language: {
-          demand: true,
-          default: 'graphql',
-          normalize: true,
-          choices: ['graphql', 'javascript', 'flow', 'typescript'],
-        },
         maxDepth: {
           demand: true,
           default: 2,
           normalize: true,
           type: 'number',
-        },
-        isSDLSchema: {
-          default: true,
-          type: 'boolean'
         }
       },
       async argv => {
-        generate(argv.schema, { language: argv.language, maxDepth: argv.maxDepth, isSDLSchema: argv.isSDLSchema });
+        generateGraphQLDocuments(argv.schema, { maxDepth: argv.maxDepth });
       }
     )
     .help()

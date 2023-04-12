@@ -1,10 +1,15 @@
 import { buildClientSchema, Source, parse, GraphQLSchema, buildASTSchema } from 'graphql';
+import { SchemaType } from '../types';
 
-export function loadSchema(schema: string, isSDLSchema: boolean): GraphQLSchema {
-  if (isSDLSchema) {
-    return loadSDLSchema(schema);
+export function loadSchema(schema: string, schemaType: SchemaType): GraphQLSchema {
+  switch (schemaType) {
+    case SchemaType.SDL:
+      return loadSDLSchema(schema);
+    case SchemaType.INTROSPECTION:
+      return loadIntrospectionSchema(schema);
+    default:
+      throw new Error("Please provide either SDL or Introspection schema as input");
   }
-  return loadIntrospectionSchema(schema);
 }
 
 function loadIntrospectionSchema(schema: string): GraphQLSchema {

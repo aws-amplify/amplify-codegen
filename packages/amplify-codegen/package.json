@@ -34,7 +34,8 @@
     "js-yaml": "^4.0.0",
     "ora": "^4.0.3",
     "semver": "^7.3.5",
-    "slash": "^3.0.0"
+    "slash": "^3.0.0",
+    "prettier": "^1.19.1"
   },
   "peerDependencies": {
     "@aws-amplify/amplify-cli-core": "^4.0.0",
@@ -51,6 +52,7 @@
     ]
   },
   "devDependencies": {
-    "mock-fs": "^4.13.0"
+    "mock-fs": "^4.13.0",
+    "@types/prettier": "^1.19.0"
   }
 }

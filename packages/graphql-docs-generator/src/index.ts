@@ -1,87 +1,106 @@
 const handlebars = require('handlebars/dist/handlebars');
-const prettier = require("prettier/standalone");
-const graphqlParser = require("prettier/parser-graphql");
-const babelParser = require("prettier/parser-babylon");
-const typescriptParser = require("prettier/parser-typescript");
-const flowParser = require("prettier/parser-flow");
-
 import generateAllOps, { GQLTemplateOp, GQLAllOperations, GQLTemplateFragment, lowerCaseFirstLetter } from './generator';
 import { loadSchema } from './generator/utils/loading';
-import { getLanguageTemplate, getTemplatePartials } from './generator/utils/templates';
+import { getTemplatePartials, getOperationPartial, getExternalFragmentPartial } from './generator/utils/templates';
+import { getSchemaType } from './generator/utils/getSchemaType';
 
 export { loadSchema } from './generator/utils/loading';
 
-const FILE_EXTENSION_MAP = {
-  javascript: 'js',
-  graphql: 'graphql',
-  flow: 'js',
-  typescript: 'ts',
-  angular: 'graphql',
-};
-
-export function generate(
+export function generateGraphQLDocuments(
   schema: string,
-  options: { language?: string; maxDepth?: number; isSDLSchema?: boolean },
+  options: { maxDepth?: number, useExternalFragmentForS3Object?: boolean },
 ): GeneratedOperations {
   const opts = {
-    language: 'graphql',
     maxDepth: 2,
-    isSDLSchema: true,
+    useExternalFragmentForS3Object: true,
     ...options,
   };
 
-  if (!Object.keys(FILE_EXTENSION_MAP).includes(opts.language)) {
-    throw new Error(`Language ${opts.language} not supported`);
-  }
-
-  const useExternalFragmentForS3Object = opts.language === 'graphql';
-  const isSDLSchema = (opts.isSDLSchema === undefined) ? true : opts.isSDLSchema;
-  const extendedSchema = loadSchema(schema, isSDLSchema);
+  const schemaType = getSchemaType(schema);
+  const extendedSchema = loadSchema(schema, schemaType);
 
   const gqlOperations: GQLAllOperations = generateAllOps(extendedSchema, opts.maxDepth, {
-    useExternalFragmentForS3Object,
+    useExternalFragmentForS3Object: opts.useExternalFragmentForS3Object,
   });
   registerPartials();
   registerHelpers();
 
   const allOperations = {
-    queries: '',
-    mutations: '',
-    subscriptions: '',
-    fragments: ''
+    queries: new Map<string, string>(),
+    mutations: new Map<string, string>(),
+    subscriptions: new Map<string, string>(),
+    fragments: new Map<string, string>()
   };
 
   ['queries', 'mutations', 'subscriptions'].forEach(op => {
     const ops = gqlOperations[op];
     if (ops.length) {
-      const gql = render({ operations: gqlOperations[op], fragments: [] }, opts.language);
-      allOperations[op] = gql;
+      const renderedOperations = renderOperations(gqlOperations[op]);
+      allOperations[op] = renderedOperations;
     }
   });
 
   if (gqlOperations.fragments.length) {
-    const gql = render({ operations: [], fragments: gqlOperations.fragments }, opts.language);
-    allOperations['fragments'] = gql;
+    const renderedFragments = renderFragments(gqlOperations.fragments, opts.useExternalFragmentForS3Object);
+    allOperations['fragments'] = renderedFragments;
   }
 
   return allOperations;
 }
 
 type GeneratedOperations = {
-  queries: string;
-  mutations: string;
-  subscriptions: string;
-  fragments: string;
+  queries: Map<string, string>;
+  mutations: Map<string, string>;
+  subscriptions: Map<string, string>;
+  fragments: Map<string, string>;
 }
 
-function render(doc: { operations: Array<GQLTemplateOp>; fragments?: GQLTemplateFragment[] }, language: string = 'graphql') {
-  const templateStr = getLanguageTemplate(language);
+function renderOperations(operations: Array<GQLTemplateOp>): Map<string, string> {
+  const renderedOperations = new Map<string, string>();
+  if (operations?.length) {
+    operations.forEach(op => {
+      const name = op.name;
+      const gql = renderOperation(op);
+      renderedOperations.set(name, gql);
+    });
+  }
+
+  return renderedOperations;
+}
+
+function renderOperation(operation: GQLTemplateOp): string {
+  const templateStr = getOperationPartial();
   const template = handlebars.compile(templateStr, {
     noEscape: true,
     preventIndent: true,
   });
-  const gql = template(doc);
-  return format(gql, language);
+  return template(operation);
+}
+
+function renderFragments(fragments: Array<GQLTemplateFragment>, useExternalFragmentForS3Object: boolean): Map<string, string> {
+  const renderedFragments = new Map<string, string>();
+  if (fragments?.length) {
+    fragments.forEach(fragment => {
+      const name = fragment.name;
+      const gql = renderFragment(fragment,useExternalFragmentForS3Object );
+      renderedFragments.set(name, gql);
+    });
+  }
+
+  return renderedFragments;
+}
+
+function renderFragment(fragment: GQLTemplateFragment, useExternalFragmentForS3Object: boolean): string {
+  if (!useExternalFragmentForS3Object) {
+    return;
+  }
+
+  const templateStr = getExternalFragmentPartial();
+  const template = handlebars.compile(templateStr, {
+    noEscape: true,
+    preventIndent: true,
+  });
+  return template(fragment);
 }
 
 function registerPartials() {
@@ -92,22 +111,6 @@ function registerPartials() {
 }
 
 function registerHelpers() {
-  handlebars.registerHelper('format', function(options: any) {
-    const result = options.fn(this);
-    return format(result);
-  });
-
   const formatNameHelper = lowerCaseFirstLetter;
   handlebars.registerHelper('formatName', formatNameHelper);
-}
-
-function format(str: string, language: string = 'graphql'): string {
-  const parserMap = {
-    javascript: 'babel',
-    graphql: 'graphql',
-    typescript: 'typescript',
-    flow: 'flow',
-    angular: 'graphql',
-  };
-  return prettier.format(str, { parser: parserMap[language], plugins: [graphqlParser, babelParser, typescriptParser, flowParser] });
 }
