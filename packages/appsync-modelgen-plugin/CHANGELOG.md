@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.4.0...@aws-amplify/appsync-modelgen-plugin@2.4.1) (2023-04-12)
+
+### Bug Fixes
+
+- **introspection:** primary key info when pk is belongsTo field ([#570](https://github.com/aws-amplify/amplify-codegen/issues/570)) ([63183c5](https://github.com/aws-amplify/amplify-codegen/commit/63183c56d0f46c90f6a9712b66dab07e98b9ba3c))
+
 # [2.4.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.3.3...@aws-amplify/appsync-modelgen-plugin@2.4.0) (2023-03-10)
 
 ### Features
