@@ -1028,7 +1028,8 @@ export class AppSyncModelVisitor<
             connectionInfo &&
             connectionInfo.kind !== CodeGenConnectionType.HAS_MANY &&
             connectionInfo.kind !== CodeGenConnectionType.HAS_ONE &&
-            connectionInfo.targetName !== 'id'
+            connectionInfo.targetName !== 'id' &&
+            !(this.config.target === 'introspection' && getModelPrimaryKeyComponentFields(model)[0].name === connectionInfo.targetName)
           ) {
             // Need to remove the field that is targetName
             removeFieldFromModel(model, connectionInfo.targetName);

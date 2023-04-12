@@ -184,6 +184,10 @@ describe('Custom primary key tests', () => {
         posts: [Post] @manyToMany(relationName: "PostTags")
     }
   `;
+  it('should generate correct model intropection file validated by JSON schema and not throw error when custom PK is disabled', () => {
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: false });
+    expect(visitor.generate()).toMatchSnapshot();
+  });
   it('should generate correct model intropection file validated by JSON schema and not throw error when custom PK is enabled', () => {
     const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
     expect(visitor.generate()).toMatchSnapshot();
@@ -214,6 +218,24 @@ describe('Primary Key Info tests', () => {
     }
   `;
   it('should generate correct primary key info for model with/without custom primary key', () => {
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(visitor.generate()).toMatchSnapshot();
+  });
+});
+
+describe('Primary key info within a belongsTo model tests', () => {
+  const schema = /* GraphQL */ `
+    type Post @model {
+      postId: ID! @primaryKey
+      node: PostNode! @belongsTo(fields: ["postId"])
+      title: String!
+    }
+    type PostNode @model {
+      id: ID!
+      post: Post! @hasOne
+    }
+  `;
+  it('should generate correct primary key info for model when the primary key field is part of belongsTo connection field', () => {
     const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
     expect(visitor.generate()).toMatchSnapshot();
   });
