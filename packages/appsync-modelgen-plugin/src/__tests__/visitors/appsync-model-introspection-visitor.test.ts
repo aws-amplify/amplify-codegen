@@ -1,14 +1,7 @@
 import { buildSchema, GraphQLSchema, parse, visit } from 'graphql';
 import { METADATA_SCALAR_MAP } from '../../scalars';
 import { directives, scalars } from '../../scalars/supported-directives';
-import {
-  CodeGenConnectionType,
-  CodeGenFieldConnectionBelongsTo,
-  CodeGenFieldConnectionHasMany,
-  CodeGenFieldConnectionHasOne,
-} from '../../utils/process-connections';
 import { AppSyncModelIntrospectionVisitor } from '../../visitors/appsync-model-introspection-visitor';
-import { CodeGenEnum, CodeGenField, CodeGenModel } from '../../visitors/appsync-visitor';
 
 const defaultModelIntropectionVisitorSettings = {
   isTimestampFieldsAdded: true,
@@ -235,8 +228,8 @@ describe('Primary key info within a belongsTo model tests', () => {
       post: Post! @hasOne
     }
   `;
-  it('should generate correct primary key info for model when the primary key field is part of belongsTo connection field', () => {
-    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+  it('should generate correct primary key info for model when the primary key field is part of belongsTo connection field and custom PK is disabled', () => {
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: false });
     expect(visitor.generate()).toMatchSnapshot();
   });
 });
