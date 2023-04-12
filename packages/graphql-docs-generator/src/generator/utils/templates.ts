@@ -1,50 +1,50 @@
 
-export const getLanguageTemplate = (language: string) => {
-  switch(language) {
-    case 'javascript':
-      return JSTemplate;
-    case 'typescript':
-      return TSTemplate;
-    case 'flow':
-      return FlowTemplate;
-    default:
-      return GraphQLTemplate;
-  }
-};
+// export const getLanguageTemplate = (language: string) => {
+//   switch(language) {
+//     case 'javascript':
+//       return JSTemplate;
+//     case 'typescript':
+//       return TSTemplate;
+//     case 'flow':
+//       return FlowTemplate;
+//     default:
+//       return GraphQLTemplate;
+//   }
+// };
 
-const JSTemplate = `
-/* eslint-disable */
-// this is an auto generated file. This will be overwritten
+// const JSTemplate = `
+// /* eslint-disable */
+// // this is an auto generated file. This will be overwritten
 
-{{> renderToVariable }}
+// {{> renderToVariable }}
 
-`;
+// `;
 
-const TSTemplate = `
-/* tslint:disable */
-/* eslint-disable */
-// this is an auto generated file. This will be overwritten
+// const TSTemplate = `
+// /* tslint:disable */
+// /* eslint-disable */
+// // this is an auto generated file. This will be overwritten
 
-{{> renderToVariable }}
+// {{> renderToVariable }}
 
-`;
+// `;
 
-const FlowTemplate = `
-// @flow
-// this is an auto generated file. This will be overwritten
+// const FlowTemplate = `
+// // @flow
+// // this is an auto generated file. This will be overwritten
 
-{{> renderToVariable }}
-`;
+// {{> renderToVariable }}
+// `;
 
-const GraphQLTemplate = `
-# this is an auto generated file. This will be overwritten
-{{#each operations }}
-  {{> renderOp }}
-{{/each}}
-{{#each fragments }}
-  {{> renderExternalFragment }}
-{{/each}}
-`;
+// const GraphQLTemplate = `
+// # this is an auto generated file. This will be overwritten
+// {{#each operations }}
+//   {{> renderOp }}
+// {{/each}}
+// {{#each fragments }}
+//   {{> renderExternalFragment }}
+// {{/each}}
+// `;
 
 export const getTemplatePartials = ():{[key: string]: string;} => {
   return {
@@ -54,8 +54,16 @@ export const getTemplatePartials = ():{[key: string]: string;} => {
     renderFields: fieldsPartial,
     renderFragment: fragmentsPartial,
     renderOp: operationPartial,
-    renderToVariable: variablePartial
+    // renderToVariable: variablePartial
   }
+};
+
+export const getOperationPartial = (): string => {
+  return operationPartial;
+};
+
+export const getExternalFragmentPartial = (): string => {
+  return externalFragmentPartial;
 };
 
 const argDeclarationPartial = `
@@ -122,10 +130,10 @@ const operationPartial = `
 }
 `;
 
-const variablePartial = `
-{{#each operations }}
-  export const {{formatName name}} =  /* GraphQL */\`{{#format }}
-      {{> renderOp }}
-    {{/format}}\`;
-{{/each}}
-`;
+// const variablePartial = `
+// {{#each operations }}
+//   export const {{formatName name}} =  /* GraphQL */\`{{#format }}
+//       {{> renderOp }}
+//     {{/format}}\`;
+// {{/each}}
+// `;

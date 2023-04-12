@@ -1,4869 +1,1800 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`end 2 end tests should generate statements 1`] = `
-Object {
-  "fragments": "",
-  "mutations": "# this is an auto generated file. This will be overwritten
-
-mutation CreateReview($episode: Episode, $review: ReviewInput!) {
-  createReview(episode: $episode, review: $review) {
-    episode
-    stars
-    commentary
+exports[`GraphQL documents generation tests for introspection schema input should generate GraphQL documents for schema 1`] = `
+Map {
+  "Hero" => "
+query Hero 
+  (
+      $episode:Episode
+  )
+{
+  hero
+  (
+      episode:$episode
+  )
+ 
+   {
+    
+    id
+    name
+      friends {
+        
+    id
+    name
+      friends {
+        
+    id
+    name
+    appearsIn
+        
+    ...on Human {
+      
+    homePlanet
+    height
+    mass
+    }
+    ...on Droid {
+      
+    primaryFunction
+    }
+      }
+      friendsConnection {
+        
+    totalCount
+        
+      }
+    appearsIn
+        
+    ...on Human {
+      
+    homePlanet
+    height
+    mass
+      starships {
+        
+    id
+    name
+    length
+    coordinates
+        
+      }
+    }
+    ...on Droid {
+      
+    primaryFunction
+    }
+      }
+      friendsConnection {
+        
+    totalCount
+      edges {
+        
+    cursor
+        
+      }
+      friends {
+        
+    id
+    name
+    appearsIn
+        
+    ...on Human {
+      
+    homePlanet
+    height
+    mass
+    }
+    ...on Droid {
+      
+    primaryFunction
+    }
+      }
+      pageInfo {
+        
+    startCursor
+    endCursor
+    hasNextPage
+        
+      }
+        
+      }
+    appearsIn
+    
+    ...on Human {
+      
+    homePlanet
+    height
+    mass
+      starships {
+        
+    id
+    name
+    length
+    coordinates
+        
+      }
+    }
+    ...on Droid {
+      
+    primaryFunction
+    }
   }
 }
 ",
-  "queries": "# this is an auto generated file. This will be overwritten
-
-query Hero($episode: Episode) {
-  hero(episode: $episode) {
-    id
-    name
-    friends {
-      id
-      name
-      friends {
-        id
-        name
-        appearsIn
-
-        ... on Human {
-          homePlanet
-          height
-          mass
-        }
-        ... on Droid {
-          primaryFunction
-        }
-      }
-      friendsConnection {
-        totalCount
-        __typename
-      }
-      appearsIn
-
-      ... on Human {
-        homePlanet
-        height
-        mass
-        starships {
-          id
-          name
-          length
-          coordinates
-          __typename
-        }
-      }
-      ... on Droid {
-        primaryFunction
-      }
-    }
-    friendsConnection {
-      totalCount
-      edges {
-        cursor
-        __typename
-      }
-      friends {
-        id
-        name
-        appearsIn
-
-        ... on Human {
-          homePlanet
-          height
-          mass
-        }
-        ... on Droid {
-          primaryFunction
-        }
-      }
-      pageInfo {
-        startCursor
-        endCursor
-        hasNextPage
-        __typename
-      }
-      __typename
-    }
-    appearsIn
-
-    ... on Human {
-      homePlanet
-      height
-      mass
-      starships {
-        id
-        name
-        length
-        coordinates
-        __typename
-      }
-    }
-    ... on Droid {
-      primaryFunction
-    }
-  }
-}
-
-query Reviews($episode: Episode!) {
-  reviews(episode: $episode) {
+  "Reviews" => "
+query Reviews 
+  (
+      $episode:Episode!
+  )
+{
+  reviews
+  (
+      episode:$episode
+  )
+ 
+   {
+    
     episode
     stars
     commentary
-    __typename
+    
   }
 }
-
-query Search($text: String) {
-  search(text: $text) {
-    ... on Human {
-      id
-      name
-      homePlanet
-      height
-      mass
-      friends {
-        id
-        name
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        friendsConnection {
-          totalCount
-          __typename
-        }
-        appearsIn
-
-        ... on Human {
-          homePlanet
-          height
-          mass
-          starships {
-            id
-            name
-            length
-            coordinates
-            __typename
-          }
-        }
-        ... on Droid {
-          primaryFunction
-        }
-      }
-      friendsConnection {
-        totalCount
-        edges {
-          cursor
-          __typename
-        }
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        pageInfo {
-          startCursor
-          endCursor
-          hasNextPage
-          __typename
-        }
-        __typename
-      }
-      appearsIn
-      starships {
-        id
-        name
-        length
-        coordinates
-        __typename
-      }
-    }
-    ... on Droid {
-      id
-      name
-      friends {
-        id
-        name
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        friendsConnection {
-          totalCount
-          __typename
-        }
-        appearsIn
-
-        ... on Human {
-          homePlanet
-          height
-          mass
-          starships {
-            id
-            name
-            length
-            coordinates
-            __typename
-          }
-        }
-        ... on Droid {
-          primaryFunction
-        }
-      }
-      friendsConnection {
-        totalCount
-        edges {
-          cursor
-          __typename
-        }
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        pageInfo {
-          startCursor
-          endCursor
-          hasNextPage
-          __typename
-        }
-        __typename
-      }
-      appearsIn
-      primaryFunction
-    }
-    ... on Starship {
-      id
-      name
-      length
-      coordinates
-    }
-  }
-}
-
-query Character($id: ID!) {
-  character(id: $id) {
-    id
-    name
-    friends {
-      id
-      name
-      friends {
-        id
-        name
-        appearsIn
-
-        ... on Human {
-          homePlanet
-          height
-          mass
-        }
-        ... on Droid {
-          primaryFunction
-        }
-      }
-      friendsConnection {
-        totalCount
-        __typename
-      }
-      appearsIn
-
-      ... on Human {
-        homePlanet
-        height
-        mass
-        starships {
-          id
-          name
-          length
-          coordinates
-          __typename
-        }
-      }
-      ... on Droid {
-        primaryFunction
-      }
-    }
-    friendsConnection {
-      totalCount
-      edges {
-        cursor
-        __typename
-      }
-      friends {
-        id
-        name
-        appearsIn
-
-        ... on Human {
-          homePlanet
-          height
-          mass
-        }
-        ... on Droid {
-          primaryFunction
-        }
-      }
-      pageInfo {
-        startCursor
-        endCursor
-        hasNextPage
-        __typename
-      }
-      __typename
-    }
-    appearsIn
-
-    ... on Human {
-      homePlanet
-      height
-      mass
-      starships {
-        id
-        name
-        length
-        coordinates
-        __typename
-      }
-    }
-    ... on Droid {
-      primaryFunction
-    }
-  }
-}
-
-query Droid($id: ID!) {
-  droid(id: $id) {
-    id
-    name
-    friends {
-      id
-      name
-      friends {
-        id
-        name
-        appearsIn
-
-        ... on Human {
-          homePlanet
-          height
-          mass
-        }
-        ... on Droid {
-          primaryFunction
-        }
-      }
-      friendsConnection {
-        totalCount
-        __typename
-      }
-      appearsIn
-
-      ... on Human {
-        homePlanet
-        height
-        mass
-        starships {
-          id
-          name
-          length
-          coordinates
-          __typename
-        }
-      }
-      ... on Droid {
-        primaryFunction
-      }
-    }
-    friendsConnection {
-      totalCount
-      edges {
-        cursor
-        __typename
-      }
-      friends {
-        id
-        name
-        appearsIn
-
-        ... on Human {
-          homePlanet
-          height
-          mass
-        }
-        ... on Droid {
-          primaryFunction
-        }
-      }
-      pageInfo {
-        startCursor
-        endCursor
-        hasNextPage
-        __typename
-      }
-      __typename
-    }
-    appearsIn
-    primaryFunction
-    __typename
-  }
-}
-
-query Human($id: ID!) {
-  human(id: $id) {
+",
+  "Search" => "
+query Search 
+  (
+      $text:String
+  )
+{
+  search
+  (
+      text:$text
+  )
+ 
+   {
+    
+    
+    ...on Human {
+      
     id
     name
     homePlanet
     height
     mass
-    friends {
-      id
-      name
       friends {
-        id
-        name
-        appearsIn
-
-        ... on Human {
-          homePlanet
-          height
-          mass
-        }
-        ... on Droid {
-          primaryFunction
-        }
+        
+    id
+    name
+      friends {
+        
+    id
+    name
+    appearsIn
+        
+    ...on Human {
+      
+    homePlanet
+    height
+    mass
+    }
+    ...on Droid {
+      
+    primaryFunction
+    }
       }
       friendsConnection {
-        totalCount
-        __typename
+        
+    totalCount
+        
       }
-      appearsIn
-
-      ... on Human {
-        homePlanet
-        height
-        mass
-        starships {
-          id
-          name
-          length
-          coordinates
-          __typename
-        }
-      }
-      ... on Droid {
-        primaryFunction
-      }
-    }
-    friendsConnection {
-      totalCount
-      edges {
-        cursor
-        __typename
-      }
-      friends {
-        id
-        name
-        appearsIn
-
-        ... on Human {
-          homePlanet
-          height
-          mass
-        }
-        ... on Droid {
-          primaryFunction
-        }
-      }
-      pageInfo {
-        startCursor
-        endCursor
-        hasNextPage
-        __typename
-      }
-      __typename
-    }
     appearsIn
-    starships {
-      id
-      name
-      length
-      coordinates
-      __typename
-    }
-    __typename
-  }
-}
-
-query Starship($id: ID!) {
-  starship(id: $id) {
+        
+    ...on Human {
+      
+    homePlanet
+    height
+    mass
+      starships {
+        
     id
     name
     length
     coordinates
-    __typename
+        
+      }
+    }
+    ...on Droid {
+      
+    primaryFunction
+    }
+      }
+      friendsConnection {
+        
+    totalCount
+      edges {
+        
+    cursor
+        
+      }
+      friends {
+        
+    id
+    name
+    appearsIn
+        
+    ...on Human {
+      
+    homePlanet
+    height
+    mass
+    }
+    ...on Droid {
+      
+    primaryFunction
+    }
+      }
+      pageInfo {
+        
+    startCursor
+    endCursor
+    hasNextPage
+        
+      }
+        
+      }
+    appearsIn
+      starships {
+        
+    id
+    name
+    length
+    coordinates
+        
+      }
+    }
+    ...on Droid {
+      
+    id
+    name
+      friends {
+        
+    id
+    name
+      friends {
+        
+    id
+    name
+    appearsIn
+        
+    ...on Human {
+      
+    homePlanet
+    height
+    mass
+    }
+    ...on Droid {
+      
+    primaryFunction
+    }
+      }
+      friendsConnection {
+        
+    totalCount
+        
+      }
+    appearsIn
+        
+    ...on Human {
+      
+    homePlanet
+    height
+    mass
+      starships {
+        
+    id
+    name
+    length
+    coordinates
+        
+      }
+    }
+    ...on Droid {
+      
+    primaryFunction
+    }
+      }
+      friendsConnection {
+        
+    totalCount
+      edges {
+        
+    cursor
+        
+      }
+      friends {
+        
+    id
+    name
+    appearsIn
+        
+    ...on Human {
+      
+    homePlanet
+    height
+    mass
+    }
+    ...on Droid {
+      
+    primaryFunction
+    }
+      }
+      pageInfo {
+        
+    startCursor
+    endCursor
+    hasNextPage
+        
+      }
+        
+      }
+    appearsIn
+    primaryFunction
+    }
+    ...on Starship {
+      
+    id
+    name
+    length
+    coordinates
+    }
   }
 }
 ",
-  "subscriptions": "# this is an auto generated file. This will be overwritten
+  "Character" => "
+query Character 
+  (
+      $id:ID!
+  )
+{
+  character
+  (
+      id:$id
+  )
+ 
+   {
+    
+    id
+    name
+      friends {
+        
+    id
+    name
+      friends {
+        
+    id
+    name
+    appearsIn
+        
+    ...on Human {
+      
+    homePlanet
+    height
+    mass
+    }
+    ...on Droid {
+      
+    primaryFunction
+    }
+      }
+      friendsConnection {
+        
+    totalCount
+        
+      }
+    appearsIn
+        
+    ...on Human {
+      
+    homePlanet
+    height
+    mass
+      starships {
+        
+    id
+    name
+    length
+    coordinates
+        
+      }
+    }
+    ...on Droid {
+      
+    primaryFunction
+    }
+      }
+      friendsConnection {
+        
+    totalCount
+      edges {
+        
+    cursor
+        
+      }
+      friends {
+        
+    id
+    name
+    appearsIn
+        
+    ...on Human {
+      
+    homePlanet
+    height
+    mass
+    }
+    ...on Droid {
+      
+    primaryFunction
+    }
+      }
+      pageInfo {
+        
+    startCursor
+    endCursor
+    hasNextPage
+        
+      }
+        
+      }
+    appearsIn
+    
+    ...on Human {
+      
+    homePlanet
+    height
+    mass
+      starships {
+        
+    id
+    name
+    length
+    coordinates
+        
+      }
+    }
+    ...on Droid {
+      
+    primaryFunction
+    }
+  }
+}
+",
+  "Droid" => "
+query Droid 
+  (
+      $id:ID!
+  )
+{
+  droid
+  (
+      id:$id
+  )
+ 
+   {
+    
+    id
+    name
+      friends {
+        
+    id
+    name
+      friends {
+        
+    id
+    name
+    appearsIn
+        
+    ...on Human {
+      
+    homePlanet
+    height
+    mass
+    }
+    ...on Droid {
+      
+    primaryFunction
+    }
+      }
+      friendsConnection {
+        
+    totalCount
+        
+      }
+    appearsIn
+        
+    ...on Human {
+      
+    homePlanet
+    height
+    mass
+      starships {
+        
+    id
+    name
+    length
+    coordinates
+        
+      }
+    }
+    ...on Droid {
+      
+    primaryFunction
+    }
+      }
+      friendsConnection {
+        
+    totalCount
+      edges {
+        
+    cursor
+        
+      }
+      friends {
+        
+    id
+    name
+    appearsIn
+        
+    ...on Human {
+      
+    homePlanet
+    height
+    mass
+    }
+    ...on Droid {
+      
+    primaryFunction
+    }
+      }
+      pageInfo {
+        
+    startCursor
+    endCursor
+    hasNextPage
+        
+      }
+        
+      }
+    appearsIn
+    primaryFunction
+    
+  }
+}
+",
+  "Human" => "
+query Human 
+  (
+      $id:ID!
+  )
+{
+  human
+  (
+      id:$id
+  )
+ 
+   {
+    
+    id
+    name
+    homePlanet
+    height
+    mass
+      friends {
+        
+    id
+    name
+      friends {
+        
+    id
+    name
+    appearsIn
+        
+    ...on Human {
+      
+    homePlanet
+    height
+    mass
+    }
+    ...on Droid {
+      
+    primaryFunction
+    }
+      }
+      friendsConnection {
+        
+    totalCount
+        
+      }
+    appearsIn
+        
+    ...on Human {
+      
+    homePlanet
+    height
+    mass
+      starships {
+        
+    id
+    name
+    length
+    coordinates
+        
+      }
+    }
+    ...on Droid {
+      
+    primaryFunction
+    }
+      }
+      friendsConnection {
+        
+    totalCount
+      edges {
+        
+    cursor
+        
+      }
+      friends {
+        
+    id
+    name
+    appearsIn
+        
+    ...on Human {
+      
+    homePlanet
+    height
+    mass
+    }
+    ...on Droid {
+      
+    primaryFunction
+    }
+      }
+      pageInfo {
+        
+    startCursor
+    endCursor
+    hasNextPage
+        
+      }
+        
+      }
+    appearsIn
+      starships {
+        
+    id
+    name
+    length
+    coordinates
+        
+      }
+    
+  }
+}
+",
+  "Starship" => "
+query Starship 
+  (
+      $id:ID!
+  )
+{
+  starship
+  (
+      id:$id
+  )
+ 
+   {
+    
+    id
+    name
+    length
+    coordinates
+    
+  }
+}
+",
+}
+`;
 
-subscription ReviewAdded($episode: Episode) {
-  reviewAdded(episode: $episode) {
+exports[`GraphQL documents generation tests for introspection schema input should generate GraphQL documents for schema 2`] = `
+Map {
+  "CreateReview" => "
+mutation CreateReview 
+  (
+      $episode:Episode,
+      $review:ReviewInput!
+  )
+{
+  createReview
+  (
+      episode:$episode,
+      review:$review
+  )
+ 
+   {
+    
     episode
     stars
     commentary
-    __typename
+    
   }
 }
 ",
 }
 `;
 
-exports[`end 2 end tests should generate statements in JS 1`] = `
-Object {
-  "fragments": "",
-  "mutations": "/* eslint-disable */
-// this is an auto generated file. This will be overwritten
-
-export const createReview = /* GraphQL */ \`
-  mutation CreateReview($episode: Episode, $review: ReviewInput!) {
-    createReview(episode: $episode, review: $review) {
-      episode
-      stars
-      commentary
-    }
+exports[`GraphQL documents generation tests for introspection schema input should generate GraphQL documents for schema 3`] = `
+Map {
+  "ReviewAdded" => "
+subscription ReviewAdded 
+  (
+      $episode:Episode
+  )
+{
+  reviewAdded
+  (
+      episode:$episode
+  )
+ 
+   {
+    
+    episode
+    stars
+    commentary
+    
   }
-\`;
-",
-  "queries": "/* eslint-disable */
-// this is an auto generated file. This will be overwritten
-
-export const hero = /* GraphQL */ \`
-  query Hero($episode: Episode) {
-    hero(episode: $episode) {
-      id
-      name
-      friends {
-        id
-        name
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        friendsConnection {
-          totalCount
-          __typename
-        }
-        appearsIn
-
-        ... on Human {
-          homePlanet
-          height
-          mass
-          starships {
-            id
-            name
-            length
-            coordinates
-            __typename
-          }
-        }
-        ... on Droid {
-          primaryFunction
-        }
-      }
-      friendsConnection {
-        totalCount
-        edges {
-          cursor
-          __typename
-        }
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        pageInfo {
-          startCursor
-          endCursor
-          hasNextPage
-          __typename
-        }
-        __typename
-      }
-      appearsIn
-
-      ... on Human {
-        homePlanet
-        height
-        mass
-        starships {
-          id
-          name
-          length
-          coordinates
-          __typename
-        }
-      }
-      ... on Droid {
-        primaryFunction
-      }
-    }
-  }
-\`;
-export const reviews = /* GraphQL */ \`
-  query Reviews($episode: Episode!) {
-    reviews(episode: $episode) {
-      episode
-      stars
-      commentary
-      __typename
-    }
-  }
-\`;
-export const search = /* GraphQL */ \`
-  query Search($text: String) {
-    search(text: $text) {
-      ... on Human {
-        id
-        name
-        homePlanet
-        height
-        mass
-        friends {
-          id
-          name
-          friends {
-            id
-            name
-            appearsIn
-
-            ... on Human {
-              homePlanet
-              height
-              mass
-            }
-            ... on Droid {
-              primaryFunction
-            }
-          }
-          friendsConnection {
-            totalCount
-            __typename
-          }
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-            starships {
-              id
-              name
-              length
-              coordinates
-              __typename
-            }
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        friendsConnection {
-          totalCount
-          edges {
-            cursor
-            __typename
-          }
-          friends {
-            id
-            name
-            appearsIn
-
-            ... on Human {
-              homePlanet
-              height
-              mass
-            }
-            ... on Droid {
-              primaryFunction
-            }
-          }
-          pageInfo {
-            startCursor
-            endCursor
-            hasNextPage
-            __typename
-          }
-          __typename
-        }
-        appearsIn
-        starships {
-          id
-          name
-          length
-          coordinates
-          __typename
-        }
-      }
-      ... on Droid {
-        id
-        name
-        friends {
-          id
-          name
-          friends {
-            id
-            name
-            appearsIn
-
-            ... on Human {
-              homePlanet
-              height
-              mass
-            }
-            ... on Droid {
-              primaryFunction
-            }
-          }
-          friendsConnection {
-            totalCount
-            __typename
-          }
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-            starships {
-              id
-              name
-              length
-              coordinates
-              __typename
-            }
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        friendsConnection {
-          totalCount
-          edges {
-            cursor
-            __typename
-          }
-          friends {
-            id
-            name
-            appearsIn
-
-            ... on Human {
-              homePlanet
-              height
-              mass
-            }
-            ... on Droid {
-              primaryFunction
-            }
-          }
-          pageInfo {
-            startCursor
-            endCursor
-            hasNextPage
-            __typename
-          }
-          __typename
-        }
-        appearsIn
-        primaryFunction
-      }
-      ... on Starship {
-        id
-        name
-        length
-        coordinates
-      }
-    }
-  }
-\`;
-export const character = /* GraphQL */ \`
-  query Character($id: ID!) {
-    character(id: $id) {
-      id
-      name
-      friends {
-        id
-        name
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        friendsConnection {
-          totalCount
-          __typename
-        }
-        appearsIn
-
-        ... on Human {
-          homePlanet
-          height
-          mass
-          starships {
-            id
-            name
-            length
-            coordinates
-            __typename
-          }
-        }
-        ... on Droid {
-          primaryFunction
-        }
-      }
-      friendsConnection {
-        totalCount
-        edges {
-          cursor
-          __typename
-        }
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        pageInfo {
-          startCursor
-          endCursor
-          hasNextPage
-          __typename
-        }
-        __typename
-      }
-      appearsIn
-
-      ... on Human {
-        homePlanet
-        height
-        mass
-        starships {
-          id
-          name
-          length
-          coordinates
-          __typename
-        }
-      }
-      ... on Droid {
-        primaryFunction
-      }
-    }
-  }
-\`;
-export const droid = /* GraphQL */ \`
-  query Droid($id: ID!) {
-    droid(id: $id) {
-      id
-      name
-      friends {
-        id
-        name
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        friendsConnection {
-          totalCount
-          __typename
-        }
-        appearsIn
-
-        ... on Human {
-          homePlanet
-          height
-          mass
-          starships {
-            id
-            name
-            length
-            coordinates
-            __typename
-          }
-        }
-        ... on Droid {
-          primaryFunction
-        }
-      }
-      friendsConnection {
-        totalCount
-        edges {
-          cursor
-          __typename
-        }
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        pageInfo {
-          startCursor
-          endCursor
-          hasNextPage
-          __typename
-        }
-        __typename
-      }
-      appearsIn
-      primaryFunction
-      __typename
-    }
-  }
-\`;
-export const human = /* GraphQL */ \`
-  query Human($id: ID!) {
-    human(id: $id) {
-      id
-      name
-      homePlanet
-      height
-      mass
-      friends {
-        id
-        name
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        friendsConnection {
-          totalCount
-          __typename
-        }
-        appearsIn
-
-        ... on Human {
-          homePlanet
-          height
-          mass
-          starships {
-            id
-            name
-            length
-            coordinates
-            __typename
-          }
-        }
-        ... on Droid {
-          primaryFunction
-        }
-      }
-      friendsConnection {
-        totalCount
-        edges {
-          cursor
-          __typename
-        }
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        pageInfo {
-          startCursor
-          endCursor
-          hasNextPage
-          __typename
-        }
-        __typename
-      }
-      appearsIn
-      starships {
-        id
-        name
-        length
-        coordinates
-        __typename
-      }
-      __typename
-    }
-  }
-\`;
-export const starship = /* GraphQL */ \`
-  query Starship($id: ID!) {
-    starship(id: $id) {
-      id
-      name
-      length
-      coordinates
-      __typename
-    }
-  }
-\`;
-",
-  "subscriptions": "/* eslint-disable */
-// this is an auto generated file. This will be overwritten
-
-export const reviewAdded = /* GraphQL */ \`
-  subscription ReviewAdded($episode: Episode) {
-    reviewAdded(episode: $episode) {
-      episode
-      stars
-      commentary
-      __typename
-    }
-  }
-\`;
-",
 }
-`;
-
-exports[`end 2 end tests should generate statements in Typescript 1`] = `
-Object {
-  "fragments": "",
-  "mutations": "/* tslint:disable */
-/* eslint-disable */
-// this is an auto generated file. This will be overwritten
-
-export const createReview = /* GraphQL */ \`
-  mutation CreateReview($episode: Episode, $review: ReviewInput!) {
-    createReview(episode: $episode, review: $review) {
-      episode
-      stars
-      commentary
-    }
-  }
-\`;
-",
-  "queries": "/* tslint:disable */
-/* eslint-disable */
-// this is an auto generated file. This will be overwritten
-
-export const hero = /* GraphQL */ \`
-  query Hero($episode: Episode) {
-    hero(episode: $episode) {
-      id
-      name
-      friends {
-        id
-        name
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        friendsConnection {
-          totalCount
-          __typename
-        }
-        appearsIn
-
-        ... on Human {
-          homePlanet
-          height
-          mass
-          starships {
-            id
-            name
-            length
-            coordinates
-            __typename
-          }
-        }
-        ... on Droid {
-          primaryFunction
-        }
-      }
-      friendsConnection {
-        totalCount
-        edges {
-          cursor
-          __typename
-        }
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        pageInfo {
-          startCursor
-          endCursor
-          hasNextPage
-          __typename
-        }
-        __typename
-      }
-      appearsIn
-
-      ... on Human {
-        homePlanet
-        height
-        mass
-        starships {
-          id
-          name
-          length
-          coordinates
-          __typename
-        }
-      }
-      ... on Droid {
-        primaryFunction
-      }
-    }
-  }
-\`;
-export const reviews = /* GraphQL */ \`
-  query Reviews($episode: Episode!) {
-    reviews(episode: $episode) {
-      episode
-      stars
-      commentary
-      __typename
-    }
-  }
-\`;
-export const search = /* GraphQL */ \`
-  query Search($text: String) {
-    search(text: $text) {
-      ... on Human {
-        id
-        name
-        homePlanet
-        height
-        mass
-        friends {
-          id
-          name
-          friends {
-            id
-            name
-            appearsIn
-
-            ... on Human {
-              homePlanet
-              height
-              mass
-            }
-            ... on Droid {
-              primaryFunction
-            }
-          }
-          friendsConnection {
-            totalCount
-            __typename
-          }
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-            starships {
-              id
-              name
-              length
-              coordinates
-              __typename
-            }
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        friendsConnection {
-          totalCount
-          edges {
-            cursor
-            __typename
-          }
-          friends {
-            id
-            name
-            appearsIn
-
-            ... on Human {
-              homePlanet
-              height
-              mass
-            }
-            ... on Droid {
-              primaryFunction
-            }
-          }
-          pageInfo {
-            startCursor
-            endCursor
-            hasNextPage
-            __typename
-          }
-          __typename
-        }
-        appearsIn
-        starships {
-          id
-          name
-          length
-          coordinates
-          __typename
-        }
-      }
-      ... on Droid {
-        id
-        name
-        friends {
-          id
-          name
-          friends {
-            id
-            name
-            appearsIn
-
-            ... on Human {
-              homePlanet
-              height
-              mass
-            }
-            ... on Droid {
-              primaryFunction
-            }
-          }
-          friendsConnection {
-            totalCount
-            __typename
-          }
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-            starships {
-              id
-              name
-              length
-              coordinates
-              __typename
-            }
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        friendsConnection {
-          totalCount
-          edges {
-            cursor
-            __typename
-          }
-          friends {
-            id
-            name
-            appearsIn
-
-            ... on Human {
-              homePlanet
-              height
-              mass
-            }
-            ... on Droid {
-              primaryFunction
-            }
-          }
-          pageInfo {
-            startCursor
-            endCursor
-            hasNextPage
-            __typename
-          }
-          __typename
-        }
-        appearsIn
-        primaryFunction
-      }
-      ... on Starship {
-        id
-        name
-        length
-        coordinates
-      }
-    }
-  }
-\`;
-export const character = /* GraphQL */ \`
-  query Character($id: ID!) {
-    character(id: $id) {
-      id
-      name
-      friends {
-        id
-        name
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        friendsConnection {
-          totalCount
-          __typename
-        }
-        appearsIn
-
-        ... on Human {
-          homePlanet
-          height
-          mass
-          starships {
-            id
-            name
-            length
-            coordinates
-            __typename
-          }
-        }
-        ... on Droid {
-          primaryFunction
-        }
-      }
-      friendsConnection {
-        totalCount
-        edges {
-          cursor
-          __typename
-        }
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        pageInfo {
-          startCursor
-          endCursor
-          hasNextPage
-          __typename
-        }
-        __typename
-      }
-      appearsIn
-
-      ... on Human {
-        homePlanet
-        height
-        mass
-        starships {
-          id
-          name
-          length
-          coordinates
-          __typename
-        }
-      }
-      ... on Droid {
-        primaryFunction
-      }
-    }
-  }
-\`;
-export const droid = /* GraphQL */ \`
-  query Droid($id: ID!) {
-    droid(id: $id) {
-      id
-      name
-      friends {
-        id
-        name
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        friendsConnection {
-          totalCount
-          __typename
-        }
-        appearsIn
-
-        ... on Human {
-          homePlanet
-          height
-          mass
-          starships {
-            id
-            name
-            length
-            coordinates
-            __typename
-          }
-        }
-        ... on Droid {
-          primaryFunction
-        }
-      }
-      friendsConnection {
-        totalCount
-        edges {
-          cursor
-          __typename
-        }
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        pageInfo {
-          startCursor
-          endCursor
-          hasNextPage
-          __typename
-        }
-        __typename
-      }
-      appearsIn
-      primaryFunction
-      __typename
-    }
-  }
-\`;
-export const human = /* GraphQL */ \`
-  query Human($id: ID!) {
-    human(id: $id) {
-      id
-      name
-      homePlanet
-      height
-      mass
-      friends {
-        id
-        name
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        friendsConnection {
-          totalCount
-          __typename
-        }
-        appearsIn
-
-        ... on Human {
-          homePlanet
-          height
-          mass
-          starships {
-            id
-            name
-            length
-            coordinates
-            __typename
-          }
-        }
-        ... on Droid {
-          primaryFunction
-        }
-      }
-      friendsConnection {
-        totalCount
-        edges {
-          cursor
-          __typename
-        }
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        pageInfo {
-          startCursor
-          endCursor
-          hasNextPage
-          __typename
-        }
-        __typename
-      }
-      appearsIn
-      starships {
-        id
-        name
-        length
-        coordinates
-        __typename
-      }
-      __typename
-    }
-  }
-\`;
-export const starship = /* GraphQL */ \`
-  query Starship($id: ID!) {
-    starship(id: $id) {
-      id
-      name
-      length
-      coordinates
-      __typename
-    }
-  }
-\`;
-",
-  "subscriptions": "/* tslint:disable */
-/* eslint-disable */
-// this is an auto generated file. This will be overwritten
-
-export const reviewAdded = /* GraphQL */ \`
-  subscription ReviewAdded($episode: Episode) {
-    reviewAdded(episode: $episode) {
-      episode
-      stars
-      commentary
-      __typename
-    }
-  }
-\`;
-",
-}
-`;
-
-exports[`end 2 end tests should generate statements in flow 1`] = `
-Object {
-  "fragments": "",
-  "mutations": "// @flow
-// this is an auto generated file. This will be overwritten
-
-export const createReview = /* GraphQL */ \`
-  mutation CreateReview($episode: Episode, $review: ReviewInput!) {
-    createReview(episode: $episode, review: $review) {
-      episode
-      stars
-      commentary
-    }
-  }
-\`;
-",
-  "queries": "// @flow
-// this is an auto generated file. This will be overwritten
-
-export const hero = /* GraphQL */ \`
-  query Hero($episode: Episode) {
-    hero(episode: $episode) {
-      id
-      name
-      friends {
-        id
-        name
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        friendsConnection {
-          totalCount
-          __typename
-        }
-        appearsIn
-
-        ... on Human {
-          homePlanet
-          height
-          mass
-          starships {
-            id
-            name
-            length
-            coordinates
-            __typename
-          }
-        }
-        ... on Droid {
-          primaryFunction
-        }
-      }
-      friendsConnection {
-        totalCount
-        edges {
-          cursor
-          __typename
-        }
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        pageInfo {
-          startCursor
-          endCursor
-          hasNextPage
-          __typename
-        }
-        __typename
-      }
-      appearsIn
-
-      ... on Human {
-        homePlanet
-        height
-        mass
-        starships {
-          id
-          name
-          length
-          coordinates
-          __typename
-        }
-      }
-      ... on Droid {
-        primaryFunction
-      }
-    }
-  }
-\`;
-export const reviews = /* GraphQL */ \`
-  query Reviews($episode: Episode!) {
-    reviews(episode: $episode) {
-      episode
-      stars
-      commentary
-      __typename
-    }
-  }
-\`;
-export const search = /* GraphQL */ \`
-  query Search($text: String) {
-    search(text: $text) {
-      ... on Human {
-        id
-        name
-        homePlanet
-        height
-        mass
-        friends {
-          id
-          name
-          friends {
-            id
-            name
-            appearsIn
-
-            ... on Human {
-              homePlanet
-              height
-              mass
-            }
-            ... on Droid {
-              primaryFunction
-            }
-          }
-          friendsConnection {
-            totalCount
-            __typename
-          }
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-            starships {
-              id
-              name
-              length
-              coordinates
-              __typename
-            }
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        friendsConnection {
-          totalCount
-          edges {
-            cursor
-            __typename
-          }
-          friends {
-            id
-            name
-            appearsIn
-
-            ... on Human {
-              homePlanet
-              height
-              mass
-            }
-            ... on Droid {
-              primaryFunction
-            }
-          }
-          pageInfo {
-            startCursor
-            endCursor
-            hasNextPage
-            __typename
-          }
-          __typename
-        }
-        appearsIn
-        starships {
-          id
-          name
-          length
-          coordinates
-          __typename
-        }
-      }
-      ... on Droid {
-        id
-        name
-        friends {
-          id
-          name
-          friends {
-            id
-            name
-            appearsIn
-
-            ... on Human {
-              homePlanet
-              height
-              mass
-            }
-            ... on Droid {
-              primaryFunction
-            }
-          }
-          friendsConnection {
-            totalCount
-            __typename
-          }
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-            starships {
-              id
-              name
-              length
-              coordinates
-              __typename
-            }
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        friendsConnection {
-          totalCount
-          edges {
-            cursor
-            __typename
-          }
-          friends {
-            id
-            name
-            appearsIn
-
-            ... on Human {
-              homePlanet
-              height
-              mass
-            }
-            ... on Droid {
-              primaryFunction
-            }
-          }
-          pageInfo {
-            startCursor
-            endCursor
-            hasNextPage
-            __typename
-          }
-          __typename
-        }
-        appearsIn
-        primaryFunction
-      }
-      ... on Starship {
-        id
-        name
-        length
-        coordinates
-      }
-    }
-  }
-\`;
-export const character = /* GraphQL */ \`
-  query Character($id: ID!) {
-    character(id: $id) {
-      id
-      name
-      friends {
-        id
-        name
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        friendsConnection {
-          totalCount
-          __typename
-        }
-        appearsIn
-
-        ... on Human {
-          homePlanet
-          height
-          mass
-          starships {
-            id
-            name
-            length
-            coordinates
-            __typename
-          }
-        }
-        ... on Droid {
-          primaryFunction
-        }
-      }
-      friendsConnection {
-        totalCount
-        edges {
-          cursor
-          __typename
-        }
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        pageInfo {
-          startCursor
-          endCursor
-          hasNextPage
-          __typename
-        }
-        __typename
-      }
-      appearsIn
-
-      ... on Human {
-        homePlanet
-        height
-        mass
-        starships {
-          id
-          name
-          length
-          coordinates
-          __typename
-        }
-      }
-      ... on Droid {
-        primaryFunction
-      }
-    }
-  }
-\`;
-export const droid = /* GraphQL */ \`
-  query Droid($id: ID!) {
-    droid(id: $id) {
-      id
-      name
-      friends {
-        id
-        name
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        friendsConnection {
-          totalCount
-          __typename
-        }
-        appearsIn
-
-        ... on Human {
-          homePlanet
-          height
-          mass
-          starships {
-            id
-            name
-            length
-            coordinates
-            __typename
-          }
-        }
-        ... on Droid {
-          primaryFunction
-        }
-      }
-      friendsConnection {
-        totalCount
-        edges {
-          cursor
-          __typename
-        }
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        pageInfo {
-          startCursor
-          endCursor
-          hasNextPage
-          __typename
-        }
-        __typename
-      }
-      appearsIn
-      primaryFunction
-      __typename
-    }
-  }
-\`;
-export const human = /* GraphQL */ \`
-  query Human($id: ID!) {
-    human(id: $id) {
-      id
-      name
-      homePlanet
-      height
-      mass
-      friends {
-        id
-        name
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        friendsConnection {
-          totalCount
-          __typename
-        }
-        appearsIn
-
-        ... on Human {
-          homePlanet
-          height
-          mass
-          starships {
-            id
-            name
-            length
-            coordinates
-            __typename
-          }
-        }
-        ... on Droid {
-          primaryFunction
-        }
-      }
-      friendsConnection {
-        totalCount
-        edges {
-          cursor
-          __typename
-        }
-        friends {
-          id
-          name
-          appearsIn
-
-          ... on Human {
-            homePlanet
-            height
-            mass
-          }
-          ... on Droid {
-            primaryFunction
-          }
-        }
-        pageInfo {
-          startCursor
-          endCursor
-          hasNextPage
-          __typename
-        }
-        __typename
-      }
-      appearsIn
-      starships {
-        id
-        name
-        length
-        coordinates
-        __typename
-      }
-      __typename
-    }
-  }
-\`;
-export const starship = /* GraphQL */ \`
-  query Starship($id: ID!) {
-    starship(id: $id) {
-      id
-      name
-      length
-      coordinates
-      __typename
-    }
-  }
-\`;
-",
-  "subscriptions": "// @flow
-// this is an auto generated file. This will be overwritten
-
-export const reviewAdded = /* GraphQL */ \`
-  subscription ReviewAdded($episode: Episode) {
-    reviewAdded(episode: $episode) {
-      episode
-      stars
-      commentary
-      __typename
-    }
-  }
-\`;
 ",
 }
 `;
 
 exports[`end 2 end tests to test if the case style is retained for type names should generate statements 1`] = `
-Object {
-  "fragments": "",
-  "mutations": "# this is an auto generated file. This will be overwritten
-
-mutation CreateUPPERCASE(
-  $input: CreateUPPERCASEInput!
-  $condition: ModelUPPERCASEConditionInput
-) {
-  createUPPERCASE(input: $input, condition: $condition) {
+Map {
+  "GetUPPERCASE" => "
+query GetUPPERCASE 
+  (
+      $id:ID!
+  )
+{
+  getUPPERCASE
+  (
+      id:$id
+  )
+ 
+   {
+    
     id
     owner
     createdAt
     updatedAt
-    __typename
-  }
-}
-
-mutation UpdateUPPERCASE(
-  $input: UpdateUPPERCASEInput!
-  $condition: ModelUPPERCASEConditionInput
-) {
-  updateUPPERCASE(input: $input, condition: $condition) {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-
-mutation DeleteUPPERCASE(
-  $input: DeleteUPPERCASEInput!
-  $condition: ModelUPPERCASEConditionInput
-) {
-  deleteUPPERCASE(input: $input, condition: $condition) {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-
-mutation CreateLowercase(
-  $input: CreateLowercaseInput!
-  $condition: ModellowercaseConditionInput
-) {
-  createLowercase(input: $input, condition: $condition) {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-
-mutation UpdateLowercase(
-  $input: UpdateLowercaseInput!
-  $condition: ModellowercaseConditionInput
-) {
-  updateLowercase(input: $input, condition: $condition) {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-
-mutation DeleteLowercase(
-  $input: DeleteLowercaseInput!
-  $condition: ModellowercaseConditionInput
-) {
-  deleteLowercase(input: $input, condition: $condition) {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-
-mutation CreateCamelCase(
-  $input: CreateCamelCaseInput!
-  $condition: ModelcamelCaseConditionInput
-) {
-  createCamelCase(input: $input, condition: $condition) {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-
-mutation UpdateCamelCase(
-  $input: UpdateCamelCaseInput!
-  $condition: ModelcamelCaseConditionInput
-) {
-  updateCamelCase(input: $input, condition: $condition) {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-
-mutation DeleteCamelCase(
-  $input: DeleteCamelCaseInput!
-  $condition: ModelcamelCaseConditionInput
-) {
-  deleteCamelCase(input: $input, condition: $condition) {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-
-mutation CreatePascalCase(
-  $input: CreatePascalCaseInput!
-  $condition: ModelPascalCaseConditionInput
-) {
-  createPascalCase(input: $input, condition: $condition) {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-
-mutation UpdatePascalCase(
-  $input: UpdatePascalCaseInput!
-  $condition: ModelPascalCaseConditionInput
-) {
-  updatePascalCase(input: $input, condition: $condition) {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-
-mutation DeletePascalCase(
-  $input: DeletePascalCaseInput!
-  $condition: ModelPascalCaseConditionInput
-) {
-  deletePascalCase(input: $input, condition: $condition) {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-
-mutation CreateSnake_case(
-  $input: CreateSnake_caseInput!
-  $condition: Modelsnake_caseConditionInput
-) {
-  createSnake_case(input: $input, condition: $condition) {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-
-mutation UpdateSnake_case(
-  $input: UpdateSnake_caseInput!
-  $condition: Modelsnake_caseConditionInput
-) {
-  updateSnake_case(input: $input, condition: $condition) {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-
-mutation DeleteSnake_case(
-  $input: DeleteSnake_caseInput!
-  $condition: Modelsnake_caseConditionInput
-) {
-  deleteSnake_case(input: $input, condition: $condition) {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-
-mutation CreateUPPER_SNAKE_CASE(
-  $input: CreateUPPER_SNAKE_CASEInput!
-  $condition: ModelUPPER_SNAKE_CASEConditionInput
-) {
-  createUPPER_SNAKE_CASE(input: $input, condition: $condition) {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-
-mutation UpdateUPPER_SNAKE_CASE(
-  $input: UpdateUPPER_SNAKE_CASEInput!
-  $condition: ModelUPPER_SNAKE_CASEConditionInput
-) {
-  updateUPPER_SNAKE_CASE(input: $input, condition: $condition) {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-
-mutation DeleteUPPER_SNAKE_CASE(
-  $input: DeleteUPPER_SNAKE_CASEInput!
-  $condition: ModelUPPER_SNAKE_CASEConditionInput
-) {
-  deleteUPPER_SNAKE_CASE(input: $input, condition: $condition) {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
+    
   }
 }
 ",
-  "queries": "# this is an auto generated file. This will be overwritten
-
-query GetUPPERCASE($id: ID!) {
-  getUPPERCASE(id: $id) {
+  "ListUPPERCASEs" => "
+query ListUPPERCASEs 
+  (
+      $filter:ModelUPPERCASEFilterInput,
+      $limit:Int,
+      $nextToken:String
+  )
+{
+  listUPPERCASEs
+  (
+      filter:$filter,
+      limit:$limit,
+      nextToken:$nextToken
+  )
+ 
+   {
+    
+      items {
+        
     id
     owner
     createdAt
     updatedAt
-  }
-}
-
-query ListUPPERCASEs(
-  $filter: ModelUPPERCASEFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listUPPERCASEs(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
+        
+      }
     nextToken
-  }
-}
-
-query GetLowercase($id: ID!) {
-  getLowercase(id: $id) {
-    id
-    owner
-    createdAt
-    updatedAt
-  }
-}
-
-query ListLowercases(
-  $filter: ModellowercaseFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listLowercases(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-    nextToken
-  }
-}
-
-query GetCamelCase($id: ID!) {
-  getCamelCase(id: $id) {
-    id
-    owner
-    createdAt
-    updatedAt
-  }
-}
-
-query ListCamelCases(
-  $filter: ModelcamelCaseFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listCamelCases(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-    nextToken
-  }
-}
-
-query GetPascalCase($id: ID!) {
-  getPascalCase(id: $id) {
-    id
-    owner
-    createdAt
-    updatedAt
-  }
-}
-
-query ListPascalCases(
-  $filter: ModelPascalCaseFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listPascalCases(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-    nextToken
-  }
-}
-
-query GetSnake_case($id: ID!) {
-  getSnake_case(id: $id) {
-    id
-    owner
-    createdAt
-    updatedAt
-  }
-}
-
-query ListSnake_cases(
-  $filter: Modelsnake_caseFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listSnake_cases(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-    nextToken
-  }
-}
-
-query GetUPPER_SNAKE_CASE($id: ID!) {
-  getUPPER_SNAKE_CASE(id: $id) {
-    id
-    owner
-    createdAt
-    updatedAt
-  }
-}
-
-query ListUPPER_SNAKE_CASEs(
-  $filter: ModelUPPER_SNAKE_CASEFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listUPPER_SNAKE_CASEs(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-    nextToken
-  }
-}
-
-query QueryByOwner(
-  $owner: String
-  $sortDirection: ModelSortDirection
-  $filter: ModelUPPERCASEFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  queryByOwner(
-    owner: $owner
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-    nextToken
+    
   }
 }
 ",
-  "subscriptions": "# this is an auto generated file. This will be overwritten
-
-subscription OnCreateUPPERCASE {
-  onCreateUPPERCASE {
+  "GetLowercase" => "
+query GetLowercase 
+  (
+      $id:ID!
+  )
+{
+  getLowercase
+  (
+      id:$id
+  )
+ 
+   {
+    
     id
     owner
     createdAt
     updatedAt
-    __typename
+    
   }
 }
-
-subscription OnUpdateUPPERCASE {
-  onUpdateUPPERCASE {
+",
+  "ListLowercases" => "
+query ListLowercases 
+  (
+      $filter:ModellowercaseFilterInput,
+      $limit:Int,
+      $nextToken:String
+  )
+{
+  listLowercases
+  (
+      filter:$filter,
+      limit:$limit,
+      nextToken:$nextToken
+  )
+ 
+   {
+    
+      items {
+        
     id
     owner
     createdAt
     updatedAt
-    __typename
+        
+      }
+    nextToken
+    
   }
 }
-
-subscription OnDeleteUPPERCASE {
-  onDeleteUPPERCASE {
+",
+  "GetCamelCase" => "
+query GetCamelCase 
+  (
+      $id:ID!
+  )
+{
+  getCamelCase
+  (
+      id:$id
+  )
+ 
+   {
+    
     id
     owner
     createdAt
     updatedAt
-    __typename
+    
   }
 }
-
-subscription OnCreateLowercase {
-  onCreateLowercase {
+",
+  "ListCamelCases" => "
+query ListCamelCases 
+  (
+      $filter:ModelcamelCaseFilterInput,
+      $limit:Int,
+      $nextToken:String
+  )
+{
+  listCamelCases
+  (
+      filter:$filter,
+      limit:$limit,
+      nextToken:$nextToken
+  )
+ 
+   {
+    
+      items {
+        
     id
     owner
     createdAt
     updatedAt
-    __typename
+        
+      }
+    nextToken
+    
   }
 }
-
-subscription OnUpdateLowercase {
-  onUpdateLowercase {
+",
+  "GetPascalCase" => "
+query GetPascalCase 
+  (
+      $id:ID!
+  )
+{
+  getPascalCase
+  (
+      id:$id
+  )
+ 
+   {
+    
     id
     owner
     createdAt
     updatedAt
-    __typename
+    
   }
 }
-
-subscription OnDeleteLowercase {
-  onDeleteLowercase {
+",
+  "ListPascalCases" => "
+query ListPascalCases 
+  (
+      $filter:ModelPascalCaseFilterInput,
+      $limit:Int,
+      $nextToken:String
+  )
+{
+  listPascalCases
+  (
+      filter:$filter,
+      limit:$limit,
+      nextToken:$nextToken
+  )
+ 
+   {
+    
+      items {
+        
     id
     owner
     createdAt
     updatedAt
-    __typename
+        
+      }
+    nextToken
+    
   }
 }
-
-subscription OnCreateCamelCase {
-  onCreateCamelCase {
+",
+  "GetSnake_case" => "
+query GetSnake_case 
+  (
+      $id:ID!
+  )
+{
+  getSnake_case
+  (
+      id:$id
+  )
+ 
+   {
+    
     id
     owner
     createdAt
     updatedAt
-    __typename
+    
   }
 }
-
-subscription OnUpdateCamelCase {
-  onUpdateCamelCase {
+",
+  "ListSnake_cases" => "
+query ListSnake_cases 
+  (
+      $filter:Modelsnake_caseFilterInput,
+      $limit:Int,
+      $nextToken:String
+  )
+{
+  listSnake_cases
+  (
+      filter:$filter,
+      limit:$limit,
+      nextToken:$nextToken
+  )
+ 
+   {
+    
+      items {
+        
     id
     owner
     createdAt
     updatedAt
-    __typename
+        
+      }
+    nextToken
+    
   }
 }
-
-subscription OnDeleteCamelCase {
-  onDeleteCamelCase {
+",
+  "GetUPPER_SNAKE_CASE" => "
+query GetUPPER_SNAKE_CASE 
+  (
+      $id:ID!
+  )
+{
+  getUPPER_SNAKE_CASE
+  (
+      id:$id
+  )
+ 
+   {
+    
     id
     owner
     createdAt
     updatedAt
-    __typename
+    
   }
 }
-
-subscription OnCreatePascalCase {
-  onCreatePascalCase {
+",
+  "ListUPPER_SNAKE_CASEs" => "
+query ListUPPER_SNAKE_CASEs 
+  (
+      $filter:ModelUPPER_SNAKE_CASEFilterInput,
+      $limit:Int,
+      $nextToken:String
+  )
+{
+  listUPPER_SNAKE_CASEs
+  (
+      filter:$filter,
+      limit:$limit,
+      nextToken:$nextToken
+  )
+ 
+   {
+    
+      items {
+        
     id
     owner
     createdAt
     updatedAt
-    __typename
+        
+      }
+    nextToken
+    
   }
 }
-
-subscription OnUpdatePascalCase {
-  onUpdatePascalCase {
+",
+  "QueryByOwner" => "
+query QueryByOwner 
+  (
+      $owner:String,
+      $sortDirection:ModelSortDirection,
+      $filter:ModelUPPERCASEFilterInput,
+      $limit:Int,
+      $nextToken:String
+  )
+{
+  queryByOwner
+  (
+      owner:$owner,
+      sortDirection:$sortDirection,
+      filter:$filter,
+      limit:$limit,
+      nextToken:$nextToken
+  )
+ 
+   {
+    
+      items {
+        
     id
     owner
     createdAt
     updatedAt
-    __typename
-  }
-}
-
-subscription OnDeletePascalCase {
-  onDeletePascalCase {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-
-subscription OnCreateSnake_case {
-  onCreateSnake_case {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-
-subscription OnUpdateSnake_case {
-  onUpdateSnake_case {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-
-subscription OnDeleteSnake_case {
-  onDeleteSnake_case {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-
-subscription OnCreateUPPER_SNAKE_CASE {
-  onCreateUPPER_SNAKE_CASE {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-
-subscription OnUpdateUPPER_SNAKE_CASE {
-  onUpdateUPPER_SNAKE_CASE {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-
-subscription OnDeleteUPPER_SNAKE_CASE {
-  onDeleteUPPER_SNAKE_CASE {
-    id
-    owner
-    createdAt
-    updatedAt
-    __typename
+        
+      }
+    nextToken
+    
   }
 }
 ",
 }
 `;
 
-exports[`end 2 end tests to test if the case style is retained for type names should generate statements in JS 1`] = `
-Object {
-  "fragments": "",
-  "mutations": "/* eslint-disable */
-// this is an auto generated file. This will be overwritten
-
-export const createUPPERCASE = /* GraphQL */ \`
-  mutation CreateUPPERCASE(
-    $input: CreateUPPERCASEInput!
-    $condition: ModelUPPERCASEConditionInput
-  ) {
-    createUPPERCASE(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+exports[`end 2 end tests to test if the case style is retained for type names should generate statements 2`] = `
+Map {
+  "CreateUPPERCASE" => "
+mutation CreateUPPERCASE 
+  (
+      $input:CreateUPPERCASEInput!,
+      $condition:ModelUPPERCASEConditionInput
+  )
+{
+  createUPPERCASE
+  (
+      input:$input,
+      condition:$condition
+  )
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const updateUPPERCASE = /* GraphQL */ \`
-  mutation UpdateUPPERCASE(
-    $input: UpdateUPPERCASEInput!
-    $condition: ModelUPPERCASEConditionInput
-  ) {
-    updateUPPERCASE(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const deleteUPPERCASE = /* GraphQL */ \`
-  mutation DeleteUPPERCASE(
-    $input: DeleteUPPERCASEInput!
-    $condition: ModelUPPERCASEConditionInput
-  ) {
-    deleteUPPERCASE(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const createLowercase = /* GraphQL */ \`
-  mutation CreateLowercase(
-    $input: CreateLowercaseInput!
-    $condition: ModellowercaseConditionInput
-  ) {
-    createLowercase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const updateLowercase = /* GraphQL */ \`
-  mutation UpdateLowercase(
-    $input: UpdateLowercaseInput!
-    $condition: ModellowercaseConditionInput
-  ) {
-    updateLowercase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const deleteLowercase = /* GraphQL */ \`
-  mutation DeleteLowercase(
-    $input: DeleteLowercaseInput!
-    $condition: ModellowercaseConditionInput
-  ) {
-    deleteLowercase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const createCamelCase = /* GraphQL */ \`
-  mutation CreateCamelCase(
-    $input: CreateCamelCaseInput!
-    $condition: ModelcamelCaseConditionInput
-  ) {
-    createCamelCase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const updateCamelCase = /* GraphQL */ \`
-  mutation UpdateCamelCase(
-    $input: UpdateCamelCaseInput!
-    $condition: ModelcamelCaseConditionInput
-  ) {
-    updateCamelCase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const deleteCamelCase = /* GraphQL */ \`
-  mutation DeleteCamelCase(
-    $input: DeleteCamelCaseInput!
-    $condition: ModelcamelCaseConditionInput
-  ) {
-    deleteCamelCase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const createPascalCase = /* GraphQL */ \`
-  mutation CreatePascalCase(
-    $input: CreatePascalCaseInput!
-    $condition: ModelPascalCaseConditionInput
-  ) {
-    createPascalCase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const updatePascalCase = /* GraphQL */ \`
-  mutation UpdatePascalCase(
-    $input: UpdatePascalCaseInput!
-    $condition: ModelPascalCaseConditionInput
-  ) {
-    updatePascalCase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const deletePascalCase = /* GraphQL */ \`
-  mutation DeletePascalCase(
-    $input: DeletePascalCaseInput!
-    $condition: ModelPascalCaseConditionInput
-  ) {
-    deletePascalCase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const createSnake_case = /* GraphQL */ \`
-  mutation CreateSnake_case(
-    $input: CreateSnake_caseInput!
-    $condition: Modelsnake_caseConditionInput
-  ) {
-    createSnake_case(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const updateSnake_case = /* GraphQL */ \`
-  mutation UpdateSnake_case(
-    $input: UpdateSnake_caseInput!
-    $condition: Modelsnake_caseConditionInput
-  ) {
-    updateSnake_case(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const deleteSnake_case = /* GraphQL */ \`
-  mutation DeleteSnake_case(
-    $input: DeleteSnake_caseInput!
-    $condition: Modelsnake_caseConditionInput
-  ) {
-    deleteSnake_case(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const createUPPER_SNAKE_CASE = /* GraphQL */ \`
-  mutation CreateUPPER_SNAKE_CASE(
-    $input: CreateUPPER_SNAKE_CASEInput!
-    $condition: ModelUPPER_SNAKE_CASEConditionInput
-  ) {
-    createUPPER_SNAKE_CASE(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const updateUPPER_SNAKE_CASE = /* GraphQL */ \`
-  mutation UpdateUPPER_SNAKE_CASE(
-    $input: UpdateUPPER_SNAKE_CASEInput!
-    $condition: ModelUPPER_SNAKE_CASEConditionInput
-  ) {
-    updateUPPER_SNAKE_CASE(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const deleteUPPER_SNAKE_CASE = /* GraphQL */ \`
-  mutation DeleteUPPER_SNAKE_CASE(
-    $input: DeleteUPPER_SNAKE_CASEInput!
-    $condition: ModelUPPER_SNAKE_CASEConditionInput
-  ) {
-    deleteUPPER_SNAKE_CASE(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
+}
 ",
-  "queries": "/* eslint-disable */
-// this is an auto generated file. This will be overwritten
-
-export const getUPPERCASE = /* GraphQL */ \`
-  query GetUPPERCASE($id: ID!) {
-    getUPPERCASE(id: $id) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
+  "UpdateUPPERCASE" => "
+mutation UpdateUPPERCASE 
+  (
+      $input:UpdateUPPERCASEInput!,
+      $condition:ModelUPPERCASEConditionInput
+  )
+{
+  updateUPPERCASE
+  (
+      input:$input,
+      condition:$condition
+  )
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const listUPPERCASEs = /* GraphQL */ \`
-  query ListUPPERCASEs(
-    $filter: ModelUPPERCASEFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listUPPERCASEs(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        owner
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-\`;
-export const getLowercase = /* GraphQL */ \`
-  query GetLowercase($id: ID!) {
-    getLowercase(id: $id) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const listLowercases = /* GraphQL */ \`
-  query ListLowercases(
-    $filter: ModellowercaseFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listLowercases(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        owner
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-\`;
-export const getCamelCase = /* GraphQL */ \`
-  query GetCamelCase($id: ID!) {
-    getCamelCase(id: $id) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const listCamelCases = /* GraphQL */ \`
-  query ListCamelCases(
-    $filter: ModelcamelCaseFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listCamelCases(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        owner
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-\`;
-export const getPascalCase = /* GraphQL */ \`
-  query GetPascalCase($id: ID!) {
-    getPascalCase(id: $id) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const listPascalCases = /* GraphQL */ \`
-  query ListPascalCases(
-    $filter: ModelPascalCaseFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listPascalCases(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        owner
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-\`;
-export const getSnake_case = /* GraphQL */ \`
-  query GetSnake_case($id: ID!) {
-    getSnake_case(id: $id) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const listSnake_cases = /* GraphQL */ \`
-  query ListSnake_cases(
-    $filter: Modelsnake_caseFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listSnake_cases(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        owner
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-\`;
-export const getUPPER_SNAKE_CASE = /* GraphQL */ \`
-  query GetUPPER_SNAKE_CASE($id: ID!) {
-    getUPPER_SNAKE_CASE(id: $id) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const listUPPER_SNAKE_CASEs = /* GraphQL */ \`
-  query ListUPPER_SNAKE_CASEs(
-    $filter: ModelUPPER_SNAKE_CASEFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listUPPER_SNAKE_CASEs(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        owner
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-\`;
-export const queryByOwner = /* GraphQL */ \`
-  query QueryByOwner(
-    $owner: String
-    $sortDirection: ModelSortDirection
-    $filter: ModelUPPERCASEFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    queryByOwner(
-      owner: $owner
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        owner
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-\`;
+}
 ",
-  "subscriptions": "/* eslint-disable */
-// this is an auto generated file. This will be overwritten
-
-export const onCreateUPPERCASE = /* GraphQL */ \`
-  subscription OnCreateUPPERCASE {
-    onCreateUPPERCASE {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+  "DeleteUPPERCASE" => "
+mutation DeleteUPPERCASE 
+  (
+      $input:DeleteUPPERCASEInput!,
+      $condition:ModelUPPERCASEConditionInput
+  )
+{
+  deleteUPPERCASE
+  (
+      input:$input,
+      condition:$condition
+  )
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onUpdateUPPERCASE = /* GraphQL */ \`
-  subscription OnUpdateUPPERCASE {
-    onUpdateUPPERCASE {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "CreateLowercase" => "
+mutation CreateLowercase 
+  (
+      $input:CreateLowercaseInput!,
+      $condition:ModellowercaseConditionInput
+  )
+{
+  createLowercase
+  (
+      input:$input,
+      condition:$condition
+  )
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onDeleteUPPERCASE = /* GraphQL */ \`
-  subscription OnDeleteUPPERCASE {
-    onDeleteUPPERCASE {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "UpdateLowercase" => "
+mutation UpdateLowercase 
+  (
+      $input:UpdateLowercaseInput!,
+      $condition:ModellowercaseConditionInput
+  )
+{
+  updateLowercase
+  (
+      input:$input,
+      condition:$condition
+  )
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onCreateLowercase = /* GraphQL */ \`
-  subscription OnCreateLowercase {
-    onCreateLowercase {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "DeleteLowercase" => "
+mutation DeleteLowercase 
+  (
+      $input:DeleteLowercaseInput!,
+      $condition:ModellowercaseConditionInput
+  )
+{
+  deleteLowercase
+  (
+      input:$input,
+      condition:$condition
+  )
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onUpdateLowercase = /* GraphQL */ \`
-  subscription OnUpdateLowercase {
-    onUpdateLowercase {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "CreateCamelCase" => "
+mutation CreateCamelCase 
+  (
+      $input:CreateCamelCaseInput!,
+      $condition:ModelcamelCaseConditionInput
+  )
+{
+  createCamelCase
+  (
+      input:$input,
+      condition:$condition
+  )
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onDeleteLowercase = /* GraphQL */ \`
-  subscription OnDeleteLowercase {
-    onDeleteLowercase {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "UpdateCamelCase" => "
+mutation UpdateCamelCase 
+  (
+      $input:UpdateCamelCaseInput!,
+      $condition:ModelcamelCaseConditionInput
+  )
+{
+  updateCamelCase
+  (
+      input:$input,
+      condition:$condition
+  )
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onCreateCamelCase = /* GraphQL */ \`
-  subscription OnCreateCamelCase {
-    onCreateCamelCase {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "DeleteCamelCase" => "
+mutation DeleteCamelCase 
+  (
+      $input:DeleteCamelCaseInput!,
+      $condition:ModelcamelCaseConditionInput
+  )
+{
+  deleteCamelCase
+  (
+      input:$input,
+      condition:$condition
+  )
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onUpdateCamelCase = /* GraphQL */ \`
-  subscription OnUpdateCamelCase {
-    onUpdateCamelCase {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "CreatePascalCase" => "
+mutation CreatePascalCase 
+  (
+      $input:CreatePascalCaseInput!,
+      $condition:ModelPascalCaseConditionInput
+  )
+{
+  createPascalCase
+  (
+      input:$input,
+      condition:$condition
+  )
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onDeleteCamelCase = /* GraphQL */ \`
-  subscription OnDeleteCamelCase {
-    onDeleteCamelCase {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "UpdatePascalCase" => "
+mutation UpdatePascalCase 
+  (
+      $input:UpdatePascalCaseInput!,
+      $condition:ModelPascalCaseConditionInput
+  )
+{
+  updatePascalCase
+  (
+      input:$input,
+      condition:$condition
+  )
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onCreatePascalCase = /* GraphQL */ \`
-  subscription OnCreatePascalCase {
-    onCreatePascalCase {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "DeletePascalCase" => "
+mutation DeletePascalCase 
+  (
+      $input:DeletePascalCaseInput!,
+      $condition:ModelPascalCaseConditionInput
+  )
+{
+  deletePascalCase
+  (
+      input:$input,
+      condition:$condition
+  )
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onUpdatePascalCase = /* GraphQL */ \`
-  subscription OnUpdatePascalCase {
-    onUpdatePascalCase {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "CreateSnake_case" => "
+mutation CreateSnake_case 
+  (
+      $input:CreateSnake_caseInput!,
+      $condition:Modelsnake_caseConditionInput
+  )
+{
+  createSnake_case
+  (
+      input:$input,
+      condition:$condition
+  )
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onDeletePascalCase = /* GraphQL */ \`
-  subscription OnDeletePascalCase {
-    onDeletePascalCase {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "UpdateSnake_case" => "
+mutation UpdateSnake_case 
+  (
+      $input:UpdateSnake_caseInput!,
+      $condition:Modelsnake_caseConditionInput
+  )
+{
+  updateSnake_case
+  (
+      input:$input,
+      condition:$condition
+  )
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onCreateSnake_case = /* GraphQL */ \`
-  subscription OnCreateSnake_case {
-    onCreateSnake_case {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "DeleteSnake_case" => "
+mutation DeleteSnake_case 
+  (
+      $input:DeleteSnake_caseInput!,
+      $condition:Modelsnake_caseConditionInput
+  )
+{
+  deleteSnake_case
+  (
+      input:$input,
+      condition:$condition
+  )
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onUpdateSnake_case = /* GraphQL */ \`
-  subscription OnUpdateSnake_case {
-    onUpdateSnake_case {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "CreateUPPER_SNAKE_CASE" => "
+mutation CreateUPPER_SNAKE_CASE 
+  (
+      $input:CreateUPPER_SNAKE_CASEInput!,
+      $condition:ModelUPPER_SNAKE_CASEConditionInput
+  )
+{
+  createUPPER_SNAKE_CASE
+  (
+      input:$input,
+      condition:$condition
+  )
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onDeleteSnake_case = /* GraphQL */ \`
-  subscription OnDeleteSnake_case {
-    onDeleteSnake_case {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "UpdateUPPER_SNAKE_CASE" => "
+mutation UpdateUPPER_SNAKE_CASE 
+  (
+      $input:UpdateUPPER_SNAKE_CASEInput!,
+      $condition:ModelUPPER_SNAKE_CASEConditionInput
+  )
+{
+  updateUPPER_SNAKE_CASE
+  (
+      input:$input,
+      condition:$condition
+  )
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onCreateUPPER_SNAKE_CASE = /* GraphQL */ \`
-  subscription OnCreateUPPER_SNAKE_CASE {
-    onCreateUPPER_SNAKE_CASE {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "DeleteUPPER_SNAKE_CASE" => "
+mutation DeleteUPPER_SNAKE_CASE 
+  (
+      $input:DeleteUPPER_SNAKE_CASEInput!,
+      $condition:ModelUPPER_SNAKE_CASEConditionInput
+  )
+{
+  deleteUPPER_SNAKE_CASE
+  (
+      input:$input,
+      condition:$condition
+  )
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onUpdateUPPER_SNAKE_CASE = /* GraphQL */ \`
-  subscription OnUpdateUPPER_SNAKE_CASE {
-    onUpdateUPPER_SNAKE_CASE {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const onDeleteUPPER_SNAKE_CASE = /* GraphQL */ \`
-  subscription OnDeleteUPPER_SNAKE_CASE {
-    onDeleteUPPER_SNAKE_CASE {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
+}
 ",
 }
 `;
 
-exports[`end 2 end tests to test if the case style is retained for type names should generate statements in Typescript 1`] = `
-Object {
-  "fragments": "",
-  "mutations": "/* tslint:disable */
-/* eslint-disable */
-// this is an auto generated file. This will be overwritten
-
-export const createUPPERCASE = /* GraphQL */ \`
-  mutation CreateUPPERCASE(
-    $input: CreateUPPERCASEInput!
-    $condition: ModelUPPERCASEConditionInput
-  ) {
-    createUPPERCASE(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
+exports[`end 2 end tests to test if the case style is retained for type names should generate statements 3`] = `
+Map {
+  "OnCreateUPPERCASE" => "
+subscription OnCreateUPPERCASE 
+{
+  onCreateUPPERCASE
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const updateUPPERCASE = /* GraphQL */ \`
-  mutation UpdateUPPERCASE(
-    $input: UpdateUPPERCASEInput!
-    $condition: ModelUPPERCASEConditionInput
-  ) {
-    updateUPPERCASE(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const deleteUPPERCASE = /* GraphQL */ \`
-  mutation DeleteUPPERCASE(
-    $input: DeleteUPPERCASEInput!
-    $condition: ModelUPPERCASEConditionInput
-  ) {
-    deleteUPPERCASE(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const createLowercase = /* GraphQL */ \`
-  mutation CreateLowercase(
-    $input: CreateLowercaseInput!
-    $condition: ModellowercaseConditionInput
-  ) {
-    createLowercase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const updateLowercase = /* GraphQL */ \`
-  mutation UpdateLowercase(
-    $input: UpdateLowercaseInput!
-    $condition: ModellowercaseConditionInput
-  ) {
-    updateLowercase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const deleteLowercase = /* GraphQL */ \`
-  mutation DeleteLowercase(
-    $input: DeleteLowercaseInput!
-    $condition: ModellowercaseConditionInput
-  ) {
-    deleteLowercase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const createCamelCase = /* GraphQL */ \`
-  mutation CreateCamelCase(
-    $input: CreateCamelCaseInput!
-    $condition: ModelcamelCaseConditionInput
-  ) {
-    createCamelCase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const updateCamelCase = /* GraphQL */ \`
-  mutation UpdateCamelCase(
-    $input: UpdateCamelCaseInput!
-    $condition: ModelcamelCaseConditionInput
-  ) {
-    updateCamelCase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const deleteCamelCase = /* GraphQL */ \`
-  mutation DeleteCamelCase(
-    $input: DeleteCamelCaseInput!
-    $condition: ModelcamelCaseConditionInput
-  ) {
-    deleteCamelCase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const createPascalCase = /* GraphQL */ \`
-  mutation CreatePascalCase(
-    $input: CreatePascalCaseInput!
-    $condition: ModelPascalCaseConditionInput
-  ) {
-    createPascalCase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const updatePascalCase = /* GraphQL */ \`
-  mutation UpdatePascalCase(
-    $input: UpdatePascalCaseInput!
-    $condition: ModelPascalCaseConditionInput
-  ) {
-    updatePascalCase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const deletePascalCase = /* GraphQL */ \`
-  mutation DeletePascalCase(
-    $input: DeletePascalCaseInput!
-    $condition: ModelPascalCaseConditionInput
-  ) {
-    deletePascalCase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const createSnake_case = /* GraphQL */ \`
-  mutation CreateSnake_case(
-    $input: CreateSnake_caseInput!
-    $condition: Modelsnake_caseConditionInput
-  ) {
-    createSnake_case(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const updateSnake_case = /* GraphQL */ \`
-  mutation UpdateSnake_case(
-    $input: UpdateSnake_caseInput!
-    $condition: Modelsnake_caseConditionInput
-  ) {
-    updateSnake_case(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const deleteSnake_case = /* GraphQL */ \`
-  mutation DeleteSnake_case(
-    $input: DeleteSnake_caseInput!
-    $condition: Modelsnake_caseConditionInput
-  ) {
-    deleteSnake_case(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const createUPPER_SNAKE_CASE = /* GraphQL */ \`
-  mutation CreateUPPER_SNAKE_CASE(
-    $input: CreateUPPER_SNAKE_CASEInput!
-    $condition: ModelUPPER_SNAKE_CASEConditionInput
-  ) {
-    createUPPER_SNAKE_CASE(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const updateUPPER_SNAKE_CASE = /* GraphQL */ \`
-  mutation UpdateUPPER_SNAKE_CASE(
-    $input: UpdateUPPER_SNAKE_CASEInput!
-    $condition: ModelUPPER_SNAKE_CASEConditionInput
-  ) {
-    updateUPPER_SNAKE_CASE(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const deleteUPPER_SNAKE_CASE = /* GraphQL */ \`
-  mutation DeleteUPPER_SNAKE_CASE(
-    $input: DeleteUPPER_SNAKE_CASEInput!
-    $condition: ModelUPPER_SNAKE_CASEConditionInput
-  ) {
-    deleteUPPER_SNAKE_CASE(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-",
-  "queries": "/* tslint:disable */
-/* eslint-disable */
-// this is an auto generated file. This will be overwritten
-
-export const getUPPERCASE = /* GraphQL */ \`
-  query GetUPPERCASE($id: ID!) {
-    getUPPERCASE(id: $id) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const listUPPERCASEs = /* GraphQL */ \`
-  query ListUPPERCASEs(
-    $filter: ModelUPPERCASEFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listUPPERCASEs(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        owner
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-\`;
-export const getLowercase = /* GraphQL */ \`
-  query GetLowercase($id: ID!) {
-    getLowercase(id: $id) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const listLowercases = /* GraphQL */ \`
-  query ListLowercases(
-    $filter: ModellowercaseFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listLowercases(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        owner
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-\`;
-export const getCamelCase = /* GraphQL */ \`
-  query GetCamelCase($id: ID!) {
-    getCamelCase(id: $id) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const listCamelCases = /* GraphQL */ \`
-  query ListCamelCases(
-    $filter: ModelcamelCaseFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listCamelCases(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        owner
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-\`;
-export const getPascalCase = /* GraphQL */ \`
-  query GetPascalCase($id: ID!) {
-    getPascalCase(id: $id) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const listPascalCases = /* GraphQL */ \`
-  query ListPascalCases(
-    $filter: ModelPascalCaseFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listPascalCases(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        owner
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-\`;
-export const getSnake_case = /* GraphQL */ \`
-  query GetSnake_case($id: ID!) {
-    getSnake_case(id: $id) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const listSnake_cases = /* GraphQL */ \`
-  query ListSnake_cases(
-    $filter: Modelsnake_caseFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listSnake_cases(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        owner
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-\`;
-export const getUPPER_SNAKE_CASE = /* GraphQL */ \`
-  query GetUPPER_SNAKE_CASE($id: ID!) {
-    getUPPER_SNAKE_CASE(id: $id) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const listUPPER_SNAKE_CASEs = /* GraphQL */ \`
-  query ListUPPER_SNAKE_CASEs(
-    $filter: ModelUPPER_SNAKE_CASEFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listUPPER_SNAKE_CASEs(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        owner
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-\`;
-export const queryByOwner = /* GraphQL */ \`
-  query QueryByOwner(
-    $owner: String
-    $sortDirection: ModelSortDirection
-    $filter: ModelUPPERCASEFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    queryByOwner(
-      owner: $owner
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        owner
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-\`;
-",
-  "subscriptions": "/* tslint:disable */
-/* eslint-disable */
-// this is an auto generated file. This will be overwritten
-
-export const onCreateUPPERCASE = /* GraphQL */ \`
-  subscription OnCreateUPPERCASE {
-    onCreateUPPERCASE {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const onUpdateUPPERCASE = /* GraphQL */ \`
-  subscription OnUpdateUPPERCASE {
-    onUpdateUPPERCASE {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const onDeleteUPPERCASE = /* GraphQL */ \`
-  subscription OnDeleteUPPERCASE {
-    onDeleteUPPERCASE {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const onCreateLowercase = /* GraphQL */ \`
-  subscription OnCreateLowercase {
-    onCreateLowercase {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const onUpdateLowercase = /* GraphQL */ \`
-  subscription OnUpdateLowercase {
-    onUpdateLowercase {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const onDeleteLowercase = /* GraphQL */ \`
-  subscription OnDeleteLowercase {
-    onDeleteLowercase {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const onCreateCamelCase = /* GraphQL */ \`
-  subscription OnCreateCamelCase {
-    onCreateCamelCase {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const onUpdateCamelCase = /* GraphQL */ \`
-  subscription OnUpdateCamelCase {
-    onUpdateCamelCase {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const onDeleteCamelCase = /* GraphQL */ \`
-  subscription OnDeleteCamelCase {
-    onDeleteCamelCase {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const onCreatePascalCase = /* GraphQL */ \`
-  subscription OnCreatePascalCase {
-    onCreatePascalCase {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const onUpdatePascalCase = /* GraphQL */ \`
-  subscription OnUpdatePascalCase {
-    onUpdatePascalCase {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const onDeletePascalCase = /* GraphQL */ \`
-  subscription OnDeletePascalCase {
-    onDeletePascalCase {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const onCreateSnake_case = /* GraphQL */ \`
-  subscription OnCreateSnake_case {
-    onCreateSnake_case {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const onUpdateSnake_case = /* GraphQL */ \`
-  subscription OnUpdateSnake_case {
-    onUpdateSnake_case {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const onDeleteSnake_case = /* GraphQL */ \`
-  subscription OnDeleteSnake_case {
-    onDeleteSnake_case {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const onCreateUPPER_SNAKE_CASE = /* GraphQL */ \`
-  subscription OnCreateUPPER_SNAKE_CASE {
-    onCreateUPPER_SNAKE_CASE {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const onUpdateUPPER_SNAKE_CASE = /* GraphQL */ \`
-  subscription OnUpdateUPPER_SNAKE_CASE {
-    onUpdateUPPER_SNAKE_CASE {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-export const onDeleteUPPER_SNAKE_CASE = /* GraphQL */ \`
-  subscription OnDeleteUPPER_SNAKE_CASE {
-    onDeleteUPPER_SNAKE_CASE {
-      id
-      owner
-      createdAt
-      updatedAt
-    }
-  }
-\`;
-",
 }
-`;
-
-exports[`end 2 end tests to test if the case style is retained for type names should generate statements in flow 1`] = `
-Object {
-  "fragments": "",
-  "mutations": "// @flow
-// this is an auto generated file. This will be overwritten
-
-export const createUPPERCASE = /* GraphQL */ \`
-  mutation CreateUPPERCASE(
-    $input: CreateUPPERCASEInput!
-    $condition: ModelUPPERCASEConditionInput
-  ) {
-    createUPPERCASE(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const updateUPPERCASE = /* GraphQL */ \`
-  mutation UpdateUPPERCASE(
-    $input: UpdateUPPERCASEInput!
-    $condition: ModelUPPERCASEConditionInput
-  ) {
-    updateUPPERCASE(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const deleteUPPERCASE = /* GraphQL */ \`
-  mutation DeleteUPPERCASE(
-    $input: DeleteUPPERCASEInput!
-    $condition: ModelUPPERCASEConditionInput
-  ) {
-    deleteUPPERCASE(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const createLowercase = /* GraphQL */ \`
-  mutation CreateLowercase(
-    $input: CreateLowercaseInput!
-    $condition: ModellowercaseConditionInput
-  ) {
-    createLowercase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const updateLowercase = /* GraphQL */ \`
-  mutation UpdateLowercase(
-    $input: UpdateLowercaseInput!
-    $condition: ModellowercaseConditionInput
-  ) {
-    updateLowercase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const deleteLowercase = /* GraphQL */ \`
-  mutation DeleteLowercase(
-    $input: DeleteLowercaseInput!
-    $condition: ModellowercaseConditionInput
-  ) {
-    deleteLowercase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const createCamelCase = /* GraphQL */ \`
-  mutation CreateCamelCase(
-    $input: CreateCamelCaseInput!
-    $condition: ModelcamelCaseConditionInput
-  ) {
-    createCamelCase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const updateCamelCase = /* GraphQL */ \`
-  mutation UpdateCamelCase(
-    $input: UpdateCamelCaseInput!
-    $condition: ModelcamelCaseConditionInput
-  ) {
-    updateCamelCase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const deleteCamelCase = /* GraphQL */ \`
-  mutation DeleteCamelCase(
-    $input: DeleteCamelCaseInput!
-    $condition: ModelcamelCaseConditionInput
-  ) {
-    deleteCamelCase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const createPascalCase = /* GraphQL */ \`
-  mutation CreatePascalCase(
-    $input: CreatePascalCaseInput!
-    $condition: ModelPascalCaseConditionInput
-  ) {
-    createPascalCase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const updatePascalCase = /* GraphQL */ \`
-  mutation UpdatePascalCase(
-    $input: UpdatePascalCaseInput!
-    $condition: ModelPascalCaseConditionInput
-  ) {
-    updatePascalCase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const deletePascalCase = /* GraphQL */ \`
-  mutation DeletePascalCase(
-    $input: DeletePascalCaseInput!
-    $condition: ModelPascalCaseConditionInput
-  ) {
-    deletePascalCase(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const createSnake_case = /* GraphQL */ \`
-  mutation CreateSnake_case(
-    $input: CreateSnake_caseInput!
-    $condition: Modelsnake_caseConditionInput
-  ) {
-    createSnake_case(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const updateSnake_case = /* GraphQL */ \`
-  mutation UpdateSnake_case(
-    $input: UpdateSnake_caseInput!
-    $condition: Modelsnake_caseConditionInput
-  ) {
-    updateSnake_case(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const deleteSnake_case = /* GraphQL */ \`
-  mutation DeleteSnake_case(
-    $input: DeleteSnake_caseInput!
-    $condition: Modelsnake_caseConditionInput
-  ) {
-    deleteSnake_case(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const createUPPER_SNAKE_CASE = /* GraphQL */ \`
-  mutation CreateUPPER_SNAKE_CASE(
-    $input: CreateUPPER_SNAKE_CASEInput!
-    $condition: ModelUPPER_SNAKE_CASEConditionInput
-  ) {
-    createUPPER_SNAKE_CASE(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const updateUPPER_SNAKE_CASE = /* GraphQL */ \`
-  mutation UpdateUPPER_SNAKE_CASE(
-    $input: UpdateUPPER_SNAKE_CASEInput!
-    $condition: ModelUPPER_SNAKE_CASEConditionInput
-  ) {
-    updateUPPER_SNAKE_CASE(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const deleteUPPER_SNAKE_CASE = /* GraphQL */ \`
-  mutation DeleteUPPER_SNAKE_CASE(
-    $input: DeleteUPPER_SNAKE_CASEInput!
-    $condition: ModelUPPER_SNAKE_CASEConditionInput
-  ) {
-    deleteUPPER_SNAKE_CASE(input: $input, condition: $condition) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
 ",
-  "queries": "// @flow
-// this is an auto generated file. This will be overwritten
-
-export const getUPPERCASE = /* GraphQL */ \`
-  query GetUPPERCASE($id: ID!) {
-    getUPPERCASE(id: $id) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+  "OnUpdateUPPERCASE" => "
+subscription OnUpdateUPPERCASE 
+{
+  onUpdateUPPERCASE
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const listUPPERCASEs = /* GraphQL */ \`
-  query ListUPPERCASEs(
-    $filter: ModelUPPERCASEFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listUPPERCASEs(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        owner
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-\`;
-export const getLowercase = /* GraphQL */ \`
-  query GetLowercase($id: ID!) {
-    getLowercase(id: $id) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const listLowercases = /* GraphQL */ \`
-  query ListLowercases(
-    $filter: ModellowercaseFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listLowercases(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        owner
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-\`;
-export const getCamelCase = /* GraphQL */ \`
-  query GetCamelCase($id: ID!) {
-    getCamelCase(id: $id) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const listCamelCases = /* GraphQL */ \`
-  query ListCamelCases(
-    $filter: ModelcamelCaseFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listCamelCases(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        owner
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-\`;
-export const getPascalCase = /* GraphQL */ \`
-  query GetPascalCase($id: ID!) {
-    getPascalCase(id: $id) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const listPascalCases = /* GraphQL */ \`
-  query ListPascalCases(
-    $filter: ModelPascalCaseFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listPascalCases(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        owner
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-\`;
-export const getSnake_case = /* GraphQL */ \`
-  query GetSnake_case($id: ID!) {
-    getSnake_case(id: $id) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const listSnake_cases = /* GraphQL */ \`
-  query ListSnake_cases(
-    $filter: Modelsnake_caseFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listSnake_cases(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        owner
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-\`;
-export const getUPPER_SNAKE_CASE = /* GraphQL */ \`
-  query GetUPPER_SNAKE_CASE($id: ID!) {
-    getUPPER_SNAKE_CASE(id: $id) {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const listUPPER_SNAKE_CASEs = /* GraphQL */ \`
-  query ListUPPER_SNAKE_CASEs(
-    $filter: ModelUPPER_SNAKE_CASEFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listUPPER_SNAKE_CASEs(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        owner
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-\`;
-export const queryByOwner = /* GraphQL */ \`
-  query QueryByOwner(
-    $owner: String
-    $sortDirection: ModelSortDirection
-    $filter: ModelUPPERCASEFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    queryByOwner(
-      owner: $owner
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        owner
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-\`;
+}
 ",
-  "subscriptions": "// @flow
-// this is an auto generated file. This will be overwritten
-
-export const onCreateUPPERCASE = /* GraphQL */ \`
-  subscription OnCreateUPPERCASE {
-    onCreateUPPERCASE {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+  "OnDeleteUPPERCASE" => "
+subscription OnDeleteUPPERCASE 
+{
+  onDeleteUPPERCASE
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onUpdateUPPERCASE = /* GraphQL */ \`
-  subscription OnUpdateUPPERCASE {
-    onUpdateUPPERCASE {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "OnCreateLowercase" => "
+subscription OnCreateLowercase 
+{
+  onCreateLowercase
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onDeleteUPPERCASE = /* GraphQL */ \`
-  subscription OnDeleteUPPERCASE {
-    onDeleteUPPERCASE {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "OnUpdateLowercase" => "
+subscription OnUpdateLowercase 
+{
+  onUpdateLowercase
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onCreateLowercase = /* GraphQL */ \`
-  subscription OnCreateLowercase {
-    onCreateLowercase {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "OnDeleteLowercase" => "
+subscription OnDeleteLowercase 
+{
+  onDeleteLowercase
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onUpdateLowercase = /* GraphQL */ \`
-  subscription OnUpdateLowercase {
-    onUpdateLowercase {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "OnCreateCamelCase" => "
+subscription OnCreateCamelCase 
+{
+  onCreateCamelCase
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onDeleteLowercase = /* GraphQL */ \`
-  subscription OnDeleteLowercase {
-    onDeleteLowercase {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "OnUpdateCamelCase" => "
+subscription OnUpdateCamelCase 
+{
+  onUpdateCamelCase
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onCreateCamelCase = /* GraphQL */ \`
-  subscription OnCreateCamelCase {
-    onCreateCamelCase {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "OnDeleteCamelCase" => "
+subscription OnDeleteCamelCase 
+{
+  onDeleteCamelCase
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onUpdateCamelCase = /* GraphQL */ \`
-  subscription OnUpdateCamelCase {
-    onUpdateCamelCase {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "OnCreatePascalCase" => "
+subscription OnCreatePascalCase 
+{
+  onCreatePascalCase
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onDeleteCamelCase = /* GraphQL */ \`
-  subscription OnDeleteCamelCase {
-    onDeleteCamelCase {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "OnUpdatePascalCase" => "
+subscription OnUpdatePascalCase 
+{
+  onUpdatePascalCase
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onCreatePascalCase = /* GraphQL */ \`
-  subscription OnCreatePascalCase {
-    onCreatePascalCase {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "OnDeletePascalCase" => "
+subscription OnDeletePascalCase 
+{
+  onDeletePascalCase
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onUpdatePascalCase = /* GraphQL */ \`
-  subscription OnUpdatePascalCase {
-    onUpdatePascalCase {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "OnCreateSnake_case" => "
+subscription OnCreateSnake_case 
+{
+  onCreateSnake_case
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onDeletePascalCase = /* GraphQL */ \`
-  subscription OnDeletePascalCase {
-    onDeletePascalCase {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "OnUpdateSnake_case" => "
+subscription OnUpdateSnake_case 
+{
+  onUpdateSnake_case
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onCreateSnake_case = /* GraphQL */ \`
-  subscription OnCreateSnake_case {
-    onCreateSnake_case {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "OnDeleteSnake_case" => "
+subscription OnDeleteSnake_case 
+{
+  onDeleteSnake_case
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onUpdateSnake_case = /* GraphQL */ \`
-  subscription OnUpdateSnake_case {
-    onUpdateSnake_case {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "OnCreateUPPER_SNAKE_CASE" => "
+subscription OnCreateUPPER_SNAKE_CASE 
+{
+  onCreateUPPER_SNAKE_CASE
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onDeleteSnake_case = /* GraphQL */ \`
-  subscription OnDeleteSnake_case {
-    onDeleteSnake_case {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "OnUpdateUPPER_SNAKE_CASE" => "
+subscription OnUpdateUPPER_SNAKE_CASE 
+{
+  onUpdateUPPER_SNAKE_CASE
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onCreateUPPER_SNAKE_CASE = /* GraphQL */ \`
-  subscription OnCreateUPPER_SNAKE_CASE {
-    onCreateUPPER_SNAKE_CASE {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
+}
+",
+  "OnDeleteUPPER_SNAKE_CASE" => "
+subscription OnDeleteUPPER_SNAKE_CASE 
+{
+  onDeleteUPPER_SNAKE_CASE
+ 
+   {
+    
+    id
+    owner
+    createdAt
+    updatedAt
+    
   }
-\`;
-export const onUpdateUPPER_SNAKE_CASE = /* GraphQL */ \`
-  subscription OnUpdateUPPER_SNAKE_CASE {
-    onUpdateUPPER_SNAKE_CASE {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
-export const onDeleteUPPER_SNAKE_CASE = /* GraphQL */ \`
-  subscription OnDeleteUPPER_SNAKE_CASE {
-    onDeleteUPPER_SNAKE_CASE {
-      id
-      owner
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-\`;
+}
 ",
 }
 `;
