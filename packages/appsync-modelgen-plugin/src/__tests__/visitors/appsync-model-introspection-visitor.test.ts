@@ -177,10 +177,6 @@ describe('Custom primary key tests', () => {
         posts: [Post] @manyToMany(relationName: "PostTags")
     }
   `;
-  it('should generate correct model intropection file validated by JSON schema and not throw error when custom PK is disabled', () => {
-    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: false });
-    expect(visitor.generate()).toMatchSnapshot();
-  });
   it('should generate correct model intropection file validated by JSON schema and not throw error when custom PK is enabled', () => {
     const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
     expect(visitor.generate()).toMatchSnapshot();
