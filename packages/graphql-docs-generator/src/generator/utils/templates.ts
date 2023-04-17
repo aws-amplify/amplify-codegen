@@ -1,51 +1,3 @@
-
-// export const getLanguageTemplate = (language: string) => {
-//   switch(language) {
-//     case 'javascript':
-//       return JSTemplate;
-//     case 'typescript':
-//       return TSTemplate;
-//     case 'flow':
-//       return FlowTemplate;
-//     default:
-//       return GraphQLTemplate;
-//   }
-// };
-
-// const JSTemplate = `
-// /* eslint-disable */
-// // this is an auto generated file. This will be overwritten
-
-// {{> renderToVariable }}
-
-// `;
-
-// const TSTemplate = `
-// /* tslint:disable */
-// /* eslint-disable */
-// // this is an auto generated file. This will be overwritten
-
-// {{> renderToVariable }}
-
-// `;
-
-// const FlowTemplate = `
-// // @flow
-// // this is an auto generated file. This will be overwritten
-
-// {{> renderToVariable }}
-// `;
-
-// const GraphQLTemplate = `
-// # this is an auto generated file. This will be overwritten
-// {{#each operations }}
-//   {{> renderOp }}
-// {{/each}}
-// {{#each fragments }}
-//   {{> renderExternalFragment }}
-// {{/each}}
-// `;
-
 export const getTemplatePartials = ():{[key: string]: string;} => {
   return {
     renderArgDeclaration: argDeclarationPartial,
@@ -53,8 +5,7 @@ export const getTemplatePartials = ():{[key: string]: string;} => {
     renderExternalFragment: externalFragmentPartial,
     renderFields: fieldsPartial,
     renderFragment: fragmentsPartial,
-    renderOp: operationPartial,
-    // renderToVariable: variablePartial
+    renderOp: operationPartial
   }
 };
 
@@ -129,11 +80,3 @@ const operationPartial = `
   {{/if}}
 }
 `;
-
-// const variablePartial = `
-// {{#each operations }}
-//   export const {{formatName name}} =  /* GraphQL */\`{{#format }}
-//       {{> renderOp }}
-//     {{/format}}\`;
-// {{/each}}
-// `;

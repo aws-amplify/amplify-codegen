@@ -2,7 +2,7 @@
 
 exports[`GraphQL documents generation tests for introspection schema input should generate GraphQL documents for schema 1`] = `
 Map {
-  "Hero" => "
+  "hero" => "
 query Hero 
   (
       $episode:Episode
@@ -121,7 +121,7 @@ query Hero
   }
 }
 ",
-  "Reviews" => "
+  "reviews" => "
 query Reviews 
   (
       $episode:Episode!
@@ -141,7 +141,7 @@ query Reviews
   }
 }
 ",
-  "Search" => "
+  "search" => "
 query Search 
   (
       $text:String
@@ -351,7 +351,7 @@ query Search
   }
 }
 ",
-  "Character" => "
+  "character" => "
 query Character 
   (
       $id:ID!
@@ -470,7 +470,7 @@ query Character
   }
 }
 ",
-  "Droid" => "
+  "droid" => "
 query Droid 
   (
       $id:ID!
@@ -572,7 +572,7 @@ query Droid
   }
 }
 ",
-  "Human" => "
+  "human" => "
 query Human 
   (
       $id:ID!
@@ -684,7 +684,7 @@ query Human
   }
 }
 ",
-  "Starship" => "
+  "starship" => "
 query Starship 
   (
       $id:ID!
@@ -710,7 +710,7 @@ query Starship
 
 exports[`GraphQL documents generation tests for introspection schema input should generate GraphQL documents for schema 2`] = `
 Map {
-  "CreateReview" => "
+  "createReview" => "
 mutation CreateReview 
   (
       $episode:Episode,
@@ -737,7 +737,7 @@ mutation CreateReview
 
 exports[`GraphQL documents generation tests for introspection schema input should generate GraphQL documents for schema 3`] = `
 Map {
-  "ReviewAdded" => "
+  "reviewAdded" => "
 subscription ReviewAdded 
   (
       $episode:Episode
@@ -762,7 +762,7 @@ subscription ReviewAdded
 
 exports[`end 2 end tests to test if the case style is retained for type names should generate statements 1`] = `
 Map {
-  "GetUPPERCASE" => "
+  "getUPPERCASE" => "
 query GetUPPERCASE 
   (
       $id:ID!
@@ -783,7 +783,7 @@ query GetUPPERCASE
   }
 }
 ",
-  "ListUPPERCASEs" => "
+  "listUPPERCASEs" => "
 query ListUPPERCASEs 
   (
       $filter:ModelUPPERCASEFilterInput,
@@ -813,7 +813,7 @@ query ListUPPERCASEs
   }
 }
 ",
-  "GetLowercase" => "
+  "getLowercase" => "
 query GetLowercase 
   (
       $id:ID!
@@ -834,7 +834,7 @@ query GetLowercase
   }
 }
 ",
-  "ListLowercases" => "
+  "listLowercases" => "
 query ListLowercases 
   (
       $filter:ModellowercaseFilterInput,
@@ -864,7 +864,7 @@ query ListLowercases
   }
 }
 ",
-  "GetCamelCase" => "
+  "getCamelCase" => "
 query GetCamelCase 
   (
       $id:ID!
@@ -885,7 +885,7 @@ query GetCamelCase
   }
 }
 ",
-  "ListCamelCases" => "
+  "listCamelCases" => "
 query ListCamelCases 
   (
       $filter:ModelcamelCaseFilterInput,
@@ -915,7 +915,7 @@ query ListCamelCases
   }
 }
 ",
-  "GetPascalCase" => "
+  "getPascalCase" => "
 query GetPascalCase 
   (
       $id:ID!
@@ -936,7 +936,7 @@ query GetPascalCase
   }
 }
 ",
-  "ListPascalCases" => "
+  "listPascalCases" => "
 query ListPascalCases 
   (
       $filter:ModelPascalCaseFilterInput,
@@ -966,7 +966,7 @@ query ListPascalCases
   }
 }
 ",
-  "GetSnake_case" => "
+  "getSnake_case" => "
 query GetSnake_case 
   (
       $id:ID!
@@ -987,7 +987,7 @@ query GetSnake_case
   }
 }
 ",
-  "ListSnake_cases" => "
+  "listSnake_cases" => "
 query ListSnake_cases 
   (
       $filter:Modelsnake_caseFilterInput,
@@ -1017,7 +1017,7 @@ query ListSnake_cases
   }
 }
 ",
-  "GetUPPER_SNAKE_CASE" => "
+  "getUPPER_SNAKE_CASE" => "
 query GetUPPER_SNAKE_CASE 
   (
       $id:ID!
@@ -1038,7 +1038,7 @@ query GetUPPER_SNAKE_CASE
   }
 }
 ",
-  "ListUPPER_SNAKE_CASEs" => "
+  "listUPPER_SNAKE_CASEs" => "
 query ListUPPER_SNAKE_CASEs 
   (
       $filter:ModelUPPER_SNAKE_CASEFilterInput,
@@ -1068,7 +1068,7 @@ query ListUPPER_SNAKE_CASEs
   }
 }
 ",
-  "QueryByOwner" => "
+  "queryByOwner" => "
 query QueryByOwner 
   (
       $owner:String,
@@ -1107,7 +1107,7 @@ query QueryByOwner
 
 exports[`end 2 end tests to test if the case style is retained for type names should generate statements 2`] = `
 Map {
-  "CreateUPPERCASE" => "
+  "createUPPERCASE" => "
 mutation CreateUPPERCASE 
   (
       $input:CreateUPPERCASEInput!,
@@ -1130,7 +1130,7 @@ mutation CreateUPPERCASE
   }
 }
 ",
-  "UpdateUPPERCASE" => "
+  "updateUPPERCASE" => "
 mutation UpdateUPPERCASE 
   (
       $input:UpdateUPPERCASEInput!,
@@ -1153,7 +1153,7 @@ mutation UpdateUPPERCASE
   }
 }
 ",
-  "DeleteUPPERCASE" => "
+  "deleteUPPERCASE" => "
 mutation DeleteUPPERCASE 
   (
       $input:DeleteUPPERCASEInput!,
@@ -1176,7 +1176,7 @@ mutation DeleteUPPERCASE
   }
 }
 ",
-  "CreateLowercase" => "
+  "createLowercase" => "
 mutation CreateLowercase 
   (
       $input:CreateLowercaseInput!,
@@ -1199,7 +1199,7 @@ mutation CreateLowercase
   }
 }
 ",
-  "UpdateLowercase" => "
+  "updateLowercase" => "
 mutation UpdateLowercase 
   (
       $input:UpdateLowercaseInput!,
@@ -1222,7 +1222,7 @@ mutation UpdateLowercase
   }
 }
 ",
-  "DeleteLowercase" => "
+  "deleteLowercase" => "
 mutation DeleteLowercase 
   (
       $input:DeleteLowercaseInput!,
@@ -1245,7 +1245,7 @@ mutation DeleteLowercase
   }
 }
 ",
-  "CreateCamelCase" => "
+  "createCamelCase" => "
 mutation CreateCamelCase 
   (
       $input:CreateCamelCaseInput!,
@@ -1268,7 +1268,7 @@ mutation CreateCamelCase
   }
 }
 ",
-  "UpdateCamelCase" => "
+  "updateCamelCase" => "
 mutation UpdateCamelCase 
   (
       $input:UpdateCamelCaseInput!,
@@ -1291,7 +1291,7 @@ mutation UpdateCamelCase
   }
 }
 ",
-  "DeleteCamelCase" => "
+  "deleteCamelCase" => "
 mutation DeleteCamelCase 
   (
       $input:DeleteCamelCaseInput!,
@@ -1314,7 +1314,7 @@ mutation DeleteCamelCase
   }
 }
 ",
-  "CreatePascalCase" => "
+  "createPascalCase" => "
 mutation CreatePascalCase 
   (
       $input:CreatePascalCaseInput!,
@@ -1337,7 +1337,7 @@ mutation CreatePascalCase
   }
 }
 ",
-  "UpdatePascalCase" => "
+  "updatePascalCase" => "
 mutation UpdatePascalCase 
   (
       $input:UpdatePascalCaseInput!,
@@ -1360,7 +1360,7 @@ mutation UpdatePascalCase
   }
 }
 ",
-  "DeletePascalCase" => "
+  "deletePascalCase" => "
 mutation DeletePascalCase 
   (
       $input:DeletePascalCaseInput!,
@@ -1383,7 +1383,7 @@ mutation DeletePascalCase
   }
 }
 ",
-  "CreateSnake_case" => "
+  "createSnake_case" => "
 mutation CreateSnake_case 
   (
       $input:CreateSnake_caseInput!,
@@ -1406,7 +1406,7 @@ mutation CreateSnake_case
   }
 }
 ",
-  "UpdateSnake_case" => "
+  "updateSnake_case" => "
 mutation UpdateSnake_case 
   (
       $input:UpdateSnake_caseInput!,
@@ -1429,7 +1429,7 @@ mutation UpdateSnake_case
   }
 }
 ",
-  "DeleteSnake_case" => "
+  "deleteSnake_case" => "
 mutation DeleteSnake_case 
   (
       $input:DeleteSnake_caseInput!,
@@ -1452,7 +1452,7 @@ mutation DeleteSnake_case
   }
 }
 ",
-  "CreateUPPER_SNAKE_CASE" => "
+  "createUPPER_SNAKE_CASE" => "
 mutation CreateUPPER_SNAKE_CASE 
   (
       $input:CreateUPPER_SNAKE_CASEInput!,
@@ -1475,7 +1475,7 @@ mutation CreateUPPER_SNAKE_CASE
   }
 }
 ",
-  "UpdateUPPER_SNAKE_CASE" => "
+  "updateUPPER_SNAKE_CASE" => "
 mutation UpdateUPPER_SNAKE_CASE 
   (
       $input:UpdateUPPER_SNAKE_CASEInput!,
@@ -1498,7 +1498,7 @@ mutation UpdateUPPER_SNAKE_CASE
   }
 }
 ",
-  "DeleteUPPER_SNAKE_CASE" => "
+  "deleteUPPER_SNAKE_CASE" => "
 mutation DeleteUPPER_SNAKE_CASE 
   (
       $input:DeleteUPPER_SNAKE_CASEInput!,
@@ -1526,7 +1526,7 @@ mutation DeleteUPPER_SNAKE_CASE
 
 exports[`end 2 end tests to test if the case style is retained for type names should generate statements 3`] = `
 Map {
-  "OnCreateUPPERCASE" => "
+  "onCreateUPPERCASE" => "
 subscription OnCreateUPPERCASE 
 {
   onCreateUPPERCASE
@@ -1541,7 +1541,7 @@ subscription OnCreateUPPERCASE
   }
 }
 ",
-  "OnUpdateUPPERCASE" => "
+  "onUpdateUPPERCASE" => "
 subscription OnUpdateUPPERCASE 
 {
   onUpdateUPPERCASE
@@ -1556,7 +1556,7 @@ subscription OnUpdateUPPERCASE
   }
 }
 ",
-  "OnDeleteUPPERCASE" => "
+  "onDeleteUPPERCASE" => "
 subscription OnDeleteUPPERCASE 
 {
   onDeleteUPPERCASE
@@ -1571,7 +1571,7 @@ subscription OnDeleteUPPERCASE
   }
 }
 ",
-  "OnCreateLowercase" => "
+  "onCreateLowercase" => "
 subscription OnCreateLowercase 
 {
   onCreateLowercase
@@ -1586,7 +1586,7 @@ subscription OnCreateLowercase
   }
 }
 ",
-  "OnUpdateLowercase" => "
+  "onUpdateLowercase" => "
 subscription OnUpdateLowercase 
 {
   onUpdateLowercase
@@ -1601,7 +1601,7 @@ subscription OnUpdateLowercase
   }
 }
 ",
-  "OnDeleteLowercase" => "
+  "onDeleteLowercase" => "
 subscription OnDeleteLowercase 
 {
   onDeleteLowercase
@@ -1616,7 +1616,7 @@ subscription OnDeleteLowercase
   }
 }
 ",
-  "OnCreateCamelCase" => "
+  "onCreateCamelCase" => "
 subscription OnCreateCamelCase 
 {
   onCreateCamelCase
@@ -1631,7 +1631,7 @@ subscription OnCreateCamelCase
   }
 }
 ",
-  "OnUpdateCamelCase" => "
+  "onUpdateCamelCase" => "
 subscription OnUpdateCamelCase 
 {
   onUpdateCamelCase
@@ -1646,7 +1646,7 @@ subscription OnUpdateCamelCase
   }
 }
 ",
-  "OnDeleteCamelCase" => "
+  "onDeleteCamelCase" => "
 subscription OnDeleteCamelCase 
 {
   onDeleteCamelCase
@@ -1661,7 +1661,7 @@ subscription OnDeleteCamelCase
   }
 }
 ",
-  "OnCreatePascalCase" => "
+  "onCreatePascalCase" => "
 subscription OnCreatePascalCase 
 {
   onCreatePascalCase
@@ -1676,7 +1676,7 @@ subscription OnCreatePascalCase
   }
 }
 ",
-  "OnUpdatePascalCase" => "
+  "onUpdatePascalCase" => "
 subscription OnUpdatePascalCase 
 {
   onUpdatePascalCase
@@ -1691,7 +1691,7 @@ subscription OnUpdatePascalCase
   }
 }
 ",
-  "OnDeletePascalCase" => "
+  "onDeletePascalCase" => "
 subscription OnDeletePascalCase 
 {
   onDeletePascalCase
@@ -1706,7 +1706,7 @@ subscription OnDeletePascalCase
   }
 }
 ",
-  "OnCreateSnake_case" => "
+  "onCreateSnake_case" => "
 subscription OnCreateSnake_case 
 {
   onCreateSnake_case
@@ -1721,7 +1721,7 @@ subscription OnCreateSnake_case
   }
 }
 ",
-  "OnUpdateSnake_case" => "
+  "onUpdateSnake_case" => "
 subscription OnUpdateSnake_case 
 {
   onUpdateSnake_case
@@ -1736,7 +1736,7 @@ subscription OnUpdateSnake_case
   }
 }
 ",
-  "OnDeleteSnake_case" => "
+  "onDeleteSnake_case" => "
 subscription OnDeleteSnake_case 
 {
   onDeleteSnake_case
@@ -1751,7 +1751,7 @@ subscription OnDeleteSnake_case
   }
 }
 ",
-  "OnCreateUPPER_SNAKE_CASE" => "
+  "onCreateUPPER_SNAKE_CASE" => "
 subscription OnCreateUPPER_SNAKE_CASE 
 {
   onCreateUPPER_SNAKE_CASE
@@ -1766,7 +1766,7 @@ subscription OnCreateUPPER_SNAKE_CASE
   }
 }
 ",
-  "OnUpdateUPPER_SNAKE_CASE" => "
+  "onUpdateUPPER_SNAKE_CASE" => "
 subscription OnUpdateUPPER_SNAKE_CASE 
 {
   onUpdateUPPER_SNAKE_CASE
@@ -1781,7 +1781,7 @@ subscription OnUpdateUPPER_SNAKE_CASE
   }
 }
 ",
-  "OnDeleteUPPER_SNAKE_CASE" => "
+  "onDeleteUPPER_SNAKE_CASE" => "
 subscription OnDeleteUPPER_SNAKE_CASE 
 {
   onDeleteUPPER_SNAKE_CASE

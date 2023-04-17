@@ -61,6 +61,7 @@ export type GQLTemplateGenericOp = {
 export type GQLTemplateOp = GQLTemplateGenericOp & {
   type: GQLOperationTypeEnum;
   name: string;
+  fieldName?: string;
 };
 
 export type GQLAllOperations = {
