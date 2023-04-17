@@ -5,7 +5,7 @@ const Ora = require('ora');
 const loadConfig = require('../codegen-config');
 const constants = require('../constants');
 const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails, loadSchema, isSDLSchema } = require('../utils');
-const { generate } = require('@aws-amplify/graphql-docs-generator');
+const { generateGraphQLDocuments } = require('@aws-amplify/graphql-docs-generator');
 
 async function generateStatements(context, forceDownloadSchema, maxDepth, withoutInit = false, decoupleFrontend = '') {
   try {
@@ -56,13 +56,11 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
     try {
       fs.ensureDirSync(opsGenDirectory);
       const schemaData = loadSchema(schemaPath);
-      const generatedOps = generate(schemaData, {
-        language: language,
+      const generatedOps = generateGraphQLDocuments(schemaData, {
         maxDepth: maxDepth || cfg.amplifyExtension.maxDepth,
         // default typenameIntrospection to true when not set
         typenameIntrospection:
           cfg.amplifyExtension.typenameIntrospection === undefined ? true : !!cfg.amplifyExtension.typenameIntrospection,
-        isSDLSchema: isSDLSchema(schemaPath)
       });
       await writeGeneratedStatements(language, generatedOps, opsGenDirectory, true);
       opsGenSpinner.succeed(constants.INFO_MESSAGE_OPS_GEN_SUCCESS + path.relative(path.resolve('.'), opsGenDirectory));
