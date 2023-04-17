@@ -59,7 +59,7 @@ function renderOperations(operations: Array<GQLTemplateOp>): Map<string, string>
   const renderedOperations = new Map<string, string>();
   if (operations?.length) {
     operations.forEach(op => {
-      const name = op.name;
+      const name = op.fieldName || op.name;
       const gql = renderOperation(op);
       renderedOperations.set(name, gql);
     });

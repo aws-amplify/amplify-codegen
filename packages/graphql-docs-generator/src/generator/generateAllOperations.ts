@@ -4,7 +4,6 @@ import generateOperation from './generateOperation';
 import {
   GQLTemplateOp,
   GQLOperationTypeEnum,
-  GQLTemplateGenericOp,
   GQLTemplateField,
   GQLTemplateFragment,
   GQLDocsGenOptions,
@@ -22,7 +21,8 @@ export function generateQueries(
       const type: GQLOperationTypeEnum = GQLOperationTypeEnum.QUERY;
       const op = generateOperation(allQueries[queryName], schema, maxDepth, options);
       const name: string = capitalizeFirstLetter(queryName);
-      return { type, name, ...op };
+      const fieldName: string = queryName;
+      return { type, name, fieldName, ...op };
     });
     return processedQueries;
   }
@@ -40,7 +40,8 @@ export function generateMutations(
       const type: GQLOperationTypeEnum = GQLOperationTypeEnum.MUTATION;
       const op = generateOperation(allMutations[mutationName], schema, maxDepth, options);
       const name: string = capitalizeFirstLetter(mutationName);
-      return { type, name, ...op };
+      const fieldName: string = mutationName;
+      return { type, name, fieldName, ...op };
     });
     return processedMutations;
   }
@@ -54,13 +55,14 @@ export function generateSubscriptions(
 ): Array<any> {
   if (subscriptions) {
     const allSubscriptions = subscriptions.getFields();
-    const processedMutations = Object.keys(allSubscriptions).map(subscriptionName => {
+    const processedSubscriptions = Object.keys(allSubscriptions).map(subscriptionName => {
       const type: GQLOperationTypeEnum = GQLOperationTypeEnum.SUBSCRIPTION;
       const op = generateOperation(allSubscriptions[subscriptionName], schema, maxDepth, options);
       const name: string = capitalizeFirstLetter(subscriptionName);
-      return { type, name, ...op };
+      const fieldName: string = subscriptionName;
+      return { type, name, fieldName, ...op };
     });
-    return processedMutations;
+    return processedSubscriptions;
   }
 }
 
