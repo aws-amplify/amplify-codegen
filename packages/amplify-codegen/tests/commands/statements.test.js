@@ -1,5 +1,5 @@
 const path = require('path');
-const { generate } = require('@aws-amplify/graphql-docs-generator');
+const { generateGraphQLDocuments } = require('@aws-amplify/graphql-docs-generator');
 const fs = require('fs-extra');
 
 const loadConfig = require('../../src/codegen-config');
@@ -69,18 +69,14 @@ describe('command - statements', () => {
     expect(getFrontEndHandler).toHaveBeenCalledWith(MOCK_CONTEXT);
     expect(loadConfig).toHaveBeenCalledWith(MOCK_CONTEXT, false);
 
-    expect(generate).toHaveBeenCalledWith(MOCK_SCHEMA, {
-      language: MOCK_TARGET_LANGUAGE,
-    });
+    expect(generateGraphQLDocuments).toHaveBeenCalledWith(MOCK_SCHEMA, {});
   });
 
   it('should generate graphql statements for non JS projects', async () => {
     getFrontEndHandler.mockReturnValue('ios');
     const forceDownload = false;
     await generateStatements(MOCK_CONTEXT, forceDownload);
-    expect(generate).toHaveBeenCalledWith(MOCK_SCHEMA, {
-      language: 'graphql',
-    });
+    expect(generateGraphQLDocuments).toHaveBeenCalledWith(MOCK_SCHEMA, {});
   });
 
   it('should download the schema if forceDownload flag is passed', async () => {
