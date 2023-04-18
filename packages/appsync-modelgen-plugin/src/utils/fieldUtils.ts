@@ -26,9 +26,9 @@ export function getOtherSideBelongsToField(type: string, otherSideModel: CodeGen
 }
 
 /**
- * Given a model, it returns the primary and sort key fields if present, throws meaningful error otherwise.
+ * Given a model, it returns the primary and sort key fields if present, an empty list otherwise.
  * @param model Codegen Model object
- * @returns Array of primary and sort key codegen fields
+ * @returns Array of primary and sort key codegen fields if present or an ampty list
  */
 export function getModelPrimaryKeyComponentFields(model: CodeGenModel): CodeGenField[] {
   const primaryKeyField = model.fields.find(field => field.primaryKeyInfo);
