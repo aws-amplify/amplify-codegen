@@ -32,10 +32,12 @@ export function getOtherSideBelongsToField(type: string, otherSideModel: CodeGen
  */
 export function getModelPrimaryKeyComponentFields(model: CodeGenModel): CodeGenField[] {
   const primaryKeyField = model.fields.find(field => field.primaryKeyInfo);
-  if (primaryKeyField && primaryKeyField?.primaryKeyInfo) {
-    const { sortKeyFields } = primaryKeyField.primaryKeyInfo;
-    return [ primaryKeyField, ...sortKeyFields ];
+  const keyFields: CodeGenField[] = [];
+  if (primaryKeyField) {
+    keyFields.push(primaryKeyField);
+    if ( primaryKeyField?.primaryKeyInfo?.sortKeyFields ) {
+      keyFields.push(...primaryKeyField.primaryKeyInfo.sortKeyFields);
+    };
   }
-
-  throw new Error(`Unable to get the primary key component fields for model ${model?.name}`);
+  return keyFields;
 }

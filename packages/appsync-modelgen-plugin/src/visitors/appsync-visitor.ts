@@ -941,15 +941,17 @@ export class AppSyncModelVisitor<
           } else if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
             if (isCustomPKEnabled) {
               const connectedModelFields = getModelPrimaryKeyComponentFields(connectionInfo.connectedModel);
-              connectionInfo.targetNames.forEach((target, index) => {
-                addFieldToModel(model, {
-                  name: target,
-                  directives: [],
-                  type: connectedModelFields[index].type,
-                  isList: false,
-                  isNullable: field.isNullable,
+              if (connectedModelFields?.length > 0) {
+                connectionInfo.targetNames.forEach((target, index) => {
+                  addFieldToModel(model, {
+                    name: target,
+                    directives: [],
+                    type: connectedModelFields[index].type,
+                    isList: false,
+                    isNullable: field.isNullable,
+                  });
                 });
-              });
+              }
             } else {
               addFieldToModel(model, {
                 name: connectionInfo.targetName,
@@ -962,15 +964,17 @@ export class AppSyncModelVisitor<
           } else if (connectionInfo.kind === CodeGenConnectionType.BELONGS_TO) {
             if (isCustomPKEnabled) {
               const connectedModelFields = getModelPrimaryKeyComponentFields(connectionInfo.connectedModel);
-              connectionInfo.targetNames.forEach((target, index) => {
-                addFieldToModel(model, {
-                  name: target,
-                  directives: [],
-                  type: connectedModelFields[index].type,
-                  isList: false,
-                  isNullable: field.isNullable,
+              if (connectedModelFields?.length > 0) {
+                connectionInfo.targetNames.forEach((target, index) => {
+                  addFieldToModel(model, {
+                    name: target,
+                    directives: [],
+                    type: connectedModelFields[index].type,
+                    isList: false,
+                    isNullable: field.isNullable,
+                  });
                 });
-              });
+              }
             } else {
               addFieldToModel(model, {
                 name: connectionInfo.targetName,
