@@ -1022,6 +1022,8 @@ export class AppSyncModelVisitor<
       }
     } else {
       Object.values(this.modelMap).forEach(model => {
+        const primaryKeyFields = getModelPrimaryKeyComponentFields(model);
+        const primaryKeyName = (primaryKeyFields?.length > 0) ? this.getFieldName(primaryKeyFields[0]) : undefined;
         model.fields.forEach(field => {
           const connectionInfo = field.connectionInfo;
           if (
@@ -1030,7 +1032,7 @@ export class AppSyncModelVisitor<
             connectionInfo.kind !== CodeGenConnectionType.HAS_ONE &&
             connectionInfo.targetName !== 'id' &&
             !(this.config.target === 'introspection' &&
-              this.getFieldName(getModelPrimaryKeyComponentFields(model)[0]) === connectionInfo.targetName)
+              primaryKeyName && primaryKeyName === connectionInfo.targetName)
           ) {
             // Need to remove the field that is targetName
             removeFieldFromModel(model, connectionInfo.targetName);
