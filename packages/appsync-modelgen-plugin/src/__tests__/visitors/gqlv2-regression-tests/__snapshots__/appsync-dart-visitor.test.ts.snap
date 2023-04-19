@@ -120,7 +120,9 @@ class Post extends Model {
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'title': _title, 'comments': _comments
+    'id': id,
+    'title': _title,
+    'comments': _comments
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -281,7 +283,9 @@ class Comment extends Model {
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'content': _content, 'post': _post
+    'id': id,
+    'content': _content,
+    'post': _post
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -446,7 +450,10 @@ class Project2 extends Model {
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'name': _name, 'team': _team, 'project2TeamId': _project2TeamId
+    'id': id,
+    'name': _name,
+    'team': _team,
+    'project2TeamId': _project2TeamId
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -614,7 +621,9 @@ class Team2 extends Model {
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'name': _name, 'project': _project
+    'id': id,
+    'name': _name,
+    'project': _project
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -778,7 +787,9 @@ class Blog7V2 extends Model {
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'name': _name, 'posts': _posts
+    'id': id,
+    'name': _name,
+    'posts': _posts
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -954,7 +965,10 @@ class Post7V2 extends Model {
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'title': _title, 'blog': _blog, 'comments': _comments
+    'id': id,
+    'title': _title,
+    'blog': _blog,
+    'comments': _comments
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -1116,7 +1130,9 @@ class Comment7V2 extends Model {
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'content': _content, 'post': _post
+    'id': id,
+    'content': _content,
+    'post': _post
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -1277,7 +1293,10 @@ class Project extends Model {
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'name': _name, 'team': _team, 'projectTeamId': _projectTeamId
+    'id': id,
+    'name': _name,
+    'team': _team,
+    'projectTeamId': _projectTeamId
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -1445,7 +1464,9 @@ class Team extends Model {
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'name': _name, 'project': _project
+    'id': id,
+    'name': _name,
+    'project': _project
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -1619,7 +1640,10 @@ class Post extends Model {
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'title': _title, 'content': _content, 'tags': _tags
+    'id': id,
+    'title': _title,
+    'content': _content,
+    'tags': _tags
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -1790,7 +1814,9 @@ class Tag extends Model {
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'label': _label, 'posts': _posts
+    'id': id,
+    'label': _label,
+    'posts': _posts
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -1929,7 +1955,8 @@ class Todo extends Model {
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'content': _content
+    'id': id,
+    'content': _content
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -2083,7 +2110,9 @@ class Post2 extends Model {
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'title': _title, 'comments': _comments
+    'id': id,
+    'title': _title,
+    'comments': _comments
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -2250,7 +2279,9 @@ class Comment2 extends Model {
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'postID': _postID, 'content': _content
+    'id': id,
+    'postID': _postID,
+    'content': _content
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -2412,7 +2443,10 @@ class Project2 extends Model {
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'name': _name, 'teamID': _teamID, 'team': _team
+    'id': id,
+    'name': _name,
+    'teamID': _teamID,
+    'team': _team
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -2567,7 +2601,8 @@ class Team2 extends Model {
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'name': _name
+    'id': id,
+    'name': _name
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -2721,7 +2756,9 @@ class Post extends Model {
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'title': _title, 'comments': _comments
+    'id': id,
+    'title': _title,
+    'comments': _comments
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -2879,7 +2916,9 @@ class Comment extends Model {
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'content': _content, 'postCommentsId': _postCommentsId
+    'id': id,
+    'content': _content,
+    'postCommentsId': _postCommentsId
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -3037,7 +3076,10 @@ class Project extends Model {
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'name': _name, 'team': _team, 'projectTeamId': _projectTeamId
+    'id': id,
+    'name': _name,
+    'team': _team,
+    'projectTeamId': _projectTeamId
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -3192,7 +3234,8 @@ class Team extends Model {
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'name': _name
+    'id': id,
+    'name': _name
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -3359,7 +3402,10 @@ class Customer extends Model {
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'name': _name, 'phoneNumber': _phoneNumber, 'accountRepresentativeID': _accountRepresentativeID
+    'id': id,
+    'name': _name,
+    'phoneNumber': _phoneNumber,
+    'accountRepresentativeID': _accountRepresentativeID
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");
@@ -3582,7 +3628,12 @@ class ModelWithPrimaryKey extends Model {
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'productID': _productID, 'name': _name, 'content': _content, 'albumID': _albumID, 'categoryID': _categoryID
+    'id': id,
+    'productID': _productID,
+    'name': _name,
+    'content': _content,
+    'albumID': _albumID,
+    'categoryID': _categoryID
   };
 
   static final QueryField ID = QueryField(fieldName: \\"id\\");

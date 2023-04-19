@@ -6,8 +6,6 @@ const { FeatureFlags, pathManager } = require('@aws-amplify/amplify-cli-core');
 const gqlCodeGen = require('@graphql-codegen/core');
 const appSyncDataStoreCodeGen = require('@aws-amplify/appsync-modelgen-plugin');
 const { version: packageVersion } = require('../../package.json');
-const { validateDartSDK } = require('../utils/validateDartSDK');
-const { validateAmplifyFlutterCapableZeroThreeFeatures } = require('../utils/validateAmplifyFlutterCapableZeroThreeFeatures');
 const { validateAmplifyFlutterCoreLibraryDependency } = require('../utils/validateAmplifyFlutterCoreLibraryDependency');
 
 const platformToLanguageMap = {
@@ -106,23 +104,10 @@ async function generateModels(context, generateOptions = null) {
   const generateModelsForLazyLoadAndCustomSelectionSet = readFeatureFlag('codegen.generateModelsForLazyLoadAndCustomSelectionSet');
 
   let isTimestampFieldsAdded = readFeatureFlag('codegen.addTimestampFields');
-  let enableDartNullSafety = readFeatureFlag('codegen.enableDartNullSafety');
   let enableDartZeroThreeFeatures = false;
   let dartUpdateAmplifyCoreDependency = false;
 
   if (projectConfig.frontend === 'flutter') {
-    const isMinimumDartVersionSatisfied = validateDartSDK(context, projectRoot);
-    context.print.warning(`Detected feature flag: “enableDartNullSafety : ${enableDartNullSafety}”`);
-    if (isMinimumDartVersionSatisfied && enableDartNullSafety) {
-      context.print.warning(
-        'Generating Dart Models with null safety. To opt out of null safe models, turn off the “enableDartNullSafety” feature flag. Learn more: https://docs.amplify.aws/lib/project-setup/null-safety/q/platform/flutter',
-      );
-    } else {
-      enableDartNullSafety = false;
-      context.print.warning(
-        'Generating Dart Models without null safety. To generate null safe data models, turn on the “enableDartNullSafety” feature flag and set your Dart SDK version to “>= 2.12.0”. Learn more: https://docs.amplify.aws/lib/project-setup/null-safety/q/platform/flutter',
-      );
-    }
     // override isTimestampFieldsAdded to true when using amplify-flutter > 0.3.0 || > 0.3.0-rc.2
     isTimestampFieldsAdded = validateAmplifyFlutterCapableZeroThreeFeatures(projectRoot);
     enableDartZeroThreeFeatures = validateAmplifyFlutterCapableZeroThreeFeatures(projectRoot);
@@ -140,7 +125,6 @@ async function generateModels(context, generateOptions = null) {
       isTimestampFieldsAdded,
       emitAuthProvider,
       generateIndexRules,
-      enableDartNullSafety,
       handleListNullabilityTransparently,
       usePipelinedTransformer,
       enableDartZeroThreeFeatures,

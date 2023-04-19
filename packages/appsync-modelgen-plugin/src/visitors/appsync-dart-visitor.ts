@@ -31,13 +31,6 @@ export interface RawAppSyncModelDartConfig extends RawAppSyncModelConfig {
   /**
    * @name directives
    * @type boolean
-   * @description optional, defines if dart model files are generated with null safety feature.
-   */
-  enableDartNullSafety?: boolean;
-
-  /**
-   * @name directives
-   * @type boolean
    * @description optional, defines if dart model files are generated with amplify-flutter 0.3.0 new features.
    *              - CustomType
    *              - Emit auth provider information
@@ -54,7 +47,6 @@ export interface RawAppSyncModelDartConfig extends RawAppSyncModelConfig {
 }
 
 export interface ParsedAppSyncModelDartConfig extends ParsedAppSyncModelConfig {
-  enableDartNullSafety: boolean;
   enableDartZeroThreeFeatures: boolean;
   dartUpdateAmplifyCoreDependency: boolean;
 }
@@ -69,7 +61,6 @@ export class AppSyncModelDartVisitor<
     defaultScalars: NormalizedScalarsMap = DART_SCALAR_MAP,
   ) {
     super(schema, rawConfig, additionalConfig, defaultScalars);
-    this._parsedConfig.enableDartNullSafety = rawConfig.enableDartNullSafety || false;
     this._parsedConfig.enableDartZeroThreeFeatures = rawConfig.enableDartZeroThreeFeatures || false;
     this._parsedConfig.dartUpdateAmplifyCoreDependency = rawConfig.dartUpdateAmplifyCoreDependency || false;
   }
@@ -473,7 +464,7 @@ export class AppSyncModelDartVisitor<
   protected generateModelField(field: CodeGenField, value: string, classDeclarationBlock: DartDeclarationBlock): void {
     const fieldType = this.getNativeType(field);
     const fieldName = this.getFieldName(field);
-    if (this.isNullSafety() && fieldName !== 'id') {
+    if (fieldName !== 'id') {
       classDeclarationBlock.addClassMember(`_${fieldName}`, `${fieldType}?`, value, { final: true });
     } else {
       classDeclarationBlock.addClassMember(fieldName, fieldType, value, { final: true });
@@ -496,39 +487,37 @@ export class AppSyncModelDartVisitor<
       }
     }
     //other getters
-    if (this.isNullSafety()) {
-      let forceCastException = `throw new DataStoreException(
+    let forceCastException = `throw new DataStoreException(
       DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
         DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
       );`;
-      if (this.config.dartUpdateAmplifyCoreDependency === true) {
-        forceCastException = `throw new AmplifyCodeGenModelException(
+    if (this.config.dartUpdateAmplifyCoreDependency === true) {
+      forceCastException = `throw new AmplifyCodeGenModelException(
       AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
         AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
       );`;
-      }
-
-      if (includeIdGetter && this.isCustomPKEnabled()) {
-        this.generateModelIdentifierGetter(model, declarationBlock, forceCastException);
-      }
-
-      model.fields.forEach(field => {
-        const fieldName = this.getFieldName(field);
-        const fieldType = this.getNativeType(field);
-        const returnType = this.isFieldRequired(field) ? fieldType : `${fieldType}?`;
-
-        const getterImpl = this.isFieldRequired(field)
-          ? [`try {`, indent(`return _${fieldName}!;`), '} catch(e) {', indent(forceCastException), '}'].join('\n')
-          : `return _${fieldName};`;
-        if (fieldName !== 'id') {
-          declarationBlock.addClassMethod(`get ${fieldName}`, returnType, undefined, getterImpl, { isGetter: true, isBlock: true });
-        }
-      });
     }
+
+    if (includeIdGetter && this.isCustomPKEnabled()) {
+      this.generateModelIdentifierGetter(model, declarationBlock, forceCastException);
+    }
+
+    model.fields.forEach(field => {
+      const fieldName = this.getFieldName(field);
+      const fieldType = this.getNativeType(field);
+      const returnType = this.isFieldRequired(field) ? fieldType : `${fieldType}?`;
+
+      const getterImpl = this.isFieldRequired(field)
+        ? [`try {`, indent(`return _${fieldName}!;`), '} catch(e) {', indent(forceCastException), '}'].join('\n')
+        : `return _${fieldName};`;
+      if (fieldName !== 'id') {
+        declarationBlock.addClassMethod(`get ${fieldName}`, returnType, undefined, getterImpl, { isGetter: true, isBlock: true });
+      }
+    });
   }
 
   protected generateModelIdentifierGetter(model: CodeGenModel, declarationBlock: DartDeclarationBlock, forceCastException: string): void {
@@ -563,16 +552,12 @@ export class AppSyncModelDartVisitor<
 
   protected generateConstructor(model: CodeGenModel, declarationBlock: DartDeclarationBlock): void {
     //Model._internal
-    const args = this.isNullSafety()
-      ? `{${model.fields
-          .map(f => `${this.isFieldRequired(f) ? 'required ' : ''}${this.getFieldName(f) === 'id' ? 'this.' : ''}${this.getFieldName(f)}`)
-          .join(', ')}}`
-      : `{${model.fields.map(f => `${this.isFieldRequired(f) ? '@required ' : ''}this.${this.getFieldName(f)}`).join(', ')}}`;
+    const args = `{${model.fields
+      .map(f => `${this.isFieldRequired(f) ? 'required ' : ''}${this.getFieldName(f) === 'id' ? 'this.' : ''}${this.getFieldName(f)}`)
+      .join(', ')}}`;
     const internalFields = model.fields.filter(f => this.getFieldName(f) !== 'id');
-    const internalImpl = this.isNullSafety()
-      ? internalFields.length
-        ? `: ${internalFields.map(f => `_${this.getFieldName(f)} = ${this.getFieldName(f)}`).join(', ')};`
-        : ';'
+    const internalImpl = internalFields.length
+      ? `: ${internalFields.map(f => `_${this.getFieldName(f)} = ${this.getFieldName(f)}`).join(', ')};`
       : ';';
     declarationBlock.addClassMethod(`${this.getModelName(model)}._internal`, '', [{ name: args }], internalImpl, {
       const: true,
@@ -593,23 +578,14 @@ export class AppSyncModelDartVisitor<
       })
       .join(',\n');
     const factoryImpl = [`return ${this.getModelName(model)}._internal(`, indentMultiline(`${returnParamStr});`)].join('\n');
-    const factoryParam = this.isNullSafety()
-      ? `{${writableFields
-          .map(f => {
-            if (this.getFieldName(f) === 'id' || !this.isFieldRequired(f)) {
-              return `${this.getNativeType(f)}? ${this.getFieldName(f)}`;
-            }
-            return `required ${this.getNativeType(f)} ${this.getFieldName(f)}`;
-          })
-          .join(', ')}}`
-      : `{${writableFields
-          .map(
-            f =>
-              `${this.getFieldName(f) !== 'id' && this.isFieldRequired(f) ? '@required ' : ''}${this.getNativeType(f)} ${this.getFieldName(
-                f,
-              )}`,
-          )
-          .join(', ')}}`;
+    const factoryParam = `{${writableFields
+      .map(f => {
+        if (this.getFieldName(f) === 'id' || !this.isFieldRequired(f)) {
+          return `${this.getNativeType(f)}? ${this.getFieldName(f)}`;
+        }
+        return `required ${this.getNativeType(f)} ${this.getFieldName(f)}`;
+      })
+      .join(', ')}}`;
     declarationBlock.addClassMethod(this.getModelName(model), 'factory', [{ name: factoryParam }], factoryImpl);
   }
 
@@ -623,7 +599,7 @@ export class AppSyncModelDartVisitor<
       indentMultiline(
         `${this.getWritableFields(model)
           .map(f => {
-            const fieldName = `${this.isNullSafety() && f.name !== 'id' ? '_' : ''}${this.getFieldName(f)}`;
+            const fieldName = `${f.name !== 'id' ? '_' : ''}${this.getFieldName(f)}`;
             return f.isList ? `DeepCollectionEquality().equals(${fieldName}, other.${fieldName})` : `${fieldName} == other.${fieldName}`;
           })
           .join(' &&\n')};`,
@@ -653,15 +629,13 @@ export class AppSyncModelDartVisitor<
         ...fields.map((field, index) => {
           const fieldDelimiter = ', ';
           const varName = this.getFieldName(field);
-          const fieldName = `${this.isNullSafety() && field.name !== 'id' ? '_' : ''}${this.getFieldName(field)}`;
+          const fieldName = `${field.name !== 'id' ? '_' : ''}${this.getFieldName(field)}`;
           let toStringVal = '';
           if (this.isEnumType(field)) {
             if (field.isList) {
-              toStringVal = this.isNullSafety()
-                ? `(${fieldName} != null ? ${fieldName}!.map((e) => enumToString(e)).toString() : "null")`
-                : `${fieldName}?.map((e) => enumToString(e)).toString()`;
+              toStringVal = `(${fieldName} != null ? ${fieldName}!.map((e) => enumToString(e)).toString() : "null")`;
             } else {
-              toStringVal = `(${fieldName} != null ? enumToString(${fieldName})${this.isNullSafety() ? '!' : ''} : "null")`;
+              toStringVal = `(${fieldName} != null ? enumToString(${fieldName})! : "null")`;
             }
           } else {
             const fieldNativeType = this.getNativeType(field);
@@ -672,10 +646,10 @@ export class AppSyncModelDartVisitor<
               case this.scalars['AWSDate']:
               case this.scalars['AWSTime']:
               case this.scalars['AWSDateTime']:
-                toStringVal = `(${fieldName} != null ? ${fieldName}${this.isNullSafety() ? '!' : ''}.format() : "null")`;
+                toStringVal = `(${fieldName} != null ? ${fieldName}!.format() : "null")`;
                 break;
               default:
-                toStringVal = `(${fieldName} != null ? ${fieldName}${this.isNullSafety() ? '!' : ''}.toString() : "null")`;
+                toStringVal = `(${fieldName} != null ? ${fieldName}!.toString() : "null")`;
             }
           }
           if (index !== fields.length - 1) {
@@ -696,7 +670,7 @@ export class AppSyncModelDartVisitor<
     //copyWith
     const writableFields = this.getWritableFields(model, this.isCustomPKEnabled());
     const copyParam = `{${writableFields
-      .map(f => `${this.getNativeType(f)}${this.isNullSafety() ? '?' : ''} ${this.getFieldName(f)}`)
+      .map(f => `${this.getNativeType(f)}? ${this.getFieldName(f)}`)
       .join(', ')}}`;
     declarationBlock.addClassMethod(
       'copyWith',
@@ -724,18 +698,19 @@ export class AppSyncModelDartVisitor<
       model.fields
         .map(field => {
           const varName = this.getFieldName(field);
-          const fieldName = `${this.isNullSafety() && field.name !== 'id' ? '_' : ''}${this.getFieldName(field)}`;
+          const fieldName = `${field.name !== 'id' ? '_' : ''}${this.getFieldName(field)}`;
           //model type
           if (this.isModelType(field)) {
             if (field.isList) {
               return [
                 `${fieldName} = json['${varName}'] is List`,
                 indent(`? (json['${varName}'] as List)`),
-                this.isNullSafety() ? indent(`.where((e) => e?['serializedData'] != null)`, 2) : undefined,
+                indent(`.where((e) => e?['serializedData'] != null)`, 2),
                 indent(
-                  `.map((e) => ${this.getNativeType({ ...field, isList: false })}.fromJson(new Map<String, dynamic>.from(e${
-                    this.isNullSafety() ? `['serializedData']` : ''
-                  })))`,
+                  `.map((e) => ${this.getNativeType({
+                    ...field,
+                    isList: false,
+                  })}.fromJson(new Map<String, dynamic>.from(e['serializedData'])))`,
                   2,
                 ),
                 indent(`.toList()`, 2),
@@ -745,12 +720,8 @@ export class AppSyncModelDartVisitor<
                 .join('\n');
             }
             return [
-              `${fieldName} = json['${varName}']${this.isNullSafety() ? `?['serializedData']` : ''} != null`,
-              indent(
-                `? ${this.getNativeType(field)}.fromJson(new Map<String, dynamic>.from(json['${varName}']${
-                  this.isNullSafety() ? `['serializedData']` : ''
-                }))`,
-              ),
+              `${fieldName} = json['${varName}']?['serializedData'] != null`,
+              indent(`? ${this.getNativeType(field)}.fromJson(new Map<String, dynamic>.from(json['${varName}']['serializedData']))`),
               indent(`: null`),
             ].join('\n');
           }
@@ -760,7 +731,7 @@ export class AppSyncModelDartVisitor<
               return [
                 `${fieldName} = json['${varName}'] is List`,
                 indent(`? (json['${varName}'] as List)`),
-                indent(`.map((e) => enumFromString<${field.type}>(e, ${field.type}.values)${this.isNullSafety() ? '!' : ''})`, 2),
+                indent(`.map((e) => enumFromString<${field.type}>(e, ${field.type}.values)!)`, 2),
                 indent(`.toList()`, 2),
                 indent(`: null`),
               ].join('\n');
@@ -774,7 +745,7 @@ export class AppSyncModelDartVisitor<
               return [
                 `${fieldName} = json['${varName}'] is List`,
                 indent(`? (json['${varName}'] as List)`),
-                this.isNullSafety() ? indent(`.where((e) => e != null)`, 2) : undefined,
+                indent(`.where((e) => e != null)`, 2),
                 indent(
                   `.map((e) => ${this.getNativeType({ ...field, isList: false })}.fromJson(new Map<String, dynamic>.from(${
                     this.isNonModelType(field) ? "e['serializedData']" : 'e'
@@ -789,12 +760,8 @@ export class AppSyncModelDartVisitor<
             }
             // single non-model i.e. embedded
             return [
-              `${fieldName} = json['${varName}']${this.isNullSafety() ? `?['serializedData']` : ''} != null`,
-              indent(
-                `? ${this.getNativeType(field)}.fromJson(new Map<String, dynamic>.from(json['${varName}']${
-                  this.isNullSafety() ? `['serializedData']` : ''
-                }))`,
-              ),
+              `${fieldName} = json['${varName}']?['serializedData'] != null`,
+              indent(`? ${this.getNativeType(field)}.fromJson(new Map<String, dynamic>.from(json['${varName}']['serializedData']))`),
               indent(`: null`),
             ].join('\n');
           }
@@ -805,24 +772,24 @@ export class AppSyncModelDartVisitor<
             case this.scalars['AWSTime']:
             case this.scalars['AWSDateTime']:
               return field.isList
-                ? `${fieldName} = (json['${varName}'] as ${this.getNullSafetyTypeStr(
+                ? `${fieldName} = (json['${varName}'] as ${this.getNullableTypeStr(
                     'List',
                   )})?.map((e) => ${fieldNativeType}.fromString(e)).toList()`
                 : `${fieldName} = json['${varName}'] != null ? ${fieldNativeType}.fromString(json['${varName}']) : null`;
             case this.scalars['AWSTimestamp']:
               return field.isList
-                ? `${fieldName} = (json['${varName}'] as ${this.getNullSafetyTypeStr(
+                ? `${fieldName} = (json['${varName}'] as ${this.getNullableTypeStr(
                     'List',
                   )})?.map((e) => ${fieldNativeType}.fromSeconds(e)).toList()`
                 : `${fieldName} = json['${varName}'] != null ? ${fieldNativeType}.fromSeconds(json['${varName}']) : null`;
             case this.scalars['Int']:
               return field.isList
-                ? `${fieldName} = (json['${varName}'] as ${this.getNullSafetyTypeStr('List')})?.map((e) => (e as num).toInt()).toList()`
-                : `${fieldName} = (json['${varName}'] as ${this.getNullSafetyTypeStr('num')})?.toInt()`;
+                ? `${fieldName} = (json['${varName}'] as ${this.getNullableTypeStr('List')})?.map((e) => (e as num).toInt()).toList()`
+                : `${fieldName} = (json['${varName}'] as ${this.getNullableTypeStr('num')})?.toInt()`;
             case this.scalars['Float']:
               return field.isList
-                ? `${fieldName} = (json['${varName}'] as ${this.getNullSafetyTypeStr('List')})?.map((e) => (e as num).toDouble()).toList()`
-                : `${fieldName} = (json['${varName}'] as ${this.getNullSafetyTypeStr('num')})?.toDouble()`;
+                ? `${fieldName} = (json['${varName}'] as ${this.getNullableTypeStr('List')})?.map((e) => (e as num).toDouble()).toList()`
+                : `${fieldName} = (json['${varName}'] as ${this.getNullableTypeStr('num')})?.toDouble()`;
             default:
               return field.isList
                 ? `${fieldName} = json['${varName}']?.cast<${this.getNativeType({ ...field, isList: false })}>()`
@@ -842,13 +809,11 @@ export class AppSyncModelDartVisitor<
     const toJsonFields = model.fields
       .map(field => {
         const varName = this.getFieldName(field);
-        const fieldName = `${this.isNullSafety() && field.name !== 'id' ? '_' : ''}${this.getFieldName(field)}`;
+        const fieldName = `${field.name !== 'id' ? '_' : ''}${this.getFieldName(field)}`;
         if (this.isModelType(field) || this.isNonModelType(field)) {
           if (field.isList) {
             const modelName = this.getNativeType({ ...field, isList: false });
-            return this.isNullSafety()
-              ? `'${varName}': ${fieldName}?.map((${modelName}? e) => e?.toJson()).toList()`
-              : `'${varName}': ${fieldName}?.map((${modelName} e) => e?.toJson())?.toList()`;
+            return `'${varName}': ${fieldName}?.map((${modelName}? e) => e?.toJson()).toList()`;
           }
           return `'${varName}': ${fieldName}?.toJson()`;
         }
@@ -879,10 +844,10 @@ export class AppSyncModelDartVisitor<
     const toMapFields = model.fields
       .map(field => {
         const varName = this.getFieldName(field);
-        const fieldName = `${this.isNullSafety() && field.name !== 'id' ? '_' : ''}${this.getFieldName(field)}`;
+        const fieldName = `${field.name !== 'id' ? '_' : ''}${this.getFieldName(field)}`;
         return `'${varName}': ${fieldName}`;
       })
-      .join(', ');
+      .join(',\n');
     const toMapImpl = [' => {', indentMultiline(toMapFields), '};'].join('\n');
     declarationBlock.addClassMethod('toMap', 'Map<String, Object?>', [], toMapImpl, { isBlock: false });
   }
@@ -1197,26 +1162,15 @@ export class AppSyncModelDartVisitor<
    * @param dartCode
    */
   protected formatDartCode(dartCode: string): string {
-    if (this.isNullSafety()) {
-      return dartCode;
-    }
-    const result = dartStyle.formatCode(dartCode);
-    if (result.error) {
-      throw new Error(result.error);
-    }
-    return result.code || '';
+    return dartCode;
   }
 
   protected isFieldRequired(field: CodeGenField): boolean {
     return !((field.isNullable && !field.isList) || field.isListNullable);
   }
 
-  protected isNullSafety(): boolean {
-    return this._parsedConfig.enableDartNullSafety;
-  }
-
-  protected getNullSafetyTypeStr(type: string): string {
-    return this.isNullSafety() ? `${type}?` : type;
+  protected getNullableTypeStr(type: string): string {
+    return `${type}?`;
   }
 
   protected getWritableFields(model: CodeGenModel, excludeIdentifierFields: boolean = false): CodeGenField[] {

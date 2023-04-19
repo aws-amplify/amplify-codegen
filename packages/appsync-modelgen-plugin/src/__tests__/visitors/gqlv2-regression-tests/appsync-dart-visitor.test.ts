@@ -12,13 +12,12 @@ const getGQLv2Visitor = (
   schema: string,
   selectedType?: string,
   generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
-  enableDartNullSafety: boolean = true,
 ) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelDartVisitor(
     builtSchema,
-    { directives, target: 'dart', scalars: DART_SCALAR_MAP, enableDartNullSafety, transformerVersion: 2 },
+    { directives, target: 'dart', scalars: DART_SCALAR_MAP, transformerVersion: 2, codegenVersion: '1'},
     { selectedType, generate },
   );
   visit(ast, { leave: visitor });
