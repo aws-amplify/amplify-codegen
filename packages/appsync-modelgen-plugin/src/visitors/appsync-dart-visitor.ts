@@ -15,7 +15,6 @@ import {
   LOADER_CLASS_NAME,
   BASE_IMPORT_PACKAGES,
   FLUTTER_AMPLIFY_CORE_IMPORT,
-  FLUTTER_DATASTORE_PLUGIN_INTERFACE_IMPORT,
   COLLECTION_PACKAGE,
   DART_RESERVED_KEYWORDS,
   typeToEnumMap,
@@ -28,16 +27,9 @@ import { GraphQLSchema } from 'graphql';
 import { DART_SCALAR_MAP } from '../scalars';
 
 export interface RawAppSyncModelDartConfig extends RawAppSyncModelConfig {
-  /**
-   * @name directives
-   * @type boolean
-   * @description optional, determines if the generated models import amplify_core rather than amplify_datastore_plugin_interface
-   */
-  dartUpdateAmplifyCoreDependency?: boolean;
 }
 
 export interface ParsedAppSyncModelDartConfig extends ParsedAppSyncModelConfig {
-  dartUpdateAmplifyCoreDependency: boolean;
 }
 export class AppSyncModelDartVisitor<
   TRawConfig extends RawAppSyncModelDartConfig = RawAppSyncModelDartConfig,
@@ -50,7 +42,6 @@ export class AppSyncModelDartVisitor<
     defaultScalars: NormalizedScalarsMap = DART_SCALAR_MAP,
   ) {
     super(schema, rawConfig, additionalConfig, defaultScalars);
-    this._parsedConfig.dartUpdateAmplifyCoreDependency = rawConfig.dartUpdateAmplifyCoreDependency || false;
   }
 
   generate(): string {
@@ -110,8 +101,7 @@ export class AppSyncModelDartVisitor<
     //Ignore for file
     result.push(IGNORE_FOR_FILE);
     //Packages for import
-    const flutterDatastorePackage =
-      this.config.dartUpdateAmplifyCoreDependency === true ? FLUTTER_AMPLIFY_CORE_IMPORT : FLUTTER_DATASTORE_PLUGIN_INTERFACE_IMPORT;
+    const flutterDatastorePackage = FLUTTER_AMPLIFY_CORE_IMPORT;
     const packageImports: string[] = [flutterDatastorePackage, ...modelNames, ...nonModelNames];
     //Packages for export
     const packageExports: string[] = [...exportClasses];
@@ -238,8 +228,7 @@ export class AppSyncModelDartVisitor<
         }
       });
     });
-    const flutterDatastorePackage =
-      this.config.dartUpdateAmplifyCoreDependency === true ? FLUTTER_AMPLIFY_CORE_IMPORT : FLUTTER_DATASTORE_PLUGIN_INTERFACE_IMPORT;
+    const flutterDatastorePackage = FLUTTER_AMPLIFY_CORE_IMPORT;
     return (
       [
         ...BASE_IMPORT_PACKAGES,
@@ -475,20 +464,12 @@ export class AppSyncModelDartVisitor<
       }
     }
     //other getters
-    let forceCastException = `throw new DataStoreException(
-      DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
-      recoverySuggestion:
-        DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
-      underlyingException: e.toString()
-      );`;
-    if (this.config.dartUpdateAmplifyCoreDependency === true) {
-      forceCastException = `throw new AmplifyCodeGenModelException(
+    let forceCastException = `throw new AmplifyCodeGenModelException(
       AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
       recoverySuggestion:
         AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
       underlyingException: e.toString()
       );`;
-    }
 
     if (includeIdGetter && this.isCustomPKEnabled()) {
       this.generateModelIdentifierGetter(model, declarationBlock, forceCastException);

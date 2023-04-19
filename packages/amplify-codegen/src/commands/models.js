@@ -6,7 +6,6 @@ const { FeatureFlags, pathManager } = require('@aws-amplify/amplify-cli-core');
 const gqlCodeGen = require('@graphql-codegen/core');
 const appSyncDataStoreCodeGen = require('@aws-amplify/appsync-modelgen-plugin');
 const { version: packageVersion } = require('../../package.json');
-const { validateAmplifyFlutterCoreLibraryDependency } = require('../utils/validateAmplifyFlutterCoreLibraryDependency');
 
 const platformToLanguageMap = {
   android: 'java',
@@ -104,12 +103,6 @@ async function generateModels(context, generateOptions = null) {
   const generateModelsForLazyLoadAndCustomSelectionSet = readFeatureFlag('codegen.generateModelsForLazyLoadAndCustomSelectionSet');
 
   let isTimestampFieldsAdded = readFeatureFlag('codegen.addTimestampFields');
-  let dartUpdateAmplifyCoreDependency = false;
-
-  if (projectConfig.frontend === 'flutter') {
-    // This feature is supported only for users using amplify-flutter > 0.4.0 || > 0.4.0-rc.1
-    dartUpdateAmplifyCoreDependency = validateAmplifyFlutterCoreLibraryDependency(projectRoot);
-  }
 
   const handleListNullabilityTransparently = readFeatureFlag('codegen.handleListNullabilityTransparently');
   const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
@@ -124,7 +117,6 @@ async function generateModels(context, generateOptions = null) {
       handleListNullabilityTransparently,
       usePipelinedTransformer,
       transformerVersion,
-      dartUpdateAmplifyCoreDependency,
       respectPrimaryKeyAttributesOnConnectionField,
       generateModelsForLazyLoadAndCustomSelectionSet,
       codegenVersion: packageVersion,
