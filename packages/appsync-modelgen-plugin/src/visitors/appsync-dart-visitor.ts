@@ -31,23 +31,12 @@ export interface RawAppSyncModelDartConfig extends RawAppSyncModelConfig {
   /**
    * @name directives
    * @type boolean
-   * @description optional, defines if dart model files are generated with amplify-flutter 0.3.0 new features.
-   *              - CustomType
-   *              - Emit auth provider information
-   *              - Generate timestamp fields
-   */
-  enableDartZeroThreeFeatures?: boolean;
-
-  /**
-   * @name directives
-   * @type boolean
    * @description optional, determines if the generated models import amplify_core rather than amplify_datastore_plugin_interface
    */
   dartUpdateAmplifyCoreDependency?: boolean;
 }
 
 export interface ParsedAppSyncModelDartConfig extends ParsedAppSyncModelConfig {
-  enableDartZeroThreeFeatures: boolean;
   dartUpdateAmplifyCoreDependency: boolean;
 }
 export class AppSyncModelDartVisitor<
@@ -61,7 +50,6 @@ export class AppSyncModelDartVisitor<
     defaultScalars: NormalizedScalarsMap = DART_SCALAR_MAP,
   ) {
     super(schema, rawConfig, additionalConfig, defaultScalars);
-    this._parsedConfig.enableDartZeroThreeFeatures = rawConfig.enableDartZeroThreeFeatures || false;
     this._parsedConfig.dartUpdateAmplifyCoreDependency = rawConfig.dartUpdateAmplifyCoreDependency || false;
   }
 
@@ -77,7 +65,7 @@ export class AppSyncModelDartVisitor<
       return this.generateClassLoader();
     } else if (this.selectedTypeIsEnum()) {
       return this.generateEnums();
-    } else if (this.selectedTypeIsNonModel() && this.config.enableDartZeroThreeFeatures) {
+    } else if (this.selectedTypeIsNonModel()) {
       return this.generateNonModelClasses();
     }
     return this.generateModelClasses();
@@ -136,15 +124,15 @@ export class AppSyncModelDartVisitor<
       .addClassMember('modelSchemas', 'List<ModelSchema>', `[${modelNames.map(m => `${m}.schema`).join(', ')}]`, undefined, ['override'])
       .addClassMember('_instance', LOADER_CLASS_NAME, `${LOADER_CLASS_NAME}()`, { static: true, final: true })
       .addClassMethod('get instance', LOADER_CLASS_NAME, [], ' => _instance;', { isBlock: false, isGetter: true, static: true });
-    if (this.config.enableDartZeroThreeFeatures) {
-      classDeclarationBlock.addClassMember(
-        'customTypeSchemas',
-        'List<ModelSchema>',
-        `[${nonModelNames.map(nm => `${nm}.schema`).join(', ')}]`,
-        undefined,
-        ['override'],
-      );
-    }
+
+    classDeclarationBlock.addClassMember(
+      'customTypeSchemas',
+      'List<ModelSchema>',
+      `[${nonModelNames.map(nm => `${nm}.schema`).join(', ')}]`,
+      undefined,
+      ['override'],
+    );
+
     //getModelTypeByModelName
     if (modelNames.length) {
       const getModelTypeImplStr = [
@@ -953,7 +941,7 @@ export class AppSyncModelDartVisitor<
               printWarning(`Model has auth with authStrategy ${rule.allow} of which is not yet supported`);
               return '';
           }
-          if (this.config.enableDartZeroThreeFeatures && rule.provider) {
+          if (rule.provider) {
             authRule.push(`provider: AuthRuleProvider.${rule.provider.toUpperCase()}`);
           }
           authRule.push(

@@ -104,13 +104,9 @@ async function generateModels(context, generateOptions = null) {
   const generateModelsForLazyLoadAndCustomSelectionSet = readFeatureFlag('codegen.generateModelsForLazyLoadAndCustomSelectionSet');
 
   let isTimestampFieldsAdded = readFeatureFlag('codegen.addTimestampFields');
-  let enableDartZeroThreeFeatures = false;
   let dartUpdateAmplifyCoreDependency = false;
 
   if (projectConfig.frontend === 'flutter') {
-    // override isTimestampFieldsAdded to true when using amplify-flutter > 0.3.0 || > 0.3.0-rc.2
-    isTimestampFieldsAdded = validateAmplifyFlutterCapableZeroThreeFeatures(projectRoot);
-    enableDartZeroThreeFeatures = validateAmplifyFlutterCapableZeroThreeFeatures(projectRoot);
     // This feature is supported only for users using amplify-flutter > 0.4.0 || > 0.4.0-rc.1
     dartUpdateAmplifyCoreDependency = validateAmplifyFlutterCoreLibraryDependency(projectRoot);
   }
@@ -127,7 +123,6 @@ async function generateModels(context, generateOptions = null) {
       generateIndexRules,
       handleListNullabilityTransparently,
       usePipelinedTransformer,
-      enableDartZeroThreeFeatures,
       transformerVersion,
       dartUpdateAmplifyCoreDependency,
       respectPrimaryKeyAttributesOnConnectionField,

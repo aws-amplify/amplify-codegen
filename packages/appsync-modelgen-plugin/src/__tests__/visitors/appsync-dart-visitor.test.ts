@@ -12,7 +12,6 @@ const getVisitor = ({
   schema,
   selectedType,
   generate = CodeGenGenerateEnum.code,
-  enableDartZeroThreeFeatures = false,
   isTimestampFieldsAdded = false,
   transformerVersion = 1,
   dartUpdateAmplifyCoreDependency = false,
@@ -21,7 +20,6 @@ const getVisitor = ({
   schema: string;
   selectedType?: string;
   generate?: CodeGenGenerateEnum;
-  enableDartZeroThreeFeatures?: boolean;
   isTimestampFieldsAdded?: boolean;
   transformerVersion?: number;
   dartUpdateAmplifyCoreDependency?: boolean;
@@ -35,7 +33,6 @@ const getVisitor = ({
       directives,
       target: 'dart',
       scalars: DART_SCALAR_MAP,
-      enableDartZeroThreeFeatures,
       isTimestampFieldsAdded,
       transformerVersion,
       dartUpdateAmplifyCoreDependency,
@@ -252,7 +249,6 @@ describe('AppSync Dart Visitor', () => {
       const visitor = getVisitor({
         schema,
         selectedType: 'TodoWithAuth',
-        enableDartZeroThreeFeatures: true,
         isTimestampFieldsAdded: true,
       });
 
@@ -548,19 +544,10 @@ describe('AppSync Dart Visitor', () => {
 
     models.forEach(type => {
       it(`should generate correct dart class for ${!type ? 'ModelProvider' : type} with nullsafety`, () => {
-        const generatedCode = getVisitor({schema, selectedType: type, generate: !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code, enableDartZeroThreeFeatures: true }).generate();
+        const generatedCode = getVisitor({schema, selectedType: type, generate: !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code }).generate();
 
         expect(generatedCode).toMatchSnapshot();
       })
-    });
-
-    it('should not generate custom type field in model provider if non model feature is disabled', () => {
-      const generatedCode = getVisitor({
-        schema,
-        generate: CodeGenGenerateEnum.loader,
-        enableDartZeroThreeFeatures: false,
-      }).generate();
-      expect(generatedCode).toMatchSnapshot();
     });
   });
 
@@ -572,7 +559,7 @@ describe('AppSync Dart Visitor', () => {
           name: String
         }
       `;
-      const visitor = getVisitor({ schema, isTimestampFieldsAdded: true, enableDartZeroThreeFeatures: false });
+      const visitor = getVisitor({ schema, isTimestampFieldsAdded: true });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -586,7 +573,7 @@ describe('AppSync Dart Visitor', () => {
           name: String
         }
       `;
-      const visitor = getVisitor({ schema, isTimestampFieldsAdded: true, enableDartZeroThreeFeatures: false });
+      const visitor = getVisitor({ schema, isTimestampFieldsAdded: true  });
 
 
       const generatedCode = visitor.generate();
@@ -670,7 +657,6 @@ describe('AppSync Dart Visitor', () => {
         const generatedCode = getVisitor({
           schema,
           selectedType: modelName,
-          enableDartZeroThreeFeatures: true,
           isTimestampFieldsAdded: true,
           respectPrimaryKeyAttributesOnConnectionField: true,
           transformerVersion: 2
@@ -691,7 +677,6 @@ describe('AppSync Dart Visitor', () => {
 
       const generatedCode = getVisitor({
         schema,
-        enableDartZeroThreeFeatures: true,
         isTimestampFieldsAdded: true,
         respectPrimaryKeyAttributesOnConnectionField: true,
         transformerVersion: 2,
@@ -719,7 +704,6 @@ describe('AppSync Dart Visitor', () => {
           const generatedCode = getVisitor({
             schema,
             selectedType: modelName,
-            enableDartZeroThreeFeatures: true,
             isTimestampFieldsAdded: true,
             respectPrimaryKeyAttributesOnConnectionField: true,
             transformerVersion: 2,
@@ -760,7 +744,6 @@ describe('AppSync Dart Visitor', () => {
         const generatedCode = getVisitor({
           schema,
           selectedType: modelName,
-          enableDartZeroThreeFeatures: true,
           isTimestampFieldsAdded: true,
           respectPrimaryKeyAttributesOnConnectionField: true,
           transformerVersion: 2,
@@ -784,7 +767,6 @@ describe('AppSync Dart Visitor', () => {
         const generatedCode = getVisitor({
           schema,
           selectedType: modelName,
-          enableDartZeroThreeFeatures: true,
           isTimestampFieldsAdded: true,
           respectPrimaryKeyAttributesOnConnectionField: true,
           transformerVersion: 2,
