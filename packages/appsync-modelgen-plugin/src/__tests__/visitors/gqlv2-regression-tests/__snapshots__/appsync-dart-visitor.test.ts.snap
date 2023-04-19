@@ -23,14 +23,14 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on explicit hasMany b
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Post type in your schema. */
 @immutable
-class Post extends Model {
+class Post extends amplify_core.Model {
   static const classType = const _PostModelType();
   final String id;
   final String? _title;
@@ -48,10 +48,10 @@ class Post extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -65,7 +65,7 @@ class Post extends Model {
   
   factory Post({String? id, required String title, List<Comment>? comments}) {
     return Post._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       title: title,
       comments: comments != null ? List<Comment>.unmodifiable(comments) : comments);
   }
@@ -125,24 +125,24 @@ class Post extends Model {
     'comments': _comments
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"id\\");
-  static final QueryField TITLE = QueryField(fieldName: \\"title\\");
-  static final QueryField COMMENTS = QueryField(
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final TITLE = amplify_core.QueryField(fieldName: \\"title\\");
+  static final COMMENTS = amplify_core.QueryField(
     fieldName: \\"comments\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Comment'));
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Comment'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Post\\";
     modelSchemaDefinition.pluralName = \\"Posts\\";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Post.TITLE,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
       key: Post.COMMENTS,
       isRequired: false,
       ofModelName: 'Comment',
@@ -151,7 +151,7 @@ class Post extends Model {
   });
 }
 
-class _PostModelType extends ModelType<Post> {
+class _PostModelType extends amplify_core.ModelType<Post> {
   const _PostModelType();
   
   @override
@@ -189,13 +189,13 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on explicit hasMany b
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Comment type in your schema. */
 @immutable
-class Comment extends Model {
+class Comment extends amplify_core.Model {
   static const classType = const _CommentModelType();
   final String id;
   final String? _content;
@@ -213,10 +213,10 @@ class Comment extends Model {
     try {
       return _content!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -230,7 +230,7 @@ class Comment extends Model {
   
   factory Comment({String? id, required String content, Post? post}) {
     return Comment._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       content: content,
       post: post);
   }
@@ -288,28 +288,28 @@ class Comment extends Model {
     'post': _post
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"id\\");
-  static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
-  static final QueryField POST = QueryField(
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final CONTENT = amplify_core.QueryField(fieldName: \\"content\\");
+  static final POST = amplify_core.QueryField(
     fieldName: \\"post\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Post'));
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Post'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Comment\\";
     modelSchemaDefinition.pluralName = \\"Comments\\";
     
     modelSchemaDefinition.indexes = [
-      ModelIndex(fields: const [\\"postID\\", \\"content\\"], name: \\"byPost\\")
+      amplify_core.ModelIndex(fields: const [\\"postID\\", \\"content\\"], name: \\"byPost\\")
     ];
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Comment.CONTENT,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
       key: Comment.POST,
       isRequired: false,
       targetName: 'postID',
@@ -318,7 +318,7 @@ class Comment extends Model {
   });
 }
 
-class _CommentModelType extends ModelType<Comment> {
+class _CommentModelType extends amplify_core.ModelType<Comment> {
   const _CommentModelType();
   
   @override
@@ -356,13 +356,13 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on explicit hasOne be
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Project2 type in your schema. */
 @immutable
-class Project2 extends Model {
+class Project2 extends amplify_core.Model {
   static const classType = const _Project2ModelType();
   final String id;
   final String? _name;
@@ -393,7 +393,7 @@ class Project2 extends Model {
   
   factory Project2({String? id, String? name, Team2? team, String? project2TeamId}) {
     return Project2._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       name: name,
       team: team,
       project2TeamId: project2TeamId);
@@ -456,40 +456,40 @@ class Project2 extends Model {
     'project2TeamId': _project2TeamId
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"id\\");
-  static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static final QueryField TEAM = QueryField(
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final NAME = amplify_core.QueryField(fieldName: \\"name\\");
+  static final TEAM = amplify_core.QueryField(
     fieldName: \\"team\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Team2'));
-  static final QueryField PROJECT2TEAMID = QueryField(fieldName: \\"project2TeamId\\");
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Team2'));
+  static final PROJECT2TEAMID = amplify_core.QueryField(fieldName: \\"project2TeamId\\");
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Project2\\";
     modelSchemaDefinition.pluralName = \\"Project2s\\";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Project2.NAME,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasOne(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasOne(
       key: Project2.TEAM,
       isRequired: false,
       ofModelName: 'Team2',
       associatedKey: Team2.PROJECT
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Project2.PROJECT2TEAMID,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
   });
 }
 
-class _Project2ModelType extends ModelType<Project2> {
+class _Project2ModelType extends amplify_core.ModelType<Project2> {
   const _Project2ModelType();
   
   @override
@@ -527,13 +527,13 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on explicit hasOne be
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Team2 type in your schema. */
 @immutable
-class Team2 extends Model {
+class Team2 extends amplify_core.Model {
   static const classType = const _Team2ModelType();
   final String id;
   final String? _name;
@@ -551,10 +551,10 @@ class Team2 extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -568,7 +568,7 @@ class Team2 extends Model {
   
   factory Team2({String? id, required String name, Project2? project}) {
     return Team2._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       name: name,
       project: project);
   }
@@ -626,24 +626,24 @@ class Team2 extends Model {
     'project': _project
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"id\\");
-  static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static final QueryField PROJECT = QueryField(
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final NAME = amplify_core.QueryField(fieldName: \\"name\\");
+  static final PROJECT = amplify_core.QueryField(
     fieldName: \\"project\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Project2'));
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Project2'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Team2\\";
     modelSchemaDefinition.pluralName = \\"Team2s\\";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Team2.NAME,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
       key: Team2.PROJECT,
       isRequired: false,
       targetName: 'projectID',
@@ -652,7 +652,7 @@ class Team2 extends Model {
   });
 }
 
-class _Team2ModelType extends ModelType<Team2> {
+class _Team2ModelType extends amplify_core.ModelType<Team2> {
   const _Team2ModelType();
   
   @override
@@ -690,14 +690,14 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on implicit hasMany b
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Blog7V2 type in your schema. */
 @immutable
-class Blog7V2 extends Model {
+class Blog7V2 extends amplify_core.Model {
   static const classType = const _Blog7V2ModelType();
   final String id;
   final String? _name;
@@ -715,10 +715,10 @@ class Blog7V2 extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -732,7 +732,7 @@ class Blog7V2 extends Model {
   
   factory Blog7V2({String? id, required String name, List<Post7V2>? posts}) {
     return Blog7V2._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       name: name,
       posts: posts != null ? List<Post7V2>.unmodifiable(posts) : posts);
   }
@@ -792,24 +792,24 @@ class Blog7V2 extends Model {
     'posts': _posts
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"id\\");
-  static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static final QueryField POSTS = QueryField(
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final NAME = amplify_core.QueryField(fieldName: \\"name\\");
+  static final POSTS = amplify_core.QueryField(
     fieldName: \\"posts\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Post7V2'));
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Post7V2'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Blog7V2\\";
     modelSchemaDefinition.pluralName = \\"Blog7V2s\\";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Blog7V2.NAME,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
       key: Blog7V2.POSTS,
       isRequired: false,
       ofModelName: 'Post7V2',
@@ -818,7 +818,7 @@ class Blog7V2 extends Model {
   });
 }
 
-class _Blog7V2ModelType extends ModelType<Blog7V2> {
+class _Blog7V2ModelType extends amplify_core.ModelType<Blog7V2> {
   const _Blog7V2ModelType();
   
   @override
@@ -856,14 +856,14 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on implicit hasMany b
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Post7V2 type in your schema. */
 @immutable
-class Post7V2 extends Model {
+class Post7V2 extends amplify_core.Model {
   static const classType = const _Post7V2ModelType();
   final String id;
   final String? _title;
@@ -882,10 +882,10 @@ class Post7V2 extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -903,7 +903,7 @@ class Post7V2 extends Model {
   
   factory Post7V2({String? id, required String title, Blog7V2? blog, List<Comment7V2>? comments}) {
     return Post7V2._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       title: title,
       blog: blog,
       comments: comments != null ? List<Comment7V2>.unmodifiable(comments) : comments);
@@ -971,34 +971,34 @@ class Post7V2 extends Model {
     'comments': _comments
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"id\\");
-  static final QueryField TITLE = QueryField(fieldName: \\"title\\");
-  static final QueryField BLOG = QueryField(
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final TITLE = amplify_core.QueryField(fieldName: \\"title\\");
+  static final BLOG = amplify_core.QueryField(
     fieldName: \\"blog\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Blog7V2'));
-  static final QueryField COMMENTS = QueryField(
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Blog7V2'));
+  static final COMMENTS = amplify_core.QueryField(
     fieldName: \\"comments\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Comment7V2'));
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Comment7V2'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Post7V2\\";
     modelSchemaDefinition.pluralName = \\"Post7V2s\\";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Post7V2.TITLE,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
       key: Post7V2.BLOG,
       isRequired: false,
       targetName: 'blog7V2PostsId',
       ofModelName: 'Blog7V2'
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
       key: Post7V2.COMMENTS,
       isRequired: false,
       ofModelName: 'Comment7V2',
@@ -1007,7 +1007,7 @@ class Post7V2 extends Model {
   });
 }
 
-class _Post7V2ModelType extends ModelType<Post7V2> {
+class _Post7V2ModelType extends amplify_core.ModelType<Post7V2> {
   const _Post7V2ModelType();
   
   @override
@@ -1045,13 +1045,13 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on implicit hasMany b
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Comment7V2 type in your schema. */
 @immutable
-class Comment7V2 extends Model {
+class Comment7V2 extends amplify_core.Model {
   static const classType = const _Comment7V2ModelType();
   final String id;
   final String? _content;
@@ -1077,7 +1077,7 @@ class Comment7V2 extends Model {
   
   factory Comment7V2({String? id, String? content, Post7V2? post}) {
     return Comment7V2._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       content: content,
       post: post);
   }
@@ -1135,24 +1135,24 @@ class Comment7V2 extends Model {
     'post': _post
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"id\\");
-  static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
-  static final QueryField POST = QueryField(
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final CONTENT = amplify_core.QueryField(fieldName: \\"content\\");
+  static final POST = amplify_core.QueryField(
     fieldName: \\"post\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Post7V2'));
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Post7V2'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Comment7V2\\";
     modelSchemaDefinition.pluralName = \\"Comment7V2s\\";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Comment7V2.CONTENT,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
       key: Comment7V2.POST,
       isRequired: false,
       targetName: 'post7V2CommentsId',
@@ -1161,7 +1161,7 @@ class Comment7V2 extends Model {
   });
 }
 
-class _Comment7V2ModelType extends ModelType<Comment7V2> {
+class _Comment7V2ModelType extends amplify_core.ModelType<Comment7V2> {
   const _Comment7V2ModelType();
   
   @override
@@ -1199,13 +1199,13 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on implicit hasOne be
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Project type in your schema. */
 @immutable
-class Project extends Model {
+class Project extends amplify_core.Model {
   static const classType = const _ProjectModelType();
   final String id;
   final String? _name;
@@ -1236,7 +1236,7 @@ class Project extends Model {
   
   factory Project({String? id, String? name, Team? team, String? projectTeamId}) {
     return Project._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       name: name,
       team: team,
       projectTeamId: projectTeamId);
@@ -1299,40 +1299,40 @@ class Project extends Model {
     'projectTeamId': _projectTeamId
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"id\\");
-  static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static final QueryField TEAM = QueryField(
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final NAME = amplify_core.QueryField(fieldName: \\"name\\");
+  static final TEAM = amplify_core.QueryField(
     fieldName: \\"team\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Team'));
-  static final QueryField PROJECTTEAMID = QueryField(fieldName: \\"projectTeamId\\");
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Team'));
+  static final PROJECTTEAMID = amplify_core.QueryField(fieldName: \\"projectTeamId\\");
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Project\\";
     modelSchemaDefinition.pluralName = \\"Projects\\";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Project.NAME,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasOne(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasOne(
       key: Project.TEAM,
       isRequired: false,
       ofModelName: 'Team',
       associatedKey: Team.PROJECT
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Project.PROJECTTEAMID,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
   });
 }
 
-class _ProjectModelType extends ModelType<Project> {
+class _ProjectModelType extends amplify_core.ModelType<Project> {
   const _ProjectModelType();
   
   @override
@@ -1370,13 +1370,13 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on implicit hasOne be
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Team type in your schema. */
 @immutable
-class Team extends Model {
+class Team extends amplify_core.Model {
   static const classType = const _TeamModelType();
   final String id;
   final String? _name;
@@ -1394,10 +1394,10 @@ class Team extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -1411,7 +1411,7 @@ class Team extends Model {
   
   factory Team({String? id, required String name, Project? project}) {
     return Team._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       name: name,
       project: project);
   }
@@ -1469,24 +1469,24 @@ class Team extends Model {
     'project': _project
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"id\\");
-  static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static final QueryField PROJECT = QueryField(
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final NAME = amplify_core.QueryField(fieldName: \\"name\\");
+  static final PROJECT = amplify_core.QueryField(
     fieldName: \\"project\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Project'));
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Project'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Team\\";
     modelSchemaDefinition.pluralName = \\"Teams\\";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Team.NAME,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
       key: Team.PROJECT,
       isRequired: false,
       targetName: 'teamProjectId',
@@ -1495,7 +1495,7 @@ class Team extends Model {
   });
 }
 
-class _TeamModelType extends ModelType<Team> {
+class _TeamModelType extends amplify_core.ModelType<Team> {
   const _TeamModelType();
   
   @override
@@ -1533,14 +1533,14 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on many to many relat
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Post type in your schema. */
 @immutable
-class Post extends Model {
+class Post extends amplify_core.Model {
   static const classType = const _PostModelType();
   final String id;
   final String? _title;
@@ -1559,10 +1559,10 @@ class Post extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -1580,7 +1580,7 @@ class Post extends Model {
   
   factory Post({String? id, required String title, String? content, List<PostTags>? tags}) {
     return Post._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       title: title,
       content: content,
       tags: tags != null ? List<PostTags>.unmodifiable(tags) : tags);
@@ -1646,31 +1646,31 @@ class Post extends Model {
     'tags': _tags
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"id\\");
-  static final QueryField TITLE = QueryField(fieldName: \\"title\\");
-  static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
-  static final QueryField TAGS = QueryField(
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final TITLE = amplify_core.QueryField(fieldName: \\"title\\");
+  static final CONTENT = amplify_core.QueryField(fieldName: \\"content\\");
+  static final TAGS = amplify_core.QueryField(
     fieldName: \\"tags\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'PostTags'));
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'PostTags'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Post\\";
     modelSchemaDefinition.pluralName = \\"Posts\\";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Post.TITLE,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Post.CONTENT,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
       key: Post.TAGS,
       isRequired: false,
       ofModelName: 'PostTags',
@@ -1679,7 +1679,7 @@ class Post extends Model {
   });
 }
 
-class _PostModelType extends ModelType<Post> {
+class _PostModelType extends amplify_core.ModelType<Post> {
   const _PostModelType();
   
   @override
@@ -1717,14 +1717,14 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on many to many relat
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Tag type in your schema. */
 @immutable
-class Tag extends Model {
+class Tag extends amplify_core.Model {
   static const classType = const _TagModelType();
   final String id;
   final String? _label;
@@ -1742,10 +1742,10 @@ class Tag extends Model {
     try {
       return _label!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -1759,7 +1759,7 @@ class Tag extends Model {
   
   factory Tag({String? id, required String label, List<PostTags>? posts}) {
     return Tag._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       label: label,
       posts: posts != null ? List<PostTags>.unmodifiable(posts) : posts);
   }
@@ -1819,24 +1819,24 @@ class Tag extends Model {
     'posts': _posts
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"id\\");
-  static final QueryField LABEL = QueryField(fieldName: \\"label\\");
-  static final QueryField POSTS = QueryField(
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final LABEL = amplify_core.QueryField(fieldName: \\"label\\");
+  static final POSTS = amplify_core.QueryField(
     fieldName: \\"posts\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'PostTags'));
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'PostTags'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Tag\\";
     modelSchemaDefinition.pluralName = \\"Tags\\";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Tag.LABEL,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
       key: Tag.POSTS,
       isRequired: false,
       ofModelName: 'PostTags',
@@ -1845,7 +1845,7 @@ class Tag extends Model {
   });
 }
 
-class _TagModelType extends ModelType<Tag> {
+class _TagModelType extends amplify_core.ModelType<Tag> {
   const _TagModelType();
   
   @override
@@ -1882,13 +1882,13 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on record creation an
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Todo type in your schema. */
 @immutable
-class Todo extends Model {
+class Todo extends amplify_core.Model {
   static const classType = const _TodoModelType();
   final String id;
   final String? _content;
@@ -1909,7 +1909,7 @@ class Todo extends Model {
   
   factory Todo({String? id, String? content}) {
     return Todo._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       content: content);
   }
   
@@ -1959,23 +1959,23 @@ class Todo extends Model {
     'content': _content
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"id\\");
-  static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final CONTENT = amplify_core.QueryField(fieldName: \\"content\\");
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Todo\\";
     modelSchemaDefinition.pluralName = \\"Todos\\";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Todo.CONTENT,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
   });
 }
 
-class _TodoModelType extends ModelType<Todo> {
+class _TodoModelType extends amplify_core.ModelType<Todo> {
   const _TodoModelType();
   
   @override
@@ -2013,14 +2013,14 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional ex
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Post2 type in your schema. */
 @immutable
-class Post2 extends Model {
+class Post2 extends amplify_core.Model {
   static const classType = const _Post2ModelType();
   final String id;
   final String? _title;
@@ -2038,10 +2038,10 @@ class Post2 extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -2055,7 +2055,7 @@ class Post2 extends Model {
   
   factory Post2({String? id, required String title, List<Comment2>? comments}) {
     return Post2._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       title: title,
       comments: comments != null ? List<Comment2>.unmodifiable(comments) : comments);
   }
@@ -2115,24 +2115,24 @@ class Post2 extends Model {
     'comments': _comments
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"id\\");
-  static final QueryField TITLE = QueryField(fieldName: \\"title\\");
-  static final QueryField COMMENTS = QueryField(
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final TITLE = amplify_core.QueryField(fieldName: \\"title\\");
+  static final COMMENTS = amplify_core.QueryField(
     fieldName: \\"comments\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Comment2'));
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Comment2'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Post2\\";
     modelSchemaDefinition.pluralName = \\"Post2s\\";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Post2.TITLE,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
       key: Post2.COMMENTS,
       isRequired: false,
       ofModelName: 'Comment2',
@@ -2141,7 +2141,7 @@ class Post2 extends Model {
   });
 }
 
-class _Post2ModelType extends ModelType<Post2> {
+class _Post2ModelType extends amplify_core.ModelType<Post2> {
   const _Post2ModelType();
   
   @override
@@ -2178,13 +2178,13 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional ex
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Comment2 type in your schema. */
 @immutable
-class Comment2 extends Model {
+class Comment2 extends amplify_core.Model {
   static const classType = const _Comment2ModelType();
   final String id;
   final String? _postID;
@@ -2202,10 +2202,10 @@ class Comment2 extends Model {
     try {
       return _postID!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -2215,10 +2215,10 @@ class Comment2 extends Model {
     try {
       return _content!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -2228,7 +2228,7 @@ class Comment2 extends Model {
   
   factory Comment2({String? id, required String postID, required String content}) {
     return Comment2._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       postID: postID,
       content: content);
   }
@@ -2284,34 +2284,34 @@ class Comment2 extends Model {
     'content': _content
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"id\\");
-  static final QueryField POSTID = QueryField(fieldName: \\"postID\\");
-  static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final POSTID = amplify_core.QueryField(fieldName: \\"postID\\");
+  static final CONTENT = amplify_core.QueryField(fieldName: \\"content\\");
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Comment2\\";
     modelSchemaDefinition.pluralName = \\"Comment2s\\";
     
     modelSchemaDefinition.indexes = [
-      ModelIndex(fields: const [\\"postID\\", \\"content\\"], name: \\"byPost\\")
+      amplify_core.ModelIndex(fields: const [\\"postID\\", \\"content\\"], name: \\"byPost\\")
     ];
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Comment2.POSTID,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Comment2.CONTENT,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
   });
 }
 
-class _Comment2ModelType extends ModelType<Comment2> {
+class _Comment2ModelType extends amplify_core.ModelType<Comment2> {
   const _Comment2ModelType();
   
   @override
@@ -2349,13 +2349,13 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional ex
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Project2 type in your schema. */
 @immutable
-class Project2 extends Model {
+class Project2 extends amplify_core.Model {
   static const classType = const _Project2ModelType();
   final String id;
   final String? _name;
@@ -2386,7 +2386,7 @@ class Project2 extends Model {
   
   factory Project2({String? id, String? name, String? teamID, Team2? team}) {
     return Project2._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       name: name,
       teamID: teamID,
       team: team);
@@ -2449,31 +2449,31 @@ class Project2 extends Model {
     'team': _team
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"id\\");
-  static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static final QueryField TEAMID = QueryField(fieldName: \\"teamID\\");
-  static final QueryField TEAM = QueryField(
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final NAME = amplify_core.QueryField(fieldName: \\"name\\");
+  static final TEAMID = amplify_core.QueryField(fieldName: \\"teamID\\");
+  static final TEAM = amplify_core.QueryField(
     fieldName: \\"team\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Team2'));
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Team2'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Project2\\";
     modelSchemaDefinition.pluralName = \\"Project2s\\";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Project2.NAME,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Project2.TEAMID,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasOne(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasOne(
       key: Project2.TEAM,
       isRequired: false,
       ofModelName: 'Team2',
@@ -2482,7 +2482,7 @@ class Project2 extends Model {
   });
 }
 
-class _Project2ModelType extends ModelType<Project2> {
+class _Project2ModelType extends amplify_core.ModelType<Project2> {
   const _Project2ModelType();
   
   @override
@@ -2519,13 +2519,13 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional ex
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Team2 type in your schema. */
 @immutable
-class Team2 extends Model {
+class Team2 extends amplify_core.Model {
   static const classType = const _Team2ModelType();
   final String id;
   final String? _name;
@@ -2542,10 +2542,10 @@ class Team2 extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -2555,7 +2555,7 @@ class Team2 extends Model {
   
   factory Team2({String? id, required String name}) {
     return Team2._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       name: name);
   }
   
@@ -2605,23 +2605,23 @@ class Team2 extends Model {
     'name': _name
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"id\\");
-  static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final NAME = amplify_core.QueryField(fieldName: \\"name\\");
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Team2\\";
     modelSchemaDefinition.pluralName = \\"Team2s\\";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Team2.NAME,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
   });
 }
 
-class _Team2ModelType extends ModelType<Team2> {
+class _Team2ModelType extends amplify_core.ModelType<Team2> {
   const _Team2ModelType();
   
   @override
@@ -2659,14 +2659,14 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional im
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Post type in your schema. */
 @immutable
-class Post extends Model {
+class Post extends amplify_core.Model {
   static const classType = const _PostModelType();
   final String id;
   final String? _title;
@@ -2684,10 +2684,10 @@ class Post extends Model {
     try {
       return _title!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -2701,7 +2701,7 @@ class Post extends Model {
   
   factory Post({String? id, required String title, List<Comment>? comments}) {
     return Post._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       title: title,
       comments: comments != null ? List<Comment>.unmodifiable(comments) : comments);
   }
@@ -2761,24 +2761,24 @@ class Post extends Model {
     'comments': _comments
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"id\\");
-  static final QueryField TITLE = QueryField(fieldName: \\"title\\");
-  static final QueryField COMMENTS = QueryField(
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final TITLE = amplify_core.QueryField(fieldName: \\"title\\");
+  static final COMMENTS = amplify_core.QueryField(
     fieldName: \\"comments\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Comment'));
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Comment'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Post\\";
     modelSchemaDefinition.pluralName = \\"Posts\\";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Post.TITLE,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
       key: Post.COMMENTS,
       isRequired: false,
       ofModelName: 'Comment',
@@ -2787,7 +2787,7 @@ class Post extends Model {
   });
 }
 
-class _PostModelType extends ModelType<Post> {
+class _PostModelType extends amplify_core.ModelType<Post> {
   const _PostModelType();
   
   @override
@@ -2824,13 +2824,13 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional im
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Comment type in your schema. */
 @immutable
-class Comment extends Model {
+class Comment extends amplify_core.Model {
   static const classType = const _CommentModelType();
   final String id;
   final String? _content;
@@ -2848,10 +2848,10 @@ class Comment extends Model {
     try {
       return _content!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -2865,7 +2865,7 @@ class Comment extends Model {
   
   factory Comment({String? id, required String content, String? postCommentsId}) {
     return Comment._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       content: content,
       postCommentsId: postCommentsId);
   }
@@ -2921,30 +2921,30 @@ class Comment extends Model {
     'postCommentsId': _postCommentsId
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"id\\");
-  static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
-  static final QueryField POSTCOMMENTSID = QueryField(fieldName: \\"postCommentsId\\");
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final CONTENT = amplify_core.QueryField(fieldName: \\"content\\");
+  static final POSTCOMMENTSID = amplify_core.QueryField(fieldName: \\"postCommentsId\\");
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Comment\\";
     modelSchemaDefinition.pluralName = \\"Comments\\";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Comment.CONTENT,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Comment.POSTCOMMENTSID,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
   });
 }
 
-class _CommentModelType extends ModelType<Comment> {
+class _CommentModelType extends amplify_core.ModelType<Comment> {
   const _CommentModelType();
   
   @override
@@ -2982,13 +2982,13 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional im
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'ModelProvider.dart';
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Project type in your schema. */
 @immutable
-class Project extends Model {
+class Project extends amplify_core.Model {
   static const classType = const _ProjectModelType();
   final String id;
   final String? _name;
@@ -3019,7 +3019,7 @@ class Project extends Model {
   
   factory Project({String? id, String? name, Team? team, String? projectTeamId}) {
     return Project._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       name: name,
       team: team,
       projectTeamId: projectTeamId);
@@ -3082,40 +3082,40 @@ class Project extends Model {
     'projectTeamId': _projectTeamId
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"id\\");
-  static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static final QueryField TEAM = QueryField(
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final NAME = amplify_core.QueryField(fieldName: \\"name\\");
+  static final TEAM = amplify_core.QueryField(
     fieldName: \\"team\\",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: 'Team'));
-  static final QueryField PROJECTTEAMID = QueryField(fieldName: \\"projectTeamId\\");
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Team'));
+  static final PROJECTTEAMID = amplify_core.QueryField(fieldName: \\"projectTeamId\\");
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Project\\";
     modelSchemaDefinition.pluralName = \\"Projects\\";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Project.NAME,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasOne(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasOne(
       key: Project.TEAM,
       isRequired: false,
       ofModelName: 'Team',
       associatedKey: Team.ID
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Project.PROJECTTEAMID,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
   });
 }
 
-class _ProjectModelType extends ModelType<Project> {
+class _ProjectModelType extends amplify_core.ModelType<Project> {
   const _ProjectModelType();
   
   @override
@@ -3152,13 +3152,13 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional im
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Team type in your schema. */
 @immutable
-class Team extends Model {
+class Team extends amplify_core.Model {
   static const classType = const _TeamModelType();
   final String id;
   final String? _name;
@@ -3175,10 +3175,10 @@ class Team extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -3188,7 +3188,7 @@ class Team extends Model {
   
   factory Team({String? id, required String name}) {
     return Team._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       name: name);
   }
   
@@ -3238,23 +3238,23 @@ class Team extends Model {
     'name': _name
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"id\\");
-  static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final NAME = amplify_core.QueryField(fieldName: \\"name\\");
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Team\\";
     modelSchemaDefinition.pluralName = \\"Teams\\";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Team.NAME,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
   });
 }
 
-class _TeamModelType extends ModelType<Team> {
+class _TeamModelType extends amplify_core.ModelType<Team> {
   const _TeamModelType();
   
   @override
@@ -3291,13 +3291,13 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works when configuring a se
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Customer type in your schema. */
 @immutable
-class Customer extends Model {
+class Customer extends amplify_core.Model {
   static const classType = const _CustomerModelType();
   final String id;
   final String? _name;
@@ -3316,10 +3316,10 @@ class Customer extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -3333,10 +3333,10 @@ class Customer extends Model {
     try {
       return _accountRepresentativeID!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -3346,7 +3346,7 @@ class Customer extends Model {
   
   factory Customer({String? id, required String name, String? phoneNumber, required String accountRepresentativeID}) {
     return Customer._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       name: name,
       phoneNumber: phoneNumber,
       accountRepresentativeID: accountRepresentativeID);
@@ -3408,41 +3408,41 @@ class Customer extends Model {
     'accountRepresentativeID': _accountRepresentativeID
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"id\\");
-  static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static final QueryField PHONENUMBER = QueryField(fieldName: \\"phoneNumber\\");
-  static final QueryField ACCOUNTREPRESENTATIVEID = QueryField(fieldName: \\"accountRepresentativeID\\");
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final NAME = amplify_core.QueryField(fieldName: \\"name\\");
+  static final PHONENUMBER = amplify_core.QueryField(fieldName: \\"phoneNumber\\");
+  static final ACCOUNTREPRESENTATIVEID = amplify_core.QueryField(fieldName: \\"accountRepresentativeID\\");
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Customer\\";
     modelSchemaDefinition.pluralName = \\"Customers\\";
     
     modelSchemaDefinition.indexes = [
-      ModelIndex(fields: const [\\"accountRepresentativeID\\"], name: \\"byRepresentative\\")
+      amplify_core.ModelIndex(fields: const [\\"accountRepresentativeID\\"], name: \\"byRepresentative\\")
     ];
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Customer.NAME,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Customer.PHONENUMBER,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: Customer.ACCOUNTREPRESENTATIVEID,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
   });
 }
 
-class _CustomerModelType extends ModelType<Customer> {
+class _CustomerModelType extends amplify_core.ModelType<Customer> {
   const _CustomerModelType();
   
   @override
@@ -3479,13 +3479,13 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests model indexes should correc
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
-import 'package:amplify_core/amplify_core.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the ModelWithPrimaryKey type in your schema. */
 @immutable
-class ModelWithPrimaryKey extends Model {
+class ModelWithPrimaryKey extends amplify_core.Model {
   static const classType = const _ModelWithPrimaryKeyModelType();
   final String id;
   final String? _productID;
@@ -3506,10 +3506,10 @@ class ModelWithPrimaryKey extends Model {
     try {
       return _productID!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -3519,10 +3519,10 @@ class ModelWithPrimaryKey extends Model {
     try {
       return _name!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -3536,10 +3536,10 @@ class ModelWithPrimaryKey extends Model {
     try {
       return _albumID!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -3549,10 +3549,10 @@ class ModelWithPrimaryKey extends Model {
     try {
       return _categoryID!;
     } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -3562,7 +3562,7 @@ class ModelWithPrimaryKey extends Model {
   
   factory ModelWithPrimaryKey({String? id, required String productID, required String name, String? content, required String albumID, required String categoryID}) {
     return ModelWithPrimaryKey._internal(
-      id: id == null ? UUID.getUUID() : id,
+      id: id == null ? amplify_core.UUID.getUUID() : id,
       productID: productID,
       name: name,
       content: content,
@@ -3636,57 +3636,57 @@ class ModelWithPrimaryKey extends Model {
     'categoryID': _categoryID
   };
 
-  static final QueryField ID = QueryField(fieldName: \\"id\\");
-  static final QueryField PRODUCTID = QueryField(fieldName: \\"productID\\");
-  static final QueryField NAME = QueryField(fieldName: \\"name\\");
-  static final QueryField CONTENT = QueryField(fieldName: \\"content\\");
-  static final QueryField ALBUMID = QueryField(fieldName: \\"albumID\\");
-  static final QueryField CATEGORYID = QueryField(fieldName: \\"categoryID\\");
-  static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final PRODUCTID = amplify_core.QueryField(fieldName: \\"productID\\");
+  static final NAME = amplify_core.QueryField(fieldName: \\"name\\");
+  static final CONTENT = amplify_core.QueryField(fieldName: \\"content\\");
+  static final ALBUMID = amplify_core.QueryField(fieldName: \\"albumID\\");
+  static final CATEGORYID = amplify_core.QueryField(fieldName: \\"categoryID\\");
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"ModelWithPrimaryKey\\";
     modelSchemaDefinition.pluralName = \\"ModelWithPrimaryKeys\\";
     
     modelSchemaDefinition.indexes = [
-      ModelIndex(fields: const [\\"productID\\"], name: null),
-      ModelIndex(fields: const [\\"albumID\\", \\"name\\"], name: \\"byAlbum\\"),
-      ModelIndex(fields: const [\\"categoryID\\", \\"name\\", \\"content\\"], name: \\"byCategory\\")
+      amplify_core.ModelIndex(fields: const [\\"productID\\"], name: null),
+      amplify_core.ModelIndex(fields: const [\\"albumID\\", \\"name\\"], name: \\"byAlbum\\"),
+      amplify_core.ModelIndex(fields: const [\\"categoryID\\", \\"name\\", \\"content\\"], name: \\"byCategory\\")
     ];
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.id());
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: ModelWithPrimaryKey.PRODUCTID,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: ModelWithPrimaryKey.NAME,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: ModelWithPrimaryKey.CONTENT,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: ModelWithPrimaryKey.ALBUMID,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: ModelWithPrimaryKey.CATEGORYID,
       isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
   });
 }
 
-class _ModelWithPrimaryKeyModelType extends ModelType<ModelWithPrimaryKey> {
+class _ModelWithPrimaryKeyModelType extends amplify_core.ModelType<ModelWithPrimaryKey> {
   const _ModelWithPrimaryKeyModelType();
   
   @override
