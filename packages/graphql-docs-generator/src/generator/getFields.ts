@@ -22,7 +22,7 @@ export default function getFields(
   field: GraphQLField<any, any>,
   schema: GraphQLSchema,
   depth: number = 2,
-  options: GQLDocsGenOptions
+  options: GQLDocsGenOptions,
 ): GQLTemplateField {
   const fieldType: GQLConcreteType = getType(field.type);
   const renderS3FieldFragment = options.useExternalFragmentForS3Object && isS3Object(fieldType);
@@ -40,6 +40,14 @@ export default function getFields(
       return getFields(subField, schema, adjustDepth(subField, depth), options);
     })
     .filter(f => f);
+  if (isObjectType(fieldType)) {
+    fields.push({
+      name: '__typename',
+      fields: [],
+      fragments: [],
+      hasBody: false,
+    });
+  }
   const fragments: Array<GQLTemplateFragment> = Object.keys(subFragments)
     .map(fragment => getFragment(subFragments[fragment], schema, depth, fields, null, false, options))
     .filter(f => f);
@@ -74,18 +82,14 @@ function adjustDepth(field, depth) {
 }
 
 function isGraphQLAggregateField(field) {
-  if (
-    field &&
-    field.name == 'aggregateItems' &&
-    getBaseType(field.type) == 'SearchableAggregateResult'
-  ) {
+  if (field && field.name == 'aggregateItems' && getBaseType(field.type) == 'SearchableAggregateResult') {
     return true;
   }
   return false;
 }
 
 function getBaseType(type) {
-  if(type && type.ofType) {
+  if (type && type.ofType) {
     return getBaseType(type.ofType);
   }
   return type?.name;

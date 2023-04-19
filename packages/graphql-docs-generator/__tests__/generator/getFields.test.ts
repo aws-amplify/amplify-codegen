@@ -55,9 +55,21 @@ describe('getField', () => {
               fragments: [],
               hasBody: false,
             },
+            {
+              name: '__typename',
+              fields: [],
+              fragments: [],
+              hasBody: false,
+            },
           ],
           fragments: [],
           hasBody: true,
+        },
+        {
+          name: '__typename',
+          fields: [],
+          fragments: [],
+          hasBody: false,
         },
       ],
       fragments: [],
@@ -211,7 +223,7 @@ describe('getField', () => {
         buckets: { type: aggregateBucketResultItem },
       },
     });
-    
+
     const aggregateResult = new GraphQLUnionType({
       name: 'SearchableAggregateGenericResult',
       types: [aggregateScalarResult, aggregateBucketResult],
