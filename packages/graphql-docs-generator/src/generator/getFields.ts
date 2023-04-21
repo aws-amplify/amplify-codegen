@@ -40,6 +40,9 @@ export default function getFields(
       return getFields(subField, schema, adjustDepth(subField, depth), options);
     })
     .filter(f => f);
+
+  // add __typename to selection set.
+  // getFields() does not include __typename because __typename is implicitly included on all object types.
   if (isObjectType(fieldType)) {
     fields.push({
       name: '__typename',
