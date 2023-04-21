@@ -58,6 +58,7 @@ export interface ParsedAppSyncModelDartConfig extends ParsedAppSyncModelConfig {
   enableDartZeroThreeFeatures: boolean;
   dartUpdateAmplifyCoreDependency: boolean;
 }
+
 export class AppSyncModelDartVisitor<
   TRawConfig extends RawAppSyncModelDartConfig = RawAppSyncModelDartConfig,
   TPluginConfig extends ParsedAppSyncModelDartConfig = ParsedAppSyncModelDartConfig
@@ -567,9 +568,9 @@ export class AppSyncModelDartVisitor<
       ? `{${model.fields
           .map(
             f =>
-              `${this.isFieldRequired(f) ? `required ` : ''}${this.getFieldName(f) === 'id' ? 'this.' : this.getNativeType(f)}${
-                this.isFieldRequired(f) ? '' : '?'
-              } ${this.getFieldName(f)}`,
+              `${this.isFieldRequired(f) ? `required ` : ''}${
+                this.getFieldName(f) === 'id' ? 'this.' : `${this.getNullSafetyNativeType(f)} `
+              }${this.getFieldName(f)}`,
           )
           .join(', ')}}`
       : `{${model.fields.map(f => `${this.isFieldRequired(f) ? '@required ' : ''}this.${this.getFieldName(f)}`).join(', ')}}`;
@@ -782,7 +783,7 @@ export class AppSyncModelDartVisitor<
                 this.isNullSafety() ? indent(`.where((e) => e != null)`, 2) : undefined,
                 indent(
                   `.map((e) => ${this.getNativeType({ ...field, isList: false })}.fromJson(new Map<String, dynamic>.from(${
-                    this.isNonModelType(field) ? "e['serializedData']" : 'e'
+                    this.isNonModelType(field) ? `e['serializedData']${this.isNullSafety() ? ' as Map' : ''}` : 'e'
                   })))`,
                   2,
                 ),
@@ -797,7 +798,7 @@ export class AppSyncModelDartVisitor<
               `${fieldName} = json['${varName}']${this.isNullSafety() ? `?['serializedData']` : ''} != null`,
               indent(
                 `? ${this.getNativeType(field)}.fromJson(new Map<String, dynamic>.from(json['${varName}']${
-                  this.isNullSafety() ? `['serializedData']` : ''
+                  this.isNullSafety() ? `['serializedData'] as Map` : ''
                 }))`,
               ),
               indent(`: null`),
@@ -813,13 +814,17 @@ export class AppSyncModelDartVisitor<
                 ? `${fieldName} = (json['${varName}'] as ${this.getNullSafetyTypeStr(
                     'List',
                   )})?.map((e) => ${fieldNativeType}.fromString(e)).toList()`
-                : `${fieldName} = json['${varName}'] != null ? ${fieldNativeType}.fromString(json['${varName}'] as String) : null`;
+                : `${fieldName} = json['${varName}'] != null ? ${fieldNativeType}.fromString(json['${varName}']${
+                    this.isNullSafety() ? ' as String' : ''
+                  }) : null`;
             case this.scalars['AWSTimestamp']:
               return field.isList
                 ? `${fieldName} = (json['${varName}'] as ${this.getNullSafetyTypeStr(
                     'List',
                   )})?.map((e) => ${fieldNativeType}.fromSeconds(e)).toList()`
-                : `${fieldName} = json['${varName}'] != null ? ${fieldNativeType}.fromSeconds(json['${varName}'] as Int) : null`;
+                : `${fieldName} = json['${varName}'] != null ? ${fieldNativeType}.fromSeconds(json['${varName}']${
+                    this.isNullSafety() ? ' as Int' : ''
+                  }) : null`;
             case this.scalars['Int']:
               return field.isList
                 ? `${fieldName} = (json['${varName}'] as ${this.getNullSafetyTypeStr('List')})?.map((e) => (e as num).toInt()).toList()`
@@ -831,7 +836,9 @@ export class AppSyncModelDartVisitor<
             default:
               return field.isList
                 ? `${fieldName} = json['${varName}']?.cast<${this.getNativeType({ ...field, isList: false })}>()`
-                : `${fieldName} = json['${varName}'] as ${this.getNativeType(field)}${this.isFieldRequired(field) ? '' : '?'}`;
+                : this.isNullSafety()
+                ? `${fieldName} = json['${varName}'] as ${this.getNullSafetyNativeType(field)}`
+                : `${fieldName} = json['${varName}']`;
           }
         })
         .join(',\n'),
@@ -1214,6 +1221,10 @@ export class AppSyncModelDartVisitor<
 
   protected isFieldRequired(field: CodeGenField): boolean {
     return !((field.isNullable && !field.isList) || field.isListNullable);
+  }
+
+  protected getNullSafetyNativeType(field: CodeGenField): string {
+    return `${this.getNativeType(field)}${this.isFieldRequired(field) || !this.isNullSafety() ? '' : '?'}`;
   }
 
   protected isNullSafety(): boolean {

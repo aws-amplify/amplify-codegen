@@ -61,7 +61,7 @@ class Post extends Model {
     return _comments;
   }
   
-  const Post._internal({required this.id, required title, comments}): _title = title, _comments = comments;
+  const Post._internal({required this.id, required String title, List<Comment>? comments}): _title = title, _comments = comments;
   
   factory Post({String? id, required String title, List<Comment>? comments}) {
     return Post._internal(
@@ -106,12 +106,12 @@ class Post extends Model {
   }
   
   Post.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _title = json['title'],
+    : id = json['id'] as String,
+      _title = json['title'] as String,
       _comments = json['comments'] is List
         ? (json['comments'] as List)
           .where((e) => e?['serializedData'] != null)
-          .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e['serializedData'] as Map)))
           .toList()
         : null;
   
@@ -224,7 +224,7 @@ class Comment extends Model {
     return _post;
   }
   
-  const Comment._internal({required this.id, required content, post}): _content = content, _post = post;
+  const Comment._internal({required this.id, required String content, Post? post}): _content = content, _post = post;
   
   factory Comment({String? id, required String content, Post? post}) {
     return Comment._internal(
@@ -270,10 +270,10 @@ class Comment extends Model {
   }
   
   Comment.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _content = json['content'],
+    : id = json['id'] as String,
+      _content = json['content'] as String,
       _post = json['post']?['serializedData'] != null
-        ? Post.fromJson(new Map<String, dynamic>.from(json['post']['serializedData']))
+        ? Post.fromJson(new Map<String, dynamic>.from(json['post']['serializedData'] as Map))
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -385,7 +385,7 @@ class Project2 extends Model {
     return _project2TeamId;
   }
   
-  const Project2._internal({required this.id, name, team, project2TeamId}): _name = name, _team = team, _project2TeamId = project2TeamId;
+  const Project2._internal({required this.id, String? name, Team2? team, String? project2TeamId}): _name = name, _team = team, _project2TeamId = project2TeamId;
   
   factory Project2({String? id, String? name, Team2? team, String? project2TeamId}) {
     return Project2._internal(
@@ -434,12 +434,12 @@ class Project2 extends Model {
   }
   
   Project2.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _name = json['name'],
+    : id = json['id'] as String,
+      _name = json['name'] as String?,
       _team = json['team']?['serializedData'] != null
-        ? Team2.fromJson(new Map<String, dynamic>.from(json['team']['serializedData']))
+        ? Team2.fromJson(new Map<String, dynamic>.from(json['team']['serializedData'] as Map))
         : null,
-      _project2TeamId = json['project2TeamId'];
+      _project2TeamId = json['project2TeamId'] as String?;
   
   Map<String, dynamic> toJson() => {
     'id': id, 'name': _name, 'team': _team?.toJson(), 'project2TeamId': _project2TeamId
@@ -557,7 +557,7 @@ class Team2 extends Model {
     return _project;
   }
   
-  const Team2._internal({required this.id, required name, project}): _name = name, _project = project;
+  const Team2._internal({required this.id, required String name, Project2? project}): _name = name, _project = project;
   
   factory Team2({String? id, required String name, Project2? project}) {
     return Team2._internal(
@@ -603,10 +603,10 @@ class Team2 extends Model {
   }
   
   Team2.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _name = json['name'],
+    : id = json['id'] as String,
+      _name = json['name'] as String,
       _project = json['project']?['serializedData'] != null
-        ? Project2.fromJson(new Map<String, dynamic>.from(json['project']['serializedData']))
+        ? Project2.fromJson(new Map<String, dynamic>.from(json['project']['serializedData'] as Map))
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -719,7 +719,7 @@ class Blog7V2 extends Model {
     return _posts;
   }
   
-  const Blog7V2._internal({required this.id, required name, posts}): _name = name, _posts = posts;
+  const Blog7V2._internal({required this.id, required String name, List<Post7V2>? posts}): _name = name, _posts = posts;
   
   factory Blog7V2({String? id, required String name, List<Post7V2>? posts}) {
     return Blog7V2._internal(
@@ -764,12 +764,12 @@ class Blog7V2 extends Model {
   }
   
   Blog7V2.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _name = json['name'],
+    : id = json['id'] as String,
+      _name = json['name'] as String,
       _posts = json['posts'] is List
         ? (json['posts'] as List)
           .where((e) => e?['serializedData'] != null)
-          .map((e) => Post7V2.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => Post7V2.fromJson(new Map<String, dynamic>.from(e['serializedData'] as Map)))
           .toList()
         : null;
   
@@ -888,7 +888,7 @@ class Post7V2 extends Model {
     return _comments;
   }
   
-  const Post7V2._internal({required this.id, required title, blog, comments}): _title = title, _blog = blog, _comments = comments;
+  const Post7V2._internal({required this.id, required String title, Blog7V2? blog, List<Comment7V2>? comments}): _title = title, _blog = blog, _comments = comments;
   
   factory Post7V2({String? id, required String title, Blog7V2? blog, List<Comment7V2>? comments}) {
     return Post7V2._internal(
@@ -937,15 +937,15 @@ class Post7V2 extends Model {
   }
   
   Post7V2.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _title = json['title'],
+    : id = json['id'] as String,
+      _title = json['title'] as String,
       _blog = json['blog']?['serializedData'] != null
-        ? Blog7V2.fromJson(new Map<String, dynamic>.from(json['blog']['serializedData']))
+        ? Blog7V2.fromJson(new Map<String, dynamic>.from(json['blog']['serializedData'] as Map))
         : null,
       _comments = json['comments'] is List
         ? (json['comments'] as List)
           .where((e) => e?['serializedData'] != null)
-          .map((e) => Comment7V2.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => Comment7V2.fromJson(new Map<String, dynamic>.from(e['serializedData'] as Map)))
           .toList()
         : null;
   
@@ -1059,7 +1059,7 @@ class Comment7V2 extends Model {
     return _post;
   }
   
-  const Comment7V2._internal({required this.id, content, post}): _content = content, _post = post;
+  const Comment7V2._internal({required this.id, String? content, Post7V2? post}): _content = content, _post = post;
   
   factory Comment7V2({String? id, String? content, Post7V2? post}) {
     return Comment7V2._internal(
@@ -1105,10 +1105,10 @@ class Comment7V2 extends Model {
   }
   
   Comment7V2.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _content = json['content'],
+    : id = json['id'] as String,
+      _content = json['content'] as String?,
       _post = json['post']?['serializedData'] != null
-        ? Post7V2.fromJson(new Map<String, dynamic>.from(json['post']['serializedData']))
+        ? Post7V2.fromJson(new Map<String, dynamic>.from(json['post']['serializedData'] as Map))
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -1216,7 +1216,7 @@ class Project extends Model {
     return _projectTeamId;
   }
   
-  const Project._internal({required this.id, name, team, projectTeamId}): _name = name, _team = team, _projectTeamId = projectTeamId;
+  const Project._internal({required this.id, String? name, Team? team, String? projectTeamId}): _name = name, _team = team, _projectTeamId = projectTeamId;
   
   factory Project({String? id, String? name, Team? team, String? projectTeamId}) {
     return Project._internal(
@@ -1265,12 +1265,12 @@ class Project extends Model {
   }
   
   Project.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _name = json['name'],
+    : id = json['id'] as String,
+      _name = json['name'] as String?,
       _team = json['team']?['serializedData'] != null
-        ? Team.fromJson(new Map<String, dynamic>.from(json['team']['serializedData']))
+        ? Team.fromJson(new Map<String, dynamic>.from(json['team']['serializedData'] as Map))
         : null,
-      _projectTeamId = json['projectTeamId'];
+      _projectTeamId = json['projectTeamId'] as String?;
   
   Map<String, dynamic> toJson() => {
     'id': id, 'name': _name, 'team': _team?.toJson(), 'projectTeamId': _projectTeamId
@@ -1388,7 +1388,7 @@ class Team extends Model {
     return _project;
   }
   
-  const Team._internal({required this.id, required name, project}): _name = name, _project = project;
+  const Team._internal({required this.id, required String name, Project? project}): _name = name, _project = project;
   
   factory Team({String? id, required String name, Project? project}) {
     return Team._internal(
@@ -1434,10 +1434,10 @@ class Team extends Model {
   }
   
   Team.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _name = json['name'],
+    : id = json['id'] as String,
+      _name = json['name'] as String,
       _project = json['project']?['serializedData'] != null
-        ? Project.fromJson(new Map<String, dynamic>.from(json['project']['serializedData']))
+        ? Project.fromJson(new Map<String, dynamic>.from(json['project']['serializedData'] as Map))
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -1555,7 +1555,7 @@ class Post extends Model {
     return _tags;
   }
   
-  const Post._internal({required this.id, required title, content, tags}): _title = title, _content = content, _tags = tags;
+  const Post._internal({required this.id, required String title, String? content, List<PostTags>? tags}): _title = title, _content = content, _tags = tags;
   
   factory Post({String? id, required String title, String? content, List<PostTags>? tags}) {
     return Post._internal(
@@ -1604,13 +1604,13 @@ class Post extends Model {
   }
   
   Post.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _title = json['title'],
-      _content = json['content'],
+    : id = json['id'] as String,
+      _title = json['title'] as String,
+      _content = json['content'] as String?,
       _tags = json['tags'] is List
         ? (json['tags'] as List)
           .where((e) => e?['serializedData'] != null)
-          .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e['serializedData'] as Map)))
           .toList()
         : null;
   
@@ -1731,7 +1731,7 @@ class Tag extends Model {
     return _posts;
   }
   
-  const Tag._internal({required this.id, required label, posts}): _label = label, _posts = posts;
+  const Tag._internal({required this.id, required String label, List<PostTags>? posts}): _label = label, _posts = posts;
   
   factory Tag({String? id, required String label, List<PostTags>? posts}) {
     return Tag._internal(
@@ -1776,12 +1776,12 @@ class Tag extends Model {
   }
   
   Tag.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _label = json['label'],
+    : id = json['id'] as String,
+      _label = json['label'] as String,
       _posts = json['posts'] is List
         ? (json['posts'] as List)
           .where((e) => e?['serializedData'] != null)
-          .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e['serializedData'] as Map)))
           .toList()
         : null;
   
@@ -1879,7 +1879,7 @@ class Todo extends Model {
     return _content;
   }
   
-  const Todo._internal({required this.id, content}): _content = content;
+  const Todo._internal({required this.id, String? content}): _content = content;
   
   factory Todo({String? id, String? content}) {
     return Todo._internal(
@@ -1921,8 +1921,8 @@ class Todo extends Model {
   }
   
   Todo.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _content = json['content'];
+    : id = json['id'] as String,
+      _content = json['content'] as String?;
   
   Map<String, dynamic> toJson() => {
     'id': id, 'content': _content
@@ -2024,7 +2024,7 @@ class Post2 extends Model {
     return _comments;
   }
   
-  const Post2._internal({required this.id, required title, comments}): _title = title, _comments = comments;
+  const Post2._internal({required this.id, required String title, List<Comment2>? comments}): _title = title, _comments = comments;
   
   factory Post2({String? id, required String title, List<Comment2>? comments}) {
     return Post2._internal(
@@ -2069,12 +2069,12 @@ class Post2 extends Model {
   }
   
   Post2.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _title = json['title'],
+    : id = json['id'] as String,
+      _title = json['title'] as String,
       _comments = json['comments'] is List
         ? (json['comments'] as List)
           .where((e) => e?['serializedData'] != null)
-          .map((e) => Comment2.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => Comment2.fromJson(new Map<String, dynamic>.from(e['serializedData'] as Map)))
           .toList()
         : null;
   
@@ -2195,7 +2195,7 @@ class Comment2 extends Model {
     }
   }
   
-  const Comment2._internal({required this.id, required postID, required content}): _postID = postID, _content = content;
+  const Comment2._internal({required this.id, required String postID, required String content}): _postID = postID, _content = content;
   
   factory Comment2({String? id, required String postID, required String content}) {
     return Comment2._internal(
@@ -2241,9 +2241,9 @@ class Comment2 extends Model {
   }
   
   Comment2.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _postID = json['postID'],
-      _content = json['content'];
+    : id = json['id'] as String,
+      _postID = json['postID'] as String,
+      _content = json['content'] as String;
   
   Map<String, dynamic> toJson() => {
     'id': id, 'postID': _postID, 'content': _content
@@ -2351,7 +2351,7 @@ class Project2 extends Model {
     return _team;
   }
   
-  const Project2._internal({required this.id, name, teamID, team}): _name = name, _teamID = teamID, _team = team;
+  const Project2._internal({required this.id, String? name, String? teamID, Team2? team}): _name = name, _teamID = teamID, _team = team;
   
   factory Project2({String? id, String? name, String? teamID, Team2? team}) {
     return Project2._internal(
@@ -2400,11 +2400,11 @@ class Project2 extends Model {
   }
   
   Project2.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _name = json['name'],
-      _teamID = json['teamID'],
+    : id = json['id'] as String,
+      _name = json['name'] as String?,
+      _teamID = json['teamID'] as String?,
       _team = json['team']?['serializedData'] != null
-        ? Team2.fromJson(new Map<String, dynamic>.from(json['team']['serializedData']))
+        ? Team2.fromJson(new Map<String, dynamic>.from(json['team']['serializedData'] as Map))
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -2517,7 +2517,7 @@ class Team2 extends Model {
     }
   }
   
-  const Team2._internal({required this.id, required name}): _name = name;
+  const Team2._internal({required this.id, required String name}): _name = name;
   
   factory Team2({String? id, required String name}) {
     return Team2._internal(
@@ -2559,8 +2559,8 @@ class Team2 extends Model {
   }
   
   Team2.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _name = json['name'];
+    : id = json['id'] as String,
+      _name = json['name'] as String;
   
   Map<String, dynamic> toJson() => {
     'id': id, 'name': _name
@@ -2662,7 +2662,7 @@ class Post extends Model {
     return _comments;
   }
   
-  const Post._internal({required this.id, required title, comments}): _title = title, _comments = comments;
+  const Post._internal({required this.id, required String title, List<Comment>? comments}): _title = title, _comments = comments;
   
   factory Post({String? id, required String title, List<Comment>? comments}) {
     return Post._internal(
@@ -2707,12 +2707,12 @@ class Post extends Model {
   }
   
   Post.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _title = json['title'],
+    : id = json['id'] as String,
+      _title = json['title'] as String,
       _comments = json['comments'] is List
         ? (json['comments'] as List)
           .where((e) => e?['serializedData'] != null)
-          .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e['serializedData'] as Map)))
           .toList()
         : null;
   
@@ -2824,7 +2824,7 @@ class Comment extends Model {
     return _postCommentsId;
   }
   
-  const Comment._internal({required this.id, required content, postCommentsId}): _content = content, _postCommentsId = postCommentsId;
+  const Comment._internal({required this.id, required String content, String? postCommentsId}): _content = content, _postCommentsId = postCommentsId;
   
   factory Comment({String? id, required String content, String? postCommentsId}) {
     return Comment._internal(
@@ -2870,9 +2870,9 @@ class Comment extends Model {
   }
   
   Comment.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _content = json['content'],
-      _postCommentsId = json['postCommentsId'];
+    : id = json['id'] as String,
+      _content = json['content'] as String,
+      _postCommentsId = json['postCommentsId'] as String?;
   
   Map<String, dynamic> toJson() => {
     'id': id, 'content': _content, 'postCommentsId': _postCommentsId
@@ -2976,7 +2976,7 @@ class Project extends Model {
     return _projectTeamId;
   }
   
-  const Project._internal({required this.id, name, team, projectTeamId}): _name = name, _team = team, _projectTeamId = projectTeamId;
+  const Project._internal({required this.id, String? name, Team? team, String? projectTeamId}): _name = name, _team = team, _projectTeamId = projectTeamId;
   
   factory Project({String? id, String? name, Team? team, String? projectTeamId}) {
     return Project._internal(
@@ -3025,12 +3025,12 @@ class Project extends Model {
   }
   
   Project.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _name = json['name'],
+    : id = json['id'] as String,
+      _name = json['name'] as String?,
       _team = json['team']?['serializedData'] != null
-        ? Team.fromJson(new Map<String, dynamic>.from(json['team']['serializedData']))
+        ? Team.fromJson(new Map<String, dynamic>.from(json['team']['serializedData'] as Map))
         : null,
-      _projectTeamId = json['projectTeamId'];
+      _projectTeamId = json['projectTeamId'] as String?;
   
   Map<String, dynamic> toJson() => {
     'id': id, 'name': _name, 'team': _team?.toJson(), 'projectTeamId': _projectTeamId
@@ -3142,7 +3142,7 @@ class Team extends Model {
     }
   }
   
-  const Team._internal({required this.id, required name}): _name = name;
+  const Team._internal({required this.id, required String name}): _name = name;
   
   factory Team({String? id, required String name}) {
     return Team._internal(
@@ -3184,8 +3184,8 @@ class Team extends Model {
   }
   
   Team.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _name = json['name'];
+    : id = json['id'] as String,
+      _name = json['name'] as String;
   
   Map<String, dynamic> toJson() => {
     'id': id, 'name': _name
@@ -3299,7 +3299,7 @@ class Customer extends Model {
     }
   }
   
-  const Customer._internal({required this.id, required name, phoneNumber, required accountRepresentativeID}): _name = name, _phoneNumber = phoneNumber, _accountRepresentativeID = accountRepresentativeID;
+  const Customer._internal({required this.id, required String name, String? phoneNumber, required String accountRepresentativeID}): _name = name, _phoneNumber = phoneNumber, _accountRepresentativeID = accountRepresentativeID;
   
   factory Customer({String? id, required String name, String? phoneNumber, required String accountRepresentativeID}) {
     return Customer._internal(
@@ -3349,10 +3349,10 @@ class Customer extends Model {
   }
   
   Customer.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _name = json['name'],
-      _phoneNumber = json['phoneNumber'],
-      _accountRepresentativeID = json['accountRepresentativeID'];
+    : id = json['id'] as String,
+      _name = json['name'] as String,
+      _phoneNumber = json['phoneNumber'] as String?,
+      _accountRepresentativeID = json['accountRepresentativeID'] as String;
   
   Map<String, dynamic> toJson() => {
     'id': id, 'name': _name, 'phoneNumber': _phoneNumber, 'accountRepresentativeID': _accountRepresentativeID
@@ -3512,7 +3512,7 @@ class ModelWithPrimaryKey extends Model {
     }
   }
   
-  const ModelWithPrimaryKey._internal({required this.id, required productID, required name, content, required albumID, required categoryID}): _productID = productID, _name = name, _content = content, _albumID = albumID, _categoryID = categoryID;
+  const ModelWithPrimaryKey._internal({required this.id, required String productID, required String name, String? content, required String albumID, required String categoryID}): _productID = productID, _name = name, _content = content, _albumID = albumID, _categoryID = categoryID;
   
   factory ModelWithPrimaryKey({String? id, required String productID, required String name, String? content, required String albumID, required String categoryID}) {
     return ModelWithPrimaryKey._internal(
@@ -3570,12 +3570,12 @@ class ModelWithPrimaryKey extends Model {
   }
   
   ModelWithPrimaryKey.fromJson(Map<String, dynamic> json)  
-    : id = json['id'],
-      _productID = json['productID'],
-      _name = json['name'],
-      _content = json['content'],
-      _albumID = json['albumID'],
-      _categoryID = json['categoryID'];
+    : id = json['id'] as String,
+      _productID = json['productID'] as String,
+      _name = json['name'] as String,
+      _content = json['content'] as String?,
+      _albumID = json['albumID'] as String,
+      _categoryID = json['categoryID'] as String;
   
   Map<String, dynamic> toJson() => {
     'id': id, 'productID': _productID, 'name': _name, 'content': _content, 'albumID': _albumID, 'categoryID': _categoryID
