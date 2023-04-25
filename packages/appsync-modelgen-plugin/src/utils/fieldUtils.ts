@@ -25,8 +25,19 @@ export function getOtherSideBelongsToField(type: string, otherSideModel: CodeGen
   return otherSideModel.fields.filter(f => f.type === type).find(f => f.directives.find(d => d.name === TransformerV2DirectiveName.BELONGS_TO));
 }
 
+/**
+ * Given a model, it returns the primary and sort key fields if present, an empty list otherwise.
+ * @param model Codegen Model object
+ * @returns Array of primary and sort key codegen fields if present or an empty list
+ */
 export function getModelPrimaryKeyComponentFields(model: CodeGenModel): CodeGenField[] {
-  const primaryKeyField = model.fields.find(field => field.primaryKeyInfo)!;
-  const { sortKeyFields } = primaryKeyField.primaryKeyInfo!;
-  return [ primaryKeyField, ...sortKeyFields ];
+  const primaryKeyField = model.fields.find(field => field.primaryKeyInfo);
+  const keyFields: CodeGenField[] = [];
+  if (primaryKeyField) {
+    keyFields.push(primaryKeyField);
+    if ( primaryKeyField?.primaryKeyInfo?.sortKeyFields ) {
+      keyFields.push(...primaryKeyField.primaryKeyInfo.sortKeyFields);
+    };
+  }
+  return keyFields;
 }
