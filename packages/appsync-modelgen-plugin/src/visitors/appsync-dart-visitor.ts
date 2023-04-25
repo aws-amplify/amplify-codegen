@@ -15,7 +15,6 @@ import {
   AMPLIFY_CORE_PREFIX,
   DART_AMPLIFY_CORE_TYPES,
   LOADER_CLASS_NAME,
-  BASE_IMPORT_PACKAGES,
   FLUTTER_AMPLIFY_CORE_IMPORT,
   COLLECTION_PACKAGE,
   DART_RESERVED_KEYWORDS,
@@ -238,7 +237,6 @@ export class AppSyncModelDartVisitor<
     });
     const flutterDatastorePackage = FLUTTER_AMPLIFY_CORE_IMPORT;
     const packagesImports = [
-      ...BASE_IMPORT_PACKAGES,
       usingCollection ? COLLECTION_PACKAGE : '',
       usingOtherClass ? `${LOADER_CLASS_NAME}.dart` : '',
     ]
@@ -254,8 +252,7 @@ export class AppSyncModelDartVisitor<
       .asKind('class')
       .withName(this.getModelName(model))
       .extends([`${DART_AMPLIFY_CORE_TYPES.Model}`])
-      .withComment(`This is an auto generated class representing the ${model.name} type in your schema.`)
-      .annotate(['immutable']);
+      .withComment(`This is an auto generated class representing the ${model.name} type in your schema.`);
     //model type field
     classDeclarationBlock.addClassMember('classType', '', `const _${this.getModelName(model)}ModelType()`, { static: true, const: true });
     //model fields
@@ -289,8 +286,7 @@ export class AppSyncModelDartVisitor<
     const classDeclarationBlock = new DartDeclarationBlock()
       .asKind('class')
       .withName(this.getModelName(model))
-      .withComment(`This is an auto generated class representing the ${model.name} type in your schema.`)
-      .annotate(['immutable']);
+      .withComment(`This is an auto generated class representing the ${model.name} type in your schema.`);
     //model fields
     model.fields.forEach(field => {
       this.generateModelField(field, '', classDeclarationBlock);
@@ -341,8 +337,7 @@ export class AppSyncModelDartVisitor<
       .asKind('class')
       .withName(`${modelName}ModelIdentifier`)
       .implements([`${DART_AMPLIFY_CORE_TYPES.ModelIdentifier}<${modelName}>`])
-      .withComment(['This is an auto generated class representing the model identifier', `of [${modelName}] in your schema.`].join('\n'))
-      .annotate(['immutable']);
+      .withComment(['This is an auto generated class representing the model identifier', `of [${modelName}] in your schema.`].join('\n'));
 
     identifierFields.forEach(field => {
       classDeclarationBlock.addClassMember(field.name, this.getNativeType(field), '', { final: true });
@@ -1023,7 +1018,7 @@ export class AppSyncModelDartVisitor<
             if (ofType === '.embedded') {
               ofTypeStr = `ofType: ${DART_AMPLIFY_CORE_TYPES.ModelFieldType}(${DART_AMPLIFY_CORE_TYPES.ModelFieldTypeEnum}.embeddedCollection, ofCustomTypeName: '${field.type}')`;
             } else {
-              ofTypeStr = `ofType: ${DART_AMPLIFY_CORE_TYPES.ModelFieldType}(${DART_AMPLIFY_CORE_TYPES.ModelFieldTypeEnum}.collection, ofModelName: describeEnum(${DART_AMPLIFY_CORE_TYPES.ModelFieldTypeEnum}${ofType}))`;
+              ofTypeStr = `ofType: ${DART_AMPLIFY_CORE_TYPES.ModelFieldType}(${DART_AMPLIFY_CORE_TYPES.ModelFieldTypeEnum}.collection, ofModelName: ${DART_AMPLIFY_CORE_TYPES.ModelFieldTypeEnum}${ofType}.name)`;
             }
           } else if (ofType === '.embedded') {
             ofTypeStr = `ofType: ${DART_AMPLIFY_CORE_TYPES.ModelFieldType}(${DART_AMPLIFY_CORE_TYPES.ModelFieldTypeEnum}${ofType}, ofCustomTypeName: '${field.type}')`;
@@ -1072,7 +1067,7 @@ export class AppSyncModelDartVisitor<
         if (ofType === '.embedded') {
           ofTypeStr = `ofType: ${DART_AMPLIFY_CORE_TYPES.ModelFieldType}(${DART_AMPLIFY_CORE_TYPES.ModelFieldTypeEnum}.embeddedCollection, ofCustomTypeName: '${field.type}')`;
         } else {
-          ofTypeStr = `ofType: ${DART_AMPLIFY_CORE_TYPES.ModelFieldType}(${DART_AMPLIFY_CORE_TYPES.ModelFieldTypeEnum}.collection, ofModelName: describeEnum(${DART_AMPLIFY_CORE_TYPES.ModelFieldTypeEnum}${ofType}))`;
+          ofTypeStr = `ofType: ${DART_AMPLIFY_CORE_TYPES.ModelFieldType}(${DART_AMPLIFY_CORE_TYPES.ModelFieldTypeEnum}.collection, ofModelName: ${DART_AMPLIFY_CORE_TYPES.ModelFieldTypeEnum}${ofType}.name)`;
         }
       } else if (ofType === '.embedded') {
         ofTypeStr = `ofType: ${DART_AMPLIFY_CORE_TYPES.ModelFieldType}(${DART_AMPLIFY_CORE_TYPES.ModelFieldTypeEnum}${ofType}, ofCustomTypeName: '${field.type}')`;

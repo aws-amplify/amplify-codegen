@@ -25,11 +25,9 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on explicit hasMany b
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Post type in your schema. */
-@immutable
 class Post extends amplify_core.Model {
   static const classType = const _PostModelType();
   final String id;
@@ -190,11 +188,9 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on explicit hasMany b
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Comment type in your schema. */
-@immutable
 class Comment extends amplify_core.Model {
   static const classType = const _CommentModelType();
   final String id;
@@ -357,11 +353,9 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on explicit hasOne be
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Project2 type in your schema. */
-@immutable
 class Project2 extends amplify_core.Model {
   static const classType = const _Project2ModelType();
   final String id;
@@ -528,11 +522,9 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on explicit hasOne be
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Team2 type in your schema. */
-@immutable
 class Team2 extends amplify_core.Model {
   static const classType = const _Team2ModelType();
   final String id;
@@ -692,11 +684,9 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on implicit hasMany b
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Blog7V2 type in your schema. */
-@immutable
 class Blog7V2 extends amplify_core.Model {
   static const classType = const _Blog7V2ModelType();
   final String id;
@@ -858,11 +848,9 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on implicit hasMany b
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Post7V2 type in your schema. */
-@immutable
 class Post7V2 extends amplify_core.Model {
   static const classType = const _Post7V2ModelType();
   final String id;
@@ -1046,11 +1034,9 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on implicit hasMany b
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Comment7V2 type in your schema. */
-@immutable
 class Comment7V2 extends amplify_core.Model {
   static const classType = const _Comment7V2ModelType();
   final String id;
@@ -1200,11 +1186,9 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on implicit hasOne be
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Project type in your schema. */
-@immutable
 class Project extends amplify_core.Model {
   static const classType = const _ProjectModelType();
   final String id;
@@ -1371,11 +1355,9 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on implicit hasOne be
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Team type in your schema. */
-@immutable
 class Team extends amplify_core.Model {
   static const classType = const _TeamModelType();
   final String id;
@@ -1535,11 +1517,9 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on many to many relat
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Post type in your schema. */
-@immutable
 class Post extends amplify_core.Model {
   static const classType = const _PostModelType();
   final String id;
@@ -1719,11 +1699,9 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on many to many relat
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Tag type in your schema. */
-@immutable
 class Tag extends amplify_core.Model {
   static const classType = const _TagModelType();
   final String id;
@@ -1883,11 +1861,9 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on record creation an
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Todo type in your schema. */
-@immutable
 class Todo extends amplify_core.Model {
   static const classType = const _TodoModelType();
   final String id;
@@ -2015,11 +1991,9 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional ex
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Post2 type in your schema. */
-@immutable
 class Post2 extends amplify_core.Model {
   static const classType = const _Post2ModelType();
   final String id;
@@ -2179,11 +2153,9 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional ex
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Comment2 type in your schema. */
-@immutable
 class Comment2 extends amplify_core.Model {
   static const classType = const _Comment2ModelType();
   final String id;
@@ -2350,11 +2322,9 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional ex
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Project2 type in your schema. */
-@immutable
 class Project2 extends amplify_core.Model {
   static const classType = const _Project2ModelType();
   final String id;
@@ -2520,11 +2490,9 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional ex
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Team2 type in your schema. */
-@immutable
 class Team2 extends amplify_core.Model {
   static const classType = const _Team2ModelType();
   final String id;
@@ -2661,11 +2629,9 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional im
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Post type in your schema. */
-@immutable
 class Post extends amplify_core.Model {
   static const classType = const _PostModelType();
   final String id;
@@ -2825,11 +2791,9 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional im
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Comment type in your schema. */
-@immutable
 class Comment extends amplify_core.Model {
   static const classType = const _CommentModelType();
   final String id;
@@ -2983,11 +2947,9 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional im
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Project type in your schema. */
-@immutable
 class Project extends amplify_core.Model {
   static const classType = const _ProjectModelType();
   final String id;
@@ -3153,11 +3115,9 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional im
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Team type in your schema. */
-@immutable
 class Team extends amplify_core.Model {
   static const classType = const _TeamModelType();
   final String id;
@@ -3292,11 +3252,9 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works when configuring a se
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Customer type in your schema. */
-@immutable
 class Customer extends amplify_core.Model {
   static const classType = const _CustomerModelType();
   final String id;
@@ -3480,11 +3438,9 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests model indexes should correc
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the ModelWithPrimaryKey type in your schema. */
-@immutable
 class ModelWithPrimaryKey extends amplify_core.Model {
   static const classType = const _ModelWithPrimaryKeyModelType();
   final String id;

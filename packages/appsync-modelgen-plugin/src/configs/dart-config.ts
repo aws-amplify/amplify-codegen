@@ -1,6 +1,5 @@
 export const LOADER_CLASS_NAME = 'ModelProvider';
 export const FLUTTER_AMPLIFY_CORE_IMPORT = 'package:amplify_core/amplify_core';
-export const BASE_IMPORT_PACKAGES = ['package:flutter/foundation.dart'];
 export const COLLECTION_PACKAGE = 'package:collection/collection.dart';
 export const AMPLIFY_CORE_PREFIX = 'amplify_core';
 

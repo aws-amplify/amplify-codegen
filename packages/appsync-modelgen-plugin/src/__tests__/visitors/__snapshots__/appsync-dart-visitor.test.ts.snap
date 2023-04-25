@@ -25,11 +25,9 @@ exports[`AppSync Dart Visitor Amplify Core dependency used in imports Should use
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Post type in your schema. */
-@immutable
 class Post extends amplify_core.Model {
   static const classType = const _PostModelType();
   final String id;
@@ -220,7 +218,6 @@ class _PostModelType extends amplify_core.ModelType<Post> {
 }
 
 /** This is an auto generated class representing the Comment type in your schema. */
-@immutable
 class Comment extends amplify_core.Model {
   static const classType = const _CommentModelType();
   final String id;
@@ -393,11 +390,9 @@ exports[`AppSync Dart Visitor Amplify Core dependency used in imports Should use
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Post type in your schema. */
-@immutable
 class Post extends amplify_core.Model {
   static const classType = const _PostModelType();
   final String id;
@@ -588,7 +583,6 @@ class _PostModelType extends amplify_core.ModelType<Post> {
 }
 
 /** This is an auto generated class representing the Comment type in your schema. */
-@immutable
 class Comment extends amplify_core.Model {
   static const classType = const _CommentModelType();
   final String id;
@@ -759,11 +753,9 @@ exports[`AppSync Dart Visitor CustomType (non-model) Tests should generate corre
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Address type in your schema. */
-@immutable
 class Address {
   final String? _line1;
   final String? _line2;
@@ -961,11 +953,9 @@ exports[`AppSync Dart Visitor CustomType (non-model) Tests should generate corre
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Contact type in your schema. */
-@immutable
 class Contact {
   final String? _contactName;
   final Phone? _phone;
@@ -1174,11 +1164,9 @@ exports[`AppSync Dart Visitor CustomType (non-model) Tests should generate corre
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Person type in your schema. */
-@immutable
 class Person extends amplify_core.Model {
   static const classType = const _PersonModelType();
   final String id;
@@ -1416,11 +1404,9 @@ exports[`AppSync Dart Visitor Enum Generation should generate a class for enum t
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the SimpleModel type in your schema. */
-@immutable
 class SimpleModel extends amplify_core.Model {
   static const classType = const _SimpleModelModelType();
   final String id;
@@ -1576,11 +1562,9 @@ exports[`AppSync Dart Visitor Field tests should generate correct output for app
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the TemporalTimeModel type in your schema. */
-@immutable
 class TemporalTimeModel extends amplify_core.Model {
   static const classType = const _TemporalTimeModelModelType();
   final String id;
@@ -1802,35 +1786,35 @@ class TemporalTimeModel extends amplify_core.Model {
       key: TemporalTimeModel.DATELIST,
       isRequired: false,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.date))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.date.name)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: TemporalTimeModel.TIMELIST,
       isRequired: false,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.time))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.time.name)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: TemporalTimeModel.DATETIMELIST,
       isRequired: false,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.dateTime))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.dateTime.name)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: TemporalTimeModel.TIMESTAMPLIST,
       isRequired: false,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.timestamp))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.timestamp.name)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: TemporalTimeModel.INTLIST,
       isRequired: false,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.int))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.int.name)
     ));
   });
 }
@@ -1875,11 +1859,9 @@ exports[`AppSync Dart Visitor Field tests should generate correct output for enu
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the TestEnumModel type in your schema. */
-@immutable
 class TestEnumModel extends amplify_core.Model {
   static const classType = const _TestEnumModelModelType();
   final String id;
@@ -2078,28 +2060,28 @@ class TestEnumModel extends amplify_core.Model {
       key: TestEnumModel.ENUMLIST,
       isRequired: true,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.enumeration))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.enumeration.name)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: TestEnumModel.ENUMNULLABLELIST,
       isRequired: false,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.enumeration))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.enumeration.name)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: TestEnumModel.NULLABLEENUMLIST,
       isRequired: true,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.enumeration))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.enumeration.name)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: TestEnumModel.NULLABLEENUMNULLABLELIST,
       isRequired: false,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.enumeration))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.enumeration.name)
     ));
   });
 }
@@ -2143,11 +2125,9 @@ exports[`AppSync Dart Visitor Field tests should generate correct output for reg
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the TestModel type in your schema. */
-@immutable
 class TestModel extends amplify_core.Model {
   static const classType = const _TestModelModelType();
   final String id;
@@ -2330,28 +2310,28 @@ class TestModel extends amplify_core.Model {
       key: TestModel.FLOATLIST,
       isRequired: true,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.double))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.double.name)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: TestModel.FLOATNULLABLELIST,
       isRequired: false,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.double))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.double.name)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: TestModel.NULLABLEFLOATLIST,
       isRequired: true,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.double))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.double.name)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: TestModel.NULLABLEFLOATNULLABLELIST,
       isRequired: false,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.double))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.double.name)
     ));
   });
 }
@@ -2396,11 +2376,9 @@ exports[`AppSync Dart Visitor Many To Many V2 Tests Should generate the intermed
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Post type in your schema. */
-@immutable
 class Post extends amplify_core.Model {
   static const classType = const _PostModelType();
   final String id;
@@ -2555,7 +2533,6 @@ class _PostModelType extends amplify_core.ModelType<Post> {
 }
 
 /** This is an auto generated class representing the Tag type in your schema. */
-@immutable
 class Tag extends amplify_core.Model {
   static const classType = const _TagModelType();
   final String id;
@@ -2692,7 +2669,6 @@ class _TagModelType extends amplify_core.ModelType<Tag> {
 }
 
 /** This is an auto generated class representing the PostTags type in your schema. */
-@immutable
 class PostTags extends amplify_core.Model {
   static const classType = const _PostTagsModelType();
   final String id;
@@ -2869,11 +2845,9 @@ exports[`AppSync Dart Visitor Model Directive should generate a class for a Simp
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the SimpleModel type in your schema. */
-@immutable
 class SimpleModel extends amplify_core.Model {
   static const classType = const _SimpleModelModelType();
   final String id;
@@ -3017,11 +2991,9 @@ exports[`AppSync Dart Visitor Model Directive should generate a class for a mode
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the SimpleModel type in your schema. */
-@immutable
 class SimpleModel extends amplify_core.Model {
   static const classType = const _SimpleModelModelType();
   final String id;
@@ -3165,11 +3137,9 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate AuthRule
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the TodoWithAuth type in your schema. */
-@immutable
 class TodoWithAuth extends amplify_core.Model {
   static const classType = const _TodoWithAuthModelType();
   final String id;
@@ -3363,11 +3333,9 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the customClaim type in your schema. */
-@immutable
 class customClaim extends amplify_core.Model {
   static const classType = const _customClaimModelType();
   final String id;
@@ -3525,11 +3493,9 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the customClaim type in your schema. */
-@immutable
 class customClaim extends amplify_core.Model {
   static const classType = const _customClaimModelType();
   final String id;
@@ -3687,11 +3653,9 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the dynamicGroups type in your schema. */
-@immutable
 class dynamicGroups extends amplify_core.Model {
   static const classType = const _dynamicGroupsModelType();
   final String id;
@@ -3849,11 +3813,9 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the simpleOwnerAuth type in your schema. */
-@immutable
 class simpleOwnerAuth extends amplify_core.Model {
   static const classType = const _simpleOwnerAuthModelType();
   final String id;
@@ -4011,11 +3973,9 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the allowRead type in your schema. */
-@immutable
 class allowRead extends amplify_core.Model {
   static const classType = const _allowReadModelType();
   final String id;
@@ -4172,11 +4132,9 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the privateType type in your schema. */
-@immutable
 class privateType extends amplify_core.Model {
   static const classType = const _privateTypeModelType();
   final String id;
@@ -4331,11 +4289,9 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the publicType type in your schema. */
-@immutable
 class publicType extends amplify_core.Model {
   static const classType = const _publicTypeModelType();
   final String id;
@@ -4490,11 +4446,9 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the staticGroups type in your schema. */
-@immutable
 class staticGroups extends amplify_core.Model {
   static const classType = const _staticGroupsModelType();
   final String id;
@@ -4652,11 +4606,9 @@ exports[`AppSync Dart Visitor Model with Auth Directive should include authRules
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Post type in your schema. */
-@immutable
 class Post extends amplify_core.Model {
   static const classType = const _PostModelType();
   final String id;
@@ -4832,11 +4784,9 @@ exports[`AppSync Dart Visitor Model with Auth Directive should support multiple 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Post type in your schema. */
-@immutable
 class Post extends amplify_core.Model {
   static const classType = const _PostModelType();
   final String id;
@@ -5031,11 +4981,9 @@ exports[`AppSync Dart Visitor Model with Connection Directive should generate cl
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Todo type in your schema. */
-@immutable
 class Todo extends amplify_core.Model {
   static const classType = const _TodoModelType();
   final String id;
@@ -5169,11 +5117,9 @@ exports[`AppSync Dart Visitor Model with Connection Directive should generate cl
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Task type in your schema. */
-@immutable
 class Task extends amplify_core.Model {
   static const classType = const _TaskModelType();
   final String id;
@@ -5306,11 +5252,9 @@ exports[`AppSync Dart Visitor Model with Connection Directive should support con
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Blog type in your schema. */
-@immutable
 class Blog extends amplify_core.Model {
   static const classType = const _BlogModelType();
   final String id;
@@ -5446,7 +5390,7 @@ class Blog extends amplify_core.Model {
       key: Blog.TEST,
       isRequired: false,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.string))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.string.name)
     ));
   });
 }
@@ -5490,11 +5434,9 @@ exports[`AppSync Dart Visitor Model with Connection Directive should support con
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Comment type in your schema. */
-@immutable
 class Comment extends amplify_core.Model {
   static const classType = const _CommentModelType();
   final String id;
@@ -5658,11 +5600,9 @@ exports[`AppSync Dart Visitor Model with Connection Directive should support con
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Post type in your schema. */
-@immutable
 class Post extends amplify_core.Model {
   static const classType = const _PostModelType();
   final String id;
@@ -5849,11 +5789,9 @@ exports[`AppSync Dart Visitor Model with Key Directive should generate a class f
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the authorBook type in your schema. */
-@immutable
 class authorBook extends amplify_core.Model {
   static const classType = const _authorBookModelType();
   final String id;
@@ -6056,11 +5994,9 @@ exports[`AppSync Dart Visitor Null Safety Tests should generate correct internal
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the TestModel type in your schema. */
-@immutable
 class TestModel extends amplify_core.Model {
   static const classType = const _TestModelModelType();
   final String id;
@@ -6170,11 +6106,9 @@ exports[`AppSync Dart Visitor Null Safety Tests should generate correct model fi
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Blog type in your schema. */
-@immutable
 class Blog extends amplify_core.Model {
   static const classType = const _BlogModelType();
   final String id;
@@ -6335,11 +6269,9 @@ exports[`AppSync Dart Visitor Null Safety Tests should generate correct model fi
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Comment type in your schema. */
-@immutable
 class Comment extends amplify_core.Model {
   static const classType = const _CommentModelType();
   final String id;
@@ -6503,11 +6435,9 @@ exports[`AppSync Dart Visitor Null Safety Tests should generate correct model fi
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Post type in your schema. */
-@immutable
 class Post extends amplify_core.Model {
   static const classType = const _PostModelType();
   final String id;
@@ -6695,11 +6625,9 @@ exports[`AppSync Dart Visitor Null Safety Tests should generate correct null saf
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the TestModel type in your schema. */
-@immutable
 class TestModel extends amplify_core.Model {
   static const classType = const _TestModelModelType();
   final String id;
@@ -6882,28 +6810,28 @@ class TestModel extends amplify_core.Model {
       key: TestModel.FLOATLIST,
       isRequired: true,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.double))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.double.name)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: TestModel.FLOATNULLABLELIST,
       isRequired: false,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.double))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.double.name)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: TestModel.NULLABLEFLOATLIST,
       isRequired: true,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.double))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.double.name)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: TestModel.NULLABLEFLOATNULLABLELIST,
       isRequired: false,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.double))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.double.name)
     ));
   });
 }
@@ -6947,11 +6875,9 @@ exports[`AppSync Dart Visitor Null Safety Tests should generate correct null saf
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the TestModel type in your schema. */
-@immutable
 class TestModel extends amplify_core.Model {
   static const classType = const _TestModelModelType();
   final String id;
@@ -7233,28 +7159,28 @@ class TestModel extends amplify_core.Model {
       key: TestModel.FLOATLIST,
       isRequired: true,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.double))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.double.name)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: TestModel.FLOATNULLABLELIST,
       isRequired: false,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.double))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.double.name)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: TestModel.NULLABLEFLOATLIST,
       isRequired: true,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.double))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.double.name)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: TestModel.NULLABLEFLOATNULLABLELIST,
       isRequired: false,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.double))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.double.name)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
@@ -7273,28 +7199,28 @@ class TestModel extends amplify_core.Model {
       key: TestModel.INTLIST,
       isRequired: true,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.int))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.int.name)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: TestModel.INTNULLABLELIST,
       isRequired: false,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.int))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.int.name)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: TestModel.NULLABLEINTLIST,
       isRequired: true,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.int))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.int.name)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: TestModel.NULLABLEINTNULLABLELIST,
       isRequired: false,
       isArray: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: describeEnum(amplify_core.ModelFieldTypeEnum.int))
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.int.name)
     ));
   });
 }
@@ -7337,11 +7263,9 @@ exports[`AppSync Dart Visitor Read-only Field Tests should generate the read-onl
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the SimpleModel type in your schema. */
-@immutable
 class SimpleModel extends amplify_core.Model {
   static const classType = const _SimpleModelModelType();
   final String id;
@@ -7497,11 +7421,9 @@ exports[`AppSync Dart Visitor Read-only and Null Safety Combined Tests should ge
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the SimpleModel type in your schema. */
-@immutable
 class SimpleModel extends amplify_core.Model {
   static const classType = const _SimpleModelModelType();
   final String id;
@@ -7657,11 +7579,9 @@ exports[`AppSync Dart Visitor custom primary key model generation should generat
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the ModelWithImplicitID type in your schema. */
-@immutable
 class ModelWithImplicitID extends amplify_core.Model {
   static const classType = const _ModelWithImplicitIDModelType();
   final String id;
@@ -7812,7 +7732,6 @@ class _ModelWithImplicitIDModelType extends amplify_core.ModelType<ModelWithImpl
  * This is an auto generated class representing the model identifier
  * of [ModelWithImplicitID] in your schema.
  */
-@immutable
 class ModelWithImplicitIDModelIdentifier implements amplify_core.ModelIdentifier<ModelWithImplicitID> {
   final String id;
 
@@ -7876,11 +7795,9 @@ exports[`AppSync Dart Visitor custom primary key model generation should generat
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the ModelWithExplicitID type in your schema. */
-@immutable
 class ModelWithExplicitID extends amplify_core.Model {
   static const classType = const _ModelWithExplicitIDModelType();
   final String id;
@@ -8031,7 +7948,6 @@ class _ModelWithExplicitIDModelType extends amplify_core.ModelType<ModelWithExpl
  * This is an auto generated class representing the model identifier
  * of [ModelWithExplicitID] in your schema.
  */
-@immutable
 class ModelWithExplicitIDModelIdentifier implements amplify_core.ModelIdentifier<ModelWithExplicitID> {
   final String id;
 
@@ -8095,11 +8011,9 @@ exports[`AppSync Dart Visitor custom primary key model generation should generat
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the ModelWithExplicitIDAndSDI type in your schema. */
-@immutable
 class ModelWithExplicitIDAndSDI extends amplify_core.Model {
   static const classType = const _ModelWithExplicitIDAndSDIModelType();
   final String id;
@@ -8245,7 +8159,6 @@ class _ModelWithExplicitIDAndSDIModelType extends amplify_core.ModelType<ModelWi
  * This is an auto generated class representing the model identifier
  * of [ModelWithExplicitIDAndSDI] in your schema.
  */
-@immutable
 class ModelWithExplicitIDAndSDIModelIdentifier implements amplify_core.ModelIdentifier<ModelWithExplicitIDAndSDI> {
   final String id;
 
@@ -8309,11 +8222,9 @@ exports[`AppSync Dart Visitor custom primary key model generation should generat
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the ModelWithIDPlusSortKeys type in your schema. */
-@immutable
 class ModelWithIDPlusSortKeys extends amplify_core.Model {
   static const classType = const _ModelWithIDPlusSortKeysModelType();
   final String id;
@@ -8506,7 +8417,6 @@ class _ModelWithIDPlusSortKeysModelType extends amplify_core.ModelType<ModelWith
  * This is an auto generated class representing the model identifier
  * of [ModelWithIDPlusSortKeys] in your schema.
  */
-@immutable
 class ModelWithIDPlusSortKeysModelIdentifier implements amplify_core.ModelIdentifier<ModelWithIDPlusSortKeys> {
   final String id;
   final String title;
@@ -8583,11 +8493,9 @@ exports[`AppSync Dart Visitor custom primary key model generation should generat
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the ModelWithExplicitlyDefinedPK type in your schema. */
-@immutable
 class ModelWithExplicitlyDefinedPK extends amplify_core.Model {
   static const classType = const _ModelWithExplicitlyDefinedPKModelType();
   final String? _modelID;
@@ -8768,7 +8676,6 @@ class _ModelWithExplicitlyDefinedPKModelType extends amplify_core.ModelType<Mode
  * This is an auto generated class representing the model identifier
  * of [ModelWithExplicitlyDefinedPK] in your schema.
  */
-@immutable
 class ModelWithExplicitlyDefinedPKModelIdentifier implements amplify_core.ModelIdentifier<ModelWithExplicitlyDefinedPK> {
   final String modelID;
 
@@ -8832,11 +8739,9 @@ exports[`AppSync Dart Visitor custom primary key model generation should generat
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey type in your schema. */
-@immutable
 class ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey extends amplify_core.Model {
   static const classType = const _ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelType();
   final String? _modelID;
@@ -9046,7 +8951,6 @@ class _ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelType extends a
  * This is an auto generated class representing the model identifier
  * of [ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey] in your schema.
  */
-@immutable
 class ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKeyModelIdentifier implements amplify_core.ModelIdentifier<ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey> {
   final String modelID;
   final String title;
@@ -9125,11 +9029,9 @@ exports[`AppSync Dart Visitor custom primary key model generation should generat
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Post type in your schema. */
-@immutable
 class Post extends amplify_core.Model {
   static const classType = const _PostModelType();
   final String id;
@@ -9319,7 +9221,6 @@ class _PostModelType extends amplify_core.ModelType<Post> {
  * This is an auto generated class representing the model identifier
  * of [Post] in your schema.
  */
-@immutable
 class PostModelIdentifier implements amplify_core.ModelIdentifier<Post> {
   final String id;
   final String title;
@@ -9391,11 +9292,9 @@ exports[`AppSync Dart Visitor custom primary key model generation should generat
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Comment type in your schema. */
-@immutable
 class Comment extends amplify_core.Model {
   static const classType = const _CommentModelType();
   final String id;
@@ -9596,7 +9495,6 @@ class _CommentModelType extends amplify_core.ModelType<Comment> {
  * This is an auto generated class representing the model identifier
  * of [Comment] in your schema.
  */
-@immutable
 class CommentModelIdentifier implements amplify_core.ModelIdentifier<Comment> {
   final String id;
   final String content;
@@ -9669,11 +9567,9 @@ exports[`AppSync Dart Visitor custom primary key model generation should generat
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Project type in your schema. */
-@immutable
 class Project extends amplify_core.Model {
   static const classType = const _ProjectModelType();
   final String? _projectId;
@@ -9913,7 +9809,6 @@ class _ProjectModelType extends amplify_core.ModelType<Project> {
  * This is an auto generated class representing the model identifier
  * of [Project] in your schema.
  */
-@immutable
 class ProjectModelIdentifier implements amplify_core.ModelIdentifier<Project> {
   final String projectId;
   final String name;
@@ -9986,11 +9881,9 @@ exports[`AppSync Dart Visitor custom primary key model generation should generat
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the Team type in your schema. */
-@immutable
 class Team extends amplify_core.Model {
   static const classType = const _TeamModelType();
   final String? _teamId;
@@ -10195,7 +10088,6 @@ class _TeamModelType extends amplify_core.ModelType<Team> {
  * This is an auto generated class representing the model identifier
  * of [Team] in your schema.
  */
-@immutable
 class TeamModelIdentifier implements amplify_core.ModelIdentifier<Team> {
   final String teamId;
   final String name;
@@ -10268,11 +10160,9 @@ exports[`AppSync Dart Visitor custom primary key model generation should generat
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the CpkOneToOneBidirectionalParent type in your schema. */
-@immutable
 class CpkOneToOneBidirectionalParent extends amplify_core.Model {
   static const classType = const _CpkOneToOneBidirectionalParentModelType();
   final String id;
@@ -10495,7 +10385,6 @@ class _CpkOneToOneBidirectionalParentModelType extends amplify_core.ModelType<Cp
  * This is an auto generated class representing the model identifier
  * of [CpkOneToOneBidirectionalParent] in your schema.
  */
-@immutable
 class CpkOneToOneBidirectionalParentModelIdentifier implements amplify_core.ModelIdentifier<CpkOneToOneBidirectionalParent> {
   final String id;
   final String name;
@@ -10568,11 +10457,9 @@ exports[`AppSync Dart Visitor custom primary key model generation should generat
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
-import 'package:flutter/foundation.dart';
 
 
 /** This is an auto generated class representing the CpkOneToOneBidirectionalChildExplicit type in your schema. */
-@immutable
 class CpkOneToOneBidirectionalChildExplicit extends amplify_core.Model {
   static const classType = const _CpkOneToOneBidirectionalChildExplicitModelType();
   final String id;
@@ -10760,7 +10647,6 @@ class _CpkOneToOneBidirectionalChildExplicitModelType extends amplify_core.Model
  * This is an auto generated class representing the model identifier
  * of [CpkOneToOneBidirectionalChildExplicit] in your schema.
  */
-@immutable
 class CpkOneToOneBidirectionalChildExplicitModelIdentifier implements amplify_core.ModelIdentifier<CpkOneToOneBidirectionalChildExplicit> {
   final String id;
   final String name;
