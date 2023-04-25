@@ -96,9 +96,7 @@ const runJobOnMacOS = new Set(['build-app-swift-e2e-test']);
 
 function getTestFiles(dir: string, pattern = 'src/**/*.test.ts'): string[] {
   const allTestFiles = glob.sync(pattern, { cwd: dir });
-  const testsToRun = allTestFiles.filter((testFile) => {
-    !excludeTests.includes(testFile);
-  });
+  const testsToRun = allTestFiles.filter((testFile) => !excludeTests.includes(testFile));
   return sortTestsBasedOnTime(testsToRun).reverse();
 }
 
