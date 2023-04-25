@@ -239,7 +239,6 @@ jobs:
           command: |
             source .circleci/local_publish_helpers.sh
             setNpmRegistryUrlToLocal
-            unsetNpmRegistryUrl
       - run:
           name: Run e2e tests
           command: |
