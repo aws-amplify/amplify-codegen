@@ -78,8 +78,9 @@ async function writeGeneratedStatements(language, generatedStatements, outputPat
   if (separateFiles) {
     ['queries', 'mutations', 'subscriptions', 'fragments'].forEach(op => {
       const ops = generatedStatements[op];
-      if (ops.length) {
-        fs.writeFileSync(path.resolve(path.join(outputPath, `${op}.${fileExtension}`)), ops);
+      if (ops.size) {
+        // This will change post top level codegen changes
+        fs.writeFileSync(path.resolve(path.join(outputPath, `${op}.${fileExtension}`)), JSON.stringify(Object.fromEntries(ops)));
       }
     });
   } else {
