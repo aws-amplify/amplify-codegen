@@ -1,7 +1,7 @@
 import {
   initProjectWithProfile,
   DEFAULT_JS_CONFIG,
-  addApiWithBlankSchemaAndConflictDetection,
+  addApiWithBlankSchema,
   updateApiSchemaWithText,
   craInstall,
   craBuild,
@@ -20,7 +20,7 @@ describe('GraphQL documents generator e2e tests', () => {
 
   beforeAll(async () => {
     await initProjectWithProfile(projectRoot, { ...config });
-    await addApiWithBlankSchemaAndConflictDetection(projectRoot);
+    await addApiWithBlankSchema(projectRoot);
     await craInstall(projectRoot, { ...config });
     apiName = readdirSync(path.join(projectRoot, 'amplify', 'backend', 'api'))[0];
   });

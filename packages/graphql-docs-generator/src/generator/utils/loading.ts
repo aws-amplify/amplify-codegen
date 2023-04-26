@@ -1,18 +1,18 @@
 import { buildClientSchema, Source, parse, GraphQLSchema, buildASTSchema } from 'graphql';
 import { SchemaType } from '../types';
 
-export function loadSchema(schema: string, schemaType: SchemaType): GraphQLSchema {
+export function buildSchema(schema: string, schemaType: SchemaType): GraphQLSchema {
   switch (schemaType) {
     case SchemaType.SDL:
-      return loadSDLSchema(schema);
+      return buildSDLSchema(schema);
     case SchemaType.INTROSPECTION:
-      return loadIntrospectionSchema(schema);
+      return buildIntrospectionSchema(schema);
     default:
-      throw new Error("Please provide either SDL or Introspection schema as input");
+      throw new Error("Please provide either SDL or Introspection schema as input to build it");
   }
 }
 
-function loadIntrospectionSchema(schema: string): GraphQLSchema {
+function buildIntrospectionSchema(schema: string): GraphQLSchema {
   const schemaData = JSON.parse(schema);
 
   if (!schemaData.data && !schemaData.__schema) {
@@ -21,7 +21,7 @@ function loadIntrospectionSchema(schema: string): GraphQLSchema {
   return buildClientSchema(schemaData.data ? schemaData.data : schemaData);
 }
 
-function loadSDLSchema(schema: string): GraphQLSchema {
+function buildSDLSchema(schema: string): GraphQLSchema {
   const extendedSchema = [schema, AWS_APPSYNC_SDL].join("\n");
   const graphQLDocument = parse(new Source(extendedSchema));
   return buildASTSchema(graphQLDocument);
