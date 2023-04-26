@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.4.4-studio-graphql-5.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@3.4.3...amplify-codegen@3.4.4-studio-graphql-5.0) (2023-04-26)
+
+### Bug Fixes
+
+- move prettier dependecy to codegen plugin ([dbf6a4b](https://github.com/aws-amplify/amplify-codegen/commit/dbf6a4b5998867a1681a68852efbf786e18f35c7))
+- update API name and snapshots ([d9cdb29](https://github.com/aws-amplify/amplify-codegen/commit/d9cdb299b3a77a69b16db3748a628628ed370e39))
+- update top level codegen dependency ([06aa36c](https://github.com/aws-amplify/amplify-codegen/commit/06aa36c6ef082febc50abbef663e49c228b6f132))
+
 ## [3.4.3](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@3.4.2...amplify-codegen@3.4.3) (2023-04-25)
 
 **Note:** Version bump only for package amplify-codegen
