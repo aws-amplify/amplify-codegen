@@ -1,6 +1,15 @@
 import React from 'react';
 import App from './App';
 
+const operations = ['queries', 'mutations', 'subscriptions'];
+const operationPrefixes = [
+  'create', 
+  'update', 
+  'delete',
+  'get',
+  'list'
+];
+
 describe('Testing browser compatibility of Documents Generation', () => {
   beforeEach(() => {
     cy.mount(<App />);
@@ -8,17 +17,9 @@ describe('Testing browser compatibility of Documents Generation', () => {
     // clear all the inputs and outputs
     cy.get('input[name="inputSchema"]').clear();
     cy.get('input[name="maxDepth"]').clear();
-    const operations = ['queries', 'mutations', 'subscriptions'];
     operations.map((operation) => {
       cy.get(`textarea[name="${operation}"]`).clear();
     });
-    const operationPrefixes = [
-      'create', 
-      'update', 
-      'delete',
-      'get',
-      'list'
-    ];
     operationPrefixes.map((opPrefix) => {
       cy.get(`textarea[name="${opPrefix}TodoResult"]`).clear();
     });
