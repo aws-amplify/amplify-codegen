@@ -225,39 +225,6 @@ jobs:
           path: packages/amplify-codegen-e2e-tests/
       - store_artifacts:
           path: ~/repo/packages/amplify-codegen-e2e-tests/amplify-e2e-reports
-  e2e-test-documents-generator-app:
-    working_directory: ~/repo
-    parameters: *ref_0
-    executor: << parameters.os >>
-    steps:
-      - attach_workspace:
-          at: ./
-      - restore_cache:
-          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
-      - restore_cache:
-          key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}
-      - run: *ref_3
-      - run:
-          name: Set Registry to Local
-          command: |
-            source .circleci/local_publish_helpers.sh
-            setNpmRegistryUrlToLocal
-      - run:
-          name: Run e2e tests
-          command: |
-            cd packages/amplify-codegen-e2e-tests
-            TEST_SUITE='src/__tests__/graphql-documents-generator.test.ts'
-            yarn e2e --forceExit --maxWorkers=3 $TEST_SUITE
-          no_output_timeout: 20m
-      - run:
-          name: UnSet Registry from Local
-          command: |
-            source .circleci/local_publish_helpers.sh
-            unsetNpmRegistryUrl
-      - store_test_results:
-          path: packages/amplify-codegen-e2e-tests/
-      - store_artifacts:
-          path: ~/repo/packages/amplify-codegen-e2e-tests/amplify-e2e-reports
   e2e-test-macos:
     working_directory: ~/repo
     parameters: *ref_0
@@ -574,6 +541,15 @@ jobs:
       TEST_SUITE: src/__tests__/graphql-codegen-ios.test.ts
       CLI_REGION: ap-northeast-1
       SET_NPM_PREFIX: true
+  graphql-documents-generator-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_6
+    environment:
+      TEST_SUITE: src/__tests__/graphql-documents-generator.test.ts
+      CLI_REGION: ap-southeast-1
+      SET_NPM_PREFIX: true
 workflows:
   version: 2
   e2e_resource_cleanup:
@@ -611,20 +587,6 @@ workflows:
           os: l
           requires:
             - build
-          filters:
-            branches:
-              only:
-                - main
-                - e2e-testing
-                - /tagged-release\/.*/
-      - e2e-test-documents-generator-app:
-          context:
-            - cleanup-resources
-          os: l
-          requires:
-            - publish_to_local_registry
-          post-steps:
-            - run: *ref_7
           filters:
             branches:
               only:
@@ -670,6 +632,7 @@ workflows:
             - push-codegen-js-e2e-test
             - datastore-modelgen-flutter-e2e-test
             - feature-flags-e2e-test
+            - graphql-documents-generator-e2e-test
             - pull-codegen-e2e-test
             - datastore-modelgen-ios-e2e-test
             - configure-codegen-ios-e2e-test
@@ -835,6 +798,13 @@ workflows:
           post-steps: *ref_9
           filters: *ref_10
       - feature-flags-e2e-test:
+          context: *ref_8
+          os: l
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_9
+          filters: *ref_10
+      - graphql-documents-generator-e2e-test:
           context: *ref_8
           os: l
           requires:

@@ -52,9 +52,6 @@ const KNOWN_SUITES_SORTED_ACCORDING_TO_RUNTIME = [
   'src/__tests__/build-app-android.test.ts',
 ];
 
-// This test is run from a separate job due to some extra setup that's needed.
-const excludeTests = ['src/__tests__/graphql-documents-generator.test.ts'];
-
 const runJobOnAndroid = new Set(['build-app-android-e2e-test']);
 
 /**
@@ -96,8 +93,7 @@ const runJobOnMacOS = new Set(['build-app-swift-e2e-test']);
 
 function getTestFiles(dir: string, pattern = 'src/**/*.test.ts'): string[] {
   const allTestFiles = glob.sync(pattern, { cwd: dir });
-  const testsToRun = allTestFiles.filter((testFile) => !excludeTests.includes(testFile));
-  return sortTestsBasedOnTime(testsToRun).reverse();
+  return sortTestsBasedOnTime(allTestFiles).reverse();
 }
 
 function generateJobName(baseName: string, testSuitePath: string): string {
