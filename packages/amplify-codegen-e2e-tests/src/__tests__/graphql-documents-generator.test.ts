@@ -39,6 +39,6 @@ describe('GraphQL documents generator e2e tests', () => {
 
     // Build and run the cypress e2e tests
     await craBuild(projectRoot, { ...config });
-    await cypressRun(projectRoot, { componentTesting: true });
+    await cypressRun(projectRoot, { componentsTesting: true });
   });
 });
