@@ -2,6 +2,28 @@ import React from 'react';
 import App from './App';
 
 describe('Testing browser compatibility of Documents Generation', () => {
+  beforeEach(() => {
+    cy.mount(<App />);
+
+    // clear all the inputs and outputs
+    cy.get('input[name="inputSchema"]').clear();
+    cy.get('input[name="maxDepth"]').clear();
+    const operations = ['queries', 'mutations', 'subscriptions'];
+    operations.map((operation) => {
+      cy.get(`textarea[name="${operation}"]`).clear();
+    });
+    const operationPrefixes = [
+      'create', 
+      'update', 
+      'delete',
+      'get',
+      'list'
+    ];
+    operationPrefixes.map((opPrefix) => {
+      cy.get(`textarea[name="${opPrefix}TodoResult"]`).clear();
+    });
+  });
+
   it('generates operations for valid SDL schema and default maxDepth', async () => {
     await testGraphQLDocumentsGeneration('sdl-schema.graphql', 2);
   });
@@ -12,26 +34,6 @@ describe('Testing browser compatibility of Documents Generation', () => {
 });
 
 const testGraphQLDocumentsGeneration = async (schemaFileName, maxDepth) => {
-  cy.mount(<App />);
-
-  // clear all the inputs and outputs
-  cy.get('input[name="inputSchema"]').clear();
-  cy.get('input[name="maxDepth"]').clear();
-  const operations = ['queries', 'mutations', 'subscriptions'];
-  operations.map((operation) => {
-    cy.get(`textarea[name="${operation}"]`).clear();
-  });
-  const operationPrefixes = [
-    'create', 
-    'update', 
-    'delete',
-    'get',
-    'list'
-  ];
-  operationPrefixes.map((opPrefix) => {
-    cy.get(`textarea[name="${opPrefix}TodoResult"]`).clear();
-  });
-
   // generate GraphQL documents for the compiled schema
   const schemaString = await fetch(`/${schemaFileName}`);
   cy.get('input[name="inputSchema"]').type(await schemaString.text());
