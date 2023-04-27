@@ -43,7 +43,9 @@ export default function getFields(
 
   // add __typename to selection set.
   // getFields() does not include __typename because __typename is implicitly included on all object types.
-  if (isObjectType(fieldType)) {
+  // https://spec.graphql.org/June2018/#sec-Type-Name-Introspection
+  // do not add to interface types or union types because they are not supported by the transformers
+  if (options.typenameIntrospection && isObjectType(fieldType)) {
     fields.push({
       name: '__typename',
       fields: [],

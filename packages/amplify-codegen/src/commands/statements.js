@@ -5,7 +5,7 @@ const Ora = require('ora');
 const loadConfig = require('../codegen-config');
 const constants = require('../constants');
 const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails } = require('../utils');
-const { generate } = require('@aws-amplify/graphql-docs-generator')
+const { generate } = require('@aws-amplify/graphql-docs-generator');
 
 async function generateStatements(context, forceDownloadSchema, maxDepth, withoutInit = false, decoupleFrontend = '') {
   try {
@@ -59,6 +59,9 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
         separateFiles: true,
         language,
         maxDepth: maxDepth || cfg.amplifyExtension.maxDepth,
+        // default typenameIntrospection to true when not set
+        typenameIntrospection:
+          cfg.amplifyExtension.typenameIntrospection === undefined ? true : !!cfg.amplifyExtension.typenameIntrospection,
       });
       opsGenSpinner.succeed(constants.INFO_MESSAGE_OPS_GEN_SUCCESS + path.relative(path.resolve('.'), opsGenDirectory));
     } finally {
