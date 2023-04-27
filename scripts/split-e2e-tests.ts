@@ -92,7 +92,8 @@ export type CircleCIConfig = {
 const runJobOnMacOS = new Set(['build-app-swift-e2e-test']);
 
 function getTestFiles(dir: string, pattern = 'src/**/*.test.ts'): string[] {
-  return sortTestsBasedOnTime(glob.sync(pattern, { cwd: dir })).reverse();
+  const allTestFiles = glob.sync(pattern, { cwd: dir });
+  return sortTestsBasedOnTime(allTestFiles).reverse();
 }
 
 function generateJobName(baseName: string, testSuitePath: string): string {

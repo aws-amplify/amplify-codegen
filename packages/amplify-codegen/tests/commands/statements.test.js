@@ -1,11 +1,11 @@
 const path = require('path');
-const { generate } = require('@aws-amplify/graphql-docs-generator');
+const { generateGraphQLDocuments } = require('@aws-amplify/graphql-docs-generator');
 const fs = require('fs-extra');
 
 const loadConfig = require('../../src/codegen-config');
 const generateStatements = require('../../src/commands/statements');
 const constants = require('../../src/constants');
-const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails } = require('../../src/utils');
+const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails, loadSchema } = require('../../src/utils');
 
 const MOCK_CONTEXT = {
   print: {
@@ -24,7 +24,7 @@ jest.mock('fs-extra');
 
 const MOCK_INCLUDE_PATH = 'MOCK_INCLUDE';
 const MOCK_STATEMENTS_PATH = 'MOCK_STATEMENTS_PATH';
-const MOCK_SCHEMA = 'INTROSPECTION_SCHEMA.JSON';
+const MOCK_SCHEMA = 'scalar Mock';
 const MOCK_TARGET_LANGUAGE = 'TYPE_SCRIPT_OR_FLOW_OR_ANY_OTHER_LANGUAGE';
 const MOCK_GENERATED_FILE_NAME = 'API.TS';
 const MOCK_API_ID = 'MOCK_API_ID';
@@ -60,6 +60,7 @@ describe('command - statements', () => {
     });
     MOCK_CONTEXT.amplify.getEnvInfo.mockReturnValue({ projectPath: MOCK_PROJECT_ROOT });
     getAppSyncAPIDetails.mockReturnValue(MOCK_APIS);
+    loadSchema.mockReturnValue(MOCK_SCHEMA);
   });
 
   it('should generate statements', async () => {
@@ -68,20 +69,14 @@ describe('command - statements', () => {
     expect(getFrontEndHandler).toHaveBeenCalledWith(MOCK_CONTEXT);
     expect(loadConfig).toHaveBeenCalledWith(MOCK_CONTEXT, false);
 
-    expect(generate).toHaveBeenCalledWith(path.join(MOCK_PROJECT_ROOT, MOCK_SCHEMA), path.join(MOCK_PROJECT_ROOT, MOCK_STATEMENTS_PATH), {
-      separateFiles: true,
-      language: MOCK_TARGET_LANGUAGE,
-    });
+    expect(generateGraphQLDocuments).toHaveBeenCalledWith(MOCK_SCHEMA, {});
   });
 
   it('should generate graphql statements for non JS projects', async () => {
     getFrontEndHandler.mockReturnValue('ios');
     const forceDownload = false;
     await generateStatements(MOCK_CONTEXT, forceDownload);
-    expect(generate).toHaveBeenCalledWith(path.join(MOCK_PROJECT_ROOT, MOCK_SCHEMA), path.join(MOCK_PROJECT_ROOT, MOCK_STATEMENTS_PATH), {
-      separateFiles: true,
-      language: 'graphql',
-    });
+    expect(generateGraphQLDocuments).toHaveBeenCalledWith(MOCK_SCHEMA, {});
   });
 
   it('should download the schema if forceDownload flag is passed', async () => {

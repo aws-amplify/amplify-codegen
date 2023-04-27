@@ -541,6 +541,15 @@ jobs:
       TEST_SUITE: src/__tests__/graphql-codegen-ios.test.ts
       CLI_REGION: ap-northeast-1
       SET_NPM_PREFIX: true
+  graphql-documents-generator-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_6
+    environment:
+      TEST_SUITE: src/__tests__/graphql-documents-generator.test.ts
+      CLI_REGION: ap-southeast-1
+      SET_NPM_PREFIX: true
 workflows:
   version: 2
   e2e_resource_cleanup:
@@ -623,6 +632,7 @@ workflows:
             - push-codegen-js-e2e-test
             - datastore-modelgen-flutter-e2e-test
             - feature-flags-e2e-test
+            - graphql-documents-generator-e2e-test
             - pull-codegen-e2e-test
             - datastore-modelgen-ios-e2e-test
             - configure-codegen-ios-e2e-test
@@ -788,6 +798,13 @@ workflows:
           post-steps: *ref_9
           filters: *ref_10
       - feature-flags-e2e-test:
+          context: *ref_8
+          os: l
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_9
+          filters: *ref_10
+      - graphql-documents-generator-e2e-test:
           context: *ref_8
           os: l
           requires:

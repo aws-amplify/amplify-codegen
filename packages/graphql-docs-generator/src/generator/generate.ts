@@ -1,7 +1,7 @@
 import { GraphQLObjectType, GraphQLSchema } from 'graphql';
-
 import { generateQueries, generateMutations, generateSubscriptions, collectExternalFragments } from './generateAllOperations';
 import { GQLDocsGenOptions, GQLAllOperations } from './types';
+
 export default function generate(schemaDoc: GraphQLSchema, maxDepth: number, options: GQLDocsGenOptions): GQLAllOperations {
   try {
     const queryTypes: GraphQLObjectType = schemaDoc.getQueryType();

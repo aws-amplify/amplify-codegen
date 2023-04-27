@@ -61,6 +61,7 @@ export type GQLTemplateGenericOp = {
 export type GQLTemplateOp = GQLTemplateGenericOp & {
   type: GQLOperationTypeEnum;
   name: string;
+  fieldName?: string;
 };
 
 export type GQLAllOperations = {
@@ -72,4 +73,9 @@ export type GQLAllOperations = {
 
 export type GQLDocsGenOptions = {
   useExternalFragmentForS3Object: boolean,
+};
+
+export enum SchemaType {
+  SDL,
+  INTROSPECTION
 };
