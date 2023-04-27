@@ -941,15 +941,17 @@ export class AppSyncModelVisitor<
           } else if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
             if (isCustomPKEnabled) {
               const connectedModelFields = getModelPrimaryKeyComponentFields(connectionInfo.connectedModel);
-              connectionInfo.targetNames.forEach((target, index) => {
-                addFieldToModel(model, {
-                  name: target,
-                  directives: [],
-                  type: connectedModelFields[index].type,
-                  isList: false,
-                  isNullable: field.isNullable,
+              if (connectedModelFields?.length > 0) {
+                connectionInfo.targetNames.forEach((target, index) => {
+                  addFieldToModel(model, {
+                    name: target,
+                    directives: [],
+                    type: connectedModelFields[index].type,
+                    isList: false,
+                    isNullable: field.isNullable,
+                  });
                 });
-              });
+              }
             } else {
               addFieldToModel(model, {
                 name: connectionInfo.targetName,
@@ -962,15 +964,17 @@ export class AppSyncModelVisitor<
           } else if (connectionInfo.kind === CodeGenConnectionType.BELONGS_TO) {
             if (isCustomPKEnabled) {
               const connectedModelFields = getModelPrimaryKeyComponentFields(connectionInfo.connectedModel);
-              connectionInfo.targetNames.forEach((target, index) => {
-                addFieldToModel(model, {
-                  name: target,
-                  directives: [],
-                  type: connectedModelFields[index].type,
-                  isList: false,
-                  isNullable: field.isNullable,
+              if (connectedModelFields?.length > 0) {
+                connectionInfo.targetNames.forEach((target, index) => {
+                  addFieldToModel(model, {
+                    name: target,
+                    directives: [],
+                    type: connectedModelFields[index].type,
+                    isList: false,
+                    isNullable: field.isNullable,
+                  });
                 });
-              });
+              }
             } else {
               addFieldToModel(model, {
                 name: connectionInfo.targetName,
@@ -1022,6 +1026,8 @@ export class AppSyncModelVisitor<
       }
     } else {
       Object.values(this.modelMap).forEach(model => {
+        const primaryKeyFields = getModelPrimaryKeyComponentFields(model);
+        const primaryKeyName = (primaryKeyFields?.length > 0) ? this.getFieldName(primaryKeyFields[0]) : undefined;
         model.fields.forEach(field => {
           const connectionInfo = field.connectionInfo;
           if (
@@ -1030,7 +1036,7 @@ export class AppSyncModelVisitor<
             connectionInfo.kind !== CodeGenConnectionType.HAS_ONE &&
             connectionInfo.targetName !== 'id' &&
             !(this.config.target === 'introspection' &&
-              this.getFieldName(getModelPrimaryKeyComponentFields(model)[0]) === connectionInfo.targetName)
+              primaryKeyName && primaryKeyName === connectionInfo.targetName)
           ) {
             // Need to remove the field that is targetName
             removeFieldFromModel(model, connectionInfo.targetName);
