@@ -1,7 +1,9 @@
 import { buildClientSchema, Source, parse, GraphQLSchema, buildASTSchema } from 'graphql';
 import { SchemaType } from '../types';
+import { getSchemaType } from './getSchemaType';
 
-export function buildSchema(schema: string, schemaType: SchemaType): GraphQLSchema {
+export function buildSchema(schema: string): GraphQLSchema {
+  const schemaType = getSchemaType(schema);
   switch (schemaType) {
     case SchemaType.SDL:
       return buildSDLSchema(schema);

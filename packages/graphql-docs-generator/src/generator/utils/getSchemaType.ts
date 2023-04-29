@@ -5,7 +5,6 @@ import { SchemaType } from '../types';
   which are the current supported formats.
 */
 export const getSchemaType = (schema: string) => {
-  const schemaType = SchemaType.SDL;
   try {
     const schemaData = JSON.parse(schema);
 
@@ -14,8 +13,6 @@ export const getSchemaType = (schema: string) => {
     }
   }
   catch {
-    return schemaType;
+    return SchemaType.SDL;
   }
-
-  return schemaType;
 }
