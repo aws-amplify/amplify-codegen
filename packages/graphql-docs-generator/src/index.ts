@@ -2,8 +2,6 @@ const handlebars = require('handlebars/dist/handlebars');
 import generateAllOps, { GQLTemplateOp, GQLAllOperations, GQLTemplateFragment, lowerCaseFirstLetter } from './generator';
 import { buildSchema } from './generator/utils/loading';
 import { getTemplatePartials, getOperationPartial, getExternalFragmentPartial } from './generator/utils/templates';
-import { getSchemaType } from './generator/utils/getSchemaType';
-
 export { buildSchema } from './generator/utils/loading';
 
 export function generateGraphQLDocuments(
@@ -16,8 +14,7 @@ export function generateGraphQLDocuments(
     ...options,
   };
 
-  const schemaType = getSchemaType(schema);
-  const extendedSchema = buildSchema(schema, schemaType);
+  const extendedSchema = buildSchema(schema);
 
   const gqlOperations: GQLAllOperations = generateAllOps(extendedSchema, opts.maxDepth, {
     useExternalFragmentForS3Object: opts.useExternalFragmentForS3Object,

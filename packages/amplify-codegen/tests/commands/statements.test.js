@@ -1,11 +1,10 @@
 const path = require('path');
-const { generateGraphQLDocuments } = require('@aws-amplify/graphql-docs-generator');
 const fs = require('fs-extra');
 
 const loadConfig = require('../../src/codegen-config');
 const generateStatements = require('../../src/commands/statements');
 const constants = require('../../src/constants');
-const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails, loadSchema } = require('../../src/utils');
+const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails, readSchemaFromFile } = require('../../src/utils');
 
 const MOCK_CONTEXT = {
   print: {
@@ -17,15 +16,22 @@ const MOCK_CONTEXT = {
   },
 };
 
-jest.mock('@aws-amplify/graphql-docs-generator');
 jest.mock('../../src/codegen-config');
 jest.mock('../../src/utils');
 jest.mock('fs-extra');
 
 const MOCK_INCLUDE_PATH = 'MOCK_INCLUDE';
 const MOCK_STATEMENTS_PATH = 'MOCK_STATEMENTS_PATH';
-const MOCK_SCHEMA = 'scalar Mock';
-const MOCK_TARGET_LANGUAGE = 'TYPE_SCRIPT_OR_FLOW_OR_ANY_OTHER_LANGUAGE';
+const MOCK_SCHEMA = `
+type Query {
+  hello: String!
+}
+
+schema {
+  query: Query
+}
+`;
+const MOCK_TARGET_LANGUAGE = 'javascript';
 const MOCK_GENERATED_FILE_NAME = 'API.TS';
 const MOCK_API_ID = 'MOCK_API_ID';
 const MOCK_REGION = 'MOCK_AWS_REGION';
@@ -60,7 +66,7 @@ describe('command - statements', () => {
     });
     MOCK_CONTEXT.amplify.getEnvInfo.mockReturnValue({ projectPath: MOCK_PROJECT_ROOT });
     getAppSyncAPIDetails.mockReturnValue(MOCK_APIS);
-    loadSchema.mockReturnValue(MOCK_SCHEMA);
+    readSchemaFromFile.mockReturnValue(MOCK_SCHEMA);
   });
 
   it('should generate statements', async () => {
@@ -68,15 +74,19 @@ describe('command - statements', () => {
     await generateStatements(MOCK_CONTEXT, forceDownload);
     expect(getFrontEndHandler).toHaveBeenCalledWith(MOCK_CONTEXT);
     expect(loadConfig).toHaveBeenCalledWith(MOCK_CONTEXT, false);
-
-    expect(generateGraphQLDocuments).toHaveBeenCalledWith(MOCK_SCHEMA, {});
   });
 
   it('should generate graphql statements for non JS projects', async () => {
     getFrontEndHandler.mockReturnValue('ios');
+    loadConfig.mockReturnValue({
+      getProjects: jest.fn().mockReturnValue([
+        { ...MOCK_PROJECT, ...{ amplifyExtension: { codeGenTarget: 'javascript' }} }
+      ]),
+    });
     const forceDownload = false;
     await generateStatements(MOCK_CONTEXT, forceDownload);
-    expect(generateGraphQLDocuments).toHaveBeenCalledWith(MOCK_SCHEMA, {});
+    expect(getFrontEndHandler).toHaveBeenCalledWith(MOCK_CONTEXT);
+    expect(loadConfig).toHaveBeenCalledWith(MOCK_CONTEXT, false);
   });
 
   it('should download the schema if forceDownload flag is passed', async () => {
