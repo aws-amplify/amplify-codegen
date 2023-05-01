@@ -28,7 +28,6 @@ class GraphQLStatementsFormatter {
         return this.prettify(this.formatJS(statements));
       case 'flow':
         this.headerComments.push('@flow', CODEGEN_WARNING);
-        this.lintOverrides.push('/* eslint-disable */');
         return this.prettify(this.formatJS(statements));
       default:
         this.headerComments.push(CODEGEN_WARNING);
