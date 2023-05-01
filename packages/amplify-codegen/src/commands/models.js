@@ -6,6 +6,7 @@ const { FeatureFlags, pathManager } = require('@aws-amplify/amplify-cli-core');
 const gqlCodeGen = require('@graphql-codegen/core');
 const appSyncDataStoreCodeGen = require('@aws-amplify/appsync-modelgen-plugin');
 const { version: packageVersion } = require('../../package.json');
+const { validateAmplifyFlutterMinSupportedVersion } = require('../utils/validateAmplifyFlutterMinSupportedVersion');
 
 const platformToLanguageMap = {
   android: 'java',
@@ -94,6 +95,12 @@ async function generateModels(context, generateOptions = null) {
   const baseOutputDir = path.join(projectRoot, getModelOutputPath(context));
   const schema = parse(schemaContent);
   const projectConfig = context.amplify.getProjectConfig();
+
+  if (!isIntrospection && projectConfig.frontend === 'flutter' && !validateAmplifyFlutterMinSupportedVersion(projectRoot)) {
+    context.print.error(`🚫 Models are not generated!
+Amplify Flutter versions prior to 0.6.0 are no longer supported by codegen. Please upgrade to use codegen.`);
+    return;
+  }
 
   const generateIndexRules = readFeatureFlag('codegen.generateIndexRules');
   const emitAuthProvider = readFeatureFlag('codegen.emitAuthProvider');
