@@ -54,12 +54,21 @@ export function run(argv: Array<String>): void {
         },
         retainCaseStyle: {
           default: true,
-          type: 'boolean'
-        }
+          type: 'boolean',
+        },
+        typenameIntrospection: {
+          default: true,
+          type: 'boolean',
+        },
       },
       async argv => {
-        generate(argv.schema, argv.output, { separateFiles: argv.separateFiles, language: argv.language, maxDepth: argv.maxDepth });
-      }
+        generate(argv.schema, argv.output, {
+          separateFiles: argv.separateFiles,
+          language: argv.language,
+          maxDepth: argv.maxDepth,
+          typenameIntrospection: argv.typenameIntrospection,
+        });
+      },
     )
     .help()
     .version()

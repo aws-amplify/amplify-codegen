@@ -71,6 +71,7 @@ describe('command - statements', () => {
     expect(generate).toHaveBeenCalledWith(path.join(MOCK_PROJECT_ROOT, MOCK_SCHEMA), path.join(MOCK_PROJECT_ROOT, MOCK_STATEMENTS_PATH), {
       separateFiles: true,
       language: MOCK_TARGET_LANGUAGE,
+      typenameIntrospection: true,
     });
   });
 
@@ -81,6 +82,7 @@ describe('command - statements', () => {
     expect(generate).toHaveBeenCalledWith(path.join(MOCK_PROJECT_ROOT, MOCK_SCHEMA), path.join(MOCK_PROJECT_ROOT, MOCK_STATEMENTS_PATH), {
       separateFiles: true,
       language: 'graphql',
+      typenameIntrospection: true,
     });
   });
 
@@ -92,7 +94,7 @@ describe('command - statements', () => {
       path.join(MOCK_PROJECT_ROOT, MOCK_SCHEMA),
       MOCK_APIS[0],
       MOCK_REGION,
-      forceDownload
+      forceDownload,
     );
   });
 
@@ -105,7 +107,7 @@ describe('command - statements', () => {
       path.join(MOCK_PROJECT_ROOT, MOCK_SCHEMA),
       MOCK_APIS[0],
       MOCK_REGION,
-      forceDownload
+      forceDownload,
     );
   });
 
