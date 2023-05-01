@@ -21,7 +21,7 @@ class GraphQLStatementsFormatter {
         return this.prettify(this.formatJS(statements));
       case 'typescript':
         this.headerComments.push(CODEGEN_WARNING);
-        this.lintOverrides.push([
+        this.lintOverrides.push(...[
           '/* tslint:disable */',
           '/* eslint-disable */'
         ]);
@@ -38,20 +38,23 @@ class GraphQLStatementsFormatter {
 
   formatGraphQL(statements) {
     const headerBuffer = this.headerComments.map( comment => `# ${comment}`).join(LINE_DELIMITOR);
-    const statementsBuffer = [...statements?.values()].join(LINE_DELIMITOR);
-    const formattedOutput = [headerBuffer, statementsBuffer].join(LINE_DELIMITOR);
+    const statementsBuffer = statements ? [...statements.values()].join(LINE_DELIMITOR) : '';
+    const formattedOutput = [headerBuffer, LINE_DELIMITOR, statementsBuffer].join(LINE_DELIMITOR);
     return formattedOutput;
   }
 
   formatJS(statements) {
+    const lintOverridesBuffer = this.lintOverrides.join(LINE_DELIMITOR);
     const headerBuffer = this.headerComments.map( comment => `// ${comment}`).join(LINE_DELIMITOR);
     const formattedStatements = [];
-    for (const [key, value] of statements) {
-      formattedStatements.push(
-        `export const ${key} = /* GraphQL */ \`${value}\``
-      );
+    if (statements) {
+      for (const [key, value] of statements) {
+        formattedStatements.push(
+          `export const ${key} = /* GraphQL */ \`${value}\``
+        );
+      }
     }
-    const formattedOutput = [headerBuffer, ...formattedStatements].join(LINE_DELIMITOR);
+    const formattedOutput = [lintOverridesBuffer, headerBuffer, LINE_DELIMITOR, ...formattedStatements].join(LINE_DELIMITOR);
     return formattedOutput;
   }
 
