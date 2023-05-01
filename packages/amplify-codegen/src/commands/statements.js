@@ -67,8 +67,13 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
         typenameIntrospection:
           cfg.amplifyExtension.typenameIntrospection === undefined ? true : !!cfg.amplifyExtension.typenameIntrospection,
       });
-      await writeGeneratedDocuments(language, generatedOps, opsGenDirectory);
-      opsGenSpinner.succeed(constants.INFO_MESSAGE_OPS_GEN_SUCCESS + path.relative(path.resolve('.'), opsGenDirectory));
+      if(!generatedOps) {
+        context.print.warning('No GraphQL statements are generated. Check if the introspection schema has GraphQL operations defined.');
+      }
+      else {
+        await writeGeneratedDocuments(language, generatedOps, opsGenDirectory);
+        opsGenSpinner.succeed(constants.INFO_MESSAGE_OPS_GEN_SUCCESS + path.relative(path.resolve('.'), opsGenDirectory));
+      }
     } finally {
       opsGenSpinner.stop();
     }
@@ -77,13 +82,10 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
 
 async function writeGeneratedDocuments(language, generatedStatements, outputPath) {
   const fileExtension = FILE_EXTENSION_MAP[language];
-  if(!generatedStatements) {
-    throw new Error('No GraphQL statements are generated');
-  }
 
   ['queries', 'mutations', 'subscriptions'].forEach(op => {
     const ops = generatedStatements[op];
-    if (ops.size) {
+    if (ops && ops.size) {
       const formattedStatements = (new GraphQLStatementsFormatter(language)).format(ops);
       const outputFile = path.resolve(path.join(outputPath, `${op}.${fileExtension}`));
       fs.writeFileSync(outputFile, formattedStatements);
