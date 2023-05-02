@@ -1,21 +1,21 @@
-import * as fs from 'fs';
+import { buildClientSchema, Source, parse, GraphQLSchema, buildASTSchema } from 'graphql';
+import { SchemaType } from '../types';
+import { getSchemaType } from './getSchemaType';
 
-import { buildClientSchema, Source, concatAST, parse, DocumentNode, GraphQLSchema, buildASTSchema } from 'graphql';
-
-import { extname, join, normalize } from 'path';
-
-export function loadSchema(schemaPath: string): GraphQLSchema {
-  if (extname(schemaPath) === '.json') {
-    return loadIntrospectionSchema(schemaPath);
+export function buildSchema(schema: string): GraphQLSchema {
+  const schemaType = getSchemaType(schema);
+  switch (schemaType) {
+    case SchemaType.SDL:
+      return buildSDLSchema(schema);
+    case SchemaType.INTROSPECTION:
+      return buildIntrospectionSchema(schema);
+    default:
+      throw new Error("Please provide either SDL or Introspection schema as input to build it");
   }
-  return loadSDLSchema(schemaPath);
 }
 
-function loadIntrospectionSchema(schemaPath: string): GraphQLSchema {
-  if (!fs.existsSync(schemaPath)) {
-    throw new Error(`Cannot find GraphQL schema file: ${schemaPath}`);
-  }
-  const schemaData = require(schemaPath);
+function buildIntrospectionSchema(schema: string): GraphQLSchema {
+  const schemaData = JSON.parse(schema);
 
   if (!schemaData.data && !schemaData.__schema) {
     throw new Error('GraphQL schema file should contain a valid GraphQL introspection query result');
@@ -23,22 +23,34 @@ function loadIntrospectionSchema(schemaPath: string): GraphQLSchema {
   return buildClientSchema(schemaData.data ? schemaData.data : schemaData);
 }
 
-function loadSDLSchema(schemaPath: string): GraphQLSchema {
-  const authDirectivePath = normalize(join(__dirname, '../../..', 'awsAppSyncDirectives.graphql'));
-  const doc = loadAndMergeQueryDocuments([authDirectivePath, schemaPath]);
-  return buildASTSchema(doc);
+function buildSDLSchema(schema: string): GraphQLSchema {
+  const extendedSchema = [schema, AWS_APPSYNC_SDL].join("\n");
+  const graphQLDocument = parse(new Source(extendedSchema));
+  return buildASTSchema(graphQLDocument);
 }
 
-export function loadAndMergeQueryDocuments(inputPaths: string[], tagName: string = 'gql'): DocumentNode {
-  const sources = inputPaths
-    .map(inputPath => {
-      const body = fs.readFileSync(inputPath, 'utf8');
-      if (!body) {
-        return null;
-      }
-      return new Source(body, inputPath);
-    })
-    .filter(source => source);
+const AWS_APPSYNC_SDL = `
+scalar AWSDate
+scalar AWSTime
+scalar AWSDateTime
+scalar AWSTimestamp
+scalar AWSEmail
+scalar AWSJSON
+scalar AWSURL
+scalar AWSPhone
+scalar AWSIPAddress
+scalar BigInt
+scalar Double
 
-  return concatAST((sources as Source[]).map(source => parse(source)));
-}
+directive @aws_subscribe(mutations: [String!]!) on FIELD_DEFINITION
+
+# Allows transformer libraries to deprecate directive arguments.
+directive @deprecated(reason: String) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION | ENUM | ENUM_VALUE
+
+directive @aws_auth(cognito_groups: [String!]!) on FIELD_DEFINITION
+directive @aws_api_key on FIELD_DEFINITION | OBJECT
+directive @aws_iam on FIELD_DEFINITION | OBJECT
+directive @aws_lambda on FIELD_DEFINITION | OBJECT
+directive @aws_oidc on FIELD_DEFINITION | OBJECT
+directive @aws_cognito_user_pools(cognito_groups: [String!]) on FIELD_DEFINITION | OBJECT
+`;

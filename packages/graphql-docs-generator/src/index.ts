@@ -1,114 +1,115 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import * as handlebars from 'handlebars';
-import * as prettier from 'prettier';
-const DEFAULT_MAX_DEPTH = 3;
-
+const handlebars = require('handlebars/dist/handlebars');
 import generateAllOps, { GQLTemplateOp, GQLAllOperations, GQLTemplateFragment, lowerCaseFirstLetter } from './generator';
-import { loadSchema } from './generator/utils/loading';
-const TEMPLATE_DIR = path.resolve(path.join(__dirname, '../templates'));
-const FILE_EXTENSION_MAP = {
-  javascript: 'js',
-  graphql: 'graphql',
-  flow: 'js',
-  typescript: 'ts',
-  angular: 'graphql',
-};
+import { buildSchema } from './generator/utils/loading';
+import { getTemplatePartials, getOperationPartial, getExternalFragmentPartial } from './generator/utils/templates';
+export { buildSchema } from './generator/utils/loading';
 
-export function generate(
-  schemaPath: string,
-  outputPath: string,
-  options: { separateFiles: boolean; language: string; maxDepth: number; typenameIntrospection: boolean },
-): void {
-  const language = options.language || 'graphql';
-  const schemaData = loadSchema(schemaPath);
-  if (!Object.keys(FILE_EXTENSION_MAP).includes(language)) {
-    throw new Error(`Language ${language} not supported`);
-  }
+export function generateGraphQLDocuments(
+  schema: string,
+  options: { maxDepth?: number, useExternalFragmentForS3Object?: boolean; typenameIntrospection?: boolean },
+): GeneratedOperations {
+  const opts = {
+    maxDepth: 2,
+    useExternalFragmentForS3Object: true,
+    typenameIntrospection: true,
+    ...options,
+  };
 
-  const maxDepth = options.maxDepth || DEFAULT_MAX_DEPTH;
-  const useExternalFragmentForS3Object = options.language === 'graphql';
-  const { typenameIntrospection = true } = options;
-  const gqlOperations: GQLAllOperations = generateAllOps(schemaData, maxDepth, {
-    useExternalFragmentForS3Object,
-    typenameIntrospection,
+  const extendedSchema = buildSchema(schema);
+
+  const gqlOperations: GQLAllOperations = generateAllOps(extendedSchema, opts.maxDepth, {
+    useExternalFragmentForS3Object: opts.useExternalFragmentForS3Object,
+    typenameIntrospection: opts.typenameIntrospection
   });
   registerPartials();
   registerHelpers();
 
-  const fileExtension = FILE_EXTENSION_MAP[language];
-  if (options.separateFiles) {
-    ['queries', 'mutations', 'subscriptions'].forEach(op => {
-      const ops = gqlOperations[op];
-      if (ops.length) {
-        const gql = render({ operations: gqlOperations[op], fragments: [] }, language);
-        fs.writeFileSync(path.resolve(path.join(outputPath, `${op}.${fileExtension}`)), gql);
-      }
-    });
-
-    if (gqlOperations.fragments.length) {
-      const gql = render({ operations: [], fragments: gqlOperations.fragments }, language);
-      fs.writeFileSync(path.resolve(path.join(outputPath, `fragments.${fileExtension}`)), gql);
-    }
-  } else {
-    const ops = [...gqlOperations.queries, ...gqlOperations.mutations, ...gqlOperations.subscriptions];
-    if (ops.length) {
-      const gql = render({ operations: ops, fragments: gqlOperations.fragments }, language);
-      fs.writeFileSync(path.resolve(outputPath), gql);
-    }
-  }
-}
-
-function render(doc: { operations: Array<GQLTemplateOp>; fragments?: GQLTemplateFragment[] }, language: string = 'graphql') {
-  const templateFiles = {
-    javascript: 'javascript.hbs',
-    graphql: 'graphql.hbs',
-    typescript: 'typescript.hbs',
-    flow: 'flow.hbs',
-    angular: 'graphql.hbs',
+  const allOperations = {
+    queries: new Map<string, string>(),
+    mutations: new Map<string, string>(),
+    subscriptions: new Map<string, string>(),
+    fragments: new Map<string, string>()
   };
 
-  const templatePath = path.join(TEMPLATE_DIR, templateFiles[language]);
-  const templateStr = fs.readFileSync(templatePath, 'utf8');
+  ['queries', 'mutations', 'subscriptions'].forEach(op => {
+    const ops = gqlOperations[op];
+    if (ops.length) {
+      const renderedOperations = renderOperations(gqlOperations[op]);
+      allOperations[op] = renderedOperations;
+    }
+  });
 
+  if (gqlOperations.fragments.length) {
+    const renderedFragments = renderFragments(gqlOperations.fragments, opts.useExternalFragmentForS3Object);
+    allOperations['fragments'] = renderedFragments;
+  }
+
+  return allOperations;
+}
+
+type GeneratedOperations = {
+  queries: Map<string, string>;
+  mutations: Map<string, string>;
+  subscriptions: Map<string, string>;
+  fragments: Map<string, string>;
+}
+
+function renderOperations(operations: Array<GQLTemplateOp>): Map<string, string> {
+  const renderedOperations = new Map<string, string>();
+  if (operations?.length) {
+    operations.forEach(op => {
+      const name = op.fieldName || op.name;
+      const gql = renderOperation(op);
+      renderedOperations.set(name, gql);
+    });
+  }
+
+  return renderedOperations;
+}
+
+function renderOperation(operation: GQLTemplateOp): string {
+  const templateStr = getOperationPartial();
   const template = handlebars.compile(templateStr, {
     noEscape: true,
     preventIndent: true,
   });
-  const gql = template(doc);
-  return format(gql, language);
+  return template(operation);
+}
+
+function renderFragments(fragments: Array<GQLTemplateFragment>, useExternalFragmentForS3Object: boolean): Map<string, string> {
+  const renderedFragments = new Map<string, string>();
+  if (fragments?.length) {
+    fragments.forEach(fragment => {
+      const name = fragment.name;
+      const gql = renderFragment(fragment,useExternalFragmentForS3Object );
+      renderedFragments.set(name, gql);
+    });
+  }
+
+  return renderedFragments;
+}
+
+function renderFragment(fragment: GQLTemplateFragment, useExternalFragmentForS3Object: boolean): string {
+  if (!useExternalFragmentForS3Object) {
+    return;
+  }
+
+  const templateStr = getExternalFragmentPartial();
+  const template = handlebars.compile(templateStr, {
+    noEscape: true,
+    preventIndent: true,
+  });
+  return template(fragment);
 }
 
 function registerPartials() {
-  const partials = fs.readdirSync(TEMPLATE_DIR);
-  partials.forEach(partial => {
-    if (!partial.startsWith('_') || !partial.endsWith('.hbs')) {
-      return;
-    }
-    const partialPath = path.join(TEMPLATE_DIR, partial);
-    const partialName = path.basename(partial).split('.')[0];
-    const partialContent = fs.readFileSync(partialPath, 'utf8');
-    handlebars.registerPartial(partialName.substring(1), partialContent);
-  });
+  const partials = getTemplatePartials();
+  for (const [partialName, partialContent] of Object.entries(partials)) {
+    handlebars.registerPartial(partialName, partialContent);
+  }
 }
 
 function registerHelpers() {
-  handlebars.registerHelper('format', function(options: any) {
-    const result = options.fn(this);
-    return format(result);
-  });
-
   const formatNameHelper = lowerCaseFirstLetter;
   handlebars.registerHelper('formatName', formatNameHelper);
-}
-
-function format(str: string, language: string = 'graphql'): string {
-  const parserMap = {
-    javascript: 'babel',
-    graphql: 'graphql',
-    typescript: 'typescript',
-    flow: 'flow',
-    angular: 'graphql',
-  };
-  return prettier.format(str, { parser: parserMap[language] });
 }
