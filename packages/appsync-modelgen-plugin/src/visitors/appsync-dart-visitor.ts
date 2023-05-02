@@ -21,6 +21,7 @@ import {
   typeToEnumMap,
   IGNORE_FOR_FILE,
   CUSTOM_LINTS_MESSAGE,
+  MODEL_FILED_VALUE_CLASS,
 } from '../configs/dart-config';
 import dartStyle from 'dart-style';
 import { generateLicense } from '../utils/generateLicense';
@@ -150,6 +151,7 @@ export class AppSyncModelDartVisitor<
     result.push(processedPackageImports.join('\n'));
     result.push(packageExports.map(p => `export '${p}.dart';`).join('\n'));
     result.push(classDeclarationBlock.string);
+    result.push(MODEL_FILED_VALUE_CLASS);
     return this.formatDartCode(result.join('\n\n'));
   }
 
@@ -224,22 +226,15 @@ export class AppSyncModelDartVisitor<
 
   protected generatePackageHeader(): string {
     let usingCollection = false;
-    let usingOtherClass = false;
     Object.entries({ ...this.getSelectedModels(), ...this.getSelectedNonModels() }).forEach(([name, model]) => {
       model.fields.forEach(f => {
         if (f.isList) {
           usingCollection = true;
         }
-        if (this.isModelType(f) || this.isEnumType(f) || this.isNonModelType(f)) {
-          usingOtherClass = true;
-        }
       });
     });
     const flutterDatastorePackage = FLUTTER_AMPLIFY_CORE_IMPORT;
-    const packagesImports = [
-      usingCollection ? COLLECTION_PACKAGE : '',
-      usingOtherClass ? `${LOADER_CLASS_NAME}.dart` : '',
-    ]
+    const packagesImports = [usingCollection ? COLLECTION_PACKAGE : '', `${LOADER_CLASS_NAME}.dart`]
       .filter(f => f)
       .map(pckg => `import '${pckg}';`);
     packagesImports.push(`import '${flutterDatastorePackage}.dart' as ${AMPLIFY_CORE_PREFIX};`);
@@ -273,6 +268,8 @@ export class AppSyncModelDartVisitor<
     this.generateToStringMethod(model, classDeclarationBlock);
     //copyWith
     this.generateCopyWithMethod(model, classDeclarationBlock);
+    //copyWithModelFieldValues
+    this.generateCopyWithModelFieldValuesMethod(model, classDeclarationBlock);
     //de/serialization method
     this.generateSerializationMethod(model, classDeclarationBlock);
     //generate model schema
@@ -303,6 +300,8 @@ export class AppSyncModelDartVisitor<
     this.generateToStringMethod(model, classDeclarationBlock);
     //copyWith
     this.generateCopyWithMethod(model, classDeclarationBlock);
+    //copyWithModelFieldValuesMethod
+    this.generateCopyWithModelFieldValuesMethod(model, classDeclarationBlock);
     //de/serialization method
     this.generateSerializationMethod(model, classDeclarationBlock);
     //generate non-model schema
@@ -655,6 +654,36 @@ export class AppSyncModelDartVisitor<
             })
             .join(',\n')});`,
         ),
+      ].join('\n'),
+    );
+  }
+
+  protected generateCopyWithModelFieldValuesMethod(model: CodeGenModel, declarationBlock: DartDeclarationBlock): void {
+    // copyWithModelFieldValues
+    const writableFields = this.getWritableFields(model, this.isCustomPKEnabled());
+    const copyParameters = writableFields.map(
+      field => `ModelFieldValue<${this.getNativeType(field)}${field.isNullable ? '?' : ''}>? ${this.getFieldName(field)}`,
+    );
+    const copyParameterStr = `{\n${indentMultiline(copyParameters.join(',\n'))}\n}`;
+    declarationBlock.addClassMethod(
+      'copyWithModelFieldValues',
+      this.getModelName(model),
+      writableFields.length ? [{ name: copyParameterStr }] : undefined,
+      [
+        `return ${this.getModelName(model)}${this.config.isTimestampFieldsAdded ? '._internal' : ''}(`,
+        indentMultiline(
+          `${this.getWritableFields(model, false)
+            .map(field => {
+              const fieldName = this.getFieldName(field);
+              return `${fieldName}: ${
+                writableFields.findIndex(field => field.name === fieldName) > -1
+                  ? `${fieldName} == null ? this.${fieldName} : ${fieldName}.value`
+                  : `${fieldName}`
+              }`;
+            })
+            .join(',\n')}`,
+        ),
+        ');',
       ].join('\n'),
     );
   }

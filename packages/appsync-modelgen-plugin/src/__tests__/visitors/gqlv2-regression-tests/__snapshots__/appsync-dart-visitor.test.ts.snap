@@ -103,6 +103,18 @@ class Post extends amplify_core.Model {
       comments: comments ?? this.comments);
   }
   
+  Post copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? title,
+    ModelFieldValue<List<Comment>?>? comments
+  }) {
+    return Post(
+      id: id == null ? this.id : id.value,
+      title: title == null ? this.title : title.value,
+      comments: comments == null ? this.comments : comments.value
+    );
+  }
+  
   Post.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _title = json['title'],
@@ -267,6 +279,18 @@ class Comment extends amplify_core.Model {
       post: post ?? this.post);
   }
   
+  Comment copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? content,
+    ModelFieldValue<Post?>? post
+  }) {
+    return Comment(
+      id: id == null ? this.id : id.value,
+      content: content == null ? this.content : content.value,
+      post: post == null ? this.post : post.value
+    );
+  }
+  
   Comment.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _content = json['content'],
@@ -429,6 +453,20 @@ class Project2 extends amplify_core.Model {
       name: name ?? this.name,
       team: team ?? this.team,
       project2TeamId: project2TeamId ?? this.project2TeamId);
+  }
+  
+  Project2 copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String?>? name,
+    ModelFieldValue<Team2?>? team,
+    ModelFieldValue<String?>? project2TeamId
+  }) {
+    return Project2(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value,
+      team: team == null ? this.team : team.value,
+      project2TeamId: project2TeamId == null ? this.project2TeamId : project2TeamId.value
+    );
   }
   
   Project2.fromJson(Map<String, dynamic> json)  
@@ -601,6 +639,18 @@ class Team2 extends amplify_core.Model {
       project: project ?? this.project);
   }
   
+  Team2 copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? name,
+    ModelFieldValue<Project2?>? project
+  }) {
+    return Team2(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value,
+      project: project == null ? this.project : project.value
+    );
+  }
+  
   Team2.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _name = json['name'],
@@ -760,6 +810,18 @@ class Blog7V2 extends amplify_core.Model {
       id: id ?? this.id,
       name: name ?? this.name,
       posts: posts ?? this.posts);
+  }
+  
+  Blog7V2 copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? name,
+    ModelFieldValue<List<Post7V2>?>? posts
+  }) {
+    return Blog7V2(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value,
+      posts: posts == null ? this.posts : posts.value
+    );
   }
   
   Blog7V2.fromJson(Map<String, dynamic> json)  
@@ -935,6 +997,20 @@ class Post7V2 extends amplify_core.Model {
       comments: comments ?? this.comments);
   }
   
+  Post7V2 copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? title,
+    ModelFieldValue<Blog7V2?>? blog,
+    ModelFieldValue<List<Comment7V2>?>? comments
+  }) {
+    return Post7V2(
+      id: id == null ? this.id : id.value,
+      title: title == null ? this.title : title.value,
+      blog: blog == null ? this.blog : blog.value,
+      comments: comments == null ? this.comments : comments.value
+    );
+  }
+  
   Post7V2.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _title = json['title'],
@@ -1104,6 +1180,18 @@ class Comment7V2 extends amplify_core.Model {
       post: post ?? this.post);
   }
   
+  Comment7V2 copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String?>? content,
+    ModelFieldValue<Post7V2?>? post
+  }) {
+    return Comment7V2(
+      id: id == null ? this.id : id.value,
+      content: content == null ? this.content : content.value,
+      post: post == null ? this.post : post.value
+    );
+  }
+  
   Comment7V2.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _content = json['content'],
@@ -1262,6 +1350,20 @@ class Project extends amplify_core.Model {
       name: name ?? this.name,
       team: team ?? this.team,
       projectTeamId: projectTeamId ?? this.projectTeamId);
+  }
+  
+  Project copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String?>? name,
+    ModelFieldValue<Team?>? team,
+    ModelFieldValue<String?>? projectTeamId
+  }) {
+    return Project(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value,
+      team: team == null ? this.team : team.value,
+      projectTeamId: projectTeamId == null ? this.projectTeamId : projectTeamId.value
+    );
   }
   
   Project.fromJson(Map<String, dynamic> json)  
@@ -1434,6 +1536,18 @@ class Team extends amplify_core.Model {
       project: project ?? this.project);
   }
   
+  Team copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? name,
+    ModelFieldValue<Project?>? project
+  }) {
+    return Team(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value,
+      project: project == null ? this.project : project.value
+    );
+  }
+  
   Team.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _name = json['name'],
@@ -1602,6 +1716,20 @@ class Post extends amplify_core.Model {
       title: title ?? this.title,
       content: content ?? this.content,
       tags: tags ?? this.tags);
+  }
+  
+  Post copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? title,
+    ModelFieldValue<String?>? content,
+    ModelFieldValue<List<PostTags>?>? tags
+  }) {
+    return Post(
+      id: id == null ? this.id : id.value,
+      title: title == null ? this.title : title.value,
+      content: content == null ? this.content : content.value,
+      tags: tags == null ? this.tags : tags.value
+    );
   }
   
   Post.fromJson(Map<String, dynamic> json)  
@@ -1777,6 +1905,18 @@ class Tag extends amplify_core.Model {
       posts: posts ?? this.posts);
   }
   
+  Tag copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? label,
+    ModelFieldValue<List<PostTags>?>? posts
+  }) {
+    return Tag(
+      id: id == null ? this.id : id.value,
+      label: label == null ? this.label : label.value,
+      posts: posts == null ? this.posts : posts.value
+    );
+  }
+  
   Tag.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _label = json['label'],
@@ -1860,6 +2000,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on record creation an
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -1920,6 +2061,16 @@ class Todo extends amplify_core.Model {
     return Todo(
       id: id ?? this.id,
       content: content ?? this.content);
+  }
+  
+  Todo copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String?>? content
+  }) {
+    return Todo(
+      id: id == null ? this.id : id.value,
+      content: content == null ? this.content : content.value
+    );
   }
   
   Todo.fromJson(Map<String, dynamic> json)  
@@ -2069,6 +2220,18 @@ class Post2 extends amplify_core.Model {
       comments: comments ?? this.comments);
   }
   
+  Post2 copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? title,
+    ModelFieldValue<List<Comment2>?>? comments
+  }) {
+    return Post2(
+      id: id == null ? this.id : id.value,
+      title: title == null ? this.title : title.value,
+      comments: comments == null ? this.comments : comments.value
+    );
+  }
+  
   Post2.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _title = json['title'],
@@ -2152,6 +2315,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional ex
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -2239,6 +2403,18 @@ class Comment2 extends amplify_core.Model {
       id: id ?? this.id,
       postID: postID ?? this.postID,
       content: content ?? this.content);
+  }
+  
+  Comment2 copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? postID,
+    ModelFieldValue<String>? content
+  }) {
+    return Comment2(
+      id: id == null ? this.id : id.value,
+      postID: postID == null ? this.postID : postID.value,
+      content: content == null ? this.content : content.value
+    );
   }
   
   Comment2.fromJson(Map<String, dynamic> json)  
@@ -2400,6 +2576,20 @@ class Project2 extends amplify_core.Model {
       team: team ?? this.team);
   }
   
+  Project2 copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String?>? name,
+    ModelFieldValue<String?>? teamID,
+    ModelFieldValue<Team2?>? team
+  }) {
+    return Project2(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value,
+      teamID: teamID == null ? this.teamID : teamID.value,
+      team: team == null ? this.team : team.value
+    );
+  }
+  
   Project2.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _name = json['name'],
@@ -2489,6 +2679,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional ex
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -2558,6 +2749,16 @@ class Team2 extends amplify_core.Model {
     return Team2(
       id: id ?? this.id,
       name: name ?? this.name);
+  }
+  
+  Team2 copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? name
+  }) {
+    return Team2(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value
+    );
   }
   
   Team2.fromJson(Map<String, dynamic> json)  
@@ -2707,6 +2908,18 @@ class Post extends amplify_core.Model {
       comments: comments ?? this.comments);
   }
   
+  Post copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? title,
+    ModelFieldValue<List<Comment>?>? comments
+  }) {
+    return Post(
+      id: id == null ? this.id : id.value,
+      title: title == null ? this.title : title.value,
+      comments: comments == null ? this.comments : comments.value
+    );
+  }
+  
   Post.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _title = json['title'],
@@ -2790,6 +3003,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional im
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -2868,6 +3082,18 @@ class Comment extends amplify_core.Model {
       id: id ?? this.id,
       content: content ?? this.content,
       postCommentsId: postCommentsId ?? this.postCommentsId);
+  }
+  
+  Comment copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? content,
+    ModelFieldValue<String?>? postCommentsId
+  }) {
+    return Comment(
+      id: id == null ? this.id : id.value,
+      content: content == null ? this.content : content.value,
+      postCommentsId: postCommentsId == null ? this.postCommentsId : postCommentsId.value
+    );
   }
   
   Comment.fromJson(Map<String, dynamic> json)  
@@ -3025,6 +3251,20 @@ class Project extends amplify_core.Model {
       projectTeamId: projectTeamId ?? this.projectTeamId);
   }
   
+  Project copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String?>? name,
+    ModelFieldValue<Team?>? team,
+    ModelFieldValue<String?>? projectTeamId
+  }) {
+    return Project(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value,
+      team: team == null ? this.team : team.value,
+      projectTeamId: projectTeamId == null ? this.projectTeamId : projectTeamId.value
+    );
+  }
+  
   Project.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _name = json['name'],
@@ -3114,6 +3354,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works on uni-directional im
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -3185,6 +3426,16 @@ class Team extends amplify_core.Model {
       name: name ?? this.name);
   }
   
+  Team copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? name
+  }) {
+    return Team(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value
+    );
+  }
+  
   Team.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _name = json['name'];
@@ -3251,6 +3502,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests Works when configuring a se
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -3349,6 +3601,20 @@ class Customer extends amplify_core.Model {
       accountRepresentativeID: accountRepresentativeID ?? this.accountRepresentativeID);
   }
   
+  Customer copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? name,
+    ModelFieldValue<String?>? phoneNumber,
+    ModelFieldValue<String>? accountRepresentativeID
+  }) {
+    return Customer(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value,
+      phoneNumber: phoneNumber == null ? this.phoneNumber : phoneNumber.value,
+      accountRepresentativeID: accountRepresentativeID == null ? this.accountRepresentativeID : accountRepresentativeID.value
+    );
+  }
+  
   Customer.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _name = json['name'],
@@ -3437,6 +3703,7 @@ exports[`AppSyncDartVisitor - GQLv2 Regression Tests model indexes should correc
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -3569,6 +3836,24 @@ class ModelWithPrimaryKey extends amplify_core.Model {
       content: content ?? this.content,
       albumID: albumID ?? this.albumID,
       categoryID: categoryID ?? this.categoryID);
+  }
+  
+  ModelWithPrimaryKey copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? productID,
+    ModelFieldValue<String>? name,
+    ModelFieldValue<String?>? content,
+    ModelFieldValue<String>? albumID,
+    ModelFieldValue<String>? categoryID
+  }) {
+    return ModelWithPrimaryKey(
+      id: id == null ? this.id : id.value,
+      productID: productID == null ? this.productID : productID.value,
+      name: name == null ? this.name : name.value,
+      content: content == null ? this.content : content.value,
+      albumID: albumID == null ? this.albumID : albumID.value,
+      categoryID: categoryID == null ? this.categoryID : categoryID.value
+    );
   }
   
   ModelWithPrimaryKey.fromJson(Map<String, dynamic> json)  

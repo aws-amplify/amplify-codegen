@@ -113,3 +113,11 @@ export const DART_AMPLIFY_CORE_TYPES = {
   enumToString: `${AMPLIFY_CORE_PREFIX}.enumToString`,
   enumFromString: `${AMPLIFY_CORE_PREFIX}.enumFromString`,
 };
+
+export const MODEL_FILED_VALUE_CLASS = `
+class ModelFieldValue<T> {
+  const ModelFieldValue.value(this.value);
+
+  final T value;
+}
+`;

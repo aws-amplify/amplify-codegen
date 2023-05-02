@@ -139,6 +139,22 @@ class Post extends amplify_core.Model {
       comments: comments ?? this.comments);
   }
   
+  Post copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? title,
+    ModelFieldValue<int>? rating,
+    ModelFieldValue<PostStatus>? status,
+    ModelFieldValue<List<Comment>?>? comments
+  }) {
+    return Post(
+      id: id == null ? this.id : id.value,
+      title: title == null ? this.title : title.value,
+      rating: rating == null ? this.rating : rating.value,
+      status: status == null ? this.status : status.value,
+      comments: comments == null ? this.comments : comments.value
+    );
+  }
+  
   Post.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _title = json['title'],
@@ -301,6 +317,18 @@ class Comment extends amplify_core.Model {
       id: id ?? this.id,
       post: post ?? this.post,
       content: content ?? this.content);
+  }
+  
+  Comment copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<Post>? post,
+    ModelFieldValue<String>? content
+  }) {
+    return Comment(
+      id: id == null ? this.id : id.value,
+      post: post == null ? this.post : post.value,
+      content: content == null ? this.content : content.value
+    );
   }
   
   Comment.fromJson(Map<String, dynamic> json)  
@@ -504,6 +532,22 @@ class Post extends amplify_core.Model {
       comments: comments ?? this.comments);
   }
   
+  Post copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? title,
+    ModelFieldValue<int>? rating,
+    ModelFieldValue<PostStatus>? status,
+    ModelFieldValue<List<Comment>?>? comments
+  }) {
+    return Post(
+      id: id == null ? this.id : id.value,
+      title: title == null ? this.title : title.value,
+      rating: rating == null ? this.rating : rating.value,
+      status: status == null ? this.status : status.value,
+      comments: comments == null ? this.comments : comments.value
+    );
+  }
+  
   Post.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _title = json['title'],
@@ -668,6 +712,18 @@ class Comment extends amplify_core.Model {
       content: content ?? this.content);
   }
   
+  Comment copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<Post>? post,
+    ModelFieldValue<String>? content
+  }) {
+    return Comment(
+      id: id == null ? this.id : id.value,
+      post: post == null ? this.post : post.value,
+      content: content == null ? this.content : content.value
+    );
+  }
+  
   Comment.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _post = json['post']?['serializedData'] != null
@@ -752,6 +808,7 @@ exports[`AppSync Dart Visitor CustomType (non-model) Tests should generate corre
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -870,6 +927,22 @@ class Address {
       city: city ?? this.city,
       state: state ?? this.state,
       postalCode: postalCode ?? this.postalCode);
+  }
+  
+  Address copyWithModelFieldValues({
+    ModelFieldValue<String>? line1,
+    ModelFieldValue<String?>? line2,
+    ModelFieldValue<String>? city,
+    ModelFieldValue<String>? state,
+    ModelFieldValue<String>? postalCode
+  }) {
+    return Address(
+      line1: line1 == null ? this.line1 : line1.value,
+      line2: line2 == null ? this.line2 : line2.value,
+      city: city == null ? this.city : city.value,
+      state: state == null ? this.state : state.value,
+      postalCode: postalCode == null ? this.postalCode : postalCode.value
+    );
   }
   
   Address.fromJson(Map<String, dynamic> json)  
@@ -1036,6 +1109,18 @@ class Contact {
       mailingAddresses: mailingAddresses ?? this.mailingAddresses);
   }
   
+  Contact copyWithModelFieldValues({
+    ModelFieldValue<String>? contactName,
+    ModelFieldValue<Phone>? phone,
+    ModelFieldValue<List<Address>?>? mailingAddresses
+  }) {
+    return Contact(
+      contactName: contactName == null ? this.contactName : contactName.value,
+      phone: phone == null ? this.phone : phone.value,
+      mailingAddresses: mailingAddresses == null ? this.mailingAddresses : mailingAddresses.value
+    );
+  }
+  
   Contact.fromJson(Map<String, dynamic> json)  
     : _contactName = json['contactName'],
       _phone = json['phone']?['serializedData'] != null
@@ -1136,7 +1221,15 @@ class ModelProvider implements amplify_core.ModelProviderInterface {
         throw Exception(\\"Failed to find model in model provider for model name: \\" + modelName);
     }
   }
-}"
+}
+
+
+class ModelFieldValue<T> {
+  const ModelFieldValue.value(this.value);
+
+  final T value;
+}
+"
 `;
 
 exports[`AppSync Dart Visitor CustomType (non-model) Tests should generate correct dart class for Person with nullsafety 1`] = `
@@ -1261,6 +1354,20 @@ class Person extends amplify_core.Model {
       mailingAddresses: mailingAddresses ?? this.mailingAddresses);
   }
   
+  Person copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? name,
+    ModelFieldValue<Phone>? phone,
+    ModelFieldValue<List<Address>?>? mailingAddresses
+  }) {
+    return Person(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value,
+      phone: phone == null ? this.phone : phone.value,
+      mailingAddresses: mailingAddresses == null ? this.mailingAddresses : mailingAddresses.value
+    );
+  }
+  
   Person.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _name = json['name'],
@@ -1377,7 +1484,15 @@ class ModelProvider implements amplify_core.ModelProviderInterface {
         throw Exception(\\"Failed to find model in model provider for model name: \\" + modelName);
     }
   }
-}"
+}
+
+
+class ModelFieldValue<T> {
+  const ModelFieldValue.value(this.value);
+
+  final T value;
+}
+"
 `;
 
 exports[`AppSync Dart Visitor Enum Generation should generate a class for enum type 1`] = `
@@ -1463,6 +1578,16 @@ class SimpleModel extends amplify_core.Model {
     return SimpleModel(
       id: id ?? this.id,
       status: status ?? this.status);
+  }
+  
+  SimpleModel copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<Status?>? status
+  }) {
+    return SimpleModel(
+      id: id == null ? this.id : id.value,
+      status: status == null ? this.status : status.value
+    );
   }
   
   SimpleModel.fromJson(Map<String, dynamic> json)  
@@ -1560,6 +1685,7 @@ exports[`AppSync Dart Visitor Field tests should generate correct output for app
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
 
@@ -1702,6 +1828,34 @@ class TemporalTimeModel extends amplify_core.Model {
       dateTimeList: dateTimeList ?? this.dateTimeList,
       timestampList: timestampList ?? this.timestampList,
       intList: intList ?? this.intList);
+  }
+  
+  TemporalTimeModel copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<amplify_core.TemporalDate?>? date,
+    ModelFieldValue<amplify_core.TemporalTime?>? time,
+    ModelFieldValue<amplify_core.TemporalDateTime?>? dateTime,
+    ModelFieldValue<amplify_core.TemporalTimestamp?>? timestamp,
+    ModelFieldValue<int?>? intNum,
+    ModelFieldValue<List<amplify_core.TemporalDate>?>? dateList,
+    ModelFieldValue<List<amplify_core.TemporalTime>?>? timeList,
+    ModelFieldValue<List<amplify_core.TemporalDateTime>?>? dateTimeList,
+    ModelFieldValue<List<amplify_core.TemporalTimestamp>?>? timestampList,
+    ModelFieldValue<List<int>?>? intList
+  }) {
+    return TemporalTimeModel(
+      id: id == null ? this.id : id.value,
+      date: date == null ? this.date : date.value,
+      time: time == null ? this.time : time.value,
+      dateTime: dateTime == null ? this.dateTime : dateTime.value,
+      timestamp: timestamp == null ? this.timestamp : timestamp.value,
+      intNum: intNum == null ? this.intNum : intNum.value,
+      dateList: dateList == null ? this.dateList : dateList.value,
+      timeList: timeList == null ? this.timeList : timeList.value,
+      dateTimeList: dateTimeList == null ? this.dateTimeList : dateTimeList.value,
+      timestampList: timestampList == null ? this.timestampList : timestampList.value,
+      intList: intList == null ? this.intList : intList.value
+    );
   }
   
   TemporalTimeModel.fromJson(Map<String, dynamic> json)  
@@ -1992,6 +2146,26 @@ class TestEnumModel extends amplify_core.Model {
       nullableEnumNullableList: nullableEnumNullableList ?? this.nullableEnumNullableList);
   }
   
+  TestEnumModel copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<TestEnum>? enumVal,
+    ModelFieldValue<TestEnum?>? nullableEnumVal,
+    ModelFieldValue<List<TestEnum>>? enumList,
+    ModelFieldValue<List<TestEnum>>? enumNullableList,
+    ModelFieldValue<List<TestEnum>?>? nullableEnumList,
+    ModelFieldValue<List<TestEnum>?>? nullableEnumNullableList
+  }) {
+    return TestEnumModel(
+      id: id == null ? this.id : id.value,
+      enumVal: enumVal == null ? this.enumVal : enumVal.value,
+      nullableEnumVal: nullableEnumVal == null ? this.nullableEnumVal : nullableEnumVal.value,
+      enumList: enumList == null ? this.enumList : enumList.value,
+      enumNullableList: enumNullableList == null ? this.enumNullableList : enumNullableList.value,
+      nullableEnumList: nullableEnumList == null ? this.nullableEnumList : nullableEnumList.value,
+      nullableEnumNullableList: nullableEnumNullableList == null ? this.nullableEnumNullableList : nullableEnumNullableList.value
+    );
+  }
+  
   TestEnumModel.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _enumVal = amplify_core.enumFromString<TestEnum>(json['enumVal'], TestEnum.values),
@@ -2123,6 +2297,7 @@ exports[`AppSync Dart Visitor Field tests should generate correct output for reg
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
 
@@ -2256,6 +2431,26 @@ class TestModel extends amplify_core.Model {
       floatNullableList: floatNullableList ?? this.floatNullableList,
       nullableFloatList: nullableFloatList ?? this.nullableFloatList,
       nullableFloatNullableList: nullableFloatNullableList ?? this.nullableFloatNullableList);
+  }
+  
+  TestModel copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<double>? floatVal,
+    ModelFieldValue<double?>? floatNullableVal,
+    ModelFieldValue<List<double>>? floatList,
+    ModelFieldValue<List<double>>? floatNullableList,
+    ModelFieldValue<List<double>?>? nullableFloatList,
+    ModelFieldValue<List<double>?>? nullableFloatNullableList
+  }) {
+    return TestModel(
+      id: id == null ? this.id : id.value,
+      floatVal: floatVal == null ? this.floatVal : floatVal.value,
+      floatNullableVal: floatNullableVal == null ? this.floatNullableVal : floatNullableVal.value,
+      floatList: floatList == null ? this.floatList : floatList.value,
+      floatNullableList: floatNullableList == null ? this.floatNullableList : floatNullableList.value,
+      nullableFloatList: nullableFloatList == null ? this.nullableFloatList : nullableFloatList.value,
+      nullableFloatNullableList: nullableFloatNullableList == null ? this.nullableFloatNullableList : nullableFloatNullableList.value
+    );
   }
   
   TestModel.fromJson(Map<String, dynamic> json)  
@@ -2463,6 +2658,20 @@ class Post extends amplify_core.Model {
       tags: tags ?? this.tags);
   }
   
+  Post copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? title,
+    ModelFieldValue<String?>? content,
+    ModelFieldValue<List<PostTags>?>? tags
+  }) {
+    return Post(
+      id: id == null ? this.id : id.value,
+      title: title == null ? this.title : title.value,
+      content: content == null ? this.content : content.value,
+      tags: tags == null ? this.tags : tags.value
+    );
+  }
+  
   Post.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _title = json['title'],
@@ -2606,6 +2815,18 @@ class Tag extends amplify_core.Model {
       id: id ?? this.id,
       label: label ?? this.label,
       posts: posts ?? this.posts);
+  }
+  
+  Tag copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? label,
+    ModelFieldValue<List<PostTags>?>? posts
+  }) {
+    return Tag(
+      id: id == null ? this.id : id.value,
+      label: label == null ? this.label : label.value,
+      posts: posts == null ? this.posts : posts.value
+    );
   }
   
   Tag.fromJson(Map<String, dynamic> json)  
@@ -2754,6 +2975,18 @@ class PostTags extends amplify_core.Model {
       tag: tag ?? this.tag);
   }
   
+  PostTags copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<Post>? post,
+    ModelFieldValue<Tag>? tag
+  }) {
+    return PostTags(
+      id: id == null ? this.id : id.value,
+      post: post == null ? this.post : post.value,
+      tag: tag == null ? this.tag : tag.value
+    );
+  }
+  
   PostTags.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _post = json['post']?['serializedData'] != null
@@ -2844,6 +3077,7 @@ exports[`AppSync Dart Visitor Model Directive should generate a class for a Simp
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -2913,6 +3147,18 @@ class SimpleModel extends amplify_core.Model {
       id: id ?? this.id,
       name: name ?? this.name,
       bar: bar ?? this.bar);
+  }
+  
+  SimpleModel copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String?>? name,
+    ModelFieldValue<String?>? bar
+  }) {
+    return SimpleModel(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value,
+      bar: bar == null ? this.bar : bar.value
+    );
   }
   
   SimpleModel.fromJson(Map<String, dynamic> json)  
@@ -2990,6 +3236,7 @@ exports[`AppSync Dart Visitor Model Directive should generate a class for a mode
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -3059,6 +3306,18 @@ class SimpleModel extends amplify_core.Model {
       id: id ?? this.id,
       name: name ?? this.name,
       bar: bar ?? this.bar);
+  }
+  
+  SimpleModel copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String?>? name,
+    ModelFieldValue<String?>? bar
+  }) {
+    return SimpleModel(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value,
+      bar: bar == null ? this.bar : bar.value
+    );
   }
   
   SimpleModel.fromJson(Map<String, dynamic> json)  
@@ -3136,6 +3395,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate AuthRule
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -3217,6 +3477,16 @@ class TodoWithAuth extends amplify_core.Model {
     return TodoWithAuth._internal(
       id: id ?? this.id,
       name: name ?? this.name);
+  }
+  
+  TodoWithAuth copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? name
+  }) {
+    return TodoWithAuth._internal(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value
+    );
   }
   
   TodoWithAuth.fromJson(Map<String, dynamic> json)  
@@ -3332,6 +3602,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -3401,6 +3672,18 @@ class customClaim extends amplify_core.Model {
       id: id ?? this.id,
       name: name ?? this.name,
       bar: bar ?? this.bar);
+  }
+  
+  customClaim copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String?>? name,
+    ModelFieldValue<String?>? bar
+  }) {
+    return customClaim(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value,
+      bar: bar == null ? this.bar : bar.value
+    );
   }
   
   customClaim.fromJson(Map<String, dynamic> json)  
@@ -3492,6 +3775,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -3561,6 +3845,18 @@ class customClaim extends amplify_core.Model {
       id: id ?? this.id,
       name: name ?? this.name,
       bar: bar ?? this.bar);
+  }
+  
+  customClaim copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String?>? name,
+    ModelFieldValue<String?>? bar
+  }) {
+    return customClaim(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value,
+      bar: bar == null ? this.bar : bar.value
+    );
   }
   
   customClaim.fromJson(Map<String, dynamic> json)  
@@ -3652,6 +3948,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -3721,6 +4018,18 @@ class dynamicGroups extends amplify_core.Model {
       id: id ?? this.id,
       name: name ?? this.name,
       bar: bar ?? this.bar);
+  }
+  
+  dynamicGroups copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String?>? name,
+    ModelFieldValue<String?>? bar
+  }) {
+    return dynamicGroups(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value,
+      bar: bar == null ? this.bar : bar.value
+    );
   }
   
   dynamicGroups.fromJson(Map<String, dynamic> json)  
@@ -3812,6 +4121,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -3881,6 +4191,18 @@ class simpleOwnerAuth extends amplify_core.Model {
       id: id ?? this.id,
       name: name ?? this.name,
       bar: bar ?? this.bar);
+  }
+  
+  simpleOwnerAuth copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String?>? name,
+    ModelFieldValue<String?>? bar
+  }) {
+    return simpleOwnerAuth(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value,
+      bar: bar == null ? this.bar : bar.value
+    );
   }
   
   simpleOwnerAuth.fromJson(Map<String, dynamic> json)  
@@ -3972,6 +4294,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -4041,6 +4364,18 @@ class allowRead extends amplify_core.Model {
       id: id ?? this.id,
       name: name ?? this.name,
       bar: bar ?? this.bar);
+  }
+  
+  allowRead copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String?>? name,
+    ModelFieldValue<String?>? bar
+  }) {
+    return allowRead(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value,
+      bar: bar == null ? this.bar : bar.value
+    );
   }
   
   allowRead.fromJson(Map<String, dynamic> json)  
@@ -4131,6 +4466,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -4200,6 +4536,18 @@ class privateType extends amplify_core.Model {
       id: id ?? this.id,
       name: name ?? this.name,
       bar: bar ?? this.bar);
+  }
+  
+  privateType copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String?>? name,
+    ModelFieldValue<String?>? bar
+  }) {
+    return privateType(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value,
+      bar: bar == null ? this.bar : bar.value
+    );
   }
   
   privateType.fromJson(Map<String, dynamic> json)  
@@ -4288,6 +4636,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -4357,6 +4706,18 @@ class publicType extends amplify_core.Model {
       id: id ?? this.id,
       name: name ?? this.name,
       bar: bar ?? this.bar);
+  }
+  
+  publicType copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String?>? name,
+    ModelFieldValue<String?>? bar
+  }) {
+    return publicType(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value,
+      bar: bar == null ? this.bar : bar.value
+    );
   }
   
   publicType.fromJson(Map<String, dynamic> json)  
@@ -4445,6 +4806,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should generate class wi
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -4514,6 +4876,18 @@ class staticGroups extends amplify_core.Model {
       id: id ?? this.id,
       name: name ?? this.name,
       bar: bar ?? this.bar);
+  }
+  
+  staticGroups copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String?>? name,
+    ModelFieldValue<String?>? bar
+  }) {
+    return staticGroups(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value,
+      bar: bar == null ? this.bar : bar.value
+    );
   }
   
   staticGroups.fromJson(Map<String, dynamic> json)  
@@ -4605,6 +4979,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should include authRules
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -4692,6 +5067,18 @@ class Post extends amplify_core.Model {
       id: id ?? this.id,
       title: title ?? this.title,
       author: author ?? this.author);
+  }
+  
+  Post copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? title,
+    ModelFieldValue<String>? author
+  }) {
+    return Post(
+      id: id == null ? this.id : id.value,
+      title: title == null ? this.title : title.value,
+      author: author == null ? this.author : author.value
+    );
   }
   
   Post.fromJson(Map<String, dynamic> json)  
@@ -4783,6 +5170,7 @@ exports[`AppSync Dart Visitor Model with Auth Directive should support multiple 
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -4870,6 +5258,18 @@ class Post extends amplify_core.Model {
       id: id ?? this.id,
       title: title ?? this.title,
       owner: owner ?? this.owner);
+  }
+  
+  Post copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? title,
+    ModelFieldValue<String>? owner
+  }) {
+    return Post(
+      id: id == null ? this.id : id.value,
+      title: title == null ? this.title : title.value,
+      owner: owner == null ? this.owner : owner.value
+    );
   }
   
   Post.fromJson(Map<String, dynamic> json)  
@@ -5041,6 +5441,16 @@ class Todo extends amplify_core.Model {
       tasks: tasks ?? this.tasks);
   }
   
+  Todo copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<List<Task>?>? tasks
+  }) {
+    return Todo(
+      id: id == null ? this.id : id.value,
+      tasks: tasks == null ? this.tasks : tasks.value
+    );
+  }
+  
   Todo.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _tasks = json['tasks'] is List
@@ -5176,6 +5586,16 @@ class Task extends amplify_core.Model {
     return Task(
       id: id ?? this.id,
       todo: todo ?? this.todo);
+  }
+  
+  Task copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<Todo?>? todo
+  }) {
+    return Task(
+      id: id == null ? this.id : id.value,
+      todo: todo == null ? this.todo : todo.value
+    );
   }
   
   Task.fromJson(Map<String, dynamic> json)  
@@ -5337,6 +5757,20 @@ class Blog extends amplify_core.Model {
       name: name ?? this.name,
       posts: posts ?? this.posts,
       test: test ?? this.test);
+  }
+  
+  Blog copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? name,
+    ModelFieldValue<List<Post>?>? posts,
+    ModelFieldValue<List<String>?>? test
+  }) {
+    return Blog(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value,
+      posts: posts == null ? this.posts : posts.value,
+      test: test == null ? this.test : test.value
+    );
   }
   
   Blog.fromJson(Map<String, dynamic> json)  
@@ -5513,6 +5947,18 @@ class Comment extends amplify_core.Model {
       content: content ?? this.content);
   }
   
+  Comment copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<Post?>? post,
+    ModelFieldValue<String>? content
+  }) {
+    return Comment(
+      id: id == null ? this.id : id.value,
+      post: post == null ? this.post : post.value,
+      content: content == null ? this.content : content.value
+    );
+  }
+  
   Comment.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _post = json['post']?['serializedData'] != null
@@ -5687,6 +6133,20 @@ class Post extends amplify_core.Model {
       comments: comments ?? this.comments);
   }
   
+  Post copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? title,
+    ModelFieldValue<Blog?>? blog,
+    ModelFieldValue<List<Comment>?>? comments
+  }) {
+    return Post(
+      id: id == null ? this.id : id.value,
+      title: title == null ? this.title : title.value,
+      blog: blog == null ? this.blog : blog.value,
+      comments: comments == null ? this.comments : comments.value
+    );
+  }
+  
   Post.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _title = json['title'],
@@ -5788,6 +6248,7 @@ exports[`AppSync Dart Visitor Model with Key Directive should generate a class f
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -5895,6 +6356,22 @@ class authorBook extends amplify_core.Model {
       book: book ?? this.book);
   }
   
+  authorBook copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? author_id,
+    ModelFieldValue<String>? book_id,
+    ModelFieldValue<String?>? author,
+    ModelFieldValue<String?>? book
+  }) {
+    return authorBook(
+      id: id == null ? this.id : id.value,
+      author_id: author_id == null ? this.author_id : author_id.value,
+      book_id: book_id == null ? this.book_id : book_id.value,
+      author: author == null ? this.author : author.value,
+      book: book == null ? this.book : book.value
+    );
+  }
+  
   authorBook.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _author_id = json['author_id'],
@@ -5993,6 +6470,7 @@ exports[`AppSync Dart Visitor Null Safety Tests should generate correct internal
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -6044,6 +6522,14 @@ class TestModel extends amplify_core.Model {
   TestModel copyWith({String? id}) {
     return TestModel(
       id: id ?? this.id);
+  }
+  
+  TestModel copyWithModelFieldValues({
+    ModelFieldValue<String>? id
+  }) {
+    return TestModel(
+      id: id == null ? this.id : id.value
+    );
   }
   
   TestModel.fromJson(Map<String, dynamic> json)  
@@ -6182,6 +6668,18 @@ class Blog extends amplify_core.Model {
       id: id ?? this.id,
       name: name ?? this.name,
       posts: posts ?? this.posts);
+  }
+  
+  Blog copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? name,
+    ModelFieldValue<List<Post>?>? posts
+  }) {
+    return Blog(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value,
+      posts: posts == null ? this.posts : posts.value
+    );
   }
   
   Blog.fromJson(Map<String, dynamic> json)  
@@ -6346,6 +6844,18 @@ class Comment extends amplify_core.Model {
       id: id ?? this.id,
       post: post ?? this.post,
       content: content ?? this.content);
+  }
+  
+  Comment copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<Post?>? post,
+    ModelFieldValue<String>? content
+  }) {
+    return Comment(
+      id: id == null ? this.id : id.value,
+      post: post == null ? this.post : post.value,
+      content: content == null ? this.content : content.value
+    );
   }
   
   Comment.fromJson(Map<String, dynamic> json)  
@@ -6522,6 +7032,20 @@ class Post extends amplify_core.Model {
       comments: comments ?? this.comments);
   }
   
+  Post copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String>? title,
+    ModelFieldValue<Blog?>? blog,
+    ModelFieldValue<List<Comment>?>? comments
+  }) {
+    return Post(
+      id: id == null ? this.id : id.value,
+      title: title == null ? this.title : title.value,
+      blog: blog == null ? this.blog : blog.value,
+      comments: comments == null ? this.comments : comments.value
+    );
+  }
+  
   Post.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _title = json['title'],
@@ -6623,6 +7147,7 @@ exports[`AppSync Dart Visitor Null Safety Tests should generate correct null saf
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
 
@@ -6758,6 +7283,26 @@ class TestModel extends amplify_core.Model {
       nullableFloatNullableList: nullableFloatNullableList ?? this.nullableFloatNullableList);
   }
   
+  TestModel copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<double>? floatVal,
+    ModelFieldValue<double?>? floatNullableVal,
+    ModelFieldValue<List<double>>? floatList,
+    ModelFieldValue<List<double>>? floatNullableList,
+    ModelFieldValue<List<double>?>? nullableFloatList,
+    ModelFieldValue<List<double>?>? nullableFloatNullableList
+  }) {
+    return TestModel(
+      id: id == null ? this.id : id.value,
+      floatVal: floatVal == null ? this.floatVal : floatVal.value,
+      floatNullableVal: floatNullableVal == null ? this.floatNullableVal : floatNullableVal.value,
+      floatList: floatList == null ? this.floatList : floatList.value,
+      floatNullableList: floatNullableList == null ? this.floatNullableList : floatNullableList.value,
+      nullableFloatList: nullableFloatList == null ? this.nullableFloatList : nullableFloatList.value,
+      nullableFloatNullableList: nullableFloatNullableList == null ? this.nullableFloatNullableList : nullableFloatNullableList.value
+    );
+  }
+  
   TestModel.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _floatVal = (json['floatVal'] as num?)?.toDouble(),
@@ -6873,6 +7418,7 @@ exports[`AppSync Dart Visitor Null Safety Tests should generate correct null saf
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 import 'package:collection/collection.dart';
 
@@ -7089,6 +7635,38 @@ class TestModel extends amplify_core.Model {
       nullableIntNullableList: nullableIntNullableList ?? this.nullableIntNullableList);
   }
   
+  TestModel copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<double>? floatVal,
+    ModelFieldValue<double?>? floatNullableVal,
+    ModelFieldValue<List<double>>? floatList,
+    ModelFieldValue<List<double>>? floatNullableList,
+    ModelFieldValue<List<double>?>? nullableFloatList,
+    ModelFieldValue<List<double>?>? nullableFloatNullableList,
+    ModelFieldValue<int>? intVal,
+    ModelFieldValue<int?>? intNullableVal,
+    ModelFieldValue<List<int>>? intList,
+    ModelFieldValue<List<int>>? intNullableList,
+    ModelFieldValue<List<int>?>? nullableIntList,
+    ModelFieldValue<List<int>?>? nullableIntNullableList
+  }) {
+    return TestModel(
+      id: id == null ? this.id : id.value,
+      floatVal: floatVal == null ? this.floatVal : floatVal.value,
+      floatNullableVal: floatNullableVal == null ? this.floatNullableVal : floatNullableVal.value,
+      floatList: floatList == null ? this.floatList : floatList.value,
+      floatNullableList: floatNullableList == null ? this.floatNullableList : floatNullableList.value,
+      nullableFloatList: nullableFloatList == null ? this.nullableFloatList : nullableFloatList.value,
+      nullableFloatNullableList: nullableFloatNullableList == null ? this.nullableFloatNullableList : nullableFloatNullableList.value,
+      intVal: intVal == null ? this.intVal : intVal.value,
+      intNullableVal: intNullableVal == null ? this.intNullableVal : intNullableVal.value,
+      intList: intList == null ? this.intList : intList.value,
+      intNullableList: intNullableList == null ? this.intNullableList : intNullableList.value,
+      nullableIntList: nullableIntList == null ? this.nullableIntList : nullableIntList.value,
+      nullableIntNullableList: nullableIntNullableList == null ? this.nullableIntNullableList : nullableIntNullableList.value
+    );
+  }
+  
   TestModel.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _floatVal = (json['floatVal'] as num?)?.toDouble(),
@@ -7262,6 +7840,7 @@ exports[`AppSync Dart Visitor Read-only Field Tests should generate the read-onl
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -7334,6 +7913,16 @@ class SimpleModel extends amplify_core.Model {
     return SimpleModel._internal(
       id: id ?? this.id,
       name: name ?? this.name);
+  }
+  
+  SimpleModel copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String?>? name
+  }) {
+    return SimpleModel._internal(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value
+    );
   }
   
   SimpleModel.fromJson(Map<String, dynamic> json)  
@@ -7420,6 +8009,7 @@ exports[`AppSync Dart Visitor Read-only and Null Safety Combined Tests should ge
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -7492,6 +8082,16 @@ class SimpleModel extends amplify_core.Model {
     return SimpleModel._internal(
       id: id ?? this.id,
       name: name ?? this.name);
+  }
+  
+  SimpleModel copyWithModelFieldValues({
+    ModelFieldValue<String>? id,
+    ModelFieldValue<String?>? name
+  }) {
+    return SimpleModel._internal(
+      id: id == null ? this.id : id.value,
+      name: name == null ? this.name : name.value
+    );
   }
   
   SimpleModel.fromJson(Map<String, dynamic> json)  
@@ -7578,6 +8178,7 @@ exports[`AppSync Dart Visitor custom primary key model generation should generat
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -7664,6 +8265,15 @@ class ModelWithImplicitID extends amplify_core.Model {
     return ModelWithImplicitID._internal(
       id: id,
       title: title ?? this.title);
+  }
+  
+  ModelWithImplicitID copyWithModelFieldValues({
+    ModelFieldValue<String>? title
+  }) {
+    return ModelWithImplicitID._internal(
+      id: id,
+      title: title == null ? this.title : title.value
+    );
   }
   
   ModelWithImplicitID.fromJson(Map<String, dynamic> json)  
@@ -7794,6 +8404,7 @@ exports[`AppSync Dart Visitor custom primary key model generation should generat
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -7880,6 +8491,15 @@ class ModelWithExplicitID extends amplify_core.Model {
     return ModelWithExplicitID._internal(
       id: id,
       title: title ?? this.title);
+  }
+  
+  ModelWithExplicitID copyWithModelFieldValues({
+    ModelFieldValue<String>? title
+  }) {
+    return ModelWithExplicitID._internal(
+      id: id,
+      title: title == null ? this.title : title.value
+    );
   }
   
   ModelWithExplicitID.fromJson(Map<String, dynamic> json)  
@@ -8010,6 +8630,7 @@ exports[`AppSync Dart Visitor custom primary key model generation should generat
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -8087,6 +8708,15 @@ class ModelWithExplicitIDAndSDI extends amplify_core.Model {
     return ModelWithExplicitIDAndSDI._internal(
       id: id,
       parentID: parentID ?? this.parentID);
+  }
+  
+  ModelWithExplicitIDAndSDI copyWithModelFieldValues({
+    ModelFieldValue<String?>? parentID
+  }) {
+    return ModelWithExplicitIDAndSDI._internal(
+      id: id,
+      parentID: parentID == null ? this.parentID : parentID.value
+    );
   }
   
   ModelWithExplicitIDAndSDI.fromJson(Map<String, dynamic> json)  
@@ -8221,6 +8851,7 @@ exports[`AppSync Dart Visitor custom primary key model generation should generat
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -8336,6 +8967,14 @@ class ModelWithIDPlusSortKeys extends amplify_core.Model {
       id: id,
       title: title,
       rating: rating);
+  }
+  
+  ModelWithIDPlusSortKeys copyWithModelFieldValues() {
+    return ModelWithIDPlusSortKeys._internal(
+      id: id,
+      title: title,
+      rating: rating
+    );
   }
   
   ModelWithIDPlusSortKeys.fromJson(Map<String, dynamic> json)  
@@ -8492,6 +9131,7 @@ exports[`AppSync Dart Visitor custom primary key model generation should generat
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -8600,6 +9240,15 @@ class ModelWithExplicitlyDefinedPK extends amplify_core.Model {
     return ModelWithExplicitlyDefinedPK._internal(
       modelID: modelID,
       title: title ?? this.title);
+  }
+  
+  ModelWithExplicitlyDefinedPK copyWithModelFieldValues({
+    ModelFieldValue<String>? title
+  }) {
+    return ModelWithExplicitlyDefinedPK._internal(
+      modelID: modelID,
+      title: title == null ? this.title : title.value
+    );
   }
   
   ModelWithExplicitlyDefinedPK.fromJson(Map<String, dynamic> json)  
@@ -8738,6 +9387,7 @@ exports[`AppSync Dart Visitor custom primary key model generation should generat
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -8866,6 +9516,14 @@ class ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey extends amplify_cor
       modelID: modelID,
       title: title,
       rating: rating);
+  }
+  
+  ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey copyWithModelFieldValues() {
+    return ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey._internal(
+      modelID: modelID,
+      title: title,
+      rating: rating
+    );
   }
   
   ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey.fromJson(Map<String, dynamic> json)  
@@ -9134,6 +9792,16 @@ class Post extends amplify_core.Model {
       comments: comments ?? this.comments);
   }
   
+  Post copyWithModelFieldValues({
+    ModelFieldValue<List<Comment>?>? comments
+  }) {
+    return Post._internal(
+      id: id,
+      title: title,
+      comments: comments == null ? this.comments : comments.value
+    );
+  }
+  
   Post.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _title = json['title'],
@@ -9291,6 +9959,7 @@ exports[`AppSync Dart Visitor custom primary key model generation should generat
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
+import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
 
 
@@ -9405,6 +10074,18 @@ class Comment extends amplify_core.Model {
       content: content,
       postCommentsId: postCommentsId ?? this.postCommentsId,
       postCommentsTitle: postCommentsTitle ?? this.postCommentsTitle);
+  }
+  
+  Comment copyWithModelFieldValues({
+    ModelFieldValue<String?>? postCommentsId,
+    ModelFieldValue<String?>? postCommentsTitle
+  }) {
+    return Comment._internal(
+      id: id,
+      content: content,
+      postCommentsId: postCommentsId == null ? this.postCommentsId : postCommentsId.value,
+      postCommentsTitle: postCommentsTitle == null ? this.postCommentsTitle : postCommentsTitle.value
+    );
   }
   
   Comment.fromJson(Map<String, dynamic> json)  
@@ -9701,6 +10382,20 @@ class Project extends amplify_core.Model {
       team: team ?? this.team,
       projectTeamTeamId: projectTeamTeamId ?? this.projectTeamTeamId,
       projectTeamName: projectTeamName ?? this.projectTeamName);
+  }
+  
+  Project copyWithModelFieldValues({
+    ModelFieldValue<Team?>? team,
+    ModelFieldValue<String?>? projectTeamTeamId,
+    ModelFieldValue<String?>? projectTeamName
+  }) {
+    return Project._internal(
+      projectId: projectId,
+      name: name,
+      team: team == null ? this.team : team.value,
+      projectTeamTeamId: projectTeamTeamId == null ? this.projectTeamTeamId : projectTeamTeamId.value,
+      projectTeamName: projectTeamName == null ? this.projectTeamName : projectTeamName.value
+    );
   }
   
   Project.fromJson(Map<String, dynamic> json)  
@@ -10000,6 +10695,16 @@ class Team extends amplify_core.Model {
       project: project ?? this.project);
   }
   
+  Team copyWithModelFieldValues({
+    ModelFieldValue<Project?>? project
+  }) {
+    return Team._internal(
+      teamId: teamId,
+      name: name,
+      project: project == null ? this.project : project.value
+    );
+  }
+  
   Team.fromJson(Map<String, dynamic> json)  
     : _teamId = json['teamId'],
       _name = json['name'],
@@ -10283,6 +10988,20 @@ class CpkOneToOneBidirectionalParent extends amplify_core.Model {
       cpkOneToOneBidirectionalParentExplicitChildName: cpkOneToOneBidirectionalParentExplicitChildName ?? this.cpkOneToOneBidirectionalParentExplicitChildName);
   }
   
+  CpkOneToOneBidirectionalParent copyWithModelFieldValues({
+    ModelFieldValue<CpkOneToOneBidirectionalChildExplicit?>? explicitChild,
+    ModelFieldValue<String?>? cpkOneToOneBidirectionalParentExplicitChildId,
+    ModelFieldValue<String?>? cpkOneToOneBidirectionalParentExplicitChildName
+  }) {
+    return CpkOneToOneBidirectionalParent._internal(
+      id: id,
+      name: name,
+      explicitChild: explicitChild == null ? this.explicitChild : explicitChild.value,
+      cpkOneToOneBidirectionalParentExplicitChildId: cpkOneToOneBidirectionalParentExplicitChildId == null ? this.cpkOneToOneBidirectionalParentExplicitChildId : cpkOneToOneBidirectionalParentExplicitChildId.value,
+      cpkOneToOneBidirectionalParentExplicitChildName: cpkOneToOneBidirectionalParentExplicitChildName == null ? this.cpkOneToOneBidirectionalParentExplicitChildName : cpkOneToOneBidirectionalParentExplicitChildName.value
+    );
+  }
+  
   CpkOneToOneBidirectionalParent.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _name = json['name'],
@@ -10561,6 +11280,16 @@ class CpkOneToOneBidirectionalChildExplicit extends amplify_core.Model {
       id: id,
       name: name,
       belongsToParent: belongsToParent ?? this.belongsToParent);
+  }
+  
+  CpkOneToOneBidirectionalChildExplicit copyWithModelFieldValues({
+    ModelFieldValue<CpkOneToOneBidirectionalParent?>? belongsToParent
+  }) {
+    return CpkOneToOneBidirectionalChildExplicit._internal(
+      id: id,
+      name: name,
+      belongsToParent: belongsToParent == null ? this.belongsToParent : belongsToParent.value
+    );
   }
   
   CpkOneToOneBidirectionalChildExplicit.fromJson(Map<String, dynamic> json)  
