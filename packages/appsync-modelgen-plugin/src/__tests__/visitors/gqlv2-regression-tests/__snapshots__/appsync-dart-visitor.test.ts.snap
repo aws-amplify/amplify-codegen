@@ -108,10 +108,10 @@ class Post extends Model {
   Post.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _title = json['title'],
-      _comments = json['comments'] is List
-        ? (json['comments'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+      _comments = json['comments']  != null
+        ? (json['comments']['items'] as List)
+          .where((e) => e != null)
+          .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e)))
           .toList()
         : null;
   
@@ -272,8 +272,8 @@ class Comment extends Model {
   Comment.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _content = json['content'],
-      _post = json['post']?['serializedData'] != null
-        ? Post.fromJson(new Map<String, dynamic>.from(json['post']['serializedData']))
+      _post = json['post'] != null
+        ? Post.fromJson(new Map<String, dynamic>.from(json['post']))
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -436,8 +436,8 @@ class Project2 extends Model {
   Project2.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _name = json['name'],
-      _team = json['team']?['serializedData'] != null
-        ? Team2.fromJson(new Map<String, dynamic>.from(json['team']['serializedData']))
+      _team = json['team'] != null
+        ? Team2.fromJson(new Map<String, dynamic>.from(json['team']))
         : null,
       _project2TeamId = json['project2TeamId'];
   
@@ -605,8 +605,8 @@ class Team2 extends Model {
   Team2.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _name = json['name'],
-      _project = json['project']?['serializedData'] != null
-        ? Project2.fromJson(new Map<String, dynamic>.from(json['project']['serializedData']))
+      _project = json['project'] != null
+        ? Project2.fromJson(new Map<String, dynamic>.from(json['project']))
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -766,10 +766,10 @@ class Blog7V2 extends Model {
   Blog7V2.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _name = json['name'],
-      _posts = json['posts'] is List
-        ? (json['posts'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => Post7V2.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+      _posts = json['posts']  != null
+        ? (json['posts']['items'] as List)
+          .where((e) => e != null)
+          .map((e) => Post7V2.fromJson(new Map<String, dynamic>.from(e)))
           .toList()
         : null;
   
@@ -939,13 +939,13 @@ class Post7V2 extends Model {
   Post7V2.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _title = json['title'],
-      _blog = json['blog']?['serializedData'] != null
-        ? Blog7V2.fromJson(new Map<String, dynamic>.from(json['blog']['serializedData']))
+      _blog = json['blog'] != null
+        ? Blog7V2.fromJson(new Map<String, dynamic>.from(json['blog']))
         : null,
-      _comments = json['comments'] is List
-        ? (json['comments'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => Comment7V2.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+      _comments = json['comments']  != null
+        ? (json['comments']['items'] as List)
+          .where((e) => e != null)
+          .map((e) => Comment7V2.fromJson(new Map<String, dynamic>.from(e)))
           .toList()
         : null;
   
@@ -1107,8 +1107,8 @@ class Comment7V2 extends Model {
   Comment7V2.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _content = json['content'],
-      _post = json['post']?['serializedData'] != null
-        ? Post7V2.fromJson(new Map<String, dynamic>.from(json['post']['serializedData']))
+      _post = json['post'] != null
+        ? Post7V2.fromJson(new Map<String, dynamic>.from(json['post']))
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -1267,8 +1267,8 @@ class Project extends Model {
   Project.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _name = json['name'],
-      _team = json['team']?['serializedData'] != null
-        ? Team.fromJson(new Map<String, dynamic>.from(json['team']['serializedData']))
+      _team = json['team'] != null
+        ? Team.fromJson(new Map<String, dynamic>.from(json['team']))
         : null,
       _projectTeamId = json['projectTeamId'];
   
@@ -1436,8 +1436,8 @@ class Team extends Model {
   Team.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _name = json['name'],
-      _project = json['project']?['serializedData'] != null
-        ? Project.fromJson(new Map<String, dynamic>.from(json['project']['serializedData']))
+      _project = json['project'] != null
+        ? Project.fromJson(new Map<String, dynamic>.from(json['project']))
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -1607,10 +1607,10 @@ class Post extends Model {
     : id = json['id'],
       _title = json['title'],
       _content = json['content'],
-      _tags = json['tags'] is List
-        ? (json['tags'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+      _tags = json['tags']  != null
+        ? (json['tags']['items'] as List)
+          .where((e) => e != null)
+          .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e)))
           .toList()
         : null;
   
@@ -1778,10 +1778,10 @@ class Tag extends Model {
   Tag.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _label = json['label'],
-      _posts = json['posts'] is List
-        ? (json['posts'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+      _posts = json['posts']  != null
+        ? (json['posts']['items'] as List)
+          .where((e) => e != null)
+          .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e)))
           .toList()
         : null;
   
@@ -2071,10 +2071,10 @@ class Post2 extends Model {
   Post2.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _title = json['title'],
-      _comments = json['comments'] is List
-        ? (json['comments'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => Comment2.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+      _comments = json['comments']  != null
+        ? (json['comments']['items'] as List)
+          .where((e) => e != null)
+          .map((e) => Comment2.fromJson(new Map<String, dynamic>.from(e)))
           .toList()
         : null;
   
@@ -2403,8 +2403,8 @@ class Project2 extends Model {
     : id = json['id'],
       _name = json['name'],
       _teamID = json['teamID'],
-      _team = json['team']?['serializedData'] != null
-        ? Team2.fromJson(new Map<String, dynamic>.from(json['team']['serializedData']))
+      _team = json['team'] != null
+        ? Team2.fromJson(new Map<String, dynamic>.from(json['team']))
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -2709,10 +2709,10 @@ class Post extends Model {
   Post.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _title = json['title'],
-      _comments = json['comments'] is List
-        ? (json['comments'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+      _comments = json['comments']  != null
+        ? (json['comments']['items'] as List)
+          .where((e) => e != null)
+          .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e)))
           .toList()
         : null;
   
@@ -3027,8 +3027,8 @@ class Project extends Model {
   Project.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _name = json['name'],
-      _team = json['team']?['serializedData'] != null
-        ? Team.fromJson(new Map<String, dynamic>.from(json['team']['serializedData']))
+      _team = json['team'] != null
+        ? Team.fromJson(new Map<String, dynamic>.from(json['team']))
         : null,
       _projectTeamId = json['projectTeamId'];
   
