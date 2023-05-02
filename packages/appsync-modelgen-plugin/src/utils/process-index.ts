@@ -35,8 +35,8 @@ export const processIndex = (model: CodeGenModel) => {
  * Accepts a model and field name, and potentially empty list of sortKeyFields to generate a unique index name.
  * e.g. modelName = Employee, fieldName = manager, sortKeyFields = [level]
  * will generate a name like employeeByManagerAndLevel.
- * 
- * This naming logic is used to generate a default index name for @index directives that don't have a name argument.
+ * (This naming logic is used to generate a default index name for @index directives that don't have a name argument).
+ * Refer https://github.com/aws-amplify/amplify-category-api/blob/main/packages/amplify-graphql-index-transformer/src/utils.ts
  */
 export const generateDefaultIndexName = (modelName: string, fieldNames: string[]): string => {
   return `${toLower(pluralize(modelName))}By${fieldNames.map(toUpper).join('And')}`;
