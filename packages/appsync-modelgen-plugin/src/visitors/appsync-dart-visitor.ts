@@ -1178,7 +1178,17 @@ export class AppSyncModelDartVisitor<
   }
 
   protected isFieldRequired(field: CodeGenField): boolean {
+    if (this.isHasManyConnectionField(field)) {
+      return false;
+    }
     return !((field.isNullable && !field.isList) || field.isListNullable);
+  }
+
+  protected isHasManyConnectionField(field: CodeGenField): boolean {
+    if (field.connectionInfo && field.connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
+      return true;
+    }
+    return false;
   }
 
   protected getNullableTypeStr(type: string): string {

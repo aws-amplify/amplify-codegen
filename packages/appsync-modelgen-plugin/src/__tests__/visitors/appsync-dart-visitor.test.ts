@@ -478,6 +478,23 @@ describe('AppSync Dart Visitor', () => {
       expect(generatedCode).toMatchSnapshot();
     });
 
+    it('should generate correct null safe output for connection field w/o list or nullable', () => {
+      const schema = /* GraphQL */ `
+        type ListItem @model {
+          id: ID!
+          name: String!
+        }
+
+        type TestModel @model {
+          id: ID!
+          listOfModels: [ListItem]! @hasMany
+          nullableListOfModels: [ListItem] @hasMany
+        }
+      `;
+      const generatedCode = getVisitor({ schema, selectedType: 'TestModel', transformerVersion: 2 }).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+
     it('should generate correct internal constructor for a model has only ID field', () => {
       const schema = /* GraphQL */ `
         type TestModel @model {
