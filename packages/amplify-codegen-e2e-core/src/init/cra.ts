@@ -34,3 +34,22 @@ export function craBuild(cwd: string, settings: Object = {}): Promise<void> {
     });
   });
 }
+
+export function cypressRun(cwd: string, settings: any = {}): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const s = { ...defaultSettings, ...settings };
+    const args = ['cypress', 'run'];
+    if (s?.componentsTesting) {
+      args.push('--component');
+    };
+    const chain = spawn('npx', args, { cwd, stripColors: true, disableCIDetection: s.disableCIDetection });
+
+    chain.run((err: Error) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
+}

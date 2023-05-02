@@ -36,6 +36,14 @@ $ yarn setup-dev
 
 > NOTE: The `amplify-dev` binary is built based on the latest amplify cli from npm registry and your local codegen packages. All your local changes from codegen can be reflected (typescript files need to be build by `tsc`). In addition, if you are a developer of cli repo, you can run the same command to override the `amplify-dev` binary.
 
+5. Ensure `amplify-dev` exists on your path.
+
+```sh
+$ yarn global bin # retrieve yarn path
+```
+
+Update your `$PATH` to include this directory.
+
 ### Architecture of the codebase
 
 Amplify Codegen is a monorepo built with [Yarn Workspaces](https://yarnpkg.com/features/workspaces) and [Lerna](https://github.com/lerna/lerna). All packages live within the `packages/` directory in the root. Each category inside packages has its own `src/` and `package.json`.

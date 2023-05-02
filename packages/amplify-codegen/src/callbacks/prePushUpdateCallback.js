@@ -5,7 +5,7 @@ const askShouldUpdateCode = require('../walkthrough/questions/updateCode');
 const askShouldUpdateDocs = require('../walkthrough/questions/updateDocs');
 const path = require('path');
 const { isDataStoreEnabled } = require('graphql-transformer-core');
-const { pathManager } = require('amplify-cli-core');
+const { pathManager } = require('@aws-amplify/amplify-cli-core');
 
 async function prePushUpdateCallback(context, resourceName) {
   const config = loadConfig(context);

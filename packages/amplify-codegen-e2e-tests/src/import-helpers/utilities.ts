@@ -1,7 +1,7 @@
 import * as aws from 'aws-sdk';
 import * as path from 'path';
 
-import { $TSObject, JSONUtilities } from 'amplify-cli-core';
+import { $TSObject, JSONUtilities } from '@aws-amplify/amplify-cli-core';
 import { AppClientSettings, DynamoDBProjectDetails } from './types';
 import { AuthProjectDetails, StorageProjectDetails } from '.';
 import { getBackendAmplifyMeta, getProjectMeta, getTeamProviderInfo } from '@aws-amplify/amplify-codegen-e2e-core';

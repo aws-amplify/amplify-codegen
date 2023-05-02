@@ -1,5 +1,5 @@
 const codeGen = require('../../src');
-const { exitOnNextTick } = require('amplify-cli-core');
+const { exitOnNextTick } = require('@aws-amplify/amplify-cli-core');
 const featureName = 'types';
 
 module.exports = {

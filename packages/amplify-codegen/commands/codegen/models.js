@@ -1,5 +1,5 @@
 const codeGen = require('../../src');
-const { exitOnNextTick } = require('amplify-cli-core');
+const { exitOnNextTick } = require('@aws-amplify/amplify-cli-core');
 const getOutputDirParam = require('../../src/utils/getOutputDirParam');
 
 const featureName = 'models';

@@ -10,7 +10,7 @@ machine:
 executors:
   w: &ref_1
     machine:
-      image: windows-server-2019-vs2019:stable
+      image: windows-server-2022-gui:current
       resource_class: windows.medium
       shell: bash.exe
     working_directory: ~/repo
@@ -19,7 +19,7 @@ executors:
       AMPLIFY_PATH: C:/home/circleci/repo/out/amplify.exe
   l: &ref_2
     docker:
-      - image: public.ecr.aws/j4f5f3h7/amplify-cli-e2e-base-image-repo-public:latest
+      - image: public.ecr.aws/j4f5f3h7/amplify-cli-e2e-base-image-repo-public:node18
     working_directory: ~/repo
     resource_class: large
     environment:
@@ -36,7 +36,7 @@ executors:
       AMPLIFY_PATH: /home/circleci/repo/out/amplify-pkg-linux-x64
   a:
     docker:
-      - image: cimg/android:2022.09
+      - image: cimg/android:2023.03
     working_directory: ~/repo
     resource_class: large
     environment:
@@ -73,6 +73,27 @@ jobs:
     executor: << parameters.os >>
     steps:
       - checkout
+      - when:
+          condition:
+            equal:
+              - *ref_1
+              - << parameters.os >>
+          steps:
+            - run:
+                name: Install Node 18
+                command: |
+                  nvm version
+                  nvm install 18.15.0
+                  nvm use 18.15.0
+                  nvm ls
+            - run:
+                name: Install Yarn
+                command: |
+                  npm install -g yarn
+                  yarn --version
+      - run:
+          name: Check node version
+          command: node -v
       - run: yarn config set workspaces-experimental true
       - run: yarn cache clean --force
       - run: yarn run production-build
@@ -100,8 +121,21 @@ jobs:
                   - << parameters.os >>
           steps:
             - checkout
-            - run: nvm install 12.22.7
-            - run: nvm alias default 12.22.7
+            - run:
+                name: Install Node 18
+                command: |
+                  nvm version
+                  nvm install 18.15.0
+                  nvm use 18.15.0
+                  nvm ls
+            - run:
+                name: Install Yarn
+                command: |
+                  npm install -g yarn
+                  yarn --version
+            - run:
+                name: Check node version
+                command: node -v
             - run: yarn config set workspaces-experimental true
             - run: yarn cache clean --force
             - run: yarn run production-build
@@ -235,7 +269,9 @@ jobs:
           key: amplify-verdaccio-cache-{{ .Branch }}-{{ .Revision }}
       - node/install:
           install-yarn: true
-          node-version: '16.13'
+          node-version: '18.15'
+      - run: yarn config set workspaces-experimental true
+      - run: yarn cache clean --force
       - run: yarn run production-build
       - run: *ref_3
       - run:
@@ -505,6 +541,15 @@ jobs:
       TEST_SUITE: src/__tests__/graphql-codegen-ios.test.ts
       CLI_REGION: ap-northeast-1
       SET_NPM_PREFIX: true
+  graphql-documents-generator-e2e-test:
+    working_directory: ~/repo
+    parameters: *ref_0
+    executor: << parameters.os >>
+    steps: *ref_6
+    environment:
+      TEST_SUITE: src/__tests__/graphql-documents-generator.test.ts
+      CLI_REGION: ap-southeast-1
+      SET_NPM_PREFIX: true
 workflows:
   version: 2
   e2e_resource_cleanup:
@@ -587,6 +632,7 @@ workflows:
             - push-codegen-js-e2e-test
             - datastore-modelgen-flutter-e2e-test
             - feature-flags-e2e-test
+            - graphql-documents-generator-e2e-test
             - pull-codegen-e2e-test
             - datastore-modelgen-ios-e2e-test
             - configure-codegen-ios-e2e-test
@@ -752,6 +798,13 @@ workflows:
           post-steps: *ref_9
           filters: *ref_10
       - feature-flags-e2e-test:
+          context: *ref_8
+          os: l
+          requires:
+            - publish_to_local_registry
+          post-steps: *ref_9
+          filters: *ref_10
+      - graphql-documents-generator-e2e-test:
           context: *ref_8
           os: l
           requires:

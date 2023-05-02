@@ -132,6 +132,134 @@ describe('processIndex', () => {
     ]);
   });
 
+  it('should generate a default name to @index directive', () => {
+    const model: CodeGenModel = {
+      directives: [
+        {
+          name: 'model',
+          arguments: {},
+        },
+      ],
+      name: 'testModel',
+      type: 'model',
+      fields: [
+        {
+          type: 'field',
+          isList: false,
+          isNullable: true,
+          name: 'connectionField',
+          directives: [
+            {
+              name: 'index',
+              arguments: {},
+            },
+          ],
+        },
+        {
+          type: 'field',
+          isList: false,
+          isNullable: true,
+          name: 'anotherConnection',
+          directives: [
+            {
+              name: 'index',
+              arguments: {},
+            },
+          ],
+        },
+      ],
+    };
+    processIndex(model);
+    expect(model.directives).toEqual([
+      {
+        name: 'model',
+        arguments: {},
+      },
+      {
+        name: 'key',
+        arguments: {
+          name: 'testModelsByConnectionField',
+          fields: ['connectionField'],
+          queryField: undefined,
+        },
+      },
+      {
+        name: 'key',
+        arguments: {
+          name: 'testModelsByAnotherConnection',
+          fields: ['anotherConnection'],
+          queryField: undefined,
+        },
+      },
+    ]);
+  });
+
+  it('should generate a default name to @index directive with sortkeys', () => {
+    const model: CodeGenModel = {
+      directives: [
+        {
+          name: 'model',
+          arguments: {},
+        },
+      ],
+      name: 'testModel',
+      type: 'model',
+      fields: [
+        {
+          type: 'field',
+          isList: false,
+          isNullable: true,
+          name: 'connectionField',
+          directives: [
+            {
+              name: 'index',
+              arguments: {
+                sortKeyFields: ['sortField'],
+              },
+            },
+          ],
+        },
+        {
+          type: 'field',
+          isList: false,
+          isNullable: true,
+          name: 'anotherConnection',
+          directives: [
+            {
+              name: 'index',
+              arguments: {
+                sortKeyFields: ['sortField1', 'sortField2'],
+              },
+            },
+          ],
+        },
+      ],
+    };
+    processIndex(model);
+    expect(model.directives).toEqual([
+      {
+        name: 'model',
+        arguments: {},
+      },
+      {
+        name: 'key',
+        arguments: {
+          name: 'testModelsByConnectionFieldAndSortField',
+          fields: ['connectionField', 'sortField'],
+          queryField: undefined, 
+        },
+      },
+      {
+        name: 'key',
+        arguments: {
+          name: 'testModelsByAnotherConnectionAndSortField1AndSortField2',
+          fields: ['anotherConnection', 'sortField1', 'sortField2'],
+          queryField: undefined,
+        },
+      },
+    ]);
+  });
+
   it('does nothing if no @index directives in model', () => {
     const model: CodeGenModel = {
       directives: [

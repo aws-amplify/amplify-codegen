@@ -1,6 +1,6 @@
 {
   "name": "@aws-amplify/amplify-codegen-e2e-tests",
-  "version": "2.42.4",
+  "version": "2.42.7",
   "description": "",
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
     "clean-e2e-resources": "ts-node ./src/cleanup-e2e-resources.ts"
   },
   "dependencies": {
-    "@aws-amplify/amplify-codegen-e2e-core": "1.4.4",
+    "@aws-amplify/amplify-codegen-e2e-core": "1.4.6",
     "@aws-amplify/graphql-schema-test-library": "^1.1.18",
     "aws-amplify": "^4.3.26",
     "aws-appsync": "^4.0.3",
@@ -41,7 +41,7 @@
     "ts-node": "^8.10.1"
   },
   "peerDependencies": {
-    "amplify-cli-core": "^4.0.0",
+    "@aws-amplify/amplify-cli-core": "^4.0.0",
     "graphql-transformer-core": "^8.0.0"
   },
   "jest": {

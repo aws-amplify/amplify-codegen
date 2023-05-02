@@ -33,6 +33,7 @@ describe('generateAllOperations', () => {
       {
         type: 'query',
         name: 'F1',
+        fieldName: 'f1',
         ...mockOperationResult,
       },
     ]);
@@ -47,6 +48,7 @@ describe('generateAllOperations', () => {
       {
         type: 'mutation',
         name: 'F1',
+        fieldName: 'f1',
         ...mockOperationResult,
       },
     ]);
@@ -61,6 +63,7 @@ describe('generateAllOperations', () => {
       {
         type: 'subscription',
         name: 'F1',
+        fieldName: 'f1',
         ...mockOperationResult,
       },
     ]);

@@ -1,6 +1,6 @@
 {
   "name": "amplify-codegen",
-  "version": "3.4.0",
+  "version": "3.4.3",
   "description": "amplify code generator",
   "repository": {
     "type": "git",
@@ -20,7 +20,7 @@
     "test-watch": "jest --watch"
   },
   "dependencies": {
-    "@aws-amplify/appsync-modelgen-plugin": "2.4.0",
+    "@aws-amplify/appsync-modelgen-plugin": "2.4.2",
     "@aws-amplify/graphql-docs-generator": "3.0.3",
     "@aws-amplify/graphql-types-generator": "3.0.1",
     "@graphql-codegen/core": "2.6.6",
@@ -33,11 +33,12 @@
     "inquirer": "^7.3.3",
     "js-yaml": "^4.0.0",
     "ora": "^4.0.3",
+    "prettier": "^1.19.1",
     "semver": "^7.3.5",
     "slash": "^3.0.0"
   },
   "peerDependencies": {
-    "amplify-cli-core": "^4.0.0",
+    "@aws-amplify/amplify-cli-core": "^4.0.0",
     "graphql-transformer-core": "^8.0.0"
   },
   "jest": {
@@ -51,6 +52,7 @@
     ]
   },
   "devDependencies": {
+    "@types/prettier": "^1.19.0",
     "mock-fs": "^4.13.0"
   }
 }
