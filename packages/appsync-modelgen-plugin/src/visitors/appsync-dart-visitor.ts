@@ -23,7 +23,6 @@ import {
   CUSTOM_LINTS_MESSAGE,
   MODEL_FILED_VALUE_CLASS,
 } from '../configs/dart-config';
-import dartStyle from 'dart-style';
 import { generateLicense } from '../utils/generateLicense';
 import { GraphQLSchema } from 'graphql';
 import { DART_SCALAR_MAP } from '../scalars';
@@ -152,7 +151,7 @@ export class AppSyncModelDartVisitor<
     result.push(packageExports.map(p => `export '${p}.dart';`).join('\n'));
     result.push(classDeclarationBlock.string);
     result.push(MODEL_FILED_VALUE_CLASS);
-    return this.formatDartCode(result.join('\n\n'));
+    return result.join('\n\n');
   }
 
   protected generateEnums(): string {
@@ -169,7 +168,7 @@ export class AppSyncModelDartVisitor<
       const body = Object.values(enumVal.values).join(',\n');
       result.push([`enum ${name} {`, indentMultiline(body), '}'].join('\n'));
     });
-    return this.formatDartCode(result.join('\n\n'));
+    return result.join('\n\n');
   }
 
   /**
@@ -200,7 +199,7 @@ export class AppSyncModelDartVisitor<
         result.push(modelIdentifier);
       }
     });
-    return this.formatDartCode(result.join('\n\n'));
+    return result.join('\n\n');
   }
 
   protected generateNonModelClasses(): string {
@@ -221,7 +220,7 @@ export class AppSyncModelDartVisitor<
 
       result.push(modelDeclaration);
     });
-    return this.formatDartCode(result.join('\n\n'));
+    return result.join('\n\n');
   }
 
   protected generatePackageHeader(): string {
@@ -1167,14 +1166,6 @@ export class AppSyncModelDartVisitor<
     const primaryKeyField = this.getModelPrimaryKeyField(model);
     const { sortKeyFields } = primaryKeyField.primaryKeyInfo!;
     return [primaryKeyField, ...sortKeyFields];
-  }
-
-  /**
-   * Format the code following Dart style guidelines
-   * @param dartCode
-   */
-  protected formatDartCode(dartCode: string): string {
-    return dartCode;
   }
 
   protected isFieldRequired(field: CodeGenField): boolean {
