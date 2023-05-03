@@ -702,4 +702,17 @@ describe('AppSyncModelVisitor', () => {
       expect(generatedCodeComment).toMatchSnapshot();
     });
   });
+
+  describe('Granular read operation test', () => {
+    it('Should generate correct model file for GraphQL schema with granular read operations', () => {
+      const schema = /* GraphQL */ `
+        type Todo @model @auth(rules:[{allow:public, operations:[get, list, listen, sync, search]}]) {
+          id: ID!
+          name: String
+        }
+      `;
+      const generatedCode = getVisitorPipelinedTransformer(schema, 'Todo', { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+  });
 });
