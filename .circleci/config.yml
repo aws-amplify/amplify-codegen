@@ -561,6 +561,7 @@ workflows:
               only:
                 - main
                 - e2e-testing
+                - /run-e2e\/.*/
     jobs:
       - build:
           os: l
@@ -593,6 +594,7 @@ workflows:
                 - main
                 - e2e-testing
                 - /tagged-release\/.*/
+                - /run-e2e\/.*/
       - deploy:
           os: l
           requires:
@@ -650,6 +652,7 @@ workflows:
                 - main
                 - e2e-testing
                 - /tagged-release\/.*/
+                - /run-e2e\/.*/
       - env-codegen-e2e-test:
           context: *ref_8
           os: l

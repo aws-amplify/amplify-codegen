@@ -317,6 +317,7 @@ workflows:
               only:
                 - main
                 - e2e-testing
+                - /run-e2e\/.*/
     jobs:
       - build:
           os: l
@@ -348,6 +349,7 @@ workflows:
                 - main
                 - e2e-testing
                 - /tagged-release\/.*/
+                - /run-e2e\/.*/
       - e2e-test:
           context:
             - cleanup-resources
@@ -362,6 +364,7 @@ workflows:
                 - main
                 - e2e-testing
                 - /tagged-release\/.*/
+                - /run-e2e\/.*/
       - deploy:
           os: l
           requires:
