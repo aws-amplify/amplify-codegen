@@ -31,7 +31,10 @@
     "commit": "git-cz",
     "coverage": "codecov || exit 0",
     "split-e2e-tests": "yarn ts-node ./scripts/split-e2e-tests.ts && git add .circleci/config.yml",
-    "refresh-lockfile": "rimraf yarn.lock && yarn"
+    "refresh-lockfile": "rimraf yarn.lock && yarn",
+    "cloud-e2e": "CURR_BRANCH=$(git branch | awk '/\\*/{printf \"%s\", $2}') && UPSTREAM_BRANCH=run-e2e/$USER/$CURR_BRANCH && git push $(git remote -v | grep aws-amplify/amplify-codegen | head -n1 | awk '{print $1;}') $CURR_BRANCH:$UPSTREAM_BRANCH --no-verify --force-with-lease && echo \"\n\n 🏃 E2E test are running at:\nhttps://app.circleci.com/pipelines/github/aws-amplify/amplify-codegen?branch=$UPSTREAM_BRANCH\"",
+    "extract-api": "lerna run extract-api",
+    "verify-api-extract": "yarn extract-api && ./scripts/verify-extract-api.sh"
   },
   "bugs": {
     "url": "https://github.com/aws-amplify/amplify-codegen/issues"
@@ -92,6 +95,7 @@
     "jest-junit": "^12.0.0",
     "js-yaml": "^4.0.0",
     "lnk": "1.1.0",
+    "@microsoft/api-extractor": "^7.33.5",
     "prettier": "^1.19.1",
     "prettier-eslint": "^9.0.1",
     "pretty-quick": "^3.1.0",

@@ -22,7 +22,8 @@
     "watch": "tsc -w",
     "test-watch": "jest --watch",
     "test": "jest",
-    "generate-schemas": "ts-node ./scripts/generateSchemas.ts"
+    "generate-schemas": "ts-node ./scripts/generateSchemas.ts",
+    "extract-api": "ts-node ../../scripts/extract-api.ts"
   },
   "dependencies": {
     "@graphql-codegen/plugin-helpers": "^1.18.8",
