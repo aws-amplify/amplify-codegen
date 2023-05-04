@@ -1,10 +1,8 @@
 import * as yargs from 'yargs';
-import * as path from 'path';
-
 import { logError } from './logger';
-import { generate } from './index';
+import { generateGraphQLDocuments } from './index';
 
-// / Make sure unhandled errors in async code are propagated correctly
+// Make sure unhandled errors in async code are propagated correctly
 process.on('unhandledRejection', error => {
   throw error;
 });
@@ -25,22 +23,8 @@ export function run(argv: Array<String>): void {
       {
         schema: {
           demand: true,
-          describe: 'Path introspection schema',
-          default: 'schema.json',
+          describe: 'GraphQL introspection or SDL schema',
           normalize: true,
-          coerce: path.resolve,
-        },
-        output: {
-          demand: true,
-          default: 'all-operations.graphql',
-          normalize: true,
-          coerce: path.resolve,
-        },
-        language: {
-          demand: true,
-          default: 'graphql',
-          normalize: true,
-          choices: ['graphql', 'javascript', 'flow', 'typescript'],
         },
         maxDepth: {
           demand: true,
@@ -48,17 +32,13 @@ export function run(argv: Array<String>): void {
           normalize: true,
           type: 'number',
         },
-        separateFiles: {
-          default: false,
+        typenameIntrospection: {
+          default: true,
           type: 'boolean',
         },
-        retainCaseStyle: {
-          default: true,
-          type: 'boolean'
-        }
       },
       async argv => {
-        generate(argv.schema, argv.output, { separateFiles: argv.separateFiles, language: argv.language, maxDepth: argv.maxDepth });
+        generateGraphQLDocuments(argv.schema, { maxDepth: argv.maxDepth, typenameIntrospection: argv.typenameIntrospection });
       }
     )
     .help()
