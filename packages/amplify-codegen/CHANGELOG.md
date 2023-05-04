@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@3.4.3...amplify-codegen@4.0.0) (2023-05-04)
+
+### Bug Fixes
+
+- consume updated docgen API ([4b87292](https://github.com/aws-amplify/amplify-codegen/commit/4b87292963a223eaed569820ad1822ff94b99708))
+- move prettier dependecy to codegen plugin ([f07c851](https://github.com/aws-amplify/amplify-codegen/commit/f07c85123d15b5e8aca31045421fc04b65bc9d44))
+- remove unused lint rule for flow ([3fd05f5](https://github.com/aws-amplify/amplify-codegen/commit/3fd05f50542101ad13eeae15658c0db7ddac806f))
+- render lint overrides ([b125dd5](https://github.com/aws-amplify/amplify-codegen/commit/b125dd5b2479f312db82d94512650b95b30c2de9))
+- update API name and snapshots ([a117447](https://github.com/aws-amplify/amplify-codegen/commit/a11744717e9ccc0d7cac9020cdb4163ec4406081))
+- update no operations in input case to print warning ([c32b3f0](https://github.com/aws-amplify/amplify-codegen/commit/c32b3f06de08cba5a3b837237b3f62df326f48ab))
+- update top level codegen dependency ([fefaf63](https://github.com/aws-amplify/amplify-codegen/commit/fefaf6398833fe6553cfa9ad1aa920e21b090e0e))
+
+### Features
+
+- add \_\_typename to selection set ([#575](https://github.com/aws-amplify/amplify-codegen/issues/575)) ([066615e](https://github.com/aws-amplify/amplify-codegen/commit/066615e97c54e9f62b599991e058fc0d70aa22b4))
+- major version bump ([5b62f74](https://github.com/aws-amplify/amplify-codegen/commit/5b62f74fd53762cd85f724a252915607d3224f31))
+
+### BREAKING CHANGES
+
+- do a major version bump
+- typename introspection with \_\_typename meta field enabled by default
+
 ## [3.4.3](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@3.4.2...amplify-codegen@3.4.3) (2023-04-25)
 
 **Note:** Version bump only for package amplify-codegen

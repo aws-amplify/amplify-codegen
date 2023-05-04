@@ -1,6 +1,6 @@
 {
   "name": "@aws-amplify/graphql-docs-generator",
-  "version": "3.0.3",
+  "version": "4.0.0",
   "description": "amplify graphql docs generator plugin",
   "repository": {
     "type": "git",
