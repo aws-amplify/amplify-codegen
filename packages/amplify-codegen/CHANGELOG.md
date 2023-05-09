@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.4.4](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.0.0...amplify-codegen@3.4.4) (2023-05-09)
+
+### Bug Fixes
+
+- codegen downgrade to version 3 ([#589](https://github.com/aws-amplify/amplify-codegen/issues/589)) ([c1f9f36](https://github.com/aws-amplify/amplify-codegen/commit/c1f9f36979691dfba3dd3db1c4a516aeeb29c41e)), closes [#575](https://github.com/aws-amplify/amplify-codegen/issues/575)
+
 # [4.0.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@3.4.3...amplify-codegen@4.0.0) (2023-05-04)
 
 ### Bug Fixes

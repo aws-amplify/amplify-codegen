@@ -3,317 +3,190 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@3.0.1...@aws-amplify/graphql-types-generator@3.0.2) (2023-05-09)
+
+**Note:** Version bump only for package @aws-amplify/graphql-types-generator
+
 ## [3.0.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@3.0.0...@aws-amplify/graphql-types-generator@3.0.1) (2023-01-24)
 
 **Note:** Version bump only for package @aws-amplify/graphql-types-generator
 
-
-
-
-
 # [3.0.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@2.8.6...@aws-amplify/graphql-types-generator@3.0.0) (2022-04-25)
-
 
 ### chore
 
-* mv bump associated with revert to caret-versioning in CLI ([#412](https://github.com/aws-amplify/amplify-codegen/issues/412)) ([8f00f73](https://github.com/aws-amplify/amplify-codegen/commit/8f00f73a561aebea18009104e95096cc626e7a65))
-
+- mv bump associated with revert to caret-versioning in CLI ([#412](https://github.com/aws-amplify/amplify-codegen/issues/412)) ([8f00f73](https://github.com/aws-amplify/amplify-codegen/commit/8f00f73a561aebea18009104e95096cc626e7a65))
 
 ### BREAKING CHANGES
 
-* no-op to bump major-version
-
-
-
-
-
+- no-op to bump major-version
 
 ## [2.8.6](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@2.8.5...@aws-amplify/graphql-types-generator@2.8.6) (2021-11-17)
 
 **Note:** Version bump only for package @aws-amplify/graphql-types-generator
 
-
-
-
-
 ## [2.8.5](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@2.8.4...@aws-amplify/graphql-types-generator@2.8.5) (2021-11-12)
-
 
 ### Bug Fixes
 
-* **graphql-types-generator:** indentation fixes ([f5ca0e4](https://github.com/aws-amplify/amplify-codegen/commit/f5ca0e440e6639345d40b15b605ea5a0a89e7c54))
-
-
-
-
+- **graphql-types-generator:** indentation fixes ([f5ca0e4](https://github.com/aws-amplify/amplify-codegen/commit/f5ca0e440e6639345d40b15b605ea5a0a89e7c54))
 
 ## [2.8.4](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@2.8.3...@aws-amplify/graphql-types-generator@2.8.4) (2021-11-09)
 
-
 ### Bug Fixes
 
-* **graphql:** allow aws_lambda directive ([03ef563](https://github.com/aws-amplify/amplify-codegen/commit/03ef5637488e9514116e83f691656fddae7628b2))
-
-
-
-
+- **graphql:** allow aws_lambda directive ([03ef563](https://github.com/aws-amplify/amplify-codegen/commit/03ef5637488e9514116e83f691656fddae7628b2))
 
 ## [2.8.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@2.8.2...@aws-amplify/graphql-types-generator@2.8.3) (2021-10-21)
 
-
 ### Bug Fixes
 
-* **graphql-types-generator:** correct scalar and enum type in angular ([#257](https://github.com/aws-amplify/amplify-codegen/issues/257)) ([8c78e97](https://github.com/aws-amplify/amplify-codegen/commit/8c78e9737af95febf1f4dfe83077068d8497744b))
-* **graphql-types-generator:** correct typename for nested fragments ([#262](https://github.com/aws-amplify/amplify-codegen/issues/262)) ([584dbcc](https://github.com/aws-amplify/amplify-codegen/commit/584dbccc585d6f6156e4e6a6a0cde3db60d015ff))
-
-
-
-
+- **graphql-types-generator:** correct scalar and enum type in angular ([#257](https://github.com/aws-amplify/amplify-codegen/issues/257)) ([8c78e97](https://github.com/aws-amplify/amplify-codegen/commit/8c78e9737af95febf1f4dfe83077068d8497744b))
+- **graphql-types-generator:** correct typename for nested fragments ([#262](https://github.com/aws-amplify/amplify-codegen/issues/262)) ([584dbcc](https://github.com/aws-amplify/amplify-codegen/commit/584dbccc585d6f6156e4e6a6a0cde3db60d015ff))
 
 ## [2.8.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@2.8.1...@aws-amplify/graphql-types-generator@2.8.2) (2021-09-15)
 
 **Note:** Version bump only for package @aws-amplify/graphql-types-generator
 
-
-
-
-
 ## [2.8.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@2.8.0...@aws-amplify/graphql-types-generator@2.8.1) (2021-08-18)
-
 
 ### Bug Fixes
 
-* **graphql-types-generator:** add wrapper for sub response in angular ([#209](https://github.com/aws-amplify/amplify-codegen/issues/209)) ([c025bd2](https://github.com/aws-amplify/amplify-codegen/commit/c025bd26fe2c14d56f15a9b8db8b1e4ebbe277d1))
-
-
-
-
+- **graphql-types-generator:** add wrapper for sub response in angular ([#209](https://github.com/aws-amplify/amplify-codegen/issues/209)) ([c025bd2](https://github.com/aws-amplify/amplify-codegen/commit/c025bd26fe2c14d56f15a9b8db8b1e4ebbe277d1))
 
 # [2.8.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@2.7.3...@aws-amplify/graphql-types-generator@2.8.0) (2021-05-25)
 
-
 ### Bug Fixes
 
-* **graphql-types-generator:** correct required types and inconsistent types ([#159](https://github.com/aws-amplify/amplify-codegen/issues/159)) ([2805bb6](https://github.com/aws-amplify/amplify-codegen/commit/2805bb6159298e0cb40ac629bc117c586af49e1f))
-
+- **graphql-types-generator:** correct required types and inconsistent types ([#159](https://github.com/aws-amplify/amplify-codegen/issues/159)) ([2805bb6](https://github.com/aws-amplify/amplify-codegen/commit/2805bb6159298e0cb40ac629bc117c586af49e1f))
 
 ### Features
 
-* add E2e testing ([#169](https://github.com/aws-amplify/amplify-codegen/issues/169)) ([19e17df](https://github.com/aws-amplify/amplify-codegen/commit/19e17df3c04bf5c18341efa1a53a5ecf4a7cc42e)), closes [#151](https://github.com/aws-amplify/amplify-codegen/issues/151) [#156](https://github.com/aws-amplify/amplify-codegen/issues/156) [#157](https://github.com/aws-amplify/amplify-codegen/issues/157) [#163](https://github.com/aws-amplify/amplify-codegen/issues/163)
-
-
-
-
+- add E2e testing ([#169](https://github.com/aws-amplify/amplify-codegen/issues/169)) ([19e17df](https://github.com/aws-amplify/amplify-codegen/commit/19e17df3c04bf5c18341efa1a53a5ecf4a7cc42e)), closes [#151](https://github.com/aws-amplify/amplify-codegen/issues/151) [#156](https://github.com/aws-amplify/amplify-codegen/issues/156) [#157](https://github.com/aws-amplify/amplify-codegen/issues/157) [#163](https://github.com/aws-amplify/amplify-codegen/issues/163)
 
 ## [2.7.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@2.7.2...@aws-amplify/graphql-types-generator@2.7.3) (2021-02-22)
 
 **Note:** Version bump only for package @aws-amplify/graphql-types-generator
 
-
-
-
-
 ## [2.7.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@2.7.0...@aws-amplify/graphql-types-generator@2.7.2) (2021-02-05)
-
 
 ### Bug Fixes
 
-* **patch-release:** override previous patch release ([f2fe6e7](https://github.com/aws-amplify/amplify-codegen/commit/f2fe6e7bc3afa9a5fc634292564b9a97bf6bbc04))
-
-
-
-
+- **patch-release:** override previous patch release ([f2fe6e7](https://github.com/aws-amplify/amplify-codegen/commit/f2fe6e7bc3afa9a5fc634292564b9a97bf6bbc04))
 
 # 2.7.0 (2021-01-22)
 
-
 ### Bug Fixes
 
-* **graphql-types-generator:** add missing @types/fs-extra dependency ([649bc07](https://github.com/aws-amplify/amplify-codegen/commit/649bc07e47b46a236b94e604c50237f9c4225691))
-
+- **graphql-types-generator:** add missing @types/fs-extra dependency ([649bc07](https://github.com/aws-amplify/amplify-codegen/commit/649bc07e47b46a236b94e604c50237f9c4225691))
 
 ### Features
 
-* **types-generator-migration:** rename package to @aws-amplify/graphql-types-generator ([9f11cfe](https://github.com/aws-amplify/amplify-codegen/commit/9f11cfe396bacc603df84233a1b75feabcadaae6))
-
-
-
-
+- **types-generator-migration:** rename package to @aws-amplify/graphql-types-generator ([9f11cfe](https://github.com/aws-amplify/amplify-codegen/commit/9f11cfe396bacc603df84233a1b75feabcadaae6))
 
 ## [2.6.1](https://github.com/aws-amplify/amplify-cli/compare/amplify-graphql-types-generator@2.5.2...amplify-graphql-types-generator@2.6.1) (2020-11-22)
 
 **Note:** Version bump only for package amplify-graphql-types-generator
 
-
-
-
-
 # [2.6.0](https://github.com/aws-amplify/amplify-cli/compare/amplify-graphql-types-generator@1.0.12...amplify-graphql-types-generator@2.6.0) (2020-11-22)
-
 
 ### Bug Fixes
 
-* **amplify-codegen:** add proper response type for subs ([#5317](https://github.com/aws-amplify/amplify-cli/issues/5317)) ([48d2e11](https://github.com/aws-amplify/amplify-cli/commit/48d2e11b2a9dbb9616cc989aa76c207eb7b5f13b)), closes [#5284](https://github.com/aws-amplify/amplify-cli/issues/5284)
-* **amplify-graphql-types-generator:** fix passing typename on fields … ([#3328](https://github.com/aws-amplify/amplify-cli/issues/3328)) ([9462bb5](https://github.com/aws-amplify/amplify-cli/commit/9462bb5b3d364b23415105daf6245fd63a446b1f)), closes [#1325](https://github.com/aws-amplify/amplify-cli/issues/1325)
-* **amplify-graphql-types-generator:** generate array return type ([#3233](https://github.com/aws-amplify/amplify-cli/issues/3233)) ([1c22350](https://github.com/aws-amplify/amplify-cli/commit/1c223503c93070e320eaab93a5783bce2d096e21)), closes [#2478](https://github.com/aws-amplify/amplify-cli/issues/2478)
-* **amplify-graphql-types-generator:** generate valid swift code ([2f25bf7](https://github.com/aws-amplify/amplify-cli/commit/2f25bf779af0cd92b9bbc3b834f8410af4d2c3a4)), closes [#1903](https://github.com/aws-amplify/amplify-cli/issues/1903)
-* **amplify-graphql-types-generator:** return string instead on object ([#3963](https://github.com/aws-amplify/amplify-cli/issues/3963)) ([2df1b93](https://github.com/aws-amplify/amplify-cli/commit/2df1b9374cbbd26c18f05e92a01521474cf3dee0)), closes [#3744](https://github.com/aws-amplify/amplify-cli/issues/3744) [#3958](https://github.com/aws-amplify/amplify-cli/issues/3958)
-* **amplify-graphql-types-generator:** use @aws-amplify/api-graphql instead of @aws-amplify/api ([#5350](https://github.com/aws-amplify/amplify-cli/issues/5350)) ([c5c5a8f](https://github.com/aws-amplify/amplify-cli/commit/c5c5a8f7a13ef5870d138b39a4ccb5d09b18e3a3)), closes [#4555](https://github.com/aws-amplify/amplify-cli/issues/4555)
-* **amplify-graphql-types-generator:** use isList utility function ([#3694](https://github.com/aws-amplify/amplify-cli/issues/3694)) ([34869c3](https://github.com/aws-amplify/amplify-cli/commit/34869c334b184860d6db9f2c6cace5913dcca108)), closes [#3632](https://github.com/aws-amplify/amplify-cli/issues/3632)
-* **amplify-graphql-types-generator:** use zen-observable-ts ([#4415](https://github.com/aws-amplify/amplify-cli/issues/4415)) ([d2f59f4](https://github.com/aws-amplify/amplify-cli/commit/d2f59f489485d6d208be683e35423ae2b0a0c4a9))
-* build break, chore: typescript, lerna update ([#2640](https://github.com/aws-amplify/amplify-cli/issues/2640)) ([29fae36](https://github.com/aws-amplify/amplify-cli/commit/29fae366f4cab054feefa58c7dc733002d19570c))
-* change text from queries to operations ([a8b0259](https://github.com/aws-amplify/amplify-cli/commit/a8b02597d7a45c71aa5da483785361c08f36f4a7))
-* e2e tests, tsconfigs, [@deprecated](https://github.com/deprecated) directive for codegen: ([#3338](https://github.com/aws-amplify/amplify-cli/issues/3338)) ([2ed7715](https://github.com/aws-amplify/amplify-cli/commit/2ed77151dd6367ac9547f78fe600e7913a3d37b2))
-* update snapshot for eslint ([#3301](https://github.com/aws-amplify/amplify-cli/issues/3301)) ([9ef1deb](https://github.com/aws-amplify/amplify-cli/commit/9ef1deb4583eb6c9c88cbced192a74b4a6a6a21c))
-* upgrade to node10 as min version for CLI ([#3128](https://github.com/aws-amplify/amplify-cli/issues/3128)) ([a0b18e0](https://github.com/aws-amplify/amplify-cli/commit/a0b18e0187a26b4ab0e6e986b0277f347e829444))
-
+- **amplify-codegen:** add proper response type for subs ([#5317](https://github.com/aws-amplify/amplify-cli/issues/5317)) ([48d2e11](https://github.com/aws-amplify/amplify-cli/commit/48d2e11b2a9dbb9616cc989aa76c207eb7b5f13b)), closes [#5284](https://github.com/aws-amplify/amplify-cli/issues/5284)
+- **amplify-graphql-types-generator:** fix passing typename on fields … ([#3328](https://github.com/aws-amplify/amplify-cli/issues/3328)) ([9462bb5](https://github.com/aws-amplify/amplify-cli/commit/9462bb5b3d364b23415105daf6245fd63a446b1f)), closes [#1325](https://github.com/aws-amplify/amplify-cli/issues/1325)
+- **amplify-graphql-types-generator:** generate array return type ([#3233](https://github.com/aws-amplify/amplify-cli/issues/3233)) ([1c22350](https://github.com/aws-amplify/amplify-cli/commit/1c223503c93070e320eaab93a5783bce2d096e21)), closes [#2478](https://github.com/aws-amplify/amplify-cli/issues/2478)
+- **amplify-graphql-types-generator:** generate valid swift code ([2f25bf7](https://github.com/aws-amplify/amplify-cli/commit/2f25bf779af0cd92b9bbc3b834f8410af4d2c3a4)), closes [#1903](https://github.com/aws-amplify/amplify-cli/issues/1903)
+- **amplify-graphql-types-generator:** return string instead on object ([#3963](https://github.com/aws-amplify/amplify-cli/issues/3963)) ([2df1b93](https://github.com/aws-amplify/amplify-cli/commit/2df1b9374cbbd26c18f05e92a01521474cf3dee0)), closes [#3744](https://github.com/aws-amplify/amplify-cli/issues/3744) [#3958](https://github.com/aws-amplify/amplify-cli/issues/3958)
+- **amplify-graphql-types-generator:** use @aws-amplify/api-graphql instead of @aws-amplify/api ([#5350](https://github.com/aws-amplify/amplify-cli/issues/5350)) ([c5c5a8f](https://github.com/aws-amplify/amplify-cli/commit/c5c5a8f7a13ef5870d138b39a4ccb5d09b18e3a3)), closes [#4555](https://github.com/aws-amplify/amplify-cli/issues/4555)
+- **amplify-graphql-types-generator:** use isList utility function ([#3694](https://github.com/aws-amplify/amplify-cli/issues/3694)) ([34869c3](https://github.com/aws-amplify/amplify-cli/commit/34869c334b184860d6db9f2c6cace5913dcca108)), closes [#3632](https://github.com/aws-amplify/amplify-cli/issues/3632)
+- **amplify-graphql-types-generator:** use zen-observable-ts ([#4415](https://github.com/aws-amplify/amplify-cli/issues/4415)) ([d2f59f4](https://github.com/aws-amplify/amplify-cli/commit/d2f59f489485d6d208be683e35423ae2b0a0c4a9))
+- build break, chore: typescript, lerna update ([#2640](https://github.com/aws-amplify/amplify-cli/issues/2640)) ([29fae36](https://github.com/aws-amplify/amplify-cli/commit/29fae366f4cab054feefa58c7dc733002d19570c))
+- change text from queries to operations ([a8b0259](https://github.com/aws-amplify/amplify-cli/commit/a8b02597d7a45c71aa5da483785361c08f36f4a7))
+- e2e tests, tsconfigs, [@deprecated](https://github.com/deprecated) directive for codegen: ([#3338](https://github.com/aws-amplify/amplify-cli/issues/3338)) ([2ed7715](https://github.com/aws-amplify/amplify-cli/commit/2ed77151dd6367ac9547f78fe600e7913a3d37b2))
+- update snapshot for eslint ([#3301](https://github.com/aws-amplify/amplify-cli/issues/3301)) ([9ef1deb](https://github.com/aws-amplify/amplify-cli/commit/9ef1deb4583eb6c9c88cbced192a74b4a6a6a21c))
+- upgrade to node10 as min version for CLI ([#3128](https://github.com/aws-amplify/amplify-cli/issues/3128)) ([a0b18e0](https://github.com/aws-amplify/amplify-cli/commit/a0b18e0187a26b4ab0e6e986b0277f347e829444))
 
 ### Features
 
-* feature flag implementation ([#4891](https://github.com/aws-amplify/amplify-cli/issues/4891)) ([6d1c632](https://github.com/aws-amplify/amplify-cli/commit/6d1c632952a49cb56670c11c9cb0c3620d0eb332))
-* **amplify-graphql-types-generator:** show error msg for missing query ([#2274](https://github.com/aws-amplify/amplify-cli/issues/2274)) ([d8a2722](https://github.com/aws-amplify/amplify-cli/commit/d8a2722e82908ed3b077d9f563300c90a8d0a5da)), closes [#2228](https://github.com/aws-amplify/amplify-cli/issues/2228) [#1434](https://github.com/aws-amplify/amplify-cli/issues/1434)
-* add support for multiauth in mock server ([#2109](https://github.com/aws-amplify/amplify-cli/issues/2109)) ([fe8ee8c](https://github.com/aws-amplify/amplify-cli/commit/fe8ee8cff355a826fa9ccddcf0fad8a200a081af))
-* adding amplify cli predictions category ([#1936](https://github.com/aws-amplify/amplify-cli/issues/1936)) ([b7b7c2c](https://github.com/aws-amplify/amplify-cli/commit/b7b7c2c1927da10f8c54f38a523021187361131c))
-* implement multi-auth functionality ([#1916](https://github.com/aws-amplify/amplify-cli/issues/1916)) ([b99f58e](https://github.com/aws-amplify/amplify-cli/commit/b99f58e4a2b85cbe9f430838554ae3c277440132))
-* improve error message when graphql.parse fails ([06bf940](https://github.com/aws-amplify/amplify-cli/commit/06bf94002a47b77f3e034575694683dc9776de32))
-* mock support for API, function and storage ([#1893](https://github.com/aws-amplify/amplify-cli/issues/1893)) ([372e534](https://github.com/aws-amplify/amplify-cli/commit/372e5346ee1f27a2e9bee25fbbdcb19417f5230f))
-
-
-
-
+- feature flag implementation ([#4891](https://github.com/aws-amplify/amplify-cli/issues/4891)) ([6d1c632](https://github.com/aws-amplify/amplify-cli/commit/6d1c632952a49cb56670c11c9cb0c3620d0eb332))
+- **amplify-graphql-types-generator:** show error msg for missing query ([#2274](https://github.com/aws-amplify/amplify-cli/issues/2274)) ([d8a2722](https://github.com/aws-amplify/amplify-cli/commit/d8a2722e82908ed3b077d9f563300c90a8d0a5da)), closes [#2228](https://github.com/aws-amplify/amplify-cli/issues/2228) [#1434](https://github.com/aws-amplify/amplify-cli/issues/1434)
+- add support for multiauth in mock server ([#2109](https://github.com/aws-amplify/amplify-cli/issues/2109)) ([fe8ee8c](https://github.com/aws-amplify/amplify-cli/commit/fe8ee8cff355a826fa9ccddcf0fad8a200a081af))
+- adding amplify cli predictions category ([#1936](https://github.com/aws-amplify/amplify-cli/issues/1936)) ([b7b7c2c](https://github.com/aws-amplify/amplify-cli/commit/b7b7c2c1927da10f8c54f38a523021187361131c))
+- implement multi-auth functionality ([#1916](https://github.com/aws-amplify/amplify-cli/issues/1916)) ([b99f58e](https://github.com/aws-amplify/amplify-cli/commit/b99f58e4a2b85cbe9f430838554ae3c277440132))
+- improve error message when graphql.parse fails ([06bf940](https://github.com/aws-amplify/amplify-cli/commit/06bf94002a47b77f3e034575694683dc9776de32))
+- mock support for API, function and storage ([#1893](https://github.com/aws-amplify/amplify-cli/issues/1893)) ([372e534](https://github.com/aws-amplify/amplify-cli/commit/372e5346ee1f27a2e9bee25fbbdcb19417f5230f))
 
 ## [2.5.2](https://github.com/aws-amplify/amplify-cli/compare/amplify-graphql-types-generator@2.5.1...amplify-graphql-types-generator@2.5.2) (2020-10-22)
 
-
 ### Bug Fixes
 
-* **amplify-codegen:** add proper response type for subs ([#5317](https://github.com/aws-amplify/amplify-cli/issues/5317)) ([48d2e11](https://github.com/aws-amplify/amplify-cli/commit/48d2e11b2a9dbb9616cc989aa76c207eb7b5f13b)), closes [#5284](https://github.com/aws-amplify/amplify-cli/issues/5284)
-
-
-
-
+- **amplify-codegen:** add proper response type for subs ([#5317](https://github.com/aws-amplify/amplify-cli/issues/5317)) ([48d2e11](https://github.com/aws-amplify/amplify-cli/commit/48d2e11b2a9dbb9616cc989aa76c207eb7b5f13b)), closes [#5284](https://github.com/aws-amplify/amplify-cli/issues/5284)
 
 ## [2.5.1](https://github.com/aws-amplify/amplify-cli/compare/amplify-graphql-types-generator@2.5.0...amplify-graphql-types-generator@2.5.1) (2020-09-25)
 
-
 ### Bug Fixes
 
-* **amplify-graphql-types-generator:** use @aws-amplify/api-graphql instead of @aws-amplify/api ([#5350](https://github.com/aws-amplify/amplify-cli/issues/5350)) ([c5c5a8f](https://github.com/aws-amplify/amplify-cli/commit/c5c5a8f7a13ef5870d138b39a4ccb5d09b18e3a3)), closes [#4555](https://github.com/aws-amplify/amplify-cli/issues/4555)
-
-
-
-
+- **amplify-graphql-types-generator:** use @aws-amplify/api-graphql instead of @aws-amplify/api ([#5350](https://github.com/aws-amplify/amplify-cli/issues/5350)) ([c5c5a8f](https://github.com/aws-amplify/amplify-cli/commit/c5c5a8f7a13ef5870d138b39a4ccb5d09b18e3a3)), closes [#4555](https://github.com/aws-amplify/amplify-cli/issues/4555)
 
 # [2.5.0](https://github.com/aws-amplify/amplify-cli/compare/amplify-graphql-types-generator@2.3.5...amplify-graphql-types-generator@2.5.0) (2020-07-29)
 
-
 ### Features
 
-* feature flag implementation ([#4891](https://github.com/aws-amplify/amplify-cli/issues/4891)) ([6d1c632](https://github.com/aws-amplify/amplify-cli/commit/6d1c632952a49cb56670c11c9cb0c3620d0eb332))
-
-
-
-
+- feature flag implementation ([#4891](https://github.com/aws-amplify/amplify-cli/issues/4891)) ([6d1c632](https://github.com/aws-amplify/amplify-cli/commit/6d1c632952a49cb56670c11c9cb0c3620d0eb332))
 
 # [2.4.0](https://github.com/aws-amplify/amplify-cli/compare/amplify-graphql-types-generator@2.3.5...amplify-graphql-types-generator@2.4.0) (2020-07-23)
 
-
 ### Features
 
-* feature flag implementation ([#4891](https://github.com/aws-amplify/amplify-cli/issues/4891)) ([4639450](https://github.com/aws-amplify/amplify-cli/commit/463945029cfe861f74986d9a8b9af6b827d2063d))
-
-
-
-
+- feature flag implementation ([#4891](https://github.com/aws-amplify/amplify-cli/issues/4891)) ([4639450](https://github.com/aws-amplify/amplify-cli/commit/463945029cfe861f74986d9a8b9af6b827d2063d))
 
 ## [2.3.5](https://github.com/aws-amplify/amplify-cli/compare/amplify-graphql-types-generator@2.3.4...amplify-graphql-types-generator@2.3.5) (2020-06-10)
 
-
 ### Bug Fixes
 
-* **amplify-graphql-types-generator:** use zen-observable-ts ([#4415](https://github.com/aws-amplify/amplify-cli/issues/4415)) ([4e49e0c](https://github.com/aws-amplify/amplify-cli/commit/4e49e0cb7c8d389a41cc3e78d5a8f021afb4f691))
-
-
-
-
+- **amplify-graphql-types-generator:** use zen-observable-ts ([#4415](https://github.com/aws-amplify/amplify-cli/issues/4415)) ([4e49e0c](https://github.com/aws-amplify/amplify-cli/commit/4e49e0cb7c8d389a41cc3e78d5a8f021afb4f691))
 
 ## [2.3.4](https://github.com/aws-amplify/amplify-cli/compare/amplify-graphql-types-generator@2.3.3...amplify-graphql-types-generator@2.3.4) (2020-05-15)
 
 **Note:** Version bump only for package amplify-graphql-types-generator
 
-
-
-
-
 ## [2.3.3](https://github.com/aws-amplify/amplify-cli/compare/amplify-graphql-types-generator@2.3.2...amplify-graphql-types-generator@2.3.3) (2020-04-23)
-
 
 ### Bug Fixes
 
-* **amplify-graphql-types-generator:** return string instead on object ([#3963](https://github.com/aws-amplify/amplify-cli/issues/3963)) ([2df1b93](https://github.com/aws-amplify/amplify-cli/commit/2df1b9374cbbd26c18f05e92a01521474cf3dee0)), closes [#3744](https://github.com/aws-amplify/amplify-cli/issues/3744) [#3958](https://github.com/aws-amplify/amplify-cli/issues/3958)
-
-
-
-
+- **amplify-graphql-types-generator:** return string instead on object ([#3963](https://github.com/aws-amplify/amplify-cli/issues/3963)) ([2df1b93](https://github.com/aws-amplify/amplify-cli/commit/2df1b9374cbbd26c18f05e92a01521474cf3dee0)), closes [#3744](https://github.com/aws-amplify/amplify-cli/issues/3744) [#3958](https://github.com/aws-amplify/amplify-cli/issues/3958)
 
 ## [2.3.2](https://github.com/aws-amplify/amplify-cli/compare/amplify-graphql-types-generator@2.3.1...amplify-graphql-types-generator@2.3.2) (2020-03-22)
 
-
 ### Bug Fixes
 
-* **amplify-graphql-types-generator:** use isList utility function ([#3694](https://github.com/aws-amplify/amplify-cli/issues/3694)) ([34869c3](https://github.com/aws-amplify/amplify-cli/commit/34869c334b184860d6db9f2c6cace5913dcca108)), closes [#3632](https://github.com/aws-amplify/amplify-cli/issues/3632)
-
-
-
-
+- **amplify-graphql-types-generator:** use isList utility function ([#3694](https://github.com/aws-amplify/amplify-cli/issues/3694)) ([34869c3](https://github.com/aws-amplify/amplify-cli/commit/34869c334b184860d6db9f2c6cace5913dcca108)), closes [#3632](https://github.com/aws-amplify/amplify-cli/issues/3632)
 
 ## [2.3.1](https://github.com/aws-amplify/amplify-cli/compare/amplify-graphql-types-generator@2.1.11...amplify-graphql-types-generator@2.3.1) (2020-03-07)
 
 **Note:** Version bump only for package amplify-graphql-types-generator
 
-
-
-
-
 ## [2.2.1](https://github.com/aws-amplify/amplify-cli/compare/amplify-graphql-types-generator@2.1.13-beta.0...amplify-graphql-types-generator@2.2.1) (2020-03-05)
 
 **Note:** Version bump only for package amplify-graphql-types-generator
 
-
-
-
-
 ## [2.1.11](https://github.com/aws-amplify/amplify-cli/compare/amplify-graphql-types-generator@2.1.10...amplify-graphql-types-generator@2.1.11) (2020-02-13)
-
 
 ### Bug Fixes
 
-* **amplify-graphql-types-generator:** fix passing typename on fields … ([#3328](https://github.com/aws-amplify/amplify-cli/issues/3328)) ([9462bb5](https://github.com/aws-amplify/amplify-cli/commit/9462bb5b3d364b23415105daf6245fd63a446b1f)), closes [#1325](https://github.com/aws-amplify/amplify-cli/issues/1325)
-
-
-
-
+- **amplify-graphql-types-generator:** fix passing typename on fields … ([#3328](https://github.com/aws-amplify/amplify-cli/issues/3328)) ([9462bb5](https://github.com/aws-amplify/amplify-cli/commit/9462bb5b3d364b23415105daf6245fd63a446b1f)), closes [#1325](https://github.com/aws-amplify/amplify-cli/issues/1325)
 
 ## [2.1.10](https://github.com/aws-amplify/amplify-cli/compare/amplify-graphql-types-generator@2.1.9...amplify-graphql-types-generator@2.1.10) (2020-02-07)
 
-
 ### Bug Fixes
 
-* **amplify-graphql-types-generator:** generate array return type ([#3233](https://github.com/aws-amplify/amplify-cli/issues/3233)) ([1c22350](https://github.com/aws-amplify/amplify-cli/commit/1c223503c93070e320eaab93a5783bce2d096e21)), closes [#2478](https://github.com/aws-amplify/amplify-cli/issues/2478)
-* e2e tests, tsconfigs, [@deprecated](https://github.com/deprecated) directive for codegen: ([#3338](https://github.com/aws-amplify/amplify-cli/issues/3338)) ([2ed7715](https://github.com/aws-amplify/amplify-cli/commit/2ed77151dd6367ac9547f78fe600e7913a3d37b2))
-* update snapshot for eslint ([#3301](https://github.com/aws-amplify/amplify-cli/issues/3301)) ([9ef1deb](https://github.com/aws-amplify/amplify-cli/commit/9ef1deb4583eb6c9c88cbced192a74b4a6a6a21c))
-
-
-
-
+- **amplify-graphql-types-generator:** generate array return type ([#3233](https://github.com/aws-amplify/amplify-cli/issues/3233)) ([1c22350](https://github.com/aws-amplify/amplify-cli/commit/1c223503c93070e320eaab93a5783bce2d096e21)), closes [#2478](https://github.com/aws-amplify/amplify-cli/issues/2478)
+- e2e tests, tsconfigs, [@deprecated](https://github.com/deprecated) directive for codegen: ([#3338](https://github.com/aws-amplify/amplify-cli/issues/3338)) ([2ed7715](https://github.com/aws-amplify/amplify-cli/commit/2ed77151dd6367ac9547f78fe600e7913a3d37b2))
+- update snapshot for eslint ([#3301](https://github.com/aws-amplify/amplify-cli/issues/3301)) ([9ef1deb](https://github.com/aws-amplify/amplify-cli/commit/9ef1deb4583eb6c9c88cbced192a74b4a6a6a21c))
 
 ## [2.1.9](https://github.com/aws-amplify/amplify-cli/compare/amplify-graphql-types-generator@2.1.8...amplify-graphql-types-generator@2.1.9) (2020-01-24)
 
 **Note:** Version bump only for package amplify-graphql-types-generator
-
-
-
-
 
 ## [2.1.8](https://github.com/aws-amplify/amplify-cli/compare/amplify-graphql-types-generator@1.24.0...amplify-graphql-types-generator@2.1.8) (2020-01-23)
 
