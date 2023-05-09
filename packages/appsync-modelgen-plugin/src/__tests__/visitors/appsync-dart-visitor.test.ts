@@ -12,8 +12,6 @@ const getVisitor = ({
   schema,
   selectedType,
   generate = CodeGenGenerateEnum.code,
-  enableDartNullSafety = false,
-  enableDartZeroThreeFeatures = false,
   isTimestampFieldsAdded = false,
   transformerVersion = 1,
   dartUpdateAmplifyCoreDependency = false,
@@ -22,8 +20,6 @@ const getVisitor = ({
   schema: string;
   selectedType?: string;
   generate?: CodeGenGenerateEnum;
-  enableDartNullSafety?: boolean;
-  enableDartZeroThreeFeatures?: boolean;
   isTimestampFieldsAdded?: boolean;
   transformerVersion?: number;
   dartUpdateAmplifyCoreDependency?: boolean;
@@ -37,12 +33,11 @@ const getVisitor = ({
       directives,
       target: 'dart',
       scalars: DART_SCALAR_MAP,
-      enableDartNullSafety,
-      enableDartZeroThreeFeatures,
       isTimestampFieldsAdded,
       transformerVersion,
       dartUpdateAmplifyCoreDependency,
       respectPrimaryKeyAttributesOnConnectionField,
+      codegenVersion: '1',
     },
     { selectedType, generate },
   );
@@ -235,7 +230,7 @@ describe('AppSync Dart Visitor', () => {
       expect(generatedCode).toMatchSnapshot();
     });
 
-    describe('should generate AuthRule with provider information when enabled', () => {
+    it('should generate AuthRule with provider information when enabled', () => {
       const schema = /* GraphQL */ `
         type TodoWithAuth
           @model
@@ -250,20 +245,15 @@ describe('AppSync Dart Visitor', () => {
           name: String!
         }
       `;
-      
-      [true, false].forEach(enableDartNullSafety => {
-        const visitor = getVisitor({
-          schema,
-          selectedType: 'TodoWithAuth',
-          enableDartNullSafety,
-          enableDartZeroThreeFeatures: true,
-          isTimestampFieldsAdded: true,
-        });
-        const generatedCode = visitor.generate();
-        it(`inserting auth provider to auth when nullsafety is ${enableDartNullSafety ? 'enabled' : 'disabled'}`, () => {
-          expect(generatedCode).toMatchSnapshot();
-        });
-      })
+
+      const visitor = getVisitor({
+        schema,
+        selectedType: 'TodoWithAuth',
+        isTimestampFieldsAdded: true,
+      });
+
+      const generatedCode = visitor.generate();
+      expect(generatedCode).toMatchSnapshot();
     })
   });
 
@@ -444,7 +434,7 @@ describe('AppSync Dart Visitor', () => {
   });
 
   describe('Null Safety Tests', () => {
-    it('should generate correct model files if the null safety is enabled', () => {
+    it('should generate correct model files with nullsafety', () => {
       const schema = /* GraphQL */ `
         type Blog @model {
           id: ID!
@@ -467,7 +457,7 @@ describe('AppSync Dart Visitor', () => {
       `;
       const outputModels: string[] = ['Blog', 'Comment', 'Post'];
       outputModels.forEach(model => {
-        const generatedCode = getVisitor({ schema, selectedType: model, enableDartNullSafety: true }).generate();
+        const generatedCode = getVisitor({ schema, selectedType: model }).generate();
         expect(generatedCode).toMatchSnapshot();
       });
     });
@@ -484,7 +474,24 @@ describe('AppSync Dart Visitor', () => {
           nullableFloatNullableList: [Float]
         }
       `;
-      const generatedCode = getVisitor({ schema, selectedType: 'TestModel', enableDartNullSafety: true }).generate();
+      const generatedCode = getVisitor({ schema, selectedType: 'TestModel' }).generate();
+      expect(generatedCode).toMatchSnapshot();
+    });
+
+    it('should generate correct null safe output for connection field w/o list or nullable', () => {
+      const schema = /* GraphQL */ `
+        type ListItem @model {
+          id: ID!
+          name: String!
+        }
+
+        type TestModel @model {
+          id: ID!
+          listOfModels: [ListItem]! @hasMany
+          nullableListOfModels: [ListItem] @hasMany
+        }
+      `;
+      const generatedCode = getVisitor({ schema, selectedType: 'TestModel', transformerVersion: 2 }).generate();
       expect(generatedCode).toMatchSnapshot();
     });
 
@@ -494,7 +501,7 @@ describe('AppSync Dart Visitor', () => {
           id: ID!
         }
       `;
-      const generatedCode = getVisitor({ schema, selectedType: 'TestModel', enableDartNullSafety: true }).generate();
+      const generatedCode = getVisitor({ schema, selectedType: 'TestModel' }).generate();
       expect(generatedCode).toMatchSnapshot();
     });
 
@@ -516,7 +523,7 @@ describe('AppSync Dart Visitor', () => {
           nullableIntNullableList: [Int]
         }
       `;
-      const generatedCode = getVisitor({ schema, selectedType: 'TestModel', enableDartNullSafety: true }).generate();
+      const generatedCode = getVisitor({ schema, selectedType: 'TestModel' }).generate();
       expect(generatedCode).toMatchSnapshot();
     });
   });
@@ -553,29 +560,11 @@ describe('AppSync Dart Visitor', () => {
     const models = [undefined, 'Person', 'Contact', 'Address'];
 
     models.forEach(type => {
-      it(`should generated correct dart class for ${!type ? 'ModelProvider' : type} with nullsafety enabled`, () => {
-        const generatedCode = getVisitor({schema, selectedType: type, generate: !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code, enableDartNullSafety: true, enableDartZeroThreeFeatures: true }).generate();
+      it(`should generate correct dart class for ${!type ? 'ModelProvider' : type} with nullsafety`, () => {
+        const generatedCode = getVisitor({schema, selectedType: type, generate: !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code }).generate();
 
         expect(generatedCode).toMatchSnapshot();
       })
-    });
-
-    models.forEach(type => {
-      it(`should generated correct dart class for ${!type ? 'ModelProvider' : type} with nullsafety disabled`, () => {
-        const generatedCode = getVisitor({ schema, selectedType: type, generate: !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code, enableDartNullSafety: false, enableDartZeroThreeFeatures: true }).generate();
-
-        expect(generatedCode).toMatchSnapshot();
-      })
-    });
-
-    it('should not generate custom type field in model provider if non model feature is disabled', () => {
-      const generatedCode = getVisitor({
-        schema,
-        generate: CodeGenGenerateEnum.loader,
-        enableDartNullSafety: true,
-        enableDartZeroThreeFeatures: false,
-      }).generate();
-      expect(generatedCode).toMatchSnapshot();
     });
   });
 
@@ -587,7 +576,7 @@ describe('AppSync Dart Visitor', () => {
           name: String
         }
       `;
-      const visitor = getVisitor({ schema, isTimestampFieldsAdded: true, enableDartZeroThreeFeatures: false });
+      const visitor = getVisitor({ schema, isTimestampFieldsAdded: true });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -601,7 +590,7 @@ describe('AppSync Dart Visitor', () => {
           name: String
         }
       `;
-      const visitor = getVisitor({ schema, enableDartNullSafety: true, isTimestampFieldsAdded: true, enableDartZeroThreeFeatures: false });
+      const visitor = getVisitor({ schema, isTimestampFieldsAdded: true  });
 
 
       const generatedCode = visitor.generate();
@@ -610,7 +599,7 @@ describe('AppSync Dart Visitor', () => {
   });
 
   describe('Many To Many V2 Tests', () => {
-    it('Should generate the intermediate model successfully with nullsafety disabled', () => {
+    it('Should generate the intermediate model successfully with nullsafety', () => {
       const schema = /* GraphQL */ `
         type Post @model {
           id: ID!
@@ -626,25 +615,6 @@ describe('AppSync Dart Visitor', () => {
         }
       `;
       const generatedCode = getVisitor({ schema, transformerVersion: 2 }).generate();
-      expect(generatedCode).toMatchSnapshot();
-    });
-
-    it('Should generate the intermediate model successfully with nullsafety enabled', () => {
-      const schema = /* GraphQL */ `
-        type Post @model {
-          id: ID!
-          title: String!
-          content: String
-          tags: [Tag] @manyToMany(relationName: "PostTags")
-        }
-
-        type Tag @model {
-          id: ID!
-          label: String!
-          posts: [Post] @manyToMany(relationName: "PostTags")
-        }
-      `;
-      const generatedCode = getVisitor({ schema, transformerVersion: 2, enableDartNullSafety: true }).generate();
       expect(generatedCode).toMatchSnapshot();
     });
   });
@@ -672,12 +642,12 @@ describe('AppSync Dart Visitor', () => {
       }
     `;
     it('Should use the older flutter datastore interface dependency if dartUpdateAmplifyCoreDependency is false', () => {
-      const generatedCode = getVisitor({ schema, transformerVersion: 2, enableDartNullSafety: true }).generate();
+      const generatedCode = getVisitor({ schema, transformerVersion: 2 }).generate();
       expect(generatedCode).toMatchSnapshot();
     });
 
     it('Should use the amplify_core dependency if dartUpdateAmplifyCoreDependency is true', () => {
-      const generatedCode = getVisitor({ schema, transformerVersion: 2, enableDartNullSafety: true, dartUpdateAmplifyCoreDependency: true }).generate();
+      const generatedCode = getVisitor({ schema, transformerVersion: 2, dartUpdateAmplifyCoreDependency: true }).generate();
       expect(generatedCode).toMatchSnapshot();
     });
   });
@@ -704,8 +674,6 @@ describe('AppSync Dart Visitor', () => {
         const generatedCode = getVisitor({
           schema,
           selectedType: modelName,
-          enableDartNullSafety: true,
-          enableDartZeroThreeFeatures: true,
           isTimestampFieldsAdded: true,
           respectPrimaryKeyAttributesOnConnectionField: true,
           transformerVersion: 2
@@ -726,8 +694,6 @@ describe('AppSync Dart Visitor', () => {
 
       const generatedCode = getVisitor({
         schema,
-        enableDartNullSafety: true,
-        enableDartZeroThreeFeatures: true,
         isTimestampFieldsAdded: true,
         respectPrimaryKeyAttributesOnConnectionField: true,
         transformerVersion: 2,
@@ -755,8 +721,6 @@ describe('AppSync Dart Visitor', () => {
           const generatedCode = getVisitor({
             schema,
             selectedType: modelName,
-            enableDartNullSafety: true,
-            enableDartZeroThreeFeatures: true,
             isTimestampFieldsAdded: true,
             respectPrimaryKeyAttributesOnConnectionField: true,
             transformerVersion: 2,
@@ -797,8 +761,6 @@ describe('AppSync Dart Visitor', () => {
         const generatedCode = getVisitor({
           schema,
           selectedType: modelName,
-          enableDartNullSafety: true,
-          enableDartZeroThreeFeatures: true,
           isTimestampFieldsAdded: true,
           respectPrimaryKeyAttributesOnConnectionField: true,
           transformerVersion: 2,
@@ -812,7 +774,7 @@ describe('AppSync Dart Visitor', () => {
           id: ID! @primaryKey(sortKeyFields: ["title"])
           title: String!
           comments: [Comment] @hasMany
-        }   
+        }
         type Comment @model {
           id: ID! @primaryKey(sortKeyFields: ["content"])
           content: String!
@@ -822,8 +784,6 @@ describe('AppSync Dart Visitor', () => {
         const generatedCode = getVisitor({
           schema,
           selectedType: modelName,
-          enableDartNullSafety: true,
-          enableDartZeroThreeFeatures: true,
           isTimestampFieldsAdded: true,
           respectPrimaryKeyAttributesOnConnectionField: true,
           transformerVersion: 2,

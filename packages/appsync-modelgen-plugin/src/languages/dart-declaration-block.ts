@@ -3,7 +3,7 @@ import { transformComment, indentMultiline } from "@graphql-codegen/visitor-plug
 import stripIndent from "strip-indent";
 
 type Kind = 'class' | 'interface' | 'enum' | 'extension';
-type MemberFlags = { final?: boolean; static?: boolean; const?: boolean; var?: boolean};
+type MemberFlags = { final?: boolean; static?: boolean; const?: boolean; var?: boolean, inferType?: boolean};
 type ClassMember = {
   name: string;
   type: string;
@@ -83,7 +83,7 @@ export class DartDeclarationBlock {
     name: string,
     type: string,
     value: string,
-    flags: MemberFlags = {},
+    flags: MemberFlags = {inferType: false},
     annotations: string[] = []
   ): DartDeclarationBlock {
     this._members.push({
@@ -93,7 +93,7 @@ export class DartDeclarationBlock {
       flags: {
         ...flags,
       },
-      annotations
+      annotations,
     });
     return this;
   }
@@ -182,7 +182,7 @@ export class DartDeclarationBlock {
       flags.final ? 'final' : null,
       flags.const ? 'const' : null,
       flags.var ? 'var' : null,
-      member.type,
+      flags.inferType ? null : member.type,
       member.name,
     ].filter(f => f);
     return annotatesStr + components.join(' ') + (member.value ? ` = ${member.value}` : '');

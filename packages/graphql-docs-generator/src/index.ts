@@ -6,12 +6,11 @@ export { buildSchema } from './generator/utils/loading';
 
 export function generateGraphQLDocuments(
   schema: string,
-  options: { maxDepth?: number, useExternalFragmentForS3Object?: boolean; typenameIntrospection?: boolean },
+  options: { maxDepth?: number, useExternalFragmentForS3Object?: boolean; },
 ): GeneratedOperations {
   const opts = {
     maxDepth: 2,
     useExternalFragmentForS3Object: true,
-    typenameIntrospection: true,
     ...options,
   };
 
@@ -19,7 +18,6 @@ export function generateGraphQLDocuments(
 
   const gqlOperations: GQLAllOperations = generateAllOps(extendedSchema, opts.maxDepth, {
     useExternalFragmentForS3Object: opts.useExternalFragmentForS3Object,
-    typenameIntrospection: opts.typenameIntrospection
   });
   registerPartials();
   registerHelpers();
