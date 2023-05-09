@@ -19,7 +19,6 @@ export function generateGraphQLDocuments(
 
   const gqlOperations: GQLAllOperations = generateAllOps(extendedSchema, opts.maxDepth, {
     useExternalFragmentForS3Object: opts.useExternalFragmentForS3Object,
-    typenameIntrospection: opts.typenameIntrospection
   });
   registerPartials();
   registerHelpers();
