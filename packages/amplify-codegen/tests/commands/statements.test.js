@@ -97,7 +97,7 @@ describe('command - statements', () => {
       path.join(MOCK_PROJECT_ROOT, MOCK_SCHEMA),
       MOCK_APIS[0],
       MOCK_REGION,
-      forceDownload,
+      forceDownload
     );
   });
 
@@ -110,7 +110,7 @@ describe('command - statements', () => {
       path.join(MOCK_PROJECT_ROOT, MOCK_SCHEMA),
       MOCK_APIS[0],
       MOCK_REGION,
-      forceDownload,
+      forceDownload
     );
   });
 
