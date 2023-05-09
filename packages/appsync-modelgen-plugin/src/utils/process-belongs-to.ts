@@ -1,4 +1,4 @@
-import { CodeGenDirective, CodeGenField, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
+import { CodeGenDirective, CodeGenDirectiveProcessConfig, CodeGenField, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
 import { getModelPrimaryKeyComponentFields } from './fieldUtils';
 import {
   CodeGenConnectionType,
@@ -14,8 +14,9 @@ export function processBelongsToConnection(
   model: CodeGenModel,
   modelMap: CodeGenModelMap,
   connectionDirective: CodeGenDirective,
-  isCustomPKEnabled: boolean = false,
+  directiveProcessConfig: CodeGenDirectiveProcessConfig,
 ): CodeGenFieldConnection | undefined {
+  const { isCustomPKEnabled } = directiveProcessConfig;
   if (field.isList) {
     throw new Error(
       `A list field does not support the 'belongsTo' relation`

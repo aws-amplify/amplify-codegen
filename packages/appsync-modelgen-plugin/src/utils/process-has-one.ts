@@ -1,4 +1,4 @@
-import { CodeGenDirective, CodeGenField, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
+import { CodeGenDirective, CodeGenDirectiveProcessConfig, CodeGenField, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
 import {
   CodeGenConnectionType,
   CodeGenFieldConnection,
@@ -13,9 +13,9 @@ export function processHasOneConnection(
   model: CodeGenModel,
   modelMap: CodeGenModelMap,
   connectionDirective: CodeGenDirective,
-  isCustomPKEnabled: boolean = false,
-  shouldUseFieldsInAssociatedWithInHasOne:boolean = false
+  directiveProcessConfig: CodeGenDirectiveProcessConfig,
 ): CodeGenFieldConnection | undefined {
+  const { isCustomPKEnabled, shouldUseFieldsInAssociatedWithInHasOne } = directiveProcessConfig;
   const otherSide = modelMap[field.type];
   // Find other side belongsTo field when in bi direction connection
   const otherSideBelongsToField = getOtherSideBelongsToField(model.name, otherSide);

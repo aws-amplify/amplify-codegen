@@ -1,4 +1,4 @@
-import { CodeGenDirective, CodeGenField, CodeGenFieldDirective, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
+import { CodeGenDirective, CodeGenDirectiveProcessConfig, CodeGenField, CodeGenFieldDirective, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
 import { TransformerV2DirectiveName, DEFAULT_HASH_KEY_FIELD } from './constants';
 import { getDirective, getOtherSideBelongsToField } from './fieldUtils';
 import { getModelPrimaryKeyComponentFields } from './fieldUtils';
@@ -17,16 +17,16 @@ export function processHasManyConnection(
   model: CodeGenModel,
   modelMap: CodeGenModelMap,
   connectionDirective: CodeGenDirective,
-  shouldUseModelNameFieldInHasManyAndBelongsTo: boolean,
-  isCustomPKEnabled: boolean = false,
+  directiveProcessConfig: CodeGenDirectiveProcessConfig,
 ): CodeGenFieldConnection | undefined {
+  const { isCustomPKEnabled, shouldUseModelNameFieldInHasManyAndBelongsTo, shouldRespectSortKeyFieldsOfIndexInAssociatedWithFields } = directiveProcessConfig;
   if (!field.isList) {
     throw new Error("A field with hasMany must be a list type");
   }
   const otherSide = modelMap[field.type];
   const connectionFields = connectionDirective.arguments.fields || [];
   const otherSideFields = isCustomPKEnabled
-    ? getConnectedFieldsForHasMany(field, model, otherSide, shouldUseModelNameFieldInHasManyAndBelongsTo)
+    ? getConnectedFieldsForHasMany(field, model, otherSide, shouldUseModelNameFieldInHasManyAndBelongsTo, shouldRespectSortKeyFieldsOfIndexInAssociatedWithFields)
     : [getConnectedFieldV2(field, model, otherSide, connectionDirective.name, shouldUseModelNameFieldInHasManyAndBelongsTo)];
   const otherSideField = otherSideFields[0];
 
@@ -56,7 +56,8 @@ export function getConnectedFieldsForHasMany(
   field: CodeGenField,
   model: CodeGenModel,
   connectedModel: CodeGenModel,
-  shouldUseModelNameFieldInHasManyAndBelongsTo: boolean
+  shouldUseModelNameFieldInHasManyAndBelongsTo: boolean,
+  shouldRespectSortKeyFieldsOfIndexInAssociatedWithFields: boolean
 ): CodeGenField[] {
   const hasManyDir = getDirective(field)(TransformerV2DirectiveName.HAS_MANY);
   if (!hasManyDir) {
@@ -107,7 +108,10 @@ export function getConnectedFieldsForHasMany(
     if (!otherSideConnectedField) {
       throw new Error(`Can not find key field ${otherSideConnectedFieldName} in ${connectedModel.name}`);
     }
-    return [otherSideConnectedField];
+    const sortKeyFieldNames: string[] = otherSideConnectedDir?.arguments.sortKeyFields ?? [];
+    return shouldRespectSortKeyFieldsOfIndexInAssociatedWithFields
+      ? [otherSideConnectedField, ...sortKeyFieldNames.map(sk => connectedModel.fields.find(f => f.name === sk)!)]
+      : [otherSideConnectedField];
   }
 
   // When fields argument is not defined, auto generate connected fields

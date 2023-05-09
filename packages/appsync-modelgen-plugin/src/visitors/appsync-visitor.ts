@@ -221,6 +221,28 @@ type ManyToManyContext = {
   directive: CodeGenDirective;
 };
 
+// Configuration used for processing directives
+export type CodeGenDirectiveProcessConfig = {
+  // This flag is going to be used for using custom primary key feature
+  isCustomPKEnabled: boolean,
+  // This flag is used for native platforms(Android, iOS, Flutter) to use model name field as associatedWith field in implicit bi-dir hasMany
+  shouldUseModelNameFieldInHasManyAndBelongsTo: boolean,
+  // This flag is going to be used to tight-trigger on JS implementations only.
+  shouldImputeKeyForUniDirectionalHasMany: boolean,
+  // This flag is currently used in JS/TS and Model introspection generation only.
+  shouldUseFieldsInAssociatedWithInHasOne: boolean,
+  // This flag is currently used in Swift only to have sort key fields of index included in associatedWith fields
+  shouldRespectSortKeyFieldsOfIndexInAssociatedWithFields:boolean,
+}
+
+export const defaultCodegenDirectiveProcessConfig: CodeGenDirectiveProcessConfig = {
+  isCustomPKEnabled: false,
+  shouldUseModelNameFieldInHasManyAndBelongsTo: false,
+  shouldImputeKeyForUniDirectionalHasMany: false,
+  shouldUseFieldsInAssociatedWithInHasOne: false,
+  shouldRespectSortKeyFieldsOfIndexInAssociatedWithFields: false,
+}
+
 export class AppSyncModelVisitor<
   TRawConfig extends RawAppSyncModelConfig = RawAppSyncModelConfig,
   TPluginConfig extends ParsedAppSyncModelConfig = ParsedAppSyncModelConfig
@@ -331,32 +353,17 @@ export class AppSyncModelVisitor<
       values,
     };
   }
-  processDirectives(
-    // TODO: Remove us when we have a fix to roll-forward.
-    shouldUseModelNameFieldInHasManyAndBelongsTo: boolean,
-    // This flag is going to be used to tight-trigger on JS implementations only.
-    shouldImputeKeyForUniDirectionalHasMany: boolean,
-    // This flag is currently used in JS/TS and Model introspection generation only.
-    shouldUseFieldsInAssociatedWithInHasOne: boolean = false
-  ) {
+  processDirectives(directiveConfig: Partial<CodeGenDirectiveProcessConfig>) {
     if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
       this.processV2KeyDirectives();
-      this.processConnectionDirectivesV2(
-        shouldUseModelNameFieldInHasManyAndBelongsTo,
-        shouldImputeKeyForUniDirectionalHasMany,
-        shouldUseFieldsInAssociatedWithInHasOne
-      );
+      this.processConnectionDirectivesV2({...defaultCodegenDirectiveProcessConfig, ...directiveConfig});
     } else {
       this.processConnectionDirective();
     }
     this.processAuthDirectives();
   }
   generate(): string {
-    // TODO: Remove me, leaving in to be explicit on why this flag is here.
-    const shouldUseModelNameFieldInHasManyAndBelongsTo = false;
-    // TODO: Remove me, leaving in to be explicit on why this flag is here.
-    const shouldImputeKeyForUniDirectionalHasMany = false;
-    this.processDirectives(shouldUseModelNameFieldInHasManyAndBelongsTo, shouldImputeKeyForUniDirectionalHasMany);
+    this.processDirectives({ isCustomPKEnabled: this.isCustomPKEnabled() });
     return '';
   }
 
@@ -904,16 +911,9 @@ export class AppSyncModelVisitor<
     });
   }
 
-  protected processConnectionDirectivesV2(
-    // TODO: Remove us when we have a fix to roll-forward.
-    shouldUseModelNameFieldInHasManyAndBelongsTo: boolean,
-    // This flag is going to be used to tight-trigger on JS implementations only.
-    shouldImputeKeyForUniDirectionalHasMany: boolean,
-    shouldUseFieldsInAssociatedWithInHasOne: boolean
-  ): void {
+  protected processConnectionDirectivesV2(directiveConfig: CodeGenDirectiveProcessConfig): void {
+    const { shouldImputeKeyForUniDirectionalHasMany, isCustomPKEnabled } = directiveConfig;
     this.processManyToManyDirectives();
-
-    const isCustomPKEnabled = this.isCustomPKEnabled();
 
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
@@ -921,9 +921,7 @@ export class AppSyncModelVisitor<
           field,
           model,
           this.modelMap,
-          shouldUseModelNameFieldInHasManyAndBelongsTo,
-          isCustomPKEnabled,
-          shouldUseFieldsInAssociatedWithInHasOne
+          directiveConfig
         );
         if (connectionInfo) {
           if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
