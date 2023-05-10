@@ -41,6 +41,7 @@ query Hero
       friendsConnection {
         
     totalCount
+    __typename
         
       }
     appearsIn
@@ -56,6 +57,7 @@ query Hero
     name
     length
     coordinates
+    __typename
         
       }
     }
@@ -70,6 +72,7 @@ query Hero
       edges {
         
     cursor
+    __typename
         
       }
       friends {
@@ -94,8 +97,10 @@ query Hero
     startCursor
     endCursor
     hasNextPage
+    __typename
         
       }
+    __typename
         
       }
     appearsIn
@@ -111,6 +116,7 @@ query Hero
     name
     length
     coordinates
+    __typename
         
       }
     }
@@ -137,6 +143,7 @@ query Reviews
     episode
     stars
     commentary
+    __typename
     
   }
 }
@@ -186,6 +193,7 @@ query Search
       friendsConnection {
         
     totalCount
+    __typename
         
       }
     appearsIn
@@ -201,6 +209,7 @@ query Search
     name
     length
     coordinates
+    __typename
         
       }
     }
@@ -215,6 +224,7 @@ query Search
       edges {
         
     cursor
+    __typename
         
       }
       friends {
@@ -239,8 +249,10 @@ query Search
     startCursor
     endCursor
     hasNextPage
+    __typename
         
       }
+    __typename
         
       }
     appearsIn
@@ -250,6 +262,7 @@ query Search
     name
     length
     coordinates
+    __typename
         
       }
     }
@@ -281,6 +294,7 @@ query Search
       friendsConnection {
         
     totalCount
+    __typename
         
       }
     appearsIn
@@ -296,6 +310,7 @@ query Search
     name
     length
     coordinates
+    __typename
         
       }
     }
@@ -310,6 +325,7 @@ query Search
       edges {
         
     cursor
+    __typename
         
       }
       friends {
@@ -334,8 +350,10 @@ query Search
     startCursor
     endCursor
     hasNextPage
+    __typename
         
       }
+    __typename
         
       }
     appearsIn
@@ -390,6 +408,7 @@ query Character
       friendsConnection {
         
     totalCount
+    __typename
         
       }
     appearsIn
@@ -405,6 +424,7 @@ query Character
     name
     length
     coordinates
+    __typename
         
       }
     }
@@ -419,6 +439,7 @@ query Character
       edges {
         
     cursor
+    __typename
         
       }
       friends {
@@ -443,8 +464,10 @@ query Character
     startCursor
     endCursor
     hasNextPage
+    __typename
         
       }
+    __typename
         
       }
     appearsIn
@@ -460,6 +483,7 @@ query Character
     name
     length
     coordinates
+    __typename
         
       }
     }
@@ -509,6 +533,7 @@ query Droid
       friendsConnection {
         
     totalCount
+    __typename
         
       }
     appearsIn
@@ -524,6 +549,7 @@ query Droid
     name
     length
     coordinates
+    __typename
         
       }
     }
@@ -538,6 +564,7 @@ query Droid
       edges {
         
     cursor
+    __typename
         
       }
       friends {
@@ -562,12 +589,15 @@ query Droid
     startCursor
     endCursor
     hasNextPage
+    __typename
         
       }
+    __typename
         
       }
     appearsIn
     primaryFunction
+    __typename
     
   }
 }
@@ -614,6 +644,7 @@ query Human
       friendsConnection {
         
     totalCount
+    __typename
         
       }
     appearsIn
@@ -629,6 +660,7 @@ query Human
     name
     length
     coordinates
+    __typename
         
       }
     }
@@ -643,6 +675,7 @@ query Human
       edges {
         
     cursor
+    __typename
         
       }
       friends {
@@ -667,8 +700,10 @@ query Human
     startCursor
     endCursor
     hasNextPage
+    __typename
         
       }
+    __typename
         
       }
     appearsIn
@@ -678,8 +713,10 @@ query Human
     name
     length
     coordinates
+    __typename
         
       }
+    __typename
     
   }
 }
@@ -701,6 +738,7 @@ query Starship
     name
     length
     coordinates
+    __typename
     
   }
 }
@@ -728,6 +766,7 @@ mutation CreateReview
     episode
     stars
     commentary
+    __typename
     
   }
 }
@@ -753,6 +792,7 @@ subscription ReviewAdded
     episode
     stars
     commentary
+    __typename
     
   }
 }
@@ -779,6 +819,7 @@ query GetUPPERCASE
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -806,9 +847,11 @@ query ListUPPERCASEs
     owner
     createdAt
     updatedAt
+    __typename
         
       }
     nextToken
+    __typename
     
   }
 }
@@ -830,6 +873,7 @@ query GetLowercase
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -857,9 +901,11 @@ query ListLowercases
     owner
     createdAt
     updatedAt
+    __typename
         
       }
     nextToken
+    __typename
     
   }
 }
@@ -881,6 +927,7 @@ query GetCamelCase
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -908,9 +955,11 @@ query ListCamelCases
     owner
     createdAt
     updatedAt
+    __typename
         
       }
     nextToken
+    __typename
     
   }
 }
@@ -932,6 +981,7 @@ query GetPascalCase
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -959,9 +1009,11 @@ query ListPascalCases
     owner
     createdAt
     updatedAt
+    __typename
         
       }
     nextToken
+    __typename
     
   }
 }
@@ -983,6 +1035,7 @@ query GetSnake_case
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1010,9 +1063,11 @@ query ListSnake_cases
     owner
     createdAt
     updatedAt
+    __typename
         
       }
     nextToken
+    __typename
     
   }
 }
@@ -1034,6 +1089,7 @@ query GetUPPER_SNAKE_CASE
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1061,9 +1117,11 @@ query ListUPPER_SNAKE_CASEs
     owner
     createdAt
     updatedAt
+    __typename
         
       }
     nextToken
+    __typename
     
   }
 }
@@ -1095,9 +1153,11 @@ query QueryByOwner
     owner
     createdAt
     updatedAt
+    __typename
         
       }
     nextToken
+    __typename
     
   }
 }
@@ -1126,6 +1186,7 @@ mutation CreateUPPERCASE
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1149,6 +1210,7 @@ mutation UpdateUPPERCASE
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1172,6 +1234,7 @@ mutation DeleteUPPERCASE
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1195,6 +1258,7 @@ mutation CreateLowercase
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1218,6 +1282,7 @@ mutation UpdateLowercase
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1241,6 +1306,7 @@ mutation DeleteLowercase
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1264,6 +1330,7 @@ mutation CreateCamelCase
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1287,6 +1354,7 @@ mutation UpdateCamelCase
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1310,6 +1378,7 @@ mutation DeleteCamelCase
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1333,6 +1402,7 @@ mutation CreatePascalCase
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1356,6 +1426,7 @@ mutation UpdatePascalCase
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1379,6 +1450,7 @@ mutation DeletePascalCase
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1402,6 +1474,7 @@ mutation CreateSnake_case
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1425,6 +1498,7 @@ mutation UpdateSnake_case
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1448,6 +1522,7 @@ mutation DeleteSnake_case
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1471,6 +1546,7 @@ mutation CreateUPPER_SNAKE_CASE
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1494,6 +1570,7 @@ mutation UpdateUPPER_SNAKE_CASE
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1517,6 +1594,7 @@ mutation DeleteUPPER_SNAKE_CASE
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1537,6 +1615,7 @@ subscription OnCreateUPPERCASE
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1552,6 +1631,7 @@ subscription OnUpdateUPPERCASE
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1567,6 +1647,7 @@ subscription OnDeleteUPPERCASE
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1582,6 +1663,7 @@ subscription OnCreateLowercase
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1597,6 +1679,7 @@ subscription OnUpdateLowercase
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1612,6 +1695,7 @@ subscription OnDeleteLowercase
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1627,6 +1711,7 @@ subscription OnCreateCamelCase
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1642,6 +1727,7 @@ subscription OnUpdateCamelCase
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1657,6 +1743,7 @@ subscription OnDeleteCamelCase
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1672,6 +1759,7 @@ subscription OnCreatePascalCase
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1687,6 +1775,7 @@ subscription OnUpdatePascalCase
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1702,6 +1791,7 @@ subscription OnDeletePascalCase
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1717,6 +1807,7 @@ subscription OnCreateSnake_case
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1732,6 +1823,7 @@ subscription OnUpdateSnake_case
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1747,6 +1839,7 @@ subscription OnDeleteSnake_case
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1762,6 +1855,7 @@ subscription OnCreateUPPER_SNAKE_CASE
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1777,6 +1871,7 @@ subscription OnUpdateUPPER_SNAKE_CASE
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }
@@ -1792,6 +1887,7 @@ subscription OnDeleteUPPER_SNAKE_CASE
     owner
     createdAt
     updatedAt
+    __typename
     
   }
 }

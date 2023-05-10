@@ -15,6 +15,7 @@ export function buildSchema(schema: string): GraphQLSchema;
 export function generateGraphQLDocuments(schema: string, options: {
     maxDepth?: number;
     useExternalFragmentForS3Object?: boolean;
+    typenameIntrospection?: boolean;
 }): GeneratedOperations;
 
 // (No @packageDocumentation comment for this package)
