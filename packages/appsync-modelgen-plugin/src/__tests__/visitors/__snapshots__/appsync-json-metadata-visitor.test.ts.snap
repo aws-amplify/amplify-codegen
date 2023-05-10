@@ -142,7 +142,7 @@ exports[`Metadata visitor for custom PK support HasMany without corresponding be
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"codegenVersion\\": \\"1.0.0\\",
+    \\"codegenVersion\\": \\"3.4.4\\",
     \\"version\\": \\"6b1bad408fb4d771f3219e585d3db29b\\"
 };"
 `;
@@ -271,7 +271,7 @@ exports[`Metadata visitor for custom PK support HasMany without corresponding be
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"codegenVersion\\": \\"1.0.0\\",
+    \\"codegenVersion\\": \\"3.4.4\\",
     \\"version\\": \\"cb4c9a5805faf864220f95ebc3e346de\\"
 };"
 `;
@@ -424,7 +424,7 @@ exports[`Metadata visitor for custom PK support generates with belongsTo 1`] = `
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"codegenVersion\\": \\"1.0.0\\",
+    \\"codegenVersion\\": \\"3.4.4\\",
     \\"version\\": \\"8b37aacc0491d9d130e918d8ee88197c\\"
 };"
 `;
@@ -579,8 +579,1256 @@ exports[`Metadata visitor for custom PK support generates with explicit index 1`
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"codegenVersion\\": \\"1.0.0\\",
+    \\"codegenVersion\\": \\"3.4.4\\",
     \\"version\\": \\"b4f818e9f626f398b3ce56e741314a5b\\"
+};"
+`;
+
+exports[`Metadata visitor for custom PK support relation metadata for hasMany & belongsTo when custom PK is enabled should generate correct metadata in js 1`] = `
+"export const schema = {
+    \\"models\\": {
+        \\"Post\\": {
+            \\"name\\": \\"Post\\",
+            \\"fields\\": {
+                \\"customPostId\\": {
+                    \\"name\\": \\"customPostId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"title\\": {
+                    \\"name\\": \\"title\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"comments\\": {
+                    \\"name\\": \\"comments\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"model\\": \\"Comment\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isArrayNullable\\": true,
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_MANY\\",
+                        \\"associatedWith\\": [
+                            \\"postCommentsCustomPostId\\",
+                            \\"postCommentsTitle\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Posts\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"customPostId\\",
+                            \\"title\\"
+                        ]
+                    }
+                }
+            ]
+        },
+        \\"Comment\\": {
+            \\"name\\": \\"Comment\\",
+            \\"fields\\": {
+                \\"customCommentId\\": {
+                    \\"name\\": \\"customCommentId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"content\\": {
+                    \\"name\\": \\"content\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"post\\": {
+                    \\"name\\": \\"post\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"Post\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"BELONGS_TO\\",
+                        \\"targetNames\\": [
+                            \\"postCommentsCustomPostId\\",
+                            \\"postCommentsTitle\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"postCommentsCustomPostId\\": {
+                    \\"name\\": \\"postCommentsCustomPostId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"postCommentsTitle\\": {
+                    \\"name\\": \\"postCommentsTitle\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Comments\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"customCommentId\\",
+                            \\"content\\"
+                        ]
+                    }
+                }
+            ]
+        },
+        \\"Post1\\": {
+            \\"name\\": \\"Post1\\",
+            \\"fields\\": {
+                \\"postId\\": {
+                    \\"name\\": \\"postId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"title\\": {
+                    \\"name\\": \\"title\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"comments\\": {
+                    \\"name\\": \\"comments\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"model\\": \\"Comment1\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isArrayNullable\\": true,
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_MANY\\",
+                        \\"associatedWith\\": [
+                            \\"post\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Post1s\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"postId\\",
+                            \\"title\\"
+                        ]
+                    }
+                }
+            ]
+        },
+        \\"Comment1\\": {
+            \\"name\\": \\"Comment1\\",
+            \\"fields\\": {
+                \\"commentId\\": {
+                    \\"name\\": \\"commentId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"content\\": {
+                    \\"name\\": \\"content\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"post\\": {
+                    \\"name\\": \\"post\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"Post1\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"BELONGS_TO\\",
+                        \\"targetNames\\": [
+                            \\"postId\\",
+                            \\"postTitle\\"
+                        ]
+                    }
+                },
+                \\"postId\\": {
+                    \\"name\\": \\"postId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"postTitle\\": {
+                    \\"name\\": \\"postTitle\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Comment1s\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"commentId\\",
+                            \\"content\\"
+                        ]
+                    }
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"name\\": \\"byPost\\",
+                        \\"fields\\": [
+                            \\"postId\\",
+                            \\"postTitle\\"
+                        ]
+                    }
+                }
+            ]
+        }
+    },
+    \\"enums\\": {},
+    \\"nonModels\\": {},
+    \\"codegenVersion\\": \\"3.4.4\\",
+    \\"version\\": \\"cb8f120e36ffc33e0b01e0874ba14f7a\\"
+};"
+`;
+
+exports[`Metadata visitor for custom PK support relation metadata for hasMany & belongsTo when custom PK is enabled should generate correct metadata in ts 1`] = `
+"import { Schema } from \\"@aws-amplify/datastore\\";
+
+export const schema: Schema = {
+    \\"models\\": {
+        \\"Post\\": {
+            \\"name\\": \\"Post\\",
+            \\"fields\\": {
+                \\"customPostId\\": {
+                    \\"name\\": \\"customPostId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"title\\": {
+                    \\"name\\": \\"title\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"comments\\": {
+                    \\"name\\": \\"comments\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"model\\": \\"Comment\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isArrayNullable\\": true,
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_MANY\\",
+                        \\"associatedWith\\": [
+                            \\"postCommentsCustomPostId\\",
+                            \\"postCommentsTitle\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Posts\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"customPostId\\",
+                            \\"title\\"
+                        ]
+                    }
+                }
+            ]
+        },
+        \\"Comment\\": {
+            \\"name\\": \\"Comment\\",
+            \\"fields\\": {
+                \\"customCommentId\\": {
+                    \\"name\\": \\"customCommentId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"content\\": {
+                    \\"name\\": \\"content\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"post\\": {
+                    \\"name\\": \\"post\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"Post\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"BELONGS_TO\\",
+                        \\"targetNames\\": [
+                            \\"postCommentsCustomPostId\\",
+                            \\"postCommentsTitle\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"postCommentsCustomPostId\\": {
+                    \\"name\\": \\"postCommentsCustomPostId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"postCommentsTitle\\": {
+                    \\"name\\": \\"postCommentsTitle\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Comments\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"customCommentId\\",
+                            \\"content\\"
+                        ]
+                    }
+                }
+            ]
+        },
+        \\"Post1\\": {
+            \\"name\\": \\"Post1\\",
+            \\"fields\\": {
+                \\"postId\\": {
+                    \\"name\\": \\"postId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"title\\": {
+                    \\"name\\": \\"title\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"comments\\": {
+                    \\"name\\": \\"comments\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"model\\": \\"Comment1\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isArrayNullable\\": true,
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_MANY\\",
+                        \\"associatedWith\\": [
+                            \\"post\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Post1s\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"postId\\",
+                            \\"title\\"
+                        ]
+                    }
+                }
+            ]
+        },
+        \\"Comment1\\": {
+            \\"name\\": \\"Comment1\\",
+            \\"fields\\": {
+                \\"commentId\\": {
+                    \\"name\\": \\"commentId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"content\\": {
+                    \\"name\\": \\"content\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"post\\": {
+                    \\"name\\": \\"post\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"Post1\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"BELONGS_TO\\",
+                        \\"targetNames\\": [
+                            \\"postId\\",
+                            \\"postTitle\\"
+                        ]
+                    }
+                },
+                \\"postId\\": {
+                    \\"name\\": \\"postId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"postTitle\\": {
+                    \\"name\\": \\"postTitle\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Comment1s\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"commentId\\",
+                            \\"content\\"
+                        ]
+                    }
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"name\\": \\"byPost\\",
+                        \\"fields\\": [
+                            \\"postId\\",
+                            \\"postTitle\\"
+                        ]
+                    }
+                }
+            ]
+        }
+    },
+    \\"enums\\": {},
+    \\"nonModels\\": {},
+    \\"codegenVersion\\": \\"3.4.4\\",
+    \\"version\\": \\"cb8f120e36ffc33e0b01e0874ba14f7a\\"
+};"
+`;
+
+exports[`Metadata visitor for custom PK support relation metadata for hasMany uni when custom PK is enabled should generate correct metadata in js 1`] = `
+"export const schema = {
+    \\"models\\": {
+        \\"Post\\": {
+            \\"name\\": \\"Post\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"title\\": {
+                    \\"name\\": \\"title\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"comments\\": {
+                    \\"name\\": \\"comments\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"model\\": \\"Comment\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isArrayNullable\\": true,
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_MANY\\",
+                        \\"associatedWith\\": [
+                            \\"postCommentsId\\",
+                            \\"postCommentsTitle\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Posts\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"id\\",
+                            \\"title\\"
+                        ]
+                    }
+                }
+            ]
+        },
+        \\"Comment\\": {
+            \\"name\\": \\"Comment\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"content\\": {
+                    \\"name\\": \\"content\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"postCommentsId\\": {
+                    \\"name\\": \\"postCommentsId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"postCommentsTitle\\": {
+                    \\"name\\": \\"postCommentsTitle\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Comments\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"id\\",
+                            \\"content\\"
+                        ]
+                    }
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"name\\": \\"gsi-Post.comments\\",
+                        \\"fields\\": [
+                            \\"postCommentsId\\",
+                            \\"postCommentsTitle\\"
+                        ]
+                    }
+                }
+            ]
+        },
+        \\"Post1\\": {
+            \\"name\\": \\"Post1\\",
+            \\"fields\\": {
+                \\"postId\\": {
+                    \\"name\\": \\"postId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"title\\": {
+                    \\"name\\": \\"title\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"comments\\": {
+                    \\"name\\": \\"comments\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"model\\": \\"Comment1\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isArrayNullable\\": true,
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_MANY\\",
+                        \\"associatedWith\\": [
+                            \\"postId\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Post1s\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"postId\\",
+                            \\"title\\"
+                        ]
+                    }
+                }
+            ]
+        },
+        \\"Comment1\\": {
+            \\"name\\": \\"Comment1\\",
+            \\"fields\\": {
+                \\"commentId\\": {
+                    \\"name\\": \\"commentId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"content\\": {
+                    \\"name\\": \\"content\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"postId\\": {
+                    \\"name\\": \\"postId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"postTitle\\": {
+                    \\"name\\": \\"postTitle\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Comment1s\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"commentId\\",
+                            \\"content\\"
+                        ]
+                    }
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"name\\": \\"byPost\\",
+                        \\"fields\\": [
+                            \\"postId\\",
+                            \\"postTitle\\"
+                        ]
+                    }
+                }
+            ]
+        }
+    },
+    \\"enums\\": {},
+    \\"nonModels\\": {},
+    \\"codegenVersion\\": \\"3.4.4\\",
+    \\"version\\": \\"aa7ec83a3846aece824a211c5304dd88\\"
+};"
+`;
+
+exports[`Metadata visitor for custom PK support relation metadata for hasMany uni when custom PK is enabled should generate correct metadata in ts 1`] = `
+"import { Schema } from \\"@aws-amplify/datastore\\";
+
+export const schema: Schema = {
+    \\"models\\": {
+        \\"Post\\": {
+            \\"name\\": \\"Post\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"title\\": {
+                    \\"name\\": \\"title\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"comments\\": {
+                    \\"name\\": \\"comments\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"model\\": \\"Comment\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isArrayNullable\\": true,
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_MANY\\",
+                        \\"associatedWith\\": [
+                            \\"postCommentsId\\",
+                            \\"postCommentsTitle\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Posts\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"id\\",
+                            \\"title\\"
+                        ]
+                    }
+                }
+            ]
+        },
+        \\"Comment\\": {
+            \\"name\\": \\"Comment\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"content\\": {
+                    \\"name\\": \\"content\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"postCommentsId\\": {
+                    \\"name\\": \\"postCommentsId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"postCommentsTitle\\": {
+                    \\"name\\": \\"postCommentsTitle\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Comments\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"id\\",
+                            \\"content\\"
+                        ]
+                    }
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"name\\": \\"gsi-Post.comments\\",
+                        \\"fields\\": [
+                            \\"postCommentsId\\",
+                            \\"postCommentsTitle\\"
+                        ]
+                    }
+                }
+            ]
+        },
+        \\"Post1\\": {
+            \\"name\\": \\"Post1\\",
+            \\"fields\\": {
+                \\"postId\\": {
+                    \\"name\\": \\"postId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"title\\": {
+                    \\"name\\": \\"title\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"comments\\": {
+                    \\"name\\": \\"comments\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"model\\": \\"Comment1\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isArrayNullable\\": true,
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_MANY\\",
+                        \\"associatedWith\\": [
+                            \\"postId\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Post1s\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"postId\\",
+                            \\"title\\"
+                        ]
+                    }
+                }
+            ]
+        },
+        \\"Comment1\\": {
+            \\"name\\": \\"Comment1\\",
+            \\"fields\\": {
+                \\"commentId\\": {
+                    \\"name\\": \\"commentId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"content\\": {
+                    \\"name\\": \\"content\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"postId\\": {
+                    \\"name\\": \\"postId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"postTitle\\": {
+                    \\"name\\": \\"postTitle\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Comment1s\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"commentId\\",
+                            \\"content\\"
+                        ]
+                    }
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"name\\": \\"byPost\\",
+                        \\"fields\\": [
+                            \\"postId\\",
+                            \\"postTitle\\"
+                        ]
+                    }
+                }
+            ]
+        }
+    },
+    \\"enums\\": {},
+    \\"nonModels\\": {},
+    \\"codegenVersion\\": \\"3.4.4\\",
+    \\"version\\": \\"aa7ec83a3846aece824a211c5304dd88\\"
 };"
 `;
 
@@ -758,7 +2006,7 @@ exports[`Metadata visitor for custom PK support relation metadata for hasOne/bel
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"codegenVersion\\": \\"1.0.0\\",
+    \\"codegenVersion\\": \\"3.4.4\\",
     \\"version\\": \\"e44592ddc9b6514a18674da5baacfe68\\"
 };"
 `;
@@ -939,1260 +2187,12 @@ export const schema: Schema = {
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"codegenVersion\\": \\"1.0.0\\",
+    \\"codegenVersion\\": \\"3.4.4\\",
     \\"version\\": \\"e44592ddc9b6514a18674da5baacfe68\\"
 };"
 `;
 
-exports[`relation metadata for hasMany & belongsTo when custom PK is enabled should generate correct metadata in js 1`] = `
-"export const schema = {
-    \\"models\\": {
-        \\"Post\\": {
-            \\"name\\": \\"Post\\",
-            \\"fields\\": {
-                \\"customPostId\\": {
-                    \\"name\\": \\"customPostId\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"title\\": {
-                    \\"name\\": \\"title\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"comments\\": {
-                    \\"name\\": \\"comments\\",
-                    \\"isArray\\": true,
-                    \\"type\\": {
-                        \\"model\\": \\"Comment\\"
-                    },
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isArrayNullable\\": true,
-                    \\"association\\": {
-                        \\"connectionType\\": \\"HAS_MANY\\",
-                        \\"associatedWith\\": [
-                            \\"postCommentsCustomPostId\\",
-                            \\"postCommentsTitle\\"
-                        ]
-                    }
-                },
-                \\"createdAt\\": {
-                    \\"name\\": \\"createdAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                },
-                \\"updatedAt\\": {
-                    \\"name\\": \\"updatedAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                }
-            },
-            \\"syncable\\": true,
-            \\"pluralName\\": \\"Posts\\",
-            \\"attributes\\": [
-                {
-                    \\"type\\": \\"model\\",
-                    \\"properties\\": {}
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"fields\\": [
-                            \\"customPostId\\",
-                            \\"title\\"
-                        ]
-                    }
-                }
-            ]
-        },
-        \\"Comment\\": {
-            \\"name\\": \\"Comment\\",
-            \\"fields\\": {
-                \\"customCommentId\\": {
-                    \\"name\\": \\"customCommentId\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"content\\": {
-                    \\"name\\": \\"content\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"post\\": {
-                    \\"name\\": \\"post\\",
-                    \\"isArray\\": false,
-                    \\"type\\": {
-                        \\"model\\": \\"Post\\"
-                    },
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"association\\": {
-                        \\"connectionType\\": \\"BELONGS_TO\\",
-                        \\"targetNames\\": [
-                            \\"postCommentsCustomPostId\\",
-                            \\"postCommentsTitle\\"
-                        ]
-                    }
-                },
-                \\"createdAt\\": {
-                    \\"name\\": \\"createdAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                },
-                \\"updatedAt\\": {
-                    \\"name\\": \\"updatedAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                },
-                \\"postCommentsCustomPostId\\": {
-                    \\"name\\": \\"postCommentsCustomPostId\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": []
-                },
-                \\"postCommentsTitle\\": {
-                    \\"name\\": \\"postCommentsTitle\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": []
-                }
-            },
-            \\"syncable\\": true,
-            \\"pluralName\\": \\"Comments\\",
-            \\"attributes\\": [
-                {
-                    \\"type\\": \\"model\\",
-                    \\"properties\\": {}
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"fields\\": [
-                            \\"customCommentId\\",
-                            \\"content\\"
-                        ]
-                    }
-                }
-            ]
-        },
-        \\"Post1\\": {
-            \\"name\\": \\"Post1\\",
-            \\"fields\\": {
-                \\"postId\\": {
-                    \\"name\\": \\"postId\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"title\\": {
-                    \\"name\\": \\"title\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"comments\\": {
-                    \\"name\\": \\"comments\\",
-                    \\"isArray\\": true,
-                    \\"type\\": {
-                        \\"model\\": \\"Comment1\\"
-                    },
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isArrayNullable\\": true,
-                    \\"association\\": {
-                        \\"connectionType\\": \\"HAS_MANY\\",
-                        \\"associatedWith\\": [
-                            \\"post\\"
-                        ]
-                    }
-                },
-                \\"createdAt\\": {
-                    \\"name\\": \\"createdAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                },
-                \\"updatedAt\\": {
-                    \\"name\\": \\"updatedAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                }
-            },
-            \\"syncable\\": true,
-            \\"pluralName\\": \\"Post1s\\",
-            \\"attributes\\": [
-                {
-                    \\"type\\": \\"model\\",
-                    \\"properties\\": {}
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"fields\\": [
-                            \\"postId\\",
-                            \\"title\\"
-                        ]
-                    }
-                }
-            ]
-        },
-        \\"Comment1\\": {
-            \\"name\\": \\"Comment1\\",
-            \\"fields\\": {
-                \\"commentId\\": {
-                    \\"name\\": \\"commentId\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"content\\": {
-                    \\"name\\": \\"content\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"post\\": {
-                    \\"name\\": \\"post\\",
-                    \\"isArray\\": false,
-                    \\"type\\": {
-                        \\"model\\": \\"Post1\\"
-                    },
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"association\\": {
-                        \\"connectionType\\": \\"BELONGS_TO\\",
-                        \\"targetNames\\": [
-                            \\"postId\\",
-                            \\"postTitle\\"
-                        ]
-                    }
-                },
-                \\"postId\\": {
-                    \\"name\\": \\"postId\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": []
-                },
-                \\"postTitle\\": {
-                    \\"name\\": \\"postTitle\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": []
-                },
-                \\"createdAt\\": {
-                    \\"name\\": \\"createdAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                },
-                \\"updatedAt\\": {
-                    \\"name\\": \\"updatedAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                }
-            },
-            \\"syncable\\": true,
-            \\"pluralName\\": \\"Comment1s\\",
-            \\"attributes\\": [
-                {
-                    \\"type\\": \\"model\\",
-                    \\"properties\\": {}
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"fields\\": [
-                            \\"commentId\\",
-                            \\"content\\"
-                        ]
-                    }
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"name\\": \\"byPost\\",
-                        \\"fields\\": [
-                            \\"postId\\",
-                            \\"postTitle\\"
-                        ]
-                    }
-                }
-            ]
-        }
-    },
-    \\"enums\\": {},
-    \\"nonModels\\": {},
-    \\"codegenVersion\\": \\"1.0.0\\",
-    \\"version\\": \\"cb8f120e36ffc33e0b01e0874ba14f7a\\"
-};"
-`;
-
-exports[`relation metadata for hasMany & belongsTo when custom PK is enabled should generate correct metadata in ts 1`] = `
-"import { Schema } from \\"@aws-amplify/datastore\\";
-
-export const schema: Schema = {
-    \\"models\\": {
-        \\"Post\\": {
-            \\"name\\": \\"Post\\",
-            \\"fields\\": {
-                \\"customPostId\\": {
-                    \\"name\\": \\"customPostId\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"title\\": {
-                    \\"name\\": \\"title\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"comments\\": {
-                    \\"name\\": \\"comments\\",
-                    \\"isArray\\": true,
-                    \\"type\\": {
-                        \\"model\\": \\"Comment\\"
-                    },
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isArrayNullable\\": true,
-                    \\"association\\": {
-                        \\"connectionType\\": \\"HAS_MANY\\",
-                        \\"associatedWith\\": [
-                            \\"postCommentsCustomPostId\\",
-                            \\"postCommentsTitle\\"
-                        ]
-                    }
-                },
-                \\"createdAt\\": {
-                    \\"name\\": \\"createdAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                },
-                \\"updatedAt\\": {
-                    \\"name\\": \\"updatedAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                }
-            },
-            \\"syncable\\": true,
-            \\"pluralName\\": \\"Posts\\",
-            \\"attributes\\": [
-                {
-                    \\"type\\": \\"model\\",
-                    \\"properties\\": {}
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"fields\\": [
-                            \\"customPostId\\",
-                            \\"title\\"
-                        ]
-                    }
-                }
-            ]
-        },
-        \\"Comment\\": {
-            \\"name\\": \\"Comment\\",
-            \\"fields\\": {
-                \\"customCommentId\\": {
-                    \\"name\\": \\"customCommentId\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"content\\": {
-                    \\"name\\": \\"content\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"post\\": {
-                    \\"name\\": \\"post\\",
-                    \\"isArray\\": false,
-                    \\"type\\": {
-                        \\"model\\": \\"Post\\"
-                    },
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"association\\": {
-                        \\"connectionType\\": \\"BELONGS_TO\\",
-                        \\"targetNames\\": [
-                            \\"postCommentsCustomPostId\\",
-                            \\"postCommentsTitle\\"
-                        ]
-                    }
-                },
-                \\"createdAt\\": {
-                    \\"name\\": \\"createdAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                },
-                \\"updatedAt\\": {
-                    \\"name\\": \\"updatedAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                },
-                \\"postCommentsCustomPostId\\": {
-                    \\"name\\": \\"postCommentsCustomPostId\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": []
-                },
-                \\"postCommentsTitle\\": {
-                    \\"name\\": \\"postCommentsTitle\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": []
-                }
-            },
-            \\"syncable\\": true,
-            \\"pluralName\\": \\"Comments\\",
-            \\"attributes\\": [
-                {
-                    \\"type\\": \\"model\\",
-                    \\"properties\\": {}
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"fields\\": [
-                            \\"customCommentId\\",
-                            \\"content\\"
-                        ]
-                    }
-                }
-            ]
-        },
-        \\"Post1\\": {
-            \\"name\\": \\"Post1\\",
-            \\"fields\\": {
-                \\"postId\\": {
-                    \\"name\\": \\"postId\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"title\\": {
-                    \\"name\\": \\"title\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"comments\\": {
-                    \\"name\\": \\"comments\\",
-                    \\"isArray\\": true,
-                    \\"type\\": {
-                        \\"model\\": \\"Comment1\\"
-                    },
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isArrayNullable\\": true,
-                    \\"association\\": {
-                        \\"connectionType\\": \\"HAS_MANY\\",
-                        \\"associatedWith\\": [
-                            \\"post\\"
-                        ]
-                    }
-                },
-                \\"createdAt\\": {
-                    \\"name\\": \\"createdAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                },
-                \\"updatedAt\\": {
-                    \\"name\\": \\"updatedAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                }
-            },
-            \\"syncable\\": true,
-            \\"pluralName\\": \\"Post1s\\",
-            \\"attributes\\": [
-                {
-                    \\"type\\": \\"model\\",
-                    \\"properties\\": {}
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"fields\\": [
-                            \\"postId\\",
-                            \\"title\\"
-                        ]
-                    }
-                }
-            ]
-        },
-        \\"Comment1\\": {
-            \\"name\\": \\"Comment1\\",
-            \\"fields\\": {
-                \\"commentId\\": {
-                    \\"name\\": \\"commentId\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"content\\": {
-                    \\"name\\": \\"content\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"post\\": {
-                    \\"name\\": \\"post\\",
-                    \\"isArray\\": false,
-                    \\"type\\": {
-                        \\"model\\": \\"Post1\\"
-                    },
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"association\\": {
-                        \\"connectionType\\": \\"BELONGS_TO\\",
-                        \\"targetNames\\": [
-                            \\"postId\\",
-                            \\"postTitle\\"
-                        ]
-                    }
-                },
-                \\"postId\\": {
-                    \\"name\\": \\"postId\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": []
-                },
-                \\"postTitle\\": {
-                    \\"name\\": \\"postTitle\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": []
-                },
-                \\"createdAt\\": {
-                    \\"name\\": \\"createdAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                },
-                \\"updatedAt\\": {
-                    \\"name\\": \\"updatedAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                }
-            },
-            \\"syncable\\": true,
-            \\"pluralName\\": \\"Comment1s\\",
-            \\"attributes\\": [
-                {
-                    \\"type\\": \\"model\\",
-                    \\"properties\\": {}
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"fields\\": [
-                            \\"commentId\\",
-                            \\"content\\"
-                        ]
-                    }
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"name\\": \\"byPost\\",
-                        \\"fields\\": [
-                            \\"postId\\",
-                            \\"postTitle\\"
-                        ]
-                    }
-                }
-            ]
-        }
-    },
-    \\"enums\\": {},
-    \\"nonModels\\": {},
-    \\"codegenVersion\\": \\"1.0.0\\",
-    \\"version\\": \\"cb8f120e36ffc33e0b01e0874ba14f7a\\"
-};"
-`;
-
-exports[`relation metadata for hasMany uni when custom PK is enabled should generate correct metadata in js 1`] = `
-"export const schema = {
-    \\"models\\": {
-        \\"Post\\": {
-            \\"name\\": \\"Post\\",
-            \\"fields\\": {
-                \\"id\\": {
-                    \\"name\\": \\"id\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"title\\": {
-                    \\"name\\": \\"title\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"comments\\": {
-                    \\"name\\": \\"comments\\",
-                    \\"isArray\\": true,
-                    \\"type\\": {
-                        \\"model\\": \\"Comment\\"
-                    },
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isArrayNullable\\": true,
-                    \\"association\\": {
-                        \\"connectionType\\": \\"HAS_MANY\\",
-                        \\"associatedWith\\": [
-                            \\"postCommentsId\\",
-                            \\"postCommentsTitle\\"
-                        ]
-                    }
-                },
-                \\"createdAt\\": {
-                    \\"name\\": \\"createdAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                },
-                \\"updatedAt\\": {
-                    \\"name\\": \\"updatedAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                }
-            },
-            \\"syncable\\": true,
-            \\"pluralName\\": \\"Posts\\",
-            \\"attributes\\": [
-                {
-                    \\"type\\": \\"model\\",
-                    \\"properties\\": {}
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"fields\\": [
-                            \\"id\\",
-                            \\"title\\"
-                        ]
-                    }
-                }
-            ]
-        },
-        \\"Comment\\": {
-            \\"name\\": \\"Comment\\",
-            \\"fields\\": {
-                \\"id\\": {
-                    \\"name\\": \\"id\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"content\\": {
-                    \\"name\\": \\"content\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"createdAt\\": {
-                    \\"name\\": \\"createdAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                },
-                \\"updatedAt\\": {
-                    \\"name\\": \\"updatedAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                },
-                \\"postCommentsId\\": {
-                    \\"name\\": \\"postCommentsId\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": []
-                },
-                \\"postCommentsTitle\\": {
-                    \\"name\\": \\"postCommentsTitle\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": []
-                }
-            },
-            \\"syncable\\": true,
-            \\"pluralName\\": \\"Comments\\",
-            \\"attributes\\": [
-                {
-                    \\"type\\": \\"model\\",
-                    \\"properties\\": {}
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"fields\\": [
-                            \\"id\\",
-                            \\"content\\"
-                        ]
-                    }
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"name\\": \\"gsi-Post.comments\\",
-                        \\"fields\\": [
-                            \\"postCommentsId\\",
-                            \\"postCommentsTitle\\"
-                        ]
-                    }
-                }
-            ]
-        },
-        \\"Post1\\": {
-            \\"name\\": \\"Post1\\",
-            \\"fields\\": {
-                \\"postId\\": {
-                    \\"name\\": \\"postId\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"title\\": {
-                    \\"name\\": \\"title\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"comments\\": {
-                    \\"name\\": \\"comments\\",
-                    \\"isArray\\": true,
-                    \\"type\\": {
-                        \\"model\\": \\"Comment1\\"
-                    },
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isArrayNullable\\": true,
-                    \\"association\\": {
-                        \\"connectionType\\": \\"HAS_MANY\\",
-                        \\"associatedWith\\": [
-                            \\"postId\\"
-                        ]
-                    }
-                },
-                \\"createdAt\\": {
-                    \\"name\\": \\"createdAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                },
-                \\"updatedAt\\": {
-                    \\"name\\": \\"updatedAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                }
-            },
-            \\"syncable\\": true,
-            \\"pluralName\\": \\"Post1s\\",
-            \\"attributes\\": [
-                {
-                    \\"type\\": \\"model\\",
-                    \\"properties\\": {}
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"fields\\": [
-                            \\"postId\\",
-                            \\"title\\"
-                        ]
-                    }
-                }
-            ]
-        },
-        \\"Comment1\\": {
-            \\"name\\": \\"Comment1\\",
-            \\"fields\\": {
-                \\"commentId\\": {
-                    \\"name\\": \\"commentId\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"content\\": {
-                    \\"name\\": \\"content\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"postId\\": {
-                    \\"name\\": \\"postId\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": []
-                },
-                \\"postTitle\\": {
-                    \\"name\\": \\"postTitle\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": []
-                },
-                \\"createdAt\\": {
-                    \\"name\\": \\"createdAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                },
-                \\"updatedAt\\": {
-                    \\"name\\": \\"updatedAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                }
-            },
-            \\"syncable\\": true,
-            \\"pluralName\\": \\"Comment1s\\",
-            \\"attributes\\": [
-                {
-                    \\"type\\": \\"model\\",
-                    \\"properties\\": {}
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"fields\\": [
-                            \\"commentId\\",
-                            \\"content\\"
-                        ]
-                    }
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"name\\": \\"byPost\\",
-                        \\"fields\\": [
-                            \\"postId\\",
-                            \\"postTitle\\"
-                        ]
-                    }
-                }
-            ]
-        }
-    },
-    \\"enums\\": {},
-    \\"nonModels\\": {},
-    \\"codegenVersion\\": \\"1.0.0\\",
-    \\"version\\": \\"aa7ec83a3846aece824a211c5304dd88\\"
-};"
-`;
-
-exports[`relation metadata for hasMany uni when custom PK is enabled should generate correct metadata in ts 1`] = `
-"import { Schema } from \\"@aws-amplify/datastore\\";
-
-export const schema: Schema = {
-    \\"models\\": {
-        \\"Post\\": {
-            \\"name\\": \\"Post\\",
-            \\"fields\\": {
-                \\"id\\": {
-                    \\"name\\": \\"id\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"title\\": {
-                    \\"name\\": \\"title\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"comments\\": {
-                    \\"name\\": \\"comments\\",
-                    \\"isArray\\": true,
-                    \\"type\\": {
-                        \\"model\\": \\"Comment\\"
-                    },
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isArrayNullable\\": true,
-                    \\"association\\": {
-                        \\"connectionType\\": \\"HAS_MANY\\",
-                        \\"associatedWith\\": [
-                            \\"postCommentsId\\",
-                            \\"postCommentsTitle\\"
-                        ]
-                    }
-                },
-                \\"createdAt\\": {
-                    \\"name\\": \\"createdAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                },
-                \\"updatedAt\\": {
-                    \\"name\\": \\"updatedAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                }
-            },
-            \\"syncable\\": true,
-            \\"pluralName\\": \\"Posts\\",
-            \\"attributes\\": [
-                {
-                    \\"type\\": \\"model\\",
-                    \\"properties\\": {}
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"fields\\": [
-                            \\"id\\",
-                            \\"title\\"
-                        ]
-                    }
-                }
-            ]
-        },
-        \\"Comment\\": {
-            \\"name\\": \\"Comment\\",
-            \\"fields\\": {
-                \\"id\\": {
-                    \\"name\\": \\"id\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"content\\": {
-                    \\"name\\": \\"content\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"createdAt\\": {
-                    \\"name\\": \\"createdAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                },
-                \\"updatedAt\\": {
-                    \\"name\\": \\"updatedAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                },
-                \\"postCommentsId\\": {
-                    \\"name\\": \\"postCommentsId\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": []
-                },
-                \\"postCommentsTitle\\": {
-                    \\"name\\": \\"postCommentsTitle\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": []
-                }
-            },
-            \\"syncable\\": true,
-            \\"pluralName\\": \\"Comments\\",
-            \\"attributes\\": [
-                {
-                    \\"type\\": \\"model\\",
-                    \\"properties\\": {}
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"fields\\": [
-                            \\"id\\",
-                            \\"content\\"
-                        ]
-                    }
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"name\\": \\"gsi-Post.comments\\",
-                        \\"fields\\": [
-                            \\"postCommentsId\\",
-                            \\"postCommentsTitle\\"
-                        ]
-                    }
-                }
-            ]
-        },
-        \\"Post1\\": {
-            \\"name\\": \\"Post1\\",
-            \\"fields\\": {
-                \\"postId\\": {
-                    \\"name\\": \\"postId\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"title\\": {
-                    \\"name\\": \\"title\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"comments\\": {
-                    \\"name\\": \\"comments\\",
-                    \\"isArray\\": true,
-                    \\"type\\": {
-                        \\"model\\": \\"Comment1\\"
-                    },
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isArrayNullable\\": true,
-                    \\"association\\": {
-                        \\"connectionType\\": \\"HAS_MANY\\",
-                        \\"associatedWith\\": [
-                            \\"postId\\"
-                        ]
-                    }
-                },
-                \\"createdAt\\": {
-                    \\"name\\": \\"createdAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                },
-                \\"updatedAt\\": {
-                    \\"name\\": \\"updatedAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                }
-            },
-            \\"syncable\\": true,
-            \\"pluralName\\": \\"Post1s\\",
-            \\"attributes\\": [
-                {
-                    \\"type\\": \\"model\\",
-                    \\"properties\\": {}
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"fields\\": [
-                            \\"postId\\",
-                            \\"title\\"
-                        ]
-                    }
-                }
-            ]
-        },
-        \\"Comment1\\": {
-            \\"name\\": \\"Comment1\\",
-            \\"fields\\": {
-                \\"commentId\\": {
-                    \\"name\\": \\"commentId\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"content\\": {
-                    \\"name\\": \\"content\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"postId\\": {
-                    \\"name\\": \\"postId\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": []
-                },
-                \\"postTitle\\": {
-                    \\"name\\": \\"postTitle\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": []
-                },
-                \\"createdAt\\": {
-                    \\"name\\": \\"createdAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                },
-                \\"updatedAt\\": {
-                    \\"name\\": \\"updatedAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                }
-            },
-            \\"syncable\\": true,
-            \\"pluralName\\": \\"Comment1s\\",
-            \\"attributes\\": [
-                {
-                    \\"type\\": \\"model\\",
-                    \\"properties\\": {}
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"fields\\": [
-                            \\"commentId\\",
-                            \\"content\\"
-                        ]
-                    }
-                },
-                {
-                    \\"type\\": \\"key\\",
-                    \\"properties\\": {
-                        \\"name\\": \\"byPost\\",
-                        \\"fields\\": [
-                            \\"postId\\",
-                            \\"postTitle\\"
-                        ]
-                    }
-                }
-            ]
-        }
-    },
-    \\"enums\\": {},
-    \\"nonModels\\": {},
-    \\"codegenVersion\\": \\"1.0.0\\",
-    \\"version\\": \\"aa7ec83a3846aece824a211c5304dd88\\"
-};"
-`;
-
-exports[`relation metadata for manyToMany when custom PK is enabled should generate correct metadata in js 1`] = `
+exports[`Metadata visitor for custom PK support relation metadata for manyToMany when custom PK is enabled should generate correct metadata in js 1`] = `
 "export const schema = {
     \\"models\\": {
         \\"Post\\": {
@@ -2457,12 +2457,12 @@ exports[`relation metadata for manyToMany when custom PK is enabled should gener
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"codegenVersion\\": \\"1.0.0\\",
+    \\"codegenVersion\\": \\"3.4.4\\",
     \\"version\\": \\"7c85f0b3f2df2a63cd6e1c28593a5381\\"
 };"
 `;
 
-exports[`relation metadata for manyToMany when custom PK is enabled should generate correct metadata in ts 1`] = `
+exports[`Metadata visitor for custom PK support relation metadata for manyToMany when custom PK is enabled should generate correct metadata in ts 1`] = `
 "import { Schema } from \\"@aws-amplify/datastore\\";
 
 export const schema: Schema = {
@@ -2729,7 +2729,7 @@ export const schema: Schema = {
     },
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"codegenVersion\\": \\"1.0.0\\",
+    \\"codegenVersion\\": \\"3.4.4\\",
     \\"version\\": \\"7c85f0b3f2df2a63cd6e1c28593a5381\\"
 };"
 `;

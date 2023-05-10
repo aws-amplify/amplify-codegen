@@ -72,7 +72,8 @@ export type GQLAllOperations = {
 };
 
 export type GQLDocsGenOptions = {
-  useExternalFragmentForS3Object: boolean,
+  useExternalFragmentForS3Object: boolean;
+  typenameIntrospection: boolean;
 };
 
 export enum SchemaType {

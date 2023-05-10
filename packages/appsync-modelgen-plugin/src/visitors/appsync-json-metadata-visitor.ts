@@ -160,7 +160,10 @@ export class AppSyncJSONVisitor<
       models: {},
       enums: {},
       nonModels: {},
-      codegenVersion: this._parsedConfig.codegenVersion || 'unknown',
+      // This is hard-coded for the schema version purpose instead of codegen version
+      // To avoid the failure of validation method checkCodegenSchema in JS Datastore
+      // The hard code is starting from amplify codegen major version 4
+      codegenVersion: '3.4.4',
       version: this.computeVersion(),
     };
 
