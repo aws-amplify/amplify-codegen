@@ -162,10 +162,8 @@ export class AppSyncJSONVisitor<
       nonModels: {},
       // This is hard-coded for the schema version purpose instead of codegen version
       // To avoid the failure of validation method checkCodegenSchema in JS Datastore
-      // When the amplify codegen version is bumped to next major version
       // The hard code is starting from amplify codegen major version 4
-      // https://github.com/aws-amplify/amplify-js/blob/06dae6255c20e1655634acb17d9c1ef8a6a4bc29/packages/datastore/src/datastore/datastore.ts#L489
-      codegenVersion: '3.4.4', 
+      codegenVersion: '3.4.4',
       version: this.computeVersion(),
     };
 
