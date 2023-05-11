@@ -63,6 +63,9 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
       const generatedOps = generateGraphQLDocuments(schemaData, {
         maxDepth: maxDepth || cfg.amplifyExtension.maxDepth,
         useExternalFragmentForS3Object: (language === 'graphql'),
+        // default typenameIntrospection to true when not set
+        typenameIntrospection:
+          cfg.amplifyExtension.typenameIntrospection === undefined ? true : !!cfg.amplifyExtension.typenameIntrospection,
       });
       if(!generatedOps) {
         context.print.warning('No GraphQL statements are generated. Check if the introspection schema has GraphQL operations defined.');

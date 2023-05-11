@@ -31,10 +31,14 @@ export function run(argv: Array<String>): void {
           default: 2,
           normalize: true,
           type: 'number',
-        }
+        },
+        typenameIntrospection: {
+          default: true,
+          type: 'boolean',
+        },
       },
       async argv => {
-        generateGraphQLDocuments(argv.schema, { maxDepth: argv.maxDepth });
+        generateGraphQLDocuments(argv.schema, { maxDepth: argv.maxDepth, typenameIntrospection: argv.typenameIntrospection });
       }
     )
     .help()
