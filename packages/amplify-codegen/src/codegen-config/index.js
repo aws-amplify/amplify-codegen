@@ -61,7 +61,7 @@ function getCodegenConfig(projectPath) {
       if (!generatedFileName || generatedFileName === '') {
         return;
       }
-      return generatedFileName;
+      return path.normalize(generatedFileName);
     }
   }
 }
