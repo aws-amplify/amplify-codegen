@@ -1,6 +1,7 @@
 const { getCodegenConfig } = require('../../src/codegen-config');
 const fs = require('fs-extra');
 const graphQLConfig = require('graphql-config');
+const path = require('path');
 
 jest.mock('fs-extra');
 jest.mock('graphql-config');
@@ -50,10 +51,10 @@ describe('get codegen configuration', () => {
     fs.existsSync = jest.fn().mockReturnValue(true);
     graphQLConfig.getGraphQLConfig = jest.fn().mockReturnValue(MOCK_CODEGEN_CONFIG);
     const getConfigReturn = getCodegenConfig(MOCK_PROJECT_ROOT);
-    expect(getConfigReturn.getGeneratedQueriesPath()).toEqual('src/graphql/queries');
-    expect(getConfigReturn.getGeneratedMutationsPath()).toEqual('src/graphql/mutations');
-    expect(getConfigReturn.getGeneratedSubscriptionsPath()).toEqual('src/graphql/subscriptions');
-    expect(getConfigReturn.getGeneratedFragmentsPath()).toEqual('src/graphql/fragments');
+    expect(getConfigReturn.getGeneratedQueriesPath()).toEqual(path.join('src', 'graphql', 'queries'));
+    expect(getConfigReturn.getGeneratedMutationsPath()).toEqual(path.join('src', 'graphql', 'mutations'));
+    expect(getConfigReturn.getGeneratedSubscriptionsPath()).toEqual(path.join('src', 'graphql', 'subscriptions'));
+    expect(getConfigReturn.getGeneratedFragmentsPath()).toEqual(path.join('src', 'graphql', 'fragments'));
   });
 
   it('uses the includes property if the generated documents path does not exist', () => {
@@ -62,17 +63,17 @@ describe('get codegen configuration', () => {
     fs.existsSync = jest.fn().mockReturnValue(true);
     graphQLConfig.getGraphQLConfig = jest.fn().mockReturnValue(configWithoutDocumentsPath);
     const getConfigReturn = getCodegenConfig(MOCK_PROJECT_ROOT);
-    expect(getConfigReturn.getGeneratedQueriesPath()).toEqual('src/graphql/queries');
-    expect(getConfigReturn.getGeneratedMutationsPath()).toEqual('src/graphql/mutations');
-    expect(getConfigReturn.getGeneratedSubscriptionsPath()).toEqual('src/graphql/subscriptions');
-    expect(getConfigReturn.getGeneratedFragmentsPath()).toEqual('src/graphql/fragments');
+    expect(getConfigReturn.getGeneratedQueriesPath()).toEqual(path.join('src', 'graphql', 'queries'));
+    expect(getConfigReturn.getGeneratedMutationsPath()).toEqual(path.join('src', 'graphql', 'mutations'));
+    expect(getConfigReturn.getGeneratedSubscriptionsPath()).toEqual(path.join('src', 'graphql', 'subscriptions'));
+    expect(getConfigReturn.getGeneratedFragmentsPath()).toEqual(path.join('src', 'graphql', 'fragments'));
   });
 
   it('correctly returns the generated types path if exists', () => {
     fs.existsSync = jest.fn().mockReturnValue(true);
     graphQLConfig.getGraphQLConfig = jest.fn().mockReturnValue(MOCK_CODEGEN_CONFIG);
     const getConfigReturn = getCodegenConfig(MOCK_PROJECT_ROOT);
-    expect(getConfigReturn.getGeneratedTypesPath()).toEqual('src/API.ts');
+    expect(getConfigReturn.getGeneratedTypesPath()).toEqual(path.join('src', 'API.ts'));
   });
 
   it('returns undefined if types path does not exist', () => {
