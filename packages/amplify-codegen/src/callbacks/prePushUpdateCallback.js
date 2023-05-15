@@ -1,6 +1,6 @@
 const { normalizeInputParams } = require('../utils/input-params-manager');
 const constants = require('../constants');
-const loadConfig = require('../codegen-config');
+const { loadConfig } = require('../codegen-config');
 const askShouldUpdateCode = require('../walkthrough/questions/updateCode');
 const askShouldUpdateDocs = require('../walkthrough/questions/updateDocs');
 const path = require('path');
