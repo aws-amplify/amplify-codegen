@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es2015",
+    "target": "es6",
     "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "lib",
     "lib": ["es2017", "esnext.asynciterable", "dom"],
+    "declaration": true,
     "removeComments": true,
     "strict": true,
     "noImplicitReturns": true,

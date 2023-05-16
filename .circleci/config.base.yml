@@ -306,6 +306,15 @@ jobs:
           path: ~/repo/packages/amplify-e2e-tests/amplify-e2e-reports
     working_directory: ~/repo
 
+  verify-api-extract:
+    <<: *linux-e2e-executor
+    steps:
+      - attach_workspace:
+          at: ./
+      - restore_cache:
+          key: amplify-codegen-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - run: yarn verify-api-extract
+
 workflows:
   version: 2
   e2e_resource_cleanup:
@@ -317,6 +326,7 @@ workflows:
               only:
                 - main
                 - e2e-testing
+                - /run-e2e\/.*/
     jobs:
       - build:
           os: l
@@ -338,6 +348,9 @@ workflows:
               os: [l, w]
           requires:
             - build
+      - verify-api-extract:
+          requires:
+            - build
       - publish_to_local_registry:
           os: l
           requires:
@@ -348,6 +361,7 @@ workflows:
                 - main
                 - e2e-testing
                 - /tagged-release\/.*/
+                - /run-e2e\/.*/
       - e2e-test:
           context:
             - cleanup-resources
@@ -362,6 +376,7 @@ workflows:
                 - main
                 - e2e-testing
                 - /tagged-release\/.*/
+                - /run-e2e\/.*/
       - deploy:
           os: l
           requires:

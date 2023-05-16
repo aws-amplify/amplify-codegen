@@ -290,7 +290,7 @@ describe('Metadata visitor', () => {
 
         expect(metadata).toMatchInlineSnapshot(`
           Object {
-            "codegenVersion": "1.0.0",
+            "codegenVersion": "3.4.4",
             "enums": Object {
               "SimpleEnum": Object {
                 "name": "SimpleEnum",
@@ -474,7 +474,7 @@ describe('Metadata visitor', () => {
                     }
                 }
             },
-            \\"codegenVersion\\": \\"1.0.0\\",
+            \\"codegenVersion\\": \\"3.4.4\\",
             \\"version\\": \\"5eb36909e822fd40c657cc69b22c919a\\"
         };"
       `);
@@ -568,7 +568,7 @@ describe('Metadata visitor', () => {
                     }
                 }
             },
-            \\"codegenVersion\\": \\"1.0.0\\",
+            \\"codegenVersion\\": \\"3.4.4\\",
             \\"version\\": \\"5eb36909e822fd40c657cc69b22c919a\\"
         };"
       `);
@@ -728,7 +728,7 @@ describe('Metadata visitor', () => {
                     }
                 }
             },
-            \\"codegenVersion\\": \\"1.0.0\\",
+            \\"codegenVersion\\": \\"3.4.4\\",
             \\"version\\": \\"5eb36909e822fd40c657cc69b22c919a\\"
         };"
       `);
@@ -853,7 +853,7 @@ describe('Metadata visitor', () => {
                     }
                 }
             },
-            \\"codegenVersion\\": \\"1.0.0\\",
+            \\"codegenVersion\\": \\"3.4.4\\",
             \\"version\\": \\"5eb36909e822fd40c657cc69b22c919a\\"
         };"
       `);
@@ -974,7 +974,7 @@ describe('Metadata visitor for auth process in field level', () => {
             },
             \\"enums\\": {},
             \\"nonModels\\": {},
-            \\"codegenVersion\\": \\"1.0.0\\",
+            \\"codegenVersion\\": \\"3.4.4\\",
             \\"version\\": \\"0fffb966ea9b8954eb89d00d74d474ac\\"
         };"
       `);
@@ -1080,7 +1080,7 @@ describe('Metadata visitor for auth process in field level', () => {
             },
             \\"enums\\": {},
             \\"nonModels\\": {},
-            \\"codegenVersion\\": \\"1.0.0\\",
+            \\"codegenVersion\\": \\"3.4.4\\",
             \\"version\\": \\"0fffb966ea9b8954eb89d00d74d474ac\\"
         };"
       `);
@@ -1221,7 +1221,7 @@ describe('Metadata visitor has one relation', () => {
           },
           \\"enums\\": {},
           \\"nonModels\\": {},
-          \\"codegenVersion\\": \\"1.0.0\\",
+          \\"codegenVersion\\": \\"3.4.4\\",
           \\"version\\": \\"27c53665371915d89e2b47bb22ec29af\\"
       };"
     `);
@@ -1344,7 +1344,7 @@ describe('Metadata visitor has one relation', () => {
           },
           \\"enums\\": {},
           \\"nonModels\\": {},
-          \\"codegenVersion\\": \\"1.0.0\\",
+          \\"codegenVersion\\": \\"3.4.4\\",
           \\"version\\": \\"27c53665371915d89e2b47bb22ec29af\\"
       };"
     `);
@@ -1441,7 +1441,6 @@ describe('Metadata visitor for custom PK support', () => {
       getVisitor(schema, 'javascript', { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 }).generate(),
     ).toMatchSnapshot();
   });
-});
   describe('relation metadata for hasMany uni when custom PK is enabled', () => {
     const schema = /* GraphQL */ `
       type Post @model {

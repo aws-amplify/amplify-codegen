@@ -2,7 +2,7 @@ import * as yargs from 'yargs';
 import { logError } from './logger';
 import { generateGraphQLDocuments } from './index';
 
-// / Make sure unhandled errors in async code are propagated correctly
+// Make sure unhandled errors in async code are propagated correctly
 process.on('unhandledRejection', error => {
   throw error;
 });
@@ -39,7 +39,7 @@ export function run(argv: Array<String>): void {
       },
       async argv => {
         generateGraphQLDocuments(argv.schema, { maxDepth: argv.maxDepth, typenameIntrospection: argv.typenameIntrospection });
-      }
+      },
     )
     .help()
     .version()

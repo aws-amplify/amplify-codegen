@@ -1,14 +1,27 @@
 const generateModels = require('../../src/commands/models');
+const {
+  validateAmplifyFlutterMinSupportedVersion,
+  MINIMUM_SUPPORTED_VERSION_CONSTRAINT,
+} = require('../../src/utils/validateAmplifyFlutterMinSupportedVersion');
 const mockFs = require('mock-fs');
 const graphqlCodegen = require('@graphql-codegen/core');
 const fs = require('fs');
 const path = require('path');
 
 jest.mock('@graphql-codegen/core');
+jest.mock('../../src/utils/validateAmplifyFlutterMinSupportedVersion', () => {
+  const originalModule = jest.requireActual('../../src/utils/validateAmplifyFlutterMinSupportedVersion');
+
+  return {
+    ...originalModule,
+    validateAmplifyFlutterMinSupportedVersion: jest.fn(),
+  };
+});
 const MOCK_CONTEXT = {
   print: {
     info: jest.fn(),
     warning: jest.fn(),
+    error: jest.fn(),
   },
   amplify: {
     getProjectMeta: jest.fn(),
@@ -37,6 +50,7 @@ describe('command-models-generates models in expected output path', () => {
     jest.resetAllMocks();
     addMocksToContext();
     graphqlCodegen.codegen.mockReturnValue(MOCK_GENERATED_CODE);
+    validateAmplifyFlutterMinSupportedVersion.mockReturnValue(true);
   });
 
   for (const frontend in OUTPUT_PATHS) {
@@ -87,6 +101,30 @@ describe('command-models-generates models in expected output path', () => {
       // assert model files are generated in expected output directory
       expect(fs.readdirSync(outputDirectory).length).toBeGreaterThan(0);
     });
+
+    if (frontend === 'flutter') {
+      it(`${frontend}: Should print error when Amplify Flutter version < ${MINIMUM_SUPPORTED_VERSION_CONSTRAINT} and not generate any models`, async () => {
+        validateAmplifyFlutterMinSupportedVersion.mockReturnValue(false);
+        // mock the input and output file structure
+        const schemaFilePath = path.join(MOCK_BACKEND_DIRECTORY, 'api', MOCK_PROJECT_NAME);
+        const outputDirectory = path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend]);
+        const mockedFiles = {};
+        mockedFiles[schemaFilePath] = {
+          'schema.graphql': ' type SimpleModel { id: ID! status: String } ',
+        };
+        mockedFiles[outputDirectory] = {};
+        mockFs(mockedFiles);
+        MOCK_CONTEXT.amplify.getProjectConfig.mockReturnValue({ frontend: frontend });
+
+        // assert empty folder before generation
+        expect(fs.readdirSync(outputDirectory).length).toEqual(0);
+
+        await generateModels(MOCK_CONTEXT);
+
+        expect(MOCK_CONTEXT.print.error).toBeCalled();
+        expect(graphqlCodegen.codegen).not.toBeCalled();
+      });
+    }
   }
 
   afterEach(mockFs.restore);

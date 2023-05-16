@@ -21,7 +21,9 @@ function validateAmplifyFlutterVersion(projectRoot, versionConstraint) {
       console.log(e.message);
     }
 
-    console.log('An error occurred while parsing ' + PUBSPEC_LOCK_FILE_NAME + '.');
+    console.log(
+      `An error occurred while parsing ${PUBSPEC_LOCK_FILE_NAME}. If you haven't, run \`flutter pub get\` to ensure generating the ${PUBSPEC_LOCK_FILE_NAME} file.`,
+    );
     return false;
   }
 }

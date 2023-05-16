@@ -1,4 +1,5 @@
 import { NormalizedScalarsMap } from '@graphql-codegen/visitor-plugin-common';
+import { AMPLIFY_CORE_PREFIX } from '../configs/dart-config';
 
 export const JAVA_SCALAR_MAP: NormalizedScalarsMap = {
   ID: 'String',
@@ -82,10 +83,10 @@ export const DART_SCALAR_MAP: NormalizedScalarsMap = {
   Int: 'int',
   Float: 'double',
   Boolean: 'bool',
-  AWSDate: 'TemporalDate',
-  AWSDateTime: 'TemporalDateTime',
-  AWSTime: 'TemporalTime',
-  AWSTimestamp: 'TemporalTimestamp',
+  AWSDate: `${AMPLIFY_CORE_PREFIX}.TemporalDate`,
+  AWSDateTime: `${AMPLIFY_CORE_PREFIX}.TemporalDateTime`,
+  AWSTime: `${AMPLIFY_CORE_PREFIX}.TemporalTime`,
+  AWSTimestamp: `${AMPLIFY_CORE_PREFIX}.TemporalTimestamp`,
   AWSEmail: 'String',
   AWSJSON: 'String',
   AWSURL: 'String',
