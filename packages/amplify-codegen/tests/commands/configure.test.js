@@ -1,6 +1,6 @@
 const configure = require('../../src/commands/configure');
 const add = require('../../src/commands/add');
-const loadConfig = require('../../src/codegen-config');
+const { loadConfig } = require('../../src/codegen-config');
 const configureProjectWalkThrough = require('../../src/walkthrough/configure');
 
 jest.mock('../../src/commands/add');

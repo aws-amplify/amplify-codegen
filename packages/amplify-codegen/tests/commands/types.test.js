@@ -3,7 +3,7 @@ const path = require('path');
 const { generate } = require('@aws-amplify/graphql-types-generator');
 const fs = require('fs-extra');
 
-const loadConfig = require('../../src/codegen-config');
+const { loadConfig } = require('../../src/codegen-config');
 const generateTypes = require('../../src/commands/types');
 const constants = require('../../src/constants');
 const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails } = require('../../src/utils');

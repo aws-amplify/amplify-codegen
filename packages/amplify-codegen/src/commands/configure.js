@@ -1,4 +1,4 @@
-const loadConfig = require('../codegen-config');
+const { loadConfig } = require('../codegen-config');
 const configureProjectWalkThrough = require('../walkthrough/configure');
 const add = require('./add');
 

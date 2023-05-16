@@ -1,4 +1,4 @@
-const loadConfig = require('../codegen-config');
+const { loadConfig } = require('../codegen-config');
 const getSDLSchemaPath = require('./getSDLSchemaLocation');
 const getFrontendHandler = require('./getFrontEndHandler');
 

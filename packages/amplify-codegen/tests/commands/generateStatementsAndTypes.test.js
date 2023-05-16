@@ -1,4 +1,4 @@
-const loadConfig = require('../../src/codegen-config');
+const { loadConfig } = require('../../src/codegen-config');
 const generateStatements = require('../../src/commands/statements');
 const generateTypes = require('../../src/commands/types');
 const generateStatementsAndTypes = require('../../src/commands/generateStatementsAndType');
