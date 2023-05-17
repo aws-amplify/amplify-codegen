@@ -25,16 +25,17 @@ export async function testCodegenModels(config: AmplifyFrontendConfig, projectRo
     //generate pre existing user file
     const userSourceCodePath = generateSourceCode(projectRoot, config.srcDir);
 
+    // For flutter frontend, we need to have a pubspec lock file with supported dart version
+    if (config?.frontendType === AmplifyFrontend.flutter) {
+        createPubspecLockFile(projectRoot);
+    }
+
     //generate models
     await expect(generateModels(projectRoot, outputDir)).resolves.not.toThrow();
 
     // pre-existing file should still exist
     expect(existsSync(userSourceCodePath)).toBe(true);
 
-    // For flutter frontend, we need to have a pubspec lock file with supported dart version
-    if (config?.frontendType === AmplifyFrontend.flutter) {
-        createPubspecLockFile(projectRoot);
-    }
     // datastore models are generated at correct location
     const dirToCheck = outputDir
         ? path.join(projectRoot, outputDir)

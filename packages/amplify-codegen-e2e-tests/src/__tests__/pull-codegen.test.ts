@@ -116,6 +116,10 @@ describe('Amplify pull in sandbox app with codegen tests', () => {
     it(`should pull sandbox, download schema and generate models without deleting user files in ${config.frontendType} project`, async () => {
       //generate pre existing user file
       const userSourceCodePath = generateSourceCode(projectRoot, config.srcDir);
+      // Flutter projects need min dart version to be met for modelgen to succeed.
+      if (config?.frontendType === AmplifyFrontend.flutter) {
+        createPubspecLockFile(projectRoot);
+      };
       //pull sandbox app
       await amplifyPullSandbox(projectRoot, {
         appType: config.frontendType,
