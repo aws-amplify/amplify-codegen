@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 
-const loadConfig = require('../codegen-config');
+const { loadConfig } = require('../codegen-config');
 const constants = require('../constants');
 
 async function remove(context) {

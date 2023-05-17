@@ -3,7 +3,7 @@ const path = require('path');
 const Ora = require('ora');
 
 const constants = require('../constants');
-const loadConfig = require('../codegen-config');
+const { loadConfig } = require('../codegen-config');
 const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails } = require('../utils');
 const { generate } = require('@aws-amplify/graphql-types-generator');
 
