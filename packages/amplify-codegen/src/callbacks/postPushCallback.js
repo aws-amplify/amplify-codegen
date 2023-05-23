@@ -1,7 +1,7 @@
 const path = require('path');
 const { pathManager } = require('@aws-amplify/amplify-cli-core');
 
-const loadConfig = require('../codegen-config');
+const { loadConfig } = require('../codegen-config');
 const generateStatements = require('../commands/statements');
 const generateTypes = require('../commands/types');
 const generateModels = require('../commands/models');

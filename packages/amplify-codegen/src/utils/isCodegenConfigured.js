@@ -1,4 +1,4 @@
-const loadConfig = require('../codegen-config');
+const { loadConfig } = require('../codegen-config');
 
 function isCodegenConfigured(context, apiName) {
   const config = loadConfig(context);

@@ -1,5 +1,5 @@
 const Ora = require('ora');
-const loadConfig = require('../codegen-config');
+const { loadConfig } = require('../codegen-config');
 const constants = require('../constants');
 const generateStatements = require('./statements');
 const generateTypes = require('./types');

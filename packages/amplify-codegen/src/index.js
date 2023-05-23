@@ -11,6 +11,7 @@ const prePushAddGraphQLCodegenHook = require('./callbacks/prePushAddCallback');
 const prePushUpdateGraphQLCodegenHook = require('./callbacks/prePushUpdateCallback');
 const postPushGraphQLCodegenHook = require('./callbacks/postPushCallback');
 const { executeAmplifyCommand, handleAmplifyEvent } = require('./amplify-plugin-index');
+const { getCodegenConfig } = require('./codegen-config');
 
 module.exports = {
   configure,
@@ -29,4 +30,5 @@ module.exports = {
   generateModels,
   generateModelIntrospection,
   getModelIntrospection,
+  getCodegenConfig
 };

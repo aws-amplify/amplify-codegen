@@ -116,8 +116,7 @@ function initializeFrontend(chain: ExecutionContext, config: AmplifyFrontendConf
   switch (config.frontendType) {
     case AmplifyFrontend.android:
       chain
-        .send('j')
-        .sendCarriageReturn()
+        .sendLine('android')
         .wait('Where is your Res directory')
         .sendCarriageReturn()
       return;

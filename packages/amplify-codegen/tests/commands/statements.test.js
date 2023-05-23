@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs-extra');
 
-const loadConfig = require('../../src/codegen-config');
+const { loadConfig } = require('../../src/codegen-config');
 const generateStatements = require('../../src/commands/statements');
 const constants = require('../../src/constants');
 const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails, readSchemaFromFile } = require('../../src/utils');

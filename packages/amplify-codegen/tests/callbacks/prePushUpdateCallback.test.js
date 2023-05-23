@@ -1,4 +1,4 @@
-const loadConfig = require('../../src/codegen-config');
+const { loadConfig } = require('../../src/codegen-config');
 const askShouldUpdateCode = require('../../src/walkthrough/questions/updateCode');
 const askShouldUpdateStatements = require('../../src/walkthrough/questions/updateDocs');
 

@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs-extra');
 const Ora = require('ora');
 
-const loadConfig = require('../codegen-config');
+const { loadConfig } = require('../codegen-config');
 const constants = require('../constants');
 const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails, readSchemaFromFile, GraphQLStatementsFormatter } = require('../utils');
 const { generateGraphQLDocuments } = require('@aws-amplify/graphql-docs-generator');

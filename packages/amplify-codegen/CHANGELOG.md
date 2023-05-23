@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.1.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.0.1...amplify-codegen@4.1.0) (2023-05-17)
+
+### Bug Fixes
+
+- init step for e2e test ([6457501](https://github.com/aws-amplify/amplify-codegen/commit/6457501a10c19e881ac41c743e2afcd58c91d002))
+- normalize path for windows ([8e3544d](https://github.com/aws-amplify/amplify-codegen/commit/8e3544de5e811eb5e8a9615ddeed2fa6b7fb2fe1))
+
+### Features
+
+- add codegen config related apis ([b82e3e4](https://github.com/aws-amplify/amplify-codegen/commit/b82e3e4cce0b649d4df8db5047e590a5fc780f68))
+
 ## [4.0.1](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@3.4.4...amplify-codegen@4.0.1) (2023-05-11)
 
 **Note:** Version bump only for package amplify-codegen
