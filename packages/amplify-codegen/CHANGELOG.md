@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.1](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.1.0...amplify-codegen@4.1.1) (2023-05-26)
+
+### Bug Fixes
+
+- add default for no gql config case ([b12a19a](https://github.com/aws-amplify/amplify-codegen/commit/b12a19a9233ca33437c246fc34c5f4e51af1e5de))
+
 # [4.1.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.0.1...amplify-codegen@4.1.0) (2023-05-17)
 
 ### Bug Fixes
