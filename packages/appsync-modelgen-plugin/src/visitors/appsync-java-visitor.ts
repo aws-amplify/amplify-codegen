@@ -205,7 +205,7 @@ export class AppSyncModelJavaVisitor<
       isIdAsModelPrimaryKey = primaryKeyType !== CodeGenPrimaryKeyType.CustomId;
     }
 
-    if (isCompositeKey && this.isCustomPKEnabled()) {
+    if (this.isCustomPKEnabled() && !isIdAsModelPrimaryKey) {
       // Generate primary key class for composite key
       this.generateIdentifierClassField(model, classDeclarationBlock);
     }
@@ -221,13 +221,13 @@ export class AppSyncModelJavaVisitor<
     this.generateCopyOfBuilderClass(model, classDeclarationBlock, isIdAsModelPrimaryKey);
 
     if (this.isCustomPKEnabled()) {
-      if (isCompositeKey) {
-        // Model primary Key class for composite primary key
+      if (!isIdAsModelPrimaryKey) {
+        // Model primary Key class for all custom primary keys
         this.generateModelIdentifierClass(model, classDeclarationBlock);
       }
 
       // resolveIdentifier
-      this.generateResolveIdentifier(model, classDeclarationBlock, isCompositeKey);
+      this.generateResolveIdentifier(model, classDeclarationBlock, isIdAsModelPrimaryKey);
     }
 
     // getters
@@ -641,12 +641,12 @@ export class AppSyncModelJavaVisitor<
    * @param model
    * @param declarationsBlock
    */
-  protected generateResolveIdentifier(model: CodeGenModel, declarationsBlock: JavaDeclarationBlock, isCompositeKey: boolean): void {
+  protected generateResolveIdentifier(model: CodeGenModel, declarationsBlock: JavaDeclarationBlock, isIdAsModelPrimaryKey: boolean): void {
     const primaryKeyField = this.getModelPrimaryKeyField(model);
     const { sortKeyFields } = primaryKeyField.primaryKeyInfo!;
     const modelIdentifierClassFieldName = this.getModelIdentifierClassFieldName(model);
-    const returnType = isCompositeKey ? this.getModelIdentifierClassName(model) : this.getNativeType(primaryKeyField);
-    const body = isCompositeKey
+    const returnType = !isIdAsModelPrimaryKey ? this.getModelIdentifierClassName(model) : this.getNativeType(primaryKeyField);
+    const body = !isIdAsModelPrimaryKey
       ? [
           `if (${modelIdentifierClassFieldName} == null) {`,
           indent(`this.${modelIdentifierClassFieldName} = new ${this.getModelIdentifierClassName(model)}(${[primaryKeyField, ...sortKeyFields].map(f => this.getFieldName(f)).join(', ')});`),
@@ -737,7 +737,7 @@ export class AppSyncModelJavaVisitor<
     if (Object.keys(JAVA_TYPE_IMPORT_MAP).includes(nativeType)) {
       this.additionalPackages.add(JAVA_TYPE_IMPORT_MAP[nativeType]);
     }
-    return nativeType;
+          return nativeType;
   }
 
   /**
