@@ -737,7 +737,7 @@ export class AppSyncModelJavaVisitor<
     if (Object.keys(JAVA_TYPE_IMPORT_MAP).includes(nativeType)) {
       this.additionalPackages.add(JAVA_TYPE_IMPORT_MAP[nativeType]);
     }
-          return nativeType;
+    return nativeType;
   }
 
   /**
