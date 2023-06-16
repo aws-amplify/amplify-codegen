@@ -7,7 +7,7 @@ import {
     addApiWithoutSchema,
     updateApiSchema
 } from "@aws-amplify/amplify-codegen-e2e-core";
-import { existsSync } from "fs";
+import { existsSync, writeFileSync } from "fs";
 import path from 'path';
 import { isNotEmptyDir } from '../utils';
 import { deleteAmplifyProject, testAddCodegen, testSetupBeforeAddCodegen, 
@@ -71,5 +71,38 @@ describe('codegen add tests - JS', () => {
 
     it(`Adding codegen works as expected`, async () => {
         await testAddCodegen(config, projectRoot, schema);
+    });
+
+    it(`Adding codegen outside of Amplify project`, async () => {
+        // init project and add API category
+        const testSchema = `
+        type Query {
+            echo: String
+        }
+
+        type Mutation {
+            mymutation: String
+        }
+
+        type Subscription {
+            mysub: String
+        }          
+        `;
+
+        // Setup the non-amplify project with schema and pre-existing files
+        const userSourceCodePath = testSetupBeforeAddCodegen(projectRoot, config);
+        const schemaPath = path.join(projectRoot, 'schema.graphql');
+        writeFileSync(schemaPath, testSchema);
+
+        // add codegen without init
+        const settings = { withoutInit: true, ...config };
+        await expect(addCodegen(projectRoot, settings)).resolves.not.toThrow();
+
+        // pre-existing file should still exist
+        expect(existsSync(userSourceCodePath)).toBe(true);
+        // GraphQL statements are generated
+        expect(isNotEmptyDir(path.join(projectRoot, config.graphqlCodegenDir))).toBe(true);
+        // graphql configuration should be added
+        expect(existsSync(getGraphQLConfigFilePath(projectRoot))).toBe(true);
     });
 });
