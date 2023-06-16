@@ -5,7 +5,8 @@ import {
     DEFAULT_JS_CONFIG,
     createRandomName,
     addApiWithoutSchema,
-    updateApiSchema
+    updateApiSchema,
+    addCodegenNonAmplifyJS
 } from "@aws-amplify/amplify-codegen-e2e-core";
 import { existsSync, writeFileSync } from "fs";
 import path from 'path';
@@ -95,8 +96,7 @@ describe('codegen add tests - JS', () => {
         writeFileSync(schemaPath, testSchema);
 
         // add codegen without init
-        const settings = { withoutInit: true, ...config };
-        await expect(addCodegen(projectRoot, settings)).resolves.not.toThrow();
+        await expect(addCodegenNonAmplifyJS(projectRoot)).resolves.not.toThrow();
 
         // pre-existing file should still exist
         expect(existsSync(userSourceCodePath)).toBe(true);
