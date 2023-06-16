@@ -174,10 +174,6 @@ export function addCodegenNonAmplifyJS(cwd: string): Promise<void> {
       .wait('Do you want to generate/update all possible GraphQL operations')
       .sendLine('y')
       .wait('Enter maximum statement depth [increase from default if your schema is deeply')
-      .sendCarriageReturn()
-      .wait('Enter the file name for the generated code')
-      .sendCarriageReturn()
-      .wait('Do you want to generate code for your newly created GraphQL API')
       .sendCarriageReturn();
 
     chain.run((err: Error) => {
