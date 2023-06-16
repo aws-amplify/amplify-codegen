@@ -31,11 +31,7 @@ export function generateStatementsAndTypes(cwd: string) : Promise<void> {
 // CLI workflow to add codegen to Amplify project
 export function addCodegen(cwd: string, settings: any = {}): Promise<void> {
   return new Promise((resolve, reject) => {
-    const cmdOptions = ['codegen', 'add'];
-    if (settings.withoutInit) {
-      cmdOptions.push('--apiId', 'mockapiid');
-    }
-    const chain = spawn(getCLIPath(), cmdOptions, { cwd, stripColors: true });
+    const chain = spawn(getCLIPath(), ['codegen', 'add'], { cwd, stripColors: true });
     if (settings.isAPINotAdded) {
       chain.wait("There are no GraphQL APIs available.");
       chain.wait("Add by running $amplify api add");
@@ -45,13 +41,6 @@ export function addCodegen(cwd: string, settings: any = {}): Promise<void> {
     }
     else {
       if (settings.frontendType === AmplifyFrontend.javascript) {
-        if (settings.withoutInit) {
-          chain
-          .wait("Choose the type of app that you're building")
-          .sendCarriageReturn()
-          .wait('What javascript framework are you using')
-          .sendCarriageReturn()
-        }
         chain.wait('Choose the code generation language target').sendCarriageReturn();
       }
       chain
