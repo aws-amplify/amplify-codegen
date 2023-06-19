@@ -13,7 +13,7 @@ const MOCK_CONTEXT = {
 describe('codegen-config', () => {
   it('is singleton', () => {
     loadConfig(MOCK_CONTEXT);
-    expect(AmplifyCodeGenConfig).toHaveBeenCalledWith(MOCK_PROJECT_ROOT, false);
+    expect(AmplifyCodeGenConfig).toHaveBeenCalledWith(MOCK_PROJECT_ROOT);
     loadConfig(MOCK_CONTEXT);
     expect(AmplifyCodeGenConfig).toHaveBeenCalledTimes(1);
   });

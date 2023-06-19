@@ -147,3 +147,31 @@ export function generateModelIntrospection(cwd: string, settings: { outputDir?: 
   });
 }
 
+// CLI workflow to add codegen to non-Amplify JS project
+export function addCodegenNonAmplifyJS(cwd: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const cmdOptions = ['codegen', 'add', '--apiId', 'mockapiid'];
+    const chain = spawn(getCLIPath(), cmdOptions, { cwd, stripColors: true });
+    chain
+      .wait("Choose the type of app that you're building")
+      .sendCarriageReturn()
+      .wait('What javascript framework are you using')
+      .sendCarriageReturn()
+      .wait('Choose the code generation language target').sendCarriageReturn()
+      .wait('Enter the file name pattern of graphql queries, mutations and subscriptions')
+      .sendCarriageReturn()
+      .wait('Do you want to generate/update all possible GraphQL operations')
+      .sendLine('y')
+      .wait('Enter maximum statement depth [increase from default if your schema is deeply')
+      .sendCarriageReturn();
+
+    chain.run((err: Error) => {
+      if (!err) {
+        resolve();
+      } else {
+        reject(err);
+      }
+    });
+  });
+}
+
