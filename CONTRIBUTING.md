@@ -10,11 +10,13 @@ Our work is done directly on Github and PR's are sent to the GitHub repo by core
 
 This section should get you running with **Amplify Codegen**.
 
-### Setting up for local development
+### Local Development
+
+#### Environment Setup
 
 1. You will need the latest version of [nodejs](https://nodejs.org/en/) on your system and developing locally also requires `yarn` workspaces. You can install it [here](https://classic.yarnpkg.com/en/docs/install#mac-stable).
 
-2. Start by [Forking](https://help.github.com/en/github/getting-started-with-github/fork-a-repo) the main branch of [amplify-codegen](https://github.com/aws-amplify/amplify-codegen).
+1. Start by [Forking](https://help.github.com/en/github/getting-started-with-github/fork-a-repo) the main branch of [amplify-codegen](https://github.com/aws-amplify/amplify-codegen).
 
 ```sh
 $ git clone git@github.com:[username]/amplify-codegen.git
@@ -22,13 +24,28 @@ $ git clone git@github.com:[username]/amplify-codegen.git
 
 > NOTE: Make sure to always [sync your fork](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/syncing-a-fork) with _main_ branch of amplify-codegen
 
-3. Move into your project folder
+1. Move into your project folder
 
 ```sh
 $ cd amplify-codegen
 ```
 
-4. Run `setup-dev` script to installs dependencies and perform initial configuration. This command will also link a `amplify-dev` binary for your local testing.
+#### Building and Running Tests
+
+1. To build local packages and verify your change is valid and doesn't break the build, you can run :
+
+   ```sh
+   yarn # Install all dependencies for the workspace
+   yarn build # Build all packages in the repo
+   yarn test # Run tests for all packages in the repo
+   ```
+
+1. Note: once you've run an initial `yarn` unless you're changing dependencies in a package, re-running should not be necessary.
+1. After an initial build, if you're testing changes to a single package, you can run `yarn build` and `yarn test` specifically from that directory (e.g. `/packages/appsync-modelgen-plugin`) in order to speed up your iteration cycle.
+
+#### Building the CLI Locally for functional testing
+
+1. Run `setup-dev` script to installs dependencies and perform initial configuration. This command will also link a `amplify-dev` binary for your local testing.
 
 ```sh
 $ yarn setup-dev
@@ -36,7 +53,7 @@ $ yarn setup-dev
 
 > NOTE: The `amplify-dev` binary is built based on the latest amplify cli from npm registry and your local codegen packages. All your local changes from codegen can be reflected (typescript files need to be build by `tsc`). In addition, if you are a developer of cli repo, you can run the same command to override the `amplify-dev` binary.
 
-5. Ensure `amplify-dev` exists on your path.
+1. Ensure `amplify-dev` exists on your path.
 
 ```sh
 $ yarn global bin # retrieve yarn path

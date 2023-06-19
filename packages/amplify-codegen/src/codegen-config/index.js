@@ -6,8 +6,8 @@ let config = null;
 
 function loadConfig(context, withoutInit = false) {
   if (!config) {
-    const projectPath = context.amplify.getEnvInfo().projectPath;
-    config = new AmplifyCodeGenConfig(projectPath, withoutInit);
+    const projectPath = withoutInit ? undefined : context.amplify.getEnvInfo().projectPath;
+    config = new AmplifyCodeGenConfig(projectPath);
   }
   return config;
 }

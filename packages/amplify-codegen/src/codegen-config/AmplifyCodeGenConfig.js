@@ -7,18 +7,13 @@ const fs =  require('fs-extra');
 class AmplifyCodeGenConfig {
   static configFileName = '.graphqlconfig.yml';
 
-  constructor(projectPath, withoutInit = false) {
+  constructor(projectPath) {
     try {
       this.gqlConfig = graphQLConfig.getGraphQLConfig();
       this.fixOldConfig();
     } catch (e) {
       if (e instanceof graphQLConfig.ConfigNotFoundError) {
-        let projectRoot;
-        if (!withoutInit) {
-          projectRoot = projectPath || process.cwd();
-        } else {
-          projectRoot = process.cwd();
-        }
+        const projectRoot = projectPath || process.cwd();
         const configPath = join(projectRoot, '.graphqlconfig.yml');
         if(fs.existsSync(configPath)) {
           this.gqlConfig = graphQLConfig.getGraphQLConfig(projectRoot);
