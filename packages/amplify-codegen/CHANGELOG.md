@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.3-rds.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.1.2...amplify-codegen@4.1.3-rds.0) (2023-06-20)
+
+### Bug Fixes
+
+- **graphql:** read rds schema file ([ddab500](https://github.com/aws-amplify/amplify-codegen/commit/ddab50004ece18e13a4eafbb15e81193e8f76cf4))
+
 ## [4.1.2](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.1.1...amplify-codegen@4.1.2) (2023-06-19)
 
 **Note:** Version bump only for package amplify-codegen
