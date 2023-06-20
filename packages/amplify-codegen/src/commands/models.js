@@ -177,9 +177,17 @@ async function validateSchema(context) {
 
 function loadSchema(apiResourcePath) {
   const schemaFilePath = path.join(apiResourcePath, 'schema.graphql');
+  const rdsSchemaFilePath = path.join(apiResourcePath, 'schema.rds.graphql');
   const schemaDirectory = path.join(apiResourcePath, 'schema');
+  let schema = '';
   if (fs.pathExistsSync(schemaFilePath)) {
-    return fs.readFileSync(schemaFilePath, 'utf8');
+    schema += fs.readFileSync(schemaFilePath, 'utf8');
+  }
+  if (fs.pathExistsSync(rdsSchemaFilePath)) {
+    schema += fs.readFileSync(rdsSchemaFilePath, 'utf8');
+  }
+  if (schema !== '') {
+    return schema;
   }
   if (fs.pathExistsSync(schemaDirectory) && fs.lstatSync(schemaDirectory).isDirectory()) {
     // search recursively for graphql schema files inside `schema` directory
