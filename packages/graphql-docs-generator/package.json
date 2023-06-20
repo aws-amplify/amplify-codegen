@@ -53,6 +53,13 @@
     "collectCoverageFrom": [
       "src/**/*.ts"
     ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 64,
+        "functions": 71,
+        "lines": 80
+      }
+    },
     "moduleFileExtensions": [
       "ts",
       "tsx",

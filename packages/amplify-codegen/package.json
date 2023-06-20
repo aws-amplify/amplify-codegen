@@ -44,6 +44,13 @@
   },
   "jest": {
     "collectCoverage": true,
+    "coverageThreshold": {
+      "global": {
+        "branches": 56,
+        "functions": 68,
+        "lines": 73
+      }
+    },
     "testURL": "http://localhost",
     "testRegex": "((\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [
