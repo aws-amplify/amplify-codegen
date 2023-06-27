@@ -205,7 +205,7 @@ export class AppSyncModelJavaVisitor<
       isIdAsModelPrimaryKey = primaryKeyType !== CodeGenPrimaryKeyType.CustomId;
     }
 
-    if (this.isCustomPKEnabled() && !isIdAsModelPrimaryKey) {
+    if (this.isCustomPKEnabled() && isCompositeKey) {
       // Generate primary key class for composite key
       this.generateIdentifierClassField(model, classDeclarationBlock);
     }
@@ -221,13 +221,11 @@ export class AppSyncModelJavaVisitor<
     this.generateCopyOfBuilderClass(model, classDeclarationBlock, isIdAsModelPrimaryKey);
 
     if (this.isCustomPKEnabled()) {
-      if (!isIdAsModelPrimaryKey) {
-        // Model primary Key class for all custom primary keys
-        this.generateModelIdentifierClass(model, classDeclarationBlock);
-      }
+      // Generate ModelIdentifier factory for all Model types
+      this.generateModelIdentifierClass(model, classDeclarationBlock);
 
       // resolveIdentifier
-      this.generateResolveIdentifier(model, classDeclarationBlock, isIdAsModelPrimaryKey);
+      this.generateResolveIdentifier(model, classDeclarationBlock, isCompositeKey);
     }
 
     // getters
@@ -641,12 +639,12 @@ export class AppSyncModelJavaVisitor<
    * @param model
    * @param declarationsBlock
    */
-  protected generateResolveIdentifier(model: CodeGenModel, declarationsBlock: JavaDeclarationBlock, isIdAsModelPrimaryKey: boolean): void {
+  protected generateResolveIdentifier(model: CodeGenModel, declarationsBlock: JavaDeclarationBlock, isCompositeKey: boolean): void {
     const primaryKeyField = this.getModelPrimaryKeyField(model);
     const { sortKeyFields } = primaryKeyField.primaryKeyInfo!;
     const modelIdentifierClassFieldName = this.getModelIdentifierClassFieldName(model);
-    const returnType = !isIdAsModelPrimaryKey ? this.getModelIdentifierClassName(model) : this.getNativeType(primaryKeyField);
-    const body = !isIdAsModelPrimaryKey
+    const returnType = isCompositeKey ? this.getModelIdentifierClassName(model) : this.getNativeType(primaryKeyField);
+    const body = isCompositeKey
       ? [
           `if (${modelIdentifierClassFieldName} == null) {`,
           indent(`this.${modelIdentifierClassFieldName} = new ${this.getModelIdentifierClassName(model)}(${[primaryKeyField, ...sortKeyFields].map(f => this.getFieldName(f)).join(', ')});`),
