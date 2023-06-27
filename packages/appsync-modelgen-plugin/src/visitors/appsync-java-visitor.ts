@@ -652,18 +652,7 @@ export class AppSyncModelJavaVisitor<
           `return ${modelIdentifierClassFieldName};`
         ].join('\n')
       : `return ${this.getFieldName(primaryKeyField)};`;
-    declarationsBlock.addClassMethod(
-      'resolveIdentifier', 
-      returnType, 
-      body, 
-      [], 
-      [], 
-      'public', 
-      {}, 
-      ["Deprecated"], 
-      [], 
-      "@deprecated This API is internal to Amplify and should not be used."
-    );
+    declarationsBlock.addClassMethod('resolveIdentifier', returnType, body, [], [], 'public', {}, ["Deprecated"], [], "@deprecated This API is internal to Amplify and should not be used.");
   }
 
   /**
