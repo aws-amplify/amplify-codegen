@@ -42,7 +42,7 @@
     "@graphql-codegen/testing": "^1.17.7",
     "@graphql-codegen/typescript": "^2.8.3",
     "graphql": "^15.5.0",
-    "java-ast": "^0.1.0",
+    "java-ast": "^0.3.0",
     "ts-json-schema-generator": "1.0.0"
   },
   "peerDependencies": {
@@ -62,6 +62,13 @@
     "collectCoverageFrom": [
       "src/**/*.ts"
     ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80
+      }
+    },
     "testRegex": "(src/__tests__/.*.test.ts)$",
     "globals": {
       "ts-jest": {
