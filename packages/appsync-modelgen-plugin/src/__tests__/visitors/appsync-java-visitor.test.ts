@@ -702,4 +702,41 @@ describe('AppSyncModelVisitor', () => {
       expect(generatedCodeComment).toMatchSnapshot();
     });
   });
+
+  describe('ModelIdentifier for all model types tests', () => {
+    it('Should generate ModelIdentifier factory with resolveIdentifier return type extending ModelIdentifier', () => {
+      const schema = /* GraphQL */ `
+        type MyPost @model {
+          postId: ID! @primaryKey(sortKeyFields: ["title", "createdAt", "rating"])
+          title: String!
+          createdAt: AWSDateTime!
+          rating: Float!
+        }
+      `;
+      const generatedCodeMyPost = getVisitorPipelinedTransformer(schema, `MyPost`, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      expect(generatedCodeMyPost).toMatchSnapshot();
+    });
+    it('Should generate ModelIdentifier factory with resolveIdentifier returning Java types matching graphql scalar conversion', () => {
+      const schema = /* GraphQL */ `
+        type StringModel @model {
+          customKey: String! @primaryKey
+        }
+
+        type IdModel @model {
+          customKey: ID! @primaryKey
+        }
+        
+        type IntModel @model {
+          customKey: Int! @primaryKey
+        }
+      `;
+      const generatedCodeStringModel= getVisitorPipelinedTransformer(schema, 'StringModel', { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      const generatedCodeIdModel = getVisitorPipelinedTransformer(schema, 'IdModel', { respectPrimaryKeyAttributesOnConnectionField: true }).generate();     
+      const generatedCodeIntModel = getVisitorPipelinedTransformer(schema, 'IntModel', { respectPrimaryKeyAttributesOnConnectionField: true }).generate();      
+ 
+      expect(generatedCodeStringModel).toMatchSnapshot();
+      expect(generatedCodeIdModel).toMatchSnapshot();
+      expect(generatedCodeIntModel).toMatchSnapshot();
+    });
+  });
 });

@@ -205,7 +205,7 @@ export class AppSyncModelJavaVisitor<
       isIdAsModelPrimaryKey = primaryKeyType !== CodeGenPrimaryKeyType.CustomId;
     }
 
-    if (isCompositeKey && this.isCustomPKEnabled()) {
+    if (this.isCustomPKEnabled() && isCompositeKey) {
       // Generate primary key class for composite key
       this.generateIdentifierClassField(model, classDeclarationBlock);
     }
@@ -221,10 +221,8 @@ export class AppSyncModelJavaVisitor<
     this.generateCopyOfBuilderClass(model, classDeclarationBlock, isIdAsModelPrimaryKey);
 
     if (this.isCustomPKEnabled()) {
-      if (isCompositeKey) {
-        // Model primary Key class for composite primary key
-        this.generateModelIdentifierClass(model, classDeclarationBlock);
-      }
+      // Generate ModelIdentifier factory for all Model types
+      this.generateModelIdentifierClass(model, classDeclarationBlock);
 
       // resolveIdentifier
       this.generateResolveIdentifier(model, classDeclarationBlock, isCompositeKey);
@@ -654,7 +652,7 @@ export class AppSyncModelJavaVisitor<
           `return ${modelIdentifierClassFieldName};`
         ].join('\n')
       : `return ${this.getFieldName(primaryKeyField)};`;
-    declarationsBlock.addClassMethod('resolveIdentifier', returnType, body, undefined, undefined, 'public');
+    declarationsBlock.addClassMethod('resolveIdentifier', returnType, body, [], [], 'public', {}, ["Deprecated"], [], "@deprecated This API is internal to Amplify and should not be used.");
   }
 
   /**
