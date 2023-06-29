@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.4.5...@aws-amplify/appsync-modelgen-plugin@2.5.0) (2023-06-29)
+
+### Features
+
+- Add ModelIdentifier for all Java models ([#612](https://github.com/aws-amplify/amplify-codegen/issues/612)) ([852b7b2](https://github.com/aws-amplify/amplify-codegen/commit/852b7b2f45c2684c3645bbe6f52ff5432ec6536c))
+
 ## [2.4.5](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.4.4...@aws-amplify/appsync-modelgen-plugin@2.4.5) (2023-05-11)
 
 **Note:** Version bump only for package @aws-amplify/appsync-modelgen-plugin
