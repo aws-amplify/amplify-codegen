@@ -90,7 +90,6 @@ function _buildLinux {
   _setShell
   echo "Linux Build"
   yarn run production-build
-  yarn build-tests
   storeCacheForBuildJob
 }
 

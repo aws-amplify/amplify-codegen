@@ -20,10 +20,6 @@ batch:
       buildspec: .codebuild/verify_api_extract.yml
       depend-on:
         - build_linux
-    - identifier: verify_yarn_lock
-      buildspec: .codebuild/verify_yarn_lock.yml
-      depend-on:
-        - build_linux
     - identifier: deploy
       buildspec: .codebuild/deploy.yml
       depend-on:

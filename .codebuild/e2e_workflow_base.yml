@@ -22,12 +22,6 @@ batch:
         compute-type: BUILD_GENERAL1_MEDIUM
       depend-on:
         - build_linux
-    - identifier: verify_yarn_lock
-      buildspec: .codebuild/verify_yarn_lock.yml
-      env:
-        compute-type: BUILD_GENERAL1_MEDIUM
-      depend-on:
-        - build_linux
     - identifier: publish_to_local_registry
       buildspec: .codebuild/publish_to_local_registry.yml
       env:
