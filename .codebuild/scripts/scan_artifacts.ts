@@ -40,7 +40,7 @@ const main = () => {
         }
       } else {
         console.log('Paths in ARTIFACT_STORAGE_PATH_ALLOW_LIST_CODEBUILD must start with $CODEBUILD_SRC_DIR/');
-        console.log('Update the path to use $CODEBUILD_SRC_DIR/ and make sure to do the same in the codebuild_specs/*.yml files');
+        console.log('Update the path to use $CODEBUILD_SRC_DIR/ and make sure to do the same in the .codebuild/*.yml files');
         process.exit(1);
       }
     }

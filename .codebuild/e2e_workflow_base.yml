@@ -7,29 +7,29 @@ batch:
   fast-fail: false
   build-graph:
     - identifier: build_linux
-      buildspec: codebuild_specs/build_linux.yml
+      buildspec: .codebuild/build_linux.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
     - identifier: test
-      buildspec: codebuild_specs/test.yml
+      buildspec: .codebuild/test.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
       depend-on:
         - build_linux
     - identifier: verify_api_extract
-      buildspec: codebuild_specs/verify_api_extract.yml
+      buildspec: .codebuild/verify_api_extract.yml
       env:
         compute-type: BUILD_GENERAL1_MEDIUM
       depend-on:
         - build_linux
     - identifier: verify_yarn_lock
-      buildspec: codebuild_specs/verify_yarn_lock.yml
+      buildspec: .codebuild/verify_yarn_lock.yml
       env:
         compute-type: BUILD_GENERAL1_MEDIUM
       depend-on:
         - build_linux
     - identifier: publish_to_local_registry
-      buildspec: codebuild_specs/publish_to_local_registry.yml
+      buildspec: .codebuild/publish_to_local_registry.yml
       env:
         compute-type: BUILD_GENERAL1_MEDIUM
       depend-on:

@@ -7,20 +7,20 @@ batch:
   fast-fail: false
   build-graph:
     - identifier: build_linux
-      buildspec: codebuild_specs/build_linux.yml
+      buildspec: .codebuild/build_linux.yml
     - identifier: test
-      buildspec: codebuild_specs/test.yml
+      buildspec: .codebuild/test.yml
       depend-on:
         - build_linux
     - identifier: lint
-      buildspec: codebuild_specs/lint.yml
+      buildspec: .codebuild/lint.yml
       depend-on:
         - build_linux
     - identifier: verify_api_extract
-      buildspec: codebuild_specs/verify_api_extract.yml
+      buildspec: .codebuild/verify_api_extract.yml
       depend-on:
         - build_linux
     - identifier: verify_yarn_lock
-      buildspec: codebuild_specs/verify_yarn_lock.yml
+      buildspec: .codebuild/verify_yarn_lock.yml
       depend-on:
         - build_linux
