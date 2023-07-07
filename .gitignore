@@ -26,3 +26,4 @@ test.out.log
 *.tsbuildinfo
 package-lock.json
 .idea
+scripts/.env
