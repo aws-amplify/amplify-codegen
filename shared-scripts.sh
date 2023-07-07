@@ -105,12 +105,6 @@ function _verifyAPIExtract {
   yarn verify-api-extract
 }
 
-function _verifyYarnLock {
-  echo "Verify Yarn Lock"
-  loadCacheFromBuildJob
-  yarn verify-yarn-lock
-}
-
 function _lint {
   echo "Lint"
   loadCacheFromBuildJob
