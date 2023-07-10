@@ -6278,10 +6278,10 @@ ansi-styles@^5.0.0:
   resolved "https://registry.npmjs.org/ansi-styles/-/ansi-styles-5.2.0.tgz#07449690ad45777d1924ac2abb2fc8895dba836b"
   integrity sha512-Cxwpt2SfTzTtXcfOlzGEee8O+c+MmUgGrNiBcXnuWxuFJHe6a5Hz7qwhwe5OgaSYI0IJvkLqWX1ASG+cJOkEiA==
 
-antlr4ts@^0.4.1-alpha.0:
-  version "0.4.1-alpha.0"
-  resolved "https://registry.npmjs.org/antlr4ts/-/antlr4ts-0.4.1-alpha.0.tgz#ac5717f30f3efa3617b004e8ff4f860b9c7d4d20"
-  integrity sha512-7lmDJPxygDwDyq9Bn7Kb71nFCgSHLcihwRNllhm51Yf3tim7A8xfbx2qE6oru9vWooE8uHGZxcXAjH7+tO2aUQ==
+antlr4ts@^0.5.0-alpha.3:
+  version "0.5.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/antlr4ts/-/antlr4ts-0.5.0-alpha.4.tgz#71702865a87478ed0b40c0709f422cf14d51652a"
+  integrity sha512-WPQDt1B74OfPv/IMS2ekXAKkTZIHl88uMetg6q3OTqgFxZ/dxDXI0EWLyZid/1Pe6hTftyg5N7gel5wNAGxXyQ==
 
 anymatch@^3.0.3:
   version "3.1.3"
@@ -10300,12 +10300,12 @@ jake@^10.8.5:
     filelist "^1.0.4"
     minimatch "^3.1.2"
 
-java-ast@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.npmjs.org/java-ast/-/java-ast-0.1.0.tgz#1b7ea2addbe18f60ccc3f33f1d58f96b7df22fad"
-  integrity sha512-xa0fksWutSf2cDlhbd6yztYbDB7cChFAk5qZcN7onsOIPxT/xUtIJy3v9wgsUhiIi5+Q4vZg0lFIr7SAkkxADg==
+java-ast@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/java-ast/-/java-ast-0.3.0.tgz#85786d61ce906724dffd4fc3fea89dafad0eec77"
+  integrity sha512-FQheUCKa8ryT2YheVKRl4238N39HT4A0wTLO5OXLAT1A0WVokw27EcXjF+Dk15eEL5RVBidhD6SCbIa5K6qLcA==
   dependencies:
-    antlr4ts "^0.4.1-alpha.0"
+    antlr4ts "^0.5.0-alpha.3"
 
 jest-changed-files@^27.5.1:
   version "27.5.1"
@@ -13863,9 +13863,9 @@ toidentifier@1.0.1:
   integrity sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==
 
 tough-cookie@^4.0.0:
-  version "4.1.2"
-  resolved "https://registry.npmjs.org/tough-cookie/-/tough-cookie-4.1.2.tgz#e53e84b85f24e0b65dd526f46628db6c85f6b874"
-  integrity sha512-G9fqXWoYFZgTc2z8Q5zaHy/vJMjm+WV0AkAeHxVCQiEB1b+dGvWzFW6QV07cY5jQ5gRkeid2qIkzkxUnmoQZUQ==
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/tough-cookie/-/tough-cookie-4.1.3.tgz#97b9adb0728b42280aa3d814b6b999b2ff0318bf"
+  integrity sha512-aX/y5pVRkfRnfmuX+OdbSdXvPe6ieKX/G2s7e98f4poJHnqH3281gDPm/metm6E/WRamfx7WC4HUqkWHfQHprw==
   dependencies:
     psl "^1.1.33"
     punycode "^2.1.1"
