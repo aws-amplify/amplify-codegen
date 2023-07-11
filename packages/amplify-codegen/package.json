@@ -1,6 +1,6 @@
 {
   "name": "amplify-codegen",
-  "version": "4.1.3",
+  "version": "4.1.4-test-cb-1.0",
   "description": "AWS Amplify code generator",
   "repository": {
     "type": "git",
