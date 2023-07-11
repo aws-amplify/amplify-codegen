@@ -187,7 +187,7 @@ function main(): void {
     join(REPO_ROOT, 'packages', 'amplify-codegen-e2e-tests'),
     (testSuites) => testSuites.filter((ts) => !EXCLUDE_TESTS.includes(ts)),
   );
-  
+
   let allBuilds = [...splitE2ETests];
   const cleanupResources = {
     identifier: 'cleanup_e2e_resources',
