@@ -1,0 +1,787 @@
+{
+  "next_page_token": null,
+  "items": [
+    {
+      "name": "add-codegen-android-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 390,
+          "mean": 418,
+          "median": 426,
+          "p95": 432,
+          "max": 434,
+          "standard_deviation": 17,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 831,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:33.479Z",
+      "window_end": "2023-07-10T22:11:18.542Z"
+    },
+    {
+      "name": "add-codegen-ios-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 350,
+          "mean": 380,
+          "median": 383,
+          "p95": 411,
+          "max": 417,
+          "standard_deviation": 25,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 757,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:32.473Z",
+      "window_end": "2023-07-10T22:10:38.898Z"
+    },
+    {
+      "name": "add-codegen-js-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 522,
+          "mean": 532,
+          "median": 530,
+          "p95": 547,
+          "max": 551,
+          "standard_deviation": 10,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 1060,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:32.445Z",
+      "window_end": "2023-07-10T22:13:06.147Z"
+    },
+    {
+      "name": "build",
+      "metrics": {
+        "total_runs": 8,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 0,
+          "mean": 111,
+          "median": 127,
+          "p95": 193,
+          "max": 195,
+          "standard_deviation": 75,
+          "total_duration": 0
+        },
+        "success_rate": 0.75,
+        "total_credits_used": 291,
+        "throughput": 0.2666666667
+      },
+      "window_start": "2023-06-19T17:28:54.389Z",
+      "window_end": "2023-07-10T22:03:07.678Z"
+    },
+    {
+      "name": "build-app-android-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 618,
+          "mean": 741,
+          "median": 717,
+          "p95": 893,
+          "max": 917,
+          "standard_deviation": 111,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 1481,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:34.079Z",
+      "window_end": "2023-07-10T22:19:26.837Z"
+    },
+    {
+      "name": "build-app-swift-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 1177,
+          "mean": 1221,
+          "median": 1210,
+          "p95": 1285,
+          "max": 1304,
+          "standard_deviation": 44,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 12130,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:33.769Z",
+      "window_end": "2023-07-10T22:24:41.323Z"
+    },
+    {
+      "name": "build-app-ts-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 917,
+          "mean": 986,
+          "median": 975,
+          "p95": 1057,
+          "max": 1066,
+          "standard_deviation": 54,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 1967,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:32.161Z",
+      "window_end": "2023-07-10T22:21:20.385Z"
+    },
+    {
+      "name": "configure-codegen-android-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 337,
+          "mean": 378,
+          "median": 380,
+          "p95": 409,
+          "max": 410,
+          "standard_deviation": 29,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 752,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:31.581Z",
+      "window_end": "2023-07-10T22:10:41.952Z"
+    },
+    {
+      "name": "configure-codegen-ios-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 415,
+          "mean": 434,
+          "median": 433,
+          "p95": 453,
+          "max": 458,
+          "standard_deviation": 14,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 861,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:33.151Z",
+      "window_end": "2023-07-10T22:11:30.111Z"
+    },
+    {
+      "name": "configure-codegen-js-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 352,
+          "mean": 403,
+          "median": 396,
+          "p95": 462,
+          "max": 471,
+          "standard_deviation": 45,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 804,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:34.375Z",
+      "window_end": "2023-07-10T22:11:27.834Z"
+    },
+    {
+      "name": "datastore-modelgen-android-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 424,
+          "mean": 445,
+          "median": 449,
+          "p95": 462,
+          "max": 466,
+          "standard_deviation": 14,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 888,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:32.073Z",
+      "window_end": "2023-07-10T22:11:40.442Z"
+    },
+    {
+      "name": "datastore-modelgen-flutter-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 542,
+          "mean": 564,
+          "median": 551,
+          "p95": 613,
+          "max": 632,
+          "standard_deviation": 33,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 1124,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:31.390Z",
+      "window_end": "2023-07-10T22:14:42.234Z"
+    },
+    {
+      "name": "datastore-modelgen-ios-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 502,
+          "mean": 532,
+          "median": 534,
+          "p95": 551,
+          "max": 553,
+          "standard_deviation": 18,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 1059,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:33.381Z",
+      "window_end": "2023-07-10T22:13:15.115Z"
+    },
+    {
+      "name": "datastore-modelgen-js-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 435,
+          "mean": 454,
+          "median": 454,
+          "p95": 475,
+          "max": 481,
+          "standard_deviation": 15,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 902,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:34.377Z",
+      "window_end": "2023-07-10T22:12:13.663Z"
+    },
+    {
+      "name": "deploy",
+      "metrics": {
+        "total_runs": 3,
+        "failed_runs": 0,
+        "successful_runs": 3,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 42,
+          "mean": 44,
+          "median": 45,
+          "p95": 45,
+          "max": 46,
+          "standard_deviation": 2,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 42,
+        "throughput": 0.1
+      },
+      "window_start": "2023-06-19T17:53:02.522Z",
+      "window_end": "2023-06-29T17:10:35.513Z"
+    },
+    {
+      "name": "done_with_node_e2e_tests",
+      "metrics": {
+        "total_runs": 3,
+        "failed_runs": 0,
+        "successful_runs": 3,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 25,
+          "mean": 26,
+          "median": 26,
+          "p95": 28,
+          "max": 29,
+          "standard_deviation": 2,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 24,
+        "throughput": 0.1
+      },
+      "window_start": "2023-06-19T17:52:37.213Z",
+      "window_end": "2023-06-29T17:09:49.727Z"
+    },
+    {
+      "name": "env-codegen-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 1,
+        "successful_runs": 5,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 479,
+          "mean": 584,
+          "median": 597,
+          "p95": 624,
+          "max": 629,
+          "standard_deviation": 53,
+          "total_duration": 0
+        },
+        "success_rate": 0.8333333333,
+        "total_credits_used": 1165,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:32.807Z",
+      "window_end": "2023-07-10T22:12:10.121Z"
+    },
+    {
+      "name": "feature-flags-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 403,
+          "mean": 432,
+          "median": 435,
+          "p95": 445,
+          "max": 446,
+          "standard_deviation": 15,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 861,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:33.104Z",
+      "window_end": "2023-07-10T22:11:24.854Z"
+    },
+    {
+      "name": "graphql-codegen-android-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 362,
+          "mean": 388,
+          "median": 397,
+          "p95": 404,
+          "max": 405,
+          "standard_deviation": 20,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 772,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:33.116Z",
+      "window_end": "2023-07-10T22:10:44.059Z"
+    },
+    {
+      "name": "graphql-codegen-ios-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 414,
+          "mean": 428,
+          "median": 430,
+          "p95": 439,
+          "max": 442,
+          "standard_deviation": 10,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 848,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:31.872Z",
+      "window_end": "2023-07-10T22:11:23.361Z"
+    },
+    {
+      "name": "graphql-codegen-js-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 362,
+          "mean": 384,
+          "median": 382,
+          "p95": 412,
+          "max": 419,
+          "standard_deviation": 19,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 761,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:31.069Z",
+      "window_end": "2023-07-10T22:11:11.346Z"
+    },
+    {
+      "name": "graphql-documents-generator-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 2,
+        "successful_runs": 4,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 626,
+          "mean": 745,
+          "median": 787,
+          "p95": 805,
+          "max": 807,
+          "standard_deviation": 79,
+          "total_duration": 0
+        },
+        "success_rate": 0.6666666667,
+        "total_credits_used": 1486,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:33.428Z",
+      "window_end": "2023-07-10T22:14:38.281Z"
+    },
+    {
+      "name": "model-introspection-codegen-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 3,
+        "successful_runs": 3,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 540,
+          "mean": 585,
+          "median": 593,
+          "p95": 608,
+          "max": 612,
+          "standard_deviation": 25,
+          "total_duration": 0
+        },
+        "success_rate": 0.5,
+        "total_credits_used": 1165,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:32.848Z",
+      "window_end": "2023-07-10T22:13:48.972Z"
+    },
+    {
+      "name": "publish_to_local_registry",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 61,
+          "mean": 79,
+          "median": 78,
+          "p95": 95,
+          "max": 99,
+          "standard_deviation": 12,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 153,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:30:54.032Z",
+      "window_end": "2023-07-10T22:04:09.237Z"
+    },
+    {
+      "name": "pull-codegen-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 1,
+        "successful_runs": 5,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 631,
+          "mean": 713,
+          "median": 718,
+          "p95": 754,
+          "max": 762,
+          "standard_deviation": 43,
+          "total_duration": 0
+        },
+        "success_rate": 0.8333333333,
+        "total_credits_used": 1422,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:32.477Z",
+      "window_end": "2023-07-10T22:14:41.457Z"
+    },
+    {
+      "name": "push-codegen-android-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 1,
+        "successful_runs": 5,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 524,
+          "mean": 735,
+          "median": 779,
+          "p95": 788,
+          "max": 790,
+          "standard_deviation": 104,
+          "total_duration": 0
+        },
+        "success_rate": 0.8333333333,
+        "total_credits_used": 1468,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:32.825Z",
+      "window_end": "2023-07-10T22:12:54.137Z"
+    },
+    {
+      "name": "push-codegen-ios-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 1,
+        "successful_runs": 5,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 471,
+          "mean": 649,
+          "median": 682,
+          "p95": 705,
+          "max": 710,
+          "standard_deviation": 88,
+          "total_duration": 0
+        },
+        "success_rate": 0.8333333333,
+        "total_credits_used": 1292,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:34.036Z",
+      "window_end": "2023-07-10T22:12:00.368Z"
+    },
+    {
+      "name": "push-codegen-js-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 1,
+        "successful_runs": 5,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 541,
+          "mean": 754,
+          "median": 785,
+          "p95": 826,
+          "max": 829,
+          "standard_deviation": 106,
+          "total_duration": 0
+        },
+        "success_rate": 0.8333333333,
+        "total_credits_used": 1502,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:31.734Z",
+      "window_end": "2023-07-10T22:13:10.326Z"
+    },
+    {
+      "name": "remove-codegen-android-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 357,
+          "mean": 383,
+          "median": 383,
+          "p95": 408,
+          "max": 409,
+          "standard_deviation": 21,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 761,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:32.235Z",
+      "window_end": "2023-07-10T22:10:59.009Z"
+    },
+    {
+      "name": "remove-codegen-ios-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 362,
+          "mean": 402,
+          "median": 394,
+          "p95": 442,
+          "max": 447,
+          "standard_deviation": 31,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 799,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:33.734Z",
+      "window_end": "2023-07-10T22:11:38.351Z"
+    },
+    {
+      "name": "remove-codegen-js-e2e-test",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 490,
+          "mean": 517,
+          "median": 521,
+          "p95": 529,
+          "max": 530,
+          "standard_deviation": 15,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 1029,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:32:31.843Z",
+      "window_end": "2023-07-10T22:13:01.480Z"
+    },
+    {
+      "name": "test-l",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 137,
+          "mean": 144,
+          "median": 139,
+          "p95": 160,
+          "max": 164,
+          "standard_deviation": 10,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 285,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:30:54.665Z",
+      "window_end": "2023-07-10T22:05:25.354Z"
+    },
+    {
+      "name": "test-w",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 487,
+          "mean": 622,
+          "median": 616,
+          "p95": 778,
+          "max": 807,
+          "standard_deviation": 123,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 2451,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:30:54.893Z",
+      "window_end": "2023-07-10T22:14:40.901Z"
+    },
+    {
+      "name": "verify-api-extract",
+      "metrics": {
+        "total_runs": 6,
+        "failed_runs": 0,
+        "successful_runs": 6,
+        "median_credits_used": 0,
+        "duration_metrics": {
+          "min": 46,
+          "mean": 67,
+          "median": 71,
+          "p95": 74,
+          "max": 75,
+          "standard_deviation": 10,
+          "total_duration": 0
+        },
+        "success_rate": 1,
+        "total_credits_used": 130,
+        "throughput": 0.2
+      },
+      "window_start": "2023-06-19T17:30:54.371Z",
+      "window_end": "2023-07-10T22:04:22.075Z"
+    }
+  ]
+}

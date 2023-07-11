@@ -311,7 +311,7 @@ function runE2eTest {
 
     if [ -z "$FIRST_RUN" ] || [ "$FIRST_RUN" == "true" ]; then
         echo "using Amplify CLI version: "$(amplify --version)
-        cd $(pwd)/packages/amplify-e2e-tests
+        cd $(pwd)/packages/amplify-codegen-e2e-tests
     fi
 
     if [ -f  $FAILED_TEST_REGEX_FILE ]; then
