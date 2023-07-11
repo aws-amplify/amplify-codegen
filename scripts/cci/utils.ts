@@ -35,7 +35,7 @@ export function getTimingsFromJobsData() {
   const jobData = JSON.parse(fs.readFileSync(JOB_METRICS_PATH, 'utf-8'));
   const jobTimings: Map<string, number> = new Map();
   for (let job of jobData.items) {
-    const testName = getTestNameFromJobName(job.name);
+    const testName = job.name;
     const duration = Math.floor(job.metrics.duration_metrics.median / 60);
     if (jobTimings.has(testName)) {
       jobTimings.set(testName, Math.max(jobTimings.get(testName)!, duration));
@@ -46,22 +46,14 @@ export function getTimingsFromJobsData() {
   return jobTimings;
 }
 
-function getTestNameFromJobName(jobName: string) {
-  // first, remove any -<executor> from the name
-  const endIndex = jobName.lastIndexOf('-l');
-  const name = jobName.substring(0, endIndex);
-  return name;
-}
-
 export const getTestNameFromPath = (testSuitePath: string): string => {
   const startIndex = testSuitePath.lastIndexOf('/') + 1;
   const endIndex = testSuitePath.lastIndexOf('.test');
   return testSuitePath
     .substring(startIndex, endIndex)
-    .split('.e2e')
-    .join('')
     .split('.')
-    .join('-');
+    .join('-')
+    + '-e2e-test';
 };
 
 export function saveTestTimings(data: any): any {
