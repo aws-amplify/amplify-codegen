@@ -162,6 +162,7 @@ function _installCLIFromLocalRegistry {
     setNpmRegistryUrlToLocal
     changeNpmGlobalPath
     npm install -g @aws-amplify/cli-internal
+    npm install -g @aws-amplify/amplify-category-api@5.4.1
     echo "using Amplify CLI version: "$(amplify --version)
     npm list -g --depth=1 | grep -e '@aws-amplify/amplify-category-api' -e 'amplify-codegen'
     unsetNpmRegistryUrl
