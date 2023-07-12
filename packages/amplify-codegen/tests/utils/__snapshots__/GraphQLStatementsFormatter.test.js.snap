@@ -67,15 +67,21 @@ exports[`GraphQL statements Formatter Generates formatted output for TS frontend
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+import * as APITypes from \\"../API\\";
+type GeneratedQuery<InputType, OutputType> = string & {
+  __generatedQueryInput: InputType;
+  __generatedQueryOutput: OutputType;
+};
+
 export const getTodo = /* GraphQL */ \`
-  query GetProject($id: ID!) {
-    getProject(id: $id) {
-      id
-      name
-      createdAt
-      updatedAt
+    query GetProject($id: ID!) {
+      getProject(id: $id) {
+        id
+        name
+        createdAt
+        updatedAt
+      }
     }
-  }
-\`;
+  \` as GeneratedQuery<APITypes.GetTodoQueryVariables, APITypes.GetTodoQuery>;
 "
 `;

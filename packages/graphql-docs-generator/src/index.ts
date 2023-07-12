@@ -6,7 +6,7 @@ export { buildSchema } from './generator/utils/loading';
 
 export function generateGraphQLDocuments(
   schema: string,
-  options: { maxDepth?: number, useExternalFragmentForS3Object?: boolean; typenameIntrospection?: boolean },
+  options: { maxDepth?: number; useExternalFragmentForS3Object?: boolean; typenameIntrospection?: boolean },
 ): GeneratedOperations {
   const opts = {
     maxDepth: 2,
@@ -19,7 +19,7 @@ export function generateGraphQLDocuments(
 
   const gqlOperations: GQLAllOperations = generateAllOps(extendedSchema, opts.maxDepth, {
     useExternalFragmentForS3Object: opts.useExternalFragmentForS3Object,
-    typenameIntrospection: opts.typenameIntrospection
+    typenameIntrospection: opts.typenameIntrospection,
   });
   registerPartials();
   registerHelpers();
@@ -28,7 +28,7 @@ export function generateGraphQLDocuments(
     queries: new Map<string, string>(),
     mutations: new Map<string, string>(),
     subscriptions: new Map<string, string>(),
-    fragments: new Map<string, string>()
+    fragments: new Map<string, string>(),
   };
 
   ['queries', 'mutations', 'subscriptions'].forEach(op => {
@@ -52,7 +52,7 @@ type GeneratedOperations = {
   mutations: Map<string, string>;
   subscriptions: Map<string, string>;
   fragments: Map<string, string>;
-}
+};
 
 function renderOperations(operations: Array<GQLTemplateOp>): Map<string, string> {
   const renderedOperations = new Map<string, string>();
@@ -68,6 +68,8 @@ function renderOperations(operations: Array<GQLTemplateOp>): Map<string, string>
 }
 
 function renderOperation(operation: GQLTemplateOp): string {
+  // TODO: cleanup
+  // console.log('rendering operation', operation);
   const templateStr = getOperationPartial();
   const template = handlebars.compile(templateStr, {
     noEscape: true,
@@ -77,11 +79,13 @@ function renderOperation(operation: GQLTemplateOp): string {
 }
 
 function renderFragments(fragments: Array<GQLTemplateFragment>, useExternalFragmentForS3Object: boolean): Map<string, string> {
+  // TODO: does it make sense to ferry operation details through in this map
+  // so that TypeScript downstream can map queries to types more safely?
   const renderedFragments = new Map<string, string>();
   if (fragments?.length) {
     fragments.forEach(fragment => {
       const name = fragment.name;
-      const gql = renderFragment(fragment,useExternalFragmentForS3Object );
+      const gql = renderFragment(fragment, useExternalFragmentForS3Object);
       renderedFragments.set(name, gql);
     });
   }
