@@ -1,4 +1,8 @@
 const prettier = require('prettier');
+const {
+  interfaceNameFromOperation,
+  interfaceVariablesNameFromOperation
+} = require('@aws-amplify/graphql-types-generator/lib/typescript/codeGeneration');
 
 const CODEGEN_WARNING = 'this is an auto generated file. This will be overwritten';
 const LINE_DELIMITOR = '\n';
@@ -52,7 +56,7 @@ class GraphQLStatementsFormatter {
 
   formatGraphQL(statements) {
     const headerBuffer = this.headerComments.map(comment => `# ${comment}`).join(LINE_DELIMITOR);
-    const statementsBuffer = statements ? [...statements.values()].join(LINE_DELIMITOR) : '';
+    const statementsBuffer = statements ? [...statements.values()].map(s => s.graphql).join(LINE_DELIMITOR) : '';
     const formattedOutput = [headerBuffer, LINE_DELIMITOR, statementsBuffer].join(LINE_DELIMITOR);
     return formattedOutput;
   }
@@ -62,9 +66,10 @@ class GraphQLStatementsFormatter {
     const headerBuffer = this.headerComments.map(comment => `// ${comment}`).join(LINE_DELIMITOR);
     const formattedStatements = [];
     if (statements) {
-      for (const [key, value] of statements) {
-        const typeTag = this.buildTypeTag(key);
-        formattedStatements.push(`export const ${key} = /* GraphQL */ \`${value}\`${typeTag}`);
+      console.log('STATEMENTS', { statements });
+      for (const [key, {graphql, operationName, operationType}] of statements) {
+        const typeTag = this.buildTypeTag(operationName, operationType);
+        formattedStatements.push(`export const ${key} = /* GraphQL */ \`${graphql}\`${typeTag}`);
       }
     }
     const formattedOutput = [lintOverridesBuffer, headerBuffer, LINE_DELIMITOR, this.typeDefs, LINE_DELIMITOR, ...formattedStatements].join(
@@ -73,13 +78,25 @@ class GraphQLStatementsFormatter {
     return formattedOutput;
   }
 
-  buildTypeTag(name) {
-    if (!this.opTypeName) return '';
+  buildTypeTag(operationName, operationType) {
     if (this.language !== 'typescript') return '';
+    if (!operationType) return '';
 
-    const titleCasedName = `${name[0].toUpperCase()}${name.slice(1)}`;
-    const variablesTypeName = `APITypes.${titleCasedName}${this.opTypeName}Variables`;
-    const resultTypeName = `APITypes.${titleCasedName}${this.opTypeName}`;
+    // const titleCasedName = `${name[0].toUpperCase()}${name.slice(1)}`;
+    
+    const resultTypeName = `APITypes.${interfaceNameFromOperation({
+      operationName,
+      operationType,
+      // operationName: titleCasedName,
+      // operationType: this.opTypeName,
+    })}`;
+
+    const variablesTypeName = `APITypes.${interfaceVariablesNameFromOperation({
+      operationName,
+      operationType,
+      // operationName: titleCasedName,
+      // operationType: this.opTypeName,
+    })}`;
 
     return ` as Generated${this.opTypeName}<
       ${variablesTypeName},

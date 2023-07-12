@@ -18,7 +18,7 @@ exports[`GraphQL statements Formatter Generates formatted output for Flow fronte
 "// @flow
 // this is an auto generated file. This will be overwritten
 
-export const getTodo = /* GraphQL */ \`
+export const getProject = /* GraphQL */ \`
   query GetProject($id: ID!) {
     getProject(id: $id) {
       id
@@ -49,7 +49,7 @@ exports[`GraphQL statements Formatter Generates formatted output for JS frontend
 "/* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getTodo = /* GraphQL */ \`
+export const getProject = /* GraphQL */ \`
   query GetProject($id: ID!) {
     getProject(id: $id) {
       id
@@ -73,7 +73,7 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
-export const getTodo = /* GraphQL */ \`
+export const getProject = /* GraphQL */ \`
     query GetProject($id: ID!) {
       getProject(id: $id) {
         id
@@ -82,6 +82,9 @@ export const getTodo = /* GraphQL */ \`
         updatedAt
       }
     }
-  \` as GeneratedQuery<APITypes.GetTodoQueryVariables, APITypes.GetTodoQuery>;
+  \` as GeneratedQuery<
+  APITypes.GetProjectQueryVariables,
+  APITypes.GetProjectQuery
+>;
 "
 `;

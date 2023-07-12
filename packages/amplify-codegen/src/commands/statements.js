@@ -72,6 +72,7 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
         // default typenameIntrospection to true when not set
         typenameIntrospection:
           cfg.amplifyExtension.typenameIntrospection === undefined ? true : !!cfg.amplifyExtension.typenameIntrospection,
+        includeMetaData: true
       });
       if (!generatedOps) {
         context.print.warning('No GraphQL statements are generated. Check if the introspection schema has GraphQL operations defined.');

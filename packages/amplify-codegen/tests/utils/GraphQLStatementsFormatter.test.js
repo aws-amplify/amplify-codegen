@@ -2,9 +2,8 @@ const { GraphQLStatementsFormatter } = require('../../src/utils');
 
 describe('GraphQL statements Formatter', () => {
   const statements = new Map();
-  statements.set(
-    'getTodo',
-    `
+
+  const graphql = `
     query GetProject($id: ID!) {
       getProject(id: $id) {
         id
@@ -13,7 +12,16 @@ describe('GraphQL statements Formatter', () => {
         updatedAt
       }
     }
-  `,
+  `;
+
+  statements.set(
+    'getProject',
+    {
+      graphql,
+      operationName: 'GetProject',
+      operationType: 'query',
+      fieldName: 'getProject'
+    },
   );
 
   it('Generates formatted output for JS frontend', () => {
