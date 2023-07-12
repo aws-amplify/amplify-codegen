@@ -1,4 +1,4 @@
-/* eslint-disable spellcheck/spell-checker, camelcase, jsdoc/require-jsdoc, @typescript-eslint/no-explicit-any */
+/* eslint-disable spellcheck/spell-checker, camelcase, @typescript-eslint/no-explicit-any */
 import { CodeBuild } from 'aws-sdk';
 import { config } from 'dotenv';
 import yargs from 'yargs';
@@ -257,7 +257,7 @@ const getStacks = async (account: AWSAccountInfo, region: string): Promise<Stack
 };
 
 const getCodeBuildClient = (): CodeBuild => {
-  return new CodeBuild({ 
+  return new CodeBuild({
     apiVersion: '2016-10-06',
     region: 'us-east-1',
   });
@@ -383,7 +383,7 @@ const mergeResourcesByCCIJob = async (
     jobId: key,
     buckets: src,
   }));
-  
+
   const orphanBuckets = {
     [ORPHAN]: orphanS3Buckets,
   };

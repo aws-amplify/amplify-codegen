@@ -21,7 +21,7 @@ export const addCITags = (projectPath: string): void => {
 /**
  * Add CI tags for code build
  * Refer https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-env-vars.html
- * @param projectPath 
+ * @param projectPath
  */
 export const addCodeBuildCITags = (projectPath: string): void => {
   const tags = stateManager.getProjectTags(projectPath);
