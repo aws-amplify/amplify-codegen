@@ -9,10 +9,10 @@
  *
     artifacts:
       files:
-        - $CODEBUILD_SRC_DIR/packages/amplify-e2e-tests/amplify-e2e-reports/*
+        - $CODEBUILD_SRC_DIR/packages/amplify-codegen-e2e-tests/amplify-e2e-reports/*
  *
  * From the above job, 'path' includes the following:
- *  $CODEBUILD_SRC_DIR/packages/amplify-e2e-tests/amplify-e2e-reports
+ *  $CODEBUILD_SRC_DIR/packages/amplify-codegen-e2e-tests/amplify-e2e-reports
  *
  * Those paths must be included in this list.
  *
@@ -27,6 +27,6 @@
  * will automatically normalize these paths for Windows if it detects it.
  */
 export const ARTIFACT_STORAGE_PATH_ALLOW_LIST_CODEBUILD = [
-  '$CODEBUILD_SRC_DIR/packages/amplify-e2e-tests/',
-  '$CODEBUILD_SRC_DIR/packages/amplify-e2e-tests/amplify-e2e-reports'
+  '$CODEBUILD_SRC_DIR/packages/amplify-codegen-e2e-tests/',
+  '$CODEBUILD_SRC_DIR/packages/amplify-codegen-e2e-tests/amplify-e2e-reports'
 ];

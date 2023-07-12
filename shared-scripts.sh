@@ -142,17 +142,6 @@ function _publishToLocalRegistry {
     unsetNpmRegistryUrl
     # copy [verdaccio-cache] to s3
     storeCache $CODEBUILD_SRC_DIR/../verdaccio-cache verdaccio-cache
-
-    _generateChangeLog
-}
-
-function _generateChangeLog {
-    echo "Generate Change Log"
-    git reset --hard HEAD
-    yarn update-versions
-    yarn ts-node scripts/unified-changelog.ts
-    # copy [changelog] to s3
-    storeCacheFile $CODEBUILD_SRC_DIR/UNIFIED_CHANGELOG.md UNIFIED_CHANGELOG.md
 }
 
 function _installCLIFromLocalRegistry {
@@ -311,7 +300,7 @@ function runE2eTest {
 
     if [ -z "$FIRST_RUN" ] || [ "$FIRST_RUN" == "true" ]; then
         echo "using Amplify CLI version: "$(amplify --version)
-        cd $(pwd)/packages/amplify-e2e-tests
+        cd $(pwd)/packages/amplify-codegen-e2e-tests
     fi
 
     if [ -f  $FAILED_TEST_REGEX_FILE ]; then
