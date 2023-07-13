@@ -14,15 +14,12 @@ describe('GraphQL statements Formatter', () => {
     }
   `;
 
-  statements.set(
-    'getProject',
-    {
-      graphql,
-      operationName: 'GetProject',
-      operationType: 'query',
-      fieldName: 'getProject'
-    },
-  );
+  statements.set('getProject', {
+    graphql,
+    operationName: 'GetProject',
+    operationType: 'query',
+    fieldName: 'getProject',
+  });
 
   it('Generates formatted output for JS frontend', () => {
     const formattedOutput = new GraphQLStatementsFormatter('javascript').format(statements);
@@ -30,8 +27,7 @@ describe('GraphQL statements Formatter', () => {
   });
 
   it('Generates formatted output for TS frontend', () => {
-    console.log({ statements });
-    const formattedOutput = new GraphQLStatementsFormatter('typescript', 'queries').format(statements);
+    const formattedOutput = new GraphQLStatementsFormatter('typescript', 'queries', '../API.ts').format(statements);
     expect(formattedOutput).toMatchSnapshot();
   });
 

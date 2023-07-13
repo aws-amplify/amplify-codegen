@@ -38,7 +38,7 @@ export function generateGraphQLDocuments<INCLUDE_META extends boolean>(
 
   ['queries', 'mutations', 'subscriptions'].forEach(op => {
     const ops = gqlOperations[op];
-    console.log({ ops });
+    // console.log({ ops });
     if (ops.length) {
       const renderedOperations = renderOperations(gqlOperations[op], options.includeMetaData);
       allOperations[op] = renderedOperations;
@@ -61,9 +61,9 @@ type GraphQLWithMeta = {
 
   /**
    * E.g., `GetMyModel` or `ListMyModels`.
-   * 
+   *
    * This is used for generating type names.
-   * 
+   *
    * `undefined` for fragments.
    */
   operationName: string | undefined;
@@ -71,16 +71,16 @@ type GraphQLWithMeta = {
   /**
    * `undefined` for fragments.
    */
-  operationType: "query" | "mutation" | "subscription" | undefined;
+  operationType: 'query' | 'mutation' | 'subscription' | undefined;
 
   /**
    * E.g., `getMyModel` or `listMyModels`.
-   * 
+   *
    * It's the name of the operation that lives under Queries, Mutations, or Subscriptions
    * in the schema and is generally used as the key + variable name referring to the query.
    */
   fieldName: string;
-}
+};
 
 type GeneratedOperations<T> = {
   queries: Map<string, T>;
@@ -91,9 +91,10 @@ type GeneratedOperations<T> = {
 
 type MapValueType<INCLUDE_META extends boolean> = INCLUDE_META extends true ? GraphQLWithMeta : string;
 
-function renderOperations<
-  INCLUDE_META extends boolean,
->(operations: Array<GQLTemplateOp>, includeMetaData: INCLUDE_META): Map<string, MapValueType<INCLUDE_META>> {
+function renderOperations<INCLUDE_META extends boolean>(
+  operations: Array<GQLTemplateOp>,
+  includeMetaData: INCLUDE_META,
+): Map<string, MapValueType<INCLUDE_META>> {
   const renderedOperations = new Map<string, MapValueType<INCLUDE_META>>();
   if (operations?.length) {
     operations.forEach(op => {
@@ -104,7 +105,7 @@ function renderOperations<
           graphql: gql,
           operationName: op.name,
           operationType: op.type,
-          fieldName: op.fieldName
+          fieldName: op.fieldName,
         } as any);
       } else {
         renderedOperations.set(name, gql as any);

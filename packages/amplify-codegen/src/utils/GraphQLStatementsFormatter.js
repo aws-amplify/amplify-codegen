@@ -1,7 +1,7 @@
 const prettier = require('prettier');
 const {
   interfaceNameFromOperation,
-  interfaceVariablesNameFromOperation
+  interfaceVariablesNameFromOperation,
 } = require('@aws-amplify/graphql-types-generator/lib/typescript/codeGeneration');
 
 const CODEGEN_WARNING = 'this is an auto generated file. This will be overwritten';
@@ -11,7 +11,7 @@ const LINE_DELIMITOR = '\n';
  * Utility class to format the generated GraphQL statements based on frontend language type
  */
 class GraphQLStatementsFormatter {
-  constructor(language, op) {
+  constructor(language, op, typesPath) {
     this.language = language || 'graphql';
     this.opTypeName = {
       queries: 'Query',
@@ -20,12 +20,13 @@ class GraphQLStatementsFormatter {
     }[op];
     this.lintOverrides = [];
     this.headerComments = [];
+    this.typesPath = typesPath ? typesPath.replace(/.ts/i, '') : null;
   }
 
   get typeDefs() {
-    if (this.language === 'typescript' && this.opTypeName) {
+    if (this.language === 'typescript' && this.opTypeName && this.typesPath) {
       return [
-        `import * as APITypes from '../API';`,
+        `import * as APITypes from '${this.typesPath}';`,
         `type Generated${this.opTypeName}<InputType, OutputType> = string & {`,
         `  __generated${this.opTypeName}Input: InputType;`,
         `  __generated${this.opTypeName}Output: OutputType;`,
@@ -66,8 +67,7 @@ class GraphQLStatementsFormatter {
     const headerBuffer = this.headerComments.map(comment => `// ${comment}`).join(LINE_DELIMITOR);
     const formattedStatements = [];
     if (statements) {
-      console.log('STATEMENTS', { statements });
-      for (const [key, {graphql, operationName, operationType}] of statements) {
+      for (const [key, { graphql, operationName, operationType }] of statements) {
         const typeTag = this.buildTypeTag(operationName, operationType);
         formattedStatements.push(`export const ${key} = /* GraphQL */ \`${graphql}\`${typeTag}`);
       }
@@ -79,23 +79,16 @@ class GraphQLStatementsFormatter {
   }
 
   buildTypeTag(operationName, operationType) {
-    if (this.language !== 'typescript') return '';
-    if (!operationType) return '';
+    if (!operationType || !this.typesPath || this.language !== 'typescript') return '';
 
-    // const titleCasedName = `${name[0].toUpperCase()}${name.slice(1)}`;
-    
     const resultTypeName = `APITypes.${interfaceNameFromOperation({
       operationName,
       operationType,
-      // operationName: titleCasedName,
-      // operationType: this.opTypeName,
     })}`;
 
     const variablesTypeName = `APITypes.${interfaceVariablesNameFromOperation({
       operationName,
       operationType,
-      // operationName: titleCasedName,
-      // operationType: this.opTypeName,
     })}`;
 
     return ` as Generated${this.opTypeName}<
