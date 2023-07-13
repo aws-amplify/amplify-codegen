@@ -4,7 +4,7 @@ import * as rimraf from 'rimraf';
 import { config } from 'dotenv';
 import execa from 'execa';
 
-export * from './add-circleci-tags';
+export * from './add-ci-tags';
 export * from './api';
 export * from './appsync';
 export * from './envVars';
