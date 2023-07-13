@@ -1,11 +1,16 @@
 import { AmplifyFrontend } from '../utils';
 import { getCLIPath, nspawn as spawn } from '..';
 
-export function generateModels(cwd: string, outputDir?: string): Promise<void> {
+export function generateModels(cwd: string, outputDir?: string, settings: { errMessage?: string } = {}): Promise<void> {
   return new Promise((resolve, reject) => {
     const params = ['codegen', 'models', ...(outputDir ? ['--output-dir', outputDir] : [])]
-    spawn(getCLIPath(), params, { cwd, stripColors: true })
-    .run((err: Error) => {
+    const chain = spawn(getCLIPath(), params, { cwd, stripColors: true });
+
+    if (settings?.errMessage) {
+      chain.wait(settings.errMessage);
+    }
+
+    chain.run((err: Error) => {
       if (!err) {
         resolve();
       } else {
@@ -134,24 +139,13 @@ export function configureCodegen(cwd: string, settings: any = {}): Promise<void>
   });
 }
 
-export function generateModelIntrospection(cwd: string, settings: { outputDir?: string} = {}): Promise<void> {
+export function generateModelIntrospection(cwd: string, settings: { outputDir?: string, errMessage?: string} = {}): Promise<void> {
   return new Promise((resolve, reject) => {
-    spawn(getCLIPath(), ['codegen', 'model-introspection', '--output-dir', settings.outputDir ?? ''], { cwd, stripColors: true })
-    .run((err: Error) => {
-      if (!err) {
-        resolve();
-      } else {
-        reject(err);
-      }
-    });
-  });
-}
-
-export function generateModelIntrospectionWithError(cwd: string, errMessage: string, settings: { outputDir?: string} = {}): Promise<void> {
-  return new Promise((resolve, reject) => {
-    spawn(getCLIPath(), ['codegen', 'model-introspection', '--output-dir', settings.outputDir ?? ''], { cwd, stripColors: true })
-    .wait(errMessage)
-    .run((err: Error) => {
+    const chain = spawn(getCLIPath(), ['codegen', 'model-introspection', '--output-dir', settings.outputDir ?? ''], { cwd, stripColors: true });
+    if (settings?.errMessage) {
+      chain.wait(settings.errMessage);
+    }
+    chain.run((err: Error) => {
       if (!err) {
         resolve();
       } else {
@@ -188,4 +182,3 @@ export function addCodegenNonAmplifyJS(cwd: string): Promise<void> {
     });
   });
 }
-
