@@ -121,8 +121,6 @@ function isMetaIncluded(includeMetaData: boolean, operationsMap: any): operation
 }
 
 function renderOperation(operation: GQLTemplateOp): string {
-  // TODO: cleanup
-  // console.log('rendering operation', operation);
   const templateStr = getOperationPartial();
   const template = handlebars.compile(templateStr, {
     noEscape: true,
@@ -132,8 +130,6 @@ function renderOperation(operation: GQLTemplateOp): string {
 }
 
 function renderFragments(fragments: Array<GQLTemplateFragment>, useExternalFragmentForS3Object: boolean): Map<string, string> {
-  // TODO: does it make sense to ferry operation details through in this map
-  // so that TypeScript downstream can map queries to types more safely?
   const renderedFragments = new Map<string, string>();
   if (fragments?.length) {
     fragments.forEach(fragment => {
