@@ -1,4 +1,4 @@
-import { addApiWithoutSchema, createNewProjectDir, generateModelIntrospection, initJSProjectWithProfile, updateApiSchema } from "@aws-amplify/amplify-codegen-e2e-core";
+import { addApiWithoutSchema, createNewProjectDir, generateModelIntrospection, initJSProjectWithProfile, updateApiSchema, generateModelIntrospectionWithError } from "@aws-amplify/amplify-codegen-e2e-core";
 import { deleteAmplifyProject } from '../codegen-tests-base';
 import { isNotEmptyDir } from "../utils";
 import { join } from 'path';
@@ -35,7 +35,7 @@ describe('Model Introspection Codegen test', () => {
       await addApiWithoutSchema(projectRoot, { apiName });
       await updateApiSchema(projectRoot, apiName, schema);
       //generate introspection schema
-      await expect(generateModelIntrospection(projectRoot)).rejects.toThrowError();
+      await generateModelIntrospectionWithError(projectRoot, 'Expected --output-dir flag to be set');
     });
 
     it('should throw error if the GraphQL schema is invalid', async () => {
@@ -46,7 +46,7 @@ describe('Model Introspection Codegen test', () => {
       await updateApiSchema(projectRoot, apiName, invalidSchema);
       const outputDir = 'output';
       //generate introspection schema
-      await expect(generateModelIntrospection(projectRoot, { outputDir })).rejects.toThrowError();
+      await generateModelIntrospectionWithError(projectRoot, 'Unknown type', { outputDir });
     });
 
     it(`should handle a schema with connected PK`, async () => {

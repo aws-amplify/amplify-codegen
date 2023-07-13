@@ -147,6 +147,20 @@ export function generateModelIntrospection(cwd: string, settings: { outputDir?: 
   });
 }
 
+export function generateModelIntrospectionWithError(cwd: string, errMessage: string, settings: { outputDir?: string} = {}): Promise<void> {
+  return new Promise((resolve, reject) => {
+    spawn(getCLIPath(), ['codegen', 'model-introspection', '--output-dir', settings.outputDir ?? ''], { cwd, stripColors: true })
+    .wait(errMessage)
+    .run((err: Error) => {
+      if (!err) {
+        resolve();
+      } else {
+        reject(err);
+      }
+    });
+  });
+}
+
 // CLI workflow to add codegen to non-Amplify JS project
 export function addCodegenNonAmplifyJS(cwd: string): Promise<void> {
   return new Promise((resolve, reject) => {
