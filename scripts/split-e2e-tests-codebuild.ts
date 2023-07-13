@@ -21,10 +21,11 @@ const REPO_ROOT = join(__dirname, '..');
 const TEST_TIMINGS_PATH = join(REPO_ROOT, 'scripts', 'cci', 'test-timings.data.json');
 const CODEBUILD_CONFIG_BASE_PATH = join(REPO_ROOT, '.codebuild', 'e2e_workflow_base.yml');
 const CODEBUILD_GENERATE_CONFIG_PATH = join(REPO_ROOT, '.codebuild', 'e2e_workflow.yml');
-const RUN_SOLO = [];
+const RUN_SOLO = [
+  'src/__tests__/build-app-android.test.ts',
+];
 const EXCLUDE_TESTS = [
   'src/__tests__/build-app-swift.test.ts',
-  'src/__tests__/build-app-android.test.ts',
 ];
 
 export function loadConfigBase() {
@@ -165,13 +166,14 @@ const splitTests = (
         tmp.env.variables.USE_PARENT_ACCOUNT = 1;
       }
       if (j.runSolo) {
-        tmp.env['compute-type'] = 'BUILD_GENERAL1_SMALL';
+        tmp.env['compute-type'] = 'BUILD_GENERAL1_MEDIUM';
       }
       result.push(tmp);
     }
   });
   return result;
 };
+
 function main(): void {
   const configBase: any = loadConfigBase();
   const baseBuildGraph = configBase.batch['build-graph'];
@@ -180,7 +182,7 @@ function main(): void {
       identifier: 'run_e2e_tests',
       buildspec: '.codebuild/run_e2e_tests.yml',
       env: {
-        'compute-type': 'BUILD_GENERAL1_MEDIUM',
+        'compute-type': 'BUILD_GENERAL1_LARGE',
       },
       'depend-on': ['publish_to_local_registry'],
     },
@@ -193,7 +195,7 @@ function main(): void {
     identifier: 'cleanup_e2e_resources',
     buildspec: '.codebuild/cleanup_e2e_resources.yml',
     env: {
-      'compute-type': 'BUILD_GENERAL1_SMALL'
+      'compute-type': 'BUILD_GENERAL1_MEDIUM'
     },
     'depend-on': [allBuilds[0].identifier]
   }
