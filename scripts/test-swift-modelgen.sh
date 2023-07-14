@@ -25,11 +25,9 @@ function buildModels() {
 }
 
 function buildAndRunModel() {
-    pwd && ls
     modelName=$1
-    ls $modelName && cd $modelName
+    cd $modelName
     currentDirectory=$(pwd)
-    pwd && ls
 
     pathToSwiftPackage=$2
 
@@ -40,7 +38,6 @@ function buildAndRunModel() {
 
     # build and run the model
     cd $pathToSwiftPackage
-    ls Sources/models
     swift build && swift run
 
     # clean up
