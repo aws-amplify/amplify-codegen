@@ -229,3 +229,47 @@ describe('Primary key info within a belongsTo model tests', () => {
     expect(visitor.generate()).toMatchSnapshot();
   });
 });
+
+describe('schemas with pk on a belongsTo fk', () => {
+  it('works for v1', () => {
+    expect(getVisitor(/* GraphQL */ `
+      type Blog @model {
+        id: ID!
+        title: String
+        posts: [Post] @connection(fields: ["id"])
+      }
+
+      type Post @model @key(fields: ["blogId", "title", "description"]) {
+        id: ID!
+        blogId: ID!
+        title: String!
+        description: String!
+        blog: Blog @connection(fields: ["blogId"])
+      }
+    `, {
+      transformerVersion: 1,
+      usePipelinedTransformer: false,
+    }).generate()).toMatchSnapshot();
+  });
+
+  it('works for v2', () => {
+    expect(getVisitor(/* GraphQL */ `
+      type Blog @model {
+        id: ID!
+        title: String
+        posts: [Post] @hasMany(fields: ["id"])
+      }
+
+      type Post @model {
+        id: ID!
+        blogId: ID! @primaryKey(sortKeyFields: ["title", "description"])
+        title: String!
+        description: String!
+        blog: Blog @belongsTo(fields: ["blogId"])
+      }
+    `, {
+      transformerVersion: 2,
+      usePipelinedTransformer: true,
+    }).generate()).toMatchSnapshot();
+  });
+});

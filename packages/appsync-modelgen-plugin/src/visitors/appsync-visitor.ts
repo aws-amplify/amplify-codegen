@@ -673,7 +673,7 @@ export class AppSyncModelVisitor<
           if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY || connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
             // Need to update the other side of the connection even if there is no connection directive
             addFieldToModel(connectionInfo.connectedModel, connectionInfo.associatedWith);
-          } else if (connectionInfo.targetName !== 'id') {
+          } else if (connectionInfo.targetName !== this.getModelPrimaryKeyField(model)?.name ?? 'id') {
             // Need to remove the field that is targetName
             removeFieldFromModel(model, connectionInfo.targetName);
           }
