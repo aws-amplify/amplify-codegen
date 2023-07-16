@@ -37,3 +37,12 @@ batch:
           CLI_REGION: us-east-2
       depend-on:
         - publish_to_local_registry
+    - identifier: build_app_android
+      buildspec: .codebuild/run_android_modelgen_e2e_test.yml
+      env:
+        compute-type: BUILD_GENERAL1_LARGE
+        variables:
+          TEST_SUITE: src/__tests__/build-app-android.test.ts
+          CLI_REGION: us-east-2
+      depend-on:
+        - publish_to_local_registry
