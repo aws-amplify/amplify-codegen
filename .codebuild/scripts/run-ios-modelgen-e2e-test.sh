@@ -13,7 +13,7 @@ get_latest_run_id() {
     echo "$latest_run_id"
 }
 
-# Function to get the status of a workflow run
+# Function to get the status of a workflow run - can be queued or in_progress or completed
 get_run_status() {
     run_id="$1"
     run_status=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
@@ -22,6 +22,17 @@ get_run_status() {
         "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/actions/runs/$run_id" | \
         jq -r '.status')
     echo "$run_status"
+}
+
+# Function to get the status of a test run - can be success or failure
+get_test_status() {
+    run_id="$1"
+    test_status=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
+        -H "Accept: application/vnd.github+json" \
+        -H "X-GitHub-Api-Version: 2022-11-28" \
+        "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/actions/runs/$run_id" | \
+        jq -r '.conclusion')
+    echo "$test_status"
 }
 
 # Function to trigger a workflow dispatch event to run the e2e test
@@ -40,24 +51,25 @@ main() {
     # Get the latest run ID and initial status
     latest_run_id=$(get_latest_run_id)
     echo "Latest run ID: $latest_run_id"
-    latest_status=$(get_run_status "$latest_run_id")
+    run_status=$(get_run_status "$latest_run_id")
     timeout=$((SECONDS + 600))  # 600 seconds = 10 minutes
 
     # Continuously check for status until completion
-    while [[ "$latest_status" != "completed"  && "$SECONDS" -lt "$timeout" ]]; do
+    while [[ "$run_status" != "completed"  && "$SECONDS" -lt "$timeout" ]]; do
         echo "Test run status: $latest_status"
         sleep 10 # Wait before checking again
-        latest_status=$(get_run_status "$latest_run_id")
+        run_status=$(get_run_status "$latest_run_id")
     done
 
     # Check if the run completed within the specified duration
-    if [[ "$latest_status" != "completed" ]]; then
+    if [[ "$run_status" != "completed" ]]; then
         echo "The test run did not complete within the specified duration."
         exit 1
     fi
 
-    # Check if the run failed and throw an error if it did
-    if [[ "$latest_status" == "failure" ]]; then
+    test_status=$(get_test_status "$latest_run_id")
+    # Check if the test failed and throw an error if it did
+    if [[ "$test_status" != "success" ]]; then
         echo "The test run failed."
         exit 1
     else
