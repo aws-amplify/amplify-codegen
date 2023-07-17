@@ -19,19 +19,19 @@ function buildModels() {
 
     cd ${tempDirectory}/models
     for model in */; do
+        cd ${tempDirectory}/models/$model
         echo "Building model $model"
-        buildAndRunModel $model $pathToSwiftPackage
+        buildAndRunModel $pathToSwiftPackage
     done
 }
 
 function buildAndRunModel() {
-    modelName=$1
-    pathToSwiftPackage=$2
+    pathToSwiftPackage=$1
 
     # copy with replace all model files to the swift package
     mkdir -p $pathToSwiftPackage/Sources/models
     rm -rf $pathToSwiftPackage/Sources/models/*
-    cp -r $modelName/* $pathToSwiftPackage/Sources/models
+    cp -r ./* $pathToSwiftPackage/Sources/models
     ls $pathToSwiftPackage/Sources/models
 
     # build and run the model
