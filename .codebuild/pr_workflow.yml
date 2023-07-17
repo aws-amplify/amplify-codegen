@@ -1,0 +1,22 @@
+version: 0.2
+env:
+  shell: bash
+  compute-type: BUILD_GENERAL1_LARGE
+
+batch:
+  fast-fail: false
+  build-graph:
+    - identifier: build_linux
+      buildspec: .codebuild/build_linux.yml
+    - identifier: test
+      buildspec: .codebuild/test.yml
+      depend-on:
+        - build_linux
+    - identifier: lint
+      buildspec: .codebuild/lint.yml
+      depend-on:
+        - build_linux
+    - identifier: verify_api_extract
+      buildspec: .codebuild/verify_api_extract.yml
+      depend-on:
+        - build_linux

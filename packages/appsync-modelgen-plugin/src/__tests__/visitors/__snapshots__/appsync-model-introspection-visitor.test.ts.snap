@@ -2320,3 +2320,327 @@ exports[`Primary key info within a belongsTo model tests should generate correct
     \\"nonModels\\": {}
 }"
 `;
+
+exports[`schemas with pk on a belongsTo fk works for v1 1`] = `
+"{
+    \\"version\\": 1,
+    \\"models\\": {
+        \\"Blog\\": {
+            \\"name\\": \\"Blog\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"title\\": {
+                    \\"name\\": \\"title\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"posts\\": {
+                    \\"name\\": \\"posts\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"model\\": \\"Post\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isArrayNullable\\": true,
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_MANY\\",
+                        \\"associatedWith\\": []
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Blogs\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        },
+        \\"Post\\": {
+            \\"name\\": \\"Post\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"blogId\\": {
+                    \\"name\\": \\"blogId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"title\\": {
+                    \\"name\\": \\"title\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"description\\": {
+                    \\"name\\": \\"description\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"blog\\": {
+                    \\"name\\": \\"blog\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"Blog\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"BELONGS_TO\\",
+                        \\"targetNames\\": []
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Posts\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"blogId\\",
+                            \\"title\\",
+                            \\"description\\"
+                        ]
+                    }
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"blogId\\",
+                \\"sortKeyFieldNames\\": [
+                    \\"title\\",
+                    \\"description\\"
+                ]
+            }
+        }
+    },
+    \\"enums\\": {},
+    \\"nonModels\\": {}
+}"
+`;
+
+exports[`schemas with pk on a belongsTo fk works for v2 1`] = `
+"{
+    \\"version\\": 1,
+    \\"models\\": {
+        \\"Blog\\": {
+            \\"name\\": \\"Blog\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"title\\": {
+                    \\"name\\": \\"title\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"posts\\": {
+                    \\"name\\": \\"posts\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"model\\": \\"Post\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isArrayNullable\\": true,
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_MANY\\",
+                        \\"associatedWith\\": [
+                            \\"blog\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Blogs\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        },
+        \\"Post\\": {
+            \\"name\\": \\"Post\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"blogId\\": {
+                    \\"name\\": \\"blogId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"title\\": {
+                    \\"name\\": \\"title\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"description\\": {
+                    \\"name\\": \\"description\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"blog\\": {
+                    \\"name\\": \\"blog\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"Blog\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"BELONGS_TO\\",
+                        \\"targetNames\\": [
+                            \\"blogId\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Posts\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"blogId\\",
+                            \\"title\\",
+                            \\"description\\"
+                        ]
+                    }
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"blogId\\",
+                \\"sortKeyFieldNames\\": [
+                    \\"title\\",
+                    \\"description\\"
+                ]
+            }
+        }
+    },
+    \\"enums\\": {},
+    \\"nonModels\\": {}
+}"
+`;

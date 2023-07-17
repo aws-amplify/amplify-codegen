@@ -58,7 +58,7 @@ install_cli_with_local_codegen: &install_cli
     startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
     setNpmRegistryUrlToLocal
     changeNpmGlobalPath
-    npm install -g @aws-amplify/cli-internal
+    npm install -g @aws-amplify/cli-internal@cdk228withdata3
     amplify -v
     npm list --global --depth=1
     unsetNpmRegistryUrl
@@ -303,7 +303,7 @@ jobs:
             yarn clean-e2e-resources
           no_output_timeout: 20m
       - store_artifacts:
-          path: ~/repo/packages/amplify-e2e-tests/amplify-e2e-reports
+          path: ~/repo/packages/amplify-codegen-e2e-tests/amplify-e2e-reports
     working_directory: ~/repo
 
   verify-api-extract:
