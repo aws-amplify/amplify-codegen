@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-core@1.4.9...@aws-amplify/amplify-codegen-e2e-core@1.5.0) (2023-07-17)
+
+### Features
+
+- add android test ([dd635a0](https://github.com/aws-amplify/amplify-codegen/commit/dd635a0a41eeed4f74334f0443265e36ac055835))
+- support e2e workflow on codebuild ([b435d50](https://github.com/aws-amplify/amplify-codegen/commit/b435d50818e9b995a770f109a7e79a1d1cd430ab))
+
 ## [1.4.9](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-core@1.4.8...@aws-amplify/amplify-codegen-e2e-core@1.4.9) (2023-06-19)
 
 **Note:** Version bump only for package @aws-amplify/amplify-codegen-e2e-core

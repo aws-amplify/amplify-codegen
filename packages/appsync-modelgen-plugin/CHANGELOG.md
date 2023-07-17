@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.5.0...@aws-amplify/appsync-modelgen-plugin@2.5.1) (2023-07-17)
+
+### Bug Fixes
+
+- support key directive in model introspection schema gen ([#628](https://github.com/aws-amplify/amplify-codegen/issues/628)) ([7397ab9](https://github.com/aws-amplify/amplify-codegen/commit/7397ab91743b6fe629bfbf419e7071f65e456fa8))
+
 # [2.5.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.4.5...@aws-amplify/appsync-modelgen-plugin@2.5.0) (2023-06-29)
 
 ### Features

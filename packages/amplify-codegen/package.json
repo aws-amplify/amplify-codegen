@@ -1,6 +1,6 @@
 {
   "name": "amplify-codegen",
-  "version": "4.1.3",
+  "version": "4.1.4",
   "description": "amplify code generator",
   "repository": {
     "type": "git",
@@ -21,7 +21,7 @@
     "extract-api": "ts-node ../../scripts/extract-api.ts"
   },
   "dependencies": {
-    "@aws-amplify/appsync-modelgen-plugin": "2.5.0",
+    "@aws-amplify/appsync-modelgen-plugin": "2.5.1",
     "@aws-amplify/graphql-docs-generator": "4.0.3",
     "@aws-amplify/graphql-types-generator": "3.0.3",
     "@graphql-codegen/core": "2.6.6",
