@@ -5,7 +5,6 @@ phases:
   build:
     commands:
       - yarn run production-build
-      - yarn build-tests
 
 artifacts:
   files:
