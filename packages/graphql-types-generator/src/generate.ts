@@ -1,3 +1,4 @@
+import { GraphQLSchema, DocumentNode } from 'graphql';
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import * as rimraf from 'rimraf';
@@ -26,85 +27,101 @@ export default function generate(
   target: TargetType,
   tagName: string,
   options: any,
-) {
+): void {
   const schema = loadSchema(schemaPath);
 
   const document = loadAndMergeQueryDocuments(inputPaths, tagName);
 
   validateQueryDocument(schema, document);
+  const multipleFiles = fs.existsSync(outputPath) && fs.statSync(outputPath).isDirectory();
 
-  if (target === 'swift') {
-    options.addTypename = true;
-    const context = compileToIR(schema, document, options);
-    // Complex object suppport
-    if (options.complexObjectSupport === 'auto') {
-      options.addS3Wrapper = context.typesUsed.some(typesUsed => hasS3Fields(typesUsed));
-    } else if (options.complexObjectSupport === 'yes') {
-      options.addS3Wrapper = true;
-    } else {
-      options.addS3Wrapper = false;
-    }
-    const outputIndividualFiles = fs.existsSync(outputPath) && fs.statSync(outputPath).isDirectory();
+  const output = generateTypes(schema, document, only, target, multipleFiles, options);
 
-    const generator = generateSwiftSource(context, outputIndividualFiles, only);
-
-    if (outputIndividualFiles) {
-      writeGeneratedFiles(generator.generatedFiles, outputPath);
-    } else {
-      fs.writeFileSync(outputPath, generator.output);
-    }
-  } else if (target === 'flow-modern') {
-    const context = compileToIR(schema, document, options);
-    const generatedFiles = generateFlowModernSource(context);
-
-    // Group by output directory
-    const filesByOutputDirectory: {
-      [outputDirectory: string]: {
-        [fileName: string]: BasicGeneratedFile;
-      };
-    } = {};
-
-    Object.keys(generatedFiles).forEach((filePath: string) => {
-      const outputDirectory = path.dirname(filePath);
-      if (!filesByOutputDirectory[outputDirectory]) {
-        filesByOutputDirectory[outputDirectory] = {
-          [path.basename(filePath)]: generatedFiles[filePath],
-        };
-      } else {
-        filesByOutputDirectory[outputDirectory][path.basename(filePath)] = generatedFiles[filePath];
-      }
-    });
-
-    Object.keys(filesByOutputDirectory).forEach(outputDirectory => {
-      writeGeneratedFiles(filesByOutputDirectory[outputDirectory], outputDirectory);
-    });
+  if (outputPath) {
+    fs.outputFileSync(outputPath, output);
   } else {
-    let output;
-    const context = compileToLegacyIR(schema, document, options);
-    switch (target) {
-      case 'json':
-        output = serializeToJSON(context);
-        break;
-      case 'ts':
-      case 'typescript':
-        output = generateTypescriptSource(context);
-        break;
-      case 'flow':
-        output = generateFlowSource(context);
-        break;
-      case 'scala':
-        output = generateScalaSource(context, options);
-        break;
-      case 'angular':
-        output = generateAngularSource(context);
-    }
-
-    if (outputPath) {
-      fs.outputFileSync(outputPath, output);
-    } else {
-      console.log(output);
-    }
+    console.log(output);
   }
+}
+
+export function generateTypes(
+  schema: GraphQLSchema,
+  document: DocumentNode,
+  only: string,
+  target: TargetType,
+  multipleFiles: boolean,
+  options: any,
+) {
+  if (target === 'swift') {
+    return generateTypesSwift(schema, document, only, multipleFiles, options);
+  } else if (target === 'flow-modern') {
+    return generateTypesFlowModern(schema, document, options);
+  }
+
+  const context = compileToLegacyIR(schema, document, options);
+
+  switch (target) {
+    case 'json':
+      return serializeToJSON(context);
+    case 'ts':
+    case 'typescript':
+      return generateTypescriptSource(context);
+    case 'flow':
+      return generateFlowSource(context);
+    case 'scala':
+      return generateScalaSource(context, options);
+    case 'angular':
+      return generateAngularSource(context);
+    default:
+      throw new Error(`${target} is not supported.`);
+  }
+}
+
+function generateTypesSwift(schema: GraphQLSchema, document: DocumentNode, only: string, multipleFiles: boolean, options: any) {
+  options.addTypename = true;
+  const context = compileToIR(schema, document, options);
+  // Complex object suppport
+  if (options.complexObjectSupport === 'auto') {
+    options.addS3Wrapper = context.typesUsed.some(typesUsed => hasS3Fields(typesUsed));
+  } else if (options.complexObjectSupport === 'yes') {
+    options.addS3Wrapper = true;
+  } else {
+    options.addS3Wrapper = false;
+  }
+
+  const generator = generateSwiftSource(context, !multipleFiles, only);
+
+  if (!multipleFiles) {
+    return generator.generatedFiles;
+  }
+  return generator.output;
+}
+
+function generateTypesFlowModern(schema: GraphQLSchema, document: DocumentNode, options: any) {
+  const context = compileToIR(schema, document, options);
+  const generatedFiles = generateFlowModernSource(context);
+
+  // Group by output directory
+  const filesByOutputDirectory: {
+    [outputDirectory: string]: {
+      [fileName: string]: BasicGeneratedFile;
+    };
+  } = {};
+
+  Object.keys(generatedFiles).forEach((filePath: string) => {
+    const outputDirectory = path.dirname(filePath);
+    if (!filesByOutputDirectory[outputDirectory]) {
+      filesByOutputDirectory[outputDirectory] = {
+        [path.basename(filePath)]: generatedFiles[filePath],
+      };
+    } else {
+      filesByOutputDirectory[outputDirectory][path.basename(filePath)] = generatedFiles[filePath];
+    }
+  });
+
+  Object.keys(filesByOutputDirectory).forEach(outputDirectory => {
+    writeGeneratedFiles(filesByOutputDirectory[outputDirectory], outputDirectory);
+  });
 }
 
 function writeGeneratedFiles(generatedFiles: { [fileName: string]: BasicGeneratedFile }, outputDirectory: string) {

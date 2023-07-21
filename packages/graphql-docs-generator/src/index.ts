@@ -47,7 +47,7 @@ export function generateGraphQLDocuments(
   return allOperations;
 }
 
-type GeneratedOperations = {
+export type GeneratedOperations = {
   queries: Map<string, string>;
   mutations: Map<string, string>;
   subscriptions: Map<string, string>;

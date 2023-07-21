@@ -62,12 +62,19 @@ export function loadAndMergeQueryDocuments(inputPaths: string[], tagName: string
     })
     .filter((source): source is Source => Boolean(source));
 
+  return parseAndMergeQueryDocuments(sources);
+}
+
+export function parseAndMergeQueryDocuments<SourceType extends Source | string>(sources: SourceType[]): DocumentNode {
   const parsedSources = sources.map(source => {
     try {
       return parse(source);
     } catch (err) {
-      const relativePathToInput = relative(process.cwd(), source.name);
-      throw new ToolError(`Could not parse graphql operations in ${relativePathToInput}\n  Failed on : ${source.body}`);
+      if ('name' in source) {
+        const relativePathToInput = relative(process.cwd(), source.name);
+        throw new ToolError(`Could not parse graphql operations in ${relativePathToInput}\n  Failed on : ${source.body}`);
+      }
+      throw new ToolError(`Could not parse graphql operations. Failed on : ${source}`);
     }
   });
   return concatAST(parsedSources);

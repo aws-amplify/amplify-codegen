@@ -10,6 +10,7 @@ package-lock.json
 .vscode/*
 !.vscode/settings.json
 !.vscode/extensions.json
+packages/api-codegen/lib
 packages/appsync-modelgen-plugin/lib
 packages/graphql-docs-generator/lib
 packages/graphql-types-generator/lib
@@ -28,3 +29,4 @@ package-lock.json
 .idea
 scripts/.env
 .codebuild/debug_workflow.yml
+scripts/cci/job.data.json
