@@ -48,7 +48,7 @@ public extension GraphQLMapConvertible {
 
 public typealias GraphQLID = String
 
-public protocol GraphQLOperation: AnyObject {
+public protocol APISwiftGraphQLOperation: AnyObject {
   
   static var operationString: String { get }
   static var requestString: String { get }
@@ -59,7 +59,7 @@ public protocol GraphQLOperation: AnyObject {
   associatedtype Data: GraphQLSelectionSet
 }
 
-public extension GraphQLOperation {
+public extension APISwiftGraphQLOperation {
   static var requestString: String {
     return operationString
   }
@@ -73,11 +73,11 @@ public extension GraphQLOperation {
   }
 }
 
-public protocol GraphQLQuery: GraphQLOperation {}
+public protocol GraphQLQuery: APISwiftGraphQLOperation {}
 
-public protocol GraphQLMutation: GraphQLOperation {}
+public protocol GraphQLMutation: APISwiftGraphQLOperation {}
 
-public protocol GraphQLSubscription: GraphQLOperation {}
+public protocol GraphQLSubscription: APISwiftGraphQLOperation {}
 
 public protocol GraphQLFragment: GraphQLSelectionSet {
   static var possibleTypes: [String] { get }
