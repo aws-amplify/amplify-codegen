@@ -21,6 +21,14 @@ describe('Swift code generation', () => {
     return context;
   }
 
+  describe('#fileHeader', () => {
+    it('should generate a file header', () => {
+      generator.fileHeader();
+
+      expect(generator.output).toMatchSnapshot();
+    });
+  });
+
   describe('#classDeclarationForOperation()', () => {
     it(`should generate a class declaration for a query with variables`, () => {
       const { operations } = compile(`
