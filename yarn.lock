@@ -55,28 +55,10 @@
     winston "^3.3.3"
     winston-daily-rotate-file "^4.5.0"
 
-"@aws-amplify/amplify-cli-logger@1.3.3":
-  version "1.3.3"
-  resolved "https://registry.npmjs.org/@aws-amplify/amplify-cli-logger/-/amplify-cli-logger-1.3.3.tgz#d50d006f71b1a8f9e6bfe71f8e691c96d307aa04"
-  integrity sha512-GTaTMu6p5xJqimiCuzv0NDdx7/APV5YgOFtpX6GQoTIJ7jjCMB1MmKyfUKrt843ATQpfZ0ClokkyGJlzgMvYzw==
-  dependencies:
-    winston "^3.3.3"
-    winston-daily-rotate-file "^4.5.0"
-
 "@aws-amplify/amplify-cli-shared-interfaces@1.2.2":
   version "1.2.2"
   resolved "https://registry.npmjs.org/@aws-amplify/amplify-cli-shared-interfaces/-/amplify-cli-shared-interfaces-1.2.2.tgz#e717ef421379837519ed6cba42226874574fe505"
   integrity sha512-iZZAhfPUBRZr5b4S5YnpN98oYQfZSMMxo0J/fpDQ7mh3CFOGdWcg6vIU3M9tqGZWUNYi3P0MkzreOgDE+9yJ6A==
-
-"@aws-amplify/amplify-cli-shared-interfaces@1.2.3":
-  version "1.2.3"
-  resolved "https://registry.npmjs.org/@aws-amplify/amplify-cli-shared-interfaces/-/amplify-cli-shared-interfaces-1.2.3.tgz#01afc1508e11faadeb5d45298e8b5c486dc272b0"
-  integrity sha512-c/c82OMAFZvgjkfeMFE/h1ycqC7218IfeVNLN7rVGMS98hRs810zRXvFc1w8uI+zwUiDV8+bzAuzODqt5aC9iA==
-
-"@aws-amplify/amplify-function-plugin-interface@1.11.0":
-  version "1.11.0"
-  resolved "https://registry.npmjs.org/@aws-amplify/amplify-function-plugin-interface/-/amplify-function-plugin-interface-1.11.0.tgz#f09bbfdd16677c35e8455a9cb7b0cb658f58a7bc"
-  integrity sha512-X0Ywl6zBd54XOiWDGakaoCKogTtU7wR+s+8egmQuBMYJK/kW+apvyPGI7wdXGommwXYs1Hs1vr61V+h/+Rbfig==
 
 "@aws-amplify/amplify-prompts@2.6.8":
   version "2.6.8"
@@ -84,15 +66,6 @@
   integrity sha512-s3xtMgVOWlxyIPPTXF1s1BD/4r7jTEO1vsPEc//HrlB3hPJdZ6cKrDb3cXsbkGUJnrmU6UwEmManwNozrmKzWg==
   dependencies:
     amplify-prompts "2.6.8"
-
-"@aws-amplify/amplify-prompts@2.8.0":
-  version "2.8.0"
-  resolved "https://registry.npmjs.org/@aws-amplify/amplify-prompts/-/amplify-prompts-2.8.0.tgz#b8ce0a4242a4277c58cbf8a30ffb89546568bc22"
-  integrity sha512-tc0iVyAYNC+nSQaGs5dYIytpfaD3/Dv27tIMis+skzBPLQYd9BwxF6YlpnayspaksxIITPEzCusZKyg3iXZB7w==
-  dependencies:
-    "@aws-amplify/amplify-cli-shared-interfaces" "1.2.3"
-    chalk "^4.1.1"
-    enquirer "^2.3.6"
 
 "@aws-amplify/analytics@6.3.2":
   version "6.3.2"
@@ -231,7 +204,7 @@
   dependencies:
     graphql "^15.5.0"
 
-"@aws-amplify/graphql-transformer-interfaces@^2.1.1", "@aws-amplify/graphql-transformer-interfaces@^2.2.2":
+"@aws-amplify/graphql-transformer-interfaces@^2.1.1":
   version "2.3.0"
   resolved "https://registry.npmjs.org/@aws-amplify/graphql-transformer-interfaces/-/graphql-transformer-interfaces-2.3.0.tgz#fee01fbbcb0572201e1e3553503db9f706fc01dd"
   integrity sha512-GC3zsT3RGK7XPdt/sLDOS69lY0vcob7ozoAuBtLotA9CrmuxHuSAWwYr3diqyt5Jn0z6c64DGjbiLD3XD00kyg==
@@ -7304,7 +7277,7 @@ ci-info@^2.0.0:
   resolved "https://registry.npmjs.org/ci-info/-/ci-info-2.0.0.tgz#67a9e964be31a51e15e5010d58e6f12834002f46"
   integrity sha512-5tK7EtrZ0N+OLFMthtqOj4fI2Jeb88C4CAZPu25LDVUgXJ0A3Js4PMGqrn0JU1W0Mh1/Z8wZzYPxqUrXeBboCQ==
 
-ci-info@^3.2.0, ci-info@^3.8.0:
+ci-info@^3.2.0:
   version "3.8.0"
   resolved "https://registry.npmjs.org/ci-info/-/ci-info-3.8.0.tgz#81408265a5380c929f0bc665d62256628ce9ef91"
   integrity sha512-eXTggHWSooYhq49F2opQhuHWgzucfF2YgODK4e1566GQs5BIfP30B0oenwBJHfWxAs2fyPB1s7Mg949zLf61Yw==
@@ -14764,9 +14737,9 @@ winston@^3.3.3:
     winston-transport "^4.5.0"
 
 word-wrap@^1.0.3, word-wrap@~1.2.3:
-  version "1.2.3"
-  resolved "https://registry.npmjs.org/word-wrap/-/word-wrap-1.2.3.tgz#610636f6b1f703891bd34771ccb17fb93b47079c"
-  integrity sha512-Hz/mrNwitNRh/HUAtM/VT/5VH+ygD6DV7mYKZAtHOrbs8U7lvPS6xf7EJKMF0uW1KJCl0H701g3ZGus+muE5vQ==
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/word-wrap/-/word-wrap-1.2.5.tgz#d2c45c6dd4fbce621a66f136cbe328afd0410b34"
+  integrity sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA==
 
 wordwrap@^1.0.0:
   version "1.0.0"
@@ -14940,7 +14913,7 @@ yaml@1.10.2, yaml@^1.10.0:
   resolved "https://registry.npmjs.org/yaml/-/yaml-1.10.2.tgz#2301c5ffbf12b467de8da2333a459e29e7920e4b"
   integrity sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==
 
-yaml@^2.2.1, yaml@^2.2.2:
+yaml@^2.2.1:
   version "2.3.1"
   resolved "https://registry.npmjs.org/yaml/-/yaml-2.3.1.tgz#02fe0975d23cd441242aa7204e09fc28ac2ac33b"
   integrity sha512-2eHWfjaoXgTBC2jNM1LRef62VQa0umtvRiDSk6HSzW7RvS5YtkabJrwYLLEKWBc8a5U2PTSCs+dJjUTJdlHsWQ==
