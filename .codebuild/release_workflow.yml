@@ -30,4 +30,4 @@ batch:
       buildspec: .codebuild/deploy.yml
       depend-on:
         - test
-        - build-windows
+        - build_windows
