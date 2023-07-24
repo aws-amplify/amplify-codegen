@@ -1,39 +1,11 @@
 import { parse } from 'graphql';
 import * as appSyncDataStoreCodeGen from '@aws-amplify/appsync-modelgen-plugin';
 import { codegen } from '@graphql-codegen/core';
+import { Platform, Language, GenerateModelsOptions, GeneratedOutput } from './type';
+import { platformToLanguageMap } from './utils';
 const { version: packageVersion } = require('../package.json');
 
-const platformToLanguageMap: { [platform: string]: 'java' | 'swift' | 'dart' | 'javascript' | 'introspection' } = {
-  android: 'java',
-  ios: 'swift',
-  flutter: 'dart',
-  javascript: 'javascript',
-  introspection: 'introspection',
-};
-
-const defaultGenerateModelsOption = {
-  overrideOutputDir: null,
-  isIntrospection: false,
-  writeToDisk: true,
-};
-
-export type GenerateModelsOptions = {
-  schema: string;
-  platform: 'android' | 'ios' | 'flutter' | 'javascript' | 'introspection';
-  directiveDefinitions: any;
-
-  // feature flags
-  generateIndexRules?: boolean;
-  emitAuthProvider?: boolean;
-  useExperimentalPipelinedTranformer?: boolean;
-  transformerVersion?: boolean;
-  respectPrimaryKeyAttributesOnConnectionField?: boolean;
-  generateModelsForLazyLoadAndCustomSelectionSet?: boolean;
-  addTimestampFields?: boolean;
-  handleListNullabilityTransparently?: boolean;
-};
-
-export async function generateModels(options: GenerateModelsOptions): Promise<string[]> {
+export async function generateModels(options: GenerateModelsOptions): Promise<GeneratedOutput> {
   const {
     schema,
     platform,
@@ -50,11 +22,6 @@ export async function generateModels(options: GenerateModelsOptions): Promise<st
     addTimestampFields = true,
     handleListNullabilityTransparently = true,
   } = options;
-
-  // steps:
-  // 1. Load the schema and validate using transformer
-  // 2. get all the directives supported by transformer
-  // 3. Generate code
 
   await validateSchema(schema);
   const parsedSchema = parse(schema);
@@ -92,8 +59,8 @@ export async function generateModels(options: GenerateModelsOptions): Promise<st
   });
 
   return Promise.all(
-    appsyncLocalConfig.map(cfg => {
-      return codegen({
+    appsyncLocalConfig.map(async cfg => {
+      const content = await codegen({
         ...cfg,
         plugins: [
           {
@@ -104,8 +71,9 @@ export async function generateModels(options: GenerateModelsOptions): Promise<st
           appSyncLocalCodeGen: appSyncDataStoreCodeGen,
         },
       });
+      return { [cfg.filename]: content };
     }),
-  );
+  ).then((outputs: GeneratedOutput[]) => outputs.reduce((curr, next) => ({ ...curr, ...next }), {}));
 }
 
 async function validateSchema(schema: string) {

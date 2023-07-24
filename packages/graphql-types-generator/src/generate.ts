@@ -3,7 +3,7 @@ import * as fs from 'fs-extra';
 import * as path from 'path';
 import * as rimraf from 'rimraf';
 
-import { loadSchema, loadAndMergeQueryDocuments } from './loading';
+import { loadSchema, loadAndMergeQueryDocuments, parseSchema, parseAndMergeQueryDocuments } from './loading';
 import { validateQueryDocument } from './validation';
 import { compileToIR } from './compiler';
 import { compileToLegacyIR } from './compiler/legacyIR';
@@ -35,7 +35,7 @@ export default function generate(
   validateQueryDocument(schema, document);
   const multipleFiles = fs.existsSync(outputPath) && fs.statSync(outputPath).isDirectory();
 
-  const output = generateTypes(schema, document, only, target, multipleFiles, options);
+  const output = generateForTarget(schema, document, only, target, multipleFiles, options);
 
   if (outputPath) {
     fs.outputFileSync(outputPath, output);
@@ -45,6 +45,22 @@ export default function generate(
 }
 
 export function generateTypes(
+  schema: string,
+  introspection: boolean,
+  authDirective: string,
+  queryDocuments: string[],
+  only: string,
+  target: TargetType,
+  multipleFiles: boolean,
+  options: any,
+) {
+  const graphqlSchema = parseSchema(schema, introspection, authDirective);
+  const document = parseAndMergeQueryDocuments(queryDocuments);
+  validateQueryDocument(graphqlSchema, document);
+  return generateForTarget(graphqlSchema, document, only, target, multipleFiles, options);
+}
+
+export function generateForTarget(
   schema: GraphQLSchema,
   document: DocumentNode,
   only: string,
@@ -77,7 +93,7 @@ export function generateTypes(
   }
 }
 
-function generateTypesSwift(schema: GraphQLSchema, document: DocumentNode, only: string, multipleFiles: boolean, options: any) {
+function generateTypesSwift(schema: GraphQLSchema, document: DocumentNode, only: string, multipleFiles: boolean, options: any): string {
   options.addTypename = true;
   const context = compileToIR(schema, document, options);
   // Complex object suppport

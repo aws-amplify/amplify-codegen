@@ -1,22 +1,13 @@
-const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails } = require('../utils');
-const { generate } = require('@aws-amplify/graphql-types-generator');
+import { generate, generateTypes as generateTypesHelper } from '@aws-amplify/graphql-types-generator';
+import { GenerateTypesOptions, GeneratedOutput } from './type';
 
-export type GenerateTypesOptions = {
-  schema: string;
-  queries: string[];
-  platform: string;
-  only: string;
-  target: string;
-  appSyncApi: any;
-  generatedFileName: string;
-};
-export async function generateTypes(options: GenerateTypesOptions) {
-  const { schema, queries, target, platform } = options;
+export async function generateTypes(options: GenerateTypesOptions): Promise<GeneratedOutput> {
+  const { schema, queries, target, platform, only, multipleFiles = true, introspection = false } = options;
   if (platform === 'android') {
     throw new Error('Android not supported.');
   }
 
-  return generate(schema, queries, '', target, {
+  return generateTypesHelper(schema, introspection, queries, '', target, multipleFiles, {
     addTypename: true,
     complexObjectSupport: 'auto',
   });

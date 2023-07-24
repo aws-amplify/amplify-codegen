@@ -12,12 +12,26 @@ export function loadSchema(schemaPath: string): GraphQLSchema {
   return loadSDLSchema(schemaPath);
 }
 
+export function parseSchema(schema: string, introspection: boolean = false, authDirective: string): GraphQLSchema {
+  if (introspection) {
+    return parseIntrospectionSchema(schema);
+  }
+  return parseSDLSchema(schema, authDirective);
+}
+
 function loadIntrospectionSchema(schemaPath: string): GraphQLSchema {
   if (!fs.existsSync(schemaPath)) {
     throw new ToolError(`Cannot find GraphQL schema file: ${schemaPath}`);
   }
   const schemaData = require(schemaPath);
+  return buildIntrospectionSchema(schemaData);
+}
 
+function parseIntrospectionSchema(schema: string): GraphQLSchema {
+  return buildIntrospectionSchema(JSON.parse(schema));
+}
+
+function buildIntrospectionSchema(schemaData: any): GraphQLSchema {
   if (!schemaData.data && !schemaData.__schema) {
     throw new ToolError('GraphQL schema file should contain a valid GraphQL introspection query result');
   }
@@ -29,6 +43,12 @@ function loadSDLSchema(schemaPath: string): GraphQLSchema {
   const doc = loadAndMergeQueryDocuments([authDirectivePath, schemaPath]);
   return buildASTSchema(doc);
 }
+
+function parseSDLSchema(schema: string, authDirective: string) {
+  const doc = parseAndMergeQueryDocuments([authDirective, schema]);
+  return buildASTSchema(doc);
+}
+
 function extractDocumentFromJavascript(content: string, tagName: string = 'gql'): string | null {
   const re = new RegExp(tagName + '\\s*`([^`/]*)`', 'g');
 

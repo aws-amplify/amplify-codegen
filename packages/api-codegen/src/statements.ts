@@ -1,25 +1,9 @@
 const { GraphQLStatementsFormatter } = require('./utils');
 import { generateGraphQLDocuments, GeneratedOperations } from '@aws-amplify/graphql-docs-generator';
+import { GenerateStatementsOptions, Target, GeneratedOutput } from './type';
+import { targetToFileExtensionMap } from './utils';
 
-const targetToFileExtensionMap: { [target: string]: 'js' | 'graphql' | 'ts' | 'graphl' } = {
-  javascript: 'js',
-  graphql: 'graphql',
-  flow: 'js',
-  typescript: 'ts',
-  angular: 'graphql',
-};
-
-type Target = 'javascript' | 'graphql' | 'flow' | 'typescript' | 'angular';
-
-export type GenerateStatementsOptions = {
-  schema: string;
-  appSyncApi: any;
-  target: Target;
-  maxDepth: number;
-  typenameIntrospection: boolean;
-};
-
-export function generateStatements(options: GenerateStatementsOptions): { filepath: string; contents: string }[] {
+export function generateStatements(options: GenerateStatementsOptions): GeneratedOutput {
   const { schema, appSyncApi, target, maxDepth = 2, typenameIntrospection = true } = options;
 
   if (!Object.keys(targetToFileExtensionMap).includes(target)) {
@@ -37,7 +21,7 @@ export function generateStatements(options: GenerateStatementsOptions): { filepa
   return generatedDocuments(target, generatedOperations);
 }
 
-function generatedDocuments(target: Target, generatedStatements: GeneratedOperations): { filepath: string; contents: string }[] {
+function generatedDocuments(target: Target, generatedStatements: GeneratedOperations): GeneratedOutput {
   const fileExtension = targetToFileExtensionMap[target];
   const operations: ['queries', 'mutations', 'subscriptions'] = ['queries', 'mutations', 'subscriptions'];
 
@@ -48,10 +32,10 @@ function generatedDocuments(target: Target, generatedStatements: GeneratedOperat
       const formattedStatements = new GraphQLStatementsFormatter(target).format(operationStatements);
       const filepath = `${operation}.${fileExtension}`;
       return {
-        filepath,
-        contents: formattedStatements,
+        [filepath]: formattedStatements,
       };
-    });
+    })
+    .reduce((curr, next) => ({ ...curr, ...next }), {});
 
   if (fileExtension === 'graphql') {
     // External Fragments are rendered only for GraphQL targets
@@ -59,13 +43,10 @@ function generatedDocuments(target: Target, generatedStatements: GeneratedOperat
     if (fragments.size) {
       const formattedStatements = new GraphQLStatementsFormatter(target).format(fragments);
       const filepath = 'fragments.graphql';
-      return [
+      return {
         ...statements,
-        {
-          filepath,
-          contents: formattedStatements,
-        },
-      ];
+        [filepath]: formattedStatements,
+      };
     }
   }
 
