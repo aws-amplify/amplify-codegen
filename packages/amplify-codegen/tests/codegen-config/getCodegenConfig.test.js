@@ -57,6 +57,13 @@ describe('get codegen configuration', () => {
     expect(getConfigReturn.getGeneratedFragmentsPath()).toEqual(path.join('src', 'graphql', 'fragments'));
   });
 
+  it('returns correct maxDepth as a Number', () => {
+    fs.existsSync = jest.fn().mockReturnValue(true);
+    graphQLConfig.getGraphQLConfig = jest.fn().mockReturnValue(MOCK_CODEGEN_CONFIG);
+    const getConfigReturn = getCodegenConfig(MOCK_PROJECT_ROOT);
+    expect(getConfigReturn.getQueryMaxDepth()).toEqual(4);
+  });
+
   it('uses the includes property if the generated documents path does not exist', () => {
     const configWithoutDocumentsPath = { ...MOCK_CODEGEN_CONFIG };
     delete configWithoutDocumentsPath.config.extensions.amplify.docsFilePath;
@@ -92,5 +99,14 @@ describe('get codegen configuration', () => {
     graphQLConfig.getGraphQLConfig = jest.fn().mockReturnValue(configWithoutTypes);
     const getConfigReturn = getCodegenConfig(MOCK_PROJECT_ROOT);
     expect(getConfigReturn.getGeneratedTypesPath()).toBeUndefined();
+  });
+
+  it('returns undefined if maxDepth does not exist', () => {
+    const configWithoutMaxDepth = { ...MOCK_CODEGEN_CONFIG };
+    delete configWithoutMaxDepth.config.extensions.amplify.maxDepth;
+    fs.existsSync = jest.fn().mockReturnValue(true);
+    graphQLConfig.getGraphQLConfig = jest.fn().mockReturnValue(configWithoutMaxDepth);
+    const getConfigReturn = getCodegenConfig(MOCK_PROJECT_ROOT);
+    expect(getConfigReturn.getQueryMaxDepth()).toBeUndefined();
   });
 });
