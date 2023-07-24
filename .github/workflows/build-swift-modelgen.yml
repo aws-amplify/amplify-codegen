@@ -12,7 +12,7 @@ env:
 
 jobs:
   Build-Swift-Modelgen:
-    name: Analyze
+    name: Build
     runs-on: macos-13-xl
     permissions:
       actions: read

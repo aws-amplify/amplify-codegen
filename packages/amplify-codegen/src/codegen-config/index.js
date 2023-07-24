@@ -43,6 +43,7 @@ function getCodegenConfig(projectPath) {
     : path.dirname(path.dirname(includeFiles));
 
   const { generatedFileName } = cfg.amplifyExtension || {};
+  const { maxDepth } = cfg.amplifyExtension || {};
 
   return {
     getGeneratedQueriesPath: function() {
@@ -62,6 +63,12 @@ function getCodegenConfig(projectPath) {
         return;
       }
       return path.normalize(generatedFileName);
+    },
+    getQueryMaxDepth: function() {
+      if (!maxDepth || !Number(maxDepth)) {
+        return;
+      }
+      return Number(maxDepth);
     }
   }
 }
