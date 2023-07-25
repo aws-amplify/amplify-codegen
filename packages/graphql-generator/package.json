@@ -1,11 +1,11 @@
 {
-  "name": "@aws-amplify/api-codegen",
+  "name": "@aws-amplify/graphql-generator",
   "version": "0.0.1",
-  "description": "API code generator",
+  "description": "GraphQL API code generator",
   "repository": {
     "type": "git",
     "url": "https://github.com/aws-amplify/amplify-codegen.git",
-    "directory": "packages/api-codegen"
+    "directory": "packages/graphql-generator"
   },
   "author": "Amazon Web Services",
   "license": "Apache-2.0",
