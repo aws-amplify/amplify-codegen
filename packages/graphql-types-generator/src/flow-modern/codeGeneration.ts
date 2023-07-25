@@ -13,7 +13,7 @@ import { BasicGeneratedFile } from '../utilities/CodeGenerator';
 import { FlowGenerator, ObjectProperty, FlowCompilerOptions } from './language';
 import { Printer } from './printer';
 
-class FlowGeneratedFile implements BasicGeneratedFile {
+export class FlowGeneratedFile implements BasicGeneratedFile {
   fileContents: string;
 
   constructor(fileContents: string) {
@@ -102,7 +102,7 @@ export class FlowAPIGenerator extends FlowGenerator {
       stripIndent`
         /* @flow */
         // This file was automatically generated and should not be edited.
-      `
+      `,
     );
   }
 
@@ -175,7 +175,7 @@ export class FlowAPIGenerator extends FlowGenerator {
       });
 
       this.printer.enqueue(
-        this.exportDeclaration(this.typeAliasGenericUnion(this.annotationFromScopeStack(this.scopeStack).id.name, unionMembers))
+        this.exportDeclaration(this.typeAliasGenericUnion(this.annotationFromScopeStack(this.scopeStack).id.name, unionMembers)),
       );
     }
 

@@ -4,17 +4,21 @@ export type Language = 'java' | 'swift' | 'dart' | 'javascript' | 'introspection
 
 export type Target = 'javascript' | 'graphql' | 'flow' | 'typescript' | 'angular';
 
+type TargetType = 'json' | 'swift' | 'ts' | 'typescript' | 'flow' | 'scala' | 'flow-modern' | 'angular';
+
 export type FileExtension = 'js' | 'graphql' | 'ts' | 'graphql';
 
 export type GenerateTypesOptions = {
   schema: string;
+  authDirective: string;
   queries: string[];
   platform: string;
   only: string;
-  target: string;
+  target: TargetType;
   appSyncApi: any;
   generatedFileName: string;
   multipleFiles?: boolean;
+  introspection?: boolean;
 };
 
 export type GenerateModelsOptions = {

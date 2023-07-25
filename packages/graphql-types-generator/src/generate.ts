@@ -8,7 +8,7 @@ import { validateQueryDocument } from './validation';
 import { compileToIR } from './compiler';
 import { compileToLegacyIR } from './compiler/legacyIR';
 import serializeToJSON from './serializeToJSON';
-import { BasicGeneratedFile } from './utilities/CodeGenerator';
+import { BasicGeneratedFile, BasicGeneratedFileMap, isBasicGeneratedFileMap } from './utilities/CodeGenerator';
 import { generateSource as generateSwiftSource } from './swift';
 import { generateSource as generateTypescriptSource } from './typescript';
 import { generateSource as generateFlowSource } from './flow';
@@ -38,10 +38,51 @@ export default function generate(
   const output = generateForTarget(schema, document, only, target, multipleFiles, options);
 
   if (outputPath) {
-    fs.outputFileSync(outputPath, output);
+    if (target === 'flow-modern') {
+      // Group by output directory
+      const filesByOutputDirectory: {
+        [outputDirectory: string]: BasicGeneratedFileMap;
+      } = {};
+
+      // if target is flow-modern output must be BasicGeneratedFileMap
+      Object.entries(output as BasicGeneratedFileMap).forEach(([filePath, file]) => {
+        const outputDirectory = path.dirname(filePath);
+        if (!filesByOutputDirectory[outputDirectory]) {
+          filesByOutputDirectory[outputDirectory] = {
+            [path.basename(filePath)]: file,
+          };
+        } else {
+          filesByOutputDirectory[outputDirectory][path.basename(filePath)] = file;
+        }
+      });
+
+      Object.keys(filesByOutputDirectory).forEach(outputDirectory => {
+        writeGeneratedFiles(filesByOutputDirectory[outputDirectory], outputDirectory);
+      });
+    } else if (isBasicGeneratedFileMap(output)) {
+      writeGeneratedFiles(output, outputPath);
+    } else {
+      fs.outputFileSync(outputPath, output);
+    }
   } else {
     console.log(output);
   }
+}
+
+export function generateTypesFromString(
+  schema: string,
+  introspection: boolean,
+  authDirective: string,
+  queryDocuments: string[],
+  only: string,
+  target: TargetType,
+  multipleFiles: boolean,
+  options: any,
+): string | BasicGeneratedFileMap {
+  const graphqlSchema = parseSchema(schema, introspection, authDirective);
+  const document = parseAndMergeQueryDocuments(queryDocuments);
+  validateQueryDocument(graphqlSchema, document);
+  return generateForTarget(graphqlSchema, document, only, target, multipleFiles, options);
 }
 
 export function generateTypes(
@@ -53,11 +94,16 @@ export function generateTypes(
   target: TargetType,
   multipleFiles: boolean,
   options: any,
-) {
-  const graphqlSchema = parseSchema(schema, introspection, authDirective);
-  const document = parseAndMergeQueryDocuments(queryDocuments);
-  validateQueryDocument(graphqlSchema, document);
-  return generateForTarget(graphqlSchema, document, only, target, multipleFiles, options);
+): { [filepath: string]: string } {
+  const output = generateTypesFromString(schema, introspection, authDirective, queryDocuments, only, target, multipleFiles, options);
+
+  if (isBasicGeneratedFileMap(output)) {
+    return Object.entries(output)
+      .map(([filepath, file]) => [filepath, file.output])
+      .reduce((acc, [filepath, fileOutput]) => ({ ...acc, [filepath]: fileOutput }), {});
+  }
+
+  return { '': output };
 }
 
 export function generateForTarget(
@@ -67,15 +113,17 @@ export function generateForTarget(
   target: TargetType,
   multipleFiles: boolean,
   options: any,
-) {
+): string | BasicGeneratedFileMap {
   if (target === 'swift') {
     return generateTypesSwift(schema, document, only, multipleFiles, options);
-  } else if (target === 'flow-modern') {
+  }
+  if (target === 'flow-modern') {
     return generateTypesFlowModern(schema, document, options);
   }
 
   const context = compileToLegacyIR(schema, document, options);
 
+  // string
   switch (target) {
     case 'json':
       return serializeToJSON(context);
@@ -93,7 +141,13 @@ export function generateForTarget(
   }
 }
 
-function generateTypesSwift(schema: GraphQLSchema, document: DocumentNode, only: string, multipleFiles: boolean, options: any): string {
+function generateTypesSwift(
+  schema: GraphQLSchema,
+  document: DocumentNode,
+  only: string,
+  multipleFiles: boolean,
+  options: any,
+): string | BasicGeneratedFileMap {
   options.addTypename = true;
   const context = compileToIR(schema, document, options);
   // Complex object suppport
@@ -105,39 +159,19 @@ function generateTypesSwift(schema: GraphQLSchema, document: DocumentNode, only:
     options.addS3Wrapper = false;
   }
 
-  const generator = generateSwiftSource(context, !multipleFiles, only);
+  const generator = generateSwiftSource(context, multipleFiles, only);
 
-  if (!multipleFiles) {
+  if (multipleFiles) {
     return generator.generatedFiles;
   }
   return generator.output;
 }
 
-function generateTypesFlowModern(schema: GraphQLSchema, document: DocumentNode, options: any) {
+function generateTypesFlowModern(schema: GraphQLSchema, document: DocumentNode, options: any): BasicGeneratedFileMap {
   const context = compileToIR(schema, document, options);
   const generatedFiles = generateFlowModernSource(context);
 
-  // Group by output directory
-  const filesByOutputDirectory: {
-    [outputDirectory: string]: {
-      [fileName: string]: BasicGeneratedFile;
-    };
-  } = {};
-
-  Object.keys(generatedFiles).forEach((filePath: string) => {
-    const outputDirectory = path.dirname(filePath);
-    if (!filesByOutputDirectory[outputDirectory]) {
-      filesByOutputDirectory[outputDirectory] = {
-        [path.basename(filePath)]: generatedFiles[filePath],
-      };
-    } else {
-      filesByOutputDirectory[outputDirectory][path.basename(filePath)] = generatedFiles[filePath];
-    }
-  });
-
-  Object.keys(filesByOutputDirectory).forEach(outputDirectory => {
-    writeGeneratedFiles(filesByOutputDirectory[outputDirectory], outputDirectory);
-  });
+  return generatedFiles;
 }
 
 function writeGeneratedFiles(generatedFiles: { [fileName: string]: BasicGeneratedFile }, outputDirectory: string) {

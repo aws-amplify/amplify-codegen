@@ -2,12 +2,12 @@ import { generate, generateTypes as generateTypesHelper } from '@aws-amplify/gra
 import { GenerateTypesOptions, GeneratedOutput } from './type';
 
 export async function generateTypes(options: GenerateTypesOptions): Promise<GeneratedOutput> {
-  const { schema, queries, target, platform, only, multipleFiles = true, introspection = false } = options;
+  const { schema, authDirective, queries, target, platform, only, multipleFiles = true, introspection = false } = options;
   if (platform === 'android') {
     throw new Error('Android not supported.');
   }
 
-  return generateTypesHelper(schema, introspection, queries, '', target, multipleFiles, {
+  return generateTypesHelper(schema, introspection, authDirective, queries, '', target, multipleFiles, {
     addTypename: true,
     complexObjectSupport: 'auto',
   });
