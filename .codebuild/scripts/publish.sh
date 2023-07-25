@@ -1,14 +1,12 @@
 #!/bin/bash -e
 
-if [[ "$CODEBUILD_WEBHOOK_TRIGGER" == "pr/"* ]]; then
-  BRANCH_NAME=${CODEBUILD_WEBHOOK_BASE_REF##*/}
-fi
-
 if [ -z "$BRANCH_NAME" ]; then
   echo "BRANCH_NAME is missing"
   exit 1
 else
   git checkout $BRANCH_NAME
+  git pull
+  git fetch --all
   yarn install
   git restore .
 fi

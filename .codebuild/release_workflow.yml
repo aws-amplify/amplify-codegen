@@ -28,6 +28,7 @@ batch:
         - build_linux
     - identifier: deploy
       buildspec: .codebuild/deploy.yml
+      debug-session: true
       depend-on:
         - test
         - build_windows
