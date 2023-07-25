@@ -319,7 +319,6 @@ function runE2eTest {
 
 function _deploy {
   echo "Deploy"
-  loadCacheFromBuildJob
   echo "Authenticate with NPM"
   PUBLISH_TOKEN=$(echo "$NPM_PUBLISH_TOKEN" | jq -r '.token')
   echo "//registry.npmjs.org/:_authToken=$PUBLISH_TOKEN" > ~/.npmrc
