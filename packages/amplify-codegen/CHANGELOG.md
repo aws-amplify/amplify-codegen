@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 4.1.6 (2023-07-25)
+
+**Note:** Version bump only for package amplify-codegen
+
 ## 4.1.5 (2023-07-24)
 
 **Note:** Version bump only for package amplify-codegen
