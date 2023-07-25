@@ -1,7 +1,7 @@
 {
   "name": "amplify-codegen",
   "version": "4.1.6",
-  "description": "Amplify code generator",
+  "description": "Amplify Code generator",
   "repository": {
     "type": "git",
     "url": "https://github.com/aws-amplify/amplify-codegen.git",
