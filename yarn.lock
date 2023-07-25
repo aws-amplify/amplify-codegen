@@ -40,6 +40,13 @@
     signedsource "^1.0.0"
     yargs "^15.3.1"
 
+"@ardatan/sync-fetch@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.npmjs.org/@ardatan/sync-fetch/-/sync-fetch-0.0.1.tgz#3385d3feedceb60a896518a1db857ec1e945348f"
+  integrity sha512-xhlTqH0m31mnsG0tIP4ETgfSB6gXDaYYsUWTrlUV93fFQPI9dd8hE0Ot6MHLCtqgB32hwJAC3YZMWlXZw7AleA==
+  dependencies:
+    node-fetch "^2.6.1"
+
 "@aws-amplify/amplify-cli-core@4.2.4-rc.43f73ab268.0", "@aws-amplify/amplify-cli-core@^4.2.4-rc.43f73ab268.0":
   version "4.2.4-rc.43f73ab268.0"
   resolved "https://registry.npmjs.org/@aws-amplify/amplify-cli-core/-/amplify-cli-core-4.2.4-rc.43f73ab268.0.tgz#3dc2ff61b675ce67f11bb01f8b594c1d8e786eed"
@@ -152,6 +159,23 @@
     "@aws-amplify/api-rest" "3.3.2"
     tslib "^1.8.0"
 
+"@aws-amplify/appsync-modelgen-plugin@2.5.1":
+  version "2.5.1"
+  resolved "https://registry.npmjs.org/@aws-amplify/appsync-modelgen-plugin/-/appsync-modelgen-plugin-2.5.1.tgz#6039e8a1c8991297054c9976360d16155ac22a53"
+  integrity sha512-l7VqqafxJWg8T49dJlu9OG2KMcc2xHHaobmqnoOJH6dtha0viQG1MUGQkN4S+WKlSY+60BSrxrQmOY6H3r4RCw==
+  dependencies:
+    "@graphql-codegen/plugin-helpers" "^1.18.8"
+    "@graphql-codegen/visitor-plugin-common" "^1.22.0"
+    "@graphql-tools/utils" "^6.0.18"
+    "@types/node" "^12.12.6"
+    "@types/pluralize" "0.0.29"
+    chalk "^3.0.0"
+    change-case "^4.1.1"
+    lower-case-first "^2.0.1"
+    pluralize "^8.0.0"
+    strip-indent "^3.0.0"
+    ts-dedent "^1.1.0"
+
 "@aws-amplify/auth@5.5.3":
   version "5.5.3"
   resolved "https://registry.npmjs.org/@aws-amplify/auth/-/auth-5.5.3.tgz#2189cdf4a86dced3d48f96d7c8eb791408100e77"
@@ -213,6 +237,15 @@
     camelcase-keys "6.2.2"
     tslib "^1.8.0"
 
+"@aws-amplify/graphql-docs-generator@4.0.3":
+  version "4.0.3"
+  resolved "https://registry.npmjs.org/@aws-amplify/graphql-docs-generator/-/graphql-docs-generator-4.0.3.tgz#a3d01d0a26b95eb2c67a4bc7cdd1901e0cbe9593"
+  integrity sha512-FrhSOg8aIeYy0mNf9gkufghdQH5StwGuyVma7aDs9wZTfE0BnqNfLaIcCjkMtyjBWkmGhtt9HTBkBwTaFb03ig==
+  dependencies:
+    graphql "^15.5.0"
+    handlebars "4.7.7"
+    yargs "^15.1.0"
+
 "@aws-amplify/graphql-schema-test-library@^1.1.18":
   version "1.1.27"
   resolved "https://registry.npmjs.org/@aws-amplify/graphql-schema-test-library/-/graphql-schema-test-library-1.1.27.tgz#30f5a732ce65031169907c386777f0bc0adfa0c2"
@@ -246,6 +279,31 @@
   integrity sha512-GC3zsT3RGK7XPdt/sLDOS69lY0vcob7ozoAuBtLotA9CrmuxHuSAWwYr3diqyt5Jn0z6c64DGjbiLD3XD00kyg==
   dependencies:
     graphql "^15.5.0"
+
+"@aws-amplify/graphql-types-generator@3.0.3":
+  version "3.0.3"
+  resolved "https://registry.npmjs.org/@aws-amplify/graphql-types-generator/-/graphql-types-generator-3.0.3.tgz#56563355bb0a03feeb47c3ef8c0c764509993d29"
+  integrity sha512-fWWQeAWkVNMM2onsxjKPxi8qtywwJVbjsIjJGYGlfBEg2tzQYsWFZ9wyBF55PZHhEcROQbznumA6D44Do69xdQ==
+  dependencies:
+    "@babel/generator" "7.0.0-beta.4"
+    "@babel/types" "7.0.0-beta.4"
+    "@types/babel-generator" "^6.25.0"
+    "@types/fs-extra" "^8.1.0"
+    "@types/prettier" "^1.19.0"
+    "@types/rimraf" "^3.0.0"
+    babel-generator "^6.26.1"
+    babel-types "^6.26.0"
+    change-case "^4.1.1"
+    common-tags "^1.8.0"
+    core-js "^3.6.4"
+    fs-extra "^8.1.0"
+    glob "^7.1.6"
+    graphql "^15.5.0"
+    inflected "^2.0.4"
+    prettier "^1.19.1"
+    rimraf "^3.0.0"
+    source-map-support "^0.5.16"
+    yargs "^15.1.0"
 
 "@aws-amplify/interactions@5.2.3":
   version "5.2.3"
@@ -3682,6 +3740,16 @@
     parse-filepath "^1.0.2"
     tslib "~2.3.0"
 
+"@graphql-tools/apollo-engine-loader@^8.0.0":
+  version "8.0.0"
+  resolved "https://registry.npmjs.org/@graphql-tools/apollo-engine-loader/-/apollo-engine-loader-8.0.0.tgz#ac1f351cbe41508411784f25757f5557b0f27489"
+  integrity sha512-axQTbN5+Yxs1rJ6cWQBOfw3AEeC+fvIuZSfJLPLLvFJLj4pUm9fhxey/g6oQZAAQJqKPfw+tLDUQvnfvRK8Kmg==
+  dependencies:
+    "@ardatan/sync-fetch" "^0.0.1"
+    "@graphql-tools/utils" "^10.0.0"
+    "@whatwg-node/fetch" "^0.9.0"
+    tslib "^2.4.0"
+
 "@graphql-tools/merge@^8.4.1":
   version "8.4.2"
   resolved "https://registry.npmjs.org/@graphql-tools/merge/-/merge-8.4.2.tgz#95778bbe26b635e8d2f60ce9856b388f11fe8288"
@@ -3715,6 +3783,15 @@
     "@graphql-tools/utils" "^9.2.1"
     tslib "^2.4.0"
     value-or-promise "^1.0.12"
+
+"@graphql-tools/utils@^10.0.0":
+  version "10.0.4"
+  resolved "https://registry.npmjs.org/@graphql-tools/utils/-/utils-10.0.4.tgz#3104bea54752ae54f1f4a67833d7e3b734400dbe"
+  integrity sha512-MF+nZgGROSnFgyOYWhrl2PuJMlIBvaCH48vtnlnDQKSeDc2fUfOzUVloBAQvnYmK9JBmHHks4Pxv25Ybg3r45Q==
+  dependencies:
+    "@graphql-typed-document-node/core" "^3.1.1"
+    dset "^3.1.2"
+    tslib "^2.4.0"
 
 "@graphql-tools/utils@^6.0.18":
   version "6.2.4"
@@ -6086,6 +6163,30 @@
     "@typescript-eslint/types" "5.62.0"
     eslint-visitor-keys "^3.3.0"
 
+"@whatwg-node/events@^0.1.0":
+  version "0.1.1"
+  resolved "https://registry.npmjs.org/@whatwg-node/events/-/events-0.1.1.tgz#0ca718508249419587e130da26d40e29d99b5356"
+  integrity sha512-AyQEn5hIPV7Ze+xFoXVU3QTHXVbWPrzaOkxtENMPMuNL6VVHrp4hHfDt9nrQpjO7BgvuM95dMtkycX5M/DZR3w==
+
+"@whatwg-node/fetch@^0.9.0":
+  version "0.9.9"
+  resolved "https://registry.npmjs.org/@whatwg-node/fetch/-/fetch-0.9.9.tgz#65e68aaf8353755c20657b803f2fe983dbdabf91"
+  integrity sha512-OTVoDm039CNyAWSRc2WBimMl/N9J4Fk2le21Xzcf+3OiWPNNSIbMnpWKBUyraPh2d9SAEgoBdQxTfVNihXgiUw==
+  dependencies:
+    "@whatwg-node/node-fetch" "^0.4.8"
+    urlpattern-polyfill "^9.0.0"
+
+"@whatwg-node/node-fetch@^0.4.8":
+  version "0.4.12"
+  resolved "https://registry.npmjs.org/@whatwg-node/node-fetch/-/node-fetch-0.4.12.tgz#5d97c764b38ccb8bd36e3bbb88c93de93b7b3362"
+  integrity sha512-QpWoupgFXtQQ6nFhWcQHfLCT8ZMay8AV20iFBnc4MBWgPopR1AylbPuF+XYGGffcIADwF0byCH6a4p1CjvGhlQ==
+  dependencies:
+    "@whatwg-node/events" "^0.1.0"
+    busboy "^1.6.0"
+    fast-querystring "^1.1.1"
+    fast-url-parser "^1.1.3"
+    tslib "^2.3.1"
+
 "@wry/equality@^0.1.2":
   version "0.1.11"
   resolved "https://registry.npmjs.org/@wry/equality/-/equality-0.1.11.tgz#35cb156e4a96695aa81a9ecc4d03787bc17f1790"
@@ -7054,6 +7155,13 @@ builtins@^5.0.0:
   integrity sha512-qwVpFEHNfhYJIzNRBvd2C1kyo6jz3ZSMPyyuR47OPdiKWlbYnZNyDWuyR175qDnAJLiCo5fBBqPb3RiXgWlkOQ==
   dependencies:
     semver "^7.0.0"
+
+busboy@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.npmjs.org/busboy/-/busboy-1.6.0.tgz#966ea36a9502e43cdb9146962523b92f531f6893"
+  integrity sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA==
+  dependencies:
+    streamsearch "^1.1.0"
 
 byte-size@^7.0.0:
   version "7.0.1"
@@ -8125,6 +8233,11 @@ dotenv@~10.0.0:
   resolved "https://registry.npmjs.org/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
   integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
 
+dset@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.npmjs.org/dset/-/dset-3.1.2.tgz#89c436ca6450398396dc6538ea00abc0c54cd45a"
+  integrity sha512-g/M9sqy3oHe477Ar4voQxWtaPIFw1jTdKZuomOjhCcBx9nHUNn0pu6NopuFFrTh/TRZIKEj+76vLWFu9BNKk+Q==
+
 duplexer@^0.1.1:
   version "0.1.2"
   resolved "https://registry.npmjs.org/duplexer/-/duplexer-0.1.2.tgz#3abe43aef3835f8ae077d136ddce0f276b0400e6"
@@ -8760,6 +8873,11 @@ fast-base64-decode@^1.0.0:
   resolved "https://registry.npmjs.org/fast-base64-decode/-/fast-base64-decode-1.0.0.tgz#b434a0dd7d92b12b43f26819300d2dafb83ee418"
   integrity sha512-qwaScUgUGBYeDNRnbc/KyllVU88Jk1pRHPStuF/lO7B0/RTRLj7U0lkdTAutlBblY08rwZDff6tNU9cjv6j//Q==
 
+fast-decode-uri-component@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/fast-decode-uri-component/-/fast-decode-uri-component-1.0.1.tgz#46f8b6c22b30ff7a81357d4f59abfae938202543"
+  integrity sha512-WKgKWg5eUxvRZGwW8FvfbaH7AXSh2cL+3j5fMGzUMCxWBJ3dV3a7Wz8y2f/uQ0e3B6WmodD3oS54jTQ9HVTIIg==
+
 fast-deep-equal@^3.1.1:
   version "3.1.3"
   resolved "https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz#3a7d56b559d6cbc3eb512325244e619a65c6c525"
@@ -8801,6 +8919,13 @@ fast-levenshtein@~2.0.6:
   version "2.0.6"
   resolved "https://registry.npmjs.org/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
   integrity sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==
+
+fast-querystring@^1.1.1:
+  version "1.1.2"
+  resolved "https://registry.npmjs.org/fast-querystring/-/fast-querystring-1.1.2.tgz#a6d24937b4fc6f791b4ee31dcb6f53aeafb89f53"
+  integrity sha512-g6KuKWmFXc0fID8WWH0jit4g0AGBoJhCkJMb1RmbsSEUNvQ+ZC8D6CUZ+GtF8nMzSPXnhiePyyqqipzNNEnHjg==
+  dependencies:
+    fast-decode-uri-component "^1.0.1"
 
 fast-url-parser@^1.1.3:
   version "1.1.3"
@@ -13539,6 +13664,11 @@ stream-events@^1.0.5:
   dependencies:
     stubs "^3.0.0"
 
+streamsearch@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/streamsearch/-/streamsearch-1.1.0.tgz#404dd1e2247ca94af554e841a8ef0eaa238da764"
+  integrity sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==
+
 string-argv@~0.3.1:
   version "0.3.2"
   resolved "https://registry.npmjs.org/string-argv/-/string-argv-0.3.2.tgz#2b6d0ef24b656274d957d54e0a4bbf6153dc02b6"
@@ -14409,6 +14539,11 @@ urlgrey@1.0.0:
   integrity sha512-hJfIzMPJmI9IlLkby8QrsCykQ+SXDeO2W5Q9QTW3QpqZVTx4a/K7p8/5q+/isD8vsbVaFgql/gvAoQCRQ2Cb5w==
   dependencies:
     fast-url-parser "^1.1.3"
+
+urlpattern-polyfill@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.npmjs.org/urlpattern-polyfill/-/urlpattern-polyfill-9.0.0.tgz#bc7e386bb12fd7898b58d1509df21d3c29ab3460"
+  integrity sha512-WHN8KDQblxd32odxeIgo83rdVDE2bvdkb86it7bMhYZwWKJz0+O0RK/eZiHYnM+zgt/U7hAHOlCQGfjjvSkw2g==
 
 util-deprecate@^1.0.1, util-deprecate@~1.0.1:
   version "1.0.2"
