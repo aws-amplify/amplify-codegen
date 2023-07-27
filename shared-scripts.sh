@@ -134,7 +134,7 @@ function _publishToLocalRegistry {
     git fetch --tags https://github.com/aws-amplify/amplify-codegen
 
     source .codebuild/scripts/local_publish_helpers.sh
-    startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
+    startLocalRegistry "$(pwd)/.codebuild/scripts/verdaccio.yaml"
     setNpmRegistryUrlToLocal
     git config user.email not@used.com
     git config user.name "Doesnt Matter"
@@ -152,7 +152,7 @@ function _publishToLocalRegistry {
 function _installCLIFromLocalRegistry {
     echo "Start verdaccio, install CLI"
     source .codebuild/scripts/local_publish_helpers.sh
-    startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
+    startLocalRegistry "$(pwd)/.codebuild/scripts/verdaccio.yaml"
     setNpmRegistryUrlToLocal
     changeNpmGlobalPath
     npm install -g @aws-amplify/cli-internal@cdk228withdata3
@@ -201,7 +201,7 @@ function _cleanupE2EResources {
   echo "Running clean up script"
   build_batch_arn=$(aws codebuild batch-get-builds --ids $CODEBUILD_BUILD_ID | jq -r -c '.builds[0].buildBatchArn')
   echo "Cleanup resources for batch build $build_batch_arn"
-  yarn clean-cb-e2e-resources --buildBatchArn $build_batch_arn
+  yarn clean-e2e-resources --buildBatchArn $build_batch_arn
 }
 
 # The following functions are forked from circleci local publish helper

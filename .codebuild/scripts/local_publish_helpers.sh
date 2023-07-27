@@ -1,7 +1,7 @@
 #!/bin/bash
 
 custom_registry_url=http://localhost:4873
-default_verdaccio_package=verdaccio@5.1.2
+default_verdaccio_package=verdaccio@4.5.1
 
 function startLocalRegistry {
     # Start local registry
@@ -10,6 +10,11 @@ function startLocalRegistry {
     (cd && nohup npx ${VERDACCIO_PACKAGE:-$default_verdaccio_package} -c $1 &>$tmp_registry_log &)
     # Wait for Verdaccio to boot
     grep -q 'http address' <(tail -f $tmp_registry_log)
+}
+
+function loginToLocalRegistry {
+  # Login so we can publish packages
+  (cd && npm_config_yes=true npx npm-auth-to-token@1.0.0 -u user -p password -e user@example.com -r "$custom_registry_url")
 }
 
 function setNpmTag {
