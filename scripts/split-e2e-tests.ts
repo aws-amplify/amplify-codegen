@@ -21,7 +21,7 @@ const REPO_ROOT = join(__dirname, '..');
 const TEST_TIMINGS_PATH = join(REPO_ROOT, 'scripts', 'test-timings.data.json');
 const CODEBUILD_CONFIG_BASE_PATH = join(REPO_ROOT, '.codebuild', 'e2e_workflow_base.yml');
 const CODEBUILD_GENERATE_CONFIG_PATH = join(REPO_ROOT, '.codebuild', 'e2e_workflow.yml');
-const CODEBUILD_DEBUG_CONFIG_PATH = join (REPO_ROOT, 'codebuild_specs', 'debug_workflow.yml');
+const CODEBUILD_DEBUG_CONFIG_PATH = join (REPO_ROOT, '.codebuild', 'debug_workflow.yml');
 const RUN_SOLO = [];
 const EXCLUDE_TESTS = [
   'src/__tests__/build-app-swift.test.ts',
@@ -209,7 +209,7 @@ function main(): void {
     env: {
       'compute-type': 'BUILD_GENERAL1_MEDIUM'
     },
-    'depend-on': allBuilds.length > 0 ? [allBuilds[0].identifier] : 'publish_to_local_registry',
+    'depend-on': allBuilds.length > 0 ? [allBuilds[0].identifier] : ['publish_to_local_registry'],
   }
   console.log(`Total number of splitted jobs: ${allBuilds.length}`)
   let currentBatch = [...baseBuildGraph, ...allBuilds, cleanupResources];

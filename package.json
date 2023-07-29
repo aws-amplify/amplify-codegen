@@ -41,7 +41,6 @@
     "cloud-e2e-beta": "source scripts/cloud-utils.sh && cloudE2EBeta",
     "split-e2e-tests": "yarn ts-node ./scripts/split-e2e-tests.ts && git add .codebuild/e2e_workflow.yml",
     "view-test-artifacts": "yarn ts-node ./scripts/view-test-artifacts.ts",
-    "generate-debug-e2e-spec": "./scripts/generate-debug-spec-for-failed-e2e-tests.sh",
     "cloud-e2e-debug": "source scripts/cloud-utils.sh && cloudE2EDebug"
   },
   "bugs": {

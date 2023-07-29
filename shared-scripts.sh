@@ -183,6 +183,7 @@ function _runE2ETestsLinux {
     _installCLIFromLocalRegistry  
     _loadTestAccountCredentials
     _setShell
+    codebuild-breakpoint
     retry runE2eTest
 }
 
