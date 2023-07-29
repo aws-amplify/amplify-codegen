@@ -55,28 +55,10 @@
     winston "^3.3.3"
     winston-daily-rotate-file "^4.5.0"
 
-"@aws-amplify/amplify-cli-logger@1.3.3":
-  version "1.3.3"
-  resolved "https://registry.npmjs.org/@aws-amplify/amplify-cli-logger/-/amplify-cli-logger-1.3.3.tgz#d50d006f71b1a8f9e6bfe71f8e691c96d307aa04"
-  integrity sha512-GTaTMu6p5xJqimiCuzv0NDdx7/APV5YgOFtpX6GQoTIJ7jjCMB1MmKyfUKrt843ATQpfZ0ClokkyGJlzgMvYzw==
-  dependencies:
-    winston "^3.3.3"
-    winston-daily-rotate-file "^4.5.0"
-
 "@aws-amplify/amplify-cli-shared-interfaces@1.2.2":
   version "1.2.2"
   resolved "https://registry.npmjs.org/@aws-amplify/amplify-cli-shared-interfaces/-/amplify-cli-shared-interfaces-1.2.2.tgz#e717ef421379837519ed6cba42226874574fe505"
   integrity sha512-iZZAhfPUBRZr5b4S5YnpN98oYQfZSMMxo0J/fpDQ7mh3CFOGdWcg6vIU3M9tqGZWUNYi3P0MkzreOgDE+9yJ6A==
-
-"@aws-amplify/amplify-cli-shared-interfaces@1.2.3":
-  version "1.2.3"
-  resolved "https://registry.npmjs.org/@aws-amplify/amplify-cli-shared-interfaces/-/amplify-cli-shared-interfaces-1.2.3.tgz#01afc1508e11faadeb5d45298e8b5c486dc272b0"
-  integrity sha512-c/c82OMAFZvgjkfeMFE/h1ycqC7218IfeVNLN7rVGMS98hRs810zRXvFc1w8uI+zwUiDV8+bzAuzODqt5aC9iA==
-
-"@aws-amplify/amplify-function-plugin-interface@1.11.0":
-  version "1.11.0"
-  resolved "https://registry.npmjs.org/@aws-amplify/amplify-function-plugin-interface/-/amplify-function-plugin-interface-1.11.0.tgz#f09bbfdd16677c35e8455a9cb7b0cb658f58a7bc"
-  integrity sha512-X0Ywl6zBd54XOiWDGakaoCKogTtU7wR+s+8egmQuBMYJK/kW+apvyPGI7wdXGommwXYs1Hs1vr61V+h/+Rbfig==
 
 "@aws-amplify/amplify-prompts@2.6.8":
   version "2.6.8"
@@ -84,15 +66,6 @@
   integrity sha512-s3xtMgVOWlxyIPPTXF1s1BD/4r7jTEO1vsPEc//HrlB3hPJdZ6cKrDb3cXsbkGUJnrmU6UwEmManwNozrmKzWg==
   dependencies:
     amplify-prompts "2.6.8"
-
-"@aws-amplify/amplify-prompts@2.8.0":
-  version "2.8.0"
-  resolved "https://registry.npmjs.org/@aws-amplify/amplify-prompts/-/amplify-prompts-2.8.0.tgz#b8ce0a4242a4277c58cbf8a30ffb89546568bc22"
-  integrity sha512-tc0iVyAYNC+nSQaGs5dYIytpfaD3/Dv27tIMis+skzBPLQYd9BwxF6YlpnayspaksxIITPEzCusZKyg3iXZB7w==
-  dependencies:
-    "@aws-amplify/amplify-cli-shared-interfaces" "1.2.3"
-    chalk "^4.1.1"
-    enquirer "^2.3.6"
 
 "@aws-amplify/analytics@6.3.2":
   version "6.3.2"
@@ -231,7 +204,7 @@
   dependencies:
     graphql "^15.5.0"
 
-"@aws-amplify/graphql-transformer-interfaces@^2.1.1", "@aws-amplify/graphql-transformer-interfaces@^2.2.2":
+"@aws-amplify/graphql-transformer-interfaces@^2.1.1":
   version "2.3.0"
   resolved "https://registry.npmjs.org/@aws-amplify/graphql-transformer-interfaces/-/graphql-transformer-interfaces-2.3.0.tgz#fee01fbbcb0572201e1e3553503db9f706fc01dd"
   integrity sha512-GC3zsT3RGK7XPdt/sLDOS69lY0vcob7ozoAuBtLotA9CrmuxHuSAWwYr3diqyt5Jn0z6c64DGjbiLD3XD00kyg==
@@ -5711,6 +5684,13 @@
   dependencies:
     "@babel/types" "^7.20.7"
 
+"@types/cli-progress@3.11.0":
+  version "3.11.0"
+  resolved "https://registry.npmjs.org/@types/cli-progress/-/cli-progress-3.11.0.tgz#ec79df99b26757c3d1c7170af8422e0fc95eef7e"
+  integrity sha512-XhXhBv1R/q2ahF3BM7qT5HLzJNlIL0wbcGyZVjqOTqAybAnsLisd7gy1UCyIqpL+5Iv6XhlSyzjLCnI2sIdbCg==
+  dependencies:
+    "@types/node" "*"
+
 "@types/common-tags@^1.8.0":
   version "1.8.1"
   resolved "https://registry.npmjs.org/@types/common-tags/-/common-tags-1.8.1.tgz#a5a49ca5ebbb58e0f8947f3ec98950c8970a68a9"
@@ -5726,7 +5706,7 @@
   resolved "https://registry.npmjs.org/@types/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"
   integrity sha512-OCutwjDZ4aFS6PB1UZ988C4YgwlBHJd6wCeQqaLdmadZ/7e+w79+hbMUFC1QXDNCmdyoRfAFdm0RypzwR+Qpag==
 
-"@types/fs-extra@^8.1.0":
+"@types/fs-extra@^8.0.1", "@types/fs-extra@^8.1.0":
   version "8.1.2"
   resolved "https://registry.npmjs.org/@types/fs-extra/-/fs-extra-8.1.2.tgz#7125cc2e4bdd9bd2fc83005ffdb1d0ba00cca61f"
   integrity sha512-SvSrYXfWSc7R4eqnOzbQF4TZmfpNSM9FrSWLU3EUnWBuyZqNBOrv1B1JA3byUDPUl9z4Ab3jeZG2eDdySlgNMg==
@@ -5741,7 +5721,7 @@
     "@types/minimatch" "^5.1.2"
     "@types/node" "*"
 
-"@types/glob@^7.1.1":
+"@types/glob@^7.1.1", "@types/glob@^7.2.0":
   version "7.2.0"
   resolved "https://registry.npmjs.org/@types/glob/-/glob-7.2.0.tgz#bc1b5bf3aa92f25bd5dd39f35c57361bdce5b2eb"
   integrity sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==
@@ -6722,6 +6702,22 @@ aws-cdk-lib@~2.68.0:
     semver "^7.3.8"
     yaml "1.10.2"
 
+aws-sdk@2.1414.0:
+  version "2.1414.0"
+  resolved "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.1414.0.tgz#5888319adba0e98fc95f7b6044bb598edcbf6713"
+  integrity sha512-WhqTWiTZRUxWITvUG5VMPYGdCLNAm4zOTDIiotbErR9x+uDExk2CAGbXE8HH11+tD8PhZVXyukymSiG+7rJMMg==
+  dependencies:
+    buffer "4.9.2"
+    events "1.1.1"
+    ieee754 "1.1.13"
+    jmespath "0.16.0"
+    querystring "0.2.0"
+    sax "1.2.1"
+    url "0.10.3"
+    util "^0.12.4"
+    uuid "8.0.0"
+    xml2js "0.5.0"
+
 aws-sdk@^2.1413.0:
   version "2.1413.0"
   resolved "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.1413.0.tgz#5ca9c08bacd3523fd6442dc3849d5f558d4e1f5b"
@@ -6749,13 +6745,6 @@ axios@0.26.0:
   integrity sha512-lKoGLMYtHvFrPVt3r+RBMp9nh34N0M8zEfCWqdWZx6phynIEhQqAdydpyBAAG211zlhX9Rgu08cOamy6XjE5Og==
   dependencies:
     follow-redirects "^1.14.8"
-
-axios@^0.21.1:
-  version "0.21.4"
-  resolved "https://registry.npmjs.org/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
-  integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
-  dependencies:
-    follow-redirects "^1.14.0"
 
 axios@^1.0.0:
   version "1.4.0"
@@ -7304,17 +7293,10 @@ ci-info@^2.0.0:
   resolved "https://registry.npmjs.org/ci-info/-/ci-info-2.0.0.tgz#67a9e964be31a51e15e5010d58e6f12834002f46"
   integrity sha512-5tK7EtrZ0N+OLFMthtqOj4fI2Jeb88C4CAZPu25LDVUgXJ0A3Js4PMGqrn0JU1W0Mh1/Z8wZzYPxqUrXeBboCQ==
 
-ci-info@^3.2.0, ci-info@^3.8.0:
+ci-info@^3.2.0:
   version "3.8.0"
   resolved "https://registry.npmjs.org/ci-info/-/ci-info-3.8.0.tgz#81408265a5380c929f0bc665d62256628ce9ef91"
   integrity sha512-eXTggHWSooYhq49F2opQhuHWgzucfF2YgODK4e1566GQs5BIfP30B0oenwBJHfWxAs2fyPB1s7Mg949zLf61Yw==
-
-circleci-api@^4.1.3:
-  version "4.1.4"
-  resolved "https://registry.npmjs.org/circleci-api/-/circleci-api-4.1.4.tgz#6880a28eb021879d81789b50996640dc6373c5ad"
-  integrity sha512-49F0P2mhmfqYzJR/V4+oM+1SfI/VjKPcurvkzuuawNqgW5Eo00ZufgpHgdT+qRrvRymk6yt45bWOIP/f0FKhJA==
-  dependencies:
-    axios "^0.21.1"
 
 cjs-module-lexer@^1.0.0:
   version "1.2.3"
@@ -7339,6 +7321,13 @@ cli-cursor@^2.1.0:
   integrity sha512-8lgKz8LmCRYZZQDpRyT2m5rKJ08TnU4tR9FFFW2rxpxR1FzWi4PQ/NfyODchAatHaUgnSPVcx/R5w6NuTBzFiw==
   dependencies:
     restore-cursor "^2.0.0"
+
+cli-progress@3.12.0:
+  version "3.12.0"
+  resolved "https://registry.npmjs.org/cli-progress/-/cli-progress-3.12.0.tgz#807ee14b66bcc086258e444ad0f19e7d42577942"
+  integrity sha512-tRkV3HJ1ASwm19THiiLIXLO7Im7wlTuKnvkYaTkyoAPefqjNg7W7DHKUlGRxy9vxDvbyCYQkQozvptuMkGCg8A==
+  dependencies:
+    string-width "^4.2.3"
 
 cli-spinners@2.6.1:
   version "2.6.1"
@@ -8988,7 +8977,7 @@ fn.name@1.x.x:
   resolved "https://registry.npmjs.org/fn.name/-/fn.name-1.1.0.tgz#26cad8017967aea8731bc42961d04a3d5988accc"
   integrity sha512-GRnmB5gPyJpAhTQdSZTSp9uaPSvl09KoYcMQtsB9rQoOmzs9dH6ffeccH+Z+cv6P68Hu5bC6JjRh4Ah/mHSNRw==
 
-follow-redirects@^1.14.0, follow-redirects@^1.14.8, follow-redirects@^1.15.0:
+follow-redirects@^1.14.8, follow-redirects@^1.15.0:
   version "1.15.2"
   resolved "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
   integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
@@ -14940,7 +14929,7 @@ yaml@1.10.2, yaml@^1.10.0:
   resolved "https://registry.npmjs.org/yaml/-/yaml-1.10.2.tgz#2301c5ffbf12b467de8da2333a459e29e7920e4b"
   integrity sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==
 
-yaml@^2.2.1, yaml@^2.2.2:
+yaml@^2.2.1:
   version "2.3.1"
   resolved "https://registry.npmjs.org/yaml/-/yaml-2.3.1.tgz#02fe0975d23cd441242aa7204e09fc28ac2ac33b"
   integrity sha512-2eHWfjaoXgTBC2jNM1LRef62VQa0umtvRiDSk6HSzW7RvS5YtkabJrwYLLEKWBc8a5U2PTSCs+dJjUTJdlHsWQ==

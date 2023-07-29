@@ -85,3 +85,30 @@ function cleanupStaleResources {
   TARGET_BRANCH=$CURR_BRANCH
   triggerProject $E2E_ACCOUNT_PROD $CLEANUP_ROLE_NAME $CLEANUP_PROFILE_NAME $CLEANUP_PROJECT_NAME $TARGET_BRANCH
 }
+
+function triggerProjectBatchWithDebugSession {
+  account_number=$1
+  role_name=$2
+  profile_name=$3
+  project_name=$4
+  target_branch=$5
+  authenticate $account_number $role_name $profile_name
+  echo AWS Account: $account_number
+  echo Project: $project_name 
+  echo Target Branch: $target_branch
+  RESULT=$(aws codebuild start-build-batch --region=$REGION --profile="${profile_name}" --project-name $project_name --source-version=$target_branch \
+    --debug-session-enabled \
+    --buildspec-override "codebuild_specs/debug_workflow.yml" \
+    --environment-variables-override name=BRANCH_NAME,value=$target_branch,type=PLAINTEXT \
+    --query 'buildBatch.id' --output text)
+  echo "https://$REGION.console.aws.amazon.com/codesuite/codebuild/$account_number/projects/$project_name/batch/$RESULT?region=$REGION"
+}
+
+function cloudE2EDebug {
+  echo Running Prod E2E Test Suite
+  E2E_ROLE_NAME=CodebuildDeveloper
+  E2E_PROFILE_NAME=AmplifyAPIE2EProd
+  E2E_PROJECT_NAME=amplify-category-api-e2e-workflow
+  TARGET_BRANCH=$CURR_BRANCH
+  triggerProjectBatchWithDebugSession $E2E_ACCOUNT_PROD $E2E_ROLE_NAME $E2E_PROFILE_NAME $E2E_PROJECT_NAME $TARGET_BRANCH
+}

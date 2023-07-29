@@ -21,18 +21,20 @@ const REPO_ROOT = join(__dirname, '..');
 const TEST_TIMINGS_PATH = join(REPO_ROOT, 'scripts', 'test-timings.data.json');
 const CODEBUILD_CONFIG_BASE_PATH = join(REPO_ROOT, '.codebuild', 'e2e_workflow_base.yml');
 const CODEBUILD_GENERATE_CONFIG_PATH = join(REPO_ROOT, '.codebuild', 'e2e_workflow.yml');
+const CODEBUILD_DEBUG_CONFIG_PATH = join (REPO_ROOT, 'codebuild_specs', 'debug_workflow.yml');
 const RUN_SOLO = [];
 const EXCLUDE_TESTS = [
   'src/__tests__/build-app-swift.test.ts',
   'src/__tests__/build-app-android.test.ts',
 ];
+const DEBUG_FLAG = '--debug';
 
 export function loadConfigBase() {
   return yaml.load(fs.readFileSync(CODEBUILD_CONFIG_BASE_PATH, 'utf8'));
 }
-export function saveConfig(config: any): void {
+export function saveConfig(config: any, outputPath: string): void {
   const output = ['# auto generated file. DO NOT EDIT manually', yaml.dump(config, { noRefs: true })];
-  fs.writeFileSync(CODEBUILD_GENERATE_CONFIG_PATH, output.join('\n'));
+  fs.writeFileSync(outputPath, output.join('\n'));
 }
 export function loadTestTimings(): { timingData: { test: string; medianRuntime: number }[] } {
   return JSON.parse(fs.readFileSync(TEST_TIMINGS_PATH, 'utf-8'));
@@ -174,6 +176,7 @@ const splitTests = (
 };
 
 function main(): void {
+  const filteredTests = process.argv.slice(2);
   const configBase: any = loadConfigBase();
   const baseBuildGraph = configBase.batch['build-graph'];
   const splitE2ETests = splitTests(
@@ -189,19 +192,30 @@ function main(): void {
     (testSuites) => testSuites.filter((ts) => !EXCLUDE_TESTS.includes(ts)),
   );
 
+  let outputPath = CODEBUILD_GENERATE_CONFIG_PATH;
   let allBuilds = [...splitE2ETests];
+  if (filteredTests.length > 0) {
+    allBuilds = allBuilds.filter(build => filteredTests.includes(build.identifier));
+    if (filteredTests.includes(DEBUG_FLAG)) {
+      allBuilds = allBuilds.map(build => {
+        return { ...build, 'debug-session': true}
+      });
+      outputPath = CODEBUILD_DEBUG_CONFIG_PATH;
+    }
+  }
   const cleanupResources = {
     identifier: 'cleanup_e2e_resources',
     buildspec: '.codebuild/cleanup_e2e_resources.yml',
     env: {
       'compute-type': 'BUILD_GENERAL1_MEDIUM'
     },
-    'depend-on': [allBuilds[0].identifier]
+    'depend-on': allBuilds.length > 0 ? [allBuilds[0].identifier] : 'publish_to_local_registry',
   }
   console.log(`Total number of splitted jobs: ${allBuilds.length}`)
   let currentBatch = [...baseBuildGraph, ...allBuilds, cleanupResources];
   configBase.batch['build-graph'] = currentBatch;
-  saveConfig(configBase);
+  saveConfig(configBase, outputPath);
+  console.log(`Successfully generated the buildspec at ${outputPath}`);
 }
 
 main();
