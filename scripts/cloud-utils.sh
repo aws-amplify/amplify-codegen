@@ -108,7 +108,7 @@ function cloudE2EDebug {
   echo Running Prod E2E Test Suite
   E2E_ROLE_NAME=CodebuildDeveloper
   E2E_PROFILE_NAME=AmplifyAPIE2EProd
-  E2E_PROJECT_NAME=amplify-category-api-e2e-workflow
+  E2E_PROJECT_NAME=amplify-codegen-e2e-workflow
   TARGET_BRANCH=$CURR_BRANCH
   triggerProjectBatchWithDebugSession $E2E_ACCOUNT_PROD $E2E_ROLE_NAME $E2E_PROFILE_NAME $E2E_PROJECT_NAME $TARGET_BRANCH
 }
