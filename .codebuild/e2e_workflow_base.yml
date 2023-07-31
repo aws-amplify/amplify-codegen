@@ -41,6 +41,7 @@ batch:
         variables:
           TEST_SUITE: src/__tests__/build-app-swift.test.ts
           CLI_REGION: us-east-2
+      debug-session: true
       depend-on:
         - publish_to_local_registry
     - identifier: build_app_android
@@ -50,5 +51,6 @@ batch:
         variables:
           TEST_SUITE: src/__tests__/build-app-android.test.ts
           CLI_REGION: us-east-2
+      debug-session: true
       depend-on:
         - publish_to_local_registry
