@@ -155,7 +155,7 @@ function _installCLIFromLocalRegistry {
     startLocalRegistry "$(pwd)/.codebuild/scripts/verdaccio.yaml"
     setNpmRegistryUrlToLocal
     changeNpmGlobalPath
-    npm install -g @aws-amplify/cli-internal@cdk228withdata3
+    npm install -g @aws-amplify/cli-internal
     echo "using Amplify CLI version: "$(amplify --version)
     npm list -g --depth=1 | grep -e '@aws-amplify/amplify-category-api' -e 'amplify-codegen'
     unsetNpmRegistryUrl
@@ -176,14 +176,17 @@ function _loadTestAccountCredentials {
     export AWS_SESSION_TOKEN=$(echo $creds | jq -c -r ".Credentials.SessionToken")
 }
 
-function _runE2ETestsLinux {
-    echo "RUN E2E Tests Linux"
+function _setupE2ETestsLinux {
+    echo "Setup E2E Tests Linux"
     loadCacheFromBuildJob
     loadCache verdaccio-cache $CODEBUILD_SRC_DIR/../verdaccio-cache
     _installCLIFromLocalRegistry  
     _loadTestAccountCredentials
     _setShell
-    codebuild-breakpoint
+}
+
+function _runE2ETestsLinux {
+    echo "RUN E2E Tests Linux"
     retry runE2eTest
 }
 

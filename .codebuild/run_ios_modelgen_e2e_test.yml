@@ -10,6 +10,8 @@ env:
 phases:
   build:
     commands:
+      - source ./shared-scripts.sh && _setupE2ETestsLinux
+      - codebuild-breakpoint
       - source ./shared-scripts.sh && _runE2ETestsLinux
       - export PATH_TO_MODELS=$CODEBUILD_SRC_DIR/packages/amplify-codegen-e2e-tests/test-apps/swift/amplify/generated
       - cd $PATH_TO_MODELS && zip -r models.zip models
