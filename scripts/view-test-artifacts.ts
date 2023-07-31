@@ -40,11 +40,11 @@ type TestArtifact = {
 };
 
 /**
- * Utility method to filter out incomplete test artifact definitions.
- * @param artifact the potentially incomplete artifact to validate
- * @returns whether the artifact is complete or not
+ * Utility method to filter out jobs without identifiers
+ * @param artifact test artifacts with potentially no identifies
+ * @returns whether the artifact is valid to be processed
  */
-const testArtifactIsComplete = (artifact: Partial<TestArtifact>): artifact is TestArtifact => artifact.jobName !== undefined;
+const testArtifactisValid = (artifact: Partial<TestArtifact>): artifact is TestArtifact => artifact.jobName !== undefined;
 
 const generateIndexFile = (directory: string, artifacts: TestArtifact[]): void => {
   const createArtifactRow = (artifact: TestArtifact): string => `<tr>
@@ -95,7 +95,7 @@ const retrieveArtifactsForBatch = async (batchId: string): Promise<TestArtifact[
           } as Partial<TestArtifact>),
       ),
     )
-    .filter(testArtifactIsComplete);
+    .filter(testArtifactisValid);
 };
 
 const downloadSingleTestArtifact = async (tempDir: string, artifact: Required<TestArtifact>): Promise<unknown[]> => {
