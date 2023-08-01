@@ -16,8 +16,6 @@ phases:
       - unset AWS_ACCESS_KEY_ID
       - unset AWS_SECRET_ACCESS_KEY
       - unset AWS_SESSION_TOKEN
-      - aws sts get-caller-identity
-      - codebuild-breakpoint
       - export PATH_TO_MODELS=$CODEBUILD_SRC_DIR/packages/amplify-codegen-e2e-tests/test-apps/swift/amplify/generated
       - cd $PATH_TO_MODELS && zip -r models.zip models
       - aws s3 cp $PATH_TO_MODELS/models.zip s3://$ARTIFACT_BUCKET_NAME/models.zip
