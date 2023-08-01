@@ -9,6 +9,15 @@ env:
     NODE_OPTIONS: --max-old-space-size=8096
 
 phases:
+  install:
+    commands:
+      - sudo apt update
+      - yes | sudo apt install android-sdk
+      - export ANDROID_HOME=/usr/lib/android-sdk
+      - yes | sudo apt install sdkmanager
+      # Review SDK licenses
+      - yes | sudo sdkmanager --licenses
+
   build:
     commands:
       - source ./shared-scripts.sh && _runE2ETestsLinux

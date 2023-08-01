@@ -35,7 +35,7 @@ describe('env codegen tests', () => {
     await addEnvironment(projectRoot, { envName: 'envb' });
     //update schema to a invalid one in envb and generate models
     updateApiSchema(projectRoot, apiName, schemaWithError)
-    await expect(generateModels(projectRoot)).rejects.toThrowError();
+    await expect(generateModels(projectRoot, undefined, { errMessage: 'Unknown type' }));
     //checkout back to enva and generate models
     await checkoutEnvironment(projectRoot, { envName: 'enva', withRestore: true });
     await expect(generateModels(projectRoot)).resolves.not.toThrow();

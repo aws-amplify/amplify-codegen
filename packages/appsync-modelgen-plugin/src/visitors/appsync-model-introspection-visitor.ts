@@ -27,6 +27,7 @@ export class AppSyncModelIntrospectionVisitor<
     const modelIntrospectionSchema = JSON.parse(modelIntrospectionSchemaText);
     this.schemaValidator = new Ajv().compile(modelIntrospectionSchema);
   }
+
   generate(): string {
     const shouldUseModelNameFieldInHasManyAndBelongsTo = false;
     // This flag is going to be used to tight-trigger on JS implementations only.
@@ -152,11 +153,14 @@ export class AppSyncModelIntrospectionVisitor<
 
   private generateModelPrimaryKeyInfo(model: CodeGenModel): PrimaryKeyInfo {
     const primaryKeyField = this.getModelPrimaryKeyField(model);
-    const { primaryKeyType, sortKeyFields } = primaryKeyField.primaryKeyInfo!;
-    return {
-      isCustomPrimaryKey: primaryKeyType === CodeGenPrimaryKeyType.CustomId,
-      primaryKeyFieldName: this.getFieldName(primaryKeyField),
-      sortKeyFieldNames: sortKeyFields.map(field => this.getFieldName(field))
-    };
+    if (primaryKeyField && primaryKeyField.primaryKeyInfo) {
+      const { primaryKeyType, sortKeyFields } = primaryKeyField.primaryKeyInfo;
+      return {
+        isCustomPrimaryKey: primaryKeyType === CodeGenPrimaryKeyType.CustomId,
+        primaryKeyFieldName: this.getFieldName(primaryKeyField),
+        sortKeyFieldNames: sortKeyFields.map(field => this.getFieldName(field))
+      };
+    }
+    throw new Error(`No primary key found for model ${model.name}`);
   }
 }

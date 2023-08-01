@@ -1,12 +1,13 @@
-import * as yaml from 'js-yaml';
 import * as glob from 'glob';
-import { join } from 'path';
 import * as fs from 'fs-extra';
-const CONCURRENCY = 4;
+import { join } from 'path';
+import * as yaml from 'js-yaml';
+
 // Ensure to update packages/amplify-codegen-e2e-tests/src/cleanup-e2e-resources.ts is also updated this gets updated
 const AWS_REGIONS_TO_RUN_TESTS = [
+  'us-east-1',
   'us-east-2',
-  'us-west-1',
+  'us-west-2',
   'eu-west-2',
   'eu-central-1',
   'ap-northeast-1',
@@ -14,295 +15,193 @@ const AWS_REGIONS_TO_RUN_TESTS = [
   'ap-southeast-2',
 ];
 
-// This array needs to be update periodically when new tests suites get added
-// or when a test suite changes drastically
-
-const KNOWN_SUITES_SORTED_ACCORDING_TO_RUNTIME = [
-  // <7m
-  'src/__tests__/graphql-codegen-ios.test.ts',
-  'src/__tests__/graphql-codegen-js.test.ts',
-  'src/__tests__/graphql-codegen-android.test.ts',
-  'src/__tests__/configure-codegen-js.test.ts',
-  'src/__tests__/configure-codegen-android.test.ts',
-  'src/__tests__/configure-codegen-ios.test.ts',
-  'src/__tests__/feature-flags.test.ts',
-  'src/__tests__/remove-codegen-js.test.ts',
-  'src/__tests__/remove-codegen-ios.test.ts',
-  'src/__tests__/remove-codegen-android.test.ts',
-  'src/__tests__/datastore-modelgen-js.test.ts',
-  'src/__tests__/datastore-modelgen-android.test.ts',
-  'src/__tests__/datastore-modelgen-ios.test.ts',
-  'src/__tests__/datastore-modelgen-flutter.test.ts',
-  'src/__tests__/add-codegen-android.test.ts',
-  'src/__tests__/add-codegen-ios.test.ts',
-  'src/__tests__/model-introspection-codegen.test.ts',
-  // <11m
-  'src/__tests__/add-codegen-js.test.ts',
-  'src/__tests__/env-codegen.test.ts',
-  // <12m
-  'src/__tests__/pull-codegen.test.ts',
-  // <14m
-  'src/__tests__/push-codegen-js.test.ts',
-  'src/__tests__/push-codegen-android.test.ts',
-  'src/__tests__/push-codegen-ios.test.ts',
-
-  // <18m
-  'src/__tests__/build-app-ts.test.ts',
+// some tests require additional time, the parent account can handle longer tests (up to 90 minutes)
+const USE_PARENT_ACCOUNT = [];
+const REPO_ROOT = join(__dirname, '..');
+const TEST_TIMINGS_PATH = join(REPO_ROOT, 'scripts', 'test-timings.data.json');
+const CODEBUILD_CONFIG_BASE_PATH = join(REPO_ROOT, '.codebuild', 'e2e_workflow_base.yml');
+const CODEBUILD_GENERATE_CONFIG_PATH = join(REPO_ROOT, '.codebuild', 'e2e_workflow.yml');
+const RUN_SOLO = [];
+const EXCLUDE_TESTS = [
   'src/__tests__/build-app-swift.test.ts',
   'src/__tests__/build-app-android.test.ts',
 ];
 
-const runJobOnAndroid = new Set(['build-app-android-e2e-test']);
-
-/**
- * Sorts the test suite in ascending order. If the test is not included in known
- * tests it would be inserted at the begining of the array
- * @param tesSuites an array of test suites
- */
-function sortTestsBasedOnTime(tesSuites: string[]): string[] {
-  return tesSuites.sort((a, b) => {
-    const aIndx = KNOWN_SUITES_SORTED_ACCORDING_TO_RUNTIME.indexOf(a);
-    const bIndx = KNOWN_SUITES_SORTED_ACCORDING_TO_RUNTIME.indexOf(b);
-    return aIndx - bIndx;
-  });
+export function loadConfigBase() {
+  return yaml.load(fs.readFileSync(CODEBUILD_CONFIG_BASE_PATH, 'utf8'));
 }
-
-export type WorkflowJob =
-  | {
-      [name: string]: {
-        requires?: string[];
-      };
-    }
-  | string;
-
-export type CircleCIConfig = {
-  jobs: {
-    [name: string]: {
-      steps: Record<string, any>;
-      environment: Record<string, string>;
-    };
-  };
-  workflows: {
-    [workflowName: string]: {
-      jobs: WorkflowJob[];
-    };
+export function saveConfig(config: any): void {
+  const output = ['# auto generated file. DO NOT EDIT manually', yaml.dump(config, { noRefs: true })];
+  fs.writeFileSync(CODEBUILD_GENERATE_CONFIG_PATH, output.join('\n'));
+}
+export function loadTestTimings(): { timingData: { test: string; medianRuntime: number }[] } {
+  return JSON.parse(fs.readFileSync(TEST_TIMINGS_PATH, 'utf-8'));
+}
+function getTestFiles(dir: string, pattern = 'src/**/*.test.ts'): string[] {
+  return glob.sync(pattern, { cwd: dir });
+}
+type COMPUTE_TYPE = 'BUILD_GENERAL1_MEDIUM' | 'BUILD_GENERAL1_LARGE';
+type BatchBuildJob = {
+  identifier: string;
+  env: {
+    'compute-type': COMPUTE_TYPE;
+    variables: [string: string];
   };
 };
-
-const runJobOnMacOS = new Set(['build-app-swift-e2e-test']);
-
-function getTestFiles(dir: string, pattern = 'src/**/*.test.ts'): string[] {
-  const allTestFiles = glob.sync(pattern, { cwd: dir });
-  return sortTestsBasedOnTime(allTestFiles).reverse();
-}
-
-function generateJobName(baseName: string, testSuitePath: string): string {
-  return `${testSuitePath
-    .replace('src/', '')
-    .replace('__tests__/', '')
-    .replace(/test\.ts$/, '')
-    .replace(/\//g, '-')
-    .replace(/\./g, '-')}${baseName}`;
-}
-
-/**
- * Takes a CircleCI config and converts each test inside that job into a separate
- * job.
- * @param config - CircleCI config
- * @param jobName - job that should be split
- * @param workflowName - workflow name where this job is run
- * @param jobRootDir - Directory to scan for test files
- * @param concurrency - Number of parallel jobs to run
- */
-function splitTests(
-  config: Readonly<CircleCIConfig>,
-  jobName: string,
-  workflowName: string,
-  jobRootDir: string,
-  concurrency: number = CONCURRENCY,
-): CircleCIConfig {
-  const output: CircleCIConfig = { ...config };
-  const jobs = { ...config.jobs };
-  const job = jobs[jobName];
-  const jobWithNodeInstall = jobs[`${jobName}-with-node-install`];
-  const jobOnMacOs = jobs[`${jobName}-macos`]
-  const testSuites = getTestFiles(jobRootDir);
-
-  const newJobs = testSuites.reduce((acc, suite, index) => {
-    const testRegion = AWS_REGIONS_TO_RUN_TESTS[index % AWS_REGIONS_TO_RUN_TESTS.length];
-    const newJobName = generateJobName(jobName, suite);
-    const shouldRunJobOnAndroid = runJobOnAndroid.has(newJobName);
-    const shouldRunJobOnMacOs = runJobOnMacOS.has(newJobName);
-    const steps = jobWithNodeInstall && shouldRunJobOnAndroid
-      ? jobWithNodeInstall.steps
-      : jobOnMacOs && shouldRunJobOnMacOs
-        ? jobOnMacOs.steps
-        : job.steps;
-    const newJob = {
-      ...job,
-      steps,
-      environment: {
-        ...job.environment,
-        TEST_SUITE: suite,
-        CLI_REGION: testRegion,
-        // the npm prefix should not be set because this test runs on an executor
-        // that needs to install Node separately. Setting the NPM prefix interferes
-        // with the separate Node installation
-        SET_NPM_PREFIX: !shouldRunJobOnAndroid,
-      },
-    };
-    return { ...acc, [newJobName]: newJob };
-  }, {});
-
-  // Spilt jobs by region
-  const jobByRegion = Object.entries(newJobs).reduce((acc, entry: [string, any]) => {
-    const [jobName, job] = entry;
-    const region = job?.environment?.CLI_REGION;
-    const regionJobs = { ...acc[region], [jobName]: job };
-    return { ...acc, [region]: regionJobs };
-  }, {});
-
-  const workflows = { ...config.workflows };
-
-  if (workflows[workflowName]) {
-    const workflow = workflows[workflowName];
-
-    const workflowJob = workflow.jobs.find(j => {
-      if (typeof j === 'string') {
-        return j === jobName;
-      } else {
-        const name = Object.keys(j)[0];
-        return name === jobName;
-      }
-    });
-
-    if (workflowJob) {
-      Object.values(jobByRegion).forEach(regionJobs => {
-        const newJobNames = Object.keys(regionJobs);
-        const jobs = newJobNames.map((newJobName, index) => {
-          const requires = getRequiredJob(newJobNames, index, concurrency);
-          if (typeof workflowJob === 'string') {
-            return newJobName;
-          } else {
-            const shouldRunJobOnAndroid = runJobOnAndroid.has(newJobName);
-            const shouldRunJobOnMacOS = runJobOnMacOS.has(newJobName);
-            let os = 'l';
-            if (shouldRunJobOnAndroid) {
-              os = 'a';
-            }
-            if (shouldRunJobOnMacOS) {
-              os = 'm';
-            }
-            const newJob = {
-              ...Object.values(workflowJob)[0],
-              os,
-              requires: [...(requires ? [requires] : workflowJob[jobName].requires || [])],
-            };
-            return {
-              [newJobName]: newJob,
-            };
-          }
-        });
-        workflow.jobs = [...workflow.jobs, ...jobs];
-      });
-
-      const lastJobBatch = Object.values(jobByRegion)
-        .map(regionJobs => getLastBatchJobs(Object.keys(regionJobs), concurrency))
-        .reduce((acc, val) => acc.concat(val), []);
-      const filteredJobs = replaceWorkflowDependency(removeWorkflowJob(workflow.jobs, jobName), jobName, lastJobBatch);
-      workflow.jobs = filteredJobs;
-    }
-    output.workflows = workflows;
-  }
-  output.jobs = {
-    ...output.jobs,
-    ...newJobs,
+type ConfigBase = {
+  batch: {
+    'build-graph': BatchBuildJob[];
+    'fast-fail': boolean;
   };
-  return output;
-}
-
-/**
- * CircleCI workflow can have multiple jobs. This helper function removes the jobName from the workflow
- * @param jobs - All the jobs in workflow
- * @param jobName - job that needs to be removed from workflow
- */
-function removeWorkflowJob(jobs: WorkflowJob[], jobName: string): WorkflowJob[] {
-  return jobs.filter(j => {
-    if (typeof j === 'string') {
-      return j !== jobName;
-    } else {
-      const name = Object.keys(j)[0];
-      return name !== jobName;
-    }
-  });
-}
-
-/**
- *
- * @param jobs array of job names
- * @param concurrency number of concurrent jobs
- */
-function getLastBatchJobs(jobs: string[], concurrency: number): string[] {
-  const lastBatchJobLength = Math.min(concurrency, jobs.length);
-  const lastBatchJobNames = jobs.slice(jobs.length - lastBatchJobLength);
-  return lastBatchJobNames;
-}
-
-/**
- * A job in workflow can require some other job in the workflow to be finished before executing
- * This helper method finds and replaces jobName with jobsToReplacesWith
- * @param jobs - Workflow jobs
- * @param jobName - job to remove from requires
- * @param jobsToReplaceWith - jobs to add to requires
- */
-function replaceWorkflowDependency(jobs: WorkflowJob[], jobName: string, jobsToReplaceWith: string[]): WorkflowJob[] {
-  return jobs.map(j => {
-    if (typeof j === 'string') return j;
-    const [currentJobName, jobObj] = Object.entries(j)[0];
-    const requires = jobObj.requires || [];
-    if (requires.includes(jobName)) {
-      jobObj.requires = [...requires.filter(r => r !== jobName), ...jobsToReplaceWith];
-    }
-    return {
-      [currentJobName]: jobObj,
-    };
-  });
-}
-
-/**
- * Helper function that creates requires block for jobs to limit the concurrency of jobs in circle ci
- * @param jobNames - An array of jobs
- * @param index - current index of the job
- * @param concurrency - number of parallel jobs allowed
- */
-function getRequiredJob(jobNames: string[], index: number, concurrency: number = 4): string | void {
-  const mod = index % concurrency;
-  const mult = Math.floor(index / concurrency);
-  if (mult > 0) {
-    const prevIndex = (mult - 1) * concurrency + mod;
-    return jobNames[prevIndex];
+  env: {
+    'compute-type': COMPUTE_TYPE;
+    shell: 'bash';
+    variables: [string: string];
+  };
+};
+const MAX_WORKERS = 4;
+type OS_TYPE = 'w' | 'l';
+type CandidateJob = {
+  region: string;
+  os: OS_TYPE;
+  tests: string[];
+  useParentAccount: boolean;
+  runSolo: boolean;
+};
+const createJob = (os: OS_TYPE, jobIdx: number, runSolo: boolean = false): CandidateJob => {
+  const region = AWS_REGIONS_TO_RUN_TESTS[jobIdx % AWS_REGIONS_TO_RUN_TESTS.length];
+  return {
+    region,
+    os,
+    tests: [],
+    useParentAccount: false,
+    runSolo,
+  };
+};
+const getTestNameFromPath = (testSuitePath: string): string => {
+  const startIndex = testSuitePath.lastIndexOf('/') + 1;
+  const endIndex = testSuitePath.lastIndexOf('.test');
+  return testSuitePath
+    .substring(startIndex, endIndex)
+    .split('.e2e')
+    .join('')
+    .split('.')
+    .join('-');
+};
+const splitTests = (
+  baseJobLinux: any,
+  testDirectory: string,
+  pickTests?: ((testSuites: string[]) => string[]),
+) => {
+  const output: any[] = [];
+  let testSuites = getTestFiles(testDirectory);
+  if (pickTests && typeof pickTests === 'function') {
+    testSuites = pickTests(testSuites);
   }
-}
+  if (testSuites.length === 0) {
+    return output;
+  }
+  const testFileRunTimes = loadTestTimings().timingData;
 
-function loadConfig(): CircleCIConfig {
-  const configFile = join(process.cwd(), '.circleci', 'config.base.yml');
-  return <CircleCIConfig>yaml.load(fs.readFileSync(configFile, 'utf8'));
-}
+  testSuites.sort((a, b) => {
+    const runtimeA = testFileRunTimes.find((t:any) => t.test === a)?.medianRuntime ?? 30;
+    const runtimeB = testFileRunTimes.find((t:any) => t.test === b)?.medianRuntime ?? 30;
+    return runtimeA - runtimeB;
+  });
+  const generateJobsForOS = (os: OS_TYPE) => {
+    const soloJobs: CandidateJob[] = [];
+    let jobIdx = 0;
+    const osJobs = [createJob(os, jobIdx)];
+    jobIdx++;
+    for (let test of testSuites) {
+      const currentJob = osJobs[osJobs.length - 1];
 
-function saveConfig(config: CircleCIConfig): void {
-  const configFile = join(process.cwd(), '.circleci', 'config.yml');
-  const output = ['# auto generated file. Edit config.base.yaml if you want to change', yaml.dump(config)];
-  fs.writeFileSync(configFile, output.join('\n'));
-}
+      const USE_PARENT = USE_PARENT_ACCOUNT.some((usesParent) => test.startsWith(usesParent));
+
+      if (RUN_SOLO.find((solo) => test === solo)) {
+        const newSoloJob = createJob(os, jobIdx, true);
+        jobIdx++;
+        newSoloJob.tests.push(test);
+
+        if (USE_PARENT) {
+          newSoloJob.useParentAccount = true;
+        }
+        soloJobs.push(newSoloJob);
+        continue;
+      }
+
+      // add the test
+      currentJob.tests.push(test);
+
+      if (USE_PARENT) {
+        currentJob.useParentAccount = true;
+      }
+
+      // create a new job once the current job is full;
+      if (currentJob.tests.length >= MAX_WORKERS) {
+        osJobs.push(createJob(os, jobIdx));
+        jobIdx++;
+      }
+    }
+    return [...osJobs, ...soloJobs];
+  };
+  const linuxJobs = generateJobsForOS('l');
+  const getIdentifier = (os: string, names: string) => {
+    const jobName = `${names.replace(/-/g, '_')}`.substring(0, 127);
+    return jobName;
+  };
+  const result: any[] = [];
+  linuxJobs.forEach((j) => {
+    if (j.tests.length !== 0) {
+      const names = j.tests.map((tn) => getTestNameFromPath(tn)).join('_');
+      const tmp = {
+        ...JSON.parse(JSON.stringify(baseJobLinux)), // deep clone base job
+        identifier: getIdentifier(j.os, names),
+      };
+      tmp.env.variables = {};
+      tmp.env.variables.TEST_SUITE = j.tests.join('|');
+      tmp.env.variables.CLI_REGION = j.region;
+      if (j.useParentAccount) {
+        tmp.env.variables.USE_PARENT_ACCOUNT = 1;
+      }
+      if (j.runSolo) {
+        tmp.env['compute-type'] = 'BUILD_GENERAL1_LARGE';
+      }
+      result.push(tmp);
+    }
+  });
+  return result;
+};
+
 function main(): void {
-  const config = loadConfig();
-  const splitNodeTests = splitTests(
-    config,
-    'e2e-test',
-    'build_test_deploy',
-    join(process.cwd(), 'packages', 'amplify-codegen-e2e-tests'),
-    CONCURRENCY,
+  const configBase: any = loadConfigBase();
+  const baseBuildGraph = configBase.batch['build-graph'];
+  const splitE2ETests = splitTests(
+    {
+      identifier: 'run_e2e_tests',
+      buildspec: '.codebuild/run_e2e_tests.yml',
+      env: {
+        'compute-type': 'BUILD_GENERAL1_LARGE',
+      },
+      'depend-on': ['publish_to_local_registry'],
+    },
+    join(REPO_ROOT, 'packages', 'amplify-codegen-e2e-tests'),
+    (testSuites) => testSuites.filter((ts) => !EXCLUDE_TESTS.includes(ts)),
   );
-  saveConfig(splitNodeTests);
+
+  let allBuilds = [...splitE2ETests];
+  const cleanupResources = {
+    identifier: 'cleanup_e2e_resources',
+    buildspec: '.codebuild/cleanup_e2e_resources.yml',
+    env: {
+      'compute-type': 'BUILD_GENERAL1_MEDIUM'
+    },
+    'depend-on': [allBuilds[0].identifier]
+  }
+  console.log(`Total number of splitted jobs: ${allBuilds.length}`)
+  let currentBatch = [...baseBuildGraph, ...allBuilds, cleanupResources];
+  configBase.batch['build-graph'] = currentBatch;
+  saveConfig(configBase);
 }
+
 main();

@@ -1,0 +1,114 @@
+{
+  "lastUpdated": "2023-07-11T05:07:36.310Z",
+  "totalTestFiles": 27,
+  "timingData": [
+    {
+      "test": "src/__tests__/add-codegen-ios.test.ts",
+      "medianRuntime": 6
+    },
+    {
+      "test": "src/__tests__/configure-codegen-android.test.ts",
+      "medianRuntime": 6
+    },
+    {
+      "test": "src/__tests__/configure-codegen-js.test.ts",
+      "medianRuntime": 6
+    },
+    {
+      "test": "src/__tests__/graphql-codegen-android.test.ts",
+      "medianRuntime": 6
+    },
+    {
+      "test": "src/__tests__/graphql-codegen-js.test.ts",
+      "medianRuntime": 6
+    },
+    {
+      "test": "src/__tests__/remove-codegen-android.test.ts",
+      "medianRuntime": 6
+    },
+    {
+      "test": "src/__tests__/remove-codegen-ios.test.ts",
+      "medianRuntime": 6
+    },
+    {
+      "test": "src/__tests__/add-codegen-android.test.ts",
+      "medianRuntime": 7
+    },
+    {
+      "test": "src/__tests__/configure-codegen-ios.test.ts",
+      "medianRuntime": 7
+    },
+    {
+      "test": "src/__tests__/datastore-modelgen-android.test.ts",
+      "medianRuntime": 7
+    },
+    {
+      "test": "src/__tests__/datastore-modelgen-js.test.ts",
+      "medianRuntime": 7
+    },
+    {
+      "test": "src/__tests__/feature-flags.test.ts",
+      "medianRuntime": 7
+    },
+    {
+      "test": "src/__tests__/graphql-codegen-ios.test.ts",
+      "medianRuntime": 7
+    },
+    {
+      "test": "src/__tests__/add-codegen-js.test.ts",
+      "medianRuntime": 8
+    },
+    {
+      "test": "src/__tests__/datastore-modelgen-ios.test.ts",
+      "medianRuntime": 8
+    },
+    {
+      "test": "src/__tests__/remove-codegen-js.test.ts",
+      "medianRuntime": 8
+    },
+    {
+      "test": "src/__tests__/datastore-modelgen-flutter.test.ts",
+      "medianRuntime": 9
+    },
+    {
+      "test": "src/__tests__/env-codegen.test.ts",
+      "medianRuntime": 9
+    },
+    {
+      "test": "src/__tests__/model-introspection-codegen.test.ts",
+      "medianRuntime": 9
+    },
+    {
+      "test": "src/__tests__/build-app-android.test.ts",
+      "medianRuntime": 11
+    },
+    {
+      "test": "src/__tests__/pull-codegen.test.ts",
+      "medianRuntime": 11
+    },
+    {
+      "test": "src/__tests__/push-codegen-ios.test.ts",
+      "medianRuntime": 11
+    },
+    {
+      "test": "src/__tests__/push-codegen-android.test.ts",
+      "medianRuntime": 12
+    },
+    {
+      "test": "src/__tests__/graphql-documents-generator.test.ts",
+      "medianRuntime": 13
+    },
+    {
+      "test": "src/__tests__/push-codegen-js.test.ts",
+      "medianRuntime": 13
+    },
+    {
+      "test": "src/__tests__/build-app-ts.test.ts",
+      "medianRuntime": 16
+    },
+    {
+      "test": "src/__tests__/build-app-swift.test.ts",
+      "medianRuntime": 20
+    }
+  ]
+}

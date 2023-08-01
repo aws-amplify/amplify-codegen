@@ -95,7 +95,7 @@ function amplifyPush(projRoot: string): Promise<void> {
 }
 
 function addIntegAccountInConfig(projRoot: string) {
-  // add test account to config since no default account in circle ci
+  // add test account to config since no default account in ci
   if (isCI()) {
     const buildConfigPath = path.join(projRoot, 'amplify-build-config.json');
     const buildConfigFile = fs.readFileSync(buildConfigPath);

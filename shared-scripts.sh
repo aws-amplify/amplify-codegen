@@ -115,11 +115,16 @@ function _publishToLocalRegistry {
     echo "Publish To Local Registry"
     loadCacheFromBuildJob
     if [ -z "$BRANCH_NAME" ]; then
-      export BRANCH_NAME="$(git symbolic-ref HEAD --short 2>/dev/null)"
-      if [ "$BRANCH_NAME" = "" ] ; then
-        BRANCH_NAME="$(git rev-parse HEAD | xargs git name-rev | cut -d' ' -f2 | sed 's/remotes\/origin\///g')";
+      if [ -z "$CODEBUILD_WEBHOOK_TRIGGER" ]; then
+        export BRANCH_NAME="$(git symbolic-ref HEAD --short 2>/dev/null)"
+        if [ "$BRANCH_NAME" = "" ] ; then
+          BRANCH_NAME="$(git rev-parse HEAD | xargs git name-rev | cut -d' ' -f2 | sed 's/remotes\/origin\///g')";
+        fi
+      elif [[ "$CODEBUILD_WEBHOOK_TRIGGER" == "pr/"* ]]; then
+        export BRANCH_NAME=${CODEBUILD_WEBHOOK_BASE_REF##*/}
       fi
     fi
+    echo $BRANCH_NAME
     git checkout $BRANCH_NAME
   
     # Fetching git tags from upstream
@@ -129,7 +134,7 @@ function _publishToLocalRegistry {
     git fetch --tags https://github.com/aws-amplify/amplify-codegen
 
     source .codebuild/scripts/local_publish_helpers.sh
-    startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
+    startLocalRegistry "$(pwd)/.codebuild/scripts/verdaccio.yaml"
     setNpmRegistryUrlToLocal
     git config user.email not@used.com
     git config user.name "Doesnt Matter"
@@ -142,26 +147,15 @@ function _publishToLocalRegistry {
     unsetNpmRegistryUrl
     # copy [verdaccio-cache] to s3
     storeCache $CODEBUILD_SRC_DIR/../verdaccio-cache verdaccio-cache
-
-    _generateChangeLog
-}
-
-function _generateChangeLog {
-    echo "Generate Change Log"
-    git reset --hard HEAD
-    yarn update-versions
-    yarn ts-node scripts/unified-changelog.ts
-    # copy [changelog] to s3
-    storeCacheFile $CODEBUILD_SRC_DIR/UNIFIED_CHANGELOG.md UNIFIED_CHANGELOG.md
 }
 
 function _installCLIFromLocalRegistry {
     echo "Start verdaccio, install CLI"
     source .codebuild/scripts/local_publish_helpers.sh
-    startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
+    startLocalRegistry "$(pwd)/.codebuild/scripts/verdaccio.yaml"
     setNpmRegistryUrlToLocal
     changeNpmGlobalPath
-    npm install -g @aws-amplify/cli-internal
+    npm install -g @aws-amplify/cli-internal@cdk228withdata3
     echo "using Amplify CLI version: "$(amplify --version)
     npm list -g --depth=1 | grep -e '@aws-amplify/amplify-category-api' -e 'amplify-codegen'
     unsetNpmRegistryUrl
@@ -207,7 +201,7 @@ function _cleanupE2EResources {
   echo "Running clean up script"
   build_batch_arn=$(aws codebuild batch-get-builds --ids $CODEBUILD_BUILD_ID | jq -r -c '.builds[0].buildBatchArn')
   echo "Cleanup resources for batch build $build_batch_arn"
-  yarn clean-cb-e2e-resources --buildBatchArn $build_batch_arn
+  yarn clean-e2e-resources --buildBatchArn $build_batch_arn
 }
 
 # The following functions are forked from circleci local publish helper
@@ -311,7 +305,7 @@ function runE2eTest {
 
     if [ -z "$FIRST_RUN" ] || [ "$FIRST_RUN" == "true" ]; then
         echo "using Amplify CLI version: "$(amplify --version)
-        cd $(pwd)/packages/amplify-e2e-tests
+        cd $(pwd)/packages/amplify-codegen-e2e-tests
     fi
 
     if [ -f  $FAILED_TEST_REGEX_FILE ]; then
@@ -324,8 +318,8 @@ function runE2eTest {
 }
 
 function _deploy {
+  _setShell
   echo "Deploy"
-  loadCacheFromBuildJob
   echo "Authenticate with NPM"
   PUBLISH_TOKEN=$(echo "$NPM_PUBLISH_TOKEN" | jq -r '.token')
   echo "//registry.npmjs.org/:_authToken=$PUBLISH_TOKEN" > ~/.npmrc

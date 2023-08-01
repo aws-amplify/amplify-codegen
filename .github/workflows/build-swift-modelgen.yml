@@ -1,0 +1,37 @@
+name: 'Test compiling Swift Modelgen output'
+
+on:
+  workflow_dispatch:
+    inputs:
+      MODELS_S3_URL:
+        description: 'S3 URL for models'
+        required: true
+
+env:
+  MODELS_S3_URL: ${{ inputs.MODELS_S3_URL }}
+
+jobs:
+  Build-Swift-Modelgen:
+    name: Build
+    runs-on: macos-13-xl
+    permissions:
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: true
+
+    steps:
+      - name: Mask S3 URL
+        run: echo "::add-mask::$MODELS_S3_URL"
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Check Xcode and Swift versions
+        run: |
+          xcodebuild -version
+          swift --version
+
+      - name: Build Swift Models
+        run: ./scripts/test-swift-modelgen.sh

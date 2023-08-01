@@ -1,6 +1,6 @@
 # Amplify Codegen E2E tests
 
-This packages contains end to end tests that are run in CircleCI to ensure that your changes are not breaking the CLI. Some tests in this package might create resources in the cloud.
+This packages contains end to end tests that are run in our CI to ensure that your changes are not breaking the CLI. Some tests in this package might create resources in the cloud.
 
 ## Setup
 
