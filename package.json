@@ -40,8 +40,9 @@
     "cloud-e2e": "source scripts/cloud-utils.sh && cloudE2E",
     "cloud-e2e-beta": "source scripts/cloud-utils.sh && cloudE2EBeta",
     "split-e2e-tests": "yarn ts-node ./scripts/split-e2e-tests.ts && git add .codebuild/e2e_workflow.yml",
-    "view-test-artifacts": "yarn ts-node ./scripts/view-test-artifacts.ts",
-    "cloud-e2e-debug": "source scripts/cloud-utils.sh && cloudE2EDebug"
+    "view-test-artifacts": "yarn authenticate-e2e-profile && yarn ts-node ./scripts/view-test-artifacts.ts",
+    "cloud-e2e-debug": "source scripts/cloud-utils.sh && cloudE2EDebug",
+    "authenticate-e2e-profile": "source scripts/cloud-utils.sh && authenticateWithE2EProfile"
   },
   "bugs": {
     "url": "https://github.com/aws-amplify/amplify-codegen/issues"
