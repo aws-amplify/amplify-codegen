@@ -38,7 +38,6 @@ export function generateGraphQLDocuments<INCLUDE_META extends boolean>(
 
   ['queries', 'mutations', 'subscriptions'].forEach(op => {
     const ops = gqlOperations[op];
-    // console.log({ ops });
     if (ops.length) {
       const renderedOperations = renderOperations(gqlOperations[op], options.includeMetaData);
       allOperations[op] = renderedOperations;

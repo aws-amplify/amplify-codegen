@@ -21,19 +21,18 @@ class GraphQLStatementsFormatter {
     this.lintOverrides = [];
     this.headerComments = [];
     this.typesPath = typesPath ? typesPath.replace(/.ts/i, '') : null;
+    this.includeTypeScriptTypes = this.language === 'typescript' && this.opTypeName && this.typesPath;
   }
 
   get typeDefs() {
-    if (this.language === 'typescript' && this.opTypeName && this.typesPath) {
-      return [
-        `import * as APITypes from '${this.typesPath}';`,
-        `type Generated${this.opTypeName}<InputType, OutputType> = string & {`,
-        `  __generated${this.opTypeName}Input: InputType;`,
-        `  __generated${this.opTypeName}Output: OutputType;`,
-        `};`,
-      ].join(LINE_DELIMITOR);
-    }
-    return '';
+    if (!this.includeTypeScriptTypes) return '';
+    return [
+      `import * as APITypes from '${this.typesPath}';`,
+      `type Generated${this.opTypeName}<InputType, OutputType> = string & {`,
+      `  __generated${this.opTypeName}Input: InputType;`,
+      `  __generated${this.opTypeName}Output: OutputType;`,
+      `};`,
+    ].join(LINE_DELIMITOR);
   }
 
   format(statements) {
@@ -79,22 +78,13 @@ class GraphQLStatementsFormatter {
   }
 
   buildTypeTag(operationName, operationType) {
-    if (!operationType || !this.typesPath || this.language !== 'typescript') return '';
+    if (!this.includeTypeScriptTypes) return '';
 
-    const resultTypeName = `APITypes.${interfaceNameFromOperation({
-      operationName,
-      operationType,
-    })}`;
+    const operationDef = { operationName, operationType };
+    const resultTypeName = `APITypes.${interfaceNameFromOperation(operationDef)}`;
+    const variablesTypeName = `APITypes.${interfaceVariablesNameFromOperation(operationDef)}`;
 
-    const variablesTypeName = `APITypes.${interfaceVariablesNameFromOperation({
-      operationName,
-      operationType,
-    })}`;
-
-    return ` as Generated${this.opTypeName}<
-      ${variablesTypeName},
-      ${resultTypeName}
-    >;`;
+    return ` as Generated${this.opTypeName}<${variablesTypeName}, ${resultTypeName}>;`;
   }
 
   prettify(output) {
