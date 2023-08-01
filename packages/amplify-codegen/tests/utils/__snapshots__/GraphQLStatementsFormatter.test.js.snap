@@ -73,16 +73,15 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
-export const getProject = /* GraphQL */ \`
-    query GetProject($id: ID!) {
-      getProject(id: $id) {
-        id
-        name
-        createdAt
-        updatedAt
-      }
-    }
-  \` as GeneratedQuery<
+export const getProject = /* GraphQL */ \`query GetProject($id: ID!) {
+  getProject(id: $id) {
+    id
+    name
+    createdAt
+    updatedAt
+  }
+}
+\` as GeneratedQuery<
   APITypes.GetProjectQueryVariables,
   APITypes.GetProjectQuery
 >;

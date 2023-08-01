@@ -68,12 +68,12 @@ class GraphQLStatementsFormatter {
     if (statements) {
       for (const [key, { graphql, operationName, operationType }] of statements) {
         const typeTag = this.buildTypeTag(operationName, operationType);
-        formattedStatements.push(`export const ${key} = /* GraphQL */ \`${graphql}\`${typeTag}`);
+        const formattedGraphQL = prettier.format(graphql, { parser: 'graphql' });
+        formattedStatements.push(`export const ${key} = /* GraphQL */ \`${formattedGraphQL}\`${typeTag}`);
       }
     }
-    const formattedOutput = [lintOverridesBuffer, headerBuffer, LINE_DELIMITOR, this.typeDefs, LINE_DELIMITOR, ...formattedStatements].join(
-      LINE_DELIMITOR,
-    );
+    const typeDefs = this.includeTypeScriptTypes ? [LINE_DELIMITOR, this.typeDefs] : [];
+    const formattedOutput = [lintOverridesBuffer, headerBuffer, ...typeDefs, LINE_DELIMITOR, ...formattedStatements].join(LINE_DELIMITOR);
     return formattedOutput;
   }
 
