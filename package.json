@@ -33,12 +33,15 @@
     "refresh-lockfile": "rimraf yarn.lock && yarn",
     "extract-api": "lerna run extract-api",
     "verify-api-extract": "yarn extract-api && ./scripts/verify-extract-api.sh",
-    "trigger-release": "source ./scripts/cloud-release.sh && release",
+    "trigger-release": "source ./scripts/cloud-release.sh && triggerRelease",
+    "trigger-tag-release": "source ./scripts/cloud-release.sh && triggerTagRelease",
     "view-test-artifact": "./scripts/view-test-artifacts.sh",
     "cleanup-stale-resources": "source ./scripts/cloud-utils.sh && cleanupStaleResources",
     "cloud-e2e": "source scripts/cloud-utils.sh && cloudE2E",
     "cloud-e2e-beta": "source scripts/cloud-utils.sh && cloudE2EBeta",
-    "split-e2e-tests": "yarn ts-node ./scripts/split-e2e-tests.ts && git add .codebuild/e2e_workflow.yml"
+    "split-e2e-tests": "yarn ts-node ./scripts/split-e2e-tests.ts && git add .codebuild/e2e_workflow.yml",
+    "view-test-artifacts": "yarn ts-node ./scripts/view-test-artifacts.ts",
+    "cloud-e2e-debug": "source scripts/cloud-utils.sh && cloudE2EDebug"
   },
   "bugs": {
     "url": "https://github.com/aws-amplify/amplify-codegen/issues"
@@ -71,11 +74,16 @@
     "@commitlint/config-conventional": "^17.0.3",
     "@commitlint/config-lerna-scopes": "^17.0.2",
     "@microsoft/api-extractor": "^7.33.5",
+    "@types/cli-progress": "3.11.0",
+    "@types/fs-extra": "^8.0.1",
+    "@types/glob": "^7.2.0",
     "@types/jest": "^27.0.0",
     "@types/js-yaml": "^4.0.0",
     "@typescript-eslint/eslint-plugin": "^4.0.0",
     "@typescript-eslint/parser": "^4.0.0",
     "amplify-headless-interface": "^1.13.1",
+    "aws-sdk": "2.1414.0",
+    "cli-progress": "3.12.0",
     "cmd-shim": "^3.0.3",
     "codecov": "^3.7.0",
     "commitizen": "^4.2.4",
@@ -92,6 +100,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-spellcheck": "^0.0.17",
+    "execa": "^5.1.1",
     "glob": "^7.1.6",
     "graphql-transformer-core": "^8.0.0",
     "husky": "^3.0.3",
@@ -106,8 +115,7 @@
     "rimraf": "^3.0.0",
     "ts-jest": "^27.0.0",
     "ts-node": "^8.10.1",
-    "typescript": "4.7.4",
-    "execa": "^5.1.1"
+    "typescript": "4.7.4"
   },
   "resolutions": {
     "@aws-amplify/amplify-cli-core": "4.0.4",

@@ -27,3 +27,4 @@ test.out.log
 package-lock.json
 .idea
 scripts/.env
+.codebuild/debug_workflow.yml
