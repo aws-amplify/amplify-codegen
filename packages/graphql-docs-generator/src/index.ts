@@ -105,18 +105,14 @@ function renderOperations<INCLUDE_META extends boolean>(
           operationName: op.name,
           operationType: op.type,
           fieldName: op.fieldName,
-        } as any);
+        } as MapValueType<INCLUDE_META>);
       } else {
-        renderedOperations.set(name, gql as any);
+        renderedOperations.set(name, gql as MapValueType<INCLUDE_META>);
       }
     });
   }
 
   return renderedOperations;
-}
-
-function isMetaIncluded(includeMetaData: boolean, operationsMap: any): operationsMap is GraphQLWithMeta {
-  return includeMetaData === true;
 }
 
 function renderOperation(operation: GQLTemplateOp): string {
