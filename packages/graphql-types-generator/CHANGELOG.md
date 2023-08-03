@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@3.0.5...@aws-amplify/graphql-types-generator@3.1.0) (2023-08-03)
+
+### Features
+
+- API.swift compatibility with AWSAPIPlugin ([#630](https://github.com/aws-amplify/amplify-codegen/issues/630)) ([9fe2e32](https://github.com/aws-amplify/amplify-codegen/commit/9fe2e32552ca2e7a749ba3bbf71a53ec6e79357a))
+
 ## 3.0.5 (2023-07-25)
 
 **Note:** Version bump only for package @aws-amplify/graphql-types-generator
