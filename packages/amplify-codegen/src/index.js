@@ -30,5 +30,7 @@ module.exports = {
   generateModels,
   generateModelIntrospection,
   getModelIntrospection,
-  getCodegenConfig
+  getCodegenConfig,
 };
+
+// temp change to trigger release
