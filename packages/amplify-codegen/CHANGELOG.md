@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.2.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.1.9...amplify-codegen@4.2.0) (2023-08-03)
+
+### Features
+
+- temp change to trigger release ([#661](https://github.com/aws-amplify/amplify-codegen/issues/661)) ([08e6190](https://github.com/aws-amplify/amplify-codegen/commit/08e6190628463867f48c14b68259d70633868ae3))
+
 ## [4.1.9](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.1.8...amplify-codegen@4.1.9) (2023-08-03)
 
 **Note:** Version bump only for package amplify-codegen
