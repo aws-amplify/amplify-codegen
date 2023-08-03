@@ -16,12 +16,12 @@
     "publish:tag": "lerna publish --exact --dist-tag=$NPM_TAG --preid=$NPM_TAG --conventional-commits --conventional-prerelease --message 'chore(release): Publish tagged release $NPM_TAG [ci skip]' --no-verify-access --yes",
     "postpublish:release": "git fetch . release:main && git push origin main",
     "yarn-use-bash": "yarn config set script-shell /bin/bash",
-    "verdaccio-start": "yarn yarn-use-bash && source .circleci/local_publish_helpers.sh && startLocalRegistry \"$(pwd)/.circleci/verdaccio.yaml\"",
+    "verdaccio-start": "yarn yarn-use-bash && source .codebuild/scripts/local_publish_helpers.sh && startLocalRegistry \"$(pwd)/.codebuild/scripts/verdaccio.yaml\"",
     "verdaccio-clean": "rimraf ../verdaccio-cache",
-    "verdaccio-connect": "source .circleci/local_publish_helpers.sh && setNpmRegistryUrlToLocal && loginToLocalRegistry",
+    "verdaccio-connect": "source .codebuild/scripts/local_publish_helpers.sh && setNpmRegistryUrlToLocal && loginToLocalRegistry",
     "publish-to-verdaccio": "lerna publish --yes --no-commit-hooks --no-push --exact --conventional-commits --no-changelog --no-git-tag-version --force-publish --no-verify-access",
     "verdaccio-publish": "yarn verdaccio-clean && yarn publish-to-verdaccio",
-    "verdaccio-disconnect": "source .circleci/local_publish_helpers.sh && unsetNpmRegistryUrl",
+    "verdaccio-disconnect": "source .codebuild/scripts/local_publish_helpers.sh && unsetNpmRegistryUrl",
     "verdaccio-stop": "kill -9 $(lsof -n -t -iTCP:4873 -sTCP:LISTEN)",
     "setup-dev": "(yarn && lerna run build) && yarn add-cli-no-save && (yarn hoist-cli && yarn rm-dev-link && yarn link-dev)",
     "add-cli-no-save": "yarn add @aws-amplify/amplify-category-api @aws-amplify/cli-internal -W && git checkout -- package.json yarn.lock",
@@ -30,18 +30,19 @@
     "rm-dev-link": "rm -f \"$(yarn global bin)/amplify-dev\"",
     "commit": "git-cz",
     "coverage": "codecov || exit 0",
-    "split-e2e-tests": "yarn ts-node ./scripts/split-e2e-tests.ts && git add .circleci/config.yml",
     "refresh-lockfile": "rimraf yarn.lock && yarn",
-    "cloud-e2e": "CURR_BRANCH=$(git branch | awk '/\\*/{printf \"%s\", $2}') && UPSTREAM_BRANCH=run-e2e/$USER/$CURR_BRANCH && git push $(git remote -v | grep aws-amplify/amplify-codegen | head -n1 | awk '{print $1;}') $CURR_BRANCH:$UPSTREAM_BRANCH --no-verify --force-with-lease && echo \"\n\n 🏃 E2E test are running at:\nhttps://app.circleci.com/pipelines/github/aws-amplify/amplify-codegen?branch=$UPSTREAM_BRANCH\"",
     "extract-api": "lerna run extract-api",
     "verify-api-extract": "yarn extract-api && ./scripts/verify-extract-api.sh",
-    "release-codebuild": "source ./scripts/cloud-release.sh && release",
+    "trigger-release": "source ./scripts/cloud-release.sh && triggerRelease",
+    "trigger-tag-release": "source ./scripts/cloud-release.sh && triggerTagRelease",
     "view-test-artifact": "./scripts/view-test-artifacts.sh",
     "cleanup-stale-resources": "source ./scripts/cloud-utils.sh && cleanupStaleResources",
-    "cloud-e2e-cb": "source scripts/cloud-utils.sh && cloudE2E",
-    "cloud-e2e-cb-beta": "source scripts/cloud-utils.sh && cloudE2EBeta",
-    "split-codebuild-e2e-tests": "yarn ts-node ./scripts/split-e2e-tests-codebuild.ts && git add .codebuild/e2e_workflow.yml",
-    "update-test-timing-data": "ts-node ./scripts/cci/get-test-timing-from-cci-job-metrics.ts"
+    "cloud-e2e": "source scripts/cloud-utils.sh && cloudE2E",
+    "cloud-e2e-beta": "source scripts/cloud-utils.sh && cloudE2EBeta",
+    "split-e2e-tests": "yarn ts-node ./scripts/split-e2e-tests.ts && git add .codebuild/e2e_workflow.yml",
+    "view-test-artifacts": "yarn authenticate-e2e-profile && yarn ts-node ./scripts/view-test-artifacts.ts",
+    "cloud-e2e-debug": "source scripts/cloud-utils.sh && cloudE2EDebug",
+    "authenticate-e2e-profile": "source scripts/cloud-utils.sh && authenticateWithE2EProfile"
   },
   "bugs": {
     "url": "https://github.com/aws-amplify/amplify-codegen/issues"
@@ -57,7 +58,7 @@
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-push": "npm run lint && npm run test-changed",
-      "pre-commit": "yarn split-codebuild-e2e-tests"
+      "pre-commit": "yarn split-e2e-tests"
     }
   },
   "author": "Amazon Web Services",
@@ -74,11 +75,16 @@
     "@commitlint/config-conventional": "^17.0.3",
     "@commitlint/config-lerna-scopes": "^17.0.2",
     "@microsoft/api-extractor": "^7.33.5",
+    "@types/cli-progress": "3.11.0",
+    "@types/fs-extra": "^8.0.1",
+    "@types/glob": "^7.2.0",
     "@types/jest": "^27.0.0",
     "@types/js-yaml": "^4.0.0",
     "@typescript-eslint/eslint-plugin": "^4.0.0",
     "@typescript-eslint/parser": "^4.0.0",
     "amplify-headless-interface": "^1.13.1",
+    "aws-sdk": "2.1414.0",
+    "cli-progress": "3.12.0",
     "cmd-shim": "^3.0.3",
     "codecov": "^3.7.0",
     "commitizen": "^4.2.4",
@@ -95,6 +101,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-spellcheck": "^0.0.17",
+    "execa": "^5.1.1",
     "glob": "^7.1.6",
     "graphql-transformer-core": "^8.0.0",
     "husky": "^3.0.3",
@@ -109,8 +116,7 @@
     "rimraf": "^3.0.0",
     "ts-jest": "^27.0.0",
     "ts-node": "^8.10.1",
-    "typescript": "4.7.4",
-    "execa": "^5.1.1"
+    "typescript": "4.7.4"
   },
   "resolutions": {
     "@aws-amplify/amplify-cli-core": "4.0.4",

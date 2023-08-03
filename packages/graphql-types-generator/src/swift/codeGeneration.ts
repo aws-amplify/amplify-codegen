@@ -18,6 +18,7 @@ import { join, wrap } from '../utilities/printing';
 import { SwiftGenerator, Property, escapeIdentifierIfNeeded, Struct } from './language';
 import { Helpers } from './helpers';
 import { s3WrapperCode } from './s3Wrapper';
+import { appSyncCompatibilityTypesCode } from './appSyncCompatibilityTypes';
 import { isList } from '../utilities/graphql';
 
 import { typeCaseForSelectionSet, TypeCase, Variant } from '../compiler/visitors/typeCase';
@@ -120,7 +121,11 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
   fileHeader() {
     this.printOnNewline('//  This file was automatically generated and should not be edited.');
     this.printNewline();
+    this.printOnNewline('#if canImport(AWSAPIPlugin)');
+    this.print(appSyncCompatibilityTypesCode);
+    this.printOnNewline('#elseif canImport(AWSAppSync)');
     this.printOnNewline('import AWSAppSync');
+    this.printOnNewline('#endif');
   }
 
   classDeclarationForOperation(operation: Operation) {

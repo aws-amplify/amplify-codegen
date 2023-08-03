@@ -39,7 +39,7 @@ describe('build app - Swift', () => {
     const testFunction = async () => {
       // @ts-ignore
       const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${schema.sdl}`;
-      console.log(schemaText); // log so that circleci does not timeout
+      console.log(schemaText); // log so that ci does not timeout
       updateApiSchemaWithText(projectRoot, 'amplifyDatasource', schemaText);
       await generateModels(projectRoot, outputDir);
     };

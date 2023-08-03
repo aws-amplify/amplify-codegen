@@ -18,17 +18,12 @@ batch:
       buildspec: .codebuild/test.yml
       depend-on:
         - build_linux
-    - identifier: lint
-      buildspec: .codebuild/lint.yml
-      depend-on:
-        - build_linux
     - identifier: verify_api_extract
       buildspec: .codebuild/verify_api_extract.yml
       depend-on:
         - build_linux
     - identifier: deploy
       buildspec: .codebuild/deploy.yml
-      debug-session: true
       depend-on:
         - test
         - build_windows

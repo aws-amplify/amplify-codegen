@@ -134,7 +134,7 @@ function _publishToLocalRegistry {
     git fetch --tags https://github.com/aws-amplify/amplify-codegen
 
     source .codebuild/scripts/local_publish_helpers.sh
-    startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
+    startLocalRegistry "$(pwd)/.codebuild/scripts/verdaccio.yaml"
     setNpmRegistryUrlToLocal
     git config user.email not@used.com
     git config user.name "Doesnt Matter"
@@ -152,7 +152,7 @@ function _publishToLocalRegistry {
 function _installCLIFromLocalRegistry {
     echo "Start verdaccio, install CLI"
     source .codebuild/scripts/local_publish_helpers.sh
-    startLocalRegistry "$(pwd)/.circleci/verdaccio.yaml"
+    startLocalRegistry "$(pwd)/.codebuild/scripts/verdaccio.yaml"
     setNpmRegistryUrlToLocal
     changeNpmGlobalPath
     npm install -g @aws-amplify/cli-internal@cdk228withdata3
@@ -176,13 +176,17 @@ function _loadTestAccountCredentials {
     export AWS_SESSION_TOKEN=$(echo $creds | jq -c -r ".Credentials.SessionToken")
 }
 
-function _runE2ETestsLinux {
-    echo "RUN E2E Tests Linux"
+function _setupE2ETestsLinux {
+    echo "Setup E2E Tests Linux"
     loadCacheFromBuildJob
     loadCache verdaccio-cache $CODEBUILD_SRC_DIR/../verdaccio-cache
     _installCLIFromLocalRegistry  
     _loadTestAccountCredentials
     _setShell
+}
+
+function _runE2ETestsLinux {
+    echo "RUN E2E Tests Linux"
     retry runE2eTest
 }
 
@@ -201,7 +205,7 @@ function _cleanupE2EResources {
   echo "Running clean up script"
   build_batch_arn=$(aws codebuild batch-get-builds --ids $CODEBUILD_BUILD_ID | jq -r -c '.builds[0].buildBatchArn')
   echo "Cleanup resources for batch build $build_batch_arn"
-  yarn clean-cb-e2e-resources --buildBatchArn $build_batch_arn
+  yarn clean-e2e-resources --buildBatchArn $build_batch_arn
 }
 
 # The following functions are forked from circleci local publish helper
@@ -318,6 +322,7 @@ function runE2eTest {
 }
 
 function _deploy {
+  _setShell
   echo "Deploy"
   echo "Authenticate with NPM"
   PUBLISH_TOKEN=$(echo "$NPM_PUBLISH_TOKEN" | jq -r '.token')

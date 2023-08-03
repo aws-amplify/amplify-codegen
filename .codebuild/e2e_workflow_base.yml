@@ -10,6 +10,12 @@ batch:
       buildspec: .codebuild/build_linux.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
+    - identifier: build_windows
+      buildspec: .codebuild/build_windows.yml
+      env:
+        type: WINDOWS_SERVER_2019_CONTAINER
+        compute-type: BUILD_GENERAL1_LARGE
+        image: $WINDOWS_IMAGE_2019
     - identifier: test
       buildspec: .codebuild/test.yml
       env:
@@ -35,6 +41,7 @@ batch:
         variables:
           TEST_SUITE: src/__tests__/build-app-swift.test.ts
           CLI_REGION: us-east-2
+      debug-session: true
       depend-on:
         - publish_to_local_registry
     - identifier: build_app_android
@@ -44,5 +51,6 @@ batch:
         variables:
           TEST_SUITE: src/__tests__/build-app-android.test.ts
           CLI_REGION: us-east-2
+      debug-session: true
       depend-on:
         - publish_to_local_registry
