@@ -205,7 +205,14 @@ function _cleanupE2EResources {
   echo "Running clean up script"
   build_batch_arn=$(aws codebuild batch-get-builds --ids $CODEBUILD_BUILD_ID | jq -r -c '.builds[0].buildBatchArn')
   echo "Cleanup resources for batch build $build_batch_arn"
-  yarn clean-e2e-resources --buildBatchArn $build_batch_arn
+  yarn clean-e2e-resources buildBatchArn $build_batch_arn
+}
+
+function _unassumeTestAccountCredentials {
+    echo "Unassume Role"
+    unset AWS_ACCESS_KEY_ID
+    unset AWS_SECRET_ACCESS_KEY
+    unset AWS_SESSION_TOKEN
 }
 
 # The following functions are forked from circleci local publish helper
