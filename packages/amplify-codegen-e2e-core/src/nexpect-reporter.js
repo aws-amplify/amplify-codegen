@@ -60,8 +60,10 @@ class AmplifyCLIExecutionReporter {
 
   onRunComplete(contexts, results) {
     const { publicPath = process.cwd(), filename = 'jest_html_reporters.html', logoImgPath } = this._options;
+    const runIdx = process.env['RUN_INDEX'] ?? '0';
     const logoImg = logoImgPath ? imgToBase64(logoImgPath) : undefined;
-    fs.ensureDirSync(publicPath);
+    const reportPath = path.join(publicPath, runIdx);
+    fs.ensureDirSync(reportPath);
 
     const processedResults = results.testResults.map(result => {
       const resultCopy = { ...result };
@@ -73,7 +75,7 @@ class AmplifyCLIExecutionReporter {
 
           const recordingWithPath = recordings.map(r => {
             const castFile = `${uuid.v4()}.cast`;
-            const castFilePath = path.join(publicPath, castFile);
+            const castFilePath = path.join(reportPath, castFile);
             fs.writeFileSync(castFilePath, r.recording);
             const rCopy = { ...r };
             delete rCopy.recording;
@@ -98,7 +100,7 @@ class AmplifyCLIExecutionReporter {
     resultsWithRecordings._reporterOptions = { ...this._options, logoImg, customInfos: {} };
     const data = JSON.stringify(resultsWithRecordings);
 
-    const filePath = path.resolve(publicPath, filename);
+    const filePath = path.resolve(reportPath, filename);
     // const filePathMock = path.resolve(publicPath, `devMock.json`);
     // fs.writeFileSync(filePathMock, data);
     const htmlTemplate = fs.readFileSync(localTemplatePath, 'utf-8');

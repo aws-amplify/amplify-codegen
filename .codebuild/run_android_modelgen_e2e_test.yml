@@ -25,10 +25,11 @@ phases:
       - source ./shared-scripts.sh && _runE2ETestsLinux
   post_build:
     commands:
+      - source ./shared-scripts.sh && _unassumeTestAccountCredentials
       - aws sts get-caller-identity
       - source ./shared-scripts.sh && _scanArtifacts
 
 artifacts:
   files:
-    - $CODEBUILD_SRC_DIR/packages/amplify-codegen-e2e-tests/amplify-e2e-reports/*
-  discard-paths: yes
+    - '**/*'
+  base-directory: $CODEBUILD_SRC_DIR/packages/amplify-codegen-e2e-tests/amplify-e2e-reports
