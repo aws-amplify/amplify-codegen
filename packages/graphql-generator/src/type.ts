@@ -37,7 +37,6 @@ export type GenerateModelsOptions = {
 
 export type GenerateStatementsOptions = {
   schema: string;
-  appSyncApi: any;
   target: Target;
   maxDepth?: number;
   typenameIntrospection?: boolean;

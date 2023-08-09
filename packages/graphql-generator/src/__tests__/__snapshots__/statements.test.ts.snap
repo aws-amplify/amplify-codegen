@@ -1,8 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`generateStatements basic test 1`] = `
+exports[`generateStatements targets basic angular 1`] = `
+Object {
+  "queries.graphql": "# this is an auto generated file. This will be overwritten
+
+query Hello {
+  hello
+}
+",
+}
+`;
+
+exports[`generateStatements targets basic flow 1`] = `
+Object {
+  "queries.js": "// @flow
+// this is an auto generated file. This will be overwritten
+
+export const hello = /* GraphQL */ \`
+  query Hello {
+    hello
+  }
+\`;
+",
+}
+`;
+
+exports[`generateStatements targets basic graphql 1`] = `
+Object {
+  "queries.graphql": "# this is an auto generated file. This will be overwritten
+
+query Hello {
+  hello
+}
+",
+}
+`;
+
+exports[`generateStatements targets basic javascript 1`] = `
 Object {
   "queries.js": "/* eslint-disable */
+// this is an auto generated file. This will be overwritten
+
+export const hello = /* GraphQL */ \`
+  query Hello {
+    hello
+  }
+\`;
+",
+}
+`;
+
+exports[`generateStatements targets basic typescript 1`] = `
+Object {
+  "queries.ts": "/* tslint:disable */
+/* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
 export const hello = /* GraphQL */ \`

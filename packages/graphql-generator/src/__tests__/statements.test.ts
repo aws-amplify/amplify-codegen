@@ -1,23 +1,26 @@
-import { generateStatements, GenerateStatementsOptions } from '..';
+import { generateStatements, GenerateStatementsOptions, Target } from '..';
 
 describe('generateStatements', () => {
-  test('basic test', () => {
-    const options: GenerateStatementsOptions = {
-      schema: `
-        type Query {
-          hello: String!
-        }
-        
-        schema {
-          query: Query
-        }
-      `,
-      appSyncApi: '',
-      target: 'javascript',
-    };
+  describe('targets', () => {
+    const targets: Target[] = ['javascript', 'graphql', 'flow', 'typescript', 'angular'];
+    targets.forEach(target => {
+      test(`basic ${target}`, () => {
+        const options: GenerateStatementsOptions = {
+          schema: `
+            type Query {
+              hello: String!
+            }
+            
+            schema {
+              query: Query
+            }
+          `,
+          target,
+        };
 
-    const statements = generateStatements(options);
-    console.log(statements);
-    expect(statements).toMatchSnapshot();
+        const statements = generateStatements(options);
+        expect(statements).toMatchSnapshot();
+      });
+    });
   });
 });

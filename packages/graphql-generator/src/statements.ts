@@ -5,7 +5,7 @@ import { GenerateStatementsOptions, Target, GeneratedOutput } from './type';
 import { targetToFileExtensionMap } from './utils';
 
 export function generateStatements(options: GenerateStatementsOptions): GeneratedOutput {
-  const { schema, appSyncApi, target, maxDepth = 2, typenameIntrospection = true } = options;
+  const { schema, target, maxDepth = 2, typenameIntrospection = true } = options;
 
   if (!Object.keys(targetToFileExtensionMap).includes(target)) {
     throw new Error(`${target} is not supported a supported target.`);
