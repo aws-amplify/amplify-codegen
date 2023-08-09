@@ -68,9 +68,8 @@ export type Platform = 'android' | 'ios' | 'flutter' | 'javascript' | 'introspec
 // @public (undocumented)
 export type Target = 'javascript' | 'graphql' | 'flow' | 'typescript' | 'angular';
 
-// Warnings were encountered during analysis:
-//
-// src/type.ts:17:3 - (ae-forgotten-export) The symbol "TargetType" needs to be exported by the entry point index.d.ts
+// @public (undocumented)
+export type TargetType = 'json' | 'swift' | 'ts' | 'typescript' | 'flow' | 'scala' | 'flow-modern' | 'angular';
 
 // (No @packageDocumentation comment for this package)
 

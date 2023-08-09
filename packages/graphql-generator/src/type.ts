@@ -4,7 +4,7 @@ export type Language = 'java' | 'swift' | 'dart' | 'javascript' | 'introspection
 
 export type Target = 'javascript' | 'graphql' | 'flow' | 'typescript' | 'angular';
 
-type TargetType = 'json' | 'swift' | 'ts' | 'typescript' | 'flow' | 'scala' | 'flow-modern' | 'angular';
+export type TargetType = 'json' | 'swift' | 'ts' | 'typescript' | 'flow' | 'scala' | 'flow-modern' | 'angular';
 
 export type FileExtension = 'js' | 'graphql' | 'ts' | 'graphql';
 
