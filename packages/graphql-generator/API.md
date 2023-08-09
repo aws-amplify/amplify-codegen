@@ -19,7 +19,6 @@ export function generateModels(options: GenerateModelsOptions): Promise<Generate
 export type GenerateModelsOptions = {
     schema: string;
     platform: Platform;
-    directiveDefinitions: any;
     generateIndexRules?: boolean;
     emitAuthProvider?: boolean;
     useExperimentalPipelinedTranformer?: boolean;
@@ -36,10 +35,9 @@ export function generateStatements(options: GenerateStatementsOptions): Generate
 // @public (undocumented)
 export type GenerateStatementsOptions = {
     schema: string;
-    appSyncApi: any;
     target: Target;
-    maxDepth: number;
-    typenameIntrospection: boolean;
+    maxDepth?: number;
+    typenameIntrospection?: boolean;
 };
 
 // @public (undocumented)
@@ -48,9 +46,7 @@ export function generateTypes(options: GenerateTypesOptions): Promise<GeneratedO
 // @public (undocumented)
 export type GenerateTypesOptions = {
     schema: string;
-    authDirective: string;
     queries: string[];
-    platform: string;
     only: string;
     target: TargetType;
     appSyncApi: any;
