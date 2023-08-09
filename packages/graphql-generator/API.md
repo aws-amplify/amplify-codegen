@@ -46,13 +46,11 @@ export function generateTypes(options: GenerateTypesOptions): Promise<GeneratedO
 // @public (undocumented)
 export type GenerateTypesOptions = {
     schema: string;
-    queries: string[];
-    only: string;
     target: TargetType;
-    appSyncApi: any;
-    generatedFileName: string;
-    multipleFiles?: boolean;
+    queries?: string[];
     introspection?: boolean;
+    only?: string;
+    multipleFiles?: boolean;
 };
 
 // @public (undocumented)
@@ -65,7 +63,7 @@ export type Platform = 'android' | 'ios' | 'flutter' | 'javascript' | 'introspec
 export type Target = 'javascript' | 'graphql' | 'flow' | 'typescript' | 'angular';
 
 // @public (undocumented)
-export type TargetType = 'json' | 'swift' | 'ts' | 'typescript' | 'flow' | 'scala' | 'flow-modern' | 'angular';
+export type TargetType = 'json' | 'swift' | 'typescript' | 'flow' | 'scala' | 'flow-modern' | 'angular';
 
 // (No @packageDocumentation comment for this package)
 
