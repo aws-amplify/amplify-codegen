@@ -10,19 +10,16 @@ export type FileExtension = 'js' | 'graphql' | 'ts' | 'graphql';
 
 export type GenerateTypesOptions = {
   schema: string;
-  queries: string[];
-  only: string;
   target: TargetType;
-  appSyncApi: any;
-  generatedFileName: string;
-  multipleFiles?: boolean;
+  queries?: string[];
   introspection?: boolean;
+  only?: string; // only used when target is swift
+  multipleFiles?: boolean;
 };
 
 export type GenerateModelsOptions = {
   schema: string;
   platform: Platform;
-
   // feature flags
   generateIndexRules?: boolean;
   emitAuthProvider?: boolean;

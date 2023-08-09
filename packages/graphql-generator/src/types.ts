@@ -2,7 +2,7 @@ import { generate, generateTypes as generateTypesHelper } from '@aws-amplify/gra
 import { GenerateTypesOptions, GeneratedOutput } from './type';
 
 export async function generateTypes(options: GenerateTypesOptions): Promise<GeneratedOutput> {
-  const { schema, queries, target, only, multipleFiles = true, introspection = false } = options;
+  const { schema, target, only = '', queries = [], multipleFiles = true, introspection = false } = options;
 
   return generateTypesHelper(schema, introspection, queries, only, target, multipleFiles, {
     addTypename: true,

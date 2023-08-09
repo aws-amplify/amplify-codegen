@@ -1,4 +1,5 @@
 import { generateTypes, GenerateTypesOptions, TargetType } from '..';
+import { readSchema } from './utils';
 
 describe('generateTypes', () => {
   describe('targets', () => {
@@ -6,22 +7,8 @@ describe('generateTypes', () => {
     targets.forEach(target => {
       test(`basic ${target}`, async () => {
         const options: GenerateTypesOptions = {
-          schema: `
-            type Query {
-              hello: String!
-            }
-            
-            schema {
-              query: Query
-            }
-          `,
-          queries: ['query foo { hello }'],
-          only: '',
-          target: target,
-          appSyncApi: '',
-          generatedFileName: '',
-          multipleFiles: true,
-          introspection: false,
+          schema: readSchema('blog-sdl.graphql'),
+          target,
         };
 
         const types = await generateTypes(options);

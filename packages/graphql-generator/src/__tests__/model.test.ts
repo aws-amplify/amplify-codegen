@@ -1,4 +1,5 @@
 import { generateModels, GenerateModelsOptions, Platform } from '..';
+import { readSchema } from './utils';
 
 describe('generateModels', () => {
   describe('platforms', () => {
@@ -6,7 +7,7 @@ describe('generateModels', () => {
     platforms.forEach(platform => {
       test(`basic ${platform}`, async () => {
         const options: GenerateModelsOptions = {
-          schema: 'type SimpleModel @model { id: ID! status: String }',
+          schema: readSchema('blog-model.graphql'),
           platform,
         };
         const models = await generateModels(options);

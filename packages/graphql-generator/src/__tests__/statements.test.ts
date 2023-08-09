@@ -1,4 +1,5 @@
 import { generateStatements, GenerateStatementsOptions, Target } from '..';
+import { readSchema } from './utils';
 
 describe('generateStatements', () => {
   describe('targets', () => {
@@ -6,15 +7,7 @@ describe('generateStatements', () => {
     targets.forEach(target => {
       test(`basic ${target}`, () => {
         const options: GenerateStatementsOptions = {
-          schema: `
-            type Query {
-              hello: String!
-            }
-            
-            schema {
-              query: Query
-            }
-          `,
+          schema: readSchema('blog-sdl.graphql'),
           target,
         };
 
