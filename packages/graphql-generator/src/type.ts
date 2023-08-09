@@ -23,7 +23,6 @@ export type GenerateTypesOptions = {
 export type GenerateModelsOptions = {
   schema: string;
   platform: Platform;
-  directiveDefinitions: string;
 
   // feature flags
   generateIndexRules?: boolean;

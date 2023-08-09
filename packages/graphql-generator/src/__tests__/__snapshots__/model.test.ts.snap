@@ -1,46 +1,517 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`generateModels basic test 1`] = `
+exports[`generateModels platforms basic android 1`] = `
 Object {
-  "models/index.d.ts": "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
-// @ts-ignore
-import { LazyLoading, LazyLoadingDisabled } from \\"@aws-amplify/datastore\\";
+  "com/amplifyframework/datastore/generated/model/AmplifyModelProvider.java": "package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.util.Immutable;
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.ModelProvider;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+/**
+ *  Contains the set of model classes that implement {@link Model}
+ * interface.
+ */
 
-type EagerSimpleModel = {
-  readonly id: string;
-  readonly status?: string | null;
+public final class AmplifyModelProvider implements ModelProvider {
+  private static final String AMPLIFY_MODEL_VERSION = \\"465fbcab671756746ff7942f636e6af9\\";
+  private static AmplifyModelProvider amplifyGeneratedModelInstance;
+  private AmplifyModelProvider() {
+    
+  }
+  
+  public static AmplifyModelProvider getInstance() {
+    if (amplifyGeneratedModelInstance == null) {
+      amplifyGeneratedModelInstance = new AmplifyModelProvider();
+    }
+    return amplifyGeneratedModelInstance;
+  }
+  
+  /**
+   * Get a set of the model classes.
+   *
+   * @return a set of the model classes.
+   */
+  @Override
+   public Set<Class<? extends Model>> models() {
+    final Set<Class<? extends Model>> modifiableSet = new HashSet<>(
+          Arrays.<Class<? extends Model>>asList(SimpleModel.class)
+        );
+    
+        return Immutable.of(modifiableSet);
+        
+  }
+  
+  /**
+   * Get the version of the models.
+   *
+   * @return the version string of the models.
+   */
+  @Override
+   public String version() {
+    return AMPLIFY_MODEL_VERSION;
+  }
 }
-
-type LazySimpleModel = {
-  readonly id: string;
-  readonly status?: string | null;
-}
-
-export declare type SimpleModel = LazyLoading extends LazyLoadingDisabled ? EagerSimpleModel : LazySimpleModel
-
-export declare const SimpleModel: (new (init: ModelInit<SimpleModel>) => SimpleModel)
-
 ",
-  "models/index.js": "// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+  "com/amplifyframework/datastore/generated/model/SimpleModel.java": "package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.model.ModelIdentifier;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the SimpleModel type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"SimpleModels\\", type = Model.Type.USER, version = 1)
+public final class SimpleModel implements Model {
+  public static final QueryField ID = field(\\"SimpleModel\\", \\"id\\");
+  public static final QueryField STATUS = field(\\"SimpleModel\\", \\"status\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\") String status;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  /** @deprecated This API is internal to Amplify and should not be used. */
+  @Deprecated
+   public String resolveIdentifier() {
+    return id;
+  }
+  
+  public String getId() {
+      return id;
+  }
+  
+  public String getStatus() {
+      return status;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private SimpleModel(String id, String status) {
+    this.id = id;
+    this.status = status;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      SimpleModel simpleModel = (SimpleModel) obj;
+      return ObjectsCompat.equals(getId(), simpleModel.getId()) &&
+              ObjectsCompat.equals(getStatus(), simpleModel.getStatus()) &&
+              ObjectsCompat.equals(getCreatedAt(), simpleModel.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), simpleModel.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getStatus())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"SimpleModel {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"status=\\" + String.valueOf(getStatus()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BuildStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static SimpleModel justId(String id) {
+    return new SimpleModel(
+      id,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      status);
+  }
+  public interface BuildStep {
+    SimpleModel build();
+    BuildStep id(String id);
+    BuildStep status(String status);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private String status;
+    @Override
+     public SimpleModel build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new SimpleModel(
+          id,
+          status);
+    }
+    
+    @Override
+     public BuildStep status(String status) {
+        this.status = status;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String status) {
+      super.id(id);
+      super.status(status);
+    }
+    
+    @Override
+     public CopyOfBuilder status(String status) {
+      return (CopyOfBuilder) super.status(status);
+    }
+  }
+  
+
+  public static class SimpleModelIdentifier extends ModelIdentifier<SimpleModel> {
+    private static final long serialVersionUID = 1L;
+    public SimpleModelIdentifier(String id) {
+      super(id);
+    }
+  }
+  
+}
+",
+}
+`;
+
+exports[`generateModels platforms basic flutter 1`] = `
+Object {
+  "ModelProvider.dart": "/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
+
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
+import 'SimpleModel.dart';
+
+export 'SimpleModel.dart';
+
+class ModelProvider implements amplify_core.ModelProviderInterface {
+  @override
+  String version = \\"465fbcab671756746ff7942f636e6af9\\";
+  @override
+  List<amplify_core.ModelSchema> modelSchemas = [SimpleModel.schema];
+  @override
+  List<amplify_core.ModelSchema> customTypeSchemas = [];
+  static final ModelProvider _instance = ModelProvider();
+
+  static ModelProvider get instance => _instance;
+  
+  amplify_core.ModelType getModelTypeByModelName(String modelName) {
+    switch(modelName) {
+      case \\"SimpleModel\\":
+        return SimpleModel.classType;
+      default:
+        throw Exception(\\"Failed to find model in model provider for model name: \\" + modelName);
+    }
+  }
+}
 
 
+class ModelFieldValue<T> {
+  const ModelFieldValue.value(this.value);
 
-const { SimpleModel } = initSchema(schema);
+  final T value;
+}
+",
+  "SimpleModel.dart": "/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
 
-export {
-  SimpleModel
-};",
-  "models/schema.d.ts": "import { Schema } from '@aws-amplify/datastore';
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
 
-export declare const schema: Schema;",
-  "models/schema.js": "export const schema = {
-    \\"models\\": {},
-    \\"enums\\": {},
-    \\"nonModels\\": {
+// ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
+
+import 'ModelProvider.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
+
+
+/** This is an auto generated class representing the SimpleModel type in your schema. */
+class SimpleModel extends amplify_core.Model {
+  static const classType = const _SimpleModelModelType();
+  final String id;
+  final String? _status;
+  final amplify_core.TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _updatedAt;
+
+  @override
+  getInstanceType() => classType;
+  
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
+  @override
+  String getId() => id;
+  
+  SimpleModelModelIdentifier get modelIdentifier {
+      return SimpleModelModelIdentifier(
+        id: id
+      );
+  }
+  
+  String? get status {
+    return _status;
+  }
+  
+  amplify_core.TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  amplify_core.TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  const SimpleModel._internal({required this.id, status, createdAt, updatedAt}): _status = status, _createdAt = createdAt, _updatedAt = updatedAt;
+  
+  factory SimpleModel({String? id, String? status}) {
+    return SimpleModel._internal(
+      id: id == null ? amplify_core.UUID.getUUID() : id,
+      status: status);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is SimpleModel &&
+      id == other.id &&
+      _status == other._status;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"SimpleModel {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"status=\\" + \\"$_status\\" + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  SimpleModel copyWith({String? status}) {
+    return SimpleModel._internal(
+      id: id,
+      status: status ?? this.status);
+  }
+  
+  SimpleModel copyWithModelFieldValues({
+    ModelFieldValue<String?>? status
+  }) {
+    return SimpleModel._internal(
+      id: id,
+      status: status == null ? this.status : status.value
+    );
+  }
+  
+  SimpleModel.fromJson(Map<String, dynamic> json)  
+    : id = json['id'],
+      _status = json['status'],
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'status': _status, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id,
+    'status': _status,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt
+  };
+
+  static final amplify_core.QueryModelIdentifier<SimpleModelModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<SimpleModelModelIdentifier>();
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final STATUS = amplify_core.QueryField(fieldName: \\"status\\");
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"SimpleModel\\";
+    modelSchemaDefinition.pluralName = \\"SimpleModels\\";
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: SimpleModel.STATUS,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+  });
+}
+
+class _SimpleModelModelType extends amplify_core.ModelType<SimpleModel> {
+  const _SimpleModelModelType();
+  
+  @override
+  SimpleModel fromJson(Map<String, dynamic> jsonData) {
+    return SimpleModel.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'SimpleModel';
+  }
+}
+
+/**
+ * This is an auto generated class representing the model identifier
+ * of [SimpleModel] in your schema.
+ */
+class SimpleModelModelIdentifier implements amplify_core.ModelIdentifier<SimpleModel> {
+  final String id;
+
+  /** Create an instance of SimpleModelModelIdentifier using [id] the primary key. */
+  const SimpleModelModelIdentifier({
+    required this.id});
+  
+  @override
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'id': id
+  });
+  
+  @override
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  @override
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'SimpleModelModelIdentifier(id: $id)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is SimpleModelModelIdentifier &&
+      id == other.id;
+  }
+  
+  @override
+  int get hashCode =>
+    id.hashCode;
+}",
+}
+`;
+
+exports[`generateModels platforms basic introspection 1`] = `
+Object {
+  "model-introspection.json": "{
+    \\"version\\": 1,
+    \\"models\\": {
         \\"SimpleModel\\": {
             \\"name\\": \\"SimpleModel\\",
             \\"fields\\": {
@@ -57,12 +528,141 @@ export declare const schema: Schema;",
                     \\"type\\": \\"String\\",
                     \\"isRequired\\": false,
                     \\"attributes\\": []
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
                 }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"SimpleModels\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
             }
         }
     },
-    \\"codegenVersion\\": \\"3.4.4\\",
-    \\"version\\": \\"8433419a85dca3cf0efc9761e00064bd\\"
-};",
+    \\"enums\\": {},
+    \\"nonModels\\": {}
+}",
+}
+`;
+
+exports[`generateModels platforms basic ios 1`] = `
+Object {
+  "AmplifyModels.swift": "// swiftlint:disable all
+import Amplify
+import Foundation
+
+// Contains the set of classes that conforms to the \`Model\` protocol. 
+
+final public class AmplifyModels: AmplifyModelRegistration {
+  public let version: String = \\"465fbcab671756746ff7942f636e6af9\\"
+  
+  public func registerModels(registry: ModelRegistry.Type) {
+    ModelRegistry.register(modelType: SimpleModel.self)
+  }
+}",
+  "SimpleModel+Schema.swift": "// swiftlint:disable all
+import Amplify
+import Foundation
+
+extension SimpleModel {
+  // MARK: - CodingKeys 
+   public enum CodingKeys: String, ModelKey {
+    case id
+    case status
+    case createdAt
+    case updatedAt
+  }
+  
+  public static let keys = CodingKeys.self
+  //  MARK: - ModelSchema 
+  
+  public static let schema = defineSchema { model in
+    let simpleModel = SimpleModel.keys
+    
+    model.pluralName = \\"SimpleModels\\"
+    
+    model.attributes(
+      .primaryKey(fields: [simpleModel.id])
+    )
+    
+    model.fields(
+      .field(simpleModel.id, is: .required, ofType: .string),
+      .field(simpleModel.status, is: .optional, ofType: .string),
+      .field(simpleModel.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(simpleModel.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+    )
+    }
+    public class Path: ModelPath<SimpleModel> { }
+    
+    public static var rootPath: PropertyContainerPath? { Path() }
+}
+
+extension SimpleModel: ModelIdentifiable {
+  public typealias IdentifierFormat = ModelIdentifierFormat.Default
+  public typealias IdentifierProtocol = DefaultModelIdentifier<Self>
+}
+extension ModelPath where ModelType == SimpleModel {
+  public var id: FieldPath<String>   {
+      string(\\"id\\") 
+    }
+  public var status: FieldPath<String>   {
+      string(\\"status\\") 
+    }
+  public var createdAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"createdAt\\") 
+    }
+  public var updatedAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"updatedAt\\") 
+    }
+}",
+  "SimpleModel.swift": "// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct SimpleModel: Model {
+  public let id: String
+  public var status: String?
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  
+  public init(id: String = UUID().uuidString,
+      status: String? = nil) {
+    self.init(id: id,
+      status: status,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(id: String = UUID().uuidString,
+      status: String? = nil,
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
+      self.id = id
+      self.status = status
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+  }
+}",
 }
 `;

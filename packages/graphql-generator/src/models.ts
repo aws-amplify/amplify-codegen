@@ -9,7 +9,6 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
   const {
     schema,
     platform,
-    directiveDefinitions,
 
     // TODO: get correct default values
     // feature flags
@@ -37,7 +36,7 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
     schema: parsedSchema,
     config: {
       target: platformToLanguageMap[platform],
-      directives: directiveDefinitions,
+      directives: '',
       isTimestampFieldsAdded: addTimestampFields,
       emitAuthProvider,
       generateIndexRules,
@@ -47,11 +46,12 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
       respectPrimaryKeyAttributesOnConnectionField,
       generateModelsForLazyLoadAndCustomSelectionSet,
       codegenVersion: packageVersion,
+      overrideOutputDir: platform === 'introspection' ? '' : undefined,
     },
     plugins: [],
     pluginMap: {},
     presetConfig: {
-      overrideOutputDir: null,
+      overrideOutputDir: '',
       // not used, make ts happy
       target: 'javascript',
     },
