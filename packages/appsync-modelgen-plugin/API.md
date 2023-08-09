@@ -15,7 +15,7 @@ export const addToSchema: (config: AppSyncModelPluginConfig) => string;
 // @public (undocumented)
 export type AppSyncModelCodeGenPresetConfig = {
     overrideOutputDir: string | null;
-    target: 'java' | 'swift' | 'javascript' | 'typescript' | 'dart';
+    target: 'java' | 'swift' | 'javascript' | 'typescript' | 'dart' | 'introspection';
 };
 
 // @public (undocumented)
