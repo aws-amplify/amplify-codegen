@@ -10,7 +10,6 @@ export type FileExtension = 'js' | 'graphql' | 'ts' | 'graphql';
 
 export type GenerateTypesOptions = {
   schema: string;
-  authDirective: string;
   queries: string[];
   only: string;
   target: TargetType;

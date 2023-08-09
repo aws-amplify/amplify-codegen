@@ -1,4 +1,4 @@
-import { GraphQLSchema, DocumentNode } from 'graphql';
+import { GraphQLSchema, DocumentNode, Source } from 'graphql';
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import * as rimraf from 'rimraf';
@@ -72,15 +72,14 @@ export default function generate(
 export function generateTypesFromString(
   schema: string,
   introspection: boolean,
-  authDirective: string,
   queryDocuments: string[],
   only: string,
   target: TargetType,
   multipleFiles: boolean,
   options: any,
 ): string | BasicGeneratedFileMap {
-  const graphqlSchema = parseSchema(schema, introspection, authDirective);
-  const document = parseAndMergeQueryDocuments(queryDocuments);
+  const graphqlSchema = parseSchema(schema, introspection);
+  const document = parseAndMergeQueryDocuments(queryDocuments.map(document => new Source(document)));
   validateQueryDocument(graphqlSchema, document);
   return generateForTarget(graphqlSchema, document, only, target, multipleFiles, options);
 }
@@ -88,14 +87,13 @@ export function generateTypesFromString(
 export function generateTypes(
   schema: string,
   introspection: boolean,
-  authDirective: string,
   queryDocuments: string[],
   only: string,
   target: TargetType,
   multipleFiles: boolean,
   options: any,
 ): { [filepath: string]: string } {
-  const output = generateTypesFromString(schema, introspection, authDirective, queryDocuments, only, target, multipleFiles, options);
+  const output = generateTypesFromString(schema, introspection, queryDocuments, only, target, multipleFiles, options);
 
   if (isBasicGeneratedFileMap(output)) {
     return Object.entries(output)

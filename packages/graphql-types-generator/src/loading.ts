@@ -12,11 +12,11 @@ export function loadSchema(schemaPath: string): GraphQLSchema {
   return loadSDLSchema(schemaPath);
 }
 
-export function parseSchema(schema: string, introspection: boolean = false, authDirective: string): GraphQLSchema {
+export function parseSchema(schema: string, introspection: boolean = false): GraphQLSchema {
   if (introspection) {
     return parseIntrospectionSchema(schema);
   }
-  return parseSDLSchema(schema, authDirective);
+  return parseSDLSchema(schema);
 }
 
 function loadIntrospectionSchema(schemaPath: string): GraphQLSchema {
@@ -44,8 +44,10 @@ function loadSDLSchema(schemaPath: string): GraphQLSchema {
   return buildASTSchema(doc);
 }
 
-function parseSDLSchema(schema: string, authDirective: string) {
-  const doc = parseAndMergeQueryDocuments([authDirective, schema]);
+function parseSDLSchema(schema: string) {
+  const authDirectivePath = normalize(join(__dirname, '..', 'awsAppSyncDirectives.graphql'));
+  const authDirective = fs.readFileSync(authDirectivePath, 'utf8');
+  const doc = parseAndMergeQueryDocuments([new Source(authDirective, authDirectivePath), new Source(schema)]);
   return buildASTSchema(doc);
 }
 
@@ -85,7 +87,7 @@ export function loadAndMergeQueryDocuments(inputPaths: string[], tagName: string
   return parseAndMergeQueryDocuments(sources);
 }
 
-export function parseAndMergeQueryDocuments<SourceType extends Source | string>(sources: SourceType[]): DocumentNode {
+export function parseAndMergeQueryDocuments<SourceType extends Source>(sources: SourceType[]): DocumentNode {
   const parsedSources = sources.map(source => {
     try {
       return parse(source);

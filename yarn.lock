@@ -159,23 +159,6 @@
     "@aws-amplify/api-rest" "3.3.2"
     tslib "^1.8.0"
 
-"@aws-amplify/appsync-modelgen-plugin@2.5.1":
-  version "2.5.1"
-  resolved "https://registry.npmjs.org/@aws-amplify/appsync-modelgen-plugin/-/appsync-modelgen-plugin-2.5.1.tgz#6039e8a1c8991297054c9976360d16155ac22a53"
-  integrity sha512-l7VqqafxJWg8T49dJlu9OG2KMcc2xHHaobmqnoOJH6dtha0viQG1MUGQkN4S+WKlSY+60BSrxrQmOY6H3r4RCw==
-  dependencies:
-    "@graphql-codegen/plugin-helpers" "^1.18.8"
-    "@graphql-codegen/visitor-plugin-common" "^1.22.0"
-    "@graphql-tools/utils" "^6.0.18"
-    "@types/node" "^12.12.6"
-    "@types/pluralize" "0.0.29"
-    chalk "^3.0.0"
-    change-case "^4.1.1"
-    lower-case-first "^2.0.1"
-    pluralize "^8.0.0"
-    strip-indent "^3.0.0"
-    ts-dedent "^1.1.0"
-
 "@aws-amplify/auth@5.5.3":
   version "5.5.3"
   resolved "https://registry.npmjs.org/@aws-amplify/auth/-/auth-5.5.3.tgz#2189cdf4a86dced3d48f96d7c8eb791408100e77"
@@ -237,15 +220,6 @@
     camelcase-keys "6.2.2"
     tslib "^1.8.0"
 
-"@aws-amplify/graphql-docs-generator@4.0.3":
-  version "4.0.3"
-  resolved "https://registry.npmjs.org/@aws-amplify/graphql-docs-generator/-/graphql-docs-generator-4.0.3.tgz#a3d01d0a26b95eb2c67a4bc7cdd1901e0cbe9593"
-  integrity sha512-FrhSOg8aIeYy0mNf9gkufghdQH5StwGuyVma7aDs9wZTfE0BnqNfLaIcCjkMtyjBWkmGhtt9HTBkBwTaFb03ig==
-  dependencies:
-    graphql "^15.5.0"
-    handlebars "4.7.7"
-    yargs "^15.1.0"
-
 "@aws-amplify/graphql-schema-test-library@^1.1.18":
   version "1.1.27"
   resolved "https://registry.npmjs.org/@aws-amplify/graphql-schema-test-library/-/graphql-schema-test-library-1.1.27.tgz#30f5a732ce65031169907c386777f0bc0adfa0c2"
@@ -279,31 +253,6 @@
   integrity sha512-GC3zsT3RGK7XPdt/sLDOS69lY0vcob7ozoAuBtLotA9CrmuxHuSAWwYr3diqyt5Jn0z6c64DGjbiLD3XD00kyg==
   dependencies:
     graphql "^15.5.0"
-
-"@aws-amplify/graphql-types-generator@3.0.3":
-  version "3.0.3"
-  resolved "https://registry.npmjs.org/@aws-amplify/graphql-types-generator/-/graphql-types-generator-3.0.3.tgz#56563355bb0a03feeb47c3ef8c0c764509993d29"
-  integrity sha512-fWWQeAWkVNMM2onsxjKPxi8qtywwJVbjsIjJGYGlfBEg2tzQYsWFZ9wyBF55PZHhEcROQbznumA6D44Do69xdQ==
-  dependencies:
-    "@babel/generator" "7.0.0-beta.4"
-    "@babel/types" "7.0.0-beta.4"
-    "@types/babel-generator" "^6.25.0"
-    "@types/fs-extra" "^8.1.0"
-    "@types/prettier" "^1.19.0"
-    "@types/rimraf" "^3.0.0"
-    babel-generator "^6.26.1"
-    babel-types "^6.26.0"
-    change-case "^4.1.1"
-    common-tags "^1.8.0"
-    core-js "^3.6.4"
-    fs-extra "^8.1.0"
-    glob "^7.1.6"
-    graphql "^15.5.0"
-    inflected "^2.0.4"
-    prettier "^1.19.1"
-    rimraf "^3.0.0"
-    source-map-support "^0.5.16"
-    yargs "^15.1.0"
 
 "@aws-amplify/interactions@5.2.3":
   version "5.2.3"
