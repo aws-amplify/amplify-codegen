@@ -1,5 +1,6 @@
 const { GraphQLStatementsFormatter } = require('./utils');
-import { generateGraphQLDocuments, GeneratedOperations } from '@aws-amplify/graphql-docs-generator';
+import { generateGraphQLDocuments } from '@aws-amplify/graphql-docs-generator';
+import type { GeneratedOperations } from '@aws-amplify/graphql-docs-generator';
 import { GenerateStatementsOptions, Target, GeneratedOutput } from './type';
 import { targetToFileExtensionMap } from './utils';
 

@@ -52,7 +52,8 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
     pluginMap: {},
     presetConfig: {
       overrideOutputDir: null,
-      target: platformToLanguageMap[platform],
+      target: 'javascript',
+      // target: platformToLanguageMap[platform],
     },
     documents: [],
     baseOutputDir: '',

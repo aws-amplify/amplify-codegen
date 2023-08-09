@@ -4,9 +4,16 @@ import { buildSchema } from './generator/utils/loading';
 import { getTemplatePartials, getOperationPartial, getExternalFragmentPartial } from './generator/utils/templates';
 export { buildSchema } from './generator/utils/loading';
 
+export type GeneratedOperations = {
+  queries: Map<string, string>;
+  mutations: Map<string, string>;
+  subscriptions: Map<string, string>;
+  fragments: Map<string, string>;
+};
+
 export function generateGraphQLDocuments(
   schema: string,
-  options: { maxDepth?: number, useExternalFragmentForS3Object?: boolean; typenameIntrospection?: boolean },
+  options: { maxDepth?: number; useExternalFragmentForS3Object?: boolean; typenameIntrospection?: boolean },
 ): GeneratedOperations {
   const opts = {
     maxDepth: 2,
@@ -19,7 +26,7 @@ export function generateGraphQLDocuments(
 
   const gqlOperations: GQLAllOperations = generateAllOps(extendedSchema, opts.maxDepth, {
     useExternalFragmentForS3Object: opts.useExternalFragmentForS3Object,
-    typenameIntrospection: opts.typenameIntrospection
+    typenameIntrospection: opts.typenameIntrospection,
   });
   registerPartials();
   registerHelpers();
@@ -28,7 +35,7 @@ export function generateGraphQLDocuments(
     queries: new Map<string, string>(),
     mutations: new Map<string, string>(),
     subscriptions: new Map<string, string>(),
-    fragments: new Map<string, string>()
+    fragments: new Map<string, string>(),
   };
 
   ['queries', 'mutations', 'subscriptions'].forEach(op => {
@@ -45,13 +52,6 @@ export function generateGraphQLDocuments(
   }
 
   return allOperations;
-}
-
-export type GeneratedOperations = {
-  queries: Map<string, string>;
-  mutations: Map<string, string>;
-  subscriptions: Map<string, string>;
-  fragments: Map<string, string>;
 }
 
 function renderOperations(operations: Array<GQLTemplateOp>): Map<string, string> {
@@ -81,7 +81,7 @@ function renderFragments(fragments: Array<GQLTemplateFragment>, useExternalFragm
   if (fragments?.length) {
     fragments.forEach(fragment => {
       const name = fragment.name;
-      const gql = renderFragment(fragment,useExternalFragmentForS3Object );
+      const gql = renderFragment(fragment, useExternalFragmentForS3Object);
       renderedFragments.set(name, gql);
     });
   }
