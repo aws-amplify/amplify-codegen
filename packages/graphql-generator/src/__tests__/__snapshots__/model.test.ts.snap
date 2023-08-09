@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generateModels basic test 1`] = `
+Object {
+  "models/index.d.ts": "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+// @ts-ignore
+import { LazyLoading, LazyLoadingDisabled } from \\"@aws-amplify/datastore\\";
+
+
+
+type EagerSimpleModel = {
+  readonly id: string;
+  readonly status?: string | null;
+}
+
+type LazySimpleModel = {
+  readonly id: string;
+  readonly status?: string | null;
+}
+
+export declare type SimpleModel = LazyLoading extends LazyLoadingDisabled ? EagerSimpleModel : LazySimpleModel
+
+export declare const SimpleModel: (new (init: ModelInit<SimpleModel>) => SimpleModel)
+
+",
+  "models/index.js": "// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { SimpleModel } = initSchema(schema);
+
+export {
+  SimpleModel
+};",
+  "models/schema.d.ts": "import { Schema } from '@aws-amplify/datastore';
+
+export declare const schema: Schema;",
+  "models/schema.js": "export const schema = {
+    \\"models\\": {},
+    \\"enums\\": {},
+    \\"nonModels\\": {
+        \\"SimpleModel\\": {
+            \\"name\\": \\"SimpleModel\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"status\\": {
+                    \\"name\\": \\"status\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                }
+            }
+        }
+    },
+    \\"codegenVersion\\": \\"3.4.4\\",
+    \\"version\\": \\"8433419a85dca3cf0efc9761e00064bd\\"
+};",
+}
+`;

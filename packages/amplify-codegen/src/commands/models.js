@@ -4,7 +4,7 @@ const { parse } = require('graphql');
 const glob = require('glob-all');
 const { FeatureFlags, pathManager } = require('@aws-amplify/amplify-cli-core');
 const gqlCodeGen = require('@graphql-codegen/core');
-const appSyncDataStoreCodeGen = require('@aws-amplify/appsync-modelgen-plugin');
+import * as appSyncDataStoreCodeGen from '@aws-amplify/appsync-modelgen-plugin';
 const { version: packageVersion } = require('../../package.json');
 const { validateAmplifyFlutterMinSupportedVersion } = require('../utils/validateAmplifyFlutterMinSupportedVersion');
 

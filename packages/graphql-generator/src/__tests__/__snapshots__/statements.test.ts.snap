@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generateStatements basic test 1`] = `
+Object {
+  "queries.js": "/* eslint-disable */
+// this is an auto generated file. This will be overwritten
+
+export const hello = /* GraphQL */ \`
+  query Hello {
+    hello
+  }
+\`;
+",
+}
+`;

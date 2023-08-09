@@ -12,7 +12,6 @@ export type GenerateTypesOptions = {
   schema: string;
   authDirective: string;
   queries: string[];
-  platform: string;
   only: string;
   target: TargetType;
   appSyncApi: any;
@@ -24,7 +23,7 @@ export type GenerateTypesOptions = {
 export type GenerateModelsOptions = {
   schema: string;
   platform: Platform;
-  directiveDefinitions: any;
+  directiveDefinitions: string;
 
   // feature flags
   generateIndexRules?: boolean;
@@ -41,8 +40,8 @@ export type GenerateStatementsOptions = {
   schema: string;
   appSyncApi: any;
   target: Target;
-  maxDepth: number;
-  typenameIntrospection: boolean;
+  maxDepth?: number;
+  typenameIntrospection?: boolean;
 };
 
 export type GeneratedOutput = {
