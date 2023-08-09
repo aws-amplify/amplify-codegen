@@ -17,7 +17,7 @@ export function generateStatements(options: GenerateStatementsOptions): Generate
     typenameIntrospection,
   });
   if (!generatedOperations) {
-    throw new Error('No GraphQL statements are generated. Check if the introspection schema has GraphQL operations defined.');
+    throw new Error('No GraphQL statements were generated.');
   }
   return generatedDocuments(target, generatedOperations);
 }
