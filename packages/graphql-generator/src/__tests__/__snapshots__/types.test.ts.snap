@@ -476,15 +476,6 @@ import AWSAppSync
 }
 `;
 
-exports[`generateTypes targets basic ts 1`] = `
-Object {
-  "": "/* tslint:disable */
-/* eslint-disable */
-//  This file was automatically generated and should not be edited.
-",
-}
-`;
-
 exports[`generateTypes targets basic typescript 1`] = `
 Object {
   "": "/* tslint:disable */

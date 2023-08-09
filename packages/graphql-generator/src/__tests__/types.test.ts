@@ -3,7 +3,7 @@ import { readSchema } from './utils';
 
 describe('generateTypes', () => {
   describe('targets', () => {
-    const targets: TargetType[] = ['json', 'swift', 'ts', 'typescript', 'flow', 'scala', 'flow-modern', 'angular'];
+    const targets: TargetType[] = ['json', 'swift', 'typescript', 'flow', 'scala', 'flow-modern', 'angular'];
     targets.forEach(target => {
       test(`basic ${target}`, async () => {
         const options: GenerateTypesOptions = {
