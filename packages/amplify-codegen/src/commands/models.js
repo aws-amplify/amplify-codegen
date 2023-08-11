@@ -3,9 +3,7 @@ const fs = require('fs-extra');
 const { parse } = require('graphql');
 const glob = require('glob-all');
 const { FeatureFlags, pathManager } = require('@aws-amplify/amplify-cli-core');
-const gqlCodeGen = require('@graphql-codegen/core');
-import * as appSyncDataStoreCodeGen from '@aws-amplify/appsync-modelgen-plugin';
-const { version: packageVersion } = require('../../package.json');
+const { generateModels: generateModelsHelper } = require('@aws-amplify/graphql-generator');
 const { validateAmplifyFlutterMinSupportedVersion } = require('../utils/validateAmplifyFlutterMinSupportedVersion');
 
 const platformToLanguageMap = {
@@ -110,50 +108,28 @@ Amplify Flutter versions prior to 0.6.0 are no longer supported by codegen. Plea
   const generateModelsForLazyLoadAndCustomSelectionSet = readFeatureFlag('codegen.generateModelsForLazyLoadAndCustomSelectionSet');
   const improvePluralization = readFeatureFlag('graphQLTransformer.improvePluralization');
 
-  let isTimestampFieldsAdded = readFeatureFlag('codegen.addTimestampFields');
+  let addTimestampFields = readFeatureFlag('codegen.addTimestampFields');
 
   const handleListNullabilityTransparently = readFeatureFlag('codegen.handleListNullabilityTransparently');
-  const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
-    baseOutputDir,
+  const models = generateModelsHelper({
     schema,
-    config: {
-      target: isIntrospection ? 'introspection' : platformToLanguageMap[projectConfig.frontend] || projectConfig.frontend,
-      directives: directiveDefinitions,
-      isTimestampFieldsAdded,
-      emitAuthProvider,
-      generateIndexRules,
-      handleListNullabilityTransparently,
-      usePipelinedTransformer,
-      transformerVersion,
-      respectPrimaryKeyAttributesOnConnectionField,
-      improvePluralization,
-      generateModelsForLazyLoadAndCustomSelectionSet,
-      codegenVersion: packageVersion,
-      overrideOutputDir, // This needs to live under `config` in order for the GraphQL types to work out.
-    },
+    platform: isIntrospection ? 'introspection' : projectConfig.frontend,
+    generateIndexRules,
+    emitAuthProvider,
+    useExperimentalPipelinedTranformer: usePipelinedTransformer,
+    transformerVersion,
+    respectPrimaryKeyAttributesOnConnectionField,
+    improvePluralization,
+    generateModelsForLazyLoadAndCustomSelectionSet,
+    addTimestampFields,
+    handleListNullabilityTransparently,
+    overrideOutputDir,
   });
-
-  const codeGenPromises = appsyncLocalConfig.map(cfg => {
-    return gqlCodeGen.codegen({
-      ...cfg,
-      plugins: [
-        {
-          appSyncLocalCodeGen: {},
-        },
-      ],
-      pluginMap: {
-        appSyncLocalCodeGen: appSyncDataStoreCodeGen,
-      },
-    });
-  });
-
-  const generatedCode = await Promise.all(codeGenPromises);
 
   if (writeToDisk) {
-    appsyncLocalConfig.forEach((cfg, idx) => {
-      const outPutPath = cfg.filename;
-      fs.ensureFileSync(outPutPath);
-      fs.writeFileSync(outPutPath, generatedCode[idx]);
+    Object.entries(models).forEach(([filepath, contents]) => {
+      fs.ensureFileSync(filepath);
+      fs.writeFileSync(filepath, contents);
     });
 
     generateEslintIgnore(context);
@@ -161,7 +137,7 @@ Amplify Flutter versions prior to 0.6.0 are no longer supported by codegen. Plea
     context.print.info(`Successfully generated models. Generated models can be found in ${overrideOutputDir ?? baseOutputDir}`);
   }
 
-  return generatedCode;
+  return models;
 }
 
 async function validateSchema(context) {
