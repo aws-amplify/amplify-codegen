@@ -46,10 +46,12 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
         }
 
         const excludes = cfg.excludes.map(pattern => `!${pattern}`);
-        const queries = glob.sync([...includeFiles, ...excludes], {
-          cwd: projectPath,
-          absolute: true,
-        });
+        const queries = glob
+          .sync([...includeFiles, ...excludes], {
+            cwd: projectPath,
+            absolute: true,
+          })
+          .map(queryFilePath => fs.readFileSync(queryFilePath));
         const schemaPath = path.join(projectPath, cfg.schema);
         const target = cfg.amplifyExtension.codeGenTarget;
 
@@ -63,7 +65,7 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
         codeGenSpinner.start();
         const schema = fs.readFileSync(schemaPath);
         try {
-          const output = generateTypes({
+          const output = generateTypesHelper({
             schema,
             // TODO: read queries from file
             queries,
