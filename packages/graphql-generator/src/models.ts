@@ -22,7 +22,6 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
     handleListNullabilityTransparently = true,
   } = options;
 
-  await validateSchema(schema);
   const parsedSchema = parse(schema);
 
   // TODO: get current flutter version
@@ -75,8 +74,4 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
       return { [cfg.filename]: content };
     }),
   ).then((outputs: GeneratedOutput[]) => outputs.reduce((curr, next) => ({ ...curr, ...next }), {}));
-}
-
-async function validateSchema(schema: string) {
-  // TODO: do something
 }

@@ -88,10 +88,9 @@ async function generateModels(context, generateOptions = null) {
     resourceDir: apiResourcePath,
   });
 
-  const schemaContent = loadSchema(apiResourcePath);
+  const schema = loadSchema(apiResourcePath);
 
   const baseOutputDir = path.join(projectRoot, getModelOutputPath(context));
-  const schema = parse(schemaContent);
   const projectConfig = context.amplify.getProjectConfig();
 
   if (!isIntrospection && projectConfig.frontend === 'flutter' && !validateAmplifyFlutterMinSupportedVersion(projectRoot)) {
@@ -111,7 +110,7 @@ Amplify Flutter versions prior to 0.6.0 are no longer supported by codegen. Plea
   let addTimestampFields = readFeatureFlag('codegen.addTimestampFields');
 
   const handleListNullabilityTransparently = readFeatureFlag('codegen.handleListNullabilityTransparently');
-  const models = generateModelsHelper({
+  const output = await generateModelsHelper({
     schema,
     platform: isIntrospection ? 'introspection' : projectConfig.frontend,
     generateIndexRules,
@@ -125,11 +124,13 @@ Amplify Flutter versions prior to 0.6.0 are no longer supported by codegen. Plea
     handleListNullabilityTransparently,
     overrideOutputDir,
   });
+  console.log(output);
+  console.log(writeToDisk);
 
   if (writeToDisk) {
-    Object.entries(models).forEach(([filepath, contents]) => {
-      fs.ensureFileSync(filepath);
-      fs.writeFileSync(filepath, contents);
+    Object.entries(output).forEach(([filepath, contents]) => {
+      fs.ensureFileSync(path.join(baseOutputDir, filepath));
+      fs.writeFileSync(path.join(baseOutputDir, filepath), contents);
     });
 
     generateEslintIgnore(context);
@@ -137,7 +138,7 @@ Amplify Flutter versions prior to 0.6.0 are no longer supported by codegen. Plea
     context.print.info(`Successfully generated models. Generated models can be found in ${overrideOutputDir ?? baseOutputDir}`);
   }
 
-  return models;
+  return output;
 }
 
 async function validateSchema(context) {
