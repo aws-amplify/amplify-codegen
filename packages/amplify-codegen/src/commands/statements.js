@@ -56,9 +56,6 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
       frontend = decoupleFrontend;
     }
     const language = frontend === 'javascript' ? cfg.amplifyExtension.codeGenTarget : 'graphql';
-    if (!Object.keys(FILE_EXTENSION_MAP).includes(language)) {
-      throw new Error(`Language ${language} not supported`);
-    }
 
     const opsGenSpinner = new Ora(constants.INFO_MESSAGE_OPS_GEN);
     opsGenSpinner.start();
@@ -68,7 +65,7 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
       const schemaData = readSchemaFromFile(schemaPath);
       const generatedOps = generateStatementsHelper({
         schema: schemaData,
-        platform: frontend,
+        target: language,
         maxDepth: maxDepth || cfg.amplifyExtension.maxDepth,
         useExternalFragmentForS3Object: language === 'graphql',
         // default typenameIntrospection to true when not set
@@ -88,34 +85,9 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
 }
 
 async function writeGeneratedDocuments(language, generatedStatements, outputPath) {
-  const fileExtension = FILE_EXTENSION_MAP[language];
-
-  ['queries', 'mutations', 'subscriptions'].forEach(op => {
-    const ops = generatedStatements[op];
-    if (ops && ops.size) {
-      const formattedStatements = new GraphQLStatementsFormatter(language).format(ops);
-      const outputFile = path.resolve(path.join(outputPath, `${op}.${fileExtension}`));
-      fs.writeFileSync(outputFile, formattedStatements);
-    }
+  Object.entries(generatedStatements).forEach(([filepath, contents]) => {
+    fs.writeFileSync(path.resolve(path.join(outputPath, filepath), contents));
   });
-
-  if (fileExtension === 'graphql') {
-    // External Fragments are rendered only for GraphQL targets
-    const fragments = generatedStatements['fragments'];
-    if (fragments.size) {
-      const formattedStatements = new GraphQLStatementsFormatter(language).format(fragments);
-      const outputFile = path.resolve(path.join(outputPath, `fragments.${fileExtension}`));
-      fs.writeFileSync(outputFile, formattedStatements);
-    }
-  }
 }
-
-const FILE_EXTENSION_MAP = {
-  javascript: 'js',
-  graphql: 'graphql',
-  flow: 'js',
-  typescript: 'ts',
-  angular: 'graphql',
-};
 
 module.exports = generateStatements;
