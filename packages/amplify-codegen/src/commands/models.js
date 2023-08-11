@@ -90,7 +90,7 @@ async function generateModels(context, generateOptions = null) {
 
   const schema = loadSchema(apiResourcePath);
 
-  const baseOutputDir = path.join(projectRoot, getModelOutputPath(context));
+  const baseOutputDir = overrideOutputDir || path.join(projectRoot, getModelOutputPath(context));
   const projectConfig = context.amplify.getProjectConfig();
 
   if (!isIntrospection && projectConfig.frontend === 'flutter' && !validateAmplifyFlutterMinSupportedVersion(projectRoot)) {
@@ -124,8 +124,6 @@ Amplify Flutter versions prior to 0.6.0 are no longer supported by codegen. Plea
     handleListNullabilityTransparently,
     overrideOutputDir,
   });
-  console.log(output);
-  console.log(writeToDisk);
 
   if (writeToDisk) {
     Object.entries(output).forEach(([filepath, contents]) => {
