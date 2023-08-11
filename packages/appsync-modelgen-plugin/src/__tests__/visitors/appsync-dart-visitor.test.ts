@@ -254,7 +254,7 @@ describe('AppSync Dart Visitor', () => {
 
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
-    })
+    });
   });
 
   describe('Model with Connection Directive', () => {
@@ -272,7 +272,7 @@ describe('AppSync Dart Visitor', () => {
       `;
       const outputModels: string[] = ['Todo', 'Task'];
       outputModels.forEach(model => {
-        const generatedCode = getVisitor({schema, selectedType: model}).generate();
+        const generatedCode = getVisitor({ schema, selectedType: model }).generate();
         expect(generatedCode).toMatchSnapshot();
       });
     });
@@ -401,7 +401,7 @@ describe('AppSync Dart Visitor', () => {
           name: String
         }
       `;
-      const visitor = getVisitor({schema, generate: CodeGenGenerateEnum.loader });
+      const visitor = getVisitor({ schema, generate: CodeGenGenerateEnum.loader });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -530,41 +530,45 @@ describe('AppSync Dart Visitor', () => {
 
   describe('CustomType (non-model) Tests', () => {
     const schema = /* GraphQL */ `
-        type Person @model {
-          name: String!
-          phone: Phone!
-          mailingAddresses: [Address]
-        }
+      type Person @model {
+        name: String!
+        phone: Phone!
+        mailingAddresses: [Address]
+      }
 
-        type Contact {
-          contactName: String!
-          phone: Phone!
-          mailingAddresses: [Address]
-        }
+      type Contact {
+        contactName: String!
+        phone: Phone!
+        mailingAddresses: [Address]
+      }
 
-        type Phone {
-          countryCode: String!
-          areaCode: String!
-          number: String!
-        }
+      type Phone {
+        countryCode: String!
+        areaCode: String!
+        number: String!
+      }
 
-        type Address {
-          line1: String!
-          line2: String
-          city: String!
-          state: String!
-          postalCode: String!
-        }
-      `;
+      type Address {
+        line1: String!
+        line2: String
+        city: String!
+        state: String!
+        postalCode: String!
+      }
+    `;
 
     const models = [undefined, 'Person', 'Contact', 'Address'];
 
     models.forEach(type => {
       it(`should generate correct dart class for ${!type ? 'ModelProvider' : type} with nullsafety`, () => {
-        const generatedCode = getVisitor({schema, selectedType: type, generate: !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code }).generate();
+        const generatedCode = getVisitor({
+          schema,
+          selectedType: type,
+          generate: !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code,
+        }).generate();
 
         expect(generatedCode).toMatchSnapshot();
-      })
+      });
     });
   });
 
@@ -590,8 +594,7 @@ describe('AppSync Dart Visitor', () => {
           name: String
         }
       `;
-      const visitor = getVisitor({ schema, isTimestampFieldsAdded: true  });
-
+      const visitor = getVisitor({ schema, isTimestampFieldsAdded: true });
 
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
@@ -620,7 +623,7 @@ describe('AppSync Dart Visitor', () => {
   });
 
   describe('Amplify Core dependency used in imports', () => {
-    const schema = /* GraphQL */`
+    const schema = /* GraphQL */ `
       enum PostStatus {
         ACTIVE
         INACTIVE
@@ -676,7 +679,7 @@ describe('AppSync Dart Visitor', () => {
           selectedType: modelName,
           isTimestampFieldsAdded: true,
           respectPrimaryKeyAttributesOnConnectionField: true,
-          transformerVersion: 2
+          transformerVersion: 2,
         }).generate();
 
         expect(generatedCode).toMatchSnapshot();
@@ -716,19 +719,17 @@ describe('AppSync Dart Visitor', () => {
         }
       `;
 
-      ['ModelWithExplicitlyDefinedPK', 'ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey'].forEach(
-        modelName => {
-          const generatedCode = getVisitor({
-            schema,
-            selectedType: modelName,
-            isTimestampFieldsAdded: true,
-            respectPrimaryKeyAttributesOnConnectionField: true,
-            transformerVersion: 2,
-          }).generate();
+      ['ModelWithExplicitlyDefinedPK', 'ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey'].forEach(modelName => {
+        const generatedCode = getVisitor({
+          schema,
+          selectedType: modelName,
+          isTimestampFieldsAdded: true,
+          respectPrimaryKeyAttributesOnConnectionField: true,
+          transformerVersion: 2,
+        }).generate();
 
-          expect(generatedCode).toMatchSnapshot();
-        },
-      );
+        expect(generatedCode).toMatchSnapshot();
+      });
     });
 
     it('should generate correct models for hasOne/belongsTo relation when custom PK is enabled', () => {
@@ -753,8 +754,7 @@ describe('AppSync Dart Visitor', () => {
           name: String!
           belongsToParentID: ID
           belongsToParentName: String
-          belongsToParent: CpkOneToOneBidirectionalParent
-            @belongsTo(fields: ["belongsToParentID", "belongsToParentName"])
+          belongsToParent: CpkOneToOneBidirectionalParent @belongsTo(fields: ["belongsToParentID", "belongsToParentName"])
         }
       `;
       ['Project', 'Team', 'CpkOneToOneBidirectionalParent', 'CpkOneToOneBidirectionalChildExplicit'].forEach(modelName => {
@@ -789,7 +789,7 @@ describe('AppSync Dart Visitor', () => {
           transformerVersion: 2,
         }).generate();
         expect(generatedCode).toMatchSnapshot();
-      })
-    })
+      });
+    });
   });
 });

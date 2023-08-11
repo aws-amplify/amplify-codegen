@@ -8,16 +8,12 @@ const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-const getGQLv2Visitor = (
-  schema: string,
-  selectedType?: string,
-  generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
-) => {
+const getGQLv2Visitor = (schema: string, selectedType?: string, generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code) => {
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelDartVisitor(
     builtSchema,
-    { directives, target: 'dart', scalars: DART_SCALAR_MAP, transformerVersion: 2, codegenVersion: '1'},
+    { directives, target: 'dart', scalars: DART_SCALAR_MAP, transformerVersion: 2, codegenVersion: '1' },
     { selectedType, generate },
   );
   visit(ast, { leave: visitor });
@@ -38,14 +34,16 @@ describe('AppSyncDartVisitor - GQLv2 Regression Tests', () => {
   });
 
   it('Works on record creation and updating timestamp', () => {
-    const schema = /* GraphQL */ `  
-      type Todo @model(timestamps: { createdAt: "createdOn", updatedAt: "updatedOn" }) {content: String}
+    const schema = /* GraphQL */ `
+      type Todo @model(timestamps: { createdAt: "createdOn", updatedAt: "updatedOn" }) {
+        content: String
+      }
     `;
     expect(getGQLv2Visitor(schema, 'Todo').generate()).toMatchSnapshot();
   });
 
   it('Works on uni-directional implicit has one relationship @hasOne', () => {
-    const schema = /* GraphQL */ `  
+    const schema = /* GraphQL */ `
       # Implicit field
       type Project @model {
         id: ID!
@@ -76,7 +74,7 @@ describe('AppSyncDartVisitor - GQLv2 Regression Tests', () => {
   });
 
   it('Works on uni-directional explicit has one relationship @hasOne', () => {
-    const schema = /* GraphQL */ `  
+    const schema = /* GraphQL */ `
       # Explicit field
       type Project2 @model {
         id: ID!
@@ -95,7 +93,7 @@ describe('AppSyncDartVisitor - GQLv2 Regression Tests', () => {
   });
 
   it('Works on uni-directional implicit has many relationship @hasMany', () => {
-    const schema = /* GraphQL */ `  
+    const schema = /* GraphQL */ `
       # Implicit
       type Post @model {
         id: ID!
@@ -113,7 +111,7 @@ describe('AppSyncDartVisitor - GQLv2 Regression Tests', () => {
   });
 
   it('Works on uni-directional explicit has many relationship @hasMany', () => {
-    const schema = /* GraphQL */ `  
+    const schema = /* GraphQL */ `
       # Explicit
       type Post2 @model {
         id: ID!
@@ -132,7 +130,7 @@ describe('AppSyncDartVisitor - GQLv2 Regression Tests', () => {
   });
 
   it('Works on many to many relationship @manyToMany', () => {
-    const schema = /* GraphQL */ `  
+    const schema = /* GraphQL */ `
       type Post @model {
         id: ID!
         title: String!
@@ -151,7 +149,7 @@ describe('AppSyncDartVisitor - GQLv2 Regression Tests', () => {
   });
 
   it('Works on implicit hasOne belongs to relationship @belongsTo', () => {
-    const schema = /* GraphQL */ `  
+    const schema = /* GraphQL */ `
       # Implicit
       type Project @model {
         id: ID!
@@ -170,7 +168,7 @@ describe('AppSyncDartVisitor - GQLv2 Regression Tests', () => {
   });
 
   it('Works on explicit hasOne belongs to relationship @belongsTo', () => {
-    const schema = /* GraphQL */ `  
+    const schema = /* GraphQL */ `
       # Explicit
       type Project2 @model {
         id: ID!
@@ -190,7 +188,7 @@ describe('AppSyncDartVisitor - GQLv2 Regression Tests', () => {
   });
 
   it('Works on explicit hasMany belongs to relationship @belongsTo', () => {
-    const schema = /* GraphQL */ `  
+    const schema = /* GraphQL */ `
       # Explicit - Bi-directional Has Many
       type Post @model {
         id: ID!
@@ -210,7 +208,7 @@ describe('AppSyncDartVisitor - GQLv2 Regression Tests', () => {
   });
 
   it('Works on implicit hasMany belongs to relationship @belongsTo (extended)', () => {
-    const schema = /* GraphQL */ `  
+    const schema = /* GraphQL */ `
       # 7 - Blog Post Comment
       type Blog7V2 @model {
         id: ID!

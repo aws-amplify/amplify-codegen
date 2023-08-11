@@ -39,7 +39,7 @@ export function run(argv: Array<String>): void {
       },
       async argv => {
         generateGraphQLDocuments(argv.schema, { maxDepth: argv.maxDepth, typenameIntrospection: argv.typenameIntrospection });
-      }
+      },
     )
     .help()
     .version()

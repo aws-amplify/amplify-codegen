@@ -119,7 +119,7 @@ export class AppSyncJSONVisitor<
     this.processDirectives(
       shouldUseModelNameFieldInHasManyAndBelongsTo,
       shouldImputeKeyForUniDirectionalHasMany,
-      shouldUseFieldsInAssociatedWithInHasOne
+      shouldUseFieldsInAssociatedWithInHasOne,
     );
 
     if (this._parsedConfig.metadataTarget === 'typescript') {
