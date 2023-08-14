@@ -133,6 +133,12 @@ export interface RawAppSyncModelConfig extends RawConfig {
    */
   respectPrimaryKeyAttributesOnConnectionField?: boolean;
   /**
+   * @name improvePluralization
+   * @type boolean
+   * @descriptions optional boolean which determines whether improved pluralization logic should be used
+   */
+  improvePluralization?: boolean;
+  /**
    * @name generateModelsForLazyLoadAndCustomSelectionSet
    * @type boolean
    * @descriptions optional boolean which determines whether to generate LazyReference and ModelPath for iOS
@@ -156,6 +162,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   usePipelinedTransformer?: boolean;
   transformerVersion?: number;
   respectPrimaryKeyAttributesOnConnectionField?: boolean;
+  improvePluralization?: boolean;
   generateModelsForLazyLoadAndCustomSelectionSet?: boolean;
   codegenVersion?: string;
 }
@@ -246,6 +253,7 @@ export class AppSyncModelVisitor<
       usePipelinedTransformer: rawConfig.usePipelinedTransformer,
       transformerVersion: rawConfig.transformerVersion,
       respectPrimaryKeyAttributesOnConnectionField: rawConfig.respectPrimaryKeyAttributesOnConnectionField,
+      improvePluralization: rawConfig.improvePluralization,
       generateModelsForLazyLoadAndCustomSelectionSet: rawConfig.generateModelsForLazyLoadAndCustomSelectionSet,
       codegenVersion: rawConfig.codegenVersion,
     });
