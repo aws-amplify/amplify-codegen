@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.3.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.2.0...amplify-codegen@4.3.0) (2023-08-15)
+
+### Features
+
+- swift use improved pluralization ([#667](https://github.com/aws-amplify/amplify-codegen/issues/667)) ([cb28b9b](https://github.com/aws-amplify/amplify-codegen/commit/cb28b9b31e2c5c6d3279084749840571f03cb8d7))
+
 # [4.2.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.1.9...amplify-codegen@4.2.0) (2023-08-03)
 
 ### Features

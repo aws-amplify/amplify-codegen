@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.6.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.5.3...@aws-amplify/appsync-modelgen-plugin@2.6.0) (2023-08-15)
+
+### Features
+
+- swift use improved pluralization ([#667](https://github.com/aws-amplify/amplify-codegen/issues/667)) ([cb28b9b](https://github.com/aws-amplify/amplify-codegen/commit/cb28b9b31e2c5c6d3279084749840571f03cb8d7))
+
 ## 2.5.3 (2023-07-25)
 
 **Note:** Version bump only for package @aws-amplify/appsync-modelgen-plugin
