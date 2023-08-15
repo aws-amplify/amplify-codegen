@@ -11,6 +11,7 @@ const defaultIosVisitorSetings = {
   handleListNullabilityTransparently: true,
   transformerVersion: 1,
   respectPrimaryKeyAttributesOnConnectionField: false,
+  improvePluralization: true,
   generateModelsForLazyLoadAndCustomSelectionSet: true,
 };
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
@@ -118,7 +119,8 @@ describe('AppSyncSwiftVisitor', () => {
         public static let schema = defineSchema { model in
           let simpleModel = SimpleModel.keys
           
-          model.pluralName = \\"SimpleModels\\"
+          model.listPluralName = \\"SimpleModels\\"
+          model.syncPluralName = \\"SimpleModels\\"
           
           model.fields(
             .id(),
@@ -244,7 +246,8 @@ describe('AppSyncSwiftVisitor', () => {
         public static let schema = defineSchema { model in
           let snake_case = snake_case.keys
           
-          model.pluralName = \\"snake_cases\\"
+          model.listPluralName = \\"snake_cases\\"
+          model.syncPluralName = \\"snake_cases\\"
           
           model.fields(
             .id(),
@@ -397,7 +400,8 @@ describe('AppSyncSwiftVisitor', () => {
         public static let schema = defineSchema { model in
           let authorBook = authorBook.keys
           
-          model.pluralName = \\"authorBooks\\"
+          model.listPluralName = \\"authorBooks\\"
+          model.syncPluralName = \\"authorBooks\\"
           
           model.attributes(
             .index(fields: [\\"author_id\\"], name: \\"byAuthor\\"),
@@ -701,7 +705,8 @@ describe('AppSyncSwiftVisitor', () => {
             public static let schema = defineSchema { model in
               let todo = Todo.keys
               
-              model.pluralName = \\"Todos\\"
+              model.listPluralName = \\"Todos\\"
+              model.syncPluralName = \\"Todos\\"
               
               model.fields(
                 .id(),
@@ -864,7 +869,8 @@ describe('AppSyncSwiftVisitor', () => {
             public static let schema = defineSchema { model in
               let task = task.keys
               
-              model.pluralName = \\"tasks\\"
+              model.listPluralName = \\"tasks\\"
+              model.syncPluralName = \\"tasks\\"
               
               model.fields(
                 .id(),
@@ -1029,7 +1035,8 @@ describe('AppSyncSwiftVisitor', () => {
             public static let schema = defineSchema { model in
               let post = Post.keys
               
-              model.pluralName = \\"Posts\\"
+              model.listPluralName = \\"Posts\\"
+              model.syncPluralName = \\"Posts\\"
               
               model.fields(
                 .id(),
@@ -1120,7 +1127,8 @@ describe('AppSyncSwiftVisitor', () => {
             public static let schema = defineSchema { model in
               let post = Post.keys
               
-              model.pluralName = \\"Posts\\"
+              model.listPluralName = \\"Posts\\"
+              model.syncPluralName = \\"Posts\\"
               
               model.fields(
                 .id(),
@@ -1256,7 +1264,8 @@ describe('AppSyncSwiftVisitor', () => {
         public static let schema = defineSchema { model in
           let objectWithNativeTypes = ObjectWithNativeTypes.keys
           
-          model.pluralName = \\"ObjectWithNativeTypes\\"
+          model.listPluralName = \\"ObjectWithNativeTypes\\"
+          model.syncPluralName = \\"ObjectWithNativeTypes\\"
           
           model.fields(
             .id(),
@@ -1407,7 +1416,8 @@ describe('AppSyncSwiftVisitor', () => {
         public static let schema = defineSchema { model in
           let attraction = Attraction.keys
           
-          model.pluralName = \\"Attractions\\"
+          model.listPluralName = \\"Attractions\\"
+          model.syncPluralName = \\"Attractions\\"
           
           model.fields(
             .id(),
@@ -1489,7 +1499,8 @@ describe('AppSyncSwiftVisitor', () => {
         public static let schema = defineSchema { model in
           let location = Location.keys
           
-          model.pluralName = \\"Locations\\"
+          model.listPluralName = \\"Locations\\"
+          model.syncPluralName = \\"Locations\\"
           
           model.fields(
             .field(location.lat, is: .required, ofType: .string),
@@ -1676,7 +1687,8 @@ describe('AppSyncSwiftVisitor', () => {
                 rule(allow: .owner, ownerField: \\"owner\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.create, .update, .delete, .read])
               ]
               
-              model.pluralName = \\"Posts\\"
+              model.listPluralName = \\"Posts\\"
+              model.syncPluralName = \\"Posts\\"
               
               model.fields(
                 .id(),
@@ -1745,7 +1757,8 @@ describe('AppSyncSwiftVisitor', () => {
                 rule(allow: .owner, ownerField: \\"author\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.create, .update, .delete, .read])
               ]
               
-              model.pluralName = \\"Posts\\"
+              model.listPluralName = \\"Posts\\"
+              model.syncPluralName = \\"Posts\\"
               
               model.fields(
                 .id(),
@@ -1815,7 +1828,8 @@ describe('AppSyncSwiftVisitor', () => {
                 rule(allow: .owner, ownerField: \\"author\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.create, .update, .delete])
               ]
               
-              model.pluralName = \\"Posts\\"
+              model.listPluralName = \\"Posts\\"
+              model.syncPluralName = \\"Posts\\"
               
               model.fields(
                 .id(),
@@ -1885,7 +1899,8 @@ describe('AppSyncSwiftVisitor', () => {
                 rule(allow: .owner, ownerField: \\"author\\", identityClaim: \\"sub\\", provider: .userPools, operations: [.create, .update, .delete, .read])
               ]
               
-              model.pluralName = \\"Posts\\"
+              model.listPluralName = \\"Posts\\"
+              model.syncPluralName = \\"Posts\\"
               
               model.fields(
                 .id(),
@@ -1952,7 +1967,8 @@ describe('AppSyncSwiftVisitor', () => {
                 rule(allow: .owner, ownerField: \\"owner\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.create, .update, .delete, .read])
               ]
               
-              model.pluralName = \\"Posts\\"
+              model.listPluralName = \\"Posts\\"
+              model.syncPluralName = \\"Posts\\"
               
               model.fields(
                 .id(),
@@ -2015,7 +2031,8 @@ describe('AppSyncSwiftVisitor', () => {
                 rule(allow: .owner, ownerField: \\"customField\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.create, .update, .delete, .read])
               ]
               
-              model.pluralName = \\"Posts\\"
+              model.listPluralName = \\"Posts\\"
+              model.syncPluralName = \\"Posts\\"
               
               model.fields(
                 .id(),
@@ -2085,7 +2102,8 @@ describe('AppSyncSwiftVisitor', () => {
                 rule(allow: .owner, ownerField: \\"editors\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.update, .read])
               ]
               
-              model.pluralName = \\"Posts\\"
+              model.listPluralName = \\"Posts\\"
+              model.syncPluralName = \\"Posts\\"
               
               model.fields(
                 .id(),
@@ -2161,7 +2179,8 @@ describe('AppSyncSwiftVisitor', () => {
                 rule(allow: .groups, groupClaim: \\"cognito:groups\\", groups: [\\"Admins\\"], provider: .userPools, operations: [.create, .update, .delete, .read])
               ]
               
-              model.pluralName = \\"Employees\\"
+              model.listPluralName = \\"Employees\\"
+              model.syncPluralName = \\"Employees\\"
               
               model.fields(
                 .id(),
@@ -2235,7 +2254,8 @@ describe('AppSyncSwiftVisitor', () => {
               rule(allow: .groups, groupClaim: \\"cognito:groups\\", groups: [\\"admin\\", \\"editors\\"], provider: .userPools, operations: [.create, .update, .delete, .read])
             ]
             
-            model.pluralName = \\"Posts\\"
+            model.listPluralName = \\"Posts\\"
+            model.syncPluralName = \\"Posts\\"
             
             model.fields(
               .id(),
@@ -2300,7 +2320,8 @@ describe('AppSyncSwiftVisitor', () => {
               rule(allow: .groups, groupClaim: \\"cognito:groups\\", groupsField: \\"groups\\", provider: .userPools, operations: [.create, .update, .delete, .read])
             ]
             
-            model.pluralName = \\"Posts\\"
+            model.listPluralName = \\"Posts\\"
+            model.syncPluralName = \\"Posts\\"
             
             model.fields(
               .id(),
@@ -2368,7 +2389,8 @@ describe('AppSyncSwiftVisitor', () => {
               rule(allow: .groups, groupClaim: \\"cognito:groups\\", groups: [\\"admin\\"], provider: .userPools, operations: [.create, .update, .delete])
             ]
             
-            model.pluralName = \\"Posts\\"
+            model.listPluralName = \\"Posts\\"
+            model.syncPluralName = \\"Posts\\"
             
             model.fields(
               .id(),
@@ -2432,7 +2454,8 @@ describe('AppSyncSwiftVisitor', () => {
               rule(allow: .groups, groupClaim: \\"custom:groups\\", groups: [\\"admin\\"], provider: .userPools, operations: [.create, .update, .delete, .read])
             ]
             
-            model.pluralName = \\"Posts\\"
+            model.listPluralName = \\"Posts\\"
+            model.syncPluralName = \\"Posts\\"
             
             model.fields(
               .id(),
@@ -2495,7 +2518,8 @@ describe('AppSyncSwiftVisitor', () => {
               rule(allow: .private, operations: [.create, .update, .delete, .read])
             ]
             
-            model.pluralName = \\"Posts\\"
+            model.listPluralName = \\"Posts\\"
+            model.syncPluralName = \\"Posts\\"
             
             model.fields(
               .id(),
@@ -2571,7 +2595,8 @@ describe('AppSyncSwiftVisitor', () => {
             rule(allow: .public, operations: [.read])
           ]
           
-          model.pluralName = \\"Posts\\"
+          model.listPluralName = \\"Posts\\"
+          model.syncPluralName = \\"Posts\\"
           
           model.fields(
             .id(),
@@ -2651,7 +2676,8 @@ describe('AppSyncSwiftVisitor', () => {
             rule(allow: .public, provider: .apiKey, operations: [.read])
           ]
           
-          model.pluralName = \\"Posts\\"
+          model.listPluralName = \\"Posts\\"
+          model.syncPluralName = \\"Posts\\"
           
           model.fields(
             .id(),

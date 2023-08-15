@@ -70,7 +70,7 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@aws-amplify/amplify-cli-core": "^4.0.4",
+    "@aws-amplify/amplify-cli-core": "^4.2.4-rc.43f73ab268.0",
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
     "@commitlint/config-lerna-scopes": "^17.0.2",
@@ -119,7 +119,7 @@
     "typescript": "4.7.4"
   },
   "resolutions": {
-    "@aws-amplify/amplify-cli-core": "4.0.4",
+    "@aws-amplify/amplify-cli-core": "4.2.4-rc.43f73ab268.0",
     "minimist": "^1.2.6",
     "lodash": "^4.17.21",
     "node-fetch": "^2.6.7",

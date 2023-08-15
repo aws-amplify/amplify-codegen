@@ -108,6 +108,7 @@ Amplify Flutter versions prior to 0.6.0 are no longer supported by codegen. Plea
   const transformerVersion = readNumericFeatureFlag('graphQLTransformer.transformerVersion');
   const respectPrimaryKeyAttributesOnConnectionField = readFeatureFlag('graphQLTransformer.respectPrimaryKeyAttributesOnConnectionField');
   const generateModelsForLazyLoadAndCustomSelectionSet = readFeatureFlag('codegen.generateModelsForLazyLoadAndCustomSelectionSet');
+  const improvePluralization = readFeatureFlag('graphQLTransformer.improvePluralization');
 
   let isTimestampFieldsAdded = readFeatureFlag('codegen.addTimestampFields');
 
@@ -125,6 +126,7 @@ Amplify Flutter versions prior to 0.6.0 are no longer supported by codegen. Plea
       usePipelinedTransformer,
       transformerVersion,
       respectPrimaryKeyAttributesOnConnectionField,
+      improvePluralization,
       generateModelsForLazyLoadAndCustomSelectionSet,
       codegenVersion: packageVersion,
       overrideOutputDir, // This needs to live under `config` in order for the GraphQL types to work out.
