@@ -20,6 +20,7 @@ export type GenerateTypesOptions = {
 export type GenerateModelsOptions = {
   schema: string;
   platform: Platform;
+  directives: string;
   // feature flags
   generateIndexRules?: boolean;
   emitAuthProvider?: boolean;

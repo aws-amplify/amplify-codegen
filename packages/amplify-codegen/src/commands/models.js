@@ -90,6 +90,10 @@ async function generateModels(context, generateOptions = null) {
 
   const schema = loadSchema(apiResourcePath);
 
+  const directives = await context.amplify.executeProviderUtils(context, 'awscloudformation', 'getTransformerDirectives', {
+    resourceDir: apiResourcePath,
+  });
+
   const baseOutputDir = overrideOutputDir || path.join(projectRoot, getModelOutputPath(context));
   const projectConfig = context.amplify.getProjectConfig();
 
@@ -110,8 +114,10 @@ Amplify Flutter versions prior to 0.6.0 are no longer supported by codegen. Plea
   let addTimestampFields = readFeatureFlag('codegen.addTimestampFields');
 
   const handleListNullabilityTransparently = readFeatureFlag('codegen.handleListNullabilityTransparently');
+
   const output = await generateModelsHelper({
     schema,
+    directives,
     platform: isIntrospection ? 'introspection' : projectConfig.frontend,
     generateIndexRules,
     emitAuthProvider,

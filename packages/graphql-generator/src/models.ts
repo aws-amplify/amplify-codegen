@@ -9,6 +9,7 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
   const {
     schema,
     platform,
+    directives,
 
     // TODO: get correct default values
     // feature flags
@@ -35,7 +36,7 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
     schema: parsedSchema,
     config: {
       target: platformToLanguageMap[platform],
-      directives: '',
+      directives,
       isTimestampFieldsAdded: addTimestampFields,
       emitAuthProvider,
       generateIndexRules,

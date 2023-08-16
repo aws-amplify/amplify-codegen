@@ -19,6 +19,7 @@ export function generateModels(options: GenerateModelsOptions): Promise<Generate
 export type GenerateModelsOptions = {
     schema: string;
     platform: Platform;
+    directives: string;
     generateIndexRules?: boolean;
     emitAuthProvider?: boolean;
     useExperimentalPipelinedTranformer?: boolean;
