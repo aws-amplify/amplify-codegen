@@ -323,6 +323,7 @@ function chain(context: Context): ExecutionContext {
             //
             return onError(new Error('Command not found: ' + context.command), false);
           }
+          console.log(context);
           return onError(new Error(`Process exited with non zero exit code ${code}`), false);
         } else {
           if (context.queue.length && !flushQueue()) {
