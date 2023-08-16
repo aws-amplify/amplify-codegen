@@ -3,17 +3,28 @@ import { camelCase, constantCase, pascalCase } from 'change-case';
 import dedent from 'ts-dedent';
 import {
   MODEL_CLASS_IMPORT_PACKAGES,
-  GENERATED_PACKAGE_NAME,
+  MODEL_PATH_CLASS_IMPORT_PACKAGES,
+  GENERATED_API_PACKAGE_NAME,
+  GENERATED_DATASTORE_PACKAGE_NAME,
   LOADER_CLASS_NAME,
   LOADER_IMPORT_PACKAGES,
   CONNECTION_RELATIONSHIP_IMPORTS,
+  CONNECTION_RELATIONSHIP_LAZY_LOAD_IMPORTS,
   NON_MODEL_CLASS_IMPORT_PACKAGES,
   MODEL_AUTH_CLASS_IMPORT_PACKAGES,
   CUSTOM_PRIMARY_KEY_IMPORT_PACKAGE,
 } from '../configs/java-config';
 import { JAVA_TYPE_IMPORT_MAP } from '../scalars';
 import { JavaDeclarationBlock } from '../languages/java-declaration-block';
-import { AppSyncModelVisitor, CodeGenField, CodeGenModel, CodeGenPrimaryKeyType, ParsedAppSyncModelConfig, RawAppSyncModelConfig } from './appsync-visitor';
+import { 
+  AppSyncModelVisitor, 
+  CodeGenField,   
+  CodeGenGenerateEnum,
+  CodeGenModel, 
+  CodeGenPrimaryKeyType, 
+  ParsedAppSyncModelConfig, 
+  RawAppSyncModelConfig 
+} from './appsync-visitor';
 import { CodeGenConnectionType } from '../utils/process-connections';
 import { AuthDirective, AuthStrategy } from '../utils/process-auth';
 import { printWarning } from '../utils/warn';
@@ -36,8 +47,10 @@ export class AppSyncModelJavaVisitor<
       shouldImputeKeyForUniDirectionalHasMany
     );
 
-    if (this._parsedConfig.generate === 'loader') {
+    if (this._parsedConfig.generate === CodeGenGenerateEnum.loader) {
       return this.generateClassLoader();
+    } else if (this._parsedConfig.generate === CodeGenGenerateEnum.metadata) {
+      return this.generateModelPathClasses();
     }
     validateFieldName({ ...this.getSelectedModels(), ...this.getSelectedNonModels() });
     if (this.selectedTypeIsEnum()) {
@@ -175,7 +188,11 @@ export class AppSyncModelJavaVisitor<
   }
 
   generatePackageName(): string {
-    return `package ${GENERATED_PACKAGE_NAME};`;
+    if (this.isGenerateModelsForLazyLoadAndCustomSelectionSet()) {
+      return `package ${GENERATED_API_PACKAGE_NAME};`;
+    } else {
+      return `package ${GENERATED_DATASTORE_PACKAGE_NAME};`;
+    }
   }
   generateModelClass(model: CodeGenModel): string {
     const classDeclarationBlock = new JavaDeclarationBlock()
@@ -188,6 +205,11 @@ export class AppSyncModelJavaVisitor<
 
     const annotations = this.generateModelAnnotations(model);
     classDeclarationBlock.annotate(annotations);
+
+    // generate rootPath for models with Custom Selection Set enabled
+    if (this.isGenerateModelsForLazyLoadAndCustomSelectionSet()) {
+      this.generateRootPath(model, classDeclarationBlock);
+    }
 
     const queryFields = this.getWritableFields(model);
     queryFields.forEach(field => this.generateQueryFields(model, field, classDeclarationBlock));
@@ -735,7 +757,25 @@ export class AppSyncModelJavaVisitor<
     if (Object.keys(JAVA_TYPE_IMPORT_MAP).includes(nativeType)) {
       this.additionalPackages.add(JAVA_TYPE_IMPORT_MAP[nativeType]);
     }
-    return nativeType;
+    if(this.isGenerateModelsForLazyLoadAndCustomSelectionSet() && field.connectionInfo?.kind) {
+      switch (field.connectionInfo?.kind) {
+        case CodeGenConnectionType.BELONGS_TO:
+        case CodeGenConnectionType.HAS_ONE:
+          return `LazyModel<${nativeType}>`;
+        default:
+          return nativeType;
+    }
+    } else {
+      return nativeType;
+    }
+  }
+
+  protected getListType(typeStr: string, field: CodeGenField): string {
+    if(this.isGenerateModelsForLazyLoadAndCustomSelectionSet()) {
+      return `LazyList<${typeStr}>`
+    } else {
+      return super.getListType(typeStr, field);
+    }
   }
 
   /**
@@ -956,7 +996,9 @@ export class AppSyncModelJavaVisitor<
     const { connectionInfo } = field;
     // Add annotation to import
     this.additionalPackages.add(CONNECTION_RELATIONSHIP_IMPORTS[connectionInfo.kind]);
-
+    if(this.isGenerateModelsForLazyLoadAndCustomSelectionSet()) {
+      this.additionalPackages.add(CONNECTION_RELATIONSHIP_LAZY_LOAD_IMPORTS[connectionInfo.kind]);
+    }
     let connectionDirectiveName: string = '';
     const connectionArguments: string[] = [];
 
@@ -1023,4 +1065,101 @@ export class AppSyncModelJavaVisitor<
   protected getWritableFields(model: CodeGenModel): CodeGenField[] {
     return this.getNonConnectedField(model).filter(f => !f.isReadOnly);
   }
+
+  protected getConnectedFields(model: CodeGenModel): CodeGenField[] {
+    return model.fields.filter(f => {
+      if (f.connectionInfo) return true;
+     })
+  }
+
+  protected generateRootPath(model: CodeGenModel, classDeclarationBlock: JavaDeclarationBlock) {
+    const modelPathName = this.generateModelPathName(model);
+    classDeclarationBlock.addClassMember(
+      "rootPath",
+      modelPathName,
+      `new ${modelPathName}("root", false, null)`,
+      [],
+      'public',
+      {
+        final: true,
+        static: true,
+      },
+    );
+  }
+
+  protected generateModelPathClasses(): string {
+    const result: string[] = [];
+    Object.entries(this.getSelectedModels()).forEach(([name, model]) => {
+      const modelPathDeclaration = this.generateModelPathClass(model);
+      result.push(...[modelPathDeclaration]);
+    });
+    const packageDeclaration = this.generateModelPathPackageHeader();
+    return [packageDeclaration, ...result].join('\n');
+  }
+
+  protected generateModelPathClass(model: CodeGenModel): string {
+    const classDeclarationBlock = new JavaDeclarationBlock()
+      .asKind('class')
+      .access('public')
+      .withName(this.generateModelPathName(model))
+      .extends([`ModelPath<${this.getModelName(model)}>`])
+      .withComment(`This is an auto generated class representing the ModelPath for the ${model.name} type in your schema.`)
+      .final();
+
+    // constructor
+    this.generateModelPathConstructor(model, classDeclarationBlock);
+
+    // fields and getters
+    const connectedFields = this.getConnectedFields(model);
+    connectedFields.forEach(field => this.generateModelPathField(field, classDeclarationBlock));
+
+    return classDeclarationBlock.string;
+  }
+
+  protected generateModelPathName(model: CodeGenModel): string {
+    return this.getModelName(model) + "Path";
+  }
+
+  protected generateModelPathField(field: CodeGenField, classDeclarationBlock: JavaDeclarationBlock): void {
+
+    const fieldName = this.getFieldName(field);
+    const fieldType = this.generateModelPathName(this.modelMap[field.type])
+    classDeclarationBlock.addClassMember(fieldName, fieldType, '', [], 'private');
+
+    const methodName = this.getFieldGetterName(field);
+    const modelPathFieldGetterBody = dedent`
+    if (${fieldName} == null) {
+      ${fieldName} = new ${fieldType}("${fieldName}", ${field.isList}, this);
+    }
+    return ${fieldName};`;
+
+    classDeclarationBlock.addClassMethod(methodName, fieldType, modelPathFieldGetterBody, undefined, undefined, 'public', {
+      synchronized: true,
+    });
+  };
+
+  protected generateModelPathPackageHeader(): string {
+    const imports = this.generateImportStatements(MODEL_PATH_CLASS_IMPORT_PACKAGES);
+    return [this.generatePackageName(), '', imports].join('\n');
+  }
+
+  /**
+   * Generate constructor for the extended ModelPath class
+   * @param model CodeGenModel
+   * @param declarationsBlock Class Declaration block to which constructor will be added
+   */
+  protected generateModelPathConstructor(model: CodeGenModel, declarationsBlock: JavaDeclarationBlock): void {
+    const modelPathName = this.generateModelPathName(model)
+    
+    const constructorArguments = [
+      { name: "name", type: "@NonNull String" },
+      { name: "isCollection", type: "@NonNull Boolean" },
+      { name: "parent", type: "@Nullable PropertyPath" }
+    ]
+
+    const body = `super(name, isCollection, parent, ${this.getModelName(model)}.class);`
+
+    declarationsBlock.addClassMethod(modelPathName, null, body, constructorArguments, undefined, '');
+  }
+  
 }

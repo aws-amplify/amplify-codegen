@@ -1,7 +1,10 @@
 import { CodeGenConnectionType } from '../utils/process-connections';
 
-// Name of the Generated Java Package
-export const GENERATED_PACKAGE_NAME = 'com.amplifyframework.datastore.generated.model';
+// Name of the Generated Java Package for DataStore category
+export const GENERATED_DATASTORE_PACKAGE_NAME = 'com.amplifyframework.datastore.generated.model';
+
+// Name of the Generated Java Package for API category
+export const GENERATED_API_PACKAGE_NAME = 'com.amplifyframework.api.generated.model';
 
 // Name of the Class Loader package
 export const LOADER_CLASS_NAME = 'AmplifyModelProvider';
@@ -9,6 +12,8 @@ export const LOADER_CLASS_NAME = 'AmplifyModelProvider';
 const JAVA_UTIL_PACKAGES = ['java.util.List', 'java.util.UUID', 'java.util.Objects'];
 
 const ANDROIDX_CORE_PACKAGES = ['androidx.core.util.ObjectsCompat'];
+
+const ANDROIDX_ANNOTATION_PACKAGES = ['androidx.annotation.NonNull', 'androidx.annotation.Nullable']
 
 const AMPLIFY_FRAMEWORK_PACKAGES = [
   'com.amplifyframework.core.model.Model',
@@ -83,3 +88,27 @@ export const CONNECTION_RELATIONSHIP_IMPORTS: { [key in CodeGenConnectionType]: 
 };
 
 export const CUSTOM_PRIMARY_KEY_IMPORT_PACKAGE = 'com.amplifyframework.core.model.ModelIdentifier';
+
+export const LAZY_MODEL_IMPORT_PACKAGE = 'com.amplifyframework.core.model.LazyModel'
+
+export const CONNECTION_RELATIONSHIP_LAZY_LOAD_IMPORTS: { [key in CodeGenConnectionType]: string } = {
+  BELONGS_TO: LAZY_MODEL_IMPORT_PACKAGE,
+  HAS_MANY: 'com.amplifyframework.core.model.LazyList',
+  HAS_ONE: LAZY_MODEL_IMPORT_PACKAGE,
+};
+
+export const MODEL_PATH_IMPORT_PACKAGES = [
+  'com.amplifyframework.core.model.ModelPath',
+  'com.amplifyframework.core.model.PropertyPath'
+]
+
+export function getModelPathClassImports(): string[] {
+  return [
+    ...ANDROIDX_ANNOTATION_PACKAGES,
+    '',
+    ...MODEL_PATH_IMPORT_PACKAGES,
+    '',
+  ];
+}
+
+export const MODEL_PATH_CLASS_IMPORT_PACKAGES = getModelPathClassImports();
