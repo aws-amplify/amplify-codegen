@@ -133,8 +133,7 @@ Amplify Flutter versions prior to 0.6.0 are no longer supported by codegen. Plea
 
   if (writeToDisk) {
     Object.entries(output).forEach(([filepath, contents]) => {
-      fs.ensureFileSync(path.join(baseOutputDir));
-      fs.writeFileSync(path.join(baseOutputDir, filepath), contents);
+      fs.outputFileSync(path.join(baseOutputDir, filepath), contents);
     });
 
     generateEslintIgnore(context);

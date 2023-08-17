@@ -61,7 +61,6 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
     opsGenSpinner.start();
 
     try {
-      fs.ensureDirSync(opsGenDirectory);
       const schemaData = readSchemaFromFile(schemaPath);
       const generatedOps = generateStatementsHelper({
         schema: schemaData,
@@ -86,7 +85,7 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
 
 async function writeGeneratedDocuments(language, generatedStatements, outputPath) {
   Object.entries(generatedStatements).forEach(([filepath, contents]) => {
-    fs.writeFileSync(path.resolve(path.join(outputPath, filepath), contents));
+    fs.outputFileSync(path.resolve(path.join(outputPath, filepath), contents));
   });
 }
 
