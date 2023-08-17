@@ -89,12 +89,15 @@ export const CONNECTION_RELATIONSHIP_IMPORTS: { [key in CodeGenConnectionType]: 
 
 export const CUSTOM_PRIMARY_KEY_IMPORT_PACKAGE = 'com.amplifyframework.core.model.ModelIdentifier';
 
-export const LAZY_MODEL_IMPORT_PACKAGE = 'com.amplifyframework.core.model.LazyModel'
+export const LAZY_MODEL_IMPORT_PACKAGES = [
+  'com.amplifyframework.core.model.LazyModel',
+  'com.amplifyframework.core.model.InMemoryLazyModel'
+]
 
-export const CONNECTION_RELATIONSHIP_LAZY_LOAD_IMPORTS: { [key in CodeGenConnectionType]: string } = {
-  BELONGS_TO: LAZY_MODEL_IMPORT_PACKAGE,
-  HAS_MANY: 'com.amplifyframework.core.model.LazyList',
-  HAS_ONE: LAZY_MODEL_IMPORT_PACKAGE,
+export const CONNECTION_RELATIONSHIP_LAZY_LOAD_IMPORTS: { [key in CodeGenConnectionType]: string[] } = {
+  BELONGS_TO: LAZY_MODEL_IMPORT_PACKAGES,
+  HAS_MANY: ['com.amplifyframework.api.graphql.PaginatedResult'],
+  HAS_ONE: LAZY_MODEL_IMPORT_PACKAGES,
 };
 
 export const MODEL_PATH_IMPORT_PACKAGES = [

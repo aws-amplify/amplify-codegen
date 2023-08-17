@@ -414,7 +414,7 @@ export class AppSyncModelJavaVisitor<
       const returnType = isLastField ? 'Build' : requiredInterfaces[idx + 1].name;
       const interfaceName = this.getStepInterfaceName(field.name);
       const methodName = this.getStepFunctionName(field);
-      const argumentType = this.getNativeType(field);
+      const argumentType = this.getNativeType(field, true);
       const argumentName = this.getStepFunctionArgumentName(field);
       const interfaceDeclaration = new JavaDeclarationBlock()
         .asKind('interface')
@@ -441,7 +441,7 @@ export class AppSyncModelJavaVisitor<
     nullableFields.forEach(field => {
       const fieldName = this.getStepFunctionArgumentName(field);
       const methodName = this.getStepFunctionName(field);
-      builderBody.push(`${this.getStepInterfaceName('Build')} ${methodName}(${this.getNativeType(field)} ${fieldName});`);
+      builderBody.push(`${this.getStepInterfaceName('Build')} ${methodName}(${this.getNativeType(field, true)} ${fieldName});`);
     });
 
     builder.withBlock(indentMultiline(builderBody.join('\n')));
@@ -472,6 +472,24 @@ export class AppSyncModelJavaVisitor<
       builderClassDeclaration.addClassMember(fieldName, this.getNativeType(field), '', undefined, 'private');
     });
 
+    // public builder constructor
+    builderClassDeclaration.addClassMethod("Builder", null, "", [], [], 'public');
+
+    // private builder constructor for CopyOfBuilder
+    const constructorArguments = this.getWritableFields(model).map(field => ({
+      name: this.getFieldName(field),
+      type: this.getNativeType(field),
+    }));
+    const constructorBody = dedent(
+      this.getWritableFields(model)
+        .map(field => { 
+          const fieldName = this.getFieldName(field);
+          return `this.${fieldName} = ${fieldName};`;
+        })
+        .join('\n'),
+    ).trim();
+    builderClassDeclaration.addClassMethod("Builder", null, constructorBody, constructorArguments, [], 'private');
+
     // methods
     // build();
     const buildImplementation = isIdAsModelPrimaryKey ? [`String id = this.id != null ? this.id : UUID.randomUUID().toString();`, ''] : [''];
@@ -496,9 +514,12 @@ export class AppSyncModelJavaVisitor<
       const fieldName = this.getFieldName(field);
       const methodName = this.getStepFunctionName(field);
       const returnType = isLastStep ? this.getStepInterfaceName('Build') : this.getStepInterfaceName(fields[idx + 1].name);
-      const argumentType = this.getNativeType(field);
+      const argumentType = this.getNativeType(field, true);
       const argumentName = this.getStepFunctionArgumentName(field);
-      const body = [`Objects.requireNonNull(${argumentName});`, `this.${fieldName} = ${argumentName};`, `return this;`].join('\n');
+      const assignment = this.isLazyModel(field) ? 
+        `this.${fieldName} = new InMemoryLazyModel<>(${argumentName});` :
+        `this.${fieldName} = ${argumentName};`
+      const body = [`Objects.requireNonNull(${argumentName});`, `${assignment}`, `return this;`].join('\n');
       builderClassDeclaration.addClassMethod(
         methodName,
         returnType,
@@ -516,7 +537,7 @@ export class AppSyncModelJavaVisitor<
       const fieldName = this.getFieldName(field);
       const methodName = this.getStepFunctionName(field);
       const returnType = this.getStepInterfaceName('Build');
-      const argumentType = this.getNativeType(field);
+      const argumentType = this.getNativeType(field, true);
       const argumentName = this.getStepFunctionArgumentName(field);
       const body = [`this.${fieldName} = ${argumentName};`, `return this;`].join('\n');
       builderClassDeclaration.addClassMethod(
@@ -582,21 +603,18 @@ export class AppSyncModelJavaVisitor<
       name: this.getStepFunctionArgumentName(field),
       type: this.getNativeType(field),
     }));
-    const stepBuilderInvocation = [...nonNullableFields, ...nullableFields].map(field => {
-      const methodName = this.getStepFunctionName(field);
-      const argumentName = this.getStepFunctionArgumentName(field);
-      return `.${methodName}(${argumentName})`;
-    });
-    const invocations =
-      stepBuilderInvocation.length === 0 ? '' : ['super', indentMultiline(stepBuilderInvocation.join('\n')).trim(), ';'].join('');
-    const body = [...(isIdAsModelPrimaryKey ? ['super.id(id);'] : []), invocations].join('\n');
-    copyOfBuilderClassDeclaration.addClassMethod(builderName, null, body, constructorArguments, [], 'private');
+    const args = dedent(
+      this.getWritableFields(model)
+        .map(field => this.getFieldName(field))
+        .join(', '),
+    ).trim();
+    copyOfBuilderClassDeclaration.addClassMethod(builderName, null, `super(${args});`, constructorArguments, [], 'private');
 
     // Non-nullable field setters need to be added to NewClass as this is not a step builder
     [...nonNullableFields, ...nullableFields].forEach(field => {
       const methodName = this.getStepFunctionName(field);
       const argumentName = this.getStepFunctionArgumentName(field);
-      const argumentType = this.getNativeType(field);
+      const argumentType = this.getNativeType(field, true);
       const implementation = `return (${builderName}) super.${methodName}(${argumentName});`;
       copyOfBuilderClassDeclaration.addClassMethod(
         methodName,
@@ -752,30 +770,39 @@ export class AppSyncModelJavaVisitor<
     declarationsBlock.addClassMethod(name, null, body, constructorArguments, undefined, 'private');
   }
 
-  protected getNativeType(field: CodeGenField): string {
+  // unwrapLazyModel is passed when we care to get the native type inside LazyModel, rather than return LazyModel type.
+  protected getNativeType(field: CodeGenField, unwrapLazyModel: boolean = false): string {
     const nativeType = super.getNativeType(field);
     if (Object.keys(JAVA_TYPE_IMPORT_MAP).includes(nativeType)) {
       this.additionalPackages.add(JAVA_TYPE_IMPORT_MAP[nativeType]);
     }
-    if(this.isGenerateModelsForLazyLoadAndCustomSelectionSet() && field.connectionInfo?.kind) {
-      switch (field.connectionInfo?.kind) {
-        case CodeGenConnectionType.BELONGS_TO:
-        case CodeGenConnectionType.HAS_ONE:
-          return `LazyModel<${nativeType}>`;
-        default:
-          return nativeType;
+    if(!unwrapLazyModel && this.isLazyModel(field)) {
+      return `LazyModel<${nativeType}>`;
     }
-    } else {
-      return nativeType;
-    }
+    return nativeType;
   }
-
+    
   protected getListType(typeStr: string, field: CodeGenField): string {
-    if(this.isGenerateModelsForLazyLoadAndCustomSelectionSet()) {
-      return `LazyList<${typeStr}>`
+    if(this.isLazyList(field)) {
+      return `PaginatedResult<${typeStr}>`;
     } else {
       return super.getListType(typeStr, field);
     }
+  }
+
+  protected isLazyModel(field: CodeGenField) {
+    if (!this.isGenerateModelsForLazyLoadAndCustomSelectionSet) return false;
+    switch (field.connectionInfo?.kind) {
+      case CodeGenConnectionType.BELONGS_TO:
+      case CodeGenConnectionType.HAS_ONE:
+        return true;
+      default: 
+      return false;
+    }
+  }
+
+  protected isLazyList(field: CodeGenField) {
+    return this.isGenerateModelsForLazyLoadAndCustomSelectionSet() && field.connectionInfo?.kind == CodeGenConnectionType.HAS_MANY;
   }
 
   /**
@@ -997,7 +1024,7 @@ export class AppSyncModelJavaVisitor<
     // Add annotation to import
     this.additionalPackages.add(CONNECTION_RELATIONSHIP_IMPORTS[connectionInfo.kind]);
     if(this.isGenerateModelsForLazyLoadAndCustomSelectionSet()) {
-      this.additionalPackages.add(CONNECTION_RELATIONSHIP_LAZY_LOAD_IMPORTS[connectionInfo.kind]);
+      CONNECTION_RELATIONSHIP_LAZY_LOAD_IMPORTS[connectionInfo.kind].forEach(item => this.additionalPackages.add(item));
     }
     let connectionDirectiveName: string = '';
     const connectionArguments: string[] = [];
