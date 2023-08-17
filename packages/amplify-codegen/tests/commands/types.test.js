@@ -80,7 +80,7 @@ describe('command - types', () => {
       queries: ['query 1', 'query 2'],
       schema: 'schema',
       target: 'TYPE_SCRIPT_OR_FLOW_OR_ANY_OTHER_LANGUAGE',
-      introspection: 'false',
+      introspection: false,
     });
   });
 
