@@ -29,4 +29,3 @@ package-lock.json
 .idea
 scripts/.env
 .codebuild/debug_workflow.yml
-scripts/cci/job.data.json
