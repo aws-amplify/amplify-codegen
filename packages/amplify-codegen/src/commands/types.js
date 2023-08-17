@@ -51,7 +51,7 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
             cwd: projectPath,
             absolute: true,
           })
-          .map(queryFilePath => fs.readFileSync(queryFilePath));
+          .map(queryFilePath => fs.readFileSync(queryFilePath, 'utf8'));
         const schemaPath = path.join(projectPath, cfg.schema);
         const target = cfg.amplifyExtension.codeGenTarget;
 
@@ -63,18 +63,20 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
         }
         const codeGenSpinner = new Ora(constants.INFO_MESSAGE_CODEGEN_GENERATE_STARTED);
         codeGenSpinner.start();
-        const schema = fs.readFileSync(schemaPath);
+        const schema = fs.readFileSync(schemaPath, 'utf8');
+        const introspection = path.extname(schemaPath) === '.json';
+
         try {
-          const output = generateTypesHelper({
+          const output = await generateTypesHelper({
             schema,
             queries,
             target,
+            introspection,
           });
-          // TODO: write files
-          codeGenSpinner.succeed(`${constants.INFO_MESSAGE_CODEGEN_GENERATE_SUCCESS} ${path.relative(path.resolve('.'), outputPath)}`);
           Object.entries(output).forEach(([filepath, contents]) => {
             fs.outputFileSync(path.resolve(path.join(outputPath, filepath)), contents);
           });
+          codeGenSpinner.succeed(`${constants.INFO_MESSAGE_CODEGEN_GENERATE_SUCCESS} ${path.relative(path.resolve('.'), outputPath)}`);
         } catch (err) {
           codeGenSpinner.fail(err.message);
         }
