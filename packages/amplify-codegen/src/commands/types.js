@@ -73,7 +73,7 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
           // TODO: write files
           codeGenSpinner.succeed(`${constants.INFO_MESSAGE_CODEGEN_GENERATE_SUCCESS} ${path.relative(path.resolve('.'), outputPath)}`);
           Object.entries(output).forEach(([filepath, contents]) => {
-            fs.outputFileSync(path.resolve(path.join(outputPath, filepath), contents));
+            fs.outputFileSync(path.resolve(path.join(outputPath, filepath)), contents);
           });
         } catch (err) {
           codeGenSpinner.fail(err.message);

@@ -83,9 +83,9 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
   }
 }
 
-async function writeGeneratedDocuments(language, generatedStatements, outputPath) {
+function writeGeneratedDocuments(language, generatedStatements, outputPath) {
   Object.entries(generatedStatements).forEach(([filepath, contents]) => {
-    fs.outputFileSync(path.resolve(path.join(outputPath, filepath), contents));
+    fs.outputFileSync(path.resolve(path.join(outputPath, filepath)), contents);
   });
 }
 
