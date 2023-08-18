@@ -4,11 +4,17 @@ const {
   MINIMUM_SUPPORTED_VERSION_CONSTRAINT,
 } = require('../../src/utils/validateAmplifyFlutterMinSupportedVersion');
 const mockFs = require('mock-fs');
-const graphqlCodegen = require('@graphql-codegen/core');
+const graphqlGenerator = require('@aws-amplify/graphql-generator');
 const fs = require('fs');
 const path = require('path');
 
-jest.mock('@graphql-codegen/core');
+jest.mock('@aws-amplify/graphql-generator', () => {
+  const originalModule = jest.requireActual('@aws-amplify/graphql-generator');
+  return {
+    ...originalModule,
+    generateModels: jest.fn(),
+  };
+});
 jest.mock('../../src/utils/validateAmplifyFlutterMinSupportedVersion', () => {
   const originalModule = jest.requireActual('../../src/utils/validateAmplifyFlutterMinSupportedVersion');
 
@@ -49,7 +55,7 @@ describe('command-models-generates models in expected output path', () => {
   beforeEach(() => {
     jest.resetAllMocks();
     addMocksToContext();
-    graphqlCodegen.codegen.mockReturnValue(MOCK_GENERATED_CODE);
+    graphqlGenerator.generateModels.mockReturnValue({ 'mock-output-file': MOCK_GENERATED_CODE });
     validateAmplifyFlutterMinSupportedVersion.mockReturnValue(true);
   });
 
@@ -72,7 +78,7 @@ describe('command-models-generates models in expected output path', () => {
       await generateModels(MOCK_CONTEXT);
 
       // assert model generation succeeds with a single schema file
-      expect(graphqlCodegen.codegen).toBeCalled();
+      expect(graphqlGenerator.generateModels).toBeCalled();
 
       // assert model files are generated in expected output directory
       expect(fs.readdirSync(outputDirectory).length).toBeGreaterThan(0);
@@ -96,7 +102,7 @@ describe('command-models-generates models in expected output path', () => {
       await generateModels(MOCK_CONTEXT);
 
       // assert model generation succeeds with a single schema file
-      expect(graphqlCodegen.codegen).toBeCalled();
+      expect(graphqlGenerator.generateModels).toBeCalled();
 
       // assert model files are generated in expected output directory
       expect(fs.readdirSync(outputDirectory).length).toBeGreaterThan(0);
@@ -122,7 +128,7 @@ describe('command-models-generates models in expected output path', () => {
         await generateModels(MOCK_CONTEXT);
 
         expect(MOCK_CONTEXT.print.error).toBeCalled();
-        expect(graphqlCodegen.codegen).not.toBeCalled();
+        expect(graphqlGenerator.generateModels).not.toBeCalled();
       });
     }
   }
@@ -142,6 +148,38 @@ function addMocksToContext() {
       },
     ],
   });
-  MOCK_CONTEXT.amplify.executeProviderUtils.mockReturnValue([]);
+  const directiveDefinition = /* GraphQl */ `
+  directive @model(
+    queries: ModelQueryMap
+    mutations: ModelMutationMap
+    subscriptions: ModelSubscriptionMap
+    timestamps: TimestampConfiguration
+  ) on OBJECT
+  input ModelMutationMap {
+    create: String
+    update: String
+    delete: String
+  }
+  input ModelQueryMap {
+    get: String
+    list: String
+  }
+  input ModelSubscriptionMap {
+    onCreate: [String]
+    onUpdate: [String]
+    onDelete: [String]
+    level: ModelSubscriptionLevel
+  }
+  enum ModelSubscriptionLevel {
+    off
+    public
+    on
+  }
+  input TimestampConfiguration {
+    createdAt: String
+    updatedAt: String
+  }
+`;
+  MOCK_CONTEXT.amplify.executeProviderUtils.mockReturnValue(directiveDefinition);
   MOCK_CONTEXT.amplify.pathManager.getBackendDirPath.mockReturnValue(MOCK_BACKEND_DIRECTORY);
 }
