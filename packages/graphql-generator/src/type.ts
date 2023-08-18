@@ -1,16 +1,16 @@
-export type Platform = 'android' | 'ios' | 'flutter' | 'javascript' | 'introspection';
+export type ModelsTarget = 'android' | 'ios' | 'flutter' | 'javascript' | 'introspection';
 
 export type Language = 'java' | 'swift' | 'dart' | 'javascript' | 'introspection';
 
-export type Target = 'javascript' | 'graphql' | 'flow' | 'typescript' | 'angular';
+export type StatementsTarget = 'javascript' | 'graphql' | 'flow' | 'typescript' | 'angular';
 
-export type TargetType = 'json' | 'swift' | 'typescript' | 'flow' | 'scala' | 'flow-modern' | 'angular';
+export type TypesTarget = 'json' | 'swift' | 'typescript' | 'flow' | 'scala' | 'flow-modern' | 'angular';
 
 export type FileExtension = 'js' | 'graphql' | 'ts' | 'graphql';
 
 export type GenerateTypesOptions = {
   schema: string;
-  target: TargetType;
+  target: TypesTarget;
   queries?: string[];
   introspection?: boolean;
   only?: string; // only used when target is swift
@@ -19,7 +19,7 @@ export type GenerateTypesOptions = {
 
 export type GenerateModelsOptions = {
   schema: string;
-  platform: Platform;
+  target: ModelsTarget;
   directives: string;
   // feature flags
   generateIndexRules?: boolean;
@@ -34,7 +34,7 @@ export type GenerateModelsOptions = {
 
 export type GenerateStatementsOptions = {
   schema: string;
-  target: Target;
+  target: StatementsTarget;
   maxDepth?: number;
   typenameIntrospection?: boolean;
 };

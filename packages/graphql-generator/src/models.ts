@@ -1,14 +1,14 @@
 import { parse } from 'graphql';
 import * as appSyncDataStoreCodeGen from '@aws-amplify/appsync-modelgen-plugin';
 import { codegen } from '@graphql-codegen/core';
-import { Platform, Language, GenerateModelsOptions, GeneratedOutput } from './type';
-import { platformToLanguageMap } from './utils';
+import { ModelsTarget, Language, GenerateModelsOptions, GeneratedOutput } from './type';
+import { modelsTargetToLanguageMap } from './utils';
 const { version: packageVersion } = require('../package.json');
 
 export async function generateModels(options: GenerateModelsOptions): Promise<GeneratedOutput> {
   const {
     schema,
-    platform,
+    target,
     directives,
 
     // TODO: get correct default values
@@ -35,7 +35,7 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
   const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
     schema: parsedSchema,
     config: {
-      target: platformToLanguageMap[platform],
+      target: modelsTargetToLanguageMap[target],
       directives,
       isTimestampFieldsAdded: addTimestampFields,
       emitAuthProvider,
@@ -46,7 +46,7 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
       respectPrimaryKeyAttributesOnConnectionField,
       generateModelsForLazyLoadAndCustomSelectionSet,
       codegenVersion: packageVersion,
-      overrideOutputDir: platform === 'introspection' ? '' : undefined,
+      overrideOutputDir: target === 'introspection' ? '' : undefined,
     },
     plugins: [],
     pluginMap: {},

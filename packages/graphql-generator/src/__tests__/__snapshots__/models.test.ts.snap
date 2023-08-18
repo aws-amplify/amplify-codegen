@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`generateModels platforms basic android 1`] = `
+exports[`generateModels targets basic android 1`] = `
 Object {
   "com/amplifyframework/datastore/generated/model/AmplifyModelProvider.java": "package com.amplifyframework.datastore.generated.model;
 
@@ -667,7 +667,7 @@ public final class Post implements Model {
 }
 `;
 
-exports[`generateModels platforms basic flutter 1`] = `
+exports[`generateModels targets basic flutter 1`] = `
 Object {
   "Blog.dart": "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
@@ -1509,7 +1509,7 @@ class PostModelIdentifier implements amplify_core.ModelIdentifier<Post> {
 }
 `;
 
-exports[`generateModels platforms basic introspection 1`] = `
+exports[`generateModels targets basic introspection 1`] = `
 Object {
   "model-introspection.json": "{
     \\"version\\": 1,
@@ -1741,7 +1741,7 @@ Object {
 }
 `;
 
-exports[`generateModels platforms basic ios 1`] = `
+exports[`generateModels targets basic ios 1`] = `
 Object {
   "AmplifyModels.swift": "// swiftlint:disable all
 import Amplify

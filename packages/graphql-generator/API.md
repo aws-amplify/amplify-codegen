@@ -18,7 +18,7 @@ export function generateModels(options: GenerateModelsOptions): Promise<Generate
 // @public (undocumented)
 export type GenerateModelsOptions = {
     schema: string;
-    platform: Platform;
+    target: ModelsTarget;
     directives: string;
     generateIndexRules?: boolean;
     emitAuthProvider?: boolean;
@@ -36,7 +36,7 @@ export function generateStatements(options: GenerateStatementsOptions): Generate
 // @public (undocumented)
 export type GenerateStatementsOptions = {
     schema: string;
-    target: Target;
+    target: StatementsTarget;
     maxDepth?: number;
     typenameIntrospection?: boolean;
 };
@@ -47,7 +47,7 @@ export function generateTypes(options: GenerateTypesOptions): Promise<GeneratedO
 // @public (undocumented)
 export type GenerateTypesOptions = {
     schema: string;
-    target: TargetType;
+    target: TypesTarget;
     queries?: string[];
     introspection?: boolean;
     only?: string;
@@ -58,13 +58,13 @@ export type GenerateTypesOptions = {
 export type Language = 'java' | 'swift' | 'dart' | 'javascript' | 'introspection';
 
 // @public (undocumented)
-export type Platform = 'android' | 'ios' | 'flutter' | 'javascript' | 'introspection';
+export type ModelsTarget = 'android' | 'ios' | 'flutter' | 'javascript' | 'introspection';
 
 // @public (undocumented)
-export type Target = 'javascript' | 'graphql' | 'flow' | 'typescript' | 'angular';
+export type StatementsTarget = 'javascript' | 'graphql' | 'flow' | 'typescript' | 'angular';
 
 // @public (undocumented)
-export type TargetType = 'json' | 'swift' | 'typescript' | 'flow' | 'scala' | 'flow-modern' | 'angular';
+export type TypesTarget = 'json' | 'swift' | 'typescript' | 'flow' | 'scala' | 'flow-modern' | 'angular';
 
 // (No @packageDocumentation comment for this package)
 

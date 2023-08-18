@@ -1,9 +1,9 @@
-import { generateStatements, GenerateStatementsOptions, Target } from '..';
+import { generateStatements, GenerateStatementsOptions, StatementsTarget } from '..';
 import { readSchema } from './utils';
 
 describe('generateStatements', () => {
   describe('targets', () => {
-    const targets: Target[] = ['javascript', 'graphql', 'flow', 'typescript', 'angular'];
+    const targets: StatementsTarget[] = ['javascript', 'graphql', 'flow', 'typescript', 'angular'];
     targets.forEach(target => {
       test(`basic ${target}`, () => {
         const options: GenerateStatementsOptions = {

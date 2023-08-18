@@ -1,14 +1,14 @@
-import { generateModels, GenerateModelsOptions, Platform } from '..';
+import { generateModels, GenerateModelsOptions, ModelsTarget } from '..';
 import { readSchema } from './utils';
 
 describe('generateModels', () => {
-  describe('platforms', () => {
-    const platforms: Platform[] = ['android', 'ios', 'flutter', 'introspection'];
-    platforms.forEach(platform => {
-      test(`basic ${platform}`, async () => {
+  describe('targets', () => {
+    const targets: ModelsTarget[] = ['android', 'ios', 'flutter', 'introspection'];
+    targets.forEach(target => {
+      test(`basic ${target}`, async () => {
         const options: GenerateModelsOptions = {
           schema: readSchema('blog-model.graphql'),
-          platform,
+          target,
         };
         const models = await generateModels(options);
         expect(models).toMatchSnapshot();

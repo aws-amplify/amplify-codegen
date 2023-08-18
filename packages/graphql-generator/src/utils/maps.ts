@@ -1,6 +1,6 @@
-import { Language, Platform, Target, FileExtension } from '../type';
+import { Language, ModelsTarget, StatementsTarget, FileExtension } from '../type';
 
-export const targetToFileExtensionMap: { [key in Target]: FileExtension } = {
+export const statementsTargetToFileExtensionMap: { [key in StatementsTarget]: FileExtension } = {
   javascript: 'js',
   graphql: 'graphql',
   flow: 'js',
@@ -8,7 +8,7 @@ export const targetToFileExtensionMap: { [key in Target]: FileExtension } = {
   angular: 'graphql',
 };
 
-export const platformToLanguageMap: { [key in Platform]: Language } = {
+export const modelsTargetToLanguageMap: { [key in ModelsTarget]: Language } = {
   android: 'java',
   ios: 'swift',
   flutter: 'dart',

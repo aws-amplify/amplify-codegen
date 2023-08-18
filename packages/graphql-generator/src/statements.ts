@@ -1,13 +1,13 @@
 const { GraphQLStatementsFormatter } = require('./utils');
 import { generateGraphQLDocuments } from '@aws-amplify/graphql-docs-generator';
 import type { GeneratedOperations } from '@aws-amplify/graphql-docs-generator';
-import { GenerateStatementsOptions, Target, GeneratedOutput } from './type';
-import { targetToFileExtensionMap } from './utils';
+import { GenerateStatementsOptions, StatementsTarget, GeneratedOutput } from './type';
+import { statementsTargetToFileExtensionMap } from './utils';
 
 export function generateStatements(options: GenerateStatementsOptions): GeneratedOutput {
   const { schema, target, maxDepth = 2, typenameIntrospection = true } = options;
 
-  if (!Object.keys(targetToFileExtensionMap).includes(target)) {
+  if (!Object.keys(statementsTargetToFileExtensionMap).includes(target)) {
     throw new Error(`${target} is not supported a supported target.`);
   }
 
@@ -22,8 +22,8 @@ export function generateStatements(options: GenerateStatementsOptions): Generate
   return generatedDocuments(target, generatedOperations);
 }
 
-function generatedDocuments(target: Target, generatedStatements: GeneratedOperations): GeneratedOutput {
-  const fileExtension = targetToFileExtensionMap[target];
+function generatedDocuments(target: StatementsTarget, generatedStatements: GeneratedOperations): GeneratedOutput {
+  const fileExtension = statementsTargetToFileExtensionMap[target];
   const operations: ['queries', 'mutations', 'subscriptions'] = ['queries', 'mutations', 'subscriptions'];
 
   const statements = operations
