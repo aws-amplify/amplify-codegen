@@ -1,7 +1,7 @@
 import { parse } from 'graphql';
 import * as appSyncDataStoreCodeGen from '@aws-amplify/appsync-modelgen-plugin';
 import { codegen } from '@graphql-codegen/core';
-import { ModelsTarget, Language, GenerateModelsOptions, GeneratedOutput } from './type';
+import { ModelsTarget, Language, GenerateModelsOptions, GeneratedOutput } from './typescript';
 import { modelsTargetToLanguageMap } from './utils';
 const { version: packageVersion } = require('../package.json');
 

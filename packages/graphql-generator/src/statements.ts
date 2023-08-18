@@ -1,7 +1,7 @@
 const { GraphQLStatementsFormatter } = require('./utils');
 import { generateGraphQLDocuments } from '@aws-amplify/graphql-docs-generator';
 import type { GeneratedOperations } from '@aws-amplify/graphql-docs-generator';
-import { GenerateStatementsOptions, StatementsTarget, GeneratedOutput } from './type';
+import { GenerateStatementsOptions, StatementsTarget, GeneratedOutput } from './typescript';
 import { statementsTargetToFileExtensionMap } from './utils';
 
 export function generateStatements(options: GenerateStatementsOptions): GeneratedOutput {

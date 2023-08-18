@@ -6,7 +6,7 @@ export type StatementsTarget = 'javascript' | 'graphql' | 'flow' | 'typescript' 
 
 export type TypesTarget = 'json' | 'swift' | 'typescript' | 'flow' | 'scala' | 'flow-modern' | 'angular';
 
-export type FileExtension = 'js' | 'graphql' | 'ts' | 'graphql';
+export type FileExtension = 'js' | 'graphql' | 'ts';
 
 export type GenerateTypesOptions = {
   schema: string;

@@ -1,4 +1,4 @@
-import { Language, ModelsTarget, StatementsTarget, FileExtension } from '../type';
+import { Language, ModelsTarget, StatementsTarget, FileExtension } from '../typescript';
 
 export const statementsTargetToFileExtensionMap: { [key in StatementsTarget]: FileExtension } = {
   javascript: 'js',

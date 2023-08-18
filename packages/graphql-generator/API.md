@@ -5,9 +5,6 @@
 ```ts
 
 // @public (undocumented)
-export type FileExtension = 'js' | 'graphql' | 'ts' | 'graphql';
-
-// @public (undocumented)
 export type GeneratedOutput = {
     [filepath: string]: string;
 };
@@ -53,9 +50,6 @@ export type GenerateTypesOptions = {
     only?: string;
     multipleFiles?: boolean;
 };
-
-// @public (undocumented)
-export type Language = 'java' | 'swift' | 'dart' | 'javascript' | 'introspection';
 
 // @public (undocumented)
 export type ModelsTarget = 'android' | 'ios' | 'flutter' | 'javascript' | 'introspection';

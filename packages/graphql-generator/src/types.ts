@@ -1,5 +1,5 @@
 import { generate, generateTypes as generateTypesHelper } from '@aws-amplify/graphql-types-generator';
-import { GenerateTypesOptions, GeneratedOutput } from './type';
+import { GenerateTypesOptions, GeneratedOutput } from './typescript';
 
 export async function generateTypes(options: GenerateTypesOptions): Promise<GeneratedOutput> {
   const { schema, target, only = '', queries = [], multipleFiles = true, introspection = false } = options;
