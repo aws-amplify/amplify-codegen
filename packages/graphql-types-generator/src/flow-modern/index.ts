@@ -1,1 +1,1 @@
-export { generateSource, FlowGeneratedFile } from './codeGeneration';
+export { generateSource } from './codeGeneration';
