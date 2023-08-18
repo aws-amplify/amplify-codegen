@@ -1,15 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`maps modelsTargetToLanguageMap 1`] = `
-Object {
-  "android": "java",
-  "flutter": "dart",
-  "introspection": "introspection",
-  "ios": "swift",
-  "javascript": "javascript",
-}
-`;
-
 exports[`maps statementsTargetToFileExtensionMap 1`] = `
 Object {
   "angular": "graphql",

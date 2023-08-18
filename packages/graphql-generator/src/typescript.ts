@@ -1,8 +1,8 @@
-export type ModelsTarget = 'android' | 'ios' | 'flutter' | 'javascript' | 'introspection';
+import { Target } from '@aws-amplify/appsync-modelgen-plugin';
+export type ModelsTarget = Target;
 export type StatementsTarget = 'javascript' | 'graphql' | 'flow' | 'typescript' | 'angular';
 export type TypesTarget = 'json' | 'swift' | 'typescript' | 'flow' | 'scala' | 'flow-modern' | 'angular';
 
-export type Language = 'java' | 'swift' | 'dart' | 'javascript' | 'introspection';
 export type FileExtension = 'js' | 'graphql' | 'ts';
 
 export type GenerateTypesOptions = {

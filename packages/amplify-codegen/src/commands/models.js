@@ -11,6 +11,7 @@ const platformToLanguageMap = {
   ios: 'swift',
   flutter: 'dart',
   javascript: 'javascript',
+  typescript: 'typescript',
 };
 
 /**
@@ -90,9 +91,6 @@ async function generateModels(context, generateOptions = null) {
 
   const schemaContent = loadSchema(apiResourcePath);
   const baseOutputDir = overrideOutputDir || path.join(projectRoot, getModelOutputPath(context));
-  const directives = await context.amplify.executeProviderUtils(context, 'awscloudformation', 'getTransformerDirectives', {
-    resourceDir: apiResourcePath,
-  });
   const projectConfig = context.amplify.getProjectConfig();
 
   if (!isIntrospection && projectConfig.frontend === 'flutter' && !validateAmplifyFlutterMinSupportedVersion(projectRoot)) {
@@ -115,8 +113,8 @@ Amplify Flutter versions prior to 0.6.0 are no longer supported by codegen. Plea
 
   const generatedCode = await generateModelsHelper({
     schema: schemaContent,
-    directives,
-    platform: isIntrospection ? 'introspection' : projectConfig.frontend,
+    directives: directiveDefinitions,
+    target: isIntrospection ? 'introspection' : platformToLanguageMap[projectConfig.frontend],
     generateIndexRules,
     emitAuthProvider,
     useExperimentalPipelinedTranformer: usePipelinedTransformer,

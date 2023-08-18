@@ -1,673 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`generateModels targets basic android 1`] = `
-Object {
-  "com/amplifyframework/datastore/generated/model/AmplifyModelProvider.java": "package com.amplifyframework.datastore.generated.model;
-
-import com.amplifyframework.util.Immutable;
-import com.amplifyframework.core.model.Model;
-import com.amplifyframework.core.model.ModelProvider;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-/**
- *  Contains the set of model classes that implement {@link Model}
- * interface.
- */
-
-public final class AmplifyModelProvider implements ModelProvider {
-  private static final String AMPLIFY_MODEL_VERSION = \\"165944a36979cd395e3b22145bbfeff0\\";
-  private static AmplifyModelProvider amplifyGeneratedModelInstance;
-  private AmplifyModelProvider() {
-    
-  }
-  
-  public static AmplifyModelProvider getInstance() {
-    if (amplifyGeneratedModelInstance == null) {
-      amplifyGeneratedModelInstance = new AmplifyModelProvider();
-    }
-    return amplifyGeneratedModelInstance;
-  }
-  
-  /**
-   * Get a set of the model classes.
-   *
-   * @return a set of the model classes.
-   */
-  @Override
-   public Set<Class<? extends Model>> models() {
-    final Set<Class<? extends Model>> modifiableSet = new HashSet<>(
-          Arrays.<Class<? extends Model>>asList(Blog.class, Post.class, Comment.class)
-        );
-    
-        return Immutable.of(modifiableSet);
-        
-  }
-  
-  /**
-   * Get the version of the models.
-   *
-   * @return the version string of the models.
-   */
-  @Override
-   public String version() {
-    return AMPLIFY_MODEL_VERSION;
-  }
-}
-",
-  "com/amplifyframework/datastore/generated/model/Blog.java": "package com.amplifyframework.datastore.generated.model;
-
-import com.amplifyframework.core.model.annotations.HasMany;
-import com.amplifyframework.core.model.temporal.Temporal;
-import com.amplifyframework.core.model.ModelIdentifier;
-
-import java.util.List;
-import java.util.UUID;
-import java.util.Objects;
-
-import androidx.core.util.ObjectsCompat;
-
-import com.amplifyframework.core.model.Model;
-import com.amplifyframework.core.model.annotations.Index;
-import com.amplifyframework.core.model.annotations.ModelConfig;
-import com.amplifyframework.core.model.annotations.ModelField;
-import com.amplifyframework.core.model.query.predicate.QueryField;
-
-import static com.amplifyframework.core.model.query.predicate.QueryField.field;
-
-/** This is an auto generated class representing the Blog type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Blogs\\", type = Model.Type.USER, version = 1)
-public final class Blog implements Model {
-  public static final QueryField ID = field(\\"Blog\\", \\"id\\");
-  public static final QueryField NAME = field(\\"Blog\\", \\"name\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
-  private final @ModelField(targetType=\\"Post\\") @HasMany(associatedWith = \\"blog\\", type = Post.class) List<Post> posts = null;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  /** @deprecated This API is internal to Amplify and should not be used. */
-  @Deprecated
-   public String resolveIdentifier() {
-    return id;
-  }
-  
-  public String getId() {
-      return id;
-  }
-  
-  public String getName() {
-      return name;
-  }
-  
-  public List<Post> getPosts() {
-      return posts;
-  }
-  
-  public Temporal.DateTime getCreatedAt() {
-      return createdAt;
-  }
-  
-  public Temporal.DateTime getUpdatedAt() {
-      return updatedAt;
-  }
-  
-  private Blog(String id, String name) {
-    this.id = id;
-    this.name = name;
-  }
-  
-  @Override
-   public boolean equals(Object obj) {
-      if (this == obj) {
-        return true;
-      } else if(obj == null || getClass() != obj.getClass()) {
-        return false;
-      } else {
-      Blog blog = (Blog) obj;
-      return ObjectsCompat.equals(getId(), blog.getId()) &&
-              ObjectsCompat.equals(getName(), blog.getName()) &&
-              ObjectsCompat.equals(getCreatedAt(), blog.getCreatedAt()) &&
-              ObjectsCompat.equals(getUpdatedAt(), blog.getUpdatedAt());
-      }
-  }
-  
-  @Override
-   public int hashCode() {
-    return new StringBuilder()
-      .append(getId())
-      .append(getName())
-      .append(getCreatedAt())
-      .append(getUpdatedAt())
-      .toString()
-      .hashCode();
-  }
-  
-  @Override
-   public String toString() {
-    return new StringBuilder()
-      .append(\\"Blog {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
-      .toString();
-  }
-  
-  public static NameStep builder() {
-      return new Builder();
-  }
-  
-  /**
-   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
-   * This is a convenience method to return an instance of the object with only its ID populated
-   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
-   * in a relationship.
-   * @param id the id of the existing item this instance will represent
-   * @return an instance of this model with only ID populated
-   */
-  public static Blog justId(String id) {
-    return new Blog(
-      id,
-      null
-    );
-  }
-  
-  public CopyOfBuilder copyOfBuilder() {
-    return new CopyOfBuilder(id,
-      name);
-  }
-  public interface NameStep {
-    BuildStep name(String name);
-  }
-  
-
-  public interface BuildStep {
-    Blog build();
-    BuildStep id(String id);
-  }
-  
-
-  public static class Builder implements NameStep, BuildStep {
-    private String id;
-    private String name;
-    @Override
-     public Blog build() {
-        String id = this.id != null ? this.id : UUID.randomUUID().toString();
-        
-        return new Blog(
-          id,
-          name);
-    }
-    
-    @Override
-     public BuildStep name(String name) {
-        Objects.requireNonNull(name);
-        this.name = name;
-        return this;
-    }
-    
-    /**
-     * @param id id
-     * @return Current Builder instance, for fluent method chaining
-     */
-    public BuildStep id(String id) {
-        this.id = id;
-        return this;
-    }
-  }
-  
-
-  public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String name) {
-      super.id(id);
-      super.name(name);
-    }
-    
-    @Override
-     public CopyOfBuilder name(String name) {
-      return (CopyOfBuilder) super.name(name);
-    }
-  }
-  
-
-  public static class BlogIdentifier extends ModelIdentifier<Blog> {
-    private static final long serialVersionUID = 1L;
-    public BlogIdentifier(String id) {
-      super(id);
-    }
-  }
-  
-}
-",
-  "com/amplifyframework/datastore/generated/model/Comment.java": "package com.amplifyframework.datastore.generated.model;
-
-import com.amplifyframework.core.model.annotations.BelongsTo;
-import com.amplifyframework.core.model.temporal.Temporal;
-import com.amplifyframework.core.model.ModelIdentifier;
-
-import java.util.List;
-import java.util.UUID;
-import java.util.Objects;
-
-import androidx.core.util.ObjectsCompat;
-
-import com.amplifyframework.core.model.Model;
-import com.amplifyframework.core.model.annotations.Index;
-import com.amplifyframework.core.model.annotations.ModelConfig;
-import com.amplifyframework.core.model.annotations.ModelField;
-import com.amplifyframework.core.model.query.predicate.QueryField;
-
-import static com.amplifyframework.core.model.query.predicate.QueryField.field;
-
-/** This is an auto generated class representing the Comment type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Comments\\", type = Model.Type.USER, version = 1)
-public final class Comment implements Model {
-  public static final QueryField ID = field(\\"Comment\\", \\"id\\");
-  public static final QueryField POST = field(\\"Comment\\", \\"postCommentsId\\");
-  public static final QueryField CONTENT = field(\\"Comment\\", \\"content\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"Post\\") @BelongsTo(targetName = \\"postCommentsId\\", targetNames = {\\"postCommentsId\\"}, type = Post.class) Post post;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  /** @deprecated This API is internal to Amplify and should not be used. */
-  @Deprecated
-   public String resolveIdentifier() {
-    return id;
-  }
-  
-  public String getId() {
-      return id;
-  }
-  
-  public Post getPost() {
-      return post;
-  }
-  
-  public String getContent() {
-      return content;
-  }
-  
-  public Temporal.DateTime getCreatedAt() {
-      return createdAt;
-  }
-  
-  public Temporal.DateTime getUpdatedAt() {
-      return updatedAt;
-  }
-  
-  private Comment(String id, Post post, String content) {
-    this.id = id;
-    this.post = post;
-    this.content = content;
-  }
-  
-  @Override
-   public boolean equals(Object obj) {
-      if (this == obj) {
-        return true;
-      } else if(obj == null || getClass() != obj.getClass()) {
-        return false;
-      } else {
-      Comment comment = (Comment) obj;
-      return ObjectsCompat.equals(getId(), comment.getId()) &&
-              ObjectsCompat.equals(getPost(), comment.getPost()) &&
-              ObjectsCompat.equals(getContent(), comment.getContent()) &&
-              ObjectsCompat.equals(getCreatedAt(), comment.getCreatedAt()) &&
-              ObjectsCompat.equals(getUpdatedAt(), comment.getUpdatedAt());
-      }
-  }
-  
-  @Override
-   public int hashCode() {
-    return new StringBuilder()
-      .append(getId())
-      .append(getPost())
-      .append(getContent())
-      .append(getCreatedAt())
-      .append(getUpdatedAt())
-      .toString()
-      .hashCode();
-  }
-  
-  @Override
-   public String toString() {
-    return new StringBuilder()
-      .append(\\"Comment {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"post=\\" + String.valueOf(getPost()) + \\", \\")
-      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
-      .toString();
-  }
-  
-  public static ContentStep builder() {
-      return new Builder();
-  }
-  
-  /**
-   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
-   * This is a convenience method to return an instance of the object with only its ID populated
-   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
-   * in a relationship.
-   * @param id the id of the existing item this instance will represent
-   * @return an instance of this model with only ID populated
-   */
-  public static Comment justId(String id) {
-    return new Comment(
-      id,
-      null,
-      null
-    );
-  }
-  
-  public CopyOfBuilder copyOfBuilder() {
-    return new CopyOfBuilder(id,
-      post,
-      content);
-  }
-  public interface ContentStep {
-    BuildStep content(String content);
-  }
-  
-
-  public interface BuildStep {
-    Comment build();
-    BuildStep id(String id);
-    BuildStep post(Post post);
-  }
-  
-
-  public static class Builder implements ContentStep, BuildStep {
-    private String id;
-    private String content;
-    private Post post;
-    @Override
-     public Comment build() {
-        String id = this.id != null ? this.id : UUID.randomUUID().toString();
-        
-        return new Comment(
-          id,
-          post,
-          content);
-    }
-    
-    @Override
-     public BuildStep content(String content) {
-        Objects.requireNonNull(content);
-        this.content = content;
-        return this;
-    }
-    
-    @Override
-     public BuildStep post(Post post) {
-        this.post = post;
-        return this;
-    }
-    
-    /**
-     * @param id id
-     * @return Current Builder instance, for fluent method chaining
-     */
-    public BuildStep id(String id) {
-        this.id = id;
-        return this;
-    }
-  }
-  
-
-  public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, Post post, String content) {
-      super.id(id);
-      super.content(content)
-        .post(post);
-    }
-    
-    @Override
-     public CopyOfBuilder content(String content) {
-      return (CopyOfBuilder) super.content(content);
-    }
-    
-    @Override
-     public CopyOfBuilder post(Post post) {
-      return (CopyOfBuilder) super.post(post);
-    }
-  }
-  
-
-  public static class CommentIdentifier extends ModelIdentifier<Comment> {
-    private static final long serialVersionUID = 1L;
-    public CommentIdentifier(String id) {
-      super(id);
-    }
-  }
-  
-}
-",
-  "com/amplifyframework/datastore/generated/model/Post.java": "package com.amplifyframework.datastore.generated.model;
-
-import com.amplifyframework.core.model.annotations.BelongsTo;
-import com.amplifyframework.core.model.annotations.HasMany;
-import com.amplifyframework.core.model.temporal.Temporal;
-import com.amplifyframework.core.model.ModelIdentifier;
-
-import java.util.List;
-import java.util.UUID;
-import java.util.Objects;
-
-import androidx.core.util.ObjectsCompat;
-
-import com.amplifyframework.core.model.Model;
-import com.amplifyframework.core.model.annotations.Index;
-import com.amplifyframework.core.model.annotations.ModelConfig;
-import com.amplifyframework.core.model.annotations.ModelField;
-import com.amplifyframework.core.model.query.predicate.QueryField;
-
-import static com.amplifyframework.core.model.query.predicate.QueryField.field;
-
-/** This is an auto generated class representing the Post type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Posts\\", type = Model.Type.USER, version = 1)
-public final class Post implements Model {
-  public static final QueryField ID = field(\\"Post\\", \\"id\\");
-  public static final QueryField TITLE = field(\\"Post\\", \\"title\\");
-  public static final QueryField BLOG = field(\\"Post\\", \\"blogPostsId\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String title;
-  private final @ModelField(targetType=\\"Blog\\") @BelongsTo(targetName = \\"blogPostsId\\", targetNames = {\\"blogPostsId\\"}, type = Blog.class) Blog blog;
-  private final @ModelField(targetType=\\"Comment\\") @HasMany(associatedWith = \\"post\\", type = Comment.class) List<Comment> comments = null;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  /** @deprecated This API is internal to Amplify and should not be used. */
-  @Deprecated
-   public String resolveIdentifier() {
-    return id;
-  }
-  
-  public String getId() {
-      return id;
-  }
-  
-  public String getTitle() {
-      return title;
-  }
-  
-  public Blog getBlog() {
-      return blog;
-  }
-  
-  public List<Comment> getComments() {
-      return comments;
-  }
-  
-  public Temporal.DateTime getCreatedAt() {
-      return createdAt;
-  }
-  
-  public Temporal.DateTime getUpdatedAt() {
-      return updatedAt;
-  }
-  
-  private Post(String id, String title, Blog blog) {
-    this.id = id;
-    this.title = title;
-    this.blog = blog;
-  }
-  
-  @Override
-   public boolean equals(Object obj) {
-      if (this == obj) {
-        return true;
-      } else if(obj == null || getClass() != obj.getClass()) {
-        return false;
-      } else {
-      Post post = (Post) obj;
-      return ObjectsCompat.equals(getId(), post.getId()) &&
-              ObjectsCompat.equals(getTitle(), post.getTitle()) &&
-              ObjectsCompat.equals(getBlog(), post.getBlog()) &&
-              ObjectsCompat.equals(getCreatedAt(), post.getCreatedAt()) &&
-              ObjectsCompat.equals(getUpdatedAt(), post.getUpdatedAt());
-      }
-  }
-  
-  @Override
-   public int hashCode() {
-    return new StringBuilder()
-      .append(getId())
-      .append(getTitle())
-      .append(getBlog())
-      .append(getCreatedAt())
-      .append(getUpdatedAt())
-      .toString()
-      .hashCode();
-  }
-  
-  @Override
-   public String toString() {
-    return new StringBuilder()
-      .append(\\"Post {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"title=\\" + String.valueOf(getTitle()) + \\", \\")
-      .append(\\"blog=\\" + String.valueOf(getBlog()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
-      .toString();
-  }
-  
-  public static TitleStep builder() {
-      return new Builder();
-  }
-  
-  /**
-   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
-   * This is a convenience method to return an instance of the object with only its ID populated
-   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
-   * in a relationship.
-   * @param id the id of the existing item this instance will represent
-   * @return an instance of this model with only ID populated
-   */
-  public static Post justId(String id) {
-    return new Post(
-      id,
-      null,
-      null
-    );
-  }
-  
-  public CopyOfBuilder copyOfBuilder() {
-    return new CopyOfBuilder(id,
-      title,
-      blog);
-  }
-  public interface TitleStep {
-    BuildStep title(String title);
-  }
-  
-
-  public interface BuildStep {
-    Post build();
-    BuildStep id(String id);
-    BuildStep blog(Blog blog);
-  }
-  
-
-  public static class Builder implements TitleStep, BuildStep {
-    private String id;
-    private String title;
-    private Blog blog;
-    @Override
-     public Post build() {
-        String id = this.id != null ? this.id : UUID.randomUUID().toString();
-        
-        return new Post(
-          id,
-          title,
-          blog);
-    }
-    
-    @Override
-     public BuildStep title(String title) {
-        Objects.requireNonNull(title);
-        this.title = title;
-        return this;
-    }
-    
-    @Override
-     public BuildStep blog(Blog blog) {
-        this.blog = blog;
-        return this;
-    }
-    
-    /**
-     * @param id id
-     * @return Current Builder instance, for fluent method chaining
-     */
-    public BuildStep id(String id) {
-        this.id = id;
-        return this;
-    }
-  }
-  
-
-  public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String title, Blog blog) {
-      super.id(id);
-      super.title(title)
-        .blog(blog);
-    }
-    
-    @Override
-     public CopyOfBuilder title(String title) {
-      return (CopyOfBuilder) super.title(title);
-    }
-    
-    @Override
-     public CopyOfBuilder blog(Blog blog) {
-      return (CopyOfBuilder) super.blog(blog);
-    }
-  }
-  
-
-  public static class PostIdentifier extends ModelIdentifier<Post> {
-    private static final long serialVersionUID = 1L;
-    public PostIdentifier(String id) {
-      super(id);
-    }
-  }
-  
-}
-",
-}
-`;
-
-exports[`generateModels targets basic flutter 1`] = `
+exports[`generateModels targets basic dart 1`] = `
 Object {
   "Blog.dart": "/*
 * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
@@ -1741,7 +1074,1011 @@ Object {
 }
 `;
 
-exports[`generateModels targets basic ios 1`] = `
+exports[`generateModels targets basic java 1`] = `
+Object {
+  "com/amplifyframework/datastore/generated/model/AmplifyModelProvider.java": "package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.util.Immutable;
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.ModelProvider;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+/**
+ *  Contains the set of model classes that implement {@link Model}
+ * interface.
+ */
+
+public final class AmplifyModelProvider implements ModelProvider {
+  private static final String AMPLIFY_MODEL_VERSION = \\"165944a36979cd395e3b22145bbfeff0\\";
+  private static AmplifyModelProvider amplifyGeneratedModelInstance;
+  private AmplifyModelProvider() {
+    
+  }
+  
+  public static AmplifyModelProvider getInstance() {
+    if (amplifyGeneratedModelInstance == null) {
+      amplifyGeneratedModelInstance = new AmplifyModelProvider();
+    }
+    return amplifyGeneratedModelInstance;
+  }
+  
+  /**
+   * Get a set of the model classes.
+   *
+   * @return a set of the model classes.
+   */
+  @Override
+   public Set<Class<? extends Model>> models() {
+    final Set<Class<? extends Model>> modifiableSet = new HashSet<>(
+          Arrays.<Class<? extends Model>>asList(Blog.class, Post.class, Comment.class)
+        );
+    
+        return Immutable.of(modifiableSet);
+        
+  }
+  
+  /**
+   * Get the version of the models.
+   *
+   * @return the version string of the models.
+   */
+  @Override
+   public String version() {
+    return AMPLIFY_MODEL_VERSION;
+  }
+}
+",
+  "com/amplifyframework/datastore/generated/model/Blog.java": "package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.HasMany;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.model.ModelIdentifier;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Blog type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Blogs\\", type = Model.Type.USER, version = 1)
+public final class Blog implements Model {
+  public static final QueryField ID = field(\\"Blog\\", \\"id\\");
+  public static final QueryField NAME = field(\\"Blog\\", \\"name\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
+  private final @ModelField(targetType=\\"Post\\") @HasMany(associatedWith = \\"blog\\", type = Post.class) List<Post> posts = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  /** @deprecated This API is internal to Amplify and should not be used. */
+  @Deprecated
+   public String resolveIdentifier() {
+    return id;
+  }
+  
+  public String getId() {
+      return id;
+  }
+  
+  public String getName() {
+      return name;
+  }
+  
+  public List<Post> getPosts() {
+      return posts;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Blog(String id, String name) {
+    this.id = id;
+    this.name = name;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Blog blog = (Blog) obj;
+      return ObjectsCompat.equals(getId(), blog.getId()) &&
+              ObjectsCompat.equals(getName(), blog.getName()) &&
+              ObjectsCompat.equals(getCreatedAt(), blog.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), blog.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getName())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Blog {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static NameStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Blog justId(String id) {
+    return new Blog(
+      id,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      name);
+  }
+  public interface NameStep {
+    BuildStep name(String name);
+  }
+  
+
+  public interface BuildStep {
+    Blog build();
+    BuildStep id(String id);
+  }
+  
+
+  public static class Builder implements NameStep, BuildStep {
+    private String id;
+    private String name;
+    @Override
+     public Blog build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Blog(
+          id,
+          name);
+    }
+    
+    @Override
+     public BuildStep name(String name) {
+        Objects.requireNonNull(name);
+        this.name = name;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String name) {
+      super.id(id);
+      super.name(name);
+    }
+    
+    @Override
+     public CopyOfBuilder name(String name) {
+      return (CopyOfBuilder) super.name(name);
+    }
+  }
+  
+
+  public static class BlogIdentifier extends ModelIdentifier<Blog> {
+    private static final long serialVersionUID = 1L;
+    public BlogIdentifier(String id) {
+      super(id);
+    }
+  }
+  
+}
+",
+  "com/amplifyframework/datastore/generated/model/Comment.java": "package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.BelongsTo;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.model.ModelIdentifier;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Comment type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Comments\\", type = Model.Type.USER, version = 1)
+public final class Comment implements Model {
+  public static final QueryField ID = field(\\"Comment\\", \\"id\\");
+  public static final QueryField POST = field(\\"Comment\\", \\"postCommentsId\\");
+  public static final QueryField CONTENT = field(\\"Comment\\", \\"content\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"Post\\") @BelongsTo(targetName = \\"postCommentsId\\", targetNames = {\\"postCommentsId\\"}, type = Post.class) Post post;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  /** @deprecated This API is internal to Amplify and should not be used. */
+  @Deprecated
+   public String resolveIdentifier() {
+    return id;
+  }
+  
+  public String getId() {
+      return id;
+  }
+  
+  public Post getPost() {
+      return post;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Comment(String id, Post post, String content) {
+    this.id = id;
+    this.post = post;
+    this.content = content;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Comment comment = (Comment) obj;
+      return ObjectsCompat.equals(getId(), comment.getId()) &&
+              ObjectsCompat.equals(getPost(), comment.getPost()) &&
+              ObjectsCompat.equals(getContent(), comment.getContent()) &&
+              ObjectsCompat.equals(getCreatedAt(), comment.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), comment.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getPost())
+      .append(getContent())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Comment {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"post=\\" + String.valueOf(getPost()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static ContentStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Comment justId(String id) {
+    return new Comment(
+      id,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      post,
+      content);
+  }
+  public interface ContentStep {
+    BuildStep content(String content);
+  }
+  
+
+  public interface BuildStep {
+    Comment build();
+    BuildStep id(String id);
+    BuildStep post(Post post);
+  }
+  
+
+  public static class Builder implements ContentStep, BuildStep {
+    private String id;
+    private String content;
+    private Post post;
+    @Override
+     public Comment build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Comment(
+          id,
+          post,
+          content);
+    }
+    
+    @Override
+     public BuildStep content(String content) {
+        Objects.requireNonNull(content);
+        this.content = content;
+        return this;
+    }
+    
+    @Override
+     public BuildStep post(Post post) {
+        this.post = post;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, Post post, String content) {
+      super.id(id);
+      super.content(content)
+        .post(post);
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+    
+    @Override
+     public CopyOfBuilder post(Post post) {
+      return (CopyOfBuilder) super.post(post);
+    }
+  }
+  
+
+  public static class CommentIdentifier extends ModelIdentifier<Comment> {
+    private static final long serialVersionUID = 1L;
+    public CommentIdentifier(String id) {
+      super(id);
+    }
+  }
+  
+}
+",
+  "com/amplifyframework/datastore/generated/model/Post.java": "package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.BelongsTo;
+import com.amplifyframework.core.model.annotations.HasMany;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.model.ModelIdentifier;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Post type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Posts\\", type = Model.Type.USER, version = 1)
+public final class Post implements Model {
+  public static final QueryField ID = field(\\"Post\\", \\"id\\");
+  public static final QueryField TITLE = field(\\"Post\\", \\"title\\");
+  public static final QueryField BLOG = field(\\"Post\\", \\"blogPostsId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String title;
+  private final @ModelField(targetType=\\"Blog\\") @BelongsTo(targetName = \\"blogPostsId\\", targetNames = {\\"blogPostsId\\"}, type = Blog.class) Blog blog;
+  private final @ModelField(targetType=\\"Comment\\") @HasMany(associatedWith = \\"post\\", type = Comment.class) List<Comment> comments = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  /** @deprecated This API is internal to Amplify and should not be used. */
+  @Deprecated
+   public String resolveIdentifier() {
+    return id;
+  }
+  
+  public String getId() {
+      return id;
+  }
+  
+  public String getTitle() {
+      return title;
+  }
+  
+  public Blog getBlog() {
+      return blog;
+  }
+  
+  public List<Comment> getComments() {
+      return comments;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Post(String id, String title, Blog blog) {
+    this.id = id;
+    this.title = title;
+    this.blog = blog;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Post post = (Post) obj;
+      return ObjectsCompat.equals(getId(), post.getId()) &&
+              ObjectsCompat.equals(getTitle(), post.getTitle()) &&
+              ObjectsCompat.equals(getBlog(), post.getBlog()) &&
+              ObjectsCompat.equals(getCreatedAt(), post.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), post.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getTitle())
+      .append(getBlog())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Post {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"title=\\" + String.valueOf(getTitle()) + \\", \\")
+      .append(\\"blog=\\" + String.valueOf(getBlog()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static TitleStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Post justId(String id) {
+    return new Post(
+      id,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      title,
+      blog);
+  }
+  public interface TitleStep {
+    BuildStep title(String title);
+  }
+  
+
+  public interface BuildStep {
+    Post build();
+    BuildStep id(String id);
+    BuildStep blog(Blog blog);
+  }
+  
+
+  public static class Builder implements TitleStep, BuildStep {
+    private String id;
+    private String title;
+    private Blog blog;
+    @Override
+     public Post build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Post(
+          id,
+          title,
+          blog);
+    }
+    
+    @Override
+     public BuildStep title(String title) {
+        Objects.requireNonNull(title);
+        this.title = title;
+        return this;
+    }
+    
+    @Override
+     public BuildStep blog(Blog blog) {
+        this.blog = blog;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String title, Blog blog) {
+      super.id(id);
+      super.title(title)
+        .blog(blog);
+    }
+    
+    @Override
+     public CopyOfBuilder title(String title) {
+      return (CopyOfBuilder) super.title(title);
+    }
+    
+    @Override
+     public CopyOfBuilder blog(Blog blog) {
+      return (CopyOfBuilder) super.blog(blog);
+    }
+  }
+  
+
+  public static class PostIdentifier extends ModelIdentifier<Post> {
+    private static final long serialVersionUID = 1L;
+    public PostIdentifier(String id) {
+      super(id);
+    }
+  }
+  
+}
+",
+}
+`;
+
+exports[`generateModels targets basic javascript 1`] = `
+Object {
+  "models/index.d.ts": "import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from \\"@aws-amplify/datastore\\";
+// @ts-ignore
+import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from \\"@aws-amplify/datastore\\";
+
+
+
+
+
+type EagerBlog = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Blog, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly name: string;
+  readonly posts?: (Post | null)[] | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyBlog = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Blog, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly name: string;
+  readonly posts: AsyncCollection<Post>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Blog = LazyLoading extends LazyLoadingDisabled ? EagerBlog : LazyBlog
+
+export declare const Blog: (new (init: ModelInit<Blog>) => Blog) & {
+  copyOf(source: Blog, mutator: (draft: MutableModel<Blog>) => MutableModel<Blog> | void): Blog;
+}
+
+type EagerPost = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Post, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly title: string;
+  readonly blog?: Blog | null;
+  readonly comments?: (Comment | null)[] | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly blogPostsId?: string | null;
+}
+
+type LazyPost = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Post, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly title: string;
+  readonly blog: AsyncItem<Blog | undefined>;
+  readonly comments: AsyncCollection<Comment>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly blogPostsId?: string | null;
+}
+
+export declare type Post = LazyLoading extends LazyLoadingDisabled ? EagerPost : LazyPost
+
+export declare const Post: (new (init: ModelInit<Post>) => Post) & {
+  copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+}
+
+type EagerComment = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Comment, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly post?: Post | null;
+  readonly content: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly postCommentsId?: string | null;
+}
+
+type LazyComment = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Comment, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly post: AsyncItem<Post | undefined>;
+  readonly content: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly postCommentsId?: string | null;
+}
+
+export declare type Comment = LazyLoading extends LazyLoadingDisabled ? EagerComment : LazyComment
+
+export declare const Comment: (new (init: ModelInit<Comment>) => Comment) & {
+  copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
+}",
+  "models/index.js": "// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Blog, Post, Comment } = initSchema(schema);
+
+export {
+  Blog,
+  Post,
+  Comment
+};",
+  "models/schema.d.ts": "import { Schema } from '@aws-amplify/datastore';
+
+export declare const schema: Schema;",
+  "models/schema.js": "export const schema = {
+    \\"models\\": {
+        \\"Blog\\": {
+            \\"name\\": \\"Blog\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"name\\": {
+                    \\"name\\": \\"name\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"posts\\": {
+                    \\"name\\": \\"posts\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"model\\": \\"Post\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isArrayNullable\\": true,
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_MANY\\",
+                        \\"associatedWith\\": [
+                            \\"blogPostsId\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Blogs\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                }
+            ]
+        },
+        \\"Post\\": {
+            \\"name\\": \\"Post\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"title\\": {
+                    \\"name\\": \\"title\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"blog\\": {
+                    \\"name\\": \\"blog\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"Blog\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"BELONGS_TO\\",
+                        \\"targetNames\\": [
+                            \\"blogPostsId\\"
+                        ]
+                    }
+                },
+                \\"comments\\": {
+                    \\"name\\": \\"comments\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"model\\": \\"Comment\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isArrayNullable\\": true,
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_MANY\\",
+                        \\"associatedWith\\": [
+                            \\"postCommentsId\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"blogPostsId\\": {
+                    \\"name\\": \\"blogPostsId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Posts\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                }
+            ]
+        },
+        \\"Comment\\": {
+            \\"name\\": \\"Comment\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"post\\": {
+                    \\"name\\": \\"post\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"Post\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"BELONGS_TO\\",
+                        \\"targetNames\\": [
+                            \\"postCommentsId\\"
+                        ]
+                    }
+                },
+                \\"content\\": {
+                    \\"name\\": \\"content\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"postCommentsId\\": {
+                    \\"name\\": \\"postCommentsId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Comments\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                }
+            ]
+        }
+    },
+    \\"enums\\": {},
+    \\"nonModels\\": {},
+    \\"codegenVersion\\": \\"3.4.4\\",
+    \\"version\\": \\"920118e6cbedacf9fdf58bb983d59a94\\"
+};",
+}
+`;
+
+exports[`generateModels targets basic swift 1`] = `
 Object {
   "AmplifyModels.swift": "// swiftlint:disable all
 import Amplify
@@ -2097,128 +2434,127 @@ public struct Post: Model {
 }
 `;
 
-exports[`generateModels targets basic javascript 1`] = `
+exports[`generateModels targets basic typescript 1`] = `
 Object {
-  "models/index.d.ts": "import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from \\"@aws-amplify/datastore\\";
-// @ts-ignore
-import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from \\"@aws-amplify/datastore\\";
+  "models/index.ts": "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+import { initSchema } from \\"@aws-amplify/datastore\\";
+
+import { schema } from \\"./schema\\";
 
 
 
-
-
-type EagerBlog = {
+type EagerBlogModel = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Blog, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
   readonly name: string;
-  readonly posts?: (Post | null)[] | null;
+  readonly posts?: (PostModel | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-type LazyBlog = {
+type LazyBlogModel = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Blog, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
   readonly name: string;
-  readonly posts: AsyncCollection<Post>;
+  readonly posts: AsyncCollection<PostModel>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-export declare type Blog = LazyLoading extends LazyLoadingDisabled ? EagerBlog : LazyBlog
+export declare type BlogModel = LazyLoading extends LazyLoadingDisabled ? EagerBlogModel : LazyBlogModel
 
-export declare const Blog: (new (init: ModelInit<Blog>) => Blog) & {
-  copyOf(source: Blog, mutator: (draft: MutableModel<Blog>) => MutableModel<Blog> | void): Blog;
+export declare const BlogModel: (new (init: ModelInit<BlogModel>) => BlogModel) & {
+  copyOf(source: BlogModel, mutator: (draft: MutableModel<BlogModel>) => MutableModel<BlogModel> | void): BlogModel;
 }
 
-type EagerPost = {
+type EagerPostModel = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Post, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
   readonly title: string;
-  readonly blog?: Blog | null;
-  readonly comments?: (Comment | null)[] | null;
+  readonly blog?: BlogModel | null;
+  readonly comments?: (CommentModel | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly blogPostsId?: string | null;
 }
 
-type LazyPost = {
+type LazyPostModel = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Post, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
   readonly title: string;
-  readonly blog: AsyncItem<Blog | undefined>;
-  readonly comments: AsyncCollection<Comment>;
+  readonly blog: AsyncItem<BlogModel | undefined>;
+  readonly comments: AsyncCollection<CommentModel>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly blogPostsId?: string | null;
 }
 
-export declare type Post = LazyLoading extends LazyLoadingDisabled ? EagerPost : LazyPost
+export declare type PostModel = LazyLoading extends LazyLoadingDisabled ? EagerPostModel : LazyPostModel
 
-export declare const Post: (new (init: ModelInit<Post>) => Post) & {
-  copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+export declare const PostModel: (new (init: ModelInit<PostModel>) => PostModel) & {
+  copyOf(source: PostModel, mutator: (draft: MutableModel<PostModel>) => MutableModel<PostModel> | void): PostModel;
 }
 
-type EagerComment = {
+type EagerCommentModel = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Comment, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly post?: Post | null;
+  readonly post?: PostModel | null;
   readonly content: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly postCommentsId?: string | null;
 }
 
-type LazyComment = {
+type LazyCommentModel = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Comment, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly post: AsyncItem<Post | undefined>;
+  readonly post: AsyncItem<PostModel | undefined>;
   readonly content: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly postCommentsId?: string | null;
 }
 
-export declare type Comment = LazyLoading extends LazyLoadingDisabled ? EagerComment : LazyComment
+export declare type CommentModel = LazyLoading extends LazyLoadingDisabled ? EagerCommentModel : LazyCommentModel
 
-export declare const Comment: (new (init: ModelInit<Comment>) => Comment) & {
-  copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
-}",
-  "models/index.js": "// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
+export declare const CommentModel: (new (init: ModelInit<CommentModel>) => CommentModel) & {
+  copyOf(source: CommentModel, mutator: (draft: MutableModel<CommentModel>) => MutableModel<CommentModel> | void): CommentModel;
+}
 
 
 
-const { Blog, Post, Comment } = initSchema(schema);
+const { Blog, Post, Comment } = initSchema(schema) as {
+  Blog: PersistentModelConstructor<BlogModel>;
+  Post: PersistentModelConstructor<PostModel>;
+  Comment: PersistentModelConstructor<CommentModel>;
+};
 
 export {
   Blog,
   Post,
   Comment
 };",
-  "models/schema.d.ts": "import { Schema } from '@aws-amplify/datastore';
+  "models/schema.ts": "import { Schema } from \\"@aws-amplify/datastore\\";
 
-export declare const schema: Schema;",
-  "models/schema.js": "export const schema = {
+export const schema: Schema = {
     \\"models\\": {
         \\"Blog\\": {
             \\"name\\": \\"Blog\\",

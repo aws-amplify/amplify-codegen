@@ -1,8 +1,7 @@
 import { parse } from 'graphql';
 import * as appSyncDataStoreCodeGen from '@aws-amplify/appsync-modelgen-plugin';
 import { codegen } from '@graphql-codegen/core';
-import { ModelsTarget, Language, GenerateModelsOptions, GeneratedOutput } from './typescript';
-import { modelsTargetToLanguageMap } from './utils';
+import { ModelsTarget, GenerateModelsOptions, GeneratedOutput } from './typescript';
 const { version: packageVersion } = require('../package.json');
 
 export async function generateModels(options: GenerateModelsOptions): Promise<GeneratedOutput> {
@@ -35,7 +34,7 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
   const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
     schema: parsedSchema,
     config: {
-      target: modelsTargetToLanguageMap[target],
+      target,
       directives,
       isTimestampFieldsAdded: addTimestampFields,
       emitAuthProvider,

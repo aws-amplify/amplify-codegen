@@ -3,7 +3,7 @@ import { readSchema } from './utils';
 
 describe('generateModels', () => {
   describe('targets', () => {
-    const targets: ModelsTarget[] = ['android', 'ios', 'flutter', 'javascript', 'introspection'];
+    const targets: ModelsTarget[] = ['java', 'swift', 'javascript', 'typescript', 'dart', 'introspection'];
     targets.forEach(target => {
       test(`basic ${target}`, async () => {
         const options: GenerateModelsOptions = {

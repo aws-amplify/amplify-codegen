@@ -5,7 +5,9 @@ import { JAVA_SCALAR_MAP, SWIFT_SCALAR_MAP, TYPESCRIPT_SCALAR_MAP, DART_SCALAR_M
 import { LOADER_CLASS_NAME, GENERATED_PACKAGE_NAME } from './configs/java-config';
 import { graphqlName, toUpper } from 'graphql-transformer-common';
 
-const APPSYNC_DATA_STORE_CODEGEN_TARGETS = ['java', 'swift', 'javascript', 'typescript', 'dart'];
+const APPSYNC_DATA_STORE_CODEGEN_TARGETS = ['java', 'swift', 'javascript', 'typescript', 'dart', 'introspection'];
+
+export type Target = 'java' | 'swift' | 'javascript' | 'typescript' | 'dart' | 'introspection';
 
 export type AppSyncModelCodeGenPresetConfig = {
   /**
@@ -25,7 +27,7 @@ export type AppSyncModelCodeGenPresetConfig = {
    * ```
    */
   overrideOutputDir: string | null;
-  target: 'java' | 'swift' | 'javascript' | 'typescript' | 'dart' | 'introspection';
+  target: Target;
 };
 
 const generateJavaPreset = (
@@ -299,7 +301,7 @@ export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
         return generateIntrospectionPreset(options, models);
       default:
         throw new Error(
-          `amplify-codegen-appsync-model-plugin not support language target ${codeGenTarget}. Supported codegen targets arr ${APPSYNC_DATA_STORE_CODEGEN_TARGETS.join(
+          `amplify-codegen-appsync-model-plugin not support language target ${codeGenTarget}. Supported codegen targets are ${APPSYNC_DATA_STORE_CODEGEN_TARGETS.join(
             ', ',
           )}`,
         );

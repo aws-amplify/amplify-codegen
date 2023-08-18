@@ -15,7 +15,7 @@ export const addToSchema: (config: AppSyncModelPluginConfig) => string;
 // @public (undocumented)
 export type AppSyncModelCodeGenPresetConfig = {
     overrideOutputDir: string | null;
-    target: 'java' | 'swift' | 'javascript' | 'typescript' | 'dart' | 'introspection';
+    target: Target;
 };
 
 // @public (undocumented)
@@ -149,6 +149,9 @@ export type SchemaNonModel = {
 
 // @public (undocumented)
 export type SchemaNonModels = Record<string, SchemaNonModel>;
+
+// @public (undocumented)
+export type Target = 'java' | 'swift' | 'javascript' | 'typescript' | 'dart' | 'introspection';
 
 // (No @packageDocumentation comment for this package)
 
