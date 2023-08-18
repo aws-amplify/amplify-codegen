@@ -791,7 +791,7 @@ export class AppSyncModelJavaVisitor<
   }
 
   protected isLazyModel(field: CodeGenField) {
-    if (!this.isGenerateModelsForLazyLoadAndCustomSelectionSet) return false;
+    if (!this.isGenerateModelsForLazyLoadAndCustomSelectionSet()) return false;
     switch (field.connectionInfo?.kind) {
       case CodeGenConnectionType.BELONGS_TO:
       case CodeGenConnectionType.HAS_ONE:

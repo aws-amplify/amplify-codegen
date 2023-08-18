@@ -64,8 +64,8 @@ const generateJavaPreset = (
       },
     });
 
+    // if generateModelsForLazyLoadAndCustomSelectionSet = true, these next Models + Paths will be created in api package
     if (options.config.generateModelsForLazyLoadAndCustomSelectionSet) {
-
       // If an overrideOutputDir is provided, we palce all API codegen in an 'api' folder to prevent collisions with DataStore models
       const apiModelFolder = options.config.overrideOutputDir ? 
         [options.config.overrideOutputDir, "api"] : 
@@ -84,10 +84,9 @@ const generateJavaPreset = (
       });
 
       // ModelPath
-      const modelPathName = modelName + "Path";
       config.push({
         ...options,
-        filename: join(...apiModelFolder, `${modelPathName}.java`),
+        filename: join(...apiModelFolder, `${modelName}Path.java`),
         config: {
           ...options.config,
           scalars: { ...JAVA_SCALAR_MAP, ...options.config.scalars },
