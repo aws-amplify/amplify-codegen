@@ -16,14 +16,14 @@ import {
 } from '../configs/java-config';
 import { JAVA_TYPE_IMPORT_MAP } from '../scalars';
 import { JavaDeclarationBlock } from '../languages/java-declaration-block';
-import { 
-  AppSyncModelVisitor, 
-  CodeGenField,   
+import {
+  AppSyncModelVisitor,
+  CodeGenField,
   CodeGenGenerateEnum,
-  CodeGenModel, 
-  CodeGenPrimaryKeyType, 
-  ParsedAppSyncModelConfig, 
-  RawAppSyncModelConfig 
+  CodeGenModel,
+  CodeGenPrimaryKeyType,
+  ParsedAppSyncModelConfig,
+  RawAppSyncModelConfig
 } from './appsync-visitor';
 import { CodeGenConnectionType } from '../utils/process-connections';
 import { AuthDirective, AuthStrategy } from '../utils/process-auth';
@@ -482,7 +482,7 @@ export class AppSyncModelJavaVisitor<
     }));
     const constructorBody = dedent(
       this.getWritableFields(model)
-        .map(field => { 
+        .map(field => {
           const fieldName = this.getFieldName(field);
           return `this.${fieldName} = ${fieldName};`;
         })
@@ -516,7 +516,7 @@ export class AppSyncModelJavaVisitor<
       const returnType = isLastStep ? this.getStepInterfaceName('Build') : this.getStepInterfaceName(fields[idx + 1].name);
       const argumentType = this.getNativeType(field, true);
       const argumentName = this.getStepFunctionArgumentName(field);
-      const assignment = this.isLazyModel(field) ? 
+      const assignment = this.isLazyModel(field) ?
         `this.${fieldName} = new InMemoryLazyModel<>(${argumentName});` :
         `this.${fieldName} = ${argumentName};`
       const body = [`Objects.requireNonNull(${argumentName});`, `${assignment}`, `return this;`].join('\n');
@@ -781,7 +781,7 @@ export class AppSyncModelJavaVisitor<
     }
     return nativeType;
   }
-    
+
   protected getListType(typeStr: string, field: CodeGenField): string {
     if(this.isLazyList(field)) {
       return `PaginatedResult<${typeStr}>`;
@@ -796,7 +796,7 @@ export class AppSyncModelJavaVisitor<
       case CodeGenConnectionType.BELONGS_TO:
       case CodeGenConnectionType.HAS_ONE:
         return true;
-      default: 
+      default:
       return false;
     }
   }
@@ -1177,7 +1177,7 @@ export class AppSyncModelJavaVisitor<
    */
   protected generateModelPathConstructor(model: CodeGenModel, declarationsBlock: JavaDeclarationBlock): void {
     const modelPathName = this.generateModelPathName(model)
-    
+
     const constructorArguments = [
       { name: "name", type: "@NonNull String" },
       { name: "isCollection", type: "@NonNull Boolean" },
@@ -1188,5 +1188,5 @@ export class AppSyncModelJavaVisitor<
 
     declarationsBlock.addClassMethod(modelPathName, null, body, constructorArguments, undefined, '');
   }
-  
+
 }

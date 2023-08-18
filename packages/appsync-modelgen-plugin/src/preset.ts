@@ -38,7 +38,7 @@ const generateJavaPreset = (
 
     // Android splits models into 2 different packages.. 1 for DataStore and 1 for API
     // generateModelsForLazyLoadAndCustomSelectionSet is used to decide whether or not we create the codegen for the API category
-    
+
     // Model
     const modelName = model.name.value;
     config.push({
@@ -67,8 +67,8 @@ const generateJavaPreset = (
     // if generateModelsForLazyLoadAndCustomSelectionSet = true, these next Models + Paths will be created in api package
     if (options.config.generateModelsForLazyLoadAndCustomSelectionSet) {
       // If an overrideOutputDir is provided, we palce all API codegen in an 'api' folder to prevent collisions with DataStore models
-      const apiModelFolder = options.config.overrideOutputDir ? 
-        [options.config.overrideOutputDir, "api"] : 
+      const apiModelFolder = options.config.overrideOutputDir ?
+        [options.config.overrideOutputDir, "api"] :
         [options.baseOutputDir, ...GENERATED_API_PACKAGE_NAME.split('.')];
 
       // Model
@@ -83,7 +83,7 @@ const generateJavaPreset = (
         },
       });
 
-      // ModelPath if type is @model
+      // Create ModelPath if type is @model
       if (model?.directives?.find((directive) => directive?.name?.value === 'model')) {
         config.push({
           ...options,
@@ -96,7 +96,7 @@ const generateJavaPreset = (
           },
         });
       }
-  
+
       // Class loader
       config.push({
         ...options,
