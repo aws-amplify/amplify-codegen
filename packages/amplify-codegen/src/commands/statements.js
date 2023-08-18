@@ -4,13 +4,7 @@ const Ora = require('ora');
 
 const { loadConfig } = require('../codegen-config');
 const constants = require('../constants');
-const {
-  ensureIntrospectionSchema,
-  getFrontEndHandler,
-  getAppSyncAPIDetails,
-  readSchemaFromFile,
-  GraphQLStatementsFormatter,
-} = require('../utils');
+const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails, readSchemaFromFile } = require('../utils');
 const { generateStatements: generateStatementsHelper } = require('@aws-amplify/graphql-generator');
 
 async function generateStatements(context, forceDownloadSchema, maxDepth, withoutInit = false, decoupleFrontend = '') {

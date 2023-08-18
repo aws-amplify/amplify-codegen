@@ -88,13 +88,11 @@ async function generateModels(context, generateOptions = null) {
     resourceDir: apiResourcePath,
   });
 
-  const schema = loadSchema(apiResourcePath);
-
+  const schemaContent = loadSchema(apiResourcePath);
+  const baseOutputDir = overrideOutputDir || path.join(projectRoot, getModelOutputPath(context));
   const directives = await context.amplify.executeProviderUtils(context, 'awscloudformation', 'getTransformerDirectives', {
     resourceDir: apiResourcePath,
   });
-
-  const baseOutputDir = overrideOutputDir || path.join(projectRoot, getModelOutputPath(context));
   const projectConfig = context.amplify.getProjectConfig();
 
   if (!isIntrospection && projectConfig.frontend === 'flutter' && !validateAmplifyFlutterMinSupportedVersion(projectRoot)) {
@@ -115,8 +113,8 @@ Amplify Flutter versions prior to 0.6.0 are no longer supported by codegen. Plea
 
   const handleListNullabilityTransparently = readFeatureFlag('codegen.handleListNullabilityTransparently');
 
-  const output = await generateModelsHelper({
-    schema,
+  const generatedCode = await generateModelsHelper({
+    schema: schemaContent,
     directives,
     platform: isIntrospection ? 'introspection' : projectConfig.frontend,
     generateIndexRules,
@@ -132,16 +130,17 @@ Amplify Flutter versions prior to 0.6.0 are no longer supported by codegen. Plea
   });
 
   if (writeToDisk) {
-    Object.entries(output).forEach(([filepath, contents]) => {
+    Object.entries(generatedCode).forEach(([filepath, contents]) => {
       fs.outputFileSync(path.resolve(path.join(baseOutputDir, filepath)), contents);
     });
 
+    // TODO: move to @aws-amplify/graphql-generator
     generateEslintIgnore(context);
 
     context.print.info(`Successfully generated models. Generated models can be found in ${overrideOutputDir ?? baseOutputDir}`);
   }
 
-  return output;
+  return generatedCode;
 }
 
 async function validateSchema(context) {
