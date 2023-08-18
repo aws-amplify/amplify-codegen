@@ -4,13 +4,6 @@ import { buildSchema } from './generator/utils/loading';
 import { getTemplatePartials, getOperationPartial, getExternalFragmentPartial } from './generator/utils/templates';
 export { buildSchema } from './generator/utils/loading';
 
-export type GeneratedOperations = {
-  queries: Map<string, string>;
-  mutations: Map<string, string>;
-  subscriptions: Map<string, string>;
-  fragments: Map<string, string>;
-};
-
 export function generateGraphQLDocuments(
   schema: string,
   options: { maxDepth?: number; useExternalFragmentForS3Object?: boolean; typenameIntrospection?: boolean },
@@ -53,6 +46,13 @@ export function generateGraphQLDocuments(
 
   return allOperations;
 }
+
+export type GeneratedOperations = {
+  queries: Map<string, string>;
+  mutations: Map<string, string>;
+  subscriptions: Map<string, string>;
+  fragments: Map<string, string>;
+};
 
 function renderOperations(operations: Array<GQLTemplateOp>): Map<string, string> {
   const renderedOperations = new Map<string, string>();
