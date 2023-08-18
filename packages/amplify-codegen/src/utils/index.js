@@ -16,7 +16,6 @@ const getSDLSchemaLocation = require('./getSDLSchemaLocation');
 const switchToSDLSchema = require('./switchToSDLSchema');
 const ensureIntrospectionSchema = require('./ensureIntrospectionSchema');
 const { readSchemaFromFile } = require('./readSchemaFromFile');
-const { GraphQLStatementsFormatter } = require('./GraphQLStatementsFormatter');
 module.exports = {
   getAppSyncAPIDetails,
   getFrontEndHandler,
@@ -36,5 +35,4 @@ module.exports = {
   switchToSDLSchema,
   ensureIntrospectionSchema,
   readSchemaFromFile,
-  GraphQLStatementsFormatter
 };
