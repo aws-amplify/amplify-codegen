@@ -2096,3 +2096,340 @@ public struct Post: Model {
 }",
 }
 `;
+
+exports[`generateModels targets basic javascript 1`] = `
+Object {
+  "models/index.d.ts": "import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from \\"@aws-amplify/datastore\\";
+// @ts-ignore
+import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from \\"@aws-amplify/datastore\\";
+
+
+
+
+
+type EagerBlog = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Blog, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly name: string;
+  readonly posts?: (Post | null)[] | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyBlog = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Blog, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly name: string;
+  readonly posts: AsyncCollection<Post>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Blog = LazyLoading extends LazyLoadingDisabled ? EagerBlog : LazyBlog
+
+export declare const Blog: (new (init: ModelInit<Blog>) => Blog) & {
+  copyOf(source: Blog, mutator: (draft: MutableModel<Blog>) => MutableModel<Blog> | void): Blog;
+}
+
+type EagerPost = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Post, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly title: string;
+  readonly blog?: Blog | null;
+  readonly comments?: (Comment | null)[] | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly blogPostsId?: string | null;
+}
+
+type LazyPost = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Post, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly title: string;
+  readonly blog: AsyncItem<Blog | undefined>;
+  readonly comments: AsyncCollection<Comment>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly blogPostsId?: string | null;
+}
+
+export declare type Post = LazyLoading extends LazyLoadingDisabled ? EagerPost : LazyPost
+
+export declare const Post: (new (init: ModelInit<Post>) => Post) & {
+  copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+}
+
+type EagerComment = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Comment, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly post?: Post | null;
+  readonly content: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly postCommentsId?: string | null;
+}
+
+type LazyComment = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Comment, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly post: AsyncItem<Post | undefined>;
+  readonly content: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly postCommentsId?: string | null;
+}
+
+export declare type Comment = LazyLoading extends LazyLoadingDisabled ? EagerComment : LazyComment
+
+export declare const Comment: (new (init: ModelInit<Comment>) => Comment) & {
+  copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
+}",
+  "models/index.js": "// @ts-check
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
+
+
+
+const { Blog, Post, Comment } = initSchema(schema);
+
+export {
+  Blog,
+  Post,
+  Comment
+};",
+  "models/schema.d.ts": "import { Schema } from '@aws-amplify/datastore';
+
+export declare const schema: Schema;",
+  "models/schema.js": "export const schema = {
+    \\"models\\": {
+        \\"Blog\\": {
+            \\"name\\": \\"Blog\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"name\\": {
+                    \\"name\\": \\"name\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"posts\\": {
+                    \\"name\\": \\"posts\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"model\\": \\"Post\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isArrayNullable\\": true,
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_MANY\\",
+                        \\"associatedWith\\": [
+                            \\"blogPostsId\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Blogs\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                }
+            ]
+        },
+        \\"Post\\": {
+            \\"name\\": \\"Post\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"title\\": {
+                    \\"name\\": \\"title\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"blog\\": {
+                    \\"name\\": \\"blog\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"Blog\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"BELONGS_TO\\",
+                        \\"targetNames\\": [
+                            \\"blogPostsId\\"
+                        ]
+                    }
+                },
+                \\"comments\\": {
+                    \\"name\\": \\"comments\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"model\\": \\"Comment\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isArrayNullable\\": true,
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_MANY\\",
+                        \\"associatedWith\\": [
+                            \\"postCommentsId\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"blogPostsId\\": {
+                    \\"name\\": \\"blogPostsId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Posts\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                }
+            ]
+        },
+        \\"Comment\\": {
+            \\"name\\": \\"Comment\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"post\\": {
+                    \\"name\\": \\"post\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"Post\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"BELONGS_TO\\",
+                        \\"targetNames\\": [
+                            \\"postCommentsId\\"
+                        ]
+                    }
+                },
+                \\"content\\": {
+                    \\"name\\": \\"content\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"postCommentsId\\": {
+                    \\"name\\": \\"postCommentsId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Comments\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                }
+            ]
+        }
+    },
+    \\"enums\\": {},
+    \\"nonModels\\": {},
+    \\"codegenVersion\\": \\"3.4.4\\",
+    \\"version\\": \\"920118e6cbedacf9fdf58bb983d59a94\\"
+};",
+}
+`;
