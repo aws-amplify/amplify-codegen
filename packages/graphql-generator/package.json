@@ -44,7 +44,8 @@
     },
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "src/**/*.ts"
+      "src/**/*.ts",
+      "!src/__tests__/**/*.ts"
     ],
     "coverageThreshold": {
       "global": {
