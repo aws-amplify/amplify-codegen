@@ -83,17 +83,19 @@ const generateJavaPreset = (
         },
       });
 
-      // ModelPath
-      config.push({
-        ...options,
-        filename: join(...apiModelFolder, `${modelName}Path.java`),
-        config: {
-          ...options.config,
-          scalars: { ...JAVA_SCALAR_MAP, ...options.config.scalars },
-          generate: 'metadata',
-          selectedType: modelName,
-        },
-      });
+      // ModelPath if type is @model
+      if (model?.directives?.find((directive) => directive?.name?.value === 'model')) {
+        config.push({
+          ...options,
+          filename: join(...apiModelFolder, `${modelName}Path.java`),
+          config: {
+            ...options.config,
+            scalars: { ...JAVA_SCALAR_MAP, ...options.config.scalars },
+            generate: 'metadata',
+            selectedType: modelName,
+          },
+        });
+      }
   
       // Class loader
       config.push({
