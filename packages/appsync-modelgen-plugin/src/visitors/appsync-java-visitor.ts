@@ -518,7 +518,7 @@ export class AppSyncModelJavaVisitor<
       const argumentName = this.getStepFunctionArgumentName(field);
       const assignment = this.isLazyModel(field) ?
         `this.${fieldName} = new InMemoryLazyModel<>(${argumentName});` :
-        `this.${fieldName} = ${argumentName};`
+        `this.${fieldName} = ${argumentName};`;
       const body = [`Objects.requireNonNull(${argumentName});`, `${assignment}`, `return this;`].join('\n');
       builderClassDeclaration.addClassMethod(
         methodName,
@@ -539,7 +539,10 @@ export class AppSyncModelJavaVisitor<
       const returnType = this.getStepInterfaceName('Build');
       const argumentType = this.getNativeType(field, true);
       const argumentName = this.getStepFunctionArgumentName(field);
-      const body = [`this.${fieldName} = ${argumentName};`, `return this;`].join('\n');
+      const assignment = this.isLazyModel(field) ?
+      `this.${fieldName} = new InMemoryLazyModel<>(${argumentName});` :
+      `this.${fieldName} = ${argumentName};`
+      const body = [`${assignment}`, `return this;`].join('\n');
       builderClassDeclaration.addClassMethod(
         methodName,
         returnType,
