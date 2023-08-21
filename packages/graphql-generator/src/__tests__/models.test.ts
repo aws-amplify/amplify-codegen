@@ -9,6 +9,7 @@ describe('generateModels', () => {
         const options: GenerateModelsOptions = {
           schema: readSchema('blog-model.graphql'),
           target,
+          directives: '',
         };
         const models = await generateModels(options);
         expect(models).toMatchSnapshot();
