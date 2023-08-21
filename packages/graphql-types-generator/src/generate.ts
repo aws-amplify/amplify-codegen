@@ -8,7 +8,7 @@ import { validateQueryDocument } from './validation';
 import { compileToIR } from './compiler';
 import { compileToLegacyIR } from './compiler/legacyIR';
 import serializeToJSON from './serializeToJSON';
-import { BasicGeneratedFile, BasicGeneratedFileMap, isBasicGeneratedFileMap } from './utilities/CodeGenerator';
+import { BasicGeneratedFileMap, isBasicGeneratedFileMap } from './utilities/CodeGenerator';
 import { generateSource as generateSwiftSource } from './swift';
 import { generateSource as generateTypescriptSource } from './typescript';
 import { generateSource as generateFlowSource } from './flow';
@@ -171,7 +171,7 @@ function generateTypesFlowModern(schema: GraphQLSchema, document: DocumentNode, 
   return generatedFiles;
 }
 
-function writeGeneratedFiles(generatedFiles: { [fileName: string]: BasicGeneratedFile }, outputDirectory: string) {
+function writeGeneratedFiles(generatedFiles: BasicGeneratedFileMap, outputDirectory: string) {
   // Clear all generated stuff to make sure there isn't anything
   // unnecessary lying around.
   rimraf.sync(outputDirectory);
