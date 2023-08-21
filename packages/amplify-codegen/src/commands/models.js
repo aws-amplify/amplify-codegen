@@ -3,9 +3,7 @@ const fs = require('fs-extra');
 const { parse } = require('graphql');
 const glob = require('glob-all');
 const { FeatureFlags, pathManager } = require('@aws-amplify/amplify-cli-core');
-const gqlCodeGen = require('@graphql-codegen/core');
-const appSyncDataStoreCodeGen = require('@aws-amplify/appsync-modelgen-plugin');
-const { version: packageVersion } = require('../../package.json');
+const { generateModels: generateModelsHelper } = require('@aws-amplify/graphql-generator');
 const { validateAmplifyFlutterMinSupportedVersion } = require('../utils/validateAmplifyFlutterMinSupportedVersion');
 
 const platformToLanguageMap = {
@@ -13,6 +11,7 @@ const platformToLanguageMap = {
   ios: 'swift',
   flutter: 'dart',
   javascript: 'javascript',
+  typescript: 'typescript',
 };
 
 /**
@@ -91,9 +90,7 @@ async function generateModels(context, generateOptions = null) {
   });
 
   const schemaContent = loadSchema(apiResourcePath);
-
-  const baseOutputDir = path.join(projectRoot, getModelOutputPath(context));
-  const schema = parse(schemaContent);
+  const baseOutputDir = overrideOutputDir || path.join(projectRoot, getModelOutputPath(context));
   const projectConfig = context.amplify.getProjectConfig();
 
   if (!isIntrospection && projectConfig.frontend === 'flutter' && !validateAmplifyFlutterMinSupportedVersion(projectRoot)) {
@@ -110,52 +107,32 @@ Amplify Flutter versions prior to 0.6.0 are no longer supported by codegen. Plea
   const generateModelsForLazyLoadAndCustomSelectionSet = readFeatureFlag('codegen.generateModelsForLazyLoadAndCustomSelectionSet');
   const improvePluralization = readFeatureFlag('graphQLTransformer.improvePluralization');
 
-  let isTimestampFieldsAdded = readFeatureFlag('codegen.addTimestampFields');
+  let addTimestampFields = readFeatureFlag('codegen.addTimestampFields');
 
   const handleListNullabilityTransparently = readFeatureFlag('codegen.handleListNullabilityTransparently');
-  const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
-    baseOutputDir,
-    schema,
-    config: {
-      target: isIntrospection ? 'introspection' : platformToLanguageMap[projectConfig.frontend] || projectConfig.frontend,
-      directives: directiveDefinitions,
-      isTimestampFieldsAdded,
-      emitAuthProvider,
-      generateIndexRules,
-      handleListNullabilityTransparently,
-      usePipelinedTransformer,
-      transformerVersion,
-      respectPrimaryKeyAttributesOnConnectionField,
-      improvePluralization,
-      generateModelsForLazyLoadAndCustomSelectionSet,
-      codegenVersion: packageVersion,
-      overrideOutputDir, // This needs to live under `config` in order for the GraphQL types to work out.
-    },
-  });
 
-  const codeGenPromises = appsyncLocalConfig.map(cfg => {
-    return gqlCodeGen.codegen({
-      ...cfg,
-      plugins: [
-        {
-          appSyncLocalCodeGen: {},
-        },
-      ],
-      pluginMap: {
-        appSyncLocalCodeGen: appSyncDataStoreCodeGen,
-      },
-    });
+  const generatedCode = await generateModelsHelper({
+    schema: schemaContent,
+    directives: directiveDefinitions,
+    target: isIntrospection ? 'introspection' : platformToLanguageMap[projectConfig.frontend],
+    generateIndexRules,
+    emitAuthProvider,
+    useExperimentalPipelinedTranformer: usePipelinedTransformer,
+    transformerVersion,
+    respectPrimaryKeyAttributesOnConnectionField,
+    improvePluralization,
+    generateModelsForLazyLoadAndCustomSelectionSet,
+    addTimestampFields,
+    handleListNullabilityTransparently,
+    overrideOutputDir,
   });
-
-  const generatedCode = await Promise.all(codeGenPromises);
 
   if (writeToDisk) {
-    appsyncLocalConfig.forEach((cfg, idx) => {
-      const outPutPath = cfg.filename;
-      fs.ensureFileSync(outPutPath);
-      fs.writeFileSync(outPutPath, generatedCode[idx]);
+    Object.entries(generatedCode).forEach(([filepath, contents]) => {
+      fs.outputFileSync(path.resolve(path.join(baseOutputDir, filepath)), contents);
     });
 
+    // TODO: move to @aws-amplify/graphql-generator
     generateEslintIgnore(context);
 
     context.print.info(`Successfully generated models. Generated models can be found in ${overrideOutputDir ?? baseOutputDir}`);
