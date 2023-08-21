@@ -16,9 +16,6 @@ export function generateStatements(options: GenerateStatementsOptions): Generate
     useExternalFragmentForS3Object: target === 'graphql',
     typenameIntrospection,
   });
-  if (!generatedOperations) {
-    throw new Error('No GraphQL statements were generated.');
-  }
   return generatedDocuments(target, generatedOperations);
 }
 
