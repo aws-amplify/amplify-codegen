@@ -16,10 +16,10 @@ export function generateStatements(options: GenerateStatementsOptions): Generate
     useExternalFragmentForS3Object: target === 'graphql',
     typenameIntrospection,
   });
-  return generatedDocuments(target, generatedOperations);
+  return generatedOperationsToOutput(target, generatedOperations);
 }
 
-function generatedDocuments(target: StatementsTarget, generatedStatements: GeneratedOperations): GeneratedOutput {
+function generatedOperationsToOutput(target: StatementsTarget, generatedStatements: GeneratedOperations): GeneratedOutput {
   const fileExtension = statementsTargetToFileExtensionMap[target];
   const operations: ['queries', 'mutations', 'subscriptions'] = ['queries', 'mutations', 'subscriptions'];
 
