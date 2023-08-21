@@ -1,3 +1,5 @@
 import './polyfills';
 
-export { default as generate, generateTypes } from './generate';
+export { default as generate } from './generate';
+
+// temp change to trigger release

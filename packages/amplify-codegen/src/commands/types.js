@@ -1,12 +1,11 @@
 const glob = require('glob-all');
 const path = require('path');
 const Ora = require('ora');
-const fs = require('fs-extra');
 
 const constants = require('../constants');
 const { loadConfig } = require('../codegen-config');
 const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails } = require('../utils');
-const { generateTypes: generateTypesHelper } = require('@aws-amplify/graphql-generator');
+const { generate } = require('@aws-amplify/graphql-types-generator');
 
 async function generateTypes(context, forceDownloadSchema, withoutInit = false, decoupleFrontend = '') {
   let frontend = decoupleFrontend;
@@ -46,12 +45,10 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
         }
 
         const excludes = cfg.excludes.map(pattern => `!${pattern}`);
-        const queries = glob
-          .sync([...includeFiles, ...excludes], {
-            cwd: projectPath,
-            absolute: true,
-          })
-          .map(queryFilePath => fs.readFileSync(queryFilePath, 'utf8'));
+        const queries = glob.sync([...includeFiles, ...excludes], {
+          cwd: projectPath,
+          absolute: true,
+        });
         const schemaPath = path.join(projectPath, cfg.schema);
         const target = cfg.amplifyExtension.codeGenTarget;
 
@@ -63,18 +60,10 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
         }
         const codeGenSpinner = new Ora(constants.INFO_MESSAGE_CODEGEN_GENERATE_STARTED);
         codeGenSpinner.start();
-        const schema = fs.readFileSync(schemaPath, 'utf8');
-        const introspection = path.extname(schemaPath) === '.json';
-
         try {
-          const output = await generateTypesHelper({
-            schema,
-            queries,
-            target,
-            introspection,
-          });
-          Object.entries(output).forEach(([filepath, contents]) => {
-            fs.outputFileSync(path.resolve(path.join(outputPath, filepath)), contents);
+          generate(queries, schemaPath, path.join(projectPath, generatedFileName), '', target, '', {
+            addTypename: true,
+            complexObjectSupport: 'auto',
           });
           codeGenSpinner.succeed(`${constants.INFO_MESSAGE_CODEGEN_GENERATE_SUCCESS} ${path.relative(path.resolve('.'), outputPath)}`);
         } catch (err) {

@@ -9,11 +9,6 @@
 // @public (undocumented)
 export function generate(inputPaths: string[], schemaPath: string, outputPath: string, only: string, target: TargetType, tagName: string, options: any): void;
 
-// @public (undocumented)
-export function generateTypes(schema: string, introspection: boolean, queryDocuments: string[], only: string, target: TargetType, multipleFiles: boolean, options: any): {
-    [filepath: string]: string;
-};
-
 // (No @packageDocumentation comment for this package)
 
 ```
