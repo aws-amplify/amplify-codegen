@@ -4,6 +4,8 @@
 
 ```ts
 
+import { Target } from '@aws-amplify/appsync-modelgen-plugin';
+
 // @public (undocumented)
 export type GeneratedOutput = {
     [filepath: string]: string;
@@ -52,7 +54,7 @@ export type GenerateTypesOptions = {
 };
 
 // @public (undocumented)
-export type ModelsTarget = 'android' | 'ios' | 'flutter' | 'javascript' | 'introspection';
+export type ModelsTarget = Target;
 
 // @public (undocumented)
 export type StatementsTarget = 'javascript' | 'graphql' | 'flow' | 'typescript' | 'angular';
