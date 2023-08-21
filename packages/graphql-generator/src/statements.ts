@@ -8,7 +8,7 @@ export function generateStatements(options: GenerateStatementsOptions): Generate
   const { schema, target, maxDepth = 2, typenameIntrospection = true } = options;
 
   if (!Object.keys(statementsTargetToFileExtensionMap).includes(target)) {
-    throw new Error(`${target} is not supported a supported target.`);
+    throw new Error(`${target} is not a supported target.`);
   }
 
   const generatedOperations = generateGraphQLDocuments(schema, {

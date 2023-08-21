@@ -26,7 +26,7 @@ describe('generateStatements', () => {
         target,
       };
 
-      expect(() => generateStatements(options)).toThrowError('swift is not supported a supported target.');
+      expect(() => generateStatements(options)).toThrowError('swift is not a supported target.');
     });
   });
 });
