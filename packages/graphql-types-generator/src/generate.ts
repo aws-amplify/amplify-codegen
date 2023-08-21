@@ -121,7 +121,6 @@ export function generateForTarget(
 
   const context = compileToLegacyIR(schema, document, options);
 
-  // string
   switch (target) {
     case 'json':
       return serializeToJSON(context);
