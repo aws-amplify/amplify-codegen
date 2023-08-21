@@ -17,17 +17,29 @@ import { generateSource as generateScalaSource } from './scala';
 import { generateSource as generateAngularSource } from './angular';
 import { hasS3Fields } from './utilities/complextypes';
 
-type TargetType = 'json' | 'swift' | 'ts' | 'typescript' | 'flow' | 'scala' | 'flow-modern' | 'angular';
+export type Target = 'json' | 'swift' | 'ts' | 'typescript' | 'flow' | 'scala' | 'flow-modern' | 'angular';
 
 export default function generate(
   inputPaths: string[],
   schemaPath: string,
   outputPath: string,
   only: string,
-  target: TargetType,
+  target: Target,
   tagName: string,
   options: any,
 ): void {
+  generateFromFile(inputPaths, schemaPath, outputPath, only, target, tagName, options);
+}
+
+function generateFromFile(
+  inputPaths: string[],
+  schemaPath: string,
+  outputPath: string,
+  only: string,
+  target: Target,
+  tagName: string,
+  options: any,
+) {
   const schema = loadSchema(schemaPath);
 
   const document = loadAndMergeQueryDocuments(inputPaths, tagName);
@@ -69,31 +81,18 @@ export default function generate(
   }
 }
 
-export function generateTypesFromString(
+export function generateFromString(
   schema: string,
   introspection: boolean,
   queryDocuments: string[],
-  only: string,
-  target: TargetType,
-  multipleFiles: boolean,
-  options: any,
-): string | BasicGeneratedFileMap {
-  const graphqlSchema = parseSchema(schema, introspection);
-  const document = parseAndMergeQueryDocuments(queryDocuments.map(document => new Source(document)));
-  validateQueryDocument(graphqlSchema, document);
-  return generateForTarget(graphqlSchema, document, only, target, multipleFiles, options);
-}
-
-export function generateTypes(
-  schema: string,
-  introspection: boolean,
-  queryDocuments: string[],
-  only: string,
-  target: TargetType,
+  target: Target,
   multipleFiles: boolean,
   options: any,
 ): { [filepath: string]: string } {
-  const output = generateTypesFromString(schema, introspection, queryDocuments, only, target, multipleFiles, options);
+  const graphqlSchema = parseSchema(schema, introspection);
+  const document = parseAndMergeQueryDocuments(queryDocuments.map(document => new Source(document)));
+  validateQueryDocument(graphqlSchema, document);
+  const output = generateForTarget(graphqlSchema, document, '', target, multipleFiles, options);
 
   if (isBasicGeneratedFileMap(output)) {
     return Object.entries(output)
@@ -101,6 +100,7 @@ export function generateTypes(
       .reduce((acc, [filepath, fileOutput]) => ({ ...acc, [filepath]: fileOutput }), {});
   }
 
+  // TODO: get file name
   return { '': output };
 }
 
@@ -108,7 +108,7 @@ export function generateForTarget(
   schema: GraphQLSchema,
   document: DocumentNode,
   only: string,
-  target: TargetType,
+  target: Target,
   multipleFiles: boolean,
   options: any,
 ): string | BasicGeneratedFileMap {

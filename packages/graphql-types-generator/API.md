@@ -4,15 +4,16 @@
 
 ```ts
 
-// Warning: (ae-forgotten-export) The symbol "TargetType" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
-export function generate(inputPaths: string[], schemaPath: string, outputPath: string, only: string, target: TargetType, tagName: string, options: any): void;
+export function generate(inputPaths: string[], schemaPath: string, outputPath: string, only: string, target: Target, tagName: string, options: any): void;
 
 // @public (undocumented)
-export function generateTypes(schema: string, introspection: boolean, queryDocuments: string[], only: string, target: TargetType, multipleFiles: boolean, options: any): {
+export function generateFromString(schema: string, introspection: boolean, queryDocuments: string[], target: Target, multipleFiles: boolean, options: any): {
     [filepath: string]: string;
 };
+
+// @public (undocumented)
+export type Target = 'json' | 'swift' | 'ts' | 'typescript' | 'flow' | 'scala' | 'flow-modern' | 'angular';
 
 // (No @packageDocumentation comment for this package)
 

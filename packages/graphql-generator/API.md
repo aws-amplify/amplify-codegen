@@ -4,6 +4,8 @@
 
 ```ts
 
+import { Target } from '@aws-amplify/graphql-types-generator';
+
 // @public (undocumented)
 export type GeneratedOutput = {
     [filepath: string]: string;
@@ -58,7 +60,7 @@ export type ModelsTarget = 'java' | 'swift' | 'javascript' | 'typescript' | 'dar
 export type StatementsTarget = 'javascript' | 'graphql' | 'flow' | 'typescript' | 'angular';
 
 // @public (undocumented)
-export type TypesTarget = 'json' | 'swift' | 'typescript' | 'flow' | 'scala' | 'flow-modern' | 'angular';
+export type TypesTarget = Target;
 
 // (No @packageDocumentation comment for this package)
 
