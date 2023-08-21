@@ -1,5 +1,4 @@
-import { Target } from '@aws-amplify/appsync-modelgen-plugin';
-export type ModelsTarget = Target;
+export type ModelsTarget = 'java' | 'swift' | 'javascript' | 'typescript' | 'dart' | 'introspection';
 export type StatementsTarget = 'javascript' | 'graphql' | 'flow' | 'typescript' | 'angular';
 export type TypesTarget = 'json' | 'swift' | 'typescript' | 'flow' | 'scala' | 'flow-modern' | 'angular';
 

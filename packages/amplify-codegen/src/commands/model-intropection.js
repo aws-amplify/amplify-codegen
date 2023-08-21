@@ -24,11 +24,11 @@ async function getModelIntrospection(context) {
     writeToDisk: false,
   });
 
-  if (Object.keys(generatedCode).length !== 1) {
+  if (generatedCode.length !== 1) {
     throw new Error('Expected a single output to be generated for model introspection.');
   }
 
-  return JSON.parse(generatedCode['model-introspection.json']);
+  return JSON.parse(generatedCode[0]);
 }
 
 module.exports = {
