@@ -49,8 +49,7 @@ export type GenerateTypesOptions = {
     target: TypesTarget;
     queries?: string[];
     introspection?: boolean;
-    only?: string;
-    multipleFiles?: boolean;
+    multipleSwiftFiles?: boolean;
 };
 
 // @public (undocumented)

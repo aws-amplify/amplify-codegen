@@ -86,13 +86,13 @@ export function generateFromString(
   introspection: boolean,
   queryDocuments: string[],
   target: Target,
-  multipleFiles: boolean,
+  multipleSwiftFiles: boolean,
   options: any,
 ): { [filepath: string]: string } {
   const graphqlSchema = parseSchema(schema, introspection);
   const document = parseAndMergeQueryDocuments(queryDocuments.map(document => new Source(document)));
   validateQueryDocument(graphqlSchema, document);
-  const output = generateForTarget(graphqlSchema, document, '', target, multipleFiles, options);
+  const output = generateForTarget(graphqlSchema, document, '', target, multipleSwiftFiles, options);
 
   if (isBasicGeneratedFileMap(output)) {
     return Object.entries(output)

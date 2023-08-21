@@ -10,7 +10,7 @@ export type GenerateTypesOptions = {
   target: TypesTarget;
   queries?: string[];
   introspection?: boolean;
-  multipleFiles?: boolean;
+  multipleSwiftFiles?: boolean; // only used when target is swift
 };
 
 export type GenerateModelsOptions = {
