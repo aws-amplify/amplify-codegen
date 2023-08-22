@@ -9,8 +9,14 @@ import { GraphQLSchema } from 'graphql';
 // @public (undocumented)
 export function buildSchema(schema: string): GraphQLSchema;
 
-// Warning: (ae-forgotten-export) The symbol "GeneratedOperations" needs to be exported by the entry point index.d.ts
-//
+// @public (undocumented)
+export type GeneratedOperations = {
+    queries: Map<string, string>;
+    mutations: Map<string, string>;
+    subscriptions: Map<string, string>;
+    fragments: Map<string, string>;
+};
+
 // @public (undocumented)
 export function generateGraphQLDocuments(schema: string, options: {
     maxDepth?: number;

@@ -1,19 +1,27 @@
-const prettier = require('prettier');
+import prettier, { BuiltInParserName } from 'prettier';
 
 const CODEGEN_WARNING = 'this is an auto generated file. This will be overwritten';
 const LINE_DELIMITOR = '\n';
 
+type Language = 'javascript' | 'graphql' | 'typescript' | 'flow' | 'angular';
+
 /**
  * Utility class to format the generated GraphQL statements based on frontend language type
  */
-class GraphQLStatementsFormatter {
-  constructor(language) {
+export class GraphQLStatementsFormatter {
+  private language: Language;
+
+  private lintOverrides: string[];
+
+  private headerComments: string[];
+
+  constructor(language: Language) {
     this.language = language || 'graphql';
     this.lintOverrides = [];
     this.headerComments = [];
   }
 
-  format(statements) {
+  format(statements: Map<string, string>): string {
     switch (this.language) {
       case 'javascript':
         this.headerComments.push(CODEGEN_WARNING);
@@ -21,10 +29,7 @@ class GraphQLStatementsFormatter {
         return this.prettify(this.formatJS(statements));
       case 'typescript':
         this.headerComments.push(CODEGEN_WARNING);
-        this.lintOverrides.push(...[
-          '/* tslint:disable */',
-          '/* eslint-disable */'
-        ]);
+        this.lintOverrides.push(...['/* tslint:disable */', '/* eslint-disable */']);
         return this.prettify(this.formatJS(statements));
       case 'flow':
         this.headerComments.push('@flow', CODEGEN_WARNING);
@@ -35,30 +40,28 @@ class GraphQLStatementsFormatter {
     }
   }
 
-  formatGraphQL(statements) {
-    const headerBuffer = this.headerComments.map( comment => `# ${comment}`).join(LINE_DELIMITOR);
+  formatGraphQL(statements: Map<string, string>): string {
+    const headerBuffer = this.headerComments.map(comment => `# ${comment}`).join(LINE_DELIMITOR);
     const statementsBuffer = statements ? [...statements.values()].join(LINE_DELIMITOR) : '';
     const formattedOutput = [headerBuffer, LINE_DELIMITOR, statementsBuffer].join(LINE_DELIMITOR);
     return formattedOutput;
   }
 
-  formatJS(statements) {
+  formatJS(statements: Map<string, string>): string {
     const lintOverridesBuffer = this.lintOverrides.join(LINE_DELIMITOR);
-    const headerBuffer = this.headerComments.map( comment => `// ${comment}`).join(LINE_DELIMITOR);
+    const headerBuffer = this.headerComments.map(comment => `// ${comment}`).join(LINE_DELIMITOR);
     const formattedStatements = [];
     if (statements) {
       for (const [key, value] of statements) {
-        formattedStatements.push(
-          `export const ${key} = /* GraphQL */ \`${value}\``
-        );
+        formattedStatements.push(`export const ${key} = /* GraphQL */ \`${value}\``);
       }
     }
     const formattedOutput = [lintOverridesBuffer, headerBuffer, LINE_DELIMITOR, ...formattedStatements].join(LINE_DELIMITOR);
     return formattedOutput;
   }
 
-  prettify(output) {
-    const parserMap = {
+  prettify(output: string): string {
+    const parserMap: { [key in Language]: BuiltInParserName } = {
       javascript: 'babel',
       graphql: 'graphql',
       typescript: 'typescript',
@@ -68,5 +71,3 @@ class GraphQLStatementsFormatter {
     return prettier.format(output, { parser: parserMap[this.language || 'graphql'] });
   }
 }
-
-module.exports = { GraphQLStatementsFormatter };

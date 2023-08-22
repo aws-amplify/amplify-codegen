@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generateTypes targets basic angular 1`] = `
+Object {
+  "": "",
+}
+`;
+
+exports[`generateTypes targets basic flow 1`] = `
+Object {
+  "": "",
+}
+`;
+
+exports[`generateTypes targets basic flow-modern 1`] = `
+Object {
+  "": "",
+}
+`;
+
+exports[`generateTypes targets basic json 1`] = `
+Object {
+  "": "",
+}
+`;
+
+exports[`generateTypes targets basic scala 1`] = `
+Object {
+  "": "",
+}
+`;
+
+exports[`generateTypes targets basic swift 1`] = `
+Object {
+  "": "",
+}
+`;
+
+exports[`generateTypes targets basic typescript 1`] = `
+Object {
+  "": "",
+}
+`;

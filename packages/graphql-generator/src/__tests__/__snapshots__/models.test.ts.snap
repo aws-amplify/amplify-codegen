@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generateModels targets basic dart 1`] = `
+Object {
+  "": "",
+}
+`;
+
+exports[`generateModels targets basic introspection 1`] = `
+Object {
+  "": "",
+}
+`;
+
+exports[`generateModels targets basic java 1`] = `
+Object {
+  "": "",
+}
+`;
+
+exports[`generateModels targets basic javascript 1`] = `
+Object {
+  "": "",
+}
+`;
+
+exports[`generateModels targets basic swift 1`] = `
+Object {
+  "": "",
+}
+`;
+
+exports[`generateModels targets basic typescript 1`] = `
+Object {
+  "": "",
+}
+`;
