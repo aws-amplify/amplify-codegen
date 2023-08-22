@@ -73,10 +73,22 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
             target,
             introspection,
           });
-          Object.entries(output).forEach(([filepath, contents]) => {
-            fs.outputFileSync(path.resolve(path.join(outputPath, filepath)), contents);
-          });
-          codeGenSpinner.succeed(`${constants.INFO_MESSAGE_CODEGEN_GENERATE_SUCCESS} ${path.relative(path.resolve('.'), outputPath)}`);
+          const outputs = Object.entries(output);
+
+          if (outputs.length === 1) {
+            const [[, contents]] = outputs;
+            fs.outputFileSync(path.resolve(path.join(projectPath, outputPath)), contents);
+          } else {
+            outputs.forEach(([filepath, contents]) => {
+              fs.outputFileSync(path.resolve(path.join(projectPath, outputPath, filepath)), contents);
+            });
+          }
+          codeGenSpinner.succeed(
+            `${constants.INFO_MESSAGE_CODEGEN_GENERATE_SUCCESS} ${path.relative(
+              path.resolve('.'),
+              path.join(projectPath, generatedFileName),
+            )}`,
+          );
         } catch (err) {
           codeGenSpinner.fail(err.message);
         }

@@ -16,8 +16,8 @@ import { generateSource as generateFlowModernSource } from './flow-modern';
 import { generateSource as generateScalaSource } from './scala';
 import { generateSource as generateAngularSource } from './angular';
 import { hasS3Fields } from './utilities/complextypes';
-
-export type Target = 'json' | 'swift' | 'ts' | 'typescript' | 'flow' | 'scala' | 'flow-modern' | 'angular';
+import { Target } from './types';
+import { getOutputFileName } from './utilities/getOutputFileName';
 
 export default function generate(
   inputPaths: string[],
@@ -100,8 +100,8 @@ export function generateFromString(
       .reduce((acc, [filepath, fileOutput]) => ({ ...acc, [filepath]: fileOutput }), {});
   }
 
-  // TODO: get file name
-  return { '': output };
+  const filename = getOutputFileName('', target);
+  return { [filename]: output };
 }
 
 export function generateForTarget(
