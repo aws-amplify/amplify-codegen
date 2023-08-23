@@ -124,7 +124,6 @@ Amplify Flutter versions prior to 0.6.0 are no longer supported by codegen. Plea
     generateModelsForLazyLoadAndCustomSelectionSet,
     addTimestampFields,
     handleListNullabilityTransparently,
-    overrideOutputDir,
   });
 
   if (writeToDisk) {
@@ -135,7 +134,7 @@ Amplify Flutter versions prior to 0.6.0 are no longer supported by codegen. Plea
     // TODO: move to @aws-amplify/graphql-generator
     generateEslintIgnore(context);
 
-    context.print.info(`Successfully generated models. Generated models can be found in ${overrideOutputDir ?? baseOutputDir}`);
+    context.print.info(`Successfully generated models. Generated models can be found in ${baseOutputDir}`);
   }
 
   return generatedCode;

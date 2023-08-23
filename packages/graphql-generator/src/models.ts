@@ -23,7 +23,7 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
 
   const parsedSchema = parse(schema);
 
-  const overrideOutputDir = target === 'introspection' ? '' : null;
+  const overrideOutputDir = '';
   const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
     schema: parsedSchema,
     baseOutputDir: '',
