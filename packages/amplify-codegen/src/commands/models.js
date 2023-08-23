@@ -137,7 +137,7 @@ Amplify Flutter versions prior to 0.6.0 are no longer supported by codegen. Plea
     context.print.info(`Successfully generated models. Generated models can be found in ${baseOutputDir}`);
   }
 
-  return generatedCode;
+  return Object.values(generatedCode);
 }
 
 async function validateSchema(context) {
