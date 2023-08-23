@@ -23,13 +23,6 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
 
   const parsedSchema = parse(schema);
 
-  // TODO: get current flutter version
-  /*
-  if (platform === 'flutter' && !validateAmplifyFlutterMinSupportedVersion(projectRoot)) {
-    throw new Error('Amplify Flutter versions prior to 0.6.0 are no longer supported by codegen. Please upgrade to use codegen.');
-  }
-  */
-
   const overrideOutputDir = target === 'introspection' ? '' : null;
   const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
     schema: parsedSchema,
