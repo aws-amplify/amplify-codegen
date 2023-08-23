@@ -10,7 +10,6 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
     target,
     directives,
 
-    // TODO: get correct default values
     // feature flags
     generateIndexRules = true,
     emitAuthProvider = true,
@@ -31,8 +30,10 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
   }
   */
 
+  const overrideOutputDir = target === 'introspection' ? '' : null;
   const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
     schema: parsedSchema,
+    baseOutputDir: '',
     config: {
       target,
       directives,
@@ -45,33 +46,28 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
       respectPrimaryKeyAttributesOnConnectionField,
       generateModelsForLazyLoadAndCustomSelectionSet,
       codegenVersion: packageVersion,
-      overrideOutputDir: target === 'introspection' ? '' : undefined,
+      overrideOutputDir,
     },
-    plugins: [],
-    pluginMap: {},
     presetConfig: {
-      overrideOutputDir: '',
-      // not used, make ts happy
-      target: 'javascript',
+      overrideOutputDir,
+      target,
     },
+    plugins: [
+      {
+        appSyncLocalCodeGen: {},
+      },
+    ],
+    pluginMap: {
+      appSyncLocalCodeGen: appSyncDataStoreCodeGen,
+    },
+    // not used, make ts happy
     documents: [],
-    baseOutputDir: '',
   });
 
   return Promise.all(
-    appsyncLocalConfig.map(async cfg => {
-      const content = await codegen({
-        ...cfg,
-        plugins: [
-          {
-            appSyncLocalCodeGen: {},
-          },
-        ],
-        pluginMap: {
-          appSyncLocalCodeGen: appSyncDataStoreCodeGen,
-        },
-      });
-      return { [cfg.filename]: content };
+    appsyncLocalConfig.map(async config => {
+      const content = await codegen(config);
+      return { [config.filename]: content };
     }),
   ).then((outputs: GeneratedOutput[]) => outputs.reduce((curr, next) => ({ ...curr, ...next }), {}));
 }
