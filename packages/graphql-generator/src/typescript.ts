@@ -1,6 +1,7 @@
+import { Target } from '@aws-amplify/graphql-types-generator';
 export type ModelsTarget = 'java' | 'swift' | 'javascript' | 'typescript' | 'dart' | 'introspection';
 export type StatementsTarget = 'javascript' | 'graphql' | 'flow' | 'typescript' | 'angular';
-export type TypesTarget = 'json' | 'swift' | 'typescript' | 'flow' | 'scala' | 'flow-modern' | 'angular';
+export type TypesTarget = Target;
 
 export type FileExtension = 'js' | 'graphql' | 'ts';
 
@@ -9,8 +10,7 @@ export type GenerateTypesOptions = {
   target: TypesTarget;
   queries?: string[];
   introspection?: boolean;
-  only?: string; // only used when target is swift
-  multipleFiles?: boolean;
+  multipleSwiftFiles?: boolean; // only used when target is swift
 };
 
 export type GenerateModelsOptions = {

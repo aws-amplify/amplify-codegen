@@ -1,7 +1,6 @@
 const getFrontEndHandler = require('./getFrontEndHandler');
 const getFrontEndFramework = require('./getFrontEndFramework');
 const getAppSyncAPIDetails = require('./getAppSyncAPIDetails');
-const getOutputFileName = require('./getOutputFileName');
 const downloadIntrospectionSchema = require('./downloadIntrospectionSchema');
 const getSchemaDownloadLocation = require('./getSchemaDownloadLocation');
 const getIncludePattern = require('./getIncludePattern');
@@ -21,7 +20,6 @@ module.exports = {
   getFrontEndHandler,
   getFrontEndFramework,
   getSchemaDownloadLocation,
-  getOutputFileName,
   downloadIntrospectionSchema,
   downloadIntrospectionSchemaWithProgress,
   getIncludePattern,
