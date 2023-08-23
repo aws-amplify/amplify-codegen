@@ -53,7 +53,6 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
     pluginMap: {
       appSyncLocalCodeGen: appSyncDataStoreCodeGen,
     },
-    // not used, make ts happy
     documents: [],
   });
 
