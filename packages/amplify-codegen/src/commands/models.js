@@ -101,13 +101,12 @@ Amplify Flutter versions prior to 0.6.0 are no longer supported by codegen. Plea
 
   const generateIndexRules = readFeatureFlag('codegen.generateIndexRules');
   const emitAuthProvider = readFeatureFlag('codegen.emitAuthProvider');
-  const usePipelinedTransformer = readFeatureFlag('graphQLTransformer.useExperimentalPipelinedTransformer');
+  const useExperimentalPipelinedTransformer = readFeatureFlag('graphQLTransformer.useExperimentalPipelinedTransformer');
   const transformerVersion = readNumericFeatureFlag('graphQLTransformer.transformerVersion');
   const respectPrimaryKeyAttributesOnConnectionField = readFeatureFlag('graphQLTransformer.respectPrimaryKeyAttributesOnConnectionField');
   const generateModelsForLazyLoadAndCustomSelectionSet = readFeatureFlag('codegen.generateModelsForLazyLoadAndCustomSelectionSet');
   const improvePluralization = readFeatureFlag('graphQLTransformer.improvePluralization');
-
-  let addTimestampFields = readFeatureFlag('codegen.addTimestampFields');
+  const addTimestampFields = readFeatureFlag('codegen.addTimestampFields');
 
   const handleListNullabilityTransparently = readFeatureFlag('codegen.handleListNullabilityTransparently');
 
@@ -117,7 +116,7 @@ Amplify Flutter versions prior to 0.6.0 are no longer supported by codegen. Plea
     target: isIntrospection ? 'introspection' : platformToLanguageMap[projectConfig.frontend],
     generateIndexRules,
     emitAuthProvider,
-    useExperimentalPipelinedTranformer: usePipelinedTransformer,
+    useExperimentalPipelinedTransformer,
     transformerVersion,
     respectPrimaryKeyAttributesOnConnectionField,
     improvePluralization,
