@@ -48,9 +48,9 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 75,
-        "functions": 80,
-        "lines": 80
+        "branches": 80,
+        "functions": 100,
+        "lines": 90
       }
     },
     "testRegex": "(src/__tests__/.*.test.ts)$",
