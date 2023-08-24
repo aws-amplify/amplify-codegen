@@ -165,6 +165,10 @@ export function interfaceNameFromOperation({ operationName, operationType }: { o
   }
 }
 
+export function interfaceVariablesNameFromOperation({ operationName, operationType }: { operationName: string; operationType: string }) {
+  return `${interfaceNameFromOperation({ operationName, operationType })}Variables`;
+}
+
 export function interfaceVariablesDeclarationForOperation(
   generator: CodeGenerator,
   { operationName, operationType, variables }: LegacyOperation,
@@ -172,7 +176,7 @@ export function interfaceVariablesDeclarationForOperation(
   if (!variables || variables.length < 1) {
     return;
   }
-  const interfaceName = `${interfaceNameFromOperation({ operationName, operationType })}Variables`;
+  const interfaceName = interfaceVariablesNameFromOperation({operationName, operationType});
 
   interfaceDeclaration(
     generator,
