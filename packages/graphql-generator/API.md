@@ -4,7 +4,8 @@
 
 ```ts
 
-import { Target } from '@aws-amplify/graphql-types-generator';
+import { Target } from '@aws-amplify/appsync-modelgen-plugin';
+import { Target as Target_2 } from '@aws-amplify/graphql-types-generator';
 
 // @public (undocumented)
 export type GeneratedOutput = {
@@ -53,13 +54,13 @@ export type GenerateTypesOptions = {
 };
 
 // @public (undocumented)
-export type ModelsTarget = 'java' | 'swift' | 'javascript' | 'typescript' | 'dart' | 'introspection';
+export type ModelsTarget = Target;
 
 // @public (undocumented)
 export type StatementsTarget = 'javascript' | 'graphql' | 'flow' | 'typescript' | 'angular';
 
 // @public (undocumented)
-export type TypesTarget = Target;
+export type TypesTarget = Target_2;
 
 // (No @packageDocumentation comment for this package)
 
