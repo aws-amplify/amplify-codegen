@@ -5,6 +5,7 @@ const Ora = require('ora');
 const { loadConfig } = require('../codegen-config');
 const constants = require('../constants');
 const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails, readSchemaFromFile } = require('../utils');
+const { generateGraphQLDocuments } = require('@aws-amplify/graphql-docs-generator');
 const { generateStatements: generateStatementsHelper } = require('@aws-amplify/graphql-generator');
 
 async function generateStatements(context, forceDownloadSchema, maxDepth, withoutInit = false, decoupleFrontend = '') {
@@ -56,6 +57,9 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
 
     try {
       const schemaData = readSchemaFromFile(schemaPath);
+      const relativeTypesPath = cfg.amplifyExtension.generatedFileName
+        ? path.relative(opsGenDirectory, cfg.amplifyExtension.generatedFileName)
+        : null;
       const generatedOps = generateStatementsHelper({
         schema: schemaData,
         target: language,
@@ -64,6 +68,7 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
         // default typenameIntrospection to true when not set
         typenameIntrospection:
           cfg.amplifyExtension.typenameIntrospection === undefined ? true : !!cfg.amplifyExtension.typenameIntrospection,
+        relativeTypesPath,
       });
       if (!generatedOps) {
         context.print.warning('No GraphQL statements are generated. Check if the introspection schema has GraphQL operations defined.');

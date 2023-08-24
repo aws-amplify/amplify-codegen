@@ -39,6 +39,7 @@ export type GenerateStatementsOptions = {
     target: StatementsTarget;
     maxDepth?: number;
     typenameIntrospection?: boolean;
+    relativeTypesPath?: string;
 };
 
 // @public (undocumented)

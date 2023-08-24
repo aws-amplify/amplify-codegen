@@ -1,5 +1,9 @@
 import prettier, { BuiltInParserName } from 'prettier';
-
+import {
+  interfaceNameFromOperation,
+  interfaceVariablesNameFromOperation,
+} from '@aws-amplify/graphql-types-generator/lib/typescript/codeGeneration';
+import type { GraphQLWithMeta } from '@aws-amplify/graphql-docs-generator';
 const CODEGEN_WARNING = 'this is an auto generated file. This will be overwritten';
 const LINE_DELIMITOR = '\n';
 
@@ -15,13 +19,37 @@ export class GraphQLStatementsFormatter {
 
   private headerComments: string[];
 
-  constructor(language: Language) {
+  private opTypeName?: string;
+
+  private typesPath: string | null;
+
+  private includeTypeScriptTypes: boolean;
+
+  constructor(language: Language, operation: string, typesPath?: string) {
     this.language = language || 'graphql';
+    this.opTypeName = {
+      queries: 'Query',
+      mutations: 'Mutation',
+      subscriptions: 'Subscription',
+    }[operation];
     this.lintOverrides = [];
     this.headerComments = [];
+    this.typesPath = typesPath ? typesPath.replace(/.ts/i, '') : null;
+    this.includeTypeScriptTypes = !!(this.language === 'typescript' && this.opTypeName && this.typesPath);
   }
 
-  format(statements: Map<string, string>): string {
+  get typeDefs() {
+    if (!this.includeTypeScriptTypes) return '';
+    return [
+      `import * as APITypes from '${this.typesPath}';`,
+      `type Generated${this.opTypeName}<InputType, OutputType> = string & {`,
+      `  __generated${this.opTypeName}Input: InputType;`,
+      `  __generated${this.opTypeName}Output: OutputType;`,
+      `};`,
+    ].join(LINE_DELIMITOR);
+  }
+
+  format(statements: Map<string, GraphQLWithMeta>): string {
     switch (this.language) {
       case 'javascript':
         this.headerComments.push(CODEGEN_WARNING);
@@ -40,24 +68,37 @@ export class GraphQLStatementsFormatter {
     }
   }
 
-  formatGraphQL(statements: Map<string, string>): string {
+  formatGraphQL(statements: Map<string, GraphQLWithMeta>): string {
     const headerBuffer = this.headerComments.map(comment => `# ${comment}`).join(LINE_DELIMITOR);
-    const statementsBuffer = statements ? [...statements.values()].join(LINE_DELIMITOR) : '';
+    const statementsBuffer = statements ? [...statements.values()].map(s => s.graphql).join(LINE_DELIMITOR) : '';
     const formattedOutput = [headerBuffer, LINE_DELIMITOR, statementsBuffer].join(LINE_DELIMITOR);
     return formattedOutput;
   }
 
-  formatJS(statements: Map<string, string>): string {
+  formatJS(statements: Map<string, GraphQLWithMeta>): string {
     const lintOverridesBuffer = this.lintOverrides.join(LINE_DELIMITOR);
     const headerBuffer = this.headerComments.map(comment => `// ${comment}`).join(LINE_DELIMITOR);
     const formattedStatements = [];
     if (statements) {
-      for (const [key, value] of statements) {
-        formattedStatements.push(`export const ${key} = /* GraphQL */ \`${value}\``);
+      for (const [key, { graphql, operationName, operationType }] of statements) {
+        const typeTag = this.buildTypeTag(operationName, operationType);
+        const formattedGraphQL = prettier.format(graphql, { parser: 'graphql' });
+        formattedStatements.push(`export const ${key} = /* GraphQL */ \`${formattedGraphQL}\`${typeTag}`);
       }
     }
-    const formattedOutput = [lintOverridesBuffer, headerBuffer, LINE_DELIMITOR, ...formattedStatements].join(LINE_DELIMITOR);
+    const typeDefs = this.includeTypeScriptTypes ? [LINE_DELIMITOR, this.typeDefs] : [];
+    const formattedOutput = [lintOverridesBuffer, headerBuffer, ...typeDefs, LINE_DELIMITOR, ...formattedStatements].join(LINE_DELIMITOR);
     return formattedOutput;
+  }
+
+  buildTypeTag(operationName?: string, operationType?: string): string {
+    if (!this.includeTypeScriptTypes || operationName === undefined || operationType === undefined) return '';
+
+    const operationDef = { operationName, operationType };
+    const resultTypeName = `APITypes.${interfaceNameFromOperation(operationDef)}`;
+    const variablesTypeName = `APITypes.${interfaceVariablesNameFromOperation(operationDef)}`;
+
+    return ` as Generated${this.opTypeName}<${variablesTypeName}, ${resultTypeName}>;`;
   }
 
   prettify(output: string): string {

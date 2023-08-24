@@ -35,6 +35,7 @@ export type GenerateStatementsOptions = {
   target: StatementsTarget;
   maxDepth?: number;
   typenameIntrospection?: boolean;
+  relativeTypesPath?: string;
 };
 
 export type GeneratedOutput = {
