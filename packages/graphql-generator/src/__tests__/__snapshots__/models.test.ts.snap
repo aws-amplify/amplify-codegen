@@ -1743,7 +1743,7 @@ public final class Post implements Model {
 
 exports[`generateModels targets basic javascript 1`] = `
 Object {
-  "models/index.d.ts": "import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from \\"@aws-amplify/datastore\\";
+  "index.d.ts": "import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
 import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from \\"@aws-amplify/datastore\\";
 
@@ -1846,7 +1846,7 @@ export declare type Comment = LazyLoading extends LazyLoadingDisabled ? EagerCom
 export declare const Comment: (new (init: ModelInit<Comment>) => Comment) & {
   copyOf(source: Comment, mutator: (draft: MutableModel<Comment>) => MutableModel<Comment> | void): Comment;
 }",
-  "models/index.js": "// @ts-check
+  "index.js": "// @ts-check
 import { initSchema } from '@aws-amplify/datastore';
 import { schema } from './schema';
 
@@ -1859,10 +1859,10 @@ export {
   Post,
   Comment
 };",
-  "models/schema.d.ts": "import { Schema } from '@aws-amplify/datastore';
+  "schema.d.ts": "import { Schema } from '@aws-amplify/datastore';
 
 export declare const schema: Schema;",
-  "models/schema.js": "export const schema = {
+  "schema.js": "export const schema = {
     \\"models\\": {
         \\"Blog\\": {
             \\"name\\": \\"Blog\\",
@@ -2436,7 +2436,7 @@ public struct Post: Model {
 
 exports[`generateModels targets basic typescript 1`] = `
 Object {
-  "models/index.ts": "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+  "index.ts": "import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
 import { initSchema } from \\"@aws-amplify/datastore\\";
 
 import { schema } from \\"./schema\\";
@@ -2552,7 +2552,7 @@ export {
   Post,
   Comment
 };",
-  "models/schema.ts": "import { Schema } from \\"@aws-amplify/datastore\\";
+  "schema.ts": "import { Schema } from \\"@aws-amplify/datastore\\";
 
 export const schema: Schema = {
     \\"models\\": {
