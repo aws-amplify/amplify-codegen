@@ -14,6 +14,15 @@ Array [
 ]
 `;
 
+exports[`command-models-generates models in expected output path android: Should generate models in overrideOutputDir 1`] = `Array []`;
+
+exports[`command-models-generates models in expected output path android: Should generate models in overrideOutputDir 2`] = `
+Array [
+  "AmplifyModelProvider.java",
+  "SimpleModel.java",
+]
+`;
+
 exports[`command-models-generates models in expected output path flutter: Should generate models from a single schema file 1`] = `
 Array [
   "ModelProvider.dart",
@@ -22,6 +31,15 @@ Array [
 `;
 
 exports[`command-models-generates models in expected output path flutter: Should generate models from any subdirectory in schema folder 1`] = `
+Array [
+  "ModelProvider.dart",
+  "SimpleModel.dart",
+]
+`;
+
+exports[`command-models-generates models in expected output path flutter: Should generate models in overrideOutputDir 1`] = `Array []`;
+
+exports[`command-models-generates models in expected output path flutter: Should generate models in overrideOutputDir 2`] = `
 Array [
   "ModelProvider.dart",
   "SimpleModel.dart",
@@ -44,6 +62,16 @@ Array [
 ]
 `;
 
+exports[`command-models-generates models in expected output path ios: Should generate models in overrideOutputDir 1`] = `Array []`;
+
+exports[`command-models-generates models in expected output path ios: Should generate models in overrideOutputDir 2`] = `
+Array [
+  "AmplifyModels.swift",
+  "SimpleModel+Schema.swift",
+  "SimpleModel.swift",
+]
+`;
+
 exports[`command-models-generates models in expected output path javascript: Should generate models from a single schema file 1`] = `
 Array [
   "index.d.ts",
@@ -54,6 +82,17 @@ Array [
 `;
 
 exports[`command-models-generates models in expected output path javascript: Should generate models from any subdirectory in schema folder 1`] = `
+Array [
+  "index.d.ts",
+  "index.js",
+  "schema.d.ts",
+  "schema.js",
+]
+`;
+
+exports[`command-models-generates models in expected output path javascript: Should generate models in overrideOutputDir 1`] = `Array []`;
+
+exports[`command-models-generates models in expected output path javascript: Should generate models in overrideOutputDir 2`] = `
 Array [
   "index.d.ts",
   "index.js",

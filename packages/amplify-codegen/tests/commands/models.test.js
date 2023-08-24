@@ -102,6 +102,34 @@ describe('command-models-generates models in expected output path', () => {
       expect(fs.readdirSync(outputDirectory)).toMatchSnapshot();
     });
 
+    it(frontend + ': Should generate models in overrideOutputDir', async () => {
+      // mock the input and output file structure
+      const schemaFilePath = path.join(MOCK_BACKEND_DIRECTORY, 'api', MOCK_PROJECT_NAME);
+      const outputDirectory = path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend]);
+      const mockedFiles = {};
+      mockedFiles[schemaFilePath] = {
+        'schema.graphql': ' type SimpleModel { id: ID! status: String } ',
+      };
+      const overrideOutputDir = 'some/other/dir';
+      mockedFiles[outputDirectory] = {};
+      mockedFiles[overrideOutputDir] = {};
+      mockFs(mockedFiles);
+      MOCK_CONTEXT.amplify.getProjectConfig.mockReturnValue({ frontend: frontend });
+
+      // assert empty folder before generation
+      expect(fs.readdirSync(outputDirectory).length).toEqual(0);
+      expect(fs.readdirSync(overrideOutputDir).length).toEqual(0);
+
+      await generateModels(MOCK_CONTEXT, { overrideOutputDir });
+
+      // assert model generation succeeds with a single schema file
+      expect(graphqlCodegen.codegen).toBeCalled();
+
+      // assert model files are generated in expected output directory
+      expect(fs.readdirSync(outputDirectory)).toMatchSnapshot();
+      expect(fs.readdirSync(overrideOutputDir)).toMatchSnapshot();
+    });
+
     if (frontend === 'flutter') {
       it(`${frontend}: Should print error when Amplify Flutter version < ${MINIMUM_SUPPORTED_VERSION_CONSTRAINT} and not generate any models`, async () => {
         validateAmplifyFlutterMinSupportedVersion.mockReturnValue(false);
