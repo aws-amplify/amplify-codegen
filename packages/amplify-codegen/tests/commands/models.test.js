@@ -35,8 +35,8 @@ const MOCK_CONTEXT = {
   },
 };
 const OUTPUT_PATHS = {
-  javascript: 'src',
-  android: 'app/src/main/java',
+  javascript: 'src/models',
+  android: 'app/src/main/java/com/amplifyframework/datastore/generated/model',
   ios: 'amplify/generated/models',
   flutter: 'lib/models',
 };
@@ -75,7 +75,7 @@ describe('command-models-generates models in expected output path', () => {
       expect(graphqlCodegen.codegen).toBeCalled();
 
       // assert model files are generated in expected output directory
-      expect(fs.readdirSync(outputDirectory).length).toBeGreaterThan(0);
+      expect(fs.readdirSync(outputDirectory)).toMatchSnapshot();
     });
 
     it(frontend + ': Should generate models from any subdirectory in schema folder', async () => {
@@ -99,7 +99,7 @@ describe('command-models-generates models in expected output path', () => {
       expect(graphqlCodegen.codegen).toBeCalled();
 
       // assert model files are generated in expected output directory
-      expect(fs.readdirSync(outputDirectory).length).toBeGreaterThan(0);
+      expect(fs.readdirSync(outputDirectory)).toMatchSnapshot();
     });
 
     if (frontend === 'flutter') {
