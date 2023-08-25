@@ -60,7 +60,7 @@ describe('command-models-generates models in expected output path', () => {
       const outputDirectory = path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend]);
       const mockedFiles = {};
       mockedFiles[schemaFilePath] = {
-        'schema.graphql': ' type SimpleModel { id: ID! status: String } ',
+        'schema.graphql': ' type SimpleModel @model { id: ID! status: String } ',
       };
       mockedFiles[outputDirectory] = {};
       mockFs(mockedFiles);
@@ -108,7 +108,7 @@ describe('command-models-generates models in expected output path', () => {
       const outputDirectory = path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend]);
       const mockedFiles = {};
       mockedFiles[schemaFilePath] = {
-        'schema.graphql': ' type SimpleModel { id: ID! status: String } ',
+        'schema.graphql': ' type SimpleModel @model { id: ID! status: String } ',
       };
       const overrideOutputDir = 'some/other/dir';
       mockedFiles[outputDirectory] = {};
