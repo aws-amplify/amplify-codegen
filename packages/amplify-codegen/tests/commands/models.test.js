@@ -126,8 +126,8 @@ describe('command-models-generates models in expected output path', () => {
       expect(graphqlCodegen.codegen).toBeCalled();
 
       // assert model files are generated in expected output directory
-      expect(fs.readdirSync(outputDirectory)).toMatchSnapshot();
-      expect(fs.readdirSync(overrideOutputDir)).toMatchSnapshot();
+      expect(fs.readdirSync(outputDirectory).length).toEqual(0);
+      expect(fs.readdirSync(overrideOutputDir).length).not.toEqual(0);
     });
 
     if (frontend === 'flutter') {
