@@ -77,7 +77,7 @@ describe('command - types', () => {
     expect(loadConfig).toHaveBeenCalledWith(MOCK_CONTEXT, false);
     expect(sync).toHaveBeenCalledWith([MOCK_INCLUDE_PATH, `!${MOCK_EXCLUDE_PATH}`], { cwd: MOCK_PROJECT_ROOT, absolute: true });
     expect(generateTypesHelper).toHaveBeenCalledWith({
-      queries: ['query 1', 'query 2'],
+      queries: 'query 1\nquery 2',
       schema: 'schema',
       target: 'TYPE_SCRIPT_OR_FLOW_OR_ANY_OTHER_LANGUAGE',
       introspection: false,

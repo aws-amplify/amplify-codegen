@@ -7,6 +7,7 @@ const constants = require('../constants');
 const { loadConfig } = require('../codegen-config');
 const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails } = require('../utils');
 const { generateTypes: generateTypesHelper } = require('@aws-amplify/graphql-generator');
+const { extractDocumentFromJavascript } = require('@aws-amplify/graphql-types-generator');
 
 async function generateTypes(context, forceDownloadSchema, withoutInit = false, decoupleFrontend = '') {
   let frontend = decoupleFrontend;
@@ -44,6 +45,7 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
         if (!generatedFileName || generatedFileName === '' || includeFiles.length === 0) {
           return;
         }
+        const target = cfg.amplifyExtension.codeGenTarget;
 
         const excludes = cfg.excludes.map(pattern => `!${pattern}`);
         const queries = glob
@@ -51,9 +53,21 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
             cwd: projectPath,
             absolute: true,
           })
-          .map(queryFilePath => fs.readFileSync(queryFilePath, 'utf8'));
+          .map(queryFilePath => {
+            const fileContents = fs.readFileSync(queryFilePath, 'utf8');
+            if (
+              queryFilePath.endsWith('.jsx') ||
+              queryFilePath.endsWith('.js') ||
+              queryFilePath.endsWith('.tsx') ||
+              queryFilePath.endsWith('.ts')
+            ) {
+              return extractDocumentFromJavascript(fileContents, '');
+            }
+            return fileContents;
+          })
+          .join('\n');
+
         const schemaPath = path.join(projectPath, cfg.schema);
-        const target = cfg.amplifyExtension.codeGenTarget;
 
         const outputPath = path.join(projectPath, generatedFileName);
         let region;

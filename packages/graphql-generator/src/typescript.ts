@@ -10,7 +10,7 @@ export type FileExtension = 'js' | 'graphql' | 'ts';
 export type GenerateTypesOptions = {
   schema: string;
   target: TypesTarget;
-  queries?: string[];
+  queries: string;
   introspection?: boolean;
   multipleSwiftFiles?: boolean; // only used when target is swift
 };

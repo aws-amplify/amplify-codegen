@@ -84,13 +84,13 @@ function generateFromFile(
 export function generateFromString(
   schema: string,
   introspection: boolean,
-  queryDocuments: string[],
+  queryDocuments: string,
   target: Target,
   multipleSwiftFiles: boolean,
   options: any,
 ): { [filepath: string]: string } {
   const graphqlSchema = parseSchema(schema, introspection);
-  const document = parseAndMergeQueryDocuments(queryDocuments.map(document => new Source(document)));
+  const document = parseAndMergeQueryDocuments([new Source(queryDocuments)]);
   validateQueryDocument(graphqlSchema, document);
   const output = generateForTarget(graphqlSchema, document, '', target, multipleSwiftFiles, options);
 

@@ -51,7 +51,7 @@ function parseSDLSchema(schema: string) {
   return buildASTSchema(doc);
 }
 
-function extractDocumentFromJavascript(content: string, tagName: string = 'gql'): string | null {
+export function extractDocumentFromJavascript(content: string, tagName: string = 'gql'): string | null {
   const re = new RegExp(tagName + '\\s*`([^`/]*)`', 'g');
 
   let match;
