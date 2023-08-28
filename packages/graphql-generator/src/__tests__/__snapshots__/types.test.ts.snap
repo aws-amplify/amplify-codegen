@@ -1009,7 +1009,7 @@ import AWSAppSync
 
 exports[`generateTypes targets basic angular 1`] = `
 Object {
-  "src/app/api.service.ts": "/* tslint:disable */
+  "api.service.ts": "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 import { Injectable } from \\"@angular/core\\";
@@ -1107,7 +1107,7 @@ export class APIService {
 
 exports[`generateTypes targets basic flow 1`] = `
 Object {
-  "src/API.js": "/* @flow */
+  "API.js": "/* @flow */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
@@ -2740,7 +2740,7 @@ import AWSAppSync
 
 exports[`generateTypes targets basic typescript 1`] = `
 Object {
-  "src/API.ts": "/* tslint:disable */
+  "API.ts": "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
