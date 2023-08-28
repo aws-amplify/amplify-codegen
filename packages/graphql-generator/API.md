@@ -49,7 +49,7 @@ export function generateTypes(options: GenerateTypesOptions): Promise<GeneratedO
 export type GenerateTypesOptions = {
     schema: string;
     target: TypesTarget;
-    queries?: string[];
+    queries: string;
     introspection?: boolean;
     multipleSwiftFiles?: boolean;
 };

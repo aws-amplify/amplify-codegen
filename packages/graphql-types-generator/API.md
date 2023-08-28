@@ -5,10 +5,13 @@
 ```ts
 
 // @public (undocumented)
+export function extractDocumentFromJavascript(content: string, tagName?: string): string | null;
+
+// @public (undocumented)
 export function generate(inputPaths: string[], schemaPath: string, outputPath: string, only: string, target: Target, tagName: string, options: any): void;
 
 // @public (undocumented)
-export function generateFromString(schema: string, introspection: boolean, queryDocuments: string[], target: Target, multipleSwiftFiles: boolean, options: any): {
+export function generateFromString(schema: string, introspection: boolean, queryDocuments: string, target: Target, multipleSwiftFiles: boolean, options: any): {
     [filepath: string]: string;
 };
 
