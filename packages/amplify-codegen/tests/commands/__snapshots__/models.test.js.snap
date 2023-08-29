@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`command-models-generates models in expected output path android: Should generate models from a single schema file 1`] = `Array []`;
+
+exports[`command-models-generates models in expected output path android: Should generate models from any subdirectory in schema folder 1`] = `Array []`;
+
+exports[`command-models-generates models in expected output path flutter: Should generate models from a single schema file 1`] = `
+Array [
+  "mock-output-file-one",
+  "mock-output-file-two",
+]
+`;
+
+exports[`command-models-generates models in expected output path flutter: Should generate models from any subdirectory in schema folder 1`] = `
+Array [
+  "mock-output-file-one",
+  "mock-output-file-two",
+]
+`;
+
+exports[`command-models-generates models in expected output path ios: Should generate models from a single schema file 1`] = `
+Array [
+  "mock-output-file-one",
+  "mock-output-file-two",
+]
+`;
+
+exports[`command-models-generates models in expected output path ios: Should generate models from any subdirectory in schema folder 1`] = `
+Array [
+  "mock-output-file-one",
+  "mock-output-file-two",
+]
+`;
+
+exports[`command-models-generates models in expected output path javascript: Should generate models from a single schema file 1`] = `
+Array [
+  "mock-output-file-one",
+  "mock-output-file-two",
+]
+`;
+
+exports[`command-models-generates models in expected output path javascript: Should generate models from any subdirectory in schema folder 1`] = `
+Array [
+  "mock-output-file-one",
+  "mock-output-file-two",
+]
+`;

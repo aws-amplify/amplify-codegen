@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.4.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.3.0...amplify-codegen@4.4.0) (2023-08-25)
+
+### Features
+
+- add type branding to graphql in TS outputs ([#623](https://github.com/aws-amplify/amplify-codegen/issues/623)) ([b517ec3](https://github.com/aws-amplify/amplify-codegen/commit/b517ec36f822ccc015032b60b5138ddc024be862))
+
 # [4.3.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.2.0...amplify-codegen@4.3.0) (2023-08-15)
 
 ### Features

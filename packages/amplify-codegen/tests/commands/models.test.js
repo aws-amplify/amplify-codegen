@@ -41,8 +41,8 @@ const MOCK_CONTEXT = {
   },
 };
 const OUTPUT_PATHS = {
-  javascript: 'src',
-  android: 'app/src/main/java',
+  javascript: 'src/models',
+  android: 'app/src/main/java/com/amplifyframework/datastore/generated/model',
   ios: 'amplify/generated/models',
   flutter: 'lib/models',
 };
@@ -55,7 +55,10 @@ describe('command-models-generates models in expected output path', () => {
   beforeEach(() => {
     jest.resetAllMocks();
     addMocksToContext();
-    graphqlGenerator.generateModels.mockReturnValue({ 'mock-output-file': MOCK_GENERATED_CODE });
+    graphqlGenerator.generateModels.mockReturnValue({
+      'mock-output-file-one': MOCK_GENERATED_CODE,
+      'mock-output-file-two': MOCK_GENERATED_CODE,
+    });
     validateAmplifyFlutterMinSupportedVersion.mockReturnValue(true);
   });
 
@@ -66,7 +69,7 @@ describe('command-models-generates models in expected output path', () => {
       const outputDirectory = path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend]);
       const mockedFiles = {};
       mockedFiles[schemaFilePath] = {
-        'schema.graphql': ' type SimpleModel { id: ID! status: String } ',
+        'schema.graphql': ' type SimpleModel @model { id: ID! status: String } ',
       };
       mockedFiles[outputDirectory] = {};
       mockFs(mockedFiles);
@@ -81,7 +84,7 @@ describe('command-models-generates models in expected output path', () => {
       expect(graphqlGenerator.generateModels).toBeCalled();
 
       // assert model files are generated in expected output directory
-      expect(fs.readdirSync(outputDirectory).length).toBeGreaterThan(0);
+      expect(fs.readdirSync(outputDirectory)).toMatchSnapshot();
     });
 
     it(frontend + ': Should generate models from any subdirectory in schema folder', async () => {
@@ -105,7 +108,35 @@ describe('command-models-generates models in expected output path', () => {
       expect(graphqlGenerator.generateModels).toBeCalled();
 
       // assert model files are generated in expected output directory
-      expect(fs.readdirSync(outputDirectory).length).toBeGreaterThan(0);
+      expect(fs.readdirSync(outputDirectory)).toMatchSnapshot();
+    });
+
+    it(frontend + ': Should generate models in overrideOutputDir', async () => {
+      // mock the input and output file structure
+      const schemaFilePath = path.join(MOCK_BACKEND_DIRECTORY, 'api', MOCK_PROJECT_NAME);
+      const outputDirectory = path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend]);
+      const mockedFiles = {};
+      mockedFiles[schemaFilePath] = {
+        'schema.graphql': ' type SimpleModel @model { id: ID! status: String } ',
+      };
+      const overrideOutputDir = 'some/other/dir';
+      mockedFiles[outputDirectory] = {};
+      mockedFiles[overrideOutputDir] = {};
+      mockFs(mockedFiles);
+      MOCK_CONTEXT.amplify.getProjectConfig.mockReturnValue({ frontend: frontend });
+
+      // assert empty folder before generation
+      expect(fs.readdirSync(outputDirectory).length).toEqual(0);
+      expect(fs.readdirSync(overrideOutputDir).length).toEqual(0);
+
+      await generateModels(MOCK_CONTEXT, { overrideOutputDir });
+
+      // assert model generation succeeds with a single schema file
+      expect(graphqlGenerator.generateModels).toBeCalled();
+
+      // assert model files are generated in expected output directory
+      expect(fs.readdirSync(outputDirectory).length).toEqual(0);
+      expect(fs.readdirSync(overrideOutputDir).length).not.toEqual(0);
     });
 
     if (frontend === 'flutter') {
