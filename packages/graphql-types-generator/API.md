@@ -19,7 +19,7 @@ export function generateFromString(schema: string, introspection: boolean, query
 export function getOutputFileName(inputFileName: string, target: Target): string;
 
 // @public (undocumented)
-export type Target = 'json' | 'swift' | 'ts' | 'typescript' | 'flow' | 'scala' | 'flow-modern' | 'angular';
+export type Target = 'json' | 'swift' | 'typescript' | 'flow' | 'scala' | 'flow-modern' | 'angular';
 
 // (No @packageDocumentation comment for this package)
 

@@ -124,7 +124,6 @@ export function generateForTarget(
   switch (target) {
     case 'json':
       return serializeToJSON(context);
-    case 'ts':
     case 'typescript':
       return generateTypescriptSource(context);
     case 'flow':
