@@ -1133,7 +1133,7 @@ export type GetBlogQuery = {|
 
 exports[`generateTypes targets basic flow-modern 1`] = `
 Object {
-  "__generated__/GetBlog.js": "
+  "GetBlog.js": "
 
 /* @flow */
 // This file was automatically generated and should not be edited.
