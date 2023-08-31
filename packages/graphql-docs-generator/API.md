@@ -35,6 +35,9 @@ export type GraphQLWithMeta = {
     fieldName: string;
 };
 
+// @public (undocumented)
+export function isGraphQLWithMeta(statement: GraphQLWithMeta | string): statement is GraphQLWithMeta;
+
 // (No @packageDocumentation comment for this package)
 
 ```

@@ -1,5 +1,8 @@
+import * as fs from 'fs-extra';
 import { generateStatements, GenerateStatementsOptions, StatementsTarget } from '..';
 import { readSchema } from './utils';
+
+jest.mock('fs-extra');
 
 describe('generateStatements', () => {
   describe('targets', () => {
@@ -8,13 +11,18 @@ describe('generateStatements', () => {
 
     targets.forEach(target => {
       test(`basic ${target}`, () => {
+        const outputDir = 'src';
+        const mockedFiles = {
+          [outputDir]: {},
+        };
         const options: GenerateStatementsOptions = {
           schema,
           target,
+          outputDir,
         };
 
-        const statements = generateStatements(options);
-        expect(statements).toMatchSnapshot();
+        generateStatements(options);
+        expect((fs.outputFileSync as jest.MockedFunction<typeof fs.outputFileSync>).mock.calls).toMatchSnapshot();
       });
     });
 

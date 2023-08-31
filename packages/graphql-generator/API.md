@@ -13,13 +13,14 @@ export type GeneratedOutput = {
 };
 
 // @public (undocumented)
-export function generateModels(options: GenerateModelsOptions): Promise<GeneratedOutput>;
+export function generateModels(options: GenerateModelsOptions): Promise<void>;
 
 // @public (undocumented)
 export type GenerateModelsOptions = {
     schema: string;
     target: ModelsTarget;
     directives: string;
+    outputDir: string;
     generateIndexRules?: boolean;
     emitAuthProvider?: boolean;
     useExperimentalPipelinedTranformer?: boolean;
@@ -31,25 +32,27 @@ export type GenerateModelsOptions = {
 };
 
 // @public (undocumented)
-export function generateStatements(options: GenerateStatementsOptions): GeneratedOutput;
+export function generateStatements(options: GenerateStatementsOptions): void;
 
 // @public (undocumented)
 export type GenerateStatementsOptions = {
     schema: string;
     target: StatementsTarget;
+    outputDir: string;
     maxDepth?: number;
     typenameIntrospection?: boolean;
     relativeTypesPath?: string;
 };
 
 // @public (undocumented)
-export function generateTypes(options: GenerateTypesOptions): Promise<GeneratedOutput>;
+export function generateTypes(options: GenerateTypesOptions): Promise<void>;
 
 // @public (undocumented)
 export type GenerateTypesOptions = {
     schema: string;
     target: TypesTarget;
     queries: string;
+    outputPath: string;
     introspection?: boolean;
     multipleSwiftFiles?: boolean;
 };

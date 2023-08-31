@@ -11,6 +11,7 @@ export type GenerateTypesOptions = {
   schema: string;
   target: TypesTarget;
   queries: string;
+  outputPath: string;
   introspection?: boolean;
   multipleSwiftFiles?: boolean; // only used when target is swift
 };
@@ -19,6 +20,7 @@ export type GenerateModelsOptions = {
   schema: string;
   target: ModelsTarget;
   directives: string;
+  outputDir: string;
   // feature flags
   generateIndexRules?: boolean;
   emitAuthProvider?: boolean;
@@ -33,6 +35,7 @@ export type GenerateModelsOptions = {
 export type GenerateStatementsOptions = {
   schema: string;
   target: StatementsTarget;
+  outputDir: string;
   maxDepth?: number;
   typenameIntrospection?: boolean;
   relativeTypesPath?: string;

@@ -4,6 +4,7 @@ import {
   interfaceVariablesNameFromOperation,
 } from '@aws-amplify/graphql-types-generator/lib/typescript/codeGeneration';
 import type { GraphQLWithMeta } from '@aws-amplify/graphql-docs-generator';
+import { isGraphQLWithMeta } from '@aws-amplify/graphql-docs-generator';
 const CODEGEN_WARNING = 'this is an auto generated file. This will be overwritten';
 const LINE_DELIMITOR = '\n';
 
@@ -25,13 +26,13 @@ export class GraphQLStatementsFormatter {
 
   private includeTypeScriptTypes: boolean;
 
-  constructor(language: Language, operation: string, typesPath?: string) {
+  constructor(language: Language, operation?: string, typesPath?: string) {
     this.language = language || 'graphql';
     this.opTypeName = {
       queries: 'Query',
       mutations: 'Mutation',
       subscriptions: 'Subscription',
-    }[operation];
+    }[operation || ''];
     this.lintOverrides = [];
     this.headerComments = [];
     this.typesPath = typesPath ? typesPath.replace(/.ts/i, '') : null;
@@ -68,9 +69,9 @@ export class GraphQLStatementsFormatter {
     }
   }
 
-  formatGraphQL(statements: Map<string, GraphQLWithMeta>): string {
+  formatGraphQL(statements: Map<string, GraphQLWithMeta | string>): string {
     const headerBuffer = this.headerComments.map(comment => `# ${comment}`).join(LINE_DELIMITOR);
-    const statementsBuffer = statements ? [...statements.values()].map(s => s.graphql).join(LINE_DELIMITOR) : '';
+    const statementsBuffer = statements ? [...statements.values()].map(s => isGraphQLWithMeta(s) ? s.graphql : s).join(LINE_DELIMITOR) : '';
     const formattedOutput = [headerBuffer, LINE_DELIMITOR, statementsBuffer].join(LINE_DELIMITOR);
     return formattedOutput;
   }

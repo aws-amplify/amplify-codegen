@@ -81,28 +81,15 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
         const introspection = path.extname(schemaPath) === '.json';
 
         try {
-          const output = await generateTypesHelper({
+          await generateTypesHelper({
             schema,
             queries,
             target,
+            outputPath,
             introspection,
           });
-          const outputs = Object.entries(output);
 
-          if (outputs.length === 1) {
-            const [[, contents]] = outputs;
-            fs.outputFileSync(path.resolve(path.join(projectPath, outputPath)), contents);
-          } else {
-            outputs.forEach(([filepath, contents]) => {
-              fs.outputFileSync(path.resolve(path.join(projectPath, outputPath, filepath)), contents);
-            });
-          }
-          codeGenSpinner.succeed(
-            `${constants.INFO_MESSAGE_CODEGEN_GENERATE_SUCCESS} ${path.relative(
-              path.resolve('.'),
-              path.join(projectPath, generatedFileName),
-            )}`,
-          );
+          codeGenSpinner.succeed(`${constants.INFO_MESSAGE_CODEGEN_GENERATE_SUCCESS} ${path.relative(path.resolve('.'), outputPath)}`);
         } catch (err) {
           codeGenSpinner.fail(err.message);
         }

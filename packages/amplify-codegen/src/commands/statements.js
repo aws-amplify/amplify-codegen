@@ -1,5 +1,4 @@
 const path = require('path');
-const fs = require('fs-extra');
 const Ora = require('ora');
 
 const { loadConfig } = require('../codegen-config');
@@ -60,32 +59,26 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
       const relativeTypesPath = cfg.amplifyExtension.generatedFileName
         ? path.relative(opsGenDirectory, cfg.amplifyExtension.generatedFileName)
         : null;
-      const generatedOps = generateStatementsHelper({
-        schema: schemaData,
-        target: language,
-        maxDepth: maxDepth || cfg.amplifyExtension.maxDepth,
-        useExternalFragmentForS3Object: language === 'graphql',
-        // default typenameIntrospection to true when not set
-        typenameIntrospection:
-          cfg.amplifyExtension.typenameIntrospection === undefined ? true : !!cfg.amplifyExtension.typenameIntrospection,
-        relativeTypesPath,
-      });
-      if (!generatedOps) {
-        context.print.warning('No GraphQL statements are generated. Check if the introspection schema has GraphQL operations defined.');
-      } else {
-        await writeGeneratedDocuments(language, generatedOps, opsGenDirectory);
+      try {
+        generateStatementsHelper({
+          schema: schemaData,
+          target: language,
+          outputDir: opsGenDirectory,
+          maxDepth: maxDepth || cfg.amplifyExtension.maxDepth,
+          useExternalFragmentForS3Object: language === 'graphql',
+          // default typenameIntrospection to true when not set
+          typenameIntrospection:
+            cfg.amplifyExtension.typenameIntrospection === undefined ? true : !!cfg.amplifyExtension.typenameIntrospection,
+          relativeTypesPath,
+        });
         opsGenSpinner.succeed(constants.INFO_MESSAGE_OPS_GEN_SUCCESS + path.relative(path.resolve('.'), opsGenDirectory));
+      } catch {
+        context.print.warning('No GraphQL statements are generated. Check if the introspection schema has GraphQL operations defined.');
       }
     } finally {
       opsGenSpinner.stop();
     }
   }
-}
-
-function writeGeneratedDocuments(language, generatedStatements, outputPath) {
-  Object.entries(generatedStatements).forEach(([filepath, contents]) => {
-    fs.outputFileSync(path.resolve(path.join(outputPath, filepath)), contents);
-  });
 }
 
 module.exports = generateStatements;

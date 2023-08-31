@@ -81,6 +81,7 @@ describe('command - types', () => {
       schema: 'schema',
       target: 'TYPE_SCRIPT_OR_FLOW_OR_ANY_OTHER_LANGUAGE',
       introspection: false,
+      outputPath: path.join(MOCK_PROJECT_ROOT, MOCK_GENERATED_FILE_NAME),
     });
   });
 

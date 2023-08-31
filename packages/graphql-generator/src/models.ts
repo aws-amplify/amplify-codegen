@@ -1,14 +1,16 @@
+import * as fs from 'fs-extra';
 import { parse } from 'graphql';
 import * as appSyncDataStoreCodeGen from '@aws-amplify/appsync-modelgen-plugin';
 import { codegen } from '@graphql-codegen/core';
 import { ModelsTarget, GenerateModelsOptions, GeneratedOutput } from './typescript';
 const { version: packageVersion } = require('../package.json');
 
-export async function generateModels(options: GenerateModelsOptions): Promise<GeneratedOutput> {
+export async function generateModels(options: GenerateModelsOptions): Promise<void> {
   const {
     schema,
     target,
     directives,
+    outputDir,
 
     // feature flags
     generateIndexRules = true,
@@ -26,7 +28,7 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
   const overrideOutputDir = '';
   const appsyncLocalConfig = await appSyncDataStoreCodeGen.preset.buildGeneratesSection({
     schema: parsedSchema,
-    baseOutputDir: '',
+    baseOutputDir: outputDir,
     config: {
       target,
       directives,
@@ -56,10 +58,11 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
     documents: [],
   });
 
-  return Promise.all(
+  await Promise.all(
     appsyncLocalConfig.map(async config => {
-      const content = await codegen(config);
-      return { [config.filename]: content };
+      const { filename } = config;
+      codegen(config);
+      fs.outputFileSync(filename, await codegen(config));
     }),
-  ).then((outputs: GeneratedOutput[]) => outputs.reduce((curr, next) => ({ ...curr, ...next }), {}));
+  );
 }

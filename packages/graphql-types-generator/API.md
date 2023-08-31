@@ -11,12 +11,7 @@ export function extractDocumentFromJavascript(content: string, tagName?: string)
 export function generate(inputPaths: string[], schemaPath: string, outputPath: string, only: string, target: Target, tagName: string, options: any): void;
 
 // @public (undocumented)
-export function generateFromString(schema: string, introspection: boolean, queryDocuments: string, target: Target, multipleSwiftFiles: boolean, options: any): {
-    [filepath: string]: string;
-};
-
-// @public (undocumented)
-export function getOutputFileName(inputFileName: string, target: Target): string;
+export function generateFromString(schema: string, introspection: boolean, queryDocuments: string, outputPath: string, target: Target, multipleSwiftFiles: boolean, options: any): void;
 
 // @public (undocumented)
 export type Target = 'json' | 'swift' | 'typescript' | 'flow' | 'scala' | 'flow-modern' | 'angular';

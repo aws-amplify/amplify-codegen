@@ -81,6 +81,13 @@ export type GraphQLWithMeta = {
   fieldName: string;
 };
 
+export function isGraphQLWithMeta(statement: GraphQLWithMeta | string): statement is GraphQLWithMeta {
+  if (typeof statement === 'object' && statement.graphql) {
+    return true;
+  }
+  return false;
+}
+
 export type GeneratedOperations<T> = {
   queries: Map<string, T>;
   mutations: Map<string, T>;
