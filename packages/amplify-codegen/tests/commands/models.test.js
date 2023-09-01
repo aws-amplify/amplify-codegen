@@ -4,17 +4,9 @@ const {
   MINIMUM_SUPPORTED_VERSION_CONSTRAINT,
 } = require('../../src/utils/validateAmplifyFlutterMinSupportedVersion');
 const mockFs = require('mock-fs');
-const graphqlGenerator = require('@aws-amplify/graphql-generator');
 const fs = require('fs');
 const path = require('path');
 
-jest.mock('@aws-amplify/graphql-generator', () => {
-  const originalModule = jest.requireActual('@aws-amplify/graphql-generator');
-  return {
-    ...originalModule,
-    generateModels: jest.fn(),
-  };
-});
 jest.mock('../../src/utils/validateAmplifyFlutterMinSupportedVersion', () => {
   const originalModule = jest.requireActual('../../src/utils/validateAmplifyFlutterMinSupportedVersion');
 
@@ -55,10 +47,6 @@ describe('command-models-generates models in expected output path', () => {
   beforeEach(() => {
     jest.resetAllMocks();
     addMocksToContext();
-    graphqlGenerator.generateModels.mockReturnValue({
-      'mock-output-file-one': MOCK_GENERATED_CODE,
-      'mock-output-file-two': MOCK_GENERATED_CODE,
-    });
     validateAmplifyFlutterMinSupportedVersion.mockReturnValue(true);
   });
 
@@ -68,6 +56,7 @@ describe('command-models-generates models in expected output path', () => {
       const schemaFilePath = path.join(MOCK_BACKEND_DIRECTORY, 'api', MOCK_PROJECT_NAME);
       const outputDirectory = path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend]);
       const mockedFiles = {};
+      const nodeModules = path.resolve(path.join(__dirname, '../../../../node_modules'));
       mockedFiles[schemaFilePath] = {
         'schema.graphql': ' type SimpleModel @model { id: ID! status: String } ',
       };
@@ -79,9 +68,6 @@ describe('command-models-generates models in expected output path', () => {
       expect(fs.readdirSync(outputDirectory).length).toEqual(0);
 
       await generateModels(MOCK_CONTEXT);
-
-      // assert model generation succeeds with a single schema file
-      expect(graphqlGenerator.generateModels).toBeCalled();
 
       // assert model files are generated in expected output directory
       expect(fs.readdirSync(outputDirectory)).toMatchSnapshot();
@@ -103,9 +89,6 @@ describe('command-models-generates models in expected output path', () => {
       expect(fs.readdirSync(outputDirectory).length).toEqual(0);
 
       await generateModels(MOCK_CONTEXT);
-
-      // assert model generation succeeds with a single schema file
-      expect(graphqlGenerator.generateModels).toBeCalled();
 
       // assert model files are generated in expected output directory
       expect(fs.readdirSync(outputDirectory)).toMatchSnapshot();
@@ -130,9 +113,6 @@ describe('command-models-generates models in expected output path', () => {
       expect(fs.readdirSync(overrideOutputDir).length).toEqual(0);
 
       await generateModels(MOCK_CONTEXT, { overrideOutputDir });
-
-      // assert model generation succeeds with a single schema file
-      expect(graphqlGenerator.generateModels).toBeCalled();
 
       // assert model files are generated in expected output directory
       expect(fs.readdirSync(outputDirectory).length).toEqual(0);
@@ -159,7 +139,6 @@ describe('command-models-generates models in expected output path', () => {
         await generateModels(MOCK_CONTEXT);
 
         expect(MOCK_CONTEXT.print.error).toBeCalled();
-        expect(graphqlGenerator.generateModels).not.toBeCalled();
       });
     }
   }
@@ -179,6 +158,117 @@ function addMocksToContext() {
       },
     ],
   });
-  MOCK_CONTEXT.amplify.executeProviderUtils.mockReturnValue([]);
+  MOCK_CONTEXT.amplify.executeProviderUtils.mockReturnValue(directives);
   MOCK_CONTEXT.amplify.pathManager.getBackendDirPath.mockReturnValue(MOCK_BACKEND_DIRECTORY);
 }
+
+const directives = `
+directive @aws_subscribe(mutations: [String!]!) on FIELD_DEFINITION
+
+directive @aws_auth(cognito_groups: [String!]!) on FIELD_DEFINITION
+
+directive @aws_api_key on FIELD_DEFINITION | OBJECT
+
+directive @aws_iam on FIELD_DEFINITION | OBJECT
+
+directive @aws_oidc on FIELD_DEFINITION | OBJECT
+
+directive @aws_cognito_user_pools(cognito_groups: [String!]) on FIELD_DEFINITION | OBJECT
+
+directive @aws_lambda on FIELD_DEFINITION | OBJECT
+
+directive @deprecated(reason: String) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION | ENUM | ENUM_VALUE
+
+directive @model(queries: ModelQueryMap, mutations: ModelMutationMap, subscriptions: ModelSubscriptionMap, timestamps: TimestampConfiguration) on OBJECT
+input ModelMutationMap {
+  create: String
+  update: String
+  delete: String
+}
+input ModelQueryMap {
+  get: String
+  list: String
+}
+input ModelSubscriptionMap {
+  onCreate: [String]
+  onUpdate: [String]
+  onDelete: [String]
+  level: ModelSubscriptionLevel
+}
+enum ModelSubscriptionLevel {
+  off
+  public
+  on
+}
+input TimestampConfiguration {
+  createdAt: String
+  updatedAt: String
+}
+directive @function(name: String!, region: String, accountId: String) repeatable on FIELD_DEFINITION
+directive @http(method: HttpMethod = GET, url: String!, headers: [HttpHeader] = []) on FIELD_DEFINITION
+enum HttpMethod {
+  GET
+  POST
+  PUT
+  DELETE
+  PATCH
+}
+input HttpHeader {
+  key: String
+  value: String
+}
+directive @predictions(actions: [PredictionsActions!]!) on FIELD_DEFINITION
+enum PredictionsActions {
+  identifyText
+  identifyLabels
+  convertTextToSpeech
+  translateText
+}
+directive @primaryKey(sortKeyFields: [String]) on FIELD_DEFINITION
+directive @index(name: String, sortKeyFields: [String], queryField: String) repeatable on FIELD_DEFINITION
+directive @hasMany(indexName: String, fields: [String!], limit: Int = 100) on FIELD_DEFINITION
+directive @hasOne(fields: [String!]) on FIELD_DEFINITION
+directive @manyToMany(relationName: String!, limit: Int = 100) on FIELD_DEFINITION
+directive @belongsTo(fields: [String!]) on FIELD_DEFINITION
+directive @default(value: String!) on FIELD_DEFINITION
+directive @auth(rules: [AuthRule!]!) on OBJECT | FIELD_DEFINITION
+input AuthRule {
+  allow: AuthStrategy!
+  provider: AuthProvider
+  identityClaim: String
+  groupClaim: String
+  ownerField: String
+  groupsField: String
+  groups: [String]
+  operations: [ModelOperation]
+}
+enum AuthStrategy {
+  owner
+  groups
+  private
+  public
+  custom
+}
+enum AuthProvider {
+  apiKey
+  iam
+  oidc
+  userPools
+  function
+}
+enum ModelOperation {
+  create
+  update
+  delete
+  read
+  list
+  get
+  sync
+  listen
+  search
+}
+directive @mapsTo(name: String!) on OBJECT
+directive @searchable(queries: SearchableQueryMap) on OBJECT
+input SearchableQueryMap {
+  search: String
+}`;
