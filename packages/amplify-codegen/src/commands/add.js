@@ -23,11 +23,11 @@ const askForFramework = require('../walkthrough/questions/selectFramework');
 const frontends = ['android', 'ios', 'javascript'];
 const frameworks = ['angular', 'ember', 'ionic', 'react', 'react-native', 'vue', 'none'];
 
-async function add(context, apiId = null) {
+async function add(context, apiId = null, region = 'us-east-1') {
   let withoutInit = false;
   // Determine if working in an amplify project
   try {
-    context.amplify.getProjectMeta();
+    await context.amplify.getProjectMeta();
   } catch (e) {
     withoutInit = true;
     const config = loadConfig(context, withoutInit);
@@ -69,7 +69,6 @@ async function add(context, apiId = null) {
     }
   }
 
-  let region = 'us-east-1';
   if (!withoutInit) {
     region = getProjectAwsRegion(context);
   }
