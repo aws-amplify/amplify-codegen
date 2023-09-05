@@ -32,6 +32,9 @@ jest.mock('../../src/commands/types');
 jest.mock('../../src/commands/statements');
 jest.mock('../../src/codegen-config');
 jest.mock('../../src/utils');
+jest.mock('process', () => ({
+  cwd: () => '/user/foo/project',
+}));
 
 const MOCK_INCLUDE_PATTERN = 'MOCK_INCLUDE';
 const MOCK_EXCLUDE_PATTERN = 'MOCK_EXCLUDE';

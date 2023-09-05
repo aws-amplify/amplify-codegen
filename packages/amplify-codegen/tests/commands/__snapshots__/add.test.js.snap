@@ -14,7 +14,7 @@ Object {
   "excludes": "MOCK_EXCLUDE",
   "includes": "MOCK_INCLUDE",
   "projectName": "Codegen Project",
-  "schema": "/Users/dppilche/amplify/amplify-codegen/packages/amplify-codegen/schema.graphql",
+  "schema": "/user/foo/project/schema.graphql",
 }
 `;
 
@@ -32,6 +32,6 @@ Object {
   "excludes": "MOCK_EXCLUDE",
   "includes": "MOCK_INCLUDE",
   "projectName": "Codegen Project",
-  "schema": "/Users/dppilche/amplify/amplify-codegen/packages/amplify-codegen/schema.graphql",
+  "schema": "/user/foo/project/schema.graphql",
 }
 `;
