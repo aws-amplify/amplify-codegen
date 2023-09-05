@@ -2,7 +2,7 @@ import { Types } from '@graphql-codegen/plugin-helpers';
 import { Kind, TypeDefinitionNode } from 'graphql';
 import { join } from 'path';
 import { JAVA_SCALAR_MAP, SWIFT_SCALAR_MAP, TYPESCRIPT_SCALAR_MAP, DART_SCALAR_MAP, METADATA_SCALAR_MAP } from './scalars';
-import { LOADER_CLASS_NAME, GENERATED_API_PACKAGE_NAME, GENERATED_DATASTORE_PACKAGE_NAME } from './configs/java-config';
+import { LOADER_CLASS_NAME, GENERATED_PACKAGE_NAME } from './configs/java-config';
 import { graphqlName, toUpper } from 'graphql-transformer-common';
 
 const APPSYNC_DATA_STORE_CODEGEN_TARGETS = ['java', 'swift', 'javascript', 'typescript', 'dart', 'introspection'];
@@ -35,20 +35,16 @@ const generateJavaPreset = (
   models: TypeDefinitionNode[],
 ): Types.GenerateOptions[] => {
   const config: Types.GenerateOptions[] = [];
-  const dataStoreModelFolder = options.config.overrideOutputDir ? [options.config.overrideOutputDir] : [options.baseOutputDir, ...GENERATED_DATASTORE_PACKAGE_NAME.split('.')];
+  const modelFolder = options.config.overrideOutputDir
+  ? [options.config.overrideOutputDir]
+  : [options.baseOutputDir, ...GENERATED_PACKAGE_NAME.split('.')];
   models.forEach(model => {
-
-    // Android splits models into 2 different packages.. 1 for DataStore and 1 for API
-    // generateModelsForLazyLoadAndCustomSelectionSet is used to decide whether or not we create the codegen for the API category
-
-    // Model
     const modelName = model.name.value;
     config.push({
       ...options,
-      filename: join(...dataStoreModelFolder, `${modelName}.java`),
+      filename: join(...modelFolder, `${modelName}.java`),
       config: {
         ...options.config,
-        generateModelsForLazyLoadAndCustomSelectionSet: false, // override value to output DataStore models
         scalars: { ...JAVA_SCALAR_MAP, ...options.config.scalars },
         selectedType: modelName,
       },
@@ -57,10 +53,9 @@ const generateJavaPreset = (
     // Class loader
     config.push({
       ...options,
-      filename: join(...dataStoreModelFolder, `${LOADER_CLASS_NAME}.java`),
+      filename: join(...modelFolder, `${LOADER_CLASS_NAME}.java`),
       config: {
         ...options.config,
-        generateModelsForLazyLoadAndCustomSelectionSet: false, // override value to output DataStore models
         scalars: { ...JAVA_SCALAR_MAP, ...options.config.scalars },
         generate: 'loader',
       },
@@ -68,28 +63,11 @@ const generateJavaPreset = (
 
     // if generateModelsForLazyLoadAndCustomSelectionSet = true, these next Models + Paths will be created in api package
     if (options.config.generateModelsForLazyLoadAndCustomSelectionSet) {
-      // If an overrideOutputDir is provided, we palce all API codegen in an 'api' folder to prevent collisions with DataStore models
-      const apiModelFolder = options.config.overrideOutputDir ?
-        [options.config.overrideOutputDir, "api"] :
-        [options.baseOutputDir, ...GENERATED_API_PACKAGE_NAME.split('.')];
-
-      // Model
-      const modelName = model.name.value;
-      config.push({
-        ...options,
-        filename: join(...apiModelFolder, `${modelName}.java`),
-        config: {
-          ...options.config,
-          scalars: { ...JAVA_SCALAR_MAP, ...options.config.scalars },
-          selectedType: modelName,
-        },
-      });
-
       // Create ModelPath if type is @model
       if (model?.directives?.find((directive) => directive?.name?.value === 'model')) {
         config.push({
           ...options,
-          filename: join(...apiModelFolder, `${modelName}Path.java`),
+          filename: join(...modelFolder, `${modelName}Path.java`),
           config: {
             ...options.config,
             scalars: { ...JAVA_SCALAR_MAP, ...options.config.scalars },
@@ -98,17 +76,6 @@ const generateJavaPreset = (
           },
         });
       }
-
-      // Class loader
-      config.push({
-        ...options,
-        filename: join(...apiModelFolder, `${LOADER_CLASS_NAME}.java`),
-        config: {
-          ...options.config,
-          scalars: { ...JAVA_SCALAR_MAP, ...options.config.scalars },
-          generate: 'loader',
-        },
-      });
     }
   });
 

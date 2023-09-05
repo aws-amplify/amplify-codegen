@@ -1,10 +1,7 @@
 import { CodeGenConnectionType } from '../utils/process-connections';
 
 // Name of the Generated Java Package for DataStore category
-export const GENERATED_DATASTORE_PACKAGE_NAME = 'com.amplifyframework.datastore.generated.model';
-
-// Name of the Generated Java Package for API category
-export const GENERATED_API_PACKAGE_NAME = 'com.amplifyframework.api.generated.model';
+export const GENERATED_PACKAGE_NAME = 'com.amplifyframework.datastore.generated.model';
 
 // Name of the Class Loader package
 export const LOADER_CLASS_NAME = 'AmplifyModelProvider';
@@ -96,7 +93,7 @@ export const LAZY_MODEL_IMPORT_PACKAGES = [
 
 export const CONNECTION_RELATIONSHIP_LAZY_LOAD_IMPORTS: { [key in CodeGenConnectionType]: string[] } = {
   BELONGS_TO: LAZY_MODEL_IMPORT_PACKAGES,
-  HAS_MANY: ['com.amplifyframework.api.graphql.PaginatedResult'],
+  HAS_MANY: ['com.amplifyframework.core.model.ModelList'],
   HAS_ONE: LAZY_MODEL_IMPORT_PACKAGES,
 };
 

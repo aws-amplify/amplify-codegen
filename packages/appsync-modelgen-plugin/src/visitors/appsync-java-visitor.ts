@@ -4,8 +4,7 @@ import dedent from 'ts-dedent';
 import {
   MODEL_CLASS_IMPORT_PACKAGES,
   MODEL_PATH_CLASS_IMPORT_PACKAGES,
-  GENERATED_API_PACKAGE_NAME,
-  GENERATED_DATASTORE_PACKAGE_NAME,
+  GENERATED_PACKAGE_NAME,
   LOADER_CLASS_NAME,
   LOADER_IMPORT_PACKAGES,
   CONNECTION_RELATIONSHIP_IMPORTS,
@@ -188,11 +187,7 @@ export class AppSyncModelJavaVisitor<
   }
 
   generatePackageName(): string {
-    if (this.isGenerateModelsForLazyLoadAndCustomSelectionSet()) {
-      return `package ${GENERATED_API_PACKAGE_NAME};`;
-    } else {
-      return `package ${GENERATED_DATASTORE_PACKAGE_NAME};`;
-    }
+    return `package ${GENERATED_PACKAGE_NAME};`;
   }
   generateModelClass(model: CodeGenModel): string {
     const classDeclarationBlock = new JavaDeclarationBlock()
@@ -786,8 +781,8 @@ export class AppSyncModelJavaVisitor<
   }
 
   protected getListType(typeStr: string, field: CodeGenField): string {
-    if(this.isLazyList(field)) {
-      return `PaginatedResult<${typeStr}>`;
+    if(this.isModelList(field)) {
+      return `ModelList<${typeStr}>`;
     } else {
       return super.getListType(typeStr, field);
     }
@@ -804,7 +799,7 @@ export class AppSyncModelJavaVisitor<
     }
   }
 
-  protected isLazyList(field: CodeGenField) {
+  protected isModelList(field: CodeGenField) {
     return this.isGenerateModelsForLazyLoadAndCustomSelectionSet() && field.connectionInfo?.kind == CodeGenConnectionType.HAS_MANY;
   }
 
@@ -934,6 +929,9 @@ export class AppSyncModelJavaVisitor<
           if (authRules.length) {
             this.usingAuth = true;
             modelArgs.push(`authRules = ${authRules}`);
+          }
+          if (this.isGenerateModelsForLazyLoadAndCustomSelectionSet()) {
+            modelArgs.push(`hasLazySupport = true`)
           }
           return `ModelConfig(${modelArgs.join(', ')})`;
         case 'key':
