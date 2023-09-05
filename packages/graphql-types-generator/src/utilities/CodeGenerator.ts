@@ -2,6 +2,14 @@ export interface BasicGeneratedFile {
   output: string;
 }
 
+export type BasicGeneratedFileMap = {
+  [filepath: string]: BasicGeneratedFile;
+};
+
+export function isBasicGeneratedFileMap(output: string | BasicGeneratedFileMap): output is BasicGeneratedFileMap {
+  return typeof output === 'object';
+}
+
 export class GeneratedFile<Scope = any> implements BasicGeneratedFile {
   scopeStack: Scope[] = [];
   indentWidth = 2;

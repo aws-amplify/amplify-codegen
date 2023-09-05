@@ -4,8 +4,9 @@ const Ora = require('ora');
 
 const { loadConfig } = require('../codegen-config');
 const constants = require('../constants');
-const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails, readSchemaFromFile, GraphQLStatementsFormatter } = require('../utils');
+const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails, readSchemaFromFile } = require('../utils');
 const { generateGraphQLDocuments } = require('@aws-amplify/graphql-docs-generator');
+const { generateStatements: generateStatementsHelper } = require('@aws-amplify/graphql-generator');
 
 async function generateStatements(context, forceDownloadSchema, maxDepth, withoutInit = false, decoupleFrontend = '') {
   try {
@@ -50,27 +51,28 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
       frontend = decoupleFrontend;
     }
     const language = frontend === 'javascript' ? cfg.amplifyExtension.codeGenTarget : 'graphql';
-    if (!Object.keys(FILE_EXTENSION_MAP).includes(language)) {
-      throw new Error(`Language ${language} not supported`);
-    }
 
     const opsGenSpinner = new Ora(constants.INFO_MESSAGE_OPS_GEN);
     opsGenSpinner.start();
 
     try {
-      fs.ensureDirSync(opsGenDirectory);
       const schemaData = readSchemaFromFile(schemaPath);
-      const generatedOps = generateGraphQLDocuments(schemaData, {
+      const relativeTypesPath = cfg.amplifyExtension.generatedFileName
+        ? path.relative(opsGenDirectory, cfg.amplifyExtension.generatedFileName)
+        : null;
+      const generatedOps = generateStatementsHelper({
+        schema: schemaData,
+        target: language,
         maxDepth: maxDepth || cfg.amplifyExtension.maxDepth,
-        useExternalFragmentForS3Object: (language === 'graphql'),
+        useExternalFragmentForS3Object: language === 'graphql',
         // default typenameIntrospection to true when not set
         typenameIntrospection:
           cfg.amplifyExtension.typenameIntrospection === undefined ? true : !!cfg.amplifyExtension.typenameIntrospection,
+        relativeTypesPath,
       });
-      if(!generatedOps) {
+      if (!generatedOps) {
         context.print.warning('No GraphQL statements are generated. Check if the introspection schema has GraphQL operations defined.');
-      }
-      else {
+      } else {
         await writeGeneratedDocuments(language, generatedOps, opsGenDirectory);
         opsGenSpinner.succeed(constants.INFO_MESSAGE_OPS_GEN_SUCCESS + path.relative(path.resolve('.'), opsGenDirectory));
       }
@@ -80,35 +82,10 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
   }
 }
 
-async function writeGeneratedDocuments(language, generatedStatements, outputPath) {
-  const fileExtension = FILE_EXTENSION_MAP[language];
-
-  ['queries', 'mutations', 'subscriptions'].forEach(op => {
-    const ops = generatedStatements[op];
-    if (ops && ops.size) {
-      const formattedStatements = (new GraphQLStatementsFormatter(language)).format(ops);
-      const outputFile = path.resolve(path.join(outputPath, `${op}.${fileExtension}`));
-      fs.writeFileSync(outputFile, formattedStatements);
-    }
+function writeGeneratedDocuments(language, generatedStatements, outputPath) {
+  Object.entries(generatedStatements).forEach(([filepath, contents]) => {
+    fs.outputFileSync(path.resolve(path.join(outputPath, filepath)), contents);
   });
-
-  if (fileExtension === 'graphql') {
-    // External Fragments are rendered only for GraphQL targets
-    const fragments = generatedStatements['fragments'];
-    if (fragments.size) {
-      const formattedStatements = (new GraphQLStatementsFormatter(language)).format(fragments);
-      const outputFile = path.resolve(path.join(outputPath, `fragments.${fileExtension}`));
-      fs.writeFileSync(outputFile, formattedStatements);
-    }
-  }
-}
-
-const FILE_EXTENSION_MAP = {
-  javascript: 'js',
-  graphql: 'graphql',
-  flow: 'js',
-  typescript: 'ts',
-  angular: 'graphql',
 }
 
 module.exports = generateStatements;

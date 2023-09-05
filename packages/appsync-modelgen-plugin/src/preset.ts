@@ -5,7 +5,9 @@ import { JAVA_SCALAR_MAP, SWIFT_SCALAR_MAP, TYPESCRIPT_SCALAR_MAP, DART_SCALAR_M
 import { LOADER_CLASS_NAME, GENERATED_API_PACKAGE_NAME, GENERATED_DATASTORE_PACKAGE_NAME } from './configs/java-config';
 import { graphqlName, toUpper } from 'graphql-transformer-common';
 
-const APPSYNC_DATA_STORE_CODEGEN_TARGETS = ['java', 'swift', 'javascript', 'typescript', 'dart'];
+const APPSYNC_DATA_STORE_CODEGEN_TARGETS = ['java', 'swift', 'javascript', 'typescript', 'dart', 'introspection'];
+
+export type Target = 'java' | 'swift' | 'javascript' | 'typescript' | 'dart' | 'introspection';
 
 export type AppSyncModelCodeGenPresetConfig = {
   /**
@@ -25,7 +27,7 @@ export type AppSyncModelCodeGenPresetConfig = {
    * ```
    */
   overrideOutputDir: string | null;
-  target: 'java' | 'swift' | 'javascript' | 'typescript' | 'dart';
+  target: Target;
 };
 
 const generateJavaPreset = (
@@ -165,7 +167,7 @@ const generateTypeScriptPreset = (
   models: TypeDefinitionNode[],
 ): Types.GenerateOptions[] => {
   const config: Types.GenerateOptions[] = [];
-  const modelFolder = options.config.overrideOutputDir ? options.config.overrideOutputDir : join(options.baseOutputDir, 'models');
+  const modelFolder = options.config.overrideOutputDir ? options.config.overrideOutputDir : join(options.baseOutputDir);
   config.push({
     ...options,
     filename: join(modelFolder, 'index.ts'),
@@ -194,7 +196,7 @@ const generateJavasScriptPreset = (
   models: TypeDefinitionNode[],
 ): Types.GenerateOptions[] => {
   const config: Types.GenerateOptions[] = [];
-  const modelFolder = options.config.overrideOutputDir ? options.config.overrideOutputDir : join(options.baseOutputDir, 'models');
+  const modelFolder = options.config.overrideOutputDir ? options.config.overrideOutputDir : join(options.baseOutputDir);
   config.push({
     ...options,
     filename: join(modelFolder, 'index.js'),
@@ -273,7 +275,7 @@ const generateDartPreset = (
   return config;
 };
 
-const generateManyToManyModelStubs = (options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>) : TypeDefinitionNode[] => {
+const generateManyToManyModelStubs = (options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>): TypeDefinitionNode[] => {
   let models = new Array<TypeDefinitionNode>();
   let manyToManySet = new Set<string>();
   options.schema.definitions.forEach(def => {
@@ -282,7 +284,7 @@ const generateManyToManyModelStubs = (options: Types.PresetFnArgs<AppSyncModelCo
         field?.directives?.forEach(dir => {
           if (dir?.name?.value === 'manyToMany') {
             dir?.arguments?.forEach(arg => {
-              if(arg.name.value === 'relationName' && arg.value.kind === 'StringValue') {
+              if (arg.name.value === 'relationName' && arg.value.kind === 'StringValue') {
                 manyToManySet.add(graphqlName(toUpper(arg.value.value)));
               }
             });
@@ -296,12 +298,12 @@ const generateManyToManyModelStubs = (options: Types.PresetFnArgs<AppSyncModelCo
       kind: 'ObjectTypeDefinition',
       name: {
         kind: 'Name',
-        value: modelName
-      }
-    })
+        value: modelName,
+      },
+    });
   });
   return models;
-}
+};
 
 const generateIntrospectionPreset = (
   options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>,
@@ -319,7 +321,7 @@ const generateIntrospectionPreset = (
     },
   });
   return config;
-}
+};
 
 export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
   buildGeneratesSection: (options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>): Types.GenerateOptions[] => {
@@ -349,7 +351,7 @@ export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
         return generateIntrospectionPreset(options, models);
       default:
         throw new Error(
-          `amplify-codegen-appsync-model-plugin not support language target ${codeGenTarget}. Supported codegen targets arr ${APPSYNC_DATA_STORE_CODEGEN_TARGETS.join(
+          `amplify-codegen-appsync-model-plugin not support language target ${codeGenTarget}. Supported codegen targets are ${APPSYNC_DATA_STORE_CODEGEN_TARGETS.join(
             ', ',
           )}`,
         );
