@@ -36,8 +36,8 @@ const generateJavaPreset = (
 ): Types.GenerateOptions[] => {
   const config: Types.GenerateOptions[] = [];
   const modelFolder = options.config.overrideOutputDir
-  ? [options.config.overrideOutputDir]
-  : [options.baseOutputDir, ...GENERATED_PACKAGE_NAME.split('.')];
+    ? [options.config.overrideOutputDir]
+    : [options.baseOutputDir, ...GENERATED_PACKAGE_NAME.split('.')];
   models.forEach(model => {
     const modelName = model.name.value;
     config.push({
@@ -61,7 +61,7 @@ const generateJavaPreset = (
       },
     });
 
-    // if generateModelsForLazyLoadAndCustomSelectionSet = true, these next Models + Paths will be created in api package
+    // Create ModelPath's if generateModelsForLazyLoadAndCustomSelectionSet = true
     if (options.config.generateModelsForLazyLoadAndCustomSelectionSet) {
       // Create ModelPath if type is @model
       if (model?.directives?.find((directive) => directive?.name?.value === 'model')) {

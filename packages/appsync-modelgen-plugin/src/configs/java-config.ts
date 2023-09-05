@@ -1,6 +1,6 @@
 import { CodeGenConnectionType } from '../utils/process-connections';
 
-// Name of the Generated Java Package for DataStore category
+// Name of the Generated Java Package
 export const GENERATED_PACKAGE_NAME = 'com.amplifyframework.datastore.generated.model';
 
 // Name of the Class Loader package
