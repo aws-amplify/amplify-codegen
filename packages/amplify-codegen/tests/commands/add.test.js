@@ -158,6 +158,13 @@ describe('command - add', () => {
     expect(generateTypes).not.toHaveBeenCalled();
   });
 
+  it('should ignore region supplied when with init', async () => {
+    const region = 'us-west-2';
+    await add(MOCK_CONTEXT, MOCK_API_ID, region);
+    expect(getProjectAwsRegion).toHaveBeenCalled();
+    expect(getAppSyncAPIInfo).toHaveBeenCalledWith(MOCK_CONTEXT, MOCK_API_ID, MOCK_AWS_REGION);
+  });
+
   describe('without init', () => {
     const getProjectMeta = jest.fn();
     beforeEach(() => {
