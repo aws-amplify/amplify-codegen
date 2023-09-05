@@ -125,7 +125,7 @@ async function add(context, apiId = null, region = 'us-east-1') {
       schema = getSDLSchemaLocation(apiDetails.name);
     }
   } else if (apiDetails) {
-    schema = await downloadIntrospectionSchemaWithProgress(context, apiDetails.id, 'schema.json', region);
+    schema = await downloadIntrospectionSchemaWithProgress(context, apiDetails.id, path.join(process.cwd(), 'schema.json'), region);
   } else {
     schema = schemaPath;
   }
