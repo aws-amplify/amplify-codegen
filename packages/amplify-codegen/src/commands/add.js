@@ -85,7 +85,7 @@ async function add(context, apiId = null, region = 'us-east-1') {
     }
     [apiDetails] = availableAppSyncApis;
     apiDetails.isLocal = true;
-  } else {
+  } else if (apiId) {
     let shouldRetry = true;
     while (shouldRetry) {
       const apiDetailSpinner = new Ora();
@@ -108,6 +108,7 @@ async function add(context, apiId = null, region = 'us-east-1') {
       }
     }
   }
+  // else no appsync API, but has schema.graphql or schema.json
 
   if (!withoutInit && !apiDetails) {
     return;
