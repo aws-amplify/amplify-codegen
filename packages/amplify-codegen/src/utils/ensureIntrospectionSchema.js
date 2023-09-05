@@ -4,9 +4,15 @@ const generateIntrospectionSchema = require('./generateIntrospectionSchema');
 const downloadIntrospectionSchemaWithProgress = require('./generateIntrospectionSchemaWithProgress');
 
 async function ensureIntrospectionSchema(context, schemaPath, apiConfig, region, forceDownloadSchema) {
-  const meta = context.amplify.getProjectMeta();
+  let meta;
+  let withoutInit = false;
+  try {
+    meta = context.amplify.getProjectMeta();
+  } catch (e) {
+    withoutInit = true;
+  }
   const { id, name } = apiConfig;
-  const isTransformedAPI = Object.keys(meta.api || {}).includes(name) && meta.api[name].providerPlugin === 'awscloudformation';
+  const isTransformedAPI = meta && Object.keys(meta.api || {}).includes(name) && meta.api[name].providerPlugin === 'awscloudformation';
   if (isTransformedAPI && getFrontendHandler(context) === 'android') {
     generateIntrospectionSchema(context, name);
   } else if (schemaPath.endsWith('.json')) {
