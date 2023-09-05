@@ -1,0 +1,2808 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generateTypes multipleSwiftFiles 1`] = `
+Object {
+  "GraphQL request.swift": "//  This file was automatically generated and should not be edited.
+
+#if canImport(AWSAPIPlugin)
+import Foundation
+
+public protocol GraphQLInputValue {
+}
+
+public struct GraphQLVariable {
+  let name: String
+  
+  public init(_ name: String) {
+    self.name = name
+  }
+}
+
+extension GraphQLVariable: GraphQLInputValue {
+}
+
+extension JSONEncodable {
+  public func evaluate(with variables: [String: JSONEncodable]?) throws -> Any {
+    return jsonValue
+  }
+}
+
+public typealias GraphQLMap = [String: JSONEncodable?]
+
+extension Dictionary where Key == String, Value == JSONEncodable? {
+  public var withNilValuesRemoved: Dictionary<String, JSONEncodable> {
+    var filtered = Dictionary<String, JSONEncodable>(minimumCapacity: count)
+    for (key, value) in self {
+      if value != nil {
+        filtered[key] = value
+      }
+    }
+    return filtered
+  }
+}
+
+public protocol GraphQLMapConvertible: JSONEncodable {
+  var graphQLMap: GraphQLMap { get }
+}
+
+public extension GraphQLMapConvertible {
+  var jsonValue: Any {
+    return graphQLMap.withNilValuesRemoved.jsonValue
+  }
+}
+
+public typealias GraphQLID = String
+
+public protocol APISwiftGraphQLOperation: AnyObject {
+  
+  static var operationString: String { get }
+  static var requestString: String { get }
+  static var operationIdentifier: String? { get }
+  
+  var variables: GraphQLMap? { get }
+  
+  associatedtype Data: GraphQLSelectionSet
+}
+
+public extension APISwiftGraphQLOperation {
+  static var requestString: String {
+    return operationString
+  }
+
+  static var operationIdentifier: String? {
+    return nil
+  }
+
+  var variables: GraphQLMap? {
+    return nil
+  }
+}
+
+public protocol GraphQLQuery: APISwiftGraphQLOperation {}
+
+public protocol GraphQLMutation: APISwiftGraphQLOperation {}
+
+public protocol GraphQLSubscription: APISwiftGraphQLOperation {}
+
+public protocol GraphQLFragment: GraphQLSelectionSet {
+  static var possibleTypes: [String] { get }
+}
+
+public typealias Snapshot = [String: Any?]
+
+public protocol GraphQLSelectionSet: Decodable {
+  static var selections: [GraphQLSelection] { get }
+  
+  var snapshot: Snapshot { get }
+  init(snapshot: Snapshot)
+}
+
+extension GraphQLSelectionSet {
+    public init(from decoder: Decoder) throws {
+        if let jsonObject = try? APISwiftJSONValue(from: decoder) {
+            let encoder = JSONEncoder()
+            let jsonData = try encoder.encode(jsonObject)
+            let decodedDictionary = try JSONSerialization.jsonObject(with: jsonData, options: []) as! [String: Any]
+            let optionalDictionary = decodedDictionary.mapValues { $0 as Any? }
+
+            self.init(snapshot: optionalDictionary)
+        } else {
+            self.init(snapshot: [:])
+        }
+    }
+}
+
+enum APISwiftJSONValue: Codable {
+    case array([APISwiftJSONValue])
+    case boolean(Bool)
+    case number(Double)
+    case object([String: APISwiftJSONValue])
+    case string(String)
+    case null
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        
+        if let value = try? container.decode([String: APISwiftJSONValue].self) {
+            self = .object(value)
+        } else if let value = try? container.decode([APISwiftJSONValue].self) {
+            self = .array(value)
+        } else if let value = try? container.decode(Double.self) {
+            self = .number(value)
+        } else if let value = try? container.decode(Bool.self) {
+            self = .boolean(value)
+        } else if let value = try? container.decode(String.self) {
+            self = .string(value)
+        } else {
+            self = .null
+        }
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        
+        switch self {
+        case .array(let value):
+            try container.encode(value)
+        case .boolean(let value):
+            try container.encode(value)
+        case .number(let value):
+            try container.encode(value)
+        case .object(let value):
+            try container.encode(value)
+        case .string(let value):
+            try container.encode(value)
+        case .null:
+            try container.encodeNil()
+        }
+    }
+}
+
+public protocol GraphQLSelection {
+}
+
+public struct GraphQLField: GraphQLSelection {
+  let name: String
+  let alias: String?
+  let arguments: [String: GraphQLInputValue]?
+  
+  var responseKey: String {
+    return alias ?? name
+  }
+  
+  let type: GraphQLOutputType
+  
+  public init(_ name: String, alias: String? = nil, arguments: [String: GraphQLInputValue]? = nil, type: GraphQLOutputType) {
+    self.name = name
+    self.alias = alias
+    
+    self.arguments = arguments
+    
+    self.type = type
+  }
+}
+
+public indirect enum GraphQLOutputType {
+  case scalar(JSONDecodable.Type)
+  case object([GraphQLSelection])
+  case nonNull(GraphQLOutputType)
+  case list(GraphQLOutputType)
+  
+  var namedType: GraphQLOutputType {
+    switch self {
+    case .nonNull(let innerType), .list(let innerType):
+      return innerType.namedType
+    case .scalar, .object:
+      return self
+    }
+  }
+}
+
+public struct GraphQLBooleanCondition: GraphQLSelection {
+  let variableName: String
+  let inverted: Bool
+  let selections: [GraphQLSelection]
+  
+  public init(variableName: String, inverted: Bool, selections: [GraphQLSelection]) {
+    self.variableName = variableName
+    self.inverted = inverted;
+    self.selections = selections;
+  }
+}
+
+public struct GraphQLTypeCondition: GraphQLSelection {
+  let possibleTypes: [String]
+  let selections: [GraphQLSelection]
+  
+  public init(possibleTypes: [String], selections: [GraphQLSelection]) {
+    self.possibleTypes = possibleTypes
+    self.selections = selections;
+  }
+}
+
+public struct GraphQLFragmentSpread: GraphQLSelection {
+  let fragment: GraphQLFragment.Type
+  
+  public init(_ fragment: GraphQLFragment.Type) {
+    self.fragment = fragment
+  }
+}
+
+public struct GraphQLTypeCase: GraphQLSelection {
+  let variants: [String: [GraphQLSelection]]
+  let \`default\`: [GraphQLSelection]
+  
+  public init(variants: [String: [GraphQLSelection]], default: [GraphQLSelection]) {
+    self.variants = variants
+    self.default = \`default\`;
+  }
+}
+
+public typealias JSONObject = [String: Any]
+
+public protocol JSONDecodable {
+  init(jsonValue value: Any) throws
+}
+
+public protocol JSONEncodable: GraphQLInputValue {
+  var jsonValue: Any { get }
+}
+
+public enum JSONDecodingError: Error, LocalizedError {
+  case missingValue
+  case nullValue
+  case wrongType
+  case couldNotConvert(value: Any, to: Any.Type)
+  
+  public var errorDescription: String? {
+    switch self {
+    case .missingValue:
+      return \\"Missing value\\"
+    case .nullValue:
+      return \\"Unexpected null value\\"
+    case .wrongType:
+      return \\"Wrong type\\"
+    case .couldNotConvert(let value, let expectedType):
+      return \\"Could not convert \\\\\\"\\\\(value)\\\\\\" to \\\\(expectedType)\\"
+    }
+  }
+}
+
+extension String: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let string = value as? String else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: String.self)
+    }
+    self = string
+  }
+
+  public var jsonValue: Any {
+    return self
+  }
+}
+
+extension Int: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let number = value as? NSNumber else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: Int.self)
+    }
+    self = number.intValue
+  }
+
+  public var jsonValue: Any {
+    return self
+  }
+}
+
+extension Float: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let number = value as? NSNumber else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: Float.self)
+    }
+    self = number.floatValue
+  }
+
+  public var jsonValue: Any {
+    return self
+  }
+}
+
+extension Double: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let number = value as? NSNumber else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: Double.self)
+    }
+    self = number.doubleValue
+  }
+
+  public var jsonValue: Any {
+    return self
+  }
+}
+
+extension Bool: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let bool = value as? Bool else {
+        throw JSONDecodingError.couldNotConvert(value: value, to: Bool.self)
+    }
+    self = bool
+  }
+
+  public var jsonValue: Any {
+    return self
+  }
+}
+
+extension RawRepresentable where RawValue: JSONDecodable {
+  public init(jsonValue value: Any) throws {
+    let rawValue = try RawValue(jsonValue: value)
+    if let tempSelf = Self(rawValue: rawValue) {
+      self = tempSelf
+    } else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: Self.self)
+    }
+  }
+}
+
+extension RawRepresentable where RawValue: JSONEncodable {
+  public var jsonValue: Any {
+    return rawValue.jsonValue
+  }
+}
+
+extension Optional where Wrapped: JSONDecodable {
+  public init(jsonValue value: Any) throws {
+    if value is NSNull {
+      self = .none
+    } else {
+      self = .some(try Wrapped(jsonValue: value))
+    }
+  }
+}
+
+extension Optional: JSONEncodable {
+  public var jsonValue: Any {
+    switch self {
+    case .none:
+      return NSNull()
+    case .some(let wrapped as JSONEncodable):
+      return wrapped.jsonValue
+    default:
+      fatalError(\\"Optional is only JSONEncodable if Wrapped is\\")
+    }
+  }
+}
+
+extension Dictionary: JSONEncodable {
+  public var jsonValue: Any {
+    return jsonObject
+  }
+  
+  public var jsonObject: JSONObject {
+    var jsonObject = JSONObject(minimumCapacity: count)
+    for (key, value) in self {
+      if case let (key as String, value as JSONEncodable) = (key, value) {
+        jsonObject[key] = value.jsonValue
+      } else {
+        fatalError(\\"Dictionary is only JSONEncodable if Value is (and if Key is String)\\")
+      }
+    }
+    return jsonObject
+  }
+}
+
+extension Array: JSONEncodable {
+  public var jsonValue: Any {
+    return map() { element -> (Any) in
+      if case let element as JSONEncodable = element {
+        return element.jsonValue
+      } else {
+        fatalError(\\"Array is only JSONEncodable if Element is\\")
+      }
+    }
+  }
+}
+
+extension URL: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let string = value as? String else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: URL.self)
+    }
+    self.init(string: string)!
+  }
+
+  public var jsonValue: Any {
+    return self.absoluteString
+  }
+}
+
+extension Dictionary {
+  static func += (lhs: inout Dictionary, rhs: Dictionary) {
+    lhs.merge(rhs) { (_, new) in new }
+  }
+}
+
+#elseif canImport(AWSAppSync)
+import AWSAppSync
+#endif
+
+public final class GetBlogQuery: GraphQLQuery {
+  public static let operationString =
+    \\"query GetBlog($id: ID!) {\\\\n  getBlog(id: $id) {\\\\n    __typename\\\\n    id\\\\n    name\\\\n    posts {\\\\n      __typename\\\\n      nextToken\\\\n    }\\\\n    createdAt\\\\n    updatedAt\\\\n  }\\\\n}\\"
+
+  public var id: GraphQLID
+
+  public init(id: GraphQLID) {
+    self.id = id
+  }
+
+  public var variables: GraphQLMap? {
+    return [\\"id\\": id]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes = [\\"Query\\"]
+
+    public static let selections: [GraphQLSelection] = [
+      GraphQLField(\\"getBlog\\", arguments: [\\"id\\": GraphQLVariable(\\"id\\")], type: .object(GetBlog.selections)),
+    ]
+
+    public var snapshot: Snapshot
+
+    public init(snapshot: Snapshot) {
+      self.snapshot = snapshot
+    }
+
+    public init(getBlog: GetBlog? = nil) {
+      self.init(snapshot: [\\"__typename\\": \\"Query\\", \\"getBlog\\": getBlog.flatMap { $0.snapshot }])
+    }
+
+    public var getBlog: GetBlog? {
+      get {
+        return (snapshot[\\"getBlog\\"] as? Snapshot).flatMap { GetBlog(snapshot: $0) }
+      }
+      set {
+        snapshot.updateValue(newValue?.snapshot, forKey: \\"getBlog\\")
+      }
+    }
+
+    public struct GetBlog: GraphQLSelectionSet {
+      public static let possibleTypes = [\\"Blog\\"]
+
+      public static let selections: [GraphQLSelection] = [
+        GraphQLField(\\"__typename\\", type: .nonNull(.scalar(String.self))),
+        GraphQLField(\\"id\\", type: .nonNull(.scalar(GraphQLID.self))),
+        GraphQLField(\\"name\\", type: .nonNull(.scalar(String.self))),
+        GraphQLField(\\"posts\\", type: .object(Post.selections)),
+        GraphQLField(\\"createdAt\\", type: .nonNull(.scalar(String.self))),
+        GraphQLField(\\"updatedAt\\", type: .nonNull(.scalar(String.self))),
+      ]
+
+      public var snapshot: Snapshot
+
+      public init(snapshot: Snapshot) {
+        self.snapshot = snapshot
+      }
+
+      public init(id: GraphQLID, name: String, posts: Post? = nil, createdAt: String, updatedAt: String) {
+        self.init(snapshot: [\\"__typename\\": \\"Blog\\", \\"id\\": id, \\"name\\": name, \\"posts\\": posts.flatMap { $0.snapshot }, \\"createdAt\\": createdAt, \\"updatedAt\\": updatedAt])
+      }
+
+      public var __typename: String {
+        get {
+          return snapshot[\\"__typename\\"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: \\"__typename\\")
+        }
+      }
+
+      public var id: GraphQLID {
+        get {
+          return snapshot[\\"id\\"]! as! GraphQLID
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: \\"id\\")
+        }
+      }
+
+      public var name: String {
+        get {
+          return snapshot[\\"name\\"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: \\"name\\")
+        }
+      }
+
+      public var posts: Post? {
+        get {
+          return (snapshot[\\"posts\\"] as? Snapshot).flatMap { Post(snapshot: $0) }
+        }
+        set {
+          snapshot.updateValue(newValue?.snapshot, forKey: \\"posts\\")
+        }
+      }
+
+      public var createdAt: String {
+        get {
+          return snapshot[\\"createdAt\\"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: \\"createdAt\\")
+        }
+      }
+
+      public var updatedAt: String {
+        get {
+          return snapshot[\\"updatedAt\\"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: \\"updatedAt\\")
+        }
+      }
+
+      public struct Post: GraphQLSelectionSet {
+        public static let possibleTypes = [\\"ModelPostConnection\\"]
+
+        public static let selections: [GraphQLSelection] = [
+          GraphQLField(\\"__typename\\", type: .nonNull(.scalar(String.self))),
+          GraphQLField(\\"nextToken\\", type: .scalar(String.self)),
+        ]
+
+        public var snapshot: Snapshot
+
+        public init(snapshot: Snapshot) {
+          self.snapshot = snapshot
+        }
+
+        public init(nextToken: String? = nil) {
+          self.init(snapshot: [\\"__typename\\": \\"ModelPostConnection\\", \\"nextToken\\": nextToken])
+        }
+
+        public var __typename: String {
+          get {
+            return snapshot[\\"__typename\\"]! as! String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: \\"__typename\\")
+          }
+        }
+
+        public var nextToken: String? {
+          get {
+            return snapshot[\\"nextToken\\"] as? String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: \\"nextToken\\")
+          }
+        }
+      }
+    }
+  }
+}",
+  "Types.graphql.swift": "//  This file was automatically generated and should not be edited.
+
+#if canImport(AWSAPIPlugin)
+import Foundation
+
+public protocol GraphQLInputValue {
+}
+
+public struct GraphQLVariable {
+  let name: String
+  
+  public init(_ name: String) {
+    self.name = name
+  }
+}
+
+extension GraphQLVariable: GraphQLInputValue {
+}
+
+extension JSONEncodable {
+  public func evaluate(with variables: [String: JSONEncodable]?) throws -> Any {
+    return jsonValue
+  }
+}
+
+public typealias GraphQLMap = [String: JSONEncodable?]
+
+extension Dictionary where Key == String, Value == JSONEncodable? {
+  public var withNilValuesRemoved: Dictionary<String, JSONEncodable> {
+    var filtered = Dictionary<String, JSONEncodable>(minimumCapacity: count)
+    for (key, value) in self {
+      if value != nil {
+        filtered[key] = value
+      }
+    }
+    return filtered
+  }
+}
+
+public protocol GraphQLMapConvertible: JSONEncodable {
+  var graphQLMap: GraphQLMap { get }
+}
+
+public extension GraphQLMapConvertible {
+  var jsonValue: Any {
+    return graphQLMap.withNilValuesRemoved.jsonValue
+  }
+}
+
+public typealias GraphQLID = String
+
+public protocol APISwiftGraphQLOperation: AnyObject {
+  
+  static var operationString: String { get }
+  static var requestString: String { get }
+  static var operationIdentifier: String? { get }
+  
+  var variables: GraphQLMap? { get }
+  
+  associatedtype Data: GraphQLSelectionSet
+}
+
+public extension APISwiftGraphQLOperation {
+  static var requestString: String {
+    return operationString
+  }
+
+  static var operationIdentifier: String? {
+    return nil
+  }
+
+  var variables: GraphQLMap? {
+    return nil
+  }
+}
+
+public protocol GraphQLQuery: APISwiftGraphQLOperation {}
+
+public protocol GraphQLMutation: APISwiftGraphQLOperation {}
+
+public protocol GraphQLSubscription: APISwiftGraphQLOperation {}
+
+public protocol GraphQLFragment: GraphQLSelectionSet {
+  static var possibleTypes: [String] { get }
+}
+
+public typealias Snapshot = [String: Any?]
+
+public protocol GraphQLSelectionSet: Decodable {
+  static var selections: [GraphQLSelection] { get }
+  
+  var snapshot: Snapshot { get }
+  init(snapshot: Snapshot)
+}
+
+extension GraphQLSelectionSet {
+    public init(from decoder: Decoder) throws {
+        if let jsonObject = try? APISwiftJSONValue(from: decoder) {
+            let encoder = JSONEncoder()
+            let jsonData = try encoder.encode(jsonObject)
+            let decodedDictionary = try JSONSerialization.jsonObject(with: jsonData, options: []) as! [String: Any]
+            let optionalDictionary = decodedDictionary.mapValues { $0 as Any? }
+
+            self.init(snapshot: optionalDictionary)
+        } else {
+            self.init(snapshot: [:])
+        }
+    }
+}
+
+enum APISwiftJSONValue: Codable {
+    case array([APISwiftJSONValue])
+    case boolean(Bool)
+    case number(Double)
+    case object([String: APISwiftJSONValue])
+    case string(String)
+    case null
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        
+        if let value = try? container.decode([String: APISwiftJSONValue].self) {
+            self = .object(value)
+        } else if let value = try? container.decode([APISwiftJSONValue].self) {
+            self = .array(value)
+        } else if let value = try? container.decode(Double.self) {
+            self = .number(value)
+        } else if let value = try? container.decode(Bool.self) {
+            self = .boolean(value)
+        } else if let value = try? container.decode(String.self) {
+            self = .string(value)
+        } else {
+            self = .null
+        }
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        
+        switch self {
+        case .array(let value):
+            try container.encode(value)
+        case .boolean(let value):
+            try container.encode(value)
+        case .number(let value):
+            try container.encode(value)
+        case .object(let value):
+            try container.encode(value)
+        case .string(let value):
+            try container.encode(value)
+        case .null:
+            try container.encodeNil()
+        }
+    }
+}
+
+public protocol GraphQLSelection {
+}
+
+public struct GraphQLField: GraphQLSelection {
+  let name: String
+  let alias: String?
+  let arguments: [String: GraphQLInputValue]?
+  
+  var responseKey: String {
+    return alias ?? name
+  }
+  
+  let type: GraphQLOutputType
+  
+  public init(_ name: String, alias: String? = nil, arguments: [String: GraphQLInputValue]? = nil, type: GraphQLOutputType) {
+    self.name = name
+    self.alias = alias
+    
+    self.arguments = arguments
+    
+    self.type = type
+  }
+}
+
+public indirect enum GraphQLOutputType {
+  case scalar(JSONDecodable.Type)
+  case object([GraphQLSelection])
+  case nonNull(GraphQLOutputType)
+  case list(GraphQLOutputType)
+  
+  var namedType: GraphQLOutputType {
+    switch self {
+    case .nonNull(let innerType), .list(let innerType):
+      return innerType.namedType
+    case .scalar, .object:
+      return self
+    }
+  }
+}
+
+public struct GraphQLBooleanCondition: GraphQLSelection {
+  let variableName: String
+  let inverted: Bool
+  let selections: [GraphQLSelection]
+  
+  public init(variableName: String, inverted: Bool, selections: [GraphQLSelection]) {
+    self.variableName = variableName
+    self.inverted = inverted;
+    self.selections = selections;
+  }
+}
+
+public struct GraphQLTypeCondition: GraphQLSelection {
+  let possibleTypes: [String]
+  let selections: [GraphQLSelection]
+  
+  public init(possibleTypes: [String], selections: [GraphQLSelection]) {
+    self.possibleTypes = possibleTypes
+    self.selections = selections;
+  }
+}
+
+public struct GraphQLFragmentSpread: GraphQLSelection {
+  let fragment: GraphQLFragment.Type
+  
+  public init(_ fragment: GraphQLFragment.Type) {
+    self.fragment = fragment
+  }
+}
+
+public struct GraphQLTypeCase: GraphQLSelection {
+  let variants: [String: [GraphQLSelection]]
+  let \`default\`: [GraphQLSelection]
+  
+  public init(variants: [String: [GraphQLSelection]], default: [GraphQLSelection]) {
+    self.variants = variants
+    self.default = \`default\`;
+  }
+}
+
+public typealias JSONObject = [String: Any]
+
+public protocol JSONDecodable {
+  init(jsonValue value: Any) throws
+}
+
+public protocol JSONEncodable: GraphQLInputValue {
+  var jsonValue: Any { get }
+}
+
+public enum JSONDecodingError: Error, LocalizedError {
+  case missingValue
+  case nullValue
+  case wrongType
+  case couldNotConvert(value: Any, to: Any.Type)
+  
+  public var errorDescription: String? {
+    switch self {
+    case .missingValue:
+      return \\"Missing value\\"
+    case .nullValue:
+      return \\"Unexpected null value\\"
+    case .wrongType:
+      return \\"Wrong type\\"
+    case .couldNotConvert(let value, let expectedType):
+      return \\"Could not convert \\\\\\"\\\\(value)\\\\\\" to \\\\(expectedType)\\"
+    }
+  }
+}
+
+extension String: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let string = value as? String else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: String.self)
+    }
+    self = string
+  }
+
+  public var jsonValue: Any {
+    return self
+  }
+}
+
+extension Int: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let number = value as? NSNumber else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: Int.self)
+    }
+    self = number.intValue
+  }
+
+  public var jsonValue: Any {
+    return self
+  }
+}
+
+extension Float: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let number = value as? NSNumber else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: Float.self)
+    }
+    self = number.floatValue
+  }
+
+  public var jsonValue: Any {
+    return self
+  }
+}
+
+extension Double: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let number = value as? NSNumber else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: Double.self)
+    }
+    self = number.doubleValue
+  }
+
+  public var jsonValue: Any {
+    return self
+  }
+}
+
+extension Bool: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let bool = value as? Bool else {
+        throw JSONDecodingError.couldNotConvert(value: value, to: Bool.self)
+    }
+    self = bool
+  }
+
+  public var jsonValue: Any {
+    return self
+  }
+}
+
+extension RawRepresentable where RawValue: JSONDecodable {
+  public init(jsonValue value: Any) throws {
+    let rawValue = try RawValue(jsonValue: value)
+    if let tempSelf = Self(rawValue: rawValue) {
+      self = tempSelf
+    } else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: Self.self)
+    }
+  }
+}
+
+extension RawRepresentable where RawValue: JSONEncodable {
+  public var jsonValue: Any {
+    return rawValue.jsonValue
+  }
+}
+
+extension Optional where Wrapped: JSONDecodable {
+  public init(jsonValue value: Any) throws {
+    if value is NSNull {
+      self = .none
+    } else {
+      self = .some(try Wrapped(jsonValue: value))
+    }
+  }
+}
+
+extension Optional: JSONEncodable {
+  public var jsonValue: Any {
+    switch self {
+    case .none:
+      return NSNull()
+    case .some(let wrapped as JSONEncodable):
+      return wrapped.jsonValue
+    default:
+      fatalError(\\"Optional is only JSONEncodable if Wrapped is\\")
+    }
+  }
+}
+
+extension Dictionary: JSONEncodable {
+  public var jsonValue: Any {
+    return jsonObject
+  }
+  
+  public var jsonObject: JSONObject {
+    var jsonObject = JSONObject(minimumCapacity: count)
+    for (key, value) in self {
+      if case let (key as String, value as JSONEncodable) = (key, value) {
+        jsonObject[key] = value.jsonValue
+      } else {
+        fatalError(\\"Dictionary is only JSONEncodable if Value is (and if Key is String)\\")
+      }
+    }
+    return jsonObject
+  }
+}
+
+extension Array: JSONEncodable {
+  public var jsonValue: Any {
+    return map() { element -> (Any) in
+      if case let element as JSONEncodable = element {
+        return element.jsonValue
+      } else {
+        fatalError(\\"Array is only JSONEncodable if Element is\\")
+      }
+    }
+  }
+}
+
+extension URL: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let string = value as? String else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: URL.self)
+    }
+    self.init(string: string)!
+  }
+
+  public var jsonValue: Any {
+    return self.absoluteString
+  }
+}
+
+extension Dictionary {
+  static func += (lhs: inout Dictionary, rhs: Dictionary) {
+    lhs.merge(rhs) { (_, new) in new }
+  }
+}
+
+#elseif canImport(AWSAppSync)
+import AWSAppSync
+#endif",
+}
+`;
+
+exports[`generateTypes targets basic angular 1`] = `
+Object {
+  "api.service.ts": "/* tslint:disable */
+/* eslint-disable */
+//  This file was automatically generated and should not be edited.
+import { Injectable } from \\"@angular/core\\";
+import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
+import { Observable } from \\"zen-observable-ts\\";
+
+export interface SubscriptionResponse<T> {
+  value: GraphQLResult<T>;
+}
+
+export type Blog = {
+  __typename: \\"Blog\\";
+  id: string;
+  name: string;
+  posts?: ModelPostConnection | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type ModelPostConnection = {
+  __typename: \\"ModelPostConnection\\";
+  items: Array<Post | null>;
+  nextToken?: string | null;
+};
+
+export type Post = {
+  __typename: \\"Post\\";
+  id: string;
+  title: string;
+  blog?: Blog | null;
+  comments?: ModelCommentConnection | null;
+  createdAt: string;
+  updatedAt: string;
+  blogPostsId?: string | null;
+};
+
+export type ModelCommentConnection = {
+  __typename: \\"ModelCommentConnection\\";
+  items: Array<Comment | null>;
+  nextToken?: string | null;
+};
+
+export type Comment = {
+  __typename: \\"Comment\\";
+  id: string;
+  post?: Post | null;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  postCommentsId?: string | null;
+};
+
+export type GetBlogQuery = {
+  __typename: \\"Blog\\";
+  id: string;
+  name: string;
+  posts?: {
+    __typename: \\"ModelPostConnection\\";
+    nextToken?: string | null;
+  } | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+@Injectable({
+  providedIn: \\"root\\"
+})
+export class APIService {
+  async GetBlog(id: string): Promise<GetBlogQuery> {
+    const statement = \`query GetBlog($id: ID!) {
+        getBlog(id: $id) {
+          __typename
+          id
+          name
+          posts {
+            __typename
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
+      }\`;
+    const gqlAPIServiceArguments: any = {
+      id
+    };
+    const response = (await API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    )) as any;
+    return <GetBlogQuery>response.data.getBlog;
+  }
+}
+",
+}
+`;
+
+exports[`generateTypes targets basic flow 1`] = `
+Object {
+  "API.js": "/* @flow */
+/* eslint-disable */
+//  This file was automatically generated and should not be edited.
+
+export type GetBlogQueryVariables = {|
+  id: string,
+|};
+
+export type GetBlogQuery = {|
+  getBlog: ? {|
+    __typename: \\"Blog\\",
+    id: string,
+    name: string,
+    posts: ? {|
+      __typename: string,
+      nextToken: ?string,
+    |},
+    createdAt: any,
+    updatedAt: any,
+  |},
+|};",
+}
+`;
+
+exports[`generateTypes targets basic flow-modern 1`] = `
+Object {
+  "GetBlog.js": "
+
+/* @flow */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetBlog
+// ====================================================
+
+export type GetBlog_getBlog_posts = {
+  __typename: \\"ModelPostConnection\\",
+  nextToken: ?string,
+};
+
+export type GetBlog_getBlog = {
+  __typename: \\"Blog\\",
+  id: string,
+  name: string,
+  posts: ?GetBlog_getBlog_posts,
+  createdAt: AWSDateTime,
+  updatedAt: AWSDateTime,
+};
+
+export type GetBlog = {
+  getBlog: ?GetBlog_getBlog
+};
+
+//==============================================================
+// START Enums and Input Objects
+// All enums and input objects are included in every output file
+// for now, but this will be changed soon.
+// TODO: Link to issue to fix this.
+//==============================================================
+
+//==============================================================
+// END Enums and Input Objects
+//==============================================================",
+}
+`;
+
+exports[`generateTypes targets basic json 1`] = `
+Object {
+  "API": "{
+	\\"operations\\": [
+		{
+			\\"filePath\\": \\"GraphQL request\\",
+			\\"operationName\\": \\"GetBlog\\",
+			\\"operationType\\": \\"query\\",
+			\\"rootType\\": \\"Query\\",
+			\\"variables\\": [
+				{
+					\\"name\\": \\"id\\",
+					\\"type\\": \\"ID!\\"
+				}
+			],
+			\\"source\\": \\"query GetBlog($id: ID!) {\\\\n  getBlog(id: $id) {\\\\n    __typename\\\\n    id\\\\n    name\\\\n    posts {\\\\n      __typename\\\\n      nextToken\\\\n    }\\\\n    createdAt\\\\n    updatedAt\\\\n  }\\\\n}\\",
+			\\"fields\\": [
+				{
+					\\"responseName\\": \\"getBlog\\",
+					\\"fieldName\\": \\"getBlog\\",
+					\\"type\\": \\"Blog\\",
+					\\"args\\": [
+						{
+							\\"name\\": \\"id\\",
+							\\"value\\": {
+								\\"kind\\": \\"Variable\\",
+								\\"variableName\\": \\"id\\"
+							},
+							\\"type\\": \\"ID!\\"
+						}
+					],
+					\\"isConditional\\": false,
+					\\"isDeprecated\\": false,
+					\\"fields\\": [
+						{
+							\\"responseName\\": \\"__typename\\",
+							\\"fieldName\\": \\"__typename\\",
+							\\"type\\": \\"String!\\",
+							\\"isConditional\\": false,
+							\\"isDeprecated\\": false
+						},
+						{
+							\\"responseName\\": \\"id\\",
+							\\"fieldName\\": \\"id\\",
+							\\"type\\": \\"ID!\\",
+							\\"isConditional\\": false,
+							\\"isDeprecated\\": false
+						},
+						{
+							\\"responseName\\": \\"name\\",
+							\\"fieldName\\": \\"name\\",
+							\\"type\\": \\"String!\\",
+							\\"isConditional\\": false,
+							\\"isDeprecated\\": false
+						},
+						{
+							\\"responseName\\": \\"posts\\",
+							\\"fieldName\\": \\"posts\\",
+							\\"type\\": \\"ModelPostConnection\\",
+							\\"isConditional\\": false,
+							\\"isDeprecated\\": false,
+							\\"fields\\": [
+								{
+									\\"responseName\\": \\"__typename\\",
+									\\"fieldName\\": \\"__typename\\",
+									\\"type\\": \\"String!\\",
+									\\"isConditional\\": false,
+									\\"isDeprecated\\": false
+								},
+								{
+									\\"responseName\\": \\"nextToken\\",
+									\\"fieldName\\": \\"nextToken\\",
+									\\"type\\": \\"String\\",
+									\\"isConditional\\": false,
+									\\"isDeprecated\\": false
+								}
+							],
+							\\"fragmentSpreads\\": [],
+							\\"inlineFragments\\": []
+						},
+						{
+							\\"responseName\\": \\"createdAt\\",
+							\\"fieldName\\": \\"createdAt\\",
+							\\"type\\": \\"AWSDateTime!\\",
+							\\"isConditional\\": false,
+							\\"isDeprecated\\": false
+						},
+						{
+							\\"responseName\\": \\"updatedAt\\",
+							\\"fieldName\\": \\"updatedAt\\",
+							\\"type\\": \\"AWSDateTime!\\",
+							\\"isConditional\\": false,
+							\\"isDeprecated\\": false
+						}
+					],
+					\\"fragmentSpreads\\": [],
+					\\"inlineFragments\\": []
+				}
+			],
+			\\"fragmentSpreads\\": [],
+			\\"inlineFragments\\": [],
+			\\"fragmentsReferenced\\": [],
+			\\"sourceWithFragments\\": \\"query GetBlog($id: ID!) {\\\\n  getBlog(id: $id) {\\\\n    __typename\\\\n    id\\\\n    name\\\\n    posts {\\\\n      __typename\\\\n      nextToken\\\\n    }\\\\n    createdAt\\\\n    updatedAt\\\\n  }\\\\n}\\",
+			\\"operationId\\": \\"5c7cef64646454bdbe2408d4cc48a54ba8d1f8a6e8a38b074feaeaa717803d7f\\"
+		}
+	],
+	\\"fragments\\": [],
+	\\"typesUsed\\": [
+		{
+			\\"kind\\": \\"ObjectType\\",
+			\\"name\\": \\"Blog\\",
+			\\"description\\": null,
+			\\"ifaces\\": [],
+			\\"fields\\": [
+				{
+					\\"name\\": \\"id\\",
+					\\"type\\": \\"ID!\\",
+					\\"description\\": null
+				},
+				{
+					\\"name\\": \\"name\\",
+					\\"type\\": \\"String!\\",
+					\\"description\\": null
+				},
+				{
+					\\"name\\": \\"posts\\",
+					\\"type\\": \\"ModelPostConnection\\",
+					\\"description\\": null
+				},
+				{
+					\\"name\\": \\"createdAt\\",
+					\\"type\\": \\"AWSDateTime!\\",
+					\\"description\\": null
+				},
+				{
+					\\"name\\": \\"updatedAt\\",
+					\\"type\\": \\"AWSDateTime!\\",
+					\\"description\\": null
+				}
+			]
+		},
+		{
+			\\"kind\\": \\"ObjectType\\",
+			\\"name\\": \\"ModelPostConnection\\",
+			\\"description\\": null,
+			\\"ifaces\\": [],
+			\\"fields\\": [
+				{
+					\\"name\\": \\"items\\",
+					\\"type\\": \\"[Post]!\\",
+					\\"description\\": null
+				},
+				{
+					\\"name\\": \\"nextToken\\",
+					\\"type\\": \\"String\\",
+					\\"description\\": null
+				}
+			]
+		},
+		{
+			\\"kind\\": \\"ObjectType\\",
+			\\"name\\": \\"Post\\",
+			\\"description\\": null,
+			\\"ifaces\\": [],
+			\\"fields\\": [
+				{
+					\\"name\\": \\"id\\",
+					\\"type\\": \\"ID!\\",
+					\\"description\\": null
+				},
+				{
+					\\"name\\": \\"title\\",
+					\\"type\\": \\"String!\\",
+					\\"description\\": null
+				},
+				{
+					\\"name\\": \\"blog\\",
+					\\"type\\": \\"Blog\\",
+					\\"description\\": null
+				},
+				{
+					\\"name\\": \\"comments\\",
+					\\"type\\": \\"ModelCommentConnection\\",
+					\\"description\\": null
+				},
+				{
+					\\"name\\": \\"createdAt\\",
+					\\"type\\": \\"AWSDateTime!\\",
+					\\"description\\": null
+				},
+				{
+					\\"name\\": \\"updatedAt\\",
+					\\"type\\": \\"AWSDateTime!\\",
+					\\"description\\": null
+				},
+				{
+					\\"name\\": \\"blogPostsId\\",
+					\\"type\\": \\"ID\\",
+					\\"description\\": null
+				}
+			]
+		},
+		{
+			\\"kind\\": \\"ObjectType\\",
+			\\"name\\": \\"ModelCommentConnection\\",
+			\\"description\\": null,
+			\\"ifaces\\": [],
+			\\"fields\\": [
+				{
+					\\"name\\": \\"items\\",
+					\\"type\\": \\"[Comment]!\\",
+					\\"description\\": null
+				},
+				{
+					\\"name\\": \\"nextToken\\",
+					\\"type\\": \\"String\\",
+					\\"description\\": null
+				}
+			]
+		},
+		{
+			\\"kind\\": \\"ObjectType\\",
+			\\"name\\": \\"Comment\\",
+			\\"description\\": null,
+			\\"ifaces\\": [],
+			\\"fields\\": [
+				{
+					\\"name\\": \\"id\\",
+					\\"type\\": \\"ID!\\",
+					\\"description\\": null
+				},
+				{
+					\\"name\\": \\"post\\",
+					\\"type\\": \\"Post\\",
+					\\"description\\": null
+				},
+				{
+					\\"name\\": \\"content\\",
+					\\"type\\": \\"String!\\",
+					\\"description\\": null
+				},
+				{
+					\\"name\\": \\"createdAt\\",
+					\\"type\\": \\"AWSDateTime!\\",
+					\\"description\\": null
+				},
+				{
+					\\"name\\": \\"updatedAt\\",
+					\\"type\\": \\"AWSDateTime!\\",
+					\\"description\\": null
+				},
+				{
+					\\"name\\": \\"postCommentsId\\",
+					\\"type\\": \\"ID\\",
+					\\"description\\": null
+				}
+			]
+		},
+		{
+			\\"kind\\": \\"ScalarType\\",
+			\\"name\\": \\"AWSDateTime\\",
+			\\"description\\": \\"The \`AWSDateTime\` scalar type provided by AWS AppSync, represents a valid ***extended*** [ISO 8601 DateTime](https://en.wikipedia.org/wiki/ISO_8601#Combined_date_and_time_representations) string. In other words, this scalar type accepts datetime strings of the form \`YYYY-MM-DDThh:mm:ss.SSSZ\`.  The scalar can also accept \\\\\\"negative years\\\\\\" of the form \`-YYYY\` which correspond to years before \`0000\`. For example, \\\\\\"**-2017-01-01T00:00Z**\\\\\\" and \\\\\\"**-9999-01-01T00:00Z**\\\\\\" are both valid datetime strings.  The field after the two digit seconds field is a nanoseconds field. It can accept between 1 and 9 digits. So, for example, \\\\\\"**1970-01-01T12:00:00.2Z**\\\\\\", \\\\\\"**1970-01-01T12:00:00.277Z**\\\\\\" and \\\\\\"**1970-01-01T12:00:00.123456789Z**\\\\\\" are all valid datetime strings.  The seconds and nanoseconds fields are optional (the seconds field must be specified if the nanoseconds field is to be used).  The [time zone offset](https://en.wikipedia.org/wiki/ISO_8601#Time_zone_designators) is compulsory for this scalar. The time zone offset must either be \`Z\` (representing the UTC time zone) or be in the format \`±hh:mm:ss\`. The seconds field in the timezone offset will be considered valid even though it is not part of the ISO 8601 standard.\\"
+		}
+	]
+}",
+}
+`;
+
+exports[`generateTypes targets basic json 2`] = `
+Object {
+  "API": "{
+	\\"operations\\": [
+		{
+			\\"filePath\\": \\"GraphQL request\\",
+			\\"operationName\\": \\"GetBlog\\",
+			\\"operationType\\": \\"query\\",
+			\\"rootType\\": \\"Query\\",
+			\\"variables\\": [
+				{
+					\\"name\\": \\"id\\",
+					\\"type\\": \\"ID!\\"
+				}
+			],
+			\\"source\\": \\"query GetBlog($id: ID!) {\\\\n  getBlog(id: $id) {\\\\n    __typename\\\\n    id\\\\n    name\\\\n    posts {\\\\n      __typename\\\\n      nextToken\\\\n    }\\\\n    createdAt\\\\n    updatedAt\\\\n  }\\\\n}\\",
+			\\"fields\\": [
+				{
+					\\"responseName\\": \\"getBlog\\",
+					\\"fieldName\\": \\"getBlog\\",
+					\\"type\\": \\"Blog\\",
+					\\"args\\": [
+						{
+							\\"name\\": \\"id\\",
+							\\"value\\": {
+								\\"kind\\": \\"Variable\\",
+								\\"variableName\\": \\"id\\"
+							},
+							\\"type\\": \\"ID!\\"
+						}
+					],
+					\\"isConditional\\": false,
+					\\"isDeprecated\\": false,
+					\\"fields\\": [
+						{
+							\\"responseName\\": \\"__typename\\",
+							\\"fieldName\\": \\"__typename\\",
+							\\"type\\": \\"String!\\",
+							\\"isConditional\\": false,
+							\\"isDeprecated\\": false
+						},
+						{
+							\\"responseName\\": \\"id\\",
+							\\"fieldName\\": \\"id\\",
+							\\"type\\": \\"ID!\\",
+							\\"isConditional\\": false,
+							\\"isDeprecated\\": false
+						},
+						{
+							\\"responseName\\": \\"name\\",
+							\\"fieldName\\": \\"name\\",
+							\\"type\\": \\"String!\\",
+							\\"isConditional\\": false,
+							\\"isDeprecated\\": false
+						},
+						{
+							\\"responseName\\": \\"posts\\",
+							\\"fieldName\\": \\"posts\\",
+							\\"type\\": \\"ModelPostConnection\\",
+							\\"isConditional\\": false,
+							\\"isDeprecated\\": false,
+							\\"fields\\": [
+								{
+									\\"responseName\\": \\"__typename\\",
+									\\"fieldName\\": \\"__typename\\",
+									\\"type\\": \\"String!\\",
+									\\"isConditional\\": false,
+									\\"isDeprecated\\": false
+								},
+								{
+									\\"responseName\\": \\"nextToken\\",
+									\\"fieldName\\": \\"nextToken\\",
+									\\"type\\": \\"String\\",
+									\\"isConditional\\": false,
+									\\"isDeprecated\\": false
+								}
+							],
+							\\"fragmentSpreads\\": [],
+							\\"inlineFragments\\": []
+						},
+						{
+							\\"responseName\\": \\"createdAt\\",
+							\\"fieldName\\": \\"createdAt\\",
+							\\"type\\": \\"AWSDateTime!\\",
+							\\"isConditional\\": false,
+							\\"isDeprecated\\": false
+						},
+						{
+							\\"responseName\\": \\"updatedAt\\",
+							\\"fieldName\\": \\"updatedAt\\",
+							\\"type\\": \\"AWSDateTime!\\",
+							\\"isConditional\\": false,
+							\\"isDeprecated\\": false
+						}
+					],
+					\\"fragmentSpreads\\": [],
+					\\"inlineFragments\\": []
+				}
+			],
+			\\"fragmentSpreads\\": [],
+			\\"inlineFragments\\": [],
+			\\"fragmentsReferenced\\": [],
+			\\"sourceWithFragments\\": \\"query GetBlog($id: ID!) {\\\\n  getBlog(id: $id) {\\\\n    __typename\\\\n    id\\\\n    name\\\\n    posts {\\\\n      __typename\\\\n      nextToken\\\\n    }\\\\n    createdAt\\\\n    updatedAt\\\\n  }\\\\n}\\",
+			\\"operationId\\": \\"5c7cef64646454bdbe2408d4cc48a54ba8d1f8a6e8a38b074feaeaa717803d7f\\"
+		}
+	],
+	\\"fragments\\": [],
+	\\"typesUsed\\": [
+		{
+			\\"kind\\": \\"ObjectType\\",
+			\\"name\\": \\"Blog\\",
+			\\"ifaces\\": [],
+			\\"fields\\": [
+				{
+					\\"name\\": \\"id\\",
+					\\"type\\": \\"ID!\\"
+				},
+				{
+					\\"name\\": \\"name\\",
+					\\"type\\": \\"String!\\"
+				},
+				{
+					\\"name\\": \\"posts\\",
+					\\"type\\": \\"ModelPostConnection\\"
+				},
+				{
+					\\"name\\": \\"createdAt\\",
+					\\"type\\": \\"AWSDateTime!\\"
+				},
+				{
+					\\"name\\": \\"updatedAt\\",
+					\\"type\\": \\"AWSDateTime!\\"
+				}
+			]
+		},
+		{
+			\\"kind\\": \\"ObjectType\\",
+			\\"name\\": \\"ModelPostConnection\\",
+			\\"ifaces\\": [],
+			\\"fields\\": [
+				{
+					\\"name\\": \\"items\\",
+					\\"type\\": \\"[Post]!\\"
+				},
+				{
+					\\"name\\": \\"nextToken\\",
+					\\"type\\": \\"String\\"
+				}
+			]
+		},
+		{
+			\\"kind\\": \\"ObjectType\\",
+			\\"name\\": \\"Post\\",
+			\\"ifaces\\": [],
+			\\"fields\\": [
+				{
+					\\"name\\": \\"id\\",
+					\\"type\\": \\"ID!\\"
+				},
+				{
+					\\"name\\": \\"title\\",
+					\\"type\\": \\"String!\\"
+				},
+				{
+					\\"name\\": \\"blog\\",
+					\\"type\\": \\"Blog\\"
+				},
+				{
+					\\"name\\": \\"comments\\",
+					\\"type\\": \\"ModelCommentConnection\\"
+				},
+				{
+					\\"name\\": \\"createdAt\\",
+					\\"type\\": \\"AWSDateTime!\\"
+				},
+				{
+					\\"name\\": \\"updatedAt\\",
+					\\"type\\": \\"AWSDateTime!\\"
+				},
+				{
+					\\"name\\": \\"blogPostsId\\",
+					\\"type\\": \\"ID\\"
+				}
+			]
+		},
+		{
+			\\"kind\\": \\"ObjectType\\",
+			\\"name\\": \\"ModelCommentConnection\\",
+			\\"ifaces\\": [],
+			\\"fields\\": [
+				{
+					\\"name\\": \\"items\\",
+					\\"type\\": \\"[Comment]!\\"
+				},
+				{
+					\\"name\\": \\"nextToken\\",
+					\\"type\\": \\"String\\"
+				}
+			]
+		},
+		{
+			\\"kind\\": \\"ObjectType\\",
+			\\"name\\": \\"Comment\\",
+			\\"ifaces\\": [],
+			\\"fields\\": [
+				{
+					\\"name\\": \\"id\\",
+					\\"type\\": \\"ID!\\"
+				},
+				{
+					\\"name\\": \\"post\\",
+					\\"type\\": \\"Post\\"
+				},
+				{
+					\\"name\\": \\"content\\",
+					\\"type\\": \\"String!\\"
+				},
+				{
+					\\"name\\": \\"createdAt\\",
+					\\"type\\": \\"AWSDateTime!\\"
+				},
+				{
+					\\"name\\": \\"updatedAt\\",
+					\\"type\\": \\"AWSDateTime!\\"
+				},
+				{
+					\\"name\\": \\"postCommentsId\\",
+					\\"type\\": \\"ID\\"
+				}
+			]
+		},
+		{
+			\\"kind\\": \\"ScalarType\\",
+			\\"name\\": \\"AWSDateTime\\"
+		}
+	]
+}",
+}
+`;
+
+exports[`generateTypes targets basic scala 1`] = `
+Object {
+  "API": "//  This file was automatically generated and should not be edited.
+
+
+object GetBlogQuery extends com.apollographql.scalajs.GraphQLQuery {
+  val operationString =
+    \\"query GetBlog($id: ID!) {\\" +
+    \\"  getBlog(id: $id) {\\" +
+    \\"    __typename\\" +
+    \\"    id\\" +
+    \\"    name\\" +
+    \\"    posts {\\" +
+    \\"      __typename\\" +
+    \\"      nextToken\\" +
+    \\"    }\\" +
+    \\"    createdAt\\" +
+    \\"    updatedAt\\" +
+    \\"  }\\" +
+    \\"}\\"
+  val operation = com.apollographql.scalajs.gql(operationString)
+
+
+  case class Variables(id: String) {
+  }
+
+  case class Data(getBlog: Option[GetBlog]) {
+  }
+
+  object Data {
+    val possibleTypes = scala.collection.Set(\\"Query\\")
+  }
+
+  case class GetBlog(id: String, name: String, posts: Option[Post], createdAt: String, updatedAt: String) {
+  }
+
+  object GetBlog {
+    val possibleTypes = scala.collection.Set(\\"Blog\\")
+  }
+
+  case class Post(nextToken: Option[String]) {
+  }
+
+  object Post {
+    val possibleTypes = scala.collection.Set(\\"ModelPostConnection\\")
+  }
+}",
+}
+`;
+
+exports[`generateTypes targets basic swift 1`] = `
+Object {
+  "GraphQL request.swift": "//  This file was automatically generated and should not be edited.
+
+#if canImport(AWSAPIPlugin)
+import Foundation
+
+public protocol GraphQLInputValue {
+}
+
+public struct GraphQLVariable {
+  let name: String
+  
+  public init(_ name: String) {
+    self.name = name
+  }
+}
+
+extension GraphQLVariable: GraphQLInputValue {
+}
+
+extension JSONEncodable {
+  public func evaluate(with variables: [String: JSONEncodable]?) throws -> Any {
+    return jsonValue
+  }
+}
+
+public typealias GraphQLMap = [String: JSONEncodable?]
+
+extension Dictionary where Key == String, Value == JSONEncodable? {
+  public var withNilValuesRemoved: Dictionary<String, JSONEncodable> {
+    var filtered = Dictionary<String, JSONEncodable>(minimumCapacity: count)
+    for (key, value) in self {
+      if value != nil {
+        filtered[key] = value
+      }
+    }
+    return filtered
+  }
+}
+
+public protocol GraphQLMapConvertible: JSONEncodable {
+  var graphQLMap: GraphQLMap { get }
+}
+
+public extension GraphQLMapConvertible {
+  var jsonValue: Any {
+    return graphQLMap.withNilValuesRemoved.jsonValue
+  }
+}
+
+public typealias GraphQLID = String
+
+public protocol APISwiftGraphQLOperation: AnyObject {
+  
+  static var operationString: String { get }
+  static var requestString: String { get }
+  static var operationIdentifier: String? { get }
+  
+  var variables: GraphQLMap? { get }
+  
+  associatedtype Data: GraphQLSelectionSet
+}
+
+public extension APISwiftGraphQLOperation {
+  static var requestString: String {
+    return operationString
+  }
+
+  static var operationIdentifier: String? {
+    return nil
+  }
+
+  var variables: GraphQLMap? {
+    return nil
+  }
+}
+
+public protocol GraphQLQuery: APISwiftGraphQLOperation {}
+
+public protocol GraphQLMutation: APISwiftGraphQLOperation {}
+
+public protocol GraphQLSubscription: APISwiftGraphQLOperation {}
+
+public protocol GraphQLFragment: GraphQLSelectionSet {
+  static var possibleTypes: [String] { get }
+}
+
+public typealias Snapshot = [String: Any?]
+
+public protocol GraphQLSelectionSet: Decodable {
+  static var selections: [GraphQLSelection] { get }
+  
+  var snapshot: Snapshot { get }
+  init(snapshot: Snapshot)
+}
+
+extension GraphQLSelectionSet {
+    public init(from decoder: Decoder) throws {
+        if let jsonObject = try? APISwiftJSONValue(from: decoder) {
+            let encoder = JSONEncoder()
+            let jsonData = try encoder.encode(jsonObject)
+            let decodedDictionary = try JSONSerialization.jsonObject(with: jsonData, options: []) as! [String: Any]
+            let optionalDictionary = decodedDictionary.mapValues { $0 as Any? }
+
+            self.init(snapshot: optionalDictionary)
+        } else {
+            self.init(snapshot: [:])
+        }
+    }
+}
+
+enum APISwiftJSONValue: Codable {
+    case array([APISwiftJSONValue])
+    case boolean(Bool)
+    case number(Double)
+    case object([String: APISwiftJSONValue])
+    case string(String)
+    case null
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        
+        if let value = try? container.decode([String: APISwiftJSONValue].self) {
+            self = .object(value)
+        } else if let value = try? container.decode([APISwiftJSONValue].self) {
+            self = .array(value)
+        } else if let value = try? container.decode(Double.self) {
+            self = .number(value)
+        } else if let value = try? container.decode(Bool.self) {
+            self = .boolean(value)
+        } else if let value = try? container.decode(String.self) {
+            self = .string(value)
+        } else {
+            self = .null
+        }
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        
+        switch self {
+        case .array(let value):
+            try container.encode(value)
+        case .boolean(let value):
+            try container.encode(value)
+        case .number(let value):
+            try container.encode(value)
+        case .object(let value):
+            try container.encode(value)
+        case .string(let value):
+            try container.encode(value)
+        case .null:
+            try container.encodeNil()
+        }
+    }
+}
+
+public protocol GraphQLSelection {
+}
+
+public struct GraphQLField: GraphQLSelection {
+  let name: String
+  let alias: String?
+  let arguments: [String: GraphQLInputValue]?
+  
+  var responseKey: String {
+    return alias ?? name
+  }
+  
+  let type: GraphQLOutputType
+  
+  public init(_ name: String, alias: String? = nil, arguments: [String: GraphQLInputValue]? = nil, type: GraphQLOutputType) {
+    self.name = name
+    self.alias = alias
+    
+    self.arguments = arguments
+    
+    self.type = type
+  }
+}
+
+public indirect enum GraphQLOutputType {
+  case scalar(JSONDecodable.Type)
+  case object([GraphQLSelection])
+  case nonNull(GraphQLOutputType)
+  case list(GraphQLOutputType)
+  
+  var namedType: GraphQLOutputType {
+    switch self {
+    case .nonNull(let innerType), .list(let innerType):
+      return innerType.namedType
+    case .scalar, .object:
+      return self
+    }
+  }
+}
+
+public struct GraphQLBooleanCondition: GraphQLSelection {
+  let variableName: String
+  let inverted: Bool
+  let selections: [GraphQLSelection]
+  
+  public init(variableName: String, inverted: Bool, selections: [GraphQLSelection]) {
+    self.variableName = variableName
+    self.inverted = inverted;
+    self.selections = selections;
+  }
+}
+
+public struct GraphQLTypeCondition: GraphQLSelection {
+  let possibleTypes: [String]
+  let selections: [GraphQLSelection]
+  
+  public init(possibleTypes: [String], selections: [GraphQLSelection]) {
+    self.possibleTypes = possibleTypes
+    self.selections = selections;
+  }
+}
+
+public struct GraphQLFragmentSpread: GraphQLSelection {
+  let fragment: GraphQLFragment.Type
+  
+  public init(_ fragment: GraphQLFragment.Type) {
+    self.fragment = fragment
+  }
+}
+
+public struct GraphQLTypeCase: GraphQLSelection {
+  let variants: [String: [GraphQLSelection]]
+  let \`default\`: [GraphQLSelection]
+  
+  public init(variants: [String: [GraphQLSelection]], default: [GraphQLSelection]) {
+    self.variants = variants
+    self.default = \`default\`;
+  }
+}
+
+public typealias JSONObject = [String: Any]
+
+public protocol JSONDecodable {
+  init(jsonValue value: Any) throws
+}
+
+public protocol JSONEncodable: GraphQLInputValue {
+  var jsonValue: Any { get }
+}
+
+public enum JSONDecodingError: Error, LocalizedError {
+  case missingValue
+  case nullValue
+  case wrongType
+  case couldNotConvert(value: Any, to: Any.Type)
+  
+  public var errorDescription: String? {
+    switch self {
+    case .missingValue:
+      return \\"Missing value\\"
+    case .nullValue:
+      return \\"Unexpected null value\\"
+    case .wrongType:
+      return \\"Wrong type\\"
+    case .couldNotConvert(let value, let expectedType):
+      return \\"Could not convert \\\\\\"\\\\(value)\\\\\\" to \\\\(expectedType)\\"
+    }
+  }
+}
+
+extension String: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let string = value as? String else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: String.self)
+    }
+    self = string
+  }
+
+  public var jsonValue: Any {
+    return self
+  }
+}
+
+extension Int: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let number = value as? NSNumber else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: Int.self)
+    }
+    self = number.intValue
+  }
+
+  public var jsonValue: Any {
+    return self
+  }
+}
+
+extension Float: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let number = value as? NSNumber else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: Float.self)
+    }
+    self = number.floatValue
+  }
+
+  public var jsonValue: Any {
+    return self
+  }
+}
+
+extension Double: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let number = value as? NSNumber else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: Double.self)
+    }
+    self = number.doubleValue
+  }
+
+  public var jsonValue: Any {
+    return self
+  }
+}
+
+extension Bool: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let bool = value as? Bool else {
+        throw JSONDecodingError.couldNotConvert(value: value, to: Bool.self)
+    }
+    self = bool
+  }
+
+  public var jsonValue: Any {
+    return self
+  }
+}
+
+extension RawRepresentable where RawValue: JSONDecodable {
+  public init(jsonValue value: Any) throws {
+    let rawValue = try RawValue(jsonValue: value)
+    if let tempSelf = Self(rawValue: rawValue) {
+      self = tempSelf
+    } else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: Self.self)
+    }
+  }
+}
+
+extension RawRepresentable where RawValue: JSONEncodable {
+  public var jsonValue: Any {
+    return rawValue.jsonValue
+  }
+}
+
+extension Optional where Wrapped: JSONDecodable {
+  public init(jsonValue value: Any) throws {
+    if value is NSNull {
+      self = .none
+    } else {
+      self = .some(try Wrapped(jsonValue: value))
+    }
+  }
+}
+
+extension Optional: JSONEncodable {
+  public var jsonValue: Any {
+    switch self {
+    case .none:
+      return NSNull()
+    case .some(let wrapped as JSONEncodable):
+      return wrapped.jsonValue
+    default:
+      fatalError(\\"Optional is only JSONEncodable if Wrapped is\\")
+    }
+  }
+}
+
+extension Dictionary: JSONEncodable {
+  public var jsonValue: Any {
+    return jsonObject
+  }
+  
+  public var jsonObject: JSONObject {
+    var jsonObject = JSONObject(minimumCapacity: count)
+    for (key, value) in self {
+      if case let (key as String, value as JSONEncodable) = (key, value) {
+        jsonObject[key] = value.jsonValue
+      } else {
+        fatalError(\\"Dictionary is only JSONEncodable if Value is (and if Key is String)\\")
+      }
+    }
+    return jsonObject
+  }
+}
+
+extension Array: JSONEncodable {
+  public var jsonValue: Any {
+    return map() { element -> (Any) in
+      if case let element as JSONEncodable = element {
+        return element.jsonValue
+      } else {
+        fatalError(\\"Array is only JSONEncodable if Element is\\")
+      }
+    }
+  }
+}
+
+extension URL: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let string = value as? String else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: URL.self)
+    }
+    self.init(string: string)!
+  }
+
+  public var jsonValue: Any {
+    return self.absoluteString
+  }
+}
+
+extension Dictionary {
+  static func += (lhs: inout Dictionary, rhs: Dictionary) {
+    lhs.merge(rhs) { (_, new) in new }
+  }
+}
+
+#elseif canImport(AWSAppSync)
+import AWSAppSync
+#endif
+
+public final class GetBlogQuery: GraphQLQuery {
+  public static let operationString =
+    \\"query GetBlog($id: ID!) {\\\\n  getBlog(id: $id) {\\\\n    __typename\\\\n    id\\\\n    name\\\\n    posts {\\\\n      __typename\\\\n      nextToken\\\\n    }\\\\n    createdAt\\\\n    updatedAt\\\\n  }\\\\n}\\"
+
+  public var id: GraphQLID
+
+  public init(id: GraphQLID) {
+    self.id = id
+  }
+
+  public var variables: GraphQLMap? {
+    return [\\"id\\": id]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes = [\\"Query\\"]
+
+    public static let selections: [GraphQLSelection] = [
+      GraphQLField(\\"getBlog\\", arguments: [\\"id\\": GraphQLVariable(\\"id\\")], type: .object(GetBlog.selections)),
+    ]
+
+    public var snapshot: Snapshot
+
+    public init(snapshot: Snapshot) {
+      self.snapshot = snapshot
+    }
+
+    public init(getBlog: GetBlog? = nil) {
+      self.init(snapshot: [\\"__typename\\": \\"Query\\", \\"getBlog\\": getBlog.flatMap { $0.snapshot }])
+    }
+
+    public var getBlog: GetBlog? {
+      get {
+        return (snapshot[\\"getBlog\\"] as? Snapshot).flatMap { GetBlog(snapshot: $0) }
+      }
+      set {
+        snapshot.updateValue(newValue?.snapshot, forKey: \\"getBlog\\")
+      }
+    }
+
+    public struct GetBlog: GraphQLSelectionSet {
+      public static let possibleTypes = [\\"Blog\\"]
+
+      public static let selections: [GraphQLSelection] = [
+        GraphQLField(\\"__typename\\", type: .nonNull(.scalar(String.self))),
+        GraphQLField(\\"id\\", type: .nonNull(.scalar(GraphQLID.self))),
+        GraphQLField(\\"name\\", type: .nonNull(.scalar(String.self))),
+        GraphQLField(\\"posts\\", type: .object(Post.selections)),
+        GraphQLField(\\"createdAt\\", type: .nonNull(.scalar(String.self))),
+        GraphQLField(\\"updatedAt\\", type: .nonNull(.scalar(String.self))),
+      ]
+
+      public var snapshot: Snapshot
+
+      public init(snapshot: Snapshot) {
+        self.snapshot = snapshot
+      }
+
+      public init(id: GraphQLID, name: String, posts: Post? = nil, createdAt: String, updatedAt: String) {
+        self.init(snapshot: [\\"__typename\\": \\"Blog\\", \\"id\\": id, \\"name\\": name, \\"posts\\": posts.flatMap { $0.snapshot }, \\"createdAt\\": createdAt, \\"updatedAt\\": updatedAt])
+      }
+
+      public var __typename: String {
+        get {
+          return snapshot[\\"__typename\\"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: \\"__typename\\")
+        }
+      }
+
+      public var id: GraphQLID {
+        get {
+          return snapshot[\\"id\\"]! as! GraphQLID
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: \\"id\\")
+        }
+      }
+
+      public var name: String {
+        get {
+          return snapshot[\\"name\\"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: \\"name\\")
+        }
+      }
+
+      public var posts: Post? {
+        get {
+          return (snapshot[\\"posts\\"] as? Snapshot).flatMap { Post(snapshot: $0) }
+        }
+        set {
+          snapshot.updateValue(newValue?.snapshot, forKey: \\"posts\\")
+        }
+      }
+
+      public var createdAt: String {
+        get {
+          return snapshot[\\"createdAt\\"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: \\"createdAt\\")
+        }
+      }
+
+      public var updatedAt: String {
+        get {
+          return snapshot[\\"updatedAt\\"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: \\"updatedAt\\")
+        }
+      }
+
+      public struct Post: GraphQLSelectionSet {
+        public static let possibleTypes = [\\"ModelPostConnection\\"]
+
+        public static let selections: [GraphQLSelection] = [
+          GraphQLField(\\"__typename\\", type: .nonNull(.scalar(String.self))),
+          GraphQLField(\\"nextToken\\", type: .scalar(String.self)),
+        ]
+
+        public var snapshot: Snapshot
+
+        public init(snapshot: Snapshot) {
+          self.snapshot = snapshot
+        }
+
+        public init(nextToken: String? = nil) {
+          self.init(snapshot: [\\"__typename\\": \\"ModelPostConnection\\", \\"nextToken\\": nextToken])
+        }
+
+        public var __typename: String {
+          get {
+            return snapshot[\\"__typename\\"]! as! String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: \\"__typename\\")
+          }
+        }
+
+        public var nextToken: String? {
+          get {
+            return snapshot[\\"nextToken\\"] as? String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: \\"nextToken\\")
+          }
+        }
+      }
+    }
+  }
+}",
+  "Types.graphql.swift": "//  This file was automatically generated and should not be edited.
+
+#if canImport(AWSAPIPlugin)
+import Foundation
+
+public protocol GraphQLInputValue {
+}
+
+public struct GraphQLVariable {
+  let name: String
+  
+  public init(_ name: String) {
+    self.name = name
+  }
+}
+
+extension GraphQLVariable: GraphQLInputValue {
+}
+
+extension JSONEncodable {
+  public func evaluate(with variables: [String: JSONEncodable]?) throws -> Any {
+    return jsonValue
+  }
+}
+
+public typealias GraphQLMap = [String: JSONEncodable?]
+
+extension Dictionary where Key == String, Value == JSONEncodable? {
+  public var withNilValuesRemoved: Dictionary<String, JSONEncodable> {
+    var filtered = Dictionary<String, JSONEncodable>(minimumCapacity: count)
+    for (key, value) in self {
+      if value != nil {
+        filtered[key] = value
+      }
+    }
+    return filtered
+  }
+}
+
+public protocol GraphQLMapConvertible: JSONEncodable {
+  var graphQLMap: GraphQLMap { get }
+}
+
+public extension GraphQLMapConvertible {
+  var jsonValue: Any {
+    return graphQLMap.withNilValuesRemoved.jsonValue
+  }
+}
+
+public typealias GraphQLID = String
+
+public protocol APISwiftGraphQLOperation: AnyObject {
+  
+  static var operationString: String { get }
+  static var requestString: String { get }
+  static var operationIdentifier: String? { get }
+  
+  var variables: GraphQLMap? { get }
+  
+  associatedtype Data: GraphQLSelectionSet
+}
+
+public extension APISwiftGraphQLOperation {
+  static var requestString: String {
+    return operationString
+  }
+
+  static var operationIdentifier: String? {
+    return nil
+  }
+
+  var variables: GraphQLMap? {
+    return nil
+  }
+}
+
+public protocol GraphQLQuery: APISwiftGraphQLOperation {}
+
+public protocol GraphQLMutation: APISwiftGraphQLOperation {}
+
+public protocol GraphQLSubscription: APISwiftGraphQLOperation {}
+
+public protocol GraphQLFragment: GraphQLSelectionSet {
+  static var possibleTypes: [String] { get }
+}
+
+public typealias Snapshot = [String: Any?]
+
+public protocol GraphQLSelectionSet: Decodable {
+  static var selections: [GraphQLSelection] { get }
+  
+  var snapshot: Snapshot { get }
+  init(snapshot: Snapshot)
+}
+
+extension GraphQLSelectionSet {
+    public init(from decoder: Decoder) throws {
+        if let jsonObject = try? APISwiftJSONValue(from: decoder) {
+            let encoder = JSONEncoder()
+            let jsonData = try encoder.encode(jsonObject)
+            let decodedDictionary = try JSONSerialization.jsonObject(with: jsonData, options: []) as! [String: Any]
+            let optionalDictionary = decodedDictionary.mapValues { $0 as Any? }
+
+            self.init(snapshot: optionalDictionary)
+        } else {
+            self.init(snapshot: [:])
+        }
+    }
+}
+
+enum APISwiftJSONValue: Codable {
+    case array([APISwiftJSONValue])
+    case boolean(Bool)
+    case number(Double)
+    case object([String: APISwiftJSONValue])
+    case string(String)
+    case null
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        
+        if let value = try? container.decode([String: APISwiftJSONValue].self) {
+            self = .object(value)
+        } else if let value = try? container.decode([APISwiftJSONValue].self) {
+            self = .array(value)
+        } else if let value = try? container.decode(Double.self) {
+            self = .number(value)
+        } else if let value = try? container.decode(Bool.self) {
+            self = .boolean(value)
+        } else if let value = try? container.decode(String.self) {
+            self = .string(value)
+        } else {
+            self = .null
+        }
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        
+        switch self {
+        case .array(let value):
+            try container.encode(value)
+        case .boolean(let value):
+            try container.encode(value)
+        case .number(let value):
+            try container.encode(value)
+        case .object(let value):
+            try container.encode(value)
+        case .string(let value):
+            try container.encode(value)
+        case .null:
+            try container.encodeNil()
+        }
+    }
+}
+
+public protocol GraphQLSelection {
+}
+
+public struct GraphQLField: GraphQLSelection {
+  let name: String
+  let alias: String?
+  let arguments: [String: GraphQLInputValue]?
+  
+  var responseKey: String {
+    return alias ?? name
+  }
+  
+  let type: GraphQLOutputType
+  
+  public init(_ name: String, alias: String? = nil, arguments: [String: GraphQLInputValue]? = nil, type: GraphQLOutputType) {
+    self.name = name
+    self.alias = alias
+    
+    self.arguments = arguments
+    
+    self.type = type
+  }
+}
+
+public indirect enum GraphQLOutputType {
+  case scalar(JSONDecodable.Type)
+  case object([GraphQLSelection])
+  case nonNull(GraphQLOutputType)
+  case list(GraphQLOutputType)
+  
+  var namedType: GraphQLOutputType {
+    switch self {
+    case .nonNull(let innerType), .list(let innerType):
+      return innerType.namedType
+    case .scalar, .object:
+      return self
+    }
+  }
+}
+
+public struct GraphQLBooleanCondition: GraphQLSelection {
+  let variableName: String
+  let inverted: Bool
+  let selections: [GraphQLSelection]
+  
+  public init(variableName: String, inverted: Bool, selections: [GraphQLSelection]) {
+    self.variableName = variableName
+    self.inverted = inverted;
+    self.selections = selections;
+  }
+}
+
+public struct GraphQLTypeCondition: GraphQLSelection {
+  let possibleTypes: [String]
+  let selections: [GraphQLSelection]
+  
+  public init(possibleTypes: [String], selections: [GraphQLSelection]) {
+    self.possibleTypes = possibleTypes
+    self.selections = selections;
+  }
+}
+
+public struct GraphQLFragmentSpread: GraphQLSelection {
+  let fragment: GraphQLFragment.Type
+  
+  public init(_ fragment: GraphQLFragment.Type) {
+    self.fragment = fragment
+  }
+}
+
+public struct GraphQLTypeCase: GraphQLSelection {
+  let variants: [String: [GraphQLSelection]]
+  let \`default\`: [GraphQLSelection]
+  
+  public init(variants: [String: [GraphQLSelection]], default: [GraphQLSelection]) {
+    self.variants = variants
+    self.default = \`default\`;
+  }
+}
+
+public typealias JSONObject = [String: Any]
+
+public protocol JSONDecodable {
+  init(jsonValue value: Any) throws
+}
+
+public protocol JSONEncodable: GraphQLInputValue {
+  var jsonValue: Any { get }
+}
+
+public enum JSONDecodingError: Error, LocalizedError {
+  case missingValue
+  case nullValue
+  case wrongType
+  case couldNotConvert(value: Any, to: Any.Type)
+  
+  public var errorDescription: String? {
+    switch self {
+    case .missingValue:
+      return \\"Missing value\\"
+    case .nullValue:
+      return \\"Unexpected null value\\"
+    case .wrongType:
+      return \\"Wrong type\\"
+    case .couldNotConvert(let value, let expectedType):
+      return \\"Could not convert \\\\\\"\\\\(value)\\\\\\" to \\\\(expectedType)\\"
+    }
+  }
+}
+
+extension String: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let string = value as? String else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: String.self)
+    }
+    self = string
+  }
+
+  public var jsonValue: Any {
+    return self
+  }
+}
+
+extension Int: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let number = value as? NSNumber else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: Int.self)
+    }
+    self = number.intValue
+  }
+
+  public var jsonValue: Any {
+    return self
+  }
+}
+
+extension Float: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let number = value as? NSNumber else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: Float.self)
+    }
+    self = number.floatValue
+  }
+
+  public var jsonValue: Any {
+    return self
+  }
+}
+
+extension Double: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let number = value as? NSNumber else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: Double.self)
+    }
+    self = number.doubleValue
+  }
+
+  public var jsonValue: Any {
+    return self
+  }
+}
+
+extension Bool: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let bool = value as? Bool else {
+        throw JSONDecodingError.couldNotConvert(value: value, to: Bool.self)
+    }
+    self = bool
+  }
+
+  public var jsonValue: Any {
+    return self
+  }
+}
+
+extension RawRepresentable where RawValue: JSONDecodable {
+  public init(jsonValue value: Any) throws {
+    let rawValue = try RawValue(jsonValue: value)
+    if let tempSelf = Self(rawValue: rawValue) {
+      self = tempSelf
+    } else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: Self.self)
+    }
+  }
+}
+
+extension RawRepresentable where RawValue: JSONEncodable {
+  public var jsonValue: Any {
+    return rawValue.jsonValue
+  }
+}
+
+extension Optional where Wrapped: JSONDecodable {
+  public init(jsonValue value: Any) throws {
+    if value is NSNull {
+      self = .none
+    } else {
+      self = .some(try Wrapped(jsonValue: value))
+    }
+  }
+}
+
+extension Optional: JSONEncodable {
+  public var jsonValue: Any {
+    switch self {
+    case .none:
+      return NSNull()
+    case .some(let wrapped as JSONEncodable):
+      return wrapped.jsonValue
+    default:
+      fatalError(\\"Optional is only JSONEncodable if Wrapped is\\")
+    }
+  }
+}
+
+extension Dictionary: JSONEncodable {
+  public var jsonValue: Any {
+    return jsonObject
+  }
+  
+  public var jsonObject: JSONObject {
+    var jsonObject = JSONObject(minimumCapacity: count)
+    for (key, value) in self {
+      if case let (key as String, value as JSONEncodable) = (key, value) {
+        jsonObject[key] = value.jsonValue
+      } else {
+        fatalError(\\"Dictionary is only JSONEncodable if Value is (and if Key is String)\\")
+      }
+    }
+    return jsonObject
+  }
+}
+
+extension Array: JSONEncodable {
+  public var jsonValue: Any {
+    return map() { element -> (Any) in
+      if case let element as JSONEncodable = element {
+        return element.jsonValue
+      } else {
+        fatalError(\\"Array is only JSONEncodable if Element is\\")
+      }
+    }
+  }
+}
+
+extension URL: JSONDecodable, JSONEncodable {
+  public init(jsonValue value: Any) throws {
+    guard let string = value as? String else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: URL.self)
+    }
+    self.init(string: string)!
+  }
+
+  public var jsonValue: Any {
+    return self.absoluteString
+  }
+}
+
+extension Dictionary {
+  static func += (lhs: inout Dictionary, rhs: Dictionary) {
+    lhs.merge(rhs) { (_, new) in new }
+  }
+}
+
+#elseif canImport(AWSAppSync)
+import AWSAppSync
+#endif",
+}
+`;
+
+exports[`generateTypes targets basic typescript 1`] = `
+Object {
+  "API.ts": "/* tslint:disable */
+/* eslint-disable */
+//  This file was automatically generated and should not be edited.
+
+export type Blog = {
+  __typename: \\"Blog\\",
+  id: string,
+  name: string,
+  posts?: ModelPostConnection | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelPostConnection = {
+  __typename: \\"ModelPostConnection\\",
+  items:  Array<Post | null >,
+  nextToken?: string | null,
+};
+
+export type Post = {
+  __typename: \\"Post\\",
+  id: string,
+  title: string,
+  blog?: Blog | null,
+  comments?: ModelCommentConnection | null,
+  createdAt: string,
+  updatedAt: string,
+  blogPostsId?: string | null,
+};
+
+export type ModelCommentConnection = {
+  __typename: \\"ModelCommentConnection\\",
+  items:  Array<Comment | null >,
+  nextToken?: string | null,
+};
+
+export type Comment = {
+  __typename: \\"Comment\\",
+  id: string,
+  post?: Post | null,
+  content: string,
+  createdAt: string,
+  updatedAt: string,
+  postCommentsId?: string | null,
+};
+
+export type GetBlogQueryVariables = {
+  id: string,
+};
+
+export type GetBlogQuery = {
+  getBlog?:  {
+    __typename: \\"Blog\\",
+    id: string,
+    name: string,
+    posts?:  {
+      __typename: \\"ModelPostConnection\\",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+",
+}
+`;
