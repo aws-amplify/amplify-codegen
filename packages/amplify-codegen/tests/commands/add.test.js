@@ -197,5 +197,28 @@ describe('command - add', () => {
       expect(LOAD_CONFIG_METHODS.addProject).toHaveBeenCalled();
       expect(LOAD_CONFIG_METHODS.addProject.mock.calls[0][0]).toMatchSnapshot();
     });
+
+    it('should error on invalid frontend', () => {
+      const parameters = {
+        options: {
+          frontend: 'foo',
+        },
+      };
+      expect(add({ ...MOCK_CONTEXT, amplify: { getProjectMeta }, parameters }, MOCK_API_ID)).rejects.toThrowError(
+        'Invalid frontend provided',
+      );
+    });
+
+    it('should error on invalid framework', () => {
+      const parameters = {
+        options: {
+          frontend: 'javascript',
+          framework: 'foo',
+        },
+      };
+      expect(add({ ...MOCK_CONTEXT, amplify: { getProjectMeta }, parameters }, MOCK_API_ID)).rejects.toThrowError(
+        'Invalid framework provided',
+      );
+    });
   });
 });
