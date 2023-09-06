@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`command - types (mock fs) should generate statements for android - android 1`] = `
+Array [
+  "mutations.graphql",
+  "queries.graphql",
+  "subscriptions.graphql",
+]
+`;
+
+exports[`command - types (mock fs) should generate statements for javascript - flow 1`] = `
+Array [
+  "mutations.js",
+  "queries.js",
+  "subscriptions.js",
+]
+`;
+
+exports[`command - types (mock fs) should generate statements for javascript - javascript 1`] = `
+Array [
+  "mutations.js",
+  "queries.js",
+  "subscriptions.js",
+]
+`;
+
+exports[`command - types (mock fs) should generate statements for javascript - typescript 1`] = `
+Array [
+  "mutations.ts",
+  "queries.ts",
+  "subscriptions.ts",
+]
+`;
+
+exports[`command - types (mock fs) should generate statements for swift - swift 1`] = `
+Array [
+  "mutations.graphql",
+  "queries.graphql",
+  "subscriptions.graphql",
+]
+`;

@@ -16,7 +16,12 @@ function loadIntrospectionSchema(schemaPath: string): GraphQLSchema {
   if (!fs.existsSync(schemaPath)) {
     throw new ToolError(`Cannot find GraphQL schema file: ${schemaPath}`);
   }
-  const schemaData = require(schemaPath);
+  let schemaData;
+  try {
+    schemaData = require(schemaPath);
+  } catch {
+    schemaData = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
+  }
 
   if (!schemaData.data && !schemaData.__schema) {
     throw new ToolError('GraphQL schema file should contain a valid GraphQL introspection query result');
