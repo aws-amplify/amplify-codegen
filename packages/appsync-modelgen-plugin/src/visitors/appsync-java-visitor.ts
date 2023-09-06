@@ -601,12 +601,27 @@ export class AppSyncModelJavaVisitor<
       name: this.getStepFunctionArgumentName(field),
       type: this.getNativeType(field),
     }));
-    const args = dedent(
+
+    const constructorNullChecks = dedent(
+      nonNullableFields.map(
+        field => `Objects.requireNonNull(${this.getFieldName(field)});`
+      ).join('\n')
+    ).trim()
+
+    const superArgs = dedent(
       this.getWritableFields(model)
         .map(field => this.getFieldName(field))
         .join(', '),
     ).trim();
-    copyOfBuilderClassDeclaration.addClassMethod(builderName, null, `super(${args});`, constructorArguments, [], 'private');
+
+    copyOfBuilderClassDeclaration.addClassMethod(
+      builderName, 
+      null, 
+      `super(${superArgs});\n${constructorNullChecks}`, 
+      constructorArguments, 
+      [], 
+      'private'
+    );
 
     // Non-nullable field setters need to be added to NewClass as this is not a step builder
     [...nonNullableFields, ...nullableFields].forEach(field => {
