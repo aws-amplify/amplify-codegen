@@ -1,41 +1,27 @@
-import prettier, { BuiltInParserName } from 'prettier';
-import {
+const prettier = require('prettier');
+const {
   interfaceNameFromOperation,
   interfaceVariablesNameFromOperation,
-} from '@aws-amplify/graphql-types-generator/lib/typescript/codeGeneration';
-import type { GraphQLWithMeta } from '@aws-amplify/graphql-docs-generator';
+} = require('@aws-amplify/graphql-types-generator/lib/typescript/codeGeneration');
+
 const CODEGEN_WARNING = 'this is an auto generated file. This will be overwritten';
 const LINE_DELIMITOR = '\n';
-
-type Language = 'javascript' | 'graphql' | 'typescript' | 'flow' | 'angular';
 
 /**
  * Utility class to format the generated GraphQL statements based on frontend language type
  */
-export class GraphQLStatementsFormatter {
-  private language: Language;
-
-  private lintOverrides: string[];
-
-  private headerComments: string[];
-
-  private opTypeName?: string;
-
-  private typesPath: string | null;
-
-  private includeTypeScriptTypes: boolean;
-
-  constructor(language: Language, operation: string, typesPath?: string) {
+class GraphQLStatementsFormatter {
+  constructor(language, op, typesPath) {
     this.language = language || 'graphql';
     this.opTypeName = {
       queries: 'Query',
       mutations: 'Mutation',
       subscriptions: 'Subscription',
-    }[operation];
+    }[op];
     this.lintOverrides = [];
     this.headerComments = [];
     this.typesPath = typesPath ? typesPath.replace(/.ts/i, '') : null;
-    this.includeTypeScriptTypes = !!(this.language === 'typescript' && this.opTypeName && this.typesPath);
+    this.includeTypeScriptTypes = this.language === 'typescript' && this.opTypeName && this.typesPath;
   }
 
   get typeDefs() {
@@ -49,7 +35,7 @@ export class GraphQLStatementsFormatter {
     ].join(LINE_DELIMITOR);
   }
 
-  format(statements: Map<string, GraphQLWithMeta>): string {
+  format(statements) {
     switch (this.language) {
       case 'javascript':
         this.headerComments.push(CODEGEN_WARNING);
@@ -68,14 +54,14 @@ export class GraphQLStatementsFormatter {
     }
   }
 
-  formatGraphQL(statements: Map<string, GraphQLWithMeta>): string {
+  formatGraphQL(statements) {
     const headerBuffer = this.headerComments.map(comment => `# ${comment}`).join(LINE_DELIMITOR);
     const statementsBuffer = statements ? [...statements.values()].map(s => s.graphql).join(LINE_DELIMITOR) : '';
     const formattedOutput = [headerBuffer, LINE_DELIMITOR, statementsBuffer].join(LINE_DELIMITOR);
     return formattedOutput;
   }
 
-  formatJS(statements: Map<string, GraphQLWithMeta>): string {
+  formatJS(statements) {
     const lintOverridesBuffer = this.lintOverrides.join(LINE_DELIMITOR);
     const headerBuffer = this.headerComments.map(comment => `// ${comment}`).join(LINE_DELIMITOR);
     const formattedStatements = [];
@@ -91,8 +77,8 @@ export class GraphQLStatementsFormatter {
     return formattedOutput;
   }
 
-  buildTypeTag(operationName?: string, operationType?: string): string {
-    if (!this.includeTypeScriptTypes || operationName === undefined || operationType === undefined) return '';
+  buildTypeTag(operationName, operationType) {
+    if (!this.includeTypeScriptTypes) return '';
 
     const operationDef = { operationName, operationType };
     const resultTypeName = `APITypes.${interfaceNameFromOperation(operationDef)}`;
@@ -101,8 +87,8 @@ export class GraphQLStatementsFormatter {
     return ` as Generated${this.opTypeName}<${variablesTypeName}, ${resultTypeName}>;`;
   }
 
-  prettify(output: string): string {
-    const parserMap: { [key in Language]: BuiltInParserName } = {
+  prettify(output) {
+    const parserMap = {
       javascript: 'babel',
       graphql: 'graphql',
       typescript: 'typescript',
@@ -112,3 +98,5 @@ export class GraphQLStatementsFormatter {
     return prettier.format(output, { parser: parserMap[this.language || 'graphql'] });
   }
 }
+
+module.exports = { GraphQLStatementsFormatter };

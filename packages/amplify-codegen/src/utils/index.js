@@ -1,6 +1,7 @@
 const getFrontEndHandler = require('./getFrontEndHandler');
 const getFrontEndFramework = require('./getFrontEndFramework');
 const getAppSyncAPIDetails = require('./getAppSyncAPIDetails');
+const getOutputFileName = require('./getOutputFileName');
 const downloadIntrospectionSchema = require('./downloadIntrospectionSchema');
 const getSchemaDownloadLocation = require('./getSchemaDownloadLocation');
 const getIncludePattern = require('./getIncludePattern');
@@ -15,11 +16,13 @@ const getSDLSchemaLocation = require('./getSDLSchemaLocation');
 const switchToSDLSchema = require('./switchToSDLSchema');
 const ensureIntrospectionSchema = require('./ensureIntrospectionSchema');
 const { readSchemaFromFile } = require('./readSchemaFromFile');
+const { GraphQLStatementsFormatter } = require('./GraphQLStatementsFormatter');
 module.exports = {
   getAppSyncAPIDetails,
   getFrontEndHandler,
   getFrontEndFramework,
   getSchemaDownloadLocation,
+  getOutputFileName,
   downloadIntrospectionSchema,
   downloadIntrospectionSchemaWithProgress,
   getIncludePattern,
@@ -33,4 +36,5 @@ module.exports = {
   switchToSDLSchema,
   ensureIntrospectionSchema,
   readSchemaFromFile,
+  GraphQLStatementsFormatter
 };

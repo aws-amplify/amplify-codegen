@@ -10,7 +10,6 @@ package-lock.json
 .vscode/*
 !.vscode/settings.json
 !.vscode/extensions.json
-packages/graphql-generator/lib
 packages/appsync-modelgen-plugin/lib
 packages/graphql-docs-generator/lib
 packages/graphql-types-generator/lib
