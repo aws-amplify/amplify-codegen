@@ -5,7 +5,7 @@ const glob = require('glob-all');
 
 const constants = require('../constants');
 const { loadConfig } = require('../codegen-config');
-const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails } = require('../utils');
+const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails, getAppSyncAPIInfo } = require('../utils');
 const { generateTypes: generateTypesHelper } = require('@aws-amplify/graphql-generator');
 const { extractDocumentFromJavascript } = require('@aws-amplify/graphql-types-generator');
 
@@ -22,9 +22,18 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
   if (frontend !== 'android') {
     const config = loadConfig(context, withoutInit);
     const projects = config.getProjects();
+    if (!projects.length && withoutInit) {
+      context.print.info(constants.ERROR_CODEGEN_NO_API_CONFIGURED);
+      return;
+    }
     let apis = [];
     if (!withoutInit) {
       apis = getAppSyncAPIDetails(context);
+    } else if (projects[0].amplifyExtension.apiId && projects[0].amplifyExtension.region) {
+      const {
+        amplifyExtension: { apiId, region },
+      } = projects[0];
+      apis = [await getAppSyncAPIInfo(context, apiId, region)];
     }
     if (!projects.length || !apis.length) {
       if (!withoutInit) {
@@ -68,10 +77,15 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
           .join('\n');
 
         const schemaPath = path.join(projectPath, cfg.schema);
-        let region;
-        if (!withoutInit) {
-          ({ region } = cfg.amplifyExtension);
+
+        const outputPath = path.join(projectPath, generatedFileName);
+        if (apis.length) {
+          const { region } = cfg.amplifyExtension;
           await ensureIntrospectionSchema(context, schemaPath, apis[0], region, forceDownloadSchema);
+        } else {
+          if (!fs.existsSync(schemaPath)) {
+            throw new Error(`Cannot find GraphQL schema file: ${schemaPath}`);
+          }
         }
         const codeGenSpinner = new Ora(constants.INFO_MESSAGE_CODEGEN_GENERATE_STARTED);
         codeGenSpinner.start();
