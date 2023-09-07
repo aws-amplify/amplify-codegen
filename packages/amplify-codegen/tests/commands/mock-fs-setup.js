@@ -10,10 +10,10 @@ function setupMocks(mockFs, loadConfig, apiId, frontend, target) {
     swift: 'graphql',
   };
   const generatedFileName = getOutputFileName('API', target);
-  const mock = path.resolve(path.join(__dirname, '../../../../node_modules'));
   const schemaFilePath = 'schema.json';
+  const nodeModulesPrettier = path.resolve(path.join(__dirname, '../../../../node_modules/prettier'));
   const mockedFiles = {
-    [mock]: mockFs.load(mock, {
+    [nodeModulesPrettier]: mockFs.load(nodeModulesPrettier, {
       recursive: true,
       lazy: true,
     }),
