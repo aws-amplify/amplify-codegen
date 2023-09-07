@@ -1,4 +1,5 @@
 const { join } = require('path');
+const { getOutputFileName } = require('@aws-amplify/graphql-types-generator');
 const askCodeGenTargetLanguage = require('./questions/languageTarget');
 const askCodeGenQueryFilePattern = require('./questions/queryFilePattern');
 const askTargetFileName = require('./questions/generatedFileName');
@@ -7,7 +8,6 @@ const askShouldGenerateDocs = require('./questions/generateDocs');
 const askMaxDepth = require('./questions/maxDepth');
 const { normalizeInputParams } = require('../utils/input-params-manager');
 const constants = require('../constants');
-const { getOutputFileName } = require('../utils');
 
 const { getFrontEndHandler, getSchemaDownloadLocation, getIncludePattern, getGraphQLDocPath } = require('../utils');
 
@@ -49,7 +49,7 @@ async function addWalkThrough(context, skip = [], withoutInit, decoupleFrontend,
   if (frontend !== 'android') {
     if (!skip.includes('targetLanguage')) {
       answers.target = await determineValue(inputParams, yesFlag, 'targetLanguage', 'javascript', () =>
-        askCodeGenTargetLanguage(context, undefined, withoutInit, decoupleFrontend, decoupleFramework)
+        askCodeGenTargetLanguage(context, undefined, withoutInit, decoupleFrontend, decoupleFramework),
       );
       targetLanguage = answers.target;
     }
@@ -61,7 +61,7 @@ async function addWalkThrough(context, skip = [], withoutInit, decoupleFrontend,
 
   if (!skip.includes('includePattern')) {
     answers.includePattern = await determineValue(inputParams, yesFlag, 'includePattern', [includePathGlob], () =>
-      askCodeGenQueryFilePattern([includePathGlob])
+      askCodeGenQueryFilePattern([includePathGlob]),
     );
   }
   if (!skip.includes('shouldGenerateDocs')) {
@@ -77,7 +77,7 @@ async function addWalkThrough(context, skip = [], withoutInit, decoupleFrontend,
     if (!skip.includes('generatedFileName')) {
       const defaultValue = getOutputFileName('API', answers.target || '');
       answers.generatedFileName = await determineValue(inputParams, yesFlag, 'generatedFileName', defaultValue, () =>
-        askTargetFileName('API', answers.target || '')
+        askTargetFileName('API', answers.target || ''),
       );
     }
     if (!skip.includes('shouldGenerateCode')) {

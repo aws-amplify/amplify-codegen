@@ -1,4 +1,4 @@
-const { GraphQLStatementsFormatter } = require('../../src/utils');
+import { GraphQLStatementsFormatter } from '../../utils';
 
 describe('GraphQL statements Formatter', () => {
   const statements = new Map();

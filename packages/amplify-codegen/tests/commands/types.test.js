@@ -1,6 +1,6 @@
 const { sync } = require('glob-all');
 const path = require('path');
-const { generate } = require('@aws-amplify/graphql-types-generator');
+const { generateTypes: generateTypesHelper } = require('@aws-amplify/graphql-generator');
 const fs = require('fs-extra');
 
 const { loadConfig } = require('../../src/codegen-config');
@@ -19,7 +19,7 @@ const MOCK_CONTEXT = {
 };
 
 jest.mock('glob-all');
-jest.mock('@aws-amplify/graphql-types-generator');
+jest.mock('@aws-amplify/graphql-generator');
 jest.mock('../../src/codegen-config');
 jest.mock('../../src/utils');
 jest.mock('fs-extra');
@@ -68,26 +68,27 @@ describe('command - types', () => {
 
   it('should generate types', async () => {
     const forceDownload = false;
+    fs.readFileSync
+      .mockReturnValueOnce('query 1')
+      .mockReturnValueOnce('query 2')
+      .mockReturnValueOnce('schema');
     await generateTypes(MOCK_CONTEXT, forceDownload);
     expect(getFrontEndHandler).toHaveBeenCalledWith(MOCK_CONTEXT);
     expect(loadConfig).toHaveBeenCalledWith(MOCK_CONTEXT, false);
     expect(sync).toHaveBeenCalledWith([MOCK_INCLUDE_PATH, `!${MOCK_EXCLUDE_PATH}`], { cwd: MOCK_PROJECT_ROOT, absolute: true });
-    expect(generate).toHaveBeenCalledWith(
-      MOCK_QUERIES,
-      path.join(MOCK_PROJECT_ROOT, MOCK_SCHEMA),
-      path.join(MOCK_PROJECT_ROOT, MOCK_GENERATED_FILE_NAME),
-      '',
-      MOCK_TARGET,
-      '',
-      { addTypename: true, complexObjectSupport: 'auto' }
-    );
+    expect(generateTypesHelper).toHaveBeenCalledWith({
+      queries: 'query 1\nquery 2',
+      schema: 'schema',
+      target: 'TYPE_SCRIPT_OR_FLOW_OR_ANY_OTHER_LANGUAGE',
+      introspection: false,
+    });
   });
 
   it('should not generate type if the frontend is android', async () => {
     const forceDownload = false;
     getFrontEndHandler.mockReturnValue('android');
     await generateTypes(MOCK_CONTEXT, forceDownload);
-    expect(generate).not.toHaveBeenCalled();
+    expect(generateTypesHelper).not.toHaveBeenCalled();
   });
 
   it('should download the schema if forceDownload flag is passed', async () => {
@@ -98,7 +99,7 @@ describe('command - types', () => {
       path.join(MOCK_PROJECT_ROOT, MOCK_SCHEMA),
       MOCK_APIS[0],
       MOCK_REGION,
-      forceDownload
+      forceDownload,
     );
   });
 
@@ -111,7 +112,7 @@ describe('command - types', () => {
       path.join(MOCK_PROJECT_ROOT, MOCK_SCHEMA),
       MOCK_APIS[0],
       MOCK_REGION,
-      forceDownload
+      forceDownload,
     );
   });
 
@@ -126,14 +127,14 @@ describe('command - types', () => {
   it('should not generate types when includePattern is empty', async () => {
     MOCK_PROJECT.includes = [];
     await generateTypes(MOCK_CONTEXT, true);
-    expect(generate).not.toHaveBeenCalled();
+    expect(generateTypesHelper).not.toHaveBeenCalled();
     expect(sync).not.toHaveBeenCalled();
   });
 
   it('should not generate type when generatedFileName is missing', async () => {
     MOCK_PROJECT.amplifyExtension.generatedFileName = '';
     await generateTypes(MOCK_CONTEXT, true);
-    expect(generate).not.toHaveBeenCalled();
+    expect(generateTypesHelper).not.toHaveBeenCalled();
     expect(sync).not.toHaveBeenCalled();
   });
 });
