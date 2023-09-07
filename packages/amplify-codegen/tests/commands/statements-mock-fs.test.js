@@ -45,12 +45,33 @@ const MOCK_CONTEXT = {
   },
 };
 
-// frontend -> targets
-const testCases = {
-  javascript: ['javascript', 'typescript', 'flow'],
-  android: ['android'],
-  swift: ['swift'],
-};
+const testCases = [
+  {
+    frontend: 'javascript',
+    target: 'javascript',
+    expectedDocs: ['mutations.js', 'queries.js', 'subscriptions.js'],
+  },
+  {
+    frontend: 'javascript',
+    target: 'typescript',
+    expectedDocs: ['mutations.ts', 'queries.ts', 'subscriptions.ts'],
+  },
+  {
+    frontend: 'javascript',
+    target: 'flow',
+    expectedDocs: ['mutations.js', 'queries.js', 'subscriptions.js'],
+  },
+  {
+    frontend: 'android',
+    target: 'android',
+    expectedDocs: ['mutations.graphql', 'queries.graphql', 'subscriptions.graphql'],
+  },
+  {
+    frontend: 'swift',
+    target: 'swift',
+    expectedDocs: ['mutations.graphql', 'queries.graphql', 'subscriptions.graphql'],
+  },
+];
 
 describe('command - types (mock fs)', () => {
   beforeEach(() => {
@@ -61,16 +82,14 @@ describe('command - types (mock fs)', () => {
 
   afterEach(mockFs.restore);
 
-  Object.entries(testCases).forEach(([frontend, targets]) => {
-    targets.forEach(target => {
-      it(`should generate statements for ${frontend} - ${target}`, async () => {
-        MOCK_CONTEXT.amplify.getProjectConfig.mockReturnValue({ frontend });
-        getFrontEndHandler.mockReturnValueOnce(frontend);
-        const { docsFilePath } = setupMocks(mockFs, loadConfig, MOCK_API_ID, frontend, target);
+  testCases.forEach(({ frontend, target, expectedDocs }) => {
+    it(`should generate statements for ${frontend} - ${target}`, async () => {
+      MOCK_CONTEXT.amplify.getProjectConfig.mockReturnValue({ frontend });
+      getFrontEndHandler.mockReturnValueOnce(frontend);
+      const { docsFilePath } = setupMocks(mockFs, loadConfig, MOCK_API_ID, frontend, target);
 
-        await generateStatements(MOCK_CONTEXT, false);
-        expect(fs.readdirSync(docsFilePath)).toMatchSnapshot();
-      });
+      await generateStatements(MOCK_CONTEXT, false);
+      expect(fs.readdirSync(docsFilePath)).toEqual(expectedDocs);
     });
   });
 });
