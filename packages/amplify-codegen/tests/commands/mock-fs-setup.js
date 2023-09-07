@@ -2,6 +2,11 @@ const mockFs = require('mock-fs');
 const path = require('path');
 const getOutputFileName = require('../../src/utils/getOutputFileName');
 
+/* Setup mocks for types and statements generation.
+ * Create a mock filesystem so that output paths can be tested.
+ * Mocks existence of `schema.json` using mocks fs
+ * Mocks existence of `.graphqlconfig.yml` by mocking return value for loadConfig utility
+ */
 function setupMocks(mockFs, loadConfig, apiId, frontend, target) {
   mockFs.restore();
   const docsFilePath = {
@@ -13,6 +18,9 @@ function setupMocks(mockFs, loadConfig, apiId, frontend, target) {
   const schemaFilePath = 'schema.json';
   const nodeModulesPrettier = path.resolve(path.join(__dirname, '../../../../node_modules/prettier'));
   const mockedFiles = {
+    // load actual prettier module to avoid error
+    // Cannot find module './parser-graphql' from '../../node_modules/prettier/index.js'
+    // It's not clear why other modules don't need to be loaded
     [nodeModulesPrettier]: mockFs.load(nodeModulesPrettier, {
       recursive: true,
       lazy: true,
