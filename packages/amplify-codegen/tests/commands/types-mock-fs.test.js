@@ -16,7 +16,7 @@ jest.mock('../../src/utils', () => ({
   getFrontEndHandler: jest.fn(),
 }));
 jest.mock('../../src/codegen-config');
-jest.mock('Ora', () =>
+jest.mock('ora', () =>
   jest.fn(() => ({
     start: jest.fn(),
     succeed: jest.fn(),
