@@ -47,11 +47,28 @@ const MOCK_CONTEXT = {
   },
 };
 
-// frontend -> targets
-const testCases = {
-  javascript: ['typescript', 'flow', 'angular'],
-  swift: ['swift'],
-};
+const testCases = [
+  {
+    frontend: 'javascript',
+    target: 'typescript',
+    expectedGeneratedFileName: 'src/API.ts',
+  },
+  {
+    frontend: 'javascript',
+    target: 'flow',
+    expectedGeneratedFileName: 'src/API.js',
+  },
+  {
+    frontend: 'javascript',
+    target: 'angular',
+    expectedGeneratedFileName: 'src/app/API.service.ts',
+  },
+  {
+    frontend: 'swift',
+    target: 'swift',
+    expectedGeneratedFileName: 'API.swift',
+  },
+];
 
 describe('command - types (mock fs)', () => {
   beforeEach(() => {
@@ -62,16 +79,14 @@ describe('command - types (mock fs)', () => {
 
   afterEach(mockFs.restore);
 
-  Object.entries(testCases).forEach(([frontend, targets]) => {
-    targets.forEach(target => {
-      it(`should generate types for ${frontend} - ${target}`, async () => {
-        const { generatedFileName } = setupMocks(mockFs, loadConfig, MOCK_API_ID, frontend, target);
+  testCases.forEach(({ frontend, target, expectedGeneratedFileName }) => {
+    it(`should generate types for ${frontend} - ${target}`, async () => {
+      const { generatedFileName } = setupMocks(mockFs, loadConfig, MOCK_API_ID, frontend, target);
 
-        await generateStatements(MOCK_CONTEXT, false);
-        await generateTypes(MOCK_CONTEXT, false);
-        expect(generatedFileName).toMatchSnapshot();
-        expect(fs.existsSync(generatedFileName)).toBeTruthy();
-      });
+      await generateStatements(MOCK_CONTEXT, false);
+      await generateTypes(MOCK_CONTEXT, false);
+      expect(fs.existsSync(generatedFileName)).toBeTruthy();
+      expect(generatedFileName).toEqual(expectedGeneratedFileName);
     });
   });
 
@@ -80,7 +95,7 @@ describe('command - types (mock fs)', () => {
 
     await generateStatements(MOCK_CONTEXT, false);
     await generateTypes(MOCK_CONTEXT, false);
-    expect(fs.readdirSync('./src')).toMatchSnapshot();
+    expect(fs.readdirSync('./src')).toEqual(['graphql']);
   });
 
   it('should not generate types when frontend is android', async () => {
