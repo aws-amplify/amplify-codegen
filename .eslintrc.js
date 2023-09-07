@@ -56,9 +56,6 @@ module.exports = {
             "utils",
             "aws",
             "sdk",
-            "javascript",
-            "graphql",
-            "scala",
         ],
         "skipIfMatch": [
             "http://[^s]*",

@@ -52,7 +52,7 @@ export function generateGraphQLDocuments<INCLUDE_META extends boolean>(
   return allOperations;
 }
 
-export type GraphQLWithMeta = {
+type GraphQLWithMeta = {
   /**
    * The generated graphql string.
    */
@@ -81,7 +81,7 @@ export type GraphQLWithMeta = {
   fieldName: string;
 };
 
-export type GeneratedOperations<T> = {
+type GeneratedOperations<T> = {
   queries: Map<string, T>;
   mutations: Map<string, T>;
   subscriptions: Map<string, T>;

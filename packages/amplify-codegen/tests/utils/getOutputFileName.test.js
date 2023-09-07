@@ -1,5 +1,5 @@
+const getOutputFileName = require('../../src/utils/getOutputFileName');
 const { join } = require('path');
-import { getOutputFileName } from '../../src/utilities/getOutputFileName';
 
 describe('getOutputFileName', () => {
   it('should return the file name with by adding extension based on the language target', () => {
@@ -19,8 +19,6 @@ describe('getOutputFileName', () => {
   });
 
   it('should not add any extension if the code generation target is unknown', () => {
-    // eslint-disable-next-line
-    // @ts-ignore
     expect(getOutputFileName('Foo', 'bar')).toEqual('Foo');
   });
 });

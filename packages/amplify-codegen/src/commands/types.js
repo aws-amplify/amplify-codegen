@@ -1,13 +1,11 @@
 const glob = require('glob-all');
 const path = require('path');
 const Ora = require('ora');
-const fs = require('fs-extra');
 
 const constants = require('../constants');
 const { loadConfig } = require('../codegen-config');
 const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails } = require('../utils');
-const { generateTypes: generateTypesHelper } = require('@aws-amplify/graphql-generator');
-const { extractDocumentFromJavascript } = require('@aws-amplify/graphql-types-generator');
+const { generate } = require('@aws-amplify/graphql-types-generator');
 
 async function generateTypes(context, forceDownloadSchema, withoutInit = false, decoupleFrontend = '') {
   let frontend = decoupleFrontend;
@@ -45,29 +43,14 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
         if (!generatedFileName || generatedFileName === '' || includeFiles.length === 0) {
           return;
         }
-        const target = cfg.amplifyExtension.codeGenTarget;
 
         const excludes = cfg.excludes.map(pattern => `!${pattern}`);
-        const queries = glob
-          .sync([...includeFiles, ...excludes], {
-            cwd: projectPath,
-            absolute: true,
-          })
-          .map(queryFilePath => {
-            const fileContents = fs.readFileSync(queryFilePath, 'utf8');
-            if (
-              queryFilePath.endsWith('.jsx') ||
-              queryFilePath.endsWith('.js') ||
-              queryFilePath.endsWith('.tsx') ||
-              queryFilePath.endsWith('.ts')
-            ) {
-              return extractDocumentFromJavascript(fileContents, '');
-            }
-            return fileContents;
-          })
-          .join('\n');
-
+        const queries = glob.sync([...includeFiles, ...excludes], {
+          cwd: projectPath,
+          absolute: true,
+        });
         const schemaPath = path.join(projectPath, cfg.schema);
+        const target = cfg.amplifyExtension.codeGenTarget;
 
         const outputPath = path.join(projectPath, generatedFileName);
         let region;
@@ -77,32 +60,12 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
         }
         const codeGenSpinner = new Ora(constants.INFO_MESSAGE_CODEGEN_GENERATE_STARTED);
         codeGenSpinner.start();
-        const schema = fs.readFileSync(schemaPath, 'utf8');
-        const introspection = path.extname(schemaPath) === '.json';
-
         try {
-          const output = await generateTypesHelper({
-            schema,
-            queries,
-            target,
-            introspection,
+          generate(queries, schemaPath, path.join(projectPath, generatedFileName), '', target, '', {
+            addTypename: true,
+            complexObjectSupport: 'auto',
           });
-          const outputs = Object.entries(output);
-
-          if (outputs.length === 1) {
-            const [[, contents]] = outputs;
-            fs.outputFileSync(path.resolve(path.join(projectPath, outputPath)), contents);
-          } else {
-            outputs.forEach(([filepath, contents]) => {
-              fs.outputFileSync(path.resolve(path.join(projectPath, outputPath, filepath)), contents);
-            });
-          }
-          codeGenSpinner.succeed(
-            `${constants.INFO_MESSAGE_CODEGEN_GENERATE_SUCCESS} ${path.relative(
-              path.resolve('.'),
-              path.join(projectPath, generatedFileName),
-            )}`,
-          );
+          codeGenSpinner.succeed(`${constants.INFO_MESSAGE_CODEGEN_GENERATE_SUCCESS} ${path.relative(path.resolve('.'), outputPath)}`);
         } catch (err) {
           codeGenSpinner.fail(err.message);
         }
