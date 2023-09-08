@@ -1,7 +1,7 @@
-const glob = require('glob-all');
 const path = require('path');
-const Ora = require('ora');
 const fs = require('fs-extra');
+const Ora = require('ora');
+const glob = require('glob-all');
 
 const constants = require('../constants');
 const { loadConfig } = require('../codegen-config');
@@ -39,7 +39,7 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
     }
 
     try {
-      projects.forEach(async cfg => {
+      for (const cfg of projects) {
         const { generatedFileName } = cfg.amplifyExtension || {};
         const includeFiles = cfg.includes;
         if (!generatedFileName || generatedFileName === '' || includeFiles.length === 0) {
@@ -68,8 +68,6 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
           .join('\n');
 
         const schemaPath = path.join(projectPath, cfg.schema);
-
-        const outputPath = path.join(projectPath, generatedFileName);
         let region;
         if (!withoutInit) {
           ({ region } = cfg.amplifyExtension);
@@ -89,24 +87,20 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
           });
           const outputs = Object.entries(output);
 
+          const outputPath = path.join(projectPath, generatedFileName);
           if (outputs.length === 1) {
             const [[, contents]] = outputs;
-            fs.outputFileSync(path.resolve(path.join(projectPath, outputPath)), contents);
+            fs.outputFileSync(path.resolve(outputPath), contents);
           } else {
             outputs.forEach(([filepath, contents]) => {
-              fs.outputFileSync(path.resolve(path.join(projectPath, outputPath, filepath)), contents);
+              fs.outputFileSync(path.resolve(path.join(outputPath, filepath)), contents);
             });
           }
-          codeGenSpinner.succeed(
-            `${constants.INFO_MESSAGE_CODEGEN_GENERATE_SUCCESS} ${path.relative(
-              path.resolve('.'),
-              path.join(projectPath, generatedFileName),
-            )}`,
-          );
+          codeGenSpinner.succeed(`${constants.INFO_MESSAGE_CODEGEN_GENERATE_SUCCESS} ${path.relative(path.resolve('.'), outputPath)}`);
         } catch (err) {
           codeGenSpinner.fail(err.message);
         }
-      });
+      }
     } catch (err) {
       throw Error(err.message);
     }

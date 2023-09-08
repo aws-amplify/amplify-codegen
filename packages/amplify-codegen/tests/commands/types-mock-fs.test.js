@@ -1,11 +1,11 @@
-const path = require('path');
 const mockFs = require('mock-fs');
 const fs = require('fs');
+const path = require('path');
 
 const generateTypes = require('../../src/commands/types');
 const generateStatements = require('../../src/commands/statements');
 const constants = require('../../src/constants');
-const { getAppSyncAPIDetails, getOutputFileName, readSchemaFromFile, getFrontEndHandler } = require('../../src/utils');
+const { getAppSyncAPIDetails, readSchemaFromFile, getFrontEndHandler } = require('../../src/utils');
 const { loadConfig } = require('../../src/codegen-config');
 const { setupMocks } = require('./mock-fs-setup');
 
