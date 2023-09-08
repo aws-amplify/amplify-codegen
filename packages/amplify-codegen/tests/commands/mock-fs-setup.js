@@ -1,6 +1,6 @@
 const mockFs = require('mock-fs');
 const path = require('path');
-const getOutputFileName = require('../../src/utils/getOutputFileName');
+const { getOutputFileName } = require('@aws-amplify/graphql-types-generator');
 
 /* Setup mocks for types and statements generation.
  * Create a mock filesystem so that output paths can be tested.

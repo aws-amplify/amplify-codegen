@@ -1,8 +1,7 @@
 const inquirer = require('inquirer');
+const { getOutputFileName } = require('@aws-amplify/graphql-types-generator');
 
 const constants = require('../../constants');
-
-const { getOutputFileName } = require('../../utils');
 
 async function askGeneratedFileName(name, target) {
   const answers = await inquirer.prompt([
