@@ -52,16 +52,11 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
       ? path.join(projectPath, cfg.amplifyExtension.docsFilePath)
       : path.dirname(path.dirname(includeFiles));
     const schemaPath = path.join(projectPath, cfg.schema);
-    let frontend;
     if (apis.length) {
       const { region } = cfg.amplifyExtension;
       await ensureIntrospectionSchema(context, schemaPath, apis[0], region, forceDownloadSchema);
     }
-    if (!withoutInit) {
-      frontend = getFrontEndHandler(context);
-    } else {
-      ({ frontend } = cfg.amplifyExtension);
-    }
+    const frontend = withoutInit ? cfg.amplifyExtension.frontend : getFrontEndHandler(context);
     const language = frontend === 'javascript' ? cfg.amplifyExtension.codeGenTarget : 'graphql';
 
     const opsGenSpinner = new Ora(constants.INFO_MESSAGE_OPS_GEN);
