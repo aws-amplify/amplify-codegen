@@ -5,12 +5,9 @@ const downloadIntrospectionSchemaWithProgress = require('./generateIntrospection
 
 async function ensureIntrospectionSchema(context, schemaPath, apiConfig, region, forceDownloadSchema) {
   let meta;
-  let withoutInit = false;
   try {
     meta = context.amplify.getProjectMeta();
-  } catch (e) {
-    withoutInit = true;
-  }
+  } catch {}
   const { id, name } = apiConfig;
   const isTransformedAPI = meta && Object.keys(meta.api || {}).includes(name) && meta.api[name].providerPlugin === 'awscloudformation';
   if (isTransformedAPI && getFrontendHandler(context) === 'android') {
