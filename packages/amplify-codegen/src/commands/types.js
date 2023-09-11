@@ -5,7 +5,7 @@ const glob = require('glob-all');
 
 const constants = require('../constants');
 const { loadConfig } = require('../codegen-config');
-const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails, getAppSyncAPIInfo } = require('../utils');
+const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails, getAppSyncAPIInfoFromProject } = require('../utils');
 const { generateTypes: generateTypesHelper } = require('@aws-amplify/graphql-generator');
 const { extractDocumentFromJavascript } = require('@aws-amplify/graphql-types-generator');
 
@@ -29,11 +29,11 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
     let apis = [];
     if (!withoutInit) {
       apis = getAppSyncAPIDetails(context);
-    } else if (projects[0].amplifyExtension.apiId && projects[0].amplifyExtension.region) {
-      const {
-        amplifyExtension: { apiId, region },
-      } = projects[0];
-      apis = [await getAppSyncAPIInfo(context, apiId, region)];
+    } else {
+      const api = getAppSyncAPIInfoFromProject(context, projects[0]);
+      if (api) {
+        apis = [api];
+      }
     }
     if (!projects.length || !apis.length) {
       if (!withoutInit) {

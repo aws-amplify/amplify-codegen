@@ -4,7 +4,7 @@ const generateTypes = require('./types');
 const generateStatements = require('./statements');
 const { loadConfig } = require('../codegen-config');
 const constants = require('../constants');
-const { ensureIntrospectionSchema, getAppSyncAPIDetails, getAppSyncAPIInfo } = require('../utils');
+const { ensureIntrospectionSchema, getAppSyncAPIDetails, getAppSyncAPIInfoFromProject } = require('../utils');
 const path = require('path');
 const fs = require('fs-extra');
 
@@ -33,11 +33,11 @@ async function generateStatementsAndTypes(context, forceDownloadSchema, maxDepth
   let apis = [];
   if (!withoutInit) {
     apis = getAppSyncAPIDetails(context);
-  } else if (project.amplifyExtension.apiId && project.amplifyExtension.region) {
-    const {
-      amplifyExtension: { apiId, region },
-    } = project;
-    apis = [await getAppSyncAPIInfo(context, apiId, region)];
+  } else {
+    const api = getAppSyncAPIInfoFromProject(context, project);
+    if (api) {
+      apis = [api];
+    }
   }
   if (!apis.length && !withoutInit) {
     throw new NoAppSyncAPIAvailableError(constants.ERROR_CODEGEN_NO_API_META);

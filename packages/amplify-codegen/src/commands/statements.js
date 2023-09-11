@@ -4,7 +4,13 @@ const Ora = require('ora');
 
 const { loadConfig } = require('../codegen-config');
 const constants = require('../constants');
-const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails, readSchemaFromFile, getAppSyncAPIInfo } = require('../utils');
+const {
+  ensureIntrospectionSchema,
+  getFrontEndHandler,
+  getAppSyncAPIDetails,
+  readSchemaFromFile,
+  getAppSyncAPIInfoFromProject,
+} = require('../utils');
 const { generateGraphQLDocuments } = require('@aws-amplify/graphql-docs-generator');
 const { generateStatements: generateStatementsHelper } = require('@aws-amplify/graphql-generator');
 
@@ -23,11 +29,11 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
   let apis = [];
   if (!withoutInit) {
     apis = getAppSyncAPIDetails(context);
-  } else if (projects[0].amplifyExtension.apiId && projects[0].amplifyExtension.region) {
-    const {
-      amplifyExtension: { apiId, region },
-    } = projects[0];
-    apis = [await getAppSyncAPIInfo(context, apiId, region)];
+  } else {
+    const api = getAppSyncAPIInfoFromProject(context, projects[0]);
+    if (api) {
+      apis = [api];
+    }
   }
   let projectPath = process.cwd();
   if (!withoutInit) {
