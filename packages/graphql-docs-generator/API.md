@@ -9,7 +9,14 @@ import { GraphQLSchema } from 'graphql';
 // @public (undocumented)
 export function buildSchema(schema: string): GraphQLSchema;
 
-// Warning: (ae-forgotten-export) The symbol "GeneratedOperations" needs to be exported by the entry point index.d.ts
+// @public (undocumented)
+export type GeneratedOperations<T> = {
+    queries: Map<string, T>;
+    mutations: Map<string, T>;
+    subscriptions: Map<string, T>;
+    fragments: Map<string, string>;
+};
+
 // Warning: (ae-forgotten-export) The symbol "MapValueType" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
@@ -19,6 +26,14 @@ export function generateGraphQLDocuments<INCLUDE_META extends boolean>(schema: s
     typenameIntrospection?: boolean;
     includeMetaData?: INCLUDE_META;
 }): GeneratedOperations<MapValueType<INCLUDE_META>>;
+
+// @public (undocumented)
+export type GraphQLWithMeta = {
+    graphql: string;
+    operationName: string | undefined;
+    operationType: 'query' | 'mutation' | 'subscription' | undefined;
+    fieldName: string;
+};
 
 // (No @packageDocumentation comment for this package)
 

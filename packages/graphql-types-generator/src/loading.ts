@@ -12,12 +12,31 @@ export function loadSchema(schemaPath: string): GraphQLSchema {
   return loadSDLSchema(schemaPath);
 }
 
+export function parseSchema(schema: string, introspection: boolean = false): GraphQLSchema {
+  if (introspection) {
+    return parseIntrospectionSchema(schema);
+  }
+  return parseSDLSchema(schema);
+}
+
 function loadIntrospectionSchema(schemaPath: string): GraphQLSchema {
   if (!fs.existsSync(schemaPath)) {
     throw new ToolError(`Cannot find GraphQL schema file: ${schemaPath}`);
   }
-  const schemaData = require(schemaPath);
+  let schemaData;
+  try {
+    schemaData = require(schemaPath);
+  } catch {
+    schemaData = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
+  }
+  return buildIntrospectionSchema(schemaData);
+}
 
+function parseIntrospectionSchema(schema: string): GraphQLSchema {
+  return buildIntrospectionSchema(JSON.parse(schema));
+}
+
+function buildIntrospectionSchema(schemaData: any): GraphQLSchema {
   if (!schemaData.data && !schemaData.__schema) {
     throw new ToolError('GraphQL schema file should contain a valid GraphQL introspection query result');
   }
@@ -29,7 +48,15 @@ function loadSDLSchema(schemaPath: string): GraphQLSchema {
   const doc = loadAndMergeQueryDocuments([authDirectivePath, schemaPath]);
   return buildASTSchema(doc);
 }
-function extractDocumentFromJavascript(content: string, tagName: string = 'gql'): string | null {
+
+function parseSDLSchema(schema: string) {
+  const authDirectivePath = normalize(join(__dirname, '..', 'awsAppSyncDirectives.graphql'));
+  const authDirective = fs.readFileSync(authDirectivePath, 'utf8');
+  const doc = parseAndMergeQueryDocuments([new Source(authDirective, authDirectivePath), new Source(schema)]);
+  return buildASTSchema(doc);
+}
+
+export function extractDocumentFromJavascript(content: string, tagName: string = 'gql'): string | null {
   const re = new RegExp(tagName + '\\s*`([^`/]*)`', 'g');
 
   let match;
@@ -62,12 +89,19 @@ export function loadAndMergeQueryDocuments(inputPaths: string[], tagName: string
     })
     .filter((source): source is Source => Boolean(source));
 
+  return parseAndMergeQueryDocuments(sources);
+}
+
+export function parseAndMergeQueryDocuments<SourceType extends Source>(sources: SourceType[]): DocumentNode {
   const parsedSources = sources.map(source => {
     try {
       return parse(source);
     } catch (err) {
-      const relativePathToInput = relative(process.cwd(), source.name);
-      throw new ToolError(`Could not parse graphql operations in ${relativePathToInput}\n  Failed on : ${source.body}`);
+      if ('name' in source) {
+        const relativePathToInput = relative(process.cwd(), source.name);
+        throw new ToolError(`Could not parse graphql operations in ${relativePathToInput}\n  Failed on : ${source.body}`);
+      }
+      throw new ToolError(`Could not parse graphql operations. Failed on : ${source}`);
     }
   });
   return concatAST(parsedSources);
