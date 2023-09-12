@@ -15,7 +15,13 @@ function getOutputDirParam(context, isRequired) {
   if ( !outputDirParam ) {
     return null;
   }
-  return path.isAbsolute(outputDirParam) ? outputDirParam : path.join(context.amplify.getEnvInfo().projectPath, outputDirParam);
+  let projectRoot;
+  try {
+    projectRoot = context.amplify.getEnvInfo().projectPath;
+  } catch (e) {
+    projectRoot = process.cwd();
+  }
+  return path.isAbsolute(outputDirParam) ? outputDirParam : path.join(projectRoot, outputDirParam);
 }
 
 module.exports = getOutputDirParam;
