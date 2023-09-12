@@ -19,7 +19,8 @@ module.exports = {
   PROMPT_MSG_SELECT_PROJECT: 'Choose the AppSync API',
   PROMPT_MSG_SELECT_REGION: 'Choose AWS Region',
   ERROR_CODEGEN_TARGET_NOT_SUPPORTED: 'is not supported by codegen plugin',
-  ERROR_FLUTTER_CODEGEN_NOT_SUPPORTED: 'Flutter only supports the command $amplify codegen models. All the other codegen commands are not supported.',
+  ERROR_FLUTTER_CODEGEN_NOT_SUPPORTED:
+    'Flutter only supports the command $amplify codegen models. All the other codegen commands are not supported.',
   ERROR_CODEGEN_FRONTEND_NOT_SUPPORTED: 'The project frontend is not supported by codegen',
   ERROR_MSG_MAX_DEPTH: 'Depth should be a integer greater than 0',
   ERROR_CODEGEN_NO_API_AVAILABLE: 'There are no GraphQL APIs available.\nAdd by running $amplify api add',
@@ -37,7 +38,8 @@ module.exports = {
   CMD_DESCRIPTION_CONFIGURE: 'Change/Update codegen configuration',
   ERROR_CODEGEN_NO_API_CONFIGURED: 'code generation is not configured. Configure it by running \n$amplify codegen add',
   ERROR_CODEGEN_PENDING_API_PUSH: 'AppSync API is not pushed to the cloud. Did you forget to do \n$amplify api push',
-  ERROR_CODEGEN_NO_API_META: 'Cannot find API metadata. Please reset codegen by running $amplify codegen remove && amplify codegen add --apiId YOUR_API_ID',
+  ERROR_CODEGEN_NO_API_META:
+    'Cannot find API metadata. Please reset codegen by running $amplify codegen remove && amplify codegen add --apiId YOUR_API_ID',
   WARNING_CODEGEN_PENDING_API_PUSH: 'The APIs listed below are not pushed to the cloud. Run amplify api push',
   ERROR_APPSYNC_API_NOT_FOUND:
     'Could not find the AppSync API. If you have removed the AppSync API in the console run amplify codegen remove',
@@ -55,5 +57,6 @@ module.exports = {
   INFO_MESSAGE_DOWNLOAD_ERROR: 'Downloading schema failed',
   INFO_MESSAGE_OPS_GEN: 'Generating GraphQL operations',
   INFO_MESSAGE_OPS_GEN_SUCCESS: 'Generated GraphQL operations successfully and saved at ',
-  INFO_MESSAGE_ADD_ERROR: 'amplify codegen add takes only apiId as parameter. \n$ amplify codegen add [--apiId <API_ID>]',
+  INFO_MESSAGE_ADD_ERROR:
+    'amplify codegen add takes only apiId and region as parameters. \n$ amplify codegen add [--apiId <API_ID>] [--region <region>]',
 };

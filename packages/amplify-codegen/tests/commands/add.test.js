@@ -1,7 +1,10 @@
+const fs = require('fs');
 const { loadConfig } = require('../../src/codegen-config');
 const generateStatements = require('../../src/commands/statements');
 const generateTypes = require('../../src/commands/types');
 const addWalkthrough = require('../../src/walkthrough/add');
+const askForFrontend = require('../../src/walkthrough/questions/selectFrontend');
+const askForFramework = require('../../src/walkthrough/questions/selectFramework');
 const changeAppSyncRegions = require('../../src/walkthrough/changeAppSyncRegions');
 const { AmplifyCodeGenAPINotFoundError } = require('../../src/errors');
 
@@ -16,13 +19,22 @@ const MOCK_CONTEXT = {
   amplify: {
     getProjectMeta: jest.fn(),
   },
+  parameters: {
+    options: {},
+  },
 };
+jest.mock('fs');
 jest.mock('../../src/walkthrough/add');
+jest.mock('../../src/walkthrough/questions/selectFrontend');
+jest.mock('../../src/walkthrough/questions/selectFramework');
 jest.mock('../../src/walkthrough/changeAppSyncRegions');
 jest.mock('../../src/commands/types');
 jest.mock('../../src/commands/statements');
 jest.mock('../../src/codegen-config');
 jest.mock('../../src/utils');
+jest.mock('process', () => ({
+  cwd: () => '/user/foo/project',
+}));
 
 const MOCK_INCLUDE_PATTERN = 'MOCK_INCLUDE';
 const MOCK_EXCLUDE_PATTERN = 'MOCK_EXCLUDE';
@@ -147,5 +159,76 @@ describe('command - add', () => {
     addWalkthrough.mockReturnValue({ ...MOCK_ANSWERS, shouldGenerateCode: false });
     await add(MOCK_CONTEXT);
     expect(generateTypes).not.toHaveBeenCalled();
+  });
+
+  it('should ignore region supplied when with init', async () => {
+    const region = 'us-west-2';
+    await add(MOCK_CONTEXT, MOCK_API_ID, region);
+    expect(getProjectAwsRegion).toHaveBeenCalled();
+    expect(getAppSyncAPIInfo).toHaveBeenCalledWith(MOCK_CONTEXT, MOCK_API_ID, MOCK_AWS_REGION);
+  });
+
+  describe('without init', () => {
+    const getProjectMeta = jest.fn();
+    beforeEach(() => {
+      loadConfig.mockReturnValue({ ...LOAD_CONFIG_METHODS, getProjects: jest.fn().mockReturnValue([]) });
+      askForFrontend.mockReturnValue('javascript');
+      askForFramework.mockReturnValue('react');
+      getProjectMeta.mockRejectedValue('no init');
+      fs.existsSync.mockReturnValue(true);
+    });
+
+    afterEach(() => {
+      loadConfig.mockReset();
+      askForFrontend.mockReset();
+      askForFramework.mockReset();
+      getProjectMeta.mockReset();
+      fs.existsSync.mockReset();
+    });
+
+    it('should read frontend and framework from options', async () => {
+      const parameters = {
+        options: {
+          frontend: 'javascript',
+          framework: 'vue',
+        },
+      };
+      await add({ ...MOCK_CONTEXT, amplify: { getProjectMeta }, parameters }, MOCK_API_ID);
+      expect(askForFrontend).not.toHaveBeenCalled();
+      expect(askForFramework).not.toHaveBeenCalled();
+      expect(LOAD_CONFIG_METHODS.addProject).toHaveBeenCalled();
+      expect(LOAD_CONFIG_METHODS.addProject.mock.calls[0][0]).toMatchSnapshot();
+    });
+
+    it('should use region supplied when without init', async () => {
+      const region = 'us-west-2';
+      await add({ ...MOCK_CONTEXT, amplify: { getProjectMeta } }, MOCK_API_ID, region);
+      expect(getProjectAwsRegion).not.toHaveBeenCalled();
+      expect(LOAD_CONFIG_METHODS.addProject).toHaveBeenCalled();
+      expect(LOAD_CONFIG_METHODS.addProject.mock.calls[0][0]).toMatchSnapshot();
+    });
+
+    it('should error on invalid frontend', () => {
+      const parameters = {
+        options: {
+          frontend: 'foo',
+        },
+      };
+      expect(add({ ...MOCK_CONTEXT, amplify: { getProjectMeta }, parameters }, MOCK_API_ID)).rejects.toThrowError(
+        'Invalid frontend provided',
+      );
+    });
+
+    it('should error on invalid framework', () => {
+      const parameters = {
+        options: {
+          frontend: 'javascript',
+          framework: 'foo',
+        },
+      };
+      expect(add({ ...MOCK_CONTEXT, amplify: { getProjectMeta }, parameters }, MOCK_API_ID)).rejects.toThrowError(
+        'Invalid framework provided',
+      );
+    });
   });
 });
