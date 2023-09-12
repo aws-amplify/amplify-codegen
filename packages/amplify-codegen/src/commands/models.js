@@ -5,6 +5,8 @@ const { FeatureFlags, pathManager } = require('@aws-amplify/amplify-cli-core');
 const { generateModels: generateModelsHelper } = require('@aws-amplify/graphql-generator');
 const { validateAmplifyFlutterMinSupportedVersion } = require('../utils/validateAmplifyFlutterMinSupportedVersion');
 const defaultDirectiveDefinitions = require('../utils/defaultDirectiveDefinitions');
+const getProjectRoot = require('../utils/getProjectRoot');
+const { getModelSchemaPathParam, hasModelSchemaPathParam } = require('../utils/getModelSchemaPathParam');
 
 /**
  * Amplify Context type.
@@ -35,44 +37,54 @@ const modelgenFrontendToTargetMap = {
 };
 
 /**
+ * Return feature flag override values from the cli in the format --feature-flag:<feature flag name> <feature flag value>
+ * @param {!AmplifyContext} context the amplify runtime context
+ * @param {!string} flagName the feature flag name
+ * @returns {any | null} the raw value if found, else null
+ */
+const cliFeatureFlagOverride = (context, flagName) => context.parameters?.options?.[`feature-flag:${flagName}`];
+
+/**
  * Returns feature flag value, default to `false`
- * @param {!string} key feature flag id
+ * @param {!AmplifyContext} context the amplify runtime context
+ * @param {!string} flagName feature flag id
  * @returns {!boolean} the feature flag value
  */
-const readFeatureFlag = key => {
-  let flagValue = false;
-  try {
-    flagValue = FeatureFlags.getBoolean(key);
-  } catch (err) {
-    flagValue = false;
+const readFeatureFlag = (context, flagName) => {
+  const cliValue = cliFeatureFlagOverride(context, flagName);
+  if (cliValue) {
+    if (cliValue === 'true' || cliValue === 'True' || cliValue === true) {
+      return true;
+    }
+    if (cliValue === 'false' || cliValue === 'False' || cliValue === false) {
+      return false;
+    }
+    throw new Error(`Feature flag value for parameter ${flagName} could not be marshalled to boolean type, found ${cliValue}`);
   }
-  return flagValue;
+
+  try {
+    return FeatureFlags.getBoolean(flagName);
+  } catch (_) {
+    return false;
+  }
 };
 
 /**
  * Returns feature flag value, default to `1`
- * @param {!string} key feature flag id
+ * @param {!AmplifyContext} context the amplify runtime context
+ * @param {!string} flagName feature flag id
  * @returns {!number} the feature flag value
  */
-const readNumericFeatureFlag = key => {
-  try {
-    return FeatureFlags.getNumber(key);
-  } catch (err) {
-    return 1;
+const readNumericFeatureFlag = (context, flagName) => {
+  const cliValue = cliFeatureFlagOverride(context, flagName);
+  if (cliValue) {
+    return Number.parseInt(cliValue, 10);
   }
-};
 
-/**
- * Retrieve the project root for use in validation and tk
- * @param {!AmplifyContext} context the amplify runtime context
- * @returns {!string} path to the project root, or cwd if not found
- */
-const getProjectRoot = (context) => {
   try {
-    context.amplify.getProjectMeta();
-    return context.amplify.getEnvInfo().projectPath;
+    return FeatureFlags.getNumber(flagName);
   } catch (_) {
-    return process.cwd();
+    return 1;
   }
 };
 
@@ -82,6 +94,11 @@ const getProjectRoot = (context) => {
  * @returns {!Promise<string | null>} the api path, if one can be found, else null
  */
 const getApiResourcePath = async (context) => {
+  const modelSchemaPathParam = getModelSchemaPathParam(context);
+  if (modelSchemaPathParam) {
+    return modelSchemaPathParam;
+  }
+
   const allApiResources = await context.amplify.getResourceStatus('api');
   const apiResource = allApiResources.allResources.find(
     resource => resource.service === 'AppSync' && resource.providerPlugin === 'awscloudformation',
@@ -123,7 +140,11 @@ const getOutputDir = (context, projectRoot, overrideOutputDir) => {
   if (overrideOutputDir) {
     return overrideOutputDir;
   }
-  return path.join(projectRoot, getModelOutputPath(context));
+  try {
+    return path.join(projectRoot, getModelOutputPath(context.amplify.getProjectConfig()));
+  } catch (_) {
+    throw new Error('Output directory could not be determined, to specify, set the --output-dir CLI property.')
+  }
 };
 
 /**
@@ -135,6 +156,15 @@ const getFrontend = (context, isIntrospection) => {
   if (isIntrospection === true) {
     return 'introspection';
   }
+
+  const targetParam = context.parameters?.options?.['target'];
+  if (targetParam) {
+    if (!modelgenFrontendToTargetMap[targetParam]) {
+      throw new Error(`Unexpected --target value ${targetParam} provided, expected one of ${JSON.stringify(Object.keys(modelgenFrontendToTargetMap))}`)
+    }
+    return targetParam;
+  }
+
   return context.amplify.getProjectConfig().frontend;
 };
 
@@ -149,14 +179,16 @@ const validateProject = async (context, frontend, projectRoot) => {
   const validationFailures = [];
   const validationWarnings = [];
 
-  // Attempt to validate schema compilation, and print any errors
+  // Attempt to validate schema compilation, and print any errors if an override schema path was not presented (in which case this will fail)
   try {
-    await context.amplify.executeProviderUtils(context, 'awscloudformation', 'compileSchema', {
-      noConfig: true,
-      forceCompile: true,
-      dryRun: true,
-      disableResolverOverrides: true,
-    });
+    if (!hasModelSchemaPathParam(context)) {
+      await context.amplify.executeProviderUtils(context, 'awscloudformation', 'compileSchema', {
+        noConfig: true,
+        forceCompile: true,
+        dryRun: true,
+        disableResolverOverrides: true,
+      });
+    }
   } catch (err) {
     validationWarnings.push(err.toString());
   }
@@ -221,15 +253,15 @@ async function generateModels(context, generateOptions = null) {
     schema: loadSchema(apiResourcePath),
     directives: await getDirectives(context, apiResourcePath),
     target: modelgenFrontendToTargetMap[frontend],
-    generateIndexRules: readFeatureFlag('codegen.generateIndexRules'),
-    emitAuthProvider: readFeatureFlag('codegen.emitAuthProvider'),
-    useExperimentalPipelinedTransformer: readFeatureFlag('graphQLTransformer.useExperimentalPipelinedTransformer'),
-    transformerVersion: readNumericFeatureFlag('graphQLTransformer.transformerVersion'),
-    respectPrimaryKeyAttributesOnConnectionField: readFeatureFlag('graphQLTransformer.respectPrimaryKeyAttributesOnConnectionField'),
-    improvePluralization: readFeatureFlag('graphQLTransformer.improvePluralization'),
-    generateModelsForLazyLoadAndCustomSelectionSet: readFeatureFlag('codegen.generateModelsForLazyLoadAndCustomSelectionSet'),
-    addTimestampFields: readFeatureFlag('codegen.addTimestampFields'),
-    handleListNullabilityTransparently: readFeatureFlag('codegen.handleListNullabilityTransparently'),
+    generateIndexRules: readFeatureFlag(context, 'codegen.generateIndexRules'),
+    emitAuthProvider: readFeatureFlag(context, 'codegen.emitAuthProvider'),
+    useExperimentalPipelinedTransformer: readFeatureFlag(context, 'graphQLTransformer.useExperimentalPipelinedTransformer'),
+    transformerVersion: readNumericFeatureFlag(context, 'graphQLTransformer.transformerVersion'),
+    respectPrimaryKeyAttributesOnConnectionField: readFeatureFlag(context, 'graphQLTransformer.respectPrimaryKeyAttributesOnConnectionField'),
+    improvePluralization: readFeatureFlag(context, 'graphQLTransformer.improvePluralization'),
+    generateModelsForLazyLoadAndCustomSelectionSet: readFeatureFlag(context, 'codegen.generateModelsForLazyLoadAndCustomSelectionSet'),
+    addTimestampFields: readFeatureFlag(context, 'codegen.addTimestampFields'),
+    handleListNullabilityTransparently: readFeatureFlag(context, 'codegen.handleListNullabilityTransparently'),
   });
 
   if (writeToDisk) {
@@ -253,6 +285,9 @@ async function generateModels(context, generateOptions = null) {
  * @returns {!string} the graphql string for all schema files found
  */
 function loadSchema(apiResourcePath) {
+  if (fs.lstatSync(apiResourcePath).isFile()) {
+    return fs.readFileSync(apiResourcePath, 'utf8');
+  }
   const schemaFilePath = path.join(apiResourcePath, 'schema.graphql');
   const schemaDirectory = path.join(apiResourcePath, 'schema');
   if (fs.pathExistsSync(schemaFilePath)) {
@@ -269,11 +304,10 @@ function loadSchema(apiResourcePath) {
 
 /**
  * Retrieve the model output path for the given project configuration
- * @param {!AmplifyContext} context the amplify runtime context
+ * @param {any} projectConfig the amplify runtime context
  * @returns the model output path, relative to the project root
  */
-function getModelOutputPath(context) {
-  const projectConfig = context.amplify.getProjectConfig();
+function getModelOutputPath(projectConfig) {
   switch (projectConfig.frontend) {
     case 'javascript':
       return path.join(
@@ -301,20 +335,26 @@ function getModelOutputPath(context) {
  * @returns once eslint side effecting is complete
  */
 function generateEslintIgnore(context) {
-  const projectConfig = context.amplify.getProjectConfig();
+  let projectConfig;
+  let projectPath;
+  try {
+    projectConfig = context.amplify.getProjectConfig();
+    projectPath = pathManager.findProjectRoot();
+  } catch (_) {
+    return;
+  }
 
   if (projectConfig.frontend !== 'javascript') {
     return;
   }
 
-  const projectPath = pathManager.findProjectRoot();
 
   if (!projectPath) {
     return;
   }
 
   const eslintIgnorePath = path.join(projectPath, '.eslintignore');
-  const modelFolder = path.join(getModelOutputPath(context), 'models');
+  const modelFolder = path.join(getModelOutputPath(projectConfig), 'models');
 
   if (!fs.existsSync(eslintIgnorePath)) {
     fs.writeFileSync(eslintIgnorePath, modelFolder);

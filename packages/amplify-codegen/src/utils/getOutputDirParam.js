@@ -1,11 +1,12 @@
 const path = require('path');
+const getProjectRoot = require('./getProjectRoot');
 
 /**
  * Retrieve the output directory parameter from the command line. Throws on invalid value,
  *   or if isRequired is set and the flag isn't in the options. Returns null on optional and not defined.
- * @param context the CLI invocation context
- * @param isRequired whether or not the flag is required
- * @returns the absolute path to the output directory
+ * @param {!import('@aws-amplify/amplify-cli-core').$TSContext} context the CLI invocation context
+ * @param {!boolean} isRequired whether or not the flag is required
+ * @returns {!string} the absolute path to the output directory
  */
 function getOutputDirParam(context, isRequired) {
   const outputDirParam = context.parameters?.options?.['output-dir'];
@@ -15,7 +16,7 @@ function getOutputDirParam(context, isRequired) {
   if ( !outputDirParam ) {
     return null;
   }
-  return path.isAbsolute(outputDirParam) ? outputDirParam : path.join(context.amplify.getEnvInfo().projectPath, outputDirParam);
+  return path.isAbsolute(outputDirParam) ? outputDirParam : path.join(getProjectRoot(context), outputDirParam);
 }
 
 module.exports = getOutputDirParam;
