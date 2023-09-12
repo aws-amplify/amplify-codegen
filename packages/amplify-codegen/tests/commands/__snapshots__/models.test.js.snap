@@ -61,3 +61,12 @@ Array [
   "schema.js",
 ]
 `;
+
+exports[`command-models-generates models in expected output path should use default directive definitions if getTransformerDirectives fails 1`] = `
+Array [
+  "index.d.ts",
+  "index.js",
+  "schema.d.ts",
+  "schema.js",
+]
+`;

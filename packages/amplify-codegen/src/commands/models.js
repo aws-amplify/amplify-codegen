@@ -5,6 +5,7 @@ const glob = require('glob-all');
 const { FeatureFlags, pathManager } = require('@aws-amplify/amplify-cli-core');
 const { generateModels: generateModelsHelper } = require('@aws-amplify/graphql-generator');
 const { validateAmplifyFlutterMinSupportedVersion } = require('../utils/validateAmplifyFlutterMinSupportedVersion');
+const defaultDirectiveDefinitions = require('../utils/defaultDirectiveDefinitions');
 
 const platformToLanguageMap = {
   android: 'java',
@@ -85,9 +86,14 @@ async function generateModels(context, generateOptions = null) {
   const backendPath = await context.amplify.pathManager.getBackendDirPath();
   const apiResourcePath = path.join(backendPath, 'api', apiResource.resourceName);
 
-  const directiveDefinitions = await context.amplify.executeProviderUtils(context, 'awscloudformation', 'getTransformerDirectives', {
-    resourceDir: apiResourcePath,
-  });
+  let directiveDefinitions;
+  try {
+    directiveDefinitions = await context.amplify.executeProviderUtils(context, 'awscloudformation', 'getTransformerDirectives', {
+      resourceDir: apiResourcePath,
+    });
+  } catch {
+    directiveDefinitions = defaultDirectiveDefinitions;
+  }
 
   const schemaContent = loadSchema(apiResourcePath);
   const baseOutputDir = overrideOutputDir || path.join(projectRoot, getModelOutputPath(context));
