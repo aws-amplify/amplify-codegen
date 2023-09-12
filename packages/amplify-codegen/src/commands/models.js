@@ -1,24 +1,43 @@
 const path = require('path');
 const fs = require('fs-extra');
-const { parse } = require('graphql');
 const glob = require('glob-all');
 const { FeatureFlags, pathManager } = require('@aws-amplify/amplify-cli-core');
 const { generateModels: generateModelsHelper } = require('@aws-amplify/graphql-generator');
 const { validateAmplifyFlutterMinSupportedVersion } = require('../utils/validateAmplifyFlutterMinSupportedVersion');
 const defaultDirectiveDefinitions = require('../utils/defaultDirectiveDefinitions');
 
-const platformToLanguageMap = {
+/**
+ * Amplify Context type.
+ * @typedef {import('@aws-amplify/amplify-cli-core').$TSContext} AmplifyContext
+ */
+
+/**
+ * Modelgen Frontend type.
+ * @typedef {'android' | 'ios' | 'flutter' | 'javascript' | 'typescript' | 'introspection'} ModelgenFrontend
+ */
+
+/**
+ * Modelgen Target type.
+ * @typedef {import('@aws-amplify/appsync-modelgen-plugin').Target} ModelgenTarget
+ */
+
+/**
+ * Mapping from modelgen frontends (as configurable in Amplify init) to modelgen targets (languages)
+ * @type {Record<ModelgenFrontend, ModelgenTarget>}
+ */
+const modelgenFrontendToTargetMap = {
   android: 'java',
   ios: 'swift',
   flutter: 'dart',
   javascript: 'javascript',
   typescript: 'typescript',
+  introspection: 'introspection',
 };
 
 /**
  * Returns feature flag value, default to `false`
- * @param {string} key feature flag id
- * @returns
+ * @param {!string} key feature flag id
+ * @returns {!boolean} the feature flag value
  */
 const readFeatureFlag = key => {
   let flagValue = false;
@@ -32,8 +51,8 @@ const readFeatureFlag = key => {
 
 /**
  * Returns feature flag value, default to `1`
- * @param {string} key feature flag id
- * @returns
+ * @param {!string} key feature flag id
+ * @returns {!number} the feature flag value
  */
 const readNumericFeatureFlag = key => {
   try {
@@ -43,109 +62,94 @@ const readNumericFeatureFlag = key => {
   }
 };
 
-// type GenerateModelsOptions = {
-//   overrideOutputDir?: String;
-//   isIntrospection: Boolean;
-//   writeToDisk: Boolean;
-// }
-
-const defaultGenerateModelsOption = {
-  overrideOutputDir: null,
-  isIntrospection: false,
-  writeToDisk: true,
-};
-
-async function generateModels(context, generateOptions = null) {
-  const { overrideOutputDir, isIntrospection, writeToDisk } = generateOptions
-    ? { ...defaultGenerateModelsOption, ...generateOptions }
-    : defaultGenerateModelsOption;
-
-  // steps:
-  // 1. Load the schema and validate using transformer
-  // 2. get all the directives supported by transformer
-  // 3. Generate code
-  let projectRoot;
+/**
+ * Retrieve the project root for use in validation and tk
+ * @param {!AmplifyContext} context the amplify runtime context
+ * @returns {!string} path to the project root, or cwd if not found
+ */
+const getProjectRoot = (context) => {
   try {
     context.amplify.getProjectMeta();
-    projectRoot = context.amplify.getEnvInfo().projectPath;
-  } catch (e) {
-    projectRoot = process.cwd();
+    return context.amplify.getEnvInfo().projectPath;
+  } catch (_) {
+    return process.cwd();
   }
+};
 
+/**
+ * Return the path to the graphql schema.
+ * @param {!AmplifyContext} context the amplify runtime context
+ * @returns {!Promise<string | null>} the api path, if one can be found, else null
+ */
+const getApiResourcePath = async (context) => {
   const allApiResources = await context.amplify.getResourceStatus('api');
   const apiResource = allApiResources.allResources.find(
     resource => resource.service === 'AppSync' && resource.providerPlugin === 'awscloudformation',
   );
-
   if (!apiResource) {
     context.print.info('No AppSync API configured. Please add an API');
-    return;
+    return null;
   }
 
-  await validateSchema(context);
   const backendPath = await context.amplify.pathManager.getBackendDirPath();
-  const apiResourcePath = path.join(backendPath, 'api', apiResource.resourceName);
+  return path.join(backendPath, 'api', apiResource.resourceName);
+};
 
-  let directiveDefinitions;
+/**
+ * Return the additional directive definitions requred for graphql parsing and validation.
+ * @param {!AmplifyContext} context the amplify runtime context
+ * @param {!string} apiResourcePath the directory to attempt to retrieve amplify compilation in
+ * @returns {!Promise<string>} the stringified version in the transformer directives
+ */
+const getDirectives = async (context, apiResourcePath) => {
   try {
-    directiveDefinitions = await context.amplify.executeProviderUtils(context, 'awscloudformation', 'getTransformerDirectives', {
+    // Return await is important here, otherwise we will fail to drop into the catch statement
+    return await context.amplify.executeProviderUtils(context, 'awscloudformation', 'getTransformerDirectives', {
       resourceDir: apiResourcePath,
     });
   } catch {
-    directiveDefinitions = defaultDirectiveDefinitions;
+    return defaultDirectiveDefinitions;
   }
+};
 
-  const schemaContent = loadSchema(apiResourcePath);
-  const baseOutputDir = overrideOutputDir || path.join(projectRoot, getModelOutputPath(context));
-  const projectConfig = context.amplify.getProjectConfig();
-
-  if (!isIntrospection && projectConfig.frontend === 'flutter' && !validateAmplifyFlutterMinSupportedVersion(projectRoot)) {
-    context.print.error(`🚫 Models are not generated!
-Amplify Flutter versions prior to 0.6.0 are no longer supported by codegen. Please upgrade to use codegen.`);
-    return;
+/**
+ * Retrieve the output directory to write assets into.
+ * @param {!AmplifyContext} context the amplify runtime context
+ * @param {!string} projectRoot the project root directory
+ * @param {string | null} overrideOutputDir the override dir, if one is specified
+ * @returns {!string} the directory to write output files into
+ */
+const getOutputDir = (context, projectRoot, overrideOutputDir) => {
+  if (overrideOutputDir) {
+    return overrideOutputDir;
   }
+  return path.join(projectRoot, getModelOutputPath(context));
+};
 
-  const generateIndexRules = readFeatureFlag('codegen.generateIndexRules');
-  const emitAuthProvider = readFeatureFlag('codegen.emitAuthProvider');
-  const useExperimentalPipelinedTransformer = readFeatureFlag('graphQLTransformer.useExperimentalPipelinedTransformer');
-  const transformerVersion = readNumericFeatureFlag('graphQLTransformer.transformerVersion');
-  const respectPrimaryKeyAttributesOnConnectionField = readFeatureFlag('graphQLTransformer.respectPrimaryKeyAttributesOnConnectionField');
-  const generateModelsForLazyLoadAndCustomSelectionSet = readFeatureFlag('codegen.generateModelsForLazyLoadAndCustomSelectionSet');
-  const improvePluralization = readFeatureFlag('graphQLTransformer.improvePluralization');
-  const addTimestampFields = readFeatureFlag('codegen.addTimestampFields');
-
-  const handleListNullabilityTransparently = readFeatureFlag('codegen.handleListNullabilityTransparently');
-
-  const generatedCode = await generateModelsHelper({
-    schema: schemaContent,
-    directives: directiveDefinitions,
-    target: isIntrospection ? 'introspection' : platformToLanguageMap[projectConfig.frontend],
-    generateIndexRules,
-    emitAuthProvider,
-    useExperimentalPipelinedTransformer,
-    transformerVersion,
-    respectPrimaryKeyAttributesOnConnectionField,
-    improvePluralization,
-    generateModelsForLazyLoadAndCustomSelectionSet,
-    addTimestampFields,
-    handleListNullabilityTransparently,
-  });
-
-  if (writeToDisk) {
-    Object.entries(generatedCode).forEach(([filepath, contents]) => {
-      fs.outputFileSync(path.resolve(path.join(baseOutputDir, filepath)), contents);
-    });
-
-    // TODO: move to @aws-amplify/graphql-generator
-    generateEslintIgnore(context);
-
-    context.print.info(`Successfully generated models. Generated models can be found in ${baseOutputDir}`);
+/**
+ * Return the frontend to run modelgen for.
+ * @param {!AmplifyContext} context the amplify runtime context
+ * @returns {!ModelgenFrontend} the frontend configured in the project
+ */
+const getFrontend = (context, isIntrospection) => {
+  if (isIntrospection === true) {
+    return 'introspection';
   }
+  return context.amplify.getProjectConfig().frontend;
+};
 
-  return Object.values(generatedCode);
-}
+/**
+ * Validate the project for any configuration issues.
+ * @param {!AmplifyContext} context the amplify runtime context
+ * @param {!ModelgenFrontend} frontend the frontend used in this project
+ * @param {!string} projectRoot project root directory for validation
+ * @returns {!Promise<{validationFailures: Array<string>, validationWarnings: Array<string>}>} an array of any detected validation failures
+ */
+const validateProject = async (context, frontend, projectRoot) => {
+  const validationFailures = [];
+  const validationWarnings = [];
 
-async function validateSchema(context) {
+  // Attempt to validate schema compilation, and print any errors
   try {
     await context.amplify.executeProviderUtils(context, 'awscloudformation', 'compileSchema', {
       noConfig: true,
@@ -154,10 +158,100 @@ async function validateSchema(context) {
       disableResolverOverrides: true,
     });
   } catch (err) {
-    context.print.error(err.toString());
+    validationWarnings.push(err.toString());
   }
+
+  // Flutter version check
+  if (frontend === 'flutter' && !validateAmplifyFlutterMinSupportedVersion(projectRoot)) {
+    validationFailures.push(`🚫 Models are not generated!
+Amplify Flutter versions prior to 0.6.0 are no longer supported by codegen. Please upgrade to use codegen.`);
+  }
+
+  return { validationWarnings, validationFailures };
+};
+
+/**
+ * Type for invoking the generateModels method.
+ * @typedef {Object} GenerateModelsOptions
+ * @property {string | null} overrideOutputDir override path for the file output
+ * @property {!boolean} isIntrospection whether or not this is an introspection
+ * @property {!boolean} writeToDisk whether or not to write the results to the disk
+ */
+
+/**
+ * @type GenerateModelsOptions
+ */
+const defaultGenerateModelsOption = {
+  overrideOutputDir: null,
+  isIntrospection: false,
+  writeToDisk: true,
+};
+
+/**
+ * Generate the models for client via the following steps.
+ *   1. Load the schema and validate using transformer
+ *   2. get all the directives supported by transformer
+ *   3. Generate code
+ * @param {!AmplifyContext} context the amplify runtime context
+ * @param {GenerateModelsOptions | null} generateOptions the generation options
+ * @returns the generated assets as a map
+ */
+async function generateModels(context, generateOptions = null) {
+  const { overrideOutputDir, isIntrospection, writeToDisk } = generateOptions
+    ? { ...defaultGenerateModelsOption, ...generateOptions }
+    : defaultGenerateModelsOption;
+
+  const frontend = getFrontend(context, isIntrospection);
+
+  const apiResourcePath = await getApiResourcePath(context);
+  if (!apiResourcePath) {
+    return;
+  }
+
+  const projectRoot = getProjectRoot(context);
+
+  const { validationFailures, validationWarnings } = await validateProject(context, frontend, projectRoot);
+  validationWarnings.forEach(context.print.warning);
+  validationFailures.forEach(context.print.error);
+  if (validationFailures.length > 0) {
+    return;
+  }
+
+  const generatedCode = await generateModelsHelper({
+    schema: loadSchema(apiResourcePath),
+    directives: await getDirectives(context, apiResourcePath),
+    target: modelgenFrontendToTargetMap[frontend],
+    generateIndexRules: readFeatureFlag('codegen.generateIndexRules'),
+    emitAuthProvider: readFeatureFlag('codegen.emitAuthProvider'),
+    useExperimentalPipelinedTransformer: readFeatureFlag('graphQLTransformer.useExperimentalPipelinedTransformer'),
+    transformerVersion: readNumericFeatureFlag('graphQLTransformer.transformerVersion'),
+    respectPrimaryKeyAttributesOnConnectionField: readFeatureFlag('graphQLTransformer.respectPrimaryKeyAttributesOnConnectionField'),
+    improvePluralization: readFeatureFlag('graphQLTransformer.improvePluralization'),
+    generateModelsForLazyLoadAndCustomSelectionSet: readFeatureFlag('codegen.generateModelsForLazyLoadAndCustomSelectionSet'),
+    addTimestampFields: readFeatureFlag('codegen.addTimestampFields'),
+    handleListNullabilityTransparently: readFeatureFlag('codegen.handleListNullabilityTransparently'),
+  });
+
+  if (writeToDisk) {
+    const outputDir = getOutputDir(context, projectRoot, overrideOutputDir);
+    Object.entries(generatedCode).forEach(([filepath, contents]) => {
+      fs.outputFileSync(path.resolve(path.join(outputDir, filepath)), contents);
+    });
+
+    // TODO: move to @aws-amplify/graphql-generator
+    generateEslintIgnore(context);
+
+    context.print.info(`Successfully generated models. Generated models can be found in ${outputDir}`);
+  }
+
+  return Object.values(generatedCode);
 }
 
+/**
+ * Load the graphql schema definition from a given project directory.
+ * @param {!string} apiResourcePath the path to the directory containing graphql files.
+ * @returns {!string} the graphql string for all schema files found
+ */
 function loadSchema(apiResourcePath) {
   const schemaFilePath = path.join(apiResourcePath, 'schema.graphql');
   const schemaDirectory = path.join(apiResourcePath, 'schema');
@@ -173,6 +267,11 @@ function loadSchema(apiResourcePath) {
   throw new Error('Could not load the schema');
 }
 
+/**
+ * Retrieve the model output path for the given project configuration
+ * @param {!AmplifyContext} context the amplify runtime context
+ * @returns the model output path, relative to the project root
+ */
 function getModelOutputPath(context) {
   const projectConfig = context.amplify.getProjectConfig();
   switch (projectConfig.frontend) {
@@ -196,6 +295,11 @@ function getModelOutputPath(context) {
   }
 }
 
+/**
+ * Write the .eslintignore file contents to disk if appropriate for the project
+ * @param {!AmplifyContext} context the amplify runtime context
+ * @returns once eslint side effecting is complete
+ */
 function generateEslintIgnore(context) {
   const projectConfig = context.amplify.getProjectConfig();
 

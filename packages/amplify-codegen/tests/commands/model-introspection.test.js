@@ -31,6 +31,7 @@ const MOCK_CONTEXT = {
   print: {
     info: jest.fn(),
     warning: jest.fn(),
+    error: jest.fn(),
   },
   amplify: {
     getProjectMeta: jest.fn(),
