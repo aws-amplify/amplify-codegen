@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const { loadConfig } = require('../../src/codegen-config');
 const generateStatements = require('../../src/commands/statements');
 const generateTypes = require('../../src/commands/types');
@@ -10,7 +11,13 @@ const { AmplifyCodeGenAPINotFoundError } = require('../../src/errors');
 
 const add = require('../../src/commands/add');
 
-const { getAppSyncAPIDetails, getAppSyncAPIInfo, getProjectAwsRegion, getSDLSchemaLocation } = require('../../src/utils');
+const {
+  getAppSyncAPIDetails,
+  getAppSyncAPIInfo,
+  getProjectAwsRegion,
+  getSDLSchemaLocation,
+  downloadIntrospectionSchemaWithProgress,
+} = require('../../src/utils');
 
 const MOCK_CONTEXT = {
   print: {
@@ -23,6 +30,7 @@ const MOCK_CONTEXT = {
     options: {},
   },
 };
+const mockProjectDir = '/user/foo/project';
 jest.mock('fs');
 jest.mock('../../src/walkthrough/add');
 jest.mock('../../src/walkthrough/questions/selectFrontend');
@@ -33,7 +41,7 @@ jest.mock('../../src/commands/statements');
 jest.mock('../../src/codegen-config');
 jest.mock('../../src/utils');
 jest.mock('process', () => ({
-  cwd: () => '/user/foo/project',
+  cwd: () => mockProjectDir,
 }));
 
 const MOCK_INCLUDE_PATTERN = 'MOCK_INCLUDE';
@@ -80,6 +88,7 @@ describe('command - add', () => {
     loadConfig.mockReturnValue(LOAD_CONFIG_METHODS);
     getProjectAwsRegion.mockReturnValue(MOCK_AWS_REGION);
     getSDLSchemaLocation.mockReturnValue(MOCK_SCHEMA_FILE_LOCATION);
+    downloadIntrospectionSchemaWithProgress.mockReturnValue();
   });
 
   it('should walkthrough add questions', async () => {
@@ -170,12 +179,15 @@ describe('command - add', () => {
 
   describe('without init', () => {
     const getProjectMeta = jest.fn();
+    const schemaPath = path.join(mockProjectDir, 'schema.json');
     beforeEach(() => {
       loadConfig.mockReturnValue({ ...LOAD_CONFIG_METHODS, getProjects: jest.fn().mockReturnValue([]) });
       askForFrontend.mockReturnValue('javascript');
       askForFramework.mockReturnValue('react');
       getProjectMeta.mockRejectedValue('no init');
-      fs.existsSync.mockReturnValue(true);
+      fs.existsSync.mockReturnValue(false);
+      getAppSyncAPIInfo.mockReturnValue(MOCK_APPSYNC_API_DETAIL);
+      downloadIntrospectionSchemaWithProgress.mockReturnValue(schemaPath);
     });
 
     afterEach(() => {
@@ -184,6 +196,27 @@ describe('command - add', () => {
       askForFramework.mockReset();
       getProjectMeta.mockReset();
       fs.existsSync.mockReset();
+      getAppSyncAPIInfo.mockReset();
+      downloadIntrospectionSchemaWithProgress.mockReset();
+    });
+
+    it('should download introspection schema when api id', async () => {
+      const context = { ...MOCK_CONTEXT, amplify: { getProjectMeta } };
+      const defaultRegion = 'us-east-1';
+      await add(context, MOCK_API_ID);
+      expect(getAppSyncAPIInfo).toHaveBeenCalledWith(context, MOCK_API_ID, defaultRegion);
+      expect(downloadIntrospectionSchemaWithProgress).toHaveBeenCalledWith(context, MOCK_API_ID, schemaPath, defaultRegion);
+      expect(LOAD_CONFIG_METHODS.addProject.mock.calls[0][0]).toMatchSnapshot();
+    });
+
+    it('should use existing schema if no api id', async () => {
+      fs.existsSync.mockReturnValue(true);
+      const context = { ...MOCK_CONTEXT, amplify: { getProjectMeta } };
+      const defaultRegion = 'us-east-1';
+      await add(context);
+      expect(getAppSyncAPIInfo).not.toHaveBeenCalled();
+      expect(downloadIntrospectionSchemaWithProgress).not.toHaveBeenCalled();
+      expect(LOAD_CONFIG_METHODS.addProject.mock.calls[0][0]).toMatchSnapshot();
     });
 
     it('should read frontend and framework from options', async () => {
@@ -202,8 +235,10 @@ describe('command - add', () => {
 
     it('should use region supplied when without init', async () => {
       const region = 'us-west-2';
-      await add({ ...MOCK_CONTEXT, amplify: { getProjectMeta } }, MOCK_API_ID, region);
+      const context = { ...MOCK_CONTEXT, amplify: { getProjectMeta } };
+      await add(context, MOCK_API_ID, region);
       expect(getProjectAwsRegion).not.toHaveBeenCalled();
+      expect(getAppSyncAPIInfo).toHaveBeenCalledWith(context, MOCK_API_ID, region);
       expect(LOAD_CONFIG_METHODS.addProject).toHaveBeenCalled();
       expect(LOAD_CONFIG_METHODS.addProject.mock.calls[0][0]).toMatchSnapshot();
     });
@@ -228,6 +263,20 @@ describe('command - add', () => {
       };
       expect(add({ ...MOCK_CONTEXT, amplify: { getProjectMeta }, parameters }, MOCK_API_ID)).rejects.toThrowError(
         'Invalid framework provided',
+      );
+    });
+
+    it('should error if codegen project already exists', () => {
+      loadConfig.mockReturnValue({ ...LOAD_CONFIG_METHODS, getProjects: jest.fn().mockReturnValue(['foo']) });
+      expect(add({ ...MOCK_CONTEXT, amplify: { getProjectMeta } }, MOCK_API_ID)).rejects.toThrowError(
+        'Codegen support only one GraphQL API per project',
+      );
+    });
+
+    it('should error if codegen project already exists', () => {
+      fs.existsSync.mockReturnValue(false);
+      expect(add({ ...MOCK_CONTEXT, amplify: { getProjectMeta } })).rejects.toThrowError(
+        'Provide an AppSync API ID with --apiId or manually download schema.graphql or schema.json and place in /user/foo/project before adding codegen when not in an amplify project',
       );
     });
   });

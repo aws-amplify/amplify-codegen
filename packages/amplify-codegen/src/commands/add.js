@@ -38,9 +38,9 @@ async function add(context, apiId = null, region = 'us-east-1') {
   }
 
   const schemaPath = ['schema.graphql', 'schema.json'].map(p => path.join(process.cwd(), p)).find(p => fs.existsSync(p));
-  if (withoutInit && !schemaPath) {
+  if (withoutInit && !(apiId || schemaPath)) {
     throw Error(
-      `Please download schema.graphql or schema.json and place in ${process.cwd()} before adding codegen when not in an amplify project`,
+      `Provide an AppSync API ID with --apiId or manually download schema.graphql or schema.json and place in ${process.cwd()} before adding codegen when not in an amplify project`,
     );
   }
   // Grab the frontend
@@ -78,36 +78,37 @@ async function add(context, apiId = null, region = 'us-east-1') {
     throw new Error(constants.ERROR_CODEGEN_SUPPORT_MAX_ONE_API);
   }
   let apiDetails;
-  if (!withoutInit) {
-    if (!apiId) {
-      const availableAppSyncApis = getAppSyncAPIDetails(context); // published and un-published
-      if (availableAppSyncApis.length === 0) {
-        throw new NoAppSyncAPIAvailableError(constants.ERROR_CODEGEN_NO_API_AVAILABLE);
-      }
-      [apiDetails] = availableAppSyncApis;
-      apiDetails.isLocal = true;
-    } else {
-      let shouldRetry = true;
-      while (shouldRetry) {
-        const apiDetailSpinner = new Ora();
-        try {
-          apiDetailSpinner.start('Getting API details');
-          apiDetails = await getAppSyncAPIInfo(context, apiId, region);
-          apiDetailSpinner.succeed();
+  if (!withoutInit && !apiId) {
+    const availableAppSyncApis = getAppSyncAPIDetails(context); // published and un-published
+    if (availableAppSyncApis.length === 0) {
+      throw new NoAppSyncAPIAvailableError(constants.ERROR_CODEGEN_NO_API_AVAILABLE);
+    }
+    [apiDetails] = availableAppSyncApis;
+    apiDetails.isLocal = true;
+  } else if (apiId) {
+    let shouldRetry = true;
+    while (shouldRetry) {
+      const apiDetailSpinner = new Ora();
+      try {
+        apiDetailSpinner.start('Getting API details');
+        apiDetails = await getAppSyncAPIInfo(context, apiId, region);
+        if (!withoutInit) {
           await updateAmplifyMeta(context, apiDetails);
-          break;
-        } catch (e) {
-          apiDetailSpinner.fail();
-          if (e instanceof AmplifyCodeGenAPINotFoundError) {
-            context.print.info(`AppSync API was not found in region ${region}`);
-            ({ shouldRetry, region } = await changeAppSyncRegion(context, region));
-          } else {
-            throw e;
-          }
+        }
+        apiDetailSpinner.succeed();
+        break;
+      } catch (e) {
+        apiDetailSpinner.fail();
+        if (e instanceof AmplifyCodeGenAPINotFoundError) {
+          context.print.info(`AppSync API was not found in region ${region}`);
+          ({ shouldRetry, region } = await changeAppSyncRegion(context, region));
+        } else {
+          throw e;
         }
       }
     }
   }
+  // else no appsync API, but has schema.graphql or schema.json
 
   if (!withoutInit && !apiDetails) {
     return;
@@ -123,6 +124,8 @@ async function add(context, apiId = null, region = 'us-east-1') {
     } else {
       schema = getSDLSchemaLocation(apiDetails.name);
     }
+  } else if (apiDetails) {
+    schema = await downloadIntrospectionSchemaWithProgress(context, apiDetails.id, path.join(process.cwd(), 'schema.json'), region);
   } else {
     schema = schemaPath;
   }
