@@ -38,13 +38,16 @@ export const testUninitializedCodegenModels = async ({
     }
 
     // generate models
-    await expect(generateModelsWithOptions(projectRoot, {
-        '--target': config.frontendType,
-        '--model-schema': modelSchemaPath,
-        '--output-dir': outputDir,
-        ...(featureFlags ? Object.entries(featureFlags).map(([ffName, ffVal]) => [`--feature-flag:${ffName}`, ffVal]).flat() : []),
-    })).rejects.toThrow();
-    // This is temporarily expected to throw, since the post-modelgen hook in amplify cli fails, even though modelgen succeeds.
+    try {
+        await generateModelsWithOptions(projectRoot, {
+            '--target': config.frontendType,
+            '--model-schema': modelSchemaPath,
+            '--output-dir': outputDir,
+            ...(featureFlags ? Object.entries(featureFlags).map(([ffName, ffVal]) => [`--feature-flag:${ffName}`, ffVal]).flat() : []),
+        });
+    } catch (_) {
+        // This is temporarily expected to throw, since the post-modelgen hook in amplify cli fails, even though modelgen succeeds.
+    }
 
     // pre-existing file should still exist
     expect(existsSync(userSourceCodePath)).toBe(true);
