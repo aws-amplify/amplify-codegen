@@ -99,17 +99,21 @@ const getApiResourcePath = async (context) => {
     return modelSchemaPathParam;
   }
 
-  const allApiResources = await context.amplify.getResourceStatus('api');
-  const apiResource = allApiResources.allResources.find(
-    resource => resource.service === 'AppSync' && resource.providerPlugin === 'awscloudformation',
-  );
-  if (!apiResource) {
-    context.print.info('No AppSync API configured. Please add an API');
-    return null;
-  }
+  try {
+    const allApiResources = await context.amplify.getResourceStatus('api');
+    const apiResource = allApiResources.allResources.find(
+      resource => resource.service === 'AppSync' && resource.providerPlugin === 'awscloudformation',
+    );
+    if (!apiResource) {
+      context.print.info('No AppSync API configured. Please add an API');
+      return null;
+    }
 
-  const backendPath = await context.amplify.pathManager.getBackendDirPath();
-  return path.join(backendPath, 'api', apiResource.resourceName);
+    const backendPath = await context.amplify.pathManager.getBackendDirPath();
+    return path.join(backendPath, 'api', apiResource.resourceName);
+  } catch (_) {
+    throw new Error('Schema resource path not found, if you are running this command from a directory without a local amplify directory, be sure to specify the path to your model schema file or folder via --model-schema.');
+  }
 };
 
 /**
@@ -165,7 +169,11 @@ const getFrontend = (context, isIntrospection) => {
     return targetParam;
   }
 
-  return context.amplify.getProjectConfig().frontend;
+  try {
+    return context.amplify.getProjectConfig().frontend;
+  } catch (_) {
+    throw new Error('Modelgen target not found, if you are running this command from a directory without a local amplify directory, be sure to specify the modelgen target via --target.');
+  }
 };
 
 /**
