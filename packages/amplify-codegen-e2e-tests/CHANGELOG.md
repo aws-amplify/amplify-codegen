@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.44.0-noinit-modelgen.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-tests@2.43.4...@aws-amplify/amplify-codegen-e2e-tests@2.44.0-noinit-modelgen.0) (2023-09-13)
+
+### Features
+
+- add e2e tests for modelgen in an uninitialized project ([dd1abbf](https://github.com/aws-amplify/amplify-codegen/commit/dd1abbfc470098f46835b7b2891e4c0d75177e19))
+
 ## [2.43.4](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-tests@2.43.3...@aws-amplify/amplify-codegen-e2e-tests@2.43.4) (2023-08-15)
 
 **Note:** Version bump only for package @aws-amplify/amplify-codegen-e2e-tests

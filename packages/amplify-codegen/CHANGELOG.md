@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.6.0-noinit-modelgen.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.5.0...amplify-codegen@4.6.0-noinit-modelgen.0) (2023-09-13)
+
+### Features
+
+- support modelgen without an amplify backend ([30b474f](https://github.com/aws-amplify/amplify-codegen/commit/30b474f7ae080cf30750e19bc8b555a72698d7a9))
+- use default directive definitions if outside amplify project ([#686](https://github.com/aws-amplify/amplify-codegen/issues/686)) ([fe87ac9](https://github.com/aws-amplify/amplify-codegen/commit/fe87ac9d0083ce2e48b6ce7683d5362047430424))
+
 # [4.5.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.4.0...amplify-codegen@4.5.0) (2023-09-12)
 
 ### Features
