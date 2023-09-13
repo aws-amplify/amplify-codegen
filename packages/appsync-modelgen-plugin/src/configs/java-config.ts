@@ -87,8 +87,8 @@ export const CONNECTION_RELATIONSHIP_IMPORTS: { [key in CodeGenConnectionType]: 
 export const CUSTOM_PRIMARY_KEY_IMPORT_PACKAGE = 'com.amplifyframework.core.model.ModelIdentifier';
 
 export const LAZY_MODEL_IMPORT_PACKAGES = [
-  'com.amplifyframework.core.model.LazyModel',
-  'com.amplifyframework.core.model.InMemoryLazyModel'
+  'com.amplifyframework.core.model.ModelReference',
+  'com.amplifyframework.core.model.LoadedModelReferenceImpl'
 ]
 
 export const CONNECTION_RELATIONSHIP_LAZY_LOAD_IMPORTS: { [key in CodeGenConnectionType]: string[] } = {

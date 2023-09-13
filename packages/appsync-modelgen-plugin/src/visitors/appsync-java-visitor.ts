@@ -511,8 +511,8 @@ export class AppSyncModelJavaVisitor<
       const returnType = isLastStep ? this.getStepInterfaceName('Build') : this.getStepInterfaceName(fields[idx + 1].name);
       const argumentType = this.getNativeType(field, true);
       const argumentName = this.getStepFunctionArgumentName(field);
-      const assignment = this.isLazyModel(field) ?
-        `this.${fieldName} = new InMemoryLazyModel<>(${argumentName});` :
+      const assignment = this.isModelReference(field) ?
+        `this.${fieldName} = new LoadedModelReferenceImpl<>(${argumentName});` :
         `this.${fieldName} = ${argumentName};`;
       const body = [`Objects.requireNonNull(${argumentName});`, `${assignment}`, `return this;`].join('\n');
       builderClassDeclaration.addClassMethod(
@@ -534,8 +534,8 @@ export class AppSyncModelJavaVisitor<
       const returnType = this.getStepInterfaceName('Build');
       const argumentType = this.getNativeType(field, true);
       const argumentName = this.getStepFunctionArgumentName(field);
-      const assignment = this.isLazyModel(field) ?
-      `this.${fieldName} = new InMemoryLazyModel<>(${argumentName});` :
+      const assignment = this.isModelReference(field) ?
+      `this.${fieldName} = new LoadedModelReferenceImpl<>(${argumentName});` :
       `this.${fieldName} = ${argumentName};`
       const body = [`${assignment}`, `return this;`].join('\n');
       builderClassDeclaration.addClassMethod(
@@ -783,14 +783,14 @@ export class AppSyncModelJavaVisitor<
     declarationsBlock.addClassMethod(name, null, body, constructorArguments, undefined, 'private');
   }
 
-  // unwrapLazyModel is passed when we care to get the native type inside LazyModel, rather than return LazyModel type.
-  protected getNativeType(field: CodeGenField, unwrapLazyModel: boolean = false): string {
+  // unwrapModelReference is passed when we care to get the native type inside ModelReference, rather than return ModelReference type.
+  protected getNativeType(field: CodeGenField, unwrapModelReference: boolean = false): string {
     const nativeType = super.getNativeType(field);
     if (Object.keys(JAVA_TYPE_IMPORT_MAP).includes(nativeType)) {
       this.additionalPackages.add(JAVA_TYPE_IMPORT_MAP[nativeType]);
     }
-    if(!unwrapLazyModel && this.isLazyModel(field)) {
-      return `LazyModel<${nativeType}>`;
+    if(!unwrapModelReference && this.isModelReference(field)) {
+      return `ModelReference<${nativeType}>`;
     }
     return nativeType;
   }
@@ -803,7 +803,7 @@ export class AppSyncModelJavaVisitor<
     }
   }
 
-  protected isLazyModel(field: CodeGenField) {
+  protected isModelReference(field: CodeGenField) {
     if (!this.isGenerateModelsForLazyLoadAndCustomSelectionSet()) return false;
     switch (field.connectionInfo?.kind) {
       case CodeGenConnectionType.BELONGS_TO:
