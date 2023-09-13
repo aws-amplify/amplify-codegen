@@ -1,5 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`command-models-generates models in expected output path android: Should generate for frontend when backend is not initialized locally, and logs no warnings or errors 1`] = `
+Array [
+  "AmplifyModelProvider.java",
+  "SimpleModel.java",
+]
+`;
+
 exports[`command-models-generates models in expected output path android: Should generate models from a single schema file 1`] = `
 Array [
   "AmplifyModelProvider.java",
@@ -11,6 +18,13 @@ exports[`command-models-generates models in expected output path android: Should
 Array [
   "AmplifyModelProvider.java",
   "SimpleModel.java",
+]
+`;
+
+exports[`command-models-generates models in expected output path flutter: Should generate for frontend when backend is not initialized locally, and logs no warnings or errors 1`] = `
+Array [
+  "ModelProvider.dart",
+  "SimpleModel.dart",
 ]
 `;
 
@@ -28,6 +42,14 @@ Array [
 ]
 `;
 
+exports[`command-models-generates models in expected output path ios: Should generate for frontend when backend is not initialized locally, and logs no warnings or errors 1`] = `
+Array [
+  "AmplifyModels.swift",
+  "SimpleModel+Schema.swift",
+  "SimpleModel.swift",
+]
+`;
+
 exports[`command-models-generates models in expected output path ios: Should generate models from a single schema file 1`] = `
 Array [
   "AmplifyModels.swift",
@@ -41,6 +63,15 @@ Array [
   "AmplifyModels.swift",
   "SimpleModel+Schema.swift",
   "SimpleModel.swift",
+]
+`;
+
+exports[`command-models-generates models in expected output path javascript: Should generate for frontend when backend is not initialized locally, and logs no warnings or errors 1`] = `
+Array [
+  "index.d.ts",
+  "index.js",
+  "schema.d.ts",
+  "schema.js",
 ]
 `;
 

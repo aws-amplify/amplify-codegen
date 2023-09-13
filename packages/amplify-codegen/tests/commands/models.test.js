@@ -32,6 +32,9 @@ const MOCK_CONTEXT = {
     },
     getProjectConfig: jest.fn(),
   },
+  parameters: {
+    options: {},
+  },
 };
 const OUTPUT_PATHS = {
   javascript: 'src/models',
@@ -42,11 +45,11 @@ const OUTPUT_PATHS = {
 const MOCK_PROJECT_ROOT = 'project';
 const MOCK_PROJECT_NAME = 'myapp';
 const MOCK_BACKEND_DIRECTORY = 'backend';
-const MOCK_GENERATED_CODE = 'This code is auto-generated!';
 
 describe('command-models-generates models in expected output path', () => {
   beforeEach(() => {
     jest.resetAllMocks();
+    MOCK_CONTEXT.parameters.options = {};
     addMocksToContext();
     validateAmplifyFlutterMinSupportedVersion.mockReturnValue(true);
   });
@@ -57,7 +60,6 @@ describe('command-models-generates models in expected output path', () => {
       const schemaFilePath = path.join(MOCK_BACKEND_DIRECTORY, 'api', MOCK_PROJECT_NAME);
       const outputDirectory = path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend]);
       const mockedFiles = {};
-      const nodeModules = path.resolve(path.join(__dirname, '../../../../node_modules'));
       mockedFiles[schemaFilePath] = {
         'schema.graphql': ' type SimpleModel @model { id: ID! status: String } ',
       };
@@ -142,7 +144,131 @@ describe('command-models-generates models in expected output path', () => {
         expect(MOCK_CONTEXT.print.error).toBeCalled();
       });
     }
+
+    it(frontend + ': Should generate for frontend when backend is not initialized locally, and logs no warnings or errors', async () => {
+      // mock the input and output file structure
+      const mockedFiles = {};
+      mockedFiles[MOCK_PROJECT_ROOT] = {
+        'schema.graphql': ' type SimpleModel @model { id: ID! status: String } ',
+      };
+      const overrideOutputDir = 'some/other/dir';
+      mockedFiles[overrideOutputDir] = {};
+      mockFs(mockedFiles);
+
+      // For non-intialized projects, assume the amplify context throws primarily errors, and instead input is provided via options
+      MOCK_CONTEXT.amplify.getEnvInfo.mockImplementation(() => { throw new Error('getEnvInfo Internal Error') });
+      MOCK_CONTEXT.amplify.getProjectConfig.mockImplementation(() => { throw new Error('getProjectConfig Internal Error') });
+      MOCK_CONTEXT.amplify.getResourceStatus.mockImplementation(() => { throw new Error('getResourceStatus Internal Error') });
+      MOCK_CONTEXT.amplify.executeProviderUtils.mockImplementation(() => { throw new Error('executeProviderUtils Internal Error') });
+      MOCK_CONTEXT.parameters.options = { target: frontend, 'model-schema': path.join(MOCK_PROJECT_ROOT, 'schema.graphql') };
+
+      // assert empty folder before generation
+      expect(fs.readdirSync(overrideOutputDir).length).toEqual(0);
+
+      await generateModels(MOCK_CONTEXT, { overrideOutputDir });
+
+      // assert model files are generated in expected output directory
+      expect(fs.readdirSync(overrideOutputDir).length).not.toEqual(0);
+
+      expect(MOCK_CONTEXT.print.error).not.toBeCalled();
+      expect(MOCK_CONTEXT.print.warning).not.toBeCalled();
+
+      if (frontend === 'android') {
+        // Android/Java creates a deeply nested structure, which is preserved as a partial in the output files.
+        expect(fs.readdirSync(path.join(overrideOutputDir, 'com', 'amplifyframework', 'datastore', 'generated', 'model'))).toMatchSnapshot();
+      } else {
+        expect(fs.readdirSync(overrideOutputDir)).toMatchSnapshot();
+      }
+    });
   }
+
+  it('throws an understandable error on invalid target option', async () => {
+    // mock the input and output file structure
+    const mockedFiles = {};
+    mockedFiles[MOCK_PROJECT_ROOT] = {
+      'schema.graphql': ' type SimpleModel @model { id: ID! status: String } ',
+    };
+    const overrideOutputDir = 'some/other/dir';
+    mockedFiles[overrideOutputDir] = {};
+    mockFs(mockedFiles);
+
+    // For non-intialized projects, assume the amplify context throws primarily errors, and instead input is provided via options
+    MOCK_CONTEXT.amplify.getEnvInfo.mockImplementation(() => { throw new Error('getEnvInfo Internal Error') });
+    MOCK_CONTEXT.amplify.getProjectConfig.mockImplementation(() => { throw new Error('getProjectConfig Internal Error') });
+    MOCK_CONTEXT.amplify.getResourceStatus.mockImplementation(() => { throw new Error('getResourceStatus Internal Error') });
+    MOCK_CONTEXT.amplify.executeProviderUtils.mockImplementation(() => { throw new Error('executeProviderUtils Internal Error') });
+    MOCK_CONTEXT.parameters.options = { target: 'clojure', 'model-schema': path.join(MOCK_PROJECT_ROOT, 'schema.graphql') };
+
+    await expect(() => generateModels(MOCK_CONTEXT, { overrideOutputDir }))
+      .rejects
+      .toThrowErrorMatchingInlineSnapshot('"Unexpected --target value clojure provided, expected one of [\\"android\\",\\"ios\\",\\"flutter\\",\\"javascript\\",\\"typescript\\",\\"introspection\\"]"');
+  });
+
+  it('throws an understandable error on missing model-schema flag and uninitialized backend', async () => {
+    // mock the input and output file structure
+    const mockedFiles = {};
+    mockedFiles[MOCK_PROJECT_ROOT] = {
+      'schema.graphql': ' type SimpleModel @model { id: ID! status: String } ',
+    };
+    const overrideOutputDir = 'some/other/dir';
+    mockedFiles[overrideOutputDir] = {};
+    mockFs(mockedFiles);
+
+    // For non-intialized projects, assume the amplify context throws primarily errors, and instead input is provided via options
+    MOCK_CONTEXT.amplify.getEnvInfo.mockImplementation(() => { throw new Error('getEnvInfo Internal Error') });
+    MOCK_CONTEXT.amplify.getProjectConfig.mockImplementation(() => { throw new Error('getProjectConfig Internal Error') });
+    MOCK_CONTEXT.amplify.getResourceStatus.mockImplementation(() => { throw new Error('getResourceStatus Internal Error') });
+    MOCK_CONTEXT.amplify.executeProviderUtils.mockImplementation(() => { throw new Error('executeProviderUtils Internal Error') });
+    MOCK_CONTEXT.parameters.options = { target: 'javascript' };
+
+    await expect(() => generateModels(MOCK_CONTEXT, { overrideOutputDir }))
+      .rejects
+      .toThrowErrorMatchingInlineSnapshot('"Schema resource path not found, if you are running this command from a directory without a local amplify directory, be sure to specify the path to your model schema file or folder via --model-schema."');
+  });
+
+  it('throws an understandable error on missing target flag and uninitialized backend', async () => {
+    // mock the input and output file structure
+    const mockedFiles = {};
+    mockedFiles[MOCK_PROJECT_ROOT] = {
+      'schema.graphql': ' type SimpleModel @model { id: ID! status: String } ',
+    };
+    const overrideOutputDir = 'some/other/dir';
+    mockedFiles[overrideOutputDir] = {};
+    mockFs(mockedFiles);
+
+    // For non-intialized projects, assume the amplify context throws primarily errors, and instead input is provided via options
+    MOCK_CONTEXT.amplify.getEnvInfo.mockImplementation(() => { throw new Error('getEnvInfo Internal Error') });
+    MOCK_CONTEXT.amplify.getProjectConfig.mockImplementation(() => { throw new Error('getProjectConfig Internal Error') });
+    MOCK_CONTEXT.amplify.getResourceStatus.mockImplementation(() => { throw new Error('getResourceStatus Internal Error') });
+    MOCK_CONTEXT.amplify.executeProviderUtils.mockImplementation(() => { throw new Error('executeProviderUtils Internal Error') });
+    MOCK_CONTEXT.parameters.options = { 'model-schema': path.join(MOCK_PROJECT_ROOT, 'schema.graphql') };
+
+    await expect(() => generateModels(MOCK_CONTEXT, { overrideOutputDir }))
+      .rejects
+      .toThrowErrorMatchingInlineSnapshot('"Modelgen target not found, if you are running this command from a directory without a local amplify directory, be sure to specify the modelgen target via --target."');
+  });
+
+  it('throws an understandable error on missing override output dir and uninitialized backend', async () => {
+    // mock the input and output file structure
+    const mockedFiles = {};
+    mockedFiles[MOCK_PROJECT_ROOT] = {
+      'schema.graphql': ' type SimpleModel @model { id: ID! status: String } ',
+    };
+    const overrideOutputDir = 'some/other/dir';
+    mockedFiles[overrideOutputDir] = {};
+    mockFs(mockedFiles);
+
+    // For non-intialized projects, assume the amplify context throws primarily errors, and instead input is provided via options
+    MOCK_CONTEXT.amplify.getEnvInfo.mockImplementation(() => { throw new Error('getEnvInfo Internal Error') });
+    MOCK_CONTEXT.amplify.getProjectConfig.mockImplementation(() => { throw new Error('getProjectConfig Internal Error') });
+    MOCK_CONTEXT.amplify.getResourceStatus.mockImplementation(() => { throw new Error('getResourceStatus Internal Error') });
+    MOCK_CONTEXT.amplify.executeProviderUtils.mockImplementation(() => { throw new Error('executeProviderUtils Internal Error') });
+    MOCK_CONTEXT.parameters.options = { target: 'javascript', 'model-schema': path.join(MOCK_PROJECT_ROOT, 'schema.graphql') };
+
+    await expect(() => generateModels(MOCK_CONTEXT))
+      .rejects
+      .toThrowErrorMatchingInlineSnapshot('"Output directory could not be determined, to specify, set the --output-dir CLI property."');
+  });
 
   it('should use default directive definitions if getTransformerDirectives fails', async () => {
     MOCK_CONTEXT.amplify.executeProviderUtils.mockRejectedValue('no amplify project');
@@ -151,7 +277,6 @@ describe('command-models-generates models in expected output path', () => {
     const schemaFilePath = path.join(MOCK_BACKEND_DIRECTORY, 'api', MOCK_PROJECT_NAME);
     const outputDirectory = path.join(MOCK_PROJECT_ROOT, OUTPUT_PATHS[frontend]);
     const mockedFiles = {};
-    const nodeModules = path.resolve(path.join(__dirname, '../../../../node_modules'));
     mockedFiles[schemaFilePath] = {
       'schema.graphql': ' type SimpleModel @model { id: ID! status: String } ',
     };
