@@ -132,6 +132,15 @@ public final class Post implements Model {
   public static class Builder implements IdStep, TitleStep, BuildStep {
     private String id;
     private String title;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String title) {
+      this.id = id;
+      this.title = title;
+    }
+    
     @Override
      public Post build() {
         
@@ -158,8 +167,9 @@ public final class Post implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String title) {
-      super.id(id)
-        .title(title);
+      super(id, title);
+      Objects.requireNonNull(id);
+      Objects.requireNonNull(title);
     }
     
     @Override
@@ -337,6 +347,17 @@ public final class Comment implements Model {
     private String content;
     private String postCommentsId;
     private String postCommentsTitle;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String content, String postCommentsId, String postCommentsTitle) {
+      this.id = id;
+      this.content = content;
+      this.postCommentsId = postCommentsId;
+      this.postCommentsTitle = postCommentsTitle;
+    }
+    
     @Override
      public Comment build() {
         
@@ -377,10 +398,9 @@ public final class Comment implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String content, String postCommentsId, String postCommentsTitle) {
-      super.id(id)
-        .content(content)
-        .postCommentsId(postCommentsId)
-        .postCommentsTitle(postCommentsTitle);
+      super(id, content, postCommentsId, postCommentsTitle);
+      Objects.requireNonNull(id);
+      Objects.requireNonNull(content);
     }
     
     @Override
@@ -574,6 +594,17 @@ public final class Project implements Model {
     private String name;
     private String projectTeamTeamId;
     private String projectTeamName;
+    public Builder() {
+      
+    }
+    
+    private Builder(String projectId, String name, String projectTeamTeamId, String projectTeamName) {
+      this.projectId = projectId;
+      this.name = name;
+      this.projectTeamTeamId = projectTeamTeamId;
+      this.projectTeamName = projectTeamName;
+    }
+    
     @Override
      public Project build() {
         
@@ -614,10 +645,9 @@ public final class Project implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String projectId, String name, String projectTeamTeamId, String projectTeamName) {
-      super.projectId(projectId)
-        .name(name)
-        .projectTeamTeamId(projectTeamTeamId)
-        .projectTeamName(projectTeamName);
+      super(projectId, name, projectTeamTeamId, projectTeamName);
+      Objects.requireNonNull(projectId);
+      Objects.requireNonNull(name);
     }
     
     @Override
@@ -793,6 +823,16 @@ public final class Team implements Model {
     private String teamId;
     private String name;
     private Project project;
+    public Builder() {
+      
+    }
+    
+    private Builder(String teamId, String name, Project project) {
+      this.teamId = teamId;
+      this.name = name;
+      this.project = project;
+    }
+    
     @Override
      public Team build() {
         
@@ -826,9 +866,9 @@ public final class Team implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String teamId, String name, Project project) {
-      super.teamId(teamId)
-        .name(name)
-        .project(project);
+      super(teamId, name, project);
+      Objects.requireNonNull(teamId);
+      Objects.requireNonNull(name);
     }
     
     @Override
@@ -1008,6 +1048,16 @@ public final class BlogOwnerWithCustomPKS implements Model {
     private String id;
     private String name;
     private String wea;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String name, String wea) {
+      this.id = id;
+      this.name = name;
+      this.wea = wea;
+    }
+    
     @Override
      public BlogOwnerWithCustomPKS build() {
         
@@ -1042,9 +1092,10 @@ public final class BlogOwnerWithCustomPKS implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String wea) {
-      super.id(id)
-        .name(name)
-        .wea(wea);
+      super(id, name, wea);
+      Objects.requireNonNull(id);
+      Objects.requireNonNull(name);
+      Objects.requireNonNull(wea);
     }
     
     @Override
@@ -1245,6 +1296,18 @@ public final class Comment implements Model {
     private Integer likes;
     private Post post;
     private String description;
+    public Builder() {
+      
+    }
+    
+    private Builder(Post post, String title, String content, Integer likes, String description) {
+      this.post = post;
+      this.title = title;
+      this.content = content;
+      this.likes = likes;
+      this.description = description;
+    }
+    
     @Override
      public Comment build() {
         
@@ -1293,11 +1356,10 @@ public final class Comment implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(Post post, String title, String content, Integer likes, String description) {
-      super.title(title)
-        .content(content)
-        .likes(likes)
-        .post(post)
-        .description(description);
+      super(post, title, content, likes, description);
+      Objects.requireNonNull(title);
+      Objects.requireNonNull(content);
+      Objects.requireNonNull(likes);
     }
     
     @Override
@@ -1527,6 +1589,19 @@ public final class Post implements Model {
     private String blogID;
     private Temporal.DateTime created;
     private Blog blog;
+    public Builder() {
+      
+    }
+    
+    private Builder(String postId, String title, Integer rating, Temporal.DateTime created, String blogID, Blog blog) {
+      this.postId = postId;
+      this.title = title;
+      this.rating = rating;
+      this.created = created;
+      this.blogID = blogID;
+      this.blog = blog;
+    }
+    
     @Override
      public Post build() {
         
@@ -1583,12 +1658,11 @@ public final class Post implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String postId, String title, Integer rating, Temporal.DateTime created, String blogId, Blog blog) {
-      super.postId(postId)
-        .title(title)
-        .rating(rating)
-        .blogId(blogId)
-        .created(created)
-        .blog(blog);
+      super(postId, title, rating, created, blogID, blog);
+      Objects.requireNonNull(postId);
+      Objects.requireNonNull(title);
+      Objects.requireNonNull(rating);
+      Objects.requireNonNull(blogID);
     }
     
     @Override
@@ -1791,6 +1865,16 @@ public final class Blog implements Model {
     private String id;
     private String name;
     private BlogOwnerWithCustomPKS blogOwner;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String name, BlogOwnerWithCustomPKS blogOwner) {
+      this.id = id;
+      this.name = name;
+      this.blogOwner = blogOwner;
+    }
+    
     @Override
      public Blog build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -1828,9 +1912,9 @@ public final class Blog implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, BlogOwnerWithCustomPKS blogOwner) {
-      super.id(id);
-      super.name(name)
-        .blogOwner(blogOwner);
+      super(id, name, blogOwner);
+      Objects.requireNonNull(name);
+      Objects.requireNonNull(blogOwner);
     }
     
     @Override
@@ -2002,6 +2086,16 @@ public final class Post implements Model {
     private String id;
     private String title;
     private String content;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String title, String content) {
+      this.id = id;
+      this.title = title;
+      this.content = content;
+    }
+    
     @Override
      public Post build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -2038,9 +2132,8 @@ public final class Post implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String title, String content) {
-      super.id(id);
-      super.title(title)
-        .content(content);
+      super(id, title, content);
+      Objects.requireNonNull(title);
     }
     
     @Override
@@ -2167,6 +2260,15 @@ public final class Tag implements Model {
   public static class Builder implements LabelStep, BuildStep {
     private String id;
     private String label;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String label) {
+      this.id = id;
+      this.label = label;
+    }
+    
     @Override
      public Tag build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -2196,8 +2298,8 @@ public final class Tag implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String label) {
-      super.id(id);
-      super.label(label);
+      super(id, label);
+      Objects.requireNonNull(label);
     }
     
     @Override
@@ -2334,6 +2436,16 @@ public final class PostTags implements Model {
     private String id;
     private Post post;
     private Tag tag;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, Post post, Tag tag) {
+      this.id = id;
+      this.post = post;
+      this.tag = tag;
+    }
+    
     @Override
      public PostTags build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -2371,9 +2483,9 @@ public final class PostTags implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, Post post, Tag tag) {
-      super.id(id);
-      super.post(post)
-        .tag(tag);
+      super(id, post, tag);
+      Objects.requireNonNull(post);
+      Objects.requireNonNull(tag);
     }
     
     @Override
@@ -2531,6 +2643,16 @@ public final class customClaim implements Model {
     private String id;
     private String name;
     private String bar;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String name, String bar) {
+      this.id = id;
+      this.name = name;
+      this.bar = bar;
+    }
+    
     @Override
      public customClaim build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -2566,9 +2688,8 @@ public final class customClaim implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String bar) {
-      super.id(id);
-      super.name(name)
-        .bar(bar);
+      super(id, name, bar);
+      
     }
     
     @Override
@@ -2726,6 +2847,16 @@ public final class customClaim implements Model {
     private String id;
     private String name;
     private String bar;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String name, String bar) {
+      this.id = id;
+      this.name = name;
+      this.bar = bar;
+    }
+    
     @Override
      public customClaim build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -2761,9 +2892,8 @@ public final class customClaim implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String bar) {
-      super.id(id);
-      super.name(name)
-        .bar(bar);
+      super(id, name, bar);
+      
     }
     
     @Override
@@ -2946,6 +3076,17 @@ public final class Employee implements Model {
     private String name;
     private String address;
     private String ssn;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String name, String address, String ssn) {
+      this.id = id;
+      this.name = name;
+      this.address = address;
+      this.ssn = ssn;
+    }
+    
     @Override
      public Employee build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -2990,10 +3131,9 @@ public final class Employee implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String address, String ssn) {
-      super.id(id);
-      super.name(name)
-        .address(address)
-        .ssn(ssn);
+      super(id, name, address, ssn);
+      Objects.requireNonNull(name);
+      Objects.requireNonNull(address);
     }
     
     @Override
@@ -3156,6 +3296,16 @@ public final class dynamicGroups implements Model {
     private String id;
     private String name;
     private String bar;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String name, String bar) {
+      this.id = id;
+      this.name = name;
+      this.bar = bar;
+    }
+    
     @Override
      public dynamicGroups build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -3191,9 +3341,8 @@ public final class dynamicGroups implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String bar) {
-      super.id(id);
-      super.name(name)
-        .bar(bar);
+      super(id, name, bar);
+      
     }
     
     @Override
@@ -3376,6 +3525,17 @@ public final class Employee implements Model {
     private String name;
     private String address;
     private String ssn;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String name, String address, String ssn) {
+      this.id = id;
+      this.name = name;
+      this.address = address;
+      this.ssn = ssn;
+    }
+    
     @Override
      public Employee build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -3420,10 +3580,9 @@ public final class Employee implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String address, String ssn) {
-      super.id(id);
-      super.name(name)
-        .address(address)
-        .ssn(ssn);
+      super(id, name, address, ssn);
+      Objects.requireNonNull(name);
+      Objects.requireNonNull(address);
     }
     
     @Override
@@ -3586,6 +3745,16 @@ public final class simpleOwnerAuth implements Model {
     private String id;
     private String name;
     private String bar;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String name, String bar) {
+      this.id = id;
+      this.name = name;
+      this.bar = bar;
+    }
+    
     @Override
      public simpleOwnerAuth build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -3621,9 +3790,8 @@ public final class simpleOwnerAuth implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String bar) {
-      super.id(id);
-      super.name(name)
-        .bar(bar);
+      super(id, name, bar);
+      
     }
     
     @Override
@@ -3781,6 +3949,16 @@ public final class allowRead implements Model {
     private String id;
     private String name;
     private String bar;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String name, String bar) {
+      this.id = id;
+      this.name = name;
+      this.bar = bar;
+    }
+    
     @Override
      public allowRead build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -3816,9 +3994,8 @@ public final class allowRead implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String bar) {
-      super.id(id);
-      super.name(name)
-        .bar(bar);
+      super(id, name, bar);
+      
     }
     
     @Override
@@ -3976,6 +4153,16 @@ public final class privateType implements Model {
     private String id;
     private String name;
     private String bar;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String name, String bar) {
+      this.id = id;
+      this.name = name;
+      this.bar = bar;
+    }
+    
     @Override
      public privateType build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -4011,9 +4198,8 @@ public final class privateType implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String bar) {
-      super.id(id);
-      super.name(name)
-        .bar(bar);
+      super(id, name, bar);
+      
     }
     
     @Override
@@ -4173,6 +4359,16 @@ public final class privateType implements Model {
     private String id;
     private String name;
     private String bar;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String name, String bar) {
+      this.id = id;
+      this.name = name;
+      this.bar = bar;
+    }
+    
     @Override
      public privateType build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -4208,9 +4404,8 @@ public final class privateType implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String bar) {
-      super.id(id);
-      super.name(name)
-        .bar(bar);
+      super(id, name, bar);
+      
     }
     
     @Override
@@ -4368,6 +4563,16 @@ public final class publicType implements Model {
     private String id;
     private String name;
     private String bar;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String name, String bar) {
+      this.id = id;
+      this.name = name;
+      this.bar = bar;
+    }
+    
     @Override
      public publicType build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -4403,9 +4608,8 @@ public final class publicType implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String bar) {
-      super.id(id);
-      super.name(name)
-        .bar(bar);
+      super(id, name, bar);
+      
     }
     
     @Override
@@ -4563,6 +4767,16 @@ public final class staticGroups implements Model {
     private String id;
     private String name;
     private String bar;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String name, String bar) {
+      this.id = id;
+      this.name = name;
+      this.bar = bar;
+    }
+    
     @Override
      public staticGroups build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -4598,9 +4812,8 @@ public final class staticGroups implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String bar) {
-      super.id(id);
-      super.name(name)
-        .bar(bar);
+      super(id, name, bar);
+      
     }
     
     @Override
@@ -4770,6 +4983,17 @@ public final class MyPost implements Model {
     private String title;
     private Temporal.DateTime createdAt;
     private Double rating;
+    public Builder() {
+      
+    }
+    
+    private Builder(String postId, String title, Temporal.DateTime createdAt, Double rating) {
+      this.postId = postId;
+      this.title = title;
+      this.createdAt = createdAt;
+      this.rating = rating;
+    }
+    
     @Override
      public MyPost build() {
         
@@ -4812,10 +5036,11 @@ public final class MyPost implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String postId, String title, Temporal.DateTime createdAt, Double rating) {
-      super.postId(postId)
-        .title(title)
-        .createdAt(createdAt)
-        .rating(rating);
+      super(postId, title, createdAt, rating);
+      Objects.requireNonNull(postId);
+      Objects.requireNonNull(title);
+      Objects.requireNonNull(createdAt);
+      Objects.requireNonNull(rating);
     }
     
     @Override
@@ -4956,6 +5181,14 @@ public final class StringModel implements Model {
 
   public static class Builder implements CustomKeyStep, BuildStep {
     private String customKey;
+    public Builder() {
+      
+    }
+    
+    private Builder(String customKey) {
+      this.customKey = customKey;
+    }
+    
     @Override
      public StringModel build() {
         
@@ -4974,7 +5207,8 @@ public final class StringModel implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String customKey) {
-      super.customKey(customKey);
+      super(customKey);
+      Objects.requireNonNull(customKey);
     }
     
     @Override
@@ -5100,6 +5334,14 @@ public final class IdModel implements Model {
 
   public static class Builder implements CustomKeyStep, BuildStep {
     private String customKey;
+    public Builder() {
+      
+    }
+    
+    private Builder(String customKey) {
+      this.customKey = customKey;
+    }
+    
     @Override
      public IdModel build() {
         
@@ -5118,7 +5360,8 @@ public final class IdModel implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String customKey) {
-      super.customKey(customKey);
+      super(customKey);
+      Objects.requireNonNull(customKey);
     }
     
     @Override
@@ -5244,6 +5487,14 @@ public final class IntModel implements Model {
 
   public static class Builder implements CustomKeyStep, BuildStep {
     private Integer customKey;
+    public Builder() {
+      
+    }
+    
+    private Builder(Integer customKey) {
+      this.customKey = customKey;
+    }
+    
     @Override
      public IntModel build() {
         
@@ -5262,7 +5513,8 @@ public final class IntModel implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(Integer customKey) {
-      super.customKey(customKey);
+      super(customKey);
+      Objects.requireNonNull(customKey);
     }
     
     @Override
@@ -5458,6 +5710,18 @@ public final class Landmark implements Model {
     private Integer rating;
     private Location location;
     private Location parking;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String name, Integer rating, Location location, Location parking) {
+      this.id = id;
+      this.name = name;
+      this.rating = rating;
+      this.location = location;
+      this.parking = parking;
+    }
+    
     @Override
      public Landmark build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -5510,11 +5774,10 @@ public final class Landmark implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, Integer rating, Location location, Location parking) {
-      super.id(id);
-      super.name(name)
-        .rating(rating)
-        .location(location)
-        .parking(parking);
+      super(id, name, rating, location, parking);
+      Objects.requireNonNull(name);
+      Objects.requireNonNull(rating);
+      Objects.requireNonNull(location);
     }
     
     @Override
@@ -5616,6 +5879,15 @@ public final class Location {
   public static class Builder implements LatStep, LangStep, BuildStep {
     private String lat;
     private String lang;
+    public Builder() {
+      
+    }
+    
+    private Builder(String lat, String lang) {
+      this.lat = lat;
+      this.lang = lang;
+    }
+    
     @Override
      public Location build() {
         
@@ -5642,8 +5914,9 @@ public final class Location {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String lat, String lang) {
-      super.lat(lat)
-        .lang(lang);
+      super(lat, lang);
+      Objects.requireNonNull(lat);
+      Objects.requireNonNull(lang);
     }
     
     @Override
@@ -5735,6 +6008,15 @@ public final class Reference {
   public static class Builder implements IdStep, IdTypeStep, BuildStep {
     private String id;
     private ReferenceIdTypeEnum idType;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, ReferenceIdTypeEnum idType) {
+      this.id = id;
+      this.idType = idType;
+    }
+    
     @Override
      public Reference build() {
         
@@ -5761,8 +6043,9 @@ public final class Reference {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, ReferenceIdTypeEnum idType) {
-      super.id(id)
-        .idType(idType);
+      super(id, idType);
+      Objects.requireNonNull(id);
+      Objects.requireNonNull(idType);
     }
     
     @Override
@@ -5930,6 +6213,17 @@ public final class task implements Model {
     private Todo todo;
     private Temporal.Time time;
     private Temporal.Date createdOn;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, Todo todo, Temporal.Time time, Temporal.Date createdOn) {
+      this.id = id;
+      this.todo = todo;
+      this.time = time;
+      this.createdOn = createdOn;
+    }
+    
     @Override
      public task build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -5972,10 +6266,8 @@ public final class task implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, Todo todo, Temporal.Time time, Temporal.Date createdOn) {
-      super.id(id);
-      super.todo(todo)
-        .time(time)
-        .createdOn(createdOn);
+      super(id, todo, time, createdOn);
+      
     }
     
     @Override
@@ -6111,6 +6403,14 @@ public final class Todo implements Model {
 
   public static class Builder implements BuildStep {
     private String id;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id) {
+      this.id = id;
+    }
+    
     @Override
      public Todo build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -6132,7 +6432,7 @@ public final class Todo implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id) {
-      super.id(id);
+      super(id);
       
     }
   }
@@ -6276,6 +6576,16 @@ public final class SimpleModel implements Model {
     private String id;
     private String name;
     private String bar;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String name, String bar) {
+      this.id = id;
+      this.name = name;
+      this.bar = bar;
+    }
+    
     @Override
      public SimpleModel build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -6311,9 +6621,8 @@ public final class SimpleModel implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String bar) {
-      super.id(id);
-      super.name(name)
-        .bar(bar);
+      super(id, name, bar);
+      
     }
     
     @Override
@@ -6466,6 +6775,16 @@ public final class SimpleModel implements Model {
     private String id;
     private String name;
     private String bar;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String name, String bar) {
+      this.id = id;
+      this.name = name;
+      this.bar = bar;
+    }
+    
     @Override
      public SimpleModel build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -6501,9 +6820,8 @@ public final class SimpleModel implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, String bar) {
-      super.id(id);
-      super.name(name)
-        .bar(bar);
+      super(id, name, bar);
+      
     }
     
     @Override
@@ -6756,6 +7074,22 @@ public final class ListContainer implements Model {
     private List<Integer> list;
     private List<Boolean> listOfRequired;
     private List<Double> listOfRequiredFloats;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String name, List<Integer> list, List<String> requiredList, List<StatusEnum> requiredListOfRequired, List<Boolean> listOfRequired, List<Temporal.Date> requiredListOfRequiredDates, List<Double> listOfRequiredFloats, List<CustomType> requiredListOfCustomTypes) {
+      this.id = id;
+      this.name = name;
+      this.list = list;
+      this.requiredList = requiredList;
+      this.requiredListOfRequired = requiredListOfRequired;
+      this.listOfRequired = listOfRequired;
+      this.requiredListOfRequiredDates = requiredListOfRequiredDates;
+      this.listOfRequiredFloats = listOfRequiredFloats;
+      this.requiredListOfCustomTypes = requiredListOfCustomTypes;
+    }
+    
     @Override
      public ListContainer build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -6837,15 +7171,11 @@ public final class ListContainer implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name, List<Integer> list, List<String> requiredList, List<StatusEnum> requiredListOfRequired, List<Boolean> listOfRequired, List<Temporal.Date> requiredListOfRequiredDates, List<Double> listOfRequiredFloats, List<CustomType> requiredListOfCustomTypes) {
-      super.id(id);
-      super.requiredList(requiredList)
-        .requiredListOfRequired(requiredListOfRequired)
-        .requiredListOfRequiredDates(requiredListOfRequiredDates)
-        .requiredListOfCustomTypes(requiredListOfCustomTypes)
-        .name(name)
-        .list(list)
-        .listOfRequired(listOfRequired)
-        .listOfRequiredFloats(listOfRequiredFloats);
+      super(id, name, list, requiredList, requiredListOfRequired, listOfRequired, requiredListOfRequiredDates, listOfRequiredFloats, requiredListOfCustomTypes);
+      Objects.requireNonNull(requiredList);
+      Objects.requireNonNull(requiredListOfRequired);
+      Objects.requireNonNull(requiredListOfRequiredDates);
+      Objects.requireNonNull(requiredListOfCustomTypes);
     }
     
     @Override
@@ -7079,6 +7409,19 @@ public final class task implements Model {
     private Todo todo;
     private Temporal.Time time;
     private Temporal.Date createdOn;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String title, Boolean done, Todo todo, Temporal.Time time, Temporal.Date createdOn) {
+      this.id = id;
+      this.title = title;
+      this.done = done;
+      this.todo = todo;
+      this.time = time;
+      this.createdOn = createdOn;
+    }
+    
     @Override
      public task build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -7137,12 +7480,9 @@ public final class task implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String title, Boolean done, Todo todo, Temporal.Time time, Temporal.Date createdOn) {
-      super.id(id);
-      super.title(title)
-        .done(done)
-        .todo(todo)
-        .time(time)
-        .createdOn(createdOn);
+      super(id, title, done, todo, time, createdOn);
+      Objects.requireNonNull(title);
+      Objects.requireNonNull(done);
     }
     
     @Override
@@ -7384,6 +7724,20 @@ public final class Todo implements Model {
     private String description;
     private String due_date;
     private Double value;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String title, Boolean done, String description, String due_date, Integer version, Double value) {
+      this.id = id;
+      this.title = title;
+      this.done = done;
+      this.description = description;
+      this.due_date = due_date;
+      this.version = version;
+      this.value = value;
+    }
+    
     @Override
      public Todo build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -7450,13 +7804,10 @@ public final class Todo implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String title, Boolean done, String description, String dueDate, Integer version, Double value) {
-      super.id(id);
-      super.title(title)
-        .done(done)
-        .version(version)
-        .description(description)
-        .dueDate(dueDate)
-        .value(value);
+      super(id, title, done, description, due_date, version, value);
+      Objects.requireNonNull(title);
+      Objects.requireNonNull(done);
+      Objects.requireNonNull(version);
     }
     
     @Override
@@ -7649,6 +8000,18 @@ public final class TypeWithAWSDateScalars implements Model {
     private Temporal.DateTime createdAt;
     private Temporal.Time time;
     private Temporal.Timestamp timestamp;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, Temporal.Date date, Temporal.DateTime createdAt, Temporal.Time time, Temporal.Timestamp timestamp) {
+      this.id = id;
+      this.date = date;
+      this.createdAt = createdAt;
+      this.time = time;
+      this.timestamp = timestamp;
+    }
+    
     @Override
      public TypeWithAWSDateScalars build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -7698,11 +8061,8 @@ public final class TypeWithAWSDateScalars implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, Temporal.Date date, Temporal.DateTime createdAt, Temporal.Time time, Temporal.Timestamp timestamp) {
-      super.id(id);
-      super.date(date)
-        .createdAt(createdAt)
-        .time(time)
-        .timestamp(timestamp);
+      super(id, date, createdAt, time, timestamp);
+      
     }
     
     @Override
@@ -7914,6 +8274,18 @@ public final class authorBook implements Model {
     private String book_id;
     private String author;
     private String book;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String author_id, String book_id, String author, String book) {
+      this.id = id;
+      this.author_id = author_id;
+      this.book_id = book_id;
+      this.author = author;
+      this.book = book;
+    }
+    
     @Override
      public authorBook build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -7965,11 +8337,9 @@ public final class authorBook implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String authorId, String bookId, String author, String book) {
-      super.id(id);
-      super.authorId(authorId)
-        .bookId(bookId)
-        .author(author)
-        .book(book);
+      super(id, author_id, book_id, author, book);
+      Objects.requireNonNull(author_id);
+      Objects.requireNonNull(book_id);
     }
     
     @Override
@@ -8118,6 +8488,15 @@ public final class NonCamelCaseField implements Model {
   public static class Builder implements BuildStep {
     private String id;
     private String employeePID;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String employeePID) {
+      this.id = id;
+      this.employeePID = employeePID;
+    }
+    
     @Override
      public NonCamelCaseField build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -8146,8 +8525,8 @@ public final class NonCamelCaseField implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String employeePid) {
-      super.id(id);
-      super.employeePid(employeePid);
+      super(id, employeePID);
+      
     }
     
     @Override
@@ -8281,6 +8660,15 @@ public final class snake_case implements Model {
   public static class Builder implements BuildStep {
     private String id;
     private String name;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String name) {
+      this.id = id;
+      this.name = name;
+    }
+    
     @Override
      public snake_case build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -8309,8 +8697,8 @@ public final class snake_case implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name) {
-      super.id(id);
-      super.name(name);
+      super(id, name);
+      
     }
     
     @Override
@@ -8444,6 +8832,15 @@ public final class SnakeCaseField implements Model {
   public static class Builder implements BuildStep {
     private String id;
     private String first_name;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String first_name) {
+      this.id = id;
+      this.first_name = first_name;
+    }
+    
     @Override
      public SnakeCaseField build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -8472,8 +8869,8 @@ public final class SnakeCaseField implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String firstName) {
-      super.id(id);
-      super.firstName(firstName);
+      super(id, first_name);
+      
     }
     
     @Override
