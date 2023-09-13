@@ -20,6 +20,16 @@ export function generateModels(cwd: string, outputDir?: string, settings: { errM
   });
 }
 
+export const generateModelsWithOptions = (cwd: string, options: Record<string, any>): Promise<void> => new Promise((resolve, reject) => {
+  spawn(getCLIPath(), ['codegen', 'models', ...(Object.entries(options).flat())], { cwd, stripColors: true }).run((err: Error) => {
+    if (!err) {
+      resolve();
+    } else {
+      reject(err);
+    }
+  });
+});
+
 export function generateStatementsAndTypes(cwd: string) : Promise<void> {
   return new Promise((resolve, reject) => {
     spawn(getCLIPath(), ['codegen'], { cwd, stripColors: true })
