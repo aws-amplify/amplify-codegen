@@ -615,11 +615,11 @@ export class AppSyncModelJavaVisitor<
     ).trim();
 
     copyOfBuilderClassDeclaration.addClassMethod(
-      builderName, 
-      null, 
-      `super(${superArgs});\n${constructorNullChecks}`, 
-      constructorArguments, 
-      [], 
+      builderName,
+      null,
+      `super(${superArgs});\n${constructorNullChecks}`,
+      constructorArguments,
+      [],
       'private'
     );
 
