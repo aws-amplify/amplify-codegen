@@ -9,6 +9,7 @@ import {
   ParsedAppSyncModelConfig,
   RawAppSyncModelConfig,
 } from './appsync-visitor';
+import { DEFAULT_HASH_KEY_FIELD } from '../utils/constants';
 
 export interface RawAppSyncModelTypeScriptConfig extends RawAppSyncModelConfig {}
 export interface ParsedAppSyncModelTypeScriptConfig extends ParsedAppSyncModelConfig {
@@ -48,7 +49,7 @@ export class AppSyncModelTypeScriptVisitor<
     this.processDirectives(
       shouldUseModelNameFieldInHasManyAndBelongsTo,
       shouldImputeKeyForUniDirectionalHasMany,
-      shouldUseFieldsInAssociatedWithInHasOne
+      shouldUseFieldsInAssociatedWithInHasOne,
     );
     const imports = this.generateImports();
     const enumDeclarations = Object.values(this.enumMap)
@@ -150,7 +151,15 @@ export class AppSyncModelTypeScriptVisitor<
           identifierFields.length === 1 ? `'${identifierFields[0]}'` : `[${identifierFields.map(fieldStr => `'${fieldStr}'`).join(', ')}]`;
         if (identifierFields.length > 1) {
           this.BASE_DATASTORE_IMPORT.add('CompositeIdentifier');
-          return `CompositeIdentifier<${modelObj.name}, ${identifierFieldsStr}>`;
+          const compositeIdentifierType = `CompositeIdentifier<${modelObj.name}, ${identifierFieldsStr}>`;
+          if (primaryKeyField.name === DEFAULT_HASH_KEY_FIELD) {
+            this.TS_IGNORE_DATASTORE_IMPORT.add('OptionallyManagedCompositeIdentifier');
+            this.TS_IGNORE_DATASTORE_IMPORT.add('OptionallyManagedCompositeIdentifierDisabled');
+            const optionallyManagedType = `OptionallyManagedCompositeIdentifier<${modelObj.name}, ${identifierFieldsStr}>`;
+            const condition = 'OptionallyManagedCompositeIdentifier extends OptionallyManagedCompositeIdentifierDisabled';
+            return `${condition} ? ${compositeIdentifierType} : ${optionallyManagedType}`;
+          }
+          return compositeIdentifierType;
         }
         this.BASE_DATASTORE_IMPORT.add('CustomIdentifier');
         return `CustomIdentifier<${modelObj.name}, ${identifierFieldsStr}>`;

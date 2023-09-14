@@ -954,7 +954,7 @@ describe('New model meta field test', () => {
     expect(declarations).toMatchInlineSnapshot(`
       "import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier, OptionallyManagedIdentifier, CompositeIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
       // @ts-ignore
-      import { LazyLoading, LazyLoadingDisabled } from \\"@aws-amplify/datastore\\";
+      import { LazyLoading, LazyLoadingDisabled, OptionallyManagedCompositeIdentifier, OptionallyManagedCompositeIdentifierDisabled } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -1050,7 +1050,7 @@ describe('New model meta field test', () => {
 
       type EagerModelExplicitIdWithSk = {
         readonly [__modelMeta__]: {
-          identifier: CompositeIdentifier<ModelExplicitIdWithSk, ['id', 'name']>;
+          identifier: OptionallyManagedCompositeIdentifier extends OptionallyManagedCompositeIdentifierDisabled ? CompositeIdentifier<ModelExplicitIdWithSk, ['id', 'name']> : OptionallyManagedCompositeIdentifier<ModelExplicitIdWithSk, ['id', 'name']>;
           readOnlyFields: 'createdAt' | 'updatedAt';
         };
         readonly id: string;
@@ -1062,7 +1062,7 @@ describe('New model meta field test', () => {
 
       type LazyModelExplicitIdWithSk = {
         readonly [__modelMeta__]: {
-          identifier: CompositeIdentifier<ModelExplicitIdWithSk, ['id', 'name']>;
+          identifier: OptionallyManagedCompositeIdentifier extends OptionallyManagedCompositeIdentifierDisabled ? CompositeIdentifier<ModelExplicitIdWithSk, ['id', 'name']> : OptionallyManagedCompositeIdentifier<ModelExplicitIdWithSk, ['id', 'name']>;
           readOnlyFields: 'createdAt' | 'updatedAt';
         };
         readonly id: string;

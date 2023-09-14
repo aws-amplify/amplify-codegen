@@ -77,7 +77,7 @@ export declare const Comment: (new (init: ModelInit<Comment>) => Comment) & {
 exports[`Javascript visitor with connected models of custom pk hasMany/belongsTo relation should generate correct declaration for hasMany uni-connection model when custom pk support is enabled 1`] = `
 "import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, LazyLoadingDisabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, LazyLoadingDisabled, OptionallyManagedCompositeIdentifier, OptionallyManagedCompositeIdentifierDisabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -85,7 +85,7 @@ import { LazyLoading, LazyLoadingDisabled, AsyncCollection } from \\"@aws-amplif
 
 type EagerPost = {
   readonly [__modelMeta__]: {
-    identifier: CompositeIdentifier<Post, ['id', 'title']>;
+    identifier: OptionallyManagedCompositeIdentifier extends OptionallyManagedCompositeIdentifierDisabled ? CompositeIdentifier<Post, ['id', 'title']> : OptionallyManagedCompositeIdentifier<Post, ['id', 'title']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
@@ -97,7 +97,7 @@ type EagerPost = {
 
 type LazyPost = {
   readonly [__modelMeta__]: {
-    identifier: CompositeIdentifier<Post, ['id', 'title']>;
+    identifier: OptionallyManagedCompositeIdentifier extends OptionallyManagedCompositeIdentifierDisabled ? CompositeIdentifier<Post, ['id', 'title']> : OptionallyManagedCompositeIdentifier<Post, ['id', 'title']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
@@ -115,7 +115,7 @@ export declare const Post: (new (init: ModelInit<Post>) => Post) & {
 
 type EagerComment = {
   readonly [__modelMeta__]: {
-    identifier: CompositeIdentifier<Comment, ['id', 'content']>;
+    identifier: OptionallyManagedCompositeIdentifier extends OptionallyManagedCompositeIdentifierDisabled ? CompositeIdentifier<Comment, ['id', 'content']> : OptionallyManagedCompositeIdentifier<Comment, ['id', 'content']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
@@ -128,7 +128,7 @@ type EagerComment = {
 
 type LazyComment = {
   readonly [__modelMeta__]: {
-    identifier: CompositeIdentifier<Comment, ['id', 'content']>;
+    identifier: OptionallyManagedCompositeIdentifier extends OptionallyManagedCompositeIdentifierDisabled ? CompositeIdentifier<Comment, ['id', 'content']> : OptionallyManagedCompositeIdentifier<Comment, ['id', 'content']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
@@ -149,7 +149,7 @@ export declare const Comment: (new (init: ModelInit<Comment>) => Comment) & {
 exports[`Javascript visitor with connected models of custom pk hasMany/belongsTo relation should generate correct declaration for hasMany uni-connection model with custom index 1`] = `
 "import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, LazyLoadingDisabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, LazyLoadingDisabled, OptionallyManagedCompositeIdentifier, OptionallyManagedCompositeIdentifierDisabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -157,7 +157,7 @@ import { LazyLoading, LazyLoadingDisabled, AsyncCollection } from \\"@aws-amplif
 
 type EagerPost = {
   readonly [__modelMeta__]: {
-    identifier: CompositeIdentifier<Post, ['id', 'title']>;
+    identifier: OptionallyManagedCompositeIdentifier extends OptionallyManagedCompositeIdentifierDisabled ? CompositeIdentifier<Post, ['id', 'title']> : OptionallyManagedCompositeIdentifier<Post, ['id', 'title']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
@@ -169,7 +169,7 @@ type EagerPost = {
 
 type LazyPost = {
   readonly [__modelMeta__]: {
-    identifier: CompositeIdentifier<Post, ['id', 'title']>;
+    identifier: OptionallyManagedCompositeIdentifier extends OptionallyManagedCompositeIdentifierDisabled ? CompositeIdentifier<Post, ['id', 'title']> : OptionallyManagedCompositeIdentifier<Post, ['id', 'title']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
@@ -187,7 +187,7 @@ export declare const Post: (new (init: ModelInit<Post>) => Post) & {
 
 type EagerComment = {
   readonly [__modelMeta__]: {
-    identifier: CompositeIdentifier<Comment, ['id', 'content']>;
+    identifier: OptionallyManagedCompositeIdentifier extends OptionallyManagedCompositeIdentifierDisabled ? CompositeIdentifier<Comment, ['id', 'content']> : OptionallyManagedCompositeIdentifier<Comment, ['id', 'content']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
@@ -200,7 +200,7 @@ type EagerComment = {
 
 type LazyComment = {
   readonly [__modelMeta__]: {
-    identifier: CompositeIdentifier<Comment, ['id', 'content']>;
+    identifier: OptionallyManagedCompositeIdentifier extends OptionallyManagedCompositeIdentifierDisabled ? CompositeIdentifier<Comment, ['id', 'content']> : OptionallyManagedCompositeIdentifier<Comment, ['id', 'content']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
@@ -221,7 +221,7 @@ export declare const Comment: (new (init: ModelInit<Comment>) => Comment) & {
 exports[`Javascript visitor with connected models of custom pk hasOne/belongsTo relation should generate correct declaration when custom pk support is enabled 1`] = `
 "import { ModelInit, MutableModel, __modelMeta__, CompositeIdentifier } from \\"@aws-amplify/datastore\\";
 // @ts-ignore
-import { LazyLoading, LazyLoadingDisabled, AsyncItem } from \\"@aws-amplify/datastore\\";
+import { LazyLoading, LazyLoadingDisabled, OptionallyManagedCompositeIdentifier, OptionallyManagedCompositeIdentifierDisabled, AsyncItem } from \\"@aws-amplify/datastore\\";
 
 
 
@@ -229,7 +229,7 @@ import { LazyLoading, LazyLoadingDisabled, AsyncItem } from \\"@aws-amplify/data
 
 type EagerProject = {
   readonly [__modelMeta__]: {
-    identifier: CompositeIdentifier<Project, ['id', 'name']>;
+    identifier: OptionallyManagedCompositeIdentifier extends OptionallyManagedCompositeIdentifierDisabled ? CompositeIdentifier<Project, ['id', 'name']> : OptionallyManagedCompositeIdentifier<Project, ['id', 'name']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
@@ -243,7 +243,7 @@ type EagerProject = {
 
 type LazyProject = {
   readonly [__modelMeta__]: {
-    identifier: CompositeIdentifier<Project, ['id', 'name']>;
+    identifier: OptionallyManagedCompositeIdentifier extends OptionallyManagedCompositeIdentifierDisabled ? CompositeIdentifier<Project, ['id', 'name']> : OptionallyManagedCompositeIdentifier<Project, ['id', 'name']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
@@ -263,7 +263,7 @@ export declare const Project: (new (init: ModelInit<Project>) => Project) & {
 
 type EagerTeam = {
   readonly [__modelMeta__]: {
-    identifier: CompositeIdentifier<Team, ['id', 'name']>;
+    identifier: OptionallyManagedCompositeIdentifier extends OptionallyManagedCompositeIdentifierDisabled ? CompositeIdentifier<Team, ['id', 'name']> : OptionallyManagedCompositeIdentifier<Team, ['id', 'name']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
@@ -277,7 +277,7 @@ type EagerTeam = {
 
 type LazyTeam = {
   readonly [__modelMeta__]: {
-    identifier: CompositeIdentifier<Team, ['id', 'name']>;
+    identifier: OptionallyManagedCompositeIdentifier extends OptionallyManagedCompositeIdentifierDisabled ? CompositeIdentifier<Team, ['id', 'name']> : OptionallyManagedCompositeIdentifier<Team, ['id', 'name']>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
