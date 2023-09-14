@@ -131,7 +131,7 @@ describe('AppSyncModelVisitor', () => {
       }
     `;
 
-    const visitor = getVisitor(schema, 'status');
+    const visitor = getVisitor(schema);
     const generatedCode = visitor.generate();
     expect(() => validateJava(generatedCode)).not.toThrow();
     expect(generatedCode).toMatchSnapshot();
