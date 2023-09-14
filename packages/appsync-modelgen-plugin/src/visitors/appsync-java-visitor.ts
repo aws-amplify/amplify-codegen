@@ -36,6 +36,11 @@ export class AppSyncModelJavaVisitor<
   protected additionalPackages: Set<string> = new Set();
   protected usingAuth: boolean = false;
 
+  // We override lazy generation to also only generate lazy models if data store is disabled
+  protected override isGenerateModelsForLazyLoadAndCustomSelectionSet(): boolean {
+    return super.isGenerateModelsForLazyLoadAndCustomSelectionSet() && !(this.config.isDataStoreEnabled ?? false);
+  }
+
   generate(): string {
     // TODO: Remove us, leaving in to be explicit on why this flag is here.
     const shouldUseModelNameFieldInHasManyAndBelongsTo = true;

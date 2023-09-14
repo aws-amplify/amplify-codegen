@@ -9,6 +9,7 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
     schema,
     target,
     directives,
+    isDataStoreEnabled,
 
     // feature flags
     generateIndexRules = true,
@@ -40,6 +41,7 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
       generateModelsForLazyLoadAndCustomSelectionSet,
       codegenVersion: packageVersion,
       overrideOutputDir,
+      isDataStoreEnabled,
     },
     presetConfig: {
       overrideOutputDir,

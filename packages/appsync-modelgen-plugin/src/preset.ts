@@ -4,8 +4,6 @@ import { join } from 'path';
 import { JAVA_SCALAR_MAP, SWIFT_SCALAR_MAP, TYPESCRIPT_SCALAR_MAP, DART_SCALAR_MAP, METADATA_SCALAR_MAP } from './scalars';
 import { LOADER_CLASS_NAME, GENERATED_PACKAGE_NAME } from './configs/java-config';
 import { graphqlName, toUpper } from 'graphql-transformer-common';
-import { pathManager } from '@aws-amplify/amplify-cli-core';
-const { isDataStoreEnabled } = require('graphql-transformer-core');
 
 const APPSYNC_DATA_STORE_CODEGEN_TARGETS = ['java', 'swift', 'javascript', 'typescript', 'dart', 'introspection'];
 
@@ -30,11 +28,11 @@ export type AppSyncModelCodeGenPresetConfig = {
    */
   overrideOutputDir: string | null;
   target: Target;
+  isDataStoreEnabled?: boolean;
 };
 
 const generateJavaPreset = (
   options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>,
-  isDataStoreEnabled: boolean,
   models: TypeDefinitionNode[],
 ): Types.GenerateOptions[] => {
   const config: Types.GenerateOptions[] = [];
@@ -43,8 +41,8 @@ const generateJavaPreset = (
     : [options.baseOutputDir, ...GENERATED_PACKAGE_NAME.split('.')];
 
   // Only generate lazy models if feature flag enabled and datastore is not being used.
-  const generateLazyModels = options.config.generateModelsForLazyLoadAndCustomSelectionSet && !isDataStoreEnabled
-
+  const generateLazyModels = options.config.generateModelsForLazyLoadAndCustomSelectionSet && !options.config.isDataStoreEnabled
+  
   models.forEach(model => {
     const modelName = model.name.value;
     config.push({
@@ -52,7 +50,6 @@ const generateJavaPreset = (
       filename: join(...modelFolder, `${modelName}.java`),
       config: {
         ...options.config,
-        generateModelsForLazyLoadAndCustomSelectionSet: generateLazyModels,
         scalars: { ...JAVA_SCALAR_MAP, ...options.config.scalars },
         selectedType: modelName,
       },
@@ -299,7 +296,7 @@ const generateIntrospectionPreset = (
 };
 
 export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
-  buildGeneratesSection: async (options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>): Promise<Types.GenerateOptions[]> => {
+  buildGeneratesSection: (options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>): Types.GenerateOptions[] => {
     const codeGenTarget = options.config.target;
     const typesToSkip: string[] = ['Query', 'Mutation', 'Subscription'];
     const models: TypeDefinitionNode[] = options.schema.definitions.filter(
@@ -313,9 +310,7 @@ export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
 
         switch (codeGenTarget) {
       case 'java':
-        const path = join(pathManager.getBackendDirPath(), 'api', "<insert-correct-resource-name>");
-        let datastoreEnabled = await isDataStoreEnabled(join(pathManager.getBackendDirPath(), 'api', "wrong"));
-        return generateJavaPreset(options, datastoreEnabled, models);
+        return generateJavaPreset(options, models);
       case 'swift':
         return generateSwiftPreset(options, models);
       case 'javascript':

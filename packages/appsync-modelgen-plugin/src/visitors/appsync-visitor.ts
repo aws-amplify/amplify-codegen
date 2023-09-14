@@ -150,6 +150,13 @@ export interface RawAppSyncModelConfig extends RawConfig {
    * @description semantic version of amplify-codegen package
    */
   codegenVersion: string;
+
+  /**
+   * @name isDataStoreEnabled
+   * @type boolean
+   * @description true if DataStore is enabled on project
+   */
+  isDataStoreEnabled?: boolean;
 }
 
 // Todo: need to figure out how to share config
@@ -165,6 +172,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   improvePluralization?: boolean;
   generateModelsForLazyLoadAndCustomSelectionSet?: boolean;
   codegenVersion?: string;
+  isDataStoreEnabled?: string;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
 
@@ -256,6 +264,7 @@ export class AppSyncModelVisitor<
       improvePluralization: rawConfig.improvePluralization,
       generateModelsForLazyLoadAndCustomSelectionSet: rawConfig.generateModelsForLazyLoadAndCustomSelectionSet,
       codegenVersion: rawConfig.codegenVersion,
+      isDataStoreEnabled: rawConfig.isDataStoreEnabled
     });
 
     const typesUsedInDirectives: string[] = [];
