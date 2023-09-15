@@ -48,7 +48,7 @@ export class AppSyncModelTypeScriptVisitor<
     this.processDirectives(
       shouldUseModelNameFieldInHasManyAndBelongsTo,
       shouldImputeKeyForUniDirectionalHasMany,
-      shouldUseFieldsInAssociatedWithInHasOne
+      shouldUseFieldsInAssociatedWithInHasOne,
     );
     const imports = this.generateImports();
     const enumDeclarations = Object.values(this.enumMap)
@@ -320,7 +320,9 @@ export class AppSyncModelTypeScriptVisitor<
     let nativeType = super.getNativeType(field);
 
     if (this.isEnumType(field)) {
-      nativeType = `${nativeType} | keyof typeof ${this.getEnumName(this.enumMap[typeName])}`;
+      const baseEnumType = `keyof typeof ${this.getEnumName(this.enumMap[typeName])}`;
+      const enumType = field.isList ? `Array<${baseEnumType}>` : baseEnumType;
+      nativeType = `${nativeType} | ${enumType}`;
     }
 
     nativeType = nativeType + nullableTypeUnion;
