@@ -42,7 +42,7 @@ const generateJavaPreset = (
 
   // Only generate lazy models if feature flag enabled and datastore is not being used.
   const generateLazyModels = options.config.generateModelsForLazyLoadAndCustomSelectionSet && !options.config.isDataStoreEnabled
-  
+
   models.forEach(model => {
     const modelName = model.name.value;
     config.push({

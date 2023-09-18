@@ -20,7 +20,7 @@ export type GenerateModelsOptions = {
   target: ModelsTarget;
   directives: string;
   isDataStoreEnabled?: boolean;
-  
+
   // feature flags
   generateIndexRules?: boolean;
   emitAuthProvider?: boolean;
