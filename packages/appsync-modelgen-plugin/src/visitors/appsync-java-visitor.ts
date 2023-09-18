@@ -540,8 +540,8 @@ export class AppSyncModelJavaVisitor<
       const argumentType = this.getNativeType(field, true);
       const argumentName = this.getStepFunctionArgumentName(field);
       const assignment = this.isModelReference(field) ?
-      `this.${fieldName} = new LoadedModelReferenceImpl<>(${argumentName});` :
-      `this.${fieldName} = ${argumentName};`
+        `this.${fieldName} = new LoadedModelReferenceImpl<>(${argumentName});` :
+        `this.${fieldName} = ${argumentName};`
       const body = [`${assignment}`, `return this;`].join('\n');
       builderClassDeclaration.addClassMethod(
         methodName,
