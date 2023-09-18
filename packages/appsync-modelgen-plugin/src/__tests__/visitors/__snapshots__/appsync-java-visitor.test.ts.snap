@@ -7494,6 +7494,206 @@ public final class Todo implements Model {
 "
 `;
 
+exports[`AppSyncModelVisitor should avoid name collision on builder step 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.temporal.Temporal;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the MyObject type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"MyObjects\\")
+public final class MyObject implements Model {
+  public static final QueryField ID = field(\\"MyObject\\", \\"id\\");
+  public static final QueryField TUTORIAL = field(\\"MyObject\\", \\"tutorial\\");
+  public static final QueryField FORM_CUES = field(\\"MyObject\\", \\"formCues\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"TutorialStep\\", isRequired = true) List<TutorialStep> tutorial;
+  private final @ModelField(targetType=\\"FormCue\\", isRequired = true) List<FormCue> formCues;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public List<TutorialStep> getTutorial() {
+      return tutorial;
+  }
+  
+  public List<FormCue> getFormCues() {
+      return formCues;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private MyObject(String id, List<TutorialStep> tutorial, List<FormCue> formCues) {
+    this.id = id;
+    this.tutorial = tutorial;
+    this.formCues = formCues;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      MyObject myObject = (MyObject) obj;
+      return ObjectsCompat.equals(getId(), myObject.getId()) &&
+              ObjectsCompat.equals(getTutorial(), myObject.getTutorial()) &&
+              ObjectsCompat.equals(getFormCues(), myObject.getFormCues()) &&
+              ObjectsCompat.equals(getCreatedAt(), myObject.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), myObject.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getTutorial())
+      .append(getFormCues())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"MyObject {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"tutorial=\\" + String.valueOf(getTutorial()) + \\", \\")
+      .append(\\"formCues=\\" + String.valueOf(getFormCues()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static TutorialBuildStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static MyObject justId(String id) {
+    return new MyObject(
+      id,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      tutorial,
+      formCues);
+  }
+  public interface TutorialBuildStep {
+    FormCuesStep tutorial(List<TutorialStep> tutorial);
+  }
+  
+
+  public interface FormCuesStep {
+    BuildStep formCues(List<FormCue> formCues);
+  }
+  
+
+  public interface BuildStep {
+    MyObject build();
+    BuildStep id(String id);
+  }
+  
+
+  public static class Builder implements TutorialBuildStep, FormCuesStep, BuildStep {
+    private String id;
+    private List<TutorialStep> tutorial;
+    private List<FormCue> formCues;
+    @Override
+     public MyObject build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new MyObject(
+          id,
+          tutorial,
+          formCues);
+    }
+    
+    @Override
+     public FormCuesStep tutorial(List<TutorialStep> tutorial) {
+        Objects.requireNonNull(tutorial);
+        this.tutorial = tutorial;
+        return this;
+    }
+    
+    @Override
+     public BuildStep formCues(List<FormCue> formCues) {
+        Objects.requireNonNull(formCues);
+        this.formCues = formCues;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, List<TutorialStep> tutorial, List<FormCue> formCues) {
+      super.id(id);
+      super.tutorial(tutorial)
+        .formCues(formCues);
+    }
+    
+    @Override
+     public CopyOfBuilder tutorial(List<TutorialStep> tutorial) {
+      return (CopyOfBuilder) super.tutorial(tutorial);
+    }
+    
+    @Override
+     public CopyOfBuilder formCues(List<FormCue> formCues) {
+      return (CopyOfBuilder) super.formCues(formCues);
+    }
+  }
+  
+}
+"
+`;
+
 exports[`AppSyncModelVisitor should generate Temporal type for AWSDate* scalars 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
