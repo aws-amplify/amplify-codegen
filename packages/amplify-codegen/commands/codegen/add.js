@@ -10,7 +10,7 @@ module.exports = {
       const { options = {} } = context.parameters;
       const keys = Object.keys(options);
       // frontend and framework are undocumented, but are read when apiId is also supplied
-      const { apiId = null, region, yes, frontend, framework, ...rest } = options;
+      const { apiId = null, region, yes, frontend, framework, debug, ...rest } = options;
       const extraOptions = Object.keys(rest);
       if (extraOptions.length) {
         const paramMsg = extraOptions.length > 1 ? 'Invalid parameters' : 'Invalid parameter';
