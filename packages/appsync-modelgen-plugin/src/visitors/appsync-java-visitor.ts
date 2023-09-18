@@ -22,7 +22,7 @@ import {
   CodeGenModel,
   CodeGenPrimaryKeyType,
   ParsedAppSyncModelConfig,
-  RawAppSyncModelConfig
+  RawAppSyncModelConfig,
 } from './appsync-visitor';
 import { CodeGenConnectionType } from '../utils/process-connections';
 import { AuthDirective, AuthStrategy } from '../utils/process-auth';
@@ -46,10 +46,7 @@ export class AppSyncModelJavaVisitor<
     const shouldUseModelNameFieldInHasManyAndBelongsTo = true;
     // This flag is going to be used to tight-trigger on JS implementations only.
     const shouldImputeKeyForUniDirectionalHasMany = false;
-    this.processDirectives(
-      shouldUseModelNameFieldInHasManyAndBelongsTo,
-      shouldImputeKeyForUniDirectionalHasMany
-    );
+    this.processDirectives(shouldUseModelNameFieldInHasManyAndBelongsTo, shouldImputeKeyForUniDirectionalHasMany);
 
     if (this._parsedConfig.generate === CodeGenGenerateEnum.loader) {
       return this.generateClassLoader();
@@ -399,7 +396,13 @@ export class AppSyncModelJavaVisitor<
    * @param classDeclaration
    */
   protected generateIdentifierClassField(model: CodeGenModel, classDeclaration: JavaDeclarationBlock): void {
-    classDeclaration.addClassMember(this.getModelIdentifierClassFieldName(model), this.getModelIdentifierClassName(model), '', undefined, 'private');
+    classDeclaration.addClassMember(
+      this.getModelIdentifierClassFieldName(model),
+      this.getModelIdentifierClassName(model),
+      '',
+      undefined,
+      'private',
+    );
   }
   /**
    * Generate step builder interfaces for each non-null field in the model
@@ -408,11 +411,15 @@ export class AppSyncModelJavaVisitor<
   protected generateStepBuilderInterfaces(model: CodeGenModel, isIdAsModelPrimaryKey: boolean = true): JavaDeclarationBlock[] {
     const nonNullableFields = this.getWritableFields(model).filter(field => this.isRequiredField(field));
     const nullableFields = this.getWritableFields(model).filter(field => !this.isRequiredField(field));
-    const requiredInterfaces = nonNullableFields.filter((field: CodeGenField) => !(isIdAsModelPrimaryKey && this.READ_ONLY_FIELDS.includes(field.name)));
+    const requiredInterfaces = nonNullableFields.filter(
+      (field: CodeGenField) => !(isIdAsModelPrimaryKey && this.READ_ONLY_FIELDS.includes(field.name)),
+    );
+    const types = this.getTypesUsedByModel(model);
+
     const interfaces = requiredInterfaces.map((field, idx) => {
       const isLastField = requiredInterfaces.length - 1 === idx ? true : false;
       const returnType = isLastField ? 'Build' : requiredInterfaces[idx + 1].name;
-      const interfaceName = this.getStepInterfaceName(field.name);
+      const interfaceName = this.getStepInterfaceName(field.name, types);
       const methodName = this.getStepFunctionName(field);
       const argumentType = this.getNativeType(field, true);
       const argumentName = this.getStepFunctionArgumentName(field);
@@ -420,14 +427,16 @@ export class AppSyncModelJavaVisitor<
         .asKind('interface')
         .withName(interfaceName)
         .access('public');
-      interfaceDeclaration.withBlock(indent(`${this.getStepInterfaceName(returnType)} ${methodName}(${argumentType} ${argumentName});`));
+      interfaceDeclaration.withBlock(
+        indent(`${this.getStepInterfaceName(returnType, types)} ${methodName}(${argumentType} ${argumentName});`),
+      );
       return interfaceDeclaration;
     });
 
     // Builder
     const builder = new JavaDeclarationBlock()
       .asKind('interface')
-      .withName(this.getStepInterfaceName('Build'))
+      .withName(this.getStepInterfaceName('Build', types))
       .access('public');
     const builderBody = [];
     // build method
@@ -435,13 +444,13 @@ export class AppSyncModelJavaVisitor<
 
     if (isIdAsModelPrimaryKey) {
       // id method. Special case as this can throw exception
-      builderBody.push(`${this.getStepInterfaceName('Build')} id(String id);`);
+      builderBody.push(`${this.getStepInterfaceName('Build', types)} id(String id);`);
     }
 
     nullableFields.forEach(field => {
       const fieldName = this.getStepFunctionArgumentName(field);
       const methodName = this.getStepFunctionName(field);
-      builderBody.push(`${this.getStepInterfaceName('Build')} ${methodName}(${this.getNativeType(field, true)} ${fieldName});`);
+      builderBody.push(`${this.getStepInterfaceName('Build', types)} ${methodName}(${this.getNativeType(field, true)} ${fieldName});`);
     });
 
     builder.withBlock(indentMultiline(builderBody.join('\n')));
@@ -456,15 +465,18 @@ export class AppSyncModelJavaVisitor<
   protected generateBuilderClass(model: CodeGenModel, classDeclaration: JavaDeclarationBlock, isIdAsModelPrimaryKey: boolean = true): void {
     const nonNullableFields = this.getWritableFields(model).filter(field => this.isRequiredField(field));
     const nullableFields = this.getWritableFields(model).filter(field => !this.isRequiredField(field));
-    const stepFields = nonNullableFields.filter((field: CodeGenField) => !(isIdAsModelPrimaryKey && this.READ_ONLY_FIELDS.includes(field.name)));
-    const stepInterfaces = stepFields.map((field: CodeGenField) => this.getStepInterfaceName(field.name));
+    const stepFields = nonNullableFields.filter(
+      (field: CodeGenField) => !(isIdAsModelPrimaryKey && this.READ_ONLY_FIELDS.includes(field.name)),
+    );
+    const types = this.getTypesUsedByModel(model);
+    const stepInterfaces = stepFields.map((field: CodeGenField) => this.getStepInterfaceName(field.name, types));
 
     const builderClassDeclaration = new JavaDeclarationBlock()
       .access('public')
       .static()
       .asKind('class')
       .withName('Builder')
-      .implements([...stepInterfaces, this.getStepInterfaceName('Build')]);
+      .implements([...stepInterfaces, this.getStepInterfaceName('Build', types)]);
 
     // Add private instance fields
     [...nonNullableFields, ...nullableFields].forEach((field: CodeGenField) => {
@@ -492,7 +504,9 @@ export class AppSyncModelJavaVisitor<
 
     // methods
     // build();
-    const buildImplementation = isIdAsModelPrimaryKey ? [`String id = this.id != null ? this.id : UUID.randomUUID().toString();`, ''] : [''];
+    const buildImplementation = isIdAsModelPrimaryKey
+      ? [`String id = this.id != null ? this.id : UUID.randomUUID().toString();`, '']
+      : [''];
     const buildParams = this.getWritableFields(model)
       .map(field => this.getFieldName(field))
       .join(',\n');
@@ -513,7 +527,7 @@ export class AppSyncModelJavaVisitor<
       const isLastStep = idx === fields.length - 1;
       const fieldName = this.getFieldName(field);
       const methodName = this.getStepFunctionName(field);
-      const returnType = isLastStep ? this.getStepInterfaceName('Build') : this.getStepInterfaceName(fields[idx + 1].name);
+      const returnType = isLastStep ? this.getStepInterfaceName('Build', types) : this.getStepInterfaceName(fields[idx + 1].name, types);
       const argumentType = this.getNativeType(field, true);
       const argumentName = this.getStepFunctionArgumentName(field);
       const assignment = this.isModelReference(field) ?
@@ -536,7 +550,7 @@ export class AppSyncModelJavaVisitor<
     nullableFields.forEach((field: CodeGenField) => {
       const fieldName = this.getFieldName(field);
       const methodName = this.getStepFunctionName(field);
-      const returnType = this.getStepInterfaceName('Build');
+      const returnType = this.getStepInterfaceName('Build', types);
       const argumentType = this.getNativeType(field, true);
       const argumentName = this.getStepFunctionArgumentName(field);
       const assignment = this.isModelReference(field) ?
@@ -566,7 +580,7 @@ export class AppSyncModelJavaVisitor<
 
       builderClassDeclaration.addClassMethod(
         'id',
-        this.getStepInterfaceName('Build'),
+        this.getStepInterfaceName('Build', types),
         indentMultiline(idBuildStepBody),
         [{ name: 'id', type: 'String' }],
         [],
@@ -587,7 +601,11 @@ export class AppSyncModelJavaVisitor<
    * @param model
    * @param classDeclaration
    */
-  protected generateCopyOfBuilderClass(model: CodeGenModel, classDeclaration: JavaDeclarationBlock, isIdAsModelPrimaryKey: boolean = true): void {
+  protected generateCopyOfBuilderClass(
+    model: CodeGenModel,
+    classDeclaration: JavaDeclarationBlock,
+    isIdAsModelPrimaryKey: boolean = true,
+  ): void {
     const builderName = 'CopyOfBuilder';
     const copyOfBuilderClassDeclaration = new JavaDeclarationBlock()
       .access('public')
@@ -674,11 +692,11 @@ export class AppSyncModelJavaVisitor<
     primaryKeyClassDeclaration.addClassMember('serialVersionUID', 'long', '1L', [], 'private', { static: true, final: true });
     // constructor
     const primaryKeyComponentFields: CodeGenField[] = [primaryKeyField, ...sortKeyFields];
-    const constructorParams = primaryKeyComponentFields.map(field => ({name: this.getFieldName(field), type: this.getNativeType(field)}));
+    const constructorParams = primaryKeyComponentFields.map(field => ({ name: this.getFieldName(field), type: this.getNativeType(field) }));
     const constructorImpl = `super(${primaryKeyComponentFields.map(field => this.getFieldName(field)).join(', ')});`;
     primaryKeyClassDeclaration.addClassMethod(modelPrimaryKeyClassName, null, constructorImpl, constructorParams, [], 'public');
     classDeclaration.nestedClass(primaryKeyClassDeclaration);
-}
+  }
 
   /**
    * adds a copyOfBuilder method to the Model class. This method is used to create a copy of the model to mutate it
@@ -705,12 +723,27 @@ export class AppSyncModelJavaVisitor<
     const body = isCompositeKey
       ? [
           `if (${modelIdentifierClassFieldName} == null) {`,
-          indent(`this.${modelIdentifierClassFieldName} = new ${this.getModelIdentifierClassName(model)}(${[primaryKeyField, ...sortKeyFields].map(f => this.getFieldName(f)).join(', ')});`),
+          indent(
+            `this.${modelIdentifierClassFieldName} = new ${this.getModelIdentifierClassName(model)}(${[primaryKeyField, ...sortKeyFields]
+              .map(f => this.getFieldName(f))
+              .join(', ')});`,
+          ),
           '}',
-          `return ${modelIdentifierClassFieldName};`
+          `return ${modelIdentifierClassFieldName};`,
         ].join('\n')
       : `return ${this.getFieldName(primaryKeyField)};`;
-    declarationsBlock.addClassMethod('resolveIdentifier', returnType, body, [], [], 'public', {}, ["Deprecated"], [], "@deprecated This API is internal to Amplify and should not be used.");
+    declarationsBlock.addClassMethod(
+      'resolveIdentifier',
+      returnType,
+      body,
+      [],
+      [],
+      'public',
+      {},
+      ['Deprecated'],
+      [],
+      '@deprecated This API is internal to Amplify and should not be used.',
+    );
   }
 
   /**
@@ -908,11 +941,18 @@ export class AppSyncModelJavaVisitor<
    * @param model
    * @param classDeclaration
    */
-  protected generateBuilderMethod(model: CodeGenModel, classDeclaration: JavaDeclarationBlock, isIdAsModelPrimaryKey: boolean = true): void {
+  protected generateBuilderMethod(
+    model: CodeGenModel,
+    classDeclaration: JavaDeclarationBlock,
+    isIdAsModelPrimaryKey: boolean = true,
+  ): void {
     const requiredFields = this.getWritableFields(model).filter(
       field => !field.isNullable && !(isIdAsModelPrimaryKey && this.READ_ONLY_FIELDS.includes(field.name)),
     );
-    const returnType = requiredFields.length ? this.getStepInterfaceName(requiredFields[0].name) : this.getStepInterfaceName('Build');
+    const types = this.getTypesUsedByModel(model);
+    const returnType = requiredFields.length
+      ? this.getStepInterfaceName(requiredFields[0].name, types)
+      : this.getStepInterfaceName('Build', types);
     classDeclaration.addClassMethod(
       'builder',
       returnType,
@@ -928,10 +968,27 @@ export class AppSyncModelJavaVisitor<
   /**
    * Generate the name of the step builder interface
    * @param nextFieldName: string
+   * @param types: string - set of types for all fields on model
    * @returns string
    */
-  private getStepInterfaceName(nextFieldName: string): string {
-    return `${pascalCase(nextFieldName)}Step`;
+  private getStepInterfaceName(nextFieldName: string, types: Set<string>): string {
+    const pascalCaseFieldName = pascalCase(nextFieldName);
+    const stepInterfaceName = `${pascalCaseFieldName}Step`;
+
+    if (types.has(stepInterfaceName)) {
+      return `${pascalCaseFieldName}BuildStep`;
+    }
+
+    return stepInterfaceName;
+  }
+
+  /**
+   * Get set of all types used by a model
+   * @param model
+   * @return Set<string>
+   */
+  private getTypesUsedByModel(model: CodeGenModel): Set<string> {
+    return new Set(model.fields.map(field => field.type));
   }
 
   protected generateModelAnnotations(model: CodeGenModel): string[] {

@@ -11,17 +11,12 @@ const defaultJavaVisitorSettings = {
   transformerVersion: 1,
   generate: CodeGenGenerateEnum.code,
   respectPrimaryKeyAttributesOnConnectionField: false,
-}
+};
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-
-const getVisitor = (
-  schema: string,
-  selectedType?: string,
-  settings: any = {}
-) => {
+const getVisitor = (schema: string, selectedType?: string, settings: any = {}) => {
   const visitorConfig = { ...defaultJavaVisitorSettings, ...settings };
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -31,7 +26,7 @@ const getVisitor = (
       directives,
       target: 'java',
       scalars: JAVA_SCALAR_MAP,
-      ...visitorConfig
+      ...visitorConfig,
     },
     { selectedType },
   );
@@ -39,11 +34,7 @@ const getVisitor = (
   return visitor;
 };
 
-const getVisitorPipelinedTransformer = (
-  schema: string,
-  selectedType?: string,
-  settings: any = {}
-) => {
+const getVisitorPipelinedTransformer = (schema: string, selectedType?: string, settings: any = {}) => {
   return getVisitor(schema, selectedType, { ...settings, transformerVersion: 2 });
 };
 
@@ -210,6 +201,30 @@ describe('AppSyncModelVisitor', () => {
       }
     `;
     const visitor = getVisitor(schema, 'authorBook');
+    const generatedCode = visitor.generate();
+    expect(() => validateJava(generatedCode)).not.toThrow();
+    expect(generatedCode).toMatchSnapshot();
+  });
+
+  it('should avoid name collision on builder step', () => {
+    const schema = /* GraphQL */ `
+      type TutorialStep {
+        position: Int!
+        text: String!
+      }
+
+      type FormCue {
+        position: Int!
+        text: String!
+      }
+
+      type MyObject @model {
+        id: ID!
+        tutorial: [TutorialStep!]!
+        formCues: [FormCue!]!
+      }
+    `;
+    const visitor = getVisitor(schema, 'MyObject');
     const generatedCode = visitor.generate();
     expect(() => validateJava(generatedCode)).not.toThrow();
     expect(generatedCode).toMatchSnapshot();
@@ -596,7 +611,7 @@ describe('AppSyncModelVisitor', () => {
           content: String
           tags: [Tag] @manyToMany(relationName: "PostTags")
         }
-        
+
         type Tag @model {
           id: ID!
           label: String!
@@ -614,17 +629,17 @@ describe('AppSyncModelVisitor', () => {
       type Blog @model {
         id: ID!
         name: String!
-        blogOwner: BlogOwnerWithCustomPKS!@belongsTo
+        blogOwner: BlogOwnerWithCustomPKS! @belongsTo
         posts: [Post] @hasMany
       }
-      
+
       type BlogOwnerWithCustomPKS @model {
         id: ID!
-        name: String!@primaryKey(sortKeyFields: ["wea"])
+        name: String! @primaryKey(sortKeyFields: ["wea"])
         wea: String!
         blogs: [Blog] @hasMany
       }
-      
+
       type Post @model {
         postId: ID! @primaryKey
         title: String!
@@ -637,32 +652,40 @@ describe('AppSyncModelVisitor', () => {
 
       type Comment @model {
         post: Post @belongsTo
-        title: String! @primaryKey(sortKeyFields: ["content","likes"])
+        title: String! @primaryKey(sortKeyFields: ["content", "likes"])
         content: String!
         likes: Int!
         description: String
       }
     `;
     it('Should generate correct model file for default id as primary key type', () => {
-      const generatedCode = getVisitorPipelinedTransformer(schema, `Blog`, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      const generatedCode = getVisitorPipelinedTransformer(schema, `Blog`, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
       expect(() => validateJava(generatedCode)).not.toThrow();
       expect(generatedCode).toMatchSnapshot();
     });
     it('Should generate correct model file for custom primary key type', () => {
-      const generatedCode = getVisitorPipelinedTransformer(schema, `Post`, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      const generatedCode = getVisitorPipelinedTransformer(schema, `Post`, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
       expect(() => validateJava(generatedCode)).not.toThrow();
       expect(generatedCode).toMatchSnapshot();
     });
     it('Should generate correct model file for composite key type without id field defined', () => {
-      const generatedCode = getVisitorPipelinedTransformer(schema, `Comment`, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      const generatedCode = getVisitorPipelinedTransformer(schema, `Comment`, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
       expect(generatedCode).toMatchSnapshot();
     });
     it('Should generate correct model file for composite key type with id field defined', () => {
-      const generatedCode = getVisitorPipelinedTransformer(schema, `BlogOwnerWithCustomPKS`, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      const generatedCode = getVisitorPipelinedTransformer(schema, `BlogOwnerWithCustomPKS`, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
       expect(generatedCode).toMatchSnapshot();
     });
   });
-  
+
   describe('Custom primary key for connected model tests', () => {
     it('Should generate correct model file for hasOne & belongsTo relation with composite primary key when CPK is enabled', () => {
       const schema = /* GraphQL */ `
@@ -678,8 +701,12 @@ describe('AppSyncModelVisitor', () => {
           project: Project @belongsTo
         }
       `;
-      const generatedCodeProject = getVisitorPipelinedTransformer(schema, `Project`, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
-      const generatedCodeTeam = getVisitorPipelinedTransformer(schema, `Team`, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      const generatedCodeProject = getVisitorPipelinedTransformer(schema, `Project`, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedCodeTeam = getVisitorPipelinedTransformer(schema, `Team`, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
       expect(generatedCodeProject).toMatchSnapshot();
       expect(generatedCodeTeam).toMatchSnapshot();
     });
@@ -690,14 +717,18 @@ describe('AppSyncModelVisitor', () => {
           title: String!
           comments: [Comment] @hasMany
         }
-        
+
         type Comment @model {
           id: ID! @primaryKey(sortKeyFields: ["content"])
           content: String!
         }
       `;
-      const generatedCodePost = getVisitorPipelinedTransformer(schema, 'Post', { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
-      const generatedCodeComment = getVisitorPipelinedTransformer(schema, 'Comment', { respectPrimaryKeyAttributesOnConnectionField: true }).generate();      
+      const generatedCodePost = getVisitorPipelinedTransformer(schema, 'Post', {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedCodeComment = getVisitorPipelinedTransformer(schema, 'Comment', {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
       expect(generatedCodePost).toMatchSnapshot();
       expect(generatedCodeComment).toMatchSnapshot();
     });
@@ -713,7 +744,9 @@ describe('AppSyncModelVisitor', () => {
           rating: Float!
         }
       `;
-      const generatedCodeMyPost = getVisitorPipelinedTransformer(schema, `MyPost`, { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
+      const generatedCodeMyPost = getVisitorPipelinedTransformer(schema, `MyPost`, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
       expect(generatedCodeMyPost).toMatchSnapshot();
     });
     it('Should generate ModelIdentifier factory with resolveIdentifier returning Java types matching graphql scalar conversion', () => {
@@ -725,15 +758,21 @@ describe('AppSyncModelVisitor', () => {
         type IdModel @model {
           customKey: ID! @primaryKey
         }
-        
+
         type IntModel @model {
           customKey: Int! @primaryKey
         }
       `;
-      const generatedCodeStringModel= getVisitorPipelinedTransformer(schema, 'StringModel', { respectPrimaryKeyAttributesOnConnectionField: true }).generate();
-      const generatedCodeIdModel = getVisitorPipelinedTransformer(schema, 'IdModel', { respectPrimaryKeyAttributesOnConnectionField: true }).generate();     
-      const generatedCodeIntModel = getVisitorPipelinedTransformer(schema, 'IntModel', { respectPrimaryKeyAttributesOnConnectionField: true }).generate();      
- 
+      const generatedCodeStringModel = getVisitorPipelinedTransformer(schema, 'StringModel', {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedCodeIdModel = getVisitorPipelinedTransformer(schema, 'IdModel', {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+      const generatedCodeIntModel = getVisitorPipelinedTransformer(schema, 'IntModel', {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate();
+
       expect(generatedCodeStringModel).toMatchSnapshot();
       expect(generatedCodeIdModel).toMatchSnapshot();
       expect(generatedCodeIntModel).toMatchSnapshot();
