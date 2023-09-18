@@ -168,7 +168,7 @@ export function generateModelIntrospection(cwd: string, settings: { outputDir?: 
 // CLI workflow to add codegen to non-Amplify JS project
 export function addCodegenNonAmplifyJS(cwd: string): Promise<void> {
   return new Promise((resolve, reject) => {
-    const cmdOptions = ['codegen', 'add', '--apiId', 'mockapiid'];
+    const cmdOptions = ['codegen', 'add'];
     const chain = spawn(getCLIPath(), cmdOptions, { cwd, stripColors: true });
     chain
       .wait("Choose the type of app that you're building")
