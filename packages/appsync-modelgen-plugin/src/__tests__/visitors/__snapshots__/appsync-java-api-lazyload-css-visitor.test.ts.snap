@@ -1,5 +1,3862 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`AppSyncModelVisitor API only Should generate for DefaultPKParent DefaultPKChild models 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.HasMany;
+import com.amplifyframework.core.model.ModelList;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.model.annotations.BelongsTo;
+import com.amplifyframework.core.model.ModelReference;
+import com.amplifyframework.core.model.LoadedModelReferenceImpl;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the DefaultPKParent type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"DefaultPKParents\\", hasLazySupport = true)
+@Index(name = \\"undefined\\", fields = {\\"id\\"})
+public final class DefaultPKParent implements Model {
+  public static final DefaultPKParentPath rootPath = new DefaultPKParentPath(\\"root\\", false, null);
+  public static final QueryField ID = field(\\"DefaultPKParent\\", \\"id\\");
+  public static final QueryField CONTENT = field(\\"DefaultPKParent\\", \\"content\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\") String content;
+  private final @ModelField(targetType=\\"DefaultPKChild\\") @HasMany(associatedWith = \\"parent\\", type = DefaultPKChild.class) ModelList<DefaultPKChild> children = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public ModelList<DefaultPKChild> getChildren() {
+      return children;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private DefaultPKParent(String id, String content) {
+    this.id = id;
+    this.content = content;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      DefaultPKParent defaultPkParent = (DefaultPKParent) obj;
+      return ObjectsCompat.equals(getId(), defaultPkParent.getId()) &&
+              ObjectsCompat.equals(getContent(), defaultPkParent.getContent()) &&
+              ObjectsCompat.equals(getCreatedAt(), defaultPkParent.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), defaultPkParent.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getContent())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"DefaultPKParent {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BuildStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static DefaultPKParent justId(String id) {
+    return new DefaultPKParent(
+      id,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      content);
+  }
+  public interface BuildStep {
+    DefaultPKParent build();
+    BuildStep id(String id);
+    BuildStep content(String content);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private String content;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String content) {
+      this.id = id;
+      this.content = content;
+    }
+    
+    @Override
+     public DefaultPKParent build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new DefaultPKParent(
+          id,
+          content);
+    }
+    
+    @Override
+     public BuildStep content(String content) {
+        this.content = content;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String content) {
+      super(id, content);
+      
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+  }
+  
+}
+
+/** This is an auto generated class representing the DefaultPKChild type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"DefaultPKChildren\\", hasLazySupport = true)
+@Index(name = \\"undefined\\", fields = {\\"id\\"})
+public final class DefaultPKChild implements Model {
+  public static final DefaultPKChildPath rootPath = new DefaultPKChildPath(\\"root\\", false, null);
+  public static final QueryField ID = field(\\"DefaultPKChild\\", \\"id\\");
+  public static final QueryField CONTENT = field(\\"DefaultPKChild\\", \\"content\\");
+  public static final QueryField PARENT = field(\\"DefaultPKChild\\", \\"defaultPKParentChildrenId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\") String content;
+  private final @ModelField(targetType=\\"DefaultPKParent\\") @BelongsTo(targetName = \\"defaultPKParentChildrenId\\", type = DefaultPKParent.class) ModelReference<DefaultPKParent> parent;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public ModelReference<DefaultPKParent> getParent() {
+      return parent;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private DefaultPKChild(String id, String content, ModelReference<DefaultPKParent> parent) {
+    this.id = id;
+    this.content = content;
+    this.parent = parent;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      DefaultPKChild defaultPkChild = (DefaultPKChild) obj;
+      return ObjectsCompat.equals(getId(), defaultPkChild.getId()) &&
+              ObjectsCompat.equals(getContent(), defaultPkChild.getContent()) &&
+              ObjectsCompat.equals(getParent(), defaultPkChild.getParent()) &&
+              ObjectsCompat.equals(getCreatedAt(), defaultPkChild.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), defaultPkChild.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getContent())
+      .append(getParent())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"DefaultPKChild {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"parent=\\" + String.valueOf(getParent()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BuildStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static DefaultPKChild justId(String id) {
+    return new DefaultPKChild(
+      id,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      content,
+      parent);
+  }
+  public interface BuildStep {
+    DefaultPKChild build();
+    BuildStep id(String id);
+    BuildStep content(String content);
+    BuildStep parent(DefaultPKParent parent);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private String content;
+    private ModelReference<DefaultPKParent> parent;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String content, ModelReference<DefaultPKParent> parent) {
+      this.id = id;
+      this.content = content;
+      this.parent = parent;
+    }
+    
+    @Override
+     public DefaultPKChild build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new DefaultPKChild(
+          id,
+          content,
+          parent);
+    }
+    
+    @Override
+     public BuildStep content(String content) {
+        this.content = content;
+        return this;
+    }
+    
+    @Override
+     public BuildStep parent(DefaultPKParent parent) {
+        this.parent = new LoadedModelReferenceImpl<>(parent);
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String content, ModelReference<DefaultPKParent> parent) {
+      super(id, content, parent);
+      
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+    
+    @Override
+     public CopyOfBuilder parent(DefaultPKParent parent) {
+      return (CopyOfBuilder) super.parent(parent);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncModelVisitor API only Should generate for HasOneParent HasOneChild models 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.HasOne;
+import com.amplifyframework.core.model.ModelReference;
+import com.amplifyframework.core.model.LoadedModelReferenceImpl;
+import com.amplifyframework.core.model.temporal.Temporal;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the HasOneParent type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"HasOneParents\\", hasLazySupport = true)
+@Index(name = \\"undefined\\", fields = {\\"id\\"})
+public final class HasOneParent implements Model {
+  public static final HasOneParentPath rootPath = new HasOneParentPath(\\"root\\", false, null);
+  public static final QueryField ID = field(\\"HasOneParent\\", \\"id\\");
+  public static final QueryField HAS_ONE_PARENT_CHILD_ID = field(\\"HasOneParent\\", \\"hasOneParentChildId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"HasOneChild\\") @HasOne(associatedWith = \\"id\\", type = HasOneChild.class) ModelReference<HasOneChild> child = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType=\\"ID\\") String hasOneParentChildId;
+  public String getId() {
+      return id;
+  }
+  
+  public ModelReference<HasOneChild> getChild() {
+      return child;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  public String getHasOneParentChildId() {
+      return hasOneParentChildId;
+  }
+  
+  private HasOneParent(String id, String hasOneParentChildId) {
+    this.id = id;
+    this.hasOneParentChildId = hasOneParentChildId;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      HasOneParent hasOneParent = (HasOneParent) obj;
+      return ObjectsCompat.equals(getId(), hasOneParent.getId()) &&
+              ObjectsCompat.equals(getCreatedAt(), hasOneParent.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), hasOneParent.getUpdatedAt()) &&
+              ObjectsCompat.equals(getHasOneParentChildId(), hasOneParent.getHasOneParentChildId());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .append(getHasOneParentChildId())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"HasOneParent {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
+      .append(\\"hasOneParentChildId=\\" + String.valueOf(getHasOneParentChildId()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BuildStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static HasOneParent justId(String id) {
+    return new HasOneParent(
+      id,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      hasOneParentChildId);
+  }
+  public interface BuildStep {
+    HasOneParent build();
+    BuildStep id(String id);
+    BuildStep hasOneParentChildId(String hasOneParentChildId);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private String hasOneParentChildId;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String hasOneParentChildId) {
+      this.id = id;
+      this.hasOneParentChildId = hasOneParentChildId;
+    }
+    
+    @Override
+     public HasOneParent build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new HasOneParent(
+          id,
+          hasOneParentChildId);
+    }
+    
+    @Override
+     public BuildStep hasOneParentChildId(String hasOneParentChildId) {
+        this.hasOneParentChildId = hasOneParentChildId;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String hasOneParentChildId) {
+      super(id, hasOneParentChildId);
+      
+    }
+    
+    @Override
+     public CopyOfBuilder hasOneParentChildId(String hasOneParentChildId) {
+      return (CopyOfBuilder) super.hasOneParentChildId(hasOneParentChildId);
+    }
+  }
+  
+}
+
+/** This is an auto generated class representing the HasOneChild type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"HasOneChildren\\", hasLazySupport = true)
+@Index(name = \\"undefined\\", fields = {\\"id\\"})
+public final class HasOneChild implements Model {
+  public static final HasOneChildPath rootPath = new HasOneChildPath(\\"root\\", false, null);
+  public static final QueryField ID = field(\\"HasOneChild\\", \\"id\\");
+  public static final QueryField CONTENT = field(\\"HasOneChild\\", \\"content\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\") String content;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private HasOneChild(String id, String content) {
+    this.id = id;
+    this.content = content;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      HasOneChild hasOneChild = (HasOneChild) obj;
+      return ObjectsCompat.equals(getId(), hasOneChild.getId()) &&
+              ObjectsCompat.equals(getContent(), hasOneChild.getContent()) &&
+              ObjectsCompat.equals(getCreatedAt(), hasOneChild.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), hasOneChild.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getContent())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"HasOneChild {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BuildStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static HasOneChild justId(String id) {
+    return new HasOneChild(
+      id,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      content);
+  }
+  public interface BuildStep {
+    HasOneChild build();
+    BuildStep id(String id);
+    BuildStep content(String content);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private String content;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String content) {
+      this.id = id;
+      this.content = content;
+    }
+    
+    @Override
+     public HasOneChild build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new HasOneChild(
+          id,
+          content);
+    }
+    
+    @Override
+     public BuildStep content(String content) {
+        this.content = content;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String content) {
+      super(id, content);
+      
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncModelVisitor API only should generate for CompositePKParent and (CompositePK, Implicit, StrangeExplicit, ChildSansBelongsTo) Child models 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.HasMany;
+import com.amplifyframework.core.model.ModelList;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.model.annotations.BelongsTo;
+import com.amplifyframework.core.model.ModelReference;
+import com.amplifyframework.core.model.LoadedModelReferenceImpl;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the CompositePKParent type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"CompositePKParents\\", hasLazySupport = true)
+@Index(name = \\"undefined\\", fields = {\\"customId\\",\\"content\\"})
+public final class CompositePKParent implements Model {
+  public static final CompositePKParentPath rootPath = new CompositePKParentPath(\\"root\\", false, null);
+  public static final QueryField ID = field(\\"CompositePKParent\\", \\"id\\");
+  public static final QueryField CUSTOM_ID = field(\\"CompositePKParent\\", \\"customId\\");
+  public static final QueryField CONTENT = field(\\"CompositePKParent\\", \\"content\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String customId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
+  private final @ModelField(targetType=\\"CompositePKChild\\") @HasMany(associatedWith = \\"parent\\", type = CompositePKChild.class) ModelList<CompositePKChild> children = null;
+  private final @ModelField(targetType=\\"ImplicitChild\\") @HasMany(associatedWith = \\"parent\\", type = ImplicitChild.class) ModelList<ImplicitChild> implicitChildren = null;
+  private final @ModelField(targetType=\\"StrangeExplicitChild\\") @HasMany(associatedWith = \\"parent\\", type = StrangeExplicitChild.class) ModelList<StrangeExplicitChild> strangeChildren = null;
+  private final @ModelField(targetType=\\"ChildSansBelongsTo\\") @HasMany(associatedWith = \\"compositePKParentChildrenSansBelongsToId\\", type = ChildSansBelongsTo.class) ModelList<ChildSansBelongsTo> childrenSansBelongsTo = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getCustomId() {
+      return customId;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public ModelList<CompositePKChild> getChildren() {
+      return children;
+  }
+  
+  public ModelList<ImplicitChild> getImplicitChildren() {
+      return implicitChildren;
+  }
+  
+  public ModelList<StrangeExplicitChild> getStrangeChildren() {
+      return strangeChildren;
+  }
+  
+  public ModelList<ChildSansBelongsTo> getChildrenSansBelongsTo() {
+      return childrenSansBelongsTo;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private CompositePKParent(String id, String customId, String content) {
+    this.id = id;
+    this.customId = customId;
+    this.content = content;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      CompositePKParent compositePkParent = (CompositePKParent) obj;
+      return ObjectsCompat.equals(getId(), compositePkParent.getId()) &&
+              ObjectsCompat.equals(getCustomId(), compositePkParent.getCustomId()) &&
+              ObjectsCompat.equals(getContent(), compositePkParent.getContent()) &&
+              ObjectsCompat.equals(getCreatedAt(), compositePkParent.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), compositePkParent.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getCustomId())
+      .append(getContent())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"CompositePKParent {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"customId=\\" + String.valueOf(getCustomId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static CustomIdStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static CompositePKParent justId(String id) {
+    return new CompositePKParent(
+      id,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      customId,
+      content);
+  }
+  public interface CustomIdStep {
+    ContentStep customId(String customId);
+  }
+  
+
+  public interface ContentStep {
+    BuildStep content(String content);
+  }
+  
+
+  public interface BuildStep {
+    CompositePKParent build();
+    BuildStep id(String id);
+  }
+  
+
+  public static class Builder implements CustomIdStep, ContentStep, BuildStep {
+    private String id;
+    private String customId;
+    private String content;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String customId, String content) {
+      this.id = id;
+      this.customId = customId;
+      this.content = content;
+    }
+    
+    @Override
+     public CompositePKParent build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new CompositePKParent(
+          id,
+          customId,
+          content);
+    }
+    
+    @Override
+     public ContentStep customId(String customId) {
+        Objects.requireNonNull(customId);
+        this.customId = customId;
+        return this;
+    }
+    
+    @Override
+     public BuildStep content(String content) {
+        Objects.requireNonNull(content);
+        this.content = content;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String customId, String content) {
+      super(id, customId, content);
+      Objects.requireNonNull(customId);
+      Objects.requireNonNull(content);
+    }
+    
+    @Override
+     public CopyOfBuilder customId(String customId) {
+      return (CopyOfBuilder) super.customId(customId);
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+  }
+  
+}
+
+/** This is an auto generated class representing the CompositePKChild type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"CompositePKChildren\\", hasLazySupport = true)
+@Index(name = \\"undefined\\", fields = {\\"childId\\",\\"content\\"})
+@Index(name = \\"byParent\\", fields = {\\"parentId\\",\\"parentTitle\\"})
+public final class CompositePKChild implements Model {
+  public static final CompositePKChildPath rootPath = new CompositePKChildPath(\\"root\\", false, null);
+  public static final QueryField ID = field(\\"CompositePKChild\\", \\"id\\");
+  public static final QueryField CHILD_ID = field(\\"CompositePKChild\\", \\"childId\\");
+  public static final QueryField CONTENT = field(\\"CompositePKChild\\", \\"content\\");
+  public static final QueryField PARENT = field(\\"CompositePKChild\\", \\"parentId\\");
+  public static final QueryField PARENT_TITLE = field(\\"CompositePKChild\\", \\"parentTitle\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String childId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
+  private final @ModelField(targetType=\\"CompositePKParent\\") @BelongsTo(targetName = \\"parentId\\", type = CompositePKParent.class) ModelReference<CompositePKParent> parent;
+  private final @ModelField(targetType=\\"String\\") String parentTitle;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getChildId() {
+      return childId;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public ModelReference<CompositePKParent> getParent() {
+      return parent;
+  }
+  
+  public String getParentTitle() {
+      return parentTitle;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private CompositePKChild(String id, String childId, String content, ModelReference<CompositePKParent> parent, String parentTitle) {
+    this.id = id;
+    this.childId = childId;
+    this.content = content;
+    this.parent = parent;
+    this.parentTitle = parentTitle;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      CompositePKChild compositePkChild = (CompositePKChild) obj;
+      return ObjectsCompat.equals(getId(), compositePkChild.getId()) &&
+              ObjectsCompat.equals(getChildId(), compositePkChild.getChildId()) &&
+              ObjectsCompat.equals(getContent(), compositePkChild.getContent()) &&
+              ObjectsCompat.equals(getParent(), compositePkChild.getParent()) &&
+              ObjectsCompat.equals(getParentTitle(), compositePkChild.getParentTitle()) &&
+              ObjectsCompat.equals(getCreatedAt(), compositePkChild.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), compositePkChild.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getChildId())
+      .append(getContent())
+      .append(getParent())
+      .append(getParentTitle())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"CompositePKChild {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"childId=\\" + String.valueOf(getChildId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"parent=\\" + String.valueOf(getParent()) + \\", \\")
+      .append(\\"parentTitle=\\" + String.valueOf(getParentTitle()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static ChildIdStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static CompositePKChild justId(String id) {
+    return new CompositePKChild(
+      id,
+      null,
+      null,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      childId,
+      content,
+      parent,
+      parentTitle);
+  }
+  public interface ChildIdStep {
+    ContentStep childId(String childId);
+  }
+  
+
+  public interface ContentStep {
+    BuildStep content(String content);
+  }
+  
+
+  public interface BuildStep {
+    CompositePKChild build();
+    BuildStep id(String id);
+    BuildStep parent(CompositePKParent parent);
+    BuildStep parentTitle(String parentTitle);
+  }
+  
+
+  public static class Builder implements ChildIdStep, ContentStep, BuildStep {
+    private String id;
+    private String childId;
+    private String content;
+    private ModelReference<CompositePKParent> parent;
+    private String parentTitle;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String childId, String content, ModelReference<CompositePKParent> parent, String parentTitle) {
+      this.id = id;
+      this.childId = childId;
+      this.content = content;
+      this.parent = parent;
+      this.parentTitle = parentTitle;
+    }
+    
+    @Override
+     public CompositePKChild build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new CompositePKChild(
+          id,
+          childId,
+          content,
+          parent,
+          parentTitle);
+    }
+    
+    @Override
+     public ContentStep childId(String childId) {
+        Objects.requireNonNull(childId);
+        this.childId = childId;
+        return this;
+    }
+    
+    @Override
+     public BuildStep content(String content) {
+        Objects.requireNonNull(content);
+        this.content = content;
+        return this;
+    }
+    
+    @Override
+     public BuildStep parent(CompositePKParent parent) {
+        this.parent = new LoadedModelReferenceImpl<>(parent);
+        return this;
+    }
+    
+    @Override
+     public BuildStep parentTitle(String parentTitle) {
+        this.parentTitle = parentTitle;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String childId, String content, ModelReference<CompositePKParent> parent, String parentTitle) {
+      super(id, childId, content, parent, parentTitle);
+      Objects.requireNonNull(childId);
+      Objects.requireNonNull(content);
+    }
+    
+    @Override
+     public CopyOfBuilder childId(String childId) {
+      return (CopyOfBuilder) super.childId(childId);
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+    
+    @Override
+     public CopyOfBuilder parent(CompositePKParent parent) {
+      return (CopyOfBuilder) super.parent(parent);
+    }
+    
+    @Override
+     public CopyOfBuilder parentTitle(String parentTitle) {
+      return (CopyOfBuilder) super.parentTitle(parentTitle);
+    }
+  }
+  
+}
+
+/** This is an auto generated class representing the ImplicitChild type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"ImplicitChildren\\", hasLazySupport = true)
+@Index(name = \\"undefined\\", fields = {\\"childId\\",\\"content\\"})
+public final class ImplicitChild implements Model {
+  public static final ImplicitChildPath rootPath = new ImplicitChildPath(\\"root\\", false, null);
+  public static final QueryField ID = field(\\"ImplicitChild\\", \\"id\\");
+  public static final QueryField CHILD_ID = field(\\"ImplicitChild\\", \\"childId\\");
+  public static final QueryField CONTENT = field(\\"ImplicitChild\\", \\"content\\");
+  public static final QueryField PARENT = field(\\"ImplicitChild\\", \\"compositePKParentImplicitChildrenId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String childId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
+  private final @ModelField(targetType=\\"CompositePKParent\\", isRequired = true) @BelongsTo(targetName = \\"compositePKParentImplicitChildrenId\\", type = CompositePKParent.class) ModelReference<CompositePKParent> parent;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getChildId() {
+      return childId;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public ModelReference<CompositePKParent> getParent() {
+      return parent;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private ImplicitChild(String id, String childId, String content, ModelReference<CompositePKParent> parent) {
+    this.id = id;
+    this.childId = childId;
+    this.content = content;
+    this.parent = parent;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      ImplicitChild implicitChild = (ImplicitChild) obj;
+      return ObjectsCompat.equals(getId(), implicitChild.getId()) &&
+              ObjectsCompat.equals(getChildId(), implicitChild.getChildId()) &&
+              ObjectsCompat.equals(getContent(), implicitChild.getContent()) &&
+              ObjectsCompat.equals(getParent(), implicitChild.getParent()) &&
+              ObjectsCompat.equals(getCreatedAt(), implicitChild.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), implicitChild.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getChildId())
+      .append(getContent())
+      .append(getParent())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"ImplicitChild {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"childId=\\" + String.valueOf(getChildId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"parent=\\" + String.valueOf(getParent()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static ChildIdStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static ImplicitChild justId(String id) {
+    return new ImplicitChild(
+      id,
+      null,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      childId,
+      content,
+      parent);
+  }
+  public interface ChildIdStep {
+    ContentStep childId(String childId);
+  }
+  
+
+  public interface ContentStep {
+    ParentStep content(String content);
+  }
+  
+
+  public interface ParentStep {
+    BuildStep parent(CompositePKParent parent);
+  }
+  
+
+  public interface BuildStep {
+    ImplicitChild build();
+    BuildStep id(String id);
+  }
+  
+
+  public static class Builder implements ChildIdStep, ContentStep, ParentStep, BuildStep {
+    private String id;
+    private String childId;
+    private String content;
+    private ModelReference<CompositePKParent> parent;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String childId, String content, ModelReference<CompositePKParent> parent) {
+      this.id = id;
+      this.childId = childId;
+      this.content = content;
+      this.parent = parent;
+    }
+    
+    @Override
+     public ImplicitChild build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new ImplicitChild(
+          id,
+          childId,
+          content,
+          parent);
+    }
+    
+    @Override
+     public ContentStep childId(String childId) {
+        Objects.requireNonNull(childId);
+        this.childId = childId;
+        return this;
+    }
+    
+    @Override
+     public ParentStep content(String content) {
+        Objects.requireNonNull(content);
+        this.content = content;
+        return this;
+    }
+    
+    @Override
+     public BuildStep parent(CompositePKParent parent) {
+        Objects.requireNonNull(parent);
+        this.parent = new LoadedModelReferenceImpl<>(parent);
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String childId, String content, ModelReference<CompositePKParent> parent) {
+      super(id, childId, content, parent);
+      Objects.requireNonNull(childId);
+      Objects.requireNonNull(content);
+      Objects.requireNonNull(parent);
+    }
+    
+    @Override
+     public CopyOfBuilder childId(String childId) {
+      return (CopyOfBuilder) super.childId(childId);
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+    
+    @Override
+     public CopyOfBuilder parent(CompositePKParent parent) {
+      return (CopyOfBuilder) super.parent(parent);
+    }
+  }
+  
+}
+
+/** This is an auto generated class representing the StrangeExplicitChild type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"StrangeExplicitChildren\\", hasLazySupport = true)
+@Index(name = \\"undefined\\", fields = {\\"strangeId\\",\\"content\\"})
+@Index(name = \\"byCompositePKParentX\\", fields = {\\"strangeParentId\\",\\"strangeParentTitle\\"})
+public final class StrangeExplicitChild implements Model {
+  public static final StrangeExplicitChildPath rootPath = new StrangeExplicitChildPath(\\"root\\", false, null);
+  public static final QueryField ID = field(\\"StrangeExplicitChild\\", \\"id\\");
+  public static final QueryField STRANGE_ID = field(\\"StrangeExplicitChild\\", \\"strangeId\\");
+  public static final QueryField CONTENT = field(\\"StrangeExplicitChild\\", \\"content\\");
+  public static final QueryField PARENT = field(\\"StrangeExplicitChild\\", \\"strangeParentId\\");
+  public static final QueryField STRANGE_PARENT_TITLE = field(\\"StrangeExplicitChild\\", \\"strangeParentTitle\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String strangeId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
+  private final @ModelField(targetType=\\"CompositePKParent\\", isRequired = true) @BelongsTo(targetName = \\"strangeParentId\\", type = CompositePKParent.class) ModelReference<CompositePKParent> parent;
+  private final @ModelField(targetType=\\"String\\") String strangeParentTitle;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getStrangeId() {
+      return strangeId;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public ModelReference<CompositePKParent> getParent() {
+      return parent;
+  }
+  
+  public String getStrangeParentTitle() {
+      return strangeParentTitle;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private StrangeExplicitChild(String id, String strangeId, String content, ModelReference<CompositePKParent> parent, String strangeParentTitle) {
+    this.id = id;
+    this.strangeId = strangeId;
+    this.content = content;
+    this.parent = parent;
+    this.strangeParentTitle = strangeParentTitle;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      StrangeExplicitChild strangeExplicitChild = (StrangeExplicitChild) obj;
+      return ObjectsCompat.equals(getId(), strangeExplicitChild.getId()) &&
+              ObjectsCompat.equals(getStrangeId(), strangeExplicitChild.getStrangeId()) &&
+              ObjectsCompat.equals(getContent(), strangeExplicitChild.getContent()) &&
+              ObjectsCompat.equals(getParent(), strangeExplicitChild.getParent()) &&
+              ObjectsCompat.equals(getStrangeParentTitle(), strangeExplicitChild.getStrangeParentTitle()) &&
+              ObjectsCompat.equals(getCreatedAt(), strangeExplicitChild.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), strangeExplicitChild.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getStrangeId())
+      .append(getContent())
+      .append(getParent())
+      .append(getStrangeParentTitle())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"StrangeExplicitChild {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"strangeId=\\" + String.valueOf(getStrangeId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"parent=\\" + String.valueOf(getParent()) + \\", \\")
+      .append(\\"strangeParentTitle=\\" + String.valueOf(getStrangeParentTitle()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static StrangeIdStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static StrangeExplicitChild justId(String id) {
+    return new StrangeExplicitChild(
+      id,
+      null,
+      null,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      strangeId,
+      content,
+      parent,
+      strangeParentTitle);
+  }
+  public interface StrangeIdStep {
+    ContentStep strangeId(String strangeId);
+  }
+  
+
+  public interface ContentStep {
+    ParentStep content(String content);
+  }
+  
+
+  public interface ParentStep {
+    BuildStep parent(CompositePKParent parent);
+  }
+  
+
+  public interface BuildStep {
+    StrangeExplicitChild build();
+    BuildStep id(String id);
+    BuildStep strangeParentTitle(String strangeParentTitle);
+  }
+  
+
+  public static class Builder implements StrangeIdStep, ContentStep, ParentStep, BuildStep {
+    private String id;
+    private String strangeId;
+    private String content;
+    private ModelReference<CompositePKParent> parent;
+    private String strangeParentTitle;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String strangeId, String content, ModelReference<CompositePKParent> parent, String strangeParentTitle) {
+      this.id = id;
+      this.strangeId = strangeId;
+      this.content = content;
+      this.parent = parent;
+      this.strangeParentTitle = strangeParentTitle;
+    }
+    
+    @Override
+     public StrangeExplicitChild build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new StrangeExplicitChild(
+          id,
+          strangeId,
+          content,
+          parent,
+          strangeParentTitle);
+    }
+    
+    @Override
+     public ContentStep strangeId(String strangeId) {
+        Objects.requireNonNull(strangeId);
+        this.strangeId = strangeId;
+        return this;
+    }
+    
+    @Override
+     public ParentStep content(String content) {
+        Objects.requireNonNull(content);
+        this.content = content;
+        return this;
+    }
+    
+    @Override
+     public BuildStep parent(CompositePKParent parent) {
+        Objects.requireNonNull(parent);
+        this.parent = new LoadedModelReferenceImpl<>(parent);
+        return this;
+    }
+    
+    @Override
+     public BuildStep strangeParentTitle(String strangeParentTitle) {
+        this.strangeParentTitle = strangeParentTitle;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String strangeId, String content, ModelReference<CompositePKParent> parent, String strangeParentTitle) {
+      super(id, strangeId, content, parent, strangeParentTitle);
+      Objects.requireNonNull(strangeId);
+      Objects.requireNonNull(content);
+      Objects.requireNonNull(parent);
+    }
+    
+    @Override
+     public CopyOfBuilder strangeId(String strangeId) {
+      return (CopyOfBuilder) super.strangeId(strangeId);
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+    
+    @Override
+     public CopyOfBuilder parent(CompositePKParent parent) {
+      return (CopyOfBuilder) super.parent(parent);
+    }
+    
+    @Override
+     public CopyOfBuilder strangeParentTitle(String strangeParentTitle) {
+      return (CopyOfBuilder) super.strangeParentTitle(strangeParentTitle);
+    }
+  }
+  
+}
+
+/** This is an auto generated class representing the ChildSansBelongsTo type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"ChildSansBelongsTos\\", hasLazySupport = true)
+@Index(name = \\"undefined\\", fields = {\\"childId\\",\\"content\\"})
+@Index(name = \\"byParent\\", fields = {\\"compositePKParentChildrenSansBelongsToCustomId\\",\\"compositePKParentChildrenSansBelongsToContent\\"})
+public final class ChildSansBelongsTo implements Model {
+  public static final ChildSansBelongsToPath rootPath = new ChildSansBelongsToPath(\\"root\\", false, null);
+  public static final QueryField ID = field(\\"ChildSansBelongsTo\\", \\"id\\");
+  public static final QueryField CHILD_ID = field(\\"ChildSansBelongsTo\\", \\"childId\\");
+  public static final QueryField CONTENT = field(\\"ChildSansBelongsTo\\", \\"content\\");
+  public static final QueryField COMPOSITE_PK_PARENT_CHILDREN_SANS_BELONGS_TO_CUSTOM_ID = field(\\"ChildSansBelongsTo\\", \\"compositePKParentChildrenSansBelongsToCustomId\\");
+  public static final QueryField COMPOSITE_PK_PARENT_CHILDREN_SANS_BELONGS_TO_CONTENT = field(\\"ChildSansBelongsTo\\", \\"compositePKParentChildrenSansBelongsToContent\\");
+  public static final QueryField COMPOSITE_PK_PARENT_CHILDREN_SANS_BELONGS_TO_ID = field(\\"ChildSansBelongsTo\\", \\"compositePKParentChildrenSansBelongsToId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String childId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String compositePKParentChildrenSansBelongsToCustomId;
+  private final @ModelField(targetType=\\"String\\") String compositePKParentChildrenSansBelongsToContent;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType=\\"ID\\") String compositePKParentChildrenSansBelongsToId;
+  public String getId() {
+      return id;
+  }
+  
+  public String getChildId() {
+      return childId;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public String getCompositePkParentChildrenSansBelongsToCustomId() {
+      return compositePKParentChildrenSansBelongsToCustomId;
+  }
+  
+  public String getCompositePkParentChildrenSansBelongsToContent() {
+      return compositePKParentChildrenSansBelongsToContent;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  public String getCompositePkParentChildrenSansBelongsToId() {
+      return compositePKParentChildrenSansBelongsToId;
+  }
+  
+  private ChildSansBelongsTo(String id, String childId, String content, String compositePKParentChildrenSansBelongsToCustomId, String compositePKParentChildrenSansBelongsToContent, String compositePKParentChildrenSansBelongsToId) {
+    this.id = id;
+    this.childId = childId;
+    this.content = content;
+    this.compositePKParentChildrenSansBelongsToCustomId = compositePKParentChildrenSansBelongsToCustomId;
+    this.compositePKParentChildrenSansBelongsToContent = compositePKParentChildrenSansBelongsToContent;
+    this.compositePKParentChildrenSansBelongsToId = compositePKParentChildrenSansBelongsToId;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      ChildSansBelongsTo childSansBelongsTo = (ChildSansBelongsTo) obj;
+      return ObjectsCompat.equals(getId(), childSansBelongsTo.getId()) &&
+              ObjectsCompat.equals(getChildId(), childSansBelongsTo.getChildId()) &&
+              ObjectsCompat.equals(getContent(), childSansBelongsTo.getContent()) &&
+              ObjectsCompat.equals(getCompositePkParentChildrenSansBelongsToCustomId(), childSansBelongsTo.getCompositePkParentChildrenSansBelongsToCustomId()) &&
+              ObjectsCompat.equals(getCompositePkParentChildrenSansBelongsToContent(), childSansBelongsTo.getCompositePkParentChildrenSansBelongsToContent()) &&
+              ObjectsCompat.equals(getCreatedAt(), childSansBelongsTo.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), childSansBelongsTo.getUpdatedAt()) &&
+              ObjectsCompat.equals(getCompositePkParentChildrenSansBelongsToId(), childSansBelongsTo.getCompositePkParentChildrenSansBelongsToId());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getChildId())
+      .append(getContent())
+      .append(getCompositePkParentChildrenSansBelongsToCustomId())
+      .append(getCompositePkParentChildrenSansBelongsToContent())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .append(getCompositePkParentChildrenSansBelongsToId())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"ChildSansBelongsTo {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"childId=\\" + String.valueOf(getChildId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"compositePKParentChildrenSansBelongsToCustomId=\\" + String.valueOf(getCompositePkParentChildrenSansBelongsToCustomId()) + \\", \\")
+      .append(\\"compositePKParentChildrenSansBelongsToContent=\\" + String.valueOf(getCompositePkParentChildrenSansBelongsToContent()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
+      .append(\\"compositePKParentChildrenSansBelongsToId=\\" + String.valueOf(getCompositePkParentChildrenSansBelongsToId()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static ChildIdStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static ChildSansBelongsTo justId(String id) {
+    return new ChildSansBelongsTo(
+      id,
+      null,
+      null,
+      null,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      childId,
+      content,
+      compositePKParentChildrenSansBelongsToCustomId,
+      compositePKParentChildrenSansBelongsToContent,
+      compositePKParentChildrenSansBelongsToId);
+  }
+  public interface ChildIdStep {
+    ContentStep childId(String childId);
+  }
+  
+
+  public interface ContentStep {
+    CompositePkParentChildrenSansBelongsToCustomIdStep content(String content);
+  }
+  
+
+  public interface CompositePkParentChildrenSansBelongsToCustomIdStep {
+    BuildStep compositePkParentChildrenSansBelongsToCustomId(String compositePkParentChildrenSansBelongsToCustomId);
+  }
+  
+
+  public interface BuildStep {
+    ChildSansBelongsTo build();
+    BuildStep id(String id);
+    BuildStep compositePkParentChildrenSansBelongsToContent(String compositePkParentChildrenSansBelongsToContent);
+    BuildStep compositePkParentChildrenSansBelongsToId(String compositePkParentChildrenSansBelongsToId);
+  }
+  
+
+  public static class Builder implements ChildIdStep, ContentStep, CompositePkParentChildrenSansBelongsToCustomIdStep, BuildStep {
+    private String id;
+    private String childId;
+    private String content;
+    private String compositePKParentChildrenSansBelongsToCustomId;
+    private String compositePKParentChildrenSansBelongsToContent;
+    private String compositePKParentChildrenSansBelongsToId;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String childId, String content, String compositePKParentChildrenSansBelongsToCustomId, String compositePKParentChildrenSansBelongsToContent, String compositePKParentChildrenSansBelongsToId) {
+      this.id = id;
+      this.childId = childId;
+      this.content = content;
+      this.compositePKParentChildrenSansBelongsToCustomId = compositePKParentChildrenSansBelongsToCustomId;
+      this.compositePKParentChildrenSansBelongsToContent = compositePKParentChildrenSansBelongsToContent;
+      this.compositePKParentChildrenSansBelongsToId = compositePKParentChildrenSansBelongsToId;
+    }
+    
+    @Override
+     public ChildSansBelongsTo build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new ChildSansBelongsTo(
+          id,
+          childId,
+          content,
+          compositePKParentChildrenSansBelongsToCustomId,
+          compositePKParentChildrenSansBelongsToContent,
+          compositePKParentChildrenSansBelongsToId);
+    }
+    
+    @Override
+     public ContentStep childId(String childId) {
+        Objects.requireNonNull(childId);
+        this.childId = childId;
+        return this;
+    }
+    
+    @Override
+     public CompositePkParentChildrenSansBelongsToCustomIdStep content(String content) {
+        Objects.requireNonNull(content);
+        this.content = content;
+        return this;
+    }
+    
+    @Override
+     public BuildStep compositePkParentChildrenSansBelongsToCustomId(String compositePkParentChildrenSansBelongsToCustomId) {
+        Objects.requireNonNull(compositePkParentChildrenSansBelongsToCustomId);
+        this.compositePKParentChildrenSansBelongsToCustomId = compositePkParentChildrenSansBelongsToCustomId;
+        return this;
+    }
+    
+    @Override
+     public BuildStep compositePkParentChildrenSansBelongsToContent(String compositePkParentChildrenSansBelongsToContent) {
+        this.compositePKParentChildrenSansBelongsToContent = compositePkParentChildrenSansBelongsToContent;
+        return this;
+    }
+    
+    @Override
+     public BuildStep compositePkParentChildrenSansBelongsToId(String compositePkParentChildrenSansBelongsToId) {
+        this.compositePKParentChildrenSansBelongsToId = compositePkParentChildrenSansBelongsToId;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String childId, String content, String compositePkParentChildrenSansBelongsToCustomId, String compositePkParentChildrenSansBelongsToContent, String compositePkParentChildrenSansBelongsToId) {
+      super(id, childId, content, compositePKParentChildrenSansBelongsToCustomId, compositePKParentChildrenSansBelongsToContent, compositePKParentChildrenSansBelongsToId);
+      Objects.requireNonNull(childId);
+      Objects.requireNonNull(content);
+      Objects.requireNonNull(compositePKParentChildrenSansBelongsToCustomId);
+    }
+    
+    @Override
+     public CopyOfBuilder childId(String childId) {
+      return (CopyOfBuilder) super.childId(childId);
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+    
+    @Override
+     public CopyOfBuilder compositePkParentChildrenSansBelongsToCustomId(String compositePkParentChildrenSansBelongsToCustomId) {
+      return (CopyOfBuilder) super.compositePkParentChildrenSansBelongsToCustomId(compositePkParentChildrenSansBelongsToCustomId);
+    }
+    
+    @Override
+     public CopyOfBuilder compositePkParentChildrenSansBelongsToContent(String compositePkParentChildrenSansBelongsToContent) {
+      return (CopyOfBuilder) super.compositePkParentChildrenSansBelongsToContent(compositePkParentChildrenSansBelongsToContent);
+    }
+    
+    @Override
+     public CopyOfBuilder compositePkParentChildrenSansBelongsToId(String compositePkParentChildrenSansBelongsToId) {
+      return (CopyOfBuilder) super.compositePkParentChildrenSansBelongsToId(compositePkParentChildrenSansBelongsToId);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncModelVisitor DataStore Enabled Should generate for DefaultPKParent DefaultPKChild models 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.HasMany;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.model.annotations.BelongsTo;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the DefaultPKParent type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"DefaultPKParents\\")
+@Index(name = \\"undefined\\", fields = {\\"id\\"})
+public final class DefaultPKParent implements Model {
+  public static final QueryField ID = field(\\"DefaultPKParent\\", \\"id\\");
+  public static final QueryField CONTENT = field(\\"DefaultPKParent\\", \\"content\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\") String content;
+  private final @ModelField(targetType=\\"DefaultPKChild\\") @HasMany(associatedWith = \\"parent\\", type = DefaultPKChild.class) List<DefaultPKChild> children = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public List<DefaultPKChild> getChildren() {
+      return children;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private DefaultPKParent(String id, String content) {
+    this.id = id;
+    this.content = content;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      DefaultPKParent defaultPkParent = (DefaultPKParent) obj;
+      return ObjectsCompat.equals(getId(), defaultPkParent.getId()) &&
+              ObjectsCompat.equals(getContent(), defaultPkParent.getContent()) &&
+              ObjectsCompat.equals(getCreatedAt(), defaultPkParent.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), defaultPkParent.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getContent())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"DefaultPKParent {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BuildStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static DefaultPKParent justId(String id) {
+    return new DefaultPKParent(
+      id,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      content);
+  }
+  public interface BuildStep {
+    DefaultPKParent build();
+    BuildStep id(String id);
+    BuildStep content(String content);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private String content;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String content) {
+      this.id = id;
+      this.content = content;
+    }
+    
+    @Override
+     public DefaultPKParent build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new DefaultPKParent(
+          id,
+          content);
+    }
+    
+    @Override
+     public BuildStep content(String content) {
+        this.content = content;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String content) {
+      super(id, content);
+      
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+  }
+  
+}
+
+/** This is an auto generated class representing the DefaultPKChild type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"DefaultPKChildren\\")
+@Index(name = \\"undefined\\", fields = {\\"id\\"})
+public final class DefaultPKChild implements Model {
+  public static final QueryField ID = field(\\"DefaultPKChild\\", \\"id\\");
+  public static final QueryField CONTENT = field(\\"DefaultPKChild\\", \\"content\\");
+  public static final QueryField PARENT = field(\\"DefaultPKChild\\", \\"defaultPKParentChildrenId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\") String content;
+  private final @ModelField(targetType=\\"DefaultPKParent\\") @BelongsTo(targetName = \\"defaultPKParentChildrenId\\", type = DefaultPKParent.class) DefaultPKParent parent;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public DefaultPKParent getParent() {
+      return parent;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private DefaultPKChild(String id, String content, DefaultPKParent parent) {
+    this.id = id;
+    this.content = content;
+    this.parent = parent;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      DefaultPKChild defaultPkChild = (DefaultPKChild) obj;
+      return ObjectsCompat.equals(getId(), defaultPkChild.getId()) &&
+              ObjectsCompat.equals(getContent(), defaultPkChild.getContent()) &&
+              ObjectsCompat.equals(getParent(), defaultPkChild.getParent()) &&
+              ObjectsCompat.equals(getCreatedAt(), defaultPkChild.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), defaultPkChild.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getContent())
+      .append(getParent())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"DefaultPKChild {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"parent=\\" + String.valueOf(getParent()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BuildStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static DefaultPKChild justId(String id) {
+    return new DefaultPKChild(
+      id,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      content,
+      parent);
+  }
+  public interface BuildStep {
+    DefaultPKChild build();
+    BuildStep id(String id);
+    BuildStep content(String content);
+    BuildStep parent(DefaultPKParent parent);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private String content;
+    private DefaultPKParent parent;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String content, DefaultPKParent parent) {
+      this.id = id;
+      this.content = content;
+      this.parent = parent;
+    }
+    
+    @Override
+     public DefaultPKChild build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new DefaultPKChild(
+          id,
+          content,
+          parent);
+    }
+    
+    @Override
+     public BuildStep content(String content) {
+        this.content = content;
+        return this;
+    }
+    
+    @Override
+     public BuildStep parent(DefaultPKParent parent) {
+        this.parent = parent;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String content, DefaultPKParent parent) {
+      super(id, content, parent);
+      
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+    
+    @Override
+     public CopyOfBuilder parent(DefaultPKParent parent) {
+      return (CopyOfBuilder) super.parent(parent);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncModelVisitor DataStore Enabled Should generate for HasOneParent HasOneChild models 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.HasOne;
+import com.amplifyframework.core.model.temporal.Temporal;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the HasOneParent type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"HasOneParents\\")
+@Index(name = \\"undefined\\", fields = {\\"id\\"})
+public final class HasOneParent implements Model {
+  public static final QueryField ID = field(\\"HasOneParent\\", \\"id\\");
+  public static final QueryField HAS_ONE_PARENT_CHILD_ID = field(\\"HasOneParent\\", \\"hasOneParentChildId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"HasOneChild\\") @HasOne(associatedWith = \\"id\\", type = HasOneChild.class) HasOneChild child = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType=\\"ID\\") String hasOneParentChildId;
+  public String getId() {
+      return id;
+  }
+  
+  public HasOneChild getChild() {
+      return child;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  public String getHasOneParentChildId() {
+      return hasOneParentChildId;
+  }
+  
+  private HasOneParent(String id, String hasOneParentChildId) {
+    this.id = id;
+    this.hasOneParentChildId = hasOneParentChildId;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      HasOneParent hasOneParent = (HasOneParent) obj;
+      return ObjectsCompat.equals(getId(), hasOneParent.getId()) &&
+              ObjectsCompat.equals(getCreatedAt(), hasOneParent.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), hasOneParent.getUpdatedAt()) &&
+              ObjectsCompat.equals(getHasOneParentChildId(), hasOneParent.getHasOneParentChildId());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .append(getHasOneParentChildId())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"HasOneParent {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
+      .append(\\"hasOneParentChildId=\\" + String.valueOf(getHasOneParentChildId()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BuildStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static HasOneParent justId(String id) {
+    return new HasOneParent(
+      id,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      hasOneParentChildId);
+  }
+  public interface BuildStep {
+    HasOneParent build();
+    BuildStep id(String id);
+    BuildStep hasOneParentChildId(String hasOneParentChildId);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private String hasOneParentChildId;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String hasOneParentChildId) {
+      this.id = id;
+      this.hasOneParentChildId = hasOneParentChildId;
+    }
+    
+    @Override
+     public HasOneParent build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new HasOneParent(
+          id,
+          hasOneParentChildId);
+    }
+    
+    @Override
+     public BuildStep hasOneParentChildId(String hasOneParentChildId) {
+        this.hasOneParentChildId = hasOneParentChildId;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String hasOneParentChildId) {
+      super(id, hasOneParentChildId);
+      
+    }
+    
+    @Override
+     public CopyOfBuilder hasOneParentChildId(String hasOneParentChildId) {
+      return (CopyOfBuilder) super.hasOneParentChildId(hasOneParentChildId);
+    }
+  }
+  
+}
+
+/** This is an auto generated class representing the HasOneChild type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"HasOneChildren\\")
+@Index(name = \\"undefined\\", fields = {\\"id\\"})
+public final class HasOneChild implements Model {
+  public static final QueryField ID = field(\\"HasOneChild\\", \\"id\\");
+  public static final QueryField CONTENT = field(\\"HasOneChild\\", \\"content\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\") String content;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private HasOneChild(String id, String content) {
+    this.id = id;
+    this.content = content;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      HasOneChild hasOneChild = (HasOneChild) obj;
+      return ObjectsCompat.equals(getId(), hasOneChild.getId()) &&
+              ObjectsCompat.equals(getContent(), hasOneChild.getContent()) &&
+              ObjectsCompat.equals(getCreatedAt(), hasOneChild.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), hasOneChild.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getContent())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"HasOneChild {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BuildStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static HasOneChild justId(String id) {
+    return new HasOneChild(
+      id,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      content);
+  }
+  public interface BuildStep {
+    HasOneChild build();
+    BuildStep id(String id);
+    BuildStep content(String content);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private String content;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String content) {
+      this.id = id;
+      this.content = content;
+    }
+    
+    @Override
+     public HasOneChild build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new HasOneChild(
+          id,
+          content);
+    }
+    
+    @Override
+     public BuildStep content(String content) {
+        this.content = content;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String content) {
+      super(id, content);
+      
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncModelVisitor DataStore Enabled should generate for CompositePKParent and (CompositePK, Implicit, StrangeExplicit, ChildSansBelongsTo) Child models 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.HasMany;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.model.annotations.BelongsTo;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the CompositePKParent type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"CompositePKParents\\")
+@Index(name = \\"undefined\\", fields = {\\"customId\\",\\"content\\"})
+public final class CompositePKParent implements Model {
+  public static final QueryField ID = field(\\"CompositePKParent\\", \\"id\\");
+  public static final QueryField CUSTOM_ID = field(\\"CompositePKParent\\", \\"customId\\");
+  public static final QueryField CONTENT = field(\\"CompositePKParent\\", \\"content\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String customId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
+  private final @ModelField(targetType=\\"CompositePKChild\\") @HasMany(associatedWith = \\"parent\\", type = CompositePKChild.class) List<CompositePKChild> children = null;
+  private final @ModelField(targetType=\\"ImplicitChild\\") @HasMany(associatedWith = \\"parent\\", type = ImplicitChild.class) List<ImplicitChild> implicitChildren = null;
+  private final @ModelField(targetType=\\"StrangeExplicitChild\\") @HasMany(associatedWith = \\"parent\\", type = StrangeExplicitChild.class) List<StrangeExplicitChild> strangeChildren = null;
+  private final @ModelField(targetType=\\"ChildSansBelongsTo\\") @HasMany(associatedWith = \\"compositePKParentChildrenSansBelongsToId\\", type = ChildSansBelongsTo.class) List<ChildSansBelongsTo> childrenSansBelongsTo = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getCustomId() {
+      return customId;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public List<CompositePKChild> getChildren() {
+      return children;
+  }
+  
+  public List<ImplicitChild> getImplicitChildren() {
+      return implicitChildren;
+  }
+  
+  public List<StrangeExplicitChild> getStrangeChildren() {
+      return strangeChildren;
+  }
+  
+  public List<ChildSansBelongsTo> getChildrenSansBelongsTo() {
+      return childrenSansBelongsTo;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private CompositePKParent(String id, String customId, String content) {
+    this.id = id;
+    this.customId = customId;
+    this.content = content;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      CompositePKParent compositePkParent = (CompositePKParent) obj;
+      return ObjectsCompat.equals(getId(), compositePkParent.getId()) &&
+              ObjectsCompat.equals(getCustomId(), compositePkParent.getCustomId()) &&
+              ObjectsCompat.equals(getContent(), compositePkParent.getContent()) &&
+              ObjectsCompat.equals(getCreatedAt(), compositePkParent.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), compositePkParent.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getCustomId())
+      .append(getContent())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"CompositePKParent {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"customId=\\" + String.valueOf(getCustomId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static CustomIdStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static CompositePKParent justId(String id) {
+    return new CompositePKParent(
+      id,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      customId,
+      content);
+  }
+  public interface CustomIdStep {
+    ContentStep customId(String customId);
+  }
+  
+
+  public interface ContentStep {
+    BuildStep content(String content);
+  }
+  
+
+  public interface BuildStep {
+    CompositePKParent build();
+    BuildStep id(String id);
+  }
+  
+
+  public static class Builder implements CustomIdStep, ContentStep, BuildStep {
+    private String id;
+    private String customId;
+    private String content;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String customId, String content) {
+      this.id = id;
+      this.customId = customId;
+      this.content = content;
+    }
+    
+    @Override
+     public CompositePKParent build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new CompositePKParent(
+          id,
+          customId,
+          content);
+    }
+    
+    @Override
+     public ContentStep customId(String customId) {
+        Objects.requireNonNull(customId);
+        this.customId = customId;
+        return this;
+    }
+    
+    @Override
+     public BuildStep content(String content) {
+        Objects.requireNonNull(content);
+        this.content = content;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String customId, String content) {
+      super(id, customId, content);
+      Objects.requireNonNull(customId);
+      Objects.requireNonNull(content);
+    }
+    
+    @Override
+     public CopyOfBuilder customId(String customId) {
+      return (CopyOfBuilder) super.customId(customId);
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+  }
+  
+}
+
+/** This is an auto generated class representing the CompositePKChild type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"CompositePKChildren\\")
+@Index(name = \\"undefined\\", fields = {\\"childId\\",\\"content\\"})
+@Index(name = \\"byParent\\", fields = {\\"parentId\\",\\"parentTitle\\"})
+public final class CompositePKChild implements Model {
+  public static final QueryField ID = field(\\"CompositePKChild\\", \\"id\\");
+  public static final QueryField CHILD_ID = field(\\"CompositePKChild\\", \\"childId\\");
+  public static final QueryField CONTENT = field(\\"CompositePKChild\\", \\"content\\");
+  public static final QueryField PARENT = field(\\"CompositePKChild\\", \\"parentId\\");
+  public static final QueryField PARENT_TITLE = field(\\"CompositePKChild\\", \\"parentTitle\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String childId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
+  private final @ModelField(targetType=\\"CompositePKParent\\") @BelongsTo(targetName = \\"parentId\\", type = CompositePKParent.class) CompositePKParent parent;
+  private final @ModelField(targetType=\\"String\\") String parentTitle;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getChildId() {
+      return childId;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public CompositePKParent getParent() {
+      return parent;
+  }
+  
+  public String getParentTitle() {
+      return parentTitle;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private CompositePKChild(String id, String childId, String content, CompositePKParent parent, String parentTitle) {
+    this.id = id;
+    this.childId = childId;
+    this.content = content;
+    this.parent = parent;
+    this.parentTitle = parentTitle;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      CompositePKChild compositePkChild = (CompositePKChild) obj;
+      return ObjectsCompat.equals(getId(), compositePkChild.getId()) &&
+              ObjectsCompat.equals(getChildId(), compositePkChild.getChildId()) &&
+              ObjectsCompat.equals(getContent(), compositePkChild.getContent()) &&
+              ObjectsCompat.equals(getParent(), compositePkChild.getParent()) &&
+              ObjectsCompat.equals(getParentTitle(), compositePkChild.getParentTitle()) &&
+              ObjectsCompat.equals(getCreatedAt(), compositePkChild.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), compositePkChild.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getChildId())
+      .append(getContent())
+      .append(getParent())
+      .append(getParentTitle())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"CompositePKChild {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"childId=\\" + String.valueOf(getChildId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"parent=\\" + String.valueOf(getParent()) + \\", \\")
+      .append(\\"parentTitle=\\" + String.valueOf(getParentTitle()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static ChildIdStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static CompositePKChild justId(String id) {
+    return new CompositePKChild(
+      id,
+      null,
+      null,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      childId,
+      content,
+      parent,
+      parentTitle);
+  }
+  public interface ChildIdStep {
+    ContentStep childId(String childId);
+  }
+  
+
+  public interface ContentStep {
+    BuildStep content(String content);
+  }
+  
+
+  public interface BuildStep {
+    CompositePKChild build();
+    BuildStep id(String id);
+    BuildStep parent(CompositePKParent parent);
+    BuildStep parentTitle(String parentTitle);
+  }
+  
+
+  public static class Builder implements ChildIdStep, ContentStep, BuildStep {
+    private String id;
+    private String childId;
+    private String content;
+    private CompositePKParent parent;
+    private String parentTitle;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String childId, String content, CompositePKParent parent, String parentTitle) {
+      this.id = id;
+      this.childId = childId;
+      this.content = content;
+      this.parent = parent;
+      this.parentTitle = parentTitle;
+    }
+    
+    @Override
+     public CompositePKChild build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new CompositePKChild(
+          id,
+          childId,
+          content,
+          parent,
+          parentTitle);
+    }
+    
+    @Override
+     public ContentStep childId(String childId) {
+        Objects.requireNonNull(childId);
+        this.childId = childId;
+        return this;
+    }
+    
+    @Override
+     public BuildStep content(String content) {
+        Objects.requireNonNull(content);
+        this.content = content;
+        return this;
+    }
+    
+    @Override
+     public BuildStep parent(CompositePKParent parent) {
+        this.parent = parent;
+        return this;
+    }
+    
+    @Override
+     public BuildStep parentTitle(String parentTitle) {
+        this.parentTitle = parentTitle;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String childId, String content, CompositePKParent parent, String parentTitle) {
+      super(id, childId, content, parent, parentTitle);
+      Objects.requireNonNull(childId);
+      Objects.requireNonNull(content);
+    }
+    
+    @Override
+     public CopyOfBuilder childId(String childId) {
+      return (CopyOfBuilder) super.childId(childId);
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+    
+    @Override
+     public CopyOfBuilder parent(CompositePKParent parent) {
+      return (CopyOfBuilder) super.parent(parent);
+    }
+    
+    @Override
+     public CopyOfBuilder parentTitle(String parentTitle) {
+      return (CopyOfBuilder) super.parentTitle(parentTitle);
+    }
+  }
+  
+}
+
+/** This is an auto generated class representing the ImplicitChild type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"ImplicitChildren\\")
+@Index(name = \\"undefined\\", fields = {\\"childId\\",\\"content\\"})
+public final class ImplicitChild implements Model {
+  public static final QueryField ID = field(\\"ImplicitChild\\", \\"id\\");
+  public static final QueryField CHILD_ID = field(\\"ImplicitChild\\", \\"childId\\");
+  public static final QueryField CONTENT = field(\\"ImplicitChild\\", \\"content\\");
+  public static final QueryField PARENT = field(\\"ImplicitChild\\", \\"compositePKParentImplicitChildrenId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String childId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
+  private final @ModelField(targetType=\\"CompositePKParent\\", isRequired = true) @BelongsTo(targetName = \\"compositePKParentImplicitChildrenId\\", type = CompositePKParent.class) CompositePKParent parent;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getChildId() {
+      return childId;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public CompositePKParent getParent() {
+      return parent;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private ImplicitChild(String id, String childId, String content, CompositePKParent parent) {
+    this.id = id;
+    this.childId = childId;
+    this.content = content;
+    this.parent = parent;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      ImplicitChild implicitChild = (ImplicitChild) obj;
+      return ObjectsCompat.equals(getId(), implicitChild.getId()) &&
+              ObjectsCompat.equals(getChildId(), implicitChild.getChildId()) &&
+              ObjectsCompat.equals(getContent(), implicitChild.getContent()) &&
+              ObjectsCompat.equals(getParent(), implicitChild.getParent()) &&
+              ObjectsCompat.equals(getCreatedAt(), implicitChild.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), implicitChild.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getChildId())
+      .append(getContent())
+      .append(getParent())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"ImplicitChild {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"childId=\\" + String.valueOf(getChildId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"parent=\\" + String.valueOf(getParent()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static ChildIdStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static ImplicitChild justId(String id) {
+    return new ImplicitChild(
+      id,
+      null,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      childId,
+      content,
+      parent);
+  }
+  public interface ChildIdStep {
+    ContentStep childId(String childId);
+  }
+  
+
+  public interface ContentStep {
+    ParentStep content(String content);
+  }
+  
+
+  public interface ParentStep {
+    BuildStep parent(CompositePKParent parent);
+  }
+  
+
+  public interface BuildStep {
+    ImplicitChild build();
+    BuildStep id(String id);
+  }
+  
+
+  public static class Builder implements ChildIdStep, ContentStep, ParentStep, BuildStep {
+    private String id;
+    private String childId;
+    private String content;
+    private CompositePKParent parent;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String childId, String content, CompositePKParent parent) {
+      this.id = id;
+      this.childId = childId;
+      this.content = content;
+      this.parent = parent;
+    }
+    
+    @Override
+     public ImplicitChild build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new ImplicitChild(
+          id,
+          childId,
+          content,
+          parent);
+    }
+    
+    @Override
+     public ContentStep childId(String childId) {
+        Objects.requireNonNull(childId);
+        this.childId = childId;
+        return this;
+    }
+    
+    @Override
+     public ParentStep content(String content) {
+        Objects.requireNonNull(content);
+        this.content = content;
+        return this;
+    }
+    
+    @Override
+     public BuildStep parent(CompositePKParent parent) {
+        Objects.requireNonNull(parent);
+        this.parent = parent;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String childId, String content, CompositePKParent parent) {
+      super(id, childId, content, parent);
+      Objects.requireNonNull(childId);
+      Objects.requireNonNull(content);
+      Objects.requireNonNull(parent);
+    }
+    
+    @Override
+     public CopyOfBuilder childId(String childId) {
+      return (CopyOfBuilder) super.childId(childId);
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+    
+    @Override
+     public CopyOfBuilder parent(CompositePKParent parent) {
+      return (CopyOfBuilder) super.parent(parent);
+    }
+  }
+  
+}
+
+/** This is an auto generated class representing the StrangeExplicitChild type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"StrangeExplicitChildren\\")
+@Index(name = \\"undefined\\", fields = {\\"strangeId\\",\\"content\\"})
+@Index(name = \\"byCompositePKParentX\\", fields = {\\"strangeParentId\\",\\"strangeParentTitle\\"})
+public final class StrangeExplicitChild implements Model {
+  public static final QueryField ID = field(\\"StrangeExplicitChild\\", \\"id\\");
+  public static final QueryField STRANGE_ID = field(\\"StrangeExplicitChild\\", \\"strangeId\\");
+  public static final QueryField CONTENT = field(\\"StrangeExplicitChild\\", \\"content\\");
+  public static final QueryField PARENT = field(\\"StrangeExplicitChild\\", \\"strangeParentId\\");
+  public static final QueryField STRANGE_PARENT_TITLE = field(\\"StrangeExplicitChild\\", \\"strangeParentTitle\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String strangeId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
+  private final @ModelField(targetType=\\"CompositePKParent\\", isRequired = true) @BelongsTo(targetName = \\"strangeParentId\\", type = CompositePKParent.class) CompositePKParent parent;
+  private final @ModelField(targetType=\\"String\\") String strangeParentTitle;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getStrangeId() {
+      return strangeId;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public CompositePKParent getParent() {
+      return parent;
+  }
+  
+  public String getStrangeParentTitle() {
+      return strangeParentTitle;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private StrangeExplicitChild(String id, String strangeId, String content, CompositePKParent parent, String strangeParentTitle) {
+    this.id = id;
+    this.strangeId = strangeId;
+    this.content = content;
+    this.parent = parent;
+    this.strangeParentTitle = strangeParentTitle;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      StrangeExplicitChild strangeExplicitChild = (StrangeExplicitChild) obj;
+      return ObjectsCompat.equals(getId(), strangeExplicitChild.getId()) &&
+              ObjectsCompat.equals(getStrangeId(), strangeExplicitChild.getStrangeId()) &&
+              ObjectsCompat.equals(getContent(), strangeExplicitChild.getContent()) &&
+              ObjectsCompat.equals(getParent(), strangeExplicitChild.getParent()) &&
+              ObjectsCompat.equals(getStrangeParentTitle(), strangeExplicitChild.getStrangeParentTitle()) &&
+              ObjectsCompat.equals(getCreatedAt(), strangeExplicitChild.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), strangeExplicitChild.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getStrangeId())
+      .append(getContent())
+      .append(getParent())
+      .append(getStrangeParentTitle())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"StrangeExplicitChild {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"strangeId=\\" + String.valueOf(getStrangeId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"parent=\\" + String.valueOf(getParent()) + \\", \\")
+      .append(\\"strangeParentTitle=\\" + String.valueOf(getStrangeParentTitle()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static StrangeIdStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static StrangeExplicitChild justId(String id) {
+    return new StrangeExplicitChild(
+      id,
+      null,
+      null,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      strangeId,
+      content,
+      parent,
+      strangeParentTitle);
+  }
+  public interface StrangeIdStep {
+    ContentStep strangeId(String strangeId);
+  }
+  
+
+  public interface ContentStep {
+    ParentStep content(String content);
+  }
+  
+
+  public interface ParentStep {
+    BuildStep parent(CompositePKParent parent);
+  }
+  
+
+  public interface BuildStep {
+    StrangeExplicitChild build();
+    BuildStep id(String id);
+    BuildStep strangeParentTitle(String strangeParentTitle);
+  }
+  
+
+  public static class Builder implements StrangeIdStep, ContentStep, ParentStep, BuildStep {
+    private String id;
+    private String strangeId;
+    private String content;
+    private CompositePKParent parent;
+    private String strangeParentTitle;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String strangeId, String content, CompositePKParent parent, String strangeParentTitle) {
+      this.id = id;
+      this.strangeId = strangeId;
+      this.content = content;
+      this.parent = parent;
+      this.strangeParentTitle = strangeParentTitle;
+    }
+    
+    @Override
+     public StrangeExplicitChild build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new StrangeExplicitChild(
+          id,
+          strangeId,
+          content,
+          parent,
+          strangeParentTitle);
+    }
+    
+    @Override
+     public ContentStep strangeId(String strangeId) {
+        Objects.requireNonNull(strangeId);
+        this.strangeId = strangeId;
+        return this;
+    }
+    
+    @Override
+     public ParentStep content(String content) {
+        Objects.requireNonNull(content);
+        this.content = content;
+        return this;
+    }
+    
+    @Override
+     public BuildStep parent(CompositePKParent parent) {
+        Objects.requireNonNull(parent);
+        this.parent = parent;
+        return this;
+    }
+    
+    @Override
+     public BuildStep strangeParentTitle(String strangeParentTitle) {
+        this.strangeParentTitle = strangeParentTitle;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String strangeId, String content, CompositePKParent parent, String strangeParentTitle) {
+      super(id, strangeId, content, parent, strangeParentTitle);
+      Objects.requireNonNull(strangeId);
+      Objects.requireNonNull(content);
+      Objects.requireNonNull(parent);
+    }
+    
+    @Override
+     public CopyOfBuilder strangeId(String strangeId) {
+      return (CopyOfBuilder) super.strangeId(strangeId);
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+    
+    @Override
+     public CopyOfBuilder parent(CompositePKParent parent) {
+      return (CopyOfBuilder) super.parent(parent);
+    }
+    
+    @Override
+     public CopyOfBuilder strangeParentTitle(String strangeParentTitle) {
+      return (CopyOfBuilder) super.strangeParentTitle(strangeParentTitle);
+    }
+  }
+  
+}
+
+/** This is an auto generated class representing the ChildSansBelongsTo type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"ChildSansBelongsTos\\")
+@Index(name = \\"undefined\\", fields = {\\"childId\\",\\"content\\"})
+@Index(name = \\"byParent\\", fields = {\\"compositePKParentChildrenSansBelongsToCustomId\\",\\"compositePKParentChildrenSansBelongsToContent\\"})
+public final class ChildSansBelongsTo implements Model {
+  public static final QueryField ID = field(\\"ChildSansBelongsTo\\", \\"id\\");
+  public static final QueryField CHILD_ID = field(\\"ChildSansBelongsTo\\", \\"childId\\");
+  public static final QueryField CONTENT = field(\\"ChildSansBelongsTo\\", \\"content\\");
+  public static final QueryField COMPOSITE_PK_PARENT_CHILDREN_SANS_BELONGS_TO_CUSTOM_ID = field(\\"ChildSansBelongsTo\\", \\"compositePKParentChildrenSansBelongsToCustomId\\");
+  public static final QueryField COMPOSITE_PK_PARENT_CHILDREN_SANS_BELONGS_TO_CONTENT = field(\\"ChildSansBelongsTo\\", \\"compositePKParentChildrenSansBelongsToContent\\");
+  public static final QueryField COMPOSITE_PK_PARENT_CHILDREN_SANS_BELONGS_TO_ID = field(\\"ChildSansBelongsTo\\", \\"compositePKParentChildrenSansBelongsToId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String childId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String compositePKParentChildrenSansBelongsToCustomId;
+  private final @ModelField(targetType=\\"String\\") String compositePKParentChildrenSansBelongsToContent;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType=\\"ID\\") String compositePKParentChildrenSansBelongsToId;
+  public String getId() {
+      return id;
+  }
+  
+  public String getChildId() {
+      return childId;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public String getCompositePkParentChildrenSansBelongsToCustomId() {
+      return compositePKParentChildrenSansBelongsToCustomId;
+  }
+  
+  public String getCompositePkParentChildrenSansBelongsToContent() {
+      return compositePKParentChildrenSansBelongsToContent;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  public String getCompositePkParentChildrenSansBelongsToId() {
+      return compositePKParentChildrenSansBelongsToId;
+  }
+  
+  private ChildSansBelongsTo(String id, String childId, String content, String compositePKParentChildrenSansBelongsToCustomId, String compositePKParentChildrenSansBelongsToContent, String compositePKParentChildrenSansBelongsToId) {
+    this.id = id;
+    this.childId = childId;
+    this.content = content;
+    this.compositePKParentChildrenSansBelongsToCustomId = compositePKParentChildrenSansBelongsToCustomId;
+    this.compositePKParentChildrenSansBelongsToContent = compositePKParentChildrenSansBelongsToContent;
+    this.compositePKParentChildrenSansBelongsToId = compositePKParentChildrenSansBelongsToId;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      ChildSansBelongsTo childSansBelongsTo = (ChildSansBelongsTo) obj;
+      return ObjectsCompat.equals(getId(), childSansBelongsTo.getId()) &&
+              ObjectsCompat.equals(getChildId(), childSansBelongsTo.getChildId()) &&
+              ObjectsCompat.equals(getContent(), childSansBelongsTo.getContent()) &&
+              ObjectsCompat.equals(getCompositePkParentChildrenSansBelongsToCustomId(), childSansBelongsTo.getCompositePkParentChildrenSansBelongsToCustomId()) &&
+              ObjectsCompat.equals(getCompositePkParentChildrenSansBelongsToContent(), childSansBelongsTo.getCompositePkParentChildrenSansBelongsToContent()) &&
+              ObjectsCompat.equals(getCreatedAt(), childSansBelongsTo.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), childSansBelongsTo.getUpdatedAt()) &&
+              ObjectsCompat.equals(getCompositePkParentChildrenSansBelongsToId(), childSansBelongsTo.getCompositePkParentChildrenSansBelongsToId());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getChildId())
+      .append(getContent())
+      .append(getCompositePkParentChildrenSansBelongsToCustomId())
+      .append(getCompositePkParentChildrenSansBelongsToContent())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .append(getCompositePkParentChildrenSansBelongsToId())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"ChildSansBelongsTo {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"childId=\\" + String.valueOf(getChildId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"compositePKParentChildrenSansBelongsToCustomId=\\" + String.valueOf(getCompositePkParentChildrenSansBelongsToCustomId()) + \\", \\")
+      .append(\\"compositePKParentChildrenSansBelongsToContent=\\" + String.valueOf(getCompositePkParentChildrenSansBelongsToContent()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
+      .append(\\"compositePKParentChildrenSansBelongsToId=\\" + String.valueOf(getCompositePkParentChildrenSansBelongsToId()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static ChildIdStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static ChildSansBelongsTo justId(String id) {
+    return new ChildSansBelongsTo(
+      id,
+      null,
+      null,
+      null,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      childId,
+      content,
+      compositePKParentChildrenSansBelongsToCustomId,
+      compositePKParentChildrenSansBelongsToContent,
+      compositePKParentChildrenSansBelongsToId);
+  }
+  public interface ChildIdStep {
+    ContentStep childId(String childId);
+  }
+  
+
+  public interface ContentStep {
+    CompositePkParentChildrenSansBelongsToCustomIdStep content(String content);
+  }
+  
+
+  public interface CompositePkParentChildrenSansBelongsToCustomIdStep {
+    BuildStep compositePkParentChildrenSansBelongsToCustomId(String compositePkParentChildrenSansBelongsToCustomId);
+  }
+  
+
+  public interface BuildStep {
+    ChildSansBelongsTo build();
+    BuildStep id(String id);
+    BuildStep compositePkParentChildrenSansBelongsToContent(String compositePkParentChildrenSansBelongsToContent);
+    BuildStep compositePkParentChildrenSansBelongsToId(String compositePkParentChildrenSansBelongsToId);
+  }
+  
+
+  public static class Builder implements ChildIdStep, ContentStep, CompositePkParentChildrenSansBelongsToCustomIdStep, BuildStep {
+    private String id;
+    private String childId;
+    private String content;
+    private String compositePKParentChildrenSansBelongsToCustomId;
+    private String compositePKParentChildrenSansBelongsToContent;
+    private String compositePKParentChildrenSansBelongsToId;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String childId, String content, String compositePKParentChildrenSansBelongsToCustomId, String compositePKParentChildrenSansBelongsToContent, String compositePKParentChildrenSansBelongsToId) {
+      this.id = id;
+      this.childId = childId;
+      this.content = content;
+      this.compositePKParentChildrenSansBelongsToCustomId = compositePKParentChildrenSansBelongsToCustomId;
+      this.compositePKParentChildrenSansBelongsToContent = compositePKParentChildrenSansBelongsToContent;
+      this.compositePKParentChildrenSansBelongsToId = compositePKParentChildrenSansBelongsToId;
+    }
+    
+    @Override
+     public ChildSansBelongsTo build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new ChildSansBelongsTo(
+          id,
+          childId,
+          content,
+          compositePKParentChildrenSansBelongsToCustomId,
+          compositePKParentChildrenSansBelongsToContent,
+          compositePKParentChildrenSansBelongsToId);
+    }
+    
+    @Override
+     public ContentStep childId(String childId) {
+        Objects.requireNonNull(childId);
+        this.childId = childId;
+        return this;
+    }
+    
+    @Override
+     public CompositePkParentChildrenSansBelongsToCustomIdStep content(String content) {
+        Objects.requireNonNull(content);
+        this.content = content;
+        return this;
+    }
+    
+    @Override
+     public BuildStep compositePkParentChildrenSansBelongsToCustomId(String compositePkParentChildrenSansBelongsToCustomId) {
+        Objects.requireNonNull(compositePkParentChildrenSansBelongsToCustomId);
+        this.compositePKParentChildrenSansBelongsToCustomId = compositePkParentChildrenSansBelongsToCustomId;
+        return this;
+    }
+    
+    @Override
+     public BuildStep compositePkParentChildrenSansBelongsToContent(String compositePkParentChildrenSansBelongsToContent) {
+        this.compositePKParentChildrenSansBelongsToContent = compositePkParentChildrenSansBelongsToContent;
+        return this;
+    }
+    
+    @Override
+     public BuildStep compositePkParentChildrenSansBelongsToId(String compositePkParentChildrenSansBelongsToId) {
+        this.compositePKParentChildrenSansBelongsToId = compositePkParentChildrenSansBelongsToId;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String childId, String content, String compositePkParentChildrenSansBelongsToCustomId, String compositePkParentChildrenSansBelongsToContent, String compositePkParentChildrenSansBelongsToId) {
+      super(id, childId, content, compositePKParentChildrenSansBelongsToCustomId, compositePKParentChildrenSansBelongsToContent, compositePKParentChildrenSansBelongsToId);
+      Objects.requireNonNull(childId);
+      Objects.requireNonNull(content);
+      Objects.requireNonNull(compositePKParentChildrenSansBelongsToCustomId);
+    }
+    
+    @Override
+     public CopyOfBuilder childId(String childId) {
+      return (CopyOfBuilder) super.childId(childId);
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+    
+    @Override
+     public CopyOfBuilder compositePkParentChildrenSansBelongsToCustomId(String compositePkParentChildrenSansBelongsToCustomId) {
+      return (CopyOfBuilder) super.compositePkParentChildrenSansBelongsToCustomId(compositePkParentChildrenSansBelongsToCustomId);
+    }
+    
+    @Override
+     public CopyOfBuilder compositePkParentChildrenSansBelongsToContent(String compositePkParentChildrenSansBelongsToContent) {
+      return (CopyOfBuilder) super.compositePkParentChildrenSansBelongsToContent(compositePkParentChildrenSansBelongsToContent);
+    }
+    
+    @Override
+     public CopyOfBuilder compositePkParentChildrenSansBelongsToId(String compositePkParentChildrenSansBelongsToId) {
+      return (CopyOfBuilder) super.compositePkParentChildrenSansBelongsToId(compositePkParentChildrenSansBelongsToId);
+    }
+  }
+  
+}
+"
+`;
+
 exports[`AppSyncModelVisitor Should generate for DefaultPKParent DefaultPKChild models 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
