@@ -31,6 +31,7 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
     config: {
       target,
       directives,
+      isDataStoreEnabled,
       isTimestampFieldsAdded: addTimestampFields,
       emitAuthProvider,
       generateIndexRules,
@@ -41,7 +42,6 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
       generateModelsForLazyLoadAndCustomSelectionSet,
       codegenVersion: packageVersion,
       overrideOutputDir,
-      isDataStoreEnabled,
     },
     presetConfig: {
       overrideOutputDir,

@@ -102,6 +102,14 @@ export interface RawAppSyncModelConfig extends RawConfig {
    * @descriptions optional string which includes directive definition and types used by directives. The types defined in here won't make it to output
    */
   directives?: string;
+
+  /**
+   * @name isDataStoreEnabled
+   * @type boolean
+   * @description true if DataStore is enabled on project
+   */
+  isDataStoreEnabled?: boolean;
+
   /**
    * @name isTimestampFieldsAdded
    * @type boolean
@@ -150,13 +158,6 @@ export interface RawAppSyncModelConfig extends RawConfig {
    * @description semantic version of amplify-codegen package
    */
   codegenVersion: string;
-
-  /**
-   * @name isDataStoreEnabled
-   * @type boolean
-   * @description true if DataStore is enabled on project
-   */
-  isDataStoreEnabled?: boolean;
 }
 
 // Todo: need to figure out how to share config
@@ -164,6 +165,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   selectedType?: string;
   generate?: CodeGenGenerateEnum;
   target?: string;
+  isDataStoreEnabled?: string;
   isTimestampFieldsAdded?: boolean;
   handleListNullabilityTransparently?: boolean;
   usePipelinedTransformer?: boolean;
@@ -172,7 +174,6 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   improvePluralization?: boolean;
   generateModelsForLazyLoadAndCustomSelectionSet?: boolean;
   codegenVersion?: string;
-  isDataStoreEnabled?: string;
 }
 export type CodeGenArgumentsMap = Record<string, any>;
 
@@ -256,6 +257,7 @@ export class AppSyncModelVisitor<
       ...additionalConfig,
       scalars: buildScalars(_schema, rawConfig.scalars || '', defaultScalars),
       target: rawConfig.target,
+      isDataStoreEnabled: rawConfig.isDataStoreEnabled,
       isTimestampFieldsAdded: rawConfig.isTimestampFieldsAdded,
       handleListNullabilityTransparently: rawConfig.handleListNullabilityTransparently,
       usePipelinedTransformer: rawConfig.usePipelinedTransformer,
@@ -264,7 +266,6 @@ export class AppSyncModelVisitor<
       improvePluralization: rawConfig.improvePluralization,
       generateModelsForLazyLoadAndCustomSelectionSet: rawConfig.generateModelsForLazyLoadAndCustomSelectionSet,
       codegenVersion: rawConfig.codegenVersion,
-      isDataStoreEnabled: rawConfig.isDataStoreEnabled
     });
 
     const typesUsedInDirectives: string[] = [];

@@ -260,8 +260,8 @@ async function generateModels(context, generateOptions = null) {
 
   const generatedCode = await generateModelsHelper({
     schema: loadSchema(apiResourcePath),
-    isDataStoreEnabled: await isDataStoreEnabled(apiResourcePath),
     directives: await getDirectives(context, apiResourcePath),
+    isDataStoreEnabled: await isDataStoreEnabled(apiResourcePath),
     target: modelgenFrontendToTargetMap[frontend],
     generateIndexRules: readFeatureFlag(context, 'codegen.generateIndexRules'),
     emitAuthProvider: readFeatureFlag(context, 'codegen.emitAuthProvider'),
