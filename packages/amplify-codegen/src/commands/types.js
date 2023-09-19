@@ -57,7 +57,7 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
         const target = cfg.amplifyExtension.codeGenTarget;
 
         const excludes = cfg.excludes.map(pattern => `!${pattern}`);
-        const queries = glob
+        const queryFiles = glob
           .sync([...includeFiles, ...excludes], {
             cwd: projectPath,
             absolute: true,
@@ -73,8 +73,11 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
               return extractDocumentFromJavascript(fileContents, '');
             }
             return fileContents;
-          })
-          .join('\n');
+          });
+        if (queryFiles.length === 0) {
+          throw new Error('No queries found to generate types for, you may need to run \'codegen statements\' first');
+        }
+        const queries = queryFiles.join('\n');
 
         const schemaPath = path.join(projectPath, cfg.schema);
 
