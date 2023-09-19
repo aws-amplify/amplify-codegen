@@ -17,7 +17,7 @@ import path from 'path';
 import { isNotEmptyDir } from '../utils';
 import { getGraphQLConfigFilePath, testSetupBeforeAddCodegen, testValidGraphQLConfig } from "./test-setup";
 
-export async function testAddCodegen(config: AmplifyFrontendConfig, projectRoot: string, schema: string) {
+export async function testAddCodegen(config: AmplifyFrontendConfig, projectRoot: string, schema: string, additionalParams?: Array<string>) {
     // init project and add API category
     await initProjectWithProfile(projectRoot, { ...config });
     const projectName = createRandomName();
@@ -27,7 +27,7 @@ export async function testAddCodegen(config: AmplifyFrontendConfig, projectRoot:
     const userSourceCodePath = testSetupBeforeAddCodegen(projectRoot, config);
 
     // add codegen succeeds
-    await expect(addCodegen(projectRoot, { ...config })).resolves.not.toThrow();
+    await expect(addCodegen(projectRoot, { ...config, params: additionalParams ?? [] })).resolves.not.toThrow();
 
     // pre-existing file should still exist
     expect(existsSync(userSourceCodePath)).toBe(true);
@@ -45,10 +45,22 @@ export type TestAddCodegenUninitializedProps = {
     dropAndRunCodegenStatements?: boolean;
     dropAndRunCodegenTypes?: boolean;
     initialFailureMessage?: string;
+    additionalParams?: Array<string>;
 };
 
 const assertTypeFileExists = (projectRoot: string): void => {
     expect(existsSync(path.join(projectRoot, 'src', 'API.ts'))).toBe(true)
+};
+
+/**
+ * Ensure that all values provided in the expected set are present in the received set, allowing for additional values in received.
+ * @param expectedValues the expected values to check
+ * @param receivedValues the received values to check
+ */
+const ensureAllExpectedValuesAreReceived = <T>(expectedValues: Array<T>, receivedValues: Array<T>): void => {
+    const receivedValueSet = new Set(receivedValues);
+    console.log(`Comparing received values: ${JSON.stringify(receivedValues)} to expected values: ${JSON.stringify(expectedValues)}`);
+    expectedValues.forEach((expectedFilename) => expect(receivedValueSet.has(expectedFilename)).toBe(true));
 };
 
 export async function testAddCodegenUninitialized({
@@ -60,6 +72,7 @@ export async function testAddCodegenUninitialized({
     dropAndRunCodegenStatements,
     dropAndRunCodegenTypes,
     initialFailureMessage,
+    additionalParams,
 }: TestAddCodegenUninitializedProps) {
     // Setup the non-amplify project with schema and pre-existing files
     const userSourceCodePath = testSetupBeforeAddCodegen(projectRoot, config);
@@ -73,10 +86,10 @@ export async function testAddCodegenUninitialized({
     // add codegen without init
     switch (config.frontendType) {
         case AmplifyFrontend.javascript:
-            await addCodegenNonAmplifyJS(projectRoot, initialFailureMessage);
+            await addCodegenNonAmplifyJS(projectRoot, additionalParams ?? [], initialFailureMessage);
             break;
         case AmplifyFrontend.typescript:
-            await addCodegenNonAmplifyTS(projectRoot, initialFailureMessage);
+            await addCodegenNonAmplifyTS(projectRoot, additionalParams ?? [], initialFailureMessage);
             break;
         default:
             throw new Error(`Received unexpected frontendType ${config.frontendType}`);
@@ -90,9 +103,7 @@ export async function testAddCodegenUninitialized({
     // pre-existing file should still exist
     expect(existsSync(userSourceCodePath)).toBe(true);
     // GraphQL statements are generated
-    const generatedStatementFiles = new Set(readdirSync(path.join(projectRoot, config.graphqlCodegenDir)));
-    console.log(`Comparing written files: ${JSON.stringify(Array.from(generatedStatementFiles))} to expected files: ${JSON.stringify(expectedFilenames)}`);
-    expectedFilenames.forEach((expectedFilename) => expect(generatedStatementFiles.has(expectedFilename)).toBe(true));
+    ensureAllExpectedValuesAreReceived(expectedFilenames, readdirSync(path.join(projectRoot, config.graphqlCodegenDir)))
     // graphql configuration should be added
     expect(existsSync(getGraphQLConfigFilePath(projectRoot))).toBe(true);
     if (config.frontendType === AmplifyFrontend.typescript) {
@@ -111,9 +122,7 @@ export async function testAddCodegenUninitialized({
         await generateStatementsAndTypes(projectRoot);
 
         // GraphQL statements are regenerated
-        const regeneratedStatementFiles = new Set(readdirSync(path.join(projectRoot, config.graphqlCodegenDir)));
-        console.log(`Comparing written files: ${JSON.stringify(Array.from(regeneratedStatementFiles))} to expected files: ${JSON.stringify(expectedFilenames)}`);
-        expectedFilenames.forEach((expectedFilename) => expect(regeneratedStatementFiles.has(expectedFilename)).toBe(true));
+        ensureAllExpectedValuesAreReceived(expectedFilenames, readdirSync(path.join(projectRoot, config.graphqlCodegenDir)))
 
         if (config.frontendType === AmplifyFrontend.typescript) {
             assertTypeFileExists(projectRoot)
@@ -124,9 +133,7 @@ export async function testAddCodegenUninitialized({
         await generateStatements(projectRoot);
 
         // GraphQL statements are regenerated
-        const regeneratedStatementFiles = new Set(readdirSync(path.join(projectRoot, config.graphqlCodegenDir)));
-        console.log(`Comparing written files: ${JSON.stringify(Array.from(regeneratedStatementFiles))} to expected files: ${JSON.stringify(expectedFilenames)}`);
-        expectedFilenames.forEach((expectedFilename) => expect(regeneratedStatementFiles.has(expectedFilename)).toBe(true));
+        ensureAllExpectedValuesAreReceived(expectedFilenames, readdirSync(path.join(projectRoot, config.graphqlCodegenDir)))
     }
 
     if (dropAndRunCodegenTypes) {

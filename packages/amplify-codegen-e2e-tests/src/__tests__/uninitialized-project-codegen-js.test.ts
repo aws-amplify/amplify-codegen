@@ -28,6 +28,16 @@ describe('codegen add tests - JS', () => {
         });
     });
 
+    it(`region is ignored if schema file is provided`, async () => {
+        await testAddCodegenUninitialized({
+            projectRoot,
+            config: javascriptConfig,
+            sdlFilename: 'schema.graphql',
+            expectedFilenames: ['mutations.js', 'queries.js', 'subscriptions.js'],
+            additionalParams: ['--region', 'us-fake-1'],
+        });
+    });
+
     it(`json sdl file`, async () => {
         await testAddCodegenUninitialized({
             projectRoot,

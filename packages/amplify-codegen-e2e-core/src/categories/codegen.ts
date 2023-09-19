@@ -77,7 +77,10 @@ export function generateTypes(cwd: string) : Promise<void> {
 // CLI workflow to add codegen to Amplify project
 export function addCodegen(cwd: string, settings: any = {}): Promise<void> {
   return new Promise((resolve, reject) => {
-    const chain = spawn(getCLIPath(), ['codegen', 'add'], { cwd, stripColors: true });
+    const params = settings.params
+      ? ['codegen', 'add', ...settings.params]
+      : ['codegen', 'add'];
+    const chain = spawn(getCLIPath(), params, { cwd, stripColors: true });
     if (settings.isAPINotAdded) {
       chain.wait("There are no GraphQL APIs available.");
       chain.wait("Add by running $amplify api add");
@@ -197,10 +200,9 @@ export function generateModelIntrospection(cwd: string, settings: { outputDir?: 
 }
 
 // CLI workflow to add codegen to non-Amplify JS project
-export function addCodegenNonAmplifyJS(cwd: string, initialFailureMessage?: string): Promise<void> {
+export function addCodegenNonAmplifyJS(cwd: string, params: Array<string>, initialFailureMessage?: string): Promise<void> {
   return new Promise((resolve, reject) => {
-    const cmdOptions = ['codegen', 'add'];
-    const chain = spawn(getCLIPath(), cmdOptions, { cwd, stripColors: true });
+    const chain = spawn(getCLIPath(), ['codegen', 'add', ...params], { cwd, stripColors: true });
 
     if (initialFailureMessage) {
       chain.wait(initialFailureMessage)
@@ -229,10 +231,9 @@ export function addCodegenNonAmplifyJS(cwd: string, initialFailureMessage?: stri
   });
 }
 
-export function addCodegenNonAmplifyTS(cwd: string, initialFailureMessage?: string): Promise<void> {
+export function addCodegenNonAmplifyTS(cwd: string, params: Array<string>, initialFailureMessage?: string): Promise<void> {
   return new Promise((resolve, reject) => {
-    const cmdOptions = ['codegen', 'add'];
-    const chain = spawn(getCLIPath(), cmdOptions, { cwd, stripColors: true });
+    const chain = spawn(getCLIPath(), ['codegen', 'add', ...params], { cwd, stripColors: true });
 
     if (initialFailureMessage) {
       chain.wait(initialFailureMessage)

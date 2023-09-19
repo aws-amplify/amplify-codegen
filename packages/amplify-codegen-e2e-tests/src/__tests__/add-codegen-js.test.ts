@@ -77,4 +77,8 @@ describe('codegen add tests - JS', () => {
     it(`Adding codegen works as expected`, async () => {
         await testAddCodegen(config, projectRoot, schema);
     });
+
+    it(`supports add codegen with redundant region parameter`, async () => {
+        await testAddCodegen(config, projectRoot, schema, ['--region', 'us-fake-1']);
+    });
 });
