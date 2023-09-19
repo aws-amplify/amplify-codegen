@@ -30,7 +30,7 @@ async function generateStatements(context, forceDownloadSchema, maxDepth, withou
   if (!withoutInit) {
     apis = getAppSyncAPIDetails(context);
   } else {
-    const api = getAppSyncAPIInfoFromProject(context, projects[0]);
+    const api = await getAppSyncAPIInfoFromProject(context, projects[0]);
     if (api) {
       apis = [api];
     }
