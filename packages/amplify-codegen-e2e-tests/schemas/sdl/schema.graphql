@@ -1,0 +1,11 @@
+type Query {
+  echo: String
+}
+
+type Mutation {
+  mymutation: String
+}
+
+type Subscription {
+  mysub: String
+}

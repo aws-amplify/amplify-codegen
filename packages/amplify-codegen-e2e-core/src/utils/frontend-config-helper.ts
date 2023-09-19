@@ -1,5 +1,6 @@
 export enum AmplifyFrontend {
   javascript = 'javascript',
+  typescript = 'typescript',
   ios = 'ios',
   android = 'android',
   flutter = 'flutter'

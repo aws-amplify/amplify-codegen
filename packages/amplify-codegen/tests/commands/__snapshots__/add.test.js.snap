@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`command - add without init should download introspection schema when api id 1`] = `
+Object {
+  "amplifyExtension": Object {
+    "apiId": "MOCK_API_ID",
+    "codeGenTarget": "TYPE_SCRIPT_OR_FLOW_OR_ANY_OTHER_LANGUAGE",
+    "docsFilePath": "MOCK_DOCS_FILE_PATH",
+    "framework": "react",
+    "frontend": "javascript",
+    "generatedFileName": "API.TS",
+    "region": "us-east-1",
+  },
+  "excludes": "MOCK_EXCLUDE",
+  "includes": "MOCK_INCLUDE",
+  "projectName": "Codegen Project",
+  "schema": "/user/foo/project/schema.json",
+}
+`;
+
+exports[`command - add without init should read frontend and framework from options 1`] = `
+Object {
+  "amplifyExtension": Object {
+    "apiId": "MOCK_API_ID",
+    "codeGenTarget": "TYPE_SCRIPT_OR_FLOW_OR_ANY_OTHER_LANGUAGE",
+    "docsFilePath": "MOCK_DOCS_FILE_PATH",
+    "framework": "vue",
+    "frontend": "javascript",
+    "generatedFileName": "API.TS",
+    "region": "us-east-1",
+  },
+  "excludes": "MOCK_EXCLUDE",
+  "includes": "MOCK_INCLUDE",
+  "projectName": "Codegen Project",
+  "schema": "/user/foo/project/schema.json",
+}
+`;
+
+exports[`command - add without init should use existing schema if no api id 1`] = `
+Object {
+  "amplifyExtension": Object {
+    "apiId": null,
+    "codeGenTarget": "TYPE_SCRIPT_OR_FLOW_OR_ANY_OTHER_LANGUAGE",
+    "docsFilePath": "MOCK_DOCS_FILE_PATH",
+    "framework": "react",
+    "frontend": "javascript",
+    "generatedFileName": "API.TS",
+    "region": "us-east-1",
+  },
+  "excludes": "MOCK_EXCLUDE",
+  "includes": "MOCK_INCLUDE",
+  "projectName": "Codegen Project",
+  "schema": "/user/foo/project/schema.graphql",
+}
+`;
+
+exports[`command - add without init should use region supplied when without init 1`] = `
+Object {
+  "amplifyExtension": Object {
+    "apiId": "MOCK_API_ID",
+    "codeGenTarget": "TYPE_SCRIPT_OR_FLOW_OR_ANY_OTHER_LANGUAGE",
+    "docsFilePath": "MOCK_DOCS_FILE_PATH",
+    "framework": "react",
+    "frontend": "javascript",
+    "generatedFileName": "API.TS",
+    "region": "us-west-2",
+  },
+  "excludes": "MOCK_EXCLUDE",
+  "includes": "MOCK_INCLUDE",
+  "projectName": "Codegen Project",
+  "schema": "/user/foo/project/schema.json",
+}
+`;

@@ -120,13 +120,25 @@ batch:
           CLI_REGION: ap-northeast-1
       depend-on:
         - publish_to_local_registry
-    - identifier: build_app_ts
+    - identifier: >-
+        build_app_ts_uninitialized_project_codegen_js_uninitialized_project_modelgen_android_uninitialized_project_modelgen_flutter
       buildspec: .codebuild/run_e2e_tests.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
-          TEST_SUITE: src/__tests__/build-app-ts.test.ts
+          TEST_SUITE: >-
+            src/__tests__/build-app-ts.test.ts|src/__tests__/uninitialized-project-codegen-js.test.ts|src/__tests__/uninitialized-project-modelgen-android.test.ts|src/__tests__/uninitialized-project-modelgen-flutter.test.ts
           CLI_REGION: ap-southeast-1
+      depend-on:
+        - publish_to_local_registry
+    - identifier: uninitialized_project_modelgen_ios_uninitialized_project_modelgen_js
+      buildspec: .codebuild/run_e2e_tests.yml
+      env:
+        compute-type: BUILD_GENERAL1_LARGE
+        variables:
+          TEST_SUITE: >-
+            src/__tests__/uninitialized-project-modelgen-ios.test.ts|src/__tests__/uninitialized-project-modelgen-js.test.ts
+          CLI_REGION: ap-southeast-2
       depend-on:
         - publish_to_local_registry
     - identifier: cleanup_e2e_resources

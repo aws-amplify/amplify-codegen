@@ -5,7 +5,7 @@ const glob = require('glob-all');
 
 const constants = require('../constants');
 const { loadConfig } = require('../codegen-config');
-const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails } = require('../utils');
+const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails, getAppSyncAPIInfoFromProject } = require('../utils');
 const { generateTypes: generateTypesHelper } = require('@aws-amplify/graphql-generator');
 const { extractDocumentFromJavascript } = require('@aws-amplify/graphql-types-generator');
 
@@ -22,9 +22,18 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
   if (frontend !== 'android') {
     const config = loadConfig(context, withoutInit);
     const projects = config.getProjects();
+    if (!projects.length && withoutInit) {
+      context.print.info(constants.ERROR_CODEGEN_NO_API_CONFIGURED);
+      return;
+    }
     let apis = [];
     if (!withoutInit) {
       apis = getAppSyncAPIDetails(context);
+    } else {
+      const api = await getAppSyncAPIInfoFromProject(context, projects[0]);
+      if (api) {
+        apis = [api];
+      }
     }
     if (!projects.length || !apis.length) {
       if (!withoutInit) {
@@ -48,7 +57,7 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
         const target = cfg.amplifyExtension.codeGenTarget;
 
         const excludes = cfg.excludes.map(pattern => `!${pattern}`);
-        const queries = glob
+        const queryFiles = glob
           .sync([...includeFiles, ...excludes], {
             cwd: projectPath,
             absolute: true,
@@ -64,14 +73,22 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
               return extractDocumentFromJavascript(fileContents, '');
             }
             return fileContents;
-          })
-          .join('\n');
+          });
+        if (queryFiles.length === 0) {
+          throw new Error('No queries found to generate types for, you may need to run \'codegen statements\' first');
+        }
+        const queries = queryFiles.join('\n');
 
         const schemaPath = path.join(projectPath, cfg.schema);
-        let region;
-        if (!withoutInit) {
-          ({ region } = cfg.amplifyExtension);
+
+        const outputPath = path.join(projectPath, generatedFileName);
+        if (apis.length) {
+          const { region } = cfg.amplifyExtension;
           await ensureIntrospectionSchema(context, schemaPath, apis[0], region, forceDownloadSchema);
+        } else {
+          if (!fs.existsSync(schemaPath)) {
+            throw new Error(`Cannot find GraphQL schema file: ${schemaPath}`);
+          }
         }
         const codeGenSpinner = new Ora(constants.INFO_MESSAGE_CODEGEN_GENERATE_STARTED);
         codeGenSpinner.start();
