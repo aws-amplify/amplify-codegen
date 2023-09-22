@@ -22,7 +22,7 @@ export type GenerateModelsOptions = {
     directives: string;
     generateIndexRules?: boolean;
     emitAuthProvider?: boolean;
-    useExperimentalPipelinedTranformer?: boolean;
+    useExperimentalPipelinedTransformer?: boolean;
     transformerVersion?: boolean;
     respectPrimaryKeyAttributesOnConnectionField?: boolean;
     generateModelsForLazyLoadAndCustomSelectionSet?: boolean;
