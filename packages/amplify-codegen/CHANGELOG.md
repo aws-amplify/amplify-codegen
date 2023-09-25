@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.6.1](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.6.0...amplify-codegen@4.6.1) (2023-09-25)
+
+### Bug Fixes
+
+- multiple swift file names ([#713](https://github.com/aws-amplify/amplify-codegen/issues/713)) ([a901362](https://github.com/aws-amplify/amplify-codegen/commit/a90136266944812001913b4b49972dda87750763))
+
 # [4.6.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.5.0...amplify-codegen@4.6.0) (2023-09-19)
 
 ### Features

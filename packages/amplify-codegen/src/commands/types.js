@@ -106,6 +106,7 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
               queries,
               target,
               introspection,
+              multipleSwiftFiles: false,
             });
             const outputs = Object.entries(output);
 
