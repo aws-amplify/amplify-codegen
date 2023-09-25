@@ -75,7 +75,7 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
             return fileContents;
           });
         if (queryFiles.length === 0) {
-          throw new Error('No queries found to generate types for, you may need to run \'codegen statements\' first');
+          throw new Error("No queries found to generate types for, you may need to run 'codegen statements' first");
         }
         const queries = queryFiles.join('\n');
 
@@ -95,12 +95,14 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
         const schema = fs.readFileSync(schemaPath, 'utf8');
         const introspection = path.extname(schemaPath) === '.json';
 
+        console.log(target);
         try {
           const output = await generateTypesHelper({
             schema,
             queries,
             target,
             introspection,
+            multipleSwiftFiles: target === 'swift' ? path.extname(generatedFileName) !== '.swift' : undefined,
           });
           const outputs = Object.entries(output);
 

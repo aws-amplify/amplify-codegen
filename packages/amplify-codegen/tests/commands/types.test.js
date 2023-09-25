@@ -63,6 +63,7 @@ describe('command - types', () => {
       getProjects: jest.fn().mockReturnValue([MOCK_PROJECT]),
     });
     MOCK_CONTEXT.amplify.getEnvInfo.mockReturnValue({ projectPath: MOCK_PROJECT_ROOT });
+    MOCK_PROJECT.includes = [MOCK_INCLUDE_PATH];
     getAppSyncAPIDetails.mockReturnValue(MOCK_APIS);
   });
 
@@ -136,5 +137,42 @@ describe('command - types', () => {
     await generateTypes(MOCK_CONTEXT, true);
     expect(generateTypesHelper).not.toHaveBeenCalled();
     expect(sync).not.toHaveBeenCalled();
+  });
+
+  it('should use single swift file when extension is .swift', async () => {
+    MOCK_PROJECT.amplifyExtension.codeGenTarget = 'swift';
+    MOCK_PROJECT.amplifyExtension.generatedFileName = 'API.swift';
+
+    const forceDownload = false;
+    fs.readFileSync
+      .mockReturnValueOnce('query 1')
+      .mockReturnValueOnce('query 2')
+      .mockReturnValueOnce('schema');
+    await generateTypes(MOCK_CONTEXT, forceDownload);
+    expect(generateTypesHelper).toHaveBeenCalledWith({
+      queries: 'query 1\nquery 2',
+      schema: 'schema',
+      target: 'swift',
+      introspection: false,
+      multipleSwiftFiles: false,
+    });
+  });
+
+  it('should use multiple swift files when extension is not .swift', async () => {
+    MOCK_PROJECT.amplifyExtension.codeGenTarget = 'swift';
+    MOCK_PROJECT.amplifyExtension.generatedFileName = 'API';
+    const forceDownload = false;
+    fs.readFileSync
+      .mockReturnValueOnce('query 1')
+      .mockReturnValueOnce('query 2')
+      .mockReturnValueOnce('schema');
+    await generateTypes(MOCK_CONTEXT, forceDownload);
+    expect(generateTypesHelper).toHaveBeenCalledWith({
+      queries: 'query 1\nquery 2',
+      schema: 'schema',
+      target: 'swift',
+      introspection: false,
+      multipleSwiftFiles: true,
+    });
   });
 });
