@@ -14,7 +14,7 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
     // feature flags
     generateIndexRules = true,
     emitAuthProvider = true,
-    useExperimentalPipelinedTranformer = true,
+    useExperimentalPipelinedTransformer = true,
     transformerVersion = true,
     respectPrimaryKeyAttributesOnConnectionField = true,
     generateModelsForLazyLoadAndCustomSelectionSet = true,
@@ -36,7 +36,7 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
       emitAuthProvider,
       generateIndexRules,
       handleListNullabilityTransparently,
-      usePipelinedTransformer: useExperimentalPipelinedTranformer,
+      usePipelinedTransformer: useExperimentalPipelinedTransformer,
       transformerVersion,
       respectPrimaryKeyAttributesOnConnectionField,
       generateModelsForLazyLoadAndCustomSelectionSet,
