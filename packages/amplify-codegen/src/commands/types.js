@@ -95,7 +95,6 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
         const schema = fs.readFileSync(schemaPath, 'utf8');
         const introspection = path.extname(schemaPath) === '.json';
 
-        console.log(target);
         try {
           const output = await generateTypesHelper({
             schema,
