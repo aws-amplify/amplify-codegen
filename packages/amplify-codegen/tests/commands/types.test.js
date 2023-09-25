@@ -81,6 +81,7 @@ describe('command - types', () => {
       schema: 'schema',
       target: 'TYPE_SCRIPT_OR_FLOW_OR_ANY_OTHER_LANGUAGE',
       introspection: false,
+      multipleSwiftFiles: false,
     });
   });
 
