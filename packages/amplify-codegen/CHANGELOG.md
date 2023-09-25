@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.6.2](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.6.1...amplify-codegen@4.6.2) (2023-09-25)
+
+### Bug Fixes
+
+- relative types path in same dir as documents ([#714](https://github.com/aws-amplify/amplify-codegen/issues/714)) ([73d3877](https://github.com/aws-amplify/amplify-codegen/commit/73d38776aaae270201aeddc87d6b97bef860c7f1))
+
 ## [4.6.1](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.6.0...amplify-codegen@4.6.1) (2023-09-25)
 
 ### Bug Fixes
