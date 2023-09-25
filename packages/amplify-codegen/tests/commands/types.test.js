@@ -1,6 +1,7 @@
 const { sync } = require('glob-all');
 const path = require('path');
 const { generateTypes: generateTypesHelper } = require('@aws-amplify/graphql-generator');
+const { generate: legacyGenerate } = require('@aws-amplify/graphql-types-generator');
 const fs = require('fs-extra');
 
 const { loadConfig } = require('../../src/codegen-config');
@@ -20,6 +21,7 @@ const MOCK_CONTEXT = {
 
 jest.mock('glob-all');
 jest.mock('@aws-amplify/graphql-generator');
+jest.mock('@aws-amplify/graphql-types-generator');
 jest.mock('../../src/codegen-config');
 jest.mock('../../src/utils');
 jest.mock('fs-extra');
@@ -83,6 +85,31 @@ describe('command - types', () => {
       introspection: false,
       multipleSwiftFiles: false,
     });
+  });
+
+  it('should use legacy types generation when generating multiple swift files', async () => {
+    MOCK_PROJECT.amplifyExtension.codeGenTarget = 'swift';
+    MOCK_PROJECT.amplifyExtension.generatedFileName = 'typesDirectory';
+    const forceDownload = false;
+    fs.readFileSync
+      .mockReturnValueOnce('query 1')
+      .mockReturnValueOnce('query 2')
+      .mockReturnValueOnce('schema');
+    fs.existsSync.mockReturnValueOnce(true);
+    fs.statSync.mockReturnValueOnce({
+      isDirectory: jest.fn().mockReturnValue(true),
+    });
+    await generateTypes(MOCK_CONTEXT, forceDownload);
+    expect(generateTypesHelper).not.toHaveBeenCalled();
+    expect(legacyGenerate).toHaveBeenCalledWith(
+      ['q1.gql', 'q2.gql'],
+      'MOCK_PROJECT_ROOT/INTROSPECTION_SCHEMA.JSON',
+      'MOCK_PROJECT_ROOT/typesDirectory',
+      '',
+      'swift',
+      '',
+      { addTypename: true, complexObjectSupport: 'auto' },
+    );
   });
 
   it('should not generate type if the frontend is android', async () => {
