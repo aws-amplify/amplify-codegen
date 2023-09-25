@@ -7988,6 +7988,16 @@ public final class MyObject implements Model {
     private String id;
     private List<TutorialStep> tutorial;
     private List<FormCue> formCues;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, List<TutorialStep> tutorial, List<FormCue> formCues) {
+      this.id = id;
+      this.tutorial = tutorial;
+      this.formCues = formCues;
+    }
+    
     @Override
      public MyObject build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -8025,9 +8035,9 @@ public final class MyObject implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, List<TutorialStep> tutorial, List<FormCue> formCues) {
-      super.id(id);
-      super.tutorial(tutorial)
-        .formCues(formCues);
+      super(id, tutorial, formCues);
+      Objects.requireNonNull(tutorial);
+      Objects.requireNonNull(formCues);
     }
     
     @Override
