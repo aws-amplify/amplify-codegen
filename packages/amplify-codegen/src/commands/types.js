@@ -7,7 +7,7 @@ const constants = require('../constants');
 const { loadConfig } = require('../codegen-config');
 const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails, getAppSyncAPIInfoFromProject } = require('../utils');
 const { generateTypes: generateTypesHelper } = require('@aws-amplify/graphql-generator');
-const { extractDocumentFromJavascript } = require('@aws-amplify/graphql-types-generator');
+const { generate, extractDocumentFromJavascript } = require('@aws-amplify/graphql-types-generator');
 
 async function generateTypes(context, forceDownloadSchema, withoutInit = false, decoupleFrontend = '') {
   let frontend = decoupleFrontend;
@@ -57,25 +57,24 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
         const target = cfg.amplifyExtension.codeGenTarget;
 
         const excludes = cfg.excludes.map(pattern => `!${pattern}`);
-        const queryFiles = glob
-          .sync([...includeFiles, ...excludes], {
-            cwd: projectPath,
-            absolute: true,
-          })
-          .map(queryFilePath => {
-            const fileContents = fs.readFileSync(queryFilePath, 'utf8');
-            if (
-              queryFilePath.endsWith('.jsx') ||
-              queryFilePath.endsWith('.js') ||
-              queryFilePath.endsWith('.tsx') ||
-              queryFilePath.endsWith('.ts')
-            ) {
-              return extractDocumentFromJavascript(fileContents, '');
-            }
-            return fileContents;
-          });
+        const queryFilePaths = glob.sync([...includeFiles, ...excludes], {
+          cwd: projectPath,
+          absolute: true,
+        });
+        const queryFiles = queryFilePaths.map(queryFilePath => {
+          const fileContents = fs.readFileSync(queryFilePath, 'utf8');
+          if (
+            queryFilePath.endsWith('.jsx') ||
+            queryFilePath.endsWith('.js') ||
+            queryFilePath.endsWith('.tsx') ||
+            queryFilePath.endsWith('.ts')
+          ) {
+            return extractDocumentFromJavascript(fileContents, '');
+          }
+          return fileContents;
+        });
         if (queryFiles.length === 0) {
-          throw new Error('No queries found to generate types for, you may need to run \'codegen statements\' first');
+          throw new Error("No queries found to generate types for, you may need to run 'codegen statements' first");
         }
         const queries = queryFiles.join('\n');
 
@@ -96,22 +95,30 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
         const introspection = path.extname(schemaPath) === '.json';
 
         try {
-          const output = await generateTypesHelper({
-            schema,
-            queries,
-            target,
-            introspection,
-          });
-          const outputs = Object.entries(output);
-
-          const outputPath = path.join(projectPath, generatedFileName);
-          if (outputs.length === 1) {
-            const [[, contents]] = outputs;
-            fs.outputFileSync(path.resolve(outputPath), contents);
-          } else {
-            outputs.forEach(([filepath, contents]) => {
-              fs.outputFileSync(path.resolve(path.join(outputPath, filepath)), contents);
+          if (target === 'swift' && fs.existsSync(outputPath) && fs.statSync(outputPath).isDirectory()) {
+            generate(queryFilePaths, schemaPath, path.join(projectPath, generatedFileName), '', target, '', {
+              addTypename: true,
+              complexObjectSupport: 'auto',
             });
+          } else {
+            const output = await generateTypesHelper({
+              schema,
+              queries,
+              target,
+              introspection,
+              multipleSwiftFiles: false,
+            });
+            const outputs = Object.entries(output);
+
+            const outputPath = path.join(projectPath, generatedFileName);
+            if (outputs.length === 1) {
+              const [[, contents]] = outputs;
+              fs.outputFileSync(path.resolve(outputPath), contents);
+            } else {
+              outputs.forEach(([filepath, contents]) => {
+                fs.outputFileSync(path.resolve(path.join(outputPath, filepath)), contents);
+              });
+            }
           }
           codeGenSpinner.succeed(`${constants.INFO_MESSAGE_CODEGEN_GENERATE_SUCCESS} ${path.relative(path.resolve('.'), outputPath)}`);
         } catch (err) {
