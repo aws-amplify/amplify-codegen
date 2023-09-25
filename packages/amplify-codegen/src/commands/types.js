@@ -96,7 +96,7 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
 
         try {
           if (target === 'swift' && fs.existsSync(outputPath) && fs.statSync(outputPath).isDirectory()) {
-            generate(queryFilePaths, schemaPath, path.join(projectPath, generatedFileName), '', target, '', {
+            generate(queryFilePaths, schemaPath, outputPath, '', target, '', {
               addTypename: true,
               complexObjectSupport: 'auto',
             });
