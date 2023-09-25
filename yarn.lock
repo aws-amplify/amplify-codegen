@@ -3744,9 +3744,9 @@
     value-or-promise "^1.0.12"
 
 "@graphql-tools/utils@^10.0.0":
-  version "10.0.5"
-  resolved "https://registry.npmjs.org/@graphql-tools/utils/-/utils-10.0.5.tgz#b76c7b5b7fc3f67da734b51cf6e33c52dee09974"
-  integrity sha512-ZTioQqg9z9eCG3j+KDy54k1gp6wRIsLqkx5yi163KVvXVkfjsrdErCyZjrEug21QnKE9piP4tyxMpMMOT1RuRw==
+  version "10.0.6"
+  resolved "https://registry.npmjs.org/@graphql-tools/utils/-/utils-10.0.6.tgz#8a809d6bc0df27ffe8964696f182af2383b5974b"
+  integrity sha512-hZMjl/BbX10iagovakgf3IiqArx8TPsotq5pwBld37uIX1JiZoSbgbCIFol7u55bh32o6cfDEiiJgfAD5fbeyQ==
   dependencies:
     "@graphql-typed-document-node/core" "^3.1.1"
     dset "^3.1.2"
@@ -6128,17 +6128,17 @@
   integrity sha512-AyQEn5hIPV7Ze+xFoXVU3QTHXVbWPrzaOkxtENMPMuNL6VVHrp4hHfDt9nrQpjO7BgvuM95dMtkycX5M/DZR3w==
 
 "@whatwg-node/fetch@^0.9.0":
-  version "0.9.9"
-  resolved "https://registry.npmjs.org/@whatwg-node/fetch/-/fetch-0.9.9.tgz#65e68aaf8353755c20657b803f2fe983dbdabf91"
-  integrity sha512-OTVoDm039CNyAWSRc2WBimMl/N9J4Fk2le21Xzcf+3OiWPNNSIbMnpWKBUyraPh2d9SAEgoBdQxTfVNihXgiUw==
+  version "0.9.13"
+  resolved "https://registry.npmjs.org/@whatwg-node/fetch/-/fetch-0.9.13.tgz#1d084cd546b9cd425ae89cbb1252a3e47a9a2e1c"
+  integrity sha512-PPtMwhjtS96XROnSpowCQM85gCUG2m7AXZFw0PZlGbhzx2GK7f2iOXilfgIJ0uSlCuuGbOIzfouISkA7C4FJOw==
   dependencies:
-    "@whatwg-node/node-fetch" "^0.4.8"
+    "@whatwg-node/node-fetch" "^0.4.17"
     urlpattern-polyfill "^9.0.0"
 
-"@whatwg-node/node-fetch@^0.4.8":
-  version "0.4.13"
-  resolved "https://registry.npmjs.org/@whatwg-node/node-fetch/-/node-fetch-0.4.13.tgz#523b046f9511e6e62ac98365653b5ce63175614b"
-  integrity sha512-Wijn8jtXq6VBX6EttABXHJIQBcoOP6RRQllXbiaHGORACTDr1xg6g2UnkoggY3dbDkm1VsMjdSe7NVBPc4ukYg==
+"@whatwg-node/node-fetch@^0.4.17":
+  version "0.4.19"
+  resolved "https://registry.npmjs.org/@whatwg-node/node-fetch/-/node-fetch-0.4.19.tgz#29c72ff65a8e450949238612ff17a3d3717736d3"
+  integrity sha512-AW7/m2AuweAoSXmESrYQr/KBafueScNbn2iNO0u6xFr2JZdPmYsSm5yvAXYk6yDLv+eDmSSKrf7JnFZ0CsJIdA==
   dependencies:
     "@whatwg-node/events" "^0.1.0"
     busboy "^1.6.0"
