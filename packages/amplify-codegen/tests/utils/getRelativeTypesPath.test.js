@@ -17,7 +17,7 @@ describe('getRelativeTypesPath', () => {
     expect(getRelativeTypesPath('src/graphql', 'src/graphql/types/API.ts')).toEqual('./types/API.ts');
   });
 
-  test('one dir down', () => {
+  test('two dir down', () => {
     expect(getRelativeTypesPath('src/graphql', 'src/graphql/types/foo/API.ts')).toEqual('./types/foo/API.ts');
   });
 
