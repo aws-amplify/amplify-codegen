@@ -3,8 +3,15 @@ const fs = require('fs-extra');
 
 const { loadConfig } = require('../../src/codegen-config');
 const generateStatements = require('../../src/commands/statements');
+const { generateStatements: generateStatementsHelper } = require('@aws-amplify/graphql-generator');
 const constants = require('../../src/constants');
-const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails, readSchemaFromFile } = require('../../src/utils');
+const {
+  ensureIntrospectionSchema,
+  getFrontEndHandler,
+  getAppSyncAPIDetails,
+  readSchemaFromFile,
+  getRelativeTypesPath,
+} = require('../../src/utils');
 
 const MOCK_CONTEXT = {
   print: {
@@ -16,6 +23,7 @@ const MOCK_CONTEXT = {
   },
 };
 
+jest.mock('@aws-amplify/graphql-generator');
 jest.mock('../../src/codegen-config');
 jest.mock('../../src/utils');
 jest.mock('fs-extra');
@@ -67,21 +75,32 @@ describe('command - statements', () => {
     MOCK_CONTEXT.amplify.getEnvInfo.mockReturnValue({ projectPath: MOCK_PROJECT_ROOT });
     getAppSyncAPIDetails.mockReturnValue(MOCK_APIS);
     readSchemaFromFile.mockReturnValue(MOCK_SCHEMA);
+    generateStatementsHelper.mockReturnValue({
+      'queries.js': 'queries',
+    });
   });
 
   it('should generate statements', async () => {
     const forceDownload = false;
+    const relativePath = './relative_path';
+    getRelativeTypesPath.mockReturnValueOnce(relativePath);
     await generateStatements(MOCK_CONTEXT, forceDownload);
     expect(getFrontEndHandler).toHaveBeenCalledWith(MOCK_CONTEXT);
     expect(loadConfig).toHaveBeenCalledWith(MOCK_CONTEXT, false);
+    expect(getRelativeTypesPath).toHaveBeenCalledWith('MOCK_PROJECT_ROOT/MOCK_STATEMENTS_PATH', 'API.TS');
+    expect(generateStatementsHelper).toHaveBeenCalledWith({
+      relativeTypesPath: relativePath,
+      schema: MOCK_SCHEMA,
+      target: MOCK_TARGET_LANGUAGE,
+      typenameIntrospection: true,
+      useExternalFragmentForS3Object: false,
+    });
   });
 
   it('should generate graphql statements for non JS projects', async () => {
     getFrontEndHandler.mockReturnValue('ios');
     loadConfig.mockReturnValue({
-      getProjects: jest.fn().mockReturnValue([
-        { ...MOCK_PROJECT, ...{ amplifyExtension: { codeGenTarget: 'javascript' }} }
-      ]),
+      getProjects: jest.fn().mockReturnValue([{ ...MOCK_PROJECT, ...{ amplifyExtension: { codeGenTarget: 'javascript' } } }]),
     });
     const forceDownload = false;
     await generateStatements(MOCK_CONTEXT, forceDownload);
