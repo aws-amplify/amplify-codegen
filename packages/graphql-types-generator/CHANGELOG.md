@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.4.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@3.4.0...@aws-amplify/graphql-types-generator@3.4.1) (2023-09-25)
+
+### Bug Fixes
+
+- move types from runtime deps to dev deps ([#708](https://github.com/aws-amplify/amplify-codegen/issues/708)) ([f7a024d](https://github.com/aws-amplify/amplify-codegen/commit/f7a024d9ec4f7b0156c72b7f7d05139bbb339cbd))
+
 # [3.4.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@3.3.0...@aws-amplify/graphql-types-generator@3.4.0) (2023-09-12)
 
 ### Features
