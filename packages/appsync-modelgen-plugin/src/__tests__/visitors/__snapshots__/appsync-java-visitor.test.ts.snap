@@ -468,7 +468,7 @@ public final class Project implements Model {
   public static final QueryField PROJECT_TEAM_NAME = field(\\"Project\\", \\"projectTeamName\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String projectId;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
-  private final @ModelField(targetType=\\"Team\\") @HasOne(associatedWith = \\"project\\", type = Team.class) Team team = null;
+  private final @ModelField(targetType=\\"Team\\") @HasOne(associatedWith = \\"project\\", targetNames = {\\"projectTeamTeamId\\", \\"projectTeamName\\"}, type = Team.class) Team team = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   private final @ModelField(targetType=\\"ID\\") String projectTeamTeamId;

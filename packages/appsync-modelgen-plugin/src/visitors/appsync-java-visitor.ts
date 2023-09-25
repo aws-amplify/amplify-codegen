@@ -1111,6 +1111,10 @@ export class AppSyncModelJavaVisitor<
       case CodeGenConnectionType.HAS_ONE:
         connectionDirectiveName = 'HasOne';
         connectionArguments.push(`associatedWith = "${this.getFieldName(connectionInfo.associatedWith)}"`);
+        if (this.isCustomPKEnabled()) {
+          const hasOneTargetNamesArgs = `targetNames = {${connectionInfo.targetNames.map(target => `"${target}"`).join(', ')}}`;
+          connectionArguments.push(hasOneTargetNamesArgs);
+        }
         break;
       case CodeGenConnectionType.HAS_MANY:
         connectionDirectiveName = 'HasMany';
