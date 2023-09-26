@@ -1,3 +1,4 @@
+import { Source } from 'graphql';
 import { Target as GraphqlTypesGeneratorTarget } from '@aws-amplify/graphql-types-generator';
 import { Target as AppsyncModelgenPluginTarget } from '@aws-amplify/appsync-modelgen-plugin';
 
@@ -10,7 +11,7 @@ export type FileExtension = 'js' | 'graphql' | 'ts';
 export type GenerateTypesOptions = {
   schema: string;
   target: TypesTarget;
-  queries: string;
+  queries: string | Source[];
   introspection?: boolean;
   multipleSwiftFiles?: boolean; // only used when target is swift
 };
@@ -22,7 +23,7 @@ export type GenerateModelsOptions = {
   // feature flags
   generateIndexRules?: boolean;
   emitAuthProvider?: boolean;
-  useExperimentalPipelinedTranformer?: boolean;
+  useExperimentalPipelinedTransformer?: boolean;
   transformerVersion?: boolean;
   respectPrimaryKeyAttributesOnConnectionField?: boolean;
   generateModelsForLazyLoadAndCustomSelectionSet?: boolean;

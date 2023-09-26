@@ -5,6 +5,7 @@ const downloadIntrospectionSchema = require('./downloadIntrospectionSchema');
 const getSchemaDownloadLocation = require('./getSchemaDownloadLocation');
 const getIncludePattern = require('./getIncludePattern');
 const getAppSyncAPIInfo = require('./getAppSyncAPIInfo');
+const getAppSyncAPIInfoFromProject = require('./getAppSyncAPIInfoFromProject');
 const getProjectAwsRegion = require('./getProjectAWSRegion');
 const getGraphQLDocPath = require('./getGraphQLDocPath');
 const downloadIntrospectionSchemaWithProgress = require('./generateIntrospectionSchemaWithProgress');
@@ -16,6 +17,7 @@ const switchToSDLSchema = require('./switchToSDLSchema');
 const ensureIntrospectionSchema = require('./ensureIntrospectionSchema');
 const { readSchemaFromFile } = require('./readSchemaFromFile');
 const defaultDirectiveDefinitions = require('./defaultDirectiveDefinitions');
+const getRelativeTypesPath = require('./getRelativeTypesPath');
 module.exports = {
   getAppSyncAPIDetails,
   getFrontEndHandler,
@@ -25,6 +27,7 @@ module.exports = {
   downloadIntrospectionSchemaWithProgress,
   getIncludePattern,
   getAppSyncAPIInfo,
+  getAppSyncAPIInfoFromProject,
   getProjectAwsRegion,
   getGraphQLDocPath,
   isAppSyncApiPendingPush,
@@ -35,4 +38,5 @@ module.exports = {
   ensureIntrospectionSchema,
   readSchemaFromFile,
   defaultDirectiveDefinitions,
+  getRelativeTypesPath,
 };

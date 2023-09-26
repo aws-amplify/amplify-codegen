@@ -1,6 +1,6 @@
 {
   "name": "@aws-amplify/amplify-codegen-e2e-core",
-  "version": "1.5.4",
+  "version": "1.6.0",
   "description": "",
   "repository": {
     "type": "git",
@@ -22,10 +22,14 @@
     "clean": "rimraf ./lib"
   },
   "dependencies": {
+    "aws-sdk": "^2.1465.0",
     "chalk": "^3.0.0",
+    "dotenv": "^8.6.0",
     "execa": "^4.1.0",
     "fs-extra": "^8.1.0",
+    "glob": "^10.3.9",
     "ini": "^3.0.1",
+    "jest-circus": "^27.5.1",
     "jest-environment-node": "^26.6.2",
     "lodash": "^4.17.19",
     "node-pty": "beta",

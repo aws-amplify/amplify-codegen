@@ -4,6 +4,8 @@
 
 ```ts
 
+import { Source } from 'graphql';
+
 // @public (undocumented)
 export function extractDocumentFromJavascript(content: string, tagName?: string): string | null;
 
@@ -11,7 +13,7 @@ export function extractDocumentFromJavascript(content: string, tagName?: string)
 export function generate(inputPaths: string[], schemaPath: string, outputPath: string, only: string, target: Target, tagName: string, options: any): void;
 
 // @public (undocumented)
-export function generateFromString(schema: string, introspection: boolean, queryDocuments: string, target: Target, multipleSwiftFiles: boolean, options: any): {
+export function generateFromString(schema: string, introspection: boolean, queryDocuments: string | Source[], target: Target, multipleSwiftFiles: boolean, options: any): {
     [filepath: string]: string;
 };
 

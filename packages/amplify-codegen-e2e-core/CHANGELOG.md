@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-core@1.5.4...@aws-amplify/amplify-codegen-e2e-core@1.6.0) (2023-09-19)
+
+### Features
+
+- merge noinit-modelgen into main to support executing amplify codegen models without an initialized amplify app ([#698](https://github.com/aws-amplify/amplify-codegen/issues/698)) ([d9ce4ea](https://github.com/aws-amplify/amplify-codegen/commit/d9ce4eab58ec4ac72fc737461c11783562d96167)), closes [#686](https://github.com/aws-amplify/amplify-codegen/issues/686) [#693](https://github.com/aws-amplify/amplify-codegen/issues/693) [#694](https://github.com/aws-amplify/amplify-codegen/issues/694) [#696](https://github.com/aws-amplify/amplify-codegen/issues/696)
+- support running codegen without an initialized amplify backend set up locally. ([#702](https://github.com/aws-amplify/amplify-codegen/issues/702)) ([8279f35](https://github.com/aws-amplify/amplify-codegen/commit/8279f35d84cb10f0df3c4fb0f4a141f86dbc3e60)), closes [#683](https://github.com/aws-amplify/amplify-codegen/issues/683) [#684](https://github.com/aws-amplify/amplify-codegen/issues/684) [#689](https://github.com/aws-amplify/amplify-codegen/issues/689) [#704](https://github.com/aws-amplify/amplify-codegen/issues/704) [#705](https://github.com/aws-amplify/amplify-codegen/issues/705) [#706](https://github.com/aws-amplify/amplify-codegen/issues/706)
+
 ## [1.5.4](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-core@1.5.3...@aws-amplify/amplify-codegen-e2e-core@1.5.4) (2023-08-15)
 
 **Note:** Version bump only for package @aws-amplify/amplify-codegen-e2e-core

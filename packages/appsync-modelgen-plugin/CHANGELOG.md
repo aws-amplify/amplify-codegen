@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.7.1...@aws-amplify/appsync-modelgen-plugin@2.7.2) (2023-09-25)
+
+### Bug Fixes
+
+- move types from runtime deps to dev deps ([#708](https://github.com/aws-amplify/amplify-codegen/issues/708)) ([f7a024d](https://github.com/aws-amplify/amplify-codegen/commit/f7a024d9ec4f7b0156c72b7f7d05139bbb339cbd))
+
+## [2.7.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.7.0...@aws-amplify/appsync-modelgen-plugin@2.7.1) (2023-09-19)
+
+### Bug Fixes
+
+- avoid name collision on java model build step ([#700](https://github.com/aws-amplify/amplify-codegen/issues/700)) ([f44358a](https://github.com/aws-amplify/amplify-codegen/commit/f44358aef41556a9dbc8e511ad69d254a1e7ee67))
+
 # [2.7.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.6.0...@aws-amplify/appsync-modelgen-plugin@2.7.0) (2023-09-12)
 
 ### Features
