@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.1.2...@aws-amplify/graphql-generator@0.1.3) (2023-09-26)
+
+### Bug Fixes
+
+- generate multiple swift files in graphql-generator ([#718](https://github.com/aws-amplify/amplify-codegen/issues/718)) ([1e484af](https://github.com/aws-amplify/amplify-codegen/commit/1e484afe39a76ac633208698e3f780214819e44e))
+
 ## [0.1.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.1.1...@aws-amplify/graphql-generator@0.1.2) (2023-09-25)
 
 ### Bug Fixes
