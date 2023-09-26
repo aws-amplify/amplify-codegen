@@ -31,6 +31,9 @@
     "@graphql-tools/apollo-engine-loader": "^8.0.0",
     "graphql": "^15.5.0"
   },
+  "devDependencies": {
+    "@types/prettier": "^1.0.0"
+  },
   "typescript": {
     "definition": "lib/index.d.ts"
   },
