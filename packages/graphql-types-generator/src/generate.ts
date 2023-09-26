@@ -84,13 +84,17 @@ function generateFromFile(
 export function generateFromString(
   schema: string,
   introspection: boolean,
-  queryDocuments: string,
+  queryDocuments: string | Source[],
   target: Target,
   multipleSwiftFiles: boolean,
   options: any,
 ): { [filepath: string]: string } {
+  if (typeof queryDocuments === 'string' && multipleSwiftFiles) {
+    throw new Error('Query documents must be of type Source[] when generating multiple Swift files.');
+  }
   const graphqlSchema = parseSchema(schema, introspection);
-  const document = parseAndMergeQueryDocuments([new Source(queryDocuments)]);
+  const queryDocumentSources = typeof queryDocuments === 'string' ? [new Source(queryDocuments)] : queryDocuments;
+  const document = parseAndMergeQueryDocuments(queryDocumentSources);
   validateQueryDocument(graphqlSchema, document);
   const output = generateForTarget(graphqlSchema, document, '', target, multipleSwiftFiles, options);
 

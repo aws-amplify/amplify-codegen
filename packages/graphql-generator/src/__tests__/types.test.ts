@@ -1,3 +1,4 @@
+import { Source } from 'graphql';
 import { generateTypes, GenerateTypesOptions, TypesTarget } from '..';
 import { readSchema } from './utils';
 
@@ -37,15 +38,31 @@ describe('generateTypes', () => {
     });
   });
 
-  test('multipleSwiftFiles', async () => {
-    const options: GenerateTypesOptions = {
-      schema: sdlSchema,
-      queries,
-      target: 'swift',
-      multipleSwiftFiles: true,
-    };
+  describe('multipleSwiftFiles', () => {
+    test('generates multiple files', async () => {
+      const filename = 'queries.graphql';
+      const options: GenerateTypesOptions = {
+        schema: sdlSchema,
+        queries: [new Source(queries, filename)],
+        target: 'swift',
+        multipleSwiftFiles: true,
+      };
 
-    const types = await generateTypes(options);
-    expect(types).toMatchSnapshot();
+      const types = await generateTypes(options);
+      expect(Object.keys(types)).toEqual(['Types.graphql.swift', `${filename}.swift`]);
+      expect(types).toMatchSnapshot();
+    });
+
+    test('throws error if not using Source', async () => {
+      const filename = 'queries.graphql';
+      const options: GenerateTypesOptions = {
+        schema: sdlSchema,
+        queries: queries,
+        target: 'swift',
+        multipleSwiftFiles: true,
+      };
+
+      expect(generateTypes(options)).rejects.toThrow('Query documents must be of type Source[] when generating multiple Swift files.');
+    });
   });
 });
