@@ -3,7 +3,7 @@ import { generate, generateFromString } from '@aws-amplify/graphql-types-generat
 import { GenerateTypesOptions, GeneratedOutput } from './typescript';
 
 export async function generateTypes(options: GenerateTypesOptions): Promise<GeneratedOutput> {
-  const { schema, target, queries, multipleSwiftFiles = true, introspection = false } = options;
+  const { schema, target, queries, multipleSwiftFiles = false, introspection = false } = options;
 
   const generatedOutput = await generateFromString(schema, introspection, queries, target, multipleSwiftFiles, {
     addTypename: true,
