@@ -35,8 +35,10 @@
     "extract-api": "ts-node ../../scripts/extract-api.ts"
   },
   "dependencies": {
+    "@aws-amplify/api": "^5.4.5",
     "@babel/generator": "7.0.0-beta.4",
     "@babel/types": "7.0.0-beta.4",
+    "aws-amplify": "^5.3.11",
     "babel-generator": "^6.26.1",
     "babel-types": "^6.26.0",
     "change-case": "^4.1.1",
@@ -60,7 +62,8 @@
     "@types/node": "^10.17.13",
     "@types/prettier": "^1.19.0",
     "@types/rimraf": "^3.0.0",
-    "@types/yargs": "^15.0.1"
+    "@types/yargs": "^15.0.1",
+    "@types/zen-observable": "^0.8.4"
   },
   "publishConfig": {
     "access": "public"
