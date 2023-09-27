@@ -4,6 +4,7 @@ import { join } from 'path';
 import { JAVA_SCALAR_MAP, SWIFT_SCALAR_MAP, TYPESCRIPT_SCALAR_MAP, DART_SCALAR_MAP, METADATA_SCALAR_MAP } from './scalars';
 import { LOADER_CLASS_NAME, GENERATED_PACKAGE_NAME } from './configs/java-config';
 import { graphqlName, toUpper } from 'graphql-transformer-common';
+import { ObjectTypeDefinitionNode, StringValueNode } from "graphql/language/ast";
 
 const APPSYNC_DATA_STORE_CODEGEN_TARGETS = ['java', 'swift', 'javascript', 'typescript', 'dart', 'introspection'];
 
@@ -79,6 +80,38 @@ const generateJavaPreset = (
             generate: 'metadata',
             selectedType: modelName,
           },
+        });
+      }
+
+      // Create ModelPath's for manyToMany's join model.
+      // Type cast to ObjectTypeDefinition to access `fields`.
+      if (model.kind === Kind.OBJECT_TYPE_DEFINITION) {
+        const modelObject = model as ObjectTypeDefinitionNode;
+
+        // For each field, find all fields that are directives of type "manyToMany"
+        modelObject?.fields?.forEach(field => {
+          const manyToManyDirectives = field.directives?.filter(directive => directive.name.value === "manyToMany");
+
+          // For each "manyToMany" directive, find the "relationName" Argument's value. This is the name of the join model.
+          manyToManyDirectives?.forEach(manyToManyDirective => {
+            const argument = manyToManyDirective.arguments?.find(argument => argument.name.value === "relationName");
+            if (argument?.value.kind === "StringValue") {
+              const stringValue = argument?.value as StringValueNode;
+              let joinModelName = graphqlName(toUpper(stringValue.value));
+
+              // Create the Join model's Model Path file.
+              config.push({
+                ...options,
+                filename: join(...modelFolder, `${joinModelName}Path.java`),
+                config: {
+                  ...options.config,
+                  scalars: { ...JAVA_SCALAR_MAP, ...options.config.scalars },
+                  generate: 'metadata',
+                  selectedType: joinModelName,
+                },
+              });
+            }
+          });
         });
       }
     }
