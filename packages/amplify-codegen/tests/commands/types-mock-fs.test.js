@@ -90,6 +90,22 @@ describe('command - types (mock fs)', () => {
     });
   });
 
+  it('should generate multiple swift files if generatedFileName is a dir', async () => {
+    const generatedFileName = 'api';
+    setupMocks(mockFs, loadConfig, MOCK_API_ID, 'swift', 'swift', generatedFileName, { [generatedFileName]: {} });
+
+    await generateStatements(MOCK_CONTEXT, false);
+    await generateTypes(MOCK_CONTEXT, false);
+
+    expect(fs.existsSync(generatedFileName)).toBeTruthy();
+    expect(fs.readdirSync(generatedFileName)).toEqual([
+      'Types.graphql.swift',
+      'mutations.graphql.swift',
+      'queries.graphql.swift',
+      'subscriptions.graphql.swift',
+    ]);
+  });
+
   it('should not generate types when target is javascript', async () => {
     const generatedFileName = setupMocks(mockFs, loadConfig, MOCK_API_ID, 'javascript', 'javascript');
 

@@ -7,14 +7,14 @@ const { getOutputFileName } = require('@aws-amplify/graphql-types-generator');
  * Mocks existence of `schema.json` using mocks fs
  * Mocks existence of `.graphqlconfig.yml` by mocking return value for loadConfig utility
  */
-function setupMocks(mockFs, loadConfig, apiId, frontend, target) {
+function setupMocks(mockFs, loadConfig, apiId, frontend, target, generatedFileNameOverride, extendMockFs) {
   mockFs.restore();
   const docsFilePath = {
     javascript: 'src/graphql',
     android: 'app/src/main/graphql/com/amazonaws/amplify/generated/graphql',
     swift: 'graphql',
   };
-  const generatedFileName = getOutputFileName('API', target);
+  const generatedFileName = generatedFileNameOverride || getOutputFileName('API', target);
   const schemaFilePath = 'schema.json';
   const nodeModulesPrettier = path.resolve(path.join(__dirname, '../../../../node_modules/prettier'));
   const mockedFiles = {
@@ -26,6 +26,7 @@ function setupMocks(mockFs, loadConfig, apiId, frontend, target) {
       lazy: true,
     }),
     [schemaFilePath]: mockFs.load(path.resolve(path.join(__dirname, './blog-introspection-schema.json'))),
+    ...extendMockFs,
   };
   mockFs(mockedFiles);
 
