@@ -20,6 +20,7 @@ export type GenerateModelsOptions = {
     schema: string;
     target: ModelsTarget;
     directives: string;
+    isDataStoreEnabled?: boolean;
     generateIndexRules?: boolean;
     emitAuthProvider?: boolean;
     useExperimentalPipelinedTransformer?: boolean;
