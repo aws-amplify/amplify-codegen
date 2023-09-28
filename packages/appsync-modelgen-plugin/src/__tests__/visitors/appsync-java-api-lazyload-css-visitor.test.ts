@@ -106,6 +106,60 @@ describe('AppSyncModelVisitor', () => {
       compositePKParentChildrenSansBelongsToContent: String
     }
   `;
+
+  const schemaParentHasOneHasManyChild = /* GraphQL */ `
+    type Parent @model {
+      id: ID! @primaryKey
+      child: HasOneChild @hasOne
+      children: [HasManyChild] @hasMany
+    }
+    
+    type HasOneChild @model {
+      id: ID! @primaryKey
+      content: String
+    }
+    
+    type HasManyChild @model {
+      id: ID! @primaryKey
+      content: String
+      parent: Parent @belongsTo
+    }
+  `;
+
+  const schemaProjectTeam = /* GraphQL */ `
+    type Project @model {
+      projectId: ID! @primaryKey(sortKeyFields:["name"])
+      name: String!
+      team: Team @hasOne
+    }
+    type Team @model {
+      teamId: ID! @primaryKey(sortKeyFields:["name"])
+      name: String!
+      project: Project @belongsTo
+    }
+  `;
+
+  const schemaBlogPostComment = /* GraphQL */ `
+    type Blog @model {
+      blogId: String! @primaryKey
+      name: String!
+      posts: [Post!]! @hasMany
+    }
+    
+    type Post @model {
+      postId: ID! @primaryKey(sortKeyFields:["title"])
+      title: String!
+      blog: Blog! @belongsTo
+      comments: [Comment]! @hasMany
+    }
+    
+    type Comment @model {
+      commentId: ID! @primaryKey(sortKeyFields:["content"])
+      content: String!
+      post: Post! @belongsTo
+}
+  `;
+
   describe('DataStore Enabled', () => {
     it('Should generate for HasOneParent HasOneChild models', () => {
       const visitor = getVisitor(schemaHasOneParentChild, undefined, { isDataStoreEnabled: true });
@@ -123,6 +177,24 @@ describe('AppSyncModelVisitor', () => {
 
     it('should generate for CompositePKParent and (CompositePK, Implicit, StrangeExplicit, ChildSansBelongsTo) Child models', () => {
       const visitor = getVisitor(schemaCompositePK, undefined, { isDataStoreEnabled: true });
+      const generatedCode = visitor.generate();
+      expect(() => validateJava(generatedCode)).not.toThrow();
+      expect(generatedCode).toMatchSnapshot();
+    });
+    it('should generate for Parent, HasOneChild, HasManyChild models', () => {
+      const visitor = getVisitor(schemaParentHasOneHasManyChild, undefined, { isDataStoreEnabled: true });
+      const generatedCode = visitor.generate();
+      expect(() => validateJava(generatedCode)).not.toThrow();
+      expect(generatedCode).toMatchSnapshot();
+    });
+    it('should generate for Project and Team models', () => {
+      const visitor = getVisitor(schemaProjectTeam, undefined, { isDataStoreEnabled: true });
+      const generatedCode = visitor.generate();
+      expect(() => validateJava(generatedCode)).not.toThrow();
+      expect(generatedCode).toMatchSnapshot();
+    });
+    it('should generate for Blog, Post, and Comment models', () => {
+      const visitor = getVisitor(schemaBlogPostComment, undefined, { isDataStoreEnabled: true });
       const generatedCode = visitor.generate();
       expect(() => validateJava(generatedCode)).not.toThrow();
       expect(generatedCode).toMatchSnapshot();
@@ -146,6 +218,25 @@ describe('AppSyncModelVisitor', () => {
 
     it('should generate for CompositePKParent and (CompositePK, Implicit, StrangeExplicit, ChildSansBelongsTo) Child models', () => {
       const visitor = getVisitor(schemaCompositePK);
+      const generatedCode = visitor.generate();
+      expect(() => validateJava(generatedCode)).not.toThrow();
+      expect(generatedCode).toMatchSnapshot();
+    });
+
+    it('should generate for Parent, HasOneChild, HasManyChild models', () => {
+      const visitor = getVisitor(schemaParentHasOneHasManyChild)
+      const generatedCode = visitor.generate();
+      expect(() => validateJava(generatedCode)).not.toThrow();
+      expect(generatedCode).toMatchSnapshot();
+    });
+    it('should generate for Project and Team models', () => {
+      const visitor = getVisitor(schemaProjectTeam);
+      const generatedCode = visitor.generate();
+      expect(() => validateJava(generatedCode)).not.toThrow();
+      expect(generatedCode).toMatchSnapshot();
+    });
+    it('should generate for Blog, Post, and Comment models', () => {
+      const visitor = getVisitor(schemaBlogPostComment);
       const generatedCode = visitor.generate();
       expect(() => validateJava(generatedCode)).not.toThrow();
       expect(generatedCode).toMatchSnapshot();

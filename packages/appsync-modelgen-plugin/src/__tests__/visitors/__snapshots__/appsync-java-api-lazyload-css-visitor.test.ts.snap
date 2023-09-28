@@ -699,6 +699,681 @@ public final class HasOneChild implements Model {
 "
 `;
 
+exports[`AppSyncModelVisitor API only should generate for Blog, Post, and Comment models 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.HasMany;
+import com.amplifyframework.core.model.ModelList;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.model.annotations.BelongsTo;
+import com.amplifyframework.core.model.ModelReference;
+import com.amplifyframework.core.model.LoadedModelReferenceImpl;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Blog type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Blogs\\", hasLazySupport = true)
+@Index(name = \\"undefined\\", fields = {\\"blogId\\"})
+public final class Blog implements Model {
+  public static final BlogPath rootPath = new BlogPath(\\"root\\", false, null);
+  public static final QueryField ID = field(\\"Blog\\", \\"id\\");
+  public static final QueryField BLOG_ID = field(\\"Blog\\", \\"blogId\\");
+  public static final QueryField NAME = field(\\"Blog\\", \\"name\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String blogId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
+  private final @ModelField(targetType=\\"Post\\", isRequired = true) @HasMany(associatedWith = \\"blog\\", type = Post.class) ModelList<Post> posts = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getBlogId() {
+      return blogId;
+  }
+  
+  public String getName() {
+      return name;
+  }
+  
+  public ModelList<Post> getPosts() {
+      return posts;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Blog(String id, String blogId, String name) {
+    this.id = id;
+    this.blogId = blogId;
+    this.name = name;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Blog blog = (Blog) obj;
+      return ObjectsCompat.equals(getId(), blog.getId()) &&
+              ObjectsCompat.equals(getBlogId(), blog.getBlogId()) &&
+              ObjectsCompat.equals(getName(), blog.getName()) &&
+              ObjectsCompat.equals(getCreatedAt(), blog.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), blog.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getBlogId())
+      .append(getName())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Blog {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"blogId=\\" + String.valueOf(getBlogId()) + \\", \\")
+      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BlogIdStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Blog justId(String id) {
+    return new Blog(
+      id,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      blogId,
+      name);
+  }
+  public interface BlogIdStep {
+    NameStep blogId(String blogId);
+  }
+  
+
+  public interface NameStep {
+    BuildStep name(String name);
+  }
+  
+
+  public interface BuildStep {
+    Blog build();
+    BuildStep id(String id);
+  }
+  
+
+  public static class Builder implements BlogIdStep, NameStep, BuildStep {
+    private String id;
+    private String blogId;
+    private String name;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String blogId, String name) {
+      this.id = id;
+      this.blogId = blogId;
+      this.name = name;
+    }
+    
+    @Override
+     public Blog build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Blog(
+          id,
+          blogId,
+          name);
+    }
+    
+    @Override
+     public NameStep blogId(String blogId) {
+        Objects.requireNonNull(blogId);
+        this.blogId = blogId;
+        return this;
+    }
+    
+    @Override
+     public BuildStep name(String name) {
+        Objects.requireNonNull(name);
+        this.name = name;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String blogId, String name) {
+      super(id, blogId, name);
+      Objects.requireNonNull(blogId);
+      Objects.requireNonNull(name);
+    }
+    
+    @Override
+     public CopyOfBuilder blogId(String blogId) {
+      return (CopyOfBuilder) super.blogId(blogId);
+    }
+    
+    @Override
+     public CopyOfBuilder name(String name) {
+      return (CopyOfBuilder) super.name(name);
+    }
+  }
+  
+}
+
+/** This is an auto generated class representing the Post type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Posts\\", hasLazySupport = true)
+@Index(name = \\"undefined\\", fields = {\\"postId\\",\\"title\\"})
+public final class Post implements Model {
+  public static final PostPath rootPath = new PostPath(\\"root\\", false, null);
+  public static final QueryField ID = field(\\"Post\\", \\"id\\");
+  public static final QueryField POST_ID = field(\\"Post\\", \\"postId\\");
+  public static final QueryField TITLE = field(\\"Post\\", \\"title\\");
+  public static final QueryField BLOG = field(\\"Post\\", \\"blogPostsId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String postId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String title;
+  private final @ModelField(targetType=\\"Blog\\", isRequired = true) @BelongsTo(targetName = \\"blogPostsId\\", type = Blog.class) ModelReference<Blog> blog;
+  private final @ModelField(targetType=\\"Comment\\", isRequired = true) @HasMany(associatedWith = \\"post\\", type = Comment.class) ModelList<Comment> comments = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getPostId() {
+      return postId;
+  }
+  
+  public String getTitle() {
+      return title;
+  }
+  
+  public ModelReference<Blog> getBlog() {
+      return blog;
+  }
+  
+  public ModelList<Comment> getComments() {
+      return comments;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Post(String id, String postId, String title, ModelReference<Blog> blog) {
+    this.id = id;
+    this.postId = postId;
+    this.title = title;
+    this.blog = blog;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Post post = (Post) obj;
+      return ObjectsCompat.equals(getId(), post.getId()) &&
+              ObjectsCompat.equals(getPostId(), post.getPostId()) &&
+              ObjectsCompat.equals(getTitle(), post.getTitle()) &&
+              ObjectsCompat.equals(getBlog(), post.getBlog()) &&
+              ObjectsCompat.equals(getCreatedAt(), post.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), post.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getPostId())
+      .append(getTitle())
+      .append(getBlog())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Post {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"postId=\\" + String.valueOf(getPostId()) + \\", \\")
+      .append(\\"title=\\" + String.valueOf(getTitle()) + \\", \\")
+      .append(\\"blog=\\" + String.valueOf(getBlog()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static PostIdStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Post justId(String id) {
+    return new Post(
+      id,
+      null,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      postId,
+      title,
+      blog);
+  }
+  public interface PostIdStep {
+    TitleStep postId(String postId);
+  }
+  
+
+  public interface TitleStep {
+    BlogStep title(String title);
+  }
+  
+
+  public interface BlogStep {
+    BuildStep blog(Blog blog);
+  }
+  
+
+  public interface BuildStep {
+    Post build();
+    BuildStep id(String id);
+  }
+  
+
+  public static class Builder implements PostIdStep, TitleStep, BlogStep, BuildStep {
+    private String id;
+    private String postId;
+    private String title;
+    private ModelReference<Blog> blog;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String postId, String title, ModelReference<Blog> blog) {
+      this.id = id;
+      this.postId = postId;
+      this.title = title;
+      this.blog = blog;
+    }
+    
+    @Override
+     public Post build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Post(
+          id,
+          postId,
+          title,
+          blog);
+    }
+    
+    @Override
+     public TitleStep postId(String postId) {
+        Objects.requireNonNull(postId);
+        this.postId = postId;
+        return this;
+    }
+    
+    @Override
+     public BlogStep title(String title) {
+        Objects.requireNonNull(title);
+        this.title = title;
+        return this;
+    }
+    
+    @Override
+     public BuildStep blog(Blog blog) {
+        Objects.requireNonNull(blog);
+        this.blog = new LoadedModelReferenceImpl<>(blog);
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String postId, String title, ModelReference<Blog> blog) {
+      super(id, postId, title, blog);
+      Objects.requireNonNull(postId);
+      Objects.requireNonNull(title);
+      Objects.requireNonNull(blog);
+    }
+    
+    @Override
+     public CopyOfBuilder postId(String postId) {
+      return (CopyOfBuilder) super.postId(postId);
+    }
+    
+    @Override
+     public CopyOfBuilder title(String title) {
+      return (CopyOfBuilder) super.title(title);
+    }
+    
+    @Override
+     public CopyOfBuilder blog(Blog blog) {
+      return (CopyOfBuilder) super.blog(blog);
+    }
+  }
+  
+}
+
+/** This is an auto generated class representing the Comment type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Comments\\", hasLazySupport = true)
+@Index(name = \\"undefined\\", fields = {\\"commentId\\",\\"content\\"})
+public final class Comment implements Model {
+  public static final CommentPath rootPath = new CommentPath(\\"root\\", false, null);
+  public static final QueryField ID = field(\\"Comment\\", \\"id\\");
+  public static final QueryField COMMENT_ID = field(\\"Comment\\", \\"commentId\\");
+  public static final QueryField CONTENT = field(\\"Comment\\", \\"content\\");
+  public static final QueryField POST = field(\\"Comment\\", \\"postCommentsId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String commentId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
+  private final @ModelField(targetType=\\"Post\\", isRequired = true) @BelongsTo(targetName = \\"postCommentsId\\", type = Post.class) ModelReference<Post> post;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getCommentId() {
+      return commentId;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public ModelReference<Post> getPost() {
+      return post;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Comment(String id, String commentId, String content, ModelReference<Post> post) {
+    this.id = id;
+    this.commentId = commentId;
+    this.content = content;
+    this.post = post;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Comment comment = (Comment) obj;
+      return ObjectsCompat.equals(getId(), comment.getId()) &&
+              ObjectsCompat.equals(getCommentId(), comment.getCommentId()) &&
+              ObjectsCompat.equals(getContent(), comment.getContent()) &&
+              ObjectsCompat.equals(getPost(), comment.getPost()) &&
+              ObjectsCompat.equals(getCreatedAt(), comment.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), comment.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getCommentId())
+      .append(getContent())
+      .append(getPost())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Comment {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"commentId=\\" + String.valueOf(getCommentId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"post=\\" + String.valueOf(getPost()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static CommentIdStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Comment justId(String id) {
+    return new Comment(
+      id,
+      null,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      commentId,
+      content,
+      post);
+  }
+  public interface CommentIdStep {
+    ContentStep commentId(String commentId);
+  }
+  
+
+  public interface ContentStep {
+    PostStep content(String content);
+  }
+  
+
+  public interface PostStep {
+    BuildStep post(Post post);
+  }
+  
+
+  public interface BuildStep {
+    Comment build();
+    BuildStep id(String id);
+  }
+  
+
+  public static class Builder implements CommentIdStep, ContentStep, PostStep, BuildStep {
+    private String id;
+    private String commentId;
+    private String content;
+    private ModelReference<Post> post;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String commentId, String content, ModelReference<Post> post) {
+      this.id = id;
+      this.commentId = commentId;
+      this.content = content;
+      this.post = post;
+    }
+    
+    @Override
+     public Comment build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Comment(
+          id,
+          commentId,
+          content,
+          post);
+    }
+    
+    @Override
+     public ContentStep commentId(String commentId) {
+        Objects.requireNonNull(commentId);
+        this.commentId = commentId;
+        return this;
+    }
+    
+    @Override
+     public PostStep content(String content) {
+        Objects.requireNonNull(content);
+        this.content = content;
+        return this;
+    }
+    
+    @Override
+     public BuildStep post(Post post) {
+        Objects.requireNonNull(post);
+        this.post = new LoadedModelReferenceImpl<>(post);
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String commentId, String content, ModelReference<Post> post) {
+      super(id, commentId, content, post);
+      Objects.requireNonNull(commentId);
+      Objects.requireNonNull(content);
+      Objects.requireNonNull(post);
+    }
+    
+    @Override
+     public CopyOfBuilder commentId(String commentId) {
+      return (CopyOfBuilder) super.commentId(commentId);
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+    
+    @Override
+     public CopyOfBuilder post(Post post) {
+      return (CopyOfBuilder) super.post(post);
+    }
+  }
+  
+}
+"
+`;
+
 exports[`AppSyncModelVisitor API only should generate for CompositePKParent and (CompositePK, Implicit, StrangeExplicit, ChildSansBelongsTo) Child models 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
@@ -1937,6 +2612,995 @@ public final class ChildSansBelongsTo implements Model {
 "
 `;
 
+exports[`AppSyncModelVisitor API only should generate for Parent, HasOneChild, HasManyChild models 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.HasOne;
+import com.amplifyframework.core.model.ModelReference;
+import com.amplifyframework.core.model.LoadedModelReferenceImpl;
+import com.amplifyframework.core.model.annotations.HasMany;
+import com.amplifyframework.core.model.ModelList;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.model.annotations.BelongsTo;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Parent type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Parents\\", hasLazySupport = true)
+@Index(name = \\"undefined\\", fields = {\\"id\\"})
+public final class Parent implements Model {
+  public static final ParentPath rootPath = new ParentPath(\\"root\\", false, null);
+  public static final QueryField ID = field(\\"Parent\\", \\"id\\");
+  public static final QueryField PARENT_CHILD_ID = field(\\"Parent\\", \\"parentChildId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"HasOneChild\\") @HasOne(associatedWith = \\"id\\", type = HasOneChild.class) ModelReference<HasOneChild> child = null;
+  private final @ModelField(targetType=\\"HasManyChild\\") @HasMany(associatedWith = \\"parent\\", type = HasManyChild.class) ModelList<HasManyChild> children = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType=\\"ID\\") String parentChildId;
+  public String getId() {
+      return id;
+  }
+  
+  public ModelReference<HasOneChild> getChild() {
+      return child;
+  }
+  
+  public ModelList<HasManyChild> getChildren() {
+      return children;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  public String getParentChildId() {
+      return parentChildId;
+  }
+  
+  private Parent(String id, String parentChildId) {
+    this.id = id;
+    this.parentChildId = parentChildId;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Parent parent = (Parent) obj;
+      return ObjectsCompat.equals(getId(), parent.getId()) &&
+              ObjectsCompat.equals(getCreatedAt(), parent.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), parent.getUpdatedAt()) &&
+              ObjectsCompat.equals(getParentChildId(), parent.getParentChildId());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .append(getParentChildId())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Parent {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
+      .append(\\"parentChildId=\\" + String.valueOf(getParentChildId()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BuildStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Parent justId(String id) {
+    return new Parent(
+      id,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      parentChildId);
+  }
+  public interface BuildStep {
+    Parent build();
+    BuildStep id(String id);
+    BuildStep parentChildId(String parentChildId);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private String parentChildId;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String parentChildId) {
+      this.id = id;
+      this.parentChildId = parentChildId;
+    }
+    
+    @Override
+     public Parent build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Parent(
+          id,
+          parentChildId);
+    }
+    
+    @Override
+     public BuildStep parentChildId(String parentChildId) {
+        this.parentChildId = parentChildId;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String parentChildId) {
+      super(id, parentChildId);
+      
+    }
+    
+    @Override
+     public CopyOfBuilder parentChildId(String parentChildId) {
+      return (CopyOfBuilder) super.parentChildId(parentChildId);
+    }
+  }
+  
+}
+
+/** This is an auto generated class representing the HasOneChild type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"HasOneChildren\\", hasLazySupport = true)
+@Index(name = \\"undefined\\", fields = {\\"id\\"})
+public final class HasOneChild implements Model {
+  public static final HasOneChildPath rootPath = new HasOneChildPath(\\"root\\", false, null);
+  public static final QueryField ID = field(\\"HasOneChild\\", \\"id\\");
+  public static final QueryField CONTENT = field(\\"HasOneChild\\", \\"content\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\") String content;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private HasOneChild(String id, String content) {
+    this.id = id;
+    this.content = content;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      HasOneChild hasOneChild = (HasOneChild) obj;
+      return ObjectsCompat.equals(getId(), hasOneChild.getId()) &&
+              ObjectsCompat.equals(getContent(), hasOneChild.getContent()) &&
+              ObjectsCompat.equals(getCreatedAt(), hasOneChild.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), hasOneChild.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getContent())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"HasOneChild {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BuildStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static HasOneChild justId(String id) {
+    return new HasOneChild(
+      id,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      content);
+  }
+  public interface BuildStep {
+    HasOneChild build();
+    BuildStep id(String id);
+    BuildStep content(String content);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private String content;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String content) {
+      this.id = id;
+      this.content = content;
+    }
+    
+    @Override
+     public HasOneChild build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new HasOneChild(
+          id,
+          content);
+    }
+    
+    @Override
+     public BuildStep content(String content) {
+        this.content = content;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String content) {
+      super(id, content);
+      
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+  }
+  
+}
+
+/** This is an auto generated class representing the HasManyChild type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"HasManyChildren\\", hasLazySupport = true)
+@Index(name = \\"undefined\\", fields = {\\"id\\"})
+public final class HasManyChild implements Model {
+  public static final HasManyChildPath rootPath = new HasManyChildPath(\\"root\\", false, null);
+  public static final QueryField ID = field(\\"HasManyChild\\", \\"id\\");
+  public static final QueryField CONTENT = field(\\"HasManyChild\\", \\"content\\");
+  public static final QueryField PARENT = field(\\"HasManyChild\\", \\"parentChildrenId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\") String content;
+  private final @ModelField(targetType=\\"Parent\\") @BelongsTo(targetName = \\"parentChildrenId\\", type = Parent.class) ModelReference<Parent> parent;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public ModelReference<Parent> getParent() {
+      return parent;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private HasManyChild(String id, String content, ModelReference<Parent> parent) {
+    this.id = id;
+    this.content = content;
+    this.parent = parent;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      HasManyChild hasManyChild = (HasManyChild) obj;
+      return ObjectsCompat.equals(getId(), hasManyChild.getId()) &&
+              ObjectsCompat.equals(getContent(), hasManyChild.getContent()) &&
+              ObjectsCompat.equals(getParent(), hasManyChild.getParent()) &&
+              ObjectsCompat.equals(getCreatedAt(), hasManyChild.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), hasManyChild.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getContent())
+      .append(getParent())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"HasManyChild {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"parent=\\" + String.valueOf(getParent()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BuildStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static HasManyChild justId(String id) {
+    return new HasManyChild(
+      id,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      content,
+      parent);
+  }
+  public interface BuildStep {
+    HasManyChild build();
+    BuildStep id(String id);
+    BuildStep content(String content);
+    BuildStep parent(Parent parent);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private String content;
+    private ModelReference<Parent> parent;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String content, ModelReference<Parent> parent) {
+      this.id = id;
+      this.content = content;
+      this.parent = parent;
+    }
+    
+    @Override
+     public HasManyChild build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new HasManyChild(
+          id,
+          content,
+          parent);
+    }
+    
+    @Override
+     public BuildStep content(String content) {
+        this.content = content;
+        return this;
+    }
+    
+    @Override
+     public BuildStep parent(Parent parent) {
+        this.parent = new LoadedModelReferenceImpl<>(parent);
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String content, ModelReference<Parent> parent) {
+      super(id, content, parent);
+      
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+    
+    @Override
+     public CopyOfBuilder parent(Parent parent) {
+      return (CopyOfBuilder) super.parent(parent);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncModelVisitor API only should generate for Project and Team models 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.HasOne;
+import com.amplifyframework.core.model.ModelReference;
+import com.amplifyframework.core.model.LoadedModelReferenceImpl;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.model.annotations.BelongsTo;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Project type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Projects\\", hasLazySupport = true)
+@Index(name = \\"undefined\\", fields = {\\"projectId\\",\\"name\\"})
+public final class Project implements Model {
+  public static final ProjectPath rootPath = new ProjectPath(\\"root\\", false, null);
+  public static final QueryField ID = field(\\"Project\\", \\"id\\");
+  public static final QueryField PROJECT_ID = field(\\"Project\\", \\"projectId\\");
+  public static final QueryField NAME = field(\\"Project\\", \\"name\\");
+  public static final QueryField PROJECT_TEAM_ID = field(\\"Project\\", \\"projectTeamId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String projectId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
+  private final @ModelField(targetType=\\"Team\\") @HasOne(associatedWith = \\"teamId\\", type = Team.class) ModelReference<Team> team = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType=\\"ID\\") String projectTeamId;
+  public String getId() {
+      return id;
+  }
+  
+  public String getProjectId() {
+      return projectId;
+  }
+  
+  public String getName() {
+      return name;
+  }
+  
+  public ModelReference<Team> getTeam() {
+      return team;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  public String getProjectTeamId() {
+      return projectTeamId;
+  }
+  
+  private Project(String id, String projectId, String name, String projectTeamId) {
+    this.id = id;
+    this.projectId = projectId;
+    this.name = name;
+    this.projectTeamId = projectTeamId;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Project project = (Project) obj;
+      return ObjectsCompat.equals(getId(), project.getId()) &&
+              ObjectsCompat.equals(getProjectId(), project.getProjectId()) &&
+              ObjectsCompat.equals(getName(), project.getName()) &&
+              ObjectsCompat.equals(getCreatedAt(), project.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), project.getUpdatedAt()) &&
+              ObjectsCompat.equals(getProjectTeamId(), project.getProjectTeamId());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getProjectId())
+      .append(getName())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .append(getProjectTeamId())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Project {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"projectId=\\" + String.valueOf(getProjectId()) + \\", \\")
+      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
+      .append(\\"projectTeamId=\\" + String.valueOf(getProjectTeamId()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static ProjectIdStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Project justId(String id) {
+    return new Project(
+      id,
+      null,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      projectId,
+      name,
+      projectTeamId);
+  }
+  public interface ProjectIdStep {
+    NameStep projectId(String projectId);
+  }
+  
+
+  public interface NameStep {
+    BuildStep name(String name);
+  }
+  
+
+  public interface BuildStep {
+    Project build();
+    BuildStep id(String id);
+    BuildStep projectTeamId(String projectTeamId);
+  }
+  
+
+  public static class Builder implements ProjectIdStep, NameStep, BuildStep {
+    private String id;
+    private String projectId;
+    private String name;
+    private String projectTeamId;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String projectId, String name, String projectTeamId) {
+      this.id = id;
+      this.projectId = projectId;
+      this.name = name;
+      this.projectTeamId = projectTeamId;
+    }
+    
+    @Override
+     public Project build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Project(
+          id,
+          projectId,
+          name,
+          projectTeamId);
+    }
+    
+    @Override
+     public NameStep projectId(String projectId) {
+        Objects.requireNonNull(projectId);
+        this.projectId = projectId;
+        return this;
+    }
+    
+    @Override
+     public BuildStep name(String name) {
+        Objects.requireNonNull(name);
+        this.name = name;
+        return this;
+    }
+    
+    @Override
+     public BuildStep projectTeamId(String projectTeamId) {
+        this.projectTeamId = projectTeamId;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String projectId, String name, String projectTeamId) {
+      super(id, projectId, name, projectTeamId);
+      Objects.requireNonNull(projectId);
+      Objects.requireNonNull(name);
+    }
+    
+    @Override
+     public CopyOfBuilder projectId(String projectId) {
+      return (CopyOfBuilder) super.projectId(projectId);
+    }
+    
+    @Override
+     public CopyOfBuilder name(String name) {
+      return (CopyOfBuilder) super.name(name);
+    }
+    
+    @Override
+     public CopyOfBuilder projectTeamId(String projectTeamId) {
+      return (CopyOfBuilder) super.projectTeamId(projectTeamId);
+    }
+  }
+  
+}
+
+/** This is an auto generated class representing the Team type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Teams\\", hasLazySupport = true)
+@Index(name = \\"undefined\\", fields = {\\"teamId\\",\\"name\\"})
+public final class Team implements Model {
+  public static final TeamPath rootPath = new TeamPath(\\"root\\", false, null);
+  public static final QueryField ID = field(\\"Team\\", \\"id\\");
+  public static final QueryField TEAM_ID = field(\\"Team\\", \\"teamId\\");
+  public static final QueryField NAME = field(\\"Team\\", \\"name\\");
+  public static final QueryField PROJECT = field(\\"Team\\", \\"teamProjectId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String teamId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
+  private final @ModelField(targetType=\\"Project\\") @BelongsTo(targetName = \\"teamProjectId\\", type = Project.class) ModelReference<Project> project;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getTeamId() {
+      return teamId;
+  }
+  
+  public String getName() {
+      return name;
+  }
+  
+  public ModelReference<Project> getProject() {
+      return project;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Team(String id, String teamId, String name, ModelReference<Project> project) {
+    this.id = id;
+    this.teamId = teamId;
+    this.name = name;
+    this.project = project;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Team team = (Team) obj;
+      return ObjectsCompat.equals(getId(), team.getId()) &&
+              ObjectsCompat.equals(getTeamId(), team.getTeamId()) &&
+              ObjectsCompat.equals(getName(), team.getName()) &&
+              ObjectsCompat.equals(getProject(), team.getProject()) &&
+              ObjectsCompat.equals(getCreatedAt(), team.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), team.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getTeamId())
+      .append(getName())
+      .append(getProject())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Team {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"teamId=\\" + String.valueOf(getTeamId()) + \\", \\")
+      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
+      .append(\\"project=\\" + String.valueOf(getProject()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static TeamIdStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Team justId(String id) {
+    return new Team(
+      id,
+      null,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      teamId,
+      name,
+      project);
+  }
+  public interface TeamIdStep {
+    NameStep teamId(String teamId);
+  }
+  
+
+  public interface NameStep {
+    BuildStep name(String name);
+  }
+  
+
+  public interface BuildStep {
+    Team build();
+    BuildStep id(String id);
+    BuildStep project(Project project);
+  }
+  
+
+  public static class Builder implements TeamIdStep, NameStep, BuildStep {
+    private String id;
+    private String teamId;
+    private String name;
+    private ModelReference<Project> project;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String teamId, String name, ModelReference<Project> project) {
+      this.id = id;
+      this.teamId = teamId;
+      this.name = name;
+      this.project = project;
+    }
+    
+    @Override
+     public Team build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Team(
+          id,
+          teamId,
+          name,
+          project);
+    }
+    
+    @Override
+     public NameStep teamId(String teamId) {
+        Objects.requireNonNull(teamId);
+        this.teamId = teamId;
+        return this;
+    }
+    
+    @Override
+     public BuildStep name(String name) {
+        Objects.requireNonNull(name);
+        this.name = name;
+        return this;
+    }
+    
+    @Override
+     public BuildStep project(Project project) {
+        this.project = new LoadedModelReferenceImpl<>(project);
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String teamId, String name, ModelReference<Project> project) {
+      super(id, teamId, name, project);
+      Objects.requireNonNull(teamId);
+      Objects.requireNonNull(name);
+    }
+    
+    @Override
+     public CopyOfBuilder teamId(String teamId) {
+      return (CopyOfBuilder) super.teamId(teamId);
+    }
+    
+    @Override
+     public CopyOfBuilder name(String name) {
+      return (CopyOfBuilder) super.name(name);
+    }
+    
+    @Override
+     public CopyOfBuilder project(Project project) {
+      return (CopyOfBuilder) super.project(project);
+    }
+  }
+  
+}
+"
+`;
+
 exports[`AppSyncModelVisitor DataStore Enabled Should generate for DefaultPKParent DefaultPKChild models 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 
@@ -2620,6 +4284,675 @@ public final class HasOneChild implements Model {
     @Override
      public CopyOfBuilder content(String content) {
       return (CopyOfBuilder) super.content(content);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncModelVisitor DataStore Enabled should generate for Blog, Post, and Comment models 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.HasMany;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.model.annotations.BelongsTo;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Blog type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Blogs\\")
+@Index(name = \\"undefined\\", fields = {\\"blogId\\"})
+public final class Blog implements Model {
+  public static final QueryField ID = field(\\"Blog\\", \\"id\\");
+  public static final QueryField BLOG_ID = field(\\"Blog\\", \\"blogId\\");
+  public static final QueryField NAME = field(\\"Blog\\", \\"name\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String blogId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
+  private final @ModelField(targetType=\\"Post\\", isRequired = true) @HasMany(associatedWith = \\"blog\\", type = Post.class) List<Post> posts = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getBlogId() {
+      return blogId;
+  }
+  
+  public String getName() {
+      return name;
+  }
+  
+  public List<Post> getPosts() {
+      return posts;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Blog(String id, String blogId, String name) {
+    this.id = id;
+    this.blogId = blogId;
+    this.name = name;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Blog blog = (Blog) obj;
+      return ObjectsCompat.equals(getId(), blog.getId()) &&
+              ObjectsCompat.equals(getBlogId(), blog.getBlogId()) &&
+              ObjectsCompat.equals(getName(), blog.getName()) &&
+              ObjectsCompat.equals(getCreatedAt(), blog.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), blog.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getBlogId())
+      .append(getName())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Blog {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"blogId=\\" + String.valueOf(getBlogId()) + \\", \\")
+      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BlogIdStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Blog justId(String id) {
+    return new Blog(
+      id,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      blogId,
+      name);
+  }
+  public interface BlogIdStep {
+    NameStep blogId(String blogId);
+  }
+  
+
+  public interface NameStep {
+    BuildStep name(String name);
+  }
+  
+
+  public interface BuildStep {
+    Blog build();
+    BuildStep id(String id);
+  }
+  
+
+  public static class Builder implements BlogIdStep, NameStep, BuildStep {
+    private String id;
+    private String blogId;
+    private String name;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String blogId, String name) {
+      this.id = id;
+      this.blogId = blogId;
+      this.name = name;
+    }
+    
+    @Override
+     public Blog build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Blog(
+          id,
+          blogId,
+          name);
+    }
+    
+    @Override
+     public NameStep blogId(String blogId) {
+        Objects.requireNonNull(blogId);
+        this.blogId = blogId;
+        return this;
+    }
+    
+    @Override
+     public BuildStep name(String name) {
+        Objects.requireNonNull(name);
+        this.name = name;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String blogId, String name) {
+      super(id, blogId, name);
+      Objects.requireNonNull(blogId);
+      Objects.requireNonNull(name);
+    }
+    
+    @Override
+     public CopyOfBuilder blogId(String blogId) {
+      return (CopyOfBuilder) super.blogId(blogId);
+    }
+    
+    @Override
+     public CopyOfBuilder name(String name) {
+      return (CopyOfBuilder) super.name(name);
+    }
+  }
+  
+}
+
+/** This is an auto generated class representing the Post type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Posts\\")
+@Index(name = \\"undefined\\", fields = {\\"postId\\",\\"title\\"})
+public final class Post implements Model {
+  public static final QueryField ID = field(\\"Post\\", \\"id\\");
+  public static final QueryField POST_ID = field(\\"Post\\", \\"postId\\");
+  public static final QueryField TITLE = field(\\"Post\\", \\"title\\");
+  public static final QueryField BLOG = field(\\"Post\\", \\"blogPostsId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String postId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String title;
+  private final @ModelField(targetType=\\"Blog\\", isRequired = true) @BelongsTo(targetName = \\"blogPostsId\\", type = Blog.class) Blog blog;
+  private final @ModelField(targetType=\\"Comment\\", isRequired = true) @HasMany(associatedWith = \\"post\\", type = Comment.class) List<Comment> comments = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getPostId() {
+      return postId;
+  }
+  
+  public String getTitle() {
+      return title;
+  }
+  
+  public Blog getBlog() {
+      return blog;
+  }
+  
+  public List<Comment> getComments() {
+      return comments;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Post(String id, String postId, String title, Blog blog) {
+    this.id = id;
+    this.postId = postId;
+    this.title = title;
+    this.blog = blog;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Post post = (Post) obj;
+      return ObjectsCompat.equals(getId(), post.getId()) &&
+              ObjectsCompat.equals(getPostId(), post.getPostId()) &&
+              ObjectsCompat.equals(getTitle(), post.getTitle()) &&
+              ObjectsCompat.equals(getBlog(), post.getBlog()) &&
+              ObjectsCompat.equals(getCreatedAt(), post.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), post.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getPostId())
+      .append(getTitle())
+      .append(getBlog())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Post {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"postId=\\" + String.valueOf(getPostId()) + \\", \\")
+      .append(\\"title=\\" + String.valueOf(getTitle()) + \\", \\")
+      .append(\\"blog=\\" + String.valueOf(getBlog()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static PostIdStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Post justId(String id) {
+    return new Post(
+      id,
+      null,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      postId,
+      title,
+      blog);
+  }
+  public interface PostIdStep {
+    TitleStep postId(String postId);
+  }
+  
+
+  public interface TitleStep {
+    BlogStep title(String title);
+  }
+  
+
+  public interface BlogStep {
+    BuildStep blog(Blog blog);
+  }
+  
+
+  public interface BuildStep {
+    Post build();
+    BuildStep id(String id);
+  }
+  
+
+  public static class Builder implements PostIdStep, TitleStep, BlogStep, BuildStep {
+    private String id;
+    private String postId;
+    private String title;
+    private Blog blog;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String postId, String title, Blog blog) {
+      this.id = id;
+      this.postId = postId;
+      this.title = title;
+      this.blog = blog;
+    }
+    
+    @Override
+     public Post build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Post(
+          id,
+          postId,
+          title,
+          blog);
+    }
+    
+    @Override
+     public TitleStep postId(String postId) {
+        Objects.requireNonNull(postId);
+        this.postId = postId;
+        return this;
+    }
+    
+    @Override
+     public BlogStep title(String title) {
+        Objects.requireNonNull(title);
+        this.title = title;
+        return this;
+    }
+    
+    @Override
+     public BuildStep blog(Blog blog) {
+        Objects.requireNonNull(blog);
+        this.blog = blog;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String postId, String title, Blog blog) {
+      super(id, postId, title, blog);
+      Objects.requireNonNull(postId);
+      Objects.requireNonNull(title);
+      Objects.requireNonNull(blog);
+    }
+    
+    @Override
+     public CopyOfBuilder postId(String postId) {
+      return (CopyOfBuilder) super.postId(postId);
+    }
+    
+    @Override
+     public CopyOfBuilder title(String title) {
+      return (CopyOfBuilder) super.title(title);
+    }
+    
+    @Override
+     public CopyOfBuilder blog(Blog blog) {
+      return (CopyOfBuilder) super.blog(blog);
+    }
+  }
+  
+}
+
+/** This is an auto generated class representing the Comment type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Comments\\")
+@Index(name = \\"undefined\\", fields = {\\"commentId\\",\\"content\\"})
+public final class Comment implements Model {
+  public static final QueryField ID = field(\\"Comment\\", \\"id\\");
+  public static final QueryField COMMENT_ID = field(\\"Comment\\", \\"commentId\\");
+  public static final QueryField CONTENT = field(\\"Comment\\", \\"content\\");
+  public static final QueryField POST = field(\\"Comment\\", \\"postCommentsId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String commentId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
+  private final @ModelField(targetType=\\"Post\\", isRequired = true) @BelongsTo(targetName = \\"postCommentsId\\", type = Post.class) Post post;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getCommentId() {
+      return commentId;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public Post getPost() {
+      return post;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Comment(String id, String commentId, String content, Post post) {
+    this.id = id;
+    this.commentId = commentId;
+    this.content = content;
+    this.post = post;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Comment comment = (Comment) obj;
+      return ObjectsCompat.equals(getId(), comment.getId()) &&
+              ObjectsCompat.equals(getCommentId(), comment.getCommentId()) &&
+              ObjectsCompat.equals(getContent(), comment.getContent()) &&
+              ObjectsCompat.equals(getPost(), comment.getPost()) &&
+              ObjectsCompat.equals(getCreatedAt(), comment.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), comment.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getCommentId())
+      .append(getContent())
+      .append(getPost())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Comment {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"commentId=\\" + String.valueOf(getCommentId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"post=\\" + String.valueOf(getPost()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static CommentIdStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Comment justId(String id) {
+    return new Comment(
+      id,
+      null,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      commentId,
+      content,
+      post);
+  }
+  public interface CommentIdStep {
+    ContentStep commentId(String commentId);
+  }
+  
+
+  public interface ContentStep {
+    PostStep content(String content);
+  }
+  
+
+  public interface PostStep {
+    BuildStep post(Post post);
+  }
+  
+
+  public interface BuildStep {
+    Comment build();
+    BuildStep id(String id);
+  }
+  
+
+  public static class Builder implements CommentIdStep, ContentStep, PostStep, BuildStep {
+    private String id;
+    private String commentId;
+    private String content;
+    private Post post;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String commentId, String content, Post post) {
+      this.id = id;
+      this.commentId = commentId;
+      this.content = content;
+      this.post = post;
+    }
+    
+    @Override
+     public Comment build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Comment(
+          id,
+          commentId,
+          content,
+          post);
+    }
+    
+    @Override
+     public ContentStep commentId(String commentId) {
+        Objects.requireNonNull(commentId);
+        this.commentId = commentId;
+        return this;
+    }
+    
+    @Override
+     public PostStep content(String content) {
+        Objects.requireNonNull(content);
+        this.content = content;
+        return this;
+    }
+    
+    @Override
+     public BuildStep post(Post post) {
+        Objects.requireNonNull(post);
+        this.post = post;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String commentId, String content, Post post) {
+      super(id, commentId, content, post);
+      Objects.requireNonNull(commentId);
+      Objects.requireNonNull(content);
+      Objects.requireNonNull(post);
+    }
+    
+    @Override
+     public CopyOfBuilder commentId(String commentId) {
+      return (CopyOfBuilder) super.commentId(commentId);
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+    
+    @Override
+     public CopyOfBuilder post(Post post) {
+      return (CopyOfBuilder) super.post(post);
     }
   }
   
@@ -3850,6 +6183,985 @@ public final class ChildSansBelongsTo implements Model {
     @Override
      public CopyOfBuilder compositePkParentChildrenSansBelongsToId(String compositePkParentChildrenSansBelongsToId) {
       return (CopyOfBuilder) super.compositePkParentChildrenSansBelongsToId(compositePkParentChildrenSansBelongsToId);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncModelVisitor DataStore Enabled should generate for Parent, HasOneChild, HasManyChild models 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.HasOne;
+import com.amplifyframework.core.model.annotations.HasMany;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.model.annotations.BelongsTo;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Parent type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Parents\\")
+@Index(name = \\"undefined\\", fields = {\\"id\\"})
+public final class Parent implements Model {
+  public static final QueryField ID = field(\\"Parent\\", \\"id\\");
+  public static final QueryField PARENT_CHILD_ID = field(\\"Parent\\", \\"parentChildId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"HasOneChild\\") @HasOne(associatedWith = \\"id\\", type = HasOneChild.class) HasOneChild child = null;
+  private final @ModelField(targetType=\\"HasManyChild\\") @HasMany(associatedWith = \\"parent\\", type = HasManyChild.class) List<HasManyChild> children = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType=\\"ID\\") String parentChildId;
+  public String getId() {
+      return id;
+  }
+  
+  public HasOneChild getChild() {
+      return child;
+  }
+  
+  public List<HasManyChild> getChildren() {
+      return children;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  public String getParentChildId() {
+      return parentChildId;
+  }
+  
+  private Parent(String id, String parentChildId) {
+    this.id = id;
+    this.parentChildId = parentChildId;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Parent parent = (Parent) obj;
+      return ObjectsCompat.equals(getId(), parent.getId()) &&
+              ObjectsCompat.equals(getCreatedAt(), parent.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), parent.getUpdatedAt()) &&
+              ObjectsCompat.equals(getParentChildId(), parent.getParentChildId());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .append(getParentChildId())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Parent {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
+      .append(\\"parentChildId=\\" + String.valueOf(getParentChildId()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BuildStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Parent justId(String id) {
+    return new Parent(
+      id,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      parentChildId);
+  }
+  public interface BuildStep {
+    Parent build();
+    BuildStep id(String id);
+    BuildStep parentChildId(String parentChildId);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private String parentChildId;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String parentChildId) {
+      this.id = id;
+      this.parentChildId = parentChildId;
+    }
+    
+    @Override
+     public Parent build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Parent(
+          id,
+          parentChildId);
+    }
+    
+    @Override
+     public BuildStep parentChildId(String parentChildId) {
+        this.parentChildId = parentChildId;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String parentChildId) {
+      super(id, parentChildId);
+      
+    }
+    
+    @Override
+     public CopyOfBuilder parentChildId(String parentChildId) {
+      return (CopyOfBuilder) super.parentChildId(parentChildId);
+    }
+  }
+  
+}
+
+/** This is an auto generated class representing the HasOneChild type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"HasOneChildren\\")
+@Index(name = \\"undefined\\", fields = {\\"id\\"})
+public final class HasOneChild implements Model {
+  public static final QueryField ID = field(\\"HasOneChild\\", \\"id\\");
+  public static final QueryField CONTENT = field(\\"HasOneChild\\", \\"content\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\") String content;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private HasOneChild(String id, String content) {
+    this.id = id;
+    this.content = content;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      HasOneChild hasOneChild = (HasOneChild) obj;
+      return ObjectsCompat.equals(getId(), hasOneChild.getId()) &&
+              ObjectsCompat.equals(getContent(), hasOneChild.getContent()) &&
+              ObjectsCompat.equals(getCreatedAt(), hasOneChild.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), hasOneChild.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getContent())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"HasOneChild {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BuildStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static HasOneChild justId(String id) {
+    return new HasOneChild(
+      id,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      content);
+  }
+  public interface BuildStep {
+    HasOneChild build();
+    BuildStep id(String id);
+    BuildStep content(String content);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private String content;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String content) {
+      this.id = id;
+      this.content = content;
+    }
+    
+    @Override
+     public HasOneChild build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new HasOneChild(
+          id,
+          content);
+    }
+    
+    @Override
+     public BuildStep content(String content) {
+        this.content = content;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String content) {
+      super(id, content);
+      
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+  }
+  
+}
+
+/** This is an auto generated class representing the HasManyChild type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"HasManyChildren\\")
+@Index(name = \\"undefined\\", fields = {\\"id\\"})
+public final class HasManyChild implements Model {
+  public static final QueryField ID = field(\\"HasManyChild\\", \\"id\\");
+  public static final QueryField CONTENT = field(\\"HasManyChild\\", \\"content\\");
+  public static final QueryField PARENT = field(\\"HasManyChild\\", \\"parentChildrenId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\") String content;
+  private final @ModelField(targetType=\\"Parent\\") @BelongsTo(targetName = \\"parentChildrenId\\", type = Parent.class) Parent parent;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public Parent getParent() {
+      return parent;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private HasManyChild(String id, String content, Parent parent) {
+    this.id = id;
+    this.content = content;
+    this.parent = parent;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      HasManyChild hasManyChild = (HasManyChild) obj;
+      return ObjectsCompat.equals(getId(), hasManyChild.getId()) &&
+              ObjectsCompat.equals(getContent(), hasManyChild.getContent()) &&
+              ObjectsCompat.equals(getParent(), hasManyChild.getParent()) &&
+              ObjectsCompat.equals(getCreatedAt(), hasManyChild.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), hasManyChild.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getContent())
+      .append(getParent())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"HasManyChild {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"parent=\\" + String.valueOf(getParent()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BuildStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static HasManyChild justId(String id) {
+    return new HasManyChild(
+      id,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      content,
+      parent);
+  }
+  public interface BuildStep {
+    HasManyChild build();
+    BuildStep id(String id);
+    BuildStep content(String content);
+    BuildStep parent(Parent parent);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private String content;
+    private Parent parent;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String content, Parent parent) {
+      this.id = id;
+      this.content = content;
+      this.parent = parent;
+    }
+    
+    @Override
+     public HasManyChild build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new HasManyChild(
+          id,
+          content,
+          parent);
+    }
+    
+    @Override
+     public BuildStep content(String content) {
+        this.content = content;
+        return this;
+    }
+    
+    @Override
+     public BuildStep parent(Parent parent) {
+        this.parent = parent;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String content, Parent parent) {
+      super(id, content, parent);
+      
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+    
+    @Override
+     public CopyOfBuilder parent(Parent parent) {
+      return (CopyOfBuilder) super.parent(parent);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncModelVisitor DataStore Enabled should generate for Project and Team models 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.HasOne;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.model.annotations.BelongsTo;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Project type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Projects\\")
+@Index(name = \\"undefined\\", fields = {\\"projectId\\",\\"name\\"})
+public final class Project implements Model {
+  public static final QueryField ID = field(\\"Project\\", \\"id\\");
+  public static final QueryField PROJECT_ID = field(\\"Project\\", \\"projectId\\");
+  public static final QueryField NAME = field(\\"Project\\", \\"name\\");
+  public static final QueryField PROJECT_TEAM_ID = field(\\"Project\\", \\"projectTeamId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String projectId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
+  private final @ModelField(targetType=\\"Team\\") @HasOne(associatedWith = \\"teamId\\", type = Team.class) Team team = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType=\\"ID\\") String projectTeamId;
+  public String getId() {
+      return id;
+  }
+  
+  public String getProjectId() {
+      return projectId;
+  }
+  
+  public String getName() {
+      return name;
+  }
+  
+  public Team getTeam() {
+      return team;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  public String getProjectTeamId() {
+      return projectTeamId;
+  }
+  
+  private Project(String id, String projectId, String name, String projectTeamId) {
+    this.id = id;
+    this.projectId = projectId;
+    this.name = name;
+    this.projectTeamId = projectTeamId;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Project project = (Project) obj;
+      return ObjectsCompat.equals(getId(), project.getId()) &&
+              ObjectsCompat.equals(getProjectId(), project.getProjectId()) &&
+              ObjectsCompat.equals(getName(), project.getName()) &&
+              ObjectsCompat.equals(getCreatedAt(), project.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), project.getUpdatedAt()) &&
+              ObjectsCompat.equals(getProjectTeamId(), project.getProjectTeamId());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getProjectId())
+      .append(getName())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .append(getProjectTeamId())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Project {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"projectId=\\" + String.valueOf(getProjectId()) + \\", \\")
+      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
+      .append(\\"projectTeamId=\\" + String.valueOf(getProjectTeamId()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static ProjectIdStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Project justId(String id) {
+    return new Project(
+      id,
+      null,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      projectId,
+      name,
+      projectTeamId);
+  }
+  public interface ProjectIdStep {
+    NameStep projectId(String projectId);
+  }
+  
+
+  public interface NameStep {
+    BuildStep name(String name);
+  }
+  
+
+  public interface BuildStep {
+    Project build();
+    BuildStep id(String id);
+    BuildStep projectTeamId(String projectTeamId);
+  }
+  
+
+  public static class Builder implements ProjectIdStep, NameStep, BuildStep {
+    private String id;
+    private String projectId;
+    private String name;
+    private String projectTeamId;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String projectId, String name, String projectTeamId) {
+      this.id = id;
+      this.projectId = projectId;
+      this.name = name;
+      this.projectTeamId = projectTeamId;
+    }
+    
+    @Override
+     public Project build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Project(
+          id,
+          projectId,
+          name,
+          projectTeamId);
+    }
+    
+    @Override
+     public NameStep projectId(String projectId) {
+        Objects.requireNonNull(projectId);
+        this.projectId = projectId;
+        return this;
+    }
+    
+    @Override
+     public BuildStep name(String name) {
+        Objects.requireNonNull(name);
+        this.name = name;
+        return this;
+    }
+    
+    @Override
+     public BuildStep projectTeamId(String projectTeamId) {
+        this.projectTeamId = projectTeamId;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String projectId, String name, String projectTeamId) {
+      super(id, projectId, name, projectTeamId);
+      Objects.requireNonNull(projectId);
+      Objects.requireNonNull(name);
+    }
+    
+    @Override
+     public CopyOfBuilder projectId(String projectId) {
+      return (CopyOfBuilder) super.projectId(projectId);
+    }
+    
+    @Override
+     public CopyOfBuilder name(String name) {
+      return (CopyOfBuilder) super.name(name);
+    }
+    
+    @Override
+     public CopyOfBuilder projectTeamId(String projectTeamId) {
+      return (CopyOfBuilder) super.projectTeamId(projectTeamId);
+    }
+  }
+  
+}
+
+/** This is an auto generated class representing the Team type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Teams\\")
+@Index(name = \\"undefined\\", fields = {\\"teamId\\",\\"name\\"})
+public final class Team implements Model {
+  public static final QueryField ID = field(\\"Team\\", \\"id\\");
+  public static final QueryField TEAM_ID = field(\\"Team\\", \\"teamId\\");
+  public static final QueryField NAME = field(\\"Team\\", \\"name\\");
+  public static final QueryField PROJECT = field(\\"Team\\", \\"teamProjectId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String teamId;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
+  private final @ModelField(targetType=\\"Project\\") @BelongsTo(targetName = \\"teamProjectId\\", type = Project.class) Project project;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public String getTeamId() {
+      return teamId;
+  }
+  
+  public String getName() {
+      return name;
+  }
+  
+  public Project getProject() {
+      return project;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Team(String id, String teamId, String name, Project project) {
+    this.id = id;
+    this.teamId = teamId;
+    this.name = name;
+    this.project = project;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Team team = (Team) obj;
+      return ObjectsCompat.equals(getId(), team.getId()) &&
+              ObjectsCompat.equals(getTeamId(), team.getTeamId()) &&
+              ObjectsCompat.equals(getName(), team.getName()) &&
+              ObjectsCompat.equals(getProject(), team.getProject()) &&
+              ObjectsCompat.equals(getCreatedAt(), team.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), team.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getTeamId())
+      .append(getName())
+      .append(getProject())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Team {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"teamId=\\" + String.valueOf(getTeamId()) + \\", \\")
+      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
+      .append(\\"project=\\" + String.valueOf(getProject()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static TeamIdStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Team justId(String id) {
+    return new Team(
+      id,
+      null,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      teamId,
+      name,
+      project);
+  }
+  public interface TeamIdStep {
+    NameStep teamId(String teamId);
+  }
+  
+
+  public interface NameStep {
+    BuildStep name(String name);
+  }
+  
+
+  public interface BuildStep {
+    Team build();
+    BuildStep id(String id);
+    BuildStep project(Project project);
+  }
+  
+
+  public static class Builder implements TeamIdStep, NameStep, BuildStep {
+    private String id;
+    private String teamId;
+    private String name;
+    private Project project;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String teamId, String name, Project project) {
+      this.id = id;
+      this.teamId = teamId;
+      this.name = name;
+      this.project = project;
+    }
+    
+    @Override
+     public Team build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Team(
+          id,
+          teamId,
+          name,
+          project);
+    }
+    
+    @Override
+     public NameStep teamId(String teamId) {
+        Objects.requireNonNull(teamId);
+        this.teamId = teamId;
+        return this;
+    }
+    
+    @Override
+     public BuildStep name(String name) {
+        Objects.requireNonNull(name);
+        this.name = name;
+        return this;
+    }
+    
+    @Override
+     public BuildStep project(Project project) {
+        this.project = project;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String teamId, String name, Project project) {
+      super(id, teamId, name, project);
+      Objects.requireNonNull(teamId);
+      Objects.requireNonNull(name);
+    }
+    
+    @Override
+     public CopyOfBuilder teamId(String teamId) {
+      return (CopyOfBuilder) super.teamId(teamId);
+    }
+    
+    @Override
+     public CopyOfBuilder name(String name) {
+      return (CopyOfBuilder) super.name(name);
+    }
+    
+    @Override
+     public CopyOfBuilder project(Project project) {
+      return (CopyOfBuilder) super.project(project);
     }
   }
   
