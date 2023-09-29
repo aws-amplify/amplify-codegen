@@ -35,6 +35,7 @@ export type AppSyncModelCodeGenPresetConfig = {
 const generateJavaPreset = (
   options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>,
   models: TypeDefinitionNode[],
+  manyToManyJoinModels: TypeDefinitionNode[],
 ): Types.GenerateOptions[] => {
   const config: Types.GenerateOptions[] = [];
   const modelFolder = options.config.overrideOutputDir
@@ -82,38 +83,18 @@ const generateJavaPreset = (
           },
         });
       }
-
-      // Create ModelPath's for manyToMany's join model.
-      // Type cast to ObjectTypeDefinition to access `fields`.
-      if (model.kind === Kind.OBJECT_TYPE_DEFINITION) {
-        const modelObject = model as ObjectTypeDefinitionNode;
-
-        // For each field, find all fields that are directives of type "manyToMany"
-        modelObject?.fields?.forEach(field => {
-          const manyToManyDirectives = field.directives?.filter(directive => directive.name.value === "manyToMany");
-
-          // For each "manyToMany" directive, find the "relationName" Argument's value. This is the name of the join model.
-          manyToManyDirectives?.forEach(manyToManyDirective => {
-            const argument = manyToManyDirective.arguments?.find(argument => argument.name.value === "relationName");
-            if (argument?.value.kind === "StringValue") {
-              const stringValue = argument?.value as StringValueNode;
-              let joinModelName = graphqlName(toUpper(stringValue.value));
-
-              // Create the Join model's Model Path file.
-              config.push({
-                ...options,
-                filename: join(...modelFolder, `${joinModelName}Path.java`),
-                config: {
-                  ...options.config,
-                  scalars: { ...JAVA_SCALAR_MAP, ...options.config.scalars },
-                  generate: 'metadata',
-                  selectedType: joinModelName,
-                },
-              });
-            }
-          });
+      manyToManyJoinModels.forEach(joinModel => {
+        config.push({
+          ...options,
+          filename: join(...modelFolder, `${joinModel.name.value}Path.java`),
+          config: {
+            ...options.config,
+            scalars: {...JAVA_SCALAR_MAP, ...options.config.scalars},
+            generate: 'metadata',
+            selectedType: joinModel.name.value,
+          },
         });
-      }
+      });
     }
   });
 
@@ -337,13 +318,14 @@ export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
         (t.kind === 'ObjectTypeDefinition' && !typesToSkip.includes(t.name.value)) ||
         (t.kind === 'EnumTypeDefinition' && !t.name.value.startsWith('__')),
     ) as any;
+    const manyToManyModels = generateManyToManyModelStubs(options);
     if (options.config.usePipelinedTransformer || options.config.transformerVersion === 2) {
-      models.push(...generateManyToManyModelStubs(options));
+      models.push(...manyToManyModels);
     }
 
-        switch (codeGenTarget) {
+    switch (codeGenTarget) {
       case 'java':
-        return generateJavaPreset(options, models);
+        return generateJavaPreset(options, models, manyToManyModels);
       case 'swift':
         return generateSwiftPreset(options, models);
       case 'javascript':
