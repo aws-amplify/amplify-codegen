@@ -43,7 +43,7 @@ const generateJavaPreset = (
     : [options.baseOutputDir, ...GENERATED_PACKAGE_NAME.split('.')];
 
   // Only generate lazy models if feature flag enabled and datastore is not being used.
-  const generateLazyModels = options.config.generateModelsForLazyLoadAndCustomSelectionSet && !options.config.isDataStoreEnabled
+  const generateAPILazyModels = options.config.generateModelsForLazyLoadAndCustomSelectionSet && !options.config.isDataStoreEnabled
 
   models.forEach(model => {
     const modelName = model.name.value;
@@ -69,7 +69,7 @@ const generateJavaPreset = (
     });
 
     // Create ModelPath's only if lazy models are generated
-    if (generateLazyModels) {
+    if (generateAPILazyModels) {
       // Create ModelPath if type is @model
       if (model?.directives?.find((directive) => directive?.name?.value === 'model')) {
         config.push({
