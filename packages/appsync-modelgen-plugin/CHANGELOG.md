@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.5](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.7.4...@aws-amplify/appsync-modelgen-plugin@2.7.5) (2023-10-02)
+
+### Bug Fixes
+
+- remove unnecessary deps, including fixture dependencies ([#731](https://github.com/aws-amplify/amplify-codegen/issues/731)) ([7d71ee0](https://github.com/aws-amplify/amplify-codegen/commit/7d71ee0def32c356ef84a8cdbffe92d4aa0b0497))
+
 ## [2.7.4](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.7.3...@aws-amplify/appsync-modelgen-plugin@2.7.4) (2023-10-02)
 
 ### Bug Fixes
