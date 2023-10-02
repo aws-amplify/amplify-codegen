@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TypeScript visitor list enum 1`] = `
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+import { initSchema } from \\"@aws-amplify/datastore\\";
+
+import { schema } from \\"./schema\\";
+
+export enum DayOfWeek {
+  MONDAY = \\"MONDAY\\",
+  TUESDAY = \\"TUESDAY\\",
+  WEDNESDAY = \\"WEDNESDAY\\",
+  THURSDAY = \\"THURSDAY\\",
+  FRIDAY = \\"FRIDAY\\",
+  SATURDAY = \\"SATURDAY\\",
+  SUNDAY = \\"SUNDAY\\"
+}
+
+
+
+type EagerRecurrenceModel = {
+  readonly daysOfWeek: DayOfWeek[] | Array<keyof typeof DayOfWeek>;
+}
+
+type LazyRecurrenceModel = {
+  readonly daysOfWeek: DayOfWeek[] | Array<keyof typeof DayOfWeek>;
+}
+
+export declare type RecurrenceModel = LazyLoading extends LazyLoadingDisabled ? EagerRecurrenceModel : LazyRecurrenceModel
+
+export declare const RecurrenceModel: (new (init: ModelInit<RecurrenceModel>) => RecurrenceModel)
+
+const { Recurrence } = initSchema(schema) as {
+  Recurrence: PersistentModelConstructor<RecurrenceModel>;
+};
+
+export {
+  
+};"
+`;
+
+exports[`TypeScript visitor singular enum 1`] = `
+"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
+import { initSchema } from \\"@aws-amplify/datastore\\";
+
+import { schema } from \\"./schema\\";
+
+export enum Frequency {
+  YEARLY = \\"YEARLY\\",
+  WEEKLY = \\"WEEKLY\\"
+}
+
+
+
+type EagerRecurrenceModel = {
+  readonly frequency: Frequency | keyof typeof Frequency;
+}
+
+type LazyRecurrenceModel = {
+  readonly frequency: Frequency | keyof typeof Frequency;
+}
+
+export declare type RecurrenceModel = LazyLoading extends LazyLoadingDisabled ? EagerRecurrenceModel : LazyRecurrenceModel
+
+export declare const RecurrenceModel: (new (init: ModelInit<RecurrenceModel>) => RecurrenceModel)
+
+const { Recurrence } = initSchema(schema) as {
+  Recurrence: PersistentModelConstructor<RecurrenceModel>;
+};
+
+export {
+  
+};"
+`;

@@ -26,8 +26,13 @@ describe('GraphQL statements Formatter', () => {
     expect(formattedOutput).toMatchSnapshot();
   });
 
-  it('Generates formatted output for TS frontend', () => {
+  it('Generates formatted output for TS frontend with posix path', () => {
     const formattedOutput = new GraphQLStatementsFormatter('typescript', 'queries', '../API.ts').format(statements);
+    expect(formattedOutput).toMatchSnapshot();
+  });
+
+  it('Generates formatted output for TS frontend with windows path', () => {
+    const formattedOutput = new GraphQLStatementsFormatter('typescript', 'queries', '..\\API.ts').format(statements);
     expect(formattedOutput).toMatchSnapshot();
   });
 
