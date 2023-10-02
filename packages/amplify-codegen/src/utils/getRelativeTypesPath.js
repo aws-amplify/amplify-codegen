@@ -2,7 +2,10 @@ const path = require('path');
 
 function getRelativeTypesPath(opsGenDirectory, generatedFileName) {
   if (generatedFileName) {
-    const relativePath = path.relative(opsGenDirectory, generatedFileName);
+    const relativePath = path
+      .relative(opsGenDirectory, generatedFileName)
+      .split(path.sep)
+      .join(path.posix.sep);
 
     // generatedFileName is in same directory as opsGenDirectory
     // i.e. generatedFileName: src/graphql/API.ts, opsGenDirectory: src/graphql
