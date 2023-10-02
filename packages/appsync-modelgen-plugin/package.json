@@ -36,8 +36,7 @@
     "lower-case-first": "^2.0.1",
     "pluralize": "^8.0.0",
     "strip-indent": "^3.0.0",
-    "ts-dedent": "^1.1.0",
-    "ts-json-schema-generator": "1.0.0"
+    "ts-dedent": "^1.1.0"
   },
   "devDependencies": {
     "@graphql-codegen/testing": "^1.17.7",
@@ -46,7 +45,8 @@
     "@types/node": "^12.12.6",
     "@types/pluralize": "0.0.29",
     "graphql": "^15.5.0",
-    "java-ast": "^0.3.0"
+    "java-ast": "^0.3.0",
+    "ts-json-schema-generator": "1.0.0"
   },
   "peerDependencies": {
     "graphql": "^15.5.0"

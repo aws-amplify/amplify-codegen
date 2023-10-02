@@ -246,6 +246,9 @@ module.exports = {
     '/packages/*/CHANGELOG.md',
 
     // Ignore lint in e2e test apps
-    'test-apps'
+    'test-apps',
+
+    // Fixture files cause no-extraneous to fail.
+    '/packages/*/fixtures',
   ]
 };
