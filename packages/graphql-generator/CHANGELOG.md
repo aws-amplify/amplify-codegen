@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.4](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.1.3...@aws-amplify/graphql-generator@0.1.4) (2023-10-02)
+
+### Bug Fixes
+
+- ensure posix path sep is used ([#728](https://github.com/aws-amplify/amplify-codegen/issues/728)) ([9c9e1ba](https://github.com/aws-amplify/amplify-codegen/commit/9c9e1ba4d29b8fab30598397aac434c65b143a3a))
+
 ## [0.1.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.1.2...@aws-amplify/graphql-generator@0.1.3) (2023-09-26)
 
 ### Bug Fixes

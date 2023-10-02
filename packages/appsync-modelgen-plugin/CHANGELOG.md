@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.4](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.7.3...@aws-amplify/appsync-modelgen-plugin@2.7.4) (2023-10-02)
+
+### Bug Fixes
+
+- set correct type for array of enum ([#703](https://github.com/aws-amplify/amplify-codegen/issues/703)) ([cdca3eb](https://github.com/aws-amplify/amplify-codegen/commit/cdca3eb7fa8b1de395201699357105d707c7b7f3))
+
 ## [2.7.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.7.2...@aws-amplify/appsync-modelgen-plugin@2.7.3) (2023-09-26)
 
 **Note:** Version bump only for package @aws-amplify/appsync-modelgen-plugin

@@ -1,6 +1,6 @@
 {
   "name": "amplify-codegen",
-  "version": "4.6.3",
+  "version": "4.6.4",
   "description": "Amplify Code Generator",
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@aws-amplify/graphql-docs-generator": "4.2.0",
-    "@aws-amplify/graphql-generator": "0.1.3",
+    "@aws-amplify/graphql-generator": "0.1.4",
     "@aws-amplify/graphql-types-generator": "3.4.2",
     "@graphql-codegen/core": "2.6.6",
     "aws-sdk": "^2.1465.0",
