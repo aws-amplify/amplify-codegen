@@ -1,7 +1,6 @@
 version: 0.2
 env:
   shell: powershell.exe
-  NODE_OPTIONS: --max-old-space-size=8192
 phases:
   build:
     commands:
