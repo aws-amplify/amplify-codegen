@@ -44,6 +44,17 @@ const generateJavaPreset = (
   // Only generate lazy models if feature flag enabled and datastore is not being used.
   const generateAPILazyModels = options.config.generateModelsForLazyLoadAndCustomSelectionSet && !options.config.isDataStoreEnabled
 
+  // Class loader
+  config.push({
+    ...options,
+    filename: join(...modelFolder, `${LOADER_CLASS_NAME}.java`),
+    config: {
+      ...options.config,
+      scalars: { ...JAVA_SCALAR_MAP, ...options.config.scalars },
+      generate: 'loader',
+    },
+  });
+
   models.forEach(model => {
     const modelName = model.name.value;
     config.push({
@@ -53,17 +64,6 @@ const generateJavaPreset = (
         ...options.config,
         scalars: { ...JAVA_SCALAR_MAP, ...options.config.scalars },
         selectedType: modelName,
-      },
-    });
-
-    // Class loader
-    config.push({
-      ...options,
-      filename: join(...modelFolder, `${LOADER_CLASS_NAME}.java`),
-      config: {
-        ...options.config,
-        scalars: { ...JAVA_SCALAR_MAP, ...options.config.scalars },
-        generate: 'loader',
       },
     });
 
@@ -82,20 +82,24 @@ const generateJavaPreset = (
           },
         });
       }
-      manyToManyJoinModels.forEach(joinModel => {
-        config.push({
-          ...options,
-          filename: join(...modelFolder, `${joinModel.name.value}Path.java`),
-          config: {
-            ...options.config,
-            scalars: {...JAVA_SCALAR_MAP, ...options.config.scalars},
-            generate: 'metadata',
-            selectedType: joinModel.name.value,
-          },
-        });
-      });
     }
   });
+
+  // Create ModelPath's only if lazy models are generated
+  if (generateAPILazyModels) {
+    manyToManyJoinModels.forEach(joinModel => {
+      config.push({
+        ...options,
+        filename: join(...modelFolder, `${joinModel.name.value}Path.java`),
+        config: {
+          ...options.config,
+          scalars: {...JAVA_SCALAR_MAP, ...options.config.scalars},
+          generate: 'metadata',
+          selectedType: joinModel.name.value,
+        },
+      });
+    });
+  };
 
   return config;
 };
