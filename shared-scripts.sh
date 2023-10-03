@@ -113,7 +113,7 @@ function _testLinux {
 function _buildWindows {
   echo "Windows Build"
   yarn run production-build
-  storeCacheForBuildJob
+  storeCacheForBuildWindowsJob
 }
 
 function _testWindows {
