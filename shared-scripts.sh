@@ -359,3 +359,11 @@ function _deploy {
   echo "//registry.npmjs.org/:_authToken=$PUBLISH_TOKEN" > ~/.npmrc
   ./.codebuild/scripts/publish.sh
 }
+
+function main {
+  if [ -n "$1" ]; then
+    $1
+  fi
+}
+
+main "$@"
