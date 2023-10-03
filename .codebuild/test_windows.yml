@@ -4,7 +4,7 @@ env:
 phases:
   build:
     commands:
-      - (source ./shared-scripts.sh) -and (_testWindows)
+      - bash ./shared-scripts.sh _testWindows
 artifacts:
   files:
     - 'shared-scripts.sh'

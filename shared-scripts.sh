@@ -110,6 +110,12 @@ function _testLinux {
   yarn test-ci
 }
 
+function _buildWindows {
+  echo "Windows Build"
+  yarn run production-build
+  storeCacheForBuildJob
+}
+
 function _testWindows {
   echo "Run Unit Test"
   loadCacheFromBuildWindowsJob
