@@ -11,9 +11,9 @@ function storeCache {
   export MSYS_NO_PATHCONV=1
   echo "Writing cache folder $alias to $s3Path from local $localPath"
   # windows tar cannot write to stdout equivalent. Archive must write to file first 
-  mkdir -p $HOME/tmp
+  tempDir=`mktemp -d`
   # zip contents and upload to s3
-  if ! (cd $localPath && tar czf ../$alias . && aws s3 cp ../$alias $s3Path); then
+  if ! (cd $localPath && tar czf tempDir/$alias . && aws s3 cp tempDir/$alias $s3Path); then
       echo "Something went wrong storing the cache folder $alias."
   fi
   echo "Done writing cache folder $alias"
@@ -28,7 +28,7 @@ function loadCache {
   export MSYS_NO_PATHCONV=1
   echo "Loading cache folder from $s3Path to local $localPath"
   # windows tar cannot read from stdin equivalent. Archive must write to file first 
-  mkdir -p $HOME/tmp
+  tempDir=`mktemp -d`
   # create directory if it doesn't exist yet
   mkdir -p $localPath
   # check if cache exists in s3
@@ -37,7 +37,7 @@ function loadCache {
       exit 0
   fi
   # load cache and unzip it
-  if ! (cd $localPath && aws s3 cp $s3Path ../$alias && tar xzf ../$alias); then
+  if ! (cd $localPath && aws s3 cp $s3Path tempDir/$alias && tar xzf ../$alias); then
       echo "Something went wrong fetching the cache folder $alias. Continuing anyway."
   fi
   echo "Done loading cache folder $alias"
