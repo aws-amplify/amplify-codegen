@@ -8,9 +8,10 @@ function storeCache {
   localPath="$1"
   alias="$2"
   s3Path="s3://$CACHE_BUCKET_NAME/$CODEBUILD_SOURCE_VERSION/$alias"
+  export MSYS_NO_PATHCONV=1
   echo "Writing cache folder $alias to $s3Path from local $localPath"
   # zip contents and upload to s3
-  if ! (cd $localPath && tar cz . | !MSYS_NO_PATHCONV=1 aws s3 cp - $s3Path); then
+  if ! (cd $localPath && tar cz . | aws s3 cp - $s3Path); then
       echo "Something went wrong storing the cache folder $alias."
   fi
   echo "Done writing cache folder $alias"
@@ -22,16 +23,17 @@ function loadCache {
   alias="$1"
   localPath="$2"
   s3Path="s3://$CACHE_BUCKET_NAME/$CODEBUILD_SOURCE_VERSION/$alias"
+  export MSYS_NO_PATHCONV=1
   echo "Loading cache folder from $s3Path to local $localPath"
   # create directory if it doesn't exist yet
   mkdir -p $localPath
   # check if cache exists in s3
-  if ! !MSYS_NO_PATHCONV=1 aws s3 ls $s3Path > /dev/null; then
+  if ! aws s3 ls $s3Path > /dev/null; then
       echo "Cache folder $alias not found."
       exit 0
   fi
   # load cache and unzip it
-  if ! (cd $localPath && !MSYS_NO_PATHCONV=1 aws s3 cp $s3Path - | tar xz); then
+  if ! (cd $localPath && aws s3 cp $s3Path - | tar xz); then
       echo "Something went wrong fetching the cache folder $alias. Continuing anyway."
   fi
   echo "Done loading cache folder $alias"
