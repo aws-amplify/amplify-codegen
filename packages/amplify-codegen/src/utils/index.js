@@ -17,6 +17,7 @@ const switchToSDLSchema = require('./switchToSDLSchema');
 const ensureIntrospectionSchema = require('./ensureIntrospectionSchema');
 const { readSchemaFromFile } = require('./readSchemaFromFile');
 const defaultDirectiveDefinitions = require('./defaultDirectiveDefinitions');
+const getRelativeTypesPath = require('./getRelativeTypesPath');
 module.exports = {
   getAppSyncAPIDetails,
   getFrontEndHandler,
@@ -37,4 +38,5 @@ module.exports = {
   ensureIntrospectionSchema,
   readSchemaFromFile,
   defaultDirectiveDefinitions,
+  getRelativeTypesPath,
 };

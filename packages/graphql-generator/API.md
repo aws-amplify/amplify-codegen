@@ -4,6 +4,7 @@
 
 ```ts
 
+import { Source } from 'graphql';
 import { Target } from '@aws-amplify/appsync-modelgen-plugin';
 import { Target as Target_2 } from '@aws-amplify/graphql-types-generator';
 
@@ -50,7 +51,7 @@ export function generateTypes(options: GenerateTypesOptions): Promise<GeneratedO
 export type GenerateTypesOptions = {
     schema: string;
     target: TypesTarget;
-    queries: string;
+    queries: string | Source[];
     introspection?: boolean;
     multipleSwiftFiles?: boolean;
 };

@@ -2,6 +2,7 @@ const { sync } = require('glob-all');
 const path = require('path');
 const { generateTypes: generateTypesHelper } = require('@aws-amplify/graphql-generator');
 const fs = require('fs-extra');
+const { Source } = require('graphql');
 
 const { loadConfig } = require('../../src/codegen-config');
 const generateTypes = require('../../src/commands/types');
@@ -20,6 +21,7 @@ const MOCK_CONTEXT = {
 
 jest.mock('glob-all');
 jest.mock('@aws-amplify/graphql-generator');
+jest.mock('@aws-amplify/graphql-types-generator');
 jest.mock('../../src/codegen-config');
 jest.mock('../../src/utils');
 jest.mock('fs-extra');
@@ -58,6 +60,9 @@ describe('command - types', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     fs.existsSync.mockReturnValue(true);
+    fs.statSync.mockReturnValue({
+      isDirectory: jest.fn().mockReturnValue(false),
+    });
     getFrontEndHandler.mockReturnValue('javascript');
     loadConfig.mockReturnValue({
       getProjects: jest.fn().mockReturnValue([MOCK_PROJECT]),
@@ -77,11 +82,27 @@ describe('command - types', () => {
     expect(loadConfig).toHaveBeenCalledWith(MOCK_CONTEXT, false);
     expect(sync).toHaveBeenCalledWith([MOCK_INCLUDE_PATH, `!${MOCK_EXCLUDE_PATH}`], { cwd: MOCK_PROJECT_ROOT, absolute: true });
     expect(generateTypesHelper).toHaveBeenCalledWith({
-      queries: 'query 1\nquery 2',
+      queries: [new Source('query 1', 'q1.gql'), new Source('query 2', 'q2.gql')],
       schema: 'schema',
       target: 'TYPE_SCRIPT_OR_FLOW_OR_ANY_OTHER_LANGUAGE',
       introspection: false,
+      multipleSwiftFiles: false,
     });
+  });
+
+  it('should use generate multiple swift files', async () => {
+    MOCK_PROJECT.amplifyExtension.codeGenTarget = 'swift';
+    MOCK_PROJECT.amplifyExtension.generatedFileName = 'typesDirectory';
+    const forceDownload = false;
+    fs.readFileSync
+      .mockReturnValueOnce('query 1')
+      .mockReturnValueOnce('query 2')
+      .mockReturnValueOnce('schema');
+    fs.existsSync.mockReturnValueOnce(true);
+    fs.statSync.mockReturnValueOnce({
+      isDirectory: jest.fn().mockReturnValue(true),
+    });
+    await generateTypes(MOCK_CONTEXT, forceDownload);
   });
 
   it('should not generate type if the frontend is android', async () => {
@@ -93,6 +114,7 @@ describe('command - types', () => {
 
   it('should download the schema if forceDownload flag is passed', async () => {
     const forceDownload = true;
+    fs.readFileSync.mockReturnValueOnce('query 1').mockReturnValueOnce('query 2');
     await generateTypes(MOCK_CONTEXT, forceDownload);
     expect(ensureIntrospectionSchema).toHaveBeenCalledWith(
       MOCK_CONTEXT,
@@ -106,6 +128,7 @@ describe('command - types', () => {
   it('should download the schema if the schema file is missing', async () => {
     fs.existsSync.mockReturnValue(false);
     const forceDownload = false;
+    fs.readFileSync.mockReturnValueOnce('query 1').mockReturnValueOnce('query 2');
     await generateTypes(MOCK_CONTEXT, forceDownload);
     expect(ensureIntrospectionSchema).toHaveBeenCalledWith(
       MOCK_CONTEXT,

@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.5](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.1.4...@aws-amplify/graphql-generator@0.1.5) (2023-10-02)
+
+**Note:** Version bump only for package @aws-amplify/graphql-generator
+
+## [0.1.4](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.1.3...@aws-amplify/graphql-generator@0.1.4) (2023-10-02)
+
+### Bug Fixes
+
+- ensure posix path sep is used ([#728](https://github.com/aws-amplify/amplify-codegen/issues/728)) ([9c9e1ba](https://github.com/aws-amplify/amplify-codegen/commit/9c9e1ba4d29b8fab30598397aac434c65b143a3a))
+
+## [0.1.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.1.2...@aws-amplify/graphql-generator@0.1.3) (2023-09-26)
+
+### Bug Fixes
+
+- generate multiple swift files in graphql-generator ([#718](https://github.com/aws-amplify/amplify-codegen/issues/718)) ([1e484af](https://github.com/aws-amplify/amplify-codegen/commit/1e484afe39a76ac633208698e3f780214819e44e))
+
+## [0.1.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.1.1...@aws-amplify/graphql-generator@0.1.2) (2023-09-25)
+
+### Bug Fixes
+
+- typo in graphql-generator arg ([#709](https://github.com/aws-amplify/amplify-codegen/issues/709)) ([756c375](https://github.com/aws-amplify/amplify-codegen/commit/756c3751bf236a64a5f028f61523cb96e0d7a7fa))
+
 ## [0.1.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.1.0...@aws-amplify/graphql-generator@0.1.1) (2023-09-19)
 
 **Note:** Version bump only for package @aws-amplify/graphql-generator

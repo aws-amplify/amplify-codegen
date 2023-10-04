@@ -190,7 +190,7 @@ module.exports = {
     '@typescript-eslint/interface-name-prefix': 'off',
     'no-throw-literal': 'off',
     'react/static-property-placement': 'off',
-    'import/no-extraneous-dependencies': 'off',
+    'import/no-extraneous-dependencies': ['error', {devDependencies: true}],
     'spaced-comment': 'off',
     '@typescript-eslint/no-array-constructor': 'off',
     'prefer-rest-params': 'off',

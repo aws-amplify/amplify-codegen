@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs-extra');
 const Ora = require('ora');
 const glob = require('glob-all');
+const { Source } = require('graphql');
 
 const constants = require('../constants');
 const { loadConfig } = require('../codegen-config');
@@ -57,27 +58,25 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
         const target = cfg.amplifyExtension.codeGenTarget;
 
         const excludes = cfg.excludes.map(pattern => `!${pattern}`);
-        const queryFiles = glob
-          .sync([...includeFiles, ...excludes], {
-            cwd: projectPath,
-            absolute: true,
-          })
-          .map(queryFilePath => {
-            const fileContents = fs.readFileSync(queryFilePath, 'utf8');
-            if (
-              queryFilePath.endsWith('.jsx') ||
-              queryFilePath.endsWith('.js') ||
-              queryFilePath.endsWith('.tsx') ||
-              queryFilePath.endsWith('.ts')
-            ) {
-              return extractDocumentFromJavascript(fileContents, '');
-            }
-            return fileContents;
-          });
-        if (queryFiles.length === 0) {
-          throw new Error('No queries found to generate types for, you may need to run \'codegen statements\' first');
+        const queryFilePaths = glob.sync([...includeFiles, ...excludes], {
+          cwd: projectPath,
+          absolute: true,
+        });
+        const queries = queryFilePaths.map(queryFilePath => {
+          const fileContents = fs.readFileSync(queryFilePath, 'utf8');
+          if (
+            queryFilePath.endsWith('.jsx') ||
+            queryFilePath.endsWith('.js') ||
+            queryFilePath.endsWith('.tsx') ||
+            queryFilePath.endsWith('.ts')
+          ) {
+            return extractDocumentFromJavascript(fileContents, '');
+          }
+          return new Source(fileContents, queryFilePath);
+        });
+        if (queries.length === 0) {
+          throw new Error("No queries found to generate types for, you may need to run 'codegen statements' first");
         }
-        const queries = queryFiles.join('\n');
 
         const schemaPath = path.join(projectPath, cfg.schema);
 
@@ -94,13 +93,14 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
         codeGenSpinner.start();
         const schema = fs.readFileSync(schemaPath, 'utf8');
         const introspection = path.extname(schemaPath) === '.json';
-
+        const multipleSwiftFiles = target === 'swift' && fs.existsSync(outputPath) && fs.statSync(outputPath).isDirectory();
         try {
           const output = await generateTypesHelper({
             schema,
             queries,
             target,
             introspection,
+            multipleSwiftFiles,
           });
           const outputs = Object.entries(output);
 

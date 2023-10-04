@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.4.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@3.4.2...@aws-amplify/graphql-types-generator@3.4.3) (2023-10-02)
+
+### Bug Fixes
+
+- remove unnecessary deps, including fixture dependencies ([#731](https://github.com/aws-amplify/amplify-codegen/issues/731)) ([7d71ee0](https://github.com/aws-amplify/amplify-codegen/commit/7d71ee0def32c356ef84a8cdbffe92d4aa0b0497))
+
+## [3.4.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@3.4.1...@aws-amplify/graphql-types-generator@3.4.2) (2023-09-26)
+
+### Bug Fixes
+
+- generate multiple swift files in graphql-generator ([#718](https://github.com/aws-amplify/amplify-codegen/issues/718)) ([1e484af](https://github.com/aws-amplify/amplify-codegen/commit/1e484afe39a76ac633208698e3f780214819e44e))
+
+## [3.4.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@3.4.0...@aws-amplify/graphql-types-generator@3.4.1) (2023-09-25)
+
+### Bug Fixes
+
+- move types from runtime deps to dev deps ([#708](https://github.com/aws-amplify/amplify-codegen/issues/708)) ([f7a024d](https://github.com/aws-amplify/amplify-codegen/commit/f7a024d9ec4f7b0156c72b7f7d05139bbb339cbd))
+
 # [3.4.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@3.3.0...@aws-amplify/graphql-types-generator@3.4.0) (2023-09-12)
 
 ### Features

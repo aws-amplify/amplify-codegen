@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.6.5](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.6.4...amplify-codegen@4.6.5) (2023-10-02)
+
+### Bug Fixes
+
+- remove unnecessary deps, including fixture dependencies ([#731](https://github.com/aws-amplify/amplify-codegen/issues/731)) ([7d71ee0](https://github.com/aws-amplify/amplify-codegen/commit/7d71ee0def32c356ef84a8cdbffe92d4aa0b0497))
+
+## [4.6.4](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.6.3...amplify-codegen@4.6.4) (2023-10-02)
+
+### Bug Fixes
+
+- ensure posix path sep is used ([#728](https://github.com/aws-amplify/amplify-codegen/issues/728)) ([9c9e1ba](https://github.com/aws-amplify/amplify-codegen/commit/9c9e1ba4d29b8fab30598397aac434c65b143a3a))
+
+## [4.6.3](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.6.2...amplify-codegen@4.6.3) (2023-09-26)
+
+### Bug Fixes
+
+- generate multiple swift files in graphql-generator ([#718](https://github.com/aws-amplify/amplify-codegen/issues/718)) ([1e484af](https://github.com/aws-amplify/amplify-codegen/commit/1e484afe39a76ac633208698e3f780214819e44e))
+
+## [4.6.2](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.6.1...amplify-codegen@4.6.2) (2023-09-25)
+
+### Bug Fixes
+
+- relative types path in same dir as documents ([#714](https://github.com/aws-amplify/amplify-codegen/issues/714)) ([73d3877](https://github.com/aws-amplify/amplify-codegen/commit/73d38776aaae270201aeddc87d6b97bef860c7f1))
+
+## [4.6.1](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.6.0...amplify-codegen@4.6.1) (2023-09-25)
+
+### Bug Fixes
+
+- multiple swift file names ([#713](https://github.com/aws-amplify/amplify-codegen/issues/713)) ([a901362](https://github.com/aws-amplify/amplify-codegen/commit/a90136266944812001913b4b49972dda87750763))
+
 # [4.6.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.5.0...amplify-codegen@4.6.0) (2023-09-19)
 
 ### Features

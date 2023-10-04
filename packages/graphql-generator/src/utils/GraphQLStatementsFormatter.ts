@@ -1,3 +1,4 @@
+import * as path from 'path';
 import prettier, { BuiltInParserName } from 'prettier';
 import {
   interfaceNameFromOperation,
@@ -34,7 +35,12 @@ export class GraphQLStatementsFormatter {
     }[operation];
     this.lintOverrides = [];
     this.headerComments = [];
-    this.typesPath = typesPath ? typesPath.replace(/.ts/i, '') : null;
+    this.typesPath = typesPath
+      ? typesPath.replace(/.ts/i, '')
+        // ensure posix path separators are used
+        .split(path.win32.sep)
+        .join(path.posix.sep)
+      : null;
     this.includeTypeScriptTypes = !!(this.language === 'typescript' && this.opTypeName && this.typesPath);
   }
 
