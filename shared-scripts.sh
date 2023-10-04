@@ -8,7 +8,7 @@ function storeCache {
   localPath="$1"
   alias="$2"
   s3Path="s3://$CACHE_BUCKET_NAME/$CODEBUILD_SOURCE_VERSION/$alias"
-  echo "Writing cache folder $alias to $s3Path"
+  echo "Writing cache folder $alias to $s3Path from local $localPath"
   # zip contents and upload to s3
   if ! (cd $localPath && tar cz . | aws s3 cp - $s3Path); then
       echo "Something went wrong storing the cache folder $alias."
@@ -22,7 +22,7 @@ function loadCache {
   alias="$1"
   localPath="$2"
   s3Path="s3://$CACHE_BUCKET_NAME/$CODEBUILD_SOURCE_VERSION/$alias"
-  echo "Loading cache folder from $s3Path"
+  echo "Loading cache folder from $s3Path to local $localPath"
   # create directory if it doesn't exist yet
   mkdir -p $localPath
   # check if cache exists in s3
