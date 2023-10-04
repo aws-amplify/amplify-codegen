@@ -10,7 +10,7 @@ function storeCache {
   s3Path="s3://$CACHE_BUCKET_NAME/$CODEBUILD_SOURCE_VERSION/$alias"
   echo "Writing cache folder $alias to $s3Path from local $localPath"
   # zip contents and upload to s3
-  if ! (cd $localPath && tar cz . | aws s3 cp - $s3Path); then
+  if ! (cd $localPath && tar cz . | !MSYS_NO_PATHCONV=1 aws s3 cp - $s3Path); then
       echo "Something went wrong storing the cache folder $alias."
   fi
   echo "Done writing cache folder $alias"
@@ -26,12 +26,12 @@ function loadCache {
   # create directory if it doesn't exist yet
   mkdir -p $localPath
   # check if cache exists in s3
-  if ! aws s3 ls $s3Path > /dev/null; then
+  if ! !MSYS_NO_PATHCONV=1 aws s3 ls $s3Path > /dev/null; then
       echo "Cache folder $alias not found."
       exit 0
   fi
   # load cache and unzip it
-  if ! (cd $localPath && aws s3 cp $s3Path - | tar xz); then
+  if ! (cd $localPath && !MSYS_NO_PATHCONV=1 aws s3 cp $s3Path - | tar xz); then
       echo "Something went wrong fetching the cache folder $alias. Continuing anyway."
   fi
   echo "Done loading cache folder $alias"
@@ -45,7 +45,6 @@ function storeCacheForBuildJob {
 }
 
 function storeCacheForBuildWindowsJob {
-  git config --global credential.helper "!MSYS_NO_PATHCONV=1 aws codecommit credential-helper $@"
   storeCache $CODEBUILD_SRC_DIR repo_windows
   storeCache $HOME/.cache .cache_windows
 }
@@ -57,7 +56,6 @@ function loadCacheFromBuildJob {
 }
 
 function loadCacheFromBuildWindowsJob {
-  git config --global credential.helper "!MSYS_NO_PATHCONV=1 aws codecommit credential-helper $@"
   # download [repo, .cache] from s3
   loadCache repo_windows $CODEBUILD_SRC_DIR
   loadCache .cache_windows $HOME/.cache
