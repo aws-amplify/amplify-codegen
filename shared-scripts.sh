@@ -124,6 +124,7 @@ function _testWindows {
   echo "Run Unit Test"
   pwd
   loadCacheFromBuildWindowsJob
+  yarn
   yarn test-ci
 }
 
