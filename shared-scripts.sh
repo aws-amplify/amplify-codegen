@@ -49,6 +49,7 @@ function storeCacheForBuildJob {
 function storeCacheForBuildWindowsJob {
   # upload repo_windows to s3
   storeCache $CODEBUILD_SRC_DIR repo_windows
+  storeCache $HOME/.cache .cache_windows
 }
 
 function loadCacheFromBuildJob {
@@ -60,6 +61,7 @@ function loadCacheFromBuildJob {
 function loadCacheFromBuildWindowsJob {
   # download repo_windows from s3
   loadCache repo_windows $CODEBUILD_SRC_DIR
+  loadCache .cache_windows $HOME/.cache
 }
 
 function storeCacheFile {
@@ -116,6 +118,7 @@ function _testLinux {
 function _buildWindows {
   echo "Windows Build"
   pwd
+  yarn config set cache-folder $HOME/.cache
   yarn run production-build
   storeCacheForBuildWindowsJob
 }
@@ -124,7 +127,8 @@ function _testWindows {
   echo "Run Unit Test"
   pwd
   loadCacheFromBuildWindowsJob
-  yarn
+  yarn config set cache-folder $HOME/.cache
+  # yarn --ignore-engines --frozen-lockfile
   yarn test-ci
 }
 
