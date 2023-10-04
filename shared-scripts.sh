@@ -100,24 +100,28 @@ function _setShell {
 function _buildLinux {
   _setShell
   echo "Linux Build"
+  pwd
   yarn run production-build
   storeCacheForBuildJob
 }
 
 function _testLinux {
   echo "Run Unit Test"
+  pwd
   loadCacheFromBuildJob
   yarn test-ci
 }
 
 function _buildWindows {
   echo "Windows Build"
+  pwd
   yarn run production-build
   storeCacheForBuildWindowsJob
 }
 
 function _testWindows {
   echo "Run Unit Test"
+  pwd
   loadCacheFromBuildWindowsJob
   yarn test-ci
 }
