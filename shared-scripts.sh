@@ -45,6 +45,7 @@ function storeCacheForBuildJob {
 }
 
 function storeCacheForBuildWindowsJob {
+  git config --global credential.helper "!MSYS_NO_PATHCONV=1 aws codecommit credential-helper $@"
   storeCache $CODEBUILD_SRC_DIR repo_windows
   storeCache $HOME/.cache .cache_windows
 }
@@ -56,6 +57,7 @@ function loadCacheFromBuildJob {
 }
 
 function loadCacheFromBuildWindowsJob {
+  git config --global credential.helper "!MSYS_NO_PATHCONV=1 aws codecommit credential-helper $@"
   # download [repo, .cache] from s3
   loadCache repo_windows $CODEBUILD_SRC_DIR
   loadCache .cache_windows $HOME/.cache
