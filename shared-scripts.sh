@@ -13,7 +13,7 @@ function storeCache {
   # windows tar cannot write to stdout equivalent. Archive must write to file first 
   mkdir -p $HOME/tmp
   # zip contents and upload to s3
-  if ! (cd $localPath && tar czf $HOME/tmp/$alias . && aws s3 cp $HOME/tmp/$alias $s3Path); then
+  if ! (cd $localPath && tar czf ../$alias . && aws s3 cp ../$alias $s3Path); then
       echo "Something went wrong storing the cache folder $alias."
   fi
   echo "Done writing cache folder $alias"
@@ -37,7 +37,7 @@ function loadCache {
       exit 0
   fi
   # load cache and unzip it
-  if ! (cd $localPath && aws s3 cp $s3Path $HOME/tmp/$alias && tar xzf $HOME/tmp/$alias); then
+  if ! (cd $localPath && aws s3 cp $s3Path ../$alias && tar xzf ../$alias); then
       echo "Something went wrong fetching the cache folder $alias. Continuing anyway."
   fi
   echo "Done loading cache folder $alias"
