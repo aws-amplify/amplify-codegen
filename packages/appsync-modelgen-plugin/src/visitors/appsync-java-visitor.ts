@@ -38,7 +38,7 @@ export class AppSyncModelJavaVisitor<
 
   // We override lazy generation to also only generate lazy models if data store is disabled
   protected override isGenerateModelsForLazyLoadAndCustomSelectionSet(): boolean {
-    return super.isGenerateModelsForLazyLoadAndCustomSelectionSet() && !(this.config.isDataStoreEnabled ?? false);
+    return super.isGenerateModelsForLazyLoadAndCustomSelectionSet() && !this.config.isDataStoreEnabled;
   }
 
   generate(): string {
