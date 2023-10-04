@@ -102,6 +102,14 @@ export interface RawAppSyncModelConfig extends RawConfig {
    * @descriptions optional string which includes directive definition and types used by directives. The types defined in here won't make it to output
    */
   directives?: string;
+
+  /**
+   * @name isDataStoreEnabled
+   * @type boolean
+   * @description true if DataStore is enabled on project
+   */
+  isDataStoreEnabled?: boolean;
+
   /**
    * @name isTimestampFieldsAdded
    * @type boolean
@@ -157,6 +165,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   selectedType?: string;
   generate?: CodeGenGenerateEnum;
   target?: string;
+  isDataStoreEnabled?: string;
   isTimestampFieldsAdded?: boolean;
   handleListNullabilityTransparently?: boolean;
   usePipelinedTransformer?: boolean;
@@ -248,6 +257,7 @@ export class AppSyncModelVisitor<
       ...additionalConfig,
       scalars: buildScalars(_schema, rawConfig.scalars || '', defaultScalars),
       target: rawConfig.target,
+      isDataStoreEnabled: rawConfig.isDataStoreEnabled,
       isTimestampFieldsAdded: rawConfig.isTimestampFieldsAdded,
       handleListNullabilityTransparently: rawConfig.handleListNullabilityTransparently,
       usePipelinedTransformer: rawConfig.usePipelinedTransformer,

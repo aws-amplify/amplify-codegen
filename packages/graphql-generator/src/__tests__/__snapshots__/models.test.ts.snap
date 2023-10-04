@@ -1097,7 +1097,7 @@ public final class AmplifyModelProvider implements ModelProvider {
     
   }
   
-  public static AmplifyModelProvider getInstance() {
+  public static synchronized AmplifyModelProvider getInstance() {
     if (amplifyGeneratedModelInstance == null) {
       amplifyGeneratedModelInstance = new AmplifyModelProvider();
     }
@@ -1133,6 +1133,7 @@ public final class AmplifyModelProvider implements ModelProvider {
   "com/amplifyframework/datastore/generated/model/Blog.java": "package com.amplifyframework.datastore.generated.model;
 
 import com.amplifyframework.core.model.annotations.HasMany;
+import com.amplifyframework.core.model.ModelList;
 import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.core.model.ModelIdentifier;
 
@@ -1152,13 +1153,14 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Blog type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Blogs\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Blogs\\", type = Model.Type.USER, version = 1, hasLazySupport = true)
 public final class Blog implements Model {
+  public static final BlogPath rootPath = new BlogPath(\\"root\\", false, null);
   public static final QueryField ID = field(\\"Blog\\", \\"id\\");
   public static final QueryField NAME = field(\\"Blog\\", \\"name\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
-  private final @ModelField(targetType=\\"Post\\") @HasMany(associatedWith = \\"blog\\", type = Post.class) List<Post> posts = null;
+  private final @ModelField(targetType=\\"Post\\") @HasMany(associatedWith = \\"blog\\", type = Post.class) ModelList<Post> posts = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
@@ -1175,7 +1177,7 @@ public final class Blog implements Model {
       return name;
   }
   
-  public List<Post> getPosts() {
+  public ModelList<Post> getPosts() {
       return posts;
   }
   
@@ -1267,6 +1269,15 @@ public final class Blog implements Model {
   public static class Builder implements NameStep, BuildStep {
     private String id;
     private String name;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String name) {
+      this.id = id;
+      this.name = name;
+    }
+    
     @Override
      public Blog build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -1296,8 +1307,8 @@ public final class Blog implements Model {
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String name) {
-      super.id(id);
-      super.name(name);
+      super(id, name);
+      Objects.requireNonNull(name);
     }
     
     @Override
@@ -1316,9 +1327,34 @@ public final class Blog implements Model {
   
 }
 ",
+  "com/amplifyframework/datastore/generated/model/BlogPath.java": "package com.amplifyframework.datastore.generated.model;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.amplifyframework.core.model.ModelPath;
+import com.amplifyframework.core.model.PropertyPath;
+
+/** This is an auto generated class representing the ModelPath for the Blog type in your schema. */
+public final class BlogPath extends ModelPath<Blog> {
+  private PostPath posts;
+  BlogPath(@NonNull String name, @NonNull Boolean isCollection, @Nullable PropertyPath parent) {
+    super(name, isCollection, parent, Blog.class);
+  }
+  
+  public synchronized PostPath getPosts() {
+    if (posts == null) {
+      posts = new PostPath(\\"posts\\", true, this);
+    }
+    return posts;
+  }
+}
+",
   "com/amplifyframework/datastore/generated/model/Comment.java": "package com.amplifyframework.datastore.generated.model;
 
 import com.amplifyframework.core.model.annotations.BelongsTo;
+import com.amplifyframework.core.model.ModelReference;
+import com.amplifyframework.core.model.LoadedModelReferenceImpl;
 import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.core.model.ModelIdentifier;
 
@@ -1338,13 +1374,14 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Comment type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Comments\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Comments\\", type = Model.Type.USER, version = 1, hasLazySupport = true)
 public final class Comment implements Model {
+  public static final CommentPath rootPath = new CommentPath(\\"root\\", false, null);
   public static final QueryField ID = field(\\"Comment\\", \\"id\\");
   public static final QueryField POST = field(\\"Comment\\", \\"postCommentsId\\");
   public static final QueryField CONTENT = field(\\"Comment\\", \\"content\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"Post\\") @BelongsTo(targetName = \\"postCommentsId\\", targetNames = {\\"postCommentsId\\"}, type = Post.class) Post post;
+  private final @ModelField(targetType=\\"Post\\") @BelongsTo(targetName = \\"postCommentsId\\", targetNames = {\\"postCommentsId\\"}, type = Post.class) ModelReference<Post> post;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
@@ -1358,7 +1395,7 @@ public final class Comment implements Model {
       return id;
   }
   
-  public Post getPost() {
+  public ModelReference<Post> getPost() {
       return post;
   }
   
@@ -1374,7 +1411,7 @@ public final class Comment implements Model {
       return updatedAt;
   }
   
-  private Comment(String id, Post post, String content) {
+  private Comment(String id, ModelReference<Post> post, String content) {
     this.id = id;
     this.post = post;
     this.content = content;
@@ -1461,7 +1498,17 @@ public final class Comment implements Model {
   public static class Builder implements ContentStep, BuildStep {
     private String id;
     private String content;
-    private Post post;
+    private ModelReference<Post> post;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, ModelReference<Post> post, String content) {
+      this.id = id;
+      this.post = post;
+      this.content = content;
+    }
+    
     @Override
      public Comment build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -1481,7 +1528,7 @@ public final class Comment implements Model {
     
     @Override
      public BuildStep post(Post post) {
-        this.post = post;
+        this.post = new LoadedModelReferenceImpl<>(post);
         return this;
     }
     
@@ -1497,10 +1544,9 @@ public final class Comment implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, Post post, String content) {
-      super.id(id);
-      super.content(content)
-        .post(post);
+    private CopyOfBuilder(String id, ModelReference<Post> post, String content) {
+      super(id, post, content);
+      Objects.requireNonNull(content);
     }
     
     @Override
@@ -1524,10 +1570,36 @@ public final class Comment implements Model {
   
 }
 ",
+  "com/amplifyframework/datastore/generated/model/CommentPath.java": "package com.amplifyframework.datastore.generated.model;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.amplifyframework.core.model.ModelPath;
+import com.amplifyframework.core.model.PropertyPath;
+
+/** This is an auto generated class representing the ModelPath for the Comment type in your schema. */
+public final class CommentPath extends ModelPath<Comment> {
+  private PostPath post;
+  CommentPath(@NonNull String name, @NonNull Boolean isCollection, @Nullable PropertyPath parent) {
+    super(name, isCollection, parent, Comment.class);
+  }
+  
+  public synchronized PostPath getPost() {
+    if (post == null) {
+      post = new PostPath(\\"post\\", false, this);
+    }
+    return post;
+  }
+}
+",
   "com/amplifyframework/datastore/generated/model/Post.java": "package com.amplifyframework.datastore.generated.model;
 
 import com.amplifyframework.core.model.annotations.BelongsTo;
+import com.amplifyframework.core.model.ModelReference;
+import com.amplifyframework.core.model.LoadedModelReferenceImpl;
 import com.amplifyframework.core.model.annotations.HasMany;
+import com.amplifyframework.core.model.ModelList;
 import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.core.model.ModelIdentifier;
 
@@ -1547,15 +1619,16 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Post type in your schema. */
 @SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Posts\\", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = \\"Posts\\", type = Model.Type.USER, version = 1, hasLazySupport = true)
 public final class Post implements Model {
+  public static final PostPath rootPath = new PostPath(\\"root\\", false, null);
   public static final QueryField ID = field(\\"Post\\", \\"id\\");
   public static final QueryField TITLE = field(\\"Post\\", \\"title\\");
   public static final QueryField BLOG = field(\\"Post\\", \\"blogPostsId\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\", isRequired = true) String title;
-  private final @ModelField(targetType=\\"Blog\\") @BelongsTo(targetName = \\"blogPostsId\\", targetNames = {\\"blogPostsId\\"}, type = Blog.class) Blog blog;
-  private final @ModelField(targetType=\\"Comment\\") @HasMany(associatedWith = \\"post\\", type = Comment.class) List<Comment> comments = null;
+  private final @ModelField(targetType=\\"Blog\\") @BelongsTo(targetName = \\"blogPostsId\\", targetNames = {\\"blogPostsId\\"}, type = Blog.class) ModelReference<Blog> blog;
+  private final @ModelField(targetType=\\"Comment\\") @HasMany(associatedWith = \\"post\\", type = Comment.class) ModelList<Comment> comments = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
@@ -1572,11 +1645,11 @@ public final class Post implements Model {
       return title;
   }
   
-  public Blog getBlog() {
+  public ModelReference<Blog> getBlog() {
       return blog;
   }
   
-  public List<Comment> getComments() {
+  public ModelList<Comment> getComments() {
       return comments;
   }
   
@@ -1588,7 +1661,7 @@ public final class Post implements Model {
       return updatedAt;
   }
   
-  private Post(String id, String title, Blog blog) {
+  private Post(String id, String title, ModelReference<Blog> blog) {
     this.id = id;
     this.title = title;
     this.blog = blog;
@@ -1675,7 +1748,17 @@ public final class Post implements Model {
   public static class Builder implements TitleStep, BuildStep {
     private String id;
     private String title;
-    private Blog blog;
+    private ModelReference<Blog> blog;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String title, ModelReference<Blog> blog) {
+      this.id = id;
+      this.title = title;
+      this.blog = blog;
+    }
+    
     @Override
      public Post build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -1695,7 +1778,7 @@ public final class Post implements Model {
     
     @Override
      public BuildStep blog(Blog blog) {
-        this.blog = blog;
+        this.blog = new LoadedModelReferenceImpl<>(blog);
         return this;
     }
     
@@ -1711,10 +1794,9 @@ public final class Post implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String title, Blog blog) {
-      super.id(id);
-      super.title(title)
-        .blog(blog);
+    private CopyOfBuilder(String id, String title, ModelReference<Blog> blog) {
+      super(id, title, blog);
+      Objects.requireNonNull(title);
     }
     
     @Override
@@ -1736,6 +1818,37 @@ public final class Post implements Model {
     }
   }
   
+}
+",
+  "com/amplifyframework/datastore/generated/model/PostPath.java": "package com.amplifyframework.datastore.generated.model;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.amplifyframework.core.model.ModelPath;
+import com.amplifyframework.core.model.PropertyPath;
+
+/** This is an auto generated class representing the ModelPath for the Post type in your schema. */
+public final class PostPath extends ModelPath<Post> {
+  private BlogPath blog;
+  private CommentPath comments;
+  PostPath(@NonNull String name, @NonNull Boolean isCollection, @Nullable PropertyPath parent) {
+    super(name, isCollection, parent, Post.class);
+  }
+  
+  public synchronized BlogPath getBlog() {
+    if (blog == null) {
+      blog = new BlogPath(\\"blog\\", false, this);
+    }
+    return blog;
+  }
+  
+  public synchronized CommentPath getComments() {
+    if (comments == null) {
+      comments = new CommentPath(\\"comments\\", true, this);
+    }
+    return comments;
+  }
 }
 ",
 }

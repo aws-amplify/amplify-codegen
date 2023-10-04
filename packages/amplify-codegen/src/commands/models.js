@@ -7,6 +7,7 @@ const { validateAmplifyFlutterMinSupportedVersion } = require('../utils/validate
 const defaultDirectiveDefinitions = require('../utils/defaultDirectiveDefinitions');
 const getProjectRoot = require('../utils/getProjectRoot');
 const { getModelSchemaPathParam, hasModelSchemaPathParam } = require('../utils/getModelSchemaPathParam');
+const { isDataStoreEnabled } = require('graphql-transformer-core');
 
 /**
  * Amplify Context type.
@@ -260,6 +261,7 @@ async function generateModels(context, generateOptions = null) {
   const generatedCode = await generateModelsHelper({
     schema: loadSchema(apiResourcePath),
     directives: await getDirectives(context, apiResourcePath),
+    isDataStoreEnabled: await isDataStoreEnabled(apiResourcePath),
     target: modelgenFrontendToTargetMap[frontend],
     generateIndexRules: readFeatureFlag(context, 'codegen.generateIndexRules'),
     emitAuthProvider: readFeatureFlag(context, 'codegen.emitAuthProvider'),
