@@ -128,7 +128,7 @@ function _testWindows {
   pwd
   loadCacheFromBuildWindowsJob
   yarn config set cache-folder $HOME/.cache
-  # yarn --ignore-engines --frozen-lockfile
+  yarn --ignore-engines --frozen-lockfile
   yarn test-ci
 }
 
