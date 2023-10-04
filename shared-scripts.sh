@@ -47,8 +47,8 @@ function storeCacheForBuildJob {
 }
 
 function storeCacheForBuildWindowsJob {
+  # upload repo_windows to s3
   storeCache $CODEBUILD_SRC_DIR repo_windows
-  storeCache $HOME/.cache .cache_windows
 }
 
 function loadCacheFromBuildJob {
@@ -58,9 +58,8 @@ function loadCacheFromBuildJob {
 }
 
 function loadCacheFromBuildWindowsJob {
-  # download [repo, .cache] from s3
+  # download repo_windows from s3
   loadCache repo_windows $CODEBUILD_SRC_DIR
-  loadCache .cache_windows $HOME/.cache
 }
 
 function storeCacheFile {
