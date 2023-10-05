@@ -16,6 +16,7 @@ export const addToSchema: (config: AppSyncModelPluginConfig) => string;
 export type AppSyncModelCodeGenPresetConfig = {
     overrideOutputDir: string | null;
     target: Target;
+    isDataStoreEnabled?: boolean;
 };
 
 // @public (undocumented)

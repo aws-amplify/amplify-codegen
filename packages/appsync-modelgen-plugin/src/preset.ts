@@ -28,28 +28,21 @@ export type AppSyncModelCodeGenPresetConfig = {
    */
   overrideOutputDir: string | null;
   target: Target;
+  isDataStoreEnabled?: boolean;
 };
 
 const generateJavaPreset = (
   options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>,
   models: TypeDefinitionNode[],
+  manyToManyJoinModels: TypeDefinitionNode[],
 ): Types.GenerateOptions[] => {
   const config: Types.GenerateOptions[] = [];
   const modelFolder = options.config.overrideOutputDir
     ? [options.config.overrideOutputDir]
     : [options.baseOutputDir, ...GENERATED_PACKAGE_NAME.split('.')];
-  models.forEach(model => {
-    const modelName = model.name.value;
-    config.push({
-      ...options,
-      filename: join(...modelFolder, `${modelName}.java`),
-      config: {
-        ...options.config,
-        scalars: { ...JAVA_SCALAR_MAP, ...options.config.scalars },
-        selectedType: modelName,
-      },
-    });
-  });
+
+  // Only generate lazy models if feature flag enabled and datastore is not being used.
+  const generateAPILazyModels = options.config.generateModelsForLazyLoadAndCustomSelectionSet && !options.config.isDataStoreEnabled
 
   // Class loader
   config.push({
@@ -61,6 +54,52 @@ const generateJavaPreset = (
       generate: 'loader',
     },
   });
+
+  models.forEach(model => {
+    const modelName = model.name.value;
+    config.push({
+      ...options,
+      filename: join(...modelFolder, `${modelName}.java`),
+      config: {
+        ...options.config,
+        scalars: { ...JAVA_SCALAR_MAP, ...options.config.scalars },
+        selectedType: modelName,
+      },
+    });
+
+    // Create ModelPath's only if lazy models are generated
+    if (generateAPILazyModels) {
+      // Create ModelPath if type is @model
+      if (model?.directives?.find((directive) => directive?.name?.value === 'model')) {
+        config.push({
+          ...options,
+          filename: join(...modelFolder, `${modelName}Path.java`),
+          config: {
+            ...options.config,
+            scalars: { ...JAVA_SCALAR_MAP, ...options.config.scalars },
+            generate: 'metadata',
+            selectedType: modelName,
+          },
+        });
+      }
+    }
+  });
+
+  // Create ModelPath's only if lazy models are generated
+  if (generateAPILazyModels) {
+    manyToManyJoinModels.forEach(joinModel => {
+      config.push({
+        ...options,
+        filename: join(...modelFolder, `${joinModel.name.value}Path.java`),
+        config: {
+          ...options.config,
+          scalars: {...JAVA_SCALAR_MAP, ...options.config.scalars},
+          generate: 'metadata',
+          selectedType: joinModel.name.value,
+        },
+      });
+    });
+  };
 
   return config;
 };
@@ -282,13 +321,14 @@ export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
         (t.kind === 'ObjectTypeDefinition' && !typesToSkip.includes(t.name.value)) ||
         (t.kind === 'EnumTypeDefinition' && !t.name.value.startsWith('__')),
     ) as any;
+    const manyToManyModels = generateManyToManyModelStubs(options);
     if (options.config.usePipelinedTransformer || options.config.transformerVersion === 2) {
-      models.push(...generateManyToManyModelStubs(options));
+      models.push(...manyToManyModels);
     }
 
     switch (codeGenTarget) {
       case 'java':
-        return generateJavaPreset(options, models);
+        return generateJavaPreset(options, models, manyToManyModels);
       case 'swift':
         return generateSwiftPreset(options, models);
       case 'javascript':

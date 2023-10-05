@@ -9,6 +9,7 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
     schema,
     target,
     directives,
+    isDataStoreEnabled,
 
     // feature flags
     generateIndexRules = true,
@@ -30,6 +31,7 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
     config: {
       target,
       directives,
+      isDataStoreEnabled,
       isTimestampFieldsAdded: addTimestampFields,
       emitAuthProvider,
       generateIndexRules,

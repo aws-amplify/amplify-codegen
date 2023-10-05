@@ -3,7 +3,7 @@ import { StringValueNode, NameNode } from 'graphql';
 import stripIndent from 'strip-indent';
 
 // Todo: PR to @graphql-codegen/java-common to support method exceptions and comment
-export type Access = 'private' | 'public' | 'protected';
+export type Access = 'private' | 'public' | 'protected' | '';
 export type Kind = 'class' | 'interface' | 'enum';
 export type MemberFlags = {
   transient?: boolean;
@@ -143,6 +143,7 @@ export class JavaDeclarationBlock {
       method.flags.final ? 'final' : null,
       method.flags.transient ? 'transient' : null,
       method.flags.volatile ? 'volatile' : null,
+      method.flags.synchronized ? 'synchronized' : null,
       ...(method.returnTypeAnnotations || []).map(annotation => `@${annotation}`),
       method.returnType,
       method.name,
