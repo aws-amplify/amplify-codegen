@@ -10,10 +10,9 @@ function storeCache {
   s3Path="s3://$CACHE_BUCKET_NAME/$CODEBUILD_SOURCE_VERSION/$alias"
   export MSYS_NO_PATHCONV=1
   echo "Writing cache folder $alias to $s3Path from local $localPath"
-  # windows tar cannot write to stdout equivalent. Archive must write to file first 
-  tempDir=`mktemp -d`
   # zip contents and upload to s3
-  if ! (cd $localPath && tar czf $localPath/../$alias . && aws s3 cp $localPath/../$alias $s3Path); then
+  # windows tar cannot write to stdout equivalent. Archive must write to file first 
+  if ! (tar czf $alias $localPath && aws s3 cp $alias $s3Path); then
       echo "Something went wrong storing the cache folder $alias."
   fi
   echo "Done writing cache folder $alias"
@@ -27,17 +26,14 @@ function loadCache {
   s3Path="s3://$CACHE_BUCKET_NAME/$CODEBUILD_SOURCE_VERSION/$alias"
   export MSYS_NO_PATHCONV=1
   echo "Loading cache folder from $s3Path to local $localPath"
-  # windows tar cannot read from stdin equivalent. Archive must write to file first 
-  tempDir=`mktemp -d`
-  # create directory if it doesn't exist yet
-  mkdir -p $localPath
   # check if cache exists in s3
   if ! aws s3 ls $s3Path > /dev/null; then
       echo "Cache folder $alias not found."
       exit 0
   fi
   # load cache and unzip it
-  if ! (cd $localPath && aws s3 cp $s3Path $localPath/../$alias && tar xzf $localPath/../$alias); then
+  # windows tar cannot read from stdin equivalent. Archive must write to file first 
+  if ! (aws s3 cp $s3Path $alias && tar xzf $alias $localPath); then
       echo "Something went wrong fetching the cache folder $alias. Continuing anyway."
   fi
   echo "Done loading cache folder $alias"
@@ -46,8 +42,8 @@ function loadCache {
 
 function storeCacheForBuildJob {
   # upload [repo, .cache] to s3
-  storeCache $CODEBUILD_SRC_DIR repo
-  storeCache $HOME/.cache .cache
+  storeCache $CODEBUILD_SRC_DIR repo_linux
+  storeCache $HOME/.cache .cache_linux
 }
 
 function storeCacheForBuildWindowsJob {
@@ -58,8 +54,8 @@ function storeCacheForBuildWindowsJob {
 
 function loadCacheFromBuildJob {
   # download [repo, .cache] from s3
-  loadCache repo $CODEBUILD_SRC_DIR
-  loadCache .cache $HOME/.cache
+  loadCache repo_linux $CODEBUILD_SRC_DIR
+  loadCache .cache_linux $HOME/.cache
 }
 
 function loadCacheFromBuildWindowsJob {
