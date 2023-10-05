@@ -173,9 +173,6 @@ export function interfaceVariablesDeclarationForOperation(
   generator: CodeGenerator,
   { operationName, operationType, variables }: LegacyOperation,
 ) {
-  if (!variables || variables.length < 1) {
-    return;
-  }
   const interfaceName = interfaceVariablesNameFromOperation({operationName, operationType});
 
   interfaceDeclaration(
@@ -184,7 +181,7 @@ export function interfaceVariablesDeclarationForOperation(
       interfaceName,
     },
     () => {
-      const properties = propertiesFromFields(generator.context, variables);
+      const properties = propertiesFromFields(generator.context, variables ?? []);
       pickedPropertyDeclarations(generator, properties);
     },
   );
