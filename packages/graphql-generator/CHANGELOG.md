@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.1.5...@aws-amplify/graphql-generator@0.2.0) (2023-10-05)
+
+### Features
+
+- Support Amplify Android Lazy Types and Custom Selection Set ([#699](https://github.com/aws-amplify/amplify-codegen/issues/699)) ([6e3de3c](https://github.com/aws-amplify/amplify-codegen/commit/6e3de3c42d31608f7c3b99ff0f74dc485ced9e85)), closes [#697](https://github.com/aws-amplify/amplify-codegen/issues/697)
+
 ## [0.1.5](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.1.4...@aws-amplify/graphql-generator@0.1.5) (2023-10-02)
 
 **Note:** Version bump only for package @aws-amplify/graphql-generator

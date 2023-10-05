@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.8.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.7.5...@aws-amplify/appsync-modelgen-plugin@2.8.0) (2023-10-05)
+
+### Features
+
+- Support Amplify Android Lazy Types and Custom Selection Set ([#699](https://github.com/aws-amplify/amplify-codegen/issues/699)) ([6e3de3c](https://github.com/aws-amplify/amplify-codegen/commit/6e3de3c42d31608f7c3b99ff0f74dc485ced9e85)), closes [#697](https://github.com/aws-amplify/amplify-codegen/issues/697)
+
 ## [2.7.5](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.7.4...@aws-amplify/appsync-modelgen-plugin@2.7.5) (2023-10-02)
 
 ### Bug Fixes
