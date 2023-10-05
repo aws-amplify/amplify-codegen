@@ -33,7 +33,7 @@ function loadCache {
   fi
   # load cache and unzip it
   # windows tar cannot read from stdin equivalent. Archive must write to file first 
-  if ! (cd $HOME && aws s3 cp $s3Path $alias && tar xzf $alias $localPath); then
+  if ! (cd $HOME && aws s3 cp $s3Path $alias && tar xzf $alias -C $localPath); then
       echo "Something went wrong fetching the cache folder $alias. Continuing anyway."
   fi
   echo "Done loading cache folder $alias"
@@ -53,13 +53,13 @@ function storeCacheForBuildWindowsJob {
 
 function loadCacheFromBuildJob {
   # download [repo, .cache] from s3
-  loadCache repo_linux $CODEBUILD_SRC_DIR
-  loadCache .cache_linux $HOME/.cache
+  loadCache repo_linux $CODEBUILD_SRC_DIR/..
+  loadCache .cache_linux $HOME
 }
 
 function loadCacheFromBuildWindowsJob {
   # download repo_windows from s3
-  loadCache repo_windows $CODEBUILD_SRC_DIR
+  loadCache repo_windows $CODEBUILD_SRC_DIR/..
 }
 
 function storeCacheFile {
