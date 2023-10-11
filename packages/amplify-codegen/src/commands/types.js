@@ -62,18 +62,27 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
           cwd: projectPath,
           absolute: true,
         });
-        const queries = queryFilePaths.map(queryFilePath => {
-          const fileContents = fs.readFileSync(queryFilePath, 'utf8');
-          if (
-            queryFilePath.endsWith('.jsx') ||
-            queryFilePath.endsWith('.js') ||
-            queryFilePath.endsWith('.tsx') ||
-            queryFilePath.endsWith('.ts')
-          ) {
-            return extractDocumentFromJavascript(fileContents, '');
-          }
-          return new Source(fileContents, queryFilePath);
-        });
+        const queries = queryFilePaths
+          .map(queryFilePath => {
+            const fileContents = fs.readFileSync(queryFilePath, 'utf8');
+            if (
+              queryFilePath.endsWith('.jsx') ||
+              queryFilePath.endsWith('.js') ||
+              queryFilePath.endsWith('.tsx') ||
+              queryFilePath.endsWith('.ts')
+            ) {
+              return [queryFilePath, extractDocumentFromJavascript(fileContents, '')];
+            }
+            return [queryFilePath, new Source(fileContents, queryFilePath)];
+          })
+          .filter(([queryFilePath, source]) => {
+            if (!source) {
+              context.print.warning(`Unable to extract GraphQL queries from ${queryFilePath}. Skipping source.`);
+              return false;
+            }
+            return true;
+          })
+          .map(([, source]) => source);
         if (queries.length === 0) {
           throw new Error("No queries found to generate types for, you may need to run 'codegen statements' first");
         }
