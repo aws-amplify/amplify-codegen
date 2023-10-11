@@ -62,7 +62,6 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
           cwd: projectPath,
           absolute: true,
         });
-        console.log(generatedFileName);
         const queries = queryFilePaths
           .map(queryFilePath => {
             const fileContents = fs.readFileSync(queryFilePath, 'utf8');

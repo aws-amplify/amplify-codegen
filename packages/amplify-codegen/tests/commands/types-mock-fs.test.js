@@ -34,6 +34,7 @@ const MOCK_APIS = [
 const MOCK_CONTEXT = {
   print: {
     info: jest.fn(),
+    warning: jest.fn(),
   },
   amplify: {
     getProjectMeta: jest.fn(() => ({ api: { id: MOCK_API_ID } })),
@@ -120,5 +121,22 @@ describe('command - types (mock fs)', () => {
     await generateStatements(MOCK_CONTEXT, false);
     await generateTypes(MOCK_CONTEXT, false);
     expect(fs.existsSync(generatedFileName)).toBeFalsy();
+  });
+
+  it.only('should skip invalid sources', async () => {
+    const { generatedFileName } = setupMocks(mockFs, loadConfig, MOCK_API_ID, 'javascript', 'typescript', 'src/graphql/API.ts', {
+      'src/graphql/API.ts': '',
+      'src/graphql/foo.ts': '',
+    });
+
+    await generateStatements(MOCK_CONTEXT, false);
+    await generateTypes(MOCK_CONTEXT, false);
+    expect(MOCK_CONTEXT.print.warning).toHaveBeenCalledWith(
+      expect.stringMatching('Unable to extract GraphQL queries from .*/src/graphql/foo.ts. Skipping source.'),
+    );
+    expect(MOCK_CONTEXT.print.warning).not.toHaveBeenCalledWith(
+      expect.stringMatching('Unable to extract GraphQL queries from .*/src/graphql/API.ts. Skipping source.'),
+    );
+    expect(fs.existsSync(generatedFileName)).toBeTruthy();
   });
 });
