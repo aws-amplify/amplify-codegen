@@ -258,6 +258,9 @@ export type Droid = {
   primaryFunction?: string | null,
 };
 
+export type HeroAndFriendsNamesQueryVariables = {
+};
+
 export type HeroAndFriendsNamesQuery = {
   hero: ( {
       __typename: \\"Human\\",
@@ -480,6 +483,9 @@ export type Droid = {
   primaryFunction?: string | null,
 };
 
+export type HeroAndDetailsQueryVariables = {
+};
+
 export type HeroAndDetailsQuery = {
   hero: ( {
       __typename: \\"Human\\",
@@ -670,6 +676,9 @@ export type Starship = {
   coordinates?: Array< Array< number > > | null,
 };
 
+export type StarshipCoordsQueryVariables = {
+};
+
 export type StarshipCoordsQuery = {
   starship?:  {
     __typename: \\"Starship\\",
@@ -780,6 +789,9 @@ export type Droid = {
   appearsIn: Array< Episode | null >,
   // This droid's primary function
   primaryFunction?: string | null,
+};
+
+export type HeroNameQueryVariables = {
 };
 
 export type HeroNameQuery = {
@@ -942,6 +954,9 @@ export enum EnumCommentTestCase {
 }
 
 
+export type CustomScalarQueryVariables = {
+};
+
 export type CustomScalarQuery = {
   commentTest?:  {
     __typename: \\"CommentTest\\",
@@ -971,6 +986,9 @@ export type ImplB = {
   __typename: \\"ImplB\\",
   prop: string,
   propB?: number | null,
+};
+
+export type CustomScalarQueryVariables = {
 };
 
 export type CustomScalarQuery = {
@@ -1011,6 +1029,9 @@ export enum EnumCommentTestCase {
 }
 
 
+export type CustomScalarQueryVariables = {
+};
+
 export type CustomScalarQuery = {
   commentTest?:  {
     __typename: \\"CommentTest\\",
@@ -1045,6 +1066,9 @@ export enum EnumCommentTestCase {
 }
 
 
+export type CustomScalarQueryVariables = {
+};
+
 export type CustomScalarQuery = {
   commentTest?:  {
     __typename: \\"CommentTest\\",
@@ -1071,6 +1095,9 @@ export type PartialA = {
 export type PartialB = {
   __typename: \\"PartialB\\",
   prop: string,
+};
+
+export type CustomScalarQueryVariables = {
 };
 
 export type CustomScalarQuery = {
@@ -1187,6 +1214,9 @@ export type Droid = {
   appearsIn: Array< Episode | null >,
   // This droid's primary function
   primaryFunction?: string | null,
+};
+
+export type HeroNameQueryVariables = {
 };
 
 export type HeroNameQuery = {
@@ -1316,6 +1346,9 @@ export type Starship = {
   // Length of the starship, along the longest axis
   length?: number | null,
   coordinates?: Array< Array< number > > | null,
+};
+
+export type DroidNameQueryVariables = {
 };
 
 export type DroidNameQuery = {
