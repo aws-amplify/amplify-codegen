@@ -125,7 +125,7 @@ describe('command - types (mock fs)', () => {
 
   it.only('should skip invalid sources', async () => {
     const { generatedFileName } = setupMocks(mockFs, loadConfig, MOCK_API_ID, 'javascript', 'typescript', 'src/graphql/API.ts', {
-      'src/graphql/API.ts': '',
+      'src/graphql/excluded.ts': '',
       'src/graphql/foo.ts': '',
     });
 
@@ -135,7 +135,7 @@ describe('command - types (mock fs)', () => {
       expect.stringMatching('Unable to extract GraphQL queries from .*/src/graphql/foo.ts. Skipping source.'),
     );
     expect(MOCK_CONTEXT.print.warning).not.toHaveBeenCalledWith(
-      expect.stringMatching('Unable to extract GraphQL queries from .*/src/graphql/API.ts. Skipping source.'),
+      expect.stringMatching('Unable to extract GraphQL queries from .*/src/graphql/excluded.ts. Skipping source.'),
     );
     expect(fs.existsSync(generatedFileName)).toBeTruthy();
   });

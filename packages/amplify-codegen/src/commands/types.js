@@ -58,7 +58,7 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
         const target = cfg.amplifyExtension.codeGenTarget;
 
         const excludes = cfg.excludes.map(pattern => `!${pattern}`);
-        const queryFilePaths = glob.sync([...includeFiles, ...excludes, `!${generatedFileName}`], {
+        const queryFilePaths = glob.sync([...includeFiles, ...excludes], {
           cwd: projectPath,
           absolute: true,
         });

@@ -80,7 +80,7 @@ describe('command - types', () => {
     await generateTypes(MOCK_CONTEXT, forceDownload);
     expect(getFrontEndHandler).toHaveBeenCalledWith(MOCK_CONTEXT);
     expect(loadConfig).toHaveBeenCalledWith(MOCK_CONTEXT, false);
-    expect(sync).toHaveBeenCalledWith([MOCK_INCLUDE_PATH, `!${MOCK_EXCLUDE_PATH}`, `!${MOCK_GENERATED_FILE_NAME}`], {
+    expect(sync).toHaveBeenCalledWith([MOCK_INCLUDE_PATH, `!${MOCK_EXCLUDE_PATH}`], {
       cwd: MOCK_PROJECT_ROOT,
       absolute: true,
     });
