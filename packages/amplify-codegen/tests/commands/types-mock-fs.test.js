@@ -123,7 +123,7 @@ describe('command - types (mock fs)', () => {
     expect(fs.existsSync(generatedFileName)).toBeFalsy();
   });
 
-  it.only('should skip invalid sources', async () => {
+  it('should skip invalid sources', async () => {
     const { generatedFileName } = setupMocks(mockFs, loadConfig, MOCK_API_ID, 'javascript', 'typescript', 'src/graphql/API.ts', {
       'src/graphql/excluded.ts': '',
       'src/graphql/foo.ts': '',

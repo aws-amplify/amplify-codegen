@@ -101,7 +101,7 @@ describe('configure walk-through', () => {
     });
   });
 
-  it('should not generated file to excludes twice', async () => {
+  it('should not add generated types file to excludes twice', async () => {
     const result = await configure(mockContext, mockConfigs);
     expect(result).toEqual({
       projectName: mockConfigs[1].projectName,
