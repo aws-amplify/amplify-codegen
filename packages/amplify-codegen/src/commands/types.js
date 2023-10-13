@@ -77,7 +77,9 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
           })
           .filter(([queryFilePath, source]) => {
             if (!source) {
-              context.print.warning(`Unable to extract GraphQL queries from ${queryFilePath}. Skipping source.`);
+              context.print.warning(
+                `Unable to extract GraphQL queries from ${queryFilePath}. Skipping source. This source matched the includes target in .grapqhlconfig.yml. Modify the includes or excludes target if this file should not be included.`,
+              );
               return false;
             }
             return true;

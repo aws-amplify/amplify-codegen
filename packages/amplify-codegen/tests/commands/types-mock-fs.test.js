@@ -132,10 +132,14 @@ describe('command - types (mock fs)', () => {
     await generateStatements(MOCK_CONTEXT, false);
     await generateTypes(MOCK_CONTEXT, false);
     expect(MOCK_CONTEXT.print.warning).toHaveBeenCalledWith(
-      expect.stringMatching('Unable to extract GraphQL queries from .*/src/graphql/foo.ts. Skipping source.'),
+      expect.stringMatching(
+        'Unable to extract GraphQL queries from .*/src/graphql/foo.ts. Skipping source. This source matched the includes target in .grapqhlconfig.yml. Modify the includes or excludes target if this file should not be included.',
+      ),
     );
     expect(MOCK_CONTEXT.print.warning).not.toHaveBeenCalledWith(
-      expect.stringMatching('Unable to extract GraphQL queries from .*/src/graphql/excluded.ts. Skipping source.'),
+      expect.stringMatching(
+        'Unable to extract GraphQL queries from .*/src/graphql/excluded.ts. Skipping source. This source matched the includes target in .grapqhlconfig.yml. Modify the includes or excludes target if this file should not be included.',
+      ),
     );
     expect(fs.existsSync(generatedFileName)).toBeTruthy();
   });
