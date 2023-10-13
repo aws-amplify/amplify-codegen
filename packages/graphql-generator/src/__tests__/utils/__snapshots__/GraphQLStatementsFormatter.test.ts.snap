@@ -114,12 +114,64 @@ export const getProject = /* GraphQL */ \`query GetProject($id: ID!) {
 "
 `;
 
+exports[`GraphQL statements Formatter Generates formatted output for TS frontend with posix path in same dir 1`] = `
+"/* tslint:disable */
+/* eslint-disable */
+// this is an auto generated file. This will be overwritten
+
+import * as APITypes from \\"./API\\";
+type GeneratedQuery<InputType, OutputType> = string & {
+  __generatedQueryInput: InputType;
+  __generatedQueryOutput: OutputType;
+};
+
+export const getProject = /* GraphQL */ \`query GetProject($id: ID!) {
+  getProject(id: $id) {
+    id
+    name
+    createdAt
+    updatedAt
+  }
+}
+\` as GeneratedQuery<
+  APITypes.GetProjectQueryVariables,
+  APITypes.GetProjectQuery
+>;
+"
+`;
+
 exports[`GraphQL statements Formatter Generates formatted output for TS frontend with windows path 1`] = `
 "/* tslint:disable */
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
 import * as APITypes from \\"../API\\";
+type GeneratedQuery<InputType, OutputType> = string & {
+  __generatedQueryInput: InputType;
+  __generatedQueryOutput: OutputType;
+};
+
+export const getProject = /* GraphQL */ \`query GetProject($id: ID!) {
+  getProject(id: $id) {
+    id
+    name
+    createdAt
+    updatedAt
+  }
+}
+\` as GeneratedQuery<
+  APITypes.GetProjectQueryVariables,
+  APITypes.GetProjectQuery
+>;
+"
+`;
+
+exports[`GraphQL statements Formatter Generates formatted output for TS frontend with windows path in same dir 1`] = `
+"/* tslint:disable */
+/* eslint-disable */
+// this is an auto generated file. This will be overwritten
+
+import * as APITypes from \\"./API\\";
 type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryInput: InputType;
   __generatedQueryOutput: OutputType;
