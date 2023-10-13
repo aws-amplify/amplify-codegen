@@ -36,6 +36,11 @@ describe('GraphQL statements Formatter', () => {
     expect(formattedOutput).toMatchSnapshot();
   });
 
+  it('Generates formatted output and only remove file extension', () => {
+    const formattedOutput = new GraphQLStatementsFormatter('typescript', 'queries', '../Components/Data/API.tsx').format(statements);
+    expect(formattedOutput).toMatchSnapshot();
+  });
+
   it('Generates formatted output for Flow frontend', () => {
     const formattedOutput = new GraphQLStatementsFormatter('flow').format(statements);
     expect(formattedOutput).toMatchSnapshot();

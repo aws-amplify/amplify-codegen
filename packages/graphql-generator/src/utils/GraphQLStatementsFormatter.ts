@@ -36,7 +36,7 @@ export class GraphQLStatementsFormatter {
     this.lintOverrides = [];
     this.headerComments = [];
     this.typesPath = typesPath
-      ? typesPath.replace(/.ts/i, '')
+      ? typesPath.replace(/\.[^.]+$/, '') // remove file extensions
         // ensure posix path separators are used
         .split(path.win32.sep)
         .join(path.posix.sep)
