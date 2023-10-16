@@ -24,10 +24,14 @@ describe('configure walk-through', () => {
   const mockGraphQLExtension = 'MOCK_GQL_EXTENSION';
   const MOCK_MAX_DEPTH = 'MOCK_MAX_DEPTH';
 
+  const projectOneExcludes = ['one/excluded/*.gql', 'one/excluded/*.graphql'];
+  const projectTwoExcludes = ['two/excluded/*.gql', 'two/excluded/*.graphql'];
+
   const mockConfigs = [
     {
       projectName: 'One',
-      includes: ['one/**/*.gql', 'one/**/*.graohql'],
+      includes: ['one/**/*.gql', 'one/**/*.graphql'],
+      excludes: projectOneExcludes,
       amplifyExtension: {
         graphQLApiId: 'one',
         generatedFileName: 'one-1.ts',
@@ -37,7 +41,8 @@ describe('configure walk-through', () => {
     },
     {
       projectName: 'Two',
-      includes: ['two/**/*.gql', 'two/**/*.graohql'],
+      includes: ['two/**/*.gql', 'two/**/*.graphql'],
+      excludes: projectTwoExcludes,
       amplifyExtension: {
         graphQLApiId: 'two',
         maxDepth: 10,
@@ -78,13 +83,40 @@ describe('configure walk-through', () => {
       mockConfigs[1].amplifyExtension.codeGenTarget,
       false,
       undefined,
-      undefined
+      undefined,
     );
     expect(askCodegneQueryFilePattern).toHaveBeenCalledWith([join(mockGraphQLDirectory, '**', mockGraphQLExtension)]);
     expect(askGeneratedFileName).toHaveBeenCalledWith(mockConfigs[1].amplifyExtension.generatedFileName, mockTargetLanguage);
     expect(askMaxDepth).toHaveBeenCalledWith(10);
     expect(results).toEqual({
       projectName: mockConfigs[1].projectName,
+      excludes: [...projectTwoExcludes, mockGeneratedFileName],
+      includes: mockIncludes,
+      amplifyExtension: {
+        graphQLApiId: mockConfigs[1].amplifyExtension.graphQLApiId,
+        generatedFileName: mockGeneratedFileName,
+        codeGenTarget: mockTargetLanguage,
+        maxDepth: MOCK_MAX_DEPTH,
+      },
+    });
+  });
+
+  it('should not add generated types file to excludes twice', async () => {
+    const result = await configure(mockContext, mockConfigs);
+    expect(result).toEqual({
+      projectName: mockConfigs[1].projectName,
+      excludes: [...projectTwoExcludes, mockGeneratedFileName],
+      includes: mockIncludes,
+      amplifyExtension: {
+        graphQLApiId: mockConfigs[1].amplifyExtension.graphQLApiId,
+        generatedFileName: mockGeneratedFileName,
+        codeGenTarget: mockTargetLanguage,
+        maxDepth: MOCK_MAX_DEPTH,
+      },
+    });
+    expect(await configure(mockContext, [result])).toEqual({
+      projectName: mockConfigs[1].projectName,
+      excludes: [...projectTwoExcludes, mockGeneratedFileName],
       includes: mockIncludes,
       amplifyExtension: {
         graphQLApiId: mockConfigs[1].amplifyExtension.graphQLApiId,

@@ -133,7 +133,7 @@ async function add(context, apiId = null, region = 'us-east-1') {
   const newProject = {
     projectName: withoutInit ? 'Codegen Project' : apiDetails.name,
     includes: answer.includePattern,
-    excludes: answer.excludePattern,
+    excludes: [...answer.excludePattern, answer.generatedFileName],
     schema,
     amplifyExtension: {
       codeGenTarget: answer.target || '',
