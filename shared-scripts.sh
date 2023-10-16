@@ -3,15 +3,29 @@
 # set exit on error to true
 set -e
 
+# The flags address the issue here: https://github.com/boto/botocore/issues/1716
+export MSYS_NO_PATHCONV=1
+export MSYS2_ARG_CONV_EXCL="*"
+
 # storeCache <local path> <cache location>
 function storeCache {
   localPath="$1"
   alias="$2"
+  environment="$3"
   s3Path="s3://$CACHE_BUCKET_NAME/$CODEBUILD_SOURCE_VERSION/$alias"
   echo "Writing cache folder $alias to $s3Path"
   # zip contents and upload to s3
-  if ! (cd $localPath && tar cz . | aws s3 cp - $s3Path); then
-      echo "Something went wrong storing the cache folder $alias."
+  errorMessage="Something went wrong storing the cache folder $alias."
+  if [[ $environment == "windows" ]]; then # tar behaves differently on windows
+    echo "Storing cache for Windows"
+    if ! (cd $localPath && tar -czf cache.tar . && ls && aws s3 cp cache.tar $s3Path); then
+      echo $errorMessage
+    fi
+  else
+    echo "Storing cache for Linux"
+    if ! (cd $localPath && tar cz . | aws s3 cp - $s3Path); then
+      echo $errorMessage
+    fi
   fi
   echo "Done writing cache folder $alias"
   cd $CODEBUILD_SRC_DIR
@@ -21,6 +35,7 @@ function storeCache {
 function loadCache {
   alias="$1"
   localPath="$2"
+  environment="$3"
   s3Path="s3://$CACHE_BUCKET_NAME/$CODEBUILD_SOURCE_VERSION/$alias"
   echo "Loading cache folder from $s3Path"
   # create directory if it doesn't exist yet
@@ -31,23 +46,44 @@ function loadCache {
       exit 0
   fi
   # load cache and unzip it
-  if ! (cd $localPath && aws s3 cp $s3Path - | tar xz); then
-      echo "Something went wrong fetching the cache folder $alias. Continuing anyway."
+  errorMessage="Something went wrong fetching the cache folder $alias. Continuing anyway."
+  if [[ $environment == "windows" ]]; then # tar behaves differently on windows
+    echo "Loading cache for Windows"
+    if ! (cd $localPath && aws s3 cp $s3Path - | tar xzkf -); then
+      echo $errorMessage
+    fi
+  else
+    echo "Loading cache for Linux"
+    if ! (cd $localPath && aws s3 cp $s3Path - | tar xz); then
+      echo $errorMessage
+    fi
   fi
   echo "Done loading cache folder $alias"
   cd $CODEBUILD_SRC_DIR
 }
 
-function storeCacheForBuildJob {
+function storeCacheForLinuxBuildJob {
   # upload [repo, .cache] to s3
   storeCache $CODEBUILD_SRC_DIR repo
   storeCache $HOME/.cache .cache
 }
 
-function loadCacheFromBuildJob {
+function storeCacheForWindowsBuildJob {
+  storeCache $CODEBUILD_SRC_DIR repo-windows windows
+  storeCache $HOME/AppData/Local/Yarn/Cache/v6 .cache-windows windows
+}
+
+function loadCacheFromLinuxBuildJob {
   # download [repo, .cache] from s3
   loadCache repo $CODEBUILD_SRC_DIR
   loadCache .cache $HOME/.cache
+}
+
+
+function loadCacheFromWindowsBuildJob {
+  # download [repo, .cache] from s3
+  loadCache repo-windows $CODEBUILD_SRC_DIR windows
+  loadCache .cache-windows $HOME/AppData/Local/Yarn/Cache/v6 windows
 }
 
 function storeCacheFile {
@@ -90,30 +126,42 @@ function _buildLinux {
   _setShell
   echo "Linux Build"
   yarn run production-build
-  storeCacheForBuildJob
+  storeCacheForLinuxBuildJob
+}
+
+function _buildWindows {
+  echo "Linux Build"
+  yarn run production-build
+  storeCacheForWindowsBuildJob
 }
 
 function _testLinux {
-  echo "Run Unit Test"
-  loadCacheFromBuildJob
+  echo "Run Unit Test Linux"
+  loadCacheFromLinuxBuildJob
+  yarn test-ci
+}
+
+function _testWindows {
+  echo "Run Unit Test Windows"
+  loadCacheFromWindowsBuildJob
   yarn test-ci
 }
 
 function _verifyAPIExtract {
   echo "Verify API Extract"
-  loadCacheFromBuildJob
+  loadCacheFromLinuxBuildJob
   yarn verify-api-extract
 }
 
 function _lint {
   echo "Lint"
-  loadCacheFromBuildJob
+  loadCacheFromLinuxBuildJob
   chmod +x .codebuild/scripts/lint_pr.sh && ./.codebuild/scripts/lint_pr.sh
 }
 
 function _publishToLocalRegistry {
     echo "Publish To Local Registry"
-    loadCacheFromBuildJob
+    loadCacheFromLinuxBuildJob
     if [ -z "$BRANCH_NAME" ]; then
       if [ -z "$CODEBUILD_WEBHOOK_TRIGGER" ]; then
         export BRANCH_NAME="$(git symbolic-ref HEAD --short 2>/dev/null)"
@@ -178,7 +226,7 @@ function _loadTestAccountCredentials {
 
 function _setupE2ETestsLinux {
     echo "Setup E2E Tests Linux"
-    loadCacheFromBuildJob
+    loadCacheFromLinuxBuildJob
     loadCache verdaccio-cache $CODEBUILD_SRC_DIR/../verdaccio-cache
     _installCLIFromLocalRegistry  
     _loadTestAccountCredentials
@@ -200,7 +248,7 @@ function _scanArtifacts {
 
 function _cleanupE2EResources {
   echo "Cleanup E2E resources"
-  loadCacheFromBuildJob
+  loadCacheFromLinuxBuildJob
   cd packages/amplify-codegen-e2e-tests
   echo "Running clean up script"
   build_batch_arn=$(aws codebuild batch-get-builds --ids $CODEBUILD_BUILD_ID | jq -r -c '.builds[0].buildBatchArn')
