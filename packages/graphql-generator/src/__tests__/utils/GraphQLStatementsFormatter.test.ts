@@ -1,4 +1,10 @@
+import * as path from 'path';
 import { GraphQLStatementsFormatter } from '../../utils';
+
+jest.mock('path', () => ({
+  ...jest.requireActual('path'),
+  join: jest.fn(jest.requireActual('path').join),
+}));
 
 describe('GraphQL statements Formatter', () => {
   const statements = new Map();
@@ -43,6 +49,13 @@ describe('GraphQL statements Formatter', () => {
 
   it('Generates formatted output for TS frontend with windows path in same dir', () => {
     const formattedOutput = new GraphQLStatementsFormatter('typescript', 'queries', '.\\API.ts').format(statements);
+    expect(formattedOutput).toMatchSnapshot();
+  });
+
+  // simulate windows path.join functionality until tests are run on windows
+  it('Generates formatted output for TS frontend with windows simulated', () => {
+    path.join.mockReturnValueOnce('..\\types\\API.ts');
+    const formattedOutput = new GraphQLStatementsFormatter('typescript', 'queries', '../types/API.ts').format(statements);
     expect(formattedOutput).toMatchSnapshot();
   });
 
