@@ -36,10 +36,9 @@ export class GraphQLStatementsFormatter {
     this.lintOverrides = [];
     this.headerComments = [];
     if (typesPath) {
+      const { dir, name } = path.parse(typesPath);
       // ensure posix path separators are used
-      const typesPathWithPosixSep = typesPath.split(path.win32.sep).join(path.posix.sep)
-      const { dir, name } = path.parse(typesPathWithPosixSep);
-      const typesPathWithoutExtension = path.join(dir, name);
+      const typesPathWithoutExtension = path.join(dir, name).split(path.win32.sep).join(path.posix.sep);
       if (!typesPathWithoutExtension.startsWith('.')) {
         // path.join will strip prefixed ./
         this.typesPath = `./${typesPathWithoutExtension}`;
