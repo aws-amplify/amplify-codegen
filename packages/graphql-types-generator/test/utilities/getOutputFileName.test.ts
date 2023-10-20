@@ -1,4 +1,3 @@
-const { join } = require('path');
 import { getOutputFileName } from '../../src/utilities/getOutputFileName';
 
 describe('getOutputFileName', () => {
@@ -15,7 +14,7 @@ describe('getOutputFileName', () => {
   });
 
   it('should return api.service.ts when input name is missing and target is angular', () => {
-    expect(getOutputFileName(null, 'angular')).toEqual(join('src', 'app', 'api.service.ts'));
+    expect(getOutputFileName(null, 'angular')).toEqual('src/app/api.service.ts');
   });
 
   it('should not add any extension if the code generation target is unknown', () => {

@@ -45,7 +45,7 @@ jest.mock('process', () => ({
 }));
 
 const MOCK_INCLUDE_PATTERN = 'MOCK_INCLUDE';
-const MOCK_EXCLUDE_PATTERN = 'MOCK_EXCLUDE';
+const MOCK_EXCLUDE_PATTERN = ['MOCK_EXCLUDE'];
 const MOCK_SCHEMA_LOCATION = 'INTROSPECTION_SCHEMA.JSON';
 const MOCK_TARGET = 'TYPE_SCRIPT_OR_FLOW_OR_ANY_OTHER_LANGUAGE';
 const MOCK_GENERATED_FILE_NAME = 'API.TS';
@@ -100,7 +100,7 @@ describe('command - add', () => {
     const newProjectConfig = LOAD_CONFIG_METHODS.addProject.mock.calls[0][0];
     expect(newProjectConfig.projectName).toEqual(MOCK_API_NAME);
     expect(newProjectConfig.includes).toEqual(MOCK_INCLUDE_PATTERN);
-    expect(newProjectConfig.excludes).toEqual(MOCK_EXCLUDE_PATTERN);
+    expect(newProjectConfig.excludes).toEqual([...MOCK_EXCLUDE_PATTERN, MOCK_GENERATED_FILE_NAME]);
     expect(newProjectConfig.schema).toEqual(MOCK_SCHEMA_FILE_LOCATION);
     expect(newProjectConfig.amplifyExtension.codeGenTarget).toEqual(MOCK_TARGET);
     expect(newProjectConfig.amplifyExtension.generatedFileName).toEqual(MOCK_GENERATED_FILE_NAME);

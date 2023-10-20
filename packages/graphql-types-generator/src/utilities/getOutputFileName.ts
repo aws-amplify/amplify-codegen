@@ -9,7 +9,8 @@ export function getOutputFileName(inputFileName: string, target: Target): string
     const ext = path.extname(inputFileName);
     const baseName = inputFileName.substr(0, inputFileName.length - ext.length);
     const filename = inputFileName.includes(fileExtension) ? inputFileName : `${baseName}.${fileExtension}`;
-    return ['API', 'api'].includes(inputFileName) ? path.join(folderMap[target], filename) : filename;
+    // ensure the filepath for the types file uses posix separators
+    return ['API', 'api'].includes(inputFileName) ? path.join(folderMap[target], filename).split(path.win32.sep).join(path.posix.sep) : filename;
   }
   return inputFileName;
 }

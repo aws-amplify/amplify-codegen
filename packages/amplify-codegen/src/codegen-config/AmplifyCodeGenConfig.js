@@ -2,7 +2,8 @@ const graphQLConfig = require('graphql-config');
 const { isAbsolute, relative, join } = require('path');
 const slash = require('slash');
 const { graphQlToAmplifyConfig } = require('./utils');
-const fs =  require('fs-extra');
+const fs = require('fs-extra');
+const path = require('path');
 
 class AmplifyCodeGenConfig {
   static configFileName = '.graphqlconfig.yml';
@@ -15,10 +16,9 @@ class AmplifyCodeGenConfig {
       if (e instanceof graphQLConfig.ConfigNotFoundError) {
         const projectRoot = projectPath || process.cwd();
         const configPath = join(projectRoot, '.graphqlconfig.yml');
-        if(fs.existsSync(configPath)) {
+        if (fs.existsSync(configPath)) {
           this.gqlConfig = graphQLConfig.getGraphQLConfig(projectRoot);
-        }
-        else {
+        } else {
           this.gqlConfig = new graphQLConfig.GraphQLConfig(null, configPath);
           this.gqlConfig.config = {};
         }
@@ -45,7 +45,11 @@ class AmplifyCodeGenConfig {
     if (!this.constructor.isValidAmplifyProject(project)) {
       return false;
     }
-    const schemaPath = isAbsolute(project.schema) ? relative(this.gqlConfig.configDir, project.schema) : project.schema;
+    // Set schemaPath to use posix separators. Node can handle windows and posix separators regradless of platform
+    // Ensures all paths in .graphlqconfig.yml use posix style
+    const schemaPath = (isAbsolute(project.schema) ? relative(this.gqlConfig.configDir, project.schema) : project.schema)
+      .split(path.win32.sep)
+      .join(path.posix.sep);
     const newProject = {
       schemaPath,
       includes: project.includes,

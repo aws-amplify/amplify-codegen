@@ -35,12 +35,19 @@ export class GraphQLStatementsFormatter {
     }[operation];
     this.lintOverrides = [];
     this.headerComments = [];
-    this.typesPath = typesPath
-      ? typesPath.replace(/.ts/i, '')
-        // ensure posix path separators are used
-        .split(path.win32.sep)
-        .join(path.posix.sep)
-      : null;
+    if (typesPath) {
+      const { dir, name } = path.parse(typesPath);
+      // ensure posix path separators are used
+      const typesPathWithoutExtension = path.join(dir, name).split(path.win32.sep).join(path.posix.sep);
+      if (!typesPathWithoutExtension.startsWith('.')) {
+        // path.join will strip prefixed ./
+        this.typesPath = `./${typesPathWithoutExtension}`;
+      } else {
+        this.typesPath = typesPathWithoutExtension;
+      }
+    } else {
+      this.typesPath = null;
+    }
     this.includeTypeScriptTypes = !!(this.language === 'typescript' && this.opTypeName && this.typesPath);
   }
 

@@ -35,6 +35,7 @@ export function constructGraphQLConfig(
         extensions.amplify.codeGenTarget = 'swift';
         extensions.amplify.docsFilePath = 'graphql';
         extensions.amplify.generatedFileName = 'API.swift';
+        excludes.push('API.swift');
         break;
       default:
         schemaPath = `amplify/backend/api/${projectName}/build/schema.graphql`;

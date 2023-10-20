@@ -36,7 +36,7 @@ function setupMocks(mockFs, loadConfig, apiId, frontend, target, generatedFileNa
       {
         schema: schemaFilePath,
         includes: [path.join(docsFilePath[frontend], '*')],
-        excludes: ['./amplify/**'],
+        excludes: ['./amplify/**', './src/graphql/excluded.ts'],
         amplifyExtension: {
           codeGenTarget: target,
           generatedFileName,

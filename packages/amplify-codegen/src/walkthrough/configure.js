@@ -50,12 +50,14 @@ async function configureProjectWalkThrough(context, amplifyConfig, withoutInit =
   selectedProjectConfig.includes = await askCodeGeneQueryFilePattern(includePattern);
 
   if (!(frontend === 'android' || targetLanguage === 'javascript')) {
-    amplifyExtension.generatedFileName = await askTargetFileName(amplifyExtension.generatedFileName || 'API', targetLanguage);
+    const generatedFileName = await askTargetFileName(amplifyExtension.generatedFileName || 'API', targetLanguage);
+    amplifyExtension.generatedFileName = generatedFileName;
+    selectedProjectConfig.excludes = Array.from(new Set(selectedProjectConfig.excludes || []).add(generatedFileName));
   } else {
     amplifyExtension.generatedFileName = '';
   }
   amplifyExtension.codeGenTarget = targetLanguage;
-  amplifyExtension.docsFilePath = getGraphQLDocPath(frontend, includePatternDefault.graphQLDirectory, selectedProjectConfig.includes)
+  amplifyExtension.docsFilePath = getGraphQLDocPath(frontend, includePatternDefault.graphQLDirectory, selectedProjectConfig.includes);
   amplifyExtension.maxDepth = await askMaxDepth(amplifyExtension.maxDepth);
 
   return selectedProjectConfig;
