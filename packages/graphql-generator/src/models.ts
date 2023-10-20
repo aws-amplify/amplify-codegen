@@ -62,6 +62,8 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
   return Promise.all(
     appsyncLocalConfig.map(async config => {
       const content = await codegen(config);
+
+      // set the keys to always use posix path separators
       return { [config.filename.split(path.win32.sep).join(path.posix.sep)]: content };
     }),
   ).then((outputs: GeneratedOutput[]) => outputs.reduce((curr, next) => ({ ...curr, ...next }), {}));
