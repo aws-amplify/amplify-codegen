@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.2.1...@aws-amplify/graphql-generator@0.2.2) (2023-10-20)
+
+### Bug Fixes
+
+- correctly remove file extension on types import path ([#742](https://github.com/aws-amplify/amplify-codegen/issues/742)) ([f74aaa7](https://github.com/aws-amplify/amplify-codegen/commit/f74aaa7c183ca0efcfdff08efa2b5888489b7901))
+
 ## [0.2.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.2.0...@aws-amplify/graphql-generator@0.2.1) (2023-10-12)
 
 **Note:** Version bump only for package @aws-amplify/graphql-generator

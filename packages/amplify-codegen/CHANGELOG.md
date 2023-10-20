@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.7.2](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.7.1...amplify-codegen@4.7.2) (2023-10-20)
+
+### Bug Fixes
+
+- add codegen for non-ios frontends; updated e2e test for iOS frontend ([#749](https://github.com/aws-amplify/amplify-codegen/issues/749)) ([211bb0d](https://github.com/aws-amplify/amplify-codegen/commit/211bb0da63b0f5a771d67460f1d5aefb792a2b53))
+- skip bad statement source on type generation and exclude type file ([#738](https://github.com/aws-amplify/amplify-codegen/issues/738)) ([899af2f](https://github.com/aws-amplify/amplify-codegen/commit/899af2f76e4b4c4706323096ba2f71a66026693a))
+
 ## [4.7.1](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.7.0...amplify-codegen@4.7.1) (2023-10-12)
 
 **Note:** Version bump only for package amplify-codegen

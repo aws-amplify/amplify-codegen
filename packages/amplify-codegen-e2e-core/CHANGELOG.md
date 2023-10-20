@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-core@1.6.1...@aws-amplify/amplify-codegen-e2e-core@1.6.2) (2023-10-20)
+
+### Bug Fixes
+
+- add codegen for non-ios frontends; updated e2e test for iOS frontend ([#749](https://github.com/aws-amplify/amplify-codegen/issues/749)) ([211bb0d](https://github.com/aws-amplify/amplify-codegen/commit/211bb0da63b0f5a771d67460f1d5aefb792a2b53))
+
 ## [1.6.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-core@1.6.0...@aws-amplify/amplify-codegen-e2e-core@1.6.1) (2023-09-26)
 
 **Note:** Version bump only for package @aws-amplify/amplify-codegen-e2e-core
