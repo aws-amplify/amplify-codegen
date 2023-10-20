@@ -16,7 +16,14 @@ function storeCache {
   echo "Writing cache folder $alias to $s3Path"
   # zip contents and upload to s3
   errorMessage="Something went wrong storing the cache folder $alias."
-  if [[ $environment == "windows" ]]; then # tar behaves differently on windows
+  # tar behaves differently on windows
+  # Windows tar does not allow stdin/stdout Windows equivalent.
+  # The archive needs to be written to a file first.
+  # We don't also do this for Linux because:
+  # 1. It is much slower.
+  # 2. The linux version fails with `file changed as we read it`.
+  # Branching the bash script is the easiest way around this
+  if [[ $environment == "windows" ]]; then
     echo "Storing cache for Windows"
     if ! (cd $localPath && tar -czf cache.tar . && ls && aws s3 cp cache.tar $s3Path); then
       echo $errorMessage
