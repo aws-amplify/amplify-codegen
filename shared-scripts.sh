@@ -15,7 +15,7 @@ function storeCache {
   s3Path="s3://$CACHE_BUCKET_NAME/$CODEBUILD_SOURCE_VERSION/$alias"
   echo "Writing cache folder $alias to $s3Path"
   # zip contents and upload to s3
-  errorMessage="Something went wrong storing the cache folder $alias."
+  errorMessage="Something went wrong storing the cache folder $alias. Continuing anyway."
   # tar behaves differently on windows
   # Windows tar does not allow stdin/stdout Windows equivalent.
   # The archive needs to be written to a file first.
