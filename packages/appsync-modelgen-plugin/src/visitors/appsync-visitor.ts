@@ -909,12 +909,12 @@ export class AppSyncModelVisitor<
       );
 
       const extractedAuthDirectives = [...value[0].model.directives, ...value[1].model.directives]
-      .filter(directive => directive.name === 'auth');
+        .filter(directive => directive.name === 'auth');
 
       const serializedDirectives = extractedAuthDirectives.map(directive => JSON.stringify(directive));
 
       const uniqueSerializedDirectives = serializedDirectives.filter((serializedDirective, index, array) =>
-      array.indexOf(serializedDirective) === index
+        array.indexOf(serializedDirective) === index
       );
 
       const authDirectives = uniqueSerializedDirectives.map(serializedDirective => JSON.parse(serializedDirective));
