@@ -87,6 +87,7 @@ describe('command - statements', () => {
     await generateStatements(MOCK_CONTEXT, forceDownload);
     expect(getFrontEndHandler).toHaveBeenCalledWith(MOCK_CONTEXT);
     expect(loadConfig).toHaveBeenCalledWith(MOCK_CONTEXT, false);
+    // ok for getRelativeTypePath to be called with posix or Windows path separators
     expect(getRelativeTypesPath).toHaveBeenCalledWith(path.join(MOCK_PROJECT_ROOT, MOCK_STATEMENTS_PATH), 'API.TS');
     expect(generateStatementsHelper).toHaveBeenCalledWith({
       relativeTypesPath: relativePath,
