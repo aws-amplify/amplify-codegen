@@ -49,9 +49,7 @@ export function addApiWithoutSchema(cwd: string, opts: Partial<AddApiOptions & {
       .sendCarriageReturn()
       .wait('Do you want to edit the schema now?')
       .sendConfirmNo()
-      .wait(
-        '"amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud',
-      )
+      .wait('"amplify publish" will build all your local backend and frontend resources')
       .run((err: Error) => {
         if (!err) {
           resolve();
@@ -79,10 +77,8 @@ export function addApiWithBlankSchema(cwd: string, opts: Partial<AddApiOptions &
       .sendKeyDown(2)
       .sendCarriageReturn()
       .wait('Do you want to edit the schema now?')
-      .sendLine('n')
-      .wait(
-        '"amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud',
-      )
+      .sendConfirmNo()
+      .wait('"amplify publish" will build all your local backend and frontend resources')
       .sendEof()
       .run((err: Error) => {
         if (!err) {
@@ -112,10 +108,8 @@ export function addApiWithBlankSchemaAndConflictDetection(cwd: string) {
       .sendKeyDown(2)
       .sendCarriageReturn()
       .wait('Do you want to edit the schema now?')
-      .sendLine('n')
-      .wait(
-        '"amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud',
-      )
+      .sendConfirmNo()
+      .wait('"amplify publish" will build all your local backend and frontend resources')
       .run((err: Error) => {
         if (!err) {
           resolve();

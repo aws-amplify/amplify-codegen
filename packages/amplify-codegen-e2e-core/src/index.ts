@@ -5,6 +5,7 @@ import { spawnSync, execSync } from 'child_process';
 import { v4 as uuid } from 'uuid';
 import * as ini from 'ini';
 import { pathManager } from '@aws-amplify/amplify-cli-core';
+import { getCommandPath } from './utils';
 
 export * from './configure/';
 export * from './init/';
@@ -24,14 +25,16 @@ declare global {
 const amplifyTestsDir = 'amplify-codegen-e2e-tests';
 
 export function getCLIPath(testingWithLatestCodebase = false) {
+  let commandName = 'amplify-dev';
   if (isCI() && !testingWithLatestCodebase) {
-    return 'amplify';
+    commandName = 'amplify';
   }
-  return 'amplify-dev';
+
+  return getCommandPath(commandName);
 }
 
 export function isCI(): boolean {
-  return process.env.CI && (process.env.CODEBUILD) ? true : false;
+  return process.env.CI && process.env.CODEBUILD ? true : false;
 }
 
 export function injectSessionToken(profileName: string) {
@@ -57,7 +60,9 @@ export async function createNewProjectDir(
   projectName: string,
   prefix = path.join(fs.realpathSync(os.tmpdir()), amplifyTestsDir),
 ): Promise<string> {
-  const currentHash = execSync('git rev-parse --short HEAD', { cwd: __dirname }).toString().trim();
+  const currentHash = execSync('git rev-parse --short HEAD', { cwd: __dirname })
+    .toString()
+    .trim();
   let projectDir;
   do {
     const randomId = await global.getRandomId();

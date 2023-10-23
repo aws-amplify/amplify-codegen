@@ -1,0 +1,24 @@
+version: 0.2
+env:
+  shell: powershell.exe
+  variables:
+    AMPLIFY_DIR: /root/.npm-global/lib/node_modules/@aws-amplify/cli-internal/bin
+    AMPLIFY_PATH: /root/.npm-global/lib/node_modules/@aws-amplify/cli-internal/bin/amplify
+    CI: true
+    CODEBUILD: true
+    NODE_OPTIONS: --max-old-space-size=8096
+    SKIP_SET_NPM_PREFIX: true
+phases:
+  build:
+    commands:
+      # commands need to be run in stand-alone bash scripts so that bash can be used on windows
+      - bash ./.codebuild/scripts/e2e_test_windows.sh
+  post_build:
+    commands:
+      # commands need to be run in stand-alone bash scripts so that bash can be used on windows
+      - bash ./.codebuild/scripts/post_e2e_test.sh
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: $Env:CODEBUILD_SRC_DIR\packages\amplify-codegen-e2e-tests\amplify-e2e-reports
