@@ -59,6 +59,7 @@ module.exports = {
             "javascript",
             "graphql",
             "scala",
+            "Xcode",
         ],
         "skipIfMatch": [
             "http://[^s]*",
