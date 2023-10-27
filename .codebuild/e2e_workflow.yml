@@ -228,7 +228,7 @@ batch:
         type: WINDOWS_SERVER_2019_CONTAINER
         variables:
           TEST_SUITE: >-
-            src/__tests__/graphql-documents-generator.test.ts
+            src/__tests__/push-codegen-ios.test.ts|src/__tests__/push-codegen-android.test.ts|src/__tests__/graphql-documents-generator.test.ts|src/__tests__/push-codegen-js.test.ts
           CLI_REGION: us-east-1
       depend-on:
         - publish_to_local_registry

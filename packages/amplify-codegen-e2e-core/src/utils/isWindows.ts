@@ -1,3 +1,5 @@
+import os from 'os';
+
 export function isWindows(): boolean {
-  return !!process.env.WINDIR;
+  return os.platform() === 'win32'
 }
