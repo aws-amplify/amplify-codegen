@@ -46,8 +46,10 @@ export function cypressRun(cwd: string, settings: any = {}): Promise<void> {
 
     chain.run((err: Error) => {
       if (err) {
+        console.log('failed cypress');
         reject(err);
       } else {
+        console.log('done with cypress');
         resolve();
       }
     });
