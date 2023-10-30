@@ -18,11 +18,12 @@ import {
   amplifyPullSandbox,
   getProjectSchema,
   AmplifyFrontend,
+  isWindows,
 } from '@aws-amplify/amplify-codegen-e2e-core';
 import { existsSync } from 'fs';
 import path from 'path';
 import { isNotEmptyDir, generateSourceCode } from '../utils';
-import { JSONUtilities, isWindows } from '@aws-amplify/amplify-cli-core';
+import { JSONUtilities } from '@aws-amplify/amplify-cli-core';
 import { SandboxApp } from '../types/SandboxApp';
 import { createPubspecLockFile } from '../codegen-tests-base';
 
