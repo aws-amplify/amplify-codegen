@@ -73,7 +73,7 @@ describe('Amplify pull in amplify app with codegen tests', () => {
 
     frontendConfigs.forEach(config => {
       // skip ios test on windows
-      (isWindows() && config.frontendType === 'ios' ? it : it.skip)(
+      (isWindows() && config.frontendType === 'ios' ? it.skip : it)(
         `should generate models and do not delete user files by amplify pull in an empty folder of ${config.frontendType} app`,
         async () => {
           //generate pre existing user file
