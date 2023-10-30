@@ -1,5 +1,5 @@
 import { getCLIPath, nspawn as spawn } from '..';
-import { AmplifyFrontend, AmplifyFrontendConfig, ExecutionContext, DEFAULT_JS_CONFIG, isWindows } from '../utils';
+import { AmplifyFrontend, AmplifyFrontendConfig, ExecutionContext, DEFAULT_JS_CONFIG } from '../utils';
 
 export function amplifyPull(
   cwd: string,
@@ -49,22 +49,16 @@ export function amplifyPull(
         .sendLine('y');
     }
 
-    // the output after successful pull on windows for ios has a different message
-    if (isWindows() && settings.frontendConfig.frontendType === 'ios') {
-      console.log('running windows wait');
-      chain.wait('Skipping Xcode project setup.').wait('Amplify setup completed successfully.');
-    } else if (settings.emptyDir) {
+    if (settings.emptyDir) {
       chain.wait(/Successfully pulled backend environment .+ from the cloud\./).wait("Run 'amplify pull' to sync future upstream changes.");
     } else {
       chain.wait('Post-pull status').wait('Current Environment');
     }
-    console.log('after final wait');
 
     chain.run((err: Error) => {
       if (!err) {
         resolve();
       } else {
-        console.error(err);
         reject(err);
       }
     });
