@@ -71,11 +71,7 @@ type CandidateJob = {
   runSolo: boolean;
 };
 const createJob = (os: OS_TYPE, jobIdx: number, runSolo: boolean = false): CandidateJob => {
-  // The bash terminal for Windows on CodeBuild is non-interactive.
-  // amplify-configure will always choose us-east-1 for the region.
-  // This will set all Windows jobs to use us-east-1 to avoid region mismatch.
-  // We will come back to this later to properly fix the testing issue.
-  const region = os === 'w' ? 'us-east-1' : AWS_REGIONS_TO_RUN_TESTS[jobIdx % AWS_REGIONS_TO_RUN_TESTS.length];
+  const region = AWS_REGIONS_TO_RUN_TESTS[jobIdx % AWS_REGIONS_TO_RUN_TESTS.length];
   return {
     region,
     os,
