@@ -8,7 +8,6 @@ env:
     CODEBUILD: true
     NODE_OPTIONS: --max-old-space-size=8096
     SKIP_SET_NPM_PREFIX: true
-    VERBOSE_LOGGING_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: true
 phases:
   build:
     commands:

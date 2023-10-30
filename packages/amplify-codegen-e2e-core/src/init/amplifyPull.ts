@@ -8,7 +8,7 @@ export function amplifyPull(
     emptyDir?: boolean;
     appId?: string;
     withRestore?: boolean;
-    frontendConfig?: AmplifyFrontendConfig;
+    frontendConfig?: AmplifyFrontendConfig
   },
 ): Promise<void> {
   if (!settings.frontendConfig) {
@@ -36,7 +36,9 @@ export function amplifyPull(
         .wait('Choose your default editor:')
         .sendCarriageReturn();
       initializeFrontend(chain, settings.frontendConfig);
-      chain.wait('Do you plan on modifying this backend?').sendLine('y');
+      chain
+        .wait('Do you plan on modifying this backend?')
+        .sendLine('y');
     } else {
       chain.wait('Pre-pull status').wait('Current Environment');
     }
@@ -59,17 +61,19 @@ export function amplifyPull(
       if (!err) {
         resolve();
       } else {
+        console.error(err);
         reject(err);
       }
     });
   });
 }
 
-export function amplifyPullSandbox(cwd: string, settings: { sandboxId: string; appType: AmplifyFrontend }) {
+export function amplifyPullSandbox(cwd: string, settings: { sandboxId: string; appType: AmplifyFrontend; }) {
   return new Promise((resolve, reject) => {
     const args = ['pull', '--sandboxId', settings.sandboxId];
 
-    const chain = spawn(getCLIPath(), args, { cwd, stripColors: true }).wait('What type of app are you building');
+    const chain = spawn(getCLIPath(), args, { cwd, stripColors: true })
+      .wait('What type of app are you building');
     switch (settings.appType) {
       case AmplifyFrontend.javascript:
         chain
@@ -78,45 +82,55 @@ export function amplifyPullSandbox(cwd: string, settings: { sandboxId: string; a
           .sendCarriageReturn();
         break;
       case AmplifyFrontend.android:
-        chain.sendKeyDown().sendCarriageReturn();
+        chain
+          .sendKeyDown()
+          .sendCarriageReturn();
         break;
       case AmplifyFrontend.ios:
-        chain.sendKeyDown(2).sendCarriageReturn();
+        chain
+          .sendKeyDown(2)
+          .sendCarriageReturn();
         break;
       case AmplifyFrontend.flutter:
-        chain.sendKeyDown(3).sendCarriageReturn();
+        chain
+          .sendKeyDown(3)
+          .sendCarriageReturn();
         break;
       default:
-        throw Error(`${settings.appType} is not a supported frontend in sandbox app.`);
+        throw Error(`${settings.appType} is not a supported frontend in sandbox app.`)
     }
-    chain.wait('Successfully generated models.').run((err: Error) => {
-      if (!err) {
-        resolve({});
-      } else {
-        reject(err);
-      }
-    });
+    chain
+      .wait('Successfully generated models.')
+      .run((err: Error) => {
+        if (!err) {
+          resolve({});
+        } else {
+          reject(err);
+        }
+      });
   });
 }
 
-function initializeFrontend(chain: ExecutionContext, config: AmplifyFrontendConfig): void {
+function initializeFrontend(chain: ExecutionContext, config: AmplifyFrontendConfig) : void {
   chain.wait("Choose the type of app that you're building");
   switch (config.frontendType) {
     case AmplifyFrontend.android:
       chain
         .sendLine('android')
         .wait('Where is your Res directory')
-        .sendCarriageReturn();
+        .sendCarriageReturn()
       return;
     case AmplifyFrontend.ios:
-      chain.sendKeyDown(3).sendCarriageReturn();
+      chain
+        .sendKeyDown(3)
+        .sendCarriageReturn()
       return;
     case AmplifyFrontend.flutter:
       chain
         .sendKeyDown(2)
         .sendCarriageReturn()
         .wait('Where do you want to store your configuration file')
-        .sendCarriageReturn();
+        .sendCarriageReturn()
       return;
     case AmplifyFrontend.javascript:
     default:
