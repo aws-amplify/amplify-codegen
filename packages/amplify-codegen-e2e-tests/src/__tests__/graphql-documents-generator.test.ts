@@ -7,7 +7,8 @@ import {
   craBuild,
   amplifyPush,
   cypressRun,
-  deleteProject
+  deleteProject,
+  isWindows,
 } from '@aws-amplify/amplify-codegen-e2e-core';
 import { readdirSync, rmSync } from 'fs';
 import { readFileSync } from 'fs-extra';
@@ -31,9 +32,10 @@ describe('GraphQL documents generator e2e tests', () => {
   });
 
   const schemaFileName = 'schema.graphql';
-  it('generates valid GraphQL documents for given schema', async () => {
+  // skip cypress test on windows
+  (isWindows() ? it.skip : it)('generates valid GraphQL documents for given schema', async () => {
     const schemaPath = path.resolve('test-apps', 'docsgen-react-app', 'public', schemaFileName);
-    const schemaText = readFileSync(schemaPath, { encoding: 'utf8'});
+    const schemaText = readFileSync(schemaPath, { encoding: 'utf8' });
     updateApiSchemaWithText(projectRoot, apiName, schemaText);
     await amplifyPush(projectRoot);
 
