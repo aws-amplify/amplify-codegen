@@ -160,6 +160,12 @@ function _verifyAPIExtract {
   yarn verify-api-extract
 }
 
+function _verifyDependencyLicensesExtract {
+  echo "Verify Dependency Licenses Extract"
+  loadCacheFromLinuxBuildJob
+  yarn verify-dependency-licenses-extract
+}
+
 function _lint {
   echo "Lint"
   loadCacheFromLinuxBuildJob

@@ -42,7 +42,9 @@
     "split-e2e-tests": "yarn ts-node ./scripts/split-e2e-tests.ts && git add .codebuild/e2e_workflow.yml",
     "view-test-artifacts": "yarn authenticate-e2e-profile && yarn ts-node ./scripts/view-test-artifacts.ts",
     "cloud-e2e-debug": "source scripts/cloud-utils.sh && cloudE2EDebug",
-    "authenticate-e2e-profile": "source scripts/cloud-utils.sh && authenticateWithE2EProfile"
+    "authenticate-e2e-profile": "source scripts/cloud-utils.sh && authenticateWithE2EProfile",
+    "extract-dependency-licenses": "./scripts/extract-dependency-licenses.sh",
+    "verify-dependency-licenses-extract": "yarn extract-dependency-licenses && ./scripts/verify-dependency-licenses.sh"
   },
   "bugs": {
     "url": "https://github.com/aws-amplify/amplify-codegen/issues"
@@ -58,7 +60,7 @@
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-push": "npm run lint && npm run test-changed",
-      "pre-commit": "yarn split-e2e-tests"
+      "pre-commit": "yarn split-e2e-tests && yarn extract-dependency-licenses"
     }
   },
   "author": "Amazon Web Services",
