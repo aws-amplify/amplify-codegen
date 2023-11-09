@@ -37,7 +37,7 @@ batch:
       depend-on:
         - build_linux
     - identifier: verify_dependency_licenses_extract
-      buildspec: codebuild_specs/verify_dependency_licenses_extract.yml
+      buildspec: .codebuild/verify_dependency_licenses_extract.yml
       env:
         compute-type: BUILD_GENERAL1_MEDIUM
       depend-on:
