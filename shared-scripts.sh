@@ -162,7 +162,7 @@ function _verifyAPIExtract {
 
 function _verifyDependencyLicensesExtract {
   echo "Verify Dependency Licenses Extract"
-  loadCacheFromBuildJob
+  loadCacheFromLinuxBuildJob
   yarn verify-dependency-licenses-extract
 }
 
