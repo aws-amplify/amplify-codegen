@@ -29,10 +29,11 @@
     "@aws-amplify/graphql-types-generator": "3.4.5",
     "@graphql-codegen/core": "^2.6.6",
     "@graphql-tools/apollo-engine-loader": "^8.0.0",
-    "graphql": "^15.5.0"
+    "graphql": "^15.5.0",
+    "prettier": "^3.0.3"
   },
   "devDependencies": {
-    "@types/prettier": "^1.0.0"
+    "@types/prettier": "^3.0.0"
   },
   "typescript": {
     "definition": "lib/index.d.ts"
