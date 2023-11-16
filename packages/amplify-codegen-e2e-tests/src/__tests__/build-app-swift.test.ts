@@ -3,6 +3,7 @@ import {
   DEFAULT_IOS_CONFIG,
   updateApiSchemaWithText,
   generateModels,
+  generateStatementsAndTypes,
 } from '@aws-amplify/amplify-codegen-e2e-core';
 const { schemas } = require('@aws-amplify/graphql-schema-test-library');
 import { writeFileSync, readdirSync, readFileSync } from 'fs';
@@ -42,6 +43,7 @@ describe('build app - Swift', () => {
       console.log(schemaText); // log so that ci does not timeout
       updateApiSchemaWithText(projectRoot, 'amplifyDatasource', schemaText);
       await generateModels(projectRoot, outputDir);
+      await generateStatementsAndTypes(projectRoot, outputDir);
     };
     if (skip.has(schemaName)) {
       it.skip(testName, testFunction);
