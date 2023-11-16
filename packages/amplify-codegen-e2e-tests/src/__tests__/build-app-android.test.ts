@@ -4,11 +4,12 @@ import {
   updateApiSchemaWithText,
   generateModels,
   androidBuild,
-  acceptLicenses
+  acceptLicenses,
 } from '@aws-amplify/amplify-codegen-e2e-core';
 const { schemas } = require('@aws-amplify/graphql-schema-test-library');
-import { existsSync, writeFileSync, readdirSync, rmSync } from 'fs';
+import { existsSync, writeFileSync, readdirSync, rmSync, readFileSync } from 'fs';
 import path from 'path';
+import { parse } from 'graphql';
 
 const skip = new Set(['v2-primary-key-with-composite-sort-key', 'custom-@primaryKey-with-sort-fields']);
 
@@ -41,6 +42,12 @@ describe('build app - Android', () => {
       updateApiSchemaWithText(projectRoot, apiName, schemaText);
       await generateModels(projectRoot);
       await androidBuild(projectRoot, { ...config });
+      // android uses raw graphql syntax
+      parse(readFileSync(path.join(projectRoot, 'app/src/main/graphql/com/amazonaws/amplify/generated/graphql/queries.graphql'), 'utf8'));
+      parse(
+        readFileSync(path.join(projectRoot, 'app/src/main/graphql/com/amazonaws/amplify/generated/graphql/subscriptions.graphql'), 'utf8'),
+      );
+      parse(readFileSync(path.join(projectRoot, 'app/src/main/graphql/com/amazonaws/amplify/generated/graphql/mutations.graphql'), 'utf8'));
     };
     if (skip.has(schemaName)) {
       it.skip(testName, testFunction);
@@ -49,11 +56,25 @@ describe('build app - Android', () => {
     }
   });
 
-  it('fails build with syntax error', async () => {
+  it('fails build with syntax error in models', async () => {
     // @ts-ignore
     updateApiSchemaWithText(projectRoot, apiName, Object.values(schemas)[0].sdl);
     await generateModels(projectRoot);
     await writeFileSync(path.join(projectRoot, modelDir, 'AmplifyModelProvider.java'), 'foo\nbar');
     await expect(androidBuild(projectRoot, { ...config })).rejects.toThrowError();
+  });
+
+  it('fails build with syntax error in statements', async () => {
+    // @ts-ignore
+    updateApiSchemaWithText(projectRoot, apiName, Object.values(schemas)[0].sdl);
+    await generateModels(projectRoot);
+    await writeFileSync(path.join(projectRoot, modelDir, 'AmplifyModelProvider.java'), 'foo\nbar');
+    await androidBuild(projectRoot, { ...config });
+    writeFileSync(path.join(projectRoot, 'app/src/main/graphql/com/amazonaws/amplify/generated/graphql/mutations.graphql'), 'foo\nbar'),
+      expect(() =>
+        parse(
+          readFileSync(path.join(projectRoot, 'app/src/main/graphql/com/amazonaws/amplify/generated/graphql/mutations.graphql'), 'utf8'),
+        ),
+      ).toThrowError();
   });
 });
