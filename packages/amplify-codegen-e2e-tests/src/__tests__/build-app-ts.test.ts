@@ -4,6 +4,7 @@ import {
   addApiWithBlankSchemaAndConflictDetection,
   updateApiSchemaWithText,
   generateModels,
+  generateStatementsAndTypes,
   craInstall,
   craBuild,
 } from '@aws-amplify/amplify-codegen-e2e-core';
@@ -36,12 +37,28 @@ describe('build app - JS', () => {
       const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${schema.sdl}`;
       updateApiSchemaWithText(projectRoot, apiName, schemaText);
       await generateModels(projectRoot);
+      await generateStatementsAndTypes(projectRoot);
       await craBuild(projectRoot, { ...config });
     });
   });
 
-  it('fails build with syntax error', async () => {
+  it('fails build with syntax error in models', async () => {
+    await generateStatementsAndTypes(projectRoot);
     await writeFileSync(path.join(projectRoot, 'src', 'models', 'index.d.ts'), 'foo\nbar');
+    await expect(craBuild(projectRoot, { ...config })).rejects.toThrowError();
+  });
+
+  it('fails build with syntax error in statements', async () => {
+    await generateModels(projectRoot);
+    await generateStatementsAndTypes(projectRoot);
+    await writeFileSync(path.join(projectRoot, 'src', 'graphql', 'queries.ts'), 'foo\nbar');
+    await expect(craBuild(projectRoot, { ...config })).rejects.toThrowError();
+  });
+
+  it('fails build with syntax error in types', async () => {
+    await generateModels(projectRoot);
+    await generateStatementsAndTypes(projectRoot);
+    await writeFileSync(path.join(projectRoot, 'src', 'API.ts'), 'foo\nbar');
     await expect(craBuild(projectRoot, { ...config })).rejects.toThrowError();
   });
 });
