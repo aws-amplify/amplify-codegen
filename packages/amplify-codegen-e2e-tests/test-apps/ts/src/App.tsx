@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useEffect } from 'react';
 // import and use to avoid tree shaking
 import * as models from './models';
