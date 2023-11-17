@@ -28,12 +28,6 @@
     "serve": "serve build",
     "set-schema": "node scripts/set-schema.js"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
