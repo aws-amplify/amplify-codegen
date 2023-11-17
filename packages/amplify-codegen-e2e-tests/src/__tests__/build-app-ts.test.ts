@@ -7,6 +7,8 @@ import {
   generateStatementsAndTypes,
   craInstall,
   craBuild,
+  addCodegen,
+  AmplifyFrontend,
 } from '@aws-amplify/amplify-codegen-e2e-core';
 const { schemas } = require('@aws-amplify/graphql-schema-test-library');
 import { existsSync, writeFileSync, readdirSync, rmSync } from 'fs';
@@ -22,6 +24,9 @@ describe('build app - JS', () => {
   beforeAll(async () => {
     await initProjectWithProfile(projectRoot, { ...config });
     await addApiWithBlankSchemaAndConflictDetection(projectRoot);
+    await addCodegen(projectRoot, {
+      frontendType: AmplifyFrontend.javascript,
+    });
     await craInstall(projectRoot, { ...config });
     apiName = readdirSync(path.join(projectRoot, 'amplify', 'backend', 'api'))[0];
   });
