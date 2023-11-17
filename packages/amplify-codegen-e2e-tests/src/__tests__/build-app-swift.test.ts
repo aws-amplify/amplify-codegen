@@ -8,6 +8,7 @@ import {
 const { schemas } = require('@aws-amplify/graphql-schema-test-library');
 import { writeFileSync, readdirSync, readFileSync } from 'fs';
 import path from 'path';
+import { parse } from 'graphql';
 
 const skip = new Set([
   'v2-recursive-has-one-dependency',
@@ -43,7 +44,11 @@ describe('build app - Swift', () => {
       console.log(schemaText); // log so that ci does not timeout
       updateApiSchemaWithText(projectRoot, 'amplifyDatasource', schemaText);
       await generateModels(projectRoot, outputDir);
-      await generateStatementsAndTypes(projectRoot, outputDir);
+      await generateStatementsAndTypes(projectRoot);
+      // swift uses raw graphql syntax
+      parse(readFileSync(path.join(projectRoot, 'graphql/queries.graphql'), 'utf8'));
+      parse(readFileSync(path.join(projectRoot, 'graphql/subscriptions.graphql'), 'utf8'));
+      parse(readFileSync(path.join(projectRoot, 'graphql/mutations.graphql'), 'utf8'));
     };
     if (skip.has(schemaName)) {
       it.skip(testName, testFunction);
