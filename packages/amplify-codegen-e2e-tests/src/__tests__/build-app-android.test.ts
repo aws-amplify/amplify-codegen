@@ -3,6 +3,7 @@ import {
   DEFAULT_ANDROID_CONFIG,
   updateApiSchemaWithText,
   generateModels,
+  generateStatementsAndTypes,
   androidBuild,
   acceptLicenses,
 } from '@aws-amplify/amplify-codegen-e2e-core';
@@ -41,6 +42,7 @@ describe('build app - Android', () => {
       const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${schema.sdl}`;
       updateApiSchemaWithText(projectRoot, apiName, schemaText);
       await generateModels(projectRoot);
+      await generateStatementsAndTypes(projectRoot);
       await androidBuild(projectRoot, { ...config });
       // android uses raw graphql syntax
       parse(readFileSync(path.join(projectRoot, 'app/src/main/graphql/com/amazonaws/amplify/generated/graphql/queries.graphql'), 'utf8'));
@@ -68,13 +70,12 @@ describe('build app - Android', () => {
     // @ts-ignore
     updateApiSchemaWithText(projectRoot, apiName, Object.values(schemas)[0].sdl);
     await generateModels(projectRoot);
-    await writeFileSync(path.join(projectRoot, modelDir, 'AmplifyModelProvider.java'), 'foo\nbar');
-    await androidBuild(projectRoot, { ...config });
     writeFileSync(path.join(projectRoot, 'app/src/main/graphql/com/amazonaws/amplify/generated/graphql/mutations.graphql'), 'foo\nbar'),
       expect(() =>
         parse(
           readFileSync(path.join(projectRoot, 'app/src/main/graphql/com/amazonaws/amplify/generated/graphql/mutations.graphql'), 'utf8'),
         ),
       ).toThrowError();
+    await androidBuild(projectRoot, { ...config });
   });
 });
