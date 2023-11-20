@@ -1,7 +1,8 @@
 import {
-  initProjectWithQuickstart,
+  initProjectWithProfile,
   DEFAULT_ANDROID_CONFIG,
   updateApiSchemaWithText,
+  addApiWithBlankSchemaAndConflictDetection,
   generateModels,
   generateStatementsAndTypes,
   androidBuild,
@@ -25,8 +26,11 @@ describe('build app - Android', () => {
   const statementsDir = 'app/src/main/graphql/com/amazonaws/amplify/generated/graphql';
 
   beforeAll(async () => {
-    await initProjectWithQuickstart(projectRoot, { ...config });
+    await initProjectWithProfile(projectRoot, { ...config });
+    await addApiWithBlankSchemaAndConflictDetection(projectRoot);
     apiName = readdirSync(path.join(projectRoot, 'amplify', 'backend', 'api'))[0];
+    const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${schemas[0].sdl}`;
+    updateApiSchemaWithText(projectRoot, apiName, schemaText);
     await amplifyPush(projectRoot);
     await addCodegen(projectRoot, {
       frontendType: AmplifyFrontend.android,
