@@ -9,7 +9,7 @@ phases:
       - source ./shared-scripts.sh && _testLinux
   postbuild:
     commands:
-      - ./codebuild/scripts/codecov.sh
+      - yarn coverage
 artifacts:
   files:
     - 'shared-scripts.sh'
