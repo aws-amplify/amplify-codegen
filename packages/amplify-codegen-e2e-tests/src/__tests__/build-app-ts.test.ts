@@ -10,6 +10,7 @@ import {
   addCodegen,
   AmplifyFrontend,
   amplifyPush,
+  apiGqlCompile,
 } from '@aws-amplify/amplify-codegen-e2e-core';
 const { schemas } = require('@aws-amplify/graphql-schema-test-library');
 import { existsSync, writeFileSync, readdirSync, rmSync } from 'fs';
@@ -46,6 +47,7 @@ describe('build app - JS', () => {
       // @ts-ignore
       const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${schema.sdl}`;
       updateApiSchemaWithText(projectRoot, apiName, schemaText);
+      apiGqlCompile(projectRoot);
       await generateModels(projectRoot);
       await generateStatementsAndTypes(projectRoot);
       await craBuild(projectRoot, { ...config });
@@ -55,6 +57,7 @@ describe('build app - JS', () => {
   it('fails build with syntax error in models', async () => {
     const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${(Object.values(schemas)[0] as any).sdl}`;
     updateApiSchemaWithText(projectRoot, apiName, schemaText);
+    apiGqlCompile(projectRoot);
     await generateStatementsAndTypes(projectRoot);
     await writeFileSync(path.join(projectRoot, 'src', 'models', 'index.d.ts'), 'foo\nbar');
     await expect(craBuild(projectRoot, { ...config })).rejects.toThrowError();
@@ -63,6 +66,7 @@ describe('build app - JS', () => {
   it('fails build with syntax error in statements', async () => {
     const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${(Object.values(schemas)[0] as any).sdl}`;
     updateApiSchemaWithText(projectRoot, apiName, schemaText);
+    apiGqlCompile(projectRoot);
     await generateModels(projectRoot);
     await generateStatementsAndTypes(projectRoot);
     await writeFileSync(path.join(projectRoot, 'src', 'graphql', 'queries.ts'), 'foo\nbar');
@@ -72,6 +76,7 @@ describe('build app - JS', () => {
   it('fails build with syntax error in types', async () => {
     const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${(Object.values(schemas)[0] as any).sdl}`;
     updateApiSchemaWithText(projectRoot, apiName, schemaText);
+    apiGqlCompile(projectRoot);
     await generateModels(projectRoot);
     await generateStatementsAndTypes(projectRoot);
     await writeFileSync(path.join(projectRoot, 'src', 'API.ts'), 'foo\nbar');

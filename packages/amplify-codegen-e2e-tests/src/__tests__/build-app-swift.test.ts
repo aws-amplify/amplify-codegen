@@ -8,6 +8,7 @@ import {
   addCodegen,
   AmplifyFrontend,
   amplifyPush,
+  apiGqlCompile,
 } from '@aws-amplify/amplify-codegen-e2e-core';
 const { schemas } = require('@aws-amplify/graphql-schema-test-library');
 import { writeFileSync, readdirSync, readFileSync } from 'fs';
@@ -33,6 +34,7 @@ describe('build app - Swift', () => {
     apiName = readdirSync(path.join(projectRoot, 'amplify', 'backend', 'api'))[0];
     const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${schemas[0].sdl}`;
     updateApiSchemaWithText(projectRoot, apiName, schemaText);
+    apiGqlCompile(projectRoot);
     await amplifyPush(projectRoot);
     await addCodegen(projectRoot, {
       frontendType: AmplifyFrontend.ios,
@@ -54,6 +56,7 @@ describe('build app - Swift', () => {
       const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${schema.sdl}`;
       console.log(schemaText); // log so that ci does not timeout
       updateApiSchemaWithText(projectRoot, 'amplifyDatasource', schemaText);
+      apiGqlCompile(projectRoot);
       await generateModels(projectRoot, outputDir);
       await generateStatementsAndTypes(projectRoot);
       // swift uses raw graphql syntax

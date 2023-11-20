@@ -10,6 +10,7 @@ import {
   addCodegen,
   AmplifyFrontend,
   amplifyPush,
+  apiGqlCompile,
 } from '@aws-amplify/amplify-codegen-e2e-core';
 const { schemas } = require('@aws-amplify/graphql-schema-test-library');
 import { existsSync, writeFileSync, readdirSync, rmSync, readFileSync } from 'fs';
@@ -55,6 +56,7 @@ describe('build app - Android', () => {
       // @ts-ignore
       const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${schema.sdl}`;
       updateApiSchemaWithText(projectRoot, apiName, schemaText);
+      apiGqlCompile(projectRoot);
       await generateModels(projectRoot);
       await generateStatementsAndTypes(projectRoot);
       await androidBuild(projectRoot, { ...config });
@@ -73,6 +75,7 @@ describe('build app - Android', () => {
   it('fails build with syntax error in models', async () => {
     // @ts-ignore
     updateApiSchemaWithText(projectRoot, apiName, Object.values(schemas)[0].sdl);
+    apiGqlCompile(projectRoot);
     await generateModels(projectRoot);
     await writeFileSync(path.join(projectRoot, modelDir, 'AmplifyModelProvider.java'), 'foo\nbar');
     await expect(androidBuild(projectRoot, { ...config })).rejects.toThrowError();
@@ -81,6 +84,7 @@ describe('build app - Android', () => {
   it('fails build with syntax error in statements', async () => {
     // @ts-ignore
     updateApiSchemaWithText(projectRoot, apiName, Object.values(schemas)[0].sdl);
+    apiGqlCompile(projectRoot);
     await generateModels(projectRoot);
     writeFileSync(path.join(projectRoot, path.join(statementsDir, 'mutations.graphql')), 'foo\nbar'),
       expect(() => parse(readFileSync(path.join(projectRoot, path.join(statementsDir, 'mutations.graphql')), 'utf8'))).toThrowError();
