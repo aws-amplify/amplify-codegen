@@ -120,6 +120,35 @@ export function addApiWithBlankSchemaAndConflictDetection(cwd: string) {
   });
 }
 
+export function addApiWithDefaultSchemaAndConflictDetection(cwd: string) {
+  return new Promise<void>((resolve, reject) => {
+    spawn(getCLIPath(defaultOptions.testingWithLatestCodebase), ['add', 'api'], { cwd, stripColors: true })
+      .wait('Select from one of the below mentioned services:')
+      .sendCarriageReturn()
+      .wait(/.*Here is the GraphQL API that we will create. Select a setting to edit or continue.*/)
+      .sendKeyUp()
+      .sendCarriageReturn()
+      .wait(/.*Enable conflict detection.*/)
+      .sendConfirmYes()
+      .wait(/.*Select the default resolution strategy.*/)
+      .sendCarriageReturn()
+      .wait(/.*Here is the GraphQL API that we will create. Select a setting to edit or continue.*/)
+      .sendCarriageReturn()
+      .wait('Choose a schema template:')
+      .sendCarriageReturn()
+      .wait('Do you want to edit the schema now?')
+      .sendConfirmNo()
+      .wait('"amplify publish" will build all your local backend and frontend resources')
+      .run((err: Error) => {
+        if (!err) {
+          resolve();
+        } else {
+          reject(err);
+        }
+      });
+  });
+}
+
 export function updateApiSchema(cwd: string, projectName: string, schemaName: string, forceUpdate: boolean = false) {
   const testSchemaPath = getSchemaPath(schemaName);
   let schemaText = fs.readFileSync(testSchemaPath).toString();

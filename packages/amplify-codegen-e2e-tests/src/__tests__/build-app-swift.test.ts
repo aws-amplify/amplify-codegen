@@ -1,6 +1,6 @@
 import {
   initProjectWithProfile,
-  addApiWithBlankSchemaAndConflictDetection,
+  addApiWithDefaultSchemaAndConflictDetection,
   DEFAULT_IOS_CONFIG,
   updateApiSchemaWithText,
   generateModels,
@@ -30,10 +30,8 @@ describe('build app - Swift', () => {
 
   beforeAll(async () => {
     await initProjectWithProfile(projectRoot, { ...config });
-    await addApiWithBlankSchemaAndConflictDetection(projectRoot);
+    await addApiWithDefaultSchemaAndConflictDetection(projectRoot);
     apiName = readdirSync(path.join(projectRoot, 'amplify', 'backend', 'api'))[0];
-    const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${schemas[0].sdl}`;
-    updateApiSchemaWithText(projectRoot, apiName, schemaText);
     apiGqlCompile(projectRoot);
     await amplifyPush(projectRoot);
     await addCodegen(projectRoot, {

@@ -1,7 +1,7 @@
 import {
   initProjectWithProfile,
   DEFAULT_JS_CONFIG,
-  addApiWithBlankSchemaAndConflictDetection,
+  addApiWithDefaultSchemaAndConflictDetection,
   updateApiSchemaWithText,
   generateModels,
   generateStatementsAndTypes,
@@ -25,10 +25,9 @@ describe('build app - JS', () => {
 
   beforeAll(async () => {
     await initProjectWithProfile(projectRoot, { ...config });
-    await addApiWithBlankSchemaAndConflictDetection(projectRoot);
+    await addApiWithDefaultSchemaAndConflictDetection(projectRoot);
     apiName = readdirSync(path.join(projectRoot, 'amplify', 'backend', 'api'))[0];
-    const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${schemas[0].sdl}`;
-    updateApiSchemaWithText(projectRoot, apiName, schemaText);
+    apiGqlCompile(projectRoot);
     await amplifyPush(projectRoot);
     await addCodegen(projectRoot, {
       frontendType: AmplifyFrontend.javascript,
