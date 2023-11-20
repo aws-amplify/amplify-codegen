@@ -85,8 +85,9 @@ describe('build app - Android', () => {
     updateApiSchemaWithText(projectRoot, apiName, Object.values(schemas)[0].sdl);
     apiGqlCompile(projectRoot);
     await generateModels(projectRoot);
-    writeFileSync(path.join(projectRoot, path.join(statementsDir, 'mutations.graphql')), 'foo\nbar'),
-      expect(() => parse(readFileSync(path.join(projectRoot, path.join(statementsDir, 'mutations.graphql')), 'utf8'))).toThrowError();
+    await generateStatementsAndTypes(projectRoot);
+    writeFileSync(path.join(projectRoot, statementsDir, 'mutations.graphql'), 'foo\nbar'),
+      expect(() => parse(readFileSync(path.join(projectRoot, statementsDir, 'mutations.graphql'), 'utf8'))).toThrowError();
     await androidBuild(projectRoot, { ...config });
   });
 });
