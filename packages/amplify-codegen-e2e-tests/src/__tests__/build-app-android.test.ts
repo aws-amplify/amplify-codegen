@@ -48,7 +48,7 @@ describe('build app - Android', () => {
     rmSync(path.join(projectRoot, statementsDir), { recursive: true, force: true });
   });
 
-  [Object.entries(schemas)[0]].forEach(([schemaName, schema]) => {
+  Object.entries(schemas).forEach(([schemaName, schema]) => {
     // @ts-ignore
     const testName = `builds with ${schemaName}: ${schema.description}`;
     const testFunction = async () => {
