@@ -9,7 +9,7 @@ phases:
       - source ./shared-scripts.sh && _testLinux
   post_build:
     commands:
-      - ./codebuild/scripts/codecov.sh
+      - ./.codebuild/scripts/codecov.sh
 artifacts:
   files:
     - 'shared-scripts.sh'
