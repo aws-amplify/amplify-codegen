@@ -16,7 +16,12 @@ import { existsSync, writeFileSync, readdirSync, rmSync, readFileSync } from 'fs
 import path from 'path';
 import { parse } from 'graphql';
 
-const skip = new Set(['v2-primary-key-with-composite-sort-key', 'custom-@primaryKey-with-sort-fields']);
+const skip = new Set([
+  'v2-primary-key-with-composite-sort-key',
+  'custom-@primaryKey-with-sort-fields',
+  'v2-cyclic-has-one-dependency',
+  'v2-cyclic-has-many-dependency',
+]);
 
 describe('build app - Android', () => {
   let apiName: string;
@@ -61,6 +66,26 @@ describe('build app - Android', () => {
       parse(readFileSync(path.join(projectRoot, path.join(statementsDir, 'queries.graphql')), 'utf8'));
       parse(readFileSync(path.join(projectRoot, path.join(statementsDir, 'subscriptions.graphql')), 'utf8'));
       parse(readFileSync(path.join(projectRoot, path.join(statementsDir, 'mutations.graphql')), 'utf8'));
+    };
+    if (skip.has(schemaName)) {
+      it.skip(testName, testFunction);
+    } else {
+      it(testName, testFunction);
+    }
+  });
+
+  [
+    ['v2-cyclic-has-one-dependency', schemas['v2-cyclic-has-one-dependency']],
+    ['v2-cyclic-has-many-dependency', schemas['v2-cyclic-has-many-dependency']],
+  ].forEach(([schemaName, schema]) => {
+    // @ts-ignore
+    const testName = `builds with ${schemaName}: ${schema.description}`;
+    const testFunction = async () => {
+      // @ts-ignore
+      const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${schema.sdl}`;
+      updateApiSchemaWithText(projectRoot, apiName, schemaText);
+      await generateModels(projectRoot);
+      await androidBuild(projectRoot, { ...config });
     };
     if (skip.has(schemaName)) {
       it.skip(testName, testFunction);
