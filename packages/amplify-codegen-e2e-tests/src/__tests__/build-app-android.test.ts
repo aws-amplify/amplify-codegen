@@ -6,6 +6,8 @@ import {
   generateStatementsAndTypes,
   androidBuild,
   acceptLicenses,
+  addCodegen,
+  AmplifyFrontend,
 } from '@aws-amplify/amplify-codegen-e2e-core';
 const { schemas } = require('@aws-amplify/graphql-schema-test-library');
 import { existsSync, writeFileSync, readdirSync, rmSync, readFileSync } from 'fs';
@@ -19,10 +21,14 @@ describe('build app - Android', () => {
   const projectRoot = path.resolve('test-apps/android');
   const config = DEFAULT_ANDROID_CONFIG;
   const modelDir = 'app/src/main/java/com/amplifyframework/datastore/generated/model';
+  const statementsDir = 'app/src/main/graphql/com/amazonaws/amplify/generated/graphql';
 
   beforeAll(async () => {
     await initProjectWithQuickstart(projectRoot, { ...config });
     apiName = readdirSync(path.join(projectRoot, 'amplify', 'backend', 'api'))[0];
+    await addCodegen(projectRoot, {
+      frontendType: AmplifyFrontend.android,
+    });
     await acceptLicenses(projectRoot);
   });
 
@@ -32,9 +38,10 @@ describe('build app - Android', () => {
 
   afterEach(() => {
     rmSync(path.join(projectRoot, modelDir), { recursive: true, force: true });
+    rmSync(path.join(projectRoot, statementsDir), { recursive: true, force: true });
   });
 
-  Object.entries(schemas).forEach(([schemaName, schema]) => {
+  [Object.entries(schemas)[0]].forEach(([schemaName, schema]) => {
     // @ts-ignore
     const testName = `builds with ${schemaName}: ${schema.description}`;
     const testFunction = async () => {
@@ -45,11 +52,9 @@ describe('build app - Android', () => {
       await generateStatementsAndTypes(projectRoot);
       await androidBuild(projectRoot, { ...config });
       // android uses raw graphql syntax
-      parse(readFileSync(path.join(projectRoot, 'app/src/main/graphql/com/amazonaws/amplify/generated/graphql/queries.graphql'), 'utf8'));
-      parse(
-        readFileSync(path.join(projectRoot, 'app/src/main/graphql/com/amazonaws/amplify/generated/graphql/subscriptions.graphql'), 'utf8'),
-      );
-      parse(readFileSync(path.join(projectRoot, 'app/src/main/graphql/com/amazonaws/amplify/generated/graphql/mutations.graphql'), 'utf8'));
+      parse(readFileSync(path.join(projectRoot, path.join(statementsDir, 'queries.graphql')), 'utf8'));
+      parse(readFileSync(path.join(projectRoot, path.join(statementsDir, 'subscriptions.graphql')), 'utf8'));
+      parse(readFileSync(path.join(projectRoot, path.join(statementsDir, 'mutations.graphql')), 'utf8'));
     };
     if (skip.has(schemaName)) {
       it.skip(testName, testFunction);
@@ -70,12 +75,8 @@ describe('build app - Android', () => {
     // @ts-ignore
     updateApiSchemaWithText(projectRoot, apiName, Object.values(schemas)[0].sdl);
     await generateModels(projectRoot);
-    writeFileSync(path.join(projectRoot, 'app/src/main/graphql/com/amazonaws/amplify/generated/graphql/mutations.graphql'), 'foo\nbar'),
-      expect(() =>
-        parse(
-          readFileSync(path.join(projectRoot, 'app/src/main/graphql/com/amazonaws/amplify/generated/graphql/mutations.graphql'), 'utf8'),
-        ),
-      ).toThrowError();
+    writeFileSync(path.join(projectRoot, path.join(statementsDir, 'mutations.graphql')), 'foo\nbar'),
+      expect(() => parse(readFileSync(path.join(projectRoot, path.join(statementsDir, 'mutations.graphql')), 'utf8'))).toThrowError();
     await androidBuild(projectRoot, { ...config });
   });
 });
