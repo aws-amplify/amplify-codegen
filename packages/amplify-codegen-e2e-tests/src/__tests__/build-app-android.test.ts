@@ -9,7 +9,6 @@ import {
   acceptLicenses,
   addCodegen,
   AmplifyFrontend,
-  amplifyPush,
   apiGqlCompile,
 } from '@aws-amplify/amplify-codegen-e2e-core';
 const { schemas } = require('@aws-amplify/graphql-schema-test-library');
@@ -31,7 +30,6 @@ describe('build app - Android', () => {
     await addApiWithDefaultSchemaAndConflictDetection(projectRoot);
     apiName = readdirSync(path.join(projectRoot, 'amplify', 'backend', 'api'))[0];
     apiGqlCompile(projectRoot);
-    await amplifyPush(projectRoot);
     await addCodegen(projectRoot, {
       frontendType: AmplifyFrontend.android,
     });
