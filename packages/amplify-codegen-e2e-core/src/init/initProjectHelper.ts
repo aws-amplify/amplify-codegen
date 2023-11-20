@@ -131,7 +131,7 @@ export function initAndroidProjectWithProfile(cwd: string, settings: Object): Pr
 }
 
 export function initIosProjectWithProfile(cwd: string, settings: Object): Promise<void> {
-  const s = { ...defaultSettings, ...settings };
+  const s = { ...defaultSettings, appType: 3, ...settings };
 
   addCITags(cwd);
 
@@ -152,7 +152,7 @@ export function initIosProjectWithProfile(cwd: string, settings: Object): Promis
       .wait('Choose your default editor:')
       .sendLine(s.editor)
       .wait("Choose the type of app that you're building")
-      .sendKeyDown(3)
+      .sendKeyDown(s.appType)
       .sendCarriageReturn()
       .wait('Select the authentication method you want to use:')
       .sendCarriageReturn()
