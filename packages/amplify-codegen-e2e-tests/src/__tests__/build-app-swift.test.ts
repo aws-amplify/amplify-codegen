@@ -6,6 +6,7 @@ import {
   generateStatementsAndTypes,
   addCodegen,
   AmplifyFrontend,
+  amplifyPush,
 } from '@aws-amplify/amplify-codegen-e2e-core';
 const { schemas } = require('@aws-amplify/graphql-schema-test-library');
 import { writeFileSync, readdirSync, readFileSync } from 'fs';
@@ -28,6 +29,7 @@ describe('build app - Swift', () => {
   beforeAll(async () => {
     await initProjectWithQuickstart(projectRoot, { ...config });
     apiName = readdirSync(path.join(projectRoot, 'amplify', 'backend', 'api'))[0];
+    await amplifyPush(projectRoot);
     await addCodegen(projectRoot, {
       frontendType: AmplifyFrontend.ios,
     });
