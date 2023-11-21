@@ -81,6 +81,7 @@
         "lines": 80
       }
     },
+    "coverageReporters": ["clover", "text"],
     "testURL": "http://localhost",
     "setupFilesAfterEnv": [
       "<rootDir>/test/test-utils/matchers.ts"

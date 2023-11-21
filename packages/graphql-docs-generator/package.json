@@ -60,6 +60,7 @@
         "lines": 80
       }
     },
+    "coverageReporters": ["clover", "text"],
     "moduleFileExtensions": [
       "ts",
       "tsx",

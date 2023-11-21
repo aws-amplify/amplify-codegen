@@ -51,6 +51,7 @@
         "lines": 72
       }
     },
+    "coverageReporters": ["clover", "text"],
     "testURL": "http://localhost",
     "testRegex": "((\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [
