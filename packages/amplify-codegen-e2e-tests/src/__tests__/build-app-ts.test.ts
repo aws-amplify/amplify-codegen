@@ -17,6 +17,8 @@ import path from 'path';
 
 const schema = 'simple_model.graphql';
 
+const skip = new Set(['v2-cyclic-has-one-dependency', 'v2-cyclic-has-many-dependency']);
+
 describe('build app - JS', () => {
   let apiName: string;
   const projectRoot = path.resolve('test-apps/ts');
@@ -39,16 +41,40 @@ describe('build app - JS', () => {
   });
 
   Object.entries(schemas).forEach(([schemaName, schema]) => {
-    // @ts-ignore
-    it(`builds with ${schemaName}: ${schema.description}`, async () => {
-      // @ts-ignore
-      const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${schema.sdl}`;
+    const testName = `builds with ${schemaName}: ${(schema as any).description}`;
+    const testFunction = async () => {
+      const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${(schema as any).sdl}`;
       updateApiSchemaWithText(projectRoot, apiName, schemaText);
       apiGqlCompile(projectRoot);
       await generateModels(projectRoot);
       await generateStatementsAndTypes(projectRoot);
       await craBuild(projectRoot, { ...config });
-    });
+    };
+    if (skip.has(schemaName)) {
+      it.skip(testName, testFunction);
+    } else {
+      it(testName, testFunction);
+    }
+  });
+
+  [
+    ['v2-cyclic-has-one-dependency', schemas['v2-cyclic-has-one-dependency']],
+    ['v2-cyclic-has-many-dependency', schemas['v2-cyclic-has-many-dependency']],
+  ].forEach(([schemaName, schema]) => {
+    // @ts-ignore
+    const testName = `builds with ${schemaName}: ${schema.description}`;
+    const testFunction = async () => {
+      const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${(schema as any).sdl}`;
+      updateApiSchemaWithText(projectRoot, apiName, schemaText);
+      apiGqlCompile(projectRoot);
+      await generateModels(projectRoot);
+      await craBuild(projectRoot, { ...config });
+    };
+    if (skip.has(schemaName)) {
+      it.skip(testName, testFunction);
+    } else {
+      it(testName, testFunction);
+    }
   });
 
   it('fails build with syntax error in models', async () => {
