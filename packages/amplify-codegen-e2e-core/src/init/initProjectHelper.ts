@@ -152,7 +152,6 @@ export function initIosProjectWithProfile(cwd: string, settings: Object): Promis
       .wait('Choose your default editor:')
       .sendLine(s.editor)
       .wait("Choose the type of app that you're building")
-      .sendKeyDown(3)
       .sendCarriageReturn()
       .wait('Select the authentication method you want to use:')
       .sendCarriageReturn()
