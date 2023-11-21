@@ -28,7 +28,7 @@ describe('build app - Swift', () => {
   const config = DEFAULT_IOS_CONFIG;
 
   beforeAll(async () => {
-    await initProjectWithProfile(projectRoot, { ...config, appType: 0 });
+    await initProjectWithProfile(projectRoot, { ...config, appType: 4 });
     await addApiWithDefaultSchemaAndConflictDetection(projectRoot);
     apiName = readdirSync(path.join(projectRoot, 'amplify', 'backend', 'api'))[0];
     apiGqlCompile(projectRoot);
