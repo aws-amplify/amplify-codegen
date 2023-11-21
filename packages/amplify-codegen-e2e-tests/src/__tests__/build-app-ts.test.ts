@@ -57,6 +57,7 @@ describe('build app - JS', () => {
     }
   });
 
+  // not supported with conflict resolution enabled
   [
     ['v2-cyclic-has-one-dependency', schemas['v2-cyclic-has-one-dependency']],
     ['v2-cyclic-has-many-dependency', schemas['v2-cyclic-has-many-dependency']],
