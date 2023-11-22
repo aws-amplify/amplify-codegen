@@ -72,6 +72,7 @@
         "lines": 80
       }
     },
+    "coverageReporters": ["clover", "text"],
     "testRegex": "(src/__tests__/.*.test.ts)$",
     "globals": {
       "ts-jest": {
