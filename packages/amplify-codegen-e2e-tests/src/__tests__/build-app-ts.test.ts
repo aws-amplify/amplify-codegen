@@ -29,7 +29,7 @@ describe('build app - JS', () => {
     await initProjectWithProfile(projectRoot, { ...config });
     await addApiWithDefaultSchemaAndConflictDetection(projectRoot);
     apiName = readdirSync(path.join(projectRoot, 'amplify', 'backend', 'api'))[0];
-    apiGqlCompile(projectRoot);
+    await apiGqlCompile(projectRoot);
     await addCodegen(projectRoot, {
       frontendType: AmplifyFrontend.javascript,
     });
