@@ -1,4 +1,5 @@
 import {
+  initProjectWithQuickstart
   initIosProjectWithProfile,
   addApiWithDefaultSchemaAndConflictDetection,
   DEFAULT_IOS_CONFIG,
@@ -45,14 +46,20 @@ describe('build app - Swift', () => {
   });
 
   afterAll(async () => {
-    // keep generated files after last run
+    await rmSync(path.join(projectRoot, 'amplify'), { recursive: true, force: true });
+    rmSync(path.join(projectRoot, '.graphqlconfig.yml'), { recursive: true, force: true });
+
+    // generate models one more time
     // files are used in a GitHub action to test compilation
     // codebuild does not suport MacOS instances
-    copySync(path.join(projectRoot, 'amplify', 'generated'), path.join(projectRoot, 'generated'))
-    await rmSync(path.join(projectRoot, 'amplify'), { recursive: true, force: true });
-    mkdirSync(path.join(projectRoot, 'generated'));
-    copySync(path.join(projectRoot, 'generated'), path.join(projectRoot, 'amplify', 'generated'));
-    rmSync(path.join(projectRoot, '.graphqlconfig.yml'), { recursive: true, force: true });
+    await initProjectWithQuickstart(projectRoot, { ...config });
+    apiName = readdirSync(path.join(projectRoot, 'amplify', 'backend', 'api'))[0];
+    const [schemaName, schema] = Object.entries(schemas)[0];
+    const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${(schema as any).sdl}`;
+    updateApiSchemaWithText(projectRoot, apiName, schemaText);
+    const schemaFolderName = schemaName.replace(/[^a-zA-Z0-9]/g, '');
+    const outputDir = path.join(projectRoot, 'amplify', 'generated', 'models', schemaFolderName);
+    await generateModels(projectRoot, outputDir);
   });
 
   Object.entries(schemas).forEach(([schemaName, schema]) => {
