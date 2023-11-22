@@ -12,7 +12,7 @@ the requirements below.
 
 #### Codegen Paramaters Changed or Added
 <!--
-List any codegen paramaters changed or added.
+List any codegen parameters changed or added.
 -->
 
 #### Issue #, if available
