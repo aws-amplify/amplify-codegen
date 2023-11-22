@@ -23,7 +23,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
     "eject": "react-scripts eject",
     "serve": "serve build",
     "set-schema": "node scripts/set-schema.js"
