@@ -10,7 +10,7 @@ import {
   apiGqlCompile,
 } from '@aws-amplify/amplify-codegen-e2e-core';
 const { schemas } = require('@aws-amplify/graphql-schema-test-library');
-import { writeFileSync, readdirSync, readFileSync } from 'fs';
+import { writeFileSync, readdirSync, readFileSync, rmSync } from 'fs';
 import path from 'path';
 import { parse } from 'graphql';
 
@@ -42,6 +42,11 @@ describe('build app - Swift', () => {
     writeFileSync(path.join(projectRoot, 'swift.xcodeproj', 'project.pbxproj'), projectPBXProjCache);
   });
 
+  afterAll(async () => {
+    await rmSync(path.join(projectRoot, 'amplify'), { recursive: true, force: true });
+    rmSync(path.join(projectRoot, '.graphqlconfig.yml'), { recursive: true, force: true });
+  });
+
   Object.entries(schemas).forEach(([schemaName, schema]) => {
     // @ts-ignore
     const testName = `builds with ${schemaName}: ${schema.description}`;
@@ -51,7 +56,7 @@ describe('build app - Swift', () => {
       // @ts-ignore
       const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${schema.sdl}`;
       console.log(schemaText); // log so that ci does not timeout
-      updateApiSchemaWithText(projectRoot, 'amplifyDatasource', schemaText);
+      updateApiSchemaWithText(projectRoot, apiName, schemaText);
       apiGqlCompile(projectRoot);
       await generateModels(projectRoot, outputDir);
       await generateStatementsAndTypes(projectRoot);
