@@ -143,6 +143,7 @@ batch:
           TEST_SUITE: >-
             src/__tests__/build-app-ts.test.ts|src/__tests__/uninitialized-project-codegen-js.test.ts|src/__tests__/uninitialized-project-modelgen-android.test.ts|src/__tests__/uninitialized-project-modelgen-flutter.test.ts
           CLI_REGION: ap-southeast-1
+          DISABLE_ESLINT_PLUGIN: true
       depend-on:
         - publish_to_local_registry
     - identifier: l_uninitialized_project_modelgen_ios_uninitialized_project_modelgen_js
@@ -250,6 +251,7 @@ batch:
           TEST_SUITE: >-
             src/__tests__/build-app-ts.test.ts|src/__tests__/uninitialized-project-codegen-js.test.ts|src/__tests__/uninitialized-project-modelgen-android.test.ts|src/__tests__/uninitialized-project-modelgen-flutter.test.ts
           CLI_REGION: us-east-1
+          DISABLE_ESLINT_PLUGIN: true
       depend-on:
         - publish_to_local_registry
         - build_windows

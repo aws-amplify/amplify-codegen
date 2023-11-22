@@ -178,6 +178,9 @@ function basicE2EJob(inputJob: any, baseJob: string) {
   job.env.variables = {};
   job.env.variables.TEST_SUITE = inputJob.tests.join('|');
   job.env.variables.CLI_REGION = inputJob.region;
+  if (inputJob.tests.includes('src/__tests__/build-app-ts.test.ts')) {
+    job.env.variables.DISABLE_ESLINT_PLUGIN = true;
+  }
   if (inputJob.useParentAccount) {
     job.env.variables.USE_PARENT_ACCOUNT = 1;
   }
