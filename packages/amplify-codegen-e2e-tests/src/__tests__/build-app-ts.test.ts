@@ -17,6 +17,7 @@ import path from 'path';
 
 const schema = 'simple_model.graphql';
 
+// not supported with conflict resolution enabled
 const skip = new Set(['v2-cyclic-has-one-dependency', 'v2-cyclic-has-many-dependency']);
 
 describe('build app - JS', () => {
@@ -55,21 +56,6 @@ describe('build app - JS', () => {
     } else {
       it(testName, testFunction);
     }
-  });
-
-  // not supported with conflict resolution enabled
-  [
-    ['v2-cyclic-has-one-dependency', schemas['v2-cyclic-has-one-dependency']],
-    ['v2-cyclic-has-many-dependency', schemas['v2-cyclic-has-many-dependency']],
-  ].forEach(([schemaName, schema]) => {
-    // @ts-ignore
-    it(`builds models with ${schemaName}: ${schema.description}`, async () => {
-      const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${(schema as any).sdl}`;
-      updateApiSchemaWithText(projectRoot, apiName, schemaText);
-      apiGqlCompile(projectRoot);
-      await generateModels(projectRoot);
-      await craBuild(projectRoot, { ...config });
-    });
   });
 
   it('fails build with syntax error in models', async () => {
