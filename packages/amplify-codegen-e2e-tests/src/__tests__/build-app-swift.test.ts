@@ -10,7 +10,8 @@ import {
   apiGqlCompile,
 } from '@aws-amplify/amplify-codegen-e2e-core';
 const { schemas } = require('@aws-amplify/graphql-schema-test-library');
-import { writeFileSync, readdirSync, readFileSync, rmSync } from 'fs';
+import { writeFileSync, readdirSync, readFileSync, rmSync, mkdirSync } from 'fs';
+import { copySync } from 'fs-extra';
 import path from 'path';
 import { parse } from 'graphql';
 
@@ -44,7 +45,13 @@ describe('build app - Swift', () => {
   });
 
   afterAll(async () => {
+    // keep generated files after last run
+    // files are used in a GitHub action to test compilation
+    // codebuild does not suport MacOS instances
+    copySync(path.join(projectRoot, 'amplify', 'generated'), path.join(projectRoot, 'generated'))
     await rmSync(path.join(projectRoot, 'amplify'), { recursive: true, force: true });
+    mkdirSync(path.join(projectRoot, 'generated'));
+    copySync(path.join(projectRoot, 'generated'), path.join(projectRoot, 'amplify', 'generated'));
     rmSync(path.join(projectRoot, '.graphqlconfig.yml'), { recursive: true, force: true });
   });
 
