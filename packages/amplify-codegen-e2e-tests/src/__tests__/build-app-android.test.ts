@@ -34,7 +34,7 @@ describe('build app - Android', () => {
     await initProjectWithProfile(projectRoot, { ...config });
     await addApiWithDefaultSchemaAndConflictDetection(projectRoot);
     apiName = readdirSync(path.join(projectRoot, 'amplify', 'backend', 'api'))[0];
-    apiGqlCompile(projectRoot);
+    await apiGqlCompile(projectRoot);
     await addCodegen(projectRoot, {
       frontendType: AmplifyFrontend.android,
     });
@@ -58,7 +58,7 @@ describe('build app - Android', () => {
       // @ts-ignore
       const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${schema.sdl}`;
       updateApiSchemaWithText(projectRoot, apiName, schemaText);
-      apiGqlCompile(projectRoot);
+      await apiGqlCompile(projectRoot);
       await generateModels(projectRoot);
       await generateStatementsAndTypes(projectRoot);
       await androidBuild(projectRoot, { ...config });
@@ -92,7 +92,7 @@ describe('build app - Android', () => {
   it('fails build with syntax error in models', async () => {
     // @ts-ignore
     updateApiSchemaWithText(projectRoot, apiName, Object.values(schemas)[0].sdl);
-    apiGqlCompile(projectRoot);
+    await apiGqlCompile(projectRoot);
     await generateModels(projectRoot);
     await writeFileSync(path.join(projectRoot, modelDir, 'AmplifyModelProvider.java'), 'foo\nbar');
     await expect(androidBuild(projectRoot, { ...config })).rejects.toThrowError();
@@ -101,7 +101,7 @@ describe('build app - Android', () => {
   it('fails build with syntax error in statements', async () => {
     // @ts-ignore
     updateApiSchemaWithText(projectRoot, apiName, Object.values(schemas)[0].sdl);
-    apiGqlCompile(projectRoot);
+    await apiGqlCompile(projectRoot);
     await generateModels(projectRoot);
     await generateStatementsAndTypes(projectRoot);
     writeFileSync(path.join(projectRoot, statementsDir, 'mutations.graphql'), 'foo\nbar'),

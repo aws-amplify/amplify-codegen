@@ -34,7 +34,7 @@ describe('build app - Swift', () => {
     await initIosProjectWithProfile(projectRoot, { ...config });
     await addApiWithDefaultSchemaAndConflictDetection(projectRoot);
     apiName = readdirSync(path.join(projectRoot, 'amplify', 'backend', 'api'))[0];
-    apiGqlCompile(projectRoot);
+    await apiGqlCompile(projectRoot);
     await addCodegen(projectRoot, {
       frontendType: AmplifyFrontend.ios,
     });
@@ -72,7 +72,7 @@ describe('build app - Swift', () => {
       const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${schema.sdl}`;
       console.log(schemaText); // log so that ci does not timeout
       updateApiSchemaWithText(projectRoot, apiName, schemaText);
-      apiGqlCompile(projectRoot);
+      await apiGqlCompile(projectRoot);
       await generateModels(projectRoot, outputDir);
       await generateStatementsAndTypes(projectRoot);
       // swift uses raw graphql syntax
