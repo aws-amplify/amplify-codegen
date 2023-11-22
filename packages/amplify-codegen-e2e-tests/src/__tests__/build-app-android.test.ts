@@ -104,8 +104,8 @@ describe('build app - Android', () => {
     await apiGqlCompile(projectRoot);
     await generateModels(projectRoot);
     await generateStatementsAndTypes(projectRoot);
-    writeFileSync(path.join(projectRoot, statementsDir, 'mutations.graphql'), 'foo\nbar'),
-      expect(() => parse(readFileSync(path.join(projectRoot, statementsDir, 'mutations.graphql'), 'utf8'))).toThrowError();
+    writeFileSync(path.join(projectRoot, statementsDir, 'mutations.graphql'), 'foo\nbar');
+    expect(() => parse(readFileSync(path.join(projectRoot, statementsDir, 'mutations.graphql'), 'utf8'))).toThrowError();
     await androidBuild(projectRoot, { ...config });
   });
 });
