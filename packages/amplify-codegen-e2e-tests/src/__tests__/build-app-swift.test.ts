@@ -17,6 +17,7 @@ import { parse } from 'graphql';
 const skip = new Set([
   'v2-recursive-has-one-dependency',
   'v2-cyclic-has-one-dependency',
+  'v2-cyclic-has-many-dependency',
   '@hasOne-with-@belongsTo-with-implicit-parameters',
   '@hasOne-with-@belongsTo-with-explicit-parameters',
 ]);
@@ -70,5 +71,20 @@ describe('build app - Swift', () => {
     } else {
       it(testName, testFunction);
     }
+  });
+
+  [
+    ['v2-cyclic-has-one-dependency', schemas['v2-cyclic-has-one-dependency']],
+    ['v2-cyclic-has-many-dependency', schemas['v2-cyclic-has-many-dependency']],
+  ].forEach(([schemaName, schema]) => {
+    // @ts-ignore
+    it(`builds with ${schemaName}: ${schema.description}`, async () => {
+      const schemaFolderName = schemaName.replace(/[^a-zA-Z0-9]/g, '');
+      const outputDir = path.join(projectRoot, 'amplify', 'generated', 'models', schemaFolderName);
+      const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${(schema as any).sdl}`;
+      updateApiSchemaWithText(projectRoot, apiName, schemaText);
+      apiGqlCompile(projectRoot);
+      await generateModels(projectRoot, outputDir);
+    });
   });
 });

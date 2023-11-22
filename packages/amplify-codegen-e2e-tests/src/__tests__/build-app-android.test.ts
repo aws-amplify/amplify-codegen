@@ -80,19 +80,13 @@ describe('build app - Android', () => {
     ['v2-cyclic-has-many-dependency', schemas['v2-cyclic-has-many-dependency']],
   ].forEach(([schemaName, schema]) => {
     // @ts-ignore
-    const testName = `builds with ${schemaName}: ${schema.description}`;
-    const testFunction = async () => {
+    it(`builds with ${schemaName}: ${schema.description}`, async () => {
       // @ts-ignore
       const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${schema.sdl}`;
       updateApiSchemaWithText(projectRoot, apiName, schemaText);
       await generateModels(projectRoot);
       await androidBuild(projectRoot, { ...config });
-    };
-    if (skip.has(schemaName)) {
-      it.skip(testName, testFunction);
-    } else {
-      it(testName, testFunction);
-    }
+    });
   });
 
   it('fails build with syntax error in models', async () => {
