@@ -80,7 +80,7 @@ describe('build app - Android', () => {
     ['v2-cyclic-has-many-dependency', schemas['v2-cyclic-has-many-dependency']],
   ].forEach(([schemaName, schema]) => {
     // @ts-ignore
-    it(`builds with ${schemaName}: ${schema.description}`, async () => {
+    it(`builds models with ${schemaName}: ${schema.description}`, async () => {
       // @ts-ignore
       const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${schema.sdl}`;
       updateApiSchemaWithText(projectRoot, apiName, schemaText);

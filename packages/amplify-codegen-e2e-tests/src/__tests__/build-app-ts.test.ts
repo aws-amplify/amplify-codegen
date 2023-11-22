@@ -63,7 +63,7 @@ describe('build app - JS', () => {
     ['v2-cyclic-has-many-dependency', schemas['v2-cyclic-has-many-dependency']],
   ].forEach(([schemaName, schema]) => {
     // @ts-ignore
-    it(`builds with ${schemaName}: ${schema.description}`, async () => {
+    it(`builds models with ${schemaName}: ${schema.description}`, async () => {
       const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${(schema as any).sdl}`;
       updateApiSchemaWithText(projectRoot, apiName, schemaText);
       apiGqlCompile(projectRoot);
