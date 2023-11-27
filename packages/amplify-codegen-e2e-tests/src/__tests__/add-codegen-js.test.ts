@@ -6,6 +6,7 @@ import {
     createRandomName,
     addApiWithoutSchema,
     updateApiSchema,
+    AmplifyFrontend,
 } from "@aws-amplify/amplify-codegen-e2e-core";
 import { existsSync } from "fs";
 import path from 'path';
@@ -22,7 +23,7 @@ const schema = 'simple_model.graphql';
 
 describe('codegen add tests - JS', () => {
     let projectRoot: string;
-    const config = DEFAULT_JS_CONFIG;
+    let config = DEFAULT_JS_CONFIG;
 
     beforeEach(async () => {
         projectRoot = await createNewProjectDir('addCodegenJS');
@@ -80,5 +81,18 @@ describe('codegen add tests - JS', () => {
 
     it(`supports add codegen with redundant region parameter`, async () => {
         await testAddCodegen(config, projectRoot, schema, ['--region', 'us-fake-1']);
+    });
+
+    describe.only('JS codegen matrix test', async () => {
+      it('Adding codegen works as expected', async () => {
+        config =   {
+          frontendType: AmplifyFrontend.javascript,
+          framework: 'angular',
+          codegenTarget: 'angluar',
+          srcDir: 'src',
+          graphqlCodegenDir : 'src/graphql'
+        }
+        await testAddCodegen(config, projectRoot, schema);
+      });
     });
 });

@@ -8,7 +8,7 @@ const defaultSettings = {
   envName: 'integtest',
   editor: '\r',
   appType: '\r',
-  framework: '\r',
+  framework: 'none',
   srcDir: '\r',
   distDir: '\r',
   buildCmd: '\r',
@@ -21,6 +21,8 @@ const defaultSettings = {
   disableCIDetection: false,
   providerConfig: undefined,
 };
+
+const javaScriptFrameworkList = [ 'none', 'angluar', 'ember', 'ionic', 'react', 'react-native', 'vue' ];
 
 export function initJSProjectWithProfile(cwd: string, settings: Object = {}): Promise<void> {
   const s = { ...defaultSettings, ...settings };
@@ -52,8 +54,11 @@ export function initJSProjectWithProfile(cwd: string, settings: Object = {}): Pr
       .sendLine(s.editor)
       .wait("Choose the type of app that you're building")
       .sendLine(s.appType)
-      .wait('What javascript framework are you using')
-      .sendLine(s.framework)
+      .wait('What javascript framework are you using');
+
+    singleSelect(chain, s.framework, javaScriptFrameworkList);
+
+    chain
       .wait('Source Directory Path:')
       .sendLine(s.srcDir)
       .wait('Distribution Directory Path:')

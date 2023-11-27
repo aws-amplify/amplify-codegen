@@ -1,4 +1,4 @@
-import { AmplifyFrontend } from '../utils';
+import { AmplifyFrontend, singleSelect } from '../utils';
 import { getCLIPath, nspawn as spawn } from '..';
 
 export function generateModels(cwd: string, outputDir?: string, settings: { errMessage?: string } = {}): Promise<void> {
@@ -90,7 +90,12 @@ export function addCodegen(cwd: string, settings: any = {}): Promise<void> {
     }
     else {
       if (settings.frontendType === AmplifyFrontend.javascript) {
-        chain.wait('Choose the code generation language target').sendCarriageReturn();
+        chain.wait('Choose the code generation language target');
+        if (settings.framework === 'angular' || settings.framework === 'ionic') {
+          singleSelect(chain, settings.codegenTarget, ['angular', 'typescript']);
+        } else {
+          singleSelect(chain, settings.codegenTarget, ['javascript', 'typescript', 'flow']);
+        }
       }
       chain
         .wait('Enter the file name pattern of graphql queries, mutations and subscriptions')
@@ -99,7 +104,9 @@ export function addCodegen(cwd: string, settings: any = {}): Promise<void> {
         .sendLine('y')
         .wait('Enter maximum statement depth [increase from default if your schema is deeply')
         .sendCarriageReturn();
-      if (settings.frontendType === AmplifyFrontend.ios) {
+      const isTypeGenIncluded = settings.frontendType === AmplifyFrontend.ios
+        || (settings.frontendType === AmplifyFrontend.javascript && settings.codegenTarget !== 'javascript');
+      if (isTypeGenIncluded) {
         chain
           .wait('Enter the file name for the generated code')
           .sendCarriageReturn()

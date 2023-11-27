@@ -83,17 +83,26 @@ export async function testAddCodegenUninitialized({
         writeFileSync(path.join(projectRoot, sdlFilename), sdlSchema);
     }
 
+    let isTypeGenIncluded = false;
     // add codegen without init
     switch (config.frontendType) {
-        case AmplifyFrontend.javascript:
-            await addCodegenNonAmplifyJS(projectRoot, additionalParams ?? [], initialFailureMessage);
-            break;
-        case AmplifyFrontend.typescript:
-            await addCodegenNonAmplifyTS(projectRoot, additionalParams ?? [], initialFailureMessage);
-            break;
-        default:
-            throw new Error(`Received unexpected frontendType ${config.frontendType}`);
+      case AmplifyFrontend.javascript:
+        switch (config.codegenTarget) {
+          case 'javascript':
+              await addCodegenNonAmplifyJS(projectRoot, additionalParams ?? [], initialFailureMessage);
+              break;
+          case 'typescript':
+              isTypeGenIncluded = true;
+              await addCodegenNonAmplifyTS(projectRoot, additionalParams ?? [], initialFailureMessage);
+              break;
+          default:
+              throw new Error(`Received unexpected codegen target ${config.codegenTarget}`);
+        }
+        break;
+      default:
+        throw new Error(`Received unexpected frontendType ${config.frontendType}`);
     }
+
 
     // return if we expected the add command to fail
     if (initialFailureMessage) {
@@ -106,7 +115,7 @@ export async function testAddCodegenUninitialized({
     ensureAllExpectedValuesAreReceived(expectedFilenames, readdirSync(path.join(projectRoot, config.graphqlCodegenDir)))
     // graphql configuration should be added
     expect(existsSync(getGraphQLConfigFilePath(projectRoot))).toBe(true);
-    if (config.frontendType === AmplifyFrontend.typescript) {
+    if (isTypeGenIncluded) {
         assertTypeFileExists(projectRoot)
     }
 
@@ -124,7 +133,7 @@ export async function testAddCodegenUninitialized({
         // GraphQL statements are regenerated
         ensureAllExpectedValuesAreReceived(expectedFilenames, readdirSync(path.join(projectRoot, config.graphqlCodegenDir)))
 
-        if (config.frontendType === AmplifyFrontend.typescript) {
+        if (isTypeGenIncluded) {
             assertTypeFileExists(projectRoot)
         }
     }
@@ -139,7 +148,7 @@ export async function testAddCodegenUninitialized({
     if (dropAndRunCodegenTypes) {
         await generateTypes(projectRoot);
 
-        if (config.frontendType === AmplifyFrontend.typescript) {
+        if (isTypeGenIncluded) {
             assertTypeFileExists(projectRoot)
         }
     }
