@@ -9444,7 +9444,7 @@ graphql-transformer-core@^8.0.0:
     graphql-transformer-common "4.25.1"
     lodash "^4.17.21"
 
-graphql@15.8.0, graphql@^15.5.0:
+graphql@15.8.0, graphql@^15.5.0, graphql@^15.8.0:
   version "15.8.0"
   resolved "https://registry.npmjs.org/graphql/-/graphql-15.8.0.tgz#33410e96b012fa3bdb1091cc99a94769db212b38"
   integrity sha512-5gghUc24tP9HRznNpV2+FIoq3xKkj5dTQqf4v0CpdPbFVwFkWoxOM+o+2OC9ZSvjEMTjfmG9QT+gcvggTwW1zw==
