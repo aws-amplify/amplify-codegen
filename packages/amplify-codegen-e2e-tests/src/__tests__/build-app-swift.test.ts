@@ -1,5 +1,5 @@
 import {
-  initProjectWithQuickstart
+  initProjectWithQuickstart,
   initIosProjectWithProfile,
   addApiWithDefaultSchemaAndConflictDetection,
   DEFAULT_IOS_CONFIG,

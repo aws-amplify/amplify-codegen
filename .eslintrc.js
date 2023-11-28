@@ -225,13 +225,35 @@ module.exports = {
     'operator-assignment': 'off',
     'import/no-named-default': 'off',
   },
+  overrides: [
+    {
+      // edit rules here to modify test linting
+      files: ['__tests__/**', '*.test.ts', '*.test.js'],
+      plugins: ['jest'],
+      extends: ['plugin:jest/recommended'],
+      rules: {
+        // jest describe/test can be very long
+        'max-lines-per-function': 'off',
+
+        // to be fixed and enabled later
+        'jest/no-conditional-expect': 'warn',
+        'jest/valid-title': 'warn',
+        'jest/no-export': 'warn',
+        'no-trailing-spaces': 'warn',
+        'jest/no-standalone-expect': 'warn',
+        'jest/no-conditional-expect': 'warn',
+        'jest/valid-expect': 'warn',
+        'jest/no-identical-title': 'warn',
+        'no-useless-computed-key': 'warn',
+        '@typescript-eslint/ban-ts-comment': 'warn',
+        'guard-for-in': 'warn',
+      },
+    },
+  ],
   'ignorePatterns': [
     'node_modules',
     'dist',
     'build',
-    'tests',
-    '__test__',
-    '__tests__',
     '__mocks__',
     '__e2e__',
     'coverage',
