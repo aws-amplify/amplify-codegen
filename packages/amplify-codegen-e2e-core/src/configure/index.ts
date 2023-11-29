@@ -17,7 +17,7 @@ const defaultProjectSettings = {
   name: '\r',
   envName: 'integtest',
   editor: '\r',
-  appType: 'javascript',
+  frontendType: 'javascript',
   framework: 'none',
   srcDir: '\r',
   distDir: '\r',
@@ -152,6 +152,7 @@ export function amplifyConfigureProject(settings: {
 
 export function amplifyConfigureProjectInfo(settings: {
   cwd: string,
+  frontendType: string,
 }): Promise<void> {
   const {
     cwd,
@@ -166,9 +167,9 @@ export function amplifyConfigureProjectInfo(settings: {
       .wait('Choose your default editor:')
       .sendLine(s.editor)
       .wait("Choose the type of app that you're building") 
-      .sendLine(s.appType);
+      .sendLine(s.frontendType);
     
-    switch (s.appType) {
+    switch (s.frontendType) {
       case 'javascript':
         chain.wait('What javascript framework are you using');
         singleSelect(chain, s.framework, javaScriptFrameworkList);
@@ -192,11 +193,20 @@ export function amplifyConfigureProjectInfo(settings: {
       case 'flutter':
         chain
           .wait('Where do you want to store your configuration file?')
-          .sendLine(s.srcDir)
+          .sendLine(s.srcDir);
+        break;
       default:
-        throw new Error(`Frontend type ${s.appType} is not supported.`);
+        throw new Error(`Frontend type ${s.frontendType} is not supported.`);
     }
 
-    chain.wait('Successfully made configuration changes to your project.');
+    chain
+      .wait('Successfully made configuration changes to your project.')
+      .run((err: Error) => {
+        if (!err) {
+          resolve();
+        } else {
+          reject(err);
+        }
+      });
   })
 }

@@ -11,11 +11,38 @@ import {
     generateStatementsAndTypes,
     generateStatements,
     generateTypes,
+    amplifyConfigureProjectInfo,
+    deleteProjectDir,
 } from "@aws-amplify/amplify-codegen-e2e-core";
 import { existsSync, readFileSync, writeFileSync, readdirSync, rmSync } from "fs";
 import path from 'path';
 import { isNotEmptyDir } from '../utils';
 import { getGraphQLConfigFilePath, testSetupBeforeAddCodegen, testValidGraphQLConfig } from "./test-setup";
+
+type CodegenMatrixTestProps = AmplifyFrontendConfig & {
+  params?: string[];
+  isAPINotAdded?: boolean;
+  isCodegenAdded?: boolean;
+  frontendType?: AmplifyFrontend;
+  framework?: string;
+  codegenTarget?: string;
+  isStatementGenerated?: boolean;
+  statementNamePattern?: string;
+  maxDepth?: number;
+  isTypeGenerated?: boolean;
+  typeFileName?: string;
+}
+
+export async function testAddCodegenMatrix(config: CodegenMatrixTestProps, projectRoot: string) {
+  await amplifyConfigureProjectInfo({ cwd: projectRoot, ...config });
+  deleteProjectDir(path.join(projectRoot, config.graphqlCodegenDir));
+  // Setup the non-amplify project with schema and pre-existing files
+  const userSourceCodePath = testSetupBeforeAddCodegen(projectRoot, config);
+  await expect(addCodegen(projectRoot, { ...config })).resolves.not.toThrow();
+  expect(isNotEmptyDir(path.join(projectRoot, config.graphqlCodegenDir))).toBe(true);
+  // pre-existing file should still exist
+  expect(existsSync(userSourceCodePath)).toBe(true);
+}
 
 export async function testAddCodegen(config: AmplifyFrontendConfig, projectRoot: string, schema: string, additionalParams?: Array<string>) {
     // init project and add API category

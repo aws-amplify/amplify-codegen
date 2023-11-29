@@ -78,7 +78,7 @@ export function initJSProjectWithProfile(cwd: string, settings: Object = {}): Pr
     }
 
     chain
-      .wait('Help improve Amplify CLI by sharing non sensitive configurations on failures')
+      .wait('Help improve Amplify CLI by sharing non-sensitive project configurations on failures')
       .sendConfirmYes()
       .wait('Try "amplify add api" to create a backend API and then "amplify push" to deploy everything')
       .run((err: Error) => {
@@ -120,7 +120,7 @@ export function initAndroidProjectWithProfile(cwd: string, settings: Object): Pr
       .sendCarriageReturn()
       .wait('Please choose the profile you want to use')
       .sendLine(s.profileName)
-      .wait('Help improve Amplify CLI by sharing non sensitive configurations on failures')
+      .wait('Help improve Amplify CLI by sharing non-sensitive project configurations on failures')
       .sendConfirmYes()
       .wait('Try "amplify add api" to create a backend API and then "amplify push" to deploy everything')
       .run((err: Error) => {
@@ -163,17 +163,11 @@ export function initIosProjectWithProfile(cwd: string, settings: Object): Promis
       .sendCarriageReturn()
       .wait('Please choose the profile you want to use')
       .sendLine(s.profileName)
-      .wait('Help improve Amplify CLI by sharing non sensitive configurations on failures')
+      .wait('Help improve Amplify CLI by sharing non-sensitive project configurations on failures')
       .sendConfirmYes()
       .wait('Try "amplify add api" to create a backend API and then "amplify push" to deploy everything')
-      .run((err: Error) => {
-        if (!err) {
-          addCITags(cwd);
-
-          resolve();
-        } else {
-          reject(err);
-        }
+      .run(() => {
+        resolve();
       });
   });
 }
@@ -206,7 +200,7 @@ export function initFlutterProjectWithProfile(cwd: string, settings: Object): Pr
     singleSelect(chain, s.region, amplifyRegions);
 
     chain
-      .wait('Help improve Amplify CLI by sharing non sensitive configurations on failures')
+      .wait('Help improve Amplify CLI by sharing non-sensitive project configurations on failures')
       .sendConfirmYes()
       .wait('Try "amplify add api" to create a backend API and then "amplify push" to deploy everything')
       .run((err: Error) => {
