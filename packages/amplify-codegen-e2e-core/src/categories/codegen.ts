@@ -95,7 +95,10 @@ export function addCodegen(cwd: string, settings: any = {}): Promise<void> {
       ? ['codegen', 'add', ...mergedSettings.params]
       : ['codegen', 'add'];
     const chain = spawn(getCLIPath(), params, { cwd, stripColors: true });
-    if (mergedSettings.isAPINotAdded) {
+    if(mergedSettings.frontendType === AmplifyFrontend.flutter) {
+      chain.wait("Flutter only supports the command $amplify codegen models. All the other codegen commands are not supported.");
+    }
+    else if (mergedSettings.isAPINotAdded) {
       chain.wait("There are no GraphQL APIs available.");
       chain.wait("Add by running $amplify api add");
     }

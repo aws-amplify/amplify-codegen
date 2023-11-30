@@ -22,7 +22,7 @@ const defaultSettings = {
   providerConfig: undefined,
 };
 
-const javaScriptFrameworkList = [ 'none', 'angluar', 'ember', 'ionic', 'react', 'react-native', 'vue' ];
+const javaScriptFrameworkList = [ 'none', 'angular', 'ember', 'ionic', 'react', 'react-native', 'vue' ];
 
 export function initJSProjectWithProfile(cwd: string, settings: Object = {}): Promise<void> {
   const s = { ...defaultSettings, ...settings };

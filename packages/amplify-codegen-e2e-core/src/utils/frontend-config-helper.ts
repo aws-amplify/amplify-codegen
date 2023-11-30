@@ -7,7 +7,7 @@ export enum AmplifyFrontend {
 
 export type JavaScriptFramework = 'none' | 'angular' | 'ember' | 'ionic' | 'react' | 'react-native' | 'vue';
 
-export type JavaScriptCodegenTarget = 'javascript' | 'typescript' | 'flow' | 'angluar';
+export type JavaScriptCodegenTarget = 'javascript' | 'typescript' | 'flow' | 'angular';
 
 export type JavaScriptConfig = {
   frontendType: AmplifyFrontend.javascript,
@@ -53,7 +53,7 @@ export const DEFAULT_ANDROID_CONFIG: AmplifyFrontendConfig = {
   frontendType: AmplifyFrontend.android,
   srcDir: 'app/src/main/res',
   modelgenDir: 'app/src/main/java',
-  graphqlCodegenDir : 'app/src/main/graphql'
+  graphqlCodegenDir : 'app/src/main/graphql/com/amazonaws/amplify/generated/graphql'
 };
 
 export const DEFAULT_IOS_CONFIG: AmplifyFrontendConfig = {

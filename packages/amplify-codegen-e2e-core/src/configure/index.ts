@@ -49,7 +49,7 @@ export const amplifyRegions = [
 const configurationOptions = ['Project information', 'AWS Profile setting', 'Advanced: Container-based deployments'];
 const profileOptions = ['No', 'Update AWS Profile', 'Remove AWS Profile'];
 const authenticationOptions = ['AWS profile', 'AWS access keys'];
-const javaScriptFrameworkList = [ 'none', 'angluar', 'ember', 'ionic', 'react', 'react-native', 'vue' ];
+const javaScriptFrameworkList = [ 'none', 'angular', 'ember', 'ionic', 'react', 'react-native', 'vue' ];
 
 
 const MANDATORY_PARAMS = ['accessKeyId', 'secretAccessKey', 'region'];
@@ -166,9 +166,9 @@ export function amplifyConfigureProjectInfo(settings: {
       .sendLine(s.name)
       .wait('Choose your default editor:')
       .sendLine(s.editor)
-      .wait("Choose the type of app that you're building") 
+      .wait("Choose the type of app that you're building")
       .sendLine(s.frontendType);
-    
+
     switch (s.frontendType) {
       case 'javascript':
         chain.wait('What javascript framework are you using');

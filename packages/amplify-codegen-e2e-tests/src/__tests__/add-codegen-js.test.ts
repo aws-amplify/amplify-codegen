@@ -6,10 +6,6 @@ import {
     createRandomName,
     addApiWithoutSchema,
     updateApiSchema,
-    AmplifyFrontend,
-    apiGqlCompile,
-    removeCodegen,
-    amplifyConfigureProjectInfo,
 } from "@aws-amplify/amplify-codegen-e2e-core";
 import { existsSync } from "fs";
 import path from 'path';
@@ -20,7 +16,6 @@ import {
     testSetupBeforeAddCodegen,
     getGraphQLConfigFilePath,
     testValidGraphQLConfig,
-    testAddCodegenMatrix,
 } from '../codegen-tests-base';
 
 const schema = 'simple_model.graphql';
@@ -86,51 +81,4 @@ describe('codegen add tests - JS', () => {
     it(`supports add codegen with redundant region parameter`, async () => {
         await testAddCodegen(config, projectRoot, schema, ['--region', 'us-fake-1']);
     });
-});
-
-describe.only('JS codegen matrix test', () => {
-  let projectRoot: string;
-  let config = DEFAULT_JS_CONFIG;
-
-  beforeAll(async () => {
-    projectRoot = await createNewProjectDir('addCodegenMatrixJS');
-    // init project and add API category
-    await initProjectWithProfile(projectRoot, { ...config });
-    const projectName = createRandomName();
-    await addApiWithoutSchema(projectRoot, { apiName: projectName });
-    await updateApiSchema(projectRoot, projectName, schema);
-    await apiGqlCompile(projectRoot);
-    
-  });
-  beforeEach(async () => {
-
-  });
-  afterEach(async () => {
-    await removeCodegen(projectRoot);
-    await amplifyConfigureProjectInfo({ cwd: projectRoot, frontendType: 'flutter'} )
-  });
-  afterAll(async () => {
-      await deleteAmplifyProject(projectRoot);
-  });
-
-  it('Adding codegen works as expected 1', async () => {
-    config =   {
-      frontendType: AmplifyFrontend.javascript,
-      framework: 'ionic',
-      codegenTarget: 'angluar',
-      srcDir: 'src',
-      graphqlCodegenDir : 'src/graphql'
-    }
-    await testAddCodegenMatrix(config, projectRoot);
-  });
-  it('Adding codegen works as expected 2', async () => {
-    config =   {
-      frontendType: AmplifyFrontend.javascript,
-      framework: 'react',
-      codegenTarget: 'typescript',
-      srcDir: 'src',
-      graphqlCodegenDir : 'src/graphql'
-    }
-    await testAddCodegenMatrix(config, projectRoot);
-  });
 });

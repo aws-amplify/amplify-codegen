@@ -13,19 +13,19 @@ import {
     generateTypes,
     amplifyConfigureProjectInfo,
     deleteProjectDir,
+    DEFAULT_JS_CONFIG,
 } from "@aws-amplify/amplify-codegen-e2e-core";
-import { existsSync, readFileSync, writeFileSync, readdirSync, rmSync } from "fs";
+import { existsSync, readFileSync, writeFileSync, readdirSync, rmSync, lstatSync } from "fs";
 import path from 'path';
 import { isNotEmptyDir } from '../utils';
 import { getGraphQLConfigFilePath, testSetupBeforeAddCodegen, testValidGraphQLConfig } from "./test-setup";
 
-type CodegenMatrixTestProps = AmplifyFrontendConfig & {
+export type CodegenMatrixTestProps = AmplifyFrontendConfig & {
   params?: string[];
   isAPINotAdded?: boolean;
   isCodegenAdded?: boolean;
   frontendType?: AmplifyFrontend;
   framework?: string;
-  codegenTarget?: string;
   isStatementGenerated?: boolean;
   statementNamePattern?: string;
   maxDepth?: number;
@@ -33,15 +33,82 @@ type CodegenMatrixTestProps = AmplifyFrontendConfig & {
   typeFileName?: string;
 }
 
-export async function testAddCodegenMatrix(config: CodegenMatrixTestProps, projectRoot: string) {
+const defaultConfig: CodegenMatrixTestProps = {
+  ...DEFAULT_JS_CONFIG,
+  params: [],
+  isAPINotAdded: false,
+  isCodegenAdded: false,
+  isStatementGenerated: true,
+  statementNamePattern: '\r', // default value
+  maxDepth: 2, // default value
+  isTypeGenerated: true,
+  typeFileName: '\r', // default value
+}
+
+const getTypeFilePath = (props: CodegenMatrixTestProps, projectRoot: string): string | undefined => {
+  if (props.typeFileName) {
+    if (props.typeFileName === '\r') {
+      if (props.frontendType === AmplifyFrontend.ios) {
+        return path.join(projectRoot, 'API.swift')
+      } else if (props.frontendType === AmplifyFrontend.javascript) {
+        switch (props.codegenTarget) {
+          case 'flow':
+            return path.join(projectRoot, 'src', 'API.js');
+          case 'angular':
+            return path.join(projectRoot, 'src', 'app', 'API.service.ts');
+          case 'typescript':
+            return path.join(projectRoot, 'src', 'API.ts');
+          default:
+            return undefined;
+        }
+      }
+    }
+    return path.join(projectRoot, props.typeFileName);
+  }
+  return undefined;
+}
+
+const isTypeFileGeneratedAtPath = (filePath: string | undefined): boolean => {
+  if (filePath) {
+    if (existsSync(filePath)) {
+      // if path is directory, check if files are generated within
+      if (lstatSync(filePath).isDirectory()) {
+        return readdirSync(filePath).length > 0;
+      }
+      // path is a single file
+      return true;
+    }
+    return false;
+  }
+  return false;
+}
+
+export async function testAddCodegenMatrix(props: CodegenMatrixTestProps, projectRoot: string) {
+  const config: CodegenMatrixTestProps = { ...defaultConfig, ...props }
+  if (config.graphqlCodegenDir) {
+    deleteProjectDir(path.join(projectRoot, config.graphqlCodegenDir));
+  }
+  if (config.srcDir !== '.') {
+    deleteProjectDir(path.join(projectRoot, config.srcDir));
+  }
+  const typeFilePath = getTypeFilePath(config, projectRoot);
+  if (typeFilePath && existsSync(typeFilePath)) {
+    rmSync(typeFilePath);
+  }
+  if (config.framework === 'angular') {
+    // Mock angular json file otherwise the project configure will fail
+    writeFileSync(path.join(projectRoot, 'angular.json'), '{}');
+  }
   await amplifyConfigureProjectInfo({ cwd: projectRoot, ...config });
-  deleteProjectDir(path.join(projectRoot, config.graphqlCodegenDir));
   // Setup the non-amplify project with schema and pre-existing files
   const userSourceCodePath = testSetupBeforeAddCodegen(projectRoot, config);
   await expect(addCodegen(projectRoot, { ...config })).resolves.not.toThrow();
-  expect(isNotEmptyDir(path.join(projectRoot, config.graphqlCodegenDir))).toBe(true);
+  // Check if statements are generated
+  expect(isNotEmptyDir(path.join(projectRoot, config.graphqlCodegenDir))).toBe(config.isStatementGenerated);
   // pre-existing file should still exist
   expect(existsSync(userSourceCodePath)).toBe(true);
+  // Check if type files are generated
+  expect(isTypeFileGeneratedAtPath(typeFilePath)).toBe(config.isTypeGenerated)
 }
 
 export async function testAddCodegen(config: AmplifyFrontendConfig, projectRoot: string, schema: string, additionalParams?: Array<string>) {
