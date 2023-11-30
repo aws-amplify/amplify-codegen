@@ -45,6 +45,12 @@ const defaultConfig: CodegenMatrixTestProps = {
   typeFileName: '\r', // default value
 }
 
+/**
+ * Extract type file path given the test props. When the carriage return is detected, the default path will be returned
+ * @param props codegen matrix test props
+ * @param projectRoot project root
+ * @returns type file path
+ */
 const getTypeFilePath = (props: CodegenMatrixTestProps, projectRoot: string): string | undefined => {
   if (props.typeFileName) {
     if (props.typeFileName === '\r') {
@@ -68,6 +74,11 @@ const getTypeFilePath = (props: CodegenMatrixTestProps, projectRoot: string): st
   return undefined;
 }
 
+/**
+ * Check if the type file(s) is generated at the given file path(single file or directory)
+ * @param filePath type file path
+ * @returns is type file generated or not
+ */
 const isTypeFileGeneratedAtPath = (filePath: string | undefined): boolean => {
   if (filePath) {
     if (existsSync(filePath)) {
@@ -83,7 +94,12 @@ const isTypeFileGeneratedAtPath = (filePath: string | undefined): boolean => {
   return false;
 }
 
-export async function testAddCodegenMatrix(props: CodegenMatrixTestProps, projectRoot: string) {
+/**
+ * Util function for testing codegen matrix
+ * @param props codegen matrix test properties
+ * @param projectRoot project root
+ */
+export async function testAddCodegenMatrix(props: CodegenMatrixTestProps, projectRoot: string): Promise<void> {
   const config: CodegenMatrixTestProps = { ...defaultConfig, ...props }
   if (config.graphqlCodegenDir) {
     deleteProjectDir(path.join(projectRoot, config.graphqlCodegenDir));

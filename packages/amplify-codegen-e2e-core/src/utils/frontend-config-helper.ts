@@ -2,7 +2,8 @@ export enum AmplifyFrontend {
   javascript = 'javascript',
   ios = 'ios',
   android = 'android',
-  flutter = 'flutter'
+  flutter = 'flutter',
+  typescript = 'typescript',
 }
 
 export type JavaScriptFramework = 'none' | 'angular' | 'ember' | 'ionic' | 'react' | 'react-native' | 'vue';
@@ -13,6 +14,13 @@ export type JavaScriptConfig = {
   frontendType: AmplifyFrontend.javascript,
   framework: JavaScriptFramework,
   codegenTarget?: JavaScriptCodegenTarget,
+  srcDir: string,
+  modelgenDir?: string,
+  graphqlCodegenDir?: string,
+}
+
+export type TypeScriptConfig = {
+  frontendType: AmplifyFrontend.typescript,
   srcDir: string,
   modelgenDir?: string,
   graphqlCodegenDir?: string,
@@ -38,7 +46,7 @@ export type FlutterConfig = {
   modelgenDir?: string,
   graphqlCodegenDir?: string,
 }
-export type AmplifyFrontendConfig = JavaScriptConfig | AndroidConfig | IOSConfig | FlutterConfig;
+export type AmplifyFrontendConfig = JavaScriptConfig | AndroidConfig | IOSConfig | FlutterConfig | TypeScriptConfig;
 
 export const DEFAULT_JS_CONFIG: AmplifyFrontendConfig = {
   frontendType: AmplifyFrontend.javascript,
@@ -48,6 +56,13 @@ export const DEFAULT_JS_CONFIG: AmplifyFrontendConfig = {
   modelgenDir: 'src/models',
   graphqlCodegenDir : 'src/graphql',
 };
+
+// Config used for modelgen test only
+export const DEFAULT_TS_CONFIG: AmplifyFrontendConfig = {
+  frontendType: AmplifyFrontend.typescript,
+  srcDir: 'src',
+  modelgenDir: 'src/models',
+}
 
 export const DEFAULT_ANDROID_CONFIG: AmplifyFrontendConfig = {
   frontendType: AmplifyFrontend.android,
