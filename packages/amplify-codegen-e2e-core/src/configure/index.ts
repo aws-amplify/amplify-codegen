@@ -1,4 +1,4 @@
-import { nspawn as spawn, getCLIPath, singleSelect, ExecutionContext } from '..';
+import { nspawn as spawn, getCLIPath, singleSelect } from '..';
 
 type AmplifyConfiguration = {
   accessKeyId: string;
@@ -150,14 +150,6 @@ export function amplifyConfigureProject(settings: {
   });
 }
 
-const inputForChainAnswer = (chain: ExecutionContext, input: string): void => {
-  if (input === '\r') {
-    chain.sendCarriageReturn();
-  } else {
-    chain.sendLine(input)
-  }
-}
-
 export function amplifyConfigureProjectInfo(settings: {
   cwd: string,
   frontendType: string,
@@ -169,35 +161,39 @@ export function amplifyConfigureProjectInfo(settings: {
   return new Promise((resolve, reject) => {
     const chain = spawn(getCLIPath(), ['configure', 'project'], { cwd, stripColors: true }).wait('Which setting do you want to configure?');
     singleSelect(chain, configurationOptions[0], configurationOptions);
-    chain.wait('Enter a name for the project');
-    inputForChainAnswer(chain, s.name);
-    chain.wait('Choose your default editor:')
-    inputForChainAnswer(chain, s.editor);
-
-    chain.wait("Choose the type of app that you're building").sendLine(s.frontendType);
+    chain
+      .wait('Enter a name for the project')
+      .sendLine(s.name)
+      .wait('Choose your default editor:')
+      .sendLine(s.editor)
+      .wait("Choose the type of app that you're building")
+      .sendLine(s.frontendType);
 
     switch (s.frontendType) {
       case 'javascript':
         chain.wait('What javascript framework are you using');
         singleSelect(chain, s.framework, javaScriptFrameworkList);
-        chain.wait('Source Directory Path:');
-        inputForChainAnswer(chain, s.srcDir);
-        chain.wait('Distribution Directory Path:')
-        inputForChainAnswer(chain, s.distDir);
-        chain.wait('Build Command:')
-        inputForChainAnswer(chain, s.buildCmd);
-        chain.wait('Start Command:')
-        inputForChainAnswer(chain, s.startCmd);
+        chain
+          .wait('Source Directory Path:')
+          .sendLine(s.srcDir)
+          .wait('Distribution Directory Path:')
+          .sendLine(s.distDir)
+          .wait('Build Command:')
+          .sendLine(s.buildCmd)
+          .wait('Start Command:')
+          .sendLine(s.startCmd);
         break;
       case 'android':
-        chain.wait('Where is your Res directory')
-        inputForChainAnswer(chain, s.srcDir);
+        chain
+          .wait('Where is your Res directory')
+          .sendLine(s.srcDir);
         break;
       case 'ios':
         break;
       case 'flutter':
-        chain.wait('Where do you want to store your configuration file?')
-        inputForChainAnswer(chain, s.srcDir);
+        chain
+          .wait('Where do you want to store your configuration file?')
+          .sendLine(s.srcDir);
         break;
       default:
         throw new Error(`Frontend type ${s.frontendType} is not supported.`);

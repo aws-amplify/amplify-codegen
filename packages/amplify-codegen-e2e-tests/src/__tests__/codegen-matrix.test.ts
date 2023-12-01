@@ -27,7 +27,7 @@ describe('JS codegen matrix test', () => {
       await deleteAmplifyProject(projectRoot);
   });
 
-  it.only('Flutter - no statements or types', async () => {
+  it('Flutter - no statements or types', async () => {
     config = {
       ...DEFAULT_FLUTTER_CONFIG,
       isStatementGenerated: false,
