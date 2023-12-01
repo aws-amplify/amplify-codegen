@@ -22,10 +22,11 @@ const TEST_TIMINGS_PATH = join(REPO_ROOT, 'scripts', 'test-timings.data.json');
 const CODEBUILD_CONFIG_BASE_PATH = join(REPO_ROOT, '.codebuild', 'e2e_workflow_base.yml');
 const CODEBUILD_GENERATE_CONFIG_PATH = join(REPO_ROOT, '.codebuild', 'e2e_workflow.yml');
 const CODEBUILD_DEBUG_CONFIG_PATH = join (REPO_ROOT, '.codebuild', 'debug_workflow.yml');
-const RUN_SOLO = ['src/__tests__/codegen-matrix.test.ts'];
+const RUN_SOLO = [];
 const EXCLUDE_TESTS = [
   'src/__tests__/build-app-swift.test.ts',
   'src/__tests__/build-app-android.test.ts',
+  'src/__tests__/codegen-matrix.test.ts',
 ];
 const DEBUG_FLAG = '--debug';
 

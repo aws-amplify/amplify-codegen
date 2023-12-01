@@ -68,6 +68,16 @@ batch:
       debug-session: true
       depend-on:
         - publish_to_local_registry
+    - identifier: codegen_matrix
+      buildspec: .codebuild/run_e2e_tests.yml
+      env:
+        compute-type: BUILD_GENERAL1_LARGE
+        variables:
+          TEST_SUITE: src/__tests__/codegen-matrix.test.ts
+          CLI_REGION: ap-southeast-2
+      debug-session: true
+      depend-on:
+        - publish_to_local_registry
     - identifier: >-
         l_add_codegen_ios_configure_codegen_android_configure_codegen_js_graphql_codegen_android
       buildspec: .codebuild/run_e2e_tests.yml
@@ -152,15 +162,6 @@ batch:
         variables:
           TEST_SUITE: >-
             src/__tests__/uninitialized-project-modelgen-ios.test.ts|src/__tests__/uninitialized-project-modelgen-js.test.ts
-          CLI_REGION: us-east-1
-      depend-on:
-        - publish_to_local_registry
-    - identifier: l_codegen_matrix
-      buildspec: .codebuild/run_e2e_tests.yml
-      env:
-        compute-type: BUILD_GENERAL1_LARGE
-        variables:
-          TEST_SUITE: src/__tests__/codegen-matrix.test.ts
           CLI_REGION: ap-southeast-2
       depend-on:
         - publish_to_local_registry
@@ -271,18 +272,6 @@ batch:
         variables:
           TEST_SUITE: >-
             src/__tests__/uninitialized-project-modelgen-ios.test.ts|src/__tests__/uninitialized-project-modelgen-js.test.ts
-          CLI_REGION: us-east-1
-      depend-on:
-        - publish_to_local_registry
-        - build_windows
-    - identifier: w_codegen_matrix
-      buildspec: .codebuild/run_e2e_tests_windows.yml
-      env:
-        compute-type: BUILD_GENERAL1_LARGE
-        image: $WINDOWS_IMAGE_2019
-        type: WINDOWS_SERVER_2019_CONTAINER
-        variables:
-          TEST_SUITE: src/__tests__/codegen-matrix.test.ts
           CLI_REGION: us-east-1
       depend-on:
         - publish_to_local_registry
