@@ -68,6 +68,16 @@ batch:
       debug-session: true
       depend-on:
         - publish_to_local_registry
+    - identifier: codegen_matrix
+      buildspec: .codebuild/run_e2e_tests.yml
+      env:
+        compute-type: BUILD_GENERAL1_LARGE
+        variables:
+          TEST_SUITE: src/__tests__/codegen-matrix.test.ts
+          CLI_REGION: ap-southeast-2
+      debug-session: true
+      depend-on:
+        - publish_to_local_registry
     - identifier: >-
         l_add_codegen_ios_configure_codegen_android_configure_codegen_js_graphql_codegen_android
       buildspec: .codebuild/run_e2e_tests.yml

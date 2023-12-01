@@ -13,6 +13,18 @@ const defaultSettings = {
   userName: '\r',
 };
 
+const defaultProjectSettings = {
+  name: '\r',
+  envName: 'integtest',
+  editor: '\r',
+  frontendType: 'javascript',
+  framework: 'none',
+  srcDir: '\r',
+  distDir: '\r',
+  buildCmd: '\r',
+  startCmd: '\r',
+};
+
 export const amplifyRegions = [
   'us-east-1',
   'us-east-2',
@@ -34,8 +46,11 @@ export const amplifyRegions = [
   'sa-east-1',
 ];
 
-const configurationOptions = ['project', 'profile', 'containers'];
-const profileOptions = ['cancel', 'update', 'remove'];
+const configurationOptions = ['Project information', 'AWS Profile setting', 'Advanced: Container-based deployments'];
+const profileOptions = ['No', 'Update AWS Profile', 'Remove AWS Profile'];
+const authenticationOptions = ['AWS profile', 'AWS access keys'];
+const javaScriptFrameworkList = [ 'none', 'angular', 'ember', 'ionic', 'react', 'react-native', 'vue' ];
+
 
 const MANDATORY_PARAMS = ['accessKeyId', 'secretAccessKey', 'region'];
 
@@ -77,18 +92,52 @@ export function amplifyConfigure(settings: AmplifyConfiguration): Promise<void> 
   });
 }
 
-export function amplifyConfigureProject(settings: { cwd: string; enableContainers: boolean }): Promise<void> {
-  const { enableContainers = false, cwd } = settings;
+export function amplifyConfigureProject(settings: {
+  cwd: string;
+  enableContainers?: boolean;
+  configLevel?: string;
+  profileOption?: string;
+  authenticationOption?: string;
+  region?: string;
+}): Promise<void> {
+  const {
+    cwd,
+    enableContainers = false,
+    profileOption = profileOptions[0],
+    authenticationOption,
+    configLevel = 'project',
+    region = defaultSettings.region,
+  } = settings;
 
   return new Promise((resolve, reject) => {
     const chain = spawn(getCLIPath(), ['configure', 'project'], { cwd, stripColors: true }).wait('Which setting do you want to configure?');
+
     if (enableContainers) {
-      singleSelect(chain, 'containers', configurationOptions);
-      chain.wait('Do you want to enable container-based deployments?').sendLine('y');
+      singleSelect(chain, configurationOptions[2], configurationOptions);
+      chain.wait('Do you want to enable container-based deployments?').sendConfirmYes();
     } else {
-      singleSelect(chain, 'profile', configurationOptions);
-      chain.wait('Do you want to update or remove the project level AWS profile?');
-      singleSelect(chain, profileOptions[0], profileOptions);
+      singleSelect(chain, configurationOptions[1], configurationOptions);
+
+      if (configLevel === 'project') {
+        chain.wait('Do you want to update or remove the project level AWS profile?');
+        singleSelect(chain, profileOption, profileOptions);
+      } else {
+        chain.wait('Do you want to set the project level configuration').sendConfirmYes();
+      }
+
+      if (profileOption === profileOptions[1] || configLevel === 'general') {
+        chain.wait('Select the authentication method you want to use:');
+        singleSelect(chain, authenticationOption, authenticationOptions);
+
+        if (authenticationOption === authenticationOptions[0]) {
+          chain.wait('Please choose the profile you want to use').sendCarriageReturn(); // Default profile
+        } else if (authenticationOption === authenticationOptions[1]) {
+          chain.wait('accessKeyId:').sendLine(process.env.AWS_ACCESS_KEY_ID);
+          chain.wait('secretAccessKey:').sendLine(process.env.AWS_SECRET_ACCESS_KEY);
+          chain.wait('region:');
+          singleSelect(chain, region, amplifyRegions);
+        }
+      }
     }
 
     chain.wait('Successfully made configuration changes to your project.').run((err: Error) => {
@@ -99,4 +148,65 @@ export function amplifyConfigureProject(settings: { cwd: string; enableContainer
       }
     });
   });
+}
+
+export function amplifyConfigureProjectInfo(settings: {
+  cwd: string,
+  frontendType: string,
+}): Promise<void> {
+  const {
+    cwd,
+  } = settings;
+  const s = { ...defaultProjectSettings, ...settings };
+  return new Promise((resolve, reject) => {
+    const chain = spawn(getCLIPath(), ['configure', 'project'], { cwd, stripColors: true }).wait('Which setting do you want to configure?');
+    singleSelect(chain, configurationOptions[0], configurationOptions);
+    chain
+      .wait('Enter a name for the project')
+      .sendLine(s.name)
+      .wait('Choose your default editor:')
+      .sendLine(s.editor)
+      .wait("Choose the type of app that you're building")
+      .sendLine(s.frontendType);
+
+    switch (s.frontendType) {
+      case 'javascript':
+        chain.wait('What javascript framework are you using');
+        singleSelect(chain, s.framework, javaScriptFrameworkList);
+        chain
+          .wait('Source Directory Path:')
+          .sendLine(s.srcDir)
+          .wait('Distribution Directory Path:')
+          .sendLine(s.distDir)
+          .wait('Build Command:')
+          .sendLine(s.buildCmd)
+          .wait('Start Command:')
+          .sendLine(s.startCmd);
+        break;
+      case 'android':
+        chain
+          .wait('Where is your Res directory')
+          .sendLine(s.srcDir);
+        break;
+      case 'ios':
+        break;
+      case 'flutter':
+        chain
+          .wait('Where do you want to store your configuration file?')
+          .sendLine(s.srcDir);
+        break;
+      default:
+        throw new Error(`Frontend type ${s.frontendType} is not supported.`);
+    }
+
+    chain
+      .wait('Successfully made configuration changes to your project.')
+      .run((err: Error) => {
+        if (!err) {
+          resolve();
+        } else {
+          reject(err);
+        }
+      });
+  })
 }

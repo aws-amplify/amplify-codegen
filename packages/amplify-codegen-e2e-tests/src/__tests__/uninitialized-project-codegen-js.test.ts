@@ -1,4 +1,4 @@
-import {  createNewProjectDir, DEFAULT_JS_CONFIG, AmplifyFrontend, generateStatementsAndTypes } from '@aws-amplify/amplify-codegen-e2e-core';
+import {  createNewProjectDir, DEFAULT_JS_CONFIG, generateStatementsAndTypes, AmplifyFrontendConfig } from '@aws-amplify/amplify-codegen-e2e-core';
 import path from 'path';
 import { deleteAmplifyProject, testAddCodegenUninitialized } from '../codegen-tests-base';
 import { rmSync } from "fs-extra";
@@ -6,9 +6,9 @@ import { rmSync } from "fs-extra";
 describe('codegen add tests - JS', () => {
     let projectRoot: string;
     const javascriptConfig = DEFAULT_JS_CONFIG;
-    const typescriptConfig = {
+    const typescriptConfig: any = {
         ...DEFAULT_JS_CONFIG,
-        frontendType: AmplifyFrontend.typescript,
+        codegenTarget: 'typescript',
     };
 
     beforeEach(async () => {

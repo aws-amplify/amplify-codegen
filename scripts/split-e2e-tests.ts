@@ -26,6 +26,7 @@ const RUN_SOLO = [];
 const EXCLUDE_TESTS = [
   'src/__tests__/build-app-swift.test.ts',
   'src/__tests__/build-app-android.test.ts',
+  'src/__tests__/codegen-matrix.test.ts',
 ];
 const DEBUG_FLAG = '--debug';
 
