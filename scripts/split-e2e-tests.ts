@@ -41,7 +41,7 @@ export function loadTestTimings(): { timingData: { test: string; medianRuntime: 
   return JSON.parse(fs.readFileSync(TEST_TIMINGS_PATH, 'utf-8'));
 }
 function getTestFiles(dir: string, pattern = 'src/**/*.test.ts'): string[] {
-  return glob.sync(pattern, { cwd: dir });
+  return glob.globSync(pattern, { cwd: dir });
 }
 type COMPUTE_TYPE = 'BUILD_GENERAL1_MEDIUM' | 'BUILD_GENERAL1_LARGE';
 type BatchBuildJob = {

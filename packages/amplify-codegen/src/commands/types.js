@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs-extra');
 const Ora = require('ora');
-const glob = require('glob-all');
+const globby = require('globby');
 const { Source } = require('graphql');
 
 const constants = require('../constants');
@@ -58,7 +58,7 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
         const target = cfg.amplifyExtension.codeGenTarget;
 
         const excludes = cfg.excludes.map(pattern => `!${pattern}`);
-        const queryFilePaths = glob.sync([...includeFiles, ...excludes], {
+        const queryFilePaths = globby.sync([...includeFiles, ...excludes], {
           cwd: projectPath,
           absolute: true,
         });

@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs-extra');
-const glob = require('glob-all');
+const globby = require('globby');
 const { FeatureFlags, pathManager } = require('@aws-amplify/amplify-cli-core');
 const { generateModels: generateModelsHelper } = require('@aws-amplify/graphql-generator');
 const { validateAmplifyFlutterMinSupportedVersion } = require('../utils/validateAmplifyFlutterMinSupportedVersion');
@@ -305,7 +305,7 @@ function loadSchema(apiResourcePath) {
   }
   if (fs.pathExistsSync(schemaDirectory) && fs.lstatSync(schemaDirectory).isDirectory()) {
     // search recursively for graphql schema files inside `schema` directory
-    const schemas = glob.sync([path.join(schemaDirectory, '**/*.graphql')]);
+    const schemas = globby.sync([path.join(schemaDirectory, '**/*.graphql')]);
     return schemas.map(file => fs.readFileSync(file, 'utf8')).join('\n');
   }
 

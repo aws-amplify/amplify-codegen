@@ -27,7 +27,7 @@
     "dotenv": "^8.6.0",
     "execa": "^4.1.0",
     "fs-extra": "^8.1.0",
-    "glob": "^10.3.9",
+    "globby": "^11.1.0",
     "ini": "^3.0.1",
     "jest-circus": "^27.5.1",
     "jest-environment-node": "^26.6.2",
