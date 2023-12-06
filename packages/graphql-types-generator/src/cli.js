@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { sync } from 'globby';
+import { sync, hasMagic } from 'globby';
 import * as process from 'process';
 import * as path from 'path';
 import * as yargs from 'yargs';
@@ -103,7 +103,7 @@ yargs
       let { input } = argv;
 
       // Use glob if the user's shell was unable to expand the pattern
-      if (input.length === 1 && glob.hasMagic(input[0])) {
+      if (input.length === 1 && hasMagic(input[0])) {
         input = sync(input[0]);
       }
 
