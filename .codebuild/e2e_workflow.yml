@@ -79,96 +79,95 @@ batch:
       depend-on:
         - publish_to_local_registry
     - identifier: >-
-        l_remove_codegen_ios_remove_codegen_android_graphql_codegen_js_graphql_codegen_android
+        l_add_codegen_ios_configure_codegen_android_configure_codegen_js_graphql_codegen_android
       buildspec: .codebuild/run_e2e_tests.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
           TEST_SUITE: >-
-            src/__tests__/remove-codegen-ios.test.ts|src/__tests__/remove-codegen-android.test.ts|src/__tests__/graphql-codegen-js.test.ts|src/__tests__/graphql-codegen-android.test.ts
+            src/__tests__/add-codegen-ios.test.ts|src/__tests__/configure-codegen-android.test.ts|src/__tests__/configure-codegen-js.test.ts|src/__tests__/graphql-codegen-android.test.ts
           CLI_REGION: us-east-1
       depend-on:
         - publish_to_local_registry
     - identifier: >-
-        l_configure_codegen_js_configure_codegen_android_add_codegen_ios_graphql_codegen_ios
+        l_graphql_codegen_js_remove_codegen_android_remove_codegen_ios_add_codegen_android
       buildspec: .codebuild/run_e2e_tests.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
           TEST_SUITE: >-
-            src/__tests__/configure-codegen-js.test.ts|src/__tests__/configure-codegen-android.test.ts|src/__tests__/add-codegen-ios.test.ts|src/__tests__/graphql-codegen-ios.test.ts
+            src/__tests__/graphql-codegen-js.test.ts|src/__tests__/remove-codegen-android.test.ts|src/__tests__/remove-codegen-ios.test.ts|src/__tests__/add-codegen-android.test.ts
           CLI_REGION: us-east-2
       depend-on:
         - publish_to_local_registry
     - identifier: >-
-        l_feature_flags_datastore_modelgen_js_datastore_modelgen_android_configure_codegen_ios
+        l_configure_codegen_ios_datastore_modelgen_android_datastore_modelgen_js_feature_flags
       buildspec: .codebuild/run_e2e_tests.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
           TEST_SUITE: >-
-            src/__tests__/feature-flags.test.ts|src/__tests__/datastore-modelgen-js.test.ts|src/__tests__/datastore-modelgen-android.test.ts|src/__tests__/configure-codegen-ios.test.ts
+            src/__tests__/configure-codegen-ios.test.ts|src/__tests__/datastore-modelgen-android.test.ts|src/__tests__/datastore-modelgen-js.test.ts|src/__tests__/feature-flags.test.ts
           CLI_REGION: us-west-2
       depend-on:
         - publish_to_local_registry
     - identifier: >-
-        l_add_codegen_android_remove_codegen_js_datastore_modelgen_ios_add_codegen_js
+        l_graphql_codegen_ios_add_codegen_js_datastore_modelgen_ios_remove_codegen_js
       buildspec: .codebuild/run_e2e_tests.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
           TEST_SUITE: >-
-            src/__tests__/add-codegen-android.test.ts|src/__tests__/remove-codegen-js.test.ts|src/__tests__/datastore-modelgen-ios.test.ts|src/__tests__/add-codegen-js.test.ts
+            src/__tests__/graphql-codegen-ios.test.ts|src/__tests__/add-codegen-js.test.ts|src/__tests__/datastore-modelgen-ios.test.ts|src/__tests__/remove-codegen-js.test.ts
           CLI_REGION: eu-west-2
       depend-on:
         - publish_to_local_registry
     - identifier: >-
-        l_model_introspection_codegen_env_codegen_datastore_modelgen_flutter_push_codegen_ios
+        l_datastore_modelgen_flutter_env_codegen_model_introspection_codegen_pull_codegen
       buildspec: .codebuild/run_e2e_tests.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
           TEST_SUITE: >-
-            src/__tests__/model-introspection-codegen.test.ts|src/__tests__/env-codegen.test.ts|src/__tests__/datastore-modelgen-flutter.test.ts|src/__tests__/push-codegen-ios.test.ts
+            src/__tests__/datastore-modelgen-flutter.test.ts|src/__tests__/env-codegen.test.ts|src/__tests__/model-introspection-codegen.test.ts|src/__tests__/pull-codegen.test.ts
           CLI_REGION: eu-central-1
       depend-on:
         - publish_to_local_registry
     - identifier: >-
-        l_pull_codegen_push_codegen_android_push_codegen_js_graphql_documents_generator
+        l_push_codegen_ios_push_codegen_android_graphql_documents_generator_push_codegen_js
       buildspec: .codebuild/run_e2e_tests.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
           TEST_SUITE: >-
-            src/__tests__/pull-codegen.test.ts|src/__tests__/push-codegen-android.test.ts|src/__tests__/push-codegen-js.test.ts|src/__tests__/graphql-documents-generator.test.ts
+            src/__tests__/push-codegen-ios.test.ts|src/__tests__/push-codegen-android.test.ts|src/__tests__/graphql-documents-generator.test.ts|src/__tests__/push-codegen-js.test.ts
           CLI_REGION: ap-northeast-1
       depend-on:
         - publish_to_local_registry
     - identifier: >-
-        l_build_app_ts_uninitialized_project_modelgen_js_uninitialized_project_modelgen_ios_uninitialized_project_modelgen_flutter
+        l_build_app_ts_uninitialized_project_codegen_js_uninitialized_project_modelgen_android_uninitialized_project_modelgen_flutter
       buildspec: .codebuild/run_e2e_tests.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
           TEST_SUITE: >-
-            src/__tests__/build-app-ts.test.ts|src/__tests__/uninitialized-project-modelgen-js.test.ts|src/__tests__/uninitialized-project-modelgen-ios.test.ts|src/__tests__/uninitialized-project-modelgen-flutter.test.ts
+            src/__tests__/build-app-ts.test.ts|src/__tests__/uninitialized-project-codegen-js.test.ts|src/__tests__/uninitialized-project-modelgen-android.test.ts|src/__tests__/uninitialized-project-modelgen-flutter.test.ts
           CLI_REGION: ap-southeast-1
           DISABLE_ESLINT_PLUGIN: true
       depend-on:
         - publish_to_local_registry
-    - identifier: >-
-        l_uninitialized_project_modelgen_android_uninitialized_project_codegen_js
+    - identifier: l_uninitialized_project_modelgen_ios_uninitialized_project_modelgen_js
       buildspec: .codebuild/run_e2e_tests.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
           TEST_SUITE: >-
-            src/__tests__/uninitialized-project-modelgen-android.test.ts|src/__tests__/uninitialized-project-codegen-js.test.ts
+            src/__tests__/uninitialized-project-modelgen-ios.test.ts|src/__tests__/uninitialized-project-modelgen-js.test.ts
           CLI_REGION: ap-southeast-2
       depend-on:
         - publish_to_local_registry
     - identifier: >-
-        w_remove_codegen_ios_remove_codegen_android_graphql_codegen_js_graphql_codegen_android
+        w_add_codegen_ios_configure_codegen_android_configure_codegen_js_graphql_codegen_android
       buildspec: .codebuild/run_e2e_tests_windows.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
@@ -176,13 +175,13 @@ batch:
         type: WINDOWS_SERVER_2019_CONTAINER
         variables:
           TEST_SUITE: >-
-            src/__tests__/remove-codegen-ios.test.ts|src/__tests__/remove-codegen-android.test.ts|src/__tests__/graphql-codegen-js.test.ts|src/__tests__/graphql-codegen-android.test.ts
+            src/__tests__/add-codegen-ios.test.ts|src/__tests__/configure-codegen-android.test.ts|src/__tests__/configure-codegen-js.test.ts|src/__tests__/graphql-codegen-android.test.ts
           CLI_REGION: us-east-1
       depend-on:
         - publish_to_local_registry
         - build_windows
     - identifier: >-
-        w_configure_codegen_js_configure_codegen_android_add_codegen_ios_graphql_codegen_ios
+        w_graphql_codegen_js_remove_codegen_android_remove_codegen_ios_add_codegen_android
       buildspec: .codebuild/run_e2e_tests_windows.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
@@ -190,13 +189,13 @@ batch:
         type: WINDOWS_SERVER_2019_CONTAINER
         variables:
           TEST_SUITE: >-
-            src/__tests__/configure-codegen-js.test.ts|src/__tests__/configure-codegen-android.test.ts|src/__tests__/add-codegen-ios.test.ts|src/__tests__/graphql-codegen-ios.test.ts
+            src/__tests__/graphql-codegen-js.test.ts|src/__tests__/remove-codegen-android.test.ts|src/__tests__/remove-codegen-ios.test.ts|src/__tests__/add-codegen-android.test.ts
           CLI_REGION: us-east-1
       depend-on:
         - publish_to_local_registry
         - build_windows
     - identifier: >-
-        w_feature_flags_datastore_modelgen_js_datastore_modelgen_android_configure_codegen_ios
+        w_configure_codegen_ios_datastore_modelgen_android_datastore_modelgen_js_feature_flags
       buildspec: .codebuild/run_e2e_tests_windows.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
@@ -204,13 +203,13 @@ batch:
         type: WINDOWS_SERVER_2019_CONTAINER
         variables:
           TEST_SUITE: >-
-            src/__tests__/feature-flags.test.ts|src/__tests__/datastore-modelgen-js.test.ts|src/__tests__/datastore-modelgen-android.test.ts|src/__tests__/configure-codegen-ios.test.ts
+            src/__tests__/configure-codegen-ios.test.ts|src/__tests__/datastore-modelgen-android.test.ts|src/__tests__/datastore-modelgen-js.test.ts|src/__tests__/feature-flags.test.ts
           CLI_REGION: us-east-1
       depend-on:
         - publish_to_local_registry
         - build_windows
     - identifier: >-
-        w_add_codegen_android_remove_codegen_js_datastore_modelgen_ios_add_codegen_js
+        w_graphql_codegen_ios_add_codegen_js_datastore_modelgen_ios_remove_codegen_js
       buildspec: .codebuild/run_e2e_tests_windows.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
@@ -218,13 +217,13 @@ batch:
         type: WINDOWS_SERVER_2019_CONTAINER
         variables:
           TEST_SUITE: >-
-            src/__tests__/add-codegen-android.test.ts|src/__tests__/remove-codegen-js.test.ts|src/__tests__/datastore-modelgen-ios.test.ts|src/__tests__/add-codegen-js.test.ts
+            src/__tests__/graphql-codegen-ios.test.ts|src/__tests__/add-codegen-js.test.ts|src/__tests__/datastore-modelgen-ios.test.ts|src/__tests__/remove-codegen-js.test.ts
           CLI_REGION: us-east-1
       depend-on:
         - publish_to_local_registry
         - build_windows
     - identifier: >-
-        w_model_introspection_codegen_env_codegen_datastore_modelgen_flutter_push_codegen_ios
+        w_datastore_modelgen_flutter_env_codegen_model_introspection_codegen_pull_codegen
       buildspec: .codebuild/run_e2e_tests_windows.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
@@ -232,13 +231,13 @@ batch:
         type: WINDOWS_SERVER_2019_CONTAINER
         variables:
           TEST_SUITE: >-
-            src/__tests__/model-introspection-codegen.test.ts|src/__tests__/env-codegen.test.ts|src/__tests__/datastore-modelgen-flutter.test.ts|src/__tests__/push-codegen-ios.test.ts
+            src/__tests__/datastore-modelgen-flutter.test.ts|src/__tests__/env-codegen.test.ts|src/__tests__/model-introspection-codegen.test.ts|src/__tests__/pull-codegen.test.ts
           CLI_REGION: us-east-1
       depend-on:
         - publish_to_local_registry
         - build_windows
     - identifier: >-
-        w_pull_codegen_push_codegen_android_push_codegen_js_graphql_documents_generator
+        w_push_codegen_ios_push_codegen_android_graphql_documents_generator_push_codegen_js
       buildspec: .codebuild/run_e2e_tests_windows.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
@@ -246,13 +245,13 @@ batch:
         type: WINDOWS_SERVER_2019_CONTAINER
         variables:
           TEST_SUITE: >-
-            src/__tests__/pull-codegen.test.ts|src/__tests__/push-codegen-android.test.ts|src/__tests__/push-codegen-js.test.ts|src/__tests__/graphql-documents-generator.test.ts
+            src/__tests__/push-codegen-ios.test.ts|src/__tests__/push-codegen-android.test.ts|src/__tests__/graphql-documents-generator.test.ts|src/__tests__/push-codegen-js.test.ts
           CLI_REGION: us-east-1
       depend-on:
         - publish_to_local_registry
         - build_windows
     - identifier: >-
-        w_build_app_ts_uninitialized_project_modelgen_js_uninitialized_project_modelgen_ios_uninitialized_project_modelgen_flutter
+        w_build_app_ts_uninitialized_project_codegen_js_uninitialized_project_modelgen_android_uninitialized_project_modelgen_flutter
       buildspec: .codebuild/run_e2e_tests_windows.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
@@ -260,14 +259,13 @@ batch:
         type: WINDOWS_SERVER_2019_CONTAINER
         variables:
           TEST_SUITE: >-
-            src/__tests__/build-app-ts.test.ts|src/__tests__/uninitialized-project-modelgen-js.test.ts|src/__tests__/uninitialized-project-modelgen-ios.test.ts|src/__tests__/uninitialized-project-modelgen-flutter.test.ts
+            src/__tests__/build-app-ts.test.ts|src/__tests__/uninitialized-project-codegen-js.test.ts|src/__tests__/uninitialized-project-modelgen-android.test.ts|src/__tests__/uninitialized-project-modelgen-flutter.test.ts
           CLI_REGION: us-east-1
           DISABLE_ESLINT_PLUGIN: true
       depend-on:
         - publish_to_local_registry
         - build_windows
-    - identifier: >-
-        w_uninitialized_project_modelgen_android_uninitialized_project_codegen_js
+    - identifier: w_uninitialized_project_modelgen_ios_uninitialized_project_modelgen_js
       buildspec: .codebuild/run_e2e_tests_windows.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
@@ -275,7 +273,7 @@ batch:
         type: WINDOWS_SERVER_2019_CONTAINER
         variables:
           TEST_SUITE: >-
-            src/__tests__/uninitialized-project-modelgen-android.test.ts|src/__tests__/uninitialized-project-codegen-js.test.ts
+            src/__tests__/uninitialized-project-modelgen-ios.test.ts|src/__tests__/uninitialized-project-modelgen-js.test.ts
           CLI_REGION: us-east-1
       depend-on:
         - publish_to_local_registry
@@ -286,4 +284,4 @@ batch:
         compute-type: BUILD_GENERAL1_MEDIUM
       depend-on:
         - >-
-          l_remove_codegen_ios_remove_codegen_android_graphql_codegen_js_graphql_codegen_android
+          l_add_codegen_ios_configure_codegen_android_configure_codegen_js_graphql_codegen_android
