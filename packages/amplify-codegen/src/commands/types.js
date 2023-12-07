@@ -58,7 +58,7 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
         const target = cfg.amplifyExtension.codeGenTarget;
 
         const excludes = cfg.excludes.map(pattern => `!${pattern}`);
-        const queryFilePaths = globby.sync([...includeFiles, ...excludes], {
+        const queryFilePaths = globby.sync([...includeFiles, ...excludes].map((path) => path.replace(/\\/g, '/')), {
           cwd: projectPath,
           absolute: true,
         });

@@ -305,7 +305,7 @@ function loadSchema(apiResourcePath) {
   }
   if (fs.pathExistsSync(schemaDirectory) && fs.lstatSync(schemaDirectory).isDirectory()) {
     // search recursively for graphql schema files inside `schema` directory
-    const schemas = globby.sync([path.join(schemaDirectory, '**/*.graphql')]);
+    const schemas = globby.sync([path.join(schemaDirectory, '**/*.graphql')].map((path) => path.replace(/\\/g, '/')));
     return schemas.map(file => fs.readFileSync(file, 'utf8')).join('\n');
   }
 
