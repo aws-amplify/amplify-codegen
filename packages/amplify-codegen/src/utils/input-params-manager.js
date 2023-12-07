@@ -1,4 +1,5 @@
 const constants = require('../constants');
+const path = require('path');
 
 function normalizeInputParams(context) {
   let inputParams;
@@ -66,6 +67,12 @@ function normalizeValue(key, value) {
   return value;
 }
 
+function normalizePathForGlobPattern(pattern) {
+  const splits = pattern.split(path.win32.sep);
+  return splits.join(path.posix.sep);
+}
+
 module.exports = {
   normalizeInputParams,
+  normalizePathForGlobPattern,
 };

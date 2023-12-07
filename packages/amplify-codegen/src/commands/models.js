@@ -8,6 +8,7 @@ const defaultDirectiveDefinitions = require('../utils/defaultDirectiveDefinition
 const getProjectRoot = require('../utils/getProjectRoot');
 const { getModelSchemaPathParam, hasModelSchemaPathParam } = require('../utils/getModelSchemaPathParam');
 const { isDataStoreEnabled } = require('graphql-transformer-core');
+const { normalizePathForGlobPattern } = require('../utils/input-params-manager');
 
 /**
  * Amplify Context type.
@@ -305,7 +306,7 @@ function loadSchema(apiResourcePath) {
   }
   if (fs.pathExistsSync(schemaDirectory) && fs.lstatSync(schemaDirectory).isDirectory()) {
     // search recursively for graphql schema files inside `schema` directory
-    const schemas = globby.sync([path.join(schemaDirectory, '**/*.graphql')].map((path) => path.replace(/\\/g, '/')));
+    const schemas = globby.sync([path.join(schemaDirectory, '**/*.graphql')].map((path) => normalizePathForGlobPattern(path)));
     return schemas.map(file => fs.readFileSync(file, 'utf8')).join('\n');
   }
 

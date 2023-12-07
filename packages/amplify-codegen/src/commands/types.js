@@ -9,6 +9,7 @@ const { loadConfig } = require('../codegen-config');
 const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails, getAppSyncAPIInfoFromProject } = require('../utils');
 const { generateTypes: generateTypesHelper } = require('@aws-amplify/graphql-generator');
 const { extractDocumentFromJavascript } = require('@aws-amplify/graphql-types-generator');
+const { normalizePathForGlobPattern } = require('../utils/input-params-manager');
 
 async function generateTypes(context, forceDownloadSchema, withoutInit = false, decoupleFrontend = '') {
   let frontend = decoupleFrontend;
@@ -58,7 +59,8 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
         const target = cfg.amplifyExtension.codeGenTarget;
 
         const excludes = cfg.excludes.map(pattern => `!${pattern}`);
-        const queryFilePaths = globby.sync([...includeFiles, ...excludes].map((path) => path.replace(/\\/g, '/')), {
+        const normalizedPatterns = [...includeFiles, ...excludes].map((path) => normalizePathForGlobPattern(path));
+        const queryFilePaths = globby.sync(normalizedPatterns, {
           cwd: projectPath,
           absolute: true,
         });
