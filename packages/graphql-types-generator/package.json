@@ -1,6 +1,6 @@
 {
   "name": "@aws-amplify/graphql-types-generator",
-  "version": "3.4.5",
+  "version": "3.4.6",
   "description": "Generate API code or type annotations based on a GraphQL schema and statements",
   "repository": {
     "type": "git",
@@ -80,7 +80,10 @@
         "lines": 80
       }
     },
-    "coverageReporters": ["clover", "text"],
+    "coverageReporters": [
+      "clover",
+      "text"
+    ],
     "testURL": "http://localhost",
     "setupFilesAfterEnv": [
       "<rootDir>/test/test-utils/matchers.ts"

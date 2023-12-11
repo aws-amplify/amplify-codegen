@@ -1,6 +1,6 @@
 {
   "name": "@aws-amplify/graphql-generator",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "GraphQL API code generator",
   "repository": {
     "type": "git",
@@ -24,9 +24,9 @@
     "extract-api": "ts-node ../../scripts/extract-api.ts"
   },
   "dependencies": {
-    "@aws-amplify/appsync-modelgen-plugin": "2.8.0",
-    "@aws-amplify/graphql-docs-generator": "4.2.0",
-    "@aws-amplify/graphql-types-generator": "3.4.5",
+    "@aws-amplify/appsync-modelgen-plugin": "2.8.1",
+    "@aws-amplify/graphql-docs-generator": "4.2.1",
+    "@aws-amplify/graphql-types-generator": "3.4.6",
     "@graphql-codegen/core": "^2.6.6",
     "@graphql-tools/apollo-engine-loader": "^8.0.0",
     "graphql": "^15.5.0",
@@ -57,7 +57,10 @@
         "lines": 90
       }
     },
-    "coverageReporters": ["clover", "text"],
+    "coverageReporters": [
+      "clover",
+      "text"
+    ],
     "testRegex": "(src/__tests__/.*.test.ts)$",
     "globals": {
       "ts-jest": {
