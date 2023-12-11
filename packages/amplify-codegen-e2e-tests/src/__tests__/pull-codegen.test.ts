@@ -18,6 +18,7 @@ import {
   amplifyPullSandbox,
   getProjectSchema,
   AmplifyFrontend,
+  isWindows,
 } from '@aws-amplify/amplify-codegen-e2e-core';
 import { existsSync } from 'fs';
 import path from 'path';
@@ -71,18 +72,22 @@ describe('Amplify pull in amplify app with codegen tests', () => {
     });
 
     frontendConfigs.forEach(config => {
-      it(`should generate models and do not delete user files by amplify pull in an empty folder of ${config.frontendType} app`, async () => {
-        //generate pre existing user file
-        const userSourceCodePath = generateSourceCode(emptyProjectRoot, config.srcDir);
-        // Flutter projects need min dart version to be met for modelgen to succeed.
-        if (config?.frontendType === AmplifyFrontend.flutter) {
-          createPubspecLockFile(emptyProjectRoot);
-        };
-        //amplify pull in a new project
-        await amplifyPull(emptyProjectRoot, { emptyDir: true, appId, frontendConfig: config });
-        expect(existsSync(userSourceCodePath)).toBe(true);
-        expect(isNotEmptyDir(path.join(emptyProjectRoot, config.modelgenDir))).toBe(true);
-      });
+      // skip ios test on windows
+      (isWindows() && config.frontendType === 'ios' ? it.skip : it)(
+        `should generate models and do not delete user files by amplify pull in an empty folder of ${config.frontendType} app`,
+        async () => {
+          //generate pre existing user file
+          const userSourceCodePath = generateSourceCode(emptyProjectRoot, config.srcDir);
+          // Flutter projects need min dart version to be met for modelgen to succeed.
+          if (config?.frontendType === AmplifyFrontend.flutter) {
+            createPubspecLockFile(emptyProjectRoot);
+          }
+          //amplify pull in a new project
+          await amplifyPull(emptyProjectRoot, { emptyDir: true, appId, frontendConfig: config });
+          expect(existsSync(userSourceCodePath)).toBe(true);
+          expect(isNotEmptyDir(path.join(emptyProjectRoot, config.modelgenDir))).toBe(true);
+        },
+      );
     });
   });
 });
@@ -119,7 +124,7 @@ describe('Amplify pull in sandbox app with codegen tests', () => {
       // Flutter projects need min dart version to be met for modelgen to succeed.
       if (config?.frontendType === AmplifyFrontend.flutter) {
         createPubspecLockFile(projectRoot);
-      };
+      }
       //pull sandbox app
       await amplifyPullSandbox(projectRoot, {
         appType: config.frontendType,

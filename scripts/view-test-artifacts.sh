@@ -24,12 +24,11 @@ function downloadS3Artifact {
   E2E_ROLE_NAME=CodebuildDeveloper
   E2E_PROFILE_NAME=AmplifyAPIE2EProd
   authenticate $E2E_ACCOUNT_PROD $E2E_ROLE_NAME "$E2E_PROFILE_NAME"
-
   echo "Fetching artifact location from build"
   s3_arn=$(aws codebuild batch-get-builds --profile="$E2E_PROFILE_NAME" --ids "$1" --region us-east-1 --query 'builds[0].artifacts.location')
   # Have to remove double quote for arn
   s3_object_uri=$(convertArnToUri ${s3_arn//\"/})
-
+  echo $s3_object_uri
   echo "Downloading objects from S3 bucket..."
   aws s3 cp $s3_object_uri $2 --recursive --profile="$E2E_PROFILE_NAME"
   echo "Download complete. Files are saved in: $2"
@@ -42,7 +41,7 @@ function playTestArtifact {
     exit 1
   fi
 
-  local s3_object_uri=$1
+  local code_build_id=$1
   local temp_dir=$(mktemp -d) # Create a temporary directory
 
   trap "cleanup $temp_dir" SIGINT SIGTERM # Register cleanup function to handle Ctrl+C

@@ -1,1 +1,3 @@
 src/models
+src/graphql
+src/API.ts

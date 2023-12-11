@@ -160,6 +160,12 @@ function _verifyAPIExtract {
   yarn verify-api-extract
 }
 
+function _verifyDependencyLicensesExtract {
+  echo "Verify Dependency Licenses Extract"
+  loadCacheFromLinuxBuildJob
+  yarn verify-dependency-licenses-extract
+}
+
 function _lint {
   echo "Lint"
   loadCacheFromLinuxBuildJob
@@ -205,12 +211,21 @@ function _publishToLocalRegistry {
 }
 
 function _installCLIFromLocalRegistry {
+    environment="$1"
     echo "Start verdaccio, install CLI"
     source .codebuild/scripts/local_publish_helpers.sh
-    startLocalRegistry "$(pwd)/.codebuild/scripts/verdaccio.yaml"
+
+    # absolute paths do not work with verdaccio on windows
+    if [[ $environment == "windows" ]]; then
+      echo "Starting local registry for Windows"
+      startLocalRegistry .codebuild/scripts/verdaccio.yaml
+    else
+      echo "Starting local registry for Linux"
+      startLocalRegistry "$(pwd)/.codebuild/scripts/verdaccio.yaml"
+    fi
     setNpmRegistryUrlToLocal
     changeNpmGlobalPath
-    npm install -g @aws-amplify/cli-internal@cdk228withdata3
+    npm install -g @aws-amplify/cli-internal
     echo "using Amplify CLI version: "$(amplify --version)
     npm list -g --depth=1 | grep -e '@aws-amplify/amplify-category-api' -e 'amplify-codegen'
     unsetNpmRegistryUrl
@@ -235,18 +250,32 @@ function _setupE2ETestsLinux {
     echo "Setup E2E Tests Linux"
     loadCacheFromLinuxBuildJob
     loadCache verdaccio-cache $CODEBUILD_SRC_DIR/../verdaccio-cache
-    _installCLIFromLocalRegistry  
+    _installCLIFromLocalRegistry
     _loadTestAccountCredentials
     _setShell
 }
+
+function _setupE2ETestsWindows {
+    echo "Setup E2E Tests Windows"
+    loadCacheFromWindowsBuildJob
+    _installCLIFromLocalRegistry windows
+    _loadTestAccountCredentials
+    _setShell
+}
+
 
 function _runE2ETestsLinux {
     echo "RUN E2E Tests Linux"
     retry runE2eTest
 }
 
+function _runE2ETestsWindows {
+    echo "RUN E2E Tests Windows"
+    retry runE2eTest
+}
+
 function _scanArtifacts {
-    if ! yarn ts-node .codebuild/scripts/scan_artifacts.ts; then
+    if ! npx ts-node .codebuild/scripts/scan_artifacts.ts; then
         echo "Cleaning the repository"
         git clean -fdx
         exit 1
@@ -377,9 +406,9 @@ function runE2eTest {
     if [ -f  $FAILED_TEST_REGEX_FILE ]; then
         # read the content of failed tests
         failedTests=$(<$FAILED_TEST_REGEX_FILE)
-        yarn run e2e --maxWorkers=4 $TEST_SUITE -t "$failedTests"
+        npm run e2e --maxWorkers=4 $TEST_SUITE -t "$failedTests"
     else
-        yarn run e2e --maxWorkers=4 $TEST_SUITE
+        npm run e2e --maxWorkers=4 $TEST_SUITE
     fi
 }
 

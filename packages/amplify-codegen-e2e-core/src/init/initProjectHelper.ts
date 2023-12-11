@@ -8,7 +8,7 @@ const defaultSettings = {
   envName: 'integtest',
   editor: '\r',
   appType: '\r',
-  framework: '\r',
+  framework: 'none',
   srcDir: '\r',
   distDir: '\r',
   buildCmd: '\r',
@@ -21,6 +21,8 @@ const defaultSettings = {
   disableCIDetection: false,
   providerConfig: undefined,
 };
+
+const javaScriptFrameworkList = [ 'none', 'angular', 'ember', 'ionic', 'react', 'react-native', 'vue' ];
 
 export function initJSProjectWithProfile(cwd: string, settings: Object = {}): Promise<void> {
   const s = { ...defaultSettings, ...settings };
@@ -52,8 +54,11 @@ export function initJSProjectWithProfile(cwd: string, settings: Object = {}): Pr
       .sendLine(s.editor)
       .wait("Choose the type of app that you're building")
       .sendLine(s.appType)
-      .wait('What javascript framework are you using')
-      .sendLine(s.framework)
+      .wait('What javascript framework are you using');
+
+    singleSelect(chain, s.framework, javaScriptFrameworkList);
+
+    chain
       .wait('Source Directory Path:')
       .sendLine(s.srcDir)
       .wait('Distribution Directory Path:')
@@ -73,7 +78,7 @@ export function initJSProjectWithProfile(cwd: string, settings: Object = {}): Pr
     }
 
     chain
-      .wait('Help improve Amplify CLI by sharing non sensitive configurations on failures')
+      .wait('Help improve Amplify CLI by sharing non-sensitive project configurations on failures')
       .sendConfirmYes()
       .wait('Try "amplify add api" to create a backend API and then "amplify push" to deploy everything')
       .run((err: Error) => {
@@ -115,7 +120,7 @@ export function initAndroidProjectWithProfile(cwd: string, settings: Object): Pr
       .sendCarriageReturn()
       .wait('Please choose the profile you want to use')
       .sendLine(s.profileName)
-      .wait('Help improve Amplify CLI by sharing non sensitive configurations on failures')
+      .wait('Help improve Amplify CLI by sharing non-sensitive project configurations on failures')
       .sendConfirmYes()
       .wait('Try "amplify add api" to create a backend API and then "amplify push" to deploy everything')
       .run((err: Error) => {
@@ -152,23 +157,16 @@ export function initIosProjectWithProfile(cwd: string, settings: Object): Promis
       .wait('Choose your default editor:')
       .sendLine(s.editor)
       .wait("Choose the type of app that you're building")
-      .sendKeyDown(3)
-      .sendCarriageReturn()
+      .sendLine('ios')
       .wait('Select the authentication method you want to use:')
       .sendCarriageReturn()
       .wait('Please choose the profile you want to use')
       .sendLine(s.profileName)
-      .wait('Help improve Amplify CLI by sharing non sensitive configurations on failures')
+      .wait('Help improve Amplify CLI by sharing non-sensitive project configurations on failures')
       .sendConfirmYes()
       .wait('Try "amplify add api" to create a backend API and then "amplify push" to deploy everything')
-      .run((err: Error) => {
-        if (!err) {
-          addCITags(cwd);
-
-          resolve();
-        } else {
-          reject(err);
-        }
+      .run(() => {
+        resolve();
       });
   });
 }
@@ -201,7 +199,7 @@ export function initFlutterProjectWithProfile(cwd: string, settings: Object): Pr
     singleSelect(chain, s.region, amplifyRegions);
 
     chain
-      .wait('Help improve Amplify CLI by sharing non sensitive configurations on failures')
+      .wait('Help improve Amplify CLI by sharing non-sensitive project configurations on failures')
       .sendConfirmYes()
       .wait('Try "amplify add api" to create a backend API and then "amplify push" to deploy everything')
       .run((err: Error) => {

@@ -1,4 +1,4 @@
-import * as glob from 'glob';
+import { sync } from 'globby';
 import * as fs from 'fs-extra';
 import { join } from 'path';
 import * as yaml from 'js-yaml';
@@ -26,6 +26,7 @@ const RUN_SOLO = [];
 const EXCLUDE_TESTS = [
   'src/__tests__/build-app-swift.test.ts',
   'src/__tests__/build-app-android.test.ts',
+  'src/__tests__/codegen-matrix.test.ts',
 ];
 const DEBUG_FLAG = '--debug';
 
@@ -40,7 +41,7 @@ export function loadTestTimings(): { timingData: { test: string; medianRuntime: 
   return JSON.parse(fs.readFileSync(TEST_TIMINGS_PATH, 'utf-8'));
 }
 function getTestFiles(dir: string, pattern = 'src/**/*.test.ts'): string[] {
-  return glob.sync(pattern, { cwd: dir });
+  return sync(pattern, { cwd: dir });
 }
 type COMPUTE_TYPE = 'BUILD_GENERAL1_MEDIUM' | 'BUILD_GENERAL1_LARGE';
 type BatchBuildJob = {
@@ -71,7 +72,11 @@ type CandidateJob = {
   runSolo: boolean;
 };
 const createJob = (os: OS_TYPE, jobIdx: number, runSolo: boolean = false): CandidateJob => {
-  const region = AWS_REGIONS_TO_RUN_TESTS[jobIdx % AWS_REGIONS_TO_RUN_TESTS.length];
+  // The bash terminal for Windows on CodeBuild is non-interactive.
+  // amplify-configure will always choose us-east-1 for the region.
+  // This will set all Windows jobs to use us-east-1 to avoid region mismatch.
+  // We will come back to this later to properly fix the testing issue.
+  const region = os === 'w' ? 'us-east-1' : AWS_REGIONS_TO_RUN_TESTS[jobIdx % AWS_REGIONS_TO_RUN_TESTS.length];
   return {
     region,
     os,
@@ -92,6 +97,7 @@ const getTestNameFromPath = (testSuitePath: string): string => {
 };
 const splitTests = (
   baseJobLinux: any,
+  baseJobWindows: any,
   testDirectory: string,
   pickTests?: ((testSuites: string[]) => string[]),
 ) => {
@@ -148,46 +154,74 @@ const splitTests = (
     return [...osJobs, ...soloJobs];
   };
   const linuxJobs = generateJobsForOS('l');
-  const getIdentifier = (os: string, names: string) => {
-    const jobName = `${names.replace(/-/g, '_')}`.substring(0, 127);
-    return jobName;
-  };
+  const windowsJobs = generateJobsForOS('w');
   const result: any[] = [];
   linuxJobs.forEach((j) => {
     if (j.tests.length !== 0) {
-      const names = j.tests.map((tn) => getTestNameFromPath(tn)).join('_');
-      const tmp = {
-        ...JSON.parse(JSON.stringify(baseJobLinux)), // deep clone base job
-        identifier: getIdentifier(j.os, names),
-      };
-      tmp.env.variables = {};
-      tmp.env.variables.TEST_SUITE = j.tests.join('|');
-      tmp.env.variables.CLI_REGION = j.region;
-      if (j.useParentAccount) {
-        tmp.env.variables.USE_PARENT_ACCOUNT = 1;
-      }
-      if (j.runSolo) {
-        tmp.env['compute-type'] = 'BUILD_GENERAL1_LARGE';
-      }
-      result.push(tmp);
+      result.push(basicE2EJob(j, baseJobLinux));
     }
   });
+  windowsJobs.forEach((j) => {
+    if (j.tests.length !== 0) {
+      result.push(basicE2EJob(j, baseJobWindows));
+    }
+  });
+
   return result;
+};
+
+function basicE2EJob(inputJob: any, baseJob: string) {
+  const names = inputJob.tests.map((tn) => getTestNameFromPath(tn)).join('_');
+  const job = {
+    ...JSON.parse(JSON.stringify(baseJob)), // deep clone base job
+    identifier: getIdentifier(inputJob.os, names),
+  };
+  job.env.variables = {};
+  job.env.variables.TEST_SUITE = inputJob.tests.join('|');
+  job.env.variables.CLI_REGION = inputJob.region;
+  if (inputJob.tests.includes('src/__tests__/build-app-ts.test.ts')) {
+    job.env.variables.DISABLE_ESLINT_PLUGIN = true;
+  }
+  if (inputJob.useParentAccount) {
+    job.env.variables.USE_PARENT_ACCOUNT = 1;
+  }
+  if (inputJob.runSolo) {
+    job.env['compute-type'] = 'BUILD_GENERAL1_LARGE';
+  }
+  return job;
+}
+
+function getIdentifier(os: string, names: string) {
+  const jobName = `${os}_${names.replace(/-/g, '_')}`.substring(0, 127);
+  return jobName;
 };
 
 function main(): void {
   const filteredTests = process.argv.slice(2);
   const configBase: any = loadConfigBase();
   const baseBuildGraph = configBase.batch['build-graph'];
-  const splitE2ETests = splitTests(
-    {
-      identifier: 'run_e2e_tests',
-      buildspec: '.codebuild/run_e2e_tests.yml',
-      env: {
-        'compute-type': 'BUILD_GENERAL1_LARGE',
-      },
-      'depend-on': ['publish_to_local_registry'],
+  const baseJobLinux = {
+    identifier: 'run_e2e_tests',
+    buildspec: '.codebuild/run_e2e_tests.yml',
+    env: {
+      'compute-type': 'BUILD_GENERAL1_LARGE',
     },
+    'depend-on': ['publish_to_local_registry'],
+  };
+  const baseJobWindows = {
+    identifier: 'run_e2e_tests',
+    buildspec: '.codebuild/run_e2e_tests_windows.yml',
+    env: {
+      'compute-type': 'BUILD_GENERAL1_LARGE',
+      image: '$WINDOWS_IMAGE_2019',
+      type: 'WINDOWS_SERVER_2019_CONTAINER',
+    },
+    'depend-on': ['publish_to_local_registry', 'build_windows'],
+  };
+
+  const splitE2ETests = splitTests(
+    baseJobLinux,
+    baseJobWindows,
     join(REPO_ROOT, 'packages', 'amplify-codegen-e2e-tests'),
     (testSuites) => testSuites.filter((ts) => !EXCLUDE_TESTS.includes(ts)),
   );

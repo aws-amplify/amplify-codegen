@@ -27,7 +27,7 @@
     "@graphql-codegen/core": "2.6.6",
     "chalk": "^3.0.0",
     "fs-extra": "^8.1.0",
-    "glob-all": "^3.1.0",
+    "globby": "^11.1.0",
     "glob-parent": "^6.0.2",
     "graphql": "^15.5.0",
     "graphql-config": "^2.2.1",
@@ -51,6 +51,7 @@
         "lines": 72
       }
     },
+    "coverageReporters": ["clover", "text"],
     "testURL": "http://localhost",
     "testRegex": "((\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [

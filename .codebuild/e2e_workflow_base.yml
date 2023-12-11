@@ -36,6 +36,12 @@ batch:
         compute-type: BUILD_GENERAL1_MEDIUM
       depend-on:
         - build_linux
+    - identifier: verify_dependency_licenses_extract
+      buildspec: .codebuild/verify_dependency_licenses_extract.yml
+      env:
+        compute-type: BUILD_GENERAL1_MEDIUM
+      depend-on:
+        - build_linux
     - identifier: publish_to_local_registry
       buildspec: .codebuild/publish_to_local_registry.yml
       env:
@@ -59,6 +65,16 @@ batch:
         variables:
           TEST_SUITE: src/__tests__/build-app-android.test.ts
           CLI_REGION: us-east-2
+      debug-session: true
+      depend-on:
+        - publish_to_local_registry
+    - identifier: codegen_matrix
+      buildspec: .codebuild/run_e2e_tests.yml
+      env:
+        compute-type: BUILD_GENERAL1_LARGE
+        variables:
+          TEST_SUITE: src/__tests__/codegen-matrix.test.ts
+          CLI_REGION: ap-southeast-2
       debug-session: true
       depend-on:
         - publish_to_local_registry

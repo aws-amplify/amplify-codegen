@@ -22,7 +22,7 @@ const schema = 'simple_model.graphql';
 
 describe('codegen add tests - JS', () => {
     let projectRoot: string;
-    const config = DEFAULT_JS_CONFIG;
+    let config = DEFAULT_JS_CONFIG;
 
     beforeEach(async () => {
         projectRoot = await createNewProjectDir('addCodegenJS');

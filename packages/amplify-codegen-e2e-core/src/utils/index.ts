@@ -23,6 +23,8 @@ export * from './transformConfig';
 export * from './admin-ui';
 export * from './frontend-config-helper';
 export * from './graphql-config-helper';
+export * from './getCommandPath';
+export * from './isWindows';
 
 // run dotenv config to update env variable
 config();
