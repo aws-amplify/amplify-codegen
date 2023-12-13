@@ -6,6 +6,9 @@
   models: SchemaModels;
   nonModels: SchemaNonModels;
   enums: SchemaEnums;
+  queries?: SchemaQueries;
+  mutations?: SchemaMutations;
+  subscriptions?: SchemaSubscriptions;
 };
 /**
  * Top-level Entities on a Schema
@@ -13,6 +16,9 @@
 export type SchemaModels = Record<string, SchemaModel>;
 export type SchemaNonModels = Record<string, SchemaNonModel>;
 export type SchemaEnums = Record<string, SchemaEnum>;
+export type SchemaQueries = Record<string, SchemaQuery>;
+export type SchemaMutations = Record<string, SchemaMutation>;
+export type SchemaSubscriptions = Record<string, SchemaSubscription>;
 
 export type SchemaModel = {
   name: string;
@@ -30,6 +36,9 @@ export type SchemaEnum = {
   name: string;
   values: string[];
 };
+export type SchemaQuery = Pick<Field, 'name' | 'type' | 'isArray' | 'isRequired' | 'isArrayNullable' | 'arguments'>;
+export type SchemaMutation = SchemaQuery;
+export type SchemaSubscription = SchemaQuery;
 
 export type ModelAttribute = { type: string; properties?: {[key: string]: any} };
 /**
@@ -45,6 +54,7 @@ export type Field = {
   isArrayNullable?: boolean;
   attributes?: FieldAttribute[];
   association?: AssociationType;
+  arguments?: Arguments;
 };
 export type FieldType = 'ID'
   | 'String'
@@ -99,3 +109,11 @@ export type PrimaryKeyInfo = {
   primaryKeyFieldName: string;
   sortKeyFieldNames: string[];
 };
+export type Arguments = Record<string, Argument>;
+export type Argument = {
+  name: string;
+  type: FieldType;
+  isArray: boolean;
+  isRequired: boolean;
+  isArrayNullable?: boolean;
+}

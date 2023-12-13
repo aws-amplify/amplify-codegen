@@ -14,6 +14,15 @@
         },
         "enums": {
             "$ref": "#/definitions/SchemaEnums"
+        },
+        "queries": {
+            "$ref": "#/definitions/SchemaQueries"
+        },
+        "mutations": {
+            "$ref": "#/definitions/SchemaMutations"
+        },
+        "subscriptions": {
+            "$ref": "#/definitions/SchemaSubscriptions"
         }
     },
     "required": [
@@ -122,6 +131,9 @@
                 },
                 "association": {
                     "$ref": "#/definitions/AssociationType"
+                },
+                "arguments": {
+                    "$ref": "#/definitions/Arguments"
                 }
             },
             "required": [
@@ -317,6 +329,42 @@
                 "targetNames"
             ]
         },
+        "Arguments": {
+            "$ref": "#/definitions/Record%3Cstring%2CArgument%3E"
+        },
+        "Record<string,Argument>": {
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/definitions/Argument"
+            }
+        },
+        "Argument": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/FieldType"
+                },
+                "isArray": {
+                    "type": "boolean"
+                },
+                "isRequired": {
+                    "type": "boolean"
+                },
+                "isArrayNullable": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "isArray",
+                "isRequired"
+            ],
+            "additionalProperties": false
+        },
         "PrimaryKeyInfo": {
             "type": "object",
             "properties": {
@@ -392,6 +440,72 @@
                 "values"
             ],
             "additionalProperties": false
+        },
+        "SchemaQueries": {
+            "$ref": "#/definitions/Record%3Cstring%2CSchemaQuery%3E"
+        },
+        "Record<string,SchemaQuery>": {
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/definitions/SchemaQuery"
+            }
+        },
+        "SchemaQuery": {
+            "$ref": "#/definitions/Pick%3CField%2C(%22name%22%7C%22type%22%7C%22isArray%22%7C%22isRequired%22%7C%22isArrayNullable%22%7C%22arguments%22)%3E"
+        },
+        "Pick<Field,(\"name\"|\"type\"|\"isArray\"|\"isRequired\"|\"isArrayNullable\"|\"arguments\")>": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/FieldType"
+                },
+                "isArray": {
+                    "type": "boolean"
+                },
+                "isRequired": {
+                    "type": "boolean"
+                },
+                "isArrayNullable": {
+                    "type": "boolean"
+                },
+                "arguments": {
+                    "$ref": "#/definitions/Arguments"
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "isArray",
+                "isRequired"
+            ],
+            "additionalProperties": false
+        },
+        "SchemaMutations": {
+            "$ref": "#/definitions/Record%3Cstring%2CSchemaMutation%3E"
+        },
+        "Record<string,SchemaMutation>": {
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/definitions/SchemaMutation"
+            }
+        },
+        "SchemaMutation": {
+            "$ref": "#/definitions/SchemaQuery"
+        },
+        "SchemaSubscriptions": {
+            "$ref": "#/definitions/Record%3Cstring%2CSchemaSubscription%3E"
+        },
+        "Record<string,SchemaSubscription>": {
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/definitions/SchemaSubscription"
+            }
+        },
+        "SchemaSubscription": {
+            "$ref": "#/definitions/SchemaQuery"
         }
     }
 }

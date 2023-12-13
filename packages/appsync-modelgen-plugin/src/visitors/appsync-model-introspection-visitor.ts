@@ -1,9 +1,9 @@
 import { DEFAULT_SCALARS, NormalizedScalarsMap } from "@graphql-codegen/visitor-plugin-common";
 import { GraphQLSchema } from "graphql";
-import { AssociationType, Field, Fields, FieldType, ModelAttribute, ModelIntrospectionSchema, PrimaryKeyInfo, SchemaEnum, SchemaModel, SchemaNonModel } from "../interfaces/introspection";
+import { Argument, AssociationType, Field, Fields, FieldType, ModelAttribute, ModelIntrospectionSchema, PrimaryKeyInfo, SchemaEnum, SchemaModel, SchemaMutation, SchemaNonModel, SchemaQuery, SchemaSubscription } from "../interfaces/introspection";
 import { METADATA_SCALAR_MAP } from "../scalars";
 import { CodeGenConnectionType } from "../utils/process-connections";
-import { RawAppSyncModelConfig, ParsedAppSyncModelConfig, AppSyncModelVisitor, CodeGenEnum, CodeGenField, CodeGenModel, CodeGenPrimaryKeyType } from "./appsync-visitor";
+import { RawAppSyncModelConfig, ParsedAppSyncModelConfig, AppSyncModelVisitor, CodeGenEnum, CodeGenField, CodeGenModel, CodeGenPrimaryKeyType, CodeGenQuery, CodeGenSubscription, CodeGenMutation } from "./appsync-visitor";
 import fs from 'fs';
 import path from 'path';
 import Ajv from 'ajv';
@@ -47,7 +47,7 @@ export class AppSyncModelIntrospectionVisitor<
   }
 
   protected generateModelIntrospectionSchema(): ModelIntrospectionSchema {
-    const result: ModelIntrospectionSchema = {
+    let result: ModelIntrospectionSchema = {
       version: this.introspectionVersion,
       models: {},
       enums: {},
@@ -63,7 +63,26 @@ export class AppSyncModelIntrospectionVisitor<
     const enums = Object.values(this.enumMap).reduce((acc, enumObj) => {
       return { ...acc, [this.getEnumName(enumObj)]: this.generateEnumMetadata(enumObj) };
     }, {});
-    return { ...result, models, nonModels, enums };
+    result = { ...result, models, nonModels, enums };
+    const queries = Object.values(this.queryMap).reduce((acc, queryObj: CodeGenQuery) => {
+      return { ...acc, [queryObj.name]: this.generateGraphQLOperationMetadata<CodeGenQuery, SchemaQuery>(queryObj) };
+    }, {})
+    const mutations = Object.values(this.mutationMap).reduce((acc, mutationObj: CodeGenMutation) => {
+      return { ...acc, [mutationObj.name]: this.generateGraphQLOperationMetadata<CodeGenMutation, SchemaMutation>(mutationObj) };
+    }, {});
+    const subscriptions = Object.values(this.subscriptionMap).reduce((acc, subscriptionObj: CodeGenSubscription) => {
+      return { ...acc, [subscriptionObj.name]: this.generateGraphQLOperationMetadata<CodeGenSubscription, SchemaSubscription>(subscriptionObj) };
+    }, {})
+    if(Object.keys(queries).length > 0) {
+      result = { ...result, queries };
+    }
+    if(Object.keys(mutations).length > 0) {
+      result = { ...result, mutations };
+    }
+    if(Object.keys(subscriptions).length > 0) {
+      result = { ...result, subscriptions };
+    }
+    return result;
   }
 
   private getFieldAssociation(field: CodeGenField): AssociationType | void {
@@ -132,6 +151,37 @@ export class AppSyncModelIntrospectionVisitor<
       name: enumObj.name,
       values: Object.values(enumObj.values),
     };
+  }
+  /**
+   * Generate GraqhQL operation (query/mutation/subscription) metadata in model introspection schema from the codegen MIPR
+   * @param operationObj operation object
+   * @returns operation metadata in model introspection schema
+   */
+  private generateGraphQLOperationMetadata<T extends CodeGenField, V extends Field>(operationObj: T): V {
+    const operationMeta = {
+      name: operationObj.name,
+      isArray: operationObj.isList,
+      type: this.getType(operationObj.type),
+      isRequired: !operationObj.isNullable,
+    }
+    if (operationObj.isListNullable !== undefined) {
+      (operationMeta as V).isArrayNullable = operationObj.isListNullable;
+    }
+    if (operationObj.parameters && operationObj.parameters.length > 0) {
+      (operationMeta as V).arguments = operationObj.parameters.reduce((acc, param ) => {
+        const arg: Argument = {
+          name: param.name,
+          isArray: param.isList,
+          type: this.getType(param.type),
+          isRequired: !param.isNullable
+        };
+        if (param.isListNullable !== undefined) {
+          arg.isArrayNullable = param.isListNullable;
+        }
+        return { ...acc, [param.name]: arg };
+      }, {})
+    }
+    return operationMeta as V;
   }
 
   protected getType(gqlType: string): FieldType {
