@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.7.3](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.7.2...amplify-codegen@4.7.3) (2023-12-11)
+
+### Bug Fixes
+
+- normalize patterns to match ([32c6271](https://github.com/aws-amplify/amplify-codegen/commit/32c627198400101f24f2cfd1ed1545042b644df5))
+
 ## [4.7.2](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.7.1...amplify-codegen@4.7.2) (2023-10-20)
 
 ### Bug Fixes

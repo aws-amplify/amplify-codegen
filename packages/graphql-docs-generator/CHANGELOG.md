@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-docs-generator@4.2.0...@aws-amplify/graphql-docs-generator@4.2.1) (2023-12-11)
+
+**Note:** Version bump only for package @aws-amplify/graphql-docs-generator
+
 # [4.2.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-docs-generator@4.1.0...@aws-amplify/graphql-docs-generator@4.2.0) (2023-09-12)
 
 ### Features

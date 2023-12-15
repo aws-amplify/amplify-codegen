@@ -1,4 +1,4 @@
-const { sync } = require('glob-all');
+const globby = require('globby');
 const path = require('path');
 const { generateTypes: generateTypesHelper } = require('@aws-amplify/graphql-generator');
 const fs = require('fs-extra');
@@ -19,7 +19,7 @@ const MOCK_CONTEXT = {
   },
 };
 
-jest.mock('glob-all');
+jest.mock('globby');
 jest.mock('@aws-amplify/graphql-generator');
 jest.mock('@aws-amplify/graphql-types-generator');
 jest.mock('../../src/codegen-config');
@@ -47,7 +47,7 @@ const MOCK_PROJECT = {
     region: MOCK_REGION,
   },
 };
-sync.mockReturnValue(MOCK_QUERIES);
+globby.sync.mockReturnValue(MOCK_QUERIES);
 const MOCK_APIS = [
   {
     id: MOCK_API_ID,
@@ -80,7 +80,7 @@ describe('command - types', () => {
     await generateTypes(MOCK_CONTEXT, forceDownload);
     expect(getFrontEndHandler).toHaveBeenCalledWith(MOCK_CONTEXT);
     expect(loadConfig).toHaveBeenCalledWith(MOCK_CONTEXT, false);
-    expect(sync).toHaveBeenCalledWith([MOCK_INCLUDE_PATH, `!${MOCK_EXCLUDE_PATH}`], {
+    expect(globby.sync).toHaveBeenCalledWith([MOCK_INCLUDE_PATH, `!${MOCK_EXCLUDE_PATH}`], {
       cwd: MOCK_PROJECT_ROOT,
       absolute: true,
     });
@@ -154,13 +154,13 @@ describe('command - types', () => {
     MOCK_PROJECT.includes = [];
     await generateTypes(MOCK_CONTEXT, true);
     expect(generateTypesHelper).not.toHaveBeenCalled();
-    expect(sync).not.toHaveBeenCalled();
+    expect(globby.sync).not.toHaveBeenCalled();
   });
 
   it('should not generate type when generatedFileName is missing', async () => {
     MOCK_PROJECT.amplifyExtension.generatedFileName = '';
     await generateTypes(MOCK_CONTEXT, true);
     expect(generateTypesHelper).not.toHaveBeenCalled();
-    expect(sync).not.toHaveBeenCalled();
+    expect(globby.sync).not.toHaveBeenCalled();
   });
 });
