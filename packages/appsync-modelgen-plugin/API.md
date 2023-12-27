@@ -26,6 +26,18 @@ export interface AppSyncModelPluginConfig extends RawDocumentsConfig {
 }
 
 // @public (undocumented)
+export type Argument = {
+    name: string;
+    type: FieldType;
+    isArray: boolean;
+    isRequired: boolean;
+    isArrayNullable?: boolean;
+};
+
+// @public (undocumented)
+export type Arguments = Record<string, Argument>;
+
+// @public (undocumented)
 export type AssociationBaseType = {
     connectionType: CodeGenConnectionType;
 };
@@ -72,6 +84,7 @@ export type Field = {
     isArrayNullable?: boolean;
     attributes?: FieldAttribute[];
     association?: AssociationType;
+    arguments?: Arguments;
 };
 
 // @public (undocumented)
@@ -103,6 +116,9 @@ export type ModelIntrospectionSchema = {
     models: SchemaModels;
     nonModels: SchemaNonModels;
     enums: SchemaEnums;
+    queries?: SchemaQueries;
+    mutations?: SchemaMutations;
+    subscriptions?: SchemaSubscriptions;
 };
 
 // Warning: (ae-forgotten-export) The symbol "RawAppSyncModelConfig" needs to be exported by the entry point index.d.ts
@@ -143,6 +159,12 @@ export type SchemaModel = {
 export type SchemaModels = Record<string, SchemaModel>;
 
 // @public (undocumented)
+export type SchemaMutation = SchemaQuery;
+
+// @public (undocumented)
+export type SchemaMutations = Record<string, SchemaMutation>;
+
+// @public (undocumented)
 export type SchemaNonModel = {
     name: string;
     fields: Fields;
@@ -150,6 +172,18 @@ export type SchemaNonModel = {
 
 // @public (undocumented)
 export type SchemaNonModels = Record<string, SchemaNonModel>;
+
+// @public (undocumented)
+export type SchemaQueries = Record<string, SchemaQuery>;
+
+// @public (undocumented)
+export type SchemaQuery = Pick<Field, 'name' | 'type' | 'isArray' | 'isRequired' | 'isArrayNullable' | 'arguments'>;
+
+// @public (undocumented)
+export type SchemaSubscription = SchemaQuery;
+
+// @public (undocumented)
+export type SchemaSubscriptions = Record<string, SchemaSubscription>;
 
 // @public (undocumented)
 export type Target = 'java' | 'swift' | 'javascript' | 'typescript' | 'dart' | 'introspection';

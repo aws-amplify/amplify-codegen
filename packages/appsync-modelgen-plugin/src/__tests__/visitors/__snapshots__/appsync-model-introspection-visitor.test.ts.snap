@@ -1612,6 +1612,179 @@ exports[`Custom primary key tests should generate correct model intropection fil
 }"
 `;
 
+exports[`Custom queries/mutations/subscriptions tests should generate correct metadata for custom queries/mutations/subscriptions in model introspection schema 1`] = `
+"{
+    \\"version\\": 1,
+    \\"models\\": {
+        \\"Todo\\": {
+            \\"name\\": \\"Todo\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"name\\": {
+                    \\"name\\": \\"name\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"description\\": {
+                    \\"name\\": \\"description\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Todos\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        }
+    },
+    \\"enums\\": {},
+    \\"nonModels\\": {
+        \\"Phone\\": {
+            \\"name\\": \\"Phone\\",
+            \\"fields\\": {
+                \\"number\\": {
+                    \\"name\\": \\"number\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                }
+            }
+        }
+    },
+    \\"queries\\": {
+        \\"echo\\": {
+            \\"name\\": \\"echo\\",
+            \\"isArray\\": false,
+            \\"type\\": \\"String\\",
+            \\"isRequired\\": false,
+            \\"arguments\\": {
+                \\"msg\\": {
+                    \\"name\\": \\"msg\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false
+                }
+            }
+        },
+        \\"echo2\\": {
+            \\"name\\": \\"echo2\\",
+            \\"isArray\\": false,
+            \\"type\\": {
+                \\"model\\": \\"Todo\\"
+            },
+            \\"isRequired\\": false,
+            \\"arguments\\": {
+                \\"todoId\\": {
+                    \\"name\\": \\"todoId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true
+                }
+            }
+        },
+        \\"echo3\\": {
+            \\"name\\": \\"echo3\\",
+            \\"isArray\\": true,
+            \\"type\\": {
+                \\"model\\": \\"Todo\\"
+            },
+            \\"isRequired\\": false,
+            \\"isArrayNullable\\": true
+        },
+        \\"echo4\\": {
+            \\"name\\": \\"echo4\\",
+            \\"isArray\\": false,
+            \\"type\\": {
+                \\"nonModel\\": \\"Phone\\"
+            },
+            \\"isRequired\\": false,
+            \\"arguments\\": {
+                \\"number\\": {
+                    \\"name\\": \\"number\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false
+                }
+            }
+        }
+    },
+    \\"mutations\\": {
+        \\"mutate\\": {
+            \\"name\\": \\"mutate\\",
+            \\"isArray\\": false,
+            \\"type\\": {
+                \\"model\\": \\"Todo\\"
+            },
+            \\"isRequired\\": false,
+            \\"arguments\\": {
+                \\"msg\\": {
+                    \\"name\\": \\"msg\\",
+                    \\"isArray\\": true,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"isArrayNullable\\": false
+                }
+            }
+        }
+    },
+    \\"subscriptions\\": {
+        \\"onMutate\\": {
+            \\"name\\": \\"onMutate\\",
+            \\"isArray\\": true,
+            \\"type\\": {
+                \\"model\\": \\"Todo\\"
+            },
+            \\"isRequired\\": true,
+            \\"isArrayNullable\\": true,
+            \\"arguments\\": {
+                \\"msg\\": {
+                    \\"name\\": \\"msg\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false
+                }
+            }
+        }
+    }
+}"
+`;
+
 exports[`Model Introspection Visitor Metadata snapshot should generate correct model intropection file validated by JSON schema 1`] = `
 "{
     \\"version\\": 1,
