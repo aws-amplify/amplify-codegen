@@ -965,6 +965,20 @@ export class AppSyncModelVisitor<
         value[1].model,
         graphqlName(toUpper(value[0].directive.arguments.relationName)),
       );
+
+      const extractedAuthDirectives = [...value[0].model.directives, ...value[1].model.directives]
+        .filter(directive => directive.name === 'auth');
+
+      const serializedDirectives = extractedAuthDirectives.map(directive => JSON.stringify(directive));
+
+      const uniqueSerializedDirectives = serializedDirectives.filter((serializedDirective, index, array) =>
+        array.indexOf(serializedDirective) === index
+      );
+
+      const authDirectives = uniqueSerializedDirectives.map(serializedDirective => JSON.parse(serializedDirective));
+
+      intermediateModel.directives = [...intermediateModel.directives, ...authDirectives];
+
       const modelDirective = intermediateModel.directives.find(directive => directive.name === 'model');
       if (modelDirective) {
         // Maps @primaryKey and @index of intermediate model to old @key
