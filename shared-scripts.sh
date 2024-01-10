@@ -7,7 +7,7 @@ set -e
 export MSYS_NO_PATHCONV=1
 export MSYS2_ARG_CONV_EXCL="*"
 
-# storeCache <local path> <cache location>
+# storeCache <local path> <cache location> <os type>
 function storeCache {
   localPath="$1"
   alias="$2"
@@ -38,7 +38,7 @@ function storeCache {
   cd $CODEBUILD_SRC_DIR
 }
 
-# loadCache <cache location> <local path>
+# loadCache <cache location> <local path> <os type>
 function loadCache {
   alias="$1"
   localPath="$2"
@@ -258,6 +258,7 @@ function _setupE2ETestsLinux {
 function _setupE2ETestsWindows {
     echo "Setup E2E Tests Windows"
     loadCacheFromWindowsBuildJob
+    loadCache verdaccio-cache $CODEBUILD_SRC_DIR/../verdaccio-cache windows
     _installCLIFromLocalRegistry windows
     _loadTestAccountCredentials
     _setShell
