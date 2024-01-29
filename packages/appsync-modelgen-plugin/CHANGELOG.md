@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.9.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.8.1...@aws-amplify/appsync-modelgen-plugin@2.9.0) (2024-01-29)
+
+### Features
+
+- **introspection:** add metadata for custom GraphQL operations ([#771](https://github.com/aws-amplify/amplify-codegen/issues/771)) ([98b4243](https://github.com/aws-amplify/amplify-codegen/commit/98b424378dead8b1419037c304f7b5fec18a6349))
+
 ## [2.8.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.8.0...@aws-amplify/appsync-modelgen-plugin@2.8.1) (2023-12-11)
 
 **Note:** Version bump only for package @aws-amplify/appsync-modelgen-plugin
