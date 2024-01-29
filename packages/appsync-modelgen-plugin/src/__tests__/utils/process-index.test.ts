@@ -246,7 +246,7 @@ describe('processIndex', () => {
         arguments: {
           name: 'testModelsByConnectionFieldAndSortField',
           fields: ['connectionField', 'sortField'],
-          queryField: undefined, 
+          queryField: undefined,
         },
       },
       {

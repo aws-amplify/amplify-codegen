@@ -20,6 +20,7 @@ import {
   ObjectTypeDefinitionNode,
   parse,
   valueFromASTUntyped,
+  InputValueDefinitionNode,
 } from 'graphql';
 import { addFieldToModel, getModelPrimaryKeyComponentFields, removeFieldFromModel, toCamelCase } from '../utils/fieldUtils';
 import { getTypeInfo } from '../utils/get-type-info';
@@ -186,10 +187,17 @@ export type CodeGenFieldDirective = CodeGenDirective & {
   fieldName: string;
 };
 
+export type CodeGenInputValue = TypeInfo & {
+  name: string;
+  directives: CodeGenDirectives;
+}
+
 export type CodeGenDirectives = CodeGenDirective[];
+export type CodeGenInputValues = CodeGenInputValue[];
 export type CodeGenField = TypeInfo & {
   name: string;
   directives: CodeGenDirectives;
+  parameters?: CodeGenInputValues;
   connectionInfo?: CodeGenFieldConnection;
   isReadOnly?: boolean;
   primaryKeyInfo?: CodeGenPrimaryKeyFieldInfo;
@@ -230,6 +238,20 @@ export type CodeGenEnumValueMap = { [enumConvertedName: string]: string };
 
 export type CodeGenEnumMap = Record<string, CodeGenEnum>;
 
+// Types for custom query/mutation/subscription
+export type CodeGenQuery = CodeGenField & {
+  operationType: 'query';
+};
+export type CodeGenQueryMap = Record<string, CodeGenQuery>;
+export type CodeGenMutation = CodeGenField & {
+  operationType: 'mutation';
+};
+export type CodeGenMutationMap = Record<string, CodeGenMutation>;
+export type CodeGenSubscription = CodeGenField & {
+  operationType: 'subscription';
+};
+export type CodeGenSubscriptionMap = Record<string, CodeGenSubscription>;
+
 // Used to simplify processing of manyToMany into composing directives hasMany and belongsTo
 type ManyToManyContext = {
   model: CodeGenModel;
@@ -246,6 +268,9 @@ export class AppSyncModelVisitor<
   protected modelMap: CodeGenModelMap = {};
   protected nonModelMap: CodeGenModelMap = {};
   protected enumMap: CodeGenEnumMap = {};
+  protected queryMap: CodeGenQueryMap = {};
+  protected mutationMap: CodeGenMutationMap = {};
+  protected subscriptionMap: CodeGenSubscriptionMap = {};
   protected typesToSkip: string[] = [];
   constructor(
     protected _schema: GraphQLSchema,
@@ -278,15 +303,12 @@ export class AppSyncModelVisitor<
       });
     }
 
-    this.typesToSkip = [this._schema.getQueryType(), this._schema.getMutationType(), this._schema.getSubscriptionType()]
-      .filter(t => t)
-      .map(t => (t && t.name) || '');
+    this.typesToSkip = [];
     this.typesToSkip.push(...typesUsedInDirectives);
   }
 
   ObjectTypeDefinition(node: ObjectTypeDefinitionNode, index?: string | number, parent?: any) {
     if (this.typesToSkip.includes(node.name.value)) {
-      // Skip Query, mutation and subscription type
       return;
     }
     const directives = this.getDirectives(node.directives);
@@ -311,7 +333,32 @@ export class AppSyncModelVisitor<
       this.addTimestampFields(model, modelDirective);
       this.sortFields(model);
       this.modelMap[node.name.value] = model;
-    } else {
+    }
+    else if (node.name.value ===  this._schema.getQueryType()?.name) {
+      fields.forEach(field => {
+        this.queryMap[field.name] = {
+          ...field,
+          operationType: 'query',
+        }
+      });
+    }
+    else if (node.name.value ===  this._schema.getMutationType()?.name) {
+      fields.forEach(field => {
+        this.mutationMap[field.name] = {
+          ...field,
+          operationType: 'mutation',
+        }
+      });
+    }
+    else if (node.name.value ===  this._schema.getSubscriptionType()?.name) {
+      fields.forEach(field => {
+        this.subscriptionMap[field.name] = {
+          ...field,
+          operationType: 'subscription',
+        }
+      });
+    }
+    else {
       const nonModel: CodeGenModel = {
         name: node.name.value,
         type: 'model',
@@ -324,11 +371,22 @@ export class AppSyncModelVisitor<
 
   FieldDefinition(node: FieldDefinitionNode): CodeGenField {
     const directive = this.getDirectives(node.directives);
+    const parameters = ((node.arguments as unknown) as CodeGenInputValue[]) ?? [];
     return {
       name: node.name.value,
       directives: directive,
       ...getTypeInfo(node.type, this._schema),
+      parameters,
     };
+  }
+
+  InputValueDefinition(node: InputValueDefinitionNode): CodeGenInputValue {
+    const directives = this.getDirectives(node.directives);
+    return {
+      name: node.name.value,
+      directives,
+      ...getTypeInfo(node.type, this._schema),
+    }
   }
 
   EnumTypeDefinition(node: EnumTypeDefinitionNode): void {
@@ -907,6 +965,20 @@ export class AppSyncModelVisitor<
         value[1].model,
         graphqlName(toUpper(value[0].directive.arguments.relationName)),
       );
+
+      const extractedAuthDirectives = [...value[0].model.directives, ...value[1].model.directives]
+        .filter(directive => directive.name === 'auth');
+
+      const serializedDirectives = extractedAuthDirectives.map(directive => JSON.stringify(directive));
+
+      const uniqueSerializedDirectives = serializedDirectives.filter((serializedDirective, index, array) =>
+        array.indexOf(serializedDirective) === index
+      );
+
+      const authDirectives = uniqueSerializedDirectives.map(serializedDirective => JSON.parse(serializedDirective));
+
+      intermediateModel.directives = [...intermediateModel.directives, ...authDirectives];
+
       const modelDirective = intermediateModel.directives.find(directive => directive.name === 'model');
       if (modelDirective) {
         // Maps @primaryKey and @index of intermediate model to old @key

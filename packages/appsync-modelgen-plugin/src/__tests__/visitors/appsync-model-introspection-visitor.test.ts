@@ -273,3 +273,32 @@ describe('schemas with pk on a belongsTo fk', () => {
     }).generate()).toMatchSnapshot();
   });
 });
+
+describe('Custom queries/mutations/subscriptions tests', () => {
+  const schema = /* GraphQL */ `
+    type Todo @model {
+      id: ID!
+      name: String!
+      description: String
+    }
+    type Phone {
+      number: String
+    }
+    type Query {
+      echo(msg: String): String
+      echo2(todoId: ID!): Todo
+      echo3: [Todo]
+      echo4(number: String): Phone
+    }
+    type Mutation {
+      mutate(msg: [String!]!): Todo
+    }
+    type Subscription {
+      onMutate(msg: String): [Todo!]
+    }
+  `;
+  it('should generate correct metadata for custom queries/mutations/subscriptions in model introspection schema', () => {
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(visitor.generate()).toMatchSnapshot();
+  });
+});

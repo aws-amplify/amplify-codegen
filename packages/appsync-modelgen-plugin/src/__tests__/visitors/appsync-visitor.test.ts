@@ -188,7 +188,7 @@ describe('AppSyncModelVisitor', () => {
     expect(notRequiredVersion).not.toBe(requiredVersion);
   });
 
-  describe(' 2 Way Connection', () => {
+  describe('2 Way Connection', () => {
     describe('with connection name', () => {
       const schema = /* GraphQL */ `
         type Post @model {
@@ -985,6 +985,51 @@ describe('AppSyncModelVisitor', () => {
     });
   });
 
+  describe('manyToMany with @auth directive', () => {
+    it('should correctly process @auth directive in manyToMany relation', () => {
+      const schema = /* GraphQL */ `
+        type Post @model @auth(rules: [
+          { allow: groups, groups: ["Admins"] },
+          { allow: public, operations: [read] },
+          { allow: private, operations: [create] }
+        ]){
+          slug: ID! @primaryKey
+          title: String!
+          content: String!
+          tags: [Tag] @manyToMany(relationName: "PostTag")
+        }
+  
+        type Tag @model @auth(rules: [
+          { allow: groups, groups: ["Admins"] },
+          { allow: public, operations: [read] },
+          { allow: private, operations: [create] }
+        ]){
+          name: ID! @primaryKey
+          posts: [Post] @manyToMany(relationName: "PostTag")
+        }
+      `;
+  
+      const { models } = createAndGenerateVisitor(schema, { usePipelinedTransformer: true, respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 });
+  
+      const jointTableModel = models.PostTag;
+      const authDirective = jointTableModel.directives.find(d => d.name === 'auth');
+  
+      expect(authDirective).toBeDefined();
+      expect(authDirective!.arguments.rules).toEqual([
+        { 
+          allow: 'groups', 
+          groups: ['Admins'], 
+          operations: ['create', 'update', 'delete', 'read'],
+          groupClaim: 'cognito:groups',
+          groupField: undefined,
+          provider: 'userPools',
+        },
+        { allow: 'public', operations: ['read'] },
+        { allow: 'private', operations: ['create'] },
+      ]);
+    });
+  });
+
   describe('Primary Key Type', () => {
     describe('V1 GraphQL schema tests', () => {
       const schemaV1 = /* GraphQL */ `
@@ -1171,7 +1216,7 @@ describe('AppSyncModelVisitor', () => {
       expect(() => createAndGeneratePipelinedTransformerVisitor(schema)).not.toThrow();
     });
   });
-  
+
   describe('Connected models with custom primary key testing', () => {
     it('should have correct output for hasOne and belongsTo connection info when model pk is compostie key', () => {
       const schema = /* GraphQL*/ `
