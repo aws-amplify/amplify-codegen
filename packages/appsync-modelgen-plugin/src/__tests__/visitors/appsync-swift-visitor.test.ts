@@ -591,6 +591,28 @@ describe('AppSyncSwiftVisitor', () => {
     expect(generatedTaskMetadata).toMatchSnapshot();
   });
 
+  it('Should render non-models containing models correctly', () => {
+    const schema = /* GraphQL */ `
+      type Todo @model {
+        id: ID!
+        title: String!
+      }
+
+      type Task {
+        id: ID
+        title: String!
+        todo: Todo
+      }
+    `;
+
+      const taskVisitor = getVisitor(schema, 'Task');
+      expect(taskVisitor.generate()).toMatchSnapshot();
+
+      const taskMetadataVisitor = getVisitor(schema, 'Task', CodeGenGenerateEnum.metadata);
+      const generatedTaskMetadata = taskMetadataVisitor.generate();
+      expect(generatedTaskMetadata).toMatchSnapshot();
+  });
+
   describe('connection', () => {
     describe('One to Many connection', () => {
       const schema = /* GraphQL */ `
