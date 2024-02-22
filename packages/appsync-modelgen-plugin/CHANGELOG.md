@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.1-import-introspection.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.9.0...@aws-amplify/appsync-modelgen-plugin@2.9.1-import-introspection.0) (2024-02-22)
+
+### Bug Fixes
+
+- import introspection schema ([e78b61c](https://github.com/aws-amplify/amplify-codegen/commit/e78b61cedad29d0933804014063b18d7324f100d))
+
 # [2.9.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.8.1...@aws-amplify/appsync-modelgen-plugin@2.9.0) (2024-01-29)
 
 ### Features
