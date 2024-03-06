@@ -503,7 +503,215 @@ describe('custom fields', () => {
         primary: PrimaryLegacy @belongsTo(fields: [primaryId])
       }
     `;
+  });
+});
+
+describe('custom references', () => {
+  test('sets the association to the references field for hasMany/belongsTo', () => {
+    const schema = /* GraphQL */ `
+      type SqlPrimary @refersTo(name: "sql_primary") @model {
+        id: Int! @primaryKey
+        content: String
+        related: [SqlRelated!] @hasMany(references: ["primaryId"])
+      }
+
+      type SqlRelated @refersTo(name: "sql_related") @model {
+        id: Int! @primaryKey
+        content: String
+        primaryId: Int! @refersTo(name: "primary_id") @index(name: "primary_id")
+        primary: SqlPrimary @belongsTo(references: ["primaryId"])
+      }
+    `;
+
     const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
     expect(visitor.generate()).toMatchSnapshot();
+  });
+
+  test('sets the association to the references field for hasOne/belongsTo', () => {
+    const schema = /* GraphQL */ `
+      type SqlPrimary @refersTo(name: "sql_primary") @model {
+        id: Int! @primaryKey
+        content: String
+        related: SqlRelated @hasOne(references: ["primaryId"])
+      }
+
+      type SqlRelated @refersTo(name: "sql_related") @model {
+        id: Int! @primaryKey
+        content: String
+        primaryId: Int! @refersTo(name: "primary_id") @index(name: "primary_id")
+        primary: SqlPrimary @belongsTo(references: ["primaryId"])
+      }
+    `;
+
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(visitor.generate()).toMatchSnapshot();
+  });
+
+  test('double linked references', () => {
+    const schema = /* GraphQL */ `
+      type Foo @model {
+        id: ID!
+        bar1: Bar @hasOne(references: ["bar1Id"])
+        bar2: Bar @hasOne(references: ["bar2Id"])
+      }
+      
+      type Bar @model {
+        id: ID!
+        bar1Id: ID
+        bar2Id: ID
+        foo1: Foo @belongsTo(references: ["bar1Id"])
+        foo2: Foo @belongsTo(references: ["bar2Id"])
+      }
+    `;
+
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(visitor.generate()).toMatchSnapshot();
+  });
+
+  test('throws error when using fields and references on hasMany', () => {
+    const schema = /* GraphQL */ `
+      type SqlPrimary @refersTo(name: "sql_primary") @model {
+        id: Int! @primaryKey
+        content: String
+        related: [SqlRelated!] @hasMany(references: ["primaryId"], fields: ["content"])
+      }
+
+      type SqlRelated @refersTo(name: "sql_related") @model {
+        id: Int! @primaryKey
+        content: String
+        primaryId: Int! @refersTo(name: "primary_id") @index(name: "primary_id")
+        primary: SqlPrimary @belongsTo(references: ["primaryId"])
+      }
+    `;
+
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(() => visitor.generate())
+      .toThrowError(`'fields' and 'references' cannot be used together.`);
+  });
+
+  test('throws error when using fields and references on belongsTo', () => {
+    const schema = /* GraphQL */ `
+      type SqlPrimary @refersTo(name: "sql_primary") @model {
+        id: Int! @primaryKey
+        content: String
+        related: [SqlRelated!] @hasMany(references: ["primaryId"])
+      }
+
+      type SqlRelated @refersTo(name: "sql_related") @model {
+        id: Int! @primaryKey
+        content: String
+        primaryId: Int! @refersTo(name: "primary_id") @index(name: "primary_id")
+        primary: SqlPrimary @belongsTo(references: ["primaryId"], fields: ["content"])
+      }
+    `;
+
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(() => visitor.generate())
+      .toThrowError(`'fields' and 'references' cannot be used together.`);
+  });
+
+  test('throws error when using fields and references on hasOne', () => {
+    const schema = /* GraphQL */ `
+      type SqlPrimary @refersTo(name: "sql_primary") @model {
+        id: Int! @primaryKey
+        content: String
+        related: SqlRelated @hasOne(references: ["primaryId"], fields: ["content"])
+      }
+
+      type SqlRelated @refersTo(name: "sql_related") @model {
+        id: Int! @primaryKey
+        content: String
+        primaryId: Int! @refersTo(name: "primary_id") @index(name: "primary_id")
+        primary: SqlPrimary @belongsTo(references: ["primaryId"])
+      }
+    `;
+
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(() => visitor.generate())
+      .toThrowError(`'fields' and 'references' cannot be used together.`);
+  });
+
+  test('throws error when missing references on hasOne related model', () => {
+    const schema = /* GraphQL */ `
+      type SqlPrimary @refersTo(name: "sql_primary") @model {
+        id: Int! @primaryKey
+        content: String
+        related: SqlRelated @hasOne(references: ["primaryId"])
+      }
+
+      type SqlRelated @refersTo(name: "sql_related") @model {
+        id: Int! @primaryKey
+        content: String
+        primaryId: Int! @refersTo(name: "primary_id") @index(name: "primary_id")
+        primary: SqlPrimary @belongsTo
+      }
+    `;
+
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(() => visitor.generate())
+      .toThrowError(`Error processing @hasOne directive on SqlPrimary.related. @belongsTo directive with references ["primaryId"] was not found in connected model SqlRelated`);
+  });
+
+  test('throws error when missing references on hasOne primary model', () => {
+    const schema = /* GraphQL */ `
+      type SqlPrimary @refersTo(name: "sql_primary") @model {
+        id: Int! @primaryKey
+        content: String
+        related: SqlRelated @hasOne
+      }
+
+      type SqlRelated @refersTo(name: "sql_related") @model {
+        id: Int! @primaryKey
+        content: String
+        primaryId: Int! @refersTo(name: "primary_id") @index(name: "primary_id")
+        primary: SqlPrimary @belongsTo(references: ["primaryId"])
+      }
+    `;
+
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(() => visitor.generate())
+      .toThrowError(`Error processing @belongsTo directive on SqlRelated.primary. @hasOne or @hasMany directive with references ["primaryId"] was not found in connected model SqlPrimary`);
+  });
+
+  test('throws error when missing references on hasMany related model', () => {
+    const schema = /* GraphQL */ `
+      type SqlPrimary @refersTo(name: "sql_primary") @model {
+        id: Int! @primaryKey
+        content: String
+        related: [SqlRelated] @hasMany(references: ["primaryId"])
+      }
+
+      type SqlRelated @refersTo(name: "sql_related") @model {
+        id: Int! @primaryKey
+        content: String
+        primaryId: Int! @refersTo(name: "primary_id") @index(name: "primary_id")
+        primary: SqlPrimary @belongsTo
+      }
+    `;
+
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(() => visitor.generate())
+      .toThrowError(`Error processing @hasMany directive on SqlPrimary.related. @belongsTo directive with references ["primaryId"] was not found in connected model SqlRelated`);
+  });
+
+  test('throws error when missing references on hasMany primary model', () => {
+    const schema = /* GraphQL */ `
+      type SqlPrimary @refersTo(name: "sql_primary") @model {
+        id: Int! @primaryKey
+        content: String
+        related: [SqlRelated] @hasMany
+      }
+
+      type SqlRelated @refersTo(name: "sql_related") @model {
+        id: Int! @primaryKey
+        content: String
+        primaryId: Int! @refersTo(name: "primary_id") @index(name: "primary_id")
+        primary: SqlPrimary @belongsTo(references: ["primaryId"])
+      }
+    `;
+
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(() => visitor.generate())
+      .toThrowError(`Error processing @belongsTo directive on SqlRelated.primary. @hasOne or @hasMany directive with references ["primaryId"] was not found in connected model SqlPrimary`);
   });
 });

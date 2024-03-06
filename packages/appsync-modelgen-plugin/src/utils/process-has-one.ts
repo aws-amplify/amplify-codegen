@@ -4,7 +4,7 @@ import {
   CodeGenFieldConnection,
   makeConnectionAttributeName,
 } from './process-connections';
-import { getConnectedFieldV2 } from './process-connections-v2';
+import { getConnectedFieldV2, fieldsAndReferencesErrorMessage } from './process-connections-v2';
 import { getModelPrimaryKeyComponentFields } from './fieldUtils';
 import { getOtherSideBelongsToField } from './fieldUtils';
 
@@ -30,6 +30,11 @@ export function processHasOneConnection(
     associatedWithFields = [otherSideField];
   }
   const connectionFields = connectionDirective.arguments.fields || [];
+  const references = connectionDirective.arguments.references || [];
+
+  if (connectionFields.length > 0 && references.length > 0) {
+    throw new Error(fieldsAndReferencesErrorMessage);
+  }
 
   // TODO: Update comment, graphql-connection-transformer is the v1 package and this file is created for vNext
   // if a type is connected using name, then graphql-connection-transformer adds a field to
