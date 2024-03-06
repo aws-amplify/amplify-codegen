@@ -139,10 +139,12 @@ export const directives = /* GraphQL */ `
   directive @primaryKey(sortKeyFields: [String!], queryField: String) on FIELD_DEFINITION
   directive @index(name: String!, sortKeyFields: [String], queryField: String) on FIELD_DEFINITION
 
-  directive @hasOne(fields: [String!]) on FIELD_DEFINITION
-  directive @hasMany(indexName: String, fields: [String], limit: Int = 100) on FIELD_DEFINITION
-  directive @belongsTo(fields: [String]) on FIELD_DEFINITION
+  directive @hasOne(fields: [String!], references: [String!]) on FIELD_DEFINITION
+  directive @hasMany(indexName: String, fields: [String], references: [String!], limit: Int = 100) on FIELD_DEFINITION
+  directive @belongsTo(fields: [String], references: [String!]) on FIELD_DEFINITION
   directive @manyToMany(relationName: String!) on FIELD_DEFINITION
+
+  directive @refersTo(name: String!) on OBJECT | FIELD_DEFINITION
 `;
 
 export const scalars = [
