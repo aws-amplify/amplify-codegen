@@ -280,8 +280,7 @@ export class AppSyncModelVisitor<
   protected mutationMap: CodeGenMutationMap = {};
   protected subscriptionMap: CodeGenSubscriptionMap = {};
   protected inputObjectMap: CodeGenInputObjectMap = {};
-  protected typesToSkip: string[] = [];
-  protected inputTypesToSkip: string[] = ['AMPLIFY'];
+  protected typesToSkip: string[] = ['AMPLIFY'];
   constructor(
     protected _schema: GraphQLSchema,
     rawConfig: TRawConfig,
@@ -313,7 +312,6 @@ export class AppSyncModelVisitor<
       });
     }
 
-    this.typesToSkip = [];
     this.typesToSkip.push(...typesUsedInDirectives);
   }
 
@@ -391,7 +389,7 @@ export class AppSyncModelVisitor<
   }
 
   InputObjectTypeDefinition(node: InputObjectTypeDefinitionNode) {
-    if (this.inputTypesToSkip.includes(node.name.value)) {
+    if (this.typesToSkip.includes(node.name.value)) {
       return;
     }
     const inputValues = (node.fields as unknown) as CodeGenInputValue[];
