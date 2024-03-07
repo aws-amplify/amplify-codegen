@@ -51,6 +51,9 @@ describe('Model Introspection Visitor', () => {
       id: ID!
       names: [String]
     }
+    input SimpleInput {
+      name: String
+    }
   `;
   const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
   describe('getType', () => {
@@ -64,6 +67,10 @@ describe('Model Introspection Visitor', () => {
 
     it('should return NonModel type for Non-model', () => {
       expect((visitor as any).getType('SimpleNonModelType')).toEqual({ nonModel: 'SimpleNonModelType' });
+    });
+
+    it('should return input type for Input', () => {
+      expect((visitor as any).getType('SimpleInput')).toEqual({ input: 'SimpleInput' });
     });
 
     it('should throw error for unknown type', () => {
@@ -274,8 +281,9 @@ describe('schemas with pk on a belongsTo fk', () => {
   });
 });
 
-describe('Custom queries/mutations/subscriptions tests', () => {
+describe('Custom queries/mutations/subscriptions & input type tests', () => {
   const schema = /* GraphQL */ `
+    input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }
     type Todo @model {
       id: ID!
       name: String!
@@ -284,11 +292,28 @@ describe('Custom queries/mutations/subscriptions tests', () => {
     type Phone {
       number: String
     }
+    enum BillingSource {
+      CLIENT
+      PROJECT
+    }
+    input CustomInput {
+      customField1: String!
+      customField2: BillingSource!
+      customField3: NestedInput!
+    }
+    input NestedInput {
+      content: String! = "hello"
+    }
+    input EchoInput {
+      msg: String
+    }
     type Query {
       echo(msg: String): String
       echo2(todoId: ID!): Todo
       echo3: [Todo]
       echo4(number: String): Phone
+      echo5(input: [EchoInput]): String
+      echo6(customInput: CustomInput): String!
     }
     type Mutation {
       mutate(msg: [String!]!): Todo

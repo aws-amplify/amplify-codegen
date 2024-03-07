@@ -1612,7 +1612,7 @@ exports[`Custom primary key tests should generate correct model intropection fil
 }"
 `;
 
-exports[`Custom queries/mutations/subscriptions tests should generate correct metadata for custom queries/mutations/subscriptions in model introspection schema 1`] = `
+exports[`Custom queries/mutations/subscriptions & input type tests should generate correct metadata for custom queries/mutations/subscriptions in model introspection schema 1`] = `
 "{
     \\"version\\": 1,
     \\"models\\": {
@@ -1672,7 +1672,15 @@ exports[`Custom queries/mutations/subscriptions tests should generate correct me
             }
         }
     },
-    \\"enums\\": {},
+    \\"enums\\": {
+        \\"BillingSource\\": {
+            \\"name\\": \\"BillingSource\\",
+            \\"values\\": [
+                \\"CLIENT\\",
+                \\"PROJECT\\"
+            ]
+        }
+    },
     \\"nonModels\\": {
         \\"Phone\\": {
             \\"name\\": \\"Phone\\",
@@ -1742,6 +1750,39 @@ exports[`Custom queries/mutations/subscriptions tests should generate correct me
                     \\"isRequired\\": false
                 }
             }
+        },
+        \\"echo5\\": {
+            \\"name\\": \\"echo5\\",
+            \\"isArray\\": false,
+            \\"type\\": \\"String\\",
+            \\"isRequired\\": false,
+            \\"arguments\\": {
+                \\"input\\": {
+                    \\"name\\": \\"input\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"input\\": \\"EchoInput\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"isArrayNullable\\": true
+                }
+            }
+        },
+        \\"echo6\\": {
+            \\"name\\": \\"echo6\\",
+            \\"isArray\\": false,
+            \\"type\\": \\"String\\",
+            \\"isRequired\\": true,
+            \\"arguments\\": {
+                \\"customInput\\": {
+                    \\"name\\": \\"customInput\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"input\\": \\"CustomInput\\"
+                    },
+                    \\"isRequired\\": false
+                }
+            }
         }
     },
     \\"mutations\\": {
@@ -1772,6 +1813,57 @@ exports[`Custom queries/mutations/subscriptions tests should generate correct me
             },
             \\"isRequired\\": true,
             \\"isArrayNullable\\": true,
+            \\"arguments\\": {
+                \\"msg\\": {
+                    \\"name\\": \\"msg\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false
+                }
+            }
+        }
+    },
+    \\"inputs\\": {
+        \\"CustomInput\\": {
+            \\"name\\": \\"CustomInput\\",
+            \\"arguments\\": {
+                \\"customField1\\": {
+                    \\"name\\": \\"customField1\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true
+                },
+                \\"customField2\\": {
+                    \\"name\\": \\"customField2\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"enum\\": \\"BillingSource\\"
+                    },
+                    \\"isRequired\\": true
+                },
+                \\"customField3\\": {
+                    \\"name\\": \\"customField3\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"input\\": \\"NestedInput\\"
+                    },
+                    \\"isRequired\\": true
+                }
+            }
+        },
+        \\"NestedInput\\": {
+            \\"name\\": \\"NestedInput\\",
+            \\"arguments\\": {
+                \\"content\\": {
+                    \\"name\\": \\"content\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true
+                }
+            }
+        },
+        \\"EchoInput\\": {
+            \\"name\\": \\"EchoInput\\",
             \\"arguments\\": {
                 \\"msg\\": {
                     \\"name\\": \\"msg\\",
@@ -2025,6 +2117,19 @@ exports[`Model Introspection Visitor Metadata snapshot should generate correct m
                     \\"isRequired\\": false,
                     \\"attributes\\": [],
                     \\"isArrayNullable\\": true
+                }
+            }
+        }
+    },
+    \\"inputs\\": {
+        \\"SimpleInput\\": {
+            \\"name\\": \\"SimpleInput\\",
+            \\"arguments\\": {
+                \\"name\\": {
+                    \\"name\\": \\"name\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false
                 }
             }
         }

@@ -23,6 +23,9 @@
         },
         "subscriptions": {
             "$ref": "#/definitions/SchemaSubscriptions"
+        },
+        "inputs": {
+            "$ref": "#/definitions/SchemaInputs"
         }
     },
     "required": [
@@ -235,6 +238,18 @@
                     },
                     "required": [
                         "nonModel"
+                    ],
+                    "additionalProperties": false
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "input": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "input"
                     ],
                     "additionalProperties": false
                 }
@@ -506,6 +521,32 @@
         },
         "SchemaSubscription": {
             "$ref": "#/definitions/SchemaQuery"
+        },
+        "SchemaInputs": {
+            "$ref": "#/definitions/Record%3Cstring%2CInput%3E"
+        },
+        "Record<string,Input>": {
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/definitions/Input"
+            }
+        },
+        "Input": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "arguments": {
+                    "$ref": "#/definitions/Arguments"
+                }
+            },
+            "required": [
+                "name",
+                "arguments"
+            ],
+            "additionalProperties": false,
+            "description": "Input Definition"
         }
     }
 }

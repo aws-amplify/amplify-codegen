@@ -21,6 +21,7 @@ import {
   parse,
   valueFromASTUntyped,
   InputValueDefinitionNode,
+  InputObjectTypeDefinitionNode,
 } from 'graphql';
 import { addFieldToModel, getModelPrimaryKeyComponentFields, removeFieldFromModel, toCamelCase } from '../utils/fieldUtils';
 import { getTypeInfo } from '../utils/get-type-info';
@@ -250,7 +251,14 @@ export type CodeGenMutationMap = Record<string, CodeGenMutation>;
 export type CodeGenSubscription = CodeGenField & {
   operationType: 'subscription';
 };
+export type CodeGenInputObject = {
+  name: string;
+  type: 'input';
+  inputValues: CodeGenInputValues
+}
 export type CodeGenSubscriptionMap = Record<string, CodeGenSubscription>;
+
+export type CodeGenInputObjectMap = Record<string, CodeGenInputObject>
 
 // Used to simplify processing of manyToMany into composing directives hasMany and belongsTo
 type ManyToManyContext = {
@@ -271,7 +279,9 @@ export class AppSyncModelVisitor<
   protected queryMap: CodeGenQueryMap = {};
   protected mutationMap: CodeGenMutationMap = {};
   protected subscriptionMap: CodeGenSubscriptionMap = {};
+  protected inputObjectMap: CodeGenInputObjectMap = {};
   protected typesToSkip: string[] = [];
+  protected inputTypesToSkip: string[] = ['AMPLIFY'];
   constructor(
     protected _schema: GraphQLSchema,
     rawConfig: TRawConfig,
@@ -378,6 +388,19 @@ export class AppSyncModelVisitor<
       ...getTypeInfo(node.type, this._schema),
       parameters,
     };
+  }
+
+  InputObjectTypeDefinition(node: InputObjectTypeDefinitionNode) {
+    if (this.inputTypesToSkip.includes(node.name.value)) {
+      return;
+    }
+    const inputValues = (node.fields as unknown) as CodeGenInputValue[];
+    const inputObject: CodeGenInputObject =  {
+      name: node.name.value,
+      type: 'input',
+      inputValues,
+    };
+    this.inputObjectMap[node.name.value] = inputObject;
   }
 
   InputValueDefinition(node: InputValueDefinitionNode): CodeGenInputValue {

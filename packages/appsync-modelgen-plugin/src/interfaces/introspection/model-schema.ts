@@ -9,6 +9,7 @@
   queries?: SchemaQueries;
   mutations?: SchemaMutations;
   subscriptions?: SchemaSubscriptions;
+  inputs?: SchemaInputs;
 };
 /**
  * Top-level Entities on a Schema
@@ -19,6 +20,7 @@ export type SchemaEnums = Record<string, SchemaEnum>;
 export type SchemaQueries = Record<string, SchemaQuery>;
 export type SchemaMutations = Record<string, SchemaMutation>;
 export type SchemaSubscriptions = Record<string, SchemaSubscription>;
+export type SchemaInputs = Record<string, Input>
 
 export type SchemaModel = {
   name: string;
@@ -72,8 +74,16 @@ export type FieldType = 'ID'
   | 'AWSPhone'
   | { enum: string }
   | { model: string }
-  | { nonModel: string };
+  | { nonModel: string }
+  | { input: string };
 export type FieldAttribute = ModelAttribute;
+/**
+ * Input Definition
+ */
+export type Input = {
+  name: string;
+  arguments: Arguments;
+}
 /**
  * Field-level Relationship Definitions
  */

@@ -1,9 +1,9 @@
 import { DEFAULT_SCALARS, NormalizedScalarsMap } from "@graphql-codegen/visitor-plugin-common";
 import { GraphQLSchema } from "graphql";
-import { Argument, AssociationType, Field, Fields, FieldType, ModelAttribute, ModelIntrospectionSchema, PrimaryKeyInfo, SchemaEnum, SchemaModel, SchemaMutation, SchemaNonModel, SchemaQuery, SchemaSubscription } from "../interfaces/introspection";
+import { Argument, AssociationType, Field, Fields, FieldType, ModelAttribute, ModelIntrospectionSchema, PrimaryKeyInfo, SchemaEnum, SchemaModel, SchemaMutation, SchemaNonModel, SchemaQuery, SchemaSubscription, Input } from "../interfaces/introspection";
 import { METADATA_SCALAR_MAP } from "../scalars";
 import { CodeGenConnectionType } from "../utils/process-connections";
-import { RawAppSyncModelConfig, ParsedAppSyncModelConfig, AppSyncModelVisitor, CodeGenEnum, CodeGenField, CodeGenModel, CodeGenPrimaryKeyType, CodeGenQuery, CodeGenSubscription, CodeGenMutation } from "./appsync-visitor";
+import { RawAppSyncModelConfig, ParsedAppSyncModelConfig, AppSyncModelVisitor, CodeGenEnum, CodeGenField, CodeGenModel, CodeGenPrimaryKeyType, CodeGenQuery, CodeGenSubscription, CodeGenMutation, CodeGenInputObject } from "./appsync-visitor";
 import fs from 'fs';
 import path from 'path';
 import Ajv from 'ajv';
@@ -72,7 +72,10 @@ export class AppSyncModelIntrospectionVisitor<
     }, {});
     const subscriptions = Object.values(this.subscriptionMap).reduce((acc, subscriptionObj: CodeGenSubscription) => {
       return { ...acc, [subscriptionObj.name]: this.generateGraphQLOperationMetadata<CodeGenSubscription, SchemaSubscription>(subscriptionObj) };
-    }, {})
+    }, {});
+    const inputs = Object.values(this.inputObjectMap).reduce((acc, inputObj: CodeGenInputObject) => {
+      return { ...acc, [inputObj.name]: this.generateGraphQLInputMetadata(inputObj) };
+    }, {});
     if(Object.keys(queries).length > 0) {
       result = { ...result, queries };
     }
@@ -81,6 +84,9 @@ export class AppSyncModelIntrospectionVisitor<
     }
     if(Object.keys(subscriptions).length > 0) {
       result = { ...result, subscriptions };
+    }
+    if(Object.keys(inputs).length > 0) {
+      result = { ...result, inputs }
     }
     return result;
   }
@@ -152,6 +158,23 @@ export class AppSyncModelIntrospectionVisitor<
       values: Object.values(enumObj.values),
     };
   }
+  private generateGraphQLInputMetadata(inputObj: CodeGenInputObject): Input {
+    return {
+      name: inputObj.name,
+      arguments: inputObj.inputValues.reduce((acc, param ) => {
+        const arg: Argument = {
+          name: param.name,
+          isArray: param.isList,
+          type: this.getType(param.type),
+          isRequired: !param.isNullable
+        };
+        if (param.isListNullable !== undefined) {
+          arg.isArrayNullable = param.isListNullable;
+        }
+        return { ...acc, [param.name]: arg };
+      }, {}),
+    }
+  }
   /**
    * Generate GraqhQL operation (query/mutation/subscription) metadata in model introspection schema from the codegen MIPR
    * @param operationObj operation object
@@ -197,6 +220,9 @@ export class AppSyncModelIntrospectionVisitor<
     }
     if (gqlType in this.modelMap) {
       return { model: gqlType };
+    }
+    if (gqlType in this.inputObjectMap) {
+      return { input: gqlType }
     }
     throw new Error(`Unknown type ${gqlType}`);
   }
