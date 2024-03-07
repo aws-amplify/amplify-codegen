@@ -1,0 +1,15 @@
+input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
+input CustomInput {
+  customField1: String!
+  customField2: Int
+}
+
+type Query {
+  getAllTodo(msg: String, input: CustomInput): String @function(name: "echofunction-${env}")
+}
