@@ -308,7 +308,7 @@ const getS3Buckets = async (account: AWSAccountInfo): Promise<S3BucketInfo[]> =>
         region,
         ...(awsConfig as object),
       });
-      const bucketDetails = await s3Client.getBucketTagging({ Bucket: bucket.Name }).promise();
+      const bucketDetails = await regionalizedClient.getBucketTagging({ Bucket: bucket.Name }).promise();
       const jobId = getJobId(bucketDetails.TagSet);
       if (jobId) {
         result.push({
