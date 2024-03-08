@@ -100,6 +100,14 @@ export type FieldType = 'ID' | 'String' | 'Int' | 'Float' | 'AWSDate' | 'AWSTime
     model: string;
 } | {
     nonModel: string;
+} | {
+    input: string;
+};
+
+// @public (undocumented)
+export type Input = {
+    name: string;
+    arguments: Arguments;
 };
 
 // @public (undocumented)
@@ -119,6 +127,7 @@ export type ModelIntrospectionSchema = {
     queries?: SchemaQueries;
     mutations?: SchemaMutations;
     subscriptions?: SchemaSubscriptions;
+    inputs?: SchemaInputs;
 };
 
 // Warning: (ae-forgotten-export) The symbol "RawAppSyncModelConfig" needs to be exported by the entry point index.d.ts
@@ -144,6 +153,9 @@ export type SchemaEnum = {
 
 // @public (undocumented)
 export type SchemaEnums = Record<string, SchemaEnum>;
+
+// @public (undocumented)
+export type SchemaInputs = Record<string, Input>;
 
 // @public (undocumented)
 export type SchemaModel = {
