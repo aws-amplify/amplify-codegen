@@ -13,7 +13,7 @@ describe('Amplify push with codegen tests - admin modelgen', () => {
     await deleteAmplifyProject(projectRoot); 
   });
 
-  it(`should not throw error for executing the admin modelgen step required by studio CMS usage post push`, async () => {
+  it(`should not throw error for executing the admin modelgen step required by studio CMS usage post push given the schema with input, union and interface types`, async () => {
     await testPushAdminModelgen(DEFAULT_JS_CONFIG, projectRoot, schema);
   });
 });
