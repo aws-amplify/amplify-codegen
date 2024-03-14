@@ -7,7 +7,7 @@ import {
   CodeGenFieldConnectionHasOne,
 } from '../../utils/process-connections';
 import { buildSchema, parse, visit } from 'graphql';
-import { directives, scalars } from '../../scalars/supported-directives';
+import { scalars } from '../../scalars/supported-directives';
 import { AppSyncModelVisitor, CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
 
 describe('GraphQL V2 process connections tests', () => {

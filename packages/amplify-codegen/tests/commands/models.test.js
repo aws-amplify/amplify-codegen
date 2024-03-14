@@ -308,6 +308,6 @@ function addMocksToContext() {
       },
     ],
   });
-  MOCK_CONTEXT.amplify.executeProviderUtils.mockReturnValue(defaultDirectiveDefinitions);
+  MOCK_CONTEXT.amplify.executeProviderUtils.mockReturnValue(DefaultDirectives.map(directive => directive.definition).join('\n'));
   MOCK_CONTEXT.amplify.pathManager.getBackendDirPath.mockReturnValue(MOCK_BACKEND_DIRECTORY);
 }
