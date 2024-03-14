@@ -5,7 +5,6 @@ const { FeatureFlags, pathManager } = require('@aws-amplify/amplify-cli-core');
 const { generateModels: generateModelsHelper } = require('@aws-amplify/graphql-generator');
 const { DefaultDirectives } = require('@aws-amplify/graphql-directives');
 const { validateAmplifyFlutterMinSupportedVersion } = require('../utils/validateAmplifyFlutterMinSupportedVersion');
-const defaultDirectiveDefinitions = require('../utils/defaultDirectiveDefinitions');
 const getProjectRoot = require('../utils/getProjectRoot');
 const { getModelSchemaPathParam, hasModelSchemaPathParam } = require('../utils/getModelSchemaPathParam');
 const { isDataStoreEnabled } = require('graphql-transformer-core');
