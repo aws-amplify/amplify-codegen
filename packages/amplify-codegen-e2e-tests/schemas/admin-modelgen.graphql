@@ -4,12 +4,47 @@ type Todo @model {
   id: ID!
   name: String!
   description: String
+  phone: Phone
+}
+type Phone {
+  number: String
+}
+enum BillingSource {
+  CLIENT
+  PROJECT
 }
 input CustomInput {
   customField1: String!
-  customField2: Int
+  customField2: BillingSource
+  customField3: NestedInput!
 }
+input NestedInput {
+  content: String! = "hello"
+}
+interface ICustom {
+  firstName: String!
+  lastName: String
+  birthdays: [INestedCustom!]!
+}
+interface INestedCustom {
+  birthDay: AWSDate!
+}
+# The member types of a Union type must all be Object base types.
+union CustomUnion = Todo | Phone
 
 type Query {
   getAllTodo(msg: String, input: CustomInput): String @function(name: "echofunction-${env}")
+  echo(msg: String): String
+  echo2(todoId: ID!): Todo
+  echo3: [Todo!]!
+  echo4(number: String): Phone
+  echo5: [CustomUnion!]!
+  echo6(customInput: CustomInput): String!
+  echo7: [ICustom]!
+}
+type Mutation {
+  mutate(msg: [String!]!): Todo
+}
+type Subscription {
+  onMutate(msg: String): [Todo!]
 }

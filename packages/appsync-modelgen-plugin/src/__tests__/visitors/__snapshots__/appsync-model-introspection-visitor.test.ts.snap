@@ -1640,6 +1640,15 @@ exports[`Custom queries/mutations/subscriptions & input type tests should genera
                     \\"isRequired\\": false,
                     \\"attributes\\": []
                 },
+                \\"phone\\": {
+                    \\"name\\": \\"phone\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"nonModel\\": \\"Phone\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
                 \\"createdAt\\": {
                     \\"name\\": \\"createdAt\\",
                     \\"isArray\\": false,
@@ -1696,6 +1705,28 @@ exports[`Custom queries/mutations/subscriptions & input type tests should genera
         }
     },
     \\"queries\\": {
+        \\"getAllTodo\\": {
+            \\"name\\": \\"getAllTodo\\",
+            \\"isArray\\": false,
+            \\"type\\": \\"String\\",
+            \\"isRequired\\": false,
+            \\"arguments\\": {
+                \\"msg\\": {
+                    \\"name\\": \\"msg\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false
+                },
+                \\"input\\": {
+                    \\"name\\": \\"input\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"input\\": \\"CustomInput\\"
+                    },
+                    \\"isRequired\\": false
+                }
+            }
+        },
         \\"echo\\": {
             \\"name\\": \\"echo\\",
             \\"isArray\\": false,
@@ -1732,8 +1763,8 @@ exports[`Custom queries/mutations/subscriptions & input type tests should genera
             \\"type\\": {
                 \\"model\\": \\"Todo\\"
             },
-            \\"isRequired\\": false,
-            \\"isArrayNullable\\": true
+            \\"isRequired\\": true,
+            \\"isArrayNullable\\": false
         },
         \\"echo4\\": {
             \\"name\\": \\"echo4\\",
@@ -1753,20 +1784,12 @@ exports[`Custom queries/mutations/subscriptions & input type tests should genera
         },
         \\"echo5\\": {
             \\"name\\": \\"echo5\\",
-            \\"isArray\\": false,
-            \\"type\\": \\"String\\",
-            \\"isRequired\\": false,
-            \\"arguments\\": {
-                \\"input\\": {
-                    \\"name\\": \\"input\\",
-                    \\"isArray\\": true,
-                    \\"type\\": {
-                        \\"input\\": \\"EchoInput\\"
-                    },
-                    \\"isRequired\\": false,
-                    \\"isArrayNullable\\": true
-                }
-            }
+            \\"isArray\\": true,
+            \\"type\\": {
+                \\"union\\": \\"CustomUnion\\"
+            },
+            \\"isRequired\\": true,
+            \\"isArrayNullable\\": false
         },
         \\"echo6\\": {
             \\"name\\": \\"echo6\\",
@@ -1783,6 +1806,15 @@ exports[`Custom queries/mutations/subscriptions & input type tests should genera
                     \\"isRequired\\": false
                 }
             }
+        },
+        \\"echo7\\": {
+            \\"name\\": \\"echo7\\",
+            \\"isArray\\": true,
+            \\"type\\": {
+                \\"interface\\": \\"ICustom\\"
+            },
+            \\"isRequired\\": false,
+            \\"isArrayNullable\\": false
         }
     },
     \\"mutations\\": {
@@ -1836,10 +1868,8 @@ exports[`Custom queries/mutations/subscriptions & input type tests should genera
                 \\"customField2\\": {
                     \\"name\\": \\"customField2\\",
                     \\"isArray\\": false,
-                    \\"type\\": {
-                        \\"enum\\": \\"BillingSource\\"
-                    },
-                    \\"isRequired\\": true
+                    \\"type\\": \\"Int\\",
+                    \\"isRequired\\": false
                 },
                 \\"customField3\\": {
                     \\"name\\": \\"customField3\\",
@@ -1861,15 +1891,56 @@ exports[`Custom queries/mutations/subscriptions & input type tests should genera
                     \\"isRequired\\": true
                 }
             }
-        },
-        \\"EchoInput\\": {
-            \\"name\\": \\"EchoInput\\",
-            \\"arguments\\": {
-                \\"msg\\": {
-                    \\"name\\": \\"msg\\",
+        }
+    },
+    \\"unions\\": {
+        \\"CustomUnion\\": {
+            \\"name\\": \\"CustomUnion\\",
+            \\"typeNames\\": [
+                \\"Todo\\",
+                \\"Phone\\"
+            ]
+        }
+    },
+    \\"interfaces\\": {
+        \\"ICustom\\": {
+            \\"name\\": \\"ICustom\\",
+            \\"fields\\": {
+                \\"firstName\\": {
+                    \\"name\\": \\"firstName\\",
                     \\"isArray\\": false,
                     \\"type\\": \\"String\\",
-                    \\"isRequired\\": false
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"lastName\\": {
+                    \\"name\\": \\"lastName\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"birthdays\\": {
+                    \\"name\\": \\"birthdays\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"interface\\": \\"INestedCustom\\"
+                    },
+                    \\"isRequired\\": true,
+                    \\"attributes\\": [],
+                    \\"isArrayNullable\\": false
+                }
+            }
+        },
+        \\"INestedCustom\\": {
+            \\"name\\": \\"INestedCustom\\",
+            \\"fields\\": {
+                \\"birthDay\\": {
+                    \\"name\\": \\"birthDay\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDate\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
                 }
             }
         }
@@ -2130,6 +2201,32 @@ exports[`Model Introspection Visitor Metadata snapshot should generate correct m
                     \\"isArray\\": false,
                     \\"type\\": \\"String\\",
                     \\"isRequired\\": false
+                }
+            }
+        }
+    },
+    \\"unions\\": {
+        \\"SimpleUnion\\": {
+            \\"name\\": \\"SimpleUnion\\",
+            \\"typeNames\\": [
+                \\"SimpleModel\\",
+                \\"SimpleEnum\\",
+                \\"SimpleNonModelType\\",
+                \\"SimpleInput\\",
+                \\"SimpleInterface\\"
+            ]
+        }
+    },
+    \\"interfaces\\": {
+        \\"SimpleInterface\\": {
+            \\"name\\": \\"SimpleInterface\\",
+            \\"fields\\": {
+                \\"firstName\\": {
+                    \\"name\\": \\"firstName\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
                 }
             }
         }

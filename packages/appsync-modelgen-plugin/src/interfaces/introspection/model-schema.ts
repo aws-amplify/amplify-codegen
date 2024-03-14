@@ -10,6 +10,8 @@
   mutations?: SchemaMutations;
   subscriptions?: SchemaSubscriptions;
   inputs?: SchemaInputs;
+  unions?: SchemaUnions;
+  interfaces?: SchemaInterfaces;
 };
 /**
  * Top-level Entities on a Schema
@@ -20,7 +22,9 @@ export type SchemaEnums = Record<string, SchemaEnum>;
 export type SchemaQueries = Record<string, SchemaQuery>;
 export type SchemaMutations = Record<string, SchemaMutation>;
 export type SchemaSubscriptions = Record<string, SchemaSubscription>;
-export type SchemaInputs = Record<string, Input>
+export type SchemaInputs = Record<string, Input>;
+export type SchemaUnions = Record<string, Union>;
+export type SchemaInterfaces = Record<string, Interface>
 
 export type SchemaModel = {
   name: string;
@@ -75,7 +79,9 @@ export type FieldType = 'ID'
   | { enum: string }
   | { model: string }
   | { nonModel: string }
-  | { input: string };
+  | { input: string }
+  | { union: string }
+  | { interface: string };
 export type FieldAttribute = ModelAttribute;
 /**
  * Input Definition
@@ -83,6 +89,20 @@ export type FieldAttribute = ModelAttribute;
 export type Input = {
   name: string;
   arguments: Arguments;
+}
+/**
+ * Interface Definition
+ */
+export type Interface = {
+  name: string;
+  fields: Fields;
+}
+/**
+ * Union Definition
+ */
+export type Union = {
+  name: string;
+  typeNames: string[];
 }
 /**
  * Field-level Relationship Definitions

@@ -1,9 +1,9 @@
 import { DEFAULT_SCALARS, NormalizedScalarsMap } from "@graphql-codegen/visitor-plugin-common";
 import { GraphQLSchema } from "graphql";
-import { Argument, AssociationType, Field, Fields, FieldType, ModelAttribute, ModelIntrospectionSchema, PrimaryKeyInfo, SchemaEnum, SchemaModel, SchemaMutation, SchemaNonModel, SchemaQuery, SchemaSubscription, Input } from "../interfaces/introspection";
+import { Argument, AssociationType, Field, Fields, FieldType, ModelAttribute, ModelIntrospectionSchema, PrimaryKeyInfo, SchemaEnum, SchemaModel, SchemaMutation, SchemaNonModel, SchemaQuery, SchemaSubscription, Input, Union, Interface } from "../interfaces/introspection";
 import { METADATA_SCALAR_MAP } from "../scalars";
 import { CodeGenConnectionType } from "../utils/process-connections";
-import { RawAppSyncModelConfig, ParsedAppSyncModelConfig, AppSyncModelVisitor, CodeGenEnum, CodeGenField, CodeGenModel, CodeGenPrimaryKeyType, CodeGenQuery, CodeGenSubscription, CodeGenMutation, CodeGenInputObject } from "./appsync-visitor";
+import { RawAppSyncModelConfig, ParsedAppSyncModelConfig, AppSyncModelVisitor, CodeGenEnum, CodeGenField, CodeGenModel, CodeGenPrimaryKeyType, CodeGenQuery, CodeGenSubscription, CodeGenMutation, CodeGenInputObject, CodeGenUnion, CodeGenInterface } from "./appsync-visitor";
 import fs from 'fs';
 import path from 'path';
 import Ajv from 'ajv';
@@ -76,17 +76,29 @@ export class AppSyncModelIntrospectionVisitor<
     const inputs = Object.values(this.inputObjectMap).reduce((acc, inputObj: CodeGenInputObject) => {
       return { ...acc, [inputObj.name]: this.generateGraphQLInputMetadata(inputObj) };
     }, {});
-    if(Object.keys(queries).length > 0) {
+    const unions = Object.values(this.unionMap).reduce((acc, unionObj: CodeGenUnion) => {
+      return { ...acc, [unionObj.name]: this.generateGraphQLUnionMetadata(unionObj) };
+    }, {});
+    const interfaces = Object.values(this.interfaceMap).reduce((acc, interfaceObj: CodeGenInterface) => {
+      return { ...acc, [interfaceObj.name]: this.generateGraphQLInterfaceMetadata(interfaceObj) };
+    }, {});
+    if (Object.keys(queries).length > 0) {
       result = { ...result, queries };
     }
-    if(Object.keys(mutations).length > 0) {
+    if (Object.keys(mutations).length > 0) {
       result = { ...result, mutations };
     }
-    if(Object.keys(subscriptions).length > 0) {
+    if (Object.keys(subscriptions).length > 0) {
       result = { ...result, subscriptions };
     }
-    if(Object.keys(inputs).length > 0) {
+    if (Object.keys(inputs).length > 0) {
       result = { ...result, inputs }
+    }
+    if (Object.keys(unions).length > 0) {
+      result = { ...result, unions }
+    }
+    if (Object.keys(interfaces).length > 0) {
+      result = { ...result, interfaces }
     }
     return result;
   }
@@ -158,6 +170,12 @@ export class AppSyncModelIntrospectionVisitor<
       values: Object.values(enumObj.values),
     };
   }
+
+  /**
+   * Generate GraqhQL input object type metadata in model introspection schema from the codegen MIPR
+   * @param inputObj input type object
+   * @returns input type object metadata in model introspection schema
+   */
   private generateGraphQLInputMetadata(inputObj: CodeGenInputObject): Input {
     return {
       name: inputObj.name,
@@ -174,6 +192,49 @@ export class AppSyncModelIntrospectionVisitor<
         return { ...acc, [param.name]: arg };
       }, {}),
     }
+  }
+
+  /**
+   * Generate GraqhQL union type metadata in model introspection schema from the codegen MIPR
+   * @param unionObj union type object
+   * @returns union type metadata in model introspection schema
+   */
+  private generateGraphQLUnionMetadata(unionObj: CodeGenUnion): Union {
+    return {
+      name: unionObj.name,
+      typeNames: unionObj.typeNames,
+    }
+  }
+
+  /**
+   * Generate GraqhQL interface type metadata in model introspection schema from the codegen MIPR
+   * @param interfaceObj interface type object
+   * @returns interface type metadata in model introspection schema
+   */
+  private generateGraphQLInterfaceMetadata(interfaceObj: CodeGenInterface): Interface {
+    return {
+      name: interfaceObj.name,
+      fields: interfaceObj.fields.reduce((acc: Fields, field: CodeGenField) => {
+        const fieldMeta: Field = {
+          name: this.getFieldName(field),
+          isArray: field.isList,
+          type: this.getType(field.type),
+          isRequired: !field.isNullable,
+          attributes: [],
+        };
+
+        if (field.isListNullable !== undefined) {
+          fieldMeta.isArrayNullable = field.isListNullable;
+        }
+
+        if (field.isReadOnly !== undefined) {
+          fieldMeta.isReadOnly = field.isReadOnly;
+        }
+
+        acc[field.name] = fieldMeta;
+        return acc;
+      }, {}),
+    };
   }
   /**
    * Generate GraqhQL operation (query/mutation/subscription) metadata in model introspection schema from the codegen MIPR
@@ -224,6 +285,13 @@ export class AppSyncModelIntrospectionVisitor<
     if (gqlType in this.inputObjectMap) {
       return { input: gqlType }
     }
+    if (gqlType in this.unionMap) {
+      return { union: gqlType }
+    }
+    if (gqlType in this.interfaceMap) {
+      return { interface: gqlType }
+    }
+
     throw new Error(`Unknown type ${gqlType}`);
   }
 

@@ -54,6 +54,10 @@ describe('Model Introspection Visitor', () => {
     input SimpleInput {
       name: String
     }
+    interface SimpleInterface {
+      firstName: String!
+    }
+    union SimpleUnion = SimpleModel | SimpleEnum | SimpleNonModelType | SimpleInput | SimpleInterface
   `;
   const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
   describe('getType', () => {
@@ -71,6 +75,14 @@ describe('Model Introspection Visitor', () => {
 
     it('should return input type for Input', () => {
       expect((visitor as any).getType('SimpleInput')).toEqual({ input: 'SimpleInput' });
+    });
+
+    it('should return union type for Union', () => {
+      expect((visitor as any).getType('SimpleUnion')).toEqual({ union: 'SimpleUnion' });
+    });
+
+    it('should return interface type for Interface', () => {
+      expect((visitor as any).getType('SimpleInterface')).toEqual({ interface: 'SimpleInterface' });
     });
 
     it('should throw error for unknown type', () => {
@@ -283,11 +295,13 @@ describe('schemas with pk on a belongsTo fk', () => {
 
 describe('Custom queries/mutations/subscriptions & input type tests', () => {
   const schema = /* GraphQL */ `
-    input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }
+    input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
     type Todo @model {
       id: ID!
       name: String!
       description: String
+      phone: Phone
     }
     type Phone {
       number: String
@@ -298,22 +312,32 @@ describe('Custom queries/mutations/subscriptions & input type tests', () => {
     }
     input CustomInput {
       customField1: String!
-      customField2: BillingSource!
+      customField2: Int
       customField3: NestedInput!
     }
     input NestedInput {
       content: String! = "hello"
     }
-    input EchoInput {
-      msg: String
+    interface ICustom {
+      firstName: String!
+      lastName: String
+      birthdays: [INestedCustom!]!
     }
+    interface INestedCustom {
+      birthDay: AWSDate!
+    }
+    # The member types of a Union type must all be Object base types.
+    union CustomUnion = Todo | Phone
+    
     type Query {
+      getAllTodo(msg: String, input: CustomInput): String
       echo(msg: String): String
       echo2(todoId: ID!): Todo
-      echo3: [Todo]
+      echo3: [Todo!]!
       echo4(number: String): Phone
-      echo5(input: [EchoInput]): String
+      echo5: [CustomUnion!]!
       echo6(customInput: CustomInput): String!
+      echo7: [ICustom]!
     }
     type Mutation {
       mutate(msg: [String!]!): Todo

@@ -102,12 +102,22 @@ export type FieldType = 'ID' | 'String' | 'Int' | 'Float' | 'AWSDate' | 'AWSTime
     nonModel: string;
 } | {
     input: string;
+} | {
+    union: string;
+} | {
+    interface: string;
 };
 
 // @public (undocumented)
 export type Input = {
     name: string;
     arguments: Arguments;
+};
+
+// @public (undocumented)
+export type Interface = {
+    name: string;
+    fields: Fields;
 };
 
 // @public (undocumented)
@@ -128,6 +138,8 @@ export type ModelIntrospectionSchema = {
     mutations?: SchemaMutations;
     subscriptions?: SchemaSubscriptions;
     inputs?: SchemaInputs;
+    unions?: SchemaUnions;
+    interfaces?: SchemaInterfaces;
 };
 
 // Warning: (ae-forgotten-export) The symbol "RawAppSyncModelConfig" needs to be exported by the entry point index.d.ts
@@ -156,6 +168,9 @@ export type SchemaEnums = Record<string, SchemaEnum>;
 
 // @public (undocumented)
 export type SchemaInputs = Record<string, Input>;
+
+// @public (undocumented)
+export type SchemaInterfaces = Record<string, Interface>;
 
 // @public (undocumented)
 export type SchemaModel = {
@@ -198,7 +213,16 @@ export type SchemaSubscription = SchemaQuery;
 export type SchemaSubscriptions = Record<string, SchemaSubscription>;
 
 // @public (undocumented)
+export type SchemaUnions = Record<string, Union>;
+
+// @public (undocumented)
 export type Target = 'java' | 'swift' | 'javascript' | 'typescript' | 'dart' | 'introspection';
+
+// @public (undocumented)
+export type Union = {
+    name: string;
+    typeNames: string[];
+};
 
 // (No @packageDocumentation comment for this package)
 
