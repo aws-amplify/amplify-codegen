@@ -1,5 +1,6 @@
 import { buildSchema, parse, visit } from 'graphql';
-import { directives, scalars } from '../../scalars/supported-directives';
+import { DefaultDirectives, V1Directives, Directive } from '@aws-amplify/graphql-directives';
+import { scalars } from '../../scalars/supported-scalars';
 import { CodeGenConnectionType, CodeGenFieldConnectionBelongsTo, CodeGenFieldConnectionHasMany, CodeGenFieldConnectionHasOne } from '../../utils/process-connections';
 import { AppSyncModelVisitor, CodeGenGenerateEnum, CodeGenPrimaryKeyType } from '../../visitors/appsync-visitor';
 
@@ -8,17 +9,19 @@ const defaultBaseVisitorSettings = {
   isTimestampFieldsAdded: true,
   respectPrimaryKeyAttributesOnConnectionField: false
 }
-const buildSchemaWithDirectives = (schema: String) => {
+
+const buildSchemaWithDirectives = (schema: String, directives: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-const createAndGenerateVisitor = (schema: string, settings: any = {}) => {
+const createAndGenerateVisitor = (schema: string, settings: any = {}, directives: Directive[] = DefaultDirectives) => {
   const visitorConfig = {...defaultBaseVisitorSettings, ...settings}
   const ast = parse(schema);
-  const builtSchema = buildSchemaWithDirectives(schema);
+  const stringDirectives = directives.map(directive => directive.definition).join('\n');
+  const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
   const visitor = new AppSyncModelVisitor(
     builtSchema,
-    { directives, target: 'general', ...visitorConfig },
+    { directives: stringDirectives, target: 'general', ...visitorConfig },
     { generate: CodeGenGenerateEnum.code },
   );
   visit(ast, { leave: visitor });
@@ -40,8 +43,9 @@ describe('AppSyncModelVisitor', () => {
       }
     `;
     const ast = parse(schema);
-    const builtSchema = buildSchemaWithDirectives(schema);
-    const visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+    const stringDirectives = DefaultDirectives.map(directive => directive.definition).join('\n');
+    const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
+    const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
     visit(ast, { leave: visitor });
     expect(visitor.models.Post).toBeDefined();
 
@@ -61,8 +65,9 @@ describe('AppSyncModelVisitor', () => {
       }
     `;
     const ast = parse(schema);
-    const builtSchema = buildSchemaWithDirectives(schema);
-    const visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'general', generate: CodeGenGenerateEnum.code }, {});
+    const stringDirectives = DefaultDirectives.map(directive => directive.definition).join('\n');
+    const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
+    const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'general', generate: CodeGenGenerateEnum.code }, {});
     expect(() => visit(ast, { leave: visitor })).not.toThrowError();
   });
   it('should change field to non-nullable when schema has id of nullable type', () => {
@@ -86,8 +91,9 @@ describe('AppSyncModelVisitor', () => {
       }
     `;
     const ast = parse(schema);
-    const builtSchema = buildSchemaWithDirectives(schema);
-    const visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+    const stringDirectives = DefaultDirectives.map(directive => directive.definition).join('\n');
+    const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
+    const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
     visit(ast, { leave: visitor });
     const postFields = visitor.models.Post.fields;
     expect(postFields[0].name).toEqual('id');
@@ -206,8 +212,9 @@ describe('AppSyncModelVisitor', () => {
       `;
       it('one to many connection', () => {
         const ast = parse(schema);
-        const builtSchema = buildSchemaWithDirectives(schema);
-        const visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+        const stringDirectives = DefaultDirectives.concat(V1Directives).map(directive => directive.definition).join('\n');
+        const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
+        const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
         visit(ast, { leave: visitor });
         visitor.generate();
         const commentsField = visitor.models.Post.fields.find(f => f.name === 'comments');
@@ -222,8 +229,9 @@ describe('AppSyncModelVisitor', () => {
 
       it('many to one connection', () => {
         const ast = parse(schema);
-        const builtSchema = buildSchemaWithDirectives(schema);
-        const visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+        const stringDirectives = DefaultDirectives.concat(V1Directives).map(directive => directive.definition).join('\n');
+        const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
+        const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
         visit(ast, { leave: visitor });
         visitor.generate();
         const commentsField = visitor.models.Post.fields.find(f => f.name === 'comments');
@@ -254,8 +262,9 @@ describe('AppSyncModelVisitor', () => {
 
       it('one to many connection', () => {
         const ast = parse(schema);
-        const builtSchema = buildSchemaWithDirectives(schema);
-        const visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+        const stringDirectives = DefaultDirectives.concat(V1Directives).map(directive => directive.definition).join('\n');
+        const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
+        const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
         visit(ast, { leave: visitor });
         visitor.generate();
         const commentsField = visitor.models.Post.fields.find(f => f.name === 'comments');
@@ -271,8 +280,9 @@ describe('AppSyncModelVisitor', () => {
 
       it('many to one connection', () => {
         const ast = parse(schema);
-        const builtSchema = buildSchemaWithDirectives(schema);
-        const visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+        const stringDirectives = DefaultDirectives.concat(V1Directives).map(directive => directive.definition).join('\n');
+        const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
+        const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
         visit(ast, { leave: visitor });
         visitor.generate();
 
@@ -303,8 +313,9 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const ast = parse(schema);
-      const builtSchema = buildSchemaWithDirectives(schema);
-      const visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+      const stringDirectives = DefaultDirectives.concat(V1Directives).map(directive => directive.definition).join('\n');
+      const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
+      const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
       visit(ast, { leave: visitor });
       visitor.generate();
       const postFields = visitor.models.Post.fields.map(field => field.name);
@@ -327,8 +338,9 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const ast = parse(schema);
-      const builtSchema = buildSchemaWithDirectives(schema);
-      const visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+      const stringDirectives = DefaultDirectives.concat(V1Directives).map(directive => directive.definition).join('\n');
+      const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
+      const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
       visit(ast, { leave: visitor });
       visitor.generate();
       const commentsField = visitor.models.Comment.fields.map(field => field.name);
@@ -349,10 +361,11 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const ast = parse(schema);
-      const builtSchema = buildSchemaWithDirectives(schema);
+      const stringDirectives = DefaultDirectives.map(directive => directive.definition).join('\n');
+      const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
       const visitor = new AppSyncModelVisitor(
         builtSchema,
-        { directives, target: 'typescript', generate: CodeGenGenerateEnum.code, usePipelinedTransformer: true },
+        { directives: stringDirectives, target: 'typescript', generate: CodeGenGenerateEnum.code, usePipelinedTransformer: true },
         {},
       );
       visit(ast, { leave: visitor });
@@ -461,8 +474,9 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const ast = parse(schema);
-      const builtSchema = buildSchemaWithDirectives(schema);
-      const visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+      const stringDirectives = DefaultDirectives.map(directive => directive.definition).join('\n');
+      const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
+      const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
       visit(ast, { leave: visitor });
       visitor.generate();
       const postModel = visitor.models.Post;
@@ -489,8 +503,9 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const ast = parse(schema);
-      const builtSchema = buildSchemaWithDirectives(schema);
-      const visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+      const stringDirectives = DefaultDirectives.map(directive => directive.definition).join('\n');
+      const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
+      const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
       visit(ast, { leave: visitor });
       visitor.generate();
       const postModel = visitor.models.Post;
@@ -520,8 +535,9 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const ast = parse(schema);
-      const builtSchema = buildSchemaWithDirectives(schema);
-      const visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+      const stringDirectives = DefaultDirectives.map(directive => directive.definition).join('\n');
+      const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
+      const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
       visit(ast, { leave: visitor });
       visitor.generate();
 
@@ -551,8 +567,9 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const ast = parse(schema);
-      const builtSchema = buildSchemaWithDirectives(schema);
-      visitor = new AppSyncModelVisitor(builtSchema, { directives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+      const stringDirectives = DefaultDirectives.map(directive => directive.definition).join('\n');
+      const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
+      visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
       visit(ast, { leave: visitor });
       visitor.generate();
     });
@@ -1061,7 +1078,7 @@ describe('AppSyncModelVisitor', () => {
           id: ID!
         }
       `;
-      const { models, nonModels } = createAndGenerateVisitor(schemaV1, { respectPrimaryKeyAttributesOnConnectionField: true });
+      const { models, nonModels } = createAndGenerateVisitor(schemaV1, { respectPrimaryKeyAttributesOnConnectionField: true }, DefaultDirectives.concat(V1Directives));
       it('should have id field as primary key when no custom PK defined', () => {
         const primaryKeyField = models.WorkItem0.fields.find(field => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();

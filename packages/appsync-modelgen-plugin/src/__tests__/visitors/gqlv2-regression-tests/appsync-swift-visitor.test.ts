@@ -1,6 +1,6 @@
 import { buildSchema, GraphQLSchema, parse, visit } from 'graphql';
 import { DefaultDirectives } from '@aws-amplify/graphql-directives';
-import { scalars } from '../../../scalars/supported-directives';
+import { scalars } from '../../../scalars/supported-scalars';
 import { SWIFT_SCALAR_MAP } from '../../../scalars';
 import { AppSyncSwiftVisitor } from '../../../visitors/appsync-swift-visitor';
 import { CodeGenGenerateEnum } from '../../../visitors/appsync-visitor';

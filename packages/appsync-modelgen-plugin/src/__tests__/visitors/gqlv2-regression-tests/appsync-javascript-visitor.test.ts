@@ -1,8 +1,11 @@
 import { buildSchema, GraphQLSchema, parse, visit } from 'graphql';
-import { directives, scalars } from '../../../scalars/supported-directives';
+import { DefaultDirectives } from '@aws-amplify/graphql-directives';
+import { scalars } from '../../../scalars/supported-scalars';
 import { TYPESCRIPT_SCALAR_MAP } from '../../../scalars';
 import { AppSyncModelJavascriptVisitor } from '../../../visitors/appsync-javascript-visitor';
 import { JavaScriptVisitorConfig } from '../appsync-javascript-visitor.test';
+
+const directives = DefaultDirectives.map(directive => directive.definition).join('\n');
 
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));

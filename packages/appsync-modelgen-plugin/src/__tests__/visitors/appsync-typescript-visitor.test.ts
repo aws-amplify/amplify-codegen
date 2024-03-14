@@ -2,7 +2,7 @@ import { buildSchema, GraphQLSchema, parse, visit } from 'graphql';
 import { validateTs } from '@graphql-codegen/testing';
 import { DefaultDirectives } from '@aws-amplify/graphql-directives';
 import { TYPESCRIPT_SCALAR_MAP } from '../../scalars';
-import { scalars } from '../../scalars/supported-directives';
+import { scalars } from '../../scalars/supported-scalars';
 import { AppSyncModelTypeScriptVisitor } from '../../visitors/appsync-typescript-visitor';
 
 const directives = DefaultDirectives.map(directive => directive.definition).join('\n');

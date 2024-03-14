@@ -1,6 +1,7 @@
 import { buildSchema, GraphQLSchema, parse, visit } from 'graphql';
 import { METADATA_SCALAR_MAP } from '../../scalars';
-import { directives, scalars } from '../../scalars/supported-directives';
+import { DefaultDirectives, V1Directives, Directive } from '@aws-amplify/graphql-directives';
+import { scalars } from '../../scalars/supported-scalars';
 import { AppSyncModelIntrospectionVisitor } from '../../visitors/appsync-model-introspection-visitor';
 
 const defaultModelIntropectionVisitorSettings = {
@@ -9,17 +10,18 @@ const defaultModelIntropectionVisitorSettings = {
   transformerVersion: 2
 }
 
-const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
+const buildSchemaWithDirectives = (schema: String, directives: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-const getVisitor = (schema: string, settings: any = {}): AppSyncModelIntrospectionVisitor => {
+const getVisitor = (schema: string, settings: any = {}, directives: Directive[] = DefaultDirectives): AppSyncModelIntrospectionVisitor => {
   const visitorConfig = { ...defaultModelIntropectionVisitorSettings, ...settings }
   const ast = parse(schema);
-  const builtSchema = buildSchemaWithDirectives(schema);
+  const stringDirectives = directives.map(directive => directive.definition).join('\n');
+  const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
   const visitor = new AppSyncModelIntrospectionVisitor(
     builtSchema,
-    { directives, scalars: METADATA_SCALAR_MAP, ...visitorConfig, target: 'introspection' },
+    { directives: stringDirectives, scalars: METADATA_SCALAR_MAP, ...visitorConfig, target: 'introspection' },
     {},
   );
   visit(ast, { leave: visitor });
@@ -290,7 +292,7 @@ describe('schemas with pk on a belongsTo fk', () => {
     `, {
       transformerVersion: 1,
       usePipelinedTransformer: false,
-    }).generate()).toMatchSnapshot();
+    }, DefaultDirectives.concat(V1Directives)).generate()).toMatchSnapshot();
   });
 
   it('works for v2', () => {

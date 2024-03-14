@@ -1,10 +1,12 @@
 import { buildSchema, GraphQLSchema, parse, visit } from 'graphql';
 import { validateTs } from '@graphql-codegen/testing';
+import { DefaultDirectives, V1Directives, Directive } from '@aws-amplify/graphql-directives';
 import { TYPESCRIPT_SCALAR_MAP } from '../../scalars';
-import { directives, scalars } from '../../scalars/supported-directives';
+import { scalars } from '../../scalars/supported-scalars';
 import { AppSyncModelJavascriptVisitor } from '../../visitors/appsync-javascript-visitor';
 
-const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
+
+const buildSchemaWithDirectives = (schema: String, directives: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 export type JavaScriptVisitorConfig = {
@@ -19,13 +21,14 @@ const defaultJavaScriptVisitorConfig: JavaScriptVisitorConfig = {
   respectPrimaryKeyAttributesOnConnectionField: false,
   transformerVersion: 1,
 };
-const getVisitor = (schema: string, settings: JavaScriptVisitorConfig = {}): AppSyncModelJavascriptVisitor => {
+const getVisitor = (schema: string, settings: JavaScriptVisitorConfig = {}, directives: Directive[] = DefaultDirectives): AppSyncModelJavascriptVisitor => {
   const config = { ...defaultJavaScriptVisitorConfig, ...settings };
   const ast = parse(schema);
-  const builtSchema = buildSchemaWithDirectives(schema);
+  const stringDirectives = directives.map(directive => directive.definition).join('\n');
+  const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
   const visitor = new AppSyncModelJavascriptVisitor(
     builtSchema,
-    { directives, target: 'javascript', scalars: TYPESCRIPT_SCALAR_MAP, ...config },
+    { directives: stringDirectives, target: 'javascript', scalars: TYPESCRIPT_SCALAR_MAP, ...config },
     {},
   );
   visit(ast, { leave: visitor });
@@ -56,7 +59,7 @@ describe('Javascript visitor', () => {
   `;
   let visitor: AppSyncModelJavascriptVisitor;
   beforeEach(() => {
-    visitor = getVisitor(schema);
+    visitor = getVisitor(schema, {}, DefaultDirectives.concat(V1Directives));
   });
 
   describe('enums', () => {
@@ -101,7 +104,7 @@ describe('Javascript visitor', () => {
     });
 
     it('should generate Javascript declaration', () => {
-      const declarationVisitor = getVisitor(schema, { isDeclaration: true });
+      const declarationVisitor = getVisitor(schema, { isDeclaration: true }, DefaultDirectives.concat(V1Directives));
       const generateImportSpy = jest.spyOn(declarationVisitor as any, 'generateImports');
       const generateEnumDeclarationsSpy = jest.spyOn(declarationVisitor as any, 'generateEnumDeclarations');
       const generateModelDeclarationSpy = jest.spyOn(declarationVisitor as any, 'generateModelDeclaration');
@@ -189,7 +192,7 @@ describe('Javascript visitor', () => {
     });
 
     it('should generate Javascript declaration with model metadata types', () => {
-      const declarationVisitor = getVisitor(schema, { isDeclaration: true, isTimestampFieldsAdded: true });
+      const declarationVisitor = getVisitor(schema, { isDeclaration: true, isTimestampFieldsAdded: true }, DefaultDirectives.concat(V1Directives));
       const generateImportSpy = jest.spyOn(declarationVisitor as any, 'generateImports');
       const generateEnumDeclarationsSpy = jest.spyOn(declarationVisitor as any, 'generateEnumDeclarations');
       const generateModelDeclarationSpy = jest.spyOn(declarationVisitor as any, 'generateModelDeclaration');
@@ -290,7 +293,7 @@ describe('Javascript visitor', () => {
   });
 
   it('should generate Javascript code when declaration is set to false', () => {
-    const jsVisitor = getVisitor(schema);
+    const jsVisitor = getVisitor(schema, {}, DefaultDirectives.concat(V1Directives));
     const generateImportsJavaScriptImplementationSpy = jest.spyOn(jsVisitor as any, 'generateImportsJavaScriptImplementation');
     const generateEnumObjectSpy = jest.spyOn(jsVisitor as any, 'generateEnumObject');
     const generateModelInitializationSpy = jest.spyOn(jsVisitor as any, 'generateModelInitialization');
