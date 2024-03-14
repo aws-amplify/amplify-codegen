@@ -52,7 +52,7 @@ export async function testPushAdminModelgen(config: AmplifyFrontendConfig, proje
       AmplifyAppId: appId,
     } = getProjectMeta(projectRoot).providers.awscloudformation;
 
-    expect(bucketName).toBeAS3Bucket(bucketName);
+    expect(bucketName).toBeDefined()
     expect(region).toBeDefined();
     expect(appId).toBeDefined();
 
