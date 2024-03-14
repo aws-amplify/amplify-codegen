@@ -24,7 +24,7 @@ export type SchemaMutations = Record<string, SchemaMutation>;
 export type SchemaSubscriptions = Record<string, SchemaSubscription>;
 export type SchemaInputs = Record<string, Input>;
 export type SchemaUnions = Record<string, Union>;
-export type SchemaInterfaces = Record<string, Interface>
+export type SchemaInterfaces = Record<string, Interface>;
 
 export type SchemaModel = {
   name: string;

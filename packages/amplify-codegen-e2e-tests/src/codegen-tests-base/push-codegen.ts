@@ -8,7 +8,6 @@ import {
     amplifyPushWithCodegenUpdate,
     updateAPIWithResolutionStrategyWithModels,
     getProjectMeta,
-    checkIfBucketExists,
     getDeploymentBucketObject,
     amplifyPush
 } from "@aws-amplify/amplify-codegen-e2e-core";
