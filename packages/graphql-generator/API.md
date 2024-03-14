@@ -27,6 +27,7 @@ export type GenerateModelsOptions = {
     useExperimentalPipelinedTransformer?: boolean;
     transformerVersion?: boolean;
     respectPrimaryKeyAttributesOnConnectionField?: boolean;
+    improvePluralization?: boolean;
     generateModelsForLazyLoadAndCustomSelectionSet?: boolean;
     addTimestampFields?: boolean;
     handleListNullabilityTransparently?: boolean;
