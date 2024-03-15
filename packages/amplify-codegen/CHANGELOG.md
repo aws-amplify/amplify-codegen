@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.7.5-browser.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.7.4...amplify-codegen@4.7.5-browser.0) (2024-03-15)
+
+### Bug Fixes
+
+- replace path.win32.sep with \ ([1ea9063](https://github.com/aws-amplify/amplify-codegen/commit/1ea9063d58dc1fac5a270db9c7a80b8e496bef60))
+
 ## [4.7.4](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.7.3...amplify-codegen@4.7.4) (2024-01-29)
 
 **Note:** Version bump only for package amplify-codegen

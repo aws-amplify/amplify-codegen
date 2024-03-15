@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.4.7-browser.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@3.4.6...@aws-amplify/graphql-types-generator@3.4.7-browser.0) (2024-03-15)
+
+### Bug Fixes
+
+- replace path.win32.sep with \ ([1ea9063](https://github.com/aws-amplify/amplify-codegen/commit/1ea9063d58dc1fac5a270db9c7a80b8e496bef60))
+
 ## [3.4.6](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@3.4.5...@aws-amplify/graphql-types-generator@3.4.6) (2023-12-11)
 
 **Note:** Version bump only for package @aws-amplify/graphql-types-generator
