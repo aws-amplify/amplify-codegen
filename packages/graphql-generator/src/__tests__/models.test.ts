@@ -15,6 +15,17 @@ describe('generateModels', () => {
         expect(models).toMatchSnapshot();
       });
     });
+
+    test(`improve pluralization swift`, async () => {
+      const options: GenerateModelsOptions = {
+        schema: readSchema('blog-model.graphql'),
+        target: 'swift',
+        directives,
+        improvePluralization: true,
+      };
+      const models = await generateModels(options);
+      expect(models).toMatchSnapshot();
+    });
   });
 });
 
