@@ -137,6 +137,8 @@ export function generateForTarget(
       return generateScalaSource(context, options);
     case 'angular':
       return generateAngularSource(context);
+    case 'angular-v6':
+      return generateAngularSource(context, { isAngularV6: true });
     default:
       throw new Error(`${target} is not supported.`);
   }

@@ -7,7 +7,7 @@ const { getFrontEndHandler, getFrontEndFramework } = require('../../utils');
 const frontEndToTargetMappings = {
   ios: ['swift'],
   javascript: ['javascript', 'typescript', 'flow'],
-  angular: ['angular', 'typescript'],
+  angular: ['angular', 'typescript', 'angular-v6'],
 };
 
 async function askCodeGenTargetLanguage(context, target, withoutInit = false, decoupleFrontend = '', decoupleFramework = '') {
