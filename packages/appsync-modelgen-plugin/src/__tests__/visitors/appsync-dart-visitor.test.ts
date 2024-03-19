@@ -89,7 +89,7 @@ describe('AppSync Dart Visitor', () => {
           book: String
         }
       `;
-      const visitor = getVisitor({ schema, directives: DefaultDirectives.concat(V1Directives) });
+      const visitor = getVisitor({ schema, directives: V1Directives });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -276,7 +276,7 @@ describe('AppSync Dart Visitor', () => {
       `;
       const outputModels: string[] = ['Todo', 'Task'];
       outputModels.forEach(model => {
-        const generatedCode = getVisitor({schema, selectedType: model, directives: DefaultDirectives.concat(V1Directives) }).generate();
+        const generatedCode = getVisitor({schema, selectedType: model, directives: V1Directives }).generate();
         expect(generatedCode).toMatchSnapshot();
       });
     });
@@ -305,7 +305,7 @@ describe('AppSync Dart Visitor', () => {
       `;
       const outputModels: string[] = ['Blog', 'Comment', 'Post'];
       outputModels.forEach(model => {
-        const generatedCode = getVisitor({ schema, selectedType: model, directives: DefaultDirectives.concat(V1Directives) }).generate();
+        const generatedCode = getVisitor({ schema, selectedType: model, directives: V1Directives }).generate();
         expect(generatedCode).toMatchSnapshot();
       });
     });
@@ -461,7 +461,7 @@ describe('AppSync Dart Visitor', () => {
       `;
       const outputModels: string[] = ['Blog', 'Comment', 'Post'];
       outputModels.forEach(model => {
-        const generatedCode = getVisitor({ schema, selectedType: model, directives: DefaultDirectives.concat(V1Directives) }).generate();
+        const generatedCode = getVisitor({ schema, selectedType: model, directives: V1Directives }).generate();
         expect(generatedCode).toMatchSnapshot();
       });
     });

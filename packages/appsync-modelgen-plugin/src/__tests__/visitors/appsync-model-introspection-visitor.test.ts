@@ -292,7 +292,7 @@ describe('schemas with pk on a belongsTo fk', () => {
     `, {
       transformerVersion: 1,
       usePipelinedTransformer: false,
-    }, DefaultDirectives.concat(V1Directives)).generate()).toMatchSnapshot();
+    }, V1Directives).generate()).toMatchSnapshot();
   });
 
   it('works for v2', () => {

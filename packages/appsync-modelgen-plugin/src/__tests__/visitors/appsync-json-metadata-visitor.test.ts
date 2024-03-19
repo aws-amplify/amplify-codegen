@@ -1107,11 +1107,11 @@ describe('Metadata visitor has one relation', () => {
   `;
   let visitor: AppSyncJSONVisitor;
   beforeEach(() => {
-    visitor = getVisitor(schema, 'javascript', {}, DefaultDirectives.concat(V1Directives));
+    visitor = getVisitor(schema, 'javascript', {}, V1Directives);
   });
 
   it('should generate for Javascript', () => {
-    const jsVisitor = getVisitor(schema, 'javascript', {}, DefaultDirectives.concat(V1Directives));
+    const jsVisitor = getVisitor(schema, 'javascript', {}, V1Directives);
     expect(jsVisitor.generate()).toMatchInlineSnapshot(`
       "export const schema = {
           \\"models\\": {
@@ -1232,7 +1232,7 @@ describe('Metadata visitor has one relation', () => {
   });
 
   it('should generate for TypeScript', () => {
-    const tsVisitor = getVisitor(schema, 'typescript', {}, DefaultDirectives.concat(V1Directives));
+    const tsVisitor = getVisitor(schema, 'typescript', {}, V1Directives);
     expect(tsVisitor.generate()).toMatchInlineSnapshot(`
       "import { Schema } from \\"@aws-amplify/datastore\\";
 

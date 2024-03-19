@@ -212,7 +212,7 @@ describe('AppSyncModelVisitor', () => {
       `;
       it('one to many connection', () => {
         const ast = parse(schema);
-        const stringDirectives = DefaultDirectives.concat(V1Directives).map(directive => directive.definition).join('\n');
+        const stringDirectives = V1Directives.map(directive => directive.definition).join('\n');
         const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
         const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
         visit(ast, { leave: visitor });
@@ -229,7 +229,7 @@ describe('AppSyncModelVisitor', () => {
 
       it('many to one connection', () => {
         const ast = parse(schema);
-        const stringDirectives = DefaultDirectives.concat(V1Directives).map(directive => directive.definition).join('\n');
+        const stringDirectives = V1Directives.map(directive => directive.definition).join('\n');
         const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
         const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
         visit(ast, { leave: visitor });
@@ -262,7 +262,7 @@ describe('AppSyncModelVisitor', () => {
 
       it('one to many connection', () => {
         const ast = parse(schema);
-        const stringDirectives = DefaultDirectives.concat(V1Directives).map(directive => directive.definition).join('\n');
+        const stringDirectives = V1Directives.map(directive => directive.definition).join('\n');
         const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
         const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
         visit(ast, { leave: visitor });
@@ -280,7 +280,7 @@ describe('AppSyncModelVisitor', () => {
 
       it('many to one connection', () => {
         const ast = parse(schema);
-        const stringDirectives = DefaultDirectives.concat(V1Directives).map(directive => directive.definition).join('\n');
+        const stringDirectives = V1Directives.map(directive => directive.definition).join('\n');
         const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
         const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
         visit(ast, { leave: visitor });
@@ -313,7 +313,7 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const ast = parse(schema);
-      const stringDirectives = DefaultDirectives.concat(V1Directives).map(directive => directive.definition).join('\n');
+      const stringDirectives = V1Directives.map(directive => directive.definition).join('\n');
       const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
       const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
       visit(ast, { leave: visitor });
@@ -338,7 +338,7 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const ast = parse(schema);
-      const stringDirectives = DefaultDirectives.concat(V1Directives).map(directive => directive.definition).join('\n');
+      const stringDirectives = V1Directives.map(directive => directive.definition).join('\n');
       const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
       const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
       visit(ast, { leave: visitor });
@@ -1078,7 +1078,7 @@ describe('AppSyncModelVisitor', () => {
           id: ID!
         }
       `;
-      const { models, nonModels } = createAndGenerateVisitor(schemaV1, { respectPrimaryKeyAttributesOnConnectionField: true }, DefaultDirectives.concat(V1Directives));
+      const { models, nonModels } = createAndGenerateVisitor(schemaV1, { respectPrimaryKeyAttributesOnConnectionField: true }, V1Directives);
       it('should have id field as primary key when no custom PK defined', () => {
         const primaryKeyField = models.WorkItem0.fields.find(field => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();

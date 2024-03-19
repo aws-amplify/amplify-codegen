@@ -59,7 +59,7 @@ describe('Javascript visitor', () => {
   `;
   let visitor: AppSyncModelJavascriptVisitor;
   beforeEach(() => {
-    visitor = getVisitor(schema, {}, DefaultDirectives.concat(V1Directives));
+    visitor = getVisitor(schema, {}, V1Directives);
   });
 
   describe('enums', () => {
@@ -104,7 +104,7 @@ describe('Javascript visitor', () => {
     });
 
     it('should generate Javascript declaration', () => {
-      const declarationVisitor = getVisitor(schema, { isDeclaration: true }, DefaultDirectives.concat(V1Directives));
+      const declarationVisitor = getVisitor(schema, { isDeclaration: true }, V1Directives);
       const generateImportSpy = jest.spyOn(declarationVisitor as any, 'generateImports');
       const generateEnumDeclarationsSpy = jest.spyOn(declarationVisitor as any, 'generateEnumDeclarations');
       const generateModelDeclarationSpy = jest.spyOn(declarationVisitor as any, 'generateModelDeclaration');
@@ -192,7 +192,7 @@ describe('Javascript visitor', () => {
     });
 
     it('should generate Javascript declaration with model metadata types', () => {
-      const declarationVisitor = getVisitor(schema, { isDeclaration: true, isTimestampFieldsAdded: true }, DefaultDirectives.concat(V1Directives));
+      const declarationVisitor = getVisitor(schema, { isDeclaration: true, isTimestampFieldsAdded: true }, V1Directives);
       const generateImportSpy = jest.spyOn(declarationVisitor as any, 'generateImports');
       const generateEnumDeclarationsSpy = jest.spyOn(declarationVisitor as any, 'generateEnumDeclarations');
       const generateModelDeclarationSpy = jest.spyOn(declarationVisitor as any, 'generateModelDeclaration');
@@ -293,7 +293,7 @@ describe('Javascript visitor', () => {
   });
 
   it('should generate Javascript code when declaration is set to false', () => {
-    const jsVisitor = getVisitor(schema, {}, DefaultDirectives.concat(V1Directives));
+    const jsVisitor = getVisitor(schema, {}, V1Directives);
     const generateImportsJavaScriptImplementationSpy = jest.spyOn(jsVisitor as any, 'generateImportsJavaScriptImplementation');
     const generateEnumObjectSpy = jest.spyOn(jsVisitor as any, 'generateEnumObject');
     const generateModelInitializationSpy = jest.spyOn(jsVisitor as any, 'generateModelInitialization');

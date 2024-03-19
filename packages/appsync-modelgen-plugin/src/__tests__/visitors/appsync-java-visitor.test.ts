@@ -105,7 +105,7 @@ describe('AppSyncModelVisitor', () => {
       }
     `;
 
-    const visitor = getVisitor(schema, 'SimpleModel', {}, DefaultDirectives.concat(V1Directives));
+    const visitor = getVisitor(schema, 'SimpleModel', {}, V1Directives);
     const generatedCode = visitor.generate();
     expect(() => validateJava(generatedCode)).not.toThrow();
     expect(generatedCode).toMatchSnapshot();
@@ -203,7 +203,7 @@ describe('AppSyncModelVisitor', () => {
         book: String
       }
     `;
-    const visitor = getVisitor(schema, 'authorBook', {}, DefaultDirectives.concat(V1Directives));
+    const visitor = getVisitor(schema, 'authorBook', {}, V1Directives);
     const generatedCode = visitor.generate();
     expect(() => validateJava(generatedCode)).not.toThrow();
     expect(generatedCode).toMatchSnapshot();
@@ -253,7 +253,7 @@ describe('AppSyncModelVisitor', () => {
           book: String
         }
       `;
-      const visitorV1 = getVisitor(schemaV1, 'authorBook', {}, DefaultDirectives.concat(V1Directives));
+      const visitorV1 = getVisitor(schemaV1, 'authorBook', {}, V1Directives);
       const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook');
       const version1Code = visitorV1.generate();
       const version2Code = visitorV2.generate();
@@ -280,7 +280,7 @@ describe('AppSyncModelVisitor', () => {
           book: String
         }
       `;
-      const visitorV1 = getVisitor(schemaV1, 'authorBook', {}, DefaultDirectives.concat(V1Directives));
+      const visitorV1 = getVisitor(schemaV1, 'authorBook', {}, V1Directives);
       const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook');
       const version1Code = visitorV1.generate();
       const version2Code = visitorV2.generate();
@@ -561,14 +561,14 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       it('should generate one side of the connection', () => {
-        const visitor = getVisitor(schema, 'Todo', {}, DefaultDirectives.concat(V1Directives));
+        const visitor = getVisitor(schema, 'Todo', {}, V1Directives);
         const generatedCode = visitor.generate();
         expect(() => validateJava(generatedCode)).not.toThrow();
         expect(generatedCode).toMatchSnapshot();
       });
 
       it('should generate many side of the connection', () => {
-        const visitor = getVisitor(schema, 'task', {}, DefaultDirectives.concat(V1Directives));
+        const visitor = getVisitor(schema, 'task', {}, V1Directives);
         const generatedCode = visitor.generate();
         expect(() => validateJava(generatedCode)).not.toThrow();
         expect(generatedCode).toMatchSnapshot();
@@ -591,14 +591,14 @@ describe('AppSyncModelVisitor', () => {
       }
     `;
     it('should generate class for one side of the connection', () => {
-      const visitor = getVisitor(schema, 'Todo', {}, DefaultDirectives.concat(V1Directives));
+      const visitor = getVisitor(schema, 'Todo', {}, V1Directives);
       const generatedCode = visitor.generate();
       expect(() => validateJava(generatedCode)).not.toThrow();
       expect(generatedCode).toMatchSnapshot();
     });
 
     it('should generate class for many side of the connection', () => {
-      const visitor = getVisitor(schema, 'task', {}, DefaultDirectives.concat(V1Directives));
+      const visitor = getVisitor(schema, 'task', {}, V1Directives);
       const generatedCode = visitor.generate();
       expect(() => validateJava(generatedCode)).not.toThrow();
       expect(generatedCode).toMatchSnapshot();
