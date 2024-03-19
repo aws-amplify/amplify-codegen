@@ -68,7 +68,7 @@ function normalizeValue(key, value) {
 }
 
 function normalizePathForGlobPattern(pattern) {
-  const splits = pattern.split('\\');
+  const splits = pattern.split(path.win32?.sep || '\\');
   return splits.join(path.posix.sep);
 }
 

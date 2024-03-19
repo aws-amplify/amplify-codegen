@@ -48,7 +48,7 @@ class AmplifyCodeGenConfig {
     // Set schemaPath to use posix separators. Node can handle windows and posix separators regradless of platform
     // Ensures all paths in .graphlqconfig.yml use posix style
     const schemaPath = (isAbsolute(project.schema) ? relative(this.gqlConfig.configDir, project.schema) : project.schema)
-      .split('\\')
+      .split(path.win32?.sep || '\\')
       .join(path.posix.sep);
     const newProject = {
       schemaPath,

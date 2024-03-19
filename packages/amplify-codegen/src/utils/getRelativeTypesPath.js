@@ -5,7 +5,7 @@ function getRelativeTypesPath(opsGenDirectory, generatedFileName) {
     const relativePath = path
       .relative(opsGenDirectory, generatedFileName)
       // ensure posix path separators are used
-      .split('\\')
+      .split(path.win32?.sep || '\\')
       .join(path.posix.sep);
 
     // generatedFileName is in same directory as opsGenDirectory
