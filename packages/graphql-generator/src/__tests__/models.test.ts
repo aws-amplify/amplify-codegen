@@ -19,7 +19,6 @@ describe('generateModels', () => {
       const options: GenerateModelsOptions = {
         schema: readSchema('blog-model.graphql'),
         target: 'swift',
-        directives,
         improvePluralization: true,
       };
       const models = await generateModels(options);
@@ -27,5 +26,20 @@ describe('generateModels', () => {
     });
   });
 
-  test('custom directives', () => {});
+  test('does not fail on custom directives', async () => {
+    const options: GenerateModelsOptions = {
+      schema: `
+        type Blog @customModel {
+          id: ID!
+          name: String! @customField
+        }`,
+      target: 'introspection',
+      directives: `
+        directive @customModel on OBJECT
+        directive @customField on FIELD_DEFINITION
+      `,
+    };
+    const models = await generateModels(options);
+    expect(models).toMatchSnapshot();
+  });
 });
