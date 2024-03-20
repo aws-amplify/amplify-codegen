@@ -19,7 +19,7 @@ import { propertyDeclarations } from '../flow/codeGeneration';
 export function generateSource(context: LegacyCompilerContext, options?: { isAngularV6: boolean  }) {
   const isAngularV6: boolean = options?.isAngularV6 ?? false;
   const importApiStatement = isAngularV6
-    ? `import { type Client, generateClient, GraphQLResult } from 'aws-amplify/api';`
+    ? `import { Client, generateClient } from 'aws-amplify/api';`
     : `import API, { graphqlOperation, GraphQLResult } from '@aws-amplify/api-graphql';`
   const importObservable = isAngularV6
     ? `import { Observable } from 'rxjs';`
@@ -37,7 +37,7 @@ export function generateSource(context: LegacyCompilerContext, options?: { isAng
   generator.printOnNewline(importObservable);
   generator.printNewline();
 
-  generateTypes(generator, context);
+  generateTypes(generator, context, { isAngularV6 });
   generator.printNewline();
 
   generateAngularService(generator, context, { isAngularV6 });
@@ -231,7 +231,7 @@ function generateSubscriptionOperation(generator: CodeGenerator, op: LegacyOpera
       params.push('gqlAPIServiceArguments');
       if (isAngularV6) {
         generator.printOnNewline(
-          `return this.client.graphql({ query: statement, variables: }) as Observable<${returnType}>;`,
+          `return this.client.graphql({ query: statement, variables: gqlAPIServiceArguments }) as any;`,
         );
       } else {
         generator.printOnNewline(

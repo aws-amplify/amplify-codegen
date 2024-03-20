@@ -8,7 +8,7 @@ import type { GraphQLWithMeta } from '@aws-amplify/graphql-docs-generator';
 const CODEGEN_WARNING = 'this is an auto generated file. This will be overwritten';
 const LINE_DELIMITOR = '\n';
 
-type Language = 'javascript' | 'graphql' | 'typescript' | 'flow' | 'angular';
+type Language = 'javascript' | 'graphql' | 'typescript' | 'flow' | 'angular' | 'angularv6';
 
 /**
  * Utility class to format the generated GraphQL statements based on frontend language type
@@ -121,6 +121,7 @@ export class GraphQLStatementsFormatter {
       typescript: 'typescript',
       flow: 'flow',
       angular: 'graphql',
+      angularv6: 'graphql',
     };
     return prettier.format(output, { parser: parserMap[this.language || 'graphql'] });
   }

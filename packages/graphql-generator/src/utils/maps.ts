@@ -6,4 +6,5 @@ export const statementsTargetToFileExtensionMap: { [key in StatementsTarget]: Fi
   flow: 'js',
   typescript: 'ts',
   angular: 'graphql',
+  angularv6: 'graphql',
 };

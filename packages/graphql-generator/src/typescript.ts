@@ -3,7 +3,7 @@ import { Target as GraphqlTypesGeneratorTarget } from '@aws-amplify/graphql-type
 import { Target as AppsyncModelgenPluginTarget } from '@aws-amplify/appsync-modelgen-plugin';
 
 export type ModelsTarget = AppsyncModelgenPluginTarget;
-export type StatementsTarget = 'javascript' | 'graphql' | 'flow' | 'typescript' | 'angular';
+export type StatementsTarget = 'javascript' | 'graphql' | 'flow' | 'typescript' | 'angular' | 'angularv6';
 export type TypesTarget = GraphqlTypesGeneratorTarget;
 
 export type FileExtension = 'js' | 'graphql' | 'ts';
