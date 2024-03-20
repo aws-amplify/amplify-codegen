@@ -19,7 +19,7 @@ import { propertyDeclarations } from '../flow/codeGeneration';
 export function generateSource(context: LegacyCompilerContext, options?: { isAngularV6: boolean  }) {
   const isAngularV6: boolean = options?.isAngularV6 ?? false;
   const importApiStatement = isAngularV6
-    ? `import { Client, generateClient } from 'aws-amplify/api';`
+    ? `import { Client, generateClient, GraphQLResult } from 'aws-amplify/api';`
     : `import API, { graphqlOperation, GraphQLResult } from '@aws-amplify/api-graphql';`
   const importObservable = isAngularV6
     ? `import { Observable } from 'rxjs';`
@@ -50,6 +50,10 @@ function generateTypes(generator: CodeGenerator, context: LegacyCompilerContext,
   // https://github.com/aws-amplify/amplify-cli/issues/5284
   if (context.schema.getSubscriptionType()) {
     if (!isAngularV6) {
+      /**
+       * V6 does not need to generate the response wrapper.
+       * The access pattern for V5 is `event.value.data` and `event.data` for V6
+       */
       generateSubscriptionResponseWrapper(generator);
     }
     generateSubscriptionOperationTypes(generator, context);
@@ -208,7 +212,7 @@ function generateSubscriptionOperation(generator: CodeGenerator, op: LegacyOpera
   if (!vars.length) {
     if (isAngularV6) {
       generator.print(
-        `${subscriptionName}: Observable<${returnType}> = this.client.graphql({ query: \n\`${statement}\` }) as Observable<${returnType}>`,
+        `${subscriptionName}(): Observable<GraphQLResult<${returnType}>> { return this.client.graphql({ query: \n\`${statement}\` }) as any; }`,
       );
     } else {
       generator.print(
@@ -219,7 +223,7 @@ function generateSubscriptionOperation(generator: CodeGenerator, op: LegacyOpera
     generator.print(`${subscriptionName}(`);
     variableDeclaration(generator, vars);
     if (isAngularV6) {
-      generator.print(`) : Observable<${returnType}> {`);
+      generator.print(`) : Observable<GraphQLResult<${returnType}>> {`);
     } else {
       generator.print(`) : Observable<SubscriptionResponse<${returnType}>> {`);
     }

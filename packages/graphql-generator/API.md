@@ -60,7 +60,7 @@ export type GenerateTypesOptions = {
 export type ModelsTarget = Target;
 
 // @public (undocumented)
-export type StatementsTarget = 'javascript' | 'graphql' | 'flow' | 'typescript' | 'angular';
+export type StatementsTarget = 'javascript' | 'graphql' | 'flow' | 'typescript' | 'angular' | 'angularv6';
 
 // @public (undocumented)
 export type TypesTarget = Target_2;
