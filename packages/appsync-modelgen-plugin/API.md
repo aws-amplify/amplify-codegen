@@ -28,7 +28,7 @@ export interface AppSyncModelPluginConfig extends RawDocumentsConfig {
 // @public (undocumented)
 export type Argument = {
     name: string;
-    type: FieldType;
+    type: InputFieldType;
     isArray: boolean;
     isRequired: boolean;
     isArrayNullable?: boolean;
@@ -94,7 +94,7 @@ export type FieldAttribute = ModelAttribute;
 export type Fields = Record<string, Field>;
 
 // @public (undocumented)
-export type FieldType = 'ID' | 'String' | 'Int' | 'Float' | 'AWSDate' | 'AWSTime' | 'AWSDateTime' | 'AWSTimestamp' | 'AWSEmail' | 'AWSURL' | 'AWSIPAddress' | 'Boolean' | 'AWSJSON' | 'AWSPhone' | {
+export type FieldType = ScalarType | {
     enum: string;
 } | {
     model: string;
@@ -112,6 +112,13 @@ export type FieldType = 'ID' | 'String' | 'Int' | 'Float' | 'AWSDate' | 'AWSTime
 export type Input = {
     name: string;
     arguments: Arguments;
+};
+
+// @public (undocumented)
+export type InputFieldType = ScalarType | {
+    enum: string;
+} | {
+    input: string;
 };
 
 // @public (undocumented)
@@ -156,6 +163,9 @@ export type PrimaryKeyInfo = {
     primaryKeyFieldName: string;
     sortKeyFieldNames: string[];
 };
+
+// @public (undocumented)
+export type ScalarType = 'ID' | 'String' | 'Int' | 'Float' | 'AWSDate' | 'AWSTime' | 'AWSDateTime' | 'AWSTimestamp' | 'AWSEmail' | 'AWSURL' | 'AWSIPAddress' | 'Boolean' | 'AWSJSON' | 'AWSPhone';
 
 // @public (undocumented)
 export type SchemaEnum = {

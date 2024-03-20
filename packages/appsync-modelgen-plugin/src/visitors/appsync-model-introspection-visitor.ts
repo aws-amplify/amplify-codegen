@@ -1,6 +1,6 @@
 import { DEFAULT_SCALARS, NormalizedScalarsMap } from "@graphql-codegen/visitor-plugin-common";
 import { GraphQLSchema } from "graphql";
-import { Argument, AssociationType, Field, Fields, FieldType, ModelAttribute, ModelIntrospectionSchema, PrimaryKeyInfo, SchemaEnum, SchemaModel, SchemaMutation, SchemaNonModel, SchemaQuery, SchemaSubscription, Input, Union, Interface } from "../interfaces/introspection";
+import { Argument, AssociationType, Field, Fields, FieldType, ModelAttribute, ModelIntrospectionSchema, PrimaryKeyInfo, SchemaEnum, SchemaModel, SchemaMutation, SchemaNonModel, SchemaQuery, SchemaSubscription, Input, Union, Interface, InputFieldType } from "../interfaces/introspection";
 import { METADATA_SCALAR_MAP } from "../scalars";
 import { CodeGenConnectionType } from "../utils/process-connections";
 import { RawAppSyncModelConfig, ParsedAppSyncModelConfig, AppSyncModelVisitor, CodeGenEnum, CodeGenField, CodeGenModel, CodeGenPrimaryKeyType, CodeGenQuery, CodeGenSubscription, CodeGenMutation, CodeGenInputObject, CodeGenUnion, CodeGenInterface } from "./appsync-visitor";
@@ -183,7 +183,7 @@ export class AppSyncModelIntrospectionVisitor<
         const arg: Argument = {
           name: param.name,
           isArray: param.isList,
-          type: this.getType(param.type),
+          type: this.getType(param.type) as InputFieldType,
           isRequired: !param.isNullable
         };
         if (param.isListNullable !== undefined) {
@@ -256,7 +256,7 @@ export class AppSyncModelIntrospectionVisitor<
         const arg: Argument = {
           name: param.name,
           isArray: param.isList,
-          type: this.getType(param.type),
+          type: this.getType(param.type) as InputFieldType,
           isRequired: !param.isNullable
         };
         if (param.isListNullable !== undefined) {
@@ -268,7 +268,7 @@ export class AppSyncModelIntrospectionVisitor<
     return operationMeta as V;
   }
 
-  protected getType(gqlType: string): FieldType {
+  protected getType(gqlType: string): FieldType | InputFieldType {
     // Todo: Handle unlisted scalars
     if (gqlType in METADATA_SCALAR_MAP) {
       return METADATA_SCALAR_MAP[gqlType] as FieldType;
@@ -291,8 +291,7 @@ export class AppSyncModelIntrospectionVisitor<
     if (gqlType in this.interfaceMap) {
       return { interface: gqlType }
     }
-
-    throw new Error(`Unknown type ${gqlType}`);
+    throw new Error(`Unknown type ${gqlType} found during model introspection schema generation`);
   }
 
   private generateModelPrimaryKeyInfo(model: CodeGenModel): PrimaryKeyInfo {

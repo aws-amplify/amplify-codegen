@@ -156,60 +156,7 @@
         "FieldType": {
             "anyOf": [
                 {
-                    "type": "string",
-                    "const": "ID"
-                },
-                {
-                    "type": "string",
-                    "const": "String"
-                },
-                {
-                    "type": "string",
-                    "const": "Int"
-                },
-                {
-                    "type": "string",
-                    "const": "Float"
-                },
-                {
-                    "type": "string",
-                    "const": "AWSDate"
-                },
-                {
-                    "type": "string",
-                    "const": "AWSTime"
-                },
-                {
-                    "type": "string",
-                    "const": "AWSDateTime"
-                },
-                {
-                    "type": "string",
-                    "const": "AWSTimestamp"
-                },
-                {
-                    "type": "string",
-                    "const": "AWSEmail"
-                },
-                {
-                    "type": "string",
-                    "const": "AWSURL"
-                },
-                {
-                    "type": "string",
-                    "const": "AWSIPAddress"
-                },
-                {
-                    "type": "string",
-                    "const": "Boolean"
-                },
-                {
-                    "type": "string",
-                    "const": "AWSJSON"
-                },
-                {
-                    "type": "string",
-                    "const": "AWSPhone"
+                    "$ref": "#/definitions/ScalarType"
                 },
                 {
                     "type": "object",
@@ -283,6 +230,25 @@
                     ],
                     "additionalProperties": false
                 }
+            ]
+        },
+        "ScalarType": {
+            "type": "string",
+            "enum": [
+                "ID",
+                "String",
+                "Int",
+                "Float",
+                "AWSDate",
+                "AWSTime",
+                "AWSDateTime",
+                "AWSTimestamp",
+                "AWSEmail",
+                "AWSURL",
+                "AWSIPAddress",
+                "Boolean",
+                "AWSJSON",
+                "AWSPhone"
             ]
         },
         "FieldAttribute": {
@@ -390,7 +356,7 @@
                     "type": "string"
                 },
                 "type": {
-                    "$ref": "#/definitions/FieldType"
+                    "$ref": "#/definitions/InputFieldType"
                 },
                 "isArray": {
                     "type": "boolean"
@@ -409,6 +375,37 @@
                 "isRequired"
             ],
             "additionalProperties": false
+        },
+        "InputFieldType": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/ScalarType"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "enum": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "enum"
+                    ],
+                    "additionalProperties": false
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "input": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "input"
+                    ],
+                    "additionalProperties": false
+                }
+            ]
         },
         "PrimaryKeyInfo": {
             "type": "object",

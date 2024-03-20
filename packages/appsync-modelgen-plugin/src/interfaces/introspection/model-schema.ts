@@ -62,7 +62,7 @@ export type Field = {
   association?: AssociationType;
   arguments?: Arguments;
 };
-export type FieldType = 'ID'
+export type ScalarType = 'ID'
   | 'String'
   | 'Int'
   | 'Float'
@@ -75,7 +75,11 @@ export type FieldType = 'ID'
   | 'AWSIPAddress'
   | 'Boolean'
   | 'AWSJSON'
-  | 'AWSPhone'
+  | 'AWSPhone';
+export type InputFieldType = ScalarType
+  | { enum: string }
+  | { input: string };
+export type FieldType = ScalarType
   | { enum: string }
   | { model: string }
   | { nonModel: string }
@@ -142,7 +146,7 @@ export type PrimaryKeyInfo = {
 export type Arguments = Record<string, Argument>;
 export type Argument = {
   name: string;
-  type: FieldType;
+  type: InputFieldType;
   isArray: boolean;
   isRequired: boolean;
   isArrayNullable?: boolean;
