@@ -12,6 +12,7 @@ const { ensureIntrospectionSchema, getFrontEndHandler, getAppSyncAPIDetails } = 
 const MOCK_CONTEXT = {
   print: {
     info: jest.fn(),
+    warning: jest.fn(),
   },
   amplify: {
     getEnvInfo: jest.fn(),
@@ -162,5 +163,31 @@ describe('command - types', () => {
     await generateTypes(MOCK_CONTEXT, true);
     expect(generateTypesHelper).not.toHaveBeenCalled();
     expect(globby.sync).not.toHaveBeenCalled();
+  });
+
+  it('should show a warning if the amplifyJsLibraryVersion is invalid', async () => {
+    const MOCK_ANGULAR_PROJECT = {
+      excludes: [MOCK_EXCLUDE_PATH],
+      includes: [MOCK_INCLUDE_PATH],
+      schema: MOCK_SCHEMA,
+      amplifyExtension: {
+        generatedFileName: MOCK_GENERATED_FILE_NAME,
+        codeGenTarget: 'angular',
+        graphQLApiId: MOCK_API_ID,
+        region: MOCK_REGION,
+        amplifyJsLibraryVersion: 7,
+      },
+    };
+    fs.readFileSync
+      .mockReturnValueOnce('query 1')
+      .mockReturnValueOnce('query 2')
+      .mockReturnValueOnce('schema');
+    loadConfig.mockReturnValue({
+      getProjects: jest.fn().mockReturnValue([MOCK_ANGULAR_PROJECT]),
+    });
+    await generateTypes(MOCK_CONTEXT, false);
+    expect(MOCK_CONTEXT.print.warning).toHaveBeenCalledWith(
+      'Amplify JS library version 7 is not supported. The current support JS library version is [5, 6]. Codegen will be executed for JS v6 instead.'
+    );
   });
 });

@@ -3,7 +3,6 @@
 exports[`maps statementsTargetToFileExtensionMap 1`] = `
 Object {
   "angular": "graphql",
-  "angularv6": "graphql",
   "flow": "js",
   "graphql": "graphql",
   "javascript": "js",

@@ -44,18 +44,6 @@ async function askCodeGenTargetLanguage(context, target, withoutInit = false, de
     },
   ]);
 
-  /**
-   * Angular v6 codegen is default for new projects
-   * This will not break the existing angular v5 users as the codegen is executed based on .graphqlconfig.yml
-   * whose content will not be modified unless a re-run of `amplify codegen configure` for existing projects
-   * The v5 target is still available in new projects by manually editing the .graphqlconfig.yml file
-   * to change the `codeGenTarget` to `angular` instead of `angularv6`
-   */
-
-  if (answer.target === 'angular') {
-    return 'angularv6';
-  }
-
   return answer.target;
 }
 

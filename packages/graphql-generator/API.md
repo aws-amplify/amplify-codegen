@@ -54,13 +54,14 @@ export type GenerateTypesOptions = {
     queries: string | Source[];
     introspection?: boolean;
     multipleSwiftFiles?: boolean;
+    amplifyJsLibraryVersion?: number;
 };
 
 // @public (undocumented)
 export type ModelsTarget = Target;
 
 // @public (undocumented)
-export type StatementsTarget = 'javascript' | 'graphql' | 'flow' | 'typescript' | 'angular' | 'angularv6';
+export type StatementsTarget = 'javascript' | 'graphql' | 'flow' | 'typescript' | 'angular';
 
 // @public (undocumented)
 export type TypesTarget = Target_2;
