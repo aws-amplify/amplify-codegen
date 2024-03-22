@@ -210,6 +210,47 @@ describe('Primary Key Info tests', () => {
     const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
     expect(visitor.generate()).toMatchSnapshot();
   });
+
+  it('should retain order of targetNames and primaryKeyInfo.sortKeyFieldNames', () => {
+    // Data Manager relies on this order matching
+    const schema = /* GraphQL */ `
+      type Enthusiast @model {
+        id: ID! @primaryKey
+        name: String!
+        likes: [Like] @manyToMany(relationName: "EnthusiastLikes")
+      }
+
+      type Like @model {
+        sortKeyFieldThree: String!
+        value: String!
+        name: String! @primaryKey(sortKeyFields: ["sortKeyFieldOne", "sortKeyFieldTwo", "sortKeyFieldThree"])
+        sortKeyFieldOne: String!
+        enthusiasts: [Enthusiast] @manyToMany(relationName: "EnthusiastLikes")
+        sortKeyFieldTwo: String!
+      }
+    `;
+    const result = JSON.parse(getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true }).generate());
+    const { models: { Like, EnthusiastLikes } } = result;
+    expect(result).toMatchSnapshot();
+    
+    // name
+    expect(Like.primaryKeyInfo.primaryKeyFieldName).toEqual('name');
+    expect(EnthusiastLikes.fields.like.association.targetNames[0]).toEqual('likeName');
+
+
+    // sortKeyFieldOne
+    expect(Like.primaryKeyInfo.sortKeyFieldNames[0]).toEqual('sortKeyFieldOne');
+    expect(EnthusiastLikes.fields.like.association.targetNames[1]).toEqual('likesortKeyFieldOne');
+
+    // sortKeyFieldTwo
+    expect(Like.primaryKeyInfo.sortKeyFieldNames[1]).toEqual('sortKeyFieldTwo');
+    expect(EnthusiastLikes.fields.like.association.targetNames[2]).toEqual('likesortKeyFieldTwo');
+
+    // sortKeyFieldThree
+    expect(Like.primaryKeyInfo.sortKeyFieldNames[2]).toEqual('sortKeyFieldThree');
+    expect(EnthusiastLikes.fields.like.association.targetNames[3]).toEqual('likesortKeyFieldThree');
+  });
+
 });
 
 describe('Primary key info within a belongsTo model tests', () => {
