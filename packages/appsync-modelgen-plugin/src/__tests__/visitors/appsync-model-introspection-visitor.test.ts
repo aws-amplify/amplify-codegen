@@ -230,9 +230,7 @@ describe('Primary Key Info tests', () => {
       }
     `;
     const result = JSON.parse(getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true }).generate());
-    console.log(result);
     const { models: { Like, EnthusiastLikes } } = result;
-    console.log(Like.primaryKeyInfo);
     expect(result).toMatchSnapshot();
     
     // name
