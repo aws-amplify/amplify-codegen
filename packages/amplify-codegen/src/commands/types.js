@@ -58,7 +58,7 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
         }
         const target = cfg.amplifyExtension.codeGenTarget;
 
-        const amplifyJsLibraryVersion = cfg.amplifyExtension.amplifyJsLibraryVersion;
+        let amplifyJsLibraryVersion = cfg.amplifyExtension.amplifyJsLibraryVersion;
 
         /**
          * amplifyJsLibraryVersion config is currently used for angular codegen
@@ -70,6 +70,7 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
           context.print.warning(
             `Amplify JS library version ${amplifyJsLibraryVersion} is not supported. The current support JS library version is [5, 6]. Codegen will be executed for JS v6 instead.`,
           );
+          amplifyJsLibraryVersion = 6
         }
 
         const excludes = cfg.excludes.map(pattern => `!${pattern}`);
