@@ -100,12 +100,6 @@ export type FieldType = ScalarType | {
     model: string;
 } | {
     nonModel: string;
-} | {
-    input: string;
-} | {
-    union: string;
-} | {
-    interface: string;
 };
 
 // @public (undocumented)
@@ -125,6 +119,11 @@ export type InputFieldType = ScalarType | {
 export type Interface = {
     name: string;
     fields: Fields;
+};
+
+// @public (undocumented)
+export type InterfaceFieldType = {
+    interface: string;
 };
 
 // @public (undocumented)
@@ -232,6 +231,11 @@ export type Target = 'java' | 'swift' | 'javascript' | 'typescript' | 'dart' | '
 export type Union = {
     name: string;
     typeNames: string[];
+};
+
+// @public (undocumented)
+export type UnionFieldType = {
+    union: string;
 };
 
 // (No @packageDocumentation comment for this package)

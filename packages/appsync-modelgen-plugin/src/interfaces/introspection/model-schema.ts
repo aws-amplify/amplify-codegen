@@ -82,10 +82,7 @@ export type InputFieldType = ScalarType
 export type FieldType = ScalarType
   | { enum: string }
   | { model: string }
-  | { nonModel: string }
-  | { input: string }
-  | { union: string }
-  | { interface: string };
+  | { nonModel: string };
 export type FieldAttribute = ModelAttribute;
 /**
  * Input Definition
@@ -101,6 +98,7 @@ export type Interface = {
   name: string;
   fields: Fields;
 }
+export type InterfaceFieldType = { interface: string }
 /**
  * Union Definition
  */
@@ -108,6 +106,7 @@ export type Union = {
   name: string;
   typeNames: string[];
 }
+export type UnionFieldType = { union: string }
 /**
  * Field-level Relationship Definitions
  */

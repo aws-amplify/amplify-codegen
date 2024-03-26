@@ -1,6 +1,6 @@
 import { DEFAULT_SCALARS, NormalizedScalarsMap } from "@graphql-codegen/visitor-plugin-common";
 import { GraphQLSchema } from "graphql";
-import { Argument, AssociationType, Field, Fields, FieldType, ModelAttribute, ModelIntrospectionSchema, PrimaryKeyInfo, SchemaEnum, SchemaModel, SchemaMutation, SchemaNonModel, SchemaQuery, SchemaSubscription, Input, Union, Interface, InputFieldType } from "../interfaces/introspection";
+import { Argument, AssociationType, Field, Fields, FieldType, ModelAttribute, ModelIntrospectionSchema, PrimaryKeyInfo, SchemaEnum, SchemaModel, SchemaMutation, SchemaNonModel, SchemaQuery, SchemaSubscription, Input, Union, Interface, InputFieldType, UnionFieldType, InterfaceFieldType } from "../interfaces/introspection";
 import { METADATA_SCALAR_MAP } from "../scalars";
 import { CodeGenConnectionType } from "../utils/process-connections";
 import { RawAppSyncModelConfig, ParsedAppSyncModelConfig, AppSyncModelVisitor, CodeGenEnum, CodeGenField, CodeGenModel, CodeGenPrimaryKeyType, CodeGenQuery, CodeGenSubscription, CodeGenMutation, CodeGenInputObject, CodeGenUnion, CodeGenInterface } from "./appsync-visitor";
@@ -65,12 +65,30 @@ export class AppSyncModelIntrospectionVisitor<
     }, {});
     result = { ...result, models, nonModels, enums };
     const queries = Object.values(this.queryMap).reduce((acc, queryObj: CodeGenQuery) => {
+      // Skip the field if the field type is union/interface
+      // TODO: Remove this skip once these types are supported for stakeholder usages
+      const fieldType = this.getType(queryObj.type) as any;
+      if (this.isUnionFieldType(fieldType) || this.isInterfaceFieldType(fieldType)) {
+        return acc;
+      }
       return { ...acc, [queryObj.name]: this.generateGraphQLOperationMetadata<CodeGenQuery, SchemaQuery>(queryObj) };
     }, {})
     const mutations = Object.values(this.mutationMap).reduce((acc, mutationObj: CodeGenMutation) => {
+      // Skip the field if the field type is union/interface
+      // TODO: Remove this skip once these types are supported for stakeholder usages
+      const fieldType = this.getType(mutationObj.type) as any;
+      if (this.isUnionFieldType(fieldType) || this.isInterfaceFieldType(fieldType)) {
+        return acc;
+      }
       return { ...acc, [mutationObj.name]: this.generateGraphQLOperationMetadata<CodeGenMutation, SchemaMutation>(mutationObj) };
     }, {});
     const subscriptions = Object.values(this.subscriptionMap).reduce((acc, subscriptionObj: CodeGenSubscription) => {
+      // Skip the field if the field type is union/interface
+      // TODO: Remove this skip once these types are supported for stakeholder usages
+      const fieldType = this.getType(subscriptionObj.type) as any;
+      if (this.isUnionFieldType(fieldType) || this.isInterfaceFieldType(fieldType)) {
+        return acc;
+      }
       return { ...acc, [subscriptionObj.name]: this.generateGraphQLOperationMetadata<CodeGenSubscription, SchemaSubscription>(subscriptionObj) };
     }, {});
     const inputs = Object.values(this.inputObjectMap).reduce((acc, inputObj: CodeGenInputObject) => {
@@ -139,10 +157,16 @@ export class AppSyncModelIntrospectionVisitor<
     return {
       name: this.getModelName(nonModel),
       fields: nonModel.fields.reduce((acc: Fields, field: CodeGenField) => {
+        // Skip the field if the field type is union/interface
+        // TODO: Remove this skip once these types are supported for stakeholder usages
+        const fieldType = this.getType(field.type) as any;
+        if (this.isUnionFieldType(fieldType) || this.isInterfaceFieldType(fieldType)) {
+          return acc;
+        }
         const fieldMeta: Field = {
           name: this.getFieldName(field),
           isArray: field.isList,
-          type: this.getType(field.type),
+          type: fieldType,
           isRequired: !field.isNullable,
           attributes: [],
         };
@@ -215,10 +239,16 @@ export class AppSyncModelIntrospectionVisitor<
     return {
       name: interfaceObj.name,
       fields: interfaceObj.fields.reduce((acc: Fields, field: CodeGenField) => {
+        // Skip the field if the field type is union/interface
+        // TODO: Remove this skip once these types are supported for stakeholder usages
+        const fieldType = this.getType(field.type) as any;
+        if (this.isUnionFieldType(fieldType) || this.isInterfaceFieldType(fieldType)) {
+          return acc;
+        }
         const fieldMeta: Field = {
           name: this.getFieldName(field),
           isArray: field.isList,
-          type: this.getType(field.type),
+          type: fieldType,
           isRequired: !field.isNullable,
           attributes: [],
         };
@@ -268,7 +298,7 @@ export class AppSyncModelIntrospectionVisitor<
     return operationMeta as V;
   }
 
-  protected getType(gqlType: string): FieldType | InputFieldType {
+  protected getType(gqlType: string): FieldType | InputFieldType | UnionFieldType | InterfaceFieldType {
     // Todo: Handle unlisted scalars
     if (gqlType in METADATA_SCALAR_MAP) {
       return METADATA_SCALAR_MAP[gqlType] as FieldType;
@@ -305,5 +335,12 @@ export class AppSyncModelIntrospectionVisitor<
       };
     }
     throw new Error(`No primary key found for model ${model.name}`);
+  }
+
+  private isUnionFieldType = (obj: any): obj is UnionFieldType => {
+    return typeof obj === 'object' && typeof obj.union === 'string';
+  }
+  private isInterfaceFieldType = (obj: any): obj is InterfaceFieldType => {
+    return typeof obj === 'object' && typeof obj.interface === 'string';
   }
 }

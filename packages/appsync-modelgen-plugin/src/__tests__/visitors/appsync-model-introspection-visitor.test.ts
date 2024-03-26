@@ -341,9 +341,13 @@ describe('Custom queries/mutations/subscriptions & input type tests', () => {
     }
     type Mutation {
       mutate(msg: [String!]!): Todo
+      mutate2: [CustomUnion!]!
+      mutate3: [ICustom]!
     }
     type Subscription {
       onMutate(msg: String): [Todo!]
+      onMutate2: CustomUnion
+      onMutate3: ICustom
     }
   `;
   it('should generate correct metadata for custom queries/mutations/subscriptions in model introspection schema', () => {

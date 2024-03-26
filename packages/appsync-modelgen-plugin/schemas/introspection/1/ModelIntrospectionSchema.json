@@ -193,42 +193,6 @@
                         "nonModel"
                     ],
                     "additionalProperties": false
-                },
-                {
-                    "type": "object",
-                    "properties": {
-                        "input": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "input"
-                    ],
-                    "additionalProperties": false
-                },
-                {
-                    "type": "object",
-                    "properties": {
-                        "union": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "union"
-                    ],
-                    "additionalProperties": false
-                },
-                {
-                    "type": "object",
-                    "properties": {
-                        "interface": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "interface"
-                    ],
-                    "additionalProperties": false
                 }
             ]
         },

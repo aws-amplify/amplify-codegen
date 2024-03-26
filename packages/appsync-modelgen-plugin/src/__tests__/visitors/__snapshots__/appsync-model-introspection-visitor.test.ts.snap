@@ -1782,15 +1782,6 @@ exports[`Custom queries/mutations/subscriptions & input type tests should genera
                 }
             }
         },
-        \\"echo5\\": {
-            \\"name\\": \\"echo5\\",
-            \\"isArray\\": true,
-            \\"type\\": {
-                \\"union\\": \\"CustomUnion\\"
-            },
-            \\"isRequired\\": true,
-            \\"isArrayNullable\\": false
-        },
         \\"echo6\\": {
             \\"name\\": \\"echo6\\",
             \\"isArray\\": false,
@@ -1806,15 +1797,6 @@ exports[`Custom queries/mutations/subscriptions & input type tests should genera
                     \\"isRequired\\": false
                 }
             }
-        },
-        \\"echo7\\": {
-            \\"name\\": \\"echo7\\",
-            \\"isArray\\": true,
-            \\"type\\": {
-                \\"interface\\": \\"ICustom\\"
-            },
-            \\"isRequired\\": false,
-            \\"isArrayNullable\\": false
         }
     },
     \\"mutations\\": {
@@ -1919,16 +1901,6 @@ exports[`Custom queries/mutations/subscriptions & input type tests should genera
                     \\"type\\": \\"String\\",
                     \\"isRequired\\": false,
                     \\"attributes\\": []
-                },
-                \\"birthdays\\": {
-                    \\"name\\": \\"birthdays\\",
-                    \\"isArray\\": true,
-                    \\"type\\": {
-                        \\"interface\\": \\"INestedCustom\\"
-                    },
-                    \\"isRequired\\": true,
-                    \\"attributes\\": [],
-                    \\"isArrayNullable\\": false
                 }
             }
         },
