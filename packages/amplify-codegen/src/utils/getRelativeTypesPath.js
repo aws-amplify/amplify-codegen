@@ -5,6 +5,7 @@ function getRelativeTypesPath(opsGenDirectory, generatedFileName) {
     const relativePath = path
       .relative(opsGenDirectory, generatedFileName)
       // ensure posix path separators are used
+      // Fallback to \ because path.win32 is not implemented by path-browserify
       .split(path.win32?.sep || '\\')
       .join(path.posix.sep);
 

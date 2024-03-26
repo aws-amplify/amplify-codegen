@@ -38,6 +38,7 @@ export class GraphQLStatementsFormatter {
     if (typesPath) {
       const { dir, name } = path.parse(typesPath);
       // ensure posix path separators are used
+      // Fallback to \ because path.win32 is not implemented by path-browserify
       const typesPathWithoutExtension = path.join(dir, name).split(path.win32?.sep || '\\').join(path.posix.sep);
       if (!typesPathWithoutExtension.startsWith('.')) {
         // path.join will strip prefixed ./
