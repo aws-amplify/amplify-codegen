@@ -343,3 +343,109 @@ describe('Custom queries/mutations/subscriptions tests', () => {
     expect(visitor.generate()).toMatchSnapshot();
   });
 });
+
+describe('custom fields', () => {
+  test('sets the association for fields for hasOne', () => {
+    const schema = /* GraphQL */ `
+      type PrimaryLegacy @model {
+        id: ID!
+        relatedId: ID
+        related: RelatedLegacy @hasOne(fields: [relatedId])
+      }
+      
+      type RelatedLegacy @model {
+        id: ID!
+        primary: PrimaryLegacy @belongsTo
+      }
+    `;
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(visitor.generate()).toMatchSnapshot();
+  });
+
+  test('sets the association for fields for hasMany', () => {
+    const schema = /* GraphQL */ `
+      type PrimaryLegacy @model {
+        id: ID!
+        relatedId: ID
+        related: [RelatedLegacy] @hasMany(fields: [relatedId])
+      }
+      
+      type RelatedLegacy @model {
+        id: ID!
+        primary: PrimaryLegacy @belongsTo
+      }
+    `;
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(visitor.generate()).toMatchSnapshot();
+  });
+
+  test('sets the association for fields for belongsTo with other side hasOne', () => {
+    const schema = /* GraphQL */ `
+      type PrimaryLegacy @model {
+        id: ID!
+        related: RelatedLegacy @hasOne
+      }
+      
+      type RelatedLegacy @model {
+        id: ID!
+        primaryId: ID!
+        primary: PrimaryLegacy @belongsTo(fields: [primaryId])
+      }
+    `;
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(visitor.generate()).toMatchSnapshot();
+  });
+
+  test('sets the association for fields for belongsTo with other side hasMany', () => {
+    const schema = /* GraphQL */ `
+      type PrimaryLegacy @model {
+        id: ID!
+        related: [RelatedLegacy] @hasMany
+      }
+      
+      type RelatedLegacy @model {
+        id: ID!
+        primaryId: ID!
+        primary: PrimaryLegacy @belongsTo(fields: [primaryId])
+      }
+    `;
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(visitor.generate()).toMatchSnapshot();
+  });
+
+  test('sets the association for fields for hasOne and belongsTo', () => {
+    const schema = /* GraphQL */ `
+      type PrimaryLegacy @model {
+        id: ID!
+        relatedId: ID
+        related: RelatedLegacy @hasOne(fields: [relatedId])
+      }
+      
+      type RelatedLegacy @model {
+        id: ID!
+        primaryId: ID!
+        primary: PrimaryLegacy @belongsTo(fields: [primaryId])
+      }
+    `;
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(visitor.generate()).toMatchSnapshot();
+  });
+
+  test('sets the association for fields for hasMany and belongsTo', () => {
+    const schema = /* GraphQL */ `
+      type PrimaryLegacy @model {
+        id: ID!
+        relatedId: ID
+        related: [RelatedLegacy] @hasMany(fields: [relatedId])
+      }
+      
+      type RelatedLegacy @model {
+        id: ID!
+        primaryId: ID!
+        primary: PrimaryLegacy @belongsTo(fields: [primaryId])
+      }
+    `;
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(visitor.generate()).toMatchSnapshot();
+  });
+});
