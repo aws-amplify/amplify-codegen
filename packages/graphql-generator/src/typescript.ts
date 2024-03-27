@@ -19,7 +19,7 @@ export type GenerateTypesOptions = {
 export type GenerateModelsOptions = {
   schema: string;
   target: ModelsTarget;
-  directives: string;
+  directives?: string;
   isDataStoreEnabled?: boolean;
 
   // feature flags

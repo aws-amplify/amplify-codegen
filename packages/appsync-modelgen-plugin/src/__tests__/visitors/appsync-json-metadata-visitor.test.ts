@@ -1,6 +1,7 @@
 import { buildSchema, GraphQLSchema, parse, visit } from 'graphql';
+import { AppSyncDirectives, DefaultDirectives, V1Directives, DeprecatedDirective, Directive } from '@aws-amplify/graphql-directives';
 import { TYPESCRIPT_SCALAR_MAP } from '../../scalars';
-import { directives, scalars } from '../../scalars/supported-directives';
+import { scalars } from '../../scalars/supported-scalars';
 import {
   CodeGenConnectionType,
   CodeGenFieldConnectionBelongsTo,
@@ -10,13 +11,14 @@ import {
 import { AppSyncJSONVisitor, AssociationHasMany, JSONSchemaNonModel } from '../../visitors/appsync-json-metadata-visitor';
 import { CodeGenEnum, CodeGenField, CodeGenModel } from '../../visitors/appsync-visitor';
 
+
 const defaultJSONVisitorSettings = {
   isTimestampFieldsAdded: true,
   respectPrimaryKeyAttributesOnConnectionField: false,
   transformerVersion: 1,
 };
 
-const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
+const buildSchemaWithDirectives = (schema: String, directives: string): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
@@ -24,13 +26,15 @@ const getVisitor = (
   schema: string,
   target: 'typescript' | 'javascript' | 'typeDeclaration' = 'javascript',
   settings: any = {},
+  directives: readonly Directive[] = DefaultDirectives,
 ): AppSyncJSONVisitor => {
   const visitorConfig = { ...defaultJSONVisitorSettings, ...settings };
   const ast = parse(schema);
-  const builtSchema = buildSchemaWithDirectives(schema);
+  const stringDirectives = directives.map(directive => directive.definition).join('\n');
+  const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
   const visitor = new AppSyncJSONVisitor(
     builtSchema,
-    { directives, target: 'metadata', scalars: TYPESCRIPT_SCALAR_MAP, metadataTarget: target, codegenVersion: '1.0.0', ...visitorConfig },
+    { directives: stringDirectives, target: 'metadata', scalars: TYPESCRIPT_SCALAR_MAP, metadataTarget: target, codegenVersion: '1.0.0', ...visitorConfig },
     {},
   );
   visit(ast, { leave: visitor });
@@ -1103,11 +1107,11 @@ describe('Metadata visitor has one relation', () => {
   `;
   let visitor: AppSyncJSONVisitor;
   beforeEach(() => {
-    visitor = getVisitor(schema);
+    visitor = getVisitor(schema, 'javascript', {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
   });
 
   it('should generate for Javascript', () => {
-    const jsVisitor = getVisitor(schema, 'javascript');
+    const jsVisitor = getVisitor(schema, 'javascript', {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
     expect(jsVisitor.generate()).toMatchInlineSnapshot(`
       "export const schema = {
           \\"models\\": {
@@ -1228,7 +1232,7 @@ describe('Metadata visitor has one relation', () => {
   });
 
   it('should generate for TypeScript', () => {
-    const tsVisitor = getVisitor(schema, 'typescript');
+    const tsVisitor = getVisitor(schema, 'typescript', {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
     expect(tsVisitor.generate()).toMatchInlineSnapshot(`
       "import { Schema } from \\"@aws-amplify/datastore\\";
 

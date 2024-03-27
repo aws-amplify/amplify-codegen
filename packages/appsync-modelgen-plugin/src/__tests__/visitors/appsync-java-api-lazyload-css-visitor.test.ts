@@ -1,6 +1,7 @@
 import { buildSchema, GraphQLSchema, parse, visit } from 'graphql';
+import { DefaultDirectives } from '@aws-amplify/graphql-directives';
 import { validateJava } from '../utils/validate-java';
-import { directives, scalars } from '../../scalars/supported-directives';
+import { scalars } from '../../scalars/supported-scalars';
 import { AppSyncModelJavaVisitor } from '../../visitors/appsync-java-visitor';
 import { CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
 import { JAVA_SCALAR_MAP } from '../../scalars';
@@ -13,6 +14,9 @@ const defaultJavaVisitorSettings = {
   respectPrimaryKeyAttributesOnConnectionField: false,
   generateModelsForLazyLoadAndCustomSelectionSet: true
 }
+
+const directives = DefaultDirectives.map(directive => directive.definition).join('\n');
+
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
