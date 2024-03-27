@@ -14,6 +14,7 @@ export type GenerateTypesOptions = {
   queries: string | Source[];
   introspection?: boolean;
   multipleSwiftFiles?: boolean; // only used when target is swift
+  amplifyJsLibraryVersion?: number; // only used when target is angular
 };
 
 export type GenerateModelsOptions = {
