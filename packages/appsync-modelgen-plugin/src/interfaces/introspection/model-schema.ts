@@ -9,6 +9,9 @@
   queries?: SchemaQueries;
   mutations?: SchemaMutations;
   subscriptions?: SchemaSubscriptions;
+  inputs?: SchemaInputs;
+  unions?: SchemaUnions;
+  interfaces?: SchemaInterfaces;
 };
 /**
  * Top-level Entities on a Schema
@@ -19,6 +22,9 @@ export type SchemaEnums = Record<string, SchemaEnum>;
 export type SchemaQueries = Record<string, SchemaQuery>;
 export type SchemaMutations = Record<string, SchemaMutation>;
 export type SchemaSubscriptions = Record<string, SchemaSubscription>;
+export type SchemaInputs = Record<string, Input>;
+export type SchemaUnions = Record<string, Union>;
+export type SchemaInterfaces = Record<string, Interface>;
 
 export type SchemaModel = {
   name: string;
@@ -56,7 +62,7 @@ export type Field = {
   association?: AssociationType;
   arguments?: Arguments;
 };
-export type FieldType = 'ID'
+export type ScalarType = 'ID'
   | 'String'
   | 'Int'
   | 'Float'
@@ -69,11 +75,38 @@ export type FieldType = 'ID'
   | 'AWSIPAddress'
   | 'Boolean'
   | 'AWSJSON'
-  | 'AWSPhone'
+  | 'AWSPhone';
+export type InputFieldType = ScalarType
+  | { enum: string }
+  | { input: string };
+export type FieldType = ScalarType
   | { enum: string }
   | { model: string }
   | { nonModel: string };
 export type FieldAttribute = ModelAttribute;
+/**
+ * Input Definition
+ */
+export type Input = {
+  name: string;
+  attributes: Arguments;
+}
+/**
+ * Interface Definition
+ */
+export type Interface = {
+  name: string;
+  fields: Fields;
+}
+export type InterfaceFieldType = { interface: string }
+/**
+ * Union Definition
+ */
+export type Union = {
+  name: string;
+  typeNames: string[];
+}
+export type UnionFieldType = { union: string }
 /**
  * Field-level Relationship Definitions
  */
@@ -112,7 +145,7 @@ export type PrimaryKeyInfo = {
 export type Arguments = Record<string, Argument>;
 export type Argument = {
   name: string;
-  type: FieldType;
+  type: InputFieldType;
   isArray: boolean;
   isRequired: boolean;
   isArrayNullable?: boolean;

@@ -28,7 +28,7 @@ export interface AppSyncModelPluginConfig extends RawDocumentsConfig {
 // @public (undocumented)
 export type Argument = {
     name: string;
-    type: FieldType;
+    type: InputFieldType;
     isArray: boolean;
     isRequired: boolean;
     isArrayNullable?: boolean;
@@ -94,12 +94,36 @@ export type FieldAttribute = ModelAttribute;
 export type Fields = Record<string, Field>;
 
 // @public (undocumented)
-export type FieldType = 'ID' | 'String' | 'Int' | 'Float' | 'AWSDate' | 'AWSTime' | 'AWSDateTime' | 'AWSTimestamp' | 'AWSEmail' | 'AWSURL' | 'AWSIPAddress' | 'Boolean' | 'AWSJSON' | 'AWSPhone' | {
+export type FieldType = ScalarType | {
     enum: string;
 } | {
     model: string;
 } | {
     nonModel: string;
+};
+
+// @public (undocumented)
+export type Input = {
+    name: string;
+    attributes: Arguments;
+};
+
+// @public (undocumented)
+export type InputFieldType = ScalarType | {
+    enum: string;
+} | {
+    input: string;
+};
+
+// @public (undocumented)
+export type Interface = {
+    name: string;
+    fields: Fields;
+};
+
+// @public (undocumented)
+export type InterfaceFieldType = {
+    interface: string;
 };
 
 // @public (undocumented)
@@ -119,6 +143,9 @@ export type ModelIntrospectionSchema = {
     queries?: SchemaQueries;
     mutations?: SchemaMutations;
     subscriptions?: SchemaSubscriptions;
+    inputs?: SchemaInputs;
+    unions?: SchemaUnions;
+    interfaces?: SchemaInterfaces;
 };
 
 // Warning: (ae-forgotten-export) The symbol "RawAppSyncModelConfig" needs to be exported by the entry point index.d.ts
@@ -137,6 +164,9 @@ export type PrimaryKeyInfo = {
 };
 
 // @public (undocumented)
+export type ScalarType = 'ID' | 'String' | 'Int' | 'Float' | 'AWSDate' | 'AWSTime' | 'AWSDateTime' | 'AWSTimestamp' | 'AWSEmail' | 'AWSURL' | 'AWSIPAddress' | 'Boolean' | 'AWSJSON' | 'AWSPhone';
+
+// @public (undocumented)
 export type SchemaEnum = {
     name: string;
     values: string[];
@@ -144,6 +174,12 @@ export type SchemaEnum = {
 
 // @public (undocumented)
 export type SchemaEnums = Record<string, SchemaEnum>;
+
+// @public (undocumented)
+export type SchemaInputs = Record<string, Input>;
+
+// @public (undocumented)
+export type SchemaInterfaces = Record<string, Interface>;
 
 // @public (undocumented)
 export type SchemaModel = {
@@ -186,7 +222,21 @@ export type SchemaSubscription = SchemaQuery;
 export type SchemaSubscriptions = Record<string, SchemaSubscription>;
 
 // @public (undocumented)
+export type SchemaUnions = Record<string, Union>;
+
+// @public (undocumented)
 export type Target = 'java' | 'swift' | 'javascript' | 'typescript' | 'dart' | 'introspection';
+
+// @public (undocumented)
+export type Union = {
+    name: string;
+    typeNames: string[];
+};
+
+// @public (undocumented)
+export type UnionFieldType = {
+    union: string;
+};
 
 // (No @packageDocumentation comment for this package)
 

@@ -21,6 +21,9 @@ import {
   parse,
   valueFromASTUntyped,
   InputValueDefinitionNode,
+  InputObjectTypeDefinitionNode,
+  UnionTypeDefinitionNode,
+  InterfaceTypeDefinitionNode,
 } from 'graphql';
 import { addFieldToModel, getModelPrimaryKeyComponentFields, removeFieldFromModel, toCamelCase } from '../utils/fieldUtils';
 import { getTypeInfo } from '../utils/get-type-info';
@@ -250,7 +253,28 @@ export type CodeGenMutationMap = Record<string, CodeGenMutation>;
 export type CodeGenSubscription = CodeGenField & {
   operationType: 'subscription';
 };
+export type CodeGenInputObject = {
+  name: string;
+  type: 'input';
+  inputValues: CodeGenInputValues
+}
 export type CodeGenSubscriptionMap = Record<string, CodeGenSubscription>;
+
+export type CodeGenInputObjectMap = Record<string, CodeGenInputObject>
+
+export type CodeGenUnion = {
+  name: string;
+  type: 'union';
+  typeNames: string[]
+};
+export type CodeGenUnionMap = Record<string, CodeGenUnion>;
+
+export type CodeGenInterface = {
+  name: string;
+  type: 'interface';
+  fields: CodeGenField[];
+};
+export type CodeGenInterfaceMap = Record<string, CodeGenInterface>;
 
 // Used to simplify processing of manyToMany into composing directives hasMany and belongsTo
 type ManyToManyContext = {
@@ -271,7 +295,10 @@ export class AppSyncModelVisitor<
   protected queryMap: CodeGenQueryMap = {};
   protected mutationMap: CodeGenMutationMap = {};
   protected subscriptionMap: CodeGenSubscriptionMap = {};
-  protected typesToSkip: string[] = [];
+  protected inputObjectMap: CodeGenInputObjectMap = {};
+  protected unionMap: CodeGenUnionMap = {};
+  protected interfaceMap: CodeGenInterfaceMap = {};
+  protected typesToSkip: string[] = ['AMPLIFY'];
   constructor(
     protected _schema: GraphQLSchema,
     rawConfig: TRawConfig,
@@ -303,7 +330,6 @@ export class AppSyncModelVisitor<
       });
     }
 
-    this.typesToSkip = [];
     this.typesToSkip.push(...typesUsedInDirectives);
   }
 
@@ -380,6 +406,19 @@ export class AppSyncModelVisitor<
     };
   }
 
+  InputObjectTypeDefinition(node: InputObjectTypeDefinitionNode) {
+    if (this.typesToSkip.includes(node.name.value)) {
+      return;
+    }
+    const inputValues = (node.fields as unknown) as CodeGenInputValue[];
+    const inputObject: CodeGenInputObject =  {
+      name: node.name.value,
+      type: 'input',
+      inputValues,
+    };
+    this.inputObjectMap[node.name.value] = inputObject;
+  }
+
   InputValueDefinition(node: InputValueDefinitionNode): CodeGenInputValue {
     const directives = this.getDirectives(node.directives);
     return {
@@ -407,6 +446,32 @@ export class AppSyncModelVisitor<
       values,
     };
   }
+
+  UnionTypeDefinition(node: UnionTypeDefinitionNode): void {
+    if (this.typesToSkip.includes(node.name.value)) {
+      return;
+    }
+    const unionObject: CodeGenUnion = {
+      name: node.name.value,
+      type: 'union',
+      typeNames: node.types?.map(type => type.name.value) ?? [],
+    }
+    this.unionMap[node.name.value] = unionObject;
+  }
+
+  InterfaceTypeDefinition(node: InterfaceTypeDefinitionNode): void {
+    if (this.typesToSkip.includes(node.name.value)) {
+      return;
+    }
+    const fields = (node.fields as unknown) as CodeGenField[];
+    const interfaceEntry: CodeGenInterface = {
+      name: node.name.value,
+      type: 'interface',
+      fields,
+    };
+    this.interfaceMap[node.name.value] = interfaceEntry;
+  }
+
   processDirectives(
     // TODO: Remove us when we have a fix to roll-forward.
     shouldUseModelNameFieldInHasManyAndBelongsTo: boolean,
@@ -1231,5 +1296,23 @@ export class AppSyncModelVisitor<
   }
   get nonModels() {
     return this.nonModelMap;
+  }
+  get queries() {
+    return this.queryMap;
+  }
+  get mutations() {
+    return this.mutationMap;
+  }
+  get subscriptions() {
+    return this.subscriptionMap;
+  }
+  get inputs() {
+    return this.inputObjectMap;
+  }
+  get unions() {
+    return this.unionMap;
+  }
+  get interfaces() {
+    return this.interfaceMap;
   }
 }

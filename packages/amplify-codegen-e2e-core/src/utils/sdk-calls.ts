@@ -14,6 +14,7 @@ import {
   AmplifyBackend,
 } from 'aws-sdk';
 import _ from 'lodash';
+import { getProjectMeta } from './projectMeta';
 
 export const getDDBTable = async (tableName: string, region: string) => {
   const service = new DynamoDB({ region });
@@ -40,6 +41,19 @@ export const bucketNotExists = async (bucket: string) => {
     }
     throw error;
   }
+};
+
+export const getDeploymentBucketObject = async (projectRoot: string, objectKey: string) => {
+  const meta = getProjectMeta(projectRoot);
+  const deploymentBucket = meta.providers.awscloudformation.DeploymentBucketName;
+  const s3 = new S3();
+  const result = await s3
+    .getObject({
+      Bucket: deploymentBucket,
+      Key: objectKey,
+    })
+    .promise();
+  return result.Body.toLocaleString();
 };
 
 export const deleteS3Bucket = async (bucket: string, providedS3Client: S3 | undefined = undefined) => {
