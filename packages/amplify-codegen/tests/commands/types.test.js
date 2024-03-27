@@ -189,5 +189,13 @@ describe('command - types', () => {
     expect(MOCK_CONTEXT.print.warning).toHaveBeenCalledWith(
       'Amplify JS library version 7 is not supported. The current support JS library version is [5, 6]. Codegen will be executed for JS v6 instead.'
     );
+    expect(generateTypesHelper).toHaveBeenCalledWith({
+      queries: [new Source('query 1', 'q1.gql'), new Source('query 2', 'q2.gql')],
+      schema: 'schema',
+      target: 'angular',
+      introspection: false,
+      multipleSwiftFiles: false,
+      amplifyJsLibraryVersion: 6,
+    });
   });
 });
