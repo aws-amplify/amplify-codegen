@@ -203,7 +203,7 @@ export class AppSyncModelIntrospectionVisitor<
   private generateGraphQLInputMetadata(inputObj: CodeGenInputObject): Input {
     return {
       name: inputObj.name,
-      arguments: inputObj.inputValues.reduce((acc, param ) => {
+      attributes: inputObj.inputValues.reduce((acc, param ) => {
         const arg: Argument = {
           name: param.name,
           isArray: param.isList,

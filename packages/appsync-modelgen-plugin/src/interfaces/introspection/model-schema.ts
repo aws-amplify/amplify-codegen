@@ -89,7 +89,7 @@ export type FieldAttribute = ModelAttribute;
  */
 export type Input = {
   name: string;
-  arguments: Arguments;
+  attributes: Arguments;
 }
 /**
  * Interface Definition

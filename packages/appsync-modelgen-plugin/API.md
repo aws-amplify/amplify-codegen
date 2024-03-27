@@ -105,7 +105,7 @@ export type FieldType = ScalarType | {
 // @public (undocumented)
 export type Input = {
     name: string;
-    arguments: Arguments;
+    attributes: Arguments;
 };
 
 // @public (undocumented)

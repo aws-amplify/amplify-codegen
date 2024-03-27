@@ -528,13 +528,13 @@
                 "name": {
                     "type": "string"
                 },
-                "arguments": {
+                "attributes": {
                     "$ref": "#/definitions/Arguments"
                 }
             },
             "required": [
                 "name",
-                "arguments"
+                "attributes"
             ],
             "additionalProperties": false,
             "description": "Input Definition"
