@@ -1,5 +1,5 @@
 import { buildSchema, parse, visit } from 'graphql';
-import { DefaultDirectives, V1Directives, Directive } from '@aws-amplify/graphql-directives';
+import { AppSyncDirectives, DefaultDirectives, V1Directives, DeprecatedDirective, Directive } from '@aws-amplify/graphql-directives';
 import { scalars } from '../../scalars/supported-scalars';
 import { CodeGenConnectionType, CodeGenFieldConnectionBelongsTo, CodeGenFieldConnectionHasMany, CodeGenFieldConnectionHasOne } from '../../utils/process-connections';
 import { AppSyncModelVisitor, CodeGenGenerateEnum, CodeGenPrimaryKeyType } from '../../visitors/appsync-visitor';
@@ -14,7 +14,7 @@ const buildSchemaWithDirectives = (schema: String, directives: String): GraphQLS
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-const createAndGenerateVisitor = (schema: string, settings: any = {}, directives: Directive[] = DefaultDirectives) => {
+const createAndGenerateVisitor = (schema: string, settings: any = {}, directives: readonly Directive[] = DefaultDirectives) => {
   const visitorConfig = {...defaultBaseVisitorSettings, ...settings}
   const ast = parse(schema);
   const stringDirectives = directives.map(directive => directive.definition).join('\n');
@@ -212,7 +212,7 @@ describe('AppSyncModelVisitor', () => {
       `;
       it('one to many connection', () => {
         const ast = parse(schema);
-        const stringDirectives = V1Directives.map(directive => directive.definition).join('\n');
+        const stringDirectives = [...AppSyncDirectives, ...V1Directives, DeprecatedDirective].map(directive => directive.definition).join('\n');
         const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
         const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
         visit(ast, { leave: visitor });
@@ -229,7 +229,7 @@ describe('AppSyncModelVisitor', () => {
 
       it('many to one connection', () => {
         const ast = parse(schema);
-        const stringDirectives = V1Directives.map(directive => directive.definition).join('\n');
+        const stringDirectives = [...AppSyncDirectives, ...V1Directives, DeprecatedDirective].map(directive => directive.definition).join('\n');
         const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
         const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
         visit(ast, { leave: visitor });
@@ -262,7 +262,7 @@ describe('AppSyncModelVisitor', () => {
 
       it('one to many connection', () => {
         const ast = parse(schema);
-        const stringDirectives = V1Directives.map(directive => directive.definition).join('\n');
+        const stringDirectives = [...AppSyncDirectives, ...V1Directives, DeprecatedDirective].map(directive => directive.definition).join('\n');
         const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
         const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
         visit(ast, { leave: visitor });
@@ -280,7 +280,7 @@ describe('AppSyncModelVisitor', () => {
 
       it('many to one connection', () => {
         const ast = parse(schema);
-        const stringDirectives = V1Directives.map(directive => directive.definition).join('\n');
+        const stringDirectives = [...AppSyncDirectives, ...V1Directives, DeprecatedDirective].map(directive => directive.definition).join('\n');
         const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
         const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
         visit(ast, { leave: visitor });
@@ -313,7 +313,7 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const ast = parse(schema);
-      const stringDirectives = V1Directives.map(directive => directive.definition).join('\n');
+      const stringDirectives = [...AppSyncDirectives, ...V1Directives, DeprecatedDirective].map(directive => directive.definition).join('\n');
       const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
       const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
       visit(ast, { leave: visitor });
@@ -338,7 +338,7 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const ast = parse(schema);
-      const stringDirectives = V1Directives.map(directive => directive.definition).join('\n');
+      const stringDirectives = [...AppSyncDirectives, ...V1Directives, DeprecatedDirective].map(directive => directive.definition).join('\n');
       const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
       const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
       visit(ast, { leave: visitor });
@@ -1078,7 +1078,7 @@ describe('AppSyncModelVisitor', () => {
           id: ID!
         }
       `;
-      const { models, nonModels } = createAndGenerateVisitor(schemaV1, { respectPrimaryKeyAttributesOnConnectionField: true }, V1Directives);
+      const { models, nonModels } = createAndGenerateVisitor(schemaV1, { respectPrimaryKeyAttributesOnConnectionField: true }, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
       it('should have id field as primary key when no custom PK defined', () => {
         const primaryKeyField = models.WorkItem0.fields.find(field => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();

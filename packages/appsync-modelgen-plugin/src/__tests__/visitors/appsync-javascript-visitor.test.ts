@@ -1,6 +1,6 @@
 import { buildSchema, GraphQLSchema, parse, visit } from 'graphql';
 import { validateTs } from '@graphql-codegen/testing';
-import { DefaultDirectives, V1Directives, Directive } from '@aws-amplify/graphql-directives';
+import { AppSyncDirectives, DefaultDirectives, V1Directives, DeprecatedDirective, Directive } from '@aws-amplify/graphql-directives';
 import { TYPESCRIPT_SCALAR_MAP } from '../../scalars';
 import { scalars } from '../../scalars/supported-scalars';
 import { AppSyncModelJavascriptVisitor } from '../../visitors/appsync-javascript-visitor';
@@ -21,7 +21,7 @@ const defaultJavaScriptVisitorConfig: JavaScriptVisitorConfig = {
   respectPrimaryKeyAttributesOnConnectionField: false,
   transformerVersion: 1,
 };
-const getVisitor = (schema: string, settings: JavaScriptVisitorConfig = {}, directives: Directive[] = DefaultDirectives): AppSyncModelJavascriptVisitor => {
+const getVisitor = (schema: string, settings: JavaScriptVisitorConfig = {}, directives: readonly Directive[] = DefaultDirectives): AppSyncModelJavascriptVisitor => {
   const config = { ...defaultJavaScriptVisitorConfig, ...settings };
   const ast = parse(schema);
   const stringDirectives = directives.map(directive => directive.definition).join('\n');
@@ -59,7 +59,7 @@ describe('Javascript visitor', () => {
   `;
   let visitor: AppSyncModelJavascriptVisitor;
   beforeEach(() => {
-    visitor = getVisitor(schema, {}, V1Directives);
+    visitor = getVisitor(schema, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
   });
 
   describe('enums', () => {
@@ -104,7 +104,7 @@ describe('Javascript visitor', () => {
     });
 
     it('should generate Javascript declaration', () => {
-      const declarationVisitor = getVisitor(schema, { isDeclaration: true }, V1Directives);
+      const declarationVisitor = getVisitor(schema, { isDeclaration: true }, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
       const generateImportSpy = jest.spyOn(declarationVisitor as any, 'generateImports');
       const generateEnumDeclarationsSpy = jest.spyOn(declarationVisitor as any, 'generateEnumDeclarations');
       const generateModelDeclarationSpy = jest.spyOn(declarationVisitor as any, 'generateModelDeclaration');
@@ -192,7 +192,7 @@ describe('Javascript visitor', () => {
     });
 
     it('should generate Javascript declaration with model metadata types', () => {
-      const declarationVisitor = getVisitor(schema, { isDeclaration: true, isTimestampFieldsAdded: true }, V1Directives);
+      const declarationVisitor = getVisitor(schema, { isDeclaration: true, isTimestampFieldsAdded: true }, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
       const generateImportSpy = jest.spyOn(declarationVisitor as any, 'generateImports');
       const generateEnumDeclarationsSpy = jest.spyOn(declarationVisitor as any, 'generateEnumDeclarations');
       const generateModelDeclarationSpy = jest.spyOn(declarationVisitor as any, 'generateModelDeclaration');
@@ -293,7 +293,7 @@ describe('Javascript visitor', () => {
   });
 
   it('should generate Javascript code when declaration is set to false', () => {
-    const jsVisitor = getVisitor(schema, {}, V1Directives);
+    const jsVisitor = getVisitor(schema, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
     const generateImportsJavaScriptImplementationSpy = jest.spyOn(jsVisitor as any, 'generateImportsJavaScriptImplementation');
     const generateEnumObjectSpy = jest.spyOn(jsVisitor as any, 'generateEnumObject');
     const generateModelInitializationSpy = jest.spyOn(jsVisitor as any, 'generateModelInitialization');

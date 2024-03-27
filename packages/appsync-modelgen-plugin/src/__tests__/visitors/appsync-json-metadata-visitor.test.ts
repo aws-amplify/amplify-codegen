@@ -1,5 +1,5 @@
 import { buildSchema, GraphQLSchema, parse, visit } from 'graphql';
-import { DefaultDirectives, V1Directives, Directive } from '@aws-amplify/graphql-directives';
+import { AppSyncDirectives, DefaultDirectives, V1Directives, DeprecatedDirective, Directive } from '@aws-amplify/graphql-directives';
 import { TYPESCRIPT_SCALAR_MAP } from '../../scalars';
 import { scalars } from '../../scalars/supported-scalars';
 import {
@@ -26,7 +26,7 @@ const getVisitor = (
   schema: string,
   target: 'typescript' | 'javascript' | 'typeDeclaration' = 'javascript',
   settings: any = {},
-  directives: Directive[] = DefaultDirectives,
+  directives: readonly Directive[] = DefaultDirectives,
 ): AppSyncJSONVisitor => {
   const visitorConfig = { ...defaultJSONVisitorSettings, ...settings };
   const ast = parse(schema);
@@ -1107,11 +1107,11 @@ describe('Metadata visitor has one relation', () => {
   `;
   let visitor: AppSyncJSONVisitor;
   beforeEach(() => {
-    visitor = getVisitor(schema, 'javascript', {}, V1Directives);
+    visitor = getVisitor(schema, 'javascript', {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
   });
 
   it('should generate for Javascript', () => {
-    const jsVisitor = getVisitor(schema, 'javascript', {}, V1Directives);
+    const jsVisitor = getVisitor(schema, 'javascript', {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
     expect(jsVisitor.generate()).toMatchInlineSnapshot(`
       "export const schema = {
           \\"models\\": {
@@ -1232,7 +1232,7 @@ describe('Metadata visitor has one relation', () => {
   });
 
   it('should generate for TypeScript', () => {
-    const tsVisitor = getVisitor(schema, 'typescript', {}, V1Directives);
+    const tsVisitor = getVisitor(schema, 'typescript', {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
     expect(tsVisitor.generate()).toMatchInlineSnapshot(`
       "import { Schema } from \\"@aws-amplify/datastore\\";
 

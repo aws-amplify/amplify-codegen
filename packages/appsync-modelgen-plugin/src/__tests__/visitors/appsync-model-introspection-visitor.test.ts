@@ -1,6 +1,6 @@
 import { buildSchema, GraphQLSchema, parse, visit } from 'graphql';
 import { METADATA_SCALAR_MAP } from '../../scalars';
-import { DefaultDirectives, V1Directives, Directive } from '@aws-amplify/graphql-directives';
+import { AppSyncDirectives, DefaultDirectives, V1Directives, DeprecatedDirective, Directive } from '@aws-amplify/graphql-directives';
 import { scalars } from '../../scalars/supported-scalars';
 import { AppSyncModelIntrospectionVisitor } from '../../visitors/appsync-model-introspection-visitor';
 
@@ -14,7 +14,7 @@ const buildSchemaWithDirectives = (schema: String, directives: String): GraphQLS
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-const getVisitor = (schema: string, settings: any = {}, directives: Directive[] = DefaultDirectives): AppSyncModelIntrospectionVisitor => {
+const getVisitor = (schema: string, settings: any = {}, directives: readonly Directive[] = DefaultDirectives): AppSyncModelIntrospectionVisitor => {
   const visitorConfig = { ...defaultModelIntropectionVisitorSettings, ...settings }
   const ast = parse(schema);
   const stringDirectives = directives.map(directive => directive.definition).join('\n');
@@ -292,7 +292,8 @@ describe('schemas with pk on a belongsTo fk', () => {
     `, {
       transformerVersion: 1,
       usePipelinedTransformer: false,
-    }, V1Directives).generate()).toMatchSnapshot();
+    }, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]).generate()).toMatchSnapshot();
+
   });
 
   it('works for v2', () => {

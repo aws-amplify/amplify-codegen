@@ -1,5 +1,5 @@
 import { buildSchema, GraphQLSchema, parse, visit } from 'graphql';
-import { DefaultDirectives, V1Directives, Directive } from '@aws-amplify/graphql-directives';
+import { AppSyncDirectives, DefaultDirectives, V1Directives, DeprecatedDirective, Directive } from '@aws-amplify/graphql-directives';
 import { scalars } from '../../scalars/supported-scalars';
 import { SWIFT_SCALAR_MAP } from '../../scalars';
 import { AppSyncSwiftVisitor } from '../../visitors/appsync-swift-visitor';
@@ -25,7 +25,7 @@ const getVisitor = (
   selectedType?: string,
   generate: CodeGenGenerateEnum = CodeGenGenerateEnum.code,
   settings: any = {},
-  directives: Directive[] = DefaultDirectives,
+  directives: readonly Directive[] = DefaultDirectives,
 ) => {
   const visitorConfig = { ...defaultIosVisitorSetings, ...settings };
   const ast = parse(schema);
@@ -332,7 +332,7 @@ describe('AppSyncSwiftVisitor', () => {
         book: String
       }
     `;
-    const visitor = getVisitor(schema, 'authorBook', CodeGenGenerateEnum.code, {}, V1Directives);
+    const visitor = getVisitor(schema, 'authorBook', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
     const generatedCode = visitor.generate();
     expect(generatedCode).toMatchInlineSnapshot(`
       "// swiftlint:disable all
@@ -379,7 +379,7 @@ describe('AppSyncSwiftVisitor', () => {
       }"
     `);
 
-    const metadataVisitor = getVisitor(schema, 'authorBook', CodeGenGenerateEnum.metadata, {}, V1Directives);
+    const metadataVisitor = getVisitor(schema, 'authorBook', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
     const generatedMetadata = metadataVisitor.generate();
     expect(generatedMetadata).toMatchInlineSnapshot(`
       "// swiftlint:disable all
@@ -471,14 +471,14 @@ describe('AppSyncSwiftVisitor', () => {
         book: String
       }
     `;
-    const visitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.code, {}, V1Directives);
+    const visitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
     const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook');
     const version1Code = visitorV1.generate();
     const version2Code = visitorV2.generate();
 
     expect(version1Code).toMatch(version2Code);
 
-    const metadataVisitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.metadata, {}, V1Directives);
+    const metadataVisitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
     const metadataVisitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook', CodeGenGenerateEnum.metadata);
     const version1Metadata = metadataVisitorV1.generate();
     const version2Metadata = metadataVisitorV2.generate();
@@ -505,14 +505,14 @@ describe('AppSyncSwiftVisitor', () => {
         book: String
       }
     `;
-    const visitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.code, {}, V1Directives);
+    const visitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
     const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook');
     const version1Code = visitorV1.generate();
     const version2Code = visitorV2.generate();
 
     expect(version1Code).toMatch(version2Code);
 
-    const metadataVisitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.metadata, {}, V1Directives);
+    const metadataVisitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
     const metadataVisitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook', CodeGenGenerateEnum.metadata);
     const version1Metadata = metadataVisitorV1.generate();
     const version2Metadata = metadataVisitorV2.generate();
@@ -579,18 +579,18 @@ describe('AppSyncSwiftVisitor', () => {
       }
     `;
 
-    const visitor = getVisitor(schema, 'Todo', CodeGenGenerateEnum.code, {}, V1Directives);
+    const visitor = getVisitor(schema, 'Todo', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
     const generatedCode = visitor.generate();
     expect(generatedCode).toMatchSnapshot();
 
-    const metadataVisitor = getVisitor(schema, 'Todo', CodeGenGenerateEnum.metadata, {}, V1Directives);
+    const metadataVisitor = getVisitor(schema, 'Todo', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
     const generatedMetadata = metadataVisitor.generate();
     expect(generatedMetadata).toMatchSnapshot();
 
-    const taskVisitor = getVisitor(schema, 'task', CodeGenGenerateEnum.code, {}, V1Directives);
+    const taskVisitor = getVisitor(schema, 'task', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
     expect(taskVisitor.generate()).toMatchSnapshot();
 
-    const taskMetadataVisitor = getVisitor(schema, 'task', CodeGenGenerateEnum.metadata, {}, V1Directives);
+    const taskMetadataVisitor = getVisitor(schema, 'task', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
     const generatedTaskMetadata = taskMetadataVisitor.generate();
     expect(generatedTaskMetadata).toMatchSnapshot();
   });
@@ -619,7 +619,7 @@ describe('AppSyncSwiftVisitor', () => {
         }
       `;
       it('should generate one side of the connection', () => {
-        const visitor = getVisitor(schema, 'Todo', CodeGenGenerateEnum.code, {}, V1Directives);
+        const visitor = getVisitor(schema, 'Todo', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
         const generatedCode = visitor.generate();
         expect(generatedCode).toMatchInlineSnapshot(`
           "// swiftlint:disable all
@@ -681,7 +681,7 @@ describe('AppSyncSwiftVisitor', () => {
           }"
         `);
 
-        const metadataVisitor = getVisitor(schema, 'Todo', CodeGenGenerateEnum.metadata, {}, V1Directives);
+        const metadataVisitor = getVisitor(schema, 'Todo', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
         const generatedMetadata = metadataVisitor.generate();
         expect(generatedMetadata).toMatchInlineSnapshot(`
           "// swiftlint:disable all
@@ -765,7 +765,7 @@ describe('AppSyncSwiftVisitor', () => {
       });
 
       it('should generate many side of the connection', () => {
-        const visitor = getVisitor(schema, 'task', CodeGenGenerateEnum.code, {}, V1Directives);
+        const visitor = getVisitor(schema, 'task', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
         const generatedCode = visitor.generate();
         expect(generatedCode).toMatchInlineSnapshot(`
           "// swiftlint:disable all
@@ -847,7 +847,7 @@ describe('AppSyncSwiftVisitor', () => {
           }"
         `);
 
-        const metadataVisitor = getVisitor(schema, 'task', CodeGenGenerateEnum.metadata, {}, V1Directives);
+        const metadataVisitor = getVisitor(schema, 'task', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
         const generatedMetadata = metadataVisitor.generate();
         expect(generatedMetadata).toMatchInlineSnapshot(`
           "// swiftlint:disable all
@@ -949,7 +949,7 @@ describe('AppSyncSwiftVisitor', () => {
             posts: [PostEditor] @connection(keyName: "byEditor", fields: ["id"])
           }
         `;
-        const postVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.code, {}, V1Directives);
+        const postVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
         expect(() => postVisitor.generate()).not.toThrowError();
       });
 
@@ -981,7 +981,7 @@ describe('AppSyncSwiftVisitor', () => {
           }
         `;
 
-        const postVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.code, {}, V1Directives);
+        const postVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
         expect(postVisitor.generate()).toMatchInlineSnapshot(`
           "// swiftlint:disable all
           import Amplify
@@ -1017,7 +1017,7 @@ describe('AppSyncSwiftVisitor', () => {
           }"
         `);
 
-        const postSchemaVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.metadata, {}, V1Directives);
+        const postSchemaVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
         expect(postSchemaVisitor.generate()).toMatchInlineSnapshot(`
           "// swiftlint:disable all
           import Amplify
@@ -1073,7 +1073,7 @@ describe('AppSyncSwiftVisitor', () => {
           }"
         `);
 
-        const postEditorVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.code, {}, V1Directives);
+        const postEditorVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
         expect(postEditorVisitor.generate()).toMatchInlineSnapshot(`
           "// swiftlint:disable all
           import Amplify
@@ -1109,7 +1109,7 @@ describe('AppSyncSwiftVisitor', () => {
           }"
         `);
 
-        const postEditorSchemaVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.metadata, {}, V1Directives);
+        const postEditorSchemaVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
         expect(postEditorSchemaVisitor.generate()).toMatchInlineSnapshot(`
           "// swiftlint:disable all
           import Amplify

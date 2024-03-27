@@ -1,5 +1,5 @@
 import { buildSchema, GraphQLSchema, parse, visit } from 'graphql';
-import { DefaultDirectives, V1Directives, Directive } from '@aws-amplify/graphql-directives';
+import { AppSyncDirectives, DefaultDirectives, V1Directives, DeprecatedDirective, Directive } from '@aws-amplify/graphql-directives';
 import { validateJava } from '../utils/validate-java';
 import { scalars } from '../../scalars/supported-scalars';
 import { AppSyncModelJavaVisitor } from '../../visitors/appsync-java-visitor';
@@ -18,7 +18,7 @@ const buildSchemaWithDirectives = (schema: String, directives: string): GraphQLS
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-const getVisitor = (schema: string, selectedType?: string, settings: any = {}, directives: Directive[] = DefaultDirectives) => {
+const getVisitor = (schema: string, selectedType?: string, settings: any = {}, directives: readonly Directive[] = DefaultDirectives) => {
   const visitorConfig = { ...defaultJavaVisitorSettings, ...settings };
   const ast = parse(schema);
   const stringDirectives = directives.map(directive => directive.definition).join('\n');
@@ -105,7 +105,7 @@ describe('AppSyncModelVisitor', () => {
       }
     `;
 
-    const visitor = getVisitor(schema, 'SimpleModel', {}, V1Directives);
+    const visitor = getVisitor(schema, 'SimpleModel', {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
     const generatedCode = visitor.generate();
     expect(() => validateJava(generatedCode)).not.toThrow();
     expect(generatedCode).toMatchSnapshot();
@@ -203,7 +203,7 @@ describe('AppSyncModelVisitor', () => {
         book: String
       }
     `;
-    const visitor = getVisitor(schema, 'authorBook', {}, V1Directives);
+    const visitor = getVisitor(schema, 'authorBook', {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
     const generatedCode = visitor.generate();
     expect(() => validateJava(generatedCode)).not.toThrow();
     expect(generatedCode).toMatchSnapshot();
@@ -253,7 +253,7 @@ describe('AppSyncModelVisitor', () => {
           book: String
         }
       `;
-      const visitorV1 = getVisitor(schemaV1, 'authorBook', {}, V1Directives);
+      const visitorV1 = getVisitor(schemaV1, 'authorBook', {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
       const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook');
       const version1Code = visitorV1.generate();
       const version2Code = visitorV2.generate();
@@ -280,7 +280,7 @@ describe('AppSyncModelVisitor', () => {
           book: String
         }
       `;
-      const visitorV1 = getVisitor(schemaV1, 'authorBook', {}, V1Directives);
+      const visitorV1 = getVisitor(schemaV1, 'authorBook', {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
       const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook');
       const version1Code = visitorV1.generate();
       const version2Code = visitorV2.generate();
@@ -561,14 +561,14 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       it('should generate one side of the connection', () => {
-        const visitor = getVisitor(schema, 'Todo', {}, V1Directives);
+        const visitor = getVisitor(schema, 'Todo', {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
         const generatedCode = visitor.generate();
         expect(() => validateJava(generatedCode)).not.toThrow();
         expect(generatedCode).toMatchSnapshot();
       });
 
       it('should generate many side of the connection', () => {
-        const visitor = getVisitor(schema, 'task', {}, V1Directives);
+        const visitor = getVisitor(schema, 'task', {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
         const generatedCode = visitor.generate();
         expect(() => validateJava(generatedCode)).not.toThrow();
         expect(generatedCode).toMatchSnapshot();
@@ -591,14 +591,14 @@ describe('AppSyncModelVisitor', () => {
       }
     `;
     it('should generate class for one side of the connection', () => {
-      const visitor = getVisitor(schema, 'Todo', {}, V1Directives);
+      const visitor = getVisitor(schema, 'Todo', {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
       const generatedCode = visitor.generate();
       expect(() => validateJava(generatedCode)).not.toThrow();
       expect(generatedCode).toMatchSnapshot();
     });
 
     it('should generate class for many side of the connection', () => {
-      const visitor = getVisitor(schema, 'task', {}, V1Directives);
+      const visitor = getVisitor(schema, 'task', {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
       const generatedCode = visitor.generate();
       expect(() => validateJava(generatedCode)).not.toThrow();
       expect(generatedCode).toMatchSnapshot();

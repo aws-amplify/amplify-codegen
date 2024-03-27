@@ -1,5 +1,5 @@
 import { buildSchema, GraphQLSchema, parse, visit } from 'graphql';
-import { DefaultDirectives, Directive, V1Directives } from '@aws-amplify/graphql-directives';
+import { AppSyncDirectives, DefaultDirectives, V1Directives, DeprecatedDirective, Directive } from '@aws-amplify/graphql-directives';
 import { scalars } from '../../scalars/supported-scalars';
 import { AppSyncModelDartVisitor } from '../../visitors/appsync-dart-visitor';
 import { CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
@@ -26,7 +26,7 @@ const getVisitor = ({
   transformerVersion?: number;
   dartUpdateAmplifyCoreDependency?: boolean;
   respectPrimaryKeyAttributesOnConnectionField?: boolean;
-  directives?: Directive[];
+  directives?: readonly Directive[];
 }) => {
   const ast = parse(schema);
   const stringDirectives = directives.map(directive => directive.definition).join('\n');
@@ -89,7 +89,7 @@ describe('AppSync Dart Visitor', () => {
           book: String
         }
       `;
-      const visitor = getVisitor({ schema, directives: V1Directives });
+      const visitor = getVisitor({ schema, directives: [...AppSyncDirectives, ...V1Directives, DeprecatedDirective] });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -276,7 +276,7 @@ describe('AppSync Dart Visitor', () => {
       `;
       const outputModels: string[] = ['Todo', 'Task'];
       outputModels.forEach(model => {
-        const generatedCode = getVisitor({schema, selectedType: model, directives: V1Directives }).generate();
+        const generatedCode = getVisitor({schema, selectedType: model, directives: [...AppSyncDirectives, ...V1Directives, DeprecatedDirective] }).generate();
         expect(generatedCode).toMatchSnapshot();
       });
     });
@@ -305,7 +305,7 @@ describe('AppSync Dart Visitor', () => {
       `;
       const outputModels: string[] = ['Blog', 'Comment', 'Post'];
       outputModels.forEach(model => {
-        const generatedCode = getVisitor({ schema, selectedType: model, directives: V1Directives }).generate();
+        const generatedCode = getVisitor({ schema, selectedType: model, directives: [...AppSyncDirectives, ...V1Directives, DeprecatedDirective] }).generate();
         expect(generatedCode).toMatchSnapshot();
       });
     });
@@ -461,7 +461,7 @@ describe('AppSync Dart Visitor', () => {
       `;
       const outputModels: string[] = ['Blog', 'Comment', 'Post'];
       outputModels.forEach(model => {
-        const generatedCode = getVisitor({ schema, selectedType: model, directives: V1Directives }).generate();
+        const generatedCode = getVisitor({ schema, selectedType: model, directives: [...AppSyncDirectives, ...V1Directives, DeprecatedDirective] }).generate();
         expect(generatedCode).toMatchSnapshot();
       });
     });
