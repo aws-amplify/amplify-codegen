@@ -4,9 +4,9 @@ import { Argument, AssociationType, Field, Fields, FieldType, ModelAttribute, Mo
 import { METADATA_SCALAR_MAP } from "../scalars";
 import { CodeGenConnectionType } from "../utils/process-connections";
 import { RawAppSyncModelConfig, ParsedAppSyncModelConfig, AppSyncModelVisitor, CodeGenEnum, CodeGenField, CodeGenModel, CodeGenPrimaryKeyType, CodeGenQuery, CodeGenSubscription, CodeGenMutation } from "./appsync-visitor";
-import fs from 'fs';
 import path from 'path';
 import Ajv from 'ajv';
+import modelIntrospectionSchema from '../schemas/introspection/1/ModelIntrospectionSchema.json';
 
 export interface RawAppSyncModelIntrospectionConfig extends RawAppSyncModelConfig {};
 export interface ParsedAppSyncModelIntrospectionConfig extends ParsedAppSyncModelConfig {};
@@ -23,8 +23,6 @@ export class AppSyncModelIntrospectionVisitor<
     defaultScalars: NormalizedScalarsMap = DEFAULT_SCALARS,
   ) {
     super(schema, rawConfig, additionalConfig, defaultScalars);
-    const modelIntrospectionSchemaText = fs.readFileSync(path.join(__dirname, '..', '..', 'schemas', 'introspection', this.introspectionVersion.toString(), 'ModelIntrospectionSchema.json'), 'utf8');
-    const modelIntrospectionSchema = JSON.parse(modelIntrospectionSchemaText);
     this.schemaValidator = new Ajv().compile(modelIntrospectionSchema);
   }
 

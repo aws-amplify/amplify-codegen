@@ -4,9 +4,12 @@
     "rootDir": "src",
     "outDir": "lib"
   },
+  "include": [
+    "src/**/*",
+    "src/schemas/**/*.json"
+  ],
   "exclude": [
     "scripts",
-    "schemas",
     "lib",
     "src/__tests__"
   ]

@@ -10,7 +10,8 @@ export function getOutputFileName(inputFileName: string, target: Target): string
     const baseName = inputFileName.substr(0, inputFileName.length - ext.length);
     const filename = inputFileName.includes(fileExtension) ? inputFileName : `${baseName}.${fileExtension}`;
     // ensure the filepath for the types file uses posix separators
-    return ['API', 'api'].includes(inputFileName) ? path.join(folderMap[target], filename).split(path.win32.sep).join(path.posix.sep) : filename;
+    // Fallback to \ because path.win32 is not implemented by path-browserify
+    return ['API', 'api'].includes(inputFileName) ? path.join(folderMap[target], filename).split(path.win32?.sep || '\\').join(path.posix.sep) : filename;
   }
   return inputFileName;
 }
