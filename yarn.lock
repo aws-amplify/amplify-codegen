@@ -223,6 +223,11 @@
     camelcase-keys "6.2.2"
     tslib "^1.8.0"
 
+"@aws-amplify/graphql-directives@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-directives/-/graphql-directives-1.0.1.tgz#8e78a7e6c4d936e80a7d1f6f2c9665d0b7b1552c"
+  integrity sha512-oUUQJU1syzUfU4P4z+fLDLklU9wmEZokgQOAKHBN5Szest/mDkjZEbG9VVBiMaQbq1Rw0jkRJmVU9WA1vxjT2A==
+
 "@aws-amplify/graphql-schema-test-library@^1.1.18":
   version "1.1.27"
   resolved "https://registry.npmjs.org/@aws-amplify/graphql-schema-test-library/-/graphql-schema-test-library-1.1.27.tgz#30f5a732ce65031169907c386777f0bc0adfa0c2"
