@@ -10,8 +10,6 @@
   mutations?: SchemaMutations;
   subscriptions?: SchemaSubscriptions;
   inputs?: SchemaInputs;
-  unions?: SchemaUnions;
-  interfaces?: SchemaInterfaces;
 };
 /**
  * Top-level Entities on a Schema
@@ -23,8 +21,6 @@ export type SchemaQueries = Record<string, SchemaQuery>;
 export type SchemaMutations = Record<string, SchemaMutation>;
 export type SchemaSubscriptions = Record<string, SchemaSubscription>;
 export type SchemaInputs = Record<string, Input>;
-export type SchemaUnions = Record<string, Union>;
-export type SchemaInterfaces = Record<string, Interface>;
 
 export type SchemaModel = {
   name: string;
@@ -91,22 +87,6 @@ export type Input = {
   name: string;
   attributes: Arguments;
 }
-/**
- * Interface Definition
- */
-export type Interface = {
-  name: string;
-  fields: Fields;
-}
-export type InterfaceFieldType = { interface: string }
-/**
- * Union Definition
- */
-export type Union = {
-  name: string;
-  typeNames: string[];
-}
-export type UnionFieldType = { union: string }
 /**
  * Field-level Relationship Definitions
  */

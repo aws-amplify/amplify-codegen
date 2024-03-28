@@ -1,12 +1,15 @@
 import { DEFAULT_SCALARS, NormalizedScalarsMap } from "@graphql-codegen/visitor-plugin-common";
 import { GraphQLSchema } from "graphql";
-import { Argument, AssociationType, Field, Fields, FieldType, ModelAttribute, ModelIntrospectionSchema, PrimaryKeyInfo, SchemaEnum, SchemaModel, SchemaMutation, SchemaNonModel, SchemaQuery, SchemaSubscription, Input, Union, Interface, InputFieldType, UnionFieldType, InterfaceFieldType } from "../interfaces/introspection";
+import { Argument, AssociationType, Field, Fields, FieldType, ModelAttribute, ModelIntrospectionSchema, PrimaryKeyInfo, SchemaEnum, SchemaModel, SchemaMutation, SchemaNonModel, SchemaQuery, SchemaSubscription, Input, InputFieldType } from "../interfaces/introspection";
 import { METADATA_SCALAR_MAP } from "../scalars";
 import { CodeGenConnectionType } from "../utils/process-connections";
 import { RawAppSyncModelConfig, ParsedAppSyncModelConfig, AppSyncModelVisitor, CodeGenEnum, CodeGenField, CodeGenModel, CodeGenPrimaryKeyType, CodeGenQuery, CodeGenSubscription, CodeGenMutation, CodeGenInputObject, CodeGenUnion, CodeGenInterface } from "./appsync-visitor";
 import fs from 'fs';
 import path from 'path';
 import Ajv from 'ajv';
+
+type UnionFieldType = { union: string };
+type InterfaceFieldType = { interface: string };
 
 export interface RawAppSyncModelIntrospectionConfig extends RawAppSyncModelConfig {};
 export interface ParsedAppSyncModelIntrospectionConfig extends ParsedAppSyncModelConfig {};
@@ -94,12 +97,6 @@ export class AppSyncModelIntrospectionVisitor<
     const inputs = Object.values(this.inputObjectMap).reduce((acc, inputObj: CodeGenInputObject) => {
       return { ...acc, [inputObj.name]: this.generateGraphQLInputMetadata(inputObj) };
     }, {});
-    const unions = Object.values(this.unionMap).reduce((acc, unionObj: CodeGenUnion) => {
-      return { ...acc, [unionObj.name]: this.generateGraphQLUnionMetadata(unionObj) };
-    }, {});
-    const interfaces = Object.values(this.interfaceMap).reduce((acc, interfaceObj: CodeGenInterface) => {
-      return { ...acc, [interfaceObj.name]: this.generateGraphQLInterfaceMetadata(interfaceObj) };
-    }, {});
     if (Object.keys(queries).length > 0) {
       result = { ...result, queries };
     }
@@ -111,12 +108,6 @@ export class AppSyncModelIntrospectionVisitor<
     }
     if (Object.keys(inputs).length > 0) {
       result = { ...result, inputs }
-    }
-    if (Object.keys(unions).length > 0) {
-      result = { ...result, unions }
-    }
-    if (Object.keys(interfaces).length > 0) {
-      result = { ...result, interfaces }
     }
     return result;
   }
@@ -218,54 +209,6 @@ export class AppSyncModelIntrospectionVisitor<
     }
   }
 
-  /**
-   * Generate GraqhQL union type metadata in model introspection schema from the codegen MIPR
-   * @param unionObj union type object
-   * @returns union type metadata in model introspection schema
-   */
-  private generateGraphQLUnionMetadata(unionObj: CodeGenUnion): Union {
-    return {
-      name: unionObj.name,
-      typeNames: unionObj.typeNames,
-    }
-  }
-
-  /**
-   * Generate GraqhQL interface type metadata in model introspection schema from the codegen MIPR
-   * @param interfaceObj interface type object
-   * @returns interface type metadata in model introspection schema
-   */
-  private generateGraphQLInterfaceMetadata(interfaceObj: CodeGenInterface): Interface {
-    return {
-      name: interfaceObj.name,
-      fields: interfaceObj.fields.reduce((acc: Fields, field: CodeGenField) => {
-        // Skip the field if the field type is union/interface
-        // TODO: Remove this skip once these types are supported for stakeholder usages
-        const fieldType = this.getType(field.type) as any;
-        if (this.isUnionFieldType(fieldType) || this.isInterfaceFieldType(fieldType)) {
-          return acc;
-        }
-        const fieldMeta: Field = {
-          name: this.getFieldName(field),
-          isArray: field.isList,
-          type: fieldType,
-          isRequired: !field.isNullable,
-          attributes: [],
-        };
-
-        if (field.isListNullable !== undefined) {
-          fieldMeta.isArrayNullable = field.isListNullable;
-        }
-
-        if (field.isReadOnly !== undefined) {
-          fieldMeta.isReadOnly = field.isReadOnly;
-        }
-
-        acc[field.name] = fieldMeta;
-        return acc;
-      }, {}),
-    };
-  }
   /**
    * Generate GraqhQL operation (query/mutation/subscription) metadata in model introspection schema from the codegen MIPR
    * @param operationObj operation object

@@ -116,17 +116,6 @@ export type InputFieldType = ScalarType | {
 };
 
 // @public (undocumented)
-export type Interface = {
-    name: string;
-    fields: Fields;
-};
-
-// @public (undocumented)
-export type InterfaceFieldType = {
-    interface: string;
-};
-
-// @public (undocumented)
 export type ModelAttribute = {
     type: string;
     properties?: {
@@ -144,8 +133,6 @@ export type ModelIntrospectionSchema = {
     mutations?: SchemaMutations;
     subscriptions?: SchemaSubscriptions;
     inputs?: SchemaInputs;
-    unions?: SchemaUnions;
-    interfaces?: SchemaInterfaces;
 };
 
 // Warning: (ae-forgotten-export) The symbol "RawAppSyncModelConfig" needs to be exported by the entry point index.d.ts
@@ -177,9 +164,6 @@ export type SchemaEnums = Record<string, SchemaEnum>;
 
 // @public (undocumented)
 export type SchemaInputs = Record<string, Input>;
-
-// @public (undocumented)
-export type SchemaInterfaces = Record<string, Interface>;
 
 // @public (undocumented)
 export type SchemaModel = {
@@ -222,21 +206,7 @@ export type SchemaSubscription = SchemaQuery;
 export type SchemaSubscriptions = Record<string, SchemaSubscription>;
 
 // @public (undocumented)
-export type SchemaUnions = Record<string, Union>;
-
-// @public (undocumented)
 export type Target = 'java' | 'swift' | 'javascript' | 'typescript' | 'dart' | 'introspection';
-
-// @public (undocumented)
-export type Union = {
-    name: string;
-    typeNames: string[];
-};
-
-// @public (undocumented)
-export type UnionFieldType = {
-    union: string;
-};
 
 // (No @packageDocumentation comment for this package)
 

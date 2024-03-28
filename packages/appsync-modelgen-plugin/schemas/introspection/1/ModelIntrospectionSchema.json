@@ -26,12 +26,6 @@
         },
         "inputs": {
             "$ref": "#/definitions/SchemaInputs"
-        },
-        "unions": {
-            "$ref": "#/definitions/SchemaUnions"
-        },
-        "interfaces": {
-            "$ref": "#/definitions/SchemaInterfaces"
         }
     },
     "required": [
@@ -538,61 +532,6 @@
             ],
             "additionalProperties": false,
             "description": "Input Definition"
-        },
-        "SchemaUnions": {
-            "$ref": "#/definitions/Record%3Cstring%2CUnion%3E"
-        },
-        "Record<string,Union>": {
-            "type": "object",
-            "additionalProperties": {
-                "$ref": "#/definitions/Union"
-            }
-        },
-        "Union": {
-            "type": "object",
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "typeNames": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            },
-            "required": [
-                "name",
-                "typeNames"
-            ],
-            "additionalProperties": false,
-            "description": "Union Definition"
-        },
-        "SchemaInterfaces": {
-            "$ref": "#/definitions/Record%3Cstring%2CInterface%3E"
-        },
-        "Record<string,Interface>": {
-            "type": "object",
-            "additionalProperties": {
-                "$ref": "#/definitions/Interface"
-            }
-        },
-        "Interface": {
-            "type": "object",
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "fields": {
-                    "$ref": "#/definitions/Fields"
-                }
-            },
-            "required": [
-                "name",
-                "fields"
-            ],
-            "additionalProperties": false,
-            "description": "Interface Definition"
         }
     }
 }

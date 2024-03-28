@@ -1874,48 +1874,6 @@ exports[`Custom queries/mutations/subscriptions & input type tests should genera
                 }
             }
         }
-    },
-    \\"unions\\": {
-        \\"CustomUnion\\": {
-            \\"name\\": \\"CustomUnion\\",
-            \\"typeNames\\": [
-                \\"Todo\\",
-                \\"Phone\\"
-            ]
-        }
-    },
-    \\"interfaces\\": {
-        \\"ICustom\\": {
-            \\"name\\": \\"ICustom\\",
-            \\"fields\\": {
-                \\"firstName\\": {
-                    \\"name\\": \\"firstName\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"lastName\\": {
-                    \\"name\\": \\"lastName\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": []
-                }
-            }
-        },
-        \\"INestedCustom\\": {
-            \\"name\\": \\"INestedCustom\\",
-            \\"fields\\": {
-                \\"birthDay\\": {
-                    \\"name\\": \\"birthDay\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDate\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                }
-            }
-        }
     }
 }"
 `;
@@ -2173,32 +2131,6 @@ exports[`Model Introspection Visitor Metadata snapshot should generate correct m
                     \\"isArray\\": false,
                     \\"type\\": \\"String\\",
                     \\"isRequired\\": false
-                }
-            }
-        }
-    },
-    \\"unions\\": {
-        \\"SimpleUnion\\": {
-            \\"name\\": \\"SimpleUnion\\",
-            \\"typeNames\\": [
-                \\"SimpleModel\\",
-                \\"SimpleEnum\\",
-                \\"SimpleNonModelType\\",
-                \\"SimpleInput\\",
-                \\"SimpleInterface\\"
-            ]
-        }
-    },
-    \\"interfaces\\": {
-        \\"SimpleInterface\\": {
-            \\"name\\": \\"SimpleInterface\\",
-            \\"fields\\": {
-                \\"firstName\\": {
-                    \\"name\\": \\"firstName\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
                 }
             }
         }
