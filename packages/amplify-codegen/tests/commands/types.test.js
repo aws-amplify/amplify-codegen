@@ -57,6 +57,19 @@ const MOCK_APIS = [
 
 getFrontEndHandler.mockReturnValue('javascript');
 
+const MOCK_ANGULAR_PROJECT_BASE = {
+  excludes: [MOCK_EXCLUDE_PATH],
+  includes: [MOCK_INCLUDE_PATH],
+  schema: MOCK_SCHEMA,
+  amplifyExtension: {
+    generatedFileName: MOCK_GENERATED_FILE_NAME,
+    codeGenTarget: 'angular',
+    graphQLApiId: MOCK_API_ID,
+    region: MOCK_REGION,
+    amplifyJsLibraryVersion: 5,
+  },
+};
+
 describe('command - types', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -167,17 +180,9 @@ describe('command - types', () => {
 
   it('should show a warning if the amplifyJsLibraryVersion is invalid', async () => {
     const MOCK_ANGULAR_PROJECT = {
-      excludes: [MOCK_EXCLUDE_PATH],
-      includes: [MOCK_INCLUDE_PATH],
-      schema: MOCK_SCHEMA,
-      amplifyExtension: {
-        generatedFileName: MOCK_GENERATED_FILE_NAME,
-        codeGenTarget: 'angular',
-        graphQLApiId: MOCK_API_ID,
-        region: MOCK_REGION,
-        amplifyJsLibraryVersion: 7,
-      },
+      ...MOCK_ANGULAR_PROJECT_BASE
     };
+    MOCK_ANGULAR_PROJECT.amplifyExtension.amplifyJsLibraryVersion = 7
     fs.readFileSync
       .mockReturnValueOnce('query 1')
       .mockReturnValueOnce('query 2')
