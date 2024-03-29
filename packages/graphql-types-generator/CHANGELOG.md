@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.5.0-disable-ajv-validation.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@3.4.6...@aws-amplify/graphql-types-generator@3.5.0-disable-ajv-validation.0) (2024-03-29)
+
+### Features
+
+- enable codegen to run in browser ([#789](https://github.com/aws-amplify/amplify-codegen/issues/789)) ([f51b5d3](https://github.com/aws-amplify/amplify-codegen/commit/f51b5d3bbac23f7f63e0adc0bd2aad67b0621977))
+
 ## [3.4.6](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@3.4.5...@aws-amplify/graphql-types-generator@3.4.6) (2023-12-11)
 
 **Note:** Version bump only for package @aws-amplify/graphql-types-generator

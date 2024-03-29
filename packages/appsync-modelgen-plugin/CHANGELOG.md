@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.10.0-disable-ajv-validation.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.9.0...@aws-amplify/appsync-modelgen-plugin@2.10.0-disable-ajv-validation.0) (2024-03-29)
+
+### Bug Fixes
+
+- remove AJV validation to bypass security issue ([4db3d14](https://github.com/aws-amplify/amplify-codegen/commit/4db3d1409aebf2b551a7daedfe4a29870c51ed2e))
+
+### Features
+
+- enable codegen to run in browser ([#789](https://github.com/aws-amplify/amplify-codegen/issues/789)) ([f51b5d3](https://github.com/aws-amplify/amplify-codegen/commit/f51b5d3bbac23f7f63e0adc0bd2aad67b0621977))
+
 # [2.9.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.8.1...@aws-amplify/appsync-modelgen-plugin@2.9.0) (2024-01-29)
 
 ### Features

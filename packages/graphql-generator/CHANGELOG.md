@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0-disable-ajv-validation.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.2.4...@aws-amplify/graphql-generator@0.3.0-disable-ajv-validation.0) (2024-03-29)
+
+### Bug Fixes
+
+- pass improve pluralization flag ([#797](https://github.com/aws-amplify/amplify-codegen/issues/797)) ([948577c](https://github.com/aws-amplify/amplify-codegen/commit/948577c99faa91c6bcd4d970c159135c14fcedfd))
+
+### Features
+
+- enable codegen to run in browser ([#789](https://github.com/aws-amplify/amplify-codegen/issues/789)) ([f51b5d3](https://github.com/aws-amplify/amplify-codegen/commit/f51b5d3bbac23f7f63e0adc0bd2aad67b0621977))
+
 ## [0.2.4](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.2.3...@aws-amplify/graphql-generator@0.2.4) (2024-01-29)
 
 **Note:** Version bump only for package @aws-amplify/graphql-generator
