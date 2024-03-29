@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@aws-amplify/appsync-modelgen-plugin": "2.9.0",
+    "@aws-amplify/graphql-directives": "^1.0.1",
     "@aws-amplify/graphql-docs-generator": "4.2.1",
     "@aws-amplify/graphql-types-generator": "3.4.6",
     "@graphql-codegen/core": "^2.6.6",

@@ -1,10 +1,11 @@
 import { buildSchema, GraphQLSchema, parse, visit } from 'graphql';
-import { directives, scalars } from '../../scalars/supported-directives';
+import { AppSyncDirectives, DefaultDirectives, V1Directives, DeprecatedDirective, Directive } from '@aws-amplify/graphql-directives';
+import { scalars } from '../../scalars/supported-scalars';
 import { AppSyncModelDartVisitor } from '../../visitors/appsync-dart-visitor';
 import { CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
 import { DART_SCALAR_MAP } from '../../scalars';
 
-const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
+const buildSchemaWithDirectives = (schema: String, directives: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
@@ -16,6 +17,7 @@ const getVisitor = ({
   transformerVersion = 1,
   dartUpdateAmplifyCoreDependency = false,
   respectPrimaryKeyAttributesOnConnectionField = false,
+  directives = DefaultDirectives,
 }: {
   schema: string;
   selectedType?: string;
@@ -24,13 +26,15 @@ const getVisitor = ({
   transformerVersion?: number;
   dartUpdateAmplifyCoreDependency?: boolean;
   respectPrimaryKeyAttributesOnConnectionField?: boolean;
+  directives?: readonly Directive[];
 }) => {
   const ast = parse(schema);
-  const builtSchema = buildSchemaWithDirectives(schema);
+  const stringDirectives = directives.map(directive => directive.definition).join('\n');
+  const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
   const visitor = new AppSyncModelDartVisitor(
     builtSchema,
     {
-      directives,
+      directives: stringDirectives,
       target: 'dart',
       scalars: DART_SCALAR_MAP,
       isTimestampFieldsAdded,
@@ -85,7 +89,7 @@ describe('AppSync Dart Visitor', () => {
           book: String
         }
       `;
-      const visitor = getVisitor({ schema });
+      const visitor = getVisitor({ schema, directives: [...AppSyncDirectives, ...V1Directives, DeprecatedDirective] });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -272,7 +276,7 @@ describe('AppSync Dart Visitor', () => {
       `;
       const outputModels: string[] = ['Todo', 'Task'];
       outputModels.forEach(model => {
-        const generatedCode = getVisitor({schema, selectedType: model}).generate();
+        const generatedCode = getVisitor({schema, selectedType: model, directives: [...AppSyncDirectives, ...V1Directives, DeprecatedDirective] }).generate();
         expect(generatedCode).toMatchSnapshot();
       });
     });
@@ -301,7 +305,7 @@ describe('AppSync Dart Visitor', () => {
       `;
       const outputModels: string[] = ['Blog', 'Comment', 'Post'];
       outputModels.forEach(model => {
-        const generatedCode = getVisitor({ schema, selectedType: model }).generate();
+        const generatedCode = getVisitor({ schema, selectedType: model, directives: [...AppSyncDirectives, ...V1Directives, DeprecatedDirective] }).generate();
         expect(generatedCode).toMatchSnapshot();
       });
     });
@@ -457,7 +461,7 @@ describe('AppSync Dart Visitor', () => {
       `;
       const outputModels: string[] = ['Blog', 'Comment', 'Post'];
       outputModels.forEach(model => {
-        const generatedCode = getVisitor({ schema, selectedType: model }).generate();
+        const generatedCode = getVisitor({ schema, selectedType: model, directives: [...AppSyncDirectives, ...V1Directives, DeprecatedDirective] }).generate();
         expect(generatedCode).toMatchSnapshot();
       });
     });

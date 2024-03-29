@@ -1,3 +1,4 @@
+import { DefaultDirectives } from '@aws-amplify/graphql-directives';
 import { CodeGenModelMap, CodeGenModel, CodeGenField } from '../../visitors/appsync-visitor';
 import { processConnectionsV2 } from '../../utils/process-connections-v2';
 import {
@@ -7,7 +8,7 @@ import {
   CodeGenFieldConnectionHasOne,
 } from '../../utils/process-connections';
 import { buildSchema, parse, visit } from 'graphql';
-import { directives, scalars } from '../../scalars/supported-directives';
+import { scalars } from '../../scalars/supported-scalars';
 import { AppSyncModelVisitor, CodeGenGenerateEnum } from '../../visitors/appsync-visitor';
 
 describe('GraphQL V2 process connections tests', () => {
@@ -636,6 +637,7 @@ describe('Connection process with custom Primary Key support tests', () => {
       transformerVersion: 2
     };
     const ast = parse(schema);
+    const directives = DefaultDirectives.map(directive => directive.definition).join('\n');
     const builtSchema = buildSchema([schema, directives, scalars].join('\n'))
     const visitor = new AppSyncModelVisitor(
       builtSchema,

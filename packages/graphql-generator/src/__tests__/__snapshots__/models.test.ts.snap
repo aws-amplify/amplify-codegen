@@ -1,5 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`generateModels does not fail on custom directives 1`] = `
+Object {
+  "model-introspection.json": "{
+    \\"version\\": 1,
+    \\"models\\": {},
+    \\"enums\\": {},
+    \\"nonModels\\": {
+        \\"Blog\\": {
+            \\"name\\": \\"Blog\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"name\\": {
+                    \\"name\\": \\"name\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                }
+            }
+        }
+    }
+}",
+}
+`;
+
 exports[`generateModels targets basic dart 1`] = `
 Object {
   "Blog.dart": "/*
