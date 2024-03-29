@@ -6,7 +6,6 @@ import { CodeGenConnectionType } from "../utils/process-connections";
 import { RawAppSyncModelConfig, ParsedAppSyncModelConfig, AppSyncModelVisitor, CodeGenEnum, CodeGenField, CodeGenModel, CodeGenPrimaryKeyType, CodeGenQuery, CodeGenSubscription, CodeGenMutation } from "./appsync-visitor";
 import fs from 'fs';
 import path from 'path';
-import Ajv from 'ajv';
 
 export interface RawAppSyncModelIntrospectionConfig extends RawAppSyncModelConfig {};
 export interface ParsedAppSyncModelIntrospectionConfig extends ParsedAppSyncModelConfig {};
@@ -15,7 +14,6 @@ export class AppSyncModelIntrospectionVisitor<
   TPluginConfig extends ParsedAppSyncModelIntrospectionConfig = ParsedAppSyncModelIntrospectionConfig
 > extends AppSyncModelVisitor<TRawConfig, TPluginConfig> {
   private readonly introspectionVersion = 1;
-  private schemaValidator: Ajv.ValidateFunction;
   constructor(
     schema: GraphQLSchema,
     rawConfig: TRawConfig,
@@ -25,7 +23,6 @@ export class AppSyncModelIntrospectionVisitor<
     super(schema, rawConfig, additionalConfig, defaultScalars);
     const modelIntrospectionSchemaText = fs.readFileSync(path.join(__dirname, '..', '..', 'schemas', 'introspection', this.introspectionVersion.toString(), 'ModelIntrospectionSchema.json'), 'utf8');
     const modelIntrospectionSchema = JSON.parse(modelIntrospectionSchemaText);
-    this.schemaValidator = new Ajv().compile(modelIntrospectionSchema);
   }
 
   generate(): string {
@@ -40,9 +37,6 @@ export class AppSyncModelIntrospectionVisitor<
     );
 
     const modelIntrosepctionSchema = this.generateModelIntrospectionSchema();
-    if (!this.schemaValidator(modelIntrosepctionSchema)) {
-      throw new Error(`Data did not validate against the supplied schema. Underlying errors were ${JSON.stringify(this.schemaValidator.errors)}`);
-    }
     return JSON.stringify(modelIntrosepctionSchema, null, 4);
   }
 
