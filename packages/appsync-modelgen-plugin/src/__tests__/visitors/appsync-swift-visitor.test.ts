@@ -1867,7 +1867,7 @@ describe('AppSyncSwiftVisitor', () => {
         `);
       });
 
-      it('should support changing identityClaim', () => {
+      it('should support changing identityClaim ', () => {
         const schema = /* GraphQL */ `
           type Post @model @auth(rules: [{ allow: owner, ownerField: "author", identityClaim: "sub" }]) {
             id: ID!
@@ -2424,7 +2424,7 @@ describe('AppSyncSwiftVisitor', () => {
       `);
     });
 
-    it('should support changing groupsClaim', () => {
+    it('should support changing groupsClaim ', () => {
       const schema = /* GraphQL */ `
         type Post @model @auth(rules: [{ allow: groups, groups: ["admin"], groupClaim: "custom:groups" }]) {
           id: ID!

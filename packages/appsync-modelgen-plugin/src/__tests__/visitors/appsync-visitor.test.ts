@@ -194,7 +194,7 @@ describe('AppSyncModelVisitor', () => {
     expect(notRequiredVersion).not.toBe(requiredVersion);
   });
 
-  describe('2 Way Connection', () => {
+  describe(' 2 Way Connection', () => {
     describe('with connection name', () => {
       const schema = /* GraphQL */ `
         type Post @model {
@@ -1233,7 +1233,7 @@ describe('AppSyncModelVisitor', () => {
       expect(() => createAndGeneratePipelinedTransformerVisitor(schema)).not.toThrow();
     });
   });
-
+  
   describe('Connected models with custom primary key testing', () => {
     it('should have correct output for hasOne and belongsTo connection info when model pk is compostie key', () => {
       const schema = /* GraphQL*/ `
