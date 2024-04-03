@@ -338,6 +338,8 @@ describe('Custom queries/mutations/subscriptions & input type tests', () => {
       echo5: [CustomUnion!]!
       echo6(customInput: CustomInput): String!
       echo7: [ICustom]!
+      echo8(msg: [Float], msg2: [Int!], enumType: BillingSource, enumList: [BillingSource], inputType: [CustomInput]): [String]
+      echo9(msg: [Float]!, msg2: [Int!]!, enumType: BillingSource!, enumList: [BillingSource!]!, inputType: [CustomInput!]!): [String!]!    
     }
     type Mutation {
       mutate(msg: [String!]!): Todo

@@ -1797,6 +1797,104 @@ exports[`Custom queries/mutations/subscriptions & input type tests should genera
                     \\"isRequired\\": false
                 }
             }
+        },
+        \\"echo8\\": {
+            \\"name\\": \\"echo8\\",
+            \\"isArray\\": true,
+            \\"type\\": \\"String\\",
+            \\"isRequired\\": false,
+            \\"isArrayNullable\\": true,
+            \\"arguments\\": {
+                \\"msg\\": {
+                    \\"name\\": \\"msg\\",
+                    \\"isArray\\": true,
+                    \\"type\\": \\"Float\\",
+                    \\"isRequired\\": false,
+                    \\"isArrayNullable\\": true
+                },
+                \\"msg2\\": {
+                    \\"name\\": \\"msg2\\",
+                    \\"isArray\\": true,
+                    \\"type\\": \\"Int\\",
+                    \\"isRequired\\": true,
+                    \\"isArrayNullable\\": true
+                },
+                \\"enumType\\": {
+                    \\"name\\": \\"enumType\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"enum\\": \\"BillingSource\\"
+                    },
+                    \\"isRequired\\": false
+                },
+                \\"enumList\\": {
+                    \\"name\\": \\"enumList\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"enum\\": \\"BillingSource\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"isArrayNullable\\": true
+                },
+                \\"inputType\\": {
+                    \\"name\\": \\"inputType\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"input\\": \\"CustomInput\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"isArrayNullable\\": true
+                }
+            }
+        },
+        \\"echo9\\": {
+            \\"name\\": \\"echo9\\",
+            \\"isArray\\": true,
+            \\"type\\": \\"String\\",
+            \\"isRequired\\": true,
+            \\"isArrayNullable\\": false,
+            \\"arguments\\": {
+                \\"msg\\": {
+                    \\"name\\": \\"msg\\",
+                    \\"isArray\\": true,
+                    \\"type\\": \\"Float\\",
+                    \\"isRequired\\": false,
+                    \\"isArrayNullable\\": false
+                },
+                \\"msg2\\": {
+                    \\"name\\": \\"msg2\\",
+                    \\"isArray\\": true,
+                    \\"type\\": \\"Int\\",
+                    \\"isRequired\\": true,
+                    \\"isArrayNullable\\": false
+                },
+                \\"enumType\\": {
+                    \\"name\\": \\"enumType\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"enum\\": \\"BillingSource\\"
+                    },
+                    \\"isRequired\\": true
+                },
+                \\"enumList\\": {
+                    \\"name\\": \\"enumList\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"enum\\": \\"BillingSource\\"
+                    },
+                    \\"isRequired\\": true,
+                    \\"isArrayNullable\\": false
+                },
+                \\"inputType\\": {
+                    \\"name\\": \\"inputType\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"input\\": \\"CustomInput\\"
+                    },
+                    \\"isRequired\\": true,
+                    \\"isArrayNullable\\": false
+                }
+            }
         }
     },
     \\"mutations\\": {
