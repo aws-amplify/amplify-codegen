@@ -3,7 +3,7 @@ const {
   validateAmplifyFlutterMinSupportedVersion,
   MINIMUM_SUPPORTED_VERSION_CONSTRAINT,
 } = require('../../src/utils/validateAmplifyFlutterMinSupportedVersion');
-const defaultDirectiveDefinitions = require('../../src/utils/defaultDirectiveDefinitions');
+const { DefaultDirectives } = require('@aws-amplify/graphql-directives');
 const mockFs = require('mock-fs');
 const fs = require('fs');
 const path = require('path');
@@ -308,6 +308,6 @@ function addMocksToContext() {
       },
     ],
   });
-  MOCK_CONTEXT.amplify.executeProviderUtils.mockReturnValue(defaultDirectiveDefinitions);
+  MOCK_CONTEXT.amplify.executeProviderUtils.mockReturnValue(DefaultDirectives.map(directive => directive.definition).join('\n'));
   MOCK_CONTEXT.amplify.pathManager.getBackendDirPath.mockReturnValue(MOCK_BACKEND_DIRECTORY);
 }

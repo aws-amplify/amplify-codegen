@@ -58,6 +58,21 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
         }
         const target = cfg.amplifyExtension.codeGenTarget;
 
+        let amplifyJsLibraryVersion = cfg.amplifyExtension.amplifyJsLibraryVersion;
+
+        /**
+         * amplifyJsLibraryVersion config is currently used for angular codegen
+         * The supported value is 5 for JS v5 and 6 for JS v6
+         * When the value is undefined, it will stay at codegen for JS v5 for non-breaking change for existing users
+         * For the other values set, a warning message will be sent in the console and the codegen will use the v6 codegen
+         */
+        if (target === 'angular' && amplifyJsLibraryVersion && amplifyJsLibraryVersion !== 6 && amplifyJsLibraryVersion !== 5) {
+          context.print.warning(
+            `Amplify JS library version ${amplifyJsLibraryVersion} is not supported. The current support JS library version is [5, 6]. Codegen will be executed for JS v6 instead.`,
+          );
+          amplifyJsLibraryVersion = 6
+        }
+
         const excludes = cfg.excludes.map(pattern => `!${pattern}`);
         const normalizedPatterns = [...includeFiles, ...excludes].map((path) => normalizePathForGlobPattern(path));
         const queryFilePaths = globby.sync(normalizedPatterns, {
@@ -114,6 +129,7 @@ async function generateTypes(context, forceDownloadSchema, withoutInit = false, 
             target,
             introspection,
             multipleSwiftFiles,
+            amplifyJsLibraryVersion,
           });
           const outputs = Object.entries(output);
 

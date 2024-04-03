@@ -1,15 +1,18 @@
 import * as path from 'path';
 import { parse } from 'graphql';
 import * as appSyncDataStoreCodeGen from '@aws-amplify/appsync-modelgen-plugin';
+import { DefaultDirectives } from '@aws-amplify/graphql-directives';
 import { codegen } from '@graphql-codegen/core';
 import { ModelsTarget, GenerateModelsOptions, GeneratedOutput } from './typescript';
 const { version: packageVersion } = require('../package.json');
+
+const directiveDefinitions = DefaultDirectives.map(directive => directive.definition).join('\n');
 
 export async function generateModels(options: GenerateModelsOptions): Promise<GeneratedOutput> {
   const {
     schema,
     target,
-    directives,
+    directives = directiveDefinitions,
     isDataStoreEnabled,
 
     // feature flags
@@ -18,6 +21,7 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
     useExperimentalPipelinedTransformer = true,
     transformerVersion = true,
     respectPrimaryKeyAttributesOnConnectionField = true,
+    improvePluralization = false,
     generateModelsForLazyLoadAndCustomSelectionSet = true,
     addTimestampFields = true,
     handleListNullabilityTransparently = true,
@@ -40,6 +44,7 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
       usePipelinedTransformer: useExperimentalPipelinedTransformer,
       transformerVersion,
       respectPrimaryKeyAttributesOnConnectionField,
+      improvePluralization,
       generateModelsForLazyLoadAndCustomSelectionSet,
       codegenVersion: packageVersion,
       overrideOutputDir,

@@ -1,5 +1,202 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`generateTypes amplifyJsLibraryVersion generates angular types for v5 when value is 5 or undefined 1`] = `
+Object {
+  "api.service.ts": "/* tslint:disable */
+/* eslint-disable */
+//  This file was automatically generated and should not be edited.
+import { Injectable } from \\"@angular/core\\";
+import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
+import { Observable } from \\"zen-observable-ts\\";
+
+export interface SubscriptionResponse<T> {
+  value: GraphQLResult<T>;
+}
+
+export type Blog = {
+  __typename: \\"Blog\\";
+  id: string;
+  name: string;
+  posts?: ModelPostConnection | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type ModelPostConnection = {
+  __typename: \\"ModelPostConnection\\";
+  items: Array<Post | null>;
+  nextToken?: string | null;
+};
+
+export type Post = {
+  __typename: \\"Post\\";
+  id: string;
+  title: string;
+  blog?: Blog | null;
+  comments?: ModelCommentConnection | null;
+  createdAt: string;
+  updatedAt: string;
+  blogPostsId?: string | null;
+};
+
+export type ModelCommentConnection = {
+  __typename: \\"ModelCommentConnection\\";
+  items: Array<Comment | null>;
+  nextToken?: string | null;
+};
+
+export type Comment = {
+  __typename: \\"Comment\\";
+  id: string;
+  post?: Post | null;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  postCommentsId?: string | null;
+};
+
+export type GetBlogQuery = {
+  __typename: \\"Blog\\";
+  id: string;
+  name: string;
+  posts?: {
+    __typename: \\"ModelPostConnection\\";
+    nextToken?: string | null;
+  } | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+@Injectable({
+  providedIn: \\"root\\"
+})
+export class APIService {
+  async GetBlog(id: string): Promise<GetBlogQuery> {
+    const statement = \`query GetBlog($id: ID!) {
+        getBlog(id: $id) {
+          __typename
+          id
+          name
+          posts {
+            __typename
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
+      }\`;
+    const gqlAPIServiceArguments: any = {
+      id
+    };
+    const response = (await API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    )) as any;
+    return <GetBlogQuery>response.data.getBlog;
+  }
+}
+",
+}
+`;
+
+exports[`generateTypes amplifyJsLibraryVersion generates angular types for v6 when value is 6 1`] = `
+Object {
+  "api.service.ts": "/* tslint:disable */
+/* eslint-disable */
+//  This file was automatically generated and should not be edited.
+import { Injectable } from \\"@angular/core\\";
+import { Client, generateClient, GraphQLResult } from \\"aws-amplify/api\\";
+import { Observable } from \\"rxjs\\";
+
+export type Blog = {
+  __typename: \\"Blog\\";
+  id: string;
+  name: string;
+  posts?: ModelPostConnection | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type ModelPostConnection = {
+  __typename: \\"ModelPostConnection\\";
+  items: Array<Post | null>;
+  nextToken?: string | null;
+};
+
+export type Post = {
+  __typename: \\"Post\\";
+  id: string;
+  title: string;
+  blog?: Blog | null;
+  comments?: ModelCommentConnection | null;
+  createdAt: string;
+  updatedAt: string;
+  blogPostsId?: string | null;
+};
+
+export type ModelCommentConnection = {
+  __typename: \\"ModelCommentConnection\\";
+  items: Array<Comment | null>;
+  nextToken?: string | null;
+};
+
+export type Comment = {
+  __typename: \\"Comment\\";
+  id: string;
+  post?: Post | null;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  postCommentsId?: string | null;
+};
+
+export type GetBlogQuery = {
+  __typename: \\"Blog\\";
+  id: string;
+  name: string;
+  posts?: {
+    __typename: \\"ModelPostConnection\\";
+    nextToken?: string | null;
+  } | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+@Injectable({
+  providedIn: \\"root\\"
+})
+export class APIService {
+  public client: Client;
+  constructor() {
+    this.client = generateClient();
+  }
+  async GetBlog(id: string): Promise<GetBlogQuery> {
+    const statement = \`query GetBlog($id: ID!) {
+        getBlog(id: $id) {
+          __typename
+          id
+          name
+          posts {
+            __typename
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
+      }\`;
+    const gqlAPIServiceArguments: any = {
+      id
+    };
+    const response = (await this.client.graphql({
+      query: statement,
+      variables: gqlAPIServiceArguments
+    })) as any;
+    return <GetBlogQuery>response.data.getBlog;
+  }
+}
+",
+}
+`;
+
 exports[`generateTypes multipleSwiftFiles generates multiple files 1`] = `
 Object {
   "Types.graphql.swift": "//  This file was automatically generated and should not be edited.

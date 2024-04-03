@@ -1,6 +1,7 @@
 import { buildSchema, GraphQLSchema, parse, visit } from 'graphql';
 import { METADATA_SCALAR_MAP } from '../../scalars';
-import { directives, scalars } from '../../scalars/supported-directives';
+import { AppSyncDirectives, DefaultDirectives, V1Directives, DeprecatedDirective, Directive } from '@aws-amplify/graphql-directives';
+import { scalars } from '../../scalars/supported-scalars';
 import { AppSyncModelIntrospectionVisitor } from '../../visitors/appsync-model-introspection-visitor';
 
 const defaultModelIntropectionVisitorSettings = {
@@ -9,17 +10,18 @@ const defaultModelIntropectionVisitorSettings = {
   transformerVersion: 2
 }
 
-const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
+const buildSchemaWithDirectives = (schema: String, directives: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-const getVisitor = (schema: string, settings: any = {}): AppSyncModelIntrospectionVisitor => {
+const getVisitor = (schema: string, settings: any = {}, directives: readonly Directive[] = DefaultDirectives): AppSyncModelIntrospectionVisitor => {
   const visitorConfig = { ...defaultModelIntropectionVisitorSettings, ...settings }
   const ast = parse(schema);
-  const builtSchema = buildSchemaWithDirectives(schema);
+  const stringDirectives = directives.map(directive => directive.definition).join('\n');
+  const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
   const visitor = new AppSyncModelIntrospectionVisitor(
     builtSchema,
-    { directives, scalars: METADATA_SCALAR_MAP, ...visitorConfig, target: 'introspection' },
+    { directives: stringDirectives, scalars: METADATA_SCALAR_MAP, ...visitorConfig, target: 'introspection' },
     {},
   );
   visit(ast, { leave: visitor });
@@ -51,6 +53,13 @@ describe('Model Introspection Visitor', () => {
       id: ID!
       names: [String]
     }
+    input SimpleInput {
+      name: String
+    }
+    interface SimpleInterface {
+      firstName: String!
+    }
+    union SimpleUnion = SimpleModel | SimpleEnum | SimpleNonModelType | SimpleInput | SimpleInterface
   `;
   const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
   describe('getType', () => {
@@ -64,6 +73,18 @@ describe('Model Introspection Visitor', () => {
 
     it('should return NonModel type for Non-model', () => {
       expect((visitor as any).getType('SimpleNonModelType')).toEqual({ nonModel: 'SimpleNonModelType' });
+    });
+
+    it('should return input type for Input', () => {
+      expect((visitor as any).getType('SimpleInput')).toEqual({ input: 'SimpleInput' });
+    });
+
+    it('should return union type for Union', () => {
+      expect((visitor as any).getType('SimpleUnion')).toEqual({ union: 'SimpleUnion' });
+    });
+
+    it('should return interface type for Interface', () => {
+      expect((visitor as any).getType('SimpleInterface')).toEqual({ interface: 'SimpleInterface' });
     });
 
     it('should throw error for unknown type', () => {
@@ -210,6 +231,47 @@ describe('Primary Key Info tests', () => {
     const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
     expect(visitor.generate()).toMatchSnapshot();
   });
+
+  it('should retain order of targetNames and primaryKeyInfo.sortKeyFieldNames', () => {
+    // Data Manager relies on this order matching
+    const schema = /* GraphQL */ `
+      type Enthusiast @model {
+        id: ID! @primaryKey
+        name: String!
+        likes: [Like] @manyToMany(relationName: "EnthusiastLikes")
+      }
+
+      type Like @model {
+        sortKeyFieldThree: String!
+        value: String!
+        name: String! @primaryKey(sortKeyFields: ["sortKeyFieldOne", "sortKeyFieldTwo", "sortKeyFieldThree"])
+        sortKeyFieldOne: String!
+        enthusiasts: [Enthusiast] @manyToMany(relationName: "EnthusiastLikes")
+        sortKeyFieldTwo: String!
+      }
+    `;
+    const result = JSON.parse(getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true }).generate());
+    const { models: { Like, EnthusiastLikes } } = result;
+    expect(result).toMatchSnapshot();
+    
+    // name
+    expect(Like.primaryKeyInfo.primaryKeyFieldName).toEqual('name');
+    expect(EnthusiastLikes.fields.like.association.targetNames[0]).toEqual('likeName');
+
+
+    // sortKeyFieldOne
+    expect(Like.primaryKeyInfo.sortKeyFieldNames[0]).toEqual('sortKeyFieldOne');
+    expect(EnthusiastLikes.fields.like.association.targetNames[1]).toEqual('likesortKeyFieldOne');
+
+    // sortKeyFieldTwo
+    expect(Like.primaryKeyInfo.sortKeyFieldNames[1]).toEqual('sortKeyFieldTwo');
+    expect(EnthusiastLikes.fields.like.association.targetNames[2]).toEqual('likesortKeyFieldTwo');
+
+    // sortKeyFieldThree
+    expect(Like.primaryKeyInfo.sortKeyFieldNames[2]).toEqual('sortKeyFieldThree');
+    expect(EnthusiastLikes.fields.like.association.targetNames[3]).toEqual('likesortKeyFieldThree');
+  });
+
 });
 
 describe('Primary key info within a belongsTo model tests', () => {
@@ -249,7 +311,8 @@ describe('schemas with pk on a belongsTo fk', () => {
     `, {
       transformerVersion: 1,
       usePipelinedTransformer: false,
-    }).generate()).toMatchSnapshot();
+    }, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]).generate()).toMatchSnapshot();
+
   });
 
   it('works for v2', () => {
@@ -274,30 +337,172 @@ describe('schemas with pk on a belongsTo fk', () => {
   });
 });
 
-describe('Custom queries/mutations/subscriptions tests', () => {
+describe('Custom queries/mutations/subscriptions & input type tests', () => {
   const schema = /* GraphQL */ `
+    input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
     type Todo @model {
       id: ID!
       name: String!
       description: String
+      phone: Phone
     }
     type Phone {
       number: String
     }
+    enum BillingSource {
+      CLIENT
+      PROJECT
+    }
+    input CustomInput {
+      customField1: String!
+      customField2: Int
+      customField3: NestedInput!
+    }
+    input NestedInput {
+      content: String! = "hello"
+    }
+    interface ICustom {
+      firstName: String!
+      lastName: String
+      birthdays: [INestedCustom!]!
+    }
+    interface INestedCustom {
+      birthDay: AWSDate!
+    }
+    # The member types of a Union type must all be Object base types.
+    union CustomUnion = Todo | Phone
+    
     type Query {
+      getAllTodo(msg: String, input: CustomInput): String
       echo(msg: String): String
       echo2(todoId: ID!): Todo
-      echo3: [Todo]
+      echo3: [Todo!]!
       echo4(number: String): Phone
+      echo5: [CustomUnion!]!
+      echo6(customInput: CustomInput): String!
+      echo7: [ICustom]!
+      echo8(msg: [Float], msg2: [Int!], enumType: BillingSource, enumList: [BillingSource], inputType: [CustomInput]): [String]
+      echo9(msg: [Float]!, msg2: [Int!]!, enumType: BillingSource!, enumList: [BillingSource!]!, inputType: [CustomInput!]!): [String!]!    
     }
     type Mutation {
       mutate(msg: [String!]!): Todo
+      mutate2: [CustomUnion!]!
+      mutate3: [ICustom]!
     }
     type Subscription {
       onMutate(msg: String): [Todo!]
+      onMutate2: CustomUnion
+      onMutate3: ICustom
     }
   `;
   it('should generate correct metadata for custom queries/mutations/subscriptions in model introspection schema', () => {
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(visitor.generate()).toMatchSnapshot();
+  });
+});
+
+describe('custom fields', () => {
+  test('sets the association for fields for hasOne', () => {
+    const schema = /* GraphQL */ `
+      type PrimaryLegacy @model {
+        id: ID!
+        relatedId: ID
+        related: RelatedLegacy @hasOne(fields: [relatedId])
+      }
+      
+      type RelatedLegacy @model {
+        id: ID!
+        primary: PrimaryLegacy @belongsTo
+      }
+    `;
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(visitor.generate()).toMatchSnapshot();
+  });
+
+  test('sets the association for fields for hasMany', () => {
+    const schema = /* GraphQL */ `
+      type PrimaryLegacy @model {
+        id: ID!
+        relatedId: ID
+        related: [RelatedLegacy] @hasMany(fields: [relatedId])
+      }
+      
+      type RelatedLegacy @model {
+        id: ID!
+        primary: PrimaryLegacy @belongsTo
+      }
+    `;
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(visitor.generate()).toMatchSnapshot();
+  });
+
+  test('sets the association for fields for belongsTo with other side hasOne', () => {
+    const schema = /* GraphQL */ `
+      type PrimaryLegacy @model {
+        id: ID!
+        related: RelatedLegacy @hasOne
+      }
+      
+      type RelatedLegacy @model {
+        id: ID!
+        primaryId: ID!
+        primary: PrimaryLegacy @belongsTo(fields: [primaryId])
+      }
+    `;
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(visitor.generate()).toMatchSnapshot();
+  });
+
+  test('sets the association for fields for belongsTo with other side hasMany', () => {
+    const schema = /* GraphQL */ `
+      type PrimaryLegacy @model {
+        id: ID!
+        related: [RelatedLegacy] @hasMany
+      }
+      
+      type RelatedLegacy @model {
+        id: ID!
+        primaryId: ID!
+        primary: PrimaryLegacy @belongsTo(fields: [primaryId])
+      }
+    `;
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(visitor.generate()).toMatchSnapshot();
+  });
+
+  test('sets the association for fields for hasOne and belongsTo', () => {
+    const schema = /* GraphQL */ `
+      type PrimaryLegacy @model {
+        id: ID!
+        relatedId: ID
+        related: RelatedLegacy @hasOne(fields: [relatedId])
+      }
+      
+      type RelatedLegacy @model {
+        id: ID!
+        primaryId: ID!
+        primary: PrimaryLegacy @belongsTo(fields: [primaryId])
+      }
+    `;
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(visitor.generate()).toMatchSnapshot();
+  });
+
+  test('sets the association for fields for hasMany and belongsTo', () => {
+    const schema = /* GraphQL */ `
+      type PrimaryLegacy @model {
+        id: ID!
+        relatedId: ID
+        related: [RelatedLegacy] @hasMany(fields: [relatedId])
+      }
+      
+      type RelatedLegacy @model {
+        id: ID!
+        primaryId: ID!
+        primary: PrimaryLegacy @belongsTo(fields: [primaryId])
+      }
+    `;
     const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
     expect(visitor.generate()).toMatchSnapshot();
   });

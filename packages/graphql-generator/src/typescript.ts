@@ -14,12 +14,13 @@ export type GenerateTypesOptions = {
   queries: string | Source[];
   introspection?: boolean;
   multipleSwiftFiles?: boolean; // only used when target is swift
+  amplifyJsLibraryVersion?: number; // only used when target is angular
 };
 
 export type GenerateModelsOptions = {
   schema: string;
   target: ModelsTarget;
-  directives: string;
+  directives?: string;
   isDataStoreEnabled?: boolean;
 
   // feature flags
@@ -28,6 +29,7 @@ export type GenerateModelsOptions = {
   useExperimentalPipelinedTransformer?: boolean;
   transformerVersion?: boolean;
   respectPrimaryKeyAttributesOnConnectionField?: boolean;
+  improvePluralization?: boolean;
   generateModelsForLazyLoadAndCustomSelectionSet?: boolean;
   addTimestampFields?: boolean;
   handleListNullabilityTransparently?: boolean;

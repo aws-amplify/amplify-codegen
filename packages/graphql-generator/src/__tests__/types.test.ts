@@ -65,4 +65,29 @@ describe('generateTypes', () => {
       expect(generateTypes(options)).rejects.toThrow('Query documents must be of type Source[] when generating multiple Swift files.');
     });
   });
+
+  describe('amplifyJsLibraryVersion', () => {
+    test('generates angular types for v5 when value is 5 or undefined', async () => {
+      const options: GenerateTypesOptions = {
+        schema: sdlSchema,
+        queries,
+        target: 'angular',
+        amplifyJsLibraryVersion: 5,
+      };
+      const typesV5 = await generateTypes(options);
+      const typesUndefined = await generateTypes({ ...options, amplifyJsLibraryVersion: undefined });
+      expect(typesV5).toEqual(typesUndefined);
+      expect(typesV5).toMatchSnapshot();
+    });
+    test('generates angular types for v6 when value is 6', async () => {
+      const options: GenerateTypesOptions = {
+        schema: sdlSchema,
+        queries,
+        target: 'angular',
+        amplifyJsLibraryVersion: 6,
+      };
+      const types = await generateTypes(options);
+      expect(types).toMatchSnapshot();
+    });
+  });
 });
