@@ -1339,4 +1339,75 @@ describe('AppSyncModelVisitor', () => {
       expect(projectTeamNameField.type).toBe('String');
     });
   });
+  
+  describe('Other GraphQL types', () => {
+    const schema = /* GraphQL*/ `
+      input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
+      type Todo @model {
+        id: ID!
+        name: String!
+        description: String
+        phone: Phone
+      }
+      type Phone {
+        number: String
+      }
+      enum BillingSource {
+        CLIENT
+        PROJECT
+      }
+      input CustomInput {
+        customField1: String!
+        customField2: BillingSource
+        customField3: NestedInput!
+      }
+      input NestedInput {
+        content: String! = "hello"
+      }
+      interface ICustom {
+        firstName: String!
+        lastName: String
+        birthdays: [INestedCustom!]!
+      }
+      interface INestedCustom {
+        birthDay: AWSDate!
+      }
+      # The member types of a Union type must all be Object base types.
+      union CustomUnion = Todo | Phone
+      
+      type Query {
+        getAllTodo(msg: String, input: CustomInput): String
+        echo(msg: String): String
+        echo2(todoId: ID!): Todo
+        echo3: [Todo!]!
+        echo4(number: String): Phone
+        echo5: [CustomUnion!]!
+        echo6(customInput: CustomInput): String!
+        echo7: [ICustom]!
+      }
+      type Mutation {
+        mutate(msg: [String!]!): Todo
+      }
+      type Subscription {
+        onMutate(msg: String): [Todo!]
+      }
+    `;
+    const { queries, mutations, subscriptions, inputs, unions, interfaces }
+      = createAndGenerateVisitor(schema, { usePipelinedTransformer: true, respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 });
+    it('shoud support query, mutation and subscription types', () => {
+      expect(queries).toMatchSnapshot();
+      expect(mutations).toMatchSnapshot();
+      expect(subscriptions).toMatchSnapshot();
+    });
+    it('should support input types', () => {
+      expect(inputs).toMatchSnapshot();
+    });
+    it('should support union types', () => {
+      expect(unions).toMatchSnapshot();
+    });
+    it('should support interface types', () => {
+      expect(interfaces).toMatchSnapshot();
+    });
+  })
 });

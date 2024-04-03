@@ -53,6 +53,13 @@ describe('Model Introspection Visitor', () => {
       id: ID!
       names: [String]
     }
+    input SimpleInput {
+      name: String
+    }
+    interface SimpleInterface {
+      firstName: String!
+    }
+    union SimpleUnion = SimpleModel | SimpleEnum | SimpleNonModelType | SimpleInput | SimpleInterface
   `;
   const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
   describe('getType', () => {
@@ -66,6 +73,18 @@ describe('Model Introspection Visitor', () => {
 
     it('should return NonModel type for Non-model', () => {
       expect((visitor as any).getType('SimpleNonModelType')).toEqual({ nonModel: 'SimpleNonModelType' });
+    });
+
+    it('should return input type for Input', () => {
+      expect((visitor as any).getType('SimpleInput')).toEqual({ input: 'SimpleInput' });
+    });
+
+    it('should return union type for Union', () => {
+      expect((visitor as any).getType('SimpleUnion')).toEqual({ union: 'SimpleUnion' });
+    });
+
+    it('should return interface type for Interface', () => {
+      expect((visitor as any).getType('SimpleInterface')).toEqual({ interface: 'SimpleInterface' });
     });
 
     it('should throw error for unknown type', () => {
@@ -318,27 +337,63 @@ describe('schemas with pk on a belongsTo fk', () => {
   });
 });
 
-describe('Custom queries/mutations/subscriptions tests', () => {
+describe('Custom queries/mutations/subscriptions & input type tests', () => {
   const schema = /* GraphQL */ `
+    input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
     type Todo @model {
       id: ID!
       name: String!
       description: String
+      phone: Phone
     }
     type Phone {
       number: String
     }
+    enum BillingSource {
+      CLIENT
+      PROJECT
+    }
+    input CustomInput {
+      customField1: String!
+      customField2: Int
+      customField3: NestedInput!
+    }
+    input NestedInput {
+      content: String! = "hello"
+    }
+    interface ICustom {
+      firstName: String!
+      lastName: String
+      birthdays: [INestedCustom!]!
+    }
+    interface INestedCustom {
+      birthDay: AWSDate!
+    }
+    # The member types of a Union type must all be Object base types.
+    union CustomUnion = Todo | Phone
+    
     type Query {
+      getAllTodo(msg: String, input: CustomInput): String
       echo(msg: String): String
       echo2(todoId: ID!): Todo
-      echo3: [Todo]
+      echo3: [Todo!]!
       echo4(number: String): Phone
+      echo5: [CustomUnion!]!
+      echo6(customInput: CustomInput): String!
+      echo7: [ICustom]!
+      echo8(msg: [Float], msg2: [Int!], enumType: BillingSource, enumList: [BillingSource], inputType: [CustomInput]): [String]
+      echo9(msg: [Float]!, msg2: [Int!]!, enumType: BillingSource!, enumList: [BillingSource!]!, inputType: [CustomInput!]!): [String!]!    
     }
     type Mutation {
       mutate(msg: [String!]!): Todo
+      mutate2: [CustomUnion!]!
+      mutate3: [ICustom]!
     }
     type Subscription {
       onMutate(msg: String): [Todo!]
+      onMutate2: CustomUnion
+      onMutate3: ICustom
     }
   `;
   it('should generate correct metadata for custom queries/mutations/subscriptions in model introspection schema', () => {
