@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.2.4...@aws-amplify/graphql-generator@0.3.0) (2024-04-03)
+
+### Bug Fixes
+
+- pass improve pluralization flag ([#797](https://github.com/aws-amplify/amplify-codegen/issues/797)) ([948577c](https://github.com/aws-amplify/amplify-codegen/commit/948577c99faa91c6bcd4d970c159135c14fcedfd))
+
+### Features
+
+- add angular codegen v6 support ([#799](https://github.com/aws-amplify/amplify-codegen/issues/799)) ([7d1a269](https://github.com/aws-amplify/amplify-codegen/commit/7d1a26941547a26640f7dc4aa25da9c0e1dab654))
+- use default directives from @aws-amplify/graphql-directives ([#796](https://github.com/aws-amplify/amplify-codegen/issues/796)) ([a94649e](https://github.com/aws-amplify/amplify-codegen/commit/a94649ef5cbed1091e4c206852d85f4b860a3eae))
+
 ## [0.2.4](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.2.3...@aws-amplify/graphql-generator@0.2.4) (2024-01-29)
 
 **Note:** Version bump only for package @aws-amplify/graphql-generator

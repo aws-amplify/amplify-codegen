@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.5.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@3.4.6...@aws-amplify/graphql-types-generator@3.5.0) (2024-04-03)
+
+### Features
+
+- add angular codegen v6 support ([#799](https://github.com/aws-amplify/amplify-codegen/issues/799)) ([7d1a269](https://github.com/aws-amplify/amplify-codegen/commit/7d1a26941547a26640f7dc4aa25da9c0e1dab654))
+
 ## [3.4.6](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-types-generator@3.4.5...@aws-amplify/graphql-types-generator@3.4.6) (2023-12-11)
 
 **Note:** Version bump only for package @aws-amplify/graphql-types-generator

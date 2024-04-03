@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.10.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.9.0...@aws-amplify/appsync-modelgen-plugin@2.10.0) (2024-04-03)
+
+### Bug Fixes
+
+- process input object, union and interface metadata in model introspection schema codegen ([#795](https://github.com/aws-amplify/amplify-codegen/issues/795)) ([73e4520](https://github.com/aws-amplify/amplify-codegen/commit/73e4520e8f3bbd63d6b123a5c977c415df443905))
+
+### Features
+
+- use default directives from @aws-amplify/graphql-directives ([#796](https://github.com/aws-amplify/amplify-codegen/issues/796)) ([a94649e](https://github.com/aws-amplify/amplify-codegen/commit/a94649ef5cbed1091e4c206852d85f4b860a3eae))
+
 # [2.9.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.8.1...@aws-amplify/appsync-modelgen-plugin@2.9.0) (2024-01-29)
 
 ### Features

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.44.4](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-tests@2.44.3...@aws-amplify/amplify-codegen-e2e-tests@2.44.4) (2024-04-03)
+
+### Bug Fixes
+
+- process input object, union and interface metadata in model introspection schema codegen ([#795](https://github.com/aws-amplify/amplify-codegen/issues/795)) ([73e4520](https://github.com/aws-amplify/amplify-codegen/commit/73e4520e8f3bbd63d6b123a5c977c415df443905))
+
 ## [2.44.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-tests@2.44.2...@aws-amplify/amplify-codegen-e2e-tests@2.44.3) (2023-12-11)
 
 **Note:** Version bump only for package @aws-amplify/amplify-codegen-e2e-tests
