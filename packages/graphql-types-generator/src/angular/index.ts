@@ -16,7 +16,15 @@ import { Property, interfaceDeclaration } from '../typescript/language';
 import { isList } from '../utilities/graphql';
 import { propertyDeclarations } from '../flow/codeGeneration';
 
-export function generateSource(context: LegacyCompilerContext) {
+export function generateSource(context: LegacyCompilerContext, options?: { isAngularV6: boolean  }) {
+  const isAngularV6: boolean = options?.isAngularV6 ?? false;
+  const importApiStatement = isAngularV6
+    ? `import { Client, generateClient, GraphQLResult } from 'aws-amplify/api';`
+    : `import API, { graphqlOperation, GraphQLResult } from '@aws-amplify/api-graphql';`
+  const importObservable = isAngularV6
+    ? `import { Observable } from 'rxjs';`
+    : `import { Observable } from 'zen-observable-ts';`;
+
   const generator = new CodeGenerator<LegacyCompilerContext>(context);
 
   generator.printOnNewline('/* tslint:disable */');
@@ -24,23 +32,30 @@ export function generateSource(context: LegacyCompilerContext) {
   generator.printOnNewline('//  This file was automatically generated and should not be edited.');
 
   generator.printOnNewline(`import { Injectable } from '@angular/core';`);
-  generator.printOnNewline(`import API, { graphqlOperation, GraphQLResult } from '@aws-amplify/api-graphql';`);
+  generator.printOnNewline(importApiStatement);
 
-  generator.printOnNewline(`import { Observable } from 'zen-observable-ts';`);
+  generator.printOnNewline(importObservable);
   generator.printNewline();
 
-  generateTypes(generator, context);
+  generateTypes(generator, context, { isAngularV6 });
   generator.printNewline();
 
-  generateAngularService(generator, context);
+  generateAngularService(generator, context, { isAngularV6 });
   return prettier.format(generator.output, { parser: 'typescript' });
 }
 
-function generateTypes(generator: CodeGenerator, context: LegacyCompilerContext) {
+function generateTypes(generator: CodeGenerator, context: LegacyCompilerContext, options?: { isAngularV6: boolean  }) {
+  const isAngularV6: boolean = options?.isAngularV6 ?? false;
   // if subscription operations exist create subscriptionResponse interface
   // https://github.com/aws-amplify/amplify-cli/issues/5284
   if (context.schema.getSubscriptionType()) {
-    generateSubscriptionResponseWrapper(generator);
+    if (!isAngularV6) {
+      /**
+       * V6 does not need to generate the response wrapper.
+       * The access pattern for V5 is `event.value.data` and `event.data` for V6
+       */
+      generateSubscriptionResponseWrapper(generator);
+    }
     generateSubscriptionOperationTypes(generator, context);
   }
   context.typesUsed.forEach(type => typeDeclarationForGraphQLType(generator, type));
@@ -152,7 +167,8 @@ function getReturnTypeName(generator: CodeGenerator, op: LegacyOperation): Strin
   }
 }
 
-function generateAngularService(generator: CodeGenerator, context: LegacyCompilerContext) {
+function generateAngularService(generator: CodeGenerator, context: LegacyCompilerContext, options?: { isAngularV6: boolean  }) {
+  const isAngularV6: boolean = options?.isAngularV6 ?? false;
   const operations = context.operations;
   generator.printOnNewline(`@Injectable({
     providedIn: 'root'
@@ -160,19 +176,33 @@ function generateAngularService(generator: CodeGenerator, context: LegacyCompile
   generator.printOnNewline(`export class APIService {`);
 
   generator.withIndent(() => {
+    if (isAngularV6) {
+      generator.printOnNewline('public client: Client;');
+      generateServiceConstructor(generator);
+    }
     Object.values(operations).forEach((op: LegacyOperation) => {
       if (op.operationType === 'subscription') {
-        return generateSubscriptionOperation(generator, op);
+        return generateSubscriptionOperation(generator, op, { isAngularV6 });
       }
       if (op.operationType === 'query' || op.operationType === 'mutation') {
-        return generateQueryOrMutationOperation(generator, op);
+        return generateQueryOrMutationOperation(generator, op, { isAngularV6 });
       }
     });
     generator.printOnNewline('}');
   });
 }
 
-function generateSubscriptionOperation(generator: CodeGenerator, op: LegacyOperation) {
+function generateServiceConstructor(generator: CodeGenerator) {
+  generator.printOnNewline();
+  generator.print(`constructor() {`);
+  generator.withIndent(() => {
+    generator.print(`this.client = generateClient();`);
+  });
+  generator.printOnNewline('}');
+}
+
+function generateSubscriptionOperation(generator: CodeGenerator, op: LegacyOperation, options?: { isAngularV6: boolean  }) {
+  const isAngularV6: boolean = options?.isAngularV6 ?? false;
   const statement = formatTemplateString(generator, op.source);
   const { operationName } = op;
   const vars = variablesFromField(generator.context, op.variables);
@@ -180,29 +210,47 @@ function generateSubscriptionOperation(generator: CodeGenerator, op: LegacyOpera
   generator.printNewline();
   const subscriptionName = `${operationName}Listener`;
   if (!vars.length) {
-    generator.print(
-      `${subscriptionName}: Observable<SubscriptionResponse<${returnType}>> = API.graphql(graphqlOperation(\n\`${statement}\`)) as Observable<SubscriptionResponse<${returnType}>>`,
-    );
+    if (isAngularV6) {
+      generator.print(
+        `${subscriptionName}(): Observable<GraphQLResult<${returnType}>> { return this.client.graphql({ query: \n\`${statement}\` }) as any; }`,
+      );
+    } else {
+      generator.print(
+        `${subscriptionName}: Observable<SubscriptionResponse<${returnType}>> = API.graphql(graphqlOperation(\n\`${statement}\`)) as Observable<SubscriptionResponse<${returnType}>>`,
+      );
+    }
   } else {
     generator.print(`${subscriptionName}(`);
     variableDeclaration(generator, vars);
-    generator.print(`) : Observable<SubscriptionResponse<${returnType}>> {`);
+    if (isAngularV6) {
+      generator.print(`) : Observable<GraphQLResult<${returnType}>> {`);
+    } else {
+      generator.print(`) : Observable<SubscriptionResponse<${returnType}>> {`);
+    }
     generator.withIndent(() => {
       generator.printNewlineIfNeeded();
       generator.print(`const statement = \`${statement}\``);
       const params = ['statement'];
       variableAssignmentToInput(generator, vars);
       params.push('gqlAPIServiceArguments');
-      generator.printOnNewline(
-        `return API.graphql(graphqlOperation(${params.join(', ')})) as Observable<SubscriptionResponse<${returnType}>>;`,
-      );
+      if (isAngularV6) {
+        generator.printOnNewline(
+          `return this.client.graphql({ query: statement, variables: gqlAPIServiceArguments }) as any;`,
+        );
+      } else {
+        generator.printOnNewline(
+          `return API.graphql(graphqlOperation(${params.join(', ')})) as Observable<SubscriptionResponse<${returnType}>>;`,
+        );
+      }
+
       generator.printOnNewline('}');
     });
   }
   generator.printNewline();
 }
 
-function generateQueryOrMutationOperation(generator: CodeGenerator, op: LegacyOperation) {
+function generateQueryOrMutationOperation(generator: CodeGenerator, op: LegacyOperation, options?: { isAngularV6: boolean  }) {
+  const isAngularV6: boolean = options?.isAngularV6 ?? false;
   const statement = formatTemplateString(generator, op.source);
   const vars = variablesFromField(generator.context, op.variables);
   const returnType = getReturnTypeName(generator, op);
@@ -221,7 +269,11 @@ function generateQueryOrMutationOperation(generator: CodeGenerator, op: LegacyOp
       variableAssignmentToInput(generator, vars);
       params.push('gqlAPIServiceArguments');
     }
-    generator.printOnNewline(`const response = await API.graphql(graphqlOperation(${params.join(', ')})) as any;`);
+    if (isAngularV6) {
+      generator.printOnNewline(`const response = await this.client.graphql({ query: statement, ${op.variables.length ? `variables: gqlAPIServiceArguments, `: ''}}) as any;`);
+    } else {
+      generator.printOnNewline(`const response = await API.graphql(graphqlOperation(${params.join(', ')})) as any;`);
+    }
     generator.printOnNewline(`return (<${returnType}>response.data${resultProp})`);
   });
   generator.printOnNewline('}');

@@ -55,6 +55,7 @@ export type GenerateTypesOptions = {
     queries: string | Source[];
     introspection?: boolean;
     multipleSwiftFiles?: boolean;
+    amplifyJsLibraryVersion?: number;
 };
 
 // @public (undocumented)
