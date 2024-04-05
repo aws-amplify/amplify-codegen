@@ -14,7 +14,7 @@
   "eslint.packageManager": "yarn",
   "eslint.quiet": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "jest.enableInlineErrorMessages": true,
   "jest.showCoverageOnLoad": true,
