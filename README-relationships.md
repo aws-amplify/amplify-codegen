@@ -228,9 +228,9 @@ Considering a snippet of the above sample:
 - `models.Primary.fields.relatedMany.association` - The structure containing the data needed to navigate the relationship with the associated type
 - `models.Primary.fields.relatedMany.association.connectionType` - The kind of relationship (has one, has many, belongs to) this **source type** has with the associated type
 - `models.Primary.fields.relatedMany.association.associatedWith` - A list of fields on the **associated type** that hold the primary key of the **source** record. This is an array so we can support composite primary keys.
-- `models.RelatedOne` - A type definition. The **source type** for any `association`s defined in this model.
-- `models.RelatedOne.fields.primary.association.targetNames` - A list of fields on the **source type** (that is, the current type) that hold the primary key of the **associated** record. This is an array so we can support composite primary keys.
-- `models.RelatedOne.fields.primaryId` - The field pointed to by `targetNames` above, containing the primary key of the **associated** record for the `RelatedOne.primary` relationship.
+- `models.RelatedMany` - A type definition. The **source type** for any `association`s defined in this model.
+- `models.RelatedMany.fields.primary.association.targetNames` - A list of fields on the **source type** (that is, the current type) that hold the primary key of the **associated** record. This is an array so we can support composite primary keys.
+- `models.RelatedMany.fields.primaryId` - The field pointed to by `targetNames` above, containing the primary key of the **associated** record for the `RelatedOne.primary` relationship.
 
 
 ## Navigating relationships
