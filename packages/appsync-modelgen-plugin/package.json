@@ -18,18 +18,18 @@
     "codegen"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "yarn generate-schemas && yarn generate-standalone-validation-function && tsc",
     "watch": "tsc -w",
     "test-watch": "jest --watch",
     "test": "jest",
-    "generate-schemas": "ts-node ./scripts/generateSchemas.ts",
+    "generate-schemas": "ts-node ./scripts/generateSchemas.ts --overwrite",
+    "generate-standalone-validation-function": "ts-node ./scripts/generateStandaloneValidationFunction.ts",
     "extract-api": "ts-node ../../scripts/extract-api.ts"
   },
   "dependencies": {
     "@graphql-codegen/plugin-helpers": "^1.18.8",
     "@graphql-codegen/visitor-plugin-common": "^1.22.0",
     "@graphql-tools/utils": "^6.0.18",
-    "ajv": "^6.10.0",
     "chalk": "^3.0.0",
     "change-case": "^4.1.1",
     "graphql-transformer-common": "^4.25.1",
@@ -47,7 +47,8 @@
     "@types/pluralize": "0.0.29",
     "graphql": "^15.5.0",
     "java-ast": "^0.3.0",
-    "ts-json-schema-generator": "1.0.0"
+    "ts-json-schema-generator": "1.0.0",
+    "ajv": "^8.12.0"
   },
   "peerDependencies": {
     "graphql": "^15.5.0"
