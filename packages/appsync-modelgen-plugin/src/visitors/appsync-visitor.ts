@@ -516,6 +516,8 @@ export class AppSyncModelVisitor<
     if (directive.arguments) {
       directive.arguments.reduce((acc, arg) => {
         directiveArguments[arg.name.value] = valueFromASTUntyped(arg.value);
+
+        // convert references: 'primaryId' to references: ['primaryId']
         if (
           (directive.name.value === 'hasOne' || directive.name.value === 'belongsTo' || directive.name.value === 'hasMany') &&
           directiveArguments.references &&
@@ -1114,7 +1116,7 @@ export class AppSyncModelVisitor<
                   });
                 });
               }
-            } else if(connectionInfo.targetName) {
+            } else if (connectionInfo.targetName) {
               addFieldToModel(model, {
                 name: connectionInfo.targetName,
                 directives: [],
@@ -1137,7 +1139,7 @@ export class AppSyncModelVisitor<
                   });
                 });
               }
-            }
+            } else {
               addFieldToModel(model, {
                 name: connectionInfo.targetName,
                 directives: [],
@@ -1145,6 +1147,7 @@ export class AppSyncModelVisitor<
                 isList: false,
                 isNullable: field.isNullable,
               });
+            }
           }
           field.connectionInfo = connectionInfo;
         }
@@ -1200,8 +1203,7 @@ export class AppSyncModelVisitor<
             connectionInfo.targetName !== 'id' &&
             !connectionInfo.reference &&
             !(this.config.target === 'introspection' &&
-              primaryKeyName && primaryKeyName === connectionInfo.targetName
-             )
+              primaryKeyName && primaryKeyName === connectionInfo.targetName)
           ) {
             // Need to remove the field that is targetName
             removeFieldFromModel(model, connectionInfo.targetName);

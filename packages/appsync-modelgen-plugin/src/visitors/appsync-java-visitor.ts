@@ -1122,11 +1122,9 @@ export class AppSyncModelJavaVisitor<
         break;
       case CodeGenConnectionType.BELONGS_TO:
         connectionDirectiveName = 'BelongsTo';
-        if (connectionInfo.targetName) {
-          const belongsToTargetNameArgs = `targetName = "${connectionInfo.targetName}"`;
-          connectionArguments.push(belongsToTargetNameArgs);
-        }
-        if (this.isCustomPKEnabled() && connectionInfo.targetNames) {
+        const belongsToTargetNameArgs = `targetName = "${connectionInfo.targetName}"`;
+        connectionArguments.push(belongsToTargetNameArgs);
+        if (this.isCustomPKEnabled()) {
           const belongsToTargetNamesArgs = `targetNames = {${connectionInfo.targetNames.map(target => `"${target}"`).join(', ')}}`;
           connectionArguments.push(belongsToTargetNamesArgs);
         }
