@@ -3691,10 +3691,7 @@ exports[`custom references double linked references 1`] = `
                     \\"association\\": {
                         \\"connectionType\\": \\"HAS_ONE\\",
                         \\"associatedWith\\": [
-                            \\"foo1\\"
-                        ],
-                        \\"targetNames\\": [
-                            \\"fooBar1Id\\"
+                            \\"bar1Id\\"
                         ]
                     }
                 },
@@ -3709,10 +3706,7 @@ exports[`custom references double linked references 1`] = `
                     \\"association\\": {
                         \\"connectionType\\": \\"HAS_ONE\\",
                         \\"associatedWith\\": [
-                            \\"foo2\\"
-                        ],
-                        \\"targetNames\\": [
-                            \\"fooBar2Id\\"
+                            \\"bar2Id\\"
                         ]
                     }
                 },
@@ -3731,20 +3725,6 @@ exports[`custom references double linked references 1`] = `
                     \\"isRequired\\": false,
                     \\"attributes\\": [],
                     \\"isReadOnly\\": true
-                },
-                \\"fooBar1Id\\": {
-                    \\"name\\": \\"fooBar1Id\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": []
-                },
-                \\"fooBar2Id\\": {
-                    \\"name\\": \\"fooBar2Id\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": []
                 }
             },
             \\"syncable\\": true,
@@ -3769,6 +3749,20 @@ exports[`custom references double linked references 1`] = `
                     \\"isArray\\": false,
                     \\"type\\": \\"ID\\",
                     \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"bar1Id\\": {
+                    \\"name\\": \\"bar1Id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"bar2Id\\": {
+                    \\"name\\": \\"bar2Id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
                     \\"attributes\\": []
                 },
                 \\"foo1\\": {
@@ -3871,7 +3865,7 @@ exports[`custom references sets the association to the references field for hasM
                     \\"association\\": {
                         \\"connectionType\\": \\"HAS_MANY\\",
                         \\"associatedWith\\": [
-                            \\"primary\\"
+                            \\"primaryId\\"
                         ]
                     }
                 },
@@ -3935,6 +3929,13 @@ exports[`custom references sets the association to the references field for hasM
                     \\"isArray\\": false,
                     \\"type\\": \\"String\\",
                     \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"primaryId\\": {
+                    \\"name\\": \\"primaryId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"Int\\",
+                    \\"isRequired\\": true,
                     \\"attributes\\": []
                 },
                 \\"primary\\": {
@@ -4044,10 +4045,7 @@ exports[`custom references sets the association to the references field for hasO
                     \\"association\\": {
                         \\"connectionType\\": \\"HAS_ONE\\",
                         \\"associatedWith\\": [
-                            \\"primary\\"
-                        ],
-                        \\"targetNames\\": [
-                            \\"sqlPrimaryRelatedId\\"
+                            \\"primaryId\\"
                         ]
                     }
                 },
@@ -4066,13 +4064,6 @@ exports[`custom references sets the association to the references field for hasO
                     \\"isRequired\\": false,
                     \\"attributes\\": [],
                     \\"isReadOnly\\": true
-                },
-                \\"sqlPrimaryRelatedId\\": {
-                    \\"name\\": \\"sqlPrimaryRelatedId\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": []
                 }
             },
             \\"syncable\\": true,
@@ -4118,6 +4109,13 @@ exports[`custom references sets the association to the references field for hasO
                     \\"isArray\\": false,
                     \\"type\\": \\"String\\",
                     \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"primaryId\\": {
+                    \\"name\\": \\"primaryId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"Int\\",
+                    \\"isRequired\\": true,
                     \\"attributes\\": []
                 },
                 \\"primary\\": {
@@ -4179,6 +4177,313 @@ exports[`custom references sets the association to the references field for hasO
                         \\"name\\": \\"primary_id\\",
                         \\"fields\\": [
                             \\"primaryId\\"
+                        ]
+                    }
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        }
+    },
+    \\"enums\\": {},
+    \\"nonModels\\": {}
+}"
+`;
+
+exports[`custom references setup test 1`] = `
+"{
+    \\"version\\": 1,
+    \\"models\\": {
+        \\"Primary\\": {
+            \\"name\\": \\"Primary\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"relatedMany\\": {
+                    \\"name\\": \\"relatedMany\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"model\\": \\"RelatedMany\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isArrayNullable\\": true,
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_MANY\\",
+                        \\"associatedWith\\": [
+                            \\"primaryId\\"
+                        ]
+                    }
+                },
+                \\"relatedOne\\": {
+                    \\"name\\": \\"relatedOne\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"RelatedOne\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_ONE\\",
+                        \\"associatedWith\\": [
+                            \\"primaryId\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Primaries\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"id\\"
+                        ]
+                    }
+                },
+                {
+                    \\"type\\": \\"auth\\",
+                    \\"properties\\": {
+                        \\"rules\\": [
+                            {
+                                \\"allow\\": \\"public\\",
+                                \\"operations\\": [
+                                    \\"read\\"
+                                ]
+                            },
+                            {
+                                \\"provider\\": \\"userPools\\",
+                                \\"ownerField\\": \\"owner\\",
+                                \\"allow\\": \\"owner\\",
+                                \\"identityClaim\\": \\"cognito:username\\",
+                                \\"operations\\": [
+                                    \\"create\\",
+                                    \\"update\\",
+                                    \\"delete\\",
+                                    \\"read\\"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        },
+        \\"RelatedMany\\": {
+            \\"name\\": \\"RelatedMany\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"primaryId\\": {
+                    \\"name\\": \\"primaryId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"primary\\": {
+                    \\"name\\": \\"primary\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"Primary\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"BELONGS_TO\\",
+                        \\"targetNames\\": [
+                            \\"primaryId\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"RelatedManies\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"id\\"
+                        ]
+                    }
+                },
+                {
+                    \\"type\\": \\"auth\\",
+                    \\"properties\\": {
+                        \\"rules\\": [
+                            {
+                                \\"allow\\": \\"public\\",
+                                \\"operations\\": [
+                                    \\"read\\"
+                                ]
+                            },
+                            {
+                                \\"provider\\": \\"userPools\\",
+                                \\"ownerField\\": \\"owner\\",
+                                \\"allow\\": \\"owner\\",
+                                \\"identityClaim\\": \\"cognito:username\\",
+                                \\"operations\\": [
+                                    \\"create\\",
+                                    \\"update\\",
+                                    \\"delete\\",
+                                    \\"read\\"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        },
+        \\"RelatedOne\\": {
+            \\"name\\": \\"RelatedOne\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"primaryId\\": {
+                    \\"name\\": \\"primaryId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"primary\\": {
+                    \\"name\\": \\"primary\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"Primary\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"BELONGS_TO\\",
+                        \\"targetNames\\": [
+                            \\"primaryId\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"RelatedOnes\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"id\\"
+                        ]
+                    }
+                },
+                {
+                    \\"type\\": \\"auth\\",
+                    \\"properties\\": {
+                        \\"rules\\": [
+                            {
+                                \\"allow\\": \\"public\\",
+                                \\"operations\\": [
+                                    \\"read\\"
+                                ]
+                            },
+                            {
+                                \\"provider\\": \\"userPools\\",
+                                \\"ownerField\\": \\"owner\\",
+                                \\"allow\\": \\"owner\\",
+                                \\"identityClaim\\": \\"cognito:username\\",
+                                \\"operations\\": [
+                                    \\"create\\",
+                                    \\"update\\",
+                                    \\"delete\\",
+                                    \\"read\\"
+                                ]
+                            }
                         ]
                     }
                 }

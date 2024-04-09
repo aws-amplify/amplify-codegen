@@ -507,35 +507,28 @@ describe('custom fields', () => {
 });
 
 describe('custom references', () => {
-  test('references and fields equivalent schemas', () => {
-    const schema1 = /* GraphQL */ `
-      type PrimaryModel @model {
-        id: ID!
-        related: RelatedModel @hasOne
-      }
-      
-      type RelatedModel @model {
-        id: ID!
-        primaryId: ID!
-        primary: PrimaryModel @belongsTo(fields: [primaryId])
-      }
-    `;
-    const schema2 = /* GraphQL */ `
-      type PrimaryModel @model {
-        id: ID!
-        related: RelatedModel @hasOne(references: ["primaryId"])
-      }
+  test('setup test', () => {
+    const schema = /* GraphQL */ `
+      type Primary @model @auth(rules: [{ allow: public, operations: [read] }, { allow: owner }]) {
+  id: ID! @primaryKey
+  relatedMany: [RelatedMany] @hasMany(references: ["primaryId"])
+  relatedOne: RelatedOne @hasOne(references: ["primaryId"])
+}
 
-      type RelatedModel @model {
-        id: ID!
-        primaryId: ID!
-        primary: PrimaryModel @belongsTo(references: ["primaryId"])
-      }
-    `;
+type RelatedMany @model @auth(rules: [{ allow: public, operations: [read] }, { allow: owner }]) {
+  id: ID! @primaryKey
+  primaryId: ID!
+  primary: Primary @belongsTo(references: ["primaryId"])
+}
 
-    const visitor1: AppSyncModelIntrospectionVisitor = getVisitor(schema1);
-    const visitor2: AppSyncModelIntrospectionVisitor = getVisitor(schema2);
-    expect(visitor1.generate()).toEqual(visitor2.generate());
+type RelatedOne @model @auth(rules: [{ allow: public, operations: [read] }, { allow: owner }]) {
+  id: ID! @primaryKey
+  primaryId: ID!
+  primary: Primary @belongsTo(references: ["primaryId"])
+}
+    `;
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(visitor.generate()).toMatchSnapshot();
   });
 
   test('sets the association to the references field for hasMany/belongsTo', () => {

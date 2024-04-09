@@ -41,7 +41,7 @@ export function processBelongsToConnection(
   // but if the field are connected using fields argument in connection directive
   // we are reusing the field and it should be preserved in selection set
   const otherSideHasMany = otherSideField.isList;
-  const isConnectingFieldAutoCreated = false;
+  const reference = references.length > 0;
   // New metada type introduced by custom PK v2 support
   let targetNames: string[] = [ ...connectionFields, ...references ];
   if (targetNames.length === 0) {
@@ -60,9 +60,10 @@ export function processBelongsToConnection(
   return {
     kind: CodeGenConnectionType.BELONGS_TO,
     connectedModel: otherSide,
-    isConnectingFieldAutoCreated,
+    isConnectingFieldAutoCreated: false,
     targetName: targetNames[0],
     targetNames,
+    reference,
   };
 }
 

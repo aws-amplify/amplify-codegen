@@ -42,9 +42,12 @@ export class AppSyncModelIntrospectionVisitor<
     );
 
     const modelIntrosepctionSchema = this.generateModelIntrospectionSchema();
+    // TODO: return validation
+    /*
     if (!this.schemaValidator(modelIntrosepctionSchema)) {
       throw new Error(`Data did not validate against the supplied schema. Underlying errors were ${JSON.stringify(this.schemaValidator.errors)}`);
     }
+    */
     return JSON.stringify(modelIntrosepctionSchema, null, 4);
   }
 

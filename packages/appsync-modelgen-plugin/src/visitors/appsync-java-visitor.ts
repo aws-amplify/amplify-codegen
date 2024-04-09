@@ -1111,7 +1111,7 @@ export class AppSyncModelJavaVisitor<
       case CodeGenConnectionType.HAS_ONE:
         connectionDirectiveName = 'HasOne';
         connectionArguments.push(`associatedWith = "${this.getFieldName(connectionInfo.associatedWith)}"`);
-        if (this.isCustomPKEnabled() && this.isGenerateModelsForLazyLoadAndCustomSelectionSet()) {
+        if (this.isCustomPKEnabled() && this.isGenerateModelsForLazyLoadAndCustomSelectionSet() && connectionInfo.targetNames) {
           const hasOneTargetNamesArgs = `targetNames = {${connectionInfo.targetNames.map(target => `"${target}"`).join(', ')}}`;
           connectionArguments.push(hasOneTargetNamesArgs);
         }
@@ -1122,9 +1122,11 @@ export class AppSyncModelJavaVisitor<
         break;
       case CodeGenConnectionType.BELONGS_TO:
         connectionDirectiveName = 'BelongsTo';
-        const belongsToTargetNameArgs = `targetName = "${connectionInfo.targetName}"`;
-        connectionArguments.push(belongsToTargetNameArgs);
-        if (this.isCustomPKEnabled()) {
+        if (connectionInfo.targetName) {
+          const belongsToTargetNameArgs = `targetName = "${connectionInfo.targetName}"`;
+          connectionArguments.push(belongsToTargetNameArgs);
+        }
+        if (this.isCustomPKEnabled() && connectionInfo.targetNames) {
           const belongsToTargetNamesArgs = `targetNames = {${connectionInfo.targetNames.map(target => `"${target}"`).join(', ')}}`;
           connectionArguments.push(belongsToTargetNamesArgs);
         }
