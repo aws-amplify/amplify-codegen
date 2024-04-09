@@ -516,6 +516,13 @@ export class AppSyncModelVisitor<
     if (directive.arguments) {
       directive.arguments.reduce((acc, arg) => {
         directiveArguments[arg.name.value] = valueFromASTUntyped(arg.value);
+        if (
+          (directive.name.value === 'hasOne' || directive.name.value === 'belongsTo' || directive.name.value === 'hasMany') &&
+          directiveArguments.references &&
+          !Array.isArray(directiveArguments.references)
+        ) {
+          directiveArguments.references = [directiveArguments.references];
+        }
         return directiveArguments;
       }, directiveArguments);
     }
