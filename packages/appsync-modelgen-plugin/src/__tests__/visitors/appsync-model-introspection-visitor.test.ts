@@ -507,30 +507,6 @@ describe('custom fields', () => {
 });
 
 describe('custom references', () => {
-  test('setup test', () => {
-    const schema = /* GraphQL */ `
-      type Primary @model @auth(rules: [{ allow: public, operations: [read] }, { allow: owner }]) {
-  id: ID! @primaryKey
-  relatedMany: [RelatedMany] @hasMany(references: ["primaryId"])
-  relatedOne: RelatedOne @hasOne(references: ["primaryId"])
-}
-
-type RelatedMany @model @auth(rules: [{ allow: public, operations: [read] }, { allow: owner }]) {
-  id: ID! @primaryKey
-  primaryId: ID!
-  primary: Primary @belongsTo(references: ["primaryId"])
-}
-
-type RelatedOne @model @auth(rules: [{ allow: public, operations: [read] }, { allow: owner }]) {
-  id: ID! @primaryKey
-  primaryId: ID!
-  primary: Primary @belongsTo(references: ["primaryId"])
-}
-    `;
-    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
-    expect(visitor.generate()).toMatchSnapshot();
-  });
-
   test('sets the association to the references field for hasMany/belongsTo', () => {
     const schema = /* GraphQL */ `
       type SqlPrimary @refersTo(name: "sql_primary") @model {
@@ -570,6 +546,32 @@ type RelatedOne @model @auth(rules: [{ allow: public, operations: [read] }, { al
     const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
     expect(visitor.generate()).toMatchSnapshot();
   });
+
+  test('sets the association to the references field for hasOne and hasMany', () => {
+    const schema = /* GraphQL */ `
+      type Primary @model @auth(rules: [{ allow: public, operations: [read] }, { allow: owner }]) {
+        id: ID! @primaryKey
+        relatedMany: [RelatedMany] @hasMany(references: ["primaryId"])
+        relatedOne: RelatedOne @hasOne(references: ["primaryId"])
+      }
+      
+      type RelatedMany @model @auth(rules: [{ allow: public, operations: [read] }, { allow: owner }]) {
+        id: ID! @primaryKey
+        primaryId: ID!
+        primary: Primary @belongsTo(references: ["primaryId"])
+      }
+      
+      type RelatedOne @model @auth(rules: [{ allow: public, operations: [read] }, { allow: owner }]) {
+        id: ID! @primaryKey
+        primaryId: ID!
+        primary: Primary @belongsTo(references: ["primaryId"])
+      }
+    `;
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(visitor.generate()).toMatchSnapshot();
+  });
+
+ 
 
   test('double linked references', () => {
     const schema = /* GraphQL */ `
