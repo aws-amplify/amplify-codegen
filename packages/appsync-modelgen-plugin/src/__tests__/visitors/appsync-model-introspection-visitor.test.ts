@@ -571,8 +571,6 @@ describe('custom references', () => {
     expect(visitor.generate()).toMatchSnapshot();
   });
 
- 
-
   test('double linked references', () => {
     const schema = /* GraphQL */ `
       type Foo @model {
@@ -587,6 +585,29 @@ describe('custom references', () => {
         bar2Id: ID
         foo1: Foo @belongsTo(references: ["bar1Id"])
         foo2: Foo @belongsTo(references: ["bar2Id"])
+      }
+    `;
+
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(visitor.generate()).toMatchSnapshot();
+  });
+
+  test('hasMany with sortKeyFields on primary key', () => {
+    const schema = /* GraphQL */ `
+      type Primary @model {
+        tenantId: ID! @primaryKey(sortKeyFields: ["instanceId", "recordId"])
+        instanceId: ID!
+        recordId: ID!
+        content: String
+        related: [Related!] @hasMany(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
+      }
+      
+      type Related @model {
+        content: String
+        primaryTenantId: ID!
+        primaryInstanceId: ID!
+        primaryRecordId: ID!
+        primary: Primary @belongsTo(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
       }
     `;
 
