@@ -136,7 +136,8 @@ async function add(context, apiId = null, region = 'us-east-1') {
     excludes: [...answer.excludePattern, answer.generatedFileName]?.filter(item => item),
     // Set schema path to use posix separators. Node can handle windows and posix separators regradless of platform
     // Ensures all paths in .graphlqconfig.yml use posix style
-    schema: schema.split(path.win32.sep).join(path.posix.sep),
+    // Fallback to \ because path.win32 is not implemented by path-browserify
+    schema: schema.split(path.win32?.sep || '\\').join(path.posix.sep),
     amplifyExtension: {
       codeGenTarget: answer.target || '',
       generatedFileName: answer.generatedFileName || '',

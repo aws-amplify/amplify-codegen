@@ -7,6 +7,7 @@ import { RawAppSyncModelConfig, ParsedAppSyncModelConfig, AppSyncModelVisitor, C
 import fs from 'fs';
 import path from 'path';
 import Ajv from 'ajv';
+import modelIntrospectionSchema from '../schemas/introspection/1/ModelIntrospectionSchema.json';
 
 type UnionFieldType = { union: string };
 type InterfaceFieldType = { interface: string };
@@ -26,8 +27,6 @@ export class AppSyncModelIntrospectionVisitor<
     defaultScalars: NormalizedScalarsMap = DEFAULT_SCALARS,
   ) {
     super(schema, rawConfig, additionalConfig, defaultScalars);
-    const modelIntrospectionSchemaText = fs.readFileSync(path.join(__dirname, '..', '..', 'schemas', 'introspection', this.introspectionVersion.toString(), 'ModelIntrospectionSchema.json'), 'utf8');
-    const modelIntrospectionSchema = JSON.parse(modelIntrospectionSchemaText);
     this.schemaValidator = new Ajv().compile(modelIntrospectionSchema);
   }
 

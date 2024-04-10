@@ -68,7 +68,9 @@ function normalizeValue(key, value) {
 }
 
 function normalizePathForGlobPattern(pattern) {
-  const splits = pattern.split(path.win32.sep);
+  // ensure posix path separators are used
+  // Fallback to \ because path.win32 is not implemented by path-browserify
+  const splits = pattern.split(path.win32?.sep || '\\');
   return splits.join(path.posix.sep);
 }
 

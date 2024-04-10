@@ -69,7 +69,8 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
       const content = await codegen(config);
 
       // set the keys to always use posix path separators
-      return { [config.filename.split(path.win32.sep).join(path.posix.sep)]: content };
+      // Fallback to \ because path.win32 is not implemented by path-browserify
+      return { [config.filename.split(path.win32?.sep || '\\').join(path.posix.sep)]: content };
     }),
   ).then((outputs: GeneratedOutput[]) => outputs.reduce((curr, next) => ({ ...curr, ...next }), {}));
 }
