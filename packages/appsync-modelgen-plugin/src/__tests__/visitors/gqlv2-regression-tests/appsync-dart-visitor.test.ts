@@ -1,8 +1,11 @@
 import { buildSchema, GraphQLSchema, parse, visit } from 'graphql';
-import { directives, scalars } from '../../../scalars/supported-directives';
+import { DefaultDirectives } from '@aws-amplify/graphql-directives';
+import { scalars } from '../../../scalars/supported-scalars';
 import { AppSyncModelDartVisitor } from '../../../visitors/appsync-dart-visitor';
 import { CodeGenGenerateEnum } from '../../../visitors/appsync-visitor';
 import { DART_SCALAR_MAP } from '../../../scalars';
+
+const directives = DefaultDirectives.map(directive => directive.definition).join('\n');
 
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));

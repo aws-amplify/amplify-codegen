@@ -23,7 +23,7 @@ const extensionMap: { 'typescript': string, 'flow': string, 'angular': string, '
   swift: 'swift',
 };
 
-const folderMap: { 'typescript': string, 'flow': string, 'angular': string, 'swift': string } = {
+const folderMap: { 'typescript': string, 'flow': string, 'angular': string, 'swift': string, } = {
   typescript: 'src',
   flow: 'src',
   angular: 'src/app',

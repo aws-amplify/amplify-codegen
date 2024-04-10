@@ -146,6 +146,8 @@ async function add(context, apiId = null, region = 'us-east-1') {
       apiId,
       ...(withoutInit ? { frontend } : {}),
       ...(withoutInit && frontend === 'javascript' ? { framework } : {}),
+      // The default Amplify JS lib version is set for 6 for angular codegen
+      ...(answer.target === 'angular' ? { amplifyJsLibraryVersion: 6 } : {}),
     },
   };
 

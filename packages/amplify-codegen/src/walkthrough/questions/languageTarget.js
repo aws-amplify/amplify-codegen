@@ -43,6 +43,7 @@ async function askCodeGenTargetLanguage(context, target, withoutInit = false, de
       default: target || null,
     },
   ]);
+
   return answer.target;
 }
 

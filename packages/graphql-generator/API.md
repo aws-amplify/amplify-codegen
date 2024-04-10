@@ -20,7 +20,7 @@ export function generateModels(options: GenerateModelsOptions): Promise<Generate
 export type GenerateModelsOptions = {
     schema: string;
     target: ModelsTarget;
-    directives: string;
+    directives?: string;
     isDataStoreEnabled?: boolean;
     generateIndexRules?: boolean;
     emitAuthProvider?: boolean;
@@ -55,6 +55,7 @@ export type GenerateTypesOptions = {
     queries: string | Source[];
     introspection?: boolean;
     multipleSwiftFiles?: boolean;
+    amplifyJsLibraryVersion?: number;
 };
 
 // @public (undocumented)

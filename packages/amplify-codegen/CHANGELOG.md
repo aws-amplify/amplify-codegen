@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.8.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.7.4...amplify-codegen@4.8.0) (2024-04-03)
+
+### Features
+
+- add angular codegen v6 support ([#799](https://github.com/aws-amplify/amplify-codegen/issues/799)) ([7d1a269](https://github.com/aws-amplify/amplify-codegen/commit/7d1a26941547a26640f7dc4aa25da9c0e1dab654))
+- use default directives from @aws-amplify/graphql-directives ([#796](https://github.com/aws-amplify/amplify-codegen/issues/796)) ([a94649e](https://github.com/aws-amplify/amplify-codegen/commit/a94649ef5cbed1091e4c206852d85f4b860a3eae))
+
 ## [4.7.4](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.7.3...amplify-codegen@4.7.4) (2024-01-29)
 
 **Note:** Version bump only for package amplify-codegen
