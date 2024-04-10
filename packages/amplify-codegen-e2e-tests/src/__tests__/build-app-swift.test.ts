@@ -62,7 +62,59 @@ describe('build app - Swift', () => {
     await generateModels(projectRoot, outputDir);
   });
 
-  Object.entries(schemas).forEach(([schemaName, schema]) => {
+  // temporary until references schema has been released
+  export const enum TransformerVersion {
+    v1 = 1 << 0,
+    v2 = 1 << 1,
+    all = ~0,
+  }
+
+  export const enum TransformerPlatform {
+    none = 0,
+    api = 1 << 0,
+    dataStore = 1 << 1,
+    js = 1 << 2,
+    jsDataStore = 1 << 3,
+    ios = 1 << 4,
+    iosDataStore = 1 << 5,
+    android = 1 << 6,
+    androidDataStore = 1 << 7,
+    flutter = 1 << 8,
+    flutterDataStore = 1 << 9,
+    studio = 1 << 10,
+    all = ~0,
+  }
+
+  Object.entries([
+    ...schemas,
+    [
+      'references-on-hasOne-and-hasMany',
+      {
+        description: '@hasOne and @hasMany using references',
+        transformerVersion: TransformerVersion.v2,
+        supportedPlatforms: TransformerPlatform.all,
+        sdl: `
+      type Primary @model @auth(rules: [{ allow: public, operations: [read] }, { allow: owner }]) {
+        id: ID! @primaryKey
+        relatedMany: [RelatedMany] @hasMany(references: "primaryId")
+        relatedOne: RelatedOne @hasOne(references: "primaryId")
+      }
+
+      type RelatedMany @model @auth(rules: [{ allow: public, operations: [read] }, { allow: owner }]) {
+        id: ID! @primaryKey
+        primaryId: ID!
+        primary: Primary @belongsTo(references: "primaryId")
+      }
+
+      type RelatedOne @model @auth(rules: [{ allow: public, operations: [read] }, { allow: owner }]) {
+        id: ID! @primaryKey
+        primaryId: ID!
+        primary: Primary @belongsTo(references: "primaryId")
+      }
+    `,
+      },
+    ],
+  ]).forEach(([schemaName, schema]) => {
     // @ts-ignore
     const testName = `builds with ${schemaName}: ${schema.description}`;
     const schemaFolderName = schemaName.replace(/[^a-zA-Z0-9]/g, '');
