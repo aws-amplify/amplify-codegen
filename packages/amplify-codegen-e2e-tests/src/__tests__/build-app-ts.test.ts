@@ -64,8 +64,8 @@ describe('build app - JS', () => {
     all = ~0,
   }
 
-  Object.entries([
-    ...schemas,
+  [
+    ...Object.entries(schemas),
     [
       'references-on-hasOne-and-hasMany',
       {
