@@ -1414,19 +1414,19 @@ describe('AppSyncModelVisitor', () => {
   describe('references field on hasOne, hasMany, and belongsTo directive', () => {
     test('converts string argument to list of string', () => {
       const schema = /* GraphQL */ `
-        type Primary @model @auth(rules: [{ allow: public, operations: [read] }, { allow: owner }]) {
+        type Primary @model  {
           id: ID! @primaryKey
           relatedMany: [RelatedMany] @hasMany(references: "primaryId")
           relatedOne: RelatedOne @hasOne(references: "primaryId")
         }
         
-        type RelatedMany @model @auth(rules: [{ allow: public, operations: [read] }, { allow: owner }]) {
+        type RelatedMany @model {
           id: ID! @primaryKey
           primaryId: ID!
           primary: Primary @belongsTo(references: "primaryId")
         }
         
-        type RelatedOne @model @auth(rules: [{ allow: public, operations: [read] }, { allow: owner }]) {
+        type RelatedOne @model {
           id: ID! @primaryKey
           primaryId: ID!
           primary: Primary @belongsTo(references: "primaryId")

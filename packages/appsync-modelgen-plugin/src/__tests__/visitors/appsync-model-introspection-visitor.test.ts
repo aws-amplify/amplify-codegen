@@ -549,19 +549,19 @@ describe('custom references', () => {
 
   test('sets the association to the references field for hasOne and hasMany', () => {
     const schema = /* GraphQL */ `
-      type Primary @model @auth(rules: [{ allow: public, operations: [read] }, { allow: owner }]) {
+      type Primary @model {
         id: ID! @primaryKey
         relatedMany: [RelatedMany] @hasMany(references: ["primaryId"])
         relatedOne: RelatedOne @hasOne(references: ["primaryId"])
       }
       
-      type RelatedMany @model @auth(rules: [{ allow: public, operations: [read] }, { allow: owner }]) {
+      type RelatedMany @model {
         id: ID! @primaryKey
         primaryId: ID!
         primary: Primary @belongsTo(references: ["primaryId"])
       }
       
-      type RelatedOne @model @auth(rules: [{ allow: public, operations: [read] }, { allow: owner }]) {
+      type RelatedOne @model {
         id: ID! @primaryKey
         primaryId: ID!
         primary: Primary @belongsTo(references: ["primaryId"])
