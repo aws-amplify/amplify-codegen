@@ -24,19 +24,17 @@ export function getConnectedFieldV2(
   if (connectionInfo.name === 'belongsTo') {
     let connectedFieldsBelongsTo = getBelongsToConnectedFields(model, connectedModel);
     if (references) {
-      if (connectionInfo) {
-        const connectedField = connectedFieldsBelongsTo.find((field) => {
-          return field.directives.some((dir) => {
-            return (dir.name === 'hasOne' || dir.name === 'hasMany')
-              && dir.arguments.references
-              && JSON.stringify(dir.arguments.references) === JSON.stringify(connectionInfo.arguments.references);
-          });
+      const connectedField = connectedFieldsBelongsTo.find((field) => {
+        return field.directives.some((dir) => {
+          return (dir.name === 'hasOne' || dir.name === 'hasMany')
+            && dir.arguments.references
+            && JSON.stringify(dir.arguments.references) === JSON.stringify(connectionInfo.arguments.references);
         });
-        if (!connectedField) {
-         throw new Error(`Error processing @belongsTo directive on ${model.name}.${field.name}. @hasOne or @hasMany directive with references ${JSON.stringify(connectionInfo.arguments?.references)} was not found in connected model ${connectedModel.name}`);
-        }
-        return connectedField;
+      });
+      if (!connectedField) {
+       throw new Error(`Error processing @belongsTo directive on ${model.name}.${field.name}. @hasOne or @hasMany directive with references ${JSON.stringify(connectionInfo.arguments?.references)} was not found in connected model ${connectedModel.name}`);
       }
+      return connectedField;
     }
 
     if (connectedFieldsBelongsTo.length === 1) {
