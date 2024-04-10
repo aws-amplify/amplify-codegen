@@ -17,7 +17,7 @@ export type CodeGenFieldConnectionBelongsTo = CodeGenConnectionTypeBase & {
   kind: CodeGenConnectionType.BELONGS_TO;
   targetName: string; // Legacy field remained for backward compatability
   targetNames: string[]; // New attribute for v2 custom pk support
-  reference?: boolean;
+  isUsingReferences?: boolean;
 };
 export type CodeGenFieldConnectionHasOne = CodeGenConnectionTypeBase & {
   kind: CodeGenConnectionType.HAS_ONE;

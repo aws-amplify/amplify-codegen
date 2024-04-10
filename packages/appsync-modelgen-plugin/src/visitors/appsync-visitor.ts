@@ -1201,7 +1201,7 @@ export class AppSyncModelVisitor<
             connectionInfo.kind !== CodeGenConnectionType.HAS_ONE &&
             connectionInfo.targetName &&
             connectionInfo.targetName !== 'id' &&
-            !connectionInfo.reference &&
+            !connectionInfo.isUsingReferences &&
             !(this.config.target === 'introspection' &&
               primaryKeyName && primaryKeyName === connectionInfo.targetName)
           ) {

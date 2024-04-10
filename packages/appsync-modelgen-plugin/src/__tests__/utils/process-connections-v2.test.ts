@@ -710,7 +710,7 @@ describe('Connection process with custom Primary Key support tests', () => {
         targetNames: ['teamProjectProjectId', 'teamProjectName'],
         connectedModel: project,
         isConnectingFieldAutoCreated: false,
-        reference: false,
+        isUsingReferences: false,
       });
     });
   });
@@ -788,7 +788,7 @@ describe('Connection process with custom Primary Key support tests', () => {
         targetNames: ["postCommentsPostId", "postCommentsTitle"],
         connectedModel: post,
         isConnectingFieldAutoCreated: false,
-        reference: false,
+        isUsingReferences: false,
       });
     });
     it('should return correct connection info in hasMany/belongsTo bi direction when in JS platforms', () => {
@@ -839,7 +839,7 @@ describe('Connection process with custom Primary Key support tests', () => {
         targetNames: ["postCommentsPostId", "postCommentsTitle"],
         connectedModel: post,
         isConnectingFieldAutoCreated: false,
-        reference: false,
+        isUsingReferences: false,
       });
     });
     it('should return correct connection info in hasMany/belongsTo bi direction when index is defined', () => {
@@ -877,7 +877,7 @@ describe('Connection process with custom Primary Key support tests', () => {
         targetNames: ["postId", "postTitle"],
         connectedModel: post,
         isConnectingFieldAutoCreated: false,
-        reference: false,
+        isUsingReferences: false,
       });
     });
     it('should return correct connection info in hasMany uni direction when index is defined', () => {
@@ -958,7 +958,7 @@ describe('Connection process with custom Primary Key support tests', () => {
         targetNames: ['teamProjectProjectId', 'teamProjectName'],
         connectedModel: project,
         isConnectingFieldAutoCreated: false,
-        reference: false,
+        isUsingReferences: false,
       });
     });
 
@@ -998,7 +998,7 @@ describe('Connection process with custom Primary Key support tests', () => {
         targetNames: ['compositeDogCompositeOwnerLastName', 'compositeDogCompositeOwnerFirstName'],
         connectedModel: compositeOwner,
         isConnectingFieldAutoCreated: false,
-        reference: false,
+        isUsingReferences: false,
       });
     });
 
@@ -1038,7 +1038,7 @@ describe('Connection process with custom Primary Key support tests', () => {
         targetNames: ['boringDogBoringOwnerId'],
         connectedModel: boringOwner,
         isConnectingFieldAutoCreated: false,
-        reference: false,
+        isUsingReferences: false,
       });
     });
   })
