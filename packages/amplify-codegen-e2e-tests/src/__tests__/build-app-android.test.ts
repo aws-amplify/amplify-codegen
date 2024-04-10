@@ -128,7 +128,7 @@ describe('build app - Android', () => {
     `,
       },
     ],
-  ]).forEach(([schemaName, schema]) => {
+  ].forEach(([schemaName, schema]) => {
     // @ts-ignore
     const testName = `builds with ${schemaName}: ${schema.description}`;
     const testFunction = async () => {

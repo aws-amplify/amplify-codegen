@@ -118,7 +118,7 @@ describe('build app - JS', () => {
         `,
       },
     ],
-  ]).forEach(([schemaName, schema]) => {
+  ].forEach(([schemaName, schema]) => {
     const testName = `builds with ${schemaName}: ${(schema as any).description}`;
     const testFunction = async () => {
       const schemaText = `input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }\n${(schema as any).sdl}`;

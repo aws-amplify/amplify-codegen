@@ -139,7 +139,7 @@ describe('build app - Swift', () => {
         `,
       },
     ],
-  ]).forEach(([schemaName, schema]) => {
+  ].forEach(([schemaName, schema]) => {
     // @ts-ignore
     const testName = `builds with ${schemaName}: ${schema.description}`;
     const schemaFolderName = schemaName.replace(/[^a-zA-Z0-9]/g, '');
