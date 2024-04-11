@@ -516,6 +516,15 @@ export class AppSyncModelVisitor<
     if (directive.arguments) {
       directive.arguments.reduce((acc, arg) => {
         directiveArguments[arg.name.value] = valueFromASTUntyped(arg.value);
+
+        // convert references: 'primaryId' to references: ['primaryId']
+        if (
+          (directive.name.value === 'hasOne' || directive.name.value === 'belongsTo' || directive.name.value === 'hasMany') &&
+          directiveArguments.references &&
+          !Array.isArray(directiveArguments.references)
+        ) {
+          directiveArguments.references = [directiveArguments.references];
+        }
         return directiveArguments;
       }, directiveArguments);
     }
@@ -814,7 +823,7 @@ export class AppSyncModelVisitor<
           if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY || connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
             // Need to update the other side of the connection even if there is no connection directive
             addFieldToModel(connectionInfo.connectedModel, connectionInfo.associatedWith);
-          } else if (connectionInfo.targetName !== this.getModelPrimaryKeyField(model)?.name ?? 'id') {
+          } else if (connectionInfo.targetName && (connectionInfo.targetName !== this.getModelPrimaryKeyField(model)?.name ?? 'id')) {
             // Need to remove the field that is targetName
             removeFieldFromModel(model, connectionInfo.targetName);
           }
@@ -1096,7 +1105,7 @@ export class AppSyncModelVisitor<
           } else if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
             if (isCustomPKEnabled) {
               const connectedModelFields = getModelPrimaryKeyComponentFields(connectionInfo.connectedModel);
-              if (connectedModelFields?.length > 0) {
+              if (connectedModelFields?.length > 0 && connectionInfo.targetNames) {
                 connectionInfo.targetNames.forEach((target, index) => {
                   addFieldToModel(model, {
                     name: target,
@@ -1107,7 +1116,7 @@ export class AppSyncModelVisitor<
                   });
                 });
               }
-            } else {
+            } else if (connectionInfo.targetName) {
               addFieldToModel(model, {
                 name: connectionInfo.targetName,
                 directives: [],
@@ -1171,6 +1180,7 @@ export class AppSyncModelVisitor<
               connectionInfo &&
               connectionInfo.kind !== CodeGenConnectionType.HAS_MANY &&
               connectionInfo.kind !== CodeGenConnectionType.HAS_ONE &&
+              connectionInfo.targetNames &&
               connectionInfo.targetName !== 'id'
             ) {
               // Need to remove the field that is targetName
@@ -1189,7 +1199,9 @@ export class AppSyncModelVisitor<
             connectionInfo &&
             connectionInfo.kind !== CodeGenConnectionType.HAS_MANY &&
             connectionInfo.kind !== CodeGenConnectionType.HAS_ONE &&
+            connectionInfo.targetName &&
             connectionInfo.targetName !== 'id' &&
+            !connectionInfo.isUsingReferences &&
             !(this.config.target === 'introspection' &&
               primaryKeyName && primaryKeyName === connectionInfo.targetName)
           ) {

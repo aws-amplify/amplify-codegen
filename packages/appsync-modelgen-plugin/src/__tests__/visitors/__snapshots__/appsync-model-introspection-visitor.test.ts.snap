@@ -3402,136 +3402,6 @@ exports[`custom fields sets the association for fields for hasMany 1`] = `
 }"
 `;
 
-exports[`custom fields sets the association for fields for hasMany and belongsTo 1`] = `
-"{
-    \\"version\\": 1,
-    \\"models\\": {
-        \\"PrimaryLegacy\\": {
-            \\"name\\": \\"PrimaryLegacy\\",
-            \\"fields\\": {
-                \\"id\\": {
-                    \\"name\\": \\"id\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"relatedId\\": {
-                    \\"name\\": \\"relatedId\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": []
-                },
-                \\"related\\": {
-                    \\"name\\": \\"related\\",
-                    \\"isArray\\": true,
-                    \\"type\\": {
-                        \\"model\\": \\"RelatedLegacy\\"
-                    },
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isArrayNullable\\": true,
-                    \\"association\\": {
-                        \\"connectionType\\": \\"HAS_MANY\\",
-                        \\"associatedWith\\": [
-                            \\"primary\\"
-                        ]
-                    }
-                },
-                \\"createdAt\\": {
-                    \\"name\\": \\"createdAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                },
-                \\"updatedAt\\": {
-                    \\"name\\": \\"updatedAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                }
-            },
-            \\"syncable\\": true,
-            \\"pluralName\\": \\"PrimaryLegacies\\",
-            \\"attributes\\": [
-                {
-                    \\"type\\": \\"model\\",
-                    \\"properties\\": {}
-                }
-            ],
-            \\"primaryKeyInfo\\": {
-                \\"isCustomPrimaryKey\\": false,
-                \\"primaryKeyFieldName\\": \\"id\\",
-                \\"sortKeyFieldNames\\": []
-            }
-        },
-        \\"RelatedLegacy\\": {
-            \\"name\\": \\"RelatedLegacy\\",
-            \\"fields\\": {
-                \\"id\\": {
-                    \\"name\\": \\"id\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"ID\\",
-                    \\"isRequired\\": true,
-                    \\"attributes\\": []
-                },
-                \\"primary\\": {
-                    \\"name\\": \\"primary\\",
-                    \\"isArray\\": false,
-                    \\"type\\": {
-                        \\"model\\": \\"PrimaryLegacy\\"
-                    },
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"association\\": {
-                        \\"connectionType\\": \\"BELONGS_TO\\",
-                        \\"targetNames\\": [
-                            \\"primaryId\\"
-                        ]
-                    }
-                },
-                \\"createdAt\\": {
-                    \\"name\\": \\"createdAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                },
-                \\"updatedAt\\": {
-                    \\"name\\": \\"updatedAt\\",
-                    \\"isArray\\": false,
-                    \\"type\\": \\"AWSDateTime\\",
-                    \\"isRequired\\": false,
-                    \\"attributes\\": [],
-                    \\"isReadOnly\\": true
-                }
-            },
-            \\"syncable\\": true,
-            \\"pluralName\\": \\"RelatedLegacies\\",
-            \\"attributes\\": [
-                {
-                    \\"type\\": \\"model\\",
-                    \\"properties\\": {}
-                }
-            ],
-            \\"primaryKeyInfo\\": {
-                \\"isCustomPrimaryKey\\": false,
-                \\"primaryKeyFieldName\\": \\"id\\",
-                \\"sortKeyFieldNames\\": []
-            }
-        }
-    },
-    \\"enums\\": {},
-    \\"nonModels\\": {}
-}"
-`;
-
 exports[`custom fields sets the association for fields for hasOne 1`] = `
 "{
     \\"version\\": 1,
@@ -3782,6 +3652,954 @@ exports[`custom fields sets the association for fields for hasOne and belongsTo 
                 {
                     \\"type\\": \\"model\\",
                     \\"properties\\": {}
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        }
+    },
+    \\"enums\\": {},
+    \\"nonModels\\": {}
+}"
+`;
+
+exports[`custom references double linked references 1`] = `
+"{
+    \\"version\\": 1,
+    \\"models\\": {
+        \\"Foo\\": {
+            \\"name\\": \\"Foo\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"bar1\\": {
+                    \\"name\\": \\"bar1\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"Bar\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_ONE\\",
+                        \\"associatedWith\\": [
+                            \\"bar1Id\\"
+                        ]
+                    }
+                },
+                \\"bar2\\": {
+                    \\"name\\": \\"bar2\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"Bar\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_ONE\\",
+                        \\"associatedWith\\": [
+                            \\"bar2Id\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Foos\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        },
+        \\"Bar\\": {
+            \\"name\\": \\"Bar\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"bar1Id\\": {
+                    \\"name\\": \\"bar1Id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"bar2Id\\": {
+                    \\"name\\": \\"bar2Id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"foo1\\": {
+                    \\"name\\": \\"foo1\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"Foo\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"BELONGS_TO\\",
+                        \\"targetNames\\": [
+                            \\"bar1Id\\"
+                        ]
+                    }
+                },
+                \\"foo2\\": {
+                    \\"name\\": \\"foo2\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"Foo\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"BELONGS_TO\\",
+                        \\"targetNames\\": [
+                            \\"bar2Id\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Bars\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        }
+    },
+    \\"enums\\": {},
+    \\"nonModels\\": {}
+}"
+`;
+
+exports[`custom references hasMany with sortKeyFields on primary key 1`] = `
+"{
+    \\"version\\": 1,
+    \\"models\\": {
+        \\"Primary\\": {
+            \\"name\\": \\"Primary\\",
+            \\"fields\\": {
+                \\"tenantId\\": {
+                    \\"name\\": \\"tenantId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"instanceId\\": {
+                    \\"name\\": \\"instanceId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"recordId\\": {
+                    \\"name\\": \\"recordId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"content\\": {
+                    \\"name\\": \\"content\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"related\\": {
+                    \\"name\\": \\"related\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"model\\": \\"Related\\"
+                    },
+                    \\"isRequired\\": true,
+                    \\"attributes\\": [],
+                    \\"isArrayNullable\\": true,
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_MANY\\",
+                        \\"associatedWith\\": [
+                            \\"primaryTenantId\\",
+                            \\"primaryInstanceId\\",
+                            \\"primaryRecordId\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Primaries\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"tenantId\\",
+                            \\"instanceId\\",
+                            \\"recordId\\"
+                        ]
+                    }
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": true,
+                \\"primaryKeyFieldName\\": \\"tenantId\\",
+                \\"sortKeyFieldNames\\": [
+                    \\"instanceId\\",
+                    \\"recordId\\"
+                ]
+            }
+        },
+        \\"Related\\": {
+            \\"name\\": \\"Related\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"content\\": {
+                    \\"name\\": \\"content\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"primaryTenantId\\": {
+                    \\"name\\": \\"primaryTenantId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"primaryInstanceId\\": {
+                    \\"name\\": \\"primaryInstanceId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"primaryRecordId\\": {
+                    \\"name\\": \\"primaryRecordId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"primary\\": {
+                    \\"name\\": \\"primary\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"Primary\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"BELONGS_TO\\",
+                        \\"targetNames\\": [
+                            \\"primaryTenantId\\",
+                            \\"primaryInstanceId\\",
+                            \\"primaryRecordId\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Relateds\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        }
+    },
+    \\"enums\\": {},
+    \\"nonModels\\": {}
+}"
+`;
+
+exports[`custom references sets the association to the references field for hasMany/belongsTo 1`] = `
+"{
+    \\"version\\": 1,
+    \\"models\\": {
+        \\"SqlPrimary\\": {
+            \\"name\\": \\"SqlPrimary\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"Int\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"content\\": {
+                    \\"name\\": \\"content\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"related\\": {
+                    \\"name\\": \\"related\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"model\\": \\"SqlRelated\\"
+                    },
+                    \\"isRequired\\": true,
+                    \\"attributes\\": [],
+                    \\"isArrayNullable\\": true,
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_MANY\\",
+                        \\"associatedWith\\": [
+                            \\"primaryId\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"SqlPrimaries\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"refersTo\\",
+                    \\"properties\\": {
+                        \\"name\\": \\"sql_primary\\"
+                    }
+                },
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"id\\"
+                        ]
+                    }
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        },
+        \\"SqlRelated\\": {
+            \\"name\\": \\"SqlRelated\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"Int\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"content\\": {
+                    \\"name\\": \\"content\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"primaryId\\": {
+                    \\"name\\": \\"primaryId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"Int\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"primary\\": {
+                    \\"name\\": \\"primary\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"SqlPrimary\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"BELONGS_TO\\",
+                        \\"targetNames\\": [
+                            \\"primaryId\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"SqlRelateds\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"refersTo\\",
+                    \\"properties\\": {
+                        \\"name\\": \\"sql_related\\"
+                    }
+                },
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"id\\"
+                        ]
+                    }
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"name\\": \\"primary_id\\",
+                        \\"fields\\": [
+                            \\"primaryId\\"
+                        ]
+                    }
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        }
+    },
+    \\"enums\\": {},
+    \\"nonModels\\": {}
+}"
+`;
+
+exports[`custom references sets the association to the references field for hasOne and hasMany 1`] = `
+"{
+    \\"version\\": 1,
+    \\"models\\": {
+        \\"Primary\\": {
+            \\"name\\": \\"Primary\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"relatedMany\\": {
+                    \\"name\\": \\"relatedMany\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"model\\": \\"RelatedMany\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isArrayNullable\\": true,
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_MANY\\",
+                        \\"associatedWith\\": [
+                            \\"primaryId\\"
+                        ]
+                    }
+                },
+                \\"relatedOne\\": {
+                    \\"name\\": \\"relatedOne\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"RelatedOne\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_ONE\\",
+                        \\"associatedWith\\": [
+                            \\"primaryId\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Primaries\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"id\\"
+                        ]
+                    }
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        },
+        \\"RelatedMany\\": {
+            \\"name\\": \\"RelatedMany\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"primaryId\\": {
+                    \\"name\\": \\"primaryId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"primary\\": {
+                    \\"name\\": \\"primary\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"Primary\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"BELONGS_TO\\",
+                        \\"targetNames\\": [
+                            \\"primaryId\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"RelatedManies\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"id\\"
+                        ]
+                    }
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        },
+        \\"RelatedOne\\": {
+            \\"name\\": \\"RelatedOne\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"primaryId\\": {
+                    \\"name\\": \\"primaryId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"primary\\": {
+                    \\"name\\": \\"primary\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"Primary\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"BELONGS_TO\\",
+                        \\"targetNames\\": [
+                            \\"primaryId\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"RelatedOnes\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"id\\"
+                        ]
+                    }
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        }
+    },
+    \\"enums\\": {},
+    \\"nonModels\\": {}
+}"
+`;
+
+exports[`custom references sets the association to the references field for hasOne/belongsTo 1`] = `
+"{
+    \\"version\\": 1,
+    \\"models\\": {
+        \\"SqlPrimary\\": {
+            \\"name\\": \\"SqlPrimary\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"Int\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"content\\": {
+                    \\"name\\": \\"content\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"related\\": {
+                    \\"name\\": \\"related\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"SqlRelated\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_ONE\\",
+                        \\"associatedWith\\": [
+                            \\"primaryId\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"SqlPrimaries\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"refersTo\\",
+                    \\"properties\\": {
+                        \\"name\\": \\"sql_primary\\"
+                    }
+                },
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"id\\"
+                        ]
+                    }
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        },
+        \\"SqlRelated\\": {
+            \\"name\\": \\"SqlRelated\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"Int\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"content\\": {
+                    \\"name\\": \\"content\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"primaryId\\": {
+                    \\"name\\": \\"primaryId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"Int\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"primary\\": {
+                    \\"name\\": \\"primary\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"SqlPrimary\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"BELONGS_TO\\",
+                        \\"targetNames\\": [
+                            \\"primaryId\\"
+                        ]
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"SqlRelateds\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"refersTo\\",
+                    \\"properties\\": {
+                        \\"name\\": \\"sql_related\\"
+                    }
+                },
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"fields\\": [
+                            \\"id\\"
+                        ]
+                    }
+                },
+                {
+                    \\"type\\": \\"key\\",
+                    \\"properties\\": {
+                        \\"name\\": \\"primary_id\\",
+                        \\"fields\\": [
+                            \\"primaryId\\"
+                        ]
+                    }
                 }
             ],
             \\"primaryKeyInfo\\": {

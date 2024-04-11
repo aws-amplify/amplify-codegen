@@ -9,7 +9,7 @@ import {
   flattenFieldDirectives,
   CodeGenFieldConnectionHasMany,
 } from './process-connections';
-import { getConnectedFieldV2 } from './process-connections-v2';
+import { getConnectedFieldV2, fieldsAndReferencesErrorMessage } from './process-connections-v2';
 
 
 export function processHasManyConnection(
@@ -25,6 +25,25 @@ export function processHasManyConnection(
   }
   const otherSide = modelMap[field.type];
   const connectionFields = connectionDirective.arguments.fields || [];
+  const references = connectionDirective.arguments.references || [];
+
+  if (connectionFields.length > 0 && references.length > 0) {
+    throw new Error(fieldsAndReferencesErrorMessage);
+  }
+
+  if (references.length > 0) {
+    // ensure there is a matching belongsTo field with references
+    getConnectedFieldV2(field, model, otherSide, connectionDirective.name, shouldUseModelNameFieldInHasManyAndBelongsTo)
+    const associatedWithFields = references.map((reference: string) => otherSide.fields.find((field) => reference === field.name))
+    return {
+      kind: CodeGenConnectionType.HAS_MANY,
+      associatedWith: associatedWithFields[0],
+      associatedWithFields,
+      isConnectingFieldAutoCreated: false,
+      connectedModel: otherSide,
+    };
+  }
+
   const otherSideFields = isCustomPKEnabled
     ? getConnectedFieldsForHasMany(field, model, otherSide, shouldUseModelNameFieldInHasManyAndBelongsTo)
     : [getConnectedFieldV2(field, model, otherSide, connectionDirective.name, shouldUseModelNameFieldInHasManyAndBelongsTo)];

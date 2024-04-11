@@ -17,14 +17,14 @@ export type CodeGenFieldConnectionBelongsTo = CodeGenConnectionTypeBase & {
   kind: CodeGenConnectionType.BELONGS_TO;
   targetName: string; // Legacy field remained for backward compatability
   targetNames: string[]; // New attribute for v2 custom pk support
-
+  isUsingReferences?: boolean;
 };
 export type CodeGenFieldConnectionHasOne = CodeGenConnectionTypeBase & {
   kind: CodeGenConnectionType.HAS_ONE;
   associatedWith: CodeGenField;// Legacy field remained for backward compatability
   associatedWithFields: CodeGenField[]; // New attribute for v2 custom pk support
-  targetName: string; // Legacy field remained for backward compatability
-  targetNames: string[]; // New attribute for v2 custom pk support
+  targetName?: string; // Legacy field remained for backward compatability
+  targetNames?: string[]; // New attribute for v2 custom pk support
 };
 
 export type CodeGenFieldConnectionHasMany = CodeGenConnectionTypeBase & {
