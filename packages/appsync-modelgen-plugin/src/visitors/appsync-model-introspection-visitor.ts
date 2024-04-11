@@ -5,7 +5,7 @@ import { METADATA_SCALAR_MAP } from "../scalars";
 import { CodeGenConnectionType } from "../utils/process-connections";
 import { RawAppSyncModelConfig, ParsedAppSyncModelConfig, AppSyncModelVisitor, CodeGenEnum, CodeGenField, CodeGenModel, CodeGenPrimaryKeyType, CodeGenQuery, CodeGenSubscription, CodeGenMutation, CodeGenInputObject } from "./appsync-visitor";
 
-const validateJsonFile = require('../validate-cjs');
+const validateModelIntrospectionSchema = require('../validate-cjs');
 
 type UnionFieldType = { union: string };
 type InterfaceFieldType = { interface: string };
@@ -38,8 +38,8 @@ export class AppSyncModelIntrospectionVisitor<
     );
 
     const modelIntrosepctionSchema = this.generateModelIntrospectionSchema();
-    if (!validateJsonFile(modelIntrosepctionSchema)) {
-      throw new Error(`Data did not validate against the supplied schema. Underlying errors were ${JSON.stringify(validateJsonFile.errors)}`);
+    if (!validateModelIntrospectionSchema(modelIntrosepctionSchema)) {
+      throw new Error(`Data did not validate against the supplied schema. Underlying errors were ${JSON.stringify(validateModelIntrospectionSchema.errors)}`);
     }
     return JSON.stringify(modelIntrosepctionSchema, null, 4);
   }

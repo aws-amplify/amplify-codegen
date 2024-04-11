@@ -1,12 +1,12 @@
 import Ajv from 'ajv';
-import modelIntrospectionSchema from '../schemas/introspection/1/ModelIntrospectionSchema.json'
+import modelIntrospectionSchemaDefinition from '../schemas/introspection/1/ModelIntrospectionSchema.json'
 import { join } from 'path';
 import { writeFileSync } from 'fs';
 
 const standaloneCode = require("ajv/dist/standalone").default
 
 const ajv = new Ajv({ code: { source: true } });
-const validate = ajv.compile(modelIntrospectionSchema);
+const validate = ajv.compile(modelIntrospectionSchemaDefinition);
 
 let moduleCode = standaloneCode(ajv, validate)
 
