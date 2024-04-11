@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.11.0-gen2-release-0411.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.10.0...@aws-amplify/appsync-modelgen-plugin@2.11.0-gen2-release-0411.0) (2024-04-11)
+
+### Features
+
+- enable codegen to run in browser ([#789](https://github.com/aws-amplify/amplify-codegen/issues/789)) ([f51b5d3](https://github.com/aws-amplify/amplify-codegen/commit/f51b5d3bbac23f7f63e0adc0bd2aad67b0621977))
+- set correct association with references ([#793](https://github.com/aws-amplify/amplify-codegen/issues/793)) ([a6efa72](https://github.com/aws-amplify/amplify-codegen/commit/a6efa72cd3345d52b43bd4754af0826351930bfb))
+
 # [2.10.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.9.0...@aws-amplify/appsync-modelgen-plugin@2.10.0) (2024-04-03)
 
 ### Bug Fixes
