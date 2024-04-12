@@ -3,10 +3,9 @@ import { GraphQLSchema } from "graphql";
 import { Argument, AssociationType, Field, Fields, FieldType, ModelAttribute, ModelIntrospectionSchema, PrimaryKeyInfo, SchemaEnum, SchemaModel, SchemaMutation, SchemaNonModel, SchemaQuery, SchemaSubscription, Input, InputFieldType } from "../interfaces/introspection";
 import { METADATA_SCALAR_MAP } from "../scalars";
 import { CodeGenConnectionType } from "../utils/process-connections";
-import { RawAppSyncModelConfig, ParsedAppSyncModelConfig, AppSyncModelVisitor, CodeGenEnum, CodeGenField, CodeGenModel, CodeGenPrimaryKeyType, CodeGenQuery, CodeGenSubscription, CodeGenMutation, CodeGenInputObject, CodeGenUnion, CodeGenInterface } from "./appsync-visitor";
-import fs from 'fs';
-import path from 'path';
-import Ajv from 'ajv';
+import { RawAppSyncModelConfig, ParsedAppSyncModelConfig, AppSyncModelVisitor, CodeGenEnum, CodeGenField, CodeGenModel, CodeGenPrimaryKeyType, CodeGenQuery, CodeGenSubscription, CodeGenMutation, CodeGenInputObject } from "./appsync-visitor";
+
+const validateModelIntrospectionSchema = require('../validate-cjs');
 
 type UnionFieldType = { union: string };
 type InterfaceFieldType = { interface: string };
@@ -18,7 +17,6 @@ export class AppSyncModelIntrospectionVisitor<
   TPluginConfig extends ParsedAppSyncModelIntrospectionConfig = ParsedAppSyncModelIntrospectionConfig
 > extends AppSyncModelVisitor<TRawConfig, TPluginConfig> {
   private readonly introspectionVersion = 1;
-  private schemaValidator: Ajv.ValidateFunction;
   constructor(
     schema: GraphQLSchema,
     rawConfig: TRawConfig,
@@ -26,9 +24,6 @@ export class AppSyncModelIntrospectionVisitor<
     defaultScalars: NormalizedScalarsMap = DEFAULT_SCALARS,
   ) {
     super(schema, rawConfig, additionalConfig, defaultScalars);
-    const modelIntrospectionSchemaText = fs.readFileSync(path.join(__dirname, '..', '..', 'schemas', 'introspection', this.introspectionVersion.toString(), 'ModelIntrospectionSchema.json'), 'utf8');
-    const modelIntrospectionSchema = JSON.parse(modelIntrospectionSchemaText);
-    this.schemaValidator = new Ajv().compile(modelIntrospectionSchema);
   }
 
   generate(): string {
@@ -43,8 +38,8 @@ export class AppSyncModelIntrospectionVisitor<
     );
 
     const modelIntrosepctionSchema = this.generateModelIntrospectionSchema();
-    if (!this.schemaValidator(modelIntrosepctionSchema)) {
-      throw new Error(`Data did not validate against the supplied schema. Underlying errors were ${JSON.stringify(this.schemaValidator.errors)}`);
+    if (!validateModelIntrospectionSchema(modelIntrosepctionSchema)) {
+      throw new Error(`Data did not validate against the supplied schema. Underlying errors were ${JSON.stringify(validateModelIntrospectionSchema.errors)}`);
     }
     return JSON.stringify(modelIntrosepctionSchema, null, 4);
   }
