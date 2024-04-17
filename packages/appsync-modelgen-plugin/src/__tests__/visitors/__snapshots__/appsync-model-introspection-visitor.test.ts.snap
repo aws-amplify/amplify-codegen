@@ -3692,7 +3692,8 @@ exports[`custom references double linked references 1`] = `
                         \\"connectionType\\": \\"HAS_ONE\\",
                         \\"associatedWith\\": [
                             \\"bar1Id\\"
-                        ]
+                        ],
+                        \\"targetNames\\": []
                     }
                 },
                 \\"bar2\\": {
@@ -3707,7 +3708,8 @@ exports[`custom references double linked references 1`] = `
                         \\"connectionType\\": \\"HAS_ONE\\",
                         \\"associatedWith\\": [
                             \\"bar2Id\\"
-                        ]
+                        ],
+                        \\"targetNames\\": []
                     }
                 },
                 \\"createdAt\\": {
@@ -4244,7 +4246,8 @@ exports[`custom references sets the association to the references field for hasO
                         \\"connectionType\\": \\"HAS_ONE\\",
                         \\"associatedWith\\": [
                             \\"primaryId\\"
-                        ]
+                        ],
+                        \\"targetNames\\": []
                     }
                 },
                 \\"createdAt\\": {
@@ -4467,7 +4470,8 @@ exports[`custom references sets the association to the references field for hasO
                         \\"connectionType\\": \\"HAS_ONE\\",
                         \\"associatedWith\\": [
                             \\"primaryId\\"
-                        ]
+                        ],
+                        \\"targetNames\\": []
                     }
                 },
                 \\"createdAt\\": {
