@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0-gen2-release-0416.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.3.0...@aws-amplify/graphql-generator@0.4.0-gen2-release-0416.0) (2024-04-17)
+
+### Features
+
+- enable codegen to run in browser ([#789](https://github.com/aws-amplify/amplify-codegen/issues/789)) ([f51b5d3](https://github.com/aws-amplify/amplify-codegen/commit/f51b5d3bbac23f7f63e0adc0bd2aad67b0621977))
+
 # [0.3.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.2.4...@aws-amplify/graphql-generator@0.3.0) (2024-04-03)
 
 ### Bug Fixes
