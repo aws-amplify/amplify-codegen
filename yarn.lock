@@ -6125,7 +6125,7 @@ ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.6, ajv@~6.12.6:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-ajv@^8.0.1, ajv@^8.11.0:
+ajv@^8.0.1, ajv@^8.11.0, ajv@^8.12.0:
   version "8.12.0"
   resolved "https://registry.npmjs.org/ajv/-/ajv-8.12.0.tgz#d1a0527323e22f53562c567c00991577dfbe19d1"
   integrity sha512-sRu1kpcO9yLtYxBKvqfTeh9KzZEwO3STyX1HT+4CaDzC6HpTGYhIhPIzj9XuKU7KYDwnaeh5hcOwjy1QuJzBPA==
@@ -13560,9 +13560,9 @@ tar-stream@~2.2.0:
     readable-stream "^3.1.1"
 
 tar@^6.1.0, tar@^6.1.11, tar@^6.1.2:
-  version "6.2.0"
-  resolved "https://registry.npmjs.org/tar/-/tar-6.2.0.tgz#b14ce49a79cb1cd23bc9b016302dea5474493f73"
-  integrity sha512-/Wo7DcT0u5HUV486xg675HtjNd3BXZ6xDbzsCUZPt5iw8bTQ63bP0Raut3mvro9u+CUyq7YQd8Cx55fsZXxqLQ==
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/tar/-/tar-6.2.1.tgz#717549c541bc3c2af15751bea94b1dd068d4b03a"
+  integrity sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==
   dependencies:
     chownr "^2.0.0"
     fs-minipass "^2.0.0"
