@@ -19,7 +19,7 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
     generateIndexRules = true,
     emitAuthProvider = true,
     useExperimentalPipelinedTransformer = true,
-    transformerVersion = true,
+    transformerVersion = 2,
     respectPrimaryKeyAttributesOnConnectionField = true,
     improvePluralization = false,
     generateModelsForLazyLoadAndCustomSelectionSet = true,
