@@ -1388,8 +1388,8 @@ extension Foo {
     
     model.fields(
       .field(foo.id, is: .required, ofType: .string),
-      .field(foo.bar1, is: .optional, ofType: .model(Bar.self)),
-      .field(foo.bar2, is: .optional, ofType: .model(Bar.self)),
+      .hasOne(foo.bar1, is: .optional, ofType: Bar.self, associatedFields: [Bar.keys.foo1]),
+      .hasOne(foo.bar2, is: .optional, ofType: Bar.self, associatedFields: [Bar.keys.foo2]),
       .field(foo.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(foo.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -1658,7 +1658,7 @@ extension Primary {
       .field(primary.instanceId, is: .required, ofType: .string),
       .field(primary.recordId, is: .required, ofType: .string),
       .field(primary.content, is: .optional, ofType: .string),
-      .hasMany(primary.related, is: .optional, ofType: Related.self, associatedWith: Related.keys.primaryTenantId),
+      .hasMany(primary.related, is: .optional, ofType: Related.self, associatedFields: [Related.keys.primary],
       .field(primary.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(primary.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -1973,7 +1973,7 @@ extension Primary {
       .field(primary.instanceId, is: .required, ofType: .string),
       .field(primary.recordId, is: .required, ofType: .string),
       .field(primary.content, is: .optional, ofType: .string),
-      .field(primary.related, is: .optional, ofType: .model(Related.self)),
+      .hasOne(primary.related, is: .optional, ofType: Related.self, associatedFields: [Related.keys.primary]),
       .field(primary.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(primary.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -2246,7 +2246,7 @@ extension SqlPrimary {
     model.fields(
       .field(sqlPrimary.id, is: .required, ofType: .int),
       .field(sqlPrimary.content, is: .optional, ofType: .string),
-      .hasMany(sqlPrimary.related, is: .optional, ofType: SqlRelated.self, associatedWith: SqlRelated.keys.primaryId),
+      .hasMany(sqlPrimary.related, is: .optional, ofType: SqlRelated.self, associatedFields: [SqlRelated.keys.primary],
       .field(sqlPrimary.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(sqlPrimary.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -2506,8 +2506,8 @@ extension Primary {
     
     model.fields(
       .field(primary.id, is: .required, ofType: .string),
-      .hasMany(primary.relatedMany, is: .optional, ofType: RelatedMany.self, associatedWith: RelatedMany.keys.primaryId),
-      .field(primary.relatedOne, is: .optional, ofType: .model(RelatedOne.self)),
+      .hasMany(primary.relatedMany, is: .optional, ofType: RelatedMany.self, associatedFields: [RelatedMany.keys.primary],
+      .hasOne(primary.relatedOne, is: .optional, ofType: RelatedOne.self, associatedFields: [RelatedOne.keys.primary]),
       .field(primary.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(primary.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -2879,7 +2879,7 @@ extension SqlPrimary {
     model.fields(
       .field(sqlPrimary.id, is: .required, ofType: .int),
       .field(sqlPrimary.content, is: .optional, ofType: .string),
-      .field(sqlPrimary.related, is: .optional, ofType: .model(SqlRelated.self)),
+      .hasOne(sqlPrimary.related, is: .optional, ofType: SqlRelated.self, associatedFields: [SqlRelated.keys.primary]),
       .field(sqlPrimary.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(sqlPrimary.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )

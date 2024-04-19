@@ -35,12 +35,21 @@ export function processHasManyConnection(
     // ensure there is a matching belongsTo field with references
     getConnectedFieldV2(field, model, otherSide, connectionDirective.name, shouldUseModelNameFieldInHasManyAndBelongsTo)
     const associatedWithFields = references.map((reference: string) => otherSide.fields.find((field) => reference === field.name))
+    const associatedWithNative = otherSide.fields.find((field) => {
+      return field.directives.some((dir) => {
+        return (dir.name === 'belongsTo')
+          && dir.arguments.references
+          && JSON.stringify(dir.arguments.references) === JSON.stringify(references);
+      });
+    });
     return {
       kind: CodeGenConnectionType.HAS_MANY,
       associatedWith: associatedWithFields[0],
       associatedWithFields,
+      associatedWithNative,
       isConnectingFieldAutoCreated: false,
       connectedModel: otherSide,
+      isUsingReferences: true,
     };
   }
 
@@ -58,6 +67,7 @@ export function processHasManyConnection(
     kind: CodeGenConnectionType.HAS_MANY,
     associatedWith: otherSideField,
     associatedWithFields: otherSideFields,
+    associatedWithNative: otherSideField,
     isConnectingFieldAutoCreated,
     connectedModel: otherSide,
   }
