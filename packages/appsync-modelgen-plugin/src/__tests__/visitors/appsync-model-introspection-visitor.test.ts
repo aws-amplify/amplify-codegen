@@ -615,6 +615,28 @@ describe('custom references', () => {
     expect(visitor.generate()).toMatchSnapshot();
   });
 
+  test('hasOne with sortKeyFields on primary key', () => {
+    const schema = /* GraphQL */ `
+      type Primary @model {
+        tenantId: ID! @primaryKey(sortKeyFields: ["instanceId", "recordId"])
+        instanceId: ID!
+        recordId: ID!
+        content: String
+        related: Related @hasOne(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
+      }
+      
+      type Related @model {
+        content: String
+        primaryTenantId: ID!
+        primaryInstanceId: ID!
+        primaryRecordId: ID!
+        primary: Primary @belongsTo(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
+      }
+    `;
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    expect(visitor.generate()).toMatchSnapshot();
+  });
+
   test('throws error when using fields and references on hasMany', () => {
     const schema = /* GraphQL */ `
       type SqlPrimary @refersTo(name: "sql_primary") @model {

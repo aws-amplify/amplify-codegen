@@ -8851,6 +8851,572 @@ public final class Related implements Model {
 "
 `;
 
+exports[`AppSyncModelVisitor custom references hasOne with sortKeyFields on primary key 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.HasOne;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.model.ModelIdentifier;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Primary type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Primaries\\", type = Model.Type.USER, version = 1)
+@Index(name = \\"undefined\\", fields = {\\"tenantId\\",\\"instanceId\\",\\"recordId\\"})
+public final class Primary implements Model {
+  public static final QueryField TENANT_ID = field(\\"Primary\\", \\"tenantId\\");
+  public static final QueryField INSTANCE_ID = field(\\"Primary\\", \\"instanceId\\");
+  public static final QueryField RECORD_ID = field(\\"Primary\\", \\"recordId\\");
+  public static final QueryField CONTENT = field(\\"Primary\\", \\"content\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String tenantId;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String instanceId;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String recordId;
+  private final @ModelField(targetType=\\"String\\") String content;
+  private final @ModelField(targetType=\\"Related\\") @HasOne(associatedWith = \\"primaryTenantId\\", type = Related.class) Related related = null;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  private PrimaryIdentifier primaryIdentifier;
+  /** @deprecated This API is internal to Amplify and should not be used. */
+  @Deprecated
+   public PrimaryIdentifier resolveIdentifier() {
+    if (primaryIdentifier == null) {
+      this.primaryIdentifier = new PrimaryIdentifier(tenantId, instanceId, recordId);
+    }
+    return primaryIdentifier;
+  }
+  
+  public String getTenantId() {
+      return tenantId;
+  }
+  
+  public String getInstanceId() {
+      return instanceId;
+  }
+  
+  public String getRecordId() {
+      return recordId;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public Related getRelated() {
+      return related;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Primary(String tenantId, String instanceId, String recordId, String content) {
+    this.tenantId = tenantId;
+    this.instanceId = instanceId;
+    this.recordId = recordId;
+    this.content = content;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Primary primary = (Primary) obj;
+      return ObjectsCompat.equals(getTenantId(), primary.getTenantId()) &&
+              ObjectsCompat.equals(getInstanceId(), primary.getInstanceId()) &&
+              ObjectsCompat.equals(getRecordId(), primary.getRecordId()) &&
+              ObjectsCompat.equals(getContent(), primary.getContent()) &&
+              ObjectsCompat.equals(getCreatedAt(), primary.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), primary.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getTenantId())
+      .append(getInstanceId())
+      .append(getRecordId())
+      .append(getContent())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Primary {\\")
+      .append(\\"tenantId=\\" + String.valueOf(getTenantId()) + \\", \\")
+      .append(\\"instanceId=\\" + String.valueOf(getInstanceId()) + \\", \\")
+      .append(\\"recordId=\\" + String.valueOf(getRecordId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static TenantIdStep builder() {
+      return new Builder();
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(tenantId,
+      instanceId,
+      recordId,
+      content);
+  }
+  public interface TenantIdStep {
+    InstanceIdStep tenantId(String tenantId);
+  }
+  
+
+  public interface InstanceIdStep {
+    RecordIdStep instanceId(String instanceId);
+  }
+  
+
+  public interface RecordIdStep {
+    BuildStep recordId(String recordId);
+  }
+  
+
+  public interface BuildStep {
+    Primary build();
+    BuildStep content(String content);
+  }
+  
+
+  public static class Builder implements TenantIdStep, InstanceIdStep, RecordIdStep, BuildStep {
+    private String tenantId;
+    private String instanceId;
+    private String recordId;
+    private String content;
+    public Builder() {
+      
+    }
+    
+    private Builder(String tenantId, String instanceId, String recordId, String content) {
+      this.tenantId = tenantId;
+      this.instanceId = instanceId;
+      this.recordId = recordId;
+      this.content = content;
+    }
+    
+    @Override
+     public Primary build() {
+        
+        return new Primary(
+          tenantId,
+          instanceId,
+          recordId,
+          content);
+    }
+    
+    @Override
+     public InstanceIdStep tenantId(String tenantId) {
+        Objects.requireNonNull(tenantId);
+        this.tenantId = tenantId;
+        return this;
+    }
+    
+    @Override
+     public RecordIdStep instanceId(String instanceId) {
+        Objects.requireNonNull(instanceId);
+        this.instanceId = instanceId;
+        return this;
+    }
+    
+    @Override
+     public BuildStep recordId(String recordId) {
+        Objects.requireNonNull(recordId);
+        this.recordId = recordId;
+        return this;
+    }
+    
+    @Override
+     public BuildStep content(String content) {
+        this.content = content;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String tenantId, String instanceId, String recordId, String content) {
+      super(tenantId, instanceId, recordId, content);
+      Objects.requireNonNull(tenantId);
+      Objects.requireNonNull(instanceId);
+      Objects.requireNonNull(recordId);
+    }
+    
+    @Override
+     public CopyOfBuilder tenantId(String tenantId) {
+      return (CopyOfBuilder) super.tenantId(tenantId);
+    }
+    
+    @Override
+     public CopyOfBuilder instanceId(String instanceId) {
+      return (CopyOfBuilder) super.instanceId(instanceId);
+    }
+    
+    @Override
+     public CopyOfBuilder recordId(String recordId) {
+      return (CopyOfBuilder) super.recordId(recordId);
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+  }
+  
+
+  public static class PrimaryIdentifier extends ModelIdentifier<Primary> {
+    private static final long serialVersionUID = 1L;
+    public PrimaryIdentifier(String tenantId, String instanceId, String recordId) {
+      super(tenantId, instanceId, recordId);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncModelVisitor custom references hasOne with sortKeyFields on primary key 2`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.annotations.BelongsTo;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.model.ModelIdentifier;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Related type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Relateds\\", type = Model.Type.USER, version = 1)
+public final class Related implements Model {
+  public static final QueryField ID = field(\\"Related\\", \\"id\\");
+  public static final QueryField CONTENT = field(\\"Related\\", \\"content\\");
+  public static final QueryField PRIMARY_TENANT_ID = field(\\"Related\\", \\"primaryTenantId\\");
+  public static final QueryField PRIMARY_INSTANCE_ID = field(\\"Related\\", \\"primaryInstanceId\\");
+  public static final QueryField PRIMARY_RECORD_ID = field(\\"Related\\", \\"primaryRecordId\\");
+  public static final QueryField PRIMARY = field(\\"Related\\", \\"primaryTenantId\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\") String content;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String primaryTenantId;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String primaryInstanceId;
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String primaryRecordId;
+  private final @ModelField(targetType=\\"Primary\\") @BelongsTo(targetName = \\"primaryTenantId\\", targetNames = {\\"primaryTenantId\\", \\"primaryInstanceId\\", \\"primaryRecordId\\"}, type = Primary.class) Primary primary;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  /** @deprecated This API is internal to Amplify and should not be used. */
+  @Deprecated
+   public String resolveIdentifier() {
+    return id;
+  }
+  
+  public String getId() {
+      return id;
+  }
+  
+  public String getContent() {
+      return content;
+  }
+  
+  public String getPrimaryTenantId() {
+      return primaryTenantId;
+  }
+  
+  public String getPrimaryInstanceId() {
+      return primaryInstanceId;
+  }
+  
+  public String getPrimaryRecordId() {
+      return primaryRecordId;
+  }
+  
+  public Primary getPrimary() {
+      return primary;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Related(String id, String content, String primaryTenantId, String primaryInstanceId, String primaryRecordId, Primary primary) {
+    this.id = id;
+    this.content = content;
+    this.primaryTenantId = primaryTenantId;
+    this.primaryInstanceId = primaryInstanceId;
+    this.primaryRecordId = primaryRecordId;
+    this.primary = primary;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Related related = (Related) obj;
+      return ObjectsCompat.equals(getId(), related.getId()) &&
+              ObjectsCompat.equals(getContent(), related.getContent()) &&
+              ObjectsCompat.equals(getPrimaryTenantId(), related.getPrimaryTenantId()) &&
+              ObjectsCompat.equals(getPrimaryInstanceId(), related.getPrimaryInstanceId()) &&
+              ObjectsCompat.equals(getPrimaryRecordId(), related.getPrimaryRecordId()) &&
+              ObjectsCompat.equals(getPrimary(), related.getPrimary()) &&
+              ObjectsCompat.equals(getCreatedAt(), related.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), related.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getContent())
+      .append(getPrimaryTenantId())
+      .append(getPrimaryInstanceId())
+      .append(getPrimaryRecordId())
+      .append(getPrimary())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Related {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
+      .append(\\"primaryTenantId=\\" + String.valueOf(getPrimaryTenantId()) + \\", \\")
+      .append(\\"primaryInstanceId=\\" + String.valueOf(getPrimaryInstanceId()) + \\", \\")
+      .append(\\"primaryRecordId=\\" + String.valueOf(getPrimaryRecordId()) + \\", \\")
+      .append(\\"primary=\\" + String.valueOf(getPrimary()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static PrimaryTenantIdStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Related justId(String id) {
+    return new Related(
+      id,
+      null,
+      null,
+      null,
+      null,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      content,
+      primaryTenantId,
+      primaryInstanceId,
+      primaryRecordId,
+      primary);
+  }
+  public interface PrimaryTenantIdStep {
+    PrimaryInstanceIdStep primaryTenantId(String primaryTenantId);
+  }
+  
+
+  public interface PrimaryInstanceIdStep {
+    PrimaryRecordIdStep primaryInstanceId(String primaryInstanceId);
+  }
+  
+
+  public interface PrimaryRecordIdStep {
+    BuildStep primaryRecordId(String primaryRecordId);
+  }
+  
+
+  public interface BuildStep {
+    Related build();
+    BuildStep id(String id);
+    BuildStep content(String content);
+    BuildStep primary(Primary primary);
+  }
+  
+
+  public static class Builder implements PrimaryTenantIdStep, PrimaryInstanceIdStep, PrimaryRecordIdStep, BuildStep {
+    private String id;
+    private String primaryTenantId;
+    private String primaryInstanceId;
+    private String primaryRecordId;
+    private String content;
+    private Primary primary;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, String content, String primaryTenantId, String primaryInstanceId, String primaryRecordId, Primary primary) {
+      this.id = id;
+      this.content = content;
+      this.primaryTenantId = primaryTenantId;
+      this.primaryInstanceId = primaryInstanceId;
+      this.primaryRecordId = primaryRecordId;
+      this.primary = primary;
+    }
+    
+    @Override
+     public Related build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Related(
+          id,
+          content,
+          primaryTenantId,
+          primaryInstanceId,
+          primaryRecordId,
+          primary);
+    }
+    
+    @Override
+     public PrimaryInstanceIdStep primaryTenantId(String primaryTenantId) {
+        Objects.requireNonNull(primaryTenantId);
+        this.primaryTenantId = primaryTenantId;
+        return this;
+    }
+    
+    @Override
+     public PrimaryRecordIdStep primaryInstanceId(String primaryInstanceId) {
+        Objects.requireNonNull(primaryInstanceId);
+        this.primaryInstanceId = primaryInstanceId;
+        return this;
+    }
+    
+    @Override
+     public BuildStep primaryRecordId(String primaryRecordId) {
+        Objects.requireNonNull(primaryRecordId);
+        this.primaryRecordId = primaryRecordId;
+        return this;
+    }
+    
+    @Override
+     public BuildStep content(String content) {
+        this.content = content;
+        return this;
+    }
+    
+    @Override
+     public BuildStep primary(Primary primary) {
+        this.primary = primary;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, String content, String primaryTenantId, String primaryInstanceId, String primaryRecordId, Primary primary) {
+      super(id, content, primaryTenantId, primaryInstanceId, primaryRecordId, primary);
+      Objects.requireNonNull(primaryTenantId);
+      Objects.requireNonNull(primaryInstanceId);
+      Objects.requireNonNull(primaryRecordId);
+    }
+    
+    @Override
+     public CopyOfBuilder primaryTenantId(String primaryTenantId) {
+      return (CopyOfBuilder) super.primaryTenantId(primaryTenantId);
+    }
+    
+    @Override
+     public CopyOfBuilder primaryInstanceId(String primaryInstanceId) {
+      return (CopyOfBuilder) super.primaryInstanceId(primaryInstanceId);
+    }
+    
+    @Override
+     public CopyOfBuilder primaryRecordId(String primaryRecordId) {
+      return (CopyOfBuilder) super.primaryRecordId(primaryRecordId);
+    }
+    
+    @Override
+     public CopyOfBuilder content(String content) {
+      return (CopyOfBuilder) super.content(content);
+    }
+    
+    @Override
+     public CopyOfBuilder primary(Primary primary) {
+      return (CopyOfBuilder) super.primary(primary);
+    }
+  }
+  
+
+  public static class RelatedIdentifier extends ModelIdentifier<Related> {
+    private static final long serialVersionUID = 1L;
+    public RelatedIdentifier(String id) {
+      super(id);
+    }
+  }
+  
+}
+"
+`;
+
 exports[`AppSyncModelVisitor custom references sets the association to the references field for hasMany/belongsTo 1`] = `
 "package com.amplifyframework.datastore.generated.model;
 

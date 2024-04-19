@@ -945,5 +945,35 @@ describe('AppSync Dart Visitor', () => {
         expect(generatedCode).toMatchSnapshot();
       });
     });
+
+    test('hasOne with sortKeyFields on primary key', () => {
+      const schema = /* GraphQL */ `
+        type Primary @model {
+          tenantId: ID! @primaryKey(sortKeyFields: ["instanceId", "recordId"])
+          instanceId: ID!
+          recordId: ID!
+          content: String
+          related: Related @hasOne(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
+        }
+        
+        type Related @model {
+          content: String
+          primaryTenantId: ID!
+          primaryInstanceId: ID!
+          primaryRecordId: ID!
+          primary: Primary @belongsTo(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
+        }
+      `;
+      ['Primary', 'Related'].forEach(modelName => {
+        const generatedCode = getVisitor({
+          schema,
+          selectedType: modelName,
+          isTimestampFieldsAdded: true,
+          respectPrimaryKeyAttributesOnConnectionField: true,
+          transformerVersion: 2,
+        }).generate();
+        expect(generatedCode).toMatchSnapshot();
+      });
+    });
   });
 });

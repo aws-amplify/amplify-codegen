@@ -1864,6 +1864,321 @@ extension ModelPath where ModelType == Related {
 }"
 `;
 
+exports[`AppSyncSwiftVisitor custom references hasOne with sortKeyFields on primary key 1`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct Primary: Model {
+  public let tenantId: String
+  public let instanceId: String
+  public let recordId: String
+  public var content: String?
+  internal var _related: LazyReference<Related>
+  public var related: Related?   {
+      get async throws { 
+        try await _related.get()
+      } 
+    }
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  
+  public init(tenantId: String,
+      instanceId: String,
+      recordId: String,
+      content: String? = nil,
+      related: Related? = nil) {
+    self.init(tenantId: tenantId,
+      instanceId: instanceId,
+      recordId: recordId,
+      content: content,
+      related: related,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(tenantId: String,
+      instanceId: String,
+      recordId: String,
+      content: String? = nil,
+      related: Related? = nil,
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
+      self.tenantId = tenantId
+      self.instanceId = instanceId
+      self.recordId = recordId
+      self.content = content
+      self._related = LazyReference(related)
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+  }
+  public mutating func setRelated(_ related: Related? = nil) {
+    self._related = LazyReference(related)
+  }
+  public init(from decoder: Decoder) throws {
+      let values = try decoder.container(keyedBy: CodingKeys.self)
+      tenantId = try values.decode(String.self, forKey: .tenantId)
+      instanceId = try values.decode(String.self, forKey: .instanceId)
+      recordId = try values.decode(String.self, forKey: .recordId)
+      content = try? values.decode(String?.self, forKey: .content)
+      _related = try values.decodeIfPresent(LazyReference<Related>.self, forKey: .related) ?? LazyReference(identifiers: nil)
+      createdAt = try? values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try? values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
+  }
+  public func encode(to encoder: Encoder) throws {
+      var container = encoder.container(keyedBy: CodingKeys.self)
+      try container.encode(tenantId, forKey: .tenantId)
+      try container.encode(instanceId, forKey: .instanceId)
+      try container.encode(recordId, forKey: .recordId)
+      try container.encode(content, forKey: .content)
+      try container.encode(_related, forKey: .related)
+      try container.encode(createdAt, forKey: .createdAt)
+      try container.encode(updatedAt, forKey: .updatedAt)
+  }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor custom references hasOne with sortKeyFields on primary key 2`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+extension Primary {
+  // MARK: - CodingKeys 
+   public enum CodingKeys: String, ModelKey {
+    case tenantId
+    case instanceId
+    case recordId
+    case content
+    case related
+    case createdAt
+    case updatedAt
+  }
+  
+  public static let keys = CodingKeys.self
+  //  MARK: - ModelSchema 
+  
+  public static let schema = defineSchema { model in
+    let primary = Primary.keys
+    
+    model.listPluralName = \\"Primaries\\"
+    model.syncPluralName = \\"Primaries\\"
+    
+    model.attributes(
+      .index(fields: [\\"tenantId\\", \\"instanceId\\", \\"recordId\\"], name: nil),
+      .primaryKey(fields: [primary.tenantId, primary.instanceId, primary.recordId])
+    )
+    
+    model.fields(
+      .field(primary.tenantId, is: .required, ofType: .string),
+      .field(primary.instanceId, is: .required, ofType: .string),
+      .field(primary.recordId, is: .required, ofType: .string),
+      .field(primary.content, is: .optional, ofType: .string),
+      .field(primary.related, is: .optional, ofType: .model(Related.self)),
+      .field(primary.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(primary.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+    )
+    }
+    public class Path: ModelPath<Primary> { }
+    
+    public static var rootPath: PropertyContainerPath? { Path() }
+}
+
+extension Primary: ModelIdentifiable {
+  public typealias IdentifierFormat = ModelIdentifierFormat.Custom
+  public typealias IdentifierProtocol = ModelIdentifier<Self, ModelIdentifierFormat.Custom>
+}
+
+extension Primary.IdentifierProtocol {
+  public static func identifier(tenantId: String,
+      instanceId: String,
+      recordId: String) -> Self {
+    .make(fields:[(name: \\"tenantId\\", value: tenantId), (name: \\"instanceId\\", value: instanceId), (name: \\"recordId\\", value: recordId)])
+  }
+}
+extension ModelPath where ModelType == Primary {
+  public var tenantId: FieldPath<String>   {
+      string(\\"tenantId\\") 
+    }
+  public var instanceId: FieldPath<String>   {
+      string(\\"instanceId\\") 
+    }
+  public var recordId: FieldPath<String>   {
+      string(\\"recordId\\") 
+    }
+  public var content: FieldPath<String>   {
+      string(\\"content\\") 
+    }
+  public var related: ModelPath<Related>   {
+      Related.Path(name: \\"related\\", parent: self) 
+    }
+  public var createdAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"createdAt\\") 
+    }
+  public var updatedAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"updatedAt\\") 
+    }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor custom references hasOne with sortKeyFields on primary key 3`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct Related: Model {
+  public let id: String
+  public var content: String?
+  public var primaryTenantId: String
+  public var primaryInstanceId: String
+  public var primaryRecordId: String
+  internal var _primary: LazyReference<Primary>
+  public var primary: Primary?   {
+      get async throws { 
+        try await _primary.get()
+      } 
+    }
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  
+  public init(id: String = UUID().uuidString,
+      content: String? = nil,
+      primaryTenantId: String,
+      primaryInstanceId: String,
+      primaryRecordId: String,
+      primary: Primary? = nil) {
+    self.init(id: id,
+      content: content,
+      primaryTenantId: primaryTenantId,
+      primaryInstanceId: primaryInstanceId,
+      primaryRecordId: primaryRecordId,
+      primary: primary,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(id: String = UUID().uuidString,
+      content: String? = nil,
+      primaryTenantId: String,
+      primaryInstanceId: String,
+      primaryRecordId: String,
+      primary: Primary? = nil,
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
+      self.id = id
+      self.content = content
+      self.primaryTenantId = primaryTenantId
+      self.primaryInstanceId = primaryInstanceId
+      self.primaryRecordId = primaryRecordId
+      self._primary = LazyReference(primary)
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+  }
+  public mutating func setPrimary(_ primary: Primary? = nil) {
+    self._primary = LazyReference(primary)
+  }
+  public init(from decoder: Decoder) throws {
+      let values = try decoder.container(keyedBy: CodingKeys.self)
+      id = try values.decode(String.self, forKey: .id)
+      content = try? values.decode(String?.self, forKey: .content)
+      primaryTenantId = try values.decode(String.self, forKey: .primaryTenantId)
+      primaryInstanceId = try values.decode(String.self, forKey: .primaryInstanceId)
+      primaryRecordId = try values.decode(String.self, forKey: .primaryRecordId)
+      _primary = try values.decodeIfPresent(LazyReference<Primary>.self, forKey: .primary) ?? LazyReference(identifiers: nil)
+      createdAt = try? values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try? values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
+  }
+  public func encode(to encoder: Encoder) throws {
+      var container = encoder.container(keyedBy: CodingKeys.self)
+      try container.encode(id, forKey: .id)
+      try container.encode(content, forKey: .content)
+      try container.encode(primaryTenantId, forKey: .primaryTenantId)
+      try container.encode(primaryInstanceId, forKey: .primaryInstanceId)
+      try container.encode(primaryRecordId, forKey: .primaryRecordId)
+      try container.encode(_primary, forKey: .primary)
+      try container.encode(createdAt, forKey: .createdAt)
+      try container.encode(updatedAt, forKey: .updatedAt)
+  }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor custom references hasOne with sortKeyFields on primary key 4`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+extension Related {
+  // MARK: - CodingKeys 
+   public enum CodingKeys: String, ModelKey {
+    case id
+    case content
+    case primaryTenantId
+    case primaryInstanceId
+    case primaryRecordId
+    case primary
+    case createdAt
+    case updatedAt
+  }
+  
+  public static let keys = CodingKeys.self
+  //  MARK: - ModelSchema 
+  
+  public static let schema = defineSchema { model in
+    let related = Related.keys
+    
+    model.listPluralName = \\"Relateds\\"
+    model.syncPluralName = \\"Relateds\\"
+    
+    model.attributes(
+      .primaryKey(fields: [related.id])
+    )
+    
+    model.fields(
+      .field(related.id, is: .required, ofType: .string),
+      .field(related.content, is: .optional, ofType: .string),
+      .field(related.primaryTenantId, is: .required, ofType: .string),
+      .field(related.primaryInstanceId, is: .required, ofType: .string),
+      .field(related.primaryRecordId, is: .required, ofType: .string),
+      .belongsTo(related.primary, is: .optional, ofType: Primary.self, targetNames: [\\"primaryTenantId\\", \\"primaryInstanceId\\", \\"primaryRecordId\\"]),
+      .field(related.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(related.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+    )
+    }
+    public class Path: ModelPath<Related> { }
+    
+    public static var rootPath: PropertyContainerPath? { Path() }
+}
+
+extension Related: ModelIdentifiable {
+  public typealias IdentifierFormat = ModelIdentifierFormat.Default
+  public typealias IdentifierProtocol = DefaultModelIdentifier<Self>
+}
+extension ModelPath where ModelType == Related {
+  public var id: FieldPath<String>   {
+      string(\\"id\\") 
+    }
+  public var content: FieldPath<String>   {
+      string(\\"content\\") 
+    }
+  public var primaryTenantId: FieldPath<String>   {
+      string(\\"primaryTenantId\\") 
+    }
+  public var primaryInstanceId: FieldPath<String>   {
+      string(\\"primaryInstanceId\\") 
+    }
+  public var primaryRecordId: FieldPath<String>   {
+      string(\\"primaryRecordId\\") 
+    }
+  public var primary: ModelPath<Primary>   {
+      Primary.Path(name: \\"primary\\", parent: self) 
+    }
+  public var createdAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"createdAt\\") 
+    }
+  public var updatedAt: FieldPath<Temporal.DateTime>   {
+      datetime(\\"updatedAt\\") 
+    }
+}"
+`;
+
 exports[`AppSyncSwiftVisitor custom references sets the association to the references field for hasMany/belongsTo 1`] = `
 "// swiftlint:disable all
 import Amplify

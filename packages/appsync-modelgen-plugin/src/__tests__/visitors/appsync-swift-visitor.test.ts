@@ -3138,5 +3138,38 @@ describe('AppSyncSwiftVisitor', () => {
         respectPrimaryKeyAttributesOnConnectionField: true,
       }).generate()).toMatchSnapshot();
     });
+ 
+    test('hasOne with sortKeyFields on primary key', () => {
+      const schema = /* GraphQL */ `
+        type Primary @model {
+          tenantId: ID! @primaryKey(sortKeyFields: ["instanceId", "recordId"])
+          instanceId: ID!
+          recordId: ID!
+          content: String
+          related: Related @hasOne(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
+        }
+        
+        type Related @model {
+          content: String
+          primaryTenantId: ID!
+          primaryInstanceId: ID!
+          primaryRecordId: ID!
+          primary: Primary @belongsTo(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
+        }
+      `;
+  
+      expect(getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate()).toMatchSnapshot();
+      expect(getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate()).toMatchSnapshot();
+      expect(getVisitorPipelinedTransformer(schema, 'Related', CodeGenGenerateEnum.code, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate()).toMatchSnapshot();
+      expect(getVisitorPipelinedTransformer(schema, 'Related', CodeGenGenerateEnum.metadata, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+      }).generate()).toMatchSnapshot();
+    });
   });
 });
