@@ -160,11 +160,16 @@ class Post extends amplify_core.Model {
       _title = json['title'],
       _rating = (json['rating'] as num?)?.toInt(),
       _status = amplify_core.enumFromString<PostStatus>(json['status'], PostStatus.values),
-      _comments = json['comments'] is List
-        ? (json['comments'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
-          .toList()
+      _comments = json['comments']  != null
+        ? json['comments'] is Map
+          ? (json['comments']['items'] as List)
+              .where((e) => e != null)
+              .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e)))
+              .toList()
+        : (json['comments'] as List)
+              .where((e) => e?['serializedData'] != null)
+              .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e?['serializedData'])))
+              .toList()
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -333,8 +338,10 @@ class Comment extends amplify_core.Model {
   
   Comment.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _post = json['post']?['serializedData'] != null
-        ? Post.fromJson(new Map<String, dynamic>.from(json['post']['serializedData']))
+      _post = json['post'] != null
+        ? json['post']['serializedData'] != null
+          ? Post.fromJson(new Map<String, dynamic>.from(json['post']['serializedData']))
+          : Post.fromJson(new Map<String, dynamic>.from(json['post']))
         : null,
       _content = json['content'];
   
@@ -553,11 +560,16 @@ class Post extends amplify_core.Model {
       _title = json['title'],
       _rating = (json['rating'] as num?)?.toInt(),
       _status = amplify_core.enumFromString<PostStatus>(json['status'], PostStatus.values),
-      _comments = json['comments'] is List
-        ? (json['comments'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
-          .toList()
+      _comments = json['comments']  != null
+        ? json['comments'] is Map
+          ? (json['comments']['items'] as List)
+              .where((e) => e != null)
+              .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e)))
+              .toList()
+        : (json['comments'] as List)
+              .where((e) => e?['serializedData'] != null)
+              .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e?['serializedData'])))
+              .toList()
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -726,8 +738,10 @@ class Comment extends amplify_core.Model {
   
   Comment.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _post = json['post']?['serializedData'] != null
-        ? Post.fromJson(new Map<String, dynamic>.from(json['post']['serializedData']))
+      _post = json['post'] != null
+        ? json['post']['serializedData'] != null
+          ? Post.fromJson(new Map<String, dynamic>.from(json['post']['serializedData']))
+          : Post.fromJson(new Map<String, dynamic>.from(json['post']))
         : null,
       _content = json['content'];
   
@@ -1123,13 +1137,13 @@ class Contact {
   
   Contact.fromJson(Map<String, dynamic> json)  
     : _contactName = json['contactName'],
-      _phone = json['phone']?['serializedData'] != null
-        ? Phone.fromJson(new Map<String, dynamic>.from(json['phone']['serializedData']))
+      _phone = json['phone'] != null
+        ? Phone.fromJson(new Map<String, dynamic>.from(json['phone']))
         : null,
       _mailingAddresses = json['mailingAddresses'] is List
         ? (json['mailingAddresses'] as List)
           .where((e) => e != null)
-          .map((e) => Address.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => Address.fromJson(new Map<String, dynamic>.from(e)))
           .toList()
         : null;
   
@@ -1371,13 +1385,13 @@ class Person extends amplify_core.Model {
   Person.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _name = json['name'],
-      _phone = json['phone']?['serializedData'] != null
-        ? Phone.fromJson(new Map<String, dynamic>.from(json['phone']['serializedData']))
+      _phone = json['phone'] != null
+        ? Phone.fromJson(new Map<String, dynamic>.from(json['phone']))
         : null,
       _mailingAddresses = json['mailingAddresses'] is List
         ? (json['mailingAddresses'] as List)
           .where((e) => e != null)
-          .map((e) => Address.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .map((e) => Address.fromJson(new Map<String, dynamic>.from(e)))
           .toList()
         : null;
   
@@ -2676,11 +2690,16 @@ class Post extends amplify_core.Model {
     : id = json['id'],
       _title = json['title'],
       _content = json['content'],
-      _tags = json['tags'] is List
-        ? (json['tags'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
-          .toList()
+      _tags = json['tags']  != null
+        ? json['tags'] is Map
+          ? (json['tags']['items'] as List)
+              .where((e) => e != null)
+              .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e)))
+              .toList()
+        : (json['tags'] as List)
+              .where((e) => e?['serializedData'] != null)
+              .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e?['serializedData'])))
+              .toList()
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -2832,11 +2851,16 @@ class Tag extends amplify_core.Model {
   Tag.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _label = json['label'],
-      _posts = json['posts'] is List
-        ? (json['posts'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
-          .toList()
+      _posts = json['posts']  != null
+        ? json['posts'] is Map
+          ? (json['posts']['items'] as List)
+              .where((e) => e != null)
+              .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e)))
+              .toList()
+        : (json['posts'] as List)
+              .where((e) => e?['serializedData'] != null)
+              .map((e) => PostTags.fromJson(new Map<String, dynamic>.from(e?['serializedData'])))
+              .toList()
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -2989,11 +3013,15 @@ class PostTags extends amplify_core.Model {
   
   PostTags.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _post = json['post']?['serializedData'] != null
-        ? Post.fromJson(new Map<String, dynamic>.from(json['post']['serializedData']))
+      _post = json['post'] != null
+        ? json['post']['serializedData'] != null
+          ? Post.fromJson(new Map<String, dynamic>.from(json['post']['serializedData']))
+          : Post.fromJson(new Map<String, dynamic>.from(json['post']))
         : null,
-      _tag = json['tag']?['serializedData'] != null
-        ? Tag.fromJson(new Map<String, dynamic>.from(json['tag']['serializedData']))
+      _tag = json['tag'] != null
+        ? json['tag']['serializedData'] != null
+          ? Tag.fromJson(new Map<String, dynamic>.from(json['tag']['serializedData']))
+          : Tag.fromJson(new Map<String, dynamic>.from(json['tag']))
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -5453,11 +5481,16 @@ class Todo extends amplify_core.Model {
   
   Todo.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _tasks = json['tasks'] is List
-        ? (json['tasks'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => Task.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
-          .toList()
+      _tasks = json['tasks']  != null
+        ? json['tasks'] is Map
+          ? (json['tasks']['items'] as List)
+              .where((e) => e != null)
+              .map((e) => Task.fromJson(new Map<String, dynamic>.from(e)))
+              .toList()
+        : (json['tasks'] as List)
+              .where((e) => e?['serializedData'] != null)
+              .map((e) => Task.fromJson(new Map<String, dynamic>.from(e?['serializedData'])))
+              .toList()
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -5600,8 +5633,10 @@ class Task extends amplify_core.Model {
   
   Task.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _todo = json['todo']?['serializedData'] != null
-        ? Todo.fromJson(new Map<String, dynamic>.from(json['todo']['serializedData']))
+      _todo = json['todo'] != null
+        ? json['todo']['serializedData'] != null
+          ? Todo.fromJson(new Map<String, dynamic>.from(json['todo']['serializedData']))
+          : Todo.fromJson(new Map<String, dynamic>.from(json['todo']))
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -5776,11 +5811,16 @@ class Blog extends amplify_core.Model {
   Blog.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _name = json['name'],
-      _posts = json['posts'] is List
-        ? (json['posts'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => Post.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
-          .toList()
+      _posts = json['posts']  != null
+        ? json['posts'] is Map
+          ? (json['posts']['items'] as List)
+              .where((e) => e != null)
+              .map((e) => Post.fromJson(new Map<String, dynamic>.from(e)))
+              .toList()
+        : (json['posts'] as List)
+              .where((e) => e?['serializedData'] != null)
+              .map((e) => Post.fromJson(new Map<String, dynamic>.from(e?['serializedData'])))
+              .toList()
         : null,
       _test = json['test']?.cast<String>();
   
@@ -5961,8 +6001,10 @@ class Comment extends amplify_core.Model {
   
   Comment.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _post = json['post']?['serializedData'] != null
-        ? Post.fromJson(new Map<String, dynamic>.from(json['post']['serializedData']))
+      _post = json['post'] != null
+        ? json['post']['serializedData'] != null
+          ? Post.fromJson(new Map<String, dynamic>.from(json['post']['serializedData']))
+          : Post.fromJson(new Map<String, dynamic>.from(json['post']))
         : null,
       _content = json['content'];
   
@@ -6150,14 +6192,21 @@ class Post extends amplify_core.Model {
   Post.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _title = json['title'],
-      _blog = json['blog']?['serializedData'] != null
-        ? Blog.fromJson(new Map<String, dynamic>.from(json['blog']['serializedData']))
+      _blog = json['blog'] != null
+        ? json['blog']['serializedData'] != null
+          ? Blog.fromJson(new Map<String, dynamic>.from(json['blog']['serializedData']))
+          : Blog.fromJson(new Map<String, dynamic>.from(json['blog']))
         : null,
-      _comments = json['comments'] is List
-        ? (json['comments'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
-          .toList()
+      _comments = json['comments']  != null
+        ? json['comments'] is Map
+          ? (json['comments']['items'] as List)
+              .where((e) => e != null)
+              .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e)))
+              .toList()
+        : (json['comments'] as List)
+              .where((e) => e?['serializedData'] != null)
+              .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e?['serializedData'])))
+              .toList()
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -6685,11 +6734,16 @@ class Blog extends amplify_core.Model {
   Blog.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _name = json['name'],
-      _posts = json['posts'] is List
-        ? (json['posts'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => Post.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
-          .toList()
+      _posts = json['posts']  != null
+        ? json['posts'] is Map
+          ? (json['posts']['items'] as List)
+              .where((e) => e != null)
+              .map((e) => Post.fromJson(new Map<String, dynamic>.from(e)))
+              .toList()
+        : (json['posts'] as List)
+              .where((e) => e?['serializedData'] != null)
+              .map((e) => Post.fromJson(new Map<String, dynamic>.from(e?['serializedData'])))
+              .toList()
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -6860,8 +6914,10 @@ class Comment extends amplify_core.Model {
   
   Comment.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _post = json['post']?['serializedData'] != null
-        ? Post.fromJson(new Map<String, dynamic>.from(json['post']['serializedData']))
+      _post = json['post'] != null
+        ? json['post']['serializedData'] != null
+          ? Post.fromJson(new Map<String, dynamic>.from(json['post']['serializedData']))
+          : Post.fromJson(new Map<String, dynamic>.from(json['post']))
         : null,
       _content = json['content'];
   
@@ -7049,14 +7105,21 @@ class Post extends amplify_core.Model {
   Post.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _title = json['title'],
-      _blog = json['blog']?['serializedData'] != null
-        ? Blog.fromJson(new Map<String, dynamic>.from(json['blog']['serializedData']))
+      _blog = json['blog'] != null
+        ? json['blog']['serializedData'] != null
+          ? Blog.fromJson(new Map<String, dynamic>.from(json['blog']['serializedData']))
+          : Blog.fromJson(new Map<String, dynamic>.from(json['blog']))
         : null,
-      _comments = json['comments'] is List
-        ? (json['comments'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
-          .toList()
+      _comments = json['comments']  != null
+        ? json['comments'] is Map
+          ? (json['comments']['items'] as List)
+              .where((e) => e != null)
+              .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e)))
+              .toList()
+        : (json['comments'] as List)
+              .where((e) => e?['serializedData'] != null)
+              .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e?['serializedData'])))
+              .toList()
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -7232,17 +7295,27 @@ class TestModel extends amplify_core.Model {
   
   TestModel.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _listOfModels = json['listOfModels'] is List
-        ? (json['listOfModels'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => ListItem.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
-          .toList()
+      _listOfModels = json['listOfModels']  != null
+        ? json['listOfModels'] is Map
+          ? (json['listOfModels']['items'] as List)
+              .where((e) => e != null)
+              .map((e) => ListItem.fromJson(new Map<String, dynamic>.from(e)))
+              .toList()
+        : (json['listOfModels'] as List)
+              .where((e) => e?['serializedData'] != null)
+              .map((e) => ListItem.fromJson(new Map<String, dynamic>.from(e?['serializedData'])))
+              .toList()
         : null,
-      _nullableListOfModels = json['nullableListOfModels'] is List
-        ? (json['nullableListOfModels'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => ListItem.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
-          .toList()
+      _nullableListOfModels = json['nullableListOfModels']  != null
+        ? json['nullableListOfModels'] is Map
+          ? (json['nullableListOfModels']['items'] as List)
+              .where((e) => e != null)
+              .map((e) => ListItem.fromJson(new Map<String, dynamic>.from(e)))
+              .toList()
+        : (json['nullableListOfModels'] as List)
+              .where((e) => e?['serializedData'] != null)
+              .map((e) => ListItem.fromJson(new Map<String, dynamic>.from(e?['serializedData'])))
+              .toList()
         : null;
   
   Map<String, dynamic> toJson() => {
@@ -9979,11 +10052,16 @@ class Post extends amplify_core.Model {
   Post.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _title = json['title'],
-      _comments = json['comments'] is List
-        ? (json['comments'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
-          .toList()
+      _comments = json['comments']  != null
+        ? json['comments'] is Map
+          ? (json['comments']['items'] as List)
+              .where((e) => e != null)
+              .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e)))
+              .toList()
+        : (json['comments'] as List)
+              .where((e) => e?['serializedData'] != null)
+              .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e?['serializedData'])))
+              .toList()
         : null,
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
@@ -10575,8 +10653,10 @@ class Project extends amplify_core.Model {
   Project.fromJson(Map<String, dynamic> json)  
     : _projectId = json['projectId'],
       _name = json['name'],
-      _team = json['team']?['serializedData'] != null
-        ? Team.fromJson(new Map<String, dynamic>.from(json['team']['serializedData']))
+      _team = json['team'] != null
+        ? json['team']['serializedData'] != null
+          ? Team.fromJson(new Map<String, dynamic>.from(json['team']['serializedData']))
+          : Team.fromJson(new Map<String, dynamic>.from(json['team']))
         : null,
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null,
@@ -10882,8 +10962,10 @@ class Team extends amplify_core.Model {
   Team.fromJson(Map<String, dynamic> json)  
     : _teamId = json['teamId'],
       _name = json['name'],
-      _project = json['project']?['serializedData'] != null
-        ? Project.fromJson(new Map<String, dynamic>.from(json['project']['serializedData']))
+      _project = json['project'] != null
+        ? json['project']['serializedData'] != null
+          ? Project.fromJson(new Map<String, dynamic>.from(json['project']['serializedData']))
+          : Project.fromJson(new Map<String, dynamic>.from(json['project']))
         : null,
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
@@ -11179,8 +11261,10 @@ class CpkOneToOneBidirectionalParent extends amplify_core.Model {
   CpkOneToOneBidirectionalParent.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _name = json['name'],
-      _explicitChild = json['explicitChild']?['serializedData'] != null
-        ? CpkOneToOneBidirectionalChildExplicit.fromJson(new Map<String, dynamic>.from(json['explicitChild']['serializedData']))
+      _explicitChild = json['explicitChild'] != null
+        ? json['explicitChild']['serializedData'] != null
+          ? CpkOneToOneBidirectionalChildExplicit.fromJson(new Map<String, dynamic>.from(json['explicitChild']['serializedData']))
+          : CpkOneToOneBidirectionalChildExplicit.fromJson(new Map<String, dynamic>.from(json['explicitChild']))
         : null,
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null,
@@ -11469,8 +11553,10 @@ class CpkOneToOneBidirectionalChildExplicit extends amplify_core.Model {
   CpkOneToOneBidirectionalChildExplicit.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _name = json['name'],
-      _belongsToParent = json['belongsToParent']?['serializedData'] != null
-        ? CpkOneToOneBidirectionalParent.fromJson(new Map<String, dynamic>.from(json['belongsToParent']['serializedData']))
+      _belongsToParent = json['belongsToParent'] != null
+        ? json['belongsToParent']['serializedData'] != null
+          ? CpkOneToOneBidirectionalParent.fromJson(new Map<String, dynamic>.from(json['belongsToParent']['serializedData']))
+          : CpkOneToOneBidirectionalParent.fromJson(new Map<String, dynamic>.from(json['belongsToParent']))
         : null,
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;

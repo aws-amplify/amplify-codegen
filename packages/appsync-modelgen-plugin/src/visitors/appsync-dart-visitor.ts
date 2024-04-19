@@ -698,25 +698,26 @@ export class AppSyncModelDartVisitor<
           if (this.isModelType(field)) {
             if (field.isList) {
               return [
-                `${fieldName} = json['${varName}'] is List`,
-                indent(`? (json['${varName}'] as List)`),
-                indent(`.where((e) => e?['serializedData'] != null)`, 2),
-                indent(
-                  `.map((e) => ${this.getNativeType({
-                    ...field,
-                    isList: false,
-                  })}.fromJson(new Map<String, dynamic>.from(e['serializedData'])))`,
-                  2,
-                ),
-                indent(`.toList()`, 2),
+                `${fieldName} = json['${varName}']  != null`,
+                indent(`? json['${varName}'] is Map`),
+                indent(`? (json['${varName}']['items'] as List)`, 2),
+                indent(`.where((e) => e != null)`, 4),
+                indent(`.map((e) => ${this.getNativeType({ ...field, isList: false })}.fromJson(new Map<String, dynamic>.from(e)))`, 4),
+                indent(`.toList()`, 4),
+                indent(`: (json['${varName}'] as List)`),
+                indent(`.where((e) => e?['serializedData'] != null)`, 4),
+                indent(`.map((e) => ${this.getNativeType({ ...field, isList: false })}.fromJson(new Map<String, dynamic>.from(e?['serializedData'])))`, 4),
+                indent(`.toList()`, 4),
                 indent(`: null`),
               ]
                 .filter(e => e !== undefined)
                 .join('\n');
             }
             return [
-              `${fieldName} = json['${varName}']?['serializedData'] != null`,
-              indent(`? ${this.getNativeType(field)}.fromJson(new Map<String, dynamic>.from(json['${varName}']['serializedData']))`),
+              `${fieldName} = json['${varName}'] != null`,
+              indent(`? json['${varName}']['serializedData'] != null`),
+              indent(`? ${this.getNativeType(field)}.fromJson(new Map<String, dynamic>.from(json['${varName}']['serializedData']))`, 2),
+              indent(`: ${this.getNativeType(field)}.fromJson(new Map<String, dynamic>.from(json['${varName}']))`,2),
               indent(`: null`),
             ].join('\n');
           }
@@ -741,12 +742,7 @@ export class AppSyncModelDartVisitor<
                 `${fieldName} = json['${varName}'] is List`,
                 indent(`? (json['${varName}'] as List)`),
                 indent(`.where((e) => e != null)`, 2),
-                indent(
-                  `.map((e) => ${this.getNativeType({ ...field, isList: false })}.fromJson(new Map<String, dynamic>.from(${
-                    this.isNonModelType(field) ? "e['serializedData']" : 'e'
-                  })))`,
-                  2,
-                ),
+                indent(`.map((e) => ${this.getNativeType({ ...field, isList: false })}.fromJson(new Map<String, dynamic>.from(e)))`, 2),
                 indent(`.toList()`, 2),
                 indent(`: null`),
               ]
@@ -755,8 +751,8 @@ export class AppSyncModelDartVisitor<
             }
             // single non-model i.e. embedded
             return [
-              `${fieldName} = json['${varName}']?['serializedData'] != null`,
-              indent(`? ${this.getNativeType(field)}.fromJson(new Map<String, dynamic>.from(json['${varName}']['serializedData']))`),
+              `${fieldName} = json['${varName}'] != null`,
+              indent(`? ${this.getNativeType(field)}.fromJson(new Map<String, dynamic>.from(json['${varName}']))`),
               indent(`: null`),
             ].join('\n');
           }
