@@ -41,6 +41,7 @@ export function processHasManyConnection(
       associatedWithFields,
       isConnectingFieldAutoCreated: false,
       connectedModel: otherSide,
+      isUsingReferences: true,
     };
   }
 

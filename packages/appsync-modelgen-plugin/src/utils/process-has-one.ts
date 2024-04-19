@@ -41,6 +41,7 @@ export function processHasOneConnection(
       associatedWithFields,
       connectedModel: otherSide,
       isConnectingFieldAutoCreated: false,
+      isUsingReferences: true,
     };
   } else if (isCustomPKEnabled) {
     associatedWithFields = getConnectedFieldsForHasOne(otherSideBelongsToField, otherSide, shouldUseFieldsInAssociatedWithInHasOne);
