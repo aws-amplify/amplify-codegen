@@ -30,19 +30,30 @@ export function processHasOneConnection(
     throw new Error(fieldsAndReferencesErrorMessage);
   }
 
-  let associatedWithFields;
   if (references.length > 0) {
     // ensure there is a matching belongsTo field with references
     getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
-    associatedWithFields = references.map((reference: string) => otherSide.fields.find((field) => reference === field.name))
+    const associatedWithFields = references.map((reference: string) => otherSide.fields.find((field) => reference === field.name))
+    const associatedWithNative = otherSide.fields.find((field) => {
+      return field.directives.some((dir) => {
+        return (dir.name === 'belongsTo')
+          && dir.arguments.references
+          && JSON.stringify(dir.arguments.references) === JSON.stringify(references);
+      });
+    });
     return {
       kind: CodeGenConnectionType.HAS_ONE,
       associatedWith: associatedWithFields[0],
-      associatedWithFields,
+      associatedWithFields: associatedWithFields,
+      associatedWithNative,
       connectedModel: otherSide,
       isConnectingFieldAutoCreated: false,
+      isUsingReferences: true,
     };
-  } else if (isCustomPKEnabled) {
+  }
+
+  let associatedWithFields;
+  if (isCustomPKEnabled) {
     associatedWithFields = getConnectedFieldsForHasOne(otherSideBelongsToField, otherSide, shouldUseFieldsInAssociatedWithInHasOne);
   } else {
     const otherSideField = getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
