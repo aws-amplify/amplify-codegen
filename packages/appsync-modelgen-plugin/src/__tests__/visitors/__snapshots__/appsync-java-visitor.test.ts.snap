@@ -7872,8 +7872,8 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 public final class Foo implements Model {
   public static final QueryField ID = field(\\"Foo\\", \\"id\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"Bar\\") @HasOne(associatedWith = \\"bar1Id\\", type = Bar.class) Bar bar1 = null;
-  private final @ModelField(targetType=\\"Bar\\") @HasOne(associatedWith = \\"bar2Id\\", type = Bar.class) Bar bar2 = null;
+  private final @ModelField(targetType=\\"Bar\\") @HasOne(associatedFields = [\\"bar1Id\\"], type = Bar.class) Bar bar1 = null;
+  private final @ModelField(targetType=\\"Bar\\") @HasOne(associatedFields = [\\"bar2Id\\"], type = Bar.class) Bar bar2 = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
@@ -8319,7 +8319,7 @@ public final class Primary implements Model {
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String instanceId;
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String recordId;
   private final @ModelField(targetType=\\"String\\") String content;
-  private final @ModelField(targetType=\\"Related\\") @HasMany(associatedWith = \\"primaryTenantId\\", type = Related.class) List<Related> related = null;
+  private final @ModelField(targetType=\\"Related\\") @HasMany(associatedFields = [\\"primaryTenantId\\", \\"primaryInstanceId\\", \\"primaryRecordId\\"], type = Related.class) List<Related> related = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   private PrimaryIdentifier primaryIdentifier;
@@ -8885,7 +8885,7 @@ public final class Primary implements Model {
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String instanceId;
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String recordId;
   private final @ModelField(targetType=\\"String\\") String content;
-  private final @ModelField(targetType=\\"Related\\") @HasOne(associatedWith = \\"primaryTenantId\\", type = Related.class) Related related = null;
+  private final @ModelField(targetType=\\"Related\\") @HasOne(associatedFields = [\\"primaryTenantId\\", \\"primaryInstanceId\\", \\"primaryRecordId\\"], type = Related.class) Related related = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   private PrimaryIdentifier primaryIdentifier;
@@ -9447,7 +9447,7 @@ public final class SqlPrimary implements Model {
   public static final QueryField CONTENT = field(\\"SqlPrimary\\", \\"content\\");
   private final @ModelField(targetType=\\"Int\\", isRequired = true) Integer id;
   private final @ModelField(targetType=\\"String\\") String content;
-  private final @ModelField(targetType=\\"SqlRelated\\") @HasMany(associatedWith = \\"primaryId\\", type = SqlRelated.class) List<SqlRelated> related = null;
+  private final @ModelField(targetType=\\"SqlRelated\\") @HasMany(associatedFields = [\\"primaryId\\"], type = SqlRelated.class) List<SqlRelated> related = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
@@ -9889,8 +9889,8 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 public final class Primary implements Model {
   public static final QueryField ID = field(\\"Primary\\", \\"id\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"RelatedMany\\") @HasMany(associatedWith = \\"primaryId\\", type = RelatedMany.class) List<RelatedMany> relatedMany = null;
-  private final @ModelField(targetType=\\"RelatedOne\\") @HasOne(associatedWith = \\"primaryId\\", type = RelatedOne.class) RelatedOne relatedOne = null;
+  private final @ModelField(targetType=\\"RelatedMany\\") @HasMany(associatedFields = [\\"primaryId\\"], type = RelatedMany.class) List<RelatedMany> relatedMany = null;
+  private final @ModelField(targetType=\\"RelatedOne\\") @HasOne(associatedFields = [\\"primaryId\\"], type = RelatedOne.class) RelatedOne relatedOne = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
@@ -10505,7 +10505,7 @@ public final class SqlPrimary implements Model {
   public static final QueryField CONTENT = field(\\"SqlPrimary\\", \\"content\\");
   private final @ModelField(targetType=\\"Int\\", isRequired = true) Integer id;
   private final @ModelField(targetType=\\"String\\") String content;
-  private final @ModelField(targetType=\\"SqlRelated\\") @HasOne(associatedWith = \\"primaryId\\", type = SqlRelated.class) SqlRelated related = null;
+  private final @ModelField(targetType=\\"SqlRelated\\") @HasOne(associatedFields = [\\"primaryId\\"], type = SqlRelated.class) SqlRelated related = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */

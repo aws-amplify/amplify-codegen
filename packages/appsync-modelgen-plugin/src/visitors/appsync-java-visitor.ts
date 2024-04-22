@@ -1110,7 +1110,12 @@ export class AppSyncModelJavaVisitor<
     switch (connectionInfo.kind) {
       case CodeGenConnectionType.HAS_ONE:
         connectionDirectiveName = 'HasOne';
-        connectionArguments.push(`associatedWith = "${this.getFieldName(connectionInfo.associatedWith)}"`);
+        if (connectionInfo.isUsingReferences) {
+          const associatedFieldString = connectionInfo.associatedWithFields.map(field => `"${this.getFieldName(field)}"`).join(', ')
+          connectionArguments.push(`associatedFields = [${associatedFieldString}]`);
+        } else {
+          connectionArguments.push(`associatedWith = "${this.getFieldName(connectionInfo.associatedWith)}"`);
+        }
         if (this.isCustomPKEnabled() && this.isGenerateModelsForLazyLoadAndCustomSelectionSet() && connectionInfo.targetNames) {
           const hasOneTargetNamesArgs = `targetNames = {${connectionInfo.targetNames.map(target => `"${target}"`).join(', ')}}`;
           connectionArguments.push(hasOneTargetNamesArgs);
@@ -1118,7 +1123,12 @@ export class AppSyncModelJavaVisitor<
         break;
       case CodeGenConnectionType.HAS_MANY:
         connectionDirectiveName = 'HasMany';
-        connectionArguments.push(`associatedWith = "${this.getFieldName(connectionInfo.associatedWith)}"`);
+        if (connectionInfo.isUsingReferences) {
+          const associatedFieldString = connectionInfo.associatedWithFields.map(field => `"${this.getFieldName(field)}"`).join(', ')
+          connectionArguments.push(`associatedFields = [${associatedFieldString}]`);
+        } else {
+          connectionArguments.push(`associatedWith = "${this.getFieldName(connectionInfo.associatedWith)}"`);
+        }
         break;
       case CodeGenConnectionType.BELONGS_TO:
         connectionDirectiveName = 'BelongsTo';
