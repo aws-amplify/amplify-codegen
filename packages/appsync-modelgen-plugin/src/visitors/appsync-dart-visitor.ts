@@ -698,17 +698,19 @@ export class AppSyncModelDartVisitor<
           if (this.isModelType(field)) {
             if (field.isList) {
               return [
-                `${fieldName} = json['${varName}']  != null`,
-                indent(`? json['${varName}'] is Map`),
+                `${fieldName} = json['${varName}']  is Map`,
+                indent(`? (json['${varName}']['items'] is List`),
                 indent(`? (json['${varName}']['items'] as List)`, 2),
                 indent(`.where((e) => e != null)`, 4),
                 indent(`.map((e) => ${this.getNativeType({ ...field, isList: false })}.fromJson(new Map<String, dynamic>.from(e)))`, 4),
                 indent(`.toList()`, 4),
-                indent(`: (json['${varName}'] as List)`),
+                indent(`: null)`, 2),
+                indent(`: (json['${varName}'] is List`),
+                indent(`? (json['${varName}'] as List)`, 2),
                 indent(`.where((e) => e?['serializedData'] != null)`, 4),
                 indent(`.map((e) => ${this.getNativeType({ ...field, isList: false })}.fromJson(new Map<String, dynamic>.from(e?['serializedData'])))`, 4),
                 indent(`.toList()`, 4),
-                indent(`: null`),
+                indent(`: null)`, 2),
               ]
                 .filter(e => e !== undefined)
                 .join('\n');
