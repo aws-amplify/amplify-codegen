@@ -1006,24 +1006,36 @@ export class AppSyncModelDartVisitor<
         else if (field.connectionInfo) {
           const connectedModelName = this.getNativeType({ ...field, isList: false });
           switch (field.connectionInfo.kind) {
-            case CodeGenConnectionType.HAS_ONE:
+            case CodeGenConnectionType.HAS_ONE: {
+              let associatedString = `associatedKey: ${connectedModelName}.${this.getQueryFieldName(field.connectionInfo.associatedWith)}`;
+              if (field.connectionInfo.isUsingReferences) {
+                const associatedFieldsString = field.connectionInfo.associatedWithFields.map(field => `${connectedModelName}.${this.getQueryFieldName(field)}`).join(', ')
+                associatedString = `associatedKeys: [${associatedFieldsString}]`
+              }
               fieldParam = [
                 `key: ${modelName}.${queryFieldName}`,
                 `isRequired: ${!field.isNullable}`,
                 `ofModelName: '${connectedModelName}'`,
-                `associatedKey: ${connectedModelName}.${this.getQueryFieldName(field.connectionInfo.associatedWith)}`,
+                associatedString,
               ].join(',\n');
               fieldsToAdd.push([`${DART_AMPLIFY_CORE_TYPES.ModelFieldDefinition}.hasOne(`, indentMultiline(fieldParam), ')'].join('\n'));
               break;
-            case CodeGenConnectionType.HAS_MANY:
+            }
+            case CodeGenConnectionType.HAS_MANY: {
+              let associatedString = `associatedKey: ${connectedModelName}.${this.getQueryFieldName(field.connectionInfo.associatedWith)}`;
+              if (field.connectionInfo.isUsingReferences) {
+                const associatedFieldsString = field.connectionInfo.associatedWithFields.map(field => `${connectedModelName}.${this.getQueryFieldName(field)}`).join(', ')
+                associatedString = `associatedKeys: [${associatedFieldsString}]`
+              }
               fieldParam = [
                 `key: ${modelName}.${queryFieldName}`,
                 `isRequired: ${!field.isNullable}`,
                 `ofModelName: '${connectedModelName}'`,
-                `associatedKey: ${connectedModelName}.${this.getQueryFieldName(field.connectionInfo.associatedWith)}`,
+                associatedString,
               ].join(',\n');
               fieldsToAdd.push([`${DART_AMPLIFY_CORE_TYPES.ModelFieldDefinition}.hasMany(`, indentMultiline(fieldParam), ')'].join('\n'));
               break;
+            }
             case CodeGenConnectionType.BELONGS_TO:
               fieldParam = [
                 `key: ${modelName}.${queryFieldName}`,

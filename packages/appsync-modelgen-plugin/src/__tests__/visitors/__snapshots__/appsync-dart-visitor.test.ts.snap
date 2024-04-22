@@ -11759,14 +11759,14 @@ class Foo extends amplify_core.Model {
       key: Foo.BAR1,
       isRequired: false,
       ofModelName: 'Bar',
-      associatedKey: Bar.BAR1ID
+      associatedKeys: [Bar.BAR1ID]
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasOne(
       key: Foo.BAR2,
       isRequired: false,
       ofModelName: 'Bar',
-      associatedKey: Bar.BAR2ID
+      associatedKeys: [Bar.BAR2ID]
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
@@ -12386,7 +12386,7 @@ class Primary extends amplify_core.Model {
       key: Primary.RELATED,
       isRequired: true,
       ofModelName: 'Related',
-      associatedKey: Related.PRIMARYTENANTID
+      associatedKeys: [Related.PRIMARYTENANTID, Related.PRIMARYINSTANCEID, Related.PRIMARYRECORDID]
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
@@ -13057,7 +13057,7 @@ class Primary extends amplify_core.Model {
       key: Primary.RELATED,
       isRequired: false,
       ofModelName: 'Related',
-      associatedKey: Related.PRIMARYTENANTID
+      associatedKeys: [Related.PRIMARYTENANTID, Related.PRIMARYINSTANCEID, Related.PRIMARYRECORDID]
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
@@ -13648,7 +13648,7 @@ class SqlPrimary extends amplify_core.Model {
       key: SqlPrimary.RELATED,
       isRequired: true,
       ofModelName: 'SqlRelated',
-      associatedKey: SqlRelated.PRIMARYID
+      associatedKeys: [SqlRelated.PRIMARYID]
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
@@ -14170,14 +14170,14 @@ class Primary extends amplify_core.Model {
       key: Primary.RELATEDMANY,
       isRequired: false,
       ofModelName: 'RelatedMany',
-      associatedKey: RelatedMany.PRIMARYID
+      associatedKeys: [RelatedMany.PRIMARYID]
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasOne(
       key: Primary.RELATEDONE,
       isRequired: false,
       ofModelName: 'RelatedOne',
-      associatedKey: RelatedOne.PRIMARYID
+      associatedKeys: [RelatedOne.PRIMARYID]
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
@@ -14932,7 +14932,7 @@ class SqlPrimary extends amplify_core.Model {
       key: SqlPrimary.RELATED,
       isRequired: false,
       ofModelName: 'SqlRelated',
-      associatedKey: SqlRelated.PRIMARYID
+      associatedKeys: [SqlRelated.PRIMARYID]
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
