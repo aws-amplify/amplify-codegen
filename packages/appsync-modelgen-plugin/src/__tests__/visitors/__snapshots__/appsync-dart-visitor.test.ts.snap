@@ -11830,11 +11830,15 @@ class Foo extends amplify_core.Model {
   
   Foo.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _bar1 = json['bar1']?['serializedData'] != null
-        ? Bar.fromJson(new Map<String, dynamic>.from(json['bar1']['serializedData']))
+      _bar1 = json['bar1'] != null
+        ? json['bar1']['serializedData'] != null
+          ? Bar.fromJson(new Map<String, dynamic>.from(json['bar1']['serializedData']))
+          : Bar.fromJson(new Map<String, dynamic>.from(json['bar1']))
         : null,
-      _bar2 = json['bar2']?['serializedData'] != null
-        ? Bar.fromJson(new Map<String, dynamic>.from(json['bar2']['serializedData']))
+      _bar2 = json['bar2'] != null
+        ? json['bar2']['serializedData'] != null
+          ? Bar.fromJson(new Map<String, dynamic>.from(json['bar2']['serializedData']))
+          : Bar.fromJson(new Map<String, dynamic>.from(json['bar2']))
         : null,
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
@@ -12101,11 +12105,15 @@ class Bar extends amplify_core.Model {
     : id = json['id'],
       _bar1Id = json['bar1Id'],
       _bar2Id = json['bar2Id'],
-      _foo1 = json['foo1']?['serializedData'] != null
-        ? Foo.fromJson(new Map<String, dynamic>.from(json['foo1']['serializedData']))
+      _foo1 = json['foo1'] != null
+        ? json['foo1']['serializedData'] != null
+          ? Foo.fromJson(new Map<String, dynamic>.from(json['foo1']['serializedData']))
+          : Foo.fromJson(new Map<String, dynamic>.from(json['foo1']))
         : null,
-      _foo2 = json['foo2']?['serializedData'] != null
-        ? Foo.fromJson(new Map<String, dynamic>.from(json['foo2']['serializedData']))
+      _foo2 = json['foo2'] != null
+        ? json['foo2']['serializedData'] != null
+          ? Foo.fromJson(new Map<String, dynamic>.from(json['foo2']['serializedData']))
+          : Foo.fromJson(new Map<String, dynamic>.from(json['foo2']))
         : null,
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
@@ -12429,12 +12437,19 @@ class Primary extends amplify_core.Model {
       _instanceId = json['instanceId'],
       _recordId = json['recordId'],
       _content = json['content'],
-      _related = json['related'] is List
-        ? (json['related'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => Related.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
-          .toList()
-        : null,
+      _related = json['related']  is Map
+        ? (json['related']['items'] is List
+          ? (json['related']['items'] as List)
+              .where((e) => e != null)
+              .map((e) => Related.fromJson(new Map<String, dynamic>.from(e)))
+              .toList()
+          : null)
+        : (json['related'] is List
+          ? (json['related'] as List)
+              .where((e) => e?['serializedData'] != null)
+              .map((e) => Related.fromJson(new Map<String, dynamic>.from(e?['serializedData'])))
+              .toList()
+          : null),
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
@@ -12774,8 +12789,10 @@ class Related extends amplify_core.Model {
       _primaryTenantId = json['primaryTenantId'],
       _primaryInstanceId = json['primaryInstanceId'],
       _primaryRecordId = json['primaryRecordId'],
-      _primary = json['primary']?['serializedData'] != null
-        ? Primary.fromJson(new Map<String, dynamic>.from(json['primary']['serializedData']))
+      _primary = json['primary'] != null
+        ? json['primary']['serializedData'] != null
+          ? Primary.fromJson(new Map<String, dynamic>.from(json['primary']['serializedData']))
+          : Primary.fromJson(new Map<String, dynamic>.from(json['primary']))
         : null,
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
@@ -13103,8 +13120,10 @@ class Primary extends amplify_core.Model {
       _instanceId = json['instanceId'],
       _recordId = json['recordId'],
       _content = json['content'],
-      _related = json['related']?['serializedData'] != null
-        ? Related.fromJson(new Map<String, dynamic>.from(json['related']['serializedData']))
+      _related = json['related'] != null
+        ? json['related']['serializedData'] != null
+          ? Related.fromJson(new Map<String, dynamic>.from(json['related']['serializedData']))
+          : Related.fromJson(new Map<String, dynamic>.from(json['related']))
         : null,
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
@@ -13445,8 +13464,10 @@ class Related extends amplify_core.Model {
       _primaryTenantId = json['primaryTenantId'],
       _primaryInstanceId = json['primaryInstanceId'],
       _primaryRecordId = json['primaryRecordId'],
-      _primary = json['primary']?['serializedData'] != null
-        ? Primary.fromJson(new Map<String, dynamic>.from(json['primary']['serializedData']))
+      _primary = json['primary'] != null
+        ? json['primary']['serializedData'] != null
+          ? Primary.fromJson(new Map<String, dynamic>.from(json['primary']['serializedData']))
+          : Primary.fromJson(new Map<String, dynamic>.from(json['primary']))
         : null,
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
@@ -13711,12 +13732,19 @@ class SqlPrimary extends amplify_core.Model {
   SqlPrimary.fromJson(Map<String, dynamic> json)  
     : id = (json['id'] as num?)?.toInt(),
       _content = json['content'],
-      _related = json['related'] is List
-        ? (json['related'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => SqlRelated.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
-          .toList()
-        : null,
+      _related = json['related']  is Map
+        ? (json['related']['items'] is List
+          ? (json['related']['items'] as List)
+              .where((e) => e != null)
+              .map((e) => SqlRelated.fromJson(new Map<String, dynamic>.from(e)))
+              .toList()
+          : null)
+        : (json['related'] is List
+          ? (json['related'] as List)
+              .where((e) => e?['serializedData'] != null)
+              .map((e) => SqlRelated.fromJson(new Map<String, dynamic>.from(e?['serializedData'])))
+              .toList()
+          : null),
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
@@ -13981,8 +14009,10 @@ class SqlRelated extends amplify_core.Model {
     : id = (json['id'] as num?)?.toInt(),
       _content = json['content'],
       _primaryId = (json['primaryId'] as num?)?.toInt(),
-      _primary = json['primary']?['serializedData'] != null
-        ? SqlPrimary.fromJson(new Map<String, dynamic>.from(json['primary']['serializedData']))
+      _primary = json['primary'] != null
+        ? json['primary']['serializedData'] != null
+          ? SqlPrimary.fromJson(new Map<String, dynamic>.from(json['primary']['serializedData']))
+          : SqlPrimary.fromJson(new Map<String, dynamic>.from(json['primary']))
         : null,
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
@@ -14234,14 +14264,23 @@ class Primary extends amplify_core.Model {
   
   Primary.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _relatedMany = json['relatedMany'] is List
-        ? (json['relatedMany'] as List)
-          .where((e) => e?['serializedData'] != null)
-          .map((e) => RelatedMany.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
-          .toList()
-        : null,
-      _relatedOne = json['relatedOne']?['serializedData'] != null
-        ? RelatedOne.fromJson(new Map<String, dynamic>.from(json['relatedOne']['serializedData']))
+      _relatedMany = json['relatedMany']  is Map
+        ? (json['relatedMany']['items'] is List
+          ? (json['relatedMany']['items'] as List)
+              .where((e) => e != null)
+              .map((e) => RelatedMany.fromJson(new Map<String, dynamic>.from(e)))
+              .toList()
+          : null)
+        : (json['relatedMany'] is List
+          ? (json['relatedMany'] as List)
+              .where((e) => e?['serializedData'] != null)
+              .map((e) => RelatedMany.fromJson(new Map<String, dynamic>.from(e?['serializedData'])))
+              .toList()
+          : null),
+      _relatedOne = json['relatedOne'] != null
+        ? json['relatedOne']['serializedData'] != null
+          ? RelatedOne.fromJson(new Map<String, dynamic>.from(json['relatedOne']['serializedData']))
+          : RelatedOne.fromJson(new Map<String, dynamic>.from(json['relatedOne']))
         : null,
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
@@ -14498,8 +14537,10 @@ class RelatedOne extends amplify_core.Model {
   RelatedOne.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _primaryId = json['primaryId'],
-      _primary = json['primary']?['serializedData'] != null
-        ? Primary.fromJson(new Map<String, dynamic>.from(json['primary']['serializedData']))
+      _primary = json['primary'] != null
+        ? json['primary']['serializedData'] != null
+          ? Primary.fromJson(new Map<String, dynamic>.from(json['primary']['serializedData']))
+          : Primary.fromJson(new Map<String, dynamic>.from(json['primary']))
         : null,
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
@@ -14753,8 +14794,10 @@ class RelatedMany extends amplify_core.Model {
   RelatedMany.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _primaryId = json['primaryId'],
-      _primary = json['primary']?['serializedData'] != null
-        ? Primary.fromJson(new Map<String, dynamic>.from(json['primary']['serializedData']))
+      _primary = json['primary'] != null
+        ? json['primary']['serializedData'] != null
+          ? Primary.fromJson(new Map<String, dynamic>.from(json['primary']['serializedData']))
+          : Primary.fromJson(new Map<String, dynamic>.from(json['primary']))
         : null,
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
@@ -14998,8 +15041,10 @@ class SqlPrimary extends amplify_core.Model {
   SqlPrimary.fromJson(Map<String, dynamic> json)  
     : id = (json['id'] as num?)?.toInt(),
       _content = json['content'],
-      _related = json['related']?['serializedData'] != null
-        ? SqlRelated.fromJson(new Map<String, dynamic>.from(json['related']['serializedData']))
+      _related = json['related'] != null
+        ? json['related']['serializedData'] != null
+          ? SqlRelated.fromJson(new Map<String, dynamic>.from(json['related']['serializedData']))
+          : SqlRelated.fromJson(new Map<String, dynamic>.from(json['related']))
         : null,
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
@@ -15265,8 +15310,10 @@ class SqlRelated extends amplify_core.Model {
     : id = (json['id'] as num?)?.toInt(),
       _content = json['content'],
       _primaryId = (json['primaryId'] as num?)?.toInt(),
-      _primary = json['primary']?['serializedData'] != null
-        ? SqlPrimary.fromJson(new Map<String, dynamic>.from(json['primary']['serializedData']))
+      _primary = json['primary'] != null
+        ? json['primary']['serializedData'] != null
+          ? SqlPrimary.fromJson(new Map<String, dynamic>.from(json['primary']['serializedData']))
+          : SqlPrimary.fromJson(new Map<String, dynamic>.from(json['primary']))
         : null,
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
