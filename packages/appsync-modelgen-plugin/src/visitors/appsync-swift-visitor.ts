@@ -623,7 +623,7 @@ export class AppSyncSwiftVisitor<
         let association = `associatedWith: ${this.getModelName(
           connectionInfo.connectedModel,
         )}.keys.${this.getFieldName(connectionInfo.associatedWith)})`;
-        if (connectionInfo.isUsingReferences) {
+        if (connectionInfo.associatedWithNative) {
           association = `associatedFields: [${this.getCodingKey(connectionInfo.connectedModel, connectionInfo.associatedWithNative)}]`
         }
         return `.hasMany(${name}, is: ${isRequired}, ofType: ${typeName}, ${association}`;
@@ -632,7 +632,7 @@ export class AppSyncSwiftVisitor<
         let association = `associatedWith: ${this.getModelName(
           connectionInfo.connectedModel,
         )}.keys.${this.getFieldName(connectionInfo.associatedWith)}`;
-        if (connectionInfo.isUsingReferences) {
+        if (connectionInfo.associatedWithNative) {
           association = `associatedFields: [${this.getCodingKey(connectionInfo.connectedModel, connectionInfo.associatedWithNative)}]`
         }
 
