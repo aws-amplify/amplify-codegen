@@ -1181,8 +1181,7 @@ export class AppSyncModelVisitor<
               connectionInfo.kind !== CodeGenConnectionType.HAS_MANY &&
               connectionInfo.kind !== CodeGenConnectionType.HAS_ONE &&
               connectionInfo.targetNames &&
-              connectionInfo.targetName !== 'id' &&
-              !connectionInfo.isUsingReferences
+              connectionInfo.targetName !== 'id'
             ) {
               // Need to remove the field that is targetName
               connectionInfo.targetNames.forEach(targetName => removeFieldFromModel(model, targetName));
