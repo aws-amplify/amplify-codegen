@@ -49,7 +49,6 @@ export function processHasManyConnection(
       associatedWithNative,
       isConnectingFieldAutoCreated: false,
       connectedModel: otherSide,
-      isUsingReferences: true,
     };
   }
 
@@ -67,7 +66,6 @@ export function processHasManyConnection(
     kind: CodeGenConnectionType.HAS_MANY,
     associatedWith: otherSideField,
     associatedWithFields: otherSideFields,
-    associatedWithNative: otherSideField,
     isConnectingFieldAutoCreated,
     connectedModel: otherSide,
   }

@@ -48,7 +48,6 @@ export function processHasOneConnection(
       associatedWithNative,
       connectedModel: otherSide,
       isConnectingFieldAutoCreated: false,
-      isUsingReferences: true,
     };
   }
 

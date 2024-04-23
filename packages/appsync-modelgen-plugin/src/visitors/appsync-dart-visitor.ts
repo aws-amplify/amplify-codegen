@@ -1008,7 +1008,7 @@ export class AppSyncModelDartVisitor<
           switch (field.connectionInfo.kind) {
             case CodeGenConnectionType.HAS_ONE: {
               let associatedString = `associatedKey: ${connectedModelName}.${this.getQueryFieldName(field.connectionInfo.associatedWith)}`;
-              if (field.connectionInfo.isUsingReferences) {
+              if (field.connectionInfo.associatedWithNative) {
                 associatedString = `associatedKey: ${connectedModelName}.${this.getQueryFieldName(field.connectionInfo.associatedWithNative)}`;
               }
               fieldParam = [
@@ -1022,7 +1022,7 @@ export class AppSyncModelDartVisitor<
             }
             case CodeGenConnectionType.HAS_MANY: {
               let associatedString = `associatedKey: ${connectedModelName}.${this.getQueryFieldName(field.connectionInfo.associatedWith)}`;
-              if (field.connectionInfo.isUsingReferences) {
+              if (field.connectionInfo.associatedWithNative) {
                 associatedString = `associatedKey: ${connectedModelName}.${this.getQueryFieldName(field.connectionInfo.associatedWithNative)}`;
               }
               fieldParam = [
