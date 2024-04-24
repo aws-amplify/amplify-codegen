@@ -623,8 +623,8 @@ export class AppSyncSwiftVisitor<
         let association = `associatedWith: ${this.getModelName(
           connectionInfo.connectedModel,
         )}.keys.${this.getFieldName(connectionInfo.associatedWith)})`;
-        if (connectionInfo.associatedWithNative) {
-          association = `associatedFields: [${this.getCodingKey(connectionInfo.connectedModel, connectionInfo.associatedWithNative)}]`
+        if (connectionInfo.associatedWithNativeReferences) {
+          association = `associatedFields: [${this.getCodingKey(connectionInfo.connectedModel, connectionInfo.associatedWithNativeReferences)}]`
         }
         return `.hasMany(${name}, is: ${isRequired}, ofType: ${typeName}, ${association}`;
       }
@@ -632,8 +632,8 @@ export class AppSyncSwiftVisitor<
         let association = `associatedWith: ${this.getModelName(
           connectionInfo.connectedModel,
         )}.keys.${this.getFieldName(connectionInfo.associatedWith)}`;
-        if (connectionInfo.associatedWithNative) {
-          association = `associatedFields: [${this.getCodingKey(connectionInfo.connectedModel, connectionInfo.associatedWithNative)}]`
+        if (connectionInfo.associatedWithNativeReferences) {
+          association = `associatedFields: [${this.getCodingKey(connectionInfo.connectedModel, connectionInfo.associatedWithNativeReferences)}]`
         }
 
         let targetNameAttrStr = '';

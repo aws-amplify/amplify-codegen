@@ -35,13 +35,13 @@ export function processHasOneConnection(
     // native uses the connected field instead of associatedWithFields
     // when using references associatedWithFields and associatedWithNative are not the same
     // getConnectedFieldV2 also ensures there is a matching belongsTo field with references
-    const associatedWithNative = getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
+    const associatedWithNativeReferences = getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
     associatedWithFields = references.map((reference: string) => otherSide.fields.find((field) => reference === field.name))
     return {
       kind: CodeGenConnectionType.HAS_ONE,
       associatedWith: associatedWithFields[0],
       associatedWithFields,
-      associatedWithNative,
+      associatedWithNativeReferences,
       connectedModel: otherSide,
       isConnectingFieldAutoCreated: false,
     };

@@ -1110,8 +1110,8 @@ export class AppSyncModelJavaVisitor<
     switch (connectionInfo.kind) {
       case CodeGenConnectionType.HAS_ONE:
         connectionDirectiveName = 'HasOne';
-        if (connectionInfo.associatedWithNative) {
-          connectionArguments.push(`associatedWith = "${this.getFieldName(connectionInfo.associatedWithNative)}"`);
+        if (connectionInfo.associatedWithNativeReferences) {
+          connectionArguments.push(`associatedWith = "${this.getFieldName(connectionInfo.associatedWithNativeReferences)}"`);
         } else {
           connectionArguments.push(`associatedWith = "${this.getFieldName(connectionInfo.associatedWith)}"`);
         }
@@ -1122,8 +1122,8 @@ export class AppSyncModelJavaVisitor<
         break;
       case CodeGenConnectionType.HAS_MANY:
         connectionDirectiveName = 'HasMany';
-        if (connectionInfo.associatedWithNative) {
-          connectionArguments.push(`associatedWith = "${this.getFieldName(connectionInfo.associatedWithNative)}"`);
+        if (connectionInfo.associatedWithNativeReferences) {
+          connectionArguments.push(`associatedWith = "${this.getFieldName(connectionInfo.associatedWithNativeReferences)}"`);
         } else {
           connectionArguments.push(`associatedWith = "${this.getFieldName(connectionInfo.associatedWith)}"`);
         }
