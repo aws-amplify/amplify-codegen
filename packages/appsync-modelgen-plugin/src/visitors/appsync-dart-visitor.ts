@@ -448,6 +448,8 @@ export class AppSyncModelDartVisitor<
 
   protected generateGetters(model: CodeGenModel, declarationBlock: DartDeclarationBlock, includeIdGetter: boolean = true): void {
     if (includeIdGetter) {
+      // TODO: Remove at the next major version.
+      // Amplify Flutter V2 removes all usage of Model.getId() in favor of Model.modelIdentifier
       if (this.isCustomPKEnabled()) {
         const identifierFields = this.getModelIdentifierFields(model);
         const isCustomPK = identifierFields[0].name !== 'id';
