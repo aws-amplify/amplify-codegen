@@ -30,29 +30,22 @@ export function processHasOneConnection(
     throw new Error(fieldsAndReferencesErrorMessage);
   }
 
+  let associatedWithFields;
   if (references.length > 0) {
-    // ensure there is a matching belongsTo field with references
-    getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
-    const associatedWithFields = references.map((reference: string) => otherSide.fields.find((field) => reference === field.name))
-    const associatedWithNative = otherSide.fields.find((field) => {
-      return field.directives.some((dir) => {
-        return (dir.name === 'belongsTo')
-          && dir.arguments.references
-          && JSON.stringify(dir.arguments.references) === JSON.stringify(references);
-      });
-    });
+    // native uses the connected field instead of associatedWithFields
+    // when using references associatedWithFields and associatedWithNative are not the same
+    // getConnectedFieldV2 also ensures there is a matching belongsTo field with references
+    const associatedWithNative = getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
+    associatedWithFields = references.map((reference: string) => otherSide.fields.find((field) => reference === field.name))
     return {
       kind: CodeGenConnectionType.HAS_ONE,
       associatedWith: associatedWithFields[0],
-      associatedWithFields: associatedWithFields,
+      associatedWithFields,
       associatedWithNative,
       connectedModel: otherSide,
       isConnectingFieldAutoCreated: false,
     };
-  }
-
-  let associatedWithFields;
-  if (isCustomPKEnabled) {
+  } else if (isCustomPKEnabled) {
     associatedWithFields = getConnectedFieldsForHasOne(otherSideBelongsToField, otherSide, shouldUseFieldsInAssociatedWithInHasOne);
   } else {
     const otherSideField = getConnectedFieldV2(field, model, otherSide, connectionDirective.name);

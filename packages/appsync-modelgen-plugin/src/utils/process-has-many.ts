@@ -32,16 +32,11 @@ export function processHasManyConnection(
   }
 
   if (references.length > 0) {
-    // ensure there is a matching belongsTo field with references
-    getConnectedFieldV2(field, model, otherSide, connectionDirective.name, shouldUseModelNameFieldInHasManyAndBelongsTo)
+    // native uses the connected field instead of associatedWithFields
+    // when using references associatedWithFields and associatedWithNative are not the same
+    // getConnectedFieldV2 also ensures there is a matching belongsTo field with references
+    const associatedWithNative = getConnectedFieldV2(field, model, otherSide, connectionDirective.name, shouldUseModelNameFieldInHasManyAndBelongsTo)
     const associatedWithFields = references.map((reference: string) => otherSide.fields.find((field) => reference === field.name))
-    const associatedWithNative = otherSide.fields.find((field) => {
-      return field.directives.some((dir) => {
-        return (dir.name === 'belongsTo')
-          && dir.arguments.references
-          && JSON.stringify(dir.arguments.references) === JSON.stringify(references);
-      });
-    });
     return {
       kind: CodeGenConnectionType.HAS_MANY,
       associatedWith: associatedWithFields[0],
