@@ -1,6 +1,6 @@
 {
   "name": "@aws-amplify/graphql-types-generator",
-  "version": "3.5.0",
+  "version": "3.6.0-associated-field-native.0",
   "description": "Generate API code or type annotations based on a GraphQL schema and statements",
   "repository": {
     "type": "git",

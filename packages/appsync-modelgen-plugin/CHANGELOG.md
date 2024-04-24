@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.11.0-associated-field-native.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.10.0...@aws-amplify/appsync-modelgen-plugin@2.11.0-associated-field-native.0) (2024-04-24)
+
+### Bug Fixes
+
+- do not remove belongsTo target names when using references ([#814](https://github.com/aws-amplify/amplify-codegen/issues/814)) ([de394dd](https://github.com/aws-amplify/amplify-codegen/commit/de394dda82febe22e1cdeccf22d4c36fae91cf2b))
+- don't add target names on references for native ([fdfe285](https://github.com/aws-amplify/amplify-codegen/commit/fdfe285d1b7c75f0f9fdfad7c121327d47bc9628))
+- missing targetNames in hasOne reference ([02a581f](https://github.com/aws-amplify/amplify-codegen/commit/02a581f6a9700961d2522d1b14f0f808b8758999))
+- set assocaited fields for references for dart ([6218f46](https://github.com/aws-amplify/amplify-codegen/commit/6218f46985b8e5303e01009dc0d6210fb86d847b))
+- set assocaited fields for references for java ([52678cc](https://github.com/aws-amplify/amplify-codegen/commit/52678cc863a767fdf604490f5adafbf7e291e355))
+- use associated fields for references on swift ([9da1fbd](https://github.com/aws-amplify/amplify-codegen/commit/9da1fbd230ea42a63b9895648d466670ed718ae1))
+- use standalone ajv validation for model introspection schema ([#807](https://github.com/aws-amplify/amplify-codegen/issues/807)) ([9f55941](https://github.com/aws-amplify/amplify-codegen/commit/9f559413621dcc4a4a5158a129e575371c6d8c35))
+
+### Features
+
+- dart api model .fromJson() refactor ([#593](https://github.com/aws-amplify/amplify-codegen/issues/593)) ([f83eba1](https://github.com/aws-amplify/amplify-codegen/commit/f83eba153d94644cc2896f1916cf1efb3f7b151b))
+- enable codegen to run in browser ([#789](https://github.com/aws-amplify/amplify-codegen/issues/789)) ([f51b5d3](https://github.com/aws-amplify/amplify-codegen/commit/f51b5d3bbac23f7f63e0adc0bd2aad67b0621977))
+- set correct association with references ([#793](https://github.com/aws-amplify/amplify-codegen/issues/793)) ([a6efa72](https://github.com/aws-amplify/amplify-codegen/commit/a6efa72cd3345d52b43bd4754af0826351930bfb))
+
 # [2.10.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.9.0...@aws-amplify/appsync-modelgen-plugin@2.10.0) (2024-04-03)
 
 ### Bug Fixes
