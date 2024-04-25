@@ -15,7 +15,6 @@ export function processBelongsToConnection(
   modelMap: CodeGenModelMap,
   connectionDirective: CodeGenDirective,
   isCustomPKEnabled: boolean = false,
-  respectReferences: boolean = false, // remove when enabled references for all targets
 ): CodeGenFieldConnection | undefined {
   if (field.isList) {
     throw new Error(
@@ -29,7 +28,7 @@ export function processBelongsToConnection(
       `A 'belongsTo' field should match to a corresponding 'hasMany' or 'hasOne' field`
     );
   }
-  const otherSideField = isCustomPKEnabled ? otherSideConnectedFields[0] : getConnectedFieldV2(field, model, otherSide, connectionDirective.name, false, respectReferences);
+  const otherSideField = isCustomPKEnabled ? otherSideConnectedFields[0] : getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
   const connectionFields = connectionDirective.arguments.fields || [];
 
   const references = connectionDirective.arguments.references || [];
@@ -42,9 +41,9 @@ export function processBelongsToConnection(
   // but if the field are connected using fields argument in connection directive
   // we are reusing the field and it should be preserved in selection set
   const otherSideHasMany = otherSideField.isList;
-  const isUsingReferences = respectReferences && references.length > 0;
+  const isUsingReferences = references.length > 0;
   // New metada type introduced by custom PK v2 support
-  let targetNames = isUsingReferences ? [ ...connectionFields, ...references ] : [ ...connectionFields ];
+  let targetNames: string[] = [ ...connectionFields, ...references ];
   if (targetNames.length === 0) {
     if (otherSideHasMany) {
       targetNames = isCustomPKEnabled

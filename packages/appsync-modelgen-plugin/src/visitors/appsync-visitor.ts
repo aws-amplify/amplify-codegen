@@ -1087,8 +1087,7 @@ export class AppSyncModelVisitor<
           this.modelMap,
           shouldUseModelNameFieldInHasManyAndBelongsTo,
           isCustomPKEnabled,
-          shouldUseFieldsInAssociatedWithInHasOne,
-          this.config.target === 'introspection',
+          shouldUseFieldsInAssociatedWithInHasOne
         );
         if (connectionInfo) {
           if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
@@ -1182,7 +1181,8 @@ export class AppSyncModelVisitor<
               connectionInfo.kind !== CodeGenConnectionType.HAS_MANY &&
               connectionInfo.kind !== CodeGenConnectionType.HAS_ONE &&
               connectionInfo.targetNames &&
-              connectionInfo.targetName !== 'id'
+              connectionInfo.targetName !== 'id' &&
+              !connectionInfo.isUsingReferences
             ) {
               // Need to remove the field that is targetName
               connectionInfo.targetNames.forEach(targetName => removeFieldFromModel(model, targetName));

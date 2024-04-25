@@ -11742,8 +11742,6 @@ class Foo extends amplify_core.Model {
   final Bar? _bar2;
   final amplify_core.TemporalDateTime? _createdAt;
   final amplify_core.TemporalDateTime? _updatedAt;
-  final String? _fooBar1Id;
-  final String? _fooBar2Id;
 
   @override
   getInstanceType() => classType;
@@ -11774,23 +11772,13 @@ class Foo extends amplify_core.Model {
     return _updatedAt;
   }
   
-  String? get fooBar1Id {
-    return _fooBar1Id;
-  }
+  const Foo._internal({required this.id, bar1, bar2, createdAt, updatedAt}): _bar1 = bar1, _bar2 = bar2, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  String? get fooBar2Id {
-    return _fooBar2Id;
-  }
-  
-  const Foo._internal({required this.id, bar1, bar2, createdAt, updatedAt, fooBar1Id, fooBar2Id}): _bar1 = bar1, _bar2 = bar2, _createdAt = createdAt, _updatedAt = updatedAt, _fooBar1Id = fooBar1Id, _fooBar2Id = fooBar2Id;
-  
-  factory Foo({String? id, Bar? bar1, Bar? bar2, String? fooBar1Id, String? fooBar2Id}) {
+  factory Foo({String? id, Bar? bar1, Bar? bar2}) {
     return Foo._internal(
       id: id == null ? amplify_core.UUID.getUUID() : id,
       bar1: bar1,
-      bar2: bar2,
-      fooBar1Id: fooBar1Id,
-      fooBar2Id: fooBar2Id);
+      bar2: bar2);
   }
   
   bool equals(Object other) {
@@ -11803,9 +11791,7 @@ class Foo extends amplify_core.Model {
     return other is Foo &&
       id == other.id &&
       _bar1 == other._bar1 &&
-      _bar2 == other._bar2 &&
-      _fooBar1Id == other._fooBar1Id &&
-      _fooBar2Id == other._fooBar2Id;
+      _bar2 == other._bar2;
   }
   
   @override
@@ -11818,35 +11804,27 @@ class Foo extends amplify_core.Model {
     buffer.write(\\"Foo {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
-    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\") + \\", \\");
-    buffer.write(\\"fooBar1Id=\\" + \\"$_fooBar1Id\\" + \\", \\");
-    buffer.write(\\"fooBar2Id=\\" + \\"$_fooBar2Id\\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\"));
     buffer.write(\\"}\\");
     
     return buffer.toString();
   }
   
-  Foo copyWith({Bar? bar1, Bar? bar2, String? fooBar1Id, String? fooBar2Id}) {
+  Foo copyWith({Bar? bar1, Bar? bar2}) {
     return Foo._internal(
       id: id,
       bar1: bar1 ?? this.bar1,
-      bar2: bar2 ?? this.bar2,
-      fooBar1Id: fooBar1Id ?? this.fooBar1Id,
-      fooBar2Id: fooBar2Id ?? this.fooBar2Id);
+      bar2: bar2 ?? this.bar2);
   }
   
   Foo copyWithModelFieldValues({
     ModelFieldValue<Bar?>? bar1,
-    ModelFieldValue<Bar?>? bar2,
-    ModelFieldValue<String?>? fooBar1Id,
-    ModelFieldValue<String?>? fooBar2Id
+    ModelFieldValue<Bar?>? bar2
   }) {
     return Foo._internal(
       id: id,
       bar1: bar1 == null ? this.bar1 : bar1.value,
-      bar2: bar2 == null ? this.bar2 : bar2.value,
-      fooBar1Id: fooBar1Id == null ? this.fooBar1Id : fooBar1Id.value,
-      fooBar2Id: fooBar2Id == null ? this.fooBar2Id : fooBar2Id.value
+      bar2: bar2 == null ? this.bar2 : bar2.value
     );
   }
   
@@ -11863,12 +11841,10 @@ class Foo extends amplify_core.Model {
           : Bar.fromJson(new Map<String, dynamic>.from(json['bar2']))
         : null,
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
-      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null,
-      _fooBar1Id = json['fooBar1Id'],
-      _fooBar2Id = json['fooBar2Id'];
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'bar1': _bar1?.toJson(), 'bar2': _bar2?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format(), 'fooBar1Id': _fooBar1Id, 'fooBar2Id': _fooBar2Id
+    'id': id, 'bar1': _bar1?.toJson(), 'bar2': _bar2?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
@@ -11876,9 +11852,7 @@ class Foo extends amplify_core.Model {
     'bar1': _bar1,
     'bar2': _bar2,
     'createdAt': _createdAt,
-    'updatedAt': _updatedAt,
-    'fooBar1Id': _fooBar1Id,
-    'fooBar2Id': _fooBar2Id
+    'updatedAt': _updatedAt
   };
 
   static final amplify_core.QueryModelIdentifier<FooModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<FooModelIdentifier>();
@@ -11889,8 +11863,6 @@ class Foo extends amplify_core.Model {
   static final BAR2 = amplify_core.QueryField(
     fieldName: \\"bar2\\",
     fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Bar'));
-  static final FOOBAR1ID = amplify_core.QueryField(fieldName: \\"fooBar1Id\\");
-  static final FOOBAR2ID = amplify_core.QueryField(fieldName: \\"fooBar2Id\\");
   static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Foo\\";
     modelSchemaDefinition.pluralName = \\"Foos\\";
@@ -11901,14 +11873,14 @@ class Foo extends amplify_core.Model {
       key: Foo.BAR1,
       isRequired: false,
       ofModelName: 'Bar',
-      associatedKey: Bar.FOO1
+      associatedKey: Bar.BAR1ID
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasOne(
       key: Foo.BAR2,
       isRequired: false,
       ofModelName: 'Bar',
-      associatedKey: Bar.FOO1
+      associatedKey: Bar.BAR2ID
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
@@ -11923,18 +11895,6 @@ class Foo extends amplify_core.Model {
       isRequired: false,
       isReadOnly: true,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
-    ));
-    
-    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: Foo.FOOBAR1ID,
-      isRequired: false,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
-    ));
-    
-    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: Foo.FOOBAR2ID,
-      isRequired: false,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
   });
 }
@@ -12203,14 +12163,14 @@ class Bar extends amplify_core.Model {
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
       key: Bar.FOO1,
       isRequired: false,
-      targetNames: ['barFoo1Id'],
+      targetNames: ['bar1Id'],
       ofModelName: 'Foo'
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
       key: Bar.FOO2,
       isRequired: false,
-      targetNames: ['barFoo2Id'],
+      targetNames: ['bar2Id'],
       ofModelName: 'Foo'
     ));
     
@@ -12551,7 +12511,7 @@ class Primary extends amplify_core.Model {
       key: Primary.RELATED,
       isRequired: true,
       ofModelName: 'Related',
-      associatedKey: Related.PRIMARY
+      associatedKey: Related.PRIMARYTENANTID
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
@@ -12894,7 +12854,7 @@ class Related extends amplify_core.Model {
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
       key: Related.PRIMARY,
       isRequired: false,
-      targetNames: ['primaryRelatedTenantId', 'primaryRelatedInstanceId', 'primaryRelatedRecordId'],
+      targetNames: ['primaryTenantId', 'primaryInstanceId', 'primaryRecordId'],
       ofModelName: 'Primary'
     ));
     
@@ -13008,7 +12968,6 @@ class Primary extends amplify_core.Model {
   final Related? _related;
   final amplify_core.TemporalDateTime? _createdAt;
   final amplify_core.TemporalDateTime? _updatedAt;
-  final String? _primaryRelatedId;
 
   @override
   getInstanceType() => classType;
@@ -13089,20 +13048,15 @@ class Primary extends amplify_core.Model {
     return _updatedAt;
   }
   
-  String? get primaryRelatedId {
-    return _primaryRelatedId;
-  }
+  const Primary._internal({required tenantId, required instanceId, required recordId, content, related, createdAt, updatedAt}): _tenantId = tenantId, _instanceId = instanceId, _recordId = recordId, _content = content, _related = related, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  const Primary._internal({required tenantId, required instanceId, required recordId, content, related, createdAt, updatedAt, primaryRelatedId}): _tenantId = tenantId, _instanceId = instanceId, _recordId = recordId, _content = content, _related = related, _createdAt = createdAt, _updatedAt = updatedAt, _primaryRelatedId = primaryRelatedId;
-  
-  factory Primary({required String tenantId, required String instanceId, required String recordId, String? content, Related? related, String? primaryRelatedId}) {
+  factory Primary({required String tenantId, required String instanceId, required String recordId, String? content, Related? related}) {
     return Primary._internal(
       tenantId: tenantId,
       instanceId: instanceId,
       recordId: recordId,
       content: content,
-      related: related,
-      primaryRelatedId: primaryRelatedId);
+      related: related);
   }
   
   bool equals(Object other) {
@@ -13117,8 +13071,7 @@ class Primary extends amplify_core.Model {
       _instanceId == other._instanceId &&
       _recordId == other._recordId &&
       _content == other._content &&
-      _related == other._related &&
-      _primaryRelatedId == other._primaryRelatedId;
+      _related == other._related;
   }
   
   @override
@@ -13134,35 +13087,31 @@ class Primary extends amplify_core.Model {
     buffer.write(\\"recordId=\\" + \\"$_recordId\\" + \\", \\");
     buffer.write(\\"content=\\" + \\"$_content\\" + \\", \\");
     buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
-    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\") + \\", \\");
-    buffer.write(\\"primaryRelatedId=\\" + \\"$_primaryRelatedId\\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\"));
     buffer.write(\\"}\\");
     
     return buffer.toString();
   }
   
-  Primary copyWith({String? content, Related? related, String? primaryRelatedId}) {
+  Primary copyWith({String? content, Related? related}) {
     return Primary._internal(
       tenantId: tenantId,
       instanceId: instanceId,
       recordId: recordId,
       content: content ?? this.content,
-      related: related ?? this.related,
-      primaryRelatedId: primaryRelatedId ?? this.primaryRelatedId);
+      related: related ?? this.related);
   }
   
   Primary copyWithModelFieldValues({
     ModelFieldValue<String?>? content,
-    ModelFieldValue<Related?>? related,
-    ModelFieldValue<String?>? primaryRelatedId
+    ModelFieldValue<Related?>? related
   }) {
     return Primary._internal(
       tenantId: tenantId,
       instanceId: instanceId,
       recordId: recordId,
       content: content == null ? this.content : content.value,
-      related: related == null ? this.related : related.value,
-      primaryRelatedId: primaryRelatedId == null ? this.primaryRelatedId : primaryRelatedId.value
+      related: related == null ? this.related : related.value
     );
   }
   
@@ -13177,11 +13126,10 @@ class Primary extends amplify_core.Model {
           : Related.fromJson(new Map<String, dynamic>.from(json['related']))
         : null,
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
-      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null,
-      _primaryRelatedId = json['primaryRelatedId'];
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'tenantId': _tenantId, 'instanceId': _instanceId, 'recordId': _recordId, 'content': _content, 'related': _related?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format(), 'primaryRelatedId': _primaryRelatedId
+    'tenantId': _tenantId, 'instanceId': _instanceId, 'recordId': _recordId, 'content': _content, 'related': _related?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
@@ -13191,8 +13139,7 @@ class Primary extends amplify_core.Model {
     'content': _content,
     'related': _related,
     'createdAt': _createdAt,
-    'updatedAt': _updatedAt,
-    'primaryRelatedId': _primaryRelatedId
+    'updatedAt': _updatedAt
   };
 
   static final amplify_core.QueryModelIdentifier<PrimaryModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<PrimaryModelIdentifier>();
@@ -13203,7 +13150,6 @@ class Primary extends amplify_core.Model {
   static final RELATED = amplify_core.QueryField(
     fieldName: \\"related\\",
     fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Related'));
-  static final PRIMARYRELATEDID = amplify_core.QueryField(fieldName: \\"primaryRelatedId\\");
   static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Primary\\";
     modelSchemaDefinition.pluralName = \\"Primaries\\";
@@ -13240,7 +13186,7 @@ class Primary extends amplify_core.Model {
       key: Primary.RELATED,
       isRequired: false,
       ofModelName: 'Related',
-      associatedKey: Related.PRIMARY
+      associatedKey: Related.PRIMARYTENANTID
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
@@ -13255,12 +13201,6 @@ class Primary extends amplify_core.Model {
       isRequired: false,
       isReadOnly: true,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
-    ));
-    
-    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: Primary.PRIMARYRELATEDID,
-      isRequired: false,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
   });
 }
@@ -13589,7 +13529,7 @@ class Related extends amplify_core.Model {
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
       key: Related.PRIMARY,
       isRequired: false,
-      targetNames: ['relatedPrimaryTenantId', 'relatedPrimaryInstanceId', 'relatedPrimaryRecordId'],
+      targetNames: ['primaryTenantId', 'primaryInstanceId', 'primaryRecordId'],
       ofModelName: 'Primary'
     ));
     
@@ -13846,7 +13786,7 @@ class SqlPrimary extends amplify_core.Model {
       key: SqlPrimary.RELATED,
       isRequired: true,
       ofModelName: 'SqlRelated',
-      associatedKey: SqlRelated.PRIMARY
+      associatedKey: SqlRelated.PRIMARYID
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
@@ -14123,7 +14063,7 @@ class SqlRelated extends amplify_core.Model {
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
       key: SqlRelated.PRIMARY,
       isRequired: false,
-      targetNames: ['sqlPrimaryRelatedId'],
+      targetNames: ['primaryId'],
       ofModelName: 'SqlPrimary'
     ));
     
@@ -14236,7 +14176,6 @@ class Primary extends amplify_core.Model {
   final RelatedOne? _relatedOne;
   final amplify_core.TemporalDateTime? _createdAt;
   final amplify_core.TemporalDateTime? _updatedAt;
-  final String? _primaryRelatedOneId;
 
   @override
   getInstanceType() => classType;
@@ -14267,18 +14206,13 @@ class Primary extends amplify_core.Model {
     return _updatedAt;
   }
   
-  String? get primaryRelatedOneId {
-    return _primaryRelatedOneId;
-  }
+  const Primary._internal({required this.id, relatedMany, relatedOne, createdAt, updatedAt}): _relatedMany = relatedMany, _relatedOne = relatedOne, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  const Primary._internal({required this.id, relatedMany, relatedOne, createdAt, updatedAt, primaryRelatedOneId}): _relatedMany = relatedMany, _relatedOne = relatedOne, _createdAt = createdAt, _updatedAt = updatedAt, _primaryRelatedOneId = primaryRelatedOneId;
-  
-  factory Primary({String? id, List<RelatedMany>? relatedMany, RelatedOne? relatedOne, String? primaryRelatedOneId}) {
+  factory Primary({String? id, List<RelatedMany>? relatedMany, RelatedOne? relatedOne}) {
     return Primary._internal(
       id: id == null ? amplify_core.UUID.getUUID() : id,
       relatedMany: relatedMany != null ? List<RelatedMany>.unmodifiable(relatedMany) : relatedMany,
-      relatedOne: relatedOne,
-      primaryRelatedOneId: primaryRelatedOneId);
+      relatedOne: relatedOne);
   }
   
   bool equals(Object other) {
@@ -14291,8 +14225,7 @@ class Primary extends amplify_core.Model {
     return other is Primary &&
       id == other.id &&
       DeepCollectionEquality().equals(_relatedMany, other._relatedMany) &&
-      _relatedOne == other._relatedOne &&
-      _primaryRelatedOneId == other._primaryRelatedOneId;
+      _relatedOne == other._relatedOne;
   }
   
   @override
@@ -14305,31 +14238,27 @@ class Primary extends amplify_core.Model {
     buffer.write(\\"Primary {\\");
     buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
     buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
-    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\") + \\", \\");
-    buffer.write(\\"primaryRelatedOneId=\\" + \\"$_primaryRelatedOneId\\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\"));
     buffer.write(\\"}\\");
     
     return buffer.toString();
   }
   
-  Primary copyWith({List<RelatedMany>? relatedMany, RelatedOne? relatedOne, String? primaryRelatedOneId}) {
+  Primary copyWith({List<RelatedMany>? relatedMany, RelatedOne? relatedOne}) {
     return Primary._internal(
       id: id,
       relatedMany: relatedMany ?? this.relatedMany,
-      relatedOne: relatedOne ?? this.relatedOne,
-      primaryRelatedOneId: primaryRelatedOneId ?? this.primaryRelatedOneId);
+      relatedOne: relatedOne ?? this.relatedOne);
   }
   
   Primary copyWithModelFieldValues({
     ModelFieldValue<List<RelatedMany>?>? relatedMany,
-    ModelFieldValue<RelatedOne?>? relatedOne,
-    ModelFieldValue<String?>? primaryRelatedOneId
+    ModelFieldValue<RelatedOne?>? relatedOne
   }) {
     return Primary._internal(
       id: id,
       relatedMany: relatedMany == null ? this.relatedMany : relatedMany.value,
-      relatedOne: relatedOne == null ? this.relatedOne : relatedOne.value,
-      primaryRelatedOneId: primaryRelatedOneId == null ? this.primaryRelatedOneId : primaryRelatedOneId.value
+      relatedOne: relatedOne == null ? this.relatedOne : relatedOne.value
     );
   }
   
@@ -14354,11 +14283,10 @@ class Primary extends amplify_core.Model {
           : RelatedOne.fromJson(new Map<String, dynamic>.from(json['relatedOne']))
         : null,
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
-      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null,
-      _primaryRelatedOneId = json['primaryRelatedOneId'];
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'relatedMany': _relatedMany?.map((RelatedMany? e) => e?.toJson()).toList(), 'relatedOne': _relatedOne?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format(), 'primaryRelatedOneId': _primaryRelatedOneId
+    'id': id, 'relatedMany': _relatedMany?.map((RelatedMany? e) => e?.toJson()).toList(), 'relatedOne': _relatedOne?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
@@ -14366,8 +14294,7 @@ class Primary extends amplify_core.Model {
     'relatedMany': _relatedMany,
     'relatedOne': _relatedOne,
     'createdAt': _createdAt,
-    'updatedAt': _updatedAt,
-    'primaryRelatedOneId': _primaryRelatedOneId
+    'updatedAt': _updatedAt
   };
 
   static final amplify_core.QueryModelIdentifier<PrimaryModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<PrimaryModelIdentifier>();
@@ -14378,7 +14305,6 @@ class Primary extends amplify_core.Model {
   static final RELATEDONE = amplify_core.QueryField(
     fieldName: \\"relatedOne\\",
     fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'RelatedOne'));
-  static final PRIMARYRELATEDONEID = amplify_core.QueryField(fieldName: \\"primaryRelatedOneId\\");
   static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"Primary\\";
     modelSchemaDefinition.pluralName = \\"Primaries\\";
@@ -14393,14 +14319,14 @@ class Primary extends amplify_core.Model {
       key: Primary.RELATEDMANY,
       isRequired: false,
       ofModelName: 'RelatedMany',
-      associatedKey: RelatedMany.PRIMARY
+      associatedKey: RelatedMany.PRIMARYID
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasOne(
       key: Primary.RELATEDONE,
       isRequired: false,
       ofModelName: 'RelatedOne',
-      associatedKey: RelatedOne.PRIMARY
+      associatedKey: RelatedOne.PRIMARYID
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
@@ -14415,12 +14341,6 @@ class Primary extends amplify_core.Model {
       isRequired: false,
       isReadOnly: true,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
-    ));
-    
-    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: Primary.PRIMARYRELATEDONEID,
-      isRequired: false,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
   });
 }
@@ -14662,7 +14582,7 @@ class RelatedOne extends amplify_core.Model {
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
       key: RelatedOne.PRIMARY,
       isRequired: false,
-      targetNames: ['relatedOnePrimaryId'],
+      targetNames: ['primaryId'],
       ofModelName: 'Primary'
     ));
     
@@ -14919,7 +14839,7 @@ class RelatedMany extends amplify_core.Model {
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
       key: RelatedMany.PRIMARY,
       isRequired: false,
-      targetNames: ['primaryRelatedManyId'],
+      targetNames: ['primaryId'],
       ofModelName: 'Primary'
     ));
     
@@ -15031,7 +14951,6 @@ class SqlPrimary extends amplify_core.Model {
   final SqlRelated? _related;
   final amplify_core.TemporalDateTime? _createdAt;
   final amplify_core.TemporalDateTime? _updatedAt;
-  final int? _sqlPrimaryRelatedId;
 
   @override
   getInstanceType() => classType;
@@ -15062,18 +14981,13 @@ class SqlPrimary extends amplify_core.Model {
     return _updatedAt;
   }
   
-  int? get sqlPrimaryRelatedId {
-    return _sqlPrimaryRelatedId;
-  }
+  const SqlPrimary._internal({required this.id, content, related, createdAt, updatedAt}): _content = content, _related = related, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  const SqlPrimary._internal({required this.id, content, related, createdAt, updatedAt, sqlPrimaryRelatedId}): _content = content, _related = related, _createdAt = createdAt, _updatedAt = updatedAt, _sqlPrimaryRelatedId = sqlPrimaryRelatedId;
-  
-  factory SqlPrimary({int? id, String? content, SqlRelated? related, int? sqlPrimaryRelatedId}) {
+  factory SqlPrimary({int? id, String? content, SqlRelated? related}) {
     return SqlPrimary._internal(
       id: id == null ? amplify_core.UUID.getUUID() : id,
       content: content,
-      related: related,
-      sqlPrimaryRelatedId: sqlPrimaryRelatedId);
+      related: related);
   }
   
   bool equals(Object other) {
@@ -15086,8 +15000,7 @@ class SqlPrimary extends amplify_core.Model {
     return other is SqlPrimary &&
       id == other.id &&
       _content == other._content &&
-      _related == other._related &&
-      _sqlPrimaryRelatedId == other._sqlPrimaryRelatedId;
+      _related == other._related;
   }
   
   @override
@@ -15101,31 +15014,27 @@ class SqlPrimary extends amplify_core.Model {
     buffer.write(\\"id=\\" + (id != null ? id!.toString() : \\"null\\") + \\", \\");
     buffer.write(\\"content=\\" + \\"$_content\\" + \\", \\");
     buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
-    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\") + \\", \\");
-    buffer.write(\\"sqlPrimaryRelatedId=\\" + (_sqlPrimaryRelatedId != null ? _sqlPrimaryRelatedId!.toString() : \\"null\\"));
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\"));
     buffer.write(\\"}\\");
     
     return buffer.toString();
   }
   
-  SqlPrimary copyWith({String? content, SqlRelated? related, int? sqlPrimaryRelatedId}) {
+  SqlPrimary copyWith({String? content, SqlRelated? related}) {
     return SqlPrimary._internal(
       id: id,
       content: content ?? this.content,
-      related: related ?? this.related,
-      sqlPrimaryRelatedId: sqlPrimaryRelatedId ?? this.sqlPrimaryRelatedId);
+      related: related ?? this.related);
   }
   
   SqlPrimary copyWithModelFieldValues({
     ModelFieldValue<String?>? content,
-    ModelFieldValue<SqlRelated?>? related,
-    ModelFieldValue<int?>? sqlPrimaryRelatedId
+    ModelFieldValue<SqlRelated?>? related
   }) {
     return SqlPrimary._internal(
       id: id,
       content: content == null ? this.content : content.value,
-      related: related == null ? this.related : related.value,
-      sqlPrimaryRelatedId: sqlPrimaryRelatedId == null ? this.sqlPrimaryRelatedId : sqlPrimaryRelatedId.value
+      related: related == null ? this.related : related.value
     );
   }
   
@@ -15138,11 +15047,10 @@ class SqlPrimary extends amplify_core.Model {
           : SqlRelated.fromJson(new Map<String, dynamic>.from(json['related']))
         : null,
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
-      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null,
-      _sqlPrimaryRelatedId = (json['sqlPrimaryRelatedId'] as num?)?.toInt();
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'content': _content, 'related': _related?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format(), 'sqlPrimaryRelatedId': _sqlPrimaryRelatedId
+    'id': id, 'content': _content, 'related': _related?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
@@ -15150,8 +15058,7 @@ class SqlPrimary extends amplify_core.Model {
     'content': _content,
     'related': _related,
     'createdAt': _createdAt,
-    'updatedAt': _updatedAt,
-    'sqlPrimaryRelatedId': _sqlPrimaryRelatedId
+    'updatedAt': _updatedAt
   };
 
   static final amplify_core.QueryModelIdentifier<SqlPrimaryModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<SqlPrimaryModelIdentifier>();
@@ -15160,7 +15067,6 @@ class SqlPrimary extends amplify_core.Model {
   static final RELATED = amplify_core.QueryField(
     fieldName: \\"related\\",
     fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'SqlRelated'));
-  static final SQLPRIMARYRELATEDID = amplify_core.QueryField(fieldName: \\"sqlPrimaryRelatedId\\");
   static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = \\"SqlPrimary\\";
     modelSchemaDefinition.pluralName = \\"SqlPrimaries\\";
@@ -15181,7 +15087,7 @@ class SqlPrimary extends amplify_core.Model {
       key: SqlPrimary.RELATED,
       isRequired: false,
       ofModelName: 'SqlRelated',
-      associatedKey: SqlRelated.PRIMARY
+      associatedKey: SqlRelated.PRIMARYID
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
@@ -15196,12 +15102,6 @@ class SqlPrimary extends amplify_core.Model {
       isRequired: false,
       isReadOnly: true,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
-    ));
-    
-    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: SqlPrimary.SQLPRIMARYRELATEDID,
-      isRequired: false,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.int)
     ));
   });
 }
@@ -15464,7 +15364,7 @@ class SqlRelated extends amplify_core.Model {
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
       key: SqlRelated.PRIMARY,
       isRequired: false,
-      targetNames: ['sqlRelatedPrimaryId'],
+      targetNames: ['primaryId'],
       ofModelName: 'SqlPrimary'
     ));
     

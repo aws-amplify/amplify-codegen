@@ -14,8 +14,7 @@ export function processHasOneConnection(
   modelMap: CodeGenModelMap,
   connectionDirective: CodeGenDirective,
   isCustomPKEnabled: boolean = false,
-  shouldUseFieldsInAssociatedWithInHasOne:boolean = false,
-  respectReferences: boolean = false, // remove when enabled references for all targets
+  shouldUseFieldsInAssociatedWithInHasOne:boolean = false
 ): CodeGenFieldConnection | undefined {
   const otherSide = modelMap[field.type];
   // Find other side belongsTo field when in bi direction connection
@@ -32,9 +31,9 @@ export function processHasOneConnection(
   }
 
   let associatedWithFields;
-  if (respectReferences && references.length > 0) {
+  if (references.length > 0) {
     // ensure there is a matching belongsTo field with references
-    getConnectedFieldV2(field, model, otherSide, connectionDirective.name, false, respectReferences);
+    getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
     associatedWithFields = references.map((reference: string) => otherSide.fields.find((field) => reference === field.name))
     return {
       kind: CodeGenConnectionType.HAS_ONE,
@@ -46,7 +45,7 @@ export function processHasOneConnection(
   } else if (isCustomPKEnabled) {
     associatedWithFields = getConnectedFieldsForHasOne(otherSideBelongsToField, otherSide, shouldUseFieldsInAssociatedWithInHasOne);
   } else {
-    const otherSideField = getConnectedFieldV2(field, model, otherSide, connectionDirective.name, false, respectReferences);
+    const otherSideField = getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
     associatedWithFields = [otherSideField];
   }
 

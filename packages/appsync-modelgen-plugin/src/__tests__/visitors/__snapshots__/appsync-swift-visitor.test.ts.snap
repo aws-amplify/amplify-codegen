@@ -1312,36 +1312,26 @@ public struct Foo: Model {
     }
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
-  public var fooBar1Id: String?
-  public var fooBar2Id: String?
   
   public init(id: String = UUID().uuidString,
       bar1: Bar? = nil,
-      bar2: Bar? = nil,
-      fooBar1Id: String? = nil,
-      fooBar2Id: String? = nil) {
+      bar2: Bar? = nil) {
     self.init(id: id,
       bar1: bar1,
       bar2: bar2,
       createdAt: nil,
-      updatedAt: nil,
-      fooBar1Id: fooBar1Id,
-      fooBar2Id: fooBar2Id)
+      updatedAt: nil)
   }
   internal init(id: String = UUID().uuidString,
       bar1: Bar? = nil,
       bar2: Bar? = nil,
       createdAt: Temporal.DateTime? = nil,
-      updatedAt: Temporal.DateTime? = nil,
-      fooBar1Id: String? = nil,
-      fooBar2Id: String? = nil) {
+      updatedAt: Temporal.DateTime? = nil) {
       self.id = id
       self._bar1 = LazyReference(bar1)
       self._bar2 = LazyReference(bar2)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
-      self.fooBar1Id = fooBar1Id
-      self.fooBar2Id = fooBar2Id
   }
   public mutating func setBar1(_ bar1: Bar? = nil) {
     self._bar1 = LazyReference(bar1)
@@ -1356,8 +1346,6 @@ public struct Foo: Model {
       _bar2 = try values.decodeIfPresent(LazyReference<Bar>.self, forKey: .bar2) ?? LazyReference(identifiers: nil)
       createdAt = try? values.decode(Temporal.DateTime?.self, forKey: .createdAt)
       updatedAt = try? values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
-      fooBar1Id = try? values.decode(String?.self, forKey: .fooBar1Id)
-      fooBar2Id = try? values.decode(String?.self, forKey: .fooBar2Id)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
@@ -1366,8 +1354,6 @@ public struct Foo: Model {
       try container.encode(_bar2, forKey: .bar2)
       try container.encode(createdAt, forKey: .createdAt)
       try container.encode(updatedAt, forKey: .updatedAt)
-      try container.encode(fooBar1Id, forKey: .fooBar1Id)
-      try container.encode(fooBar2Id, forKey: .fooBar2Id)
   }
 }"
 `;
@@ -1385,8 +1371,6 @@ extension Foo {
     case bar2
     case createdAt
     case updatedAt
-    case fooBar1Id
-    case fooBar2Id
   }
   
   public static let keys = CodingKeys.self
@@ -1404,12 +1388,10 @@ extension Foo {
     
     model.fields(
       .field(foo.id, is: .required, ofType: .string),
-      .hasOne(foo.bar1, is: .optional, ofType: Bar.self, associatedWith: Bar.keys.foo1, targetNames: [\\"fooBar1Id\\"]),
-      .hasOne(foo.bar2, is: .optional, ofType: Bar.self, associatedWith: Bar.keys.foo1, targetNames: [\\"fooBar2Id\\"]),
+      .field(foo.bar1, is: .optional, ofType: .model(Bar.self)),
+      .field(foo.bar2, is: .optional, ofType: .model(Bar.self)),
       .field(foo.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(foo.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(foo.fooBar1Id, is: .optional, ofType: .string),
-      .field(foo.fooBar2Id, is: .optional, ofType: .string)
+      .field(foo.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
     public class Path: ModelPath<Foo> { }
@@ -1436,12 +1418,6 @@ extension ModelPath where ModelType == Foo {
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
       datetime(\\"updatedAt\\") 
-    }
-  public var fooBar1Id: FieldPath<String>   {
-      string(\\"fooBar1Id\\") 
-    }
-  public var fooBar2Id: FieldPath<String>   {
-      string(\\"fooBar2Id\\") 
     }
 }"
 `;
@@ -1561,8 +1537,8 @@ extension Bar {
       .field(bar.id, is: .required, ofType: .string),
       .field(bar.bar1Id, is: .optional, ofType: .string),
       .field(bar.bar2Id, is: .optional, ofType: .string),
-      .belongsTo(bar.foo1, is: .optional, ofType: Foo.self, targetNames: [\\"barFoo1Id\\"]),
-      .belongsTo(bar.foo2, is: .optional, ofType: Foo.self, targetNames: [\\"barFoo2Id\\"]),
+      .belongsTo(bar.foo1, is: .optional, ofType: Foo.self, targetNames: [\\"bar1Id\\"]),
+      .belongsTo(bar.foo2, is: .optional, ofType: Foo.self, targetNames: [\\"bar2Id\\"]),
       .field(bar.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(bar.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -1682,7 +1658,7 @@ extension Primary {
       .field(primary.instanceId, is: .required, ofType: .string),
       .field(primary.recordId, is: .required, ofType: .string),
       .field(primary.content, is: .optional, ofType: .string),
-      .hasMany(primary.related, is: .optional, ofType: Related.self, associatedWith: Related.keys.primary),
+      .hasMany(primary.related, is: .optional, ofType: Related.self, associatedWith: Related.keys.primaryTenantId),
       .field(primary.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(primary.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -1846,7 +1822,7 @@ extension Related {
       .field(related.primaryTenantId, is: .required, ofType: .string),
       .field(related.primaryInstanceId, is: .required, ofType: .string),
       .field(related.primaryRecordId, is: .required, ofType: .string),
-      .belongsTo(related.primary, is: .optional, ofType: Primary.self, targetNames: [\\"primaryRelatedTenantId\\", \\"primaryRelatedInstanceId\\", \\"primaryRelatedRecordId\\"]),
+      .belongsTo(related.primary, is: .optional, ofType: Primary.self, targetNames: [\\"primaryTenantId\\", \\"primaryInstanceId\\", \\"primaryRecordId\\"]),
       .field(related.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(related.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -1906,22 +1882,19 @@ public struct Primary: Model {
     }
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
-  public var primaryRelatedId: String?
   
   public init(tenantId: String,
       instanceId: String,
       recordId: String,
       content: String? = nil,
-      related: Related? = nil,
-      primaryRelatedId: String? = nil) {
+      related: Related? = nil) {
     self.init(tenantId: tenantId,
       instanceId: instanceId,
       recordId: recordId,
       content: content,
       related: related,
       createdAt: nil,
-      updatedAt: nil,
-      primaryRelatedId: primaryRelatedId)
+      updatedAt: nil)
   }
   internal init(tenantId: String,
       instanceId: String,
@@ -1929,8 +1902,7 @@ public struct Primary: Model {
       content: String? = nil,
       related: Related? = nil,
       createdAt: Temporal.DateTime? = nil,
-      updatedAt: Temporal.DateTime? = nil,
-      primaryRelatedId: String? = nil) {
+      updatedAt: Temporal.DateTime? = nil) {
       self.tenantId = tenantId
       self.instanceId = instanceId
       self.recordId = recordId
@@ -1938,7 +1910,6 @@ public struct Primary: Model {
       self._related = LazyReference(related)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
-      self.primaryRelatedId = primaryRelatedId
   }
   public mutating func setRelated(_ related: Related? = nil) {
     self._related = LazyReference(related)
@@ -1952,7 +1923,6 @@ public struct Primary: Model {
       _related = try values.decodeIfPresent(LazyReference<Related>.self, forKey: .related) ?? LazyReference(identifiers: nil)
       createdAt = try? values.decode(Temporal.DateTime?.self, forKey: .createdAt)
       updatedAt = try? values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
-      primaryRelatedId = try? values.decode(String?.self, forKey: .primaryRelatedId)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
@@ -1963,7 +1933,6 @@ public struct Primary: Model {
       try container.encode(_related, forKey: .related)
       try container.encode(createdAt, forKey: .createdAt)
       try container.encode(updatedAt, forKey: .updatedAt)
-      try container.encode(primaryRelatedId, forKey: .primaryRelatedId)
   }
 }"
 `;
@@ -1983,7 +1952,6 @@ extension Primary {
     case related
     case createdAt
     case updatedAt
-    case primaryRelatedId
   }
   
   public static let keys = CodingKeys.self
@@ -2005,10 +1973,9 @@ extension Primary {
       .field(primary.instanceId, is: .required, ofType: .string),
       .field(primary.recordId, is: .required, ofType: .string),
       .field(primary.content, is: .optional, ofType: .string),
-      .hasOne(primary.related, is: .optional, ofType: Related.self, associatedWith: Related.keys.primary, targetNames: [\\"primaryRelatedId\\"]),
+      .field(primary.related, is: .optional, ofType: .model(Related.self)),
       .field(primary.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(primary.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(primary.primaryRelatedId, is: .optional, ofType: .string)
+      .field(primary.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
     public class Path: ModelPath<Primary> { }
@@ -2049,9 +2016,6 @@ extension ModelPath where ModelType == Primary {
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
       datetime(\\"updatedAt\\") 
-    }
-  public var primaryRelatedId: FieldPath<String>   {
-      string(\\"primaryRelatedId\\") 
     }
 }"
 `;
@@ -2173,7 +2137,7 @@ extension Related {
       .field(related.primaryTenantId, is: .required, ofType: .string),
       .field(related.primaryInstanceId, is: .required, ofType: .string),
       .field(related.primaryRecordId, is: .required, ofType: .string),
-      .belongsTo(related.primary, is: .optional, ofType: Primary.self, targetNames: [\\"relatedPrimaryTenantId\\", \\"relatedPrimaryInstanceId\\", \\"relatedPrimaryRecordId\\"]),
+      .belongsTo(related.primary, is: .optional, ofType: Primary.self, targetNames: [\\"primaryTenantId\\", \\"primaryInstanceId\\", \\"primaryRecordId\\"]),
       .field(related.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(related.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -2282,7 +2246,7 @@ extension SqlPrimary {
     model.fields(
       .field(sqlPrimary.id, is: .required, ofType: .int),
       .field(sqlPrimary.content, is: .optional, ofType: .string),
-      .hasMany(sqlPrimary.related, is: .optional, ofType: SqlRelated.self, associatedWith: SqlRelated.keys.primary),
+      .hasMany(sqlPrimary.related, is: .optional, ofType: SqlRelated.self, associatedWith: SqlRelated.keys.primaryId),
       .field(sqlPrimary.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(sqlPrimary.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -2416,7 +2380,7 @@ extension SqlRelated {
       .field(sqlRelated.id, is: .required, ofType: .int),
       .field(sqlRelated.content, is: .optional, ofType: .string),
       .field(sqlRelated.primaryId, is: .required, ofType: .int),
-      .belongsTo(sqlRelated.primary, is: .optional, ofType: SqlPrimary.self, targetNames: [\\"sqlPrimaryRelatedId\\"]),
+      .belongsTo(sqlRelated.primary, is: .optional, ofType: SqlPrimary.self, targetNames: [\\"primaryId\\"]),
       .field(sqlRelated.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(sqlRelated.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -2468,31 +2432,26 @@ public struct Primary: Model {
     }
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
-  public var primaryRelatedOneId: String?
   
   public init(id: String = UUID().uuidString,
       relatedMany: List<RelatedMany>? = [],
-      relatedOne: RelatedOne? = nil,
-      primaryRelatedOneId: String? = nil) {
+      relatedOne: RelatedOne? = nil) {
     self.init(id: id,
       relatedMany: relatedMany,
       relatedOne: relatedOne,
       createdAt: nil,
-      updatedAt: nil,
-      primaryRelatedOneId: primaryRelatedOneId)
+      updatedAt: nil)
   }
   internal init(id: String = UUID().uuidString,
       relatedMany: List<RelatedMany>? = [],
       relatedOne: RelatedOne? = nil,
       createdAt: Temporal.DateTime? = nil,
-      updatedAt: Temporal.DateTime? = nil,
-      primaryRelatedOneId: String? = nil) {
+      updatedAt: Temporal.DateTime? = nil) {
       self.id = id
       self.relatedMany = relatedMany
       self._relatedOne = LazyReference(relatedOne)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
-      self.primaryRelatedOneId = primaryRelatedOneId
   }
   public mutating func setRelatedOne(_ relatedOne: RelatedOne? = nil) {
     self._relatedOne = LazyReference(relatedOne)
@@ -2504,7 +2463,6 @@ public struct Primary: Model {
       _relatedOne = try values.decodeIfPresent(LazyReference<RelatedOne>.self, forKey: .relatedOne) ?? LazyReference(identifiers: nil)
       createdAt = try? values.decode(Temporal.DateTime?.self, forKey: .createdAt)
       updatedAt = try? values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
-      primaryRelatedOneId = try? values.decode(String?.self, forKey: .primaryRelatedOneId)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
@@ -2513,7 +2471,6 @@ public struct Primary: Model {
       try container.encode(_relatedOne, forKey: .relatedOne)
       try container.encode(createdAt, forKey: .createdAt)
       try container.encode(updatedAt, forKey: .updatedAt)
-      try container.encode(primaryRelatedOneId, forKey: .primaryRelatedOneId)
   }
 }"
 `;
@@ -2531,7 +2488,6 @@ extension Primary {
     case relatedOne
     case createdAt
     case updatedAt
-    case primaryRelatedOneId
   }
   
   public static let keys = CodingKeys.self
@@ -2550,11 +2506,10 @@ extension Primary {
     
     model.fields(
       .field(primary.id, is: .required, ofType: .string),
-      .hasMany(primary.relatedMany, is: .optional, ofType: RelatedMany.self, associatedWith: RelatedMany.keys.primary),
-      .hasOne(primary.relatedOne, is: .optional, ofType: RelatedOne.self, associatedWith: RelatedOne.keys.primary, targetNames: [\\"primaryRelatedOneId\\"]),
+      .hasMany(primary.relatedMany, is: .optional, ofType: RelatedMany.self, associatedWith: RelatedMany.keys.primaryId),
+      .field(primary.relatedOne, is: .optional, ofType: .model(RelatedOne.self)),
       .field(primary.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(primary.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(primary.primaryRelatedOneId, is: .optional, ofType: .string)
+      .field(primary.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
     public class Path: ModelPath<Primary> { }
@@ -2581,9 +2536,6 @@ extension ModelPath where ModelType == Primary {
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
       datetime(\\"updatedAt\\") 
-    }
-  public var primaryRelatedOneId: FieldPath<String>   {
-      string(\\"primaryRelatedOneId\\") 
     }
 }"
 `;
@@ -2679,7 +2631,7 @@ extension RelatedMany {
     model.fields(
       .field(relatedMany.id, is: .required, ofType: .string),
       .field(relatedMany.primaryId, is: .required, ofType: .string),
-      .belongsTo(relatedMany.primary, is: .optional, ofType: Primary.self, targetNames: [\\"primaryRelatedManyId\\"]),
+      .belongsTo(relatedMany.primary, is: .optional, ofType: Primary.self, targetNames: [\\"primaryId\\"]),
       .field(relatedMany.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(relatedMany.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -2803,7 +2755,7 @@ extension RelatedOne {
     model.fields(
       .field(relatedOne.id, is: .required, ofType: .string),
       .field(relatedOne.primaryId, is: .required, ofType: .string),
-      .belongsTo(relatedOne.primary, is: .optional, ofType: Primary.self, targetNames: [\\"relatedOnePrimaryId\\"]),
+      .belongsTo(relatedOne.primary, is: .optional, ofType: Primary.self, targetNames: [\\"primaryId\\"]),
       .field(relatedOne.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(relatedOne.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -2852,31 +2804,26 @@ public struct SqlPrimary: Model {
     }
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
-  public var sqlPrimaryRelatedId: Int?
   
   public init(id: Int = UUID().uuidString,
       content: String? = nil,
-      related: SqlRelated? = nil,
-      sqlPrimaryRelatedId: Int? = nil) {
+      related: SqlRelated? = nil) {
     self.init(id: id,
       content: content,
       related: related,
       createdAt: nil,
-      updatedAt: nil,
-      sqlPrimaryRelatedId: sqlPrimaryRelatedId)
+      updatedAt: nil)
   }
   internal init(id: Int = UUID().uuidString,
       content: String? = nil,
       related: SqlRelated? = nil,
       createdAt: Temporal.DateTime? = nil,
-      updatedAt: Temporal.DateTime? = nil,
-      sqlPrimaryRelatedId: Int? = nil) {
+      updatedAt: Temporal.DateTime? = nil) {
       self.id = id
       self.content = content
       self._related = LazyReference(related)
       self.createdAt = createdAt
       self.updatedAt = updatedAt
-      self.sqlPrimaryRelatedId = sqlPrimaryRelatedId
   }
   public mutating func setRelated(_ related: SqlRelated? = nil) {
     self._related = LazyReference(related)
@@ -2888,7 +2835,6 @@ public struct SqlPrimary: Model {
       _related = try values.decodeIfPresent(LazyReference<SqlRelated>.self, forKey: .related) ?? LazyReference(identifiers: nil)
       createdAt = try? values.decode(Temporal.DateTime?.self, forKey: .createdAt)
       updatedAt = try? values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
-      sqlPrimaryRelatedId = try? values.decode(Int?.self, forKey: .sqlPrimaryRelatedId)
   }
   public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
@@ -2897,7 +2843,6 @@ public struct SqlPrimary: Model {
       try container.encode(_related, forKey: .related)
       try container.encode(createdAt, forKey: .createdAt)
       try container.encode(updatedAt, forKey: .updatedAt)
-      try container.encode(sqlPrimaryRelatedId, forKey: .sqlPrimaryRelatedId)
   }
 }"
 `;
@@ -2915,7 +2860,6 @@ extension SqlPrimary {
     case related
     case createdAt
     case updatedAt
-    case sqlPrimaryRelatedId
   }
   
   public static let keys = CodingKeys.self
@@ -2935,10 +2879,9 @@ extension SqlPrimary {
     model.fields(
       .field(sqlPrimary.id, is: .required, ofType: .int),
       .field(sqlPrimary.content, is: .optional, ofType: .string),
-      .hasOne(sqlPrimary.related, is: .optional, ofType: SqlRelated.self, associatedWith: SqlRelated.keys.primary, targetNames: [\\"sqlPrimaryRelatedId\\"]),
+      .field(sqlPrimary.related, is: .optional, ofType: .model(SqlRelated.self)),
       .field(sqlPrimary.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(sqlPrimary.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(sqlPrimary.sqlPrimaryRelatedId, is: .optional, ofType: .int)
+      .field(sqlPrimary.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
     public class Path: ModelPath<SqlPrimary> { }
@@ -2965,9 +2908,6 @@ extension ModelPath where ModelType == SqlPrimary {
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
       datetime(\\"updatedAt\\") 
-    }
-  public var sqlPrimaryRelatedId: FieldPath<Int>   {
-      int(\\"sqlPrimaryRelatedId\\") 
     }
 }"
 `;
@@ -3073,7 +3013,7 @@ extension SqlRelated {
       .field(sqlRelated.id, is: .required, ofType: .int),
       .field(sqlRelated.content, is: .optional, ofType: .string),
       .field(sqlRelated.primaryId, is: .required, ofType: .int),
-      .belongsTo(sqlRelated.primary, is: .optional, ofType: SqlPrimary.self, targetNames: [\\"sqlRelatedPrimaryId\\"]),
+      .belongsTo(sqlRelated.primary, is: .optional, ofType: SqlPrimary.self, targetNames: [\\"primaryId\\"]),
       .field(sqlRelated.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(sqlRelated.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
