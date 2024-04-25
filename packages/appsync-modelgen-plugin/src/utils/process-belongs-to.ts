@@ -15,7 +15,7 @@ export function processBelongsToConnection(
   modelMap: CodeGenModelMap,
   connectionDirective: CodeGenDirective,
   isCustomPKEnabled: boolean = false,
-  respectReferences: boolean = false,
+  respectReferences: boolean = false, // remove when enabled references for all targets
 ): CodeGenFieldConnection | undefined {
   if (field.isList) {
     throw new Error(

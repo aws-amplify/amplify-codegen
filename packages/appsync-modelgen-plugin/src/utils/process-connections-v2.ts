@@ -162,7 +162,7 @@ export function processConnectionsV2(
   shouldUseModelNameFieldInHasManyAndBelongsTo: boolean = false,
   isCustomPKEnabled: boolean = false,
   shouldUseFieldsInAssociatedWithInHasOne: boolean = false,
-  respectReferences: boolean = false,
+  respectReferences: boolean = false, // remove when enabled references for all targets
 ): CodeGenFieldConnection | undefined {
   const connectionDirective = field.directives.find(d => d.name === 'hasOne' || d.name === 'hasMany' || d.name === 'belongsTo');
 

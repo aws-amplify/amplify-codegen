@@ -15,7 +15,7 @@ export function processHasOneConnection(
   connectionDirective: CodeGenDirective,
   isCustomPKEnabled: boolean = false,
   shouldUseFieldsInAssociatedWithInHasOne:boolean = false,
-  respectReferences: boolean = false,
+  respectReferences: boolean = false, // remove when enabled references for all targets
 ): CodeGenFieldConnection | undefined {
   const otherSide = modelMap[field.type];
   // Find other side belongsTo field when in bi direction connection

@@ -19,7 +19,7 @@ export function processHasManyConnection(
   connectionDirective: CodeGenDirective,
   shouldUseModelNameFieldInHasManyAndBelongsTo: boolean,
   isCustomPKEnabled: boolean = false,
-  respectReferences: boolean = false,
+  respectReferences: boolean = false, // remove when enabled references for all targets
 ): CodeGenFieldConnection | undefined {
   if (!field.isList) {
     throw new Error("A field with hasMany must be a list type");
