@@ -2277,7 +2277,8 @@ extension Blog {
   public static let schema = defineSchema { model in
     let blog = Blog.keys
     
-    model.pluralName = \\"Blogs\\"
+    model.listPluralName = \\"Blogs\\"
+    model.syncPluralName = \\"Blogs\\"
     
     model.attributes(
       .primaryKey(fields: [blog.id])
@@ -2369,7 +2370,8 @@ extension Comment {
   public static let schema = defineSchema { model in
     let comment = Comment.keys
     
-    model.pluralName = \\"Comments\\"
+    model.listPluralName = \\"Comments\\"
+    model.syncPluralName = \\"Comments\\"
     
     model.attributes(
       .primaryKey(fields: [comment.id])
@@ -2486,7 +2488,8 @@ extension Post {
   public static let schema = defineSchema { model in
     let post = Post.keys
     
-    model.pluralName = \\"Posts\\"
+    model.listPluralName = \\"Posts\\"
+    model.syncPluralName = \\"Posts\\"
     
     model.attributes(
       .primaryKey(fields: [post.id])

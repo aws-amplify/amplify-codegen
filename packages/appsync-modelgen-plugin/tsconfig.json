@@ -5,9 +5,12 @@
     "outDir": "lib",
     "allowJs": true,
   },
+  "include": [
+    "src/**/*",
+    "src/schemas/**/*.json"
+  ],
   "exclude": [
     "scripts",
-    "schemas",
     "lib",
     "src/__tests__",
     "coverage",

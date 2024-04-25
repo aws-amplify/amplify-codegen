@@ -115,7 +115,7 @@ export class AppSyncModelIntrospectionVisitor<
         connectionAttribute.associatedWith = connectionInfo.associatedWithFields.map(f => this.getFieldName(f));
       } else if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
           connectionAttribute.associatedWith = connectionInfo.associatedWithFields.map(f => this.getFieldName(f));
-          connectionAttribute.targetNames = connectionInfo.targetNames;
+          connectionAttribute.targetNames = connectionInfo.targetNames ?? [];
       } else {
         connectionAttribute.targetNames = connectionInfo.targetNames;
       }

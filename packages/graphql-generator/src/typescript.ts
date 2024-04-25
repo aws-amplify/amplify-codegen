@@ -27,7 +27,7 @@ export type GenerateModelsOptions = {
   generateIndexRules?: boolean;
   emitAuthProvider?: boolean;
   useExperimentalPipelinedTransformer?: boolean;
-  transformerVersion?: boolean;
+  transformerVersion?: number;
   respectPrimaryKeyAttributesOnConnectionField?: boolean;
   improvePluralization?: boolean;
   generateModelsForLazyLoadAndCustomSelectionSet?: boolean;

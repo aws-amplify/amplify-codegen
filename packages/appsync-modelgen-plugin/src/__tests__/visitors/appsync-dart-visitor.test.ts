@@ -796,4 +796,184 @@ describe('AppSync Dart Visitor', () => {
       })
     })
   });
+
+  describe('custom references', () => {
+    test('sets the association to the references field for hasMany/belongsTo', () => {
+      const schema = /* GraphQL */ `
+        type SqlPrimary @refersTo(name: "sql_primary") @model {
+          id: Int! @primaryKey
+          content: String
+          related: [SqlRelated!] @hasMany(references: ["primaryId"])
+        }
+  
+        type SqlRelated @refersTo(name: "sql_related") @model {
+          id: Int! @primaryKey
+          content: String
+          primaryId: Int! @refersTo(name: "primary_id") @index(name: "primary_id")
+          primary: SqlPrimary @belongsTo(references: ["primaryId"])
+        }
+      `;
+  
+      ['SqlPrimary', 'SqlRelated'].forEach(modelName => {
+        const generatedCode = getVisitor({
+          schema,
+          selectedType: modelName,
+          isTimestampFieldsAdded: true,
+          respectPrimaryKeyAttributesOnConnectionField: true,
+          transformerVersion: 2,
+        }).generate();
+        expect(generatedCode).toMatchSnapshot();
+      });
+    });
+  
+    test('sets the association to the references field for hasOne/belongsTo', () => {
+      const schema = /* GraphQL */ `
+        type SqlPrimary @refersTo(name: "sql_primary") @model {
+          id: Int! @primaryKey
+          content: String
+          related: SqlRelated @hasOne(references: ["primaryId"])
+        }
+  
+        type SqlRelated @refersTo(name: "sql_related") @model {
+          id: Int! @primaryKey
+          content: String
+          primaryId: Int! @refersTo(name: "primary_id") @index(name: "primary_id")
+          primary: SqlPrimary @belongsTo(references: ["primaryId"])
+        }
+      `;
+  
+      ['SqlPrimary', 'SqlRelated'].forEach(modelName => {
+        const generatedCode = getVisitor({
+          schema,
+          selectedType: modelName,
+          isTimestampFieldsAdded: true,
+          respectPrimaryKeyAttributesOnConnectionField: true,
+          transformerVersion: 2,
+        }).generate();
+        expect(generatedCode).toMatchSnapshot();
+      });
+    });
+  
+    test('sets the association to the references field for hasOne and hasMany', () => {
+      const schema = /* GraphQL */ `
+        type Primary @model {
+          id: ID! @primaryKey
+          relatedMany: [RelatedMany] @hasMany(references: ["primaryId"])
+          relatedOne: RelatedOne @hasOne(references: ["primaryId"])
+        }
+        
+        type RelatedMany @model {
+          id: ID! @primaryKey
+          primaryId: ID!
+          primary: Primary @belongsTo(references: ["primaryId"])
+        }
+        
+        type RelatedOne @model {
+          id: ID! @primaryKey
+          primaryId: ID!
+          primary: Primary @belongsTo(references: ["primaryId"])
+        }
+      `;
+      ['Primary', 'RelatedOne', 'RelatedMany'].forEach(modelName => {
+        const generatedCode = getVisitor({
+          schema,
+          selectedType: modelName,
+          isTimestampFieldsAdded: true,
+          respectPrimaryKeyAttributesOnConnectionField: true,
+          transformerVersion: 2,
+        }).generate();
+        expect(generatedCode).toMatchSnapshot();
+      });
+    });
+  
+    test('double linked references', () => {
+      const schema = /* GraphQL */ `
+        type Foo @model {
+          id: ID!
+          bar1: Bar @hasOne(references: ["bar1Id"])
+          bar2: Bar @hasOne(references: ["bar2Id"])
+        }
+        
+        type Bar @model {
+          id: ID!
+          bar1Id: ID
+          bar2Id: ID
+          foo1: Foo @belongsTo(references: ["bar1Id"])
+          foo2: Foo @belongsTo(references: ["bar2Id"])
+        }
+      `;
+  
+      ['Foo', 'Bar'].forEach(modelName => {
+        const generatedCode = getVisitor({
+          schema,
+          selectedType: modelName,
+          isTimestampFieldsAdded: true,
+          respectPrimaryKeyAttributesOnConnectionField: true,
+          transformerVersion: 2,
+        }).generate();
+        expect(generatedCode).toMatchSnapshot();
+      });
+    });
+  
+    test('hasMany with sortKeyFields on primary key', () => {
+      const schema = /* GraphQL */ `
+        type Primary @model {
+          tenantId: ID! @primaryKey(sortKeyFields: ["instanceId", "recordId"])
+          instanceId: ID!
+          recordId: ID!
+          content: String
+          related: [Related!] @hasMany(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
+        }
+        
+        type Related @model {
+          content: String
+          primaryTenantId: ID!
+          primaryInstanceId: ID!
+          primaryRecordId: ID!
+          primary: Primary @belongsTo(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
+        }
+      `;
+  
+      ['Primary', 'Related'].forEach(modelName => {
+        const generatedCode = getVisitor({
+          schema,
+          selectedType: modelName,
+          isTimestampFieldsAdded: true,
+          respectPrimaryKeyAttributesOnConnectionField: true,
+          transformerVersion: 2,
+        }).generate();
+        expect(generatedCode).toMatchSnapshot();
+      });
+    });
+
+    test('hasOne with sortKeyFields on primary key', () => {
+      const schema = /* GraphQL */ `
+        type Primary @model {
+          tenantId: ID! @primaryKey(sortKeyFields: ["instanceId", "recordId"])
+          instanceId: ID!
+          recordId: ID!
+          content: String
+          related: Related @hasOne(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
+        }
+        
+        type Related @model {
+          content: String
+          primaryTenantId: ID!
+          primaryInstanceId: ID!
+          primaryRecordId: ID!
+          primary: Primary @belongsTo(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
+        }
+      `;
+      ['Primary', 'Related'].forEach(modelName => {
+        const generatedCode = getVisitor({
+          schema,
+          selectedType: modelName,
+          isTimestampFieldsAdded: true,
+          respectPrimaryKeyAttributesOnConnectionField: true,
+          transformerVersion: 2,
+        }).generate();
+        expect(generatedCode).toMatchSnapshot();
+      });
+    });
+  });
 });

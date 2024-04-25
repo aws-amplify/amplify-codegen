@@ -11707,3 +11707,3837 @@ class CpkOneToOneBidirectionalChildExplicitModelIdentifier implements amplify_co
     name.hashCode;
 }"
 `;
+
+exports[`AppSync Dart Visitor custom references double linked references 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
+
+import 'ModelProvider.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
+
+
+/** This is an auto generated class representing the Foo type in your schema. */
+class Foo extends amplify_core.Model {
+  static const classType = const _FooModelType();
+  final String id;
+  final Bar? _bar1;
+  final Bar? _bar2;
+  final amplify_core.TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _updatedAt;
+  final String? _fooBar1Id;
+  final String? _fooBar2Id;
+
+  @override
+  getInstanceType() => classType;
+  
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
+  @override
+  String getId() => id;
+  
+  FooModelIdentifier get modelIdentifier {
+      return FooModelIdentifier(
+        id: id
+      );
+  }
+  
+  Bar? get bar1 {
+    return _bar1;
+  }
+  
+  Bar? get bar2 {
+    return _bar2;
+  }
+  
+  amplify_core.TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  amplify_core.TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  String? get fooBar1Id {
+    return _fooBar1Id;
+  }
+  
+  String? get fooBar2Id {
+    return _fooBar2Id;
+  }
+  
+  const Foo._internal({required this.id, bar1, bar2, createdAt, updatedAt, fooBar1Id, fooBar2Id}): _bar1 = bar1, _bar2 = bar2, _createdAt = createdAt, _updatedAt = updatedAt, _fooBar1Id = fooBar1Id, _fooBar2Id = fooBar2Id;
+  
+  factory Foo({String? id, Bar? bar1, Bar? bar2, String? fooBar1Id, String? fooBar2Id}) {
+    return Foo._internal(
+      id: id == null ? amplify_core.UUID.getUUID() : id,
+      bar1: bar1,
+      bar2: bar2,
+      fooBar1Id: fooBar1Id,
+      fooBar2Id: fooBar2Id);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Foo &&
+      id == other.id &&
+      _bar1 == other._bar1 &&
+      _bar2 == other._bar2 &&
+      _fooBar1Id == other._fooBar1Id &&
+      _fooBar2Id == other._fooBar2Id;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"Foo {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"fooBar1Id=\\" + \\"$_fooBar1Id\\" + \\", \\");
+    buffer.write(\\"fooBar2Id=\\" + \\"$_fooBar2Id\\");
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  Foo copyWith({Bar? bar1, Bar? bar2, String? fooBar1Id, String? fooBar2Id}) {
+    return Foo._internal(
+      id: id,
+      bar1: bar1 ?? this.bar1,
+      bar2: bar2 ?? this.bar2,
+      fooBar1Id: fooBar1Id ?? this.fooBar1Id,
+      fooBar2Id: fooBar2Id ?? this.fooBar2Id);
+  }
+  
+  Foo copyWithModelFieldValues({
+    ModelFieldValue<Bar?>? bar1,
+    ModelFieldValue<Bar?>? bar2,
+    ModelFieldValue<String?>? fooBar1Id,
+    ModelFieldValue<String?>? fooBar2Id
+  }) {
+    return Foo._internal(
+      id: id,
+      bar1: bar1 == null ? this.bar1 : bar1.value,
+      bar2: bar2 == null ? this.bar2 : bar2.value,
+      fooBar1Id: fooBar1Id == null ? this.fooBar1Id : fooBar1Id.value,
+      fooBar2Id: fooBar2Id == null ? this.fooBar2Id : fooBar2Id.value
+    );
+  }
+  
+  Foo.fromJson(Map<String, dynamic> json)  
+    : id = json['id'],
+      _bar1 = json['bar1'] != null
+        ? json['bar1']['serializedData'] != null
+          ? Bar.fromJson(new Map<String, dynamic>.from(json['bar1']['serializedData']))
+          : Bar.fromJson(new Map<String, dynamic>.from(json['bar1']))
+        : null,
+      _bar2 = json['bar2'] != null
+        ? json['bar2']['serializedData'] != null
+          ? Bar.fromJson(new Map<String, dynamic>.from(json['bar2']['serializedData']))
+          : Bar.fromJson(new Map<String, dynamic>.from(json['bar2']))
+        : null,
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null,
+      _fooBar1Id = json['fooBar1Id'],
+      _fooBar2Id = json['fooBar2Id'];
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'bar1': _bar1?.toJson(), 'bar2': _bar2?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format(), 'fooBar1Id': _fooBar1Id, 'fooBar2Id': _fooBar2Id
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id,
+    'bar1': _bar1,
+    'bar2': _bar2,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt,
+    'fooBar1Id': _fooBar1Id,
+    'fooBar2Id': _fooBar2Id
+  };
+
+  static final amplify_core.QueryModelIdentifier<FooModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<FooModelIdentifier>();
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final BAR1 = amplify_core.QueryField(
+    fieldName: \\"bar1\\",
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Bar'));
+  static final BAR2 = amplify_core.QueryField(
+    fieldName: \\"bar2\\",
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Bar'));
+  static final FOOBAR1ID = amplify_core.QueryField(fieldName: \\"fooBar1Id\\");
+  static final FOOBAR2ID = amplify_core.QueryField(fieldName: \\"fooBar2Id\\");
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"Foo\\";
+    modelSchemaDefinition.pluralName = \\"Foos\\";
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasOne(
+      key: Foo.BAR1,
+      isRequired: false,
+      ofModelName: 'Bar',
+      associatedKey: Bar.FOO1
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasOne(
+      key: Foo.BAR2,
+      isRequired: false,
+      ofModelName: 'Bar',
+      associatedKey: Bar.FOO1
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Foo.FOOBAR1ID,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Foo.FOOBAR2ID,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+  });
+}
+
+class _FooModelType extends amplify_core.ModelType<Foo> {
+  const _FooModelType();
+  
+  @override
+  Foo fromJson(Map<String, dynamic> jsonData) {
+    return Foo.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'Foo';
+  }
+}
+
+/**
+ * This is an auto generated class representing the model identifier
+ * of [Foo] in your schema.
+ */
+class FooModelIdentifier implements amplify_core.ModelIdentifier<Foo> {
+  final String id;
+
+  /** Create an instance of FooModelIdentifier using [id] the primary key. */
+  const FooModelIdentifier({
+    required this.id});
+  
+  @override
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'id': id
+  });
+  
+  @override
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  @override
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'FooModelIdentifier(id: $id)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is FooModelIdentifier &&
+      id == other.id;
+  }
+  
+  @override
+  int get hashCode =>
+    id.hashCode;
+}"
+`;
+
+exports[`AppSync Dart Visitor custom references double linked references 2`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
+
+import 'ModelProvider.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
+
+
+/** This is an auto generated class representing the Bar type in your schema. */
+class Bar extends amplify_core.Model {
+  static const classType = const _BarModelType();
+  final String id;
+  final String? _bar1Id;
+  final String? _bar2Id;
+  final Foo? _foo1;
+  final Foo? _foo2;
+  final amplify_core.TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _updatedAt;
+
+  @override
+  getInstanceType() => classType;
+  
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
+  @override
+  String getId() => id;
+  
+  BarModelIdentifier get modelIdentifier {
+      return BarModelIdentifier(
+        id: id
+      );
+  }
+  
+  String? get bar1Id {
+    return _bar1Id;
+  }
+  
+  String? get bar2Id {
+    return _bar2Id;
+  }
+  
+  Foo? get foo1 {
+    return _foo1;
+  }
+  
+  Foo? get foo2 {
+    return _foo2;
+  }
+  
+  amplify_core.TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  amplify_core.TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  const Bar._internal({required this.id, bar1Id, bar2Id, foo1, foo2, createdAt, updatedAt}): _bar1Id = bar1Id, _bar2Id = bar2Id, _foo1 = foo1, _foo2 = foo2, _createdAt = createdAt, _updatedAt = updatedAt;
+  
+  factory Bar({String? id, String? bar1Id, String? bar2Id, Foo? foo1, Foo? foo2}) {
+    return Bar._internal(
+      id: id == null ? amplify_core.UUID.getUUID() : id,
+      bar1Id: bar1Id,
+      bar2Id: bar2Id,
+      foo1: foo1,
+      foo2: foo2);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Bar &&
+      id == other.id &&
+      _bar1Id == other._bar1Id &&
+      _bar2Id == other._bar2Id &&
+      _foo1 == other._foo1 &&
+      _foo2 == other._foo2;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"Bar {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"bar1Id=\\" + \\"$_bar1Id\\" + \\", \\");
+    buffer.write(\\"bar2Id=\\" + \\"$_bar2Id\\" + \\", \\");
+    buffer.write(\\"foo1=\\" + (_foo1 != null ? _foo1!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"foo2=\\" + (_foo2 != null ? _foo2!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  Bar copyWith({String? bar1Id, String? bar2Id, Foo? foo1, Foo? foo2}) {
+    return Bar._internal(
+      id: id,
+      bar1Id: bar1Id ?? this.bar1Id,
+      bar2Id: bar2Id ?? this.bar2Id,
+      foo1: foo1 ?? this.foo1,
+      foo2: foo2 ?? this.foo2);
+  }
+  
+  Bar copyWithModelFieldValues({
+    ModelFieldValue<String?>? bar1Id,
+    ModelFieldValue<String?>? bar2Id,
+    ModelFieldValue<Foo?>? foo1,
+    ModelFieldValue<Foo?>? foo2
+  }) {
+    return Bar._internal(
+      id: id,
+      bar1Id: bar1Id == null ? this.bar1Id : bar1Id.value,
+      bar2Id: bar2Id == null ? this.bar2Id : bar2Id.value,
+      foo1: foo1 == null ? this.foo1 : foo1.value,
+      foo2: foo2 == null ? this.foo2 : foo2.value
+    );
+  }
+  
+  Bar.fromJson(Map<String, dynamic> json)  
+    : id = json['id'],
+      _bar1Id = json['bar1Id'],
+      _bar2Id = json['bar2Id'],
+      _foo1 = json['foo1'] != null
+        ? json['foo1']['serializedData'] != null
+          ? Foo.fromJson(new Map<String, dynamic>.from(json['foo1']['serializedData']))
+          : Foo.fromJson(new Map<String, dynamic>.from(json['foo1']))
+        : null,
+      _foo2 = json['foo2'] != null
+        ? json['foo2']['serializedData'] != null
+          ? Foo.fromJson(new Map<String, dynamic>.from(json['foo2']['serializedData']))
+          : Foo.fromJson(new Map<String, dynamic>.from(json['foo2']))
+        : null,
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'bar1Id': _bar1Id, 'bar2Id': _bar2Id, 'foo1': _foo1?.toJson(), 'foo2': _foo2?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id,
+    'bar1Id': _bar1Id,
+    'bar2Id': _bar2Id,
+    'foo1': _foo1,
+    'foo2': _foo2,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt
+  };
+
+  static final amplify_core.QueryModelIdentifier<BarModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<BarModelIdentifier>();
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final BAR1ID = amplify_core.QueryField(fieldName: \\"bar1Id\\");
+  static final BAR2ID = amplify_core.QueryField(fieldName: \\"bar2Id\\");
+  static final FOO1 = amplify_core.QueryField(
+    fieldName: \\"foo1\\",
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Foo'));
+  static final FOO2 = amplify_core.QueryField(
+    fieldName: \\"foo2\\",
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Foo'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"Bar\\";
+    modelSchemaDefinition.pluralName = \\"Bars\\";
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Bar.BAR1ID,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Bar.BAR2ID,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
+      key: Bar.FOO1,
+      isRequired: false,
+      targetNames: ['barFoo1Id'],
+      ofModelName: 'Foo'
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
+      key: Bar.FOO2,
+      isRequired: false,
+      targetNames: ['barFoo2Id'],
+      ofModelName: 'Foo'
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+  });
+}
+
+class _BarModelType extends amplify_core.ModelType<Bar> {
+  const _BarModelType();
+  
+  @override
+  Bar fromJson(Map<String, dynamic> jsonData) {
+    return Bar.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'Bar';
+  }
+}
+
+/**
+ * This is an auto generated class representing the model identifier
+ * of [Bar] in your schema.
+ */
+class BarModelIdentifier implements amplify_core.ModelIdentifier<Bar> {
+  final String id;
+
+  /** Create an instance of BarModelIdentifier using [id] the primary key. */
+  const BarModelIdentifier({
+    required this.id});
+  
+  @override
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'id': id
+  });
+  
+  @override
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  @override
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'BarModelIdentifier(id: $id)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is BarModelIdentifier &&
+      id == other.id;
+  }
+  
+  @override
+  int get hashCode =>
+    id.hashCode;
+}"
+`;
+
+exports[`AppSync Dart Visitor custom references hasMany with sortKeyFields on primary key 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
+
+import 'ModelProvider.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
+import 'package:collection/collection.dart';
+
+
+/** This is an auto generated class representing the Primary type in your schema. */
+class Primary extends amplify_core.Model {
+  static const classType = const _PrimaryModelType();
+  final String? _tenantId;
+  final String? _instanceId;
+  final String? _recordId;
+  final String? _content;
+  final List<Related>? _related;
+  final amplify_core.TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _updatedAt;
+
+  @override
+  getInstanceType() => classType;
+  
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
+  @override
+  String getId() => modelIdentifier.serializeAsString();
+  
+  PrimaryModelIdentifier get modelIdentifier {
+    try {
+      return PrimaryModelIdentifier(
+        tenantId: _tenantId!,
+        instanceId: _instanceId!,
+        recordId: _recordId!
+      );
+    } catch(e) {
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get tenantId {
+    try {
+      return _tenantId!;
+    } catch(e) {
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get instanceId {
+    try {
+      return _instanceId!;
+    } catch(e) {
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get recordId {
+    try {
+      return _recordId!;
+    } catch(e) {
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String? get content {
+    return _content;
+  }
+  
+  List<Related>? get related {
+    return _related;
+  }
+  
+  amplify_core.TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  amplify_core.TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  const Primary._internal({required tenantId, required instanceId, required recordId, content, related, createdAt, updatedAt}): _tenantId = tenantId, _instanceId = instanceId, _recordId = recordId, _content = content, _related = related, _createdAt = createdAt, _updatedAt = updatedAt;
+  
+  factory Primary({required String tenantId, required String instanceId, required String recordId, String? content, List<Related>? related}) {
+    return Primary._internal(
+      tenantId: tenantId,
+      instanceId: instanceId,
+      recordId: recordId,
+      content: content,
+      related: related != null ? List<Related>.unmodifiable(related) : related);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Primary &&
+      _tenantId == other._tenantId &&
+      _instanceId == other._instanceId &&
+      _recordId == other._recordId &&
+      _content == other._content &&
+      DeepCollectionEquality().equals(_related, other._related);
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"Primary {\\");
+    buffer.write(\\"tenantId=\\" + \\"$_tenantId\\" + \\", \\");
+    buffer.write(\\"instanceId=\\" + \\"$_instanceId\\" + \\", \\");
+    buffer.write(\\"recordId=\\" + \\"$_recordId\\" + \\", \\");
+    buffer.write(\\"content=\\" + \\"$_content\\" + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  Primary copyWith({String? content, List<Related>? related}) {
+    return Primary._internal(
+      tenantId: tenantId,
+      instanceId: instanceId,
+      recordId: recordId,
+      content: content ?? this.content,
+      related: related ?? this.related);
+  }
+  
+  Primary copyWithModelFieldValues({
+    ModelFieldValue<String?>? content,
+    ModelFieldValue<List<Related>>? related
+  }) {
+    return Primary._internal(
+      tenantId: tenantId,
+      instanceId: instanceId,
+      recordId: recordId,
+      content: content == null ? this.content : content.value,
+      related: related == null ? this.related : related.value
+    );
+  }
+  
+  Primary.fromJson(Map<String, dynamic> json)  
+    : _tenantId = json['tenantId'],
+      _instanceId = json['instanceId'],
+      _recordId = json['recordId'],
+      _content = json['content'],
+      _related = json['related']  is Map
+        ? (json['related']['items'] is List
+          ? (json['related']['items'] as List)
+              .where((e) => e != null)
+              .map((e) => Related.fromJson(new Map<String, dynamic>.from(e)))
+              .toList()
+          : null)
+        : (json['related'] is List
+          ? (json['related'] as List)
+              .where((e) => e?['serializedData'] != null)
+              .map((e) => Related.fromJson(new Map<String, dynamic>.from(e?['serializedData'])))
+              .toList()
+          : null),
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
+  
+  Map<String, dynamic> toJson() => {
+    'tenantId': _tenantId, 'instanceId': _instanceId, 'recordId': _recordId, 'content': _content, 'related': _related?.map((Related? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'tenantId': _tenantId,
+    'instanceId': _instanceId,
+    'recordId': _recordId,
+    'content': _content,
+    'related': _related,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt
+  };
+
+  static final amplify_core.QueryModelIdentifier<PrimaryModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<PrimaryModelIdentifier>();
+  static final TENANTID = amplify_core.QueryField(fieldName: \\"tenantId\\");
+  static final INSTANCEID = amplify_core.QueryField(fieldName: \\"instanceId\\");
+  static final RECORDID = amplify_core.QueryField(fieldName: \\"recordId\\");
+  static final CONTENT = amplify_core.QueryField(fieldName: \\"content\\");
+  static final RELATED = amplify_core.QueryField(
+    fieldName: \\"related\\",
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Related'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"Primary\\";
+    modelSchemaDefinition.pluralName = \\"Primaries\\";
+    
+    modelSchemaDefinition.indexes = [
+      amplify_core.ModelIndex(fields: const [\\"tenantId\\", \\"instanceId\\", \\"recordId\\"], name: null)
+    ];
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Primary.TENANTID,
+      isRequired: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Primary.INSTANCEID,
+      isRequired: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Primary.RECORDID,
+      isRequired: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Primary.CONTENT,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
+      key: Primary.RELATED,
+      isRequired: true,
+      ofModelName: 'Related',
+      associatedKey: Related.PRIMARY
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+  });
+}
+
+class _PrimaryModelType extends amplify_core.ModelType<Primary> {
+  const _PrimaryModelType();
+  
+  @override
+  Primary fromJson(Map<String, dynamic> jsonData) {
+    return Primary.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'Primary';
+  }
+}
+
+/**
+ * This is an auto generated class representing the model identifier
+ * of [Primary] in your schema.
+ */
+class PrimaryModelIdentifier implements amplify_core.ModelIdentifier<Primary> {
+  final String tenantId;
+  final String instanceId;
+  final String recordId;
+
+  /**
+   * Create an instance of PrimaryModelIdentifier using [tenantId] the primary key.
+   * And [instanceId], [recordId] the sort keys.
+   */
+  const PrimaryModelIdentifier({
+    required this.tenantId,
+    required this.instanceId,
+    required this.recordId});
+  
+  @override
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'tenantId': tenantId,
+    'instanceId': instanceId,
+    'recordId': recordId
+  });
+  
+  @override
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  @override
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'PrimaryModelIdentifier(tenantId: $tenantId, instanceId: $instanceId, recordId: $recordId)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is PrimaryModelIdentifier &&
+      tenantId == other.tenantId &&
+      instanceId == other.instanceId &&
+      recordId == other.recordId;
+  }
+  
+  @override
+  int get hashCode =>
+    tenantId.hashCode ^
+    instanceId.hashCode ^
+    recordId.hashCode;
+}"
+`;
+
+exports[`AppSync Dart Visitor custom references hasMany with sortKeyFields on primary key 2`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
+
+import 'ModelProvider.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
+
+
+/** This is an auto generated class representing the Related type in your schema. */
+class Related extends amplify_core.Model {
+  static const classType = const _RelatedModelType();
+  final String id;
+  final String? _content;
+  final String? _primaryTenantId;
+  final String? _primaryInstanceId;
+  final String? _primaryRecordId;
+  final Primary? _primary;
+  final amplify_core.TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _updatedAt;
+
+  @override
+  getInstanceType() => classType;
+  
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
+  @override
+  String getId() => id;
+  
+  RelatedModelIdentifier get modelIdentifier {
+      return RelatedModelIdentifier(
+        id: id
+      );
+  }
+  
+  String? get content {
+    return _content;
+  }
+  
+  String get primaryTenantId {
+    try {
+      return _primaryTenantId!;
+    } catch(e) {
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get primaryInstanceId {
+    try {
+      return _primaryInstanceId!;
+    } catch(e) {
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get primaryRecordId {
+    try {
+      return _primaryRecordId!;
+    } catch(e) {
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  Primary? get primary {
+    return _primary;
+  }
+  
+  amplify_core.TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  amplify_core.TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  const Related._internal({required this.id, content, required primaryTenantId, required primaryInstanceId, required primaryRecordId, primary, createdAt, updatedAt}): _content = content, _primaryTenantId = primaryTenantId, _primaryInstanceId = primaryInstanceId, _primaryRecordId = primaryRecordId, _primary = primary, _createdAt = createdAt, _updatedAt = updatedAt;
+  
+  factory Related({String? id, String? content, required String primaryTenantId, required String primaryInstanceId, required String primaryRecordId, Primary? primary}) {
+    return Related._internal(
+      id: id == null ? amplify_core.UUID.getUUID() : id,
+      content: content,
+      primaryTenantId: primaryTenantId,
+      primaryInstanceId: primaryInstanceId,
+      primaryRecordId: primaryRecordId,
+      primary: primary);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Related &&
+      id == other.id &&
+      _content == other._content &&
+      _primaryTenantId == other._primaryTenantId &&
+      _primaryInstanceId == other._primaryInstanceId &&
+      _primaryRecordId == other._primaryRecordId &&
+      _primary == other._primary;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"Related {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"content=\\" + \\"$_content\\" + \\", \\");
+    buffer.write(\\"primaryTenantId=\\" + \\"$_primaryTenantId\\" + \\", \\");
+    buffer.write(\\"primaryInstanceId=\\" + \\"$_primaryInstanceId\\" + \\", \\");
+    buffer.write(\\"primaryRecordId=\\" + \\"$_primaryRecordId\\" + \\", \\");
+    buffer.write(\\"primary=\\" + (_primary != null ? _primary!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  Related copyWith({String? content, String? primaryTenantId, String? primaryInstanceId, String? primaryRecordId, Primary? primary}) {
+    return Related._internal(
+      id: id,
+      content: content ?? this.content,
+      primaryTenantId: primaryTenantId ?? this.primaryTenantId,
+      primaryInstanceId: primaryInstanceId ?? this.primaryInstanceId,
+      primaryRecordId: primaryRecordId ?? this.primaryRecordId,
+      primary: primary ?? this.primary);
+  }
+  
+  Related copyWithModelFieldValues({
+    ModelFieldValue<String?>? content,
+    ModelFieldValue<String>? primaryTenantId,
+    ModelFieldValue<String>? primaryInstanceId,
+    ModelFieldValue<String>? primaryRecordId,
+    ModelFieldValue<Primary?>? primary
+  }) {
+    return Related._internal(
+      id: id,
+      content: content == null ? this.content : content.value,
+      primaryTenantId: primaryTenantId == null ? this.primaryTenantId : primaryTenantId.value,
+      primaryInstanceId: primaryInstanceId == null ? this.primaryInstanceId : primaryInstanceId.value,
+      primaryRecordId: primaryRecordId == null ? this.primaryRecordId : primaryRecordId.value,
+      primary: primary == null ? this.primary : primary.value
+    );
+  }
+  
+  Related.fromJson(Map<String, dynamic> json)  
+    : id = json['id'],
+      _content = json['content'],
+      _primaryTenantId = json['primaryTenantId'],
+      _primaryInstanceId = json['primaryInstanceId'],
+      _primaryRecordId = json['primaryRecordId'],
+      _primary = json['primary'] != null
+        ? json['primary']['serializedData'] != null
+          ? Primary.fromJson(new Map<String, dynamic>.from(json['primary']['serializedData']))
+          : Primary.fromJson(new Map<String, dynamic>.from(json['primary']))
+        : null,
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'content': _content, 'primaryTenantId': _primaryTenantId, 'primaryInstanceId': _primaryInstanceId, 'primaryRecordId': _primaryRecordId, 'primary': _primary?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id,
+    'content': _content,
+    'primaryTenantId': _primaryTenantId,
+    'primaryInstanceId': _primaryInstanceId,
+    'primaryRecordId': _primaryRecordId,
+    'primary': _primary,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt
+  };
+
+  static final amplify_core.QueryModelIdentifier<RelatedModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<RelatedModelIdentifier>();
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final CONTENT = amplify_core.QueryField(fieldName: \\"content\\");
+  static final PRIMARYTENANTID = amplify_core.QueryField(fieldName: \\"primaryTenantId\\");
+  static final PRIMARYINSTANCEID = amplify_core.QueryField(fieldName: \\"primaryInstanceId\\");
+  static final PRIMARYRECORDID = amplify_core.QueryField(fieldName: \\"primaryRecordId\\");
+  static final PRIMARY = amplify_core.QueryField(
+    fieldName: \\"primary\\",
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Primary'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"Related\\";
+    modelSchemaDefinition.pluralName = \\"Relateds\\";
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Related.CONTENT,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Related.PRIMARYTENANTID,
+      isRequired: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Related.PRIMARYINSTANCEID,
+      isRequired: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Related.PRIMARYRECORDID,
+      isRequired: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
+      key: Related.PRIMARY,
+      isRequired: false,
+      targetNames: ['primaryRelatedTenantId', 'primaryRelatedInstanceId', 'primaryRelatedRecordId'],
+      ofModelName: 'Primary'
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+  });
+}
+
+class _RelatedModelType extends amplify_core.ModelType<Related> {
+  const _RelatedModelType();
+  
+  @override
+  Related fromJson(Map<String, dynamic> jsonData) {
+    return Related.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'Related';
+  }
+}
+
+/**
+ * This is an auto generated class representing the model identifier
+ * of [Related] in your schema.
+ */
+class RelatedModelIdentifier implements amplify_core.ModelIdentifier<Related> {
+  final String id;
+
+  /** Create an instance of RelatedModelIdentifier using [id] the primary key. */
+  const RelatedModelIdentifier({
+    required this.id});
+  
+  @override
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'id': id
+  });
+  
+  @override
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  @override
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'RelatedModelIdentifier(id: $id)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is RelatedModelIdentifier &&
+      id == other.id;
+  }
+  
+  @override
+  int get hashCode =>
+    id.hashCode;
+}"
+`;
+
+exports[`AppSync Dart Visitor custom references hasOne with sortKeyFields on primary key 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
+
+import 'ModelProvider.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
+
+
+/** This is an auto generated class representing the Primary type in your schema. */
+class Primary extends amplify_core.Model {
+  static const classType = const _PrimaryModelType();
+  final String? _tenantId;
+  final String? _instanceId;
+  final String? _recordId;
+  final String? _content;
+  final Related? _related;
+  final amplify_core.TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _updatedAt;
+  final String? _primaryRelatedId;
+
+  @override
+  getInstanceType() => classType;
+  
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
+  @override
+  String getId() => modelIdentifier.serializeAsString();
+  
+  PrimaryModelIdentifier get modelIdentifier {
+    try {
+      return PrimaryModelIdentifier(
+        tenantId: _tenantId!,
+        instanceId: _instanceId!,
+        recordId: _recordId!
+      );
+    } catch(e) {
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get tenantId {
+    try {
+      return _tenantId!;
+    } catch(e) {
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get instanceId {
+    try {
+      return _instanceId!;
+    } catch(e) {
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get recordId {
+    try {
+      return _recordId!;
+    } catch(e) {
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String? get content {
+    return _content;
+  }
+  
+  Related? get related {
+    return _related;
+  }
+  
+  amplify_core.TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  amplify_core.TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  String? get primaryRelatedId {
+    return _primaryRelatedId;
+  }
+  
+  const Primary._internal({required tenantId, required instanceId, required recordId, content, related, createdAt, updatedAt, primaryRelatedId}): _tenantId = tenantId, _instanceId = instanceId, _recordId = recordId, _content = content, _related = related, _createdAt = createdAt, _updatedAt = updatedAt, _primaryRelatedId = primaryRelatedId;
+  
+  factory Primary({required String tenantId, required String instanceId, required String recordId, String? content, Related? related, String? primaryRelatedId}) {
+    return Primary._internal(
+      tenantId: tenantId,
+      instanceId: instanceId,
+      recordId: recordId,
+      content: content,
+      related: related,
+      primaryRelatedId: primaryRelatedId);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Primary &&
+      _tenantId == other._tenantId &&
+      _instanceId == other._instanceId &&
+      _recordId == other._recordId &&
+      _content == other._content &&
+      _related == other._related &&
+      _primaryRelatedId == other._primaryRelatedId;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"Primary {\\");
+    buffer.write(\\"tenantId=\\" + \\"$_tenantId\\" + \\", \\");
+    buffer.write(\\"instanceId=\\" + \\"$_instanceId\\" + \\", \\");
+    buffer.write(\\"recordId=\\" + \\"$_recordId\\" + \\", \\");
+    buffer.write(\\"content=\\" + \\"$_content\\" + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"primaryRelatedId=\\" + \\"$_primaryRelatedId\\");
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  Primary copyWith({String? content, Related? related, String? primaryRelatedId}) {
+    return Primary._internal(
+      tenantId: tenantId,
+      instanceId: instanceId,
+      recordId: recordId,
+      content: content ?? this.content,
+      related: related ?? this.related,
+      primaryRelatedId: primaryRelatedId ?? this.primaryRelatedId);
+  }
+  
+  Primary copyWithModelFieldValues({
+    ModelFieldValue<String?>? content,
+    ModelFieldValue<Related?>? related,
+    ModelFieldValue<String?>? primaryRelatedId
+  }) {
+    return Primary._internal(
+      tenantId: tenantId,
+      instanceId: instanceId,
+      recordId: recordId,
+      content: content == null ? this.content : content.value,
+      related: related == null ? this.related : related.value,
+      primaryRelatedId: primaryRelatedId == null ? this.primaryRelatedId : primaryRelatedId.value
+    );
+  }
+  
+  Primary.fromJson(Map<String, dynamic> json)  
+    : _tenantId = json['tenantId'],
+      _instanceId = json['instanceId'],
+      _recordId = json['recordId'],
+      _content = json['content'],
+      _related = json['related'] != null
+        ? json['related']['serializedData'] != null
+          ? Related.fromJson(new Map<String, dynamic>.from(json['related']['serializedData']))
+          : Related.fromJson(new Map<String, dynamic>.from(json['related']))
+        : null,
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null,
+      _primaryRelatedId = json['primaryRelatedId'];
+  
+  Map<String, dynamic> toJson() => {
+    'tenantId': _tenantId, 'instanceId': _instanceId, 'recordId': _recordId, 'content': _content, 'related': _related?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format(), 'primaryRelatedId': _primaryRelatedId
+  };
+  
+  Map<String, Object?> toMap() => {
+    'tenantId': _tenantId,
+    'instanceId': _instanceId,
+    'recordId': _recordId,
+    'content': _content,
+    'related': _related,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt,
+    'primaryRelatedId': _primaryRelatedId
+  };
+
+  static final amplify_core.QueryModelIdentifier<PrimaryModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<PrimaryModelIdentifier>();
+  static final TENANTID = amplify_core.QueryField(fieldName: \\"tenantId\\");
+  static final INSTANCEID = amplify_core.QueryField(fieldName: \\"instanceId\\");
+  static final RECORDID = amplify_core.QueryField(fieldName: \\"recordId\\");
+  static final CONTENT = amplify_core.QueryField(fieldName: \\"content\\");
+  static final RELATED = amplify_core.QueryField(
+    fieldName: \\"related\\",
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Related'));
+  static final PRIMARYRELATEDID = amplify_core.QueryField(fieldName: \\"primaryRelatedId\\");
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"Primary\\";
+    modelSchemaDefinition.pluralName = \\"Primaries\\";
+    
+    modelSchemaDefinition.indexes = [
+      amplify_core.ModelIndex(fields: const [\\"tenantId\\", \\"instanceId\\", \\"recordId\\"], name: null)
+    ];
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Primary.TENANTID,
+      isRequired: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Primary.INSTANCEID,
+      isRequired: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Primary.RECORDID,
+      isRequired: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Primary.CONTENT,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasOne(
+      key: Primary.RELATED,
+      isRequired: false,
+      ofModelName: 'Related',
+      associatedKey: Related.PRIMARY
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Primary.PRIMARYRELATEDID,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+  });
+}
+
+class _PrimaryModelType extends amplify_core.ModelType<Primary> {
+  const _PrimaryModelType();
+  
+  @override
+  Primary fromJson(Map<String, dynamic> jsonData) {
+    return Primary.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'Primary';
+  }
+}
+
+/**
+ * This is an auto generated class representing the model identifier
+ * of [Primary] in your schema.
+ */
+class PrimaryModelIdentifier implements amplify_core.ModelIdentifier<Primary> {
+  final String tenantId;
+  final String instanceId;
+  final String recordId;
+
+  /**
+   * Create an instance of PrimaryModelIdentifier using [tenantId] the primary key.
+   * And [instanceId], [recordId] the sort keys.
+   */
+  const PrimaryModelIdentifier({
+    required this.tenantId,
+    required this.instanceId,
+    required this.recordId});
+  
+  @override
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'tenantId': tenantId,
+    'instanceId': instanceId,
+    'recordId': recordId
+  });
+  
+  @override
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  @override
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'PrimaryModelIdentifier(tenantId: $tenantId, instanceId: $instanceId, recordId: $recordId)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is PrimaryModelIdentifier &&
+      tenantId == other.tenantId &&
+      instanceId == other.instanceId &&
+      recordId == other.recordId;
+  }
+  
+  @override
+  int get hashCode =>
+    tenantId.hashCode ^
+    instanceId.hashCode ^
+    recordId.hashCode;
+}"
+`;
+
+exports[`AppSync Dart Visitor custom references hasOne with sortKeyFields on primary key 2`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
+
+import 'ModelProvider.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
+
+
+/** This is an auto generated class representing the Related type in your schema. */
+class Related extends amplify_core.Model {
+  static const classType = const _RelatedModelType();
+  final String id;
+  final String? _content;
+  final String? _primaryTenantId;
+  final String? _primaryInstanceId;
+  final String? _primaryRecordId;
+  final Primary? _primary;
+  final amplify_core.TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _updatedAt;
+
+  @override
+  getInstanceType() => classType;
+  
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
+  @override
+  String getId() => id;
+  
+  RelatedModelIdentifier get modelIdentifier {
+      return RelatedModelIdentifier(
+        id: id
+      );
+  }
+  
+  String? get content {
+    return _content;
+  }
+  
+  String get primaryTenantId {
+    try {
+      return _primaryTenantId!;
+    } catch(e) {
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get primaryInstanceId {
+    try {
+      return _primaryInstanceId!;
+    } catch(e) {
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get primaryRecordId {
+    try {
+      return _primaryRecordId!;
+    } catch(e) {
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  Primary? get primary {
+    return _primary;
+  }
+  
+  amplify_core.TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  amplify_core.TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  const Related._internal({required this.id, content, required primaryTenantId, required primaryInstanceId, required primaryRecordId, primary, createdAt, updatedAt}): _content = content, _primaryTenantId = primaryTenantId, _primaryInstanceId = primaryInstanceId, _primaryRecordId = primaryRecordId, _primary = primary, _createdAt = createdAt, _updatedAt = updatedAt;
+  
+  factory Related({String? id, String? content, required String primaryTenantId, required String primaryInstanceId, required String primaryRecordId, Primary? primary}) {
+    return Related._internal(
+      id: id == null ? amplify_core.UUID.getUUID() : id,
+      content: content,
+      primaryTenantId: primaryTenantId,
+      primaryInstanceId: primaryInstanceId,
+      primaryRecordId: primaryRecordId,
+      primary: primary);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Related &&
+      id == other.id &&
+      _content == other._content &&
+      _primaryTenantId == other._primaryTenantId &&
+      _primaryInstanceId == other._primaryInstanceId &&
+      _primaryRecordId == other._primaryRecordId &&
+      _primary == other._primary;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"Related {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"content=\\" + \\"$_content\\" + \\", \\");
+    buffer.write(\\"primaryTenantId=\\" + \\"$_primaryTenantId\\" + \\", \\");
+    buffer.write(\\"primaryInstanceId=\\" + \\"$_primaryInstanceId\\" + \\", \\");
+    buffer.write(\\"primaryRecordId=\\" + \\"$_primaryRecordId\\" + \\", \\");
+    buffer.write(\\"primary=\\" + (_primary != null ? _primary!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  Related copyWith({String? content, String? primaryTenantId, String? primaryInstanceId, String? primaryRecordId, Primary? primary}) {
+    return Related._internal(
+      id: id,
+      content: content ?? this.content,
+      primaryTenantId: primaryTenantId ?? this.primaryTenantId,
+      primaryInstanceId: primaryInstanceId ?? this.primaryInstanceId,
+      primaryRecordId: primaryRecordId ?? this.primaryRecordId,
+      primary: primary ?? this.primary);
+  }
+  
+  Related copyWithModelFieldValues({
+    ModelFieldValue<String?>? content,
+    ModelFieldValue<String>? primaryTenantId,
+    ModelFieldValue<String>? primaryInstanceId,
+    ModelFieldValue<String>? primaryRecordId,
+    ModelFieldValue<Primary?>? primary
+  }) {
+    return Related._internal(
+      id: id,
+      content: content == null ? this.content : content.value,
+      primaryTenantId: primaryTenantId == null ? this.primaryTenantId : primaryTenantId.value,
+      primaryInstanceId: primaryInstanceId == null ? this.primaryInstanceId : primaryInstanceId.value,
+      primaryRecordId: primaryRecordId == null ? this.primaryRecordId : primaryRecordId.value,
+      primary: primary == null ? this.primary : primary.value
+    );
+  }
+  
+  Related.fromJson(Map<String, dynamic> json)  
+    : id = json['id'],
+      _content = json['content'],
+      _primaryTenantId = json['primaryTenantId'],
+      _primaryInstanceId = json['primaryInstanceId'],
+      _primaryRecordId = json['primaryRecordId'],
+      _primary = json['primary'] != null
+        ? json['primary']['serializedData'] != null
+          ? Primary.fromJson(new Map<String, dynamic>.from(json['primary']['serializedData']))
+          : Primary.fromJson(new Map<String, dynamic>.from(json['primary']))
+        : null,
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'content': _content, 'primaryTenantId': _primaryTenantId, 'primaryInstanceId': _primaryInstanceId, 'primaryRecordId': _primaryRecordId, 'primary': _primary?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id,
+    'content': _content,
+    'primaryTenantId': _primaryTenantId,
+    'primaryInstanceId': _primaryInstanceId,
+    'primaryRecordId': _primaryRecordId,
+    'primary': _primary,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt
+  };
+
+  static final amplify_core.QueryModelIdentifier<RelatedModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<RelatedModelIdentifier>();
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final CONTENT = amplify_core.QueryField(fieldName: \\"content\\");
+  static final PRIMARYTENANTID = amplify_core.QueryField(fieldName: \\"primaryTenantId\\");
+  static final PRIMARYINSTANCEID = amplify_core.QueryField(fieldName: \\"primaryInstanceId\\");
+  static final PRIMARYRECORDID = amplify_core.QueryField(fieldName: \\"primaryRecordId\\");
+  static final PRIMARY = amplify_core.QueryField(
+    fieldName: \\"primary\\",
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Primary'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"Related\\";
+    modelSchemaDefinition.pluralName = \\"Relateds\\";
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Related.CONTENT,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Related.PRIMARYTENANTID,
+      isRequired: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Related.PRIMARYINSTANCEID,
+      isRequired: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Related.PRIMARYRECORDID,
+      isRequired: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
+      key: Related.PRIMARY,
+      isRequired: false,
+      targetNames: ['relatedPrimaryTenantId', 'relatedPrimaryInstanceId', 'relatedPrimaryRecordId'],
+      ofModelName: 'Primary'
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+  });
+}
+
+class _RelatedModelType extends amplify_core.ModelType<Related> {
+  const _RelatedModelType();
+  
+  @override
+  Related fromJson(Map<String, dynamic> jsonData) {
+    return Related.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'Related';
+  }
+}
+
+/**
+ * This is an auto generated class representing the model identifier
+ * of [Related] in your schema.
+ */
+class RelatedModelIdentifier implements amplify_core.ModelIdentifier<Related> {
+  final String id;
+
+  /** Create an instance of RelatedModelIdentifier using [id] the primary key. */
+  const RelatedModelIdentifier({
+    required this.id});
+  
+  @override
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'id': id
+  });
+  
+  @override
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  @override
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'RelatedModelIdentifier(id: $id)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is RelatedModelIdentifier &&
+      id == other.id;
+  }
+  
+  @override
+  int get hashCode =>
+    id.hashCode;
+}"
+`;
+
+exports[`AppSync Dart Visitor custom references sets the association to the references field for hasMany/belongsTo 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
+
+import 'ModelProvider.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
+import 'package:collection/collection.dart';
+
+
+/** This is an auto generated class representing the SqlPrimary type in your schema. */
+class SqlPrimary extends amplify_core.Model {
+  static const classType = const _SqlPrimaryModelType();
+  final int id;
+  final String? _content;
+  final List<SqlRelated>? _related;
+  final amplify_core.TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _updatedAt;
+
+  @override
+  getInstanceType() => classType;
+  
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
+  @override
+  String getId() => id;
+  
+  SqlPrimaryModelIdentifier get modelIdentifier {
+      return SqlPrimaryModelIdentifier(
+        id: id
+      );
+  }
+  
+  String? get content {
+    return _content;
+  }
+  
+  List<SqlRelated>? get related {
+    return _related;
+  }
+  
+  amplify_core.TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  amplify_core.TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  const SqlPrimary._internal({required this.id, content, related, createdAt, updatedAt}): _content = content, _related = related, _createdAt = createdAt, _updatedAt = updatedAt;
+  
+  factory SqlPrimary({int? id, String? content, List<SqlRelated>? related}) {
+    return SqlPrimary._internal(
+      id: id == null ? amplify_core.UUID.getUUID() : id,
+      content: content,
+      related: related != null ? List<SqlRelated>.unmodifiable(related) : related);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is SqlPrimary &&
+      id == other.id &&
+      _content == other._content &&
+      DeepCollectionEquality().equals(_related, other._related);
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"SqlPrimary {\\");
+    buffer.write(\\"id=\\" + (id != null ? id!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"content=\\" + \\"$_content\\" + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  SqlPrimary copyWith({String? content, List<SqlRelated>? related}) {
+    return SqlPrimary._internal(
+      id: id,
+      content: content ?? this.content,
+      related: related ?? this.related);
+  }
+  
+  SqlPrimary copyWithModelFieldValues({
+    ModelFieldValue<String?>? content,
+    ModelFieldValue<List<SqlRelated>>? related
+  }) {
+    return SqlPrimary._internal(
+      id: id,
+      content: content == null ? this.content : content.value,
+      related: related == null ? this.related : related.value
+    );
+  }
+  
+  SqlPrimary.fromJson(Map<String, dynamic> json)  
+    : id = (json['id'] as num?)?.toInt(),
+      _content = json['content'],
+      _related = json['related']  is Map
+        ? (json['related']['items'] is List
+          ? (json['related']['items'] as List)
+              .where((e) => e != null)
+              .map((e) => SqlRelated.fromJson(new Map<String, dynamic>.from(e)))
+              .toList()
+          : null)
+        : (json['related'] is List
+          ? (json['related'] as List)
+              .where((e) => e?['serializedData'] != null)
+              .map((e) => SqlRelated.fromJson(new Map<String, dynamic>.from(e?['serializedData'])))
+              .toList()
+          : null),
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'content': _content, 'related': _related?.map((SqlRelated? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id,
+    'content': _content,
+    'related': _related,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt
+  };
+
+  static final amplify_core.QueryModelIdentifier<SqlPrimaryModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<SqlPrimaryModelIdentifier>();
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final CONTENT = amplify_core.QueryField(fieldName: \\"content\\");
+  static final RELATED = amplify_core.QueryField(
+    fieldName: \\"related\\",
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'SqlRelated'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"SqlPrimary\\";
+    modelSchemaDefinition.pluralName = \\"SqlPrimaries\\";
+    
+    modelSchemaDefinition.indexes = [
+      amplify_core.ModelIndex(fields: const [\\"id\\"], name: null)
+    ];
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: SqlPrimary.CONTENT,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
+      key: SqlPrimary.RELATED,
+      isRequired: true,
+      ofModelName: 'SqlRelated',
+      associatedKey: SqlRelated.PRIMARY
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+  });
+}
+
+class _SqlPrimaryModelType extends amplify_core.ModelType<SqlPrimary> {
+  const _SqlPrimaryModelType();
+  
+  @override
+  SqlPrimary fromJson(Map<String, dynamic> jsonData) {
+    return SqlPrimary.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'SqlPrimary';
+  }
+}
+
+/**
+ * This is an auto generated class representing the model identifier
+ * of [SqlPrimary] in your schema.
+ */
+class SqlPrimaryModelIdentifier implements amplify_core.ModelIdentifier<SqlPrimary> {
+  final int id;
+
+  /** Create an instance of SqlPrimaryModelIdentifier using [id] the primary key. */
+  const SqlPrimaryModelIdentifier({
+    required this.id});
+  
+  @override
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'id': id
+  });
+  
+  @override
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  @override
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'SqlPrimaryModelIdentifier(id: $id)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is SqlPrimaryModelIdentifier &&
+      id == other.id;
+  }
+  
+  @override
+  int get hashCode =>
+    id.hashCode;
+}"
+`;
+
+exports[`AppSync Dart Visitor custom references sets the association to the references field for hasMany/belongsTo 2`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
+
+import 'ModelProvider.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
+
+
+/** This is an auto generated class representing the SqlRelated type in your schema. */
+class SqlRelated extends amplify_core.Model {
+  static const classType = const _SqlRelatedModelType();
+  final int id;
+  final String? _content;
+  final int? _primaryId;
+  final SqlPrimary? _primary;
+  final amplify_core.TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _updatedAt;
+
+  @override
+  getInstanceType() => classType;
+  
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
+  @override
+  String getId() => id;
+  
+  SqlRelatedModelIdentifier get modelIdentifier {
+      return SqlRelatedModelIdentifier(
+        id: id
+      );
+  }
+  
+  String? get content {
+    return _content;
+  }
+  
+  int get primaryId {
+    try {
+      return _primaryId!;
+    } catch(e) {
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  SqlPrimary? get primary {
+    return _primary;
+  }
+  
+  amplify_core.TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  amplify_core.TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  const SqlRelated._internal({required this.id, content, required primaryId, primary, createdAt, updatedAt}): _content = content, _primaryId = primaryId, _primary = primary, _createdAt = createdAt, _updatedAt = updatedAt;
+  
+  factory SqlRelated({int? id, String? content, required int primaryId, SqlPrimary? primary}) {
+    return SqlRelated._internal(
+      id: id == null ? amplify_core.UUID.getUUID() : id,
+      content: content,
+      primaryId: primaryId,
+      primary: primary);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is SqlRelated &&
+      id == other.id &&
+      _content == other._content &&
+      _primaryId == other._primaryId &&
+      _primary == other._primary;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"SqlRelated {\\");
+    buffer.write(\\"id=\\" + (id != null ? id!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"content=\\" + \\"$_content\\" + \\", \\");
+    buffer.write(\\"primaryId=\\" + (_primaryId != null ? _primaryId!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"primary=\\" + (_primary != null ? _primary!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  SqlRelated copyWith({String? content, int? primaryId, SqlPrimary? primary}) {
+    return SqlRelated._internal(
+      id: id,
+      content: content ?? this.content,
+      primaryId: primaryId ?? this.primaryId,
+      primary: primary ?? this.primary);
+  }
+  
+  SqlRelated copyWithModelFieldValues({
+    ModelFieldValue<String?>? content,
+    ModelFieldValue<int>? primaryId,
+    ModelFieldValue<SqlPrimary?>? primary
+  }) {
+    return SqlRelated._internal(
+      id: id,
+      content: content == null ? this.content : content.value,
+      primaryId: primaryId == null ? this.primaryId : primaryId.value,
+      primary: primary == null ? this.primary : primary.value
+    );
+  }
+  
+  SqlRelated.fromJson(Map<String, dynamic> json)  
+    : id = (json['id'] as num?)?.toInt(),
+      _content = json['content'],
+      _primaryId = (json['primaryId'] as num?)?.toInt(),
+      _primary = json['primary'] != null
+        ? json['primary']['serializedData'] != null
+          ? SqlPrimary.fromJson(new Map<String, dynamic>.from(json['primary']['serializedData']))
+          : SqlPrimary.fromJson(new Map<String, dynamic>.from(json['primary']))
+        : null,
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'content': _content, 'primaryId': _primaryId, 'primary': _primary?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id,
+    'content': _content,
+    'primaryId': _primaryId,
+    'primary': _primary,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt
+  };
+
+  static final amplify_core.QueryModelIdentifier<SqlRelatedModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<SqlRelatedModelIdentifier>();
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final CONTENT = amplify_core.QueryField(fieldName: \\"content\\");
+  static final PRIMARYID = amplify_core.QueryField(fieldName: \\"primaryId\\");
+  static final PRIMARY = amplify_core.QueryField(
+    fieldName: \\"primary\\",
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'SqlPrimary'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"SqlRelated\\";
+    modelSchemaDefinition.pluralName = \\"SqlRelateds\\";
+    
+    modelSchemaDefinition.indexes = [
+      amplify_core.ModelIndex(fields: const [\\"id\\"], name: null),
+      amplify_core.ModelIndex(fields: const [\\"primaryId\\"], name: \\"primary_id\\")
+    ];
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: SqlRelated.CONTENT,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: SqlRelated.PRIMARYID,
+      isRequired: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.int)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
+      key: SqlRelated.PRIMARY,
+      isRequired: false,
+      targetNames: ['sqlPrimaryRelatedId'],
+      ofModelName: 'SqlPrimary'
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+  });
+}
+
+class _SqlRelatedModelType extends amplify_core.ModelType<SqlRelated> {
+  const _SqlRelatedModelType();
+  
+  @override
+  SqlRelated fromJson(Map<String, dynamic> jsonData) {
+    return SqlRelated.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'SqlRelated';
+  }
+}
+
+/**
+ * This is an auto generated class representing the model identifier
+ * of [SqlRelated] in your schema.
+ */
+class SqlRelatedModelIdentifier implements amplify_core.ModelIdentifier<SqlRelated> {
+  final int id;
+
+  /** Create an instance of SqlRelatedModelIdentifier using [id] the primary key. */
+  const SqlRelatedModelIdentifier({
+    required this.id});
+  
+  @override
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'id': id
+  });
+  
+  @override
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  @override
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'SqlRelatedModelIdentifier(id: $id)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is SqlRelatedModelIdentifier &&
+      id == other.id;
+  }
+  
+  @override
+  int get hashCode =>
+    id.hashCode;
+}"
+`;
+
+exports[`AppSync Dart Visitor custom references sets the association to the references field for hasOne and hasMany 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
+
+import 'ModelProvider.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
+import 'package:collection/collection.dart';
+
+
+/** This is an auto generated class representing the Primary type in your schema. */
+class Primary extends amplify_core.Model {
+  static const classType = const _PrimaryModelType();
+  final String id;
+  final List<RelatedMany>? _relatedMany;
+  final RelatedOne? _relatedOne;
+  final amplify_core.TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _updatedAt;
+  final String? _primaryRelatedOneId;
+
+  @override
+  getInstanceType() => classType;
+  
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
+  @override
+  String getId() => id;
+  
+  PrimaryModelIdentifier get modelIdentifier {
+      return PrimaryModelIdentifier(
+        id: id
+      );
+  }
+  
+  List<RelatedMany>? get relatedMany {
+    return _relatedMany;
+  }
+  
+  RelatedOne? get relatedOne {
+    return _relatedOne;
+  }
+  
+  amplify_core.TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  amplify_core.TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  String? get primaryRelatedOneId {
+    return _primaryRelatedOneId;
+  }
+  
+  const Primary._internal({required this.id, relatedMany, relatedOne, createdAt, updatedAt, primaryRelatedOneId}): _relatedMany = relatedMany, _relatedOne = relatedOne, _createdAt = createdAt, _updatedAt = updatedAt, _primaryRelatedOneId = primaryRelatedOneId;
+  
+  factory Primary({String? id, List<RelatedMany>? relatedMany, RelatedOne? relatedOne, String? primaryRelatedOneId}) {
+    return Primary._internal(
+      id: id == null ? amplify_core.UUID.getUUID() : id,
+      relatedMany: relatedMany != null ? List<RelatedMany>.unmodifiable(relatedMany) : relatedMany,
+      relatedOne: relatedOne,
+      primaryRelatedOneId: primaryRelatedOneId);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Primary &&
+      id == other.id &&
+      DeepCollectionEquality().equals(_relatedMany, other._relatedMany) &&
+      _relatedOne == other._relatedOne &&
+      _primaryRelatedOneId == other._primaryRelatedOneId;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"Primary {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"primaryRelatedOneId=\\" + \\"$_primaryRelatedOneId\\");
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  Primary copyWith({List<RelatedMany>? relatedMany, RelatedOne? relatedOne, String? primaryRelatedOneId}) {
+    return Primary._internal(
+      id: id,
+      relatedMany: relatedMany ?? this.relatedMany,
+      relatedOne: relatedOne ?? this.relatedOne,
+      primaryRelatedOneId: primaryRelatedOneId ?? this.primaryRelatedOneId);
+  }
+  
+  Primary copyWithModelFieldValues({
+    ModelFieldValue<List<RelatedMany>?>? relatedMany,
+    ModelFieldValue<RelatedOne?>? relatedOne,
+    ModelFieldValue<String?>? primaryRelatedOneId
+  }) {
+    return Primary._internal(
+      id: id,
+      relatedMany: relatedMany == null ? this.relatedMany : relatedMany.value,
+      relatedOne: relatedOne == null ? this.relatedOne : relatedOne.value,
+      primaryRelatedOneId: primaryRelatedOneId == null ? this.primaryRelatedOneId : primaryRelatedOneId.value
+    );
+  }
+  
+  Primary.fromJson(Map<String, dynamic> json)  
+    : id = json['id'],
+      _relatedMany = json['relatedMany']  is Map
+        ? (json['relatedMany']['items'] is List
+          ? (json['relatedMany']['items'] as List)
+              .where((e) => e != null)
+              .map((e) => RelatedMany.fromJson(new Map<String, dynamic>.from(e)))
+              .toList()
+          : null)
+        : (json['relatedMany'] is List
+          ? (json['relatedMany'] as List)
+              .where((e) => e?['serializedData'] != null)
+              .map((e) => RelatedMany.fromJson(new Map<String, dynamic>.from(e?['serializedData'])))
+              .toList()
+          : null),
+      _relatedOne = json['relatedOne'] != null
+        ? json['relatedOne']['serializedData'] != null
+          ? RelatedOne.fromJson(new Map<String, dynamic>.from(json['relatedOne']['serializedData']))
+          : RelatedOne.fromJson(new Map<String, dynamic>.from(json['relatedOne']))
+        : null,
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null,
+      _primaryRelatedOneId = json['primaryRelatedOneId'];
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'relatedMany': _relatedMany?.map((RelatedMany? e) => e?.toJson()).toList(), 'relatedOne': _relatedOne?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format(), 'primaryRelatedOneId': _primaryRelatedOneId
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id,
+    'relatedMany': _relatedMany,
+    'relatedOne': _relatedOne,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt,
+    'primaryRelatedOneId': _primaryRelatedOneId
+  };
+
+  static final amplify_core.QueryModelIdentifier<PrimaryModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<PrimaryModelIdentifier>();
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final RELATEDMANY = amplify_core.QueryField(
+    fieldName: \\"relatedMany\\",
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'RelatedMany'));
+  static final RELATEDONE = amplify_core.QueryField(
+    fieldName: \\"relatedOne\\",
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'RelatedOne'));
+  static final PRIMARYRELATEDONEID = amplify_core.QueryField(fieldName: \\"primaryRelatedOneId\\");
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"Primary\\";
+    modelSchemaDefinition.pluralName = \\"Primaries\\";
+    
+    modelSchemaDefinition.indexes = [
+      amplify_core.ModelIndex(fields: const [\\"id\\"], name: null)
+    ];
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasMany(
+      key: Primary.RELATEDMANY,
+      isRequired: false,
+      ofModelName: 'RelatedMany',
+      associatedKey: RelatedMany.PRIMARY
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasOne(
+      key: Primary.RELATEDONE,
+      isRequired: false,
+      ofModelName: 'RelatedOne',
+      associatedKey: RelatedOne.PRIMARY
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: Primary.PRIMARYRELATEDONEID,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+  });
+}
+
+class _PrimaryModelType extends amplify_core.ModelType<Primary> {
+  const _PrimaryModelType();
+  
+  @override
+  Primary fromJson(Map<String, dynamic> jsonData) {
+    return Primary.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'Primary';
+  }
+}
+
+/**
+ * This is an auto generated class representing the model identifier
+ * of [Primary] in your schema.
+ */
+class PrimaryModelIdentifier implements amplify_core.ModelIdentifier<Primary> {
+  final String id;
+
+  /** Create an instance of PrimaryModelIdentifier using [id] the primary key. */
+  const PrimaryModelIdentifier({
+    required this.id});
+  
+  @override
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'id': id
+  });
+  
+  @override
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  @override
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'PrimaryModelIdentifier(id: $id)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is PrimaryModelIdentifier &&
+      id == other.id;
+  }
+  
+  @override
+  int get hashCode =>
+    id.hashCode;
+}"
+`;
+
+exports[`AppSync Dart Visitor custom references sets the association to the references field for hasOne and hasMany 2`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
+
+import 'ModelProvider.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
+
+
+/** This is an auto generated class representing the RelatedOne type in your schema. */
+class RelatedOne extends amplify_core.Model {
+  static const classType = const _RelatedOneModelType();
+  final String id;
+  final String? _primaryId;
+  final Primary? _primary;
+  final amplify_core.TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _updatedAt;
+
+  @override
+  getInstanceType() => classType;
+  
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
+  @override
+  String getId() => id;
+  
+  RelatedOneModelIdentifier get modelIdentifier {
+      return RelatedOneModelIdentifier(
+        id: id
+      );
+  }
+  
+  String get primaryId {
+    try {
+      return _primaryId!;
+    } catch(e) {
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  Primary? get primary {
+    return _primary;
+  }
+  
+  amplify_core.TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  amplify_core.TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  const RelatedOne._internal({required this.id, required primaryId, primary, createdAt, updatedAt}): _primaryId = primaryId, _primary = primary, _createdAt = createdAt, _updatedAt = updatedAt;
+  
+  factory RelatedOne({String? id, required String primaryId, Primary? primary}) {
+    return RelatedOne._internal(
+      id: id == null ? amplify_core.UUID.getUUID() : id,
+      primaryId: primaryId,
+      primary: primary);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is RelatedOne &&
+      id == other.id &&
+      _primaryId == other._primaryId &&
+      _primary == other._primary;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"RelatedOne {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"primaryId=\\" + \\"$_primaryId\\" + \\", \\");
+    buffer.write(\\"primary=\\" + (_primary != null ? _primary!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  RelatedOne copyWith({String? primaryId, Primary? primary}) {
+    return RelatedOne._internal(
+      id: id,
+      primaryId: primaryId ?? this.primaryId,
+      primary: primary ?? this.primary);
+  }
+  
+  RelatedOne copyWithModelFieldValues({
+    ModelFieldValue<String>? primaryId,
+    ModelFieldValue<Primary?>? primary
+  }) {
+    return RelatedOne._internal(
+      id: id,
+      primaryId: primaryId == null ? this.primaryId : primaryId.value,
+      primary: primary == null ? this.primary : primary.value
+    );
+  }
+  
+  RelatedOne.fromJson(Map<String, dynamic> json)  
+    : id = json['id'],
+      _primaryId = json['primaryId'],
+      _primary = json['primary'] != null
+        ? json['primary']['serializedData'] != null
+          ? Primary.fromJson(new Map<String, dynamic>.from(json['primary']['serializedData']))
+          : Primary.fromJson(new Map<String, dynamic>.from(json['primary']))
+        : null,
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'primaryId': _primaryId, 'primary': _primary?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id,
+    'primaryId': _primaryId,
+    'primary': _primary,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt
+  };
+
+  static final amplify_core.QueryModelIdentifier<RelatedOneModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<RelatedOneModelIdentifier>();
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final PRIMARYID = amplify_core.QueryField(fieldName: \\"primaryId\\");
+  static final PRIMARY = amplify_core.QueryField(
+    fieldName: \\"primary\\",
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Primary'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"RelatedOne\\";
+    modelSchemaDefinition.pluralName = \\"RelatedOnes\\";
+    
+    modelSchemaDefinition.indexes = [
+      amplify_core.ModelIndex(fields: const [\\"id\\"], name: null)
+    ];
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: RelatedOne.PRIMARYID,
+      isRequired: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
+      key: RelatedOne.PRIMARY,
+      isRequired: false,
+      targetNames: ['relatedOnePrimaryId'],
+      ofModelName: 'Primary'
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+  });
+}
+
+class _RelatedOneModelType extends amplify_core.ModelType<RelatedOne> {
+  const _RelatedOneModelType();
+  
+  @override
+  RelatedOne fromJson(Map<String, dynamic> jsonData) {
+    return RelatedOne.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'RelatedOne';
+  }
+}
+
+/**
+ * This is an auto generated class representing the model identifier
+ * of [RelatedOne] in your schema.
+ */
+class RelatedOneModelIdentifier implements amplify_core.ModelIdentifier<RelatedOne> {
+  final String id;
+
+  /** Create an instance of RelatedOneModelIdentifier using [id] the primary key. */
+  const RelatedOneModelIdentifier({
+    required this.id});
+  
+  @override
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'id': id
+  });
+  
+  @override
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  @override
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'RelatedOneModelIdentifier(id: $id)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is RelatedOneModelIdentifier &&
+      id == other.id;
+  }
+  
+  @override
+  int get hashCode =>
+    id.hashCode;
+}"
+`;
+
+exports[`AppSync Dart Visitor custom references sets the association to the references field for hasOne and hasMany 3`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
+
+import 'ModelProvider.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
+
+
+/** This is an auto generated class representing the RelatedMany type in your schema. */
+class RelatedMany extends amplify_core.Model {
+  static const classType = const _RelatedManyModelType();
+  final String id;
+  final String? _primaryId;
+  final Primary? _primary;
+  final amplify_core.TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _updatedAt;
+
+  @override
+  getInstanceType() => classType;
+  
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
+  @override
+  String getId() => id;
+  
+  RelatedManyModelIdentifier get modelIdentifier {
+      return RelatedManyModelIdentifier(
+        id: id
+      );
+  }
+  
+  String get primaryId {
+    try {
+      return _primaryId!;
+    } catch(e) {
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  Primary? get primary {
+    return _primary;
+  }
+  
+  amplify_core.TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  amplify_core.TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  const RelatedMany._internal({required this.id, required primaryId, primary, createdAt, updatedAt}): _primaryId = primaryId, _primary = primary, _createdAt = createdAt, _updatedAt = updatedAt;
+  
+  factory RelatedMany({String? id, required String primaryId, Primary? primary}) {
+    return RelatedMany._internal(
+      id: id == null ? amplify_core.UUID.getUUID() : id,
+      primaryId: primaryId,
+      primary: primary);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is RelatedMany &&
+      id == other.id &&
+      _primaryId == other._primaryId &&
+      _primary == other._primary;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"RelatedMany {\\");
+    buffer.write(\\"id=\\" + \\"$id\\" + \\", \\");
+    buffer.write(\\"primaryId=\\" + \\"$_primaryId\\" + \\", \\");
+    buffer.write(\\"primary=\\" + (_primary != null ? _primary!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  RelatedMany copyWith({String? primaryId, Primary? primary}) {
+    return RelatedMany._internal(
+      id: id,
+      primaryId: primaryId ?? this.primaryId,
+      primary: primary ?? this.primary);
+  }
+  
+  RelatedMany copyWithModelFieldValues({
+    ModelFieldValue<String>? primaryId,
+    ModelFieldValue<Primary?>? primary
+  }) {
+    return RelatedMany._internal(
+      id: id,
+      primaryId: primaryId == null ? this.primaryId : primaryId.value,
+      primary: primary == null ? this.primary : primary.value
+    );
+  }
+  
+  RelatedMany.fromJson(Map<String, dynamic> json)  
+    : id = json['id'],
+      _primaryId = json['primaryId'],
+      _primary = json['primary'] != null
+        ? json['primary']['serializedData'] != null
+          ? Primary.fromJson(new Map<String, dynamic>.from(json['primary']['serializedData']))
+          : Primary.fromJson(new Map<String, dynamic>.from(json['primary']))
+        : null,
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'primaryId': _primaryId, 'primary': _primary?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id,
+    'primaryId': _primaryId,
+    'primary': _primary,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt
+  };
+
+  static final amplify_core.QueryModelIdentifier<RelatedManyModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<RelatedManyModelIdentifier>();
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final PRIMARYID = amplify_core.QueryField(fieldName: \\"primaryId\\");
+  static final PRIMARY = amplify_core.QueryField(
+    fieldName: \\"primary\\",
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'Primary'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"RelatedMany\\";
+    modelSchemaDefinition.pluralName = \\"RelatedManies\\";
+    
+    modelSchemaDefinition.indexes = [
+      amplify_core.ModelIndex(fields: const [\\"id\\"], name: null)
+    ];
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: RelatedMany.PRIMARYID,
+      isRequired: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
+      key: RelatedMany.PRIMARY,
+      isRequired: false,
+      targetNames: ['primaryRelatedManyId'],
+      ofModelName: 'Primary'
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+  });
+}
+
+class _RelatedManyModelType extends amplify_core.ModelType<RelatedMany> {
+  const _RelatedManyModelType();
+  
+  @override
+  RelatedMany fromJson(Map<String, dynamic> jsonData) {
+    return RelatedMany.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'RelatedMany';
+  }
+}
+
+/**
+ * This is an auto generated class representing the model identifier
+ * of [RelatedMany] in your schema.
+ */
+class RelatedManyModelIdentifier implements amplify_core.ModelIdentifier<RelatedMany> {
+  final String id;
+
+  /** Create an instance of RelatedManyModelIdentifier using [id] the primary key. */
+  const RelatedManyModelIdentifier({
+    required this.id});
+  
+  @override
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'id': id
+  });
+  
+  @override
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  @override
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'RelatedManyModelIdentifier(id: $id)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is RelatedManyModelIdentifier &&
+      id == other.id;
+  }
+  
+  @override
+  int get hashCode =>
+    id.hashCode;
+}"
+`;
+
+exports[`AppSync Dart Visitor custom references sets the association to the references field for hasOne/belongsTo 1`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
+
+import 'ModelProvider.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
+
+
+/** This is an auto generated class representing the SqlPrimary type in your schema. */
+class SqlPrimary extends amplify_core.Model {
+  static const classType = const _SqlPrimaryModelType();
+  final int id;
+  final String? _content;
+  final SqlRelated? _related;
+  final amplify_core.TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _updatedAt;
+  final int? _sqlPrimaryRelatedId;
+
+  @override
+  getInstanceType() => classType;
+  
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
+  @override
+  String getId() => id;
+  
+  SqlPrimaryModelIdentifier get modelIdentifier {
+      return SqlPrimaryModelIdentifier(
+        id: id
+      );
+  }
+  
+  String? get content {
+    return _content;
+  }
+  
+  SqlRelated? get related {
+    return _related;
+  }
+  
+  amplify_core.TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  amplify_core.TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  int? get sqlPrimaryRelatedId {
+    return _sqlPrimaryRelatedId;
+  }
+  
+  const SqlPrimary._internal({required this.id, content, related, createdAt, updatedAt, sqlPrimaryRelatedId}): _content = content, _related = related, _createdAt = createdAt, _updatedAt = updatedAt, _sqlPrimaryRelatedId = sqlPrimaryRelatedId;
+  
+  factory SqlPrimary({int? id, String? content, SqlRelated? related, int? sqlPrimaryRelatedId}) {
+    return SqlPrimary._internal(
+      id: id == null ? amplify_core.UUID.getUUID() : id,
+      content: content,
+      related: related,
+      sqlPrimaryRelatedId: sqlPrimaryRelatedId);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is SqlPrimary &&
+      id == other.id &&
+      _content == other._content &&
+      _related == other._related &&
+      _sqlPrimaryRelatedId == other._sqlPrimaryRelatedId;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"SqlPrimary {\\");
+    buffer.write(\\"id=\\" + (id != null ? id!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"content=\\" + \\"$_content\\" + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"sqlPrimaryRelatedId=\\" + (_sqlPrimaryRelatedId != null ? _sqlPrimaryRelatedId!.toString() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  SqlPrimary copyWith({String? content, SqlRelated? related, int? sqlPrimaryRelatedId}) {
+    return SqlPrimary._internal(
+      id: id,
+      content: content ?? this.content,
+      related: related ?? this.related,
+      sqlPrimaryRelatedId: sqlPrimaryRelatedId ?? this.sqlPrimaryRelatedId);
+  }
+  
+  SqlPrimary copyWithModelFieldValues({
+    ModelFieldValue<String?>? content,
+    ModelFieldValue<SqlRelated?>? related,
+    ModelFieldValue<int?>? sqlPrimaryRelatedId
+  }) {
+    return SqlPrimary._internal(
+      id: id,
+      content: content == null ? this.content : content.value,
+      related: related == null ? this.related : related.value,
+      sqlPrimaryRelatedId: sqlPrimaryRelatedId == null ? this.sqlPrimaryRelatedId : sqlPrimaryRelatedId.value
+    );
+  }
+  
+  SqlPrimary.fromJson(Map<String, dynamic> json)  
+    : id = (json['id'] as num?)?.toInt(),
+      _content = json['content'],
+      _related = json['related'] != null
+        ? json['related']['serializedData'] != null
+          ? SqlRelated.fromJson(new Map<String, dynamic>.from(json['related']['serializedData']))
+          : SqlRelated.fromJson(new Map<String, dynamic>.from(json['related']))
+        : null,
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null,
+      _sqlPrimaryRelatedId = (json['sqlPrimaryRelatedId'] as num?)?.toInt();
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'content': _content, 'related': _related?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format(), 'sqlPrimaryRelatedId': _sqlPrimaryRelatedId
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id,
+    'content': _content,
+    'related': _related,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt,
+    'sqlPrimaryRelatedId': _sqlPrimaryRelatedId
+  };
+
+  static final amplify_core.QueryModelIdentifier<SqlPrimaryModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<SqlPrimaryModelIdentifier>();
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final CONTENT = amplify_core.QueryField(fieldName: \\"content\\");
+  static final RELATED = amplify_core.QueryField(
+    fieldName: \\"related\\",
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'SqlRelated'));
+  static final SQLPRIMARYRELATEDID = amplify_core.QueryField(fieldName: \\"sqlPrimaryRelatedId\\");
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"SqlPrimary\\";
+    modelSchemaDefinition.pluralName = \\"SqlPrimaries\\";
+    
+    modelSchemaDefinition.indexes = [
+      amplify_core.ModelIndex(fields: const [\\"id\\"], name: null)
+    ];
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: SqlPrimary.CONTENT,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.hasOne(
+      key: SqlPrimary.RELATED,
+      isRequired: false,
+      ofModelName: 'SqlRelated',
+      associatedKey: SqlRelated.PRIMARY
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: SqlPrimary.SQLPRIMARYRELATEDID,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.int)
+    ));
+  });
+}
+
+class _SqlPrimaryModelType extends amplify_core.ModelType<SqlPrimary> {
+  const _SqlPrimaryModelType();
+  
+  @override
+  SqlPrimary fromJson(Map<String, dynamic> jsonData) {
+    return SqlPrimary.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'SqlPrimary';
+  }
+}
+
+/**
+ * This is an auto generated class representing the model identifier
+ * of [SqlPrimary] in your schema.
+ */
+class SqlPrimaryModelIdentifier implements amplify_core.ModelIdentifier<SqlPrimary> {
+  final int id;
+
+  /** Create an instance of SqlPrimaryModelIdentifier using [id] the primary key. */
+  const SqlPrimaryModelIdentifier({
+    required this.id});
+  
+  @override
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'id': id
+  });
+  
+  @override
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  @override
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'SqlPrimaryModelIdentifier(id: $id)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is SqlPrimaryModelIdentifier &&
+      id == other.id;
+  }
+  
+  @override
+  int get hashCode =>
+    id.hashCode;
+}"
+`;
+
+exports[`AppSync Dart Visitor custom references sets the association to the references field for hasOne/belongsTo 2`] = `
+"/*
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the \\"License\\").
+* You may not use this file except in compliance with the License.
+* A copy of the License is located at
+*
+*  http://aws.amazon.com/apache2.0
+*
+* or in the \\"license\\" file accompanying this file. This file is distributed
+* on an \\"AS IS\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+* express or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
+
+// NOTE: This file is generated and may not follow lint rules defined in your app
+// Generated files can be excluded from analysis in analysis_options.yaml
+// For more info, see: https://dart.dev/guides/language/analysis-options#excluding-code-from-analysis
+
+// ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
+
+import 'ModelProvider.dart';
+import 'package:amplify_core/amplify_core.dart' as amplify_core;
+
+
+/** This is an auto generated class representing the SqlRelated type in your schema. */
+class SqlRelated extends amplify_core.Model {
+  static const classType = const _SqlRelatedModelType();
+  final int id;
+  final String? _content;
+  final int? _primaryId;
+  final SqlPrimary? _primary;
+  final amplify_core.TemporalDateTime? _createdAt;
+  final amplify_core.TemporalDateTime? _updatedAt;
+
+  @override
+  getInstanceType() => classType;
+  
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
+  @override
+  String getId() => id;
+  
+  SqlRelatedModelIdentifier get modelIdentifier {
+      return SqlRelatedModelIdentifier(
+        id: id
+      );
+  }
+  
+  String? get content {
+    return _content;
+  }
+  
+  int get primaryId {
+    try {
+      return _primaryId!;
+    } catch(e) {
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  SqlPrimary? get primary {
+    return _primary;
+  }
+  
+  amplify_core.TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  amplify_core.TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  const SqlRelated._internal({required this.id, content, required primaryId, primary, createdAt, updatedAt}): _content = content, _primaryId = primaryId, _primary = primary, _createdAt = createdAt, _updatedAt = updatedAt;
+  
+  factory SqlRelated({int? id, String? content, required int primaryId, SqlPrimary? primary}) {
+    return SqlRelated._internal(
+      id: id == null ? amplify_core.UUID.getUUID() : id,
+      content: content,
+      primaryId: primaryId,
+      primary: primary);
+  }
+  
+  bool equals(Object other) {
+    return this == other;
+  }
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is SqlRelated &&
+      id == other.id &&
+      _content == other._content &&
+      _primaryId == other._primaryId &&
+      _primary == other._primary;
+  }
+  
+  @override
+  int get hashCode => toString().hashCode;
+  
+  @override
+  String toString() {
+    var buffer = new StringBuffer();
+    
+    buffer.write(\\"SqlRelated {\\");
+    buffer.write(\\"id=\\" + (id != null ? id!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"content=\\" + \\"$_content\\" + \\", \\");
+    buffer.write(\\"primaryId=\\" + (_primaryId != null ? _primaryId!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"primary=\\" + (_primary != null ? _primary!.toString() : \\"null\\") + \\", \\");
+    buffer.write(\\"createdAt=\\" + (_createdAt != null ? _createdAt!.format() : \\"null\\") + \\", \\");
+    buffer.write(\\"updatedAt=\\" + (_updatedAt != null ? _updatedAt!.format() : \\"null\\"));
+    buffer.write(\\"}\\");
+    
+    return buffer.toString();
+  }
+  
+  SqlRelated copyWith({String? content, int? primaryId, SqlPrimary? primary}) {
+    return SqlRelated._internal(
+      id: id,
+      content: content ?? this.content,
+      primaryId: primaryId ?? this.primaryId,
+      primary: primary ?? this.primary);
+  }
+  
+  SqlRelated copyWithModelFieldValues({
+    ModelFieldValue<String?>? content,
+    ModelFieldValue<int>? primaryId,
+    ModelFieldValue<SqlPrimary?>? primary
+  }) {
+    return SqlRelated._internal(
+      id: id,
+      content: content == null ? this.content : content.value,
+      primaryId: primaryId == null ? this.primaryId : primaryId.value,
+      primary: primary == null ? this.primary : primary.value
+    );
+  }
+  
+  SqlRelated.fromJson(Map<String, dynamic> json)  
+    : id = (json['id'] as num?)?.toInt(),
+      _content = json['content'],
+      _primaryId = (json['primaryId'] as num?)?.toInt(),
+      _primary = json['primary'] != null
+        ? json['primary']['serializedData'] != null
+          ? SqlPrimary.fromJson(new Map<String, dynamic>.from(json['primary']['serializedData']))
+          : SqlPrimary.fromJson(new Map<String, dynamic>.from(json['primary']))
+        : null,
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
+  
+  Map<String, dynamic> toJson() => {
+    'id': id, 'content': _content, 'primaryId': _primaryId, 'primary': _primary?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+  };
+  
+  Map<String, Object?> toMap() => {
+    'id': id,
+    'content': _content,
+    'primaryId': _primaryId,
+    'primary': _primary,
+    'createdAt': _createdAt,
+    'updatedAt': _updatedAt
+  };
+
+  static final amplify_core.QueryModelIdentifier<SqlRelatedModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<SqlRelatedModelIdentifier>();
+  static final ID = amplify_core.QueryField(fieldName: \\"id\\");
+  static final CONTENT = amplify_core.QueryField(fieldName: \\"content\\");
+  static final PRIMARYID = amplify_core.QueryField(fieldName: \\"primaryId\\");
+  static final PRIMARY = amplify_core.QueryField(
+    fieldName: \\"primary\\",
+    fieldType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.model, ofModelName: 'SqlPrimary'));
+  static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
+    modelSchemaDefinition.name = \\"SqlRelated\\";
+    modelSchemaDefinition.pluralName = \\"SqlRelateds\\";
+    
+    modelSchemaDefinition.indexes = [
+      amplify_core.ModelIndex(fields: const [\\"id\\"], name: null),
+      amplify_core.ModelIndex(fields: const [\\"primaryId\\"], name: \\"primary_id\\")
+    ];
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: SqlRelated.CONTENT,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: SqlRelated.PRIMARYID,
+      isRequired: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.int)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
+      key: SqlRelated.PRIMARY,
+      isRequired: false,
+      targetNames: ['sqlRelatedPrimaryId'],
+      ofModelName: 'SqlPrimary'
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+    ));
+  });
+}
+
+class _SqlRelatedModelType extends amplify_core.ModelType<SqlRelated> {
+  const _SqlRelatedModelType();
+  
+  @override
+  SqlRelated fromJson(Map<String, dynamic> jsonData) {
+    return SqlRelated.fromJson(jsonData);
+  }
+  
+  @override
+  String modelName() {
+    return 'SqlRelated';
+  }
+}
+
+/**
+ * This is an auto generated class representing the model identifier
+ * of [SqlRelated] in your schema.
+ */
+class SqlRelatedModelIdentifier implements amplify_core.ModelIdentifier<SqlRelated> {
+  final int id;
+
+  /** Create an instance of SqlRelatedModelIdentifier using [id] the primary key. */
+  const SqlRelatedModelIdentifier({
+    required this.id});
+  
+  @override
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'id': id
+  });
+  
+  @override
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  @override
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'SqlRelatedModelIdentifier(id: $id)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is SqlRelatedModelIdentifier &&
+      id == other.id;
+  }
+  
+  @override
+  int get hashCode =>
+    id.hashCode;
+}"
+`;
