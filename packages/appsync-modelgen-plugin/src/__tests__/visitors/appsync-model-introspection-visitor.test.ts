@@ -523,7 +523,7 @@ describe('custom references', () => {
       }
     `;
 
-    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
     expect(visitor.generate()).toMatchSnapshot();
   });
 
@@ -543,7 +543,7 @@ describe('custom references', () => {
       }
     `;
 
-    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
     expect(visitor.generate()).toMatchSnapshot();
   });
 
@@ -567,7 +567,7 @@ describe('custom references', () => {
         primary: Primary @belongsTo(references: ["primaryId"])
       }
     `;
-    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
     expect(visitor.generate()).toMatchSnapshot();
   });
 
@@ -588,7 +588,7 @@ describe('custom references', () => {
       }
     `;
 
-    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
     expect(visitor.generate()).toMatchSnapshot();
   });
 
@@ -611,7 +611,7 @@ describe('custom references', () => {
       }
     `;
 
-    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
     expect(visitor.generate()).toMatchSnapshot();
   });
 
@@ -633,7 +633,7 @@ describe('custom references', () => {
         primary: Primary @belongsTo(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
       }
     `;
-    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
     expect(visitor.generate()).toMatchSnapshot();
   });
 
@@ -653,7 +653,7 @@ describe('custom references', () => {
       }
     `;
 
-    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
     expect(() => visitor.generate())
       .toThrowError(`'fields' and 'references' cannot be used together.`);
   });
@@ -674,7 +674,7 @@ describe('custom references', () => {
       }
     `;
 
-    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
     expect(() => visitor.generate())
       .toThrowError(`'fields' and 'references' cannot be used together.`);
   });
@@ -695,7 +695,7 @@ describe('custom references', () => {
       }
     `;
 
-    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
     expect(() => visitor.generate())
       .toThrowError(`'fields' and 'references' cannot be used together.`);
   });
@@ -716,7 +716,7 @@ describe('custom references', () => {
       }
     `;
 
-    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
     expect(() => visitor.generate())
       .toThrowError(`Error processing @hasOne directive on SqlPrimary.related. @belongsTo directive with references ["primaryId"] was not found in connected model SqlRelated`);
   });
@@ -737,10 +737,32 @@ describe('custom references', () => {
       }
     `;
 
-    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
     expect(() => visitor.generate())
       .toThrowError(`Error processing @belongsTo directive on SqlRelated.primary. @hasOne or @hasMany directive with references ["primaryId"] was not found in connected model SqlPrimary`);
   });
+
+  test('throws error when missing references on hasMany related model when custom pk is disabled', () => {
+    const schema = /* GraphQL */ `
+      type SqlPrimary @refersTo(name: "sql_primary") @model {
+        id: Int! @primaryKey
+        content: String
+        related: [SqlRelated] @hasMany(references: ["primaryId"])
+      }
+
+      type SqlRelated @refersTo(name: "sql_related") @model {
+        id: Int! @primaryKey
+        content: String
+        primaryId: Int! @refersTo(name: "primary_id") @index(name: "primary_id")
+        primary: SqlPrimary @belongsTo
+      }
+    `;
+
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: false });
+    expect(() => visitor.generate())
+      .toThrowError(`Error processing @hasMany directive on SqlPrimary.related. @belongsTo directive with references ["primaryId"] was not found in connected model SqlRelated`);
+  });
+
 
   test('throws error when missing references on hasMany related model', () => {
     const schema = /* GraphQL */ `
@@ -758,7 +780,7 @@ describe('custom references', () => {
       }
     `;
 
-    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
     expect(() => visitor.generate())
       .toThrowError(`Error processing @hasMany directive on SqlPrimary.related. @belongsTo directive with references ["primaryId"] was not found in connected model SqlRelated`);
   });
@@ -779,7 +801,7 @@ describe('custom references', () => {
       }
     `;
 
-    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
+    const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
     expect(() => visitor.generate())
       .toThrowError(`Error processing @belongsTo directive on SqlRelated.primary. @hasOne or @hasMany directive with references ["primaryId"] was not found in connected model SqlPrimary`);
   });

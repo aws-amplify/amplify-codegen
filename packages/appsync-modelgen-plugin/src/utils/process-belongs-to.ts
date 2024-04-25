@@ -6,7 +6,7 @@ import {
   flattenFieldDirectives,
   makeConnectionAttributeName,
 } from './process-connections';
-import { getConnectedFieldV2 } from './process-connections-v2';
+import { getConnectedFieldV2, getConnectedFieldForReferences } from './process-connections-v2';
 
 
 export function processBelongsToConnection(
@@ -32,7 +32,7 @@ export function processBelongsToConnection(
   const isUsingReferences = references.length > 0;
   if (isUsingReferences) {
     // ensure there is a matching hasOne/hasMany field with references
-    getConnectedFieldV2(field, model, otherSide, connectionDirective.name)
+    getConnectedFieldForReferences(field, model, otherSide, connectionDirective.name)
   }
 
   const otherSideField = isCustomPKEnabled ? otherSideConnectedFields[0] : getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
