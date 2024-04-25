@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.9.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.8.0...amplify-codegen@4.9.0) (2024-04-25)
+
+### Features
+
+- enable codegen to run in browser ([#789](https://github.com/aws-amplify/amplify-codegen/issues/789)) ([f51b5d3](https://github.com/aws-amplify/amplify-codegen/commit/f51b5d3bbac23f7f63e0adc0bd2aad67b0621977))
+
 # [4.8.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.7.4...amplify-codegen@4.8.0) (2024-04-03)
 
 ### Features

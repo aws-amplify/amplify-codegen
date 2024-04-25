@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.3.0...@aws-amplify/graphql-generator@0.4.0) (2024-04-25)
+
+- fix!: use transformer version 2 by default (#813) ([854bfea](https://github.com/aws-amplify/amplify-codegen/commit/854bfea9cb692fba558d224d039c027f0240a20b)), closes [#813](https://github.com/aws-amplify/amplify-codegen/issues/813)
+
+### Features
+
+- dart api model .fromJson() refactor ([#593](https://github.com/aws-amplify/amplify-codegen/issues/593)) ([f83eba1](https://github.com/aws-amplify/amplify-codegen/commit/f83eba153d94644cc2896f1916cf1efb3f7b151b))
+- enable codegen to run in browser ([#789](https://github.com/aws-amplify/amplify-codegen/issues/789)) ([f51b5d3](https://github.com/aws-amplify/amplify-codegen/commit/f51b5d3bbac23f7f63e0adc0bd2aad67b0621977))
+
+### BREAKING CHANGES
+
+- use transformer version 2 by default
+
 # [0.3.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.2.4...@aws-amplify/graphql-generator@0.3.0) (2024-04-03)
 
 ### Bug Fixes
