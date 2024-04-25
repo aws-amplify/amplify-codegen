@@ -13,7 +13,8 @@ export function getConnectedFieldV2(
   model: CodeGenModel,
   connectedModel: CodeGenModel,
   directiveName: string,
-  shouldUseModelNameFieldInHasManyAndBelongsTo: boolean = false
+  shouldUseModelNameFieldInHasManyAndBelongsTo: boolean = false,
+  respectReferences: boolean = false,
 ): CodeGenField {
   const connectionInfo = getDirective(field)(directiveName);
   if (!connectionInfo) {
@@ -23,7 +24,7 @@ export function getConnectedFieldV2(
   const references = connectionInfo.arguments.references;
   if (connectionInfo.name === 'belongsTo') {
     let connectedFieldsBelongsTo = getBelongsToConnectedFields(model, connectedModel);
-    if (references) {
+    if (respectReferences && references) {
       const connectedField = connectedFieldsBelongsTo.find((field) => {
         return field.directives.some((dir) => {
           return (dir.name === 'hasOne' || dir.name === 'hasMany')
@@ -49,7 +50,7 @@ export function getConnectedFieldV2(
   }
   if (references || connectionFields || directiveName === 'hasOne') {
     let connectionDirective;
-    if (references) {
+    if (respectReferences && references) {
       if (connectionInfo) {
         connectionDirective = flattenFieldDirectives(connectedModel).find((dir) => {
           return dir.arguments.references
@@ -161,17 +162,18 @@ export function processConnectionsV2(
   shouldUseModelNameFieldInHasManyAndBelongsTo: boolean = false,
   isCustomPKEnabled: boolean = false,
   shouldUseFieldsInAssociatedWithInHasOne: boolean = false,
+  respectReferences: boolean = false, // remove when enabled references for all targets
 ): CodeGenFieldConnection | undefined {
   const connectionDirective = field.directives.find(d => d.name === 'hasOne' || d.name === 'hasMany' || d.name === 'belongsTo');
 
   if (connectionDirective) {
     switch (connectionDirective.name) {
       case 'hasOne':
-        return processHasOneConnection(field, model, modelMap, connectionDirective, isCustomPKEnabled, shouldUseFieldsInAssociatedWithInHasOne);
+        return processHasOneConnection(field, model, modelMap, connectionDirective, isCustomPKEnabled, shouldUseFieldsInAssociatedWithInHasOne, respectReferences);
       case 'belongsTo':
-        return processBelongsToConnection(field, model, modelMap, connectionDirective, isCustomPKEnabled);
+        return processBelongsToConnection(field, model, modelMap, connectionDirective, isCustomPKEnabled, respectReferences);
       case 'hasMany':
-        return processHasManyConnection(field, model, modelMap, connectionDirective, shouldUseModelNameFieldInHasManyAndBelongsTo, isCustomPKEnabled);
+        return processHasManyConnection(field, model, modelMap, connectionDirective, shouldUseModelNameFieldInHasManyAndBelongsTo, isCustomPKEnabled, respectReferences);
       default:
         break;
     }

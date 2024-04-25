@@ -7871,11 +7871,15 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @ModelConfig(pluralName = \\"Foos\\", type = Model.Type.USER, version = 1)
 public final class Foo implements Model {
   public static final QueryField ID = field(\\"Foo\\", \\"id\\");
+  public static final QueryField FOO_BAR1_ID = field(\\"Foo\\", \\"fooBar1Id\\");
+  public static final QueryField FOO_BAR2_ID = field(\\"Foo\\", \\"fooBar2Id\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"Bar\\") @HasOne(associatedWith = \\"bar1Id\\", type = Bar.class) Bar bar1 = null;
-  private final @ModelField(targetType=\\"Bar\\") @HasOne(associatedWith = \\"bar2Id\\", type = Bar.class) Bar bar2 = null;
+  private final @ModelField(targetType=\\"Bar\\") @HasOne(associatedWith = \\"foo1\\", type = Bar.class) Bar bar1 = null;
+  private final @ModelField(targetType=\\"Bar\\") @HasOne(associatedWith = \\"foo1\\", type = Bar.class) Bar bar2 = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType=\\"ID\\") String fooBar1Id;
+  private final @ModelField(targetType=\\"ID\\") String fooBar2Id;
   /** @deprecated This API is internal to Amplify and should not be used. */
   @Deprecated
    public String resolveIdentifier() {
@@ -7902,8 +7906,18 @@ public final class Foo implements Model {
       return updatedAt;
   }
   
-  private Foo(String id) {
+  public String getFooBar1Id() {
+      return fooBar1Id;
+  }
+  
+  public String getFooBar2Id() {
+      return fooBar2Id;
+  }
+  
+  private Foo(String id, String fooBar1Id, String fooBar2Id) {
     this.id = id;
+    this.fooBar1Id = fooBar1Id;
+    this.fooBar2Id = fooBar2Id;
   }
   
   @Override
@@ -7916,7 +7930,9 @@ public final class Foo implements Model {
       Foo foo = (Foo) obj;
       return ObjectsCompat.equals(getId(), foo.getId()) &&
               ObjectsCompat.equals(getCreatedAt(), foo.getCreatedAt()) &&
-              ObjectsCompat.equals(getUpdatedAt(), foo.getUpdatedAt());
+              ObjectsCompat.equals(getUpdatedAt(), foo.getUpdatedAt()) &&
+              ObjectsCompat.equals(getFooBar1Id(), foo.getFooBar1Id()) &&
+              ObjectsCompat.equals(getFooBar2Id(), foo.getFooBar2Id());
       }
   }
   
@@ -7926,6 +7942,8 @@ public final class Foo implements Model {
       .append(getId())
       .append(getCreatedAt())
       .append(getUpdatedAt())
+      .append(getFooBar1Id())
+      .append(getFooBar2Id())
       .toString()
       .hashCode();
   }
@@ -7936,7 +7954,9 @@ public final class Foo implements Model {
       .append(\\"Foo {\\")
       .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
       .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
+      .append(\\"fooBar1Id=\\" + String.valueOf(getFooBar1Id()) + \\", \\")
+      .append(\\"fooBar2Id=\\" + String.valueOf(getFooBar2Id()))
       .append(\\"}\\")
       .toString();
   }
@@ -7955,27 +7975,37 @@ public final class Foo implements Model {
    */
   public static Foo justId(String id) {
     return new Foo(
-      id
+      id,
+      null,
+      null
     );
   }
   
   public CopyOfBuilder copyOfBuilder() {
-    return new CopyOfBuilder(id);
+    return new CopyOfBuilder(id,
+      fooBar1Id,
+      fooBar2Id);
   }
   public interface BuildStep {
     Foo build();
     BuildStep id(String id);
+    BuildStep fooBar1Id(String fooBar1Id);
+    BuildStep fooBar2Id(String fooBar2Id);
   }
   
 
   public static class Builder implements BuildStep {
     private String id;
+    private String fooBar1Id;
+    private String fooBar2Id;
     public Builder() {
       
     }
     
-    private Builder(String id) {
+    private Builder(String id, String fooBar1Id, String fooBar2Id) {
       this.id = id;
+      this.fooBar1Id = fooBar1Id;
+      this.fooBar2Id = fooBar2Id;
     }
     
     @Override
@@ -7983,7 +8013,21 @@ public final class Foo implements Model {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
         
         return new Foo(
-          id);
+          id,
+          fooBar1Id,
+          fooBar2Id);
+    }
+    
+    @Override
+     public BuildStep fooBar1Id(String fooBar1Id) {
+        this.fooBar1Id = fooBar1Id;
+        return this;
+    }
+    
+    @Override
+     public BuildStep fooBar2Id(String fooBar2Id) {
+        this.fooBar2Id = fooBar2Id;
+        return this;
     }
     
     /**
@@ -7998,9 +8042,19 @@ public final class Foo implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id) {
-      super(id);
+    private CopyOfBuilder(String id, String fooBar1Id, String fooBar2Id) {
+      super(id, fooBar1Id, fooBar2Id);
       
+    }
+    
+    @Override
+     public CopyOfBuilder fooBar1Id(String fooBar1Id) {
+      return (CopyOfBuilder) super.fooBar1Id(fooBar1Id);
+    }
+    
+    @Override
+     public CopyOfBuilder fooBar2Id(String fooBar2Id) {
+      return (CopyOfBuilder) super.fooBar2Id(fooBar2Id);
     }
   }
   
@@ -8044,13 +8098,13 @@ public final class Bar implements Model {
   public static final QueryField ID = field(\\"Bar\\", \\"id\\");
   public static final QueryField BAR1_ID = field(\\"Bar\\", \\"bar1Id\\");
   public static final QueryField BAR2_ID = field(\\"Bar\\", \\"bar2Id\\");
-  public static final QueryField FOO1 = field(\\"Bar\\", \\"bar1Id\\");
-  public static final QueryField FOO2 = field(\\"Bar\\", \\"bar2Id\\");
+  public static final QueryField FOO1 = field(\\"Bar\\", \\"barFoo1Id\\");
+  public static final QueryField FOO2 = field(\\"Bar\\", \\"barFoo2Id\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"ID\\") String bar1Id;
   private final @ModelField(targetType=\\"ID\\") String bar2Id;
-  private final @ModelField(targetType=\\"Foo\\") @BelongsTo(targetName = \\"bar1Id\\", targetNames = {\\"bar1Id\\"}, type = Foo.class) Foo foo1;
-  private final @ModelField(targetType=\\"Foo\\") @BelongsTo(targetName = \\"bar2Id\\", targetNames = {\\"bar2Id\\"}, type = Foo.class) Foo foo2;
+  private final @ModelField(targetType=\\"Foo\\") @BelongsTo(targetName = \\"barFoo1Id\\", targetNames = {\\"barFoo1Id\\"}, type = Foo.class) Foo foo1;
+  private final @ModelField(targetType=\\"Foo\\") @BelongsTo(targetName = \\"barFoo2Id\\", targetNames = {\\"barFoo2Id\\"}, type = Foo.class) Foo foo2;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
@@ -8319,7 +8373,7 @@ public final class Primary implements Model {
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String instanceId;
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String recordId;
   private final @ModelField(targetType=\\"String\\") String content;
-  private final @ModelField(targetType=\\"Related\\") @HasMany(associatedWith = \\"primaryTenantId\\", type = Related.class) List<Related> related = null;
+  private final @ModelField(targetType=\\"Related\\") @HasMany(associatedWith = \\"primary\\", type = Related.class) List<Related> related = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   private PrimaryIdentifier primaryIdentifier;
@@ -8568,13 +8622,13 @@ public final class Related implements Model {
   public static final QueryField PRIMARY_TENANT_ID = field(\\"Related\\", \\"primaryTenantId\\");
   public static final QueryField PRIMARY_INSTANCE_ID = field(\\"Related\\", \\"primaryInstanceId\\");
   public static final QueryField PRIMARY_RECORD_ID = field(\\"Related\\", \\"primaryRecordId\\");
-  public static final QueryField PRIMARY = field(\\"Related\\", \\"primaryTenantId\\");
+  public static final QueryField PRIMARY = field(\\"Related\\", \\"primaryRelatedTenantId\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String content;
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String primaryTenantId;
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String primaryInstanceId;
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String primaryRecordId;
-  private final @ModelField(targetType=\\"Primary\\") @BelongsTo(targetName = \\"primaryTenantId\\", targetNames = {\\"primaryTenantId\\", \\"primaryInstanceId\\", \\"primaryRecordId\\"}, type = Primary.class) Primary primary;
+  private final @ModelField(targetType=\\"Primary\\") @BelongsTo(targetName = \\"primaryRelatedTenantId\\", targetNames = {\\"primaryRelatedTenantId\\", \\"primaryRelatedInstanceId\\", \\"primaryRelatedRecordId\\"}, type = Primary.class) Primary primary;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
@@ -8881,13 +8935,15 @@ public final class Primary implements Model {
   public static final QueryField INSTANCE_ID = field(\\"Primary\\", \\"instanceId\\");
   public static final QueryField RECORD_ID = field(\\"Primary\\", \\"recordId\\");
   public static final QueryField CONTENT = field(\\"Primary\\", \\"content\\");
+  public static final QueryField PRIMARY_RELATED_ID = field(\\"Primary\\", \\"primaryRelatedId\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String tenantId;
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String instanceId;
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String recordId;
   private final @ModelField(targetType=\\"String\\") String content;
-  private final @ModelField(targetType=\\"Related\\") @HasOne(associatedWith = \\"primaryTenantId\\", type = Related.class) Related related = null;
+  private final @ModelField(targetType=\\"Related\\") @HasOne(associatedWith = \\"primary\\", type = Related.class) Related related = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType=\\"ID\\") String primaryRelatedId;
   private PrimaryIdentifier primaryIdentifier;
   /** @deprecated This API is internal to Amplify and should not be used. */
   @Deprecated
@@ -8926,11 +8982,16 @@ public final class Primary implements Model {
       return updatedAt;
   }
   
-  private Primary(String tenantId, String instanceId, String recordId, String content) {
+  public String getPrimaryRelatedId() {
+      return primaryRelatedId;
+  }
+  
+  private Primary(String tenantId, String instanceId, String recordId, String content, String primaryRelatedId) {
     this.tenantId = tenantId;
     this.instanceId = instanceId;
     this.recordId = recordId;
     this.content = content;
+    this.primaryRelatedId = primaryRelatedId;
   }
   
   @Override
@@ -8946,7 +9007,8 @@ public final class Primary implements Model {
               ObjectsCompat.equals(getRecordId(), primary.getRecordId()) &&
               ObjectsCompat.equals(getContent(), primary.getContent()) &&
               ObjectsCompat.equals(getCreatedAt(), primary.getCreatedAt()) &&
-              ObjectsCompat.equals(getUpdatedAt(), primary.getUpdatedAt());
+              ObjectsCompat.equals(getUpdatedAt(), primary.getUpdatedAt()) &&
+              ObjectsCompat.equals(getPrimaryRelatedId(), primary.getPrimaryRelatedId());
       }
   }
   
@@ -8959,6 +9021,7 @@ public final class Primary implements Model {
       .append(getContent())
       .append(getCreatedAt())
       .append(getUpdatedAt())
+      .append(getPrimaryRelatedId())
       .toString()
       .hashCode();
   }
@@ -8972,7 +9035,8 @@ public final class Primary implements Model {
       .append(\\"recordId=\\" + String.valueOf(getRecordId()) + \\", \\")
       .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
       .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
+      .append(\\"primaryRelatedId=\\" + String.valueOf(getPrimaryRelatedId()))
       .append(\\"}\\")
       .toString();
   }
@@ -8985,7 +9049,8 @@ public final class Primary implements Model {
     return new CopyOfBuilder(tenantId,
       instanceId,
       recordId,
-      content);
+      content,
+      primaryRelatedId);
   }
   public interface TenantIdStep {
     InstanceIdStep tenantId(String tenantId);
@@ -9005,6 +9070,7 @@ public final class Primary implements Model {
   public interface BuildStep {
     Primary build();
     BuildStep content(String content);
+    BuildStep primaryRelatedId(String primaryRelatedId);
   }
   
 
@@ -9013,15 +9079,17 @@ public final class Primary implements Model {
     private String instanceId;
     private String recordId;
     private String content;
+    private String primaryRelatedId;
     public Builder() {
       
     }
     
-    private Builder(String tenantId, String instanceId, String recordId, String content) {
+    private Builder(String tenantId, String instanceId, String recordId, String content, String primaryRelatedId) {
       this.tenantId = tenantId;
       this.instanceId = instanceId;
       this.recordId = recordId;
       this.content = content;
+      this.primaryRelatedId = primaryRelatedId;
     }
     
     @Override
@@ -9031,7 +9099,8 @@ public final class Primary implements Model {
           tenantId,
           instanceId,
           recordId,
-          content);
+          content,
+          primaryRelatedId);
     }
     
     @Override
@@ -9060,12 +9129,18 @@ public final class Primary implements Model {
         this.content = content;
         return this;
     }
+    
+    @Override
+     public BuildStep primaryRelatedId(String primaryRelatedId) {
+        this.primaryRelatedId = primaryRelatedId;
+        return this;
+    }
   }
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String tenantId, String instanceId, String recordId, String content) {
-      super(tenantId, instanceId, recordId, content);
+    private CopyOfBuilder(String tenantId, String instanceId, String recordId, String content, String primaryRelatedId) {
+      super(tenantId, instanceId, recordId, content, primaryRelatedId);
       Objects.requireNonNull(tenantId);
       Objects.requireNonNull(instanceId);
       Objects.requireNonNull(recordId);
@@ -9089,6 +9164,11 @@ public final class Primary implements Model {
     @Override
      public CopyOfBuilder content(String content) {
       return (CopyOfBuilder) super.content(content);
+    }
+    
+    @Override
+     public CopyOfBuilder primaryRelatedId(String primaryRelatedId) {
+      return (CopyOfBuilder) super.primaryRelatedId(primaryRelatedId);
     }
   }
   
@@ -9134,13 +9214,13 @@ public final class Related implements Model {
   public static final QueryField PRIMARY_TENANT_ID = field(\\"Related\\", \\"primaryTenantId\\");
   public static final QueryField PRIMARY_INSTANCE_ID = field(\\"Related\\", \\"primaryInstanceId\\");
   public static final QueryField PRIMARY_RECORD_ID = field(\\"Related\\", \\"primaryRecordId\\");
-  public static final QueryField PRIMARY = field(\\"Related\\", \\"primaryTenantId\\");
+  public static final QueryField PRIMARY = field(\\"Related\\", \\"relatedPrimaryTenantId\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"String\\") String content;
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String primaryTenantId;
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String primaryInstanceId;
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String primaryRecordId;
-  private final @ModelField(targetType=\\"Primary\\") @BelongsTo(targetName = \\"primaryTenantId\\", targetNames = {\\"primaryTenantId\\", \\"primaryInstanceId\\", \\"primaryRecordId\\"}, type = Primary.class) Primary primary;
+  private final @ModelField(targetType=\\"Primary\\") @BelongsTo(targetName = \\"relatedPrimaryTenantId\\", targetNames = {\\"relatedPrimaryTenantId\\", \\"relatedPrimaryInstanceId\\", \\"relatedPrimaryRecordId\\"}, type = Primary.class) Primary primary;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
@@ -9447,7 +9527,7 @@ public final class SqlPrimary implements Model {
   public static final QueryField CONTENT = field(\\"SqlPrimary\\", \\"content\\");
   private final @ModelField(targetType=\\"Int\\", isRequired = true) Integer id;
   private final @ModelField(targetType=\\"String\\") String content;
-  private final @ModelField(targetType=\\"SqlRelated\\") @HasMany(associatedWith = \\"primaryId\\", type = SqlRelated.class) List<SqlRelated> related = null;
+  private final @ModelField(targetType=\\"SqlRelated\\") @HasMany(associatedWith = \\"primary\\", type = SqlRelated.class) List<SqlRelated> related = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
@@ -9641,11 +9721,11 @@ public final class SqlRelated implements Model {
   public static final QueryField ID = field(\\"SqlRelated\\", \\"id\\");
   public static final QueryField CONTENT = field(\\"SqlRelated\\", \\"content\\");
   public static final QueryField PRIMARY_ID = field(\\"SqlRelated\\", \\"primaryId\\");
-  public static final QueryField PRIMARY = field(\\"SqlRelated\\", \\"primaryId\\");
+  public static final QueryField PRIMARY = field(\\"SqlRelated\\", \\"sqlPrimaryRelatedId\\");
   private final @ModelField(targetType=\\"Int\\", isRequired = true) Integer id;
   private final @ModelField(targetType=\\"String\\") String content;
   private final @ModelField(targetType=\\"Int\\", isRequired = true) Integer primaryId;
-  private final @ModelField(targetType=\\"SqlPrimary\\") @BelongsTo(targetName = \\"primaryId\\", targetNames = {\\"primaryId\\"}, type = SqlPrimary.class) SqlPrimary primary;
+  private final @ModelField(targetType=\\"SqlPrimary\\") @BelongsTo(targetName = \\"sqlPrimaryRelatedId\\", targetNames = {\\"sqlPrimaryRelatedId\\"}, type = SqlPrimary.class) SqlPrimary primary;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
@@ -9888,11 +9968,13 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @Index(name = \\"undefined\\", fields = {\\"id\\"})
 public final class Primary implements Model {
   public static final QueryField ID = field(\\"Primary\\", \\"id\\");
+  public static final QueryField PRIMARY_RELATED_ONE_ID = field(\\"Primary\\", \\"primaryRelatedOneId\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"RelatedMany\\") @HasMany(associatedWith = \\"primaryId\\", type = RelatedMany.class) List<RelatedMany> relatedMany = null;
-  private final @ModelField(targetType=\\"RelatedOne\\") @HasOne(associatedWith = \\"primaryId\\", type = RelatedOne.class) RelatedOne relatedOne = null;
+  private final @ModelField(targetType=\\"RelatedMany\\") @HasMany(associatedWith = \\"primary\\", type = RelatedMany.class) List<RelatedMany> relatedMany = null;
+  private final @ModelField(targetType=\\"RelatedOne\\") @HasOne(associatedWith = \\"primary\\", type = RelatedOne.class) RelatedOne relatedOne = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType=\\"ID\\") String primaryRelatedOneId;
   /** @deprecated This API is internal to Amplify and should not be used. */
   @Deprecated
    public String resolveIdentifier() {
@@ -9919,8 +10001,13 @@ public final class Primary implements Model {
       return updatedAt;
   }
   
-  private Primary(String id) {
+  public String getPrimaryRelatedOneId() {
+      return primaryRelatedOneId;
+  }
+  
+  private Primary(String id, String primaryRelatedOneId) {
     this.id = id;
+    this.primaryRelatedOneId = primaryRelatedOneId;
   }
   
   @Override
@@ -9933,7 +10020,8 @@ public final class Primary implements Model {
       Primary primary = (Primary) obj;
       return ObjectsCompat.equals(getId(), primary.getId()) &&
               ObjectsCompat.equals(getCreatedAt(), primary.getCreatedAt()) &&
-              ObjectsCompat.equals(getUpdatedAt(), primary.getUpdatedAt());
+              ObjectsCompat.equals(getUpdatedAt(), primary.getUpdatedAt()) &&
+              ObjectsCompat.equals(getPrimaryRelatedOneId(), primary.getPrimaryRelatedOneId());
       }
   }
   
@@ -9943,6 +10031,7 @@ public final class Primary implements Model {
       .append(getId())
       .append(getCreatedAt())
       .append(getUpdatedAt())
+      .append(getPrimaryRelatedOneId())
       .toString()
       .hashCode();
   }
@@ -9953,7 +10042,8 @@ public final class Primary implements Model {
       .append(\\"Primary {\\")
       .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
       .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
+      .append(\\"primaryRelatedOneId=\\" + String.valueOf(getPrimaryRelatedOneId()))
       .append(\\"}\\")
       .toString();
   }
@@ -9972,27 +10062,32 @@ public final class Primary implements Model {
    */
   public static Primary justId(String id) {
     return new Primary(
-      id
+      id,
+      null
     );
   }
   
   public CopyOfBuilder copyOfBuilder() {
-    return new CopyOfBuilder(id);
+    return new CopyOfBuilder(id,
+      primaryRelatedOneId);
   }
   public interface BuildStep {
     Primary build();
     BuildStep id(String id);
+    BuildStep primaryRelatedOneId(String primaryRelatedOneId);
   }
   
 
   public static class Builder implements BuildStep {
     private String id;
+    private String primaryRelatedOneId;
     public Builder() {
       
     }
     
-    private Builder(String id) {
+    private Builder(String id, String primaryRelatedOneId) {
       this.id = id;
+      this.primaryRelatedOneId = primaryRelatedOneId;
     }
     
     @Override
@@ -10000,7 +10095,14 @@ public final class Primary implements Model {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
         
         return new Primary(
-          id);
+          id,
+          primaryRelatedOneId);
+    }
+    
+    @Override
+     public BuildStep primaryRelatedOneId(String primaryRelatedOneId) {
+        this.primaryRelatedOneId = primaryRelatedOneId;
+        return this;
     }
     
     /**
@@ -10015,9 +10117,14 @@ public final class Primary implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id) {
-      super(id);
+    private CopyOfBuilder(String id, String primaryRelatedOneId) {
+      super(id, primaryRelatedOneId);
       
+    }
+    
+    @Override
+     public CopyOfBuilder primaryRelatedOneId(String primaryRelatedOneId) {
+      return (CopyOfBuilder) super.primaryRelatedOneId(primaryRelatedOneId);
     }
   }
   
@@ -10061,10 +10168,10 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 public final class RelatedMany implements Model {
   public static final QueryField ID = field(\\"RelatedMany\\", \\"id\\");
   public static final QueryField PRIMARY_ID = field(\\"RelatedMany\\", \\"primaryId\\");
-  public static final QueryField PRIMARY = field(\\"RelatedMany\\", \\"primaryId\\");
+  public static final QueryField PRIMARY = field(\\"RelatedMany\\", \\"primaryRelatedManyId\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String primaryId;
-  private final @ModelField(targetType=\\"Primary\\") @BelongsTo(targetName = \\"primaryId\\", targetNames = {\\"primaryId\\"}, type = Primary.class) Primary primary;
+  private final @ModelField(targetType=\\"Primary\\") @BelongsTo(targetName = \\"primaryRelatedManyId\\", targetNames = {\\"primaryRelatedManyId\\"}, type = Primary.class) Primary primary;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
@@ -10282,10 +10389,10 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 public final class RelatedOne implements Model {
   public static final QueryField ID = field(\\"RelatedOne\\", \\"id\\");
   public static final QueryField PRIMARY_ID = field(\\"RelatedOne\\", \\"primaryId\\");
-  public static final QueryField PRIMARY = field(\\"RelatedOne\\", \\"primaryId\\");
+  public static final QueryField PRIMARY = field(\\"RelatedOne\\", \\"relatedOnePrimaryId\\");
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
   private final @ModelField(targetType=\\"ID\\", isRequired = true) String primaryId;
-  private final @ModelField(targetType=\\"Primary\\") @BelongsTo(targetName = \\"primaryId\\", targetNames = {\\"primaryId\\"}, type = Primary.class) Primary primary;
+  private final @ModelField(targetType=\\"Primary\\") @BelongsTo(targetName = \\"relatedOnePrimaryId\\", targetNames = {\\"relatedOnePrimaryId\\"}, type = Primary.class) Primary primary;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
@@ -10503,11 +10610,13 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 public final class SqlPrimary implements Model {
   public static final QueryField ID = field(\\"SqlPrimary\\", \\"id\\");
   public static final QueryField CONTENT = field(\\"SqlPrimary\\", \\"content\\");
+  public static final QueryField SQL_PRIMARY_RELATED_ID = field(\\"SqlPrimary\\", \\"sqlPrimaryRelatedId\\");
   private final @ModelField(targetType=\\"Int\\", isRequired = true) Integer id;
   private final @ModelField(targetType=\\"String\\") String content;
-  private final @ModelField(targetType=\\"SqlRelated\\") @HasOne(associatedWith = \\"primaryId\\", type = SqlRelated.class) SqlRelated related = null;
+  private final @ModelField(targetType=\\"SqlRelated\\") @HasOne(associatedWith = \\"primary\\", type = SqlRelated.class) SqlRelated related = null;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType=\\"Int\\") Integer sqlPrimaryRelatedId;
   /** @deprecated This API is internal to Amplify and should not be used. */
   @Deprecated
    public Integer resolveIdentifier() {
@@ -10534,9 +10643,14 @@ public final class SqlPrimary implements Model {
       return updatedAt;
   }
   
-  private SqlPrimary(Integer id, String content) {
+  public Integer getSqlPrimaryRelatedId() {
+      return sqlPrimaryRelatedId;
+  }
+  
+  private SqlPrimary(Integer id, String content, Integer sqlPrimaryRelatedId) {
     this.id = id;
     this.content = content;
+    this.sqlPrimaryRelatedId = sqlPrimaryRelatedId;
   }
   
   @Override
@@ -10550,7 +10664,8 @@ public final class SqlPrimary implements Model {
       return ObjectsCompat.equals(getId(), sqlPrimary.getId()) &&
               ObjectsCompat.equals(getContent(), sqlPrimary.getContent()) &&
               ObjectsCompat.equals(getCreatedAt(), sqlPrimary.getCreatedAt()) &&
-              ObjectsCompat.equals(getUpdatedAt(), sqlPrimary.getUpdatedAt());
+              ObjectsCompat.equals(getUpdatedAt(), sqlPrimary.getUpdatedAt()) &&
+              ObjectsCompat.equals(getSqlPrimaryRelatedId(), sqlPrimary.getSqlPrimaryRelatedId());
       }
   }
   
@@ -10561,6 +10676,7 @@ public final class SqlPrimary implements Model {
       .append(getContent())
       .append(getCreatedAt())
       .append(getUpdatedAt())
+      .append(getSqlPrimaryRelatedId())
       .toString()
       .hashCode();
   }
@@ -10572,7 +10688,8 @@ public final class SqlPrimary implements Model {
       .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
       .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
       .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
+      .append(\\"sqlPrimaryRelatedId=\\" + String.valueOf(getSqlPrimaryRelatedId()))
       .append(\\"}\\")
       .toString();
   }
@@ -10592,31 +10709,36 @@ public final class SqlPrimary implements Model {
   public static SqlPrimary justId(String id) {
     return new SqlPrimary(
       id,
+      null,
       null
     );
   }
   
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
-      content);
+      content,
+      sqlPrimaryRelatedId);
   }
   public interface BuildStep {
     SqlPrimary build();
     BuildStep id(String id);
     BuildStep content(String content);
+    BuildStep sqlPrimaryRelatedId(Integer sqlPrimaryRelatedId);
   }
   
 
   public static class Builder implements BuildStep {
     private Integer id;
     private String content;
+    private Integer sqlPrimaryRelatedId;
     public Builder() {
       
     }
     
-    private Builder(Integer id, String content) {
+    private Builder(Integer id, String content, Integer sqlPrimaryRelatedId) {
       this.id = id;
       this.content = content;
+      this.sqlPrimaryRelatedId = sqlPrimaryRelatedId;
     }
     
     @Override
@@ -10625,12 +10747,19 @@ public final class SqlPrimary implements Model {
         
         return new SqlPrimary(
           id,
-          content);
+          content,
+          sqlPrimaryRelatedId);
     }
     
     @Override
      public BuildStep content(String content) {
         this.content = content;
+        return this;
+    }
+    
+    @Override
+     public BuildStep sqlPrimaryRelatedId(Integer sqlPrimaryRelatedId) {
+        this.sqlPrimaryRelatedId = sqlPrimaryRelatedId;
         return this;
     }
     
@@ -10646,14 +10775,19 @@ public final class SqlPrimary implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(Integer id, String content) {
-      super(id, content);
+    private CopyOfBuilder(Integer id, String content, Integer sqlPrimaryRelatedId) {
+      super(id, content, sqlPrimaryRelatedId);
       
     }
     
     @Override
      public CopyOfBuilder content(String content) {
       return (CopyOfBuilder) super.content(content);
+    }
+    
+    @Override
+     public CopyOfBuilder sqlPrimaryRelatedId(Integer sqlPrimaryRelatedId) {
+      return (CopyOfBuilder) super.sqlPrimaryRelatedId(sqlPrimaryRelatedId);
     }
   }
   
@@ -10699,11 +10833,11 @@ public final class SqlRelated implements Model {
   public static final QueryField ID = field(\\"SqlRelated\\", \\"id\\");
   public static final QueryField CONTENT = field(\\"SqlRelated\\", \\"content\\");
   public static final QueryField PRIMARY_ID = field(\\"SqlRelated\\", \\"primaryId\\");
-  public static final QueryField PRIMARY = field(\\"SqlRelated\\", \\"primaryId\\");
+  public static final QueryField PRIMARY = field(\\"SqlRelated\\", \\"sqlRelatedPrimaryId\\");
   private final @ModelField(targetType=\\"Int\\", isRequired = true) Integer id;
   private final @ModelField(targetType=\\"String\\") String content;
   private final @ModelField(targetType=\\"Int\\", isRequired = true) Integer primaryId;
-  private final @ModelField(targetType=\\"SqlPrimary\\") @BelongsTo(targetName = \\"primaryId\\", targetNames = {\\"primaryId\\"}, type = SqlPrimary.class) SqlPrimary primary;
+  private final @ModelField(targetType=\\"SqlPrimary\\") @BelongsTo(targetName = \\"sqlRelatedPrimaryId\\", targetNames = {\\"sqlRelatedPrimaryId\\"}, type = SqlPrimary.class) SqlPrimary primary;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
