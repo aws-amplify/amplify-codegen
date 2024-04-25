@@ -275,7 +275,8 @@
             },
             "required": [
                 "associatedWith",
-                "connectionType"
+                "connectionType",
+                "targetNames"
             ]
         },
         "AssociationBelongsTo": {
