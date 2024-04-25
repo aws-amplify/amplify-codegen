@@ -268,6 +268,9 @@ module.exports = {
     '/packages/*/CHANGELOG.md',
 
     // Ignore lint in e2e test apps
-    'test-apps'
+    'test-apps',
+
+    // Ignore lint for standalone JSON validation function
+    '/packages/appsync-modelgen-plugin/src/validate-cjs.js'
   ]
 };

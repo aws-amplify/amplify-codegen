@@ -4,7 +4,7 @@ import {
   CodeGenFieldConnection,
   makeConnectionAttributeName,
 } from './process-connections';
-import { getConnectedFieldV2 } from './process-connections-v2';
+import { getConnectedFieldV2, fieldsAndReferencesErrorMessage } from './process-connections-v2';
 import { getModelPrimaryKeyComponentFields } from './fieldUtils';
 import { getOtherSideBelongsToField } from './fieldUtils';
 
@@ -14,7 +14,8 @@ export function processHasOneConnection(
   modelMap: CodeGenModelMap,
   connectionDirective: CodeGenDirective,
   isCustomPKEnabled: boolean = false,
-  shouldUseFieldsInAssociatedWithInHasOne:boolean = false
+  shouldUseFieldsInAssociatedWithInHasOne:boolean = false,
+  respectReferences: boolean = false, // remove when enabled references for all targets
 ): CodeGenFieldConnection | undefined {
   const otherSide = modelMap[field.type];
   // Find other side belongsTo field when in bi direction connection
@@ -22,14 +23,32 @@ export function processHasOneConnection(
   if (field.isList || (otherSideBelongsToField && otherSideBelongsToField.isList)) {
     throw new Error("A hasOne relationship should be 1:1, no lists");
   }
+
+  const connectionFields = connectionDirective.arguments.fields || [];
+  const references = connectionDirective.arguments.references || [];
+
+  if (connectionFields.length > 0 && references.length > 0) {
+    throw new Error(fieldsAndReferencesErrorMessage);
+  }
+
   let associatedWithFields;
-  if (isCustomPKEnabled) {
+  if (respectReferences && references.length > 0) {
+    // ensure there is a matching belongsTo field with references
+    getConnectedFieldV2(field, model, otherSide, connectionDirective.name, false, respectReferences);
+    associatedWithFields = references.map((reference: string) => otherSide.fields.find((field) => reference === field.name))
+    return {
+      kind: CodeGenConnectionType.HAS_ONE,
+      associatedWith: associatedWithFields[0],
+      associatedWithFields,
+      connectedModel: otherSide,
+      isConnectingFieldAutoCreated: false,
+    };
+  } else if (isCustomPKEnabled) {
     associatedWithFields = getConnectedFieldsForHasOne(otherSideBelongsToField, otherSide, shouldUseFieldsInAssociatedWithInHasOne);
   } else {
-    const otherSideField = getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
+    const otherSideField = getConnectedFieldV2(field, model, otherSide, connectionDirective.name, false, respectReferences);
     associatedWithFields = [otherSideField];
   }
-  const connectionFields = connectionDirective.arguments.fields || [];
 
   // TODO: Update comment, graphql-connection-transformer is the v1 package and this file is created for vNext
   // if a type is connected using name, then graphql-connection-transformer adds a field to

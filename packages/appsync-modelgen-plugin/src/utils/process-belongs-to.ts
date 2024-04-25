@@ -6,7 +6,7 @@ import {
   flattenFieldDirectives,
   makeConnectionAttributeName,
 } from './process-connections';
-import { getConnectedFieldV2 } from './process-connections-v2';
+import { getConnectedFieldV2, fieldsAndReferencesErrorMessage } from './process-connections-v2';
 
 
 export function processBelongsToConnection(
@@ -15,6 +15,7 @@ export function processBelongsToConnection(
   modelMap: CodeGenModelMap,
   connectionDirective: CodeGenDirective,
   isCustomPKEnabled: boolean = false,
+  respectReferences: boolean = false, // remove when enabled references for all targets
 ): CodeGenFieldConnection | undefined {
   if (field.isList) {
     throw new Error(
@@ -28,17 +29,22 @@ export function processBelongsToConnection(
       `A 'belongsTo' field should match to a corresponding 'hasMany' or 'hasOne' field`
     );
   }
-  const otherSideField = isCustomPKEnabled ? otherSideConnectedFields[0] : getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
+  const otherSideField = isCustomPKEnabled ? otherSideConnectedFields[0] : getConnectedFieldV2(field, model, otherSide, connectionDirective.name, false, respectReferences);
   const connectionFields = connectionDirective.arguments.fields || [];
 
+  const references = connectionDirective.arguments.references || [];
+
+  if (connectionFields.length > 0 && references.length > 0) {
+    throw new Error(fieldsAndReferencesErrorMessage);
+  }
   // if a type is connected using name, then amplify-graphql-relational-transformer adds a field to
   //  track the connection and that field is not part of the selection set
   // but if the field are connected using fields argument in connection directive
   // we are reusing the field and it should be preserved in selection set
   const otherSideHasMany = otherSideField.isList;
-  const isConnectingFieldAutoCreated = false;
+  const isUsingReferences = respectReferences && references.length > 0;
   // New metada type introduced by custom PK v2 support
-  let targetNames: string[] = [ ...connectionFields ];
+  let targetNames = isUsingReferences ? [ ...connectionFields, ...references ] : [ ...connectionFields ];
   if (targetNames.length === 0) {
     if (otherSideHasMany) {
       targetNames = isCustomPKEnabled
@@ -55,9 +61,10 @@ export function processBelongsToConnection(
   return {
     kind: CodeGenConnectionType.BELONGS_TO,
     connectedModel: otherSide,
-    isConnectingFieldAutoCreated,
+    isConnectingFieldAutoCreated: false,
     targetName: targetNames[0],
     targetNames,
+    isUsingReferences,
   };
 }
 

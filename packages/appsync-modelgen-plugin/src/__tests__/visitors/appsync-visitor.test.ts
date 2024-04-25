@@ -1410,4 +1410,37 @@ describe('AppSyncModelVisitor', () => {
       expect(interfaces).toMatchSnapshot();
     });
   })
+
+  describe('references field on hasOne, hasMany, and belongsTo directive', () => {
+    test('converts string argument to list of string', () => {
+      const schema = /* GraphQL */ `
+        type Primary @model  {
+          id: ID! @primaryKey
+          relatedMany: [RelatedMany] @hasMany(references: "primaryId")
+          relatedOne: RelatedOne @hasOne(references: "primaryId")
+        }
+        
+        type RelatedMany @model {
+          id: ID! @primaryKey
+          primaryId: ID!
+          primary: Primary @belongsTo(references: "primaryId")
+        }
+        
+        type RelatedOne @model {
+          id: ID! @primaryKey
+          primaryId: ID!
+          primary: Primary @belongsTo(references: "primaryId")
+        }
+      `;
+      const ast = parse(schema);
+      const stringDirectives = DefaultDirectives.map(directive => directive.definition).join('\n');
+      const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
+      const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+      visit(ast, { leave: visitor });
+      expect(visitor.models.Primary.fields[1].directives[0].arguments).toEqual({ references: ['primaryId'] });
+      expect(visitor.models.Primary.fields[2].directives[0].arguments).toEqual({ references: ['primaryId'] });
+      expect(visitor.models.RelatedMany.fields[2].directives[0].arguments).toEqual({ references: ['primaryId'] });
+      expect(visitor.models.RelatedOne.fields[2].directives[0].arguments).toEqual({ references: ['primaryId'] });
+    });
+  });
 });

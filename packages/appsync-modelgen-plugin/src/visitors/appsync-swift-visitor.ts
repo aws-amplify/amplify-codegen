@@ -624,8 +624,8 @@ export class AppSyncSwiftVisitor<
           connectionInfo.connectedModel,
         )}.keys.${this.getFieldName(connectionInfo.associatedWith)})`;
       }
-      if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
-        const targetNameAttrStr = this.isCustomPKEnabled()
+      if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE && (connectionInfo.targetNames || connectionInfo.targetName)) {
+        const targetNameAttrStr = this.isCustomPKEnabled() && connectionInfo.targetNames
           ? `targetNames: [${connectionInfo.targetNames.map(target => `"${target}"`).join(', ')}]`
           : `targetName: "${connectionInfo.targetName}"`;
         return `.hasOne(${name}, is: ${isRequired}, ofType: ${typeName}, associatedWith: ${this.getModelName(

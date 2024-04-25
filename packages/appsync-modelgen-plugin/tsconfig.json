@@ -2,12 +2,17 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "lib"
+    "outDir": "lib",
+    "allowJs": true,
   },
+  "include": [
+    "src/**/*",
+    "src/schemas/**/*.json"
+  ],
   "exclude": [
     "scripts",
-    "schemas",
     "lib",
-    "src/__tests__"
+    "src/__tests__",
+    "coverage",
   ]
 }
