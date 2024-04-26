@@ -19,23 +19,8 @@ export function getConnectedFieldV2(
   if (!connectionInfo) {
     throw new Error(`The ${field.name} on model ${model.name} is not connected`);
   }
-
-  const references = connectionInfo.arguments.references;
   if (connectionInfo.name === 'belongsTo') {
     let connectedFieldsBelongsTo = getBelongsToConnectedFields(model, connectedModel);
-    if (references) {
-      const connectedField = connectedFieldsBelongsTo.find((field) => {
-        return field.directives.some((dir) => {
-          return (dir.name === 'hasOne' || dir.name === 'hasMany')
-            && dir.arguments.references
-            && JSON.stringify(dir.arguments.references) === JSON.stringify(connectionInfo.arguments.references);
-        });
-      });
-      if (!connectedField) {
-       throw new Error(`Error processing @belongsTo directive on ${model.name}.${field.name}. @hasOne or @hasMany directive with references ${JSON.stringify(connectionInfo.arguments?.references)} was not found in connected model ${connectedModel.name}`);
-      }
-      return connectedField;
-    }
 
     if (connectedFieldsBelongsTo.length === 1) {
       return connectedFieldsBelongsTo[0];
@@ -44,25 +29,10 @@ export function getConnectedFieldV2(
 
   const indexName = connectionInfo.arguments.indexName;
   const connectionFields = connectionInfo.arguments.fields;
-  if (connectionFields && references) {
-    throw new Error(fieldsAndReferencesErrorMessage);
-  }
-  if (references || connectionFields || directiveName === 'hasOne') {
+  if (connectionFields || directiveName === 'hasOne') {
     let connectionDirective;
-    if (references) {
-      if (connectionInfo) {
-        connectionDirective = flattenFieldDirectives(connectedModel).find((dir) => {
-          return dir.arguments.references
-            && JSON.stringify(dir.arguments.references) === JSON.stringify(connectionInfo.arguments.references);
-        });
-        if (!connectionDirective) {
-         throw new Error(`Error processing @${connectionInfo.name} directive on ${model.name}.${field.name}. @belongsTo directive with references ${JSON.stringify(connectionInfo.arguments?.references)} was not found in connected model ${connectedModel.name}`);
-        }
-      }
-    }
-
     // Find gsi on other side if index is defined
-    else if (indexName) {
+    if (indexName) {
       connectionDirective = flattenFieldDirectives(connectedModel).find(dir => {
         return dir.name === 'index' && dir.arguments.name === indexName;
       });
@@ -154,6 +124,56 @@ export function getConnectedFieldV2(
       };
 }
 
+export function getConnectedFieldForReferences(
+  field: CodeGenField,
+  model: CodeGenModel,
+  connectedModel: CodeGenModel,
+  directiveName: string,
+): CodeGenField {
+  const connectionInfo = getDirective(field)(directiveName);
+  if (!connectionInfo) {
+    throw new Error(`The ${field.name} on model ${model.name} is not connected`);
+  }
+  const references = connectionInfo.arguments.references;
+  if (!references) {
+    throw new Error(`The ${field.name} on model ${model.name} does not have references.`);
+  }
+  const connectionFields = connectionInfo.arguments.fields;
+  if (connectionFields && references) {
+    throw new Error(`'fields' and 'references' cannot be used together.`);
+  }
+
+  if (connectionInfo.name === 'belongsTo') {
+    let connectedFieldsBelongsTo = getBelongsToConnectedFields(model, connectedModel);
+    const connectedField = connectedFieldsBelongsTo.find((field) => {
+      return field.directives.some((dir) => {
+        return (dir.name === 'hasOne' || dir.name === 'hasMany')
+          && dir.arguments.references
+          && JSON.stringify(dir.arguments.references) === JSON.stringify(connectionInfo.arguments.references);
+      });
+    });
+    if (!connectedField) {
+     throw new Error(`Error processing @belongsTo directive on ${model.name}.${field.name}. @hasOne or @hasMany directive with references ${JSON.stringify(connectionInfo.arguments?.references)} was not found in connected model ${connectedModel.name}`);
+    }
+    return connectedField;
+  }
+
+  // hasOne and hasMany
+  const connectionDirective = flattenFieldDirectives(connectedModel).find((dir) => {
+    return dir.arguments.references
+      && JSON.stringify(dir.arguments.references) === JSON.stringify(connectionInfo.arguments.references);
+  });
+  if (!connectionDirective) {
+   throw new Error(`Error processing @${connectionInfo.name} directive on ${model.name}.${field.name}. @belongsTo directive with references ${JSON.stringify(connectionInfo.arguments?.references)} was not found in connected model ${connectedModel.name}`);
+  }
+  const connectedFieldName = ((fieldDir: CodeGenFieldDirective) => {
+    return fieldDir.fieldName;
+  })(connectionDirective as CodeGenFieldDirective)
+
+  const connectedField = connectedModel.fields.find(f => f.name === connectedFieldName);
+  return connectedField!;
+}
+
 export function processConnectionsV2(
   field: CodeGenField,
   model: CodeGenModel,
@@ -177,5 +197,3 @@ export function processConnectionsV2(
     }
   }
 }
-
-export const fieldsAndReferencesErrorMessage = `'fields' and 'references' cannot be used together.`;
