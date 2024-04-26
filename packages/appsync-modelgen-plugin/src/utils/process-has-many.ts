@@ -19,7 +19,6 @@ export function processHasManyConnection(
   connectionDirective: CodeGenDirective,
   shouldUseModelNameFieldInHasManyAndBelongsTo: boolean,
   isCustomPKEnabled: boolean = false,
-  respectReferences: boolean = false, // remove when enabled references for all targets
 ): CodeGenFieldConnection | undefined {
   if (!field.isList) {
     throw new Error("A field with hasMany must be a list type");
@@ -32,14 +31,17 @@ export function processHasManyConnection(
     throw new Error(fieldsAndReferencesErrorMessage);
   }
 
-  if (respectReferences && references.length > 0) {
-    // ensure there is a matching belongsTo field with references
-    getConnectedFieldV2(field, model, otherSide, connectionDirective.name, shouldUseModelNameFieldInHasManyAndBelongsTo, respectReferences)
+  if (references.length > 0) {
+    // native uses the connected field instead of associatedWithFields
+    // when using references associatedWithFields and associatedWithNative are not the same
+    // getConnectedFieldV2 also ensures there is a matching belongsTo field with references
+    const associatedWithNativeReferences = getConnectedFieldV2(field, model, otherSide, connectionDirective.name, shouldUseModelNameFieldInHasManyAndBelongsTo)
     const associatedWithFields = references.map((reference: string) => otherSide.fields.find((field) => reference === field.name))
     return {
       kind: CodeGenConnectionType.HAS_MANY,
       associatedWith: associatedWithFields[0],
       associatedWithFields,
+      associatedWithNativeReferences,
       isConnectingFieldAutoCreated: false,
       connectedModel: otherSide,
     };
@@ -47,7 +49,7 @@ export function processHasManyConnection(
 
   const otherSideFields = isCustomPKEnabled
     ? getConnectedFieldsForHasMany(field, model, otherSide, shouldUseModelNameFieldInHasManyAndBelongsTo)
-    : [getConnectedFieldV2(field, model, otherSide, connectionDirective.name, shouldUseModelNameFieldInHasManyAndBelongsTo, respectReferences)];
+    : [getConnectedFieldV2(field, model, otherSide, connectionDirective.name, shouldUseModelNameFieldInHasManyAndBelongsTo)];
   const otherSideField = otherSideFields[0];
 
   // if a type is connected using name, then graphql-connection-transformer adds a field to

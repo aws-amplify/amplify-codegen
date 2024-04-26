@@ -620,17 +620,29 @@ export class AppSyncSwiftVisitor<
     // connected field
     if (connectionInfo) {
       if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
-        return `.hasMany(${name}, is: ${isRequired}, ofType: ${typeName}, associatedWith: ${this.getModelName(
+        let association = `associatedWith: ${this.getModelName(
           connectionInfo.connectedModel,
         )}.keys.${this.getFieldName(connectionInfo.associatedWith)})`;
+        if (connectionInfo.associatedWithNativeReferences) {
+          association = `associatedFields: [${this.getCodingKey(connectionInfo.connectedModel, connectionInfo.associatedWithNativeReferences)}]`
+        }
+        return `.hasMany(${name}, is: ${isRequired}, ofType: ${typeName}, ${association}`;
       }
-      if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE && (connectionInfo.targetNames || connectionInfo.targetName)) {
-        const targetNameAttrStr = this.isCustomPKEnabled() && connectionInfo.targetNames
-          ? `targetNames: [${connectionInfo.targetNames.map(target => `"${target}"`).join(', ')}]`
-          : `targetName: "${connectionInfo.targetName}"`;
-        return `.hasOne(${name}, is: ${isRequired}, ofType: ${typeName}, associatedWith: ${this.getModelName(
+      if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
+        let association = `associatedWith: ${this.getModelName(
           connectionInfo.connectedModel,
-        )}.keys.${this.getFieldName(connectionInfo.associatedWith)}, ${targetNameAttrStr})`;
+        )}.keys.${this.getFieldName(connectionInfo.associatedWith)}`;
+        if (connectionInfo.associatedWithNativeReferences) {
+          association = `associatedFields: [${this.getCodingKey(connectionInfo.connectedModel, connectionInfo.associatedWithNativeReferences)}]`
+        }
+
+        let targetNameAttrStr = '';
+        if (connectionInfo.targetNames || connectionInfo.targetName) {
+          targetNameAttrStr = this.isCustomPKEnabled() && connectionInfo.targetNames
+            ? `, targetNames: [${connectionInfo.targetNames.map(target => `"${target}"`).join(', ')}]`
+            : `, targetName: "${connectionInfo.targetName}"`;
+        }
+        return `.hasOne(${name}, is: ${isRequired}, ofType: ${typeName}, ${association}${targetNameAttrStr})`;
       }
       if (connectionInfo.kind === CodeGenConnectionType.BELONGS_TO) {
         const targetNameAttrStr = this.isCustomPKEnabled()
@@ -814,5 +826,9 @@ export class AppSyncSwiftVisitor<
 
   protected hasReadOnlyFields(model: CodeGenModel): boolean {
     return model.fields.filter(f => f.isReadOnly).length !== 0;
+  }
+
+  private getCodingKey(model: CodeGenModel, field: CodeGenField): string {
+    return `${this.getModelName(model)}.keys.${this.getFieldName(field)}`;
   }
 }

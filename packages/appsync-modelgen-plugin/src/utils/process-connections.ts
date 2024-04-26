@@ -22,6 +22,7 @@ export type CodeGenFieldConnectionBelongsTo = CodeGenConnectionTypeBase & {
 export type CodeGenFieldConnectionHasOne = CodeGenConnectionTypeBase & {
   kind: CodeGenConnectionType.HAS_ONE;
   associatedWith: CodeGenField;// Legacy field remained for backward compatability
+  associatedWithNativeReferences?: CodeGenField; // native uses the connected field instead of associatedWithFields
   associatedWithFields: CodeGenField[]; // New attribute for v2 custom pk support
   targetName?: string; // Legacy field remained for backward compatability
   targetNames?: string[]; // New attribute for v2 custom pk support
@@ -30,6 +31,7 @@ export type CodeGenFieldConnectionHasOne = CodeGenConnectionTypeBase & {
 export type CodeGenFieldConnectionHasMany = CodeGenConnectionTypeBase & {
   kind: CodeGenConnectionType.HAS_MANY;
   associatedWith: CodeGenField;// Legacy field remained for backward compatability
+  associatedWithNativeReferences?: CodeGenField; // native uses the connected field instead of associatedWithFields
   associatedWithFields: CodeGenField[]; // New attribute for v2 custom pk support
 };
 
