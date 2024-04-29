@@ -583,7 +583,7 @@ function chain(context: Context): ExecutionContext {
       });
       const step = context.queue.shift();
       const { fn: currentFn, name: currentFnName } = step;
-      const nonEmptyLines = stdout.map((line) => line.replace('\r', '').trim()).filter((line) => line !== '');
+      const nonEmptyLines = stdout.map((line) => line.replace(/\r/g, '').trim()).filter((line) => line !== '');
 
       let lastLine = nonEmptyLines[nonEmptyLines.length - 1];
 
