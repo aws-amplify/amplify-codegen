@@ -6997,7 +6997,7 @@ public final class ListContainer implements Model {
       .toString();
   }
   
-  public static RequiredListOfRequiredStep builder() {
+  public static RequiredListStep builder() {
       return new Builder();
   }
   
@@ -10533,6 +10533,1402 @@ public final class SqlRelated implements Model {
     private static final long serialVersionUID = 1L;
     public SqlRelatedIdentifier(Integer id) {
       super(id);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncModelVisitor handleListNullabilityTransparently optionalElementOptionalList: [String] with handleListNullabilityTransparently: false 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.temporal.Temporal;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Foo type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Foos\\")
+public final class Foo implements Model {
+  public static final QueryField ID = field(\\"Foo\\", \\"id\\");
+  public static final QueryField OPTIONAL_ELEMENT_OPTIONAL_LIST = field(\\"Foo\\", \\"optionalElementOptionalList\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\") List<String> optionalElementOptionalList;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public List<String> getOptionalElementOptionalList() {
+      return optionalElementOptionalList;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Foo(String id, List<String> optionalElementOptionalList) {
+    this.id = id;
+    this.optionalElementOptionalList = optionalElementOptionalList;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Foo foo = (Foo) obj;
+      return ObjectsCompat.equals(getId(), foo.getId()) &&
+              ObjectsCompat.equals(getOptionalElementOptionalList(), foo.getOptionalElementOptionalList()) &&
+              ObjectsCompat.equals(getCreatedAt(), foo.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), foo.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getOptionalElementOptionalList())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Foo {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"optionalElementOptionalList=\\" + String.valueOf(getOptionalElementOptionalList()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BuildStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Foo justId(String id) {
+    return new Foo(
+      id,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      optionalElementOptionalList);
+  }
+  public interface BuildStep {
+    Foo build();
+    BuildStep id(String id);
+    BuildStep optionalElementOptionalList(List<String> optionalElementOptionalList);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private List<String> optionalElementOptionalList;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, List<String> optionalElementOptionalList) {
+      this.id = id;
+      this.optionalElementOptionalList = optionalElementOptionalList;
+    }
+    
+    @Override
+     public Foo build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Foo(
+          id,
+          optionalElementOptionalList);
+    }
+    
+    @Override
+     public BuildStep optionalElementOptionalList(List<String> optionalElementOptionalList) {
+        this.optionalElementOptionalList = optionalElementOptionalList;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, List<String> optionalElementOptionalList) {
+      super(id, optionalElementOptionalList);
+      
+    }
+    
+    @Override
+     public CopyOfBuilder optionalElementOptionalList(List<String> optionalElementOptionalList) {
+      return (CopyOfBuilder) super.optionalElementOptionalList(optionalElementOptionalList);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncModelVisitor handleListNullabilityTransparently optionalElementOptionalList: [String] with handleListNullabilityTransparently: true 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.temporal.Temporal;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Foo type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Foos\\")
+public final class Foo implements Model {
+  public static final QueryField ID = field(\\"Foo\\", \\"id\\");
+  public static final QueryField OPTIONAL_ELEMENT_OPTIONAL_LIST = field(\\"Foo\\", \\"optionalElementOptionalList\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\") List<String> optionalElementOptionalList;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public List<String> getOptionalElementOptionalList() {
+      return optionalElementOptionalList;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Foo(String id, List<String> optionalElementOptionalList) {
+    this.id = id;
+    this.optionalElementOptionalList = optionalElementOptionalList;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Foo foo = (Foo) obj;
+      return ObjectsCompat.equals(getId(), foo.getId()) &&
+              ObjectsCompat.equals(getOptionalElementOptionalList(), foo.getOptionalElementOptionalList()) &&
+              ObjectsCompat.equals(getCreatedAt(), foo.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), foo.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getOptionalElementOptionalList())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Foo {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"optionalElementOptionalList=\\" + String.valueOf(getOptionalElementOptionalList()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BuildStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Foo justId(String id) {
+    return new Foo(
+      id,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      optionalElementOptionalList);
+  }
+  public interface BuildStep {
+    Foo build();
+    BuildStep id(String id);
+    BuildStep optionalElementOptionalList(List<String> optionalElementOptionalList);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private List<String> optionalElementOptionalList;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, List<String> optionalElementOptionalList) {
+      this.id = id;
+      this.optionalElementOptionalList = optionalElementOptionalList;
+    }
+    
+    @Override
+     public Foo build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Foo(
+          id,
+          optionalElementOptionalList);
+    }
+    
+    @Override
+     public BuildStep optionalElementOptionalList(List<String> optionalElementOptionalList) {
+        this.optionalElementOptionalList = optionalElementOptionalList;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, List<String> optionalElementOptionalList) {
+      super(id, optionalElementOptionalList);
+      
+    }
+    
+    @Override
+     public CopyOfBuilder optionalElementOptionalList(List<String> optionalElementOptionalList) {
+      return (CopyOfBuilder) super.optionalElementOptionalList(optionalElementOptionalList);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncModelVisitor handleListNullabilityTransparently optionalElementRequiredList: [String]! with handleListNullabilityTransparently: false 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.temporal.Temporal;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Foo type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Foos\\")
+public final class Foo implements Model {
+  public static final QueryField ID = field(\\"Foo\\", \\"id\\");
+  public static final QueryField OPTIONAL_ELEMENT_REQUIRED_LIST = field(\\"Foo\\", \\"optionalElementRequiredList\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\") List<String> optionalElementRequiredList;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public List<String> getOptionalElementRequiredList() {
+      return optionalElementRequiredList;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Foo(String id, List<String> optionalElementRequiredList) {
+    this.id = id;
+    this.optionalElementRequiredList = optionalElementRequiredList;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Foo foo = (Foo) obj;
+      return ObjectsCompat.equals(getId(), foo.getId()) &&
+              ObjectsCompat.equals(getOptionalElementRequiredList(), foo.getOptionalElementRequiredList()) &&
+              ObjectsCompat.equals(getCreatedAt(), foo.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), foo.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getOptionalElementRequiredList())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Foo {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"optionalElementRequiredList=\\" + String.valueOf(getOptionalElementRequiredList()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BuildStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Foo justId(String id) {
+    return new Foo(
+      id,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      optionalElementRequiredList);
+  }
+  public interface BuildStep {
+    Foo build();
+    BuildStep id(String id);
+    BuildStep optionalElementRequiredList(List<String> optionalElementRequiredList);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private List<String> optionalElementRequiredList;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, List<String> optionalElementRequiredList) {
+      this.id = id;
+      this.optionalElementRequiredList = optionalElementRequiredList;
+    }
+    
+    @Override
+     public Foo build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Foo(
+          id,
+          optionalElementRequiredList);
+    }
+    
+    @Override
+     public BuildStep optionalElementRequiredList(List<String> optionalElementRequiredList) {
+        this.optionalElementRequiredList = optionalElementRequiredList;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, List<String> optionalElementRequiredList) {
+      super(id, optionalElementRequiredList);
+      
+    }
+    
+    @Override
+     public CopyOfBuilder optionalElementRequiredList(List<String> optionalElementRequiredList) {
+      return (CopyOfBuilder) super.optionalElementRequiredList(optionalElementRequiredList);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncModelVisitor handleListNullabilityTransparently optionalElementRequiredList: [String]! with handleListNullabilityTransparently: true 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.temporal.Temporal;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Foo type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Foos\\")
+public final class Foo implements Model {
+  public static final QueryField ID = field(\\"Foo\\", \\"id\\");
+  public static final QueryField OPTIONAL_ELEMENT_REQUIRED_LIST = field(\\"Foo\\", \\"optionalElementRequiredList\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) List<String> optionalElementRequiredList;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public List<String> getOptionalElementRequiredList() {
+      return optionalElementRequiredList;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Foo(String id, List<String> optionalElementRequiredList) {
+    this.id = id;
+    this.optionalElementRequiredList = optionalElementRequiredList;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Foo foo = (Foo) obj;
+      return ObjectsCompat.equals(getId(), foo.getId()) &&
+              ObjectsCompat.equals(getOptionalElementRequiredList(), foo.getOptionalElementRequiredList()) &&
+              ObjectsCompat.equals(getCreatedAt(), foo.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), foo.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getOptionalElementRequiredList())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Foo {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"optionalElementRequiredList=\\" + String.valueOf(getOptionalElementRequiredList()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static OptionalElementRequiredListStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Foo justId(String id) {
+    return new Foo(
+      id,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      optionalElementRequiredList);
+  }
+  public interface OptionalElementRequiredListStep {
+    BuildStep optionalElementRequiredList(List<String> optionalElementRequiredList);
+  }
+  
+
+  public interface BuildStep {
+    Foo build();
+    BuildStep id(String id);
+  }
+  
+
+  public static class Builder implements OptionalElementRequiredListStep, BuildStep {
+    private String id;
+    private List<String> optionalElementRequiredList;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, List<String> optionalElementRequiredList) {
+      this.id = id;
+      this.optionalElementRequiredList = optionalElementRequiredList;
+    }
+    
+    @Override
+     public Foo build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Foo(
+          id,
+          optionalElementRequiredList);
+    }
+    
+    @Override
+     public BuildStep optionalElementRequiredList(List<String> optionalElementRequiredList) {
+        Objects.requireNonNull(optionalElementRequiredList);
+        this.optionalElementRequiredList = optionalElementRequiredList;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, List<String> optionalElementRequiredList) {
+      super(id, optionalElementRequiredList);
+      Objects.requireNonNull(optionalElementRequiredList);
+    }
+    
+    @Override
+     public CopyOfBuilder optionalElementRequiredList(List<String> optionalElementRequiredList) {
+      return (CopyOfBuilder) super.optionalElementRequiredList(optionalElementRequiredList);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncModelVisitor handleListNullabilityTransparently requiredElementOptionalList: [String!] with handleListNullabilityTransparently: false 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.temporal.Temporal;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Foo type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Foos\\")
+public final class Foo implements Model {
+  public static final QueryField ID = field(\\"Foo\\", \\"id\\");
+  public static final QueryField REQUIRED_ELEMENT_OPTIONAL_LIST = field(\\"Foo\\", \\"requiredElementOptionalList\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) List<String> requiredElementOptionalList;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public List<String> getRequiredElementOptionalList() {
+      return requiredElementOptionalList;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Foo(String id, List<String> requiredElementOptionalList) {
+    this.id = id;
+    this.requiredElementOptionalList = requiredElementOptionalList;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Foo foo = (Foo) obj;
+      return ObjectsCompat.equals(getId(), foo.getId()) &&
+              ObjectsCompat.equals(getRequiredElementOptionalList(), foo.getRequiredElementOptionalList()) &&
+              ObjectsCompat.equals(getCreatedAt(), foo.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), foo.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getRequiredElementOptionalList())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Foo {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"requiredElementOptionalList=\\" + String.valueOf(getRequiredElementOptionalList()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static RequiredElementOptionalListStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Foo justId(String id) {
+    return new Foo(
+      id,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      requiredElementOptionalList);
+  }
+  public interface RequiredElementOptionalListStep {
+    BuildStep requiredElementOptionalList(List<String> requiredElementOptionalList);
+  }
+  
+
+  public interface BuildStep {
+    Foo build();
+    BuildStep id(String id);
+  }
+  
+
+  public static class Builder implements RequiredElementOptionalListStep, BuildStep {
+    private String id;
+    private List<String> requiredElementOptionalList;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, List<String> requiredElementOptionalList) {
+      this.id = id;
+      this.requiredElementOptionalList = requiredElementOptionalList;
+    }
+    
+    @Override
+     public Foo build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Foo(
+          id,
+          requiredElementOptionalList);
+    }
+    
+    @Override
+     public BuildStep requiredElementOptionalList(List<String> requiredElementOptionalList) {
+        Objects.requireNonNull(requiredElementOptionalList);
+        this.requiredElementOptionalList = requiredElementOptionalList;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, List<String> requiredElementOptionalList) {
+      super(id, requiredElementOptionalList);
+      Objects.requireNonNull(requiredElementOptionalList);
+    }
+    
+    @Override
+     public CopyOfBuilder requiredElementOptionalList(List<String> requiredElementOptionalList) {
+      return (CopyOfBuilder) super.requiredElementOptionalList(requiredElementOptionalList);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncModelVisitor handleListNullabilityTransparently requiredElementOptionalList: [String!] with handleListNullabilityTransparently: true 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.temporal.Temporal;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Foo type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Foos\\")
+public final class Foo implements Model {
+  public static final QueryField ID = field(\\"Foo\\", \\"id\\");
+  public static final QueryField REQUIRED_ELEMENT_OPTIONAL_LIST = field(\\"Foo\\", \\"requiredElementOptionalList\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\") List<String> requiredElementOptionalList;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public List<String> getRequiredElementOptionalList() {
+      return requiredElementOptionalList;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Foo(String id, List<String> requiredElementOptionalList) {
+    this.id = id;
+    this.requiredElementOptionalList = requiredElementOptionalList;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Foo foo = (Foo) obj;
+      return ObjectsCompat.equals(getId(), foo.getId()) &&
+              ObjectsCompat.equals(getRequiredElementOptionalList(), foo.getRequiredElementOptionalList()) &&
+              ObjectsCompat.equals(getCreatedAt(), foo.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), foo.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getRequiredElementOptionalList())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Foo {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"requiredElementOptionalList=\\" + String.valueOf(getRequiredElementOptionalList()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static BuildStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Foo justId(String id) {
+    return new Foo(
+      id,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      requiredElementOptionalList);
+  }
+  public interface BuildStep {
+    Foo build();
+    BuildStep id(String id);
+    BuildStep requiredElementOptionalList(List<String> requiredElementOptionalList);
+  }
+  
+
+  public static class Builder implements BuildStep {
+    private String id;
+    private List<String> requiredElementOptionalList;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, List<String> requiredElementOptionalList) {
+      this.id = id;
+      this.requiredElementOptionalList = requiredElementOptionalList;
+    }
+    
+    @Override
+     public Foo build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Foo(
+          id,
+          requiredElementOptionalList);
+    }
+    
+    @Override
+     public BuildStep requiredElementOptionalList(List<String> requiredElementOptionalList) {
+        this.requiredElementOptionalList = requiredElementOptionalList;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, List<String> requiredElementOptionalList) {
+      super(id, requiredElementOptionalList);
+      
+    }
+    
+    @Override
+     public CopyOfBuilder requiredElementOptionalList(List<String> requiredElementOptionalList) {
+      return (CopyOfBuilder) super.requiredElementOptionalList(requiredElementOptionalList);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncModelVisitor handleListNullabilityTransparently requiredElementRequiredList: [String!]! with handleListNullabilityTransparently: false 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.temporal.Temporal;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Foo type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Foos\\")
+public final class Foo implements Model {
+  public static final QueryField ID = field(\\"Foo\\", \\"id\\");
+  public static final QueryField REQUIRED_ELEMENT_REQUIRED_LIST = field(\\"Foo\\", \\"requiredElementRequiredList\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) List<String> requiredElementRequiredList;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public List<String> getRequiredElementRequiredList() {
+      return requiredElementRequiredList;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Foo(String id, List<String> requiredElementRequiredList) {
+    this.id = id;
+    this.requiredElementRequiredList = requiredElementRequiredList;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Foo foo = (Foo) obj;
+      return ObjectsCompat.equals(getId(), foo.getId()) &&
+              ObjectsCompat.equals(getRequiredElementRequiredList(), foo.getRequiredElementRequiredList()) &&
+              ObjectsCompat.equals(getCreatedAt(), foo.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), foo.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getRequiredElementRequiredList())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Foo {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"requiredElementRequiredList=\\" + String.valueOf(getRequiredElementRequiredList()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static RequiredElementRequiredListStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Foo justId(String id) {
+    return new Foo(
+      id,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      requiredElementRequiredList);
+  }
+  public interface RequiredElementRequiredListStep {
+    BuildStep requiredElementRequiredList(List<String> requiredElementRequiredList);
+  }
+  
+
+  public interface BuildStep {
+    Foo build();
+    BuildStep id(String id);
+  }
+  
+
+  public static class Builder implements RequiredElementRequiredListStep, BuildStep {
+    private String id;
+    private List<String> requiredElementRequiredList;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, List<String> requiredElementRequiredList) {
+      this.id = id;
+      this.requiredElementRequiredList = requiredElementRequiredList;
+    }
+    
+    @Override
+     public Foo build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Foo(
+          id,
+          requiredElementRequiredList);
+    }
+    
+    @Override
+     public BuildStep requiredElementRequiredList(List<String> requiredElementRequiredList) {
+        Objects.requireNonNull(requiredElementRequiredList);
+        this.requiredElementRequiredList = requiredElementRequiredList;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, List<String> requiredElementRequiredList) {
+      super(id, requiredElementRequiredList);
+      Objects.requireNonNull(requiredElementRequiredList);
+    }
+    
+    @Override
+     public CopyOfBuilder requiredElementRequiredList(List<String> requiredElementRequiredList) {
+      return (CopyOfBuilder) super.requiredElementRequiredList(requiredElementRequiredList);
+    }
+  }
+  
+}
+"
+`;
+
+exports[`AppSyncModelVisitor handleListNullabilityTransparently requiredElementRequiredList: [String!]! with handleListNullabilityTransparently: true 1`] = `
+"package com.amplifyframework.datastore.generated.model;
+
+import com.amplifyframework.core.model.temporal.Temporal;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.Objects;
+
+import androidx.core.util.ObjectsCompat;
+
+import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.annotations.Index;
+import com.amplifyframework.core.model.annotations.ModelConfig;
+import com.amplifyframework.core.model.annotations.ModelField;
+import com.amplifyframework.core.model.query.predicate.QueryField;
+
+import static com.amplifyframework.core.model.query.predicate.QueryField.field;
+
+/** This is an auto generated class representing the Foo type in your schema. */
+@SuppressWarnings(\\"all\\")
+@ModelConfig(pluralName = \\"Foos\\")
+public final class Foo implements Model {
+  public static final QueryField ID = field(\\"Foo\\", \\"id\\");
+  public static final QueryField REQUIRED_ELEMENT_REQUIRED_LIST = field(\\"Foo\\", \\"requiredElementRequiredList\\");
+  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
+  private final @ModelField(targetType=\\"String\\", isRequired = true) List<String> requiredElementRequiredList;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public String getId() {
+      return id;
+  }
+  
+  public List<String> getRequiredElementRequiredList() {
+      return requiredElementRequiredList;
+  }
+  
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private Foo(String id, List<String> requiredElementRequiredList) {
+    this.id = id;
+    this.requiredElementRequiredList = requiredElementRequiredList;
+  }
+  
+  @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      } else if(obj == null || getClass() != obj.getClass()) {
+        return false;
+      } else {
+      Foo foo = (Foo) obj;
+      return ObjectsCompat.equals(getId(), foo.getId()) &&
+              ObjectsCompat.equals(getRequiredElementRequiredList(), foo.getRequiredElementRequiredList()) &&
+              ObjectsCompat.equals(getCreatedAt(), foo.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), foo.getUpdatedAt());
+      }
+  }
+  
+  @Override
+   public int hashCode() {
+    return new StringBuilder()
+      .append(getId())
+      .append(getRequiredElementRequiredList())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
+      .toString()
+      .hashCode();
+  }
+  
+  @Override
+   public String toString() {
+    return new StringBuilder()
+      .append(\\"Foo {\\")
+      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
+      .append(\\"requiredElementRequiredList=\\" + String.valueOf(getRequiredElementRequiredList()) + \\", \\")
+      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
+      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
+      .append(\\"}\\")
+      .toString();
+  }
+  
+  public static RequiredElementRequiredListStep builder() {
+      return new Builder();
+  }
+  
+  /**
+   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
+   * This is a convenience method to return an instance of the object with only its ID populated
+   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
+   * in a relationship.
+   * @param id the id of the existing item this instance will represent
+   * @return an instance of this model with only ID populated
+   */
+  public static Foo justId(String id) {
+    return new Foo(
+      id,
+      null
+    );
+  }
+  
+  public CopyOfBuilder copyOfBuilder() {
+    return new CopyOfBuilder(id,
+      requiredElementRequiredList);
+  }
+  public interface RequiredElementRequiredListStep {
+    BuildStep requiredElementRequiredList(List<String> requiredElementRequiredList);
+  }
+  
+
+  public interface BuildStep {
+    Foo build();
+    BuildStep id(String id);
+  }
+  
+
+  public static class Builder implements RequiredElementRequiredListStep, BuildStep {
+    private String id;
+    private List<String> requiredElementRequiredList;
+    public Builder() {
+      
+    }
+    
+    private Builder(String id, List<String> requiredElementRequiredList) {
+      this.id = id;
+      this.requiredElementRequiredList = requiredElementRequiredList;
+    }
+    
+    @Override
+     public Foo build() {
+        String id = this.id != null ? this.id : UUID.randomUUID().toString();
+        
+        return new Foo(
+          id,
+          requiredElementRequiredList);
+    }
+    
+    @Override
+     public BuildStep requiredElementRequiredList(List<String> requiredElementRequiredList) {
+        Objects.requireNonNull(requiredElementRequiredList);
+        this.requiredElementRequiredList = requiredElementRequiredList;
+        return this;
+    }
+    
+    /**
+     * @param id id
+     * @return Current Builder instance, for fluent method chaining
+     */
+    public BuildStep id(String id) {
+        this.id = id;
+        return this;
+    }
+  }
+  
+
+  public final class CopyOfBuilder extends Builder {
+    private CopyOfBuilder(String id, List<String> requiredElementRequiredList) {
+      super(id, requiredElementRequiredList);
+      Objects.requireNonNull(requiredElementRequiredList);
+    }
+    
+    @Override
+     public CopyOfBuilder requiredElementRequiredList(List<String> requiredElementRequiredList) {
+      return (CopyOfBuilder) super.requiredElementRequiredList(requiredElementRequiredList);
     }
   }
   

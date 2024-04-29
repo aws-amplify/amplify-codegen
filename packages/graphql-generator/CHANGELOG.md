@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.4.0...@aws-amplify/graphql-generator@0.4.1) (2024-04-29)
+
+**Note:** Version bump only for package @aws-amplify/graphql-generator
+
 # [0.4.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.3.0...@aws-amplify/graphql-generator@0.4.0) (2024-04-25)
 
 - fix!: use transformer version 2 by default (#813) ([854bfea](https://github.com/aws-amplify/amplify-codegen/commit/854bfea9cb692fba558d224d039c027f0240a20b)), closes [#813](https://github.com/aws-amplify/amplify-codegen/issues/813)
