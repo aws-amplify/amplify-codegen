@@ -13,30 +13,14 @@ export function getConnectedFieldV2(
   model: CodeGenModel,
   connectedModel: CodeGenModel,
   directiveName: string,
-  shouldUseModelNameFieldInHasManyAndBelongsTo: boolean = false,
-  respectReferences: boolean = false,
+  shouldUseModelNameFieldInHasManyAndBelongsTo: boolean = false
 ): CodeGenField {
   const connectionInfo = getDirective(field)(directiveName);
   if (!connectionInfo) {
     throw new Error(`The ${field.name} on model ${model.name} is not connected`);
   }
-
-  const references = connectionInfo.arguments.references;
   if (connectionInfo.name === 'belongsTo') {
     let connectedFieldsBelongsTo = getBelongsToConnectedFields(model, connectedModel);
-    if (respectReferences && references) {
-      const connectedField = connectedFieldsBelongsTo.find((field) => {
-        return field.directives.some((dir) => {
-          return (dir.name === 'hasOne' || dir.name === 'hasMany')
-            && dir.arguments.references
-            && JSON.stringify(dir.arguments.references) === JSON.stringify(connectionInfo.arguments.references);
-        });
-      });
-      if (!connectedField) {
-       throw new Error(`Error processing @belongsTo directive on ${model.name}.${field.name}. @hasOne or @hasMany directive with references ${JSON.stringify(connectionInfo.arguments?.references)} was not found in connected model ${connectedModel.name}`);
-      }
-      return connectedField;
-    }
 
     if (connectedFieldsBelongsTo.length === 1) {
       return connectedFieldsBelongsTo[0];
@@ -45,25 +29,10 @@ export function getConnectedFieldV2(
 
   const indexName = connectionInfo.arguments.indexName;
   const connectionFields = connectionInfo.arguments.fields;
-  if (connectionFields && references) {
-    throw new Error(fieldsAndReferencesErrorMessage);
-  }
-  if (references || connectionFields || directiveName === 'hasOne') {
+  if (connectionFields || directiveName === 'hasOne') {
     let connectionDirective;
-    if (respectReferences && references) {
-      if (connectionInfo) {
-        connectionDirective = flattenFieldDirectives(connectedModel).find((dir) => {
-          return dir.arguments.references
-            && JSON.stringify(dir.arguments.references) === JSON.stringify(connectionInfo.arguments.references);
-        });
-        if (!connectionDirective) {
-         throw new Error(`Error processing @${connectionInfo.name} directive on ${model.name}.${field.name}. @belongsTo directive with references ${JSON.stringify(connectionInfo.arguments?.references)} was not found in connected model ${connectedModel.name}`);
-        }
-      }
-    }
-
     // Find gsi on other side if index is defined
-    else if (indexName) {
+    if (indexName) {
       connectionDirective = flattenFieldDirectives(connectedModel).find(dir => {
         return dir.name === 'index' && dir.arguments.name === indexName;
       });
@@ -155,6 +124,56 @@ export function getConnectedFieldV2(
       };
 }
 
+export function getConnectedFieldForReferences(
+  field: CodeGenField,
+  model: CodeGenModel,
+  connectedModel: CodeGenModel,
+  directiveName: string,
+): CodeGenField {
+  const connectionInfo = getDirective(field)(directiveName);
+  if (!connectionInfo) {
+    throw new Error(`The ${field.name} on model ${model.name} is not connected`);
+  }
+  const references = connectionInfo.arguments.references;
+  if (!references) {
+    throw new Error(`The ${field.name} on model ${model.name} does not have references.`);
+  }
+  const connectionFields = connectionInfo.arguments.fields;
+  if (connectionFields && references) {
+    throw new Error(`'fields' and 'references' cannot be used together.`);
+  }
+
+  if (connectionInfo.name === 'belongsTo') {
+    let connectedFieldsBelongsTo = getBelongsToConnectedFields(model, connectedModel);
+    const connectedField = connectedFieldsBelongsTo.find((field) => {
+      return field.directives.some((dir) => {
+        return (dir.name === 'hasOne' || dir.name === 'hasMany')
+          && dir.arguments.references
+          && JSON.stringify(dir.arguments.references) === JSON.stringify(connectionInfo.arguments.references);
+      });
+    });
+    if (!connectedField) {
+     throw new Error(`Error processing @belongsTo directive on ${model.name}.${field.name}. @hasOne or @hasMany directive with references ${JSON.stringify(connectionInfo.arguments?.references)} was not found in connected model ${connectedModel.name}`);
+    }
+    return connectedField;
+  }
+
+  // hasOne and hasMany
+  const connectionDirective = flattenFieldDirectives(connectedModel).find((dir) => {
+    return dir.arguments.references
+      && JSON.stringify(dir.arguments.references) === JSON.stringify(connectionInfo.arguments.references);
+  });
+  if (!connectionDirective) {
+   throw new Error(`Error processing @${connectionInfo.name} directive on ${model.name}.${field.name}. @belongsTo directive with references ${JSON.stringify(connectionInfo.arguments?.references)} was not found in connected model ${connectedModel.name}`);
+  }
+  const connectedFieldName = ((fieldDir: CodeGenFieldDirective) => {
+    return fieldDir.fieldName;
+  })(connectionDirective as CodeGenFieldDirective)
+
+  const connectedField = connectedModel.fields.find(f => f.name === connectedFieldName);
+  return connectedField!;
+}
+
 export function processConnectionsV2(
   field: CodeGenField,
   model: CodeGenModel,
@@ -162,22 +181,19 @@ export function processConnectionsV2(
   shouldUseModelNameFieldInHasManyAndBelongsTo: boolean = false,
   isCustomPKEnabled: boolean = false,
   shouldUseFieldsInAssociatedWithInHasOne: boolean = false,
-  respectReferences: boolean = false, // remove when enabled references for all targets
 ): CodeGenFieldConnection | undefined {
   const connectionDirective = field.directives.find(d => d.name === 'hasOne' || d.name === 'hasMany' || d.name === 'belongsTo');
 
   if (connectionDirective) {
     switch (connectionDirective.name) {
       case 'hasOne':
-        return processHasOneConnection(field, model, modelMap, connectionDirective, isCustomPKEnabled, shouldUseFieldsInAssociatedWithInHasOne, respectReferences);
+        return processHasOneConnection(field, model, modelMap, connectionDirective, isCustomPKEnabled, shouldUseFieldsInAssociatedWithInHasOne);
       case 'belongsTo':
-        return processBelongsToConnection(field, model, modelMap, connectionDirective, isCustomPKEnabled, respectReferences);
+        return processBelongsToConnection(field, model, modelMap, connectionDirective, isCustomPKEnabled);
       case 'hasMany':
-        return processHasManyConnection(field, model, modelMap, connectionDirective, shouldUseModelNameFieldInHasManyAndBelongsTo, isCustomPKEnabled, respectReferences);
+        return processHasManyConnection(field, model, modelMap, connectionDirective, shouldUseModelNameFieldInHasManyAndBelongsTo, isCustomPKEnabled);
       default:
         break;
     }
   }
 }
-
-export const fieldsAndReferencesErrorMessage = `'fields' and 'references' cannot be used together.`;

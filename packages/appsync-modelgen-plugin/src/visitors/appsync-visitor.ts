@@ -1087,8 +1087,7 @@ export class AppSyncModelVisitor<
           this.modelMap,
           shouldUseModelNameFieldInHasManyAndBelongsTo,
           isCustomPKEnabled,
-          shouldUseFieldsInAssociatedWithInHasOne,
-          this.config.target === 'introspection',
+          shouldUseFieldsInAssociatedWithInHasOne
         );
         if (connectionInfo) {
           if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {

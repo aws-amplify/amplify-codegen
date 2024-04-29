@@ -4,7 +4,7 @@ import {
   CodeGenFieldConnection,
   makeConnectionAttributeName,
 } from './process-connections';
-import { getConnectedFieldV2, fieldsAndReferencesErrorMessage } from './process-connections-v2';
+import { getConnectedFieldV2, getConnectedFieldForReferences } from './process-connections-v2';
 import { getModelPrimaryKeyComponentFields } from './fieldUtils';
 import { getOtherSideBelongsToField } from './fieldUtils';
 
@@ -14,8 +14,7 @@ export function processHasOneConnection(
   modelMap: CodeGenModelMap,
   connectionDirective: CodeGenDirective,
   isCustomPKEnabled: boolean = false,
-  shouldUseFieldsInAssociatedWithInHasOne:boolean = false,
-  respectReferences: boolean = false, // remove when enabled references for all targets
+  shouldUseFieldsInAssociatedWithInHasOne:boolean = false
 ): CodeGenFieldConnection | undefined {
   const otherSide = modelMap[field.type];
   // Find other side belongsTo field when in bi direction connection
@@ -27,26 +26,25 @@ export function processHasOneConnection(
   const connectionFields = connectionDirective.arguments.fields || [];
   const references = connectionDirective.arguments.references || [];
 
-  if (connectionFields.length > 0 && references.length > 0) {
-    throw new Error(fieldsAndReferencesErrorMessage);
-  }
-
   let associatedWithFields;
-  if (respectReferences && references.length > 0) {
-    // ensure there is a matching belongsTo field with references
-    getConnectedFieldV2(field, model, otherSide, connectionDirective.name, false, respectReferences);
+  if (references.length > 0) {
+    // native uses the connected field instead of associatedWithFields
+    // when using references associatedWithFields and associatedWithNative are not the same
+    // getConnectedFieldForReferences also ensures there is a matching belongsTo field with references
+    const associatedWithNativeReferences = getConnectedFieldForReferences(field, model, otherSide, connectionDirective.name)
     associatedWithFields = references.map((reference: string) => otherSide.fields.find((field) => reference === field.name))
     return {
       kind: CodeGenConnectionType.HAS_ONE,
       associatedWith: associatedWithFields[0],
       associatedWithFields,
+      associatedWithNativeReferences,
       connectedModel: otherSide,
       isConnectingFieldAutoCreated: false,
     };
   } else if (isCustomPKEnabled) {
     associatedWithFields = getConnectedFieldsForHasOne(otherSideBelongsToField, otherSide, shouldUseFieldsInAssociatedWithInHasOne);
   } else {
-    const otherSideField = getConnectedFieldV2(field, model, otherSide, connectionDirective.name, false, respectReferences);
+    const otherSideField = getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
     associatedWithFields = [otherSideField];
   }
 
