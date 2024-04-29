@@ -9,6 +9,7 @@ export type RecordingHeader = {
   title: string;
   env: any;
 };
+
 export type RecordingFrame = [number, 'o' | 'i', string];
 export type Recording = {
   header: RecordingHeader;
@@ -17,13 +18,21 @@ export type Recording = {
 
 export class Recorder {
   private isPaused: boolean = false;
+
   private childProcess: pty.IPty;
+
   private onDataHandlers: ((data: string) => void)[] = [];
+
   private onExitHandlers: ((exitCode: number, signal: string | number) => void)[] = [];
+
   private startTime: number;
+
   private recording: Recording;
+
   private cwd: string;
+
   private exitCode: number | undefined;
+
   constructor(
     private cmd: string,
     private args: string[],
@@ -41,7 +50,7 @@ export class Recorder {
         height: rows,
         timestamp: null,
         title: 'Recording',
-        env: options,
+        env: {},
       },
       frames: [],
     };
@@ -57,6 +66,9 @@ export class Recorder {
       cols: this.cols,
       rows: this.rows,
       cwd: this.cwd,
+      shell: true,
+      // Do not set useConpty. node-pty is smart enough to set it to true only on versions of Windows that support it.
+      // useConpty: true,
       ...this.options,
     });
     this.addFrame(this.renderPrompt(this.cwd, this.cmd, this.args));
@@ -79,6 +91,7 @@ export class Recorder {
   addOnExitHandlers(fn: (code: number, signal: string | number) => void) {
     this.onExitHandlers.push(fn);
   }
+
   removeOnExitHandlers(fn: (code: number, signal: string | number) => void): boolean {
     const idx = this.onExitHandlers.indexOf(fn);
     if (idx === -1) {
@@ -89,7 +102,11 @@ export class Recorder {
   }
 
   getRecording(): string {
-    return [JSON.stringify(this.recording.header), ...this.recording.frames.map(frame => JSON.stringify(frame))].join('\n');
+    return [JSON.stringify(this.recording.header), ...this.recording.frames.map((frame) => JSON.stringify(frame))].join('\n');
+  }
+
+  getRecordingFrames(): Readonly<RecordingFrame[]> {
+    return [...this.recording.frames];
   }
 
   pauseRecording(): void {

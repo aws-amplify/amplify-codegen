@@ -44,6 +44,19 @@ export function injectSessionToken(profileName: string) {
   fs.writeFileSync(pathManager.getAWSCredentialsFilePath(), ini.stringify(credentialsContents));
 }
 
+export function isTestingWithLatestCodebase(scriptRunnerPath) {
+  return scriptRunnerPath === process.execPath;
+}
+
+export function getScriptRunnerPath(testingWithLatestCodebase = false) {
+  if (!testingWithLatestCodebase) {
+    return process.platform === 'win32' ? 'node.exe' : 'exec';
+  }
+
+  // nodejs executable
+  return process.execPath;
+}
+
 export function npmInstall(cwd: string) {
   spawnSync('npm', ['install'], { cwd });
 }
