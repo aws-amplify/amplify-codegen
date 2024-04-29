@@ -4,7 +4,6 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable prefer-const */
 /* eslint-disable func-style */
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
 /*
  * nexpect.js: Top-level include for the `nexpect` module.
  *
