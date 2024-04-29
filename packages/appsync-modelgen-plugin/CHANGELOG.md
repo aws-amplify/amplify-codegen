@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.12.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.11.0...@aws-amplify/appsync-modelgen-plugin@2.12.0) (2024-04-29)
+
+### Bug Fixes
+
+- validate references on belongsTo when cpk is disabled ([#822](https://github.com/aws-amplify/amplify-codegen/issues/822)) ([a909ff3](https://github.com/aws-amplify/amplify-codegen/commit/a909ff333af7513c6babfa8cf5f6cfce57e854e5))
+
+### Features
+
+- use a different associated field for references on native ([#818](https://github.com/aws-amplify/amplify-codegen/issues/818)) ([9a8d048](https://github.com/aws-amplify/amplify-codegen/commit/9a8d0481fed582ecab4a8dabe4ac68cc5a08154d))
+
 # [2.11.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.10.0...@aws-amplify/appsync-modelgen-plugin@2.11.0) (2024-04-25)
 
 ### Bug Fixes
