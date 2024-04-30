@@ -28,7 +28,6 @@ import strip = require('strip-ansi');
 import retimer = require('retimer');
 import * as fs from 'fs-extra';
 import { Recorder } from '../asciinema-recorder';
-import { getScriptRunnerPath, isTestingWithLatestCodebase } from '..';
 
 export const RETURN = process.platform === 'win32' ? '\r' : EOL;
 const DEFAULT_NO_OUTPUT_TIMEOUT = process.env.AMPLIFY_TEST_TIMEOUT_SEC
@@ -697,17 +696,6 @@ export const nspawn = (command: string | string[], params: string[] = [], option
     const parsedArgs = parsedPath.base.split(' ');
     command = join(parsedPath.dir, parsedArgs[0]);
     params = params || parsedArgs.slice(1);
-  }
-
-  const testingWithLatestCodebase = isTestingWithLatestCodebase(command);
-  if (testingWithLatestCodebase || (process.platform === 'win32' && !command.endsWith('.exe'))) {
-    params.unshift(command);
-    command = getScriptRunnerPath(testingWithLatestCodebase);
-  }
-
-  if (process.platform === 'win32' && !command.endsWith('powershell.exe')) {
-    params.unshift(command);
-    command = 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe';
   }
 
   if (options.addLeadingPathPeriod) {
