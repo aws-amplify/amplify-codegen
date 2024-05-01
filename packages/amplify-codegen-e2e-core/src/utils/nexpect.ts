@@ -29,7 +29,7 @@ import retimer = require('retimer');
 import * as fs from 'fs-extra';
 import { Recorder } from '../asciinema-recorder';
 
-export const RETURN = process.platform === 'win32' ? '\r' : EOL;
+export const RETURN = EOL;
 const DEFAULT_NO_OUTPUT_TIMEOUT = process.env.AMPLIFY_TEST_TIMEOUT_SEC
   ? Number.parseInt(process.env.AMPLIFY_TEST_TIMEOUT_SEC, 10) * 1000
   : 5 * 60 * 1000; // 5 Minutes
