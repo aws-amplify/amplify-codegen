@@ -28,8 +28,6 @@ process.nextTick(async () => {
   try {
     await setupAmplify();
   } catch (e) {
-    console.log('Error occured during Amplify setup');
-    console.log(e)
     console.log(e.stack);
     process.exit(1);
   }
