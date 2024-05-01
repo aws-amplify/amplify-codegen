@@ -5,7 +5,7 @@ import { spawnSync, execSync } from 'child_process';
 import { v4 as uuid } from 'uuid';
 import * as ini from 'ini';
 import { pathManager } from '@aws-amplify/amplify-cli-core';
-import { getCommandPath } from './utils';
+import { getCommandPath, sleep } from './utils';
 
 export * from './configure/';
 export * from './init/';
@@ -70,6 +70,15 @@ export async function createNewProjectDir(
   } while (fs.existsSync(projectDir));
 
   fs.ensureDirSync(projectDir);
+  if (!process.env.SKIP_CREATE_PROJECT_DIR_INITIAL_DELAY) {
+    // createProjectDir(..) is something that nearly every test uses
+    // Commands like 'init' would collide with each other if they occurred too close to one another.
+    // Especially for nexpect output waiting
+    // This makes it a perfect candidate for staggering test start times
+    const initialDelay = Math.floor(Math.random() * 180 * 1000); // between 0 to 3 min
+    console.log(`Waiting for ${initialDelay} ms`);
+    await sleep(initialDelay);
+  }
   console.log(projectDir);
   return projectDir;
 }
