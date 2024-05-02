@@ -309,7 +309,7 @@ function chain(context: Context): ExecutionContext {
     sendCtrlC: function (): ExecutionContext {
       let _send: ExecutionStep = {
         fn: () => {
-          context.process.write(`${CONTROL_C}${RETURN}`);
+          context.process.write(`${CONTROL_C}`);
           return true;
         },
         name: '_send',
