@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { copySync, moveSync, readFileSync, writeFileSync } from 'fs-extra';
-import { getScriptRunnerPath, nspawn as spawn, npmInstall } from '@aws-amplify/amplify-codegen-e2e-core';
+import { getScriptRunnerPath, nspawn as spawn, npmInstall, getCommandPath } from '@aws-amplify/amplify-codegen-e2e-core';
 import { spawnSync } from 'child_process';
 
 /**
@@ -41,31 +41,32 @@ const copyTemplateDirectory = (projectPath: string, templatePath: string): void 
  * @returns a promise which resolves to the stack name
  */
 export const initGen2Project = async (cwd: string, props: Gen2DeployProps = {}): Promise<string> => {
-  // const commandOptions = {
-  //   cwd,
-  //   stripColors: true,
-  // };
   const commandOptions = {
     cwd,
-    env: process.env,
-    stdio: 'inherit'
-  }
-  spawnSync('npm', ['create', 'amplify@latest', '-y'], commandOptions as any);
-
+    stripColors: true,
+  };
+  const npmPath = getCommandPath('npm')
+  // const commandOptions = {
+  //   cwd,
+  //   env: process.env,
+  //   stdio: 'inherit'
+  // }
+  // spawnSync('npm', ['create', 'amplify@latest', '-y'], commandOptions as any);
+  await spawn(npmPath, ['create', 'amplify@latest', '-y'], commandOptions);
   overrideWithLocalCodegenPackages(cwd);
 
-  spawnSync('npm', ['install'], commandOptions as any);
-
+  // spawnSync('npm', ['install'], commandOptions as any);
+  await spawn(npmPath, ['install'], commandOptions);
 
   // Get root level packages info
-  spawnSync('npm', ['list'], commandOptions as any)
-  // await spawn('npm', ['list'], commandOptions).runAsync();
+  // spawnSync('npm', ['list'], commandOptions as any)
+  await spawn(npmPath, ['list'], commandOptions).runAsync();
   // Get codegen packages info
-  spawnSync('npm', ['list', ...codegenPackagesInGen2], commandOptions as any)
-  // await spawn('npm', ['list', ...codegenPackagesInGen2], commandOptions).runAsync();
+  // spawnSync('npm', ['list', ...codegenPackagesInGen2], commandOptions as any)
+  await spawn(npmPath, ['list', ...codegenPackagesInGen2], commandOptions).runAsync();
   // Get API packages info
-  spawnSync('npm', ['list', ...apiPackagesInGen2], commandOptions as any)
-  // await spawn('npm', ['list', ...apiPackagesInGen2], commandOptions).runAsync();
+  // spawnSync('npm', ['list', ...apiPackagesInGen2], commandOptions as any)
+  await spawn(npmPath, ['list', ...apiPackagesInGen2], commandOptions).runAsync();
 
   return JSON.parse(readFileSync(path.join(cwd, 'package.json'), 'utf8')).name.replace(/_/g, '-');
 };

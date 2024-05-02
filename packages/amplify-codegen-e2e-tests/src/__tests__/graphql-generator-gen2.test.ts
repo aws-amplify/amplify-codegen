@@ -17,7 +17,6 @@ describe('GraphQL generator for Gen2 e2e tests', () => {
 
   it('demo', async () => {
     const name = await initGen2Project(projRoot);
-    console.log(name)
     await sandboxDeploy(projRoot);
   })
 });
