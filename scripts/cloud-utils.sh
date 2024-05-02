@@ -111,7 +111,12 @@ function cloudE2EDebug {
     echo "Please provide the batch build id of codebuild"
     exit 1
   fi
-  generatedDebugSpecForFailedTests $1
+  if [ "$1" == "--use-existing-debug-spec" ]; then
+      echo "Using existing debug spec"
+  else
+      echo "Generating debug spec for provided batch build id"
+      generatedDebugSpecForFailedTests $1
+  fi
   echo Running Prod E2E Test Suite
   E2E_ROLE_NAME=CodebuildDeveloper
   E2E_PROFILE_NAME=AmplifyAPIE2EProd
