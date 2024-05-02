@@ -1,8 +1,7 @@
 import * as path from 'path';
 import { copySync, moveSync, readFileSync, writeFileSync } from 'fs-extra';
 import { getScriptRunnerPath, nspawn as spawn, npmInstall, getCommandPath } from '@aws-amplify/amplify-codegen-e2e-core';
-import { spawnSync } from 'child_process';
-import { execaSync } from 'execa';
+import { spawnSync, execSync } from 'child_process';
 
 /**
  * Retrieve the path to the `npx` executable for interacting with the amplify gen2 cli.
@@ -93,9 +92,10 @@ export const sandboxDeploy = async (cwd: string, props: Gen2DeployProps = {}) =>
     noOutputTimeout,
   };
   // Run sandbox deployment
-  const ampx = execaSync('npx', ['which', 'ampx'], {
-    cwd,
-  }).stdout.trim();
+  const ampx = execSync('npx which ampx')
+    .toString()
+    .trim();;
+  console.log(ampx)
   await
     spawn(ampx, ['sandbox'], commandOptions)
       .wait('Watching for file changes...')
