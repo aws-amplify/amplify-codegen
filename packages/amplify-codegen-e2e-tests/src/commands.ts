@@ -53,6 +53,10 @@ export const initGen2Project = async (cwd: string, props: Gen2DeployProps = {}):
   // }
   // spawnSync('npm', ['create', 'amplify@latest', '-y'], commandOptions as any);
   await spawn(npmPath, ['create', 'amplify@latest', '-y'], commandOptions).runAsync();
+
+  const ampx = spawnSync(getNpxPath(), ['which', 'ampx'], { cwd, env: process.env, stdio: 'pipe' }).stdout.toString().trim()
+  console.log(ampx)
+
   overrideWithLocalCodegenPackages(cwd);
 
   // spawnSync('npm', ['install'], commandOptions as any);
@@ -92,9 +96,10 @@ export const sandboxDeploy = async (cwd: string, props: Gen2DeployProps = {}) =>
     noOutputTimeout,
   };
   // Run sandbox deployment
-  const ampx = execSync('npx which ampx')
-    .toString()
-    .trim();;
+  const ampx = spawnSync(getNpxPath(), ['which', 'ampx'], { cwd, env: process.env, stdio: 'pipe' }).stdout.toString().trim()
+  // const ampx = execSync('npx which ampx')
+  //   .toString()
+  //   .trim();;
   console.log(ampx)
   await
     spawn(ampx, ['sandbox'], commandOptions)
