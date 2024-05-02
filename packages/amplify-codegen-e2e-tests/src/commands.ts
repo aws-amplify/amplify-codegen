@@ -47,23 +47,24 @@ export const initGen2Project = async (cwd: string, props: Gen2DeployProps = {}):
   // };
   const commandOptions = {
     cwd,
-    env: process.env
+    env: process.env,
+    stdio: 'inherit'
   }
-  spawnSync('npm', ['create', 'amplify@latest', '-y'], commandOptions);
+  spawnSync('npm', ['create', 'amplify@latest', '-y'], commandOptions as any);
 
   overrideWithLocalCodegenPackages(cwd);
 
-  spawnSync('npm', ['install'], commandOptions);
+  spawnSync('npm', ['install'], commandOptions as any);
 
 
   // Get root level packages info
-  spawnSync('npm', ['list'], commandOptions)
+  spawnSync('npm', ['list'], commandOptions as any)
   // await spawn('npm', ['list'], commandOptions).runAsync();
   // Get codegen packages info
-  spawnSync('npm', ['list', ...codegenPackagesInGen2], commandOptions)
+  spawnSync('npm', ['list', ...codegenPackagesInGen2], commandOptions as any)
   // await spawn('npm', ['list', ...codegenPackagesInGen2], commandOptions).runAsync();
   // Get API packages info
-  spawnSync('npm', ['list', ...apiPackagesInGen2], commandOptions)
+  spawnSync('npm', ['list', ...apiPackagesInGen2], commandOptions as any)
   // await spawn('npm', ['list', ...apiPackagesInGen2], commandOptions).runAsync();
 
   return JSON.parse(readFileSync(path.join(cwd, 'package.json'), 'utf8')).name.replace(/_/g, '-');
