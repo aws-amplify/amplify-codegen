@@ -52,11 +52,11 @@ export const initGen2Project = async (cwd: string, props: Gen2DeployProps = {}):
   //   stdio: 'inherit'
   // }
   // spawnSync('npm', ['create', 'amplify@latest', '-y'], commandOptions as any);
-  await spawn(npmPath, ['create', 'amplify@latest', '-y'], commandOptions);
+  await spawn(npmPath, ['create', 'amplify@latest', '-y'], commandOptions).runAsync();
   overrideWithLocalCodegenPackages(cwd);
 
   // spawnSync('npm', ['install'], commandOptions as any);
-  await spawn(npmPath, ['install'], commandOptions);
+  await spawn(npmPath, ['install'], commandOptions).runAsync();
 
   // Get root level packages info
   // spawnSync('npm', ['list'], commandOptions as any)
