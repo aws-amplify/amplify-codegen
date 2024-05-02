@@ -45,20 +45,25 @@ export const initGen2Project = async (cwd: string, props: Gen2DeployProps = {}):
   //   cwd,
   //   stripColors: true,
   // };
-  spawnSync('npm', ['create', 'amplify@latest', '-y'], { cwd });
+  const commandOptions = {
+    cwd,
+    env: process.env
+  }
+  spawnSync('npm', ['create', 'amplify@latest', '-y'], commandOptions);
 
   overrideWithLocalCodegenPackages(cwd);
 
-  npmInstall(cwd)
+  spawnSync('npm', ['install'], commandOptions);
+
 
   // Get root level packages info
-  spawnSync('npm', ['list'], { cwd })
+  spawnSync('npm', ['list'], commandOptions)
   // await spawn('npm', ['list'], commandOptions).runAsync();
   // Get codegen packages info
-  spawnSync('npm', ['list', ...codegenPackagesInGen2], { cwd })
+  spawnSync('npm', ['list', ...codegenPackagesInGen2], commandOptions)
   // await spawn('npm', ['list', ...codegenPackagesInGen2], commandOptions).runAsync();
   // Get API packages info
-  spawnSync('npm', ['list', ...apiPackagesInGen2], { cwd })
+  spawnSync('npm', ['list', ...apiPackagesInGen2], commandOptions)
   // await spawn('npm', ['list', ...apiPackagesInGen2], commandOptions).runAsync();
 
   return JSON.parse(readFileSync(path.join(cwd, 'package.json'), 'utf8')).name.replace(/_/g, '-');
