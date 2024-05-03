@@ -78,7 +78,7 @@ batch:
       debug-session: true
       depend-on:
         - publish_to_local_registry
-    - identifier: graphql_generator_gen2
+    - identifier: l_graphql_generator_gen2
       buildspec: .codebuild/run_gen2_e2e_test.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE

@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { createNewProjectDir, deleteProjectDir } from "@aws-amplify/amplify-codegen-e2e-core";
-import { ClientCodegenConfig, GraphqlCodegenConfig, IntrospectionCodegenConfig, ModelgenConfig, deleteSandbox, generateForms, generateGraphqlClientCode, generateOutputs, initGen2Project, sandboxDeploy, testGraphqlClientCodegen } from "../gen2-codegen-tests-base/";
+import { GraphqlCodegenConfig, IntrospectionCodegenConfig, ModelgenConfig, deleteSandbox, generateForms, generateOutputs, initGen2Project, sandboxDeploy, testGraphqlClientCodegen } from "../gen2-codegen-tests-base/";
 
 describe('GraphQL generator for Gen2 e2e tests', () => {
   let projRoot: string;
@@ -55,9 +55,8 @@ describe('GraphQL generator for Gen2 e2e tests', () => {
         return { ...config, statementTarget: st } as GraphqlCodegenConfig
       });
     }).flat();
-    console.log(graphqlCodegenConfigs)
     graphqlCodegenConfigs.forEach(config => {
-      // TODO: fix the operation source not being parsed issue and enable the tests
+      // TODO: skip these tests as it will fail due to the duplicate graphql module. Will enable them once the issue is resolved
       it.skip(`should not throw error when generating GraphQL client code in format ${config.format} with type ${config.typeTarget} and statement ${config.statementTarget}`, async () => {
         await testGraphqlClientCodegen(projRoot, config);
       });

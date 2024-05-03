@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { copySync, moveSync, readFileSync, writeFileSync } from 'fs-extra';
+import { copySync, readFileSync, writeFileSync } from 'fs-extra';
 import { getScriptRunnerPath, nspawn as spawn, getCommandPath } from '@aws-amplify/amplify-codegen-e2e-core';
 import { spawnSync } from 'child_process';
 
