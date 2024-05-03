@@ -85,7 +85,6 @@ batch:
         variables:
           TEST_SUITE: src/__tests__/graphql-generator-gen2.test.ts
           CLI_REGION: us-west-2
-      debug-session: true
       depend-on:
         - publish_to_local_registry
     - identifier: w_graphql_generator_gen2
@@ -96,7 +95,7 @@ batch:
         type: WINDOWS_SERVER_2019_CONTAINER
         variables:
           TEST_SUITE: src/__tests__/graphql-generator-gen2.test.ts
-          CLI_REGION: us-west-2
+          CLI_REGION: us-east-1
       depend-on:
         - publish_to_local_registry
         - build_windows

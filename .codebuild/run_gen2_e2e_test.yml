@@ -10,7 +10,6 @@ phases:
   build:
     commands:
       - source ./shared-scripts.sh && _setupGen2E2ETestsLinux
-      - codebuild-breakpoint
       - source ./shared-scripts.sh && _runGen2E2ETestsLinux
   post_build:
     commands:

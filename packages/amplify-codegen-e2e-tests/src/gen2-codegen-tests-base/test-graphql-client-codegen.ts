@@ -12,4 +12,4 @@ export const testGraphqlClientCodegen = async (projectRoot: string, config: Clie
   await expect(generateGraphqlClientCode(projectRoot, config)).resolves.not.toThrow();
 
   expect(isNotEmptyDir(outputPath)).toBe(true);
-}
+};

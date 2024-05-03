@@ -29,7 +29,7 @@ type CodegenPackage = 'GraphqlGenerator' | 'TypeGen';
 const codegenPackageDirectoryMap: Record<CodegenPackage, string> = {
   GraphqlGenerator: path.join(__dirname, '..', '..', '..', 'graphql-generator'),
   TypeGen: path.join(__dirname, '..', '..', '..', 'graphql-types-generator'),
-}
+};
 
 /**
  * Copy the backend data snapshot into the generated app location.
@@ -81,7 +81,7 @@ const overrideWithLocalCodegenPackages = (cwd: string): void => {
     '@aws-amplify/graphql-types-generator': codegenPackageDirectoryMap['TypeGen'],
   };
   writeFileSync(path.join(cwd, 'package.json'), JSON.stringify(packageJsonObj));
-}
+};
 
 export const sandboxDeploy = async (cwd: string, props: Gen2DeployProps = {}): Promise<void> => {
   const noOutputTimeout = props?.timeoutMs ?? 10 * 60 * 1000;
@@ -106,7 +106,7 @@ export const sandboxDeploy = async (cwd: string, props: Gen2DeployProps = {}): P
       .wait('Would you like to delete all the resources in your sandbox environment')
       .sendLine('N')
       .runAsync();
-}
+};
 
 export const deleteSandbox = async (cwd: string): Promise<void> => {
   await
@@ -114,7 +114,7 @@ export const deleteSandbox = async (cwd: string): Promise<void> => {
       .wait('Are you sure you want to delete all the resources in your sandbox environment')
       .sendLine('Y')
       .runAsync();
-}
+};
 
 /**
  * Commands for ampx generate
@@ -149,7 +149,7 @@ const getClientCodegenParams = (props: ClientCodegenConfig): string[] => {
     default:
       return params;
   }
-}
+};
 
 export const generateGraphqlClientCode = async (cwd: string, props: ClientCodegenConfig): Promise<void> => {
   await
@@ -158,7 +158,7 @@ export const generateGraphqlClientCode = async (cwd: string, props: ClientCodege
       ['ampx', 'generate', 'graphql-client-code', ...getClientCodegenParams(props)],
       { cwd, stripColors: true },
     ).runAsync();
-}
+};
 
 export const generateForms = async (cwd: string, props: any = {}): Promise<void> => {
   await
@@ -167,7 +167,7 @@ export const generateForms = async (cwd: string, props: any = {}): Promise<void>
       ['ampx', 'generate', 'forms'],
       { cwd, stripColors: true },
     ).runAsync();
-}
+};
 
 export const generateOutputs = async (cwd: string, props: any = {}): Promise<void> => {
   await
@@ -176,4 +176,4 @@ export const generateOutputs = async (cwd: string, props: any = {}): Promise<voi
       ['ampx', 'generate', 'outputs'],
       { cwd, stripColors: true },
     ).runAsync();
-}
+};
