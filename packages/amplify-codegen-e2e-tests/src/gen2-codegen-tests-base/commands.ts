@@ -119,24 +119,24 @@ export const deleteSandbox = async (cwd: string): Promise<void> => {
 /**
  * Commands for ampx generate
  */
-type ClientCodegenConfigBase = {
+export type ClientCodegenConfigBase = {
   format: string
   outDir: string
 }
 
-type IntrospectionCodegenConfig = ClientCodegenConfigBase & {
+export type IntrospectionCodegenConfig = ClientCodegenConfigBase & {
   format: 'introspection'
 }
-type ModelgenConfig = ClientCodegenConfigBase & {
+export type ModelgenConfig = ClientCodegenConfigBase & {
   format: 'modelgen'
   modelTarget: string
 }
-type GraphqlCodegenConfig = ClientCodegenConfigBase & {
+export type GraphqlCodegenConfig = ClientCodegenConfigBase & {
   format: 'graphql-codegen'
   typeTarget: string
   statementTarget: string
 }
-type ClientCodegenConfig = IntrospectionCodegenConfig | ModelgenConfig | GraphqlCodegenConfig
+export type ClientCodegenConfig = IntrospectionCodegenConfig | ModelgenConfig | GraphqlCodegenConfig
 
 const getClientCodegenParams = (props: ClientCodegenConfig): string[] => {
   const params = [ '--out', props.outDir, '--format', props.format ]
