@@ -33,6 +33,15 @@ export function getCLIPath(testingWithLatestCodebase = false) {
   return getCommandPath(commandName);
 }
 
+export function getScriptRunnerPath(testingWithLatestCodebase = false) {
+  if (!testingWithLatestCodebase) {
+    return process.platform === 'win32' ? 'node.exe' : 'exec';
+  }
+
+  // nodejs executable
+  return process.execPath;
+}
+
 export function isCI(): boolean {
   return process.env.CI && process.env.CODEBUILD ? true : false;
 }

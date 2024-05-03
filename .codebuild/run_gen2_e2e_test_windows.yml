@@ -1,0 +1,21 @@
+version: 0.2
+env:
+  shell: powershell.exe
+  variables:
+    CI: true
+    CODEBUILD: true
+    NODE_OPTIONS: --max-old-space-size=8096
+phases:
+  build:
+    commands:
+      # commands need to be run in stand-alone bash scripts so that bash can be used on windows
+      - bash ./.codebuild/scripts/gen2_e2e_test_windows.sh
+  post_build:
+    commands:
+      # commands need to be run in stand-alone bash scripts so that bash can be used on windows
+      - bash ./.codebuild/scripts/post_e2e_test.sh
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: $Env:CODEBUILD_SRC_DIR\packages\amplify-codegen-e2e-tests\amplify-e2e-reports

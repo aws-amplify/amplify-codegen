@@ -78,6 +78,27 @@ batch:
       debug-session: true
       depend-on:
         - publish_to_local_registry
+    - identifier: l_graphql_generator_gen2
+      buildspec: .codebuild/run_gen2_e2e_test.yml
+      env:
+        compute-type: BUILD_GENERAL1_LARGE
+        variables:
+          TEST_SUITE: src/__tests__/graphql-generator-gen2.test.ts
+          CLI_REGION: us-west-2
+      depend-on:
+        - publish_to_local_registry
+    - identifier: w_graphql_generator_gen2
+      buildspec: .codebuild/run_gen2_e2e_test_windows.yml
+      env:
+        compute-type: BUILD_GENERAL1_LARGE
+        image: $WINDOWS_IMAGE_2019
+        type: WINDOWS_SERVER_2019_CONTAINER
+        variables:
+          TEST_SUITE: src/__tests__/graphql-generator-gen2.test.ts
+          CLI_REGION: us-east-1
+      depend-on:
+        - publish_to_local_registry
+        - build_windows
     - identifier: >-
         l_add_codegen_ios_configure_codegen_android_configure_codegen_js_graphql_codegen_android
       buildspec: .codebuild/run_e2e_tests.yml
