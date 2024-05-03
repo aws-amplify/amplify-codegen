@@ -116,11 +116,46 @@ export const deleteSandbox = async (cwd: string): Promise<void> => {
       .runAsync();
 }
 
-export const generateGraphqlClientCode = async (cwd: string, props: any = {}): Promise<void> => {
+/**
+ * Commands for ampx generate
+ */
+type ClientCodegenConfigBase = {
+  format: string
+  outDir: string
+}
+
+type IntrospectionCodegenConfig = ClientCodegenConfigBase & {
+  format: 'introspection'
+}
+type ModelgenConfig = ClientCodegenConfigBase & {
+  format: 'modelgen'
+  modelTarget: string
+}
+type GraphqlCodegenConfig = ClientCodegenConfigBase & {
+  format: 'graphql-codegen'
+  typeTarget: string
+  statementTarget: string
+}
+type ClientCodegenConfig = IntrospectionCodegenConfig | ModelgenConfig | GraphqlCodegenConfig
+
+const getClientCodegenParams = (props: ClientCodegenConfig): string[] => {
+  const params = [ '--out', props.outDir, '--format', props.format ]
+  switch (props.format) {
+    case 'modelgen':
+      return [ ...params, '--model-target', props.modelTarget];
+    case 'graphql-codegen':
+      return [ ...params, '--type-target', props.typeTarget, '--statement-target', props.statementTarget]
+    case 'introspection':
+    default:
+      return params;
+  }
+}
+
+export const generateGraphqlClientCode = async (cwd: string, props: ClientCodegenConfig): Promise<void> => {
   await
     spawn(
       getNpxPath(),
-      ['ampx', 'generate', 'graphql-client-code'],
+      ['ampx', 'generate', 'graphql-client-code', ...getClientCodegenParams(props)],
       { cwd, stripColors: true },
     ).runAsync();
 }

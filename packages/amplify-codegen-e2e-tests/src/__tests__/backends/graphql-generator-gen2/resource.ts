@@ -1,4 +1,11 @@
-import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+import { type ClientSchema, a, defineData, defineFunction } from '@aws-amplify/backend';
+
+const echoQueryHandler = defineFunction({
+  entry: './handlers/query.ts'
+});
+const echoMutationHandler = defineFunction({
+  entry: './handlers/mutation.ts'
+});
 
 const schema = a.schema({
   // Model type
@@ -10,6 +17,10 @@ const schema = a.schema({
     .authorization((allow) => [allow.guest()]),
   // Enum Type
   Status: a.enum([
+    'PROGRESS',
+    'COMPLETED',
+  ]),
+  EchoQueryStatus: a.enum([
     'PROGRESS',
     'COMPLETED',
   ]),
@@ -26,14 +37,16 @@ const schema = a.schema({
       status: a.enum(['PROGRESS', 'COMPLETED']),
     })
     .returns(a.ref('EchoResponse'))
-    .authorization(allow => [allow.authenticated()]),
+    .authorization(allow => [allow.authenticated()])
+    .handler(a.handler.function(echoQueryHandler)),
   echoMutation: a
     .mutation()
     .arguments({
       requiredContent: a.string().required()
     })
     .returns(a.ref('Todo').required())
-    .authorization(allow => [allow.authenticated()]),
+    .authorization(allow => [allow.authenticated()])
+    .handler(a.handler.function(echoMutationHandler)),
 });
 
 export type Schema = ClientSchema<typeof schema>;

@@ -28,6 +28,6 @@ describe('GraphQL generator for Gen2 e2e tests', () => {
   });
 
   it('should not throw error when generating GraphQL client code', async () => {
-    await expect(generateGraphqlClientCode(projRoot)).resolves.not.toThrow();
+    await expect(generateGraphqlClientCode(projRoot, { outDir: 'codegen', format: 'introspection'})).resolves.not.toThrow();
   });
 });
