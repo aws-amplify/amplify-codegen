@@ -83,7 +83,7 @@ const overrideWithLocalCodegenPackages = (cwd: string): void => {
   writeFileSync(path.join(cwd, 'package.json'), JSON.stringify(packageJsonObj));
 }
 
-export const sandboxDeploy = async (cwd: string, props: Gen2DeployProps = {}) => {
+export const sandboxDeploy = async (cwd: string, props: Gen2DeployProps = {}): Promise<void> => {
   const noOutputTimeout = props?.timeoutMs ?? 10 * 60 * 1000;
   const commandOptions = {
     cwd,
@@ -108,14 +108,37 @@ export const sandboxDeploy = async (cwd: string, props: Gen2DeployProps = {}) =>
       .runAsync();
 }
 
-export const deleteSandbox = async (cwd: string) => {
-  const commandOptions = {
-    cwd,
-    stripColors: true,
-  };
+export const deleteSandbox = async (cwd: string): Promise<void> => {
   await
-    spawn(getNpxPath(), ['ampx', 'sandbox', 'delete'], commandOptions)
+    spawn(getNpxPath(), ['ampx', 'sandbox', 'delete'], { cwd, stripColors: true })
       .wait('Are you sure you want to delete all the resources in your sandbox environment')
       .sendLine('Y')
       .runAsync();
+}
+
+export const generateGraphqlClientCode = async (cwd: string, props: any = {}): Promise<void> => {
+  await
+    spawn(
+      getNpxPath(),
+      ['ampx', 'generate', 'graphql-client-code'],
+      { cwd, stripColors: true },
+    ).runAsync();
+}
+
+export const generateForms = async (cwd: string, props: any = {}): Promise<void> => {
+  await
+    spawn(
+      getNpxPath(),
+      ['ampx', 'generate', 'forms'],
+      { cwd, stripColors: true },
+    ).runAsync();
+}
+
+export const generateOutputs = async (cwd: string, props: any = {}): Promise<void> => {
+  await
+    spawn(
+      getNpxPath(),
+      ['ampx', 'generate', 'outputs'],
+      { cwd, stripColors: true },
+    ).runAsync();
 }
