@@ -13,7 +13,7 @@ const getNpxPath = (): string => (process.platform === 'win32' ? getScriptRunner
  * @param cwd current working directory
  * @returns the local `ampx` executable path
  */
-const getAmpxPath = (cwd: string): string => 
+const getAmpxPath = (cwd: string): string =>
   spawnSync(getNpxPath(), ['which', 'ampx'], { cwd, env: process.env, stdio: 'pipe' }).stdout.toString().trim();
 
 const codegenPackagesInGen2 = [
@@ -92,7 +92,7 @@ export const sandboxDeploy = async (cwd: string, props: Gen2DeployProps = {}) =>
   };
 
   // Run sandbox deployment
-  
+
   /**
    * For sandbox deployment, the nested ampx binary is retrieved instead of using npx
    * On windows, the Ctrl-C signal is not returned correctly from npx binary, whose code is 1 and will fail nexpect check
