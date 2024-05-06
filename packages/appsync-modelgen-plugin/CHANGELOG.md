@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.12.0...@aws-amplify/appsync-modelgen-plugin@2.12.1) (2024-05-06)
+
+### Bug Fixes
+
+- add missing closing parens on swift hasMany ([#835](https://github.com/aws-amplify/amplify-codegen/issues/835)) ([cfd4c2b](https://github.com/aws-amplify/amplify-codegen/commit/cfd4c2b4ad0fd8a3b74896c849da90cbd45fe8f4))
+- java builder steps to respect handleListNullabilityTransparently ([#830](https://github.com/aws-amplify/amplify-codegen/issues/830)) ([5eb0aa8](https://github.com/aws-amplify/amplify-codegen/commit/5eb0aa8bd2ded182aa90fce7355eac99973e8fc8))
+
 # [2.12.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.11.0...@aws-amplify/appsync-modelgen-plugin@2.12.0) (2024-04-29)
 
 ### Bug Fixes
