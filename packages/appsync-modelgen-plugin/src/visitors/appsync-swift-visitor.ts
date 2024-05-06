@@ -622,11 +622,11 @@ export class AppSyncSwiftVisitor<
       if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
         let association = `associatedWith: ${this.getModelName(
           connectionInfo.connectedModel,
-        )}.keys.${this.getFieldName(connectionInfo.associatedWith)})`;
+        )}.keys.${this.getFieldName(connectionInfo.associatedWith)}`;
         if (connectionInfo.associatedWithNativeReferences) {
           association = `associatedFields: [${this.getCodingKey(connectionInfo.connectedModel, connectionInfo.associatedWithNativeReferences)}]`
         }
-        return `.hasMany(${name}, is: ${isRequired}, ofType: ${typeName}, ${association}`;
+        return `.hasMany(${name}, is: ${isRequired}, ofType: ${typeName}, ${association})`;
       }
       if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
         let association = `associatedWith: ${this.getModelName(
