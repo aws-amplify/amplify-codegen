@@ -947,7 +947,7 @@ export class AppSyncModelJavaVisitor<
     isIdAsModelPrimaryKey: boolean = true,
   ): void {
     const requiredFields = this.getWritableFields(model).filter(
-      field => !field.isNullable && !(isIdAsModelPrimaryKey && this.READ_ONLY_FIELDS.includes(field.name)),
+      field => this.isRequiredField(field) && !(isIdAsModelPrimaryKey && this.READ_ONLY_FIELDS.includes(field.name)),
     );
     const types = this.getTypesUsedByModel(model);
     const returnType = requiredFields.length

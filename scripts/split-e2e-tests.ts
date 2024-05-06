@@ -27,6 +27,7 @@ const EXCLUDE_TESTS = [
   'src/__tests__/build-app-swift.test.ts',
   'src/__tests__/build-app-android.test.ts',
   'src/__tests__/codegen-matrix.test.ts',
+  'src/__tests__/graphql-generator-gen2.test.ts'
 ];
 const DEBUG_FLAG = '--debug';
 

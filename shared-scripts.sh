@@ -264,6 +264,22 @@ function _setupE2ETestsWindows {
     _setShell
 }
 
+function _setupGen2E2ETestsLinux {
+    echo "Setup Gen2 E2E Tests Linux"
+    loadCacheFromLinuxBuildJob
+    loadCache verdaccio-cache $CODEBUILD_SRC_DIR/../verdaccio-cache
+    _loadTestAccountCredentials
+    _setShell
+}
+
+function _setupGen2E2ETestsWindows {
+    echo "Setup Gen2 E2E Tests Windows"
+    loadCacheFromWindowsBuildJob
+    loadCache verdaccio-cache $CODEBUILD_SRC_DIR/../verdaccio-cache windows
+    _loadTestAccountCredentials
+    _setShell
+}
+
 
 function _runE2ETestsLinux {
     echo "RUN E2E Tests Linux"
@@ -273,6 +289,16 @@ function _runE2ETestsLinux {
 function _runE2ETestsWindows {
     echo "RUN E2E Tests Windows"
     retry runE2eTest
+}
+
+function _runGen2E2ETestsLinux {
+    echo "RUN Gen2 E2E Tests Linux"
+    retry runGen2E2eTest
+}
+
+function _runGen2E2ETestsWindows {
+    echo "RUN Gen2 E2E Tests Windows"
+    retry runGen2E2eTest
 }
 
 function _scanArtifacts {
@@ -410,6 +436,22 @@ function runE2eTest {
         npm run e2e --maxWorkers=4 $TEST_SUITE -t "$failedTests"
     else
         npm run e2e --maxWorkers=4 $TEST_SUITE
+    fi
+}
+
+function runGen2E2eTest {
+    FAILED_TEST_REGEX_FILE="./amplify-e2e-reports/amplify-e2e-failed-test.txt"
+
+    if [ -z "$FIRST_RUN" ] || [ "$FIRST_RUN" == "true" ]; then
+        cd $(pwd)/packages/amplify-codegen-e2e-tests
+    fi
+
+    if [ -f  $FAILED_TEST_REGEX_FILE ]; then
+        # read the content of failed tests
+        failedTests=$(<$FAILED_TEST_REGEX_FILE)
+        npm run e2e-gen2 --maxWorkers=4 $TEST_SUITE -t "$failedTests"
+    else
+        npm run e2e-gen2 --maxWorkers=4 $TEST_SUITE
     fi
 }
 

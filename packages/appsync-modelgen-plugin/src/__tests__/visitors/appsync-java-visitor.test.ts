@@ -782,6 +782,29 @@ describe('AppSyncModelVisitor', () => {
     });
   });
 
+  describe('handleListNullabilityTransparently', () => {
+    const testCases = [
+      ['requiredElementRequiredList: [String!]!', true],
+      ['requiredElementRequiredList: [String!]!', false],
+      ['requiredElementOptionalList: [String!]', true],
+      ['requiredElementOptionalList: [String!]', false],
+      ['optionalElementRequiredList: [String]!', true],
+      ['optionalElementRequiredList: [String]!', false],
+      ['optionalElementOptionalList: [String]', true],
+      ['optionalElementOptionalList: [String]', false],
+    ];
+
+    test.each(testCases)('%s with handleListNullabilityTransparently: %s', (field, handleListNullabilityTransparently) => {
+      const schema = `
+        type Foo @model
+        {
+          ${field}
+        }
+      `;
+      expect(getVisitorPipelinedTransformer(schema, 'Foo', { handleListNullabilityTransparently }).generate()).toMatchSnapshot();
+    });
+  });
+
   describe('custom references', () => {
     test('sets the association to the references field for hasMany/belongsTo', () => {
       const schema = /* GraphQL */ `
