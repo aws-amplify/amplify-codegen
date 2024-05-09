@@ -16,12 +16,33 @@ function setupMocks(mockFs, loadConfig, apiId, frontend, target, generatedFileNa
   };
   const generatedFileName = generatedFileNameOverride || getOutputFileName('API', target);
   const schemaFilePath = 'schema.json';
+  const nodeModulesPrettierGraphqlGenerator = path.resolve(path.join(__dirname, '../../../graphql-generator/node_modules/prettier'));
+  const nodeModulesPrettierTypesGenerator = path.resolve(path.join(__dirname, '../../../graphql-types-generator/node_modules/prettier'));
+  const nodeModulesPrettierGraphqlGeneratorWindows = path.resolve(
+    path.join(__dirname, '../../../../node_modules/@aws-amplify/graphql-generator/node_modules/prettier'),
+  );
+  const nodeModulesPrettierTypesGeneratorWindows = path.resolve(
+    path.join(__dirname, '../../../../node_modules/@aws-amplify/graphql-types-generator/node_modules/prettier'),
+  );
+
   const nodeModulesPrettier = path.resolve(path.join(__dirname, '../../../../node_modules/prettier'));
   const mockedFiles = {
     // load actual prettier module to avoid error
     // Cannot find module './parser-graphql' from '../../node_modules/prettier/index.js'
     // It's not clear why other modules don't need to be loaded
-    [nodeModulesPrettier]: mockFs.load(nodeModulesPrettier, {
+    [nodeModulesPrettierGraphqlGenerator]: mockFs.load(nodeModulesPrettierGraphqlGenerator, {
+      recursive: true,
+      lazy: true,
+    }),
+    [nodeModulesPrettierTypesGenerator]: mockFs.load(nodeModulesPrettierTypesGenerator, {
+      recursive: true,
+      lazy: true,
+    }),
+    [nodeModulesPrettierGraphqlGeneratorWindows]: mockFs.load(nodeModulesPrettierGraphqlGeneratorWindows, {
+      recursive: true,
+      lazy: true,
+    }),
+    [nodeModulesPrettierTypesGeneratorWindows]: mockFs.load(nodeModulesPrettierTypesGeneratorWindows, {
       recursive: true,
       lazy: true,
     }),
