@@ -19,6 +19,18 @@ body:
     validations:
       required: true
   - type: textarea
+    id: env
+    attributes:
+      label: Codegen packages
+      description: |
+        Please copy and paste output of the following command. This will be automatically formatted into code, so no need for backticks.
+        ```bash
+        npm list @aws-amplify/graphql-generator
+        ```
+      render: plain text
+    validations:
+      required: true
+  - type: textarea
     id: description
     attributes:
       label: Description
