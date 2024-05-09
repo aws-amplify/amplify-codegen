@@ -47,7 +47,9 @@
     "authenticate-e2e-profile": "source scripts/cloud-utils.sh && authenticateWithE2EProfile",
     "extract-dependency-licenses": "./scripts/extract-dependency-licenses.sh",
     "verify-dependency-licenses-extract": "yarn extract-dependency-licenses && ./scripts/verify-dependency-licenses.sh",
-    "deprecate": "ts-node scripts/deprecate_release.ts"
+    "deprecate": "ts-node scripts/deprecate_release.ts",
+    "prettier-check": "yarn prettier --check .",
+    "prettier-write": "yarn prettier --write ."
   },
   "bugs": {
     "url": "https://github.com/aws-amplify/amplify-codegen/issues"
@@ -63,8 +65,14 @@
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-push": "npm run lint && npm run test-changed",
-      "pre-commit": "yarn split-e2e-tests && yarn extract-dependency-licenses"
+      "pre-commit": "yarn split-e2e-tests && lint-staged && yarn extract-dependency-licenses"
     }
+  },
+  "lint-staged": {
+    "*.{md,yml,yaml,json,graphql}": "prettier --write",
+    "*.{js,ts,jsx,tsx}": [
+      "prettier --write"
+    ]
   },
   "author": "Amazon Web Services",
   "license": "Apache-2.0",
@@ -114,8 +122,9 @@
     "jest-circus": "^27.0.0",
     "jest-junit": "^12.0.0",
     "js-yaml": "^4.0.0",
+    "lint-staged": "^13.2.2",
     "lnk": "1.1.0",
-    "prettier": "^1.19.1",
+    "prettier": "^2.8.8",
     "pretty-quick": "^3.1.0",
     "rimraf": "^3.0.0",
     "ts-jest": "^27.0.0",

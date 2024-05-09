@@ -7,3 +7,16 @@
 **/tsconfig.json
 packages/*/CHANGELOG.md
 scripts/components/private_packages.ts
+.yarn
+packages/*/build
+packages/*/lib
+packages/*/dist
+coverage
+node_modules
+API.md
+CHANGELOG.md
+packages/*/CHANGELOG.md
+packages/amplify-codegen-e2e-tests/amplify-e2e-reports
+packages/graphql-types-generator/fixtures
+packages/appsync-modelgen-plugin/schemas/introspection/1/ModelIntrospectionSchema.json
+packages/appsync-modelgen-plugin/src/validate-cjs.js
