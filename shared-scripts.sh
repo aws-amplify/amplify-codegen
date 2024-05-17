@@ -482,7 +482,7 @@ function _deprecate {
   else
     yarn verdaccio-clean
     source .codebuild/scripts/local_publish_helpers.sh
-    startLocalRegistry "$(pwd)/codebuild_specs/scripts/verdaccio.yaml"
+    startLocalRegistry "$(pwd)/.codebuild/scripts/verdaccio.yaml"
     setNpmRegistryUrlToLocal
   fi
   yarn deprecate
