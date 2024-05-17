@@ -147,7 +147,7 @@ function _installLinux {
   _setShell
   echo "Linux Install"
   yarn run production-install
-  storeCacheForBuildJob
+  storeCacheForLinuxBuildJob
 }
 
 function _testLinux {
@@ -473,7 +473,7 @@ function _deploy {
 }
 
 function _deprecate {
-  loadCacheFromBuildJob
+  loadCacheFromLinuxBuildJob
   echo "Deprecate"
   echo "Authenticate with NPM"
   if [ "$USE_NPM_REGISTRY" == "true" ]; then
