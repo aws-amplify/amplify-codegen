@@ -6,3 +6,4 @@
 **/.eslintrc.js
 **/tsconfig.json
 packages/*/CHANGELOG.md
+scripts/components/private_packages.ts

@@ -29,3 +29,6 @@ package-lock.json
 .idea
 scripts/.env
 .codebuild/debug_workflow.yml
+.npmrc
+verdaccio-logs.txt
+scripts/components/private_packages.ts

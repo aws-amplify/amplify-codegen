@@ -10,7 +10,8 @@
     "lint-fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "clean": "lerna run clean && lerna exec yarn rimraf tsconfig.tsbuildinfo && lerna clean --yes && yarn rimraf node_modules",
     "build": "lerna run build",
-    "production-build": "yarn --ignore-engines --frozen-lockfile && lerna run build --concurrency 3 --stream",
+    "production-install": "yarn --ignore-engines --frozen-lockfile",
+    "production-build": "yarn production-install && lerna run build --concurrency 3 --stream",
     "publish:main": "lerna publish --canary --exact --force-publish --preid=dev --dist-tag=dev --include-merged-tags --conventional-prerelease --no-verify-access --yes",
     "publish:release": "lerna publish --exact --conventional-commits --message 'chore(release): Publish [ci skip]' --no-verify-access --yes",
     "publish:tag": "lerna publish --exact --dist-tag=$NPM_TAG --preid=$NPM_TAG --conventional-commits --conventional-prerelease --message 'chore(release): Publish tagged release $NPM_TAG [ci skip]' --no-verify-access --yes",
@@ -35,6 +36,7 @@
     "verify-api-extract": "yarn extract-api && ./scripts/verify-extract-api.sh",
     "trigger-release": "source ./scripts/cloud-release.sh && triggerRelease",
     "trigger-tag-release": "source ./scripts/cloud-release.sh && triggerTagRelease",
+    "trigger-deprecate-release": "source ./scripts/cloud-release.sh && deprecateRelease",
     "view-test-artifact": "./scripts/view-test-artifacts.sh",
     "cleanup-stale-resources": "source ./scripts/cloud-utils.sh && cleanupStaleResources",
     "cloud-e2e": "source scripts/cloud-utils.sh && cloudE2E",
@@ -44,7 +46,9 @@
     "cloud-e2e-debug": "source scripts/cloud-utils.sh && cloudE2EDebug",
     "authenticate-e2e-profile": "source scripts/cloud-utils.sh && authenticateWithE2EProfile",
     "extract-dependency-licenses": "./scripts/extract-dependency-licenses.sh",
-    "verify-dependency-licenses-extract": "yarn extract-dependency-licenses && ./scripts/verify-dependency-licenses.sh"
+    "verify-dependency-licenses-extract": "yarn extract-dependency-licenses && ./scripts/verify-dependency-licenses.sh",
+    "deprecate": "ts-node scripts/deprecate_release.ts",
+    "postinstall": "echo 'export default [' > scripts/components/private_packages.ts && grep -l packages/*/package.json -e '\"private\": \"\\?true\"\\?' | xargs cat | jq .name | tr -s '\\n' ',' >> scripts/components/private_packages.ts && echo '];' >> scripts/components/private_packages.ts"
   },
   "bugs": {
     "url": "https://github.com/aws-amplify/amplify-codegen/issues"
