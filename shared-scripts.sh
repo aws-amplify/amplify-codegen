@@ -481,7 +481,7 @@ function _deprecate {
       echo "//registry.npmjs.org/:_authToken=$PUBLISH_TOKEN" > ~/.npmrc
   else
     yarn verdaccio-clean
-    source codebuild_specs/scripts/local_publish_helpers.sh
+    source .codebuild/scripts/local_publish_helpers.sh
     startLocalRegistry "$(pwd)/codebuild_specs/scripts/verdaccio.yaml"
     setNpmRegistryUrlToLocal
   fi
