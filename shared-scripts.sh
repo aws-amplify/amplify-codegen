@@ -475,6 +475,10 @@ function _deploy {
 function _deprecate {
   loadCacheFromLinuxBuildJob
   echo "Deprecate"
+
+  echo "creating private package manifest"
+  ./scripts/create-private-package-manifest.sh
+
   echo "Authenticate with NPM"
   if [ "$USE_NPM_REGISTRY" == "true" ]; then
       PUBLISH_TOKEN=$(echo "$NPM_PUBLISH_TOKEN" | jq -r '.token')
