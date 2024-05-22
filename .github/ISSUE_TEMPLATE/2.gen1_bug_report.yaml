@@ -1,5 +1,5 @@
-name: Bug report
-description: Create a report to help us improve Amplify Codegen
+name: Gen 1 Bug report
+description: Create a report to help us improve Gen 1 CLI Amplify Codegen 
 body:
 - type: markdown
   attributes:

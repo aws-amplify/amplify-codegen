@@ -1142,12 +1142,14 @@ class Contact {
   Contact.fromJson(Map<String, dynamic> json)  
     : _contactName = json['contactName'],
       _phone = json['phone'] != null
-        ? Phone.fromJson(new Map<String, dynamic>.from(json['phone']))
+          ? json['phone']['serializedData'] != null
+              ? Phone.fromJson(new Map<String, dynamic>.from(json['phone']['serializedData']))
+              : Phone.fromJson(new Map<String, dynamic>.from(json['phone']))
         : null,
       _mailingAddresses = json['mailingAddresses'] is List
         ? (json['mailingAddresses'] as List)
           .where((e) => e != null)
-          .map((e) => Address.fromJson(new Map<String, dynamic>.from(e)))
+          .map((e) => Address.fromJson(new Map<String, dynamic>.from(e['serializedData'] ?? e)))
           .toList()
         : null;
   
@@ -1390,12 +1392,14 @@ class Person extends amplify_core.Model {
     : id = json['id'],
       _name = json['name'],
       _phone = json['phone'] != null
-        ? Phone.fromJson(new Map<String, dynamic>.from(json['phone']))
+          ? json['phone']['serializedData'] != null
+              ? Phone.fromJson(new Map<String, dynamic>.from(json['phone']['serializedData']))
+              : Phone.fromJson(new Map<String, dynamic>.from(json['phone']))
         : null,
       _mailingAddresses = json['mailingAddresses'] is List
         ? (json['mailingAddresses'] as List)
           .where((e) => e != null)
-          .map((e) => Address.fromJson(new Map<String, dynamic>.from(e)))
+          .map((e) => Address.fromJson(new Map<String, dynamic>.from(e['serializedData'] ?? e)))
           .toList()
         : null;
   

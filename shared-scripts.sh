@@ -142,6 +142,14 @@ function _buildWindows {
   storeCacheForWindowsBuildJob
 }
 
+# used when build is not necessary for codebuild project
+function _installLinux {
+  _setShell
+  echo "Linux Install"
+  yarn run production-install
+  storeCacheForLinuxBuildJob
+}
+
 function _testLinux {
   echo "Run Unit Test Linux"
   loadCacheFromLinuxBuildJob
@@ -462,4 +470,25 @@ function _deploy {
   PUBLISH_TOKEN=$(echo "$NPM_PUBLISH_TOKEN" | jq -r '.token')
   echo "//registry.npmjs.org/:_authToken=$PUBLISH_TOKEN" > ~/.npmrc
   ./.codebuild/scripts/publish.sh
+}
+
+function _deprecate {
+  loadCacheFromLinuxBuildJob
+  echo "Deprecate"
+
+  echo "creating private package manifest"
+  ./scripts/create-private-package-manifest.sh
+
+  echo "Authenticate with NPM"
+  if [ "$USE_NPM_REGISTRY" == "true" ]; then
+      PUBLISH_TOKEN=$(echo "$NPM_PUBLISH_TOKEN" | jq -r '.token')
+      echo "//registry.npmjs.org/:_authToken=$PUBLISH_TOKEN" > ~/.npmrc
+  else
+    yarn verdaccio-clean
+    source .codebuild/scripts/local_publish_helpers.sh
+    startLocalRegistry "$(pwd)/.codebuild/scripts/verdaccio.yaml"
+    setNpmRegistryUrlToLocal
+  fi
+  yarn deprecate
+  unsetNpmRegistryUrl
 }
