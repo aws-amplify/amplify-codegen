@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.12.1...@aws-amplify/appsync-modelgen-plugin@2.12.2) (2024-05-22)
+
+### Bug Fixes
+
+- **amplify-codegen:** fix for non-model decoding in flutter v1 ([#843](https://github.com/aws-amplify/amplify-codegen/issues/843)) ([0ffe64f](https://github.com/aws-amplify/amplify-codegen/commit/0ffe64f249a95104a2d9763c9a543eee87c6ae09))
+
 ## [2.12.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.12.0...@aws-amplify/appsync-modelgen-plugin@2.12.1) (2024-05-06)
 
 ### Bug Fixes
