@@ -1,3 +1,12 @@
+// This file defines the Model Introspection Schema contract between Amplify Data and its consumers, including:
+// - Gen1 CLI
+// - Gen1 Studio
+// - Gen2 CLI
+// - Gen2 Console
+// - Gen2 data-client
+//
+// Any change to this file represents a change in that API, and must be reviewed as such.
+
 /**
  * Root Schema Representation
  */
