@@ -34,7 +34,7 @@ List any codegen parameters changed or added.
 - [ ] Breaking changes to existing customers are released behind a feature flag or major version update
 - [ ] Changes are tested using sample applications for all relevant platforms (iOS/android/flutter/Javascript) that use the feature added/modified
 - [ ] Changes are tested on windows. Some Node functions (such as `path`) behave differently on windows.
-- [ ] Changes adhere to [GraphQL Spec](https://spec.graphql.org/June2018/) and supports the GraphQL types `type`, `input`, `enum`, `interface`, `union` and scalar types.
+- [ ] Changes adhere to the [GraphQL Spec](https://spec.graphql.org/June2018/) and supports the GraphQL types `type`, `input`, `enum`, `interface`, `union` and scalar types.
 
 
 By submitting this pull request, I confirm that my contribution is made under the terms of the Apache 2.0 license.
