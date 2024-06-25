@@ -406,16 +406,16 @@ export declare const Tag: (new (init: ModelInit<Tag, TagMetaData>) => Tag) & {
 
 type EagerPostTags = {
   readonly id: string;
-  readonly post: Post;
-  readonly tag: Tag;
+  readonly post?: Post | null;
+  readonly tag?: Tag | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
 type LazyPostTags = {
   readonly id: string;
-  readonly post: AsyncItem<Post>;
-  readonly tag: AsyncItem<Tag>;
+  readonly post: AsyncItem<Post | undefined>;
+  readonly tag: AsyncItem<Tag | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

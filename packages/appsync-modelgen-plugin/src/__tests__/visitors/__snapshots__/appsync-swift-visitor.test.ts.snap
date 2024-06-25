@@ -8,23 +8,23 @@ import Foundation
 public struct PostTags: Model {
   public let id: String
   internal var _post: LazyReference<Post>
-  public var post: Post   {
+  public var post: Post?   {
       get async throws { 
-        try await _post.require()
+        try await _post.get()
       } 
     }
   internal var _tag: LazyReference<Tag>
-  public var tag: Tag   {
+  public var tag: Tag?   {
       get async throws { 
-        try await _tag.require()
+        try await _tag.get()
       } 
     }
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
   
   public init(id: String = UUID().uuidString,
-      post: Post,
-      tag: Tag) {
+      post: Post? = nil,
+      tag: Tag? = nil) {
     self.init(id: id,
       post: post,
       tag: tag,
@@ -32,8 +32,8 @@ public struct PostTags: Model {
       updatedAt: nil)
   }
   internal init(id: String = UUID().uuidString,
-      post: Post,
-      tag: Tag,
+      post: Post? = nil,
+      tag: Tag? = nil,
       createdAt: Temporal.DateTime? = nil,
       updatedAt: Temporal.DateTime? = nil) {
       self.id = id
@@ -42,10 +42,10 @@ public struct PostTags: Model {
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }
-  public mutating func setPost(_ post: Post) {
+  public mutating func setPost(_ post: Post? = nil) {
     self._post = LazyReference(post)
   }
-  public mutating func setTag(_ tag: Tag) {
+  public mutating func setTag(_ tag: Tag? = nil) {
     self._tag = LazyReference(tag)
   }
   public init(from decoder: Decoder) throws {

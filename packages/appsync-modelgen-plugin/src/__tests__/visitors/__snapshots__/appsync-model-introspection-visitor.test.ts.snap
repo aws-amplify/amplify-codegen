@@ -1529,7 +1529,7 @@ exports[`Custom primary key tests should generate correct model intropection fil
                     \\"type\\": {
                         \\"model\\": \\"Post\\"
                     },
-                    \\"isRequired\\": true,
+                    \\"isRequired\\": false,
                     \\"attributes\\": [],
                     \\"association\\": {
                         \\"connectionType\\": \\"BELONGS_TO\\",
@@ -1545,7 +1545,7 @@ exports[`Custom primary key tests should generate correct model intropection fil
                     \\"type\\": {
                         \\"model\\": \\"Tag\\"
                     },
-                    \\"isRequired\\": true,
+                    \\"isRequired\\": false,
                     \\"attributes\\": [],
                     \\"association\\": {
                         \\"connectionType\\": \\"BELONGS_TO\\",
@@ -2673,7 +2673,7 @@ Object {
           },
           "attributes": Array [],
           "isArray": false,
-          "isRequired": true,
+          "isRequired": false,
           "name": "enthusiast",
           "type": Object {
             "model": "Enthusiast",
@@ -2705,7 +2705,7 @@ Object {
           },
           "attributes": Array [],
           "isArray": false,
-          "isRequired": true,
+          "isRequired": false,
           "name": "like",
           "type": Object {
             "model": "Like",

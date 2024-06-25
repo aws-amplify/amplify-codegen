@@ -2382,7 +2382,7 @@ exports[`Metadata visitor for custom PK support relation metadata for manyToMany
                     \\"type\\": {
                         \\"model\\": \\"Post\\"
                     },
-                    \\"isRequired\\": true,
+                    \\"isRequired\\": false,
                     \\"attributes\\": [],
                     \\"association\\": {
                         \\"connectionType\\": \\"BELONGS_TO\\",
@@ -2398,7 +2398,7 @@ exports[`Metadata visitor for custom PK support relation metadata for manyToMany
                     \\"type\\": {
                         \\"model\\": \\"Tag\\"
                     },
-                    \\"isRequired\\": true,
+                    \\"isRequired\\": false,
                     \\"attributes\\": [],
                     \\"association\\": {
                         \\"connectionType\\": \\"BELONGS_TO\\",
@@ -2458,7 +2458,7 @@ exports[`Metadata visitor for custom PK support relation metadata for manyToMany
     \\"enums\\": {},
     \\"nonModels\\": {},
     \\"codegenVersion\\": \\"3.4.4\\",
-    \\"version\\": \\"7c85f0b3f2df2a63cd6e1c28593a5381\\"
+    \\"version\\": \\"112de974c2f8a3b504248fcb5c316289\\"
 };"
 `;
 
@@ -2654,7 +2654,7 @@ export const schema: Schema = {
                     \\"type\\": {
                         \\"model\\": \\"Post\\"
                     },
-                    \\"isRequired\\": true,
+                    \\"isRequired\\": false,
                     \\"attributes\\": [],
                     \\"association\\": {
                         \\"connectionType\\": \\"BELONGS_TO\\",
@@ -2670,7 +2670,7 @@ export const schema: Schema = {
                     \\"type\\": {
                         \\"model\\": \\"Tag\\"
                     },
-                    \\"isRequired\\": true,
+                    \\"isRequired\\": false,
                     \\"attributes\\": [],
                     \\"association\\": {
                         \\"connectionType\\": \\"BELONGS_TO\\",
@@ -2730,6 +2730,6 @@ export const schema: Schema = {
     \\"enums\\": {},
     \\"nonModels\\": {},
     \\"codegenVersion\\": \\"3.4.4\\",
-    \\"version\\": \\"7c85f0b3f2df2a63cd6e1c28593a5381\\"
+    \\"version\\": \\"112de974c2f8a3b504248fcb5c316289\\"
 };"
 `;

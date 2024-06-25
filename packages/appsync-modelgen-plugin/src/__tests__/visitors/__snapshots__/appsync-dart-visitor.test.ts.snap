@@ -2940,35 +2940,17 @@ class PostTags extends amplify_core.Model {
     return id;
   }
   
-  Post get post {
-    try {
-      return _post!;
-    } catch(e) {
-      throw amplify_core.AmplifyCodeGenModelException(
-          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
-          recoverySuggestion:
-            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
-          underlyingException: e.toString()
-          );
-    }
+  Post? get post {
+    return _post;
   }
   
-  Tag get tag {
-    try {
-      return _tag!;
-    } catch(e) {
-      throw amplify_core.AmplifyCodeGenModelException(
-          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
-          recoverySuggestion:
-            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
-          underlyingException: e.toString()
-          );
-    }
+  Tag? get tag {
+    return _tag;
   }
   
-  const PostTags._internal({required this.id, required post, required tag}): _post = post, _tag = tag;
+  const PostTags._internal({required this.id, post, tag}): _post = post, _tag = tag;
   
-  factory PostTags({String? id, required Post post, required Tag tag}) {
+  factory PostTags({String? id, Post? post, Tag? tag}) {
     return PostTags._internal(
       id: id == null ? amplify_core.UUID.getUUID() : id,
       post: post,
@@ -3013,8 +2995,8 @@ class PostTags extends amplify_core.Model {
   
   PostTags copyWithModelFieldValues({
     ModelFieldValue<String>? id,
-    ModelFieldValue<Post>? post,
-    ModelFieldValue<Tag>? tag
+    ModelFieldValue<Post?>? post,
+    ModelFieldValue<Tag?>? tag
   }) {
     return PostTags(
       id: id == null ? this.id : id.value,
@@ -3066,14 +3048,14 @@ class PostTags extends amplify_core.Model {
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
       key: PostTags.POST,
-      isRequired: true,
+      isRequired: false,
       targetName: 'postID',
       ofModelName: 'Post'
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.belongsTo(
       key: PostTags.TAG,
-      isRequired: true,
+      isRequired: false,
       targetName: 'tagID',
       ofModelName: 'Tag'
     ));

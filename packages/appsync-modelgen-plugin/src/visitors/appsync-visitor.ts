@@ -915,7 +915,7 @@ export class AppSyncModelVisitor<
         }),
         {
           type: firstModel.name,
-          isNullable: false,
+          isNullable: true,
           isList: false,
           name: camelCase(firstModel.name),
           directives: [
@@ -932,7 +932,7 @@ export class AppSyncModelVisitor<
         },
         {
           type: secondModel.name,
-          isNullable: false,
+          isNullable: true,
           isList: false,
           name: camelCase(secondModel.name),
           directives: [

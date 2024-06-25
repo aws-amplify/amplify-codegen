@@ -377,8 +377,8 @@ type EagerPostTags = {
   readonly posttitle?: string | null;
   readonly tagCustomTagId?: string | null;
   readonly taglabel?: string | null;
-  readonly post: Post;
-  readonly tag: Tag;
+  readonly post?: Post | null;
+  readonly tag?: Tag | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -393,8 +393,8 @@ type LazyPostTags = {
   readonly posttitle?: string | null;
   readonly tagCustomTagId?: string | null;
   readonly taglabel?: string | null;
-  readonly post: AsyncItem<Post>;
-  readonly tag: AsyncItem<Tag>;
+  readonly post: AsyncItem<Post | undefined>;
+  readonly tag: AsyncItem<Tag | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
