@@ -2839,8 +2839,10 @@ describe('AppSyncSwiftVisitor', () => {
           posts: [Post] @manyToMany(relationName: "PostTags")
         }
       `;
-      const generatedCode = getVisitorPipelinedTransformer(schema, CodeGenGenerateEnum.code).generate();
+      const generatedCode = getVisitorPipelinedTransformer(schema, 'PostTags', CodeGenGenerateEnum.code).generate();
       expect(generatedCode).toMatchSnapshot();
+      expect(getVisitorPipelinedTransformer(schema, 'Post', CodeGenGenerateEnum.code).generate()).toMatchSnapshot();
+      expect(getVisitorPipelinedTransformer(schema, 'Tag', CodeGenGenerateEnum.code).generate()).toMatchSnapshot();
     });
   });
 
