@@ -5,7 +5,7 @@ export default function isS3Object(typeObj: GraphQLType): boolean {
   if (isObjectType(typeObj)) {
     const fields = typeObj.getFields();
     const fieldName = typeObj.name;
-    const hasS3Fields = S3_FIELD_NAMES.every(s3Field => {
+    const hasS3Fields = S3_FIELD_NAMES.every((s3Field) => {
       const field = fields[s3Field];
       try {
         const type = getType(field.type);

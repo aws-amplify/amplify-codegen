@@ -15,5 +15,5 @@ export const scalars = [
   'AWSPhone',
   'AWSIPAddress',
 ]
-  .map(typeName => `scalar ${typeName}`)
+  .map((typeName) => `scalar ${typeName}`)
   .join();

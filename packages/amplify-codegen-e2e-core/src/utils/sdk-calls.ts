@@ -82,7 +82,7 @@ export const deleteS3Bucket = async (bucket: string, providedS3Client: S3 | unde
   } while (truncated);
   const chunkedResult = _.chunk(objectKeyAndVersion, 1000);
   const deleteReq = chunkedResult
-    .map(r => {
+    .map((r) => {
       return {
         Bucket: bucket,
         Delete: {
@@ -91,7 +91,7 @@ export const deleteS3Bucket = async (bucket: string, providedS3Client: S3 | unde
         },
       };
     })
-    .map(delParams => s3.deleteObjects(delParams).promise());
+    .map((delParams) => s3.deleteObjects(delParams).promise());
   await Promise.all(deleteReq);
   await s3
     .deleteBucket({
@@ -214,7 +214,7 @@ export const getCloudWatchLogs = async (region: string, logGroupName: string, lo
 export const describeCloudFormationStack = async (stackName: string, region: string, profileConfig?: any) => {
   const service = profileConfig ? new CloudFormation(profileConfig) : new CloudFormation({ region });
   return (await service.describeStacks({ StackName: stackName }).promise()).Stacks.find(
-    stack => stack.StackName === stackName || stack.StackId === stackName,
+    (stack) => stack.StackName === stackName || stack.StackId === stackName,
   );
 };
 

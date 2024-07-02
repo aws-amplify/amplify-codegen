@@ -6,7 +6,7 @@ function getAppSyncAPIDetails(context) {
   if (!appSyncAPIs.length) {
     return [];
   }
-  return appSyncAPIs.map(api => ({
+  return appSyncAPIs.map((api) => ({
     name: api.name,
     endpoint: api.output.GraphQLAPIEndpointOutput,
     id: api.output.GraphQLAPIIdOutput,

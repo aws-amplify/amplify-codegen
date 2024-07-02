@@ -37,7 +37,7 @@ async function add(context, apiId = null, region = 'us-east-1') {
     }
   }
 
-  const schemaPath = ['schema.graphql', 'schema.json'].map(p => path.join(process.cwd(), p)).find(p => fs.existsSync(p));
+  const schemaPath = ['schema.graphql', 'schema.json'].map((p) => path.join(process.cwd(), p)).find((p) => fs.existsSync(p));
   if (withoutInit && !(apiId || schemaPath)) {
     throw Error(
       `Provide an AppSync API ID with --apiId or manually download schema.graphql or schema.json and place in ${process.cwd()} before adding codegen when not in an amplify project`,
@@ -133,7 +133,7 @@ async function add(context, apiId = null, region = 'us-east-1') {
   const newProject = {
     projectName: withoutInit ? 'Codegen Project' : apiDetails.name,
     includes: answer.includePattern,
-    excludes: [...answer.excludePattern, answer.generatedFileName]?.filter(item => item),
+    excludes: [...answer.excludePattern, answer.generatedFileName]?.filter((item) => item),
     // Set schema path to use posix separators. Node can handle windows and posix separators regradless of platform
     // Ensures all paths in .graphlqconfig.yml use posix style
     // Fallback to \ because path.win32 is not implemented by path-browserify

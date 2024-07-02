@@ -11,7 +11,7 @@ async function askCodeGenQueryFilePattern(includePattern = ['**/*.graphql']) {
       default: includePattern.join(','),
     },
   ]);
-  return answers.includePattern.split(',').map(pattern => pattern.trim());
+  return answers.includePattern.split(',').map((pattern) => pattern.trim());
 }
 
 module.exports = askCodeGenQueryFilePattern;

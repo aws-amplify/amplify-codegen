@@ -16,13 +16,8 @@ const getNpxPath = (): string => (process.platform === 'win32' ? getScriptRunner
 const getAmpxPath = (cwd: string): string =>
   spawnSync(getNpxPath(), ['which', 'ampx'], { cwd, env: process.env, stdio: 'pipe' }).stdout.toString().trim();
 
-const codegenPackagesInGen2 = [
-  '@aws-amplify/graphql-generator',
-  '@aws-amplify/graphql-types-generator'
-];
-const apiPackagesInGen2 = [
-  '@aws-amplify/data-construct'
-];
+const codegenPackagesInGen2 = ['@aws-amplify/graphql-generator', '@aws-amplify/graphql-types-generator'];
+const apiPackagesInGen2 = ['@aws-amplify/data-construct'];
 
 type CodegenPackage = 'GraphqlGenerator' | 'TypeGen';
 
@@ -51,7 +46,7 @@ export const initGen2Project = async (cwd: string, templatePath: string, props: 
     cwd,
     stripColors: true,
   };
-  const npmPath = getCommandPath('npm')
+  const npmPath = getCommandPath('npm');
   await spawn(npmPath, ['create', 'amplify@latest', '-y'], commandOptions).runAsync();
 
   overrideWithLocalCodegenPackages(cwd);
@@ -98,53 +93,51 @@ export const sandboxDeploy = async (cwd: string, props: Gen2DeployProps = {}): P
    * On windows, the Ctrl-C signal is not returned correctly from npx binary, whose code is 1 and will fail nexpect check
    * Therefore, the ampx binary is used for sandbox deployment instead of npx
    */
-  const ampxCli = getAmpxPath(cwd)
-  await
-    spawn(ampxCli, ['sandbox'], commandOptions)
-      .wait('Watching for file changes...')
-      .sendCtrlC()
-      .wait('Would you like to delete all the resources in your sandbox environment')
-      .sendLine('N')
-      .runAsync();
+  const ampxCli = getAmpxPath(cwd);
+  await spawn(ampxCli, ['sandbox'], commandOptions)
+    .wait('Watching for file changes...')
+    .sendCtrlC()
+    .wait('Would you like to delete all the resources in your sandbox environment')
+    .sendLine('N')
+    .runAsync();
 };
 
 export const deleteSandbox = async (cwd: string): Promise<void> => {
-  await
-    spawn(getNpxPath(), ['ampx', 'sandbox', 'delete'], { cwd, stripColors: true })
-      .wait('Are you sure you want to delete all the resources in your sandbox environment')
-      .sendLine('Y')
-      .runAsync();
+  await spawn(getNpxPath(), ['ampx', 'sandbox', 'delete'], { cwd, stripColors: true })
+    .wait('Are you sure you want to delete all the resources in your sandbox environment')
+    .sendLine('Y')
+    .runAsync();
 };
 
 /**
  * Commands for ampx generate
  */
 export type ClientCodegenConfigBase = {
-  format: string
-  outDir: string
-}
+  format: string;
+  outDir: string;
+};
 
 export type IntrospectionCodegenConfig = ClientCodegenConfigBase & {
-  format: 'introspection'
-}
+  format: 'introspection';
+};
 export type ModelgenConfig = ClientCodegenConfigBase & {
-  format: 'modelgen'
-  modelTarget: string
-}
+  format: 'modelgen';
+  modelTarget: string;
+};
 export type GraphqlCodegenConfig = ClientCodegenConfigBase & {
-  format: 'graphql-codegen'
-  typeTarget: string
-  statementTarget: string
-}
-export type ClientCodegenConfig = IntrospectionCodegenConfig | ModelgenConfig | GraphqlCodegenConfig
+  format: 'graphql-codegen';
+  typeTarget: string;
+  statementTarget: string;
+};
+export type ClientCodegenConfig = IntrospectionCodegenConfig | ModelgenConfig | GraphqlCodegenConfig;
 
 const getClientCodegenParams = (props: ClientCodegenConfig): string[] => {
-  const params = [ '--out', props.outDir, '--format', props.format ]
+  const params = ['--out', props.outDir, '--format', props.format];
   switch (props.format) {
     case 'modelgen':
-      return [ ...params, '--model-target', props.modelTarget];
+      return [...params, '--model-target', props.modelTarget];
     case 'graphql-codegen':
-      return [ ...params, '--type-target', props.typeTarget, '--statement-target', props.statementTarget]
+      return [...params, '--type-target', props.typeTarget, '--statement-target', props.statementTarget];
     case 'introspection':
     default:
       return params;
@@ -152,28 +145,16 @@ const getClientCodegenParams = (props: ClientCodegenConfig): string[] => {
 };
 
 export const generateGraphqlClientCode = async (cwd: string, props: ClientCodegenConfig): Promise<void> => {
-  await
-    spawn(
-      getNpxPath(),
-      ['ampx', 'generate', 'graphql-client-code', ...getClientCodegenParams(props)],
-      { cwd, stripColors: true },
-    ).runAsync();
+  await spawn(getNpxPath(), ['ampx', 'generate', 'graphql-client-code', ...getClientCodegenParams(props)], {
+    cwd,
+    stripColors: true,
+  }).runAsync();
 };
 
 export const generateForms = async (cwd: string, props: any = {}): Promise<void> => {
-  await
-    spawn(
-      getNpxPath(),
-      ['ampx', 'generate', 'forms'],
-      { cwd, stripColors: true },
-    ).runAsync();
+  await spawn(getNpxPath(), ['ampx', 'generate', 'forms'], { cwd, stripColors: true }).runAsync();
 };
 
 export const generateOutputs = async (cwd: string, props: any = {}): Promise<void> => {
-  await
-    spawn(
-      getNpxPath(),
-      ['ampx', 'generate', 'outputs'],
-      { cwd, stripColors: true },
-    ).runAsync();
+  await spawn(getNpxPath(), ['ampx', 'generate', 'outputs'], { cwd, stripColors: true }).runAsync();
 };

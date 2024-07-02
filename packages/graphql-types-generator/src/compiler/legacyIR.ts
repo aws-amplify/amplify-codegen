@@ -152,12 +152,12 @@ class LegacyIRTransformer {
 
     const fields: LegacyField[] = this.transformFieldsToLegacyIR(collectAndMergeFields(typeCase.default, false));
 
-    const inlineFragments: LegacyInlineFragment[] = typeCase.variants.flatMap(variant => {
+    const inlineFragments: LegacyInlineFragment[] = typeCase.variants.flatMap((variant) => {
       const fields = this.transformFieldsToLegacyIR(collectAndMergeFields(variant, false));
 
       if (
         // Filter out records that represent the same possible types as the default record.
-        selectionSet.possibleTypes.every(type => variant.possibleTypes.includes(type)) &&
+        selectionSet.possibleTypes.every((type) => variant.possibleTypes.includes(type)) &&
         // Filter out empty records for consistency with legacy compiler.
         fields.length < 1
       )
@@ -166,7 +166,7 @@ class LegacyIRTransformer {
       const fragmentSpreads: string[] = this.collectFragmentSpreads(selectionSet, variant.possibleTypes).map(
         (fragmentSpread: FragmentSpread) => fragmentSpread.fragmentName,
       );
-      return variant.possibleTypes.map(possibleType => {
+      return variant.possibleTypes.map((possibleType) => {
         return {
           typeCondition: possibleType,
           possibleTypes: [possibleType],
@@ -192,7 +192,7 @@ class LegacyIRTransformer {
   }
 
   transformFieldsToLegacyIR(fields: Field[]) {
-    return fields.map(field => {
+    return fields.map((field) => {
       const { args, type, isConditional, description, isDeprecated, deprecationReason, selectionSet } = field;
       const conditions =
         field.conditions && field.conditions.length > 0
@@ -228,7 +228,7 @@ class LegacyIRTransformer {
           fragmentSpreads.push(selection);
           break;
         case 'TypeCondition':
-          if (possibleTypes.every(type => selection.selectionSet.possibleTypes.includes(type))) {
+          if (possibleTypes.every((type) => selection.selectionSet.possibleTypes.includes(type))) {
             fragmentSpreads.push(...this.collectFragmentSpreads(selection.selectionSet, possibleTypes));
           }
           break;

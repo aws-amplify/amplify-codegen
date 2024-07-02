@@ -5,7 +5,7 @@ const featureName = 'codegen';
 
 module.exports = {
   name: featureName,
-  run: async context => {
+  run: async (context) => {
     if (context.parameters.options.help) {
       const header = `amplify ${featureName} [subcommand] [[--nodownload] [--maxDepth <number>]]\nDescriptions:
       Generates GraphQL statements (queries, mutations and subscriptions) and type annotations. \nSub Commands:`;

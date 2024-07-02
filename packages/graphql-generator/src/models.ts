@@ -6,7 +6,7 @@ import { codegen } from '@graphql-codegen/core';
 import { ModelsTarget, GenerateModelsOptions, GeneratedOutput } from './typescript';
 const { version: packageVersion } = require('../package.json');
 
-const directiveDefinitions = DefaultDirectives.map(directive => directive.definition).join('\n');
+const directiveDefinitions = DefaultDirectives.map((directive) => directive.definition).join('\n');
 
 export async function generateModels(options: GenerateModelsOptions): Promise<GeneratedOutput> {
   const {
@@ -65,7 +65,7 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
   });
 
   return Promise.all(
-    appsyncLocalConfig.map(async config => {
+    appsyncLocalConfig.map(async (config) => {
       const content = await codegen(config);
 
       // set the keys to always use posix path separators

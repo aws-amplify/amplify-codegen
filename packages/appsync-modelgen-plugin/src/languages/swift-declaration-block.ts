@@ -307,10 +307,10 @@ export class SwiftDeclarationBlock {
   }
 
   private generateStructOrExtensionStr(): string {
-    const properties = this.mergeSections([...this._properties.map(prop => this.generatePropertiesStr(prop))], false);
+    const properties = this.mergeSections([...this._properties.map((prop) => this.generatePropertiesStr(prop))], false);
 
     const methods = this.mergeSections(
-      this._methods.map(method => {
+      this._methods.map((method) => {
         const argsStr = this.generateArgsStr(method.args);
         const argWithParenthesis = argsStr.length ? ['(', indentMultiline(argsStr).trim(), ')'].join('') : '()';
         const methodHeader = this.mergeSections(
@@ -399,7 +399,7 @@ export class SwiftDeclarationBlock {
       resultArr.push('=');
       resultArr.push(prop.value);
     }
-    const propDeclaration = resultArr.filter(r => !!r).join(' ');
+    const propDeclaration = resultArr.filter((r) => !!r).join(' ');
     return this.mergeSections([prop.comment ? `${transformComment(prop.comment)}` : '', propDeclaration], false);
   }
 
@@ -409,8 +409,8 @@ export class SwiftDeclarationBlock {
 
   mergeSections(sections: string[], insertNewLine: boolean = true, joinStr: string = '\n'): string {
     return sections
-      .filter(section => !!section)
-      .map(section => (insertNewLine ? `${section}\n` : section))
+      .filter((section) => !!section)
+      .map((section) => (insertNewLine ? `${section}\n` : section))
       .join(joinStr)
       .trim();
   }

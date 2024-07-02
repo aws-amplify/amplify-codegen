@@ -5,7 +5,6 @@ import { TYPESCRIPT_SCALAR_MAP } from '../../scalars';
 import { scalars } from '../../scalars/supported-scalars';
 import { AppSyncModelJavascriptVisitor } from '../../visitors/appsync-javascript-visitor';
 
-
 const buildSchemaWithDirectives = (schema: String, directives: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
@@ -21,10 +20,14 @@ const defaultJavaScriptVisitorConfig: JavaScriptVisitorConfig = {
   respectPrimaryKeyAttributesOnConnectionField: false,
   transformerVersion: 1,
 };
-const getVisitor = (schema: string, settings: JavaScriptVisitorConfig = {}, directives: readonly Directive[] = DefaultDirectives): AppSyncModelJavascriptVisitor => {
+const getVisitor = (
+  schema: string,
+  settings: JavaScriptVisitorConfig = {},
+  directives: readonly Directive[] = DefaultDirectives,
+): AppSyncModelJavascriptVisitor => {
   const config = { ...defaultJavaScriptVisitorConfig, ...settings };
   const ast = parse(schema);
-  const stringDirectives = directives.map(directive => directive.definition).join('\n');
+  const stringDirectives = directives.map((directive) => directive.definition).join('\n');
   const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
   const visitor = new AppSyncModelJavascriptVisitor(
     builtSchema,
@@ -192,7 +195,11 @@ describe('Javascript visitor', () => {
     });
 
     it('should generate Javascript declaration with model metadata types', () => {
-      const declarationVisitor = getVisitor(schema, { isDeclaration: true, isTimestampFieldsAdded: true }, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+      const declarationVisitor = getVisitor(schema, { isDeclaration: true, isTimestampFieldsAdded: true }, [
+        ...AppSyncDirectives,
+        ...V1Directives,
+        DeprecatedDirective,
+      ]);
       const generateImportSpy = jest.spyOn(declarationVisitor as any, 'generateImports');
       const generateEnumDeclarationsSpy = jest.spyOn(declarationVisitor as any, 'generateEnumDeclarations');
       const generateModelDeclarationSpy = jest.spyOn(declarationVisitor as any, 'generateModelDeclaration');

@@ -98,7 +98,7 @@ export interface ParsedAppSyncModelMetadataConfig extends ParsedAppSyncModelConf
 }
 export class AppSyncJSONVisitor<
   TRawConfig extends RawAppSyncModelMetadataConfig = RawAppSyncModelMetadataConfig,
-  TPluginConfig extends ParsedAppSyncModelMetadataConfig = ParsedAppSyncModelMetadataConfig
+  TPluginConfig extends ParsedAppSyncModelMetadataConfig = ParsedAppSyncModelMetadataConfig,
 > extends AppSyncModelVisitor<TRawConfig, TPluginConfig> {
   constructor(
     schema: GraphQLSchema,
@@ -119,7 +119,7 @@ export class AppSyncJSONVisitor<
     this.processDirectives(
       shouldUseModelNameFieldInHasManyAndBelongsTo,
       shouldImputeKeyForUniDirectionalHasMany,
-      shouldUseFieldsInAssociatedWithInHasOne
+      shouldUseFieldsInAssociatedWithInHasOne,
     );
 
     if (this._parsedConfig.metadataTarget === 'typescript') {
@@ -188,13 +188,13 @@ export class AppSyncJSONVisitor<
       const connectionAttribute: any = { connectionType: connectionInfo.kind };
       if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
         if (this.isCustomPKEnabled()) {
-          connectionAttribute.associatedWith = connectionInfo.associatedWithFields.map(f => this.getFieldName(f));
+          connectionAttribute.associatedWith = connectionInfo.associatedWithFields.map((f) => this.getFieldName(f));
         } else {
           connectionAttribute.associatedWith = this.getFieldName(connectionInfo.associatedWith);
         }
       } else if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
         if (this.isCustomPKEnabled()) {
-          connectionAttribute.associatedWith = connectionInfo.associatedWithFields.map(f => this.getFieldName(f));
+          connectionAttribute.associatedWith = connectionInfo.associatedWithFields.map((f) => this.getFieldName(f));
           connectionAttribute.targetNames = connectionInfo.targetNames;
         } else {
           connectionAttribute.associatedWith = this.getFieldName(connectionInfo.associatedWith);
@@ -212,7 +212,7 @@ export class AppSyncJSONVisitor<
   }
 
   private generateModelAttributes(model: CodeGenModel): JSONModelAttributes {
-    return model.directives.map(d => ({
+    return model.directives.map((d) => ({
       type: d.name,
       properties: d.arguments,
     }));

@@ -5,21 +5,21 @@ import * as path from 'path';
 const schema = 'modelgen/model_gen_schema_with_aws_scalars.graphql';
 
 describe('Datastore Modelgen tests - iOS', () => {
-    let projectRoot: string;
+  let projectRoot: string;
 
-    beforeEach(async () => {
-        projectRoot = await createNewProjectDir('datastoreModelgenIOS');
-    });
+  beforeEach(async () => {
+    projectRoot = await createNewProjectDir('datastoreModelgenIOS');
+  });
 
-    afterEach(async () => {
-        await deleteAmplifyProject(projectRoot);
-    });
+  afterEach(async () => {
+    await deleteAmplifyProject(projectRoot);
+  });
 
-    it(`should generate files at desired location and not delete src files`, async () => {
-        await testCodegenModels(DEFAULT_IOS_CONFIG, projectRoot, schema);
-    });
+  it(`should generate files at desired location and not delete src files`, async () => {
+    await testCodegenModels(DEFAULT_IOS_CONFIG, projectRoot, schema);
+  });
 
-    it(`should generate files at overridden location`, async () => {
-      await testCodegenModels(DEFAULT_IOS_CONFIG, projectRoot, schema, path.join('amplification', 'manufactured', 'models'));
-    });
+  it(`should generate files at overridden location`, async () => {
+    await testCodegenModels(DEFAULT_IOS_CONFIG, projectRoot, schema, path.join('amplification', 'manufactured', 'models'));
+  });
 });

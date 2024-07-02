@@ -6,7 +6,7 @@ describe('generateStatements', () => {
     const schema = readSchema('blog-sdl.graphql');
     const targets: StatementsTarget[] = ['javascript', 'graphql', 'flow', 'typescript', 'angular'];
 
-    targets.forEach(target => {
+    targets.forEach((target) => {
       test(`basic ${target}`, () => {
         const options: GenerateStatementsOptions = {
           schema,

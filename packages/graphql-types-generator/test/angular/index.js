@@ -13,7 +13,7 @@ import { CodeGenerator } from '../../src/utilities/CodeGenerator';
 
 import { compileToLegacyIR } from '../../src/compiler/legacyIR';
 
-describe('Angular code generation', function() {
+describe('Angular code generation', function () {
   let generator;
   let compileFromSource;
   let addFragment;
@@ -28,7 +28,7 @@ describe('Angular code generation', function() {
 
     generator = new CodeGenerator(context);
 
-    compileFromSource = source => {
+    compileFromSource = (source) => {
       const document = parse(source);
       const context = compileToLegacyIR(schema, document, {
         mergeInFieldsFromFragmentSpreads: true,
@@ -38,15 +38,15 @@ describe('Angular code generation', function() {
       return context;
     };
 
-    addFragment = fragment => {
+    addFragment = (fragment) => {
       generator.context.fragments[fragment.fragmentName] = fragment;
     };
 
     return { generator, compileFromSource, addFragment };
   }
 
-  describe('#generateSource()', function() {
-    test(`should generate simple query operations`, function() {
+  describe('#generateSource()', function () {
+    test(`should generate simple query operations`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         query HeroName {
@@ -60,7 +60,7 @@ describe('Angular code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate simple query operations including input variables`, function() {
+    test(`should generate simple query operations including input variables`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         query HeroName($episode: Episode) {
@@ -74,7 +74,7 @@ describe('Angular code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate simple nested query operations including input variables`, function() {
+    test(`should generate simple nested query operations including input variables`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         query HeroAndFriendsNames($episode: Episode) {
@@ -91,7 +91,7 @@ describe('Angular code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate simple nested with required elements in lists`, function() {
+    test(`should generate simple nested with required elements in lists`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         query StarshipCoords {
@@ -105,7 +105,7 @@ describe('Angular code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate fragmented query operations`, function() {
+    test(`should generate fragmented query operations`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         query HeroAndFriendsNames {
@@ -126,7 +126,7 @@ describe('Angular code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate query operations with inline fragments`, function() {
+    test(`should generate query operations with inline fragments`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         query HeroAndDetails {
@@ -150,7 +150,7 @@ describe('Angular code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate mutation operations with complex input types`, function() {
+    test(`should generate mutation operations with complex input types`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         mutation ReviewMovie($episode: Episode, $review: ReviewInput) {
@@ -165,7 +165,7 @@ describe('Angular code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate correct list with custom fragment`, function() {
+    test(`should generate correct list with custom fragment`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         fragment Friend on Character {
@@ -343,7 +343,7 @@ describe('Angular code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate simple query operation with scalar field and scalar return type`, function() {
+    test(`should generate simple query operation with scalar field and scalar return type`, function () {
       const { compileFromSource } = setup(miscSchema);
       const context = compileFromSource(`
         query Echo($msg: String) {
@@ -355,7 +355,7 @@ describe('Angular code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate subscriptions`, function() {
+    test(`should generate subscriptions`, function () {
       const { compileFromSource } = setup(subscriptionSchema);
       const context = compileFromSource(`
       subscription OnCreateRestaurant {
@@ -372,7 +372,7 @@ describe('Angular code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate subscriptions with parameters`, function() {
+    test(`should generate subscriptions with parameters`, function () {
       const { compileFromSource } = setup(loadSchema(require.resolve('../fixtures/misc/subscriptionSchemaWithParameters.graphql')));
       const context = compileFromSource(`
       subscription OnCreateRestaurant($owner: String!) {
@@ -392,7 +392,7 @@ describe('Angular code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate simple query operation with scalar/enum field and scalar/enum return type w & w/o list`, function() {
+    test(`should generate simple query operation with scalar/enum field and scalar/enum return type w & w/o list`, function () {
       const { compileFromSource } = setup(loadSchema(require.resolve('../fixtures/misc/queryWithScalarAndEnumType.graphql')));
       const context = compileFromSource(`
       query GetScalars {

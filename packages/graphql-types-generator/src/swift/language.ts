@@ -63,7 +63,7 @@ export class SwiftGenerator<Context> extends CodeGenerator<Context, { typeName: 
 
   comment(comment?: string) {
     comment &&
-      comment.split('\n').forEach(line => {
+      comment.split('\n').forEach((line) => {
         this.printOnNewline(`/// ${line.trim()}`);
       });
   }
@@ -131,7 +131,7 @@ export class SwiftGenerator<Context> extends CodeGenerator<Context, { typeName: 
 
   propertyDeclarations(properties: Property[]) {
     if (!properties) return;
-    properties.forEach(property => this.propertyDeclaration(property));
+    properties.forEach((property) => this.propertyDeclaration(property));
   }
 
   protocolDeclaration({ protocolName, adoptedProtocols }: Protocol, closure: Function) {
@@ -149,6 +149,6 @@ export class SwiftGenerator<Context> extends CodeGenerator<Context, { typeName: 
 
   protocolPropertyDeclarations(properties: Property[]) {
     if (!properties) return;
-    properties.forEach(property => this.protocolPropertyDeclaration(property));
+    properties.forEach((property) => this.protocolPropertyDeclaration(property));
   }
 }

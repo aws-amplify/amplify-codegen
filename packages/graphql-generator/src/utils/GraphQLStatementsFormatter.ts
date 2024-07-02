@@ -39,7 +39,10 @@ export class GraphQLStatementsFormatter {
       const { dir, name } = path.parse(typesPath);
       // ensure posix path separators are used
       // Fallback to \ because path.win32 is not implemented by path-browserify
-      const typesPathWithoutExtension = path.join(dir, name).split(path.win32?.sep || '\\').join(path.posix.sep);
+      const typesPathWithoutExtension = path
+        .join(dir, name)
+        .split(path.win32?.sep || '\\')
+        .join(path.posix.sep);
       if (!typesPathWithoutExtension.startsWith('.')) {
         // path.join will strip prefixed ./
         this.typesPath = `./${typesPathWithoutExtension}`;
@@ -83,15 +86,15 @@ export class GraphQLStatementsFormatter {
   }
 
   formatGraphQL(statements: Map<string, GraphQLWithMeta>): string {
-    const headerBuffer = this.headerComments.map(comment => `# ${comment}`).join(LINE_DELIMITOR);
-    const statementsBuffer = statements ? [...statements.values()].map(s => s.graphql).join(LINE_DELIMITOR) : '';
+    const headerBuffer = this.headerComments.map((comment) => `# ${comment}`).join(LINE_DELIMITOR);
+    const statementsBuffer = statements ? [...statements.values()].map((s) => s.graphql).join(LINE_DELIMITOR) : '';
     const formattedOutput = [headerBuffer, LINE_DELIMITOR, statementsBuffer].join(LINE_DELIMITOR);
     return formattedOutput;
   }
 
   formatJS(statements: Map<string, GraphQLWithMeta>): string {
     const lintOverridesBuffer = this.lintOverrides.join(LINE_DELIMITOR);
-    const headerBuffer = this.headerComments.map(comment => `// ${comment}`).join(LINE_DELIMITOR);
+    const headerBuffer = this.headerComments.map((comment) => `// ${comment}`).join(LINE_DELIMITOR);
     const formattedStatements = [];
     if (statements) {
       for (const [key, { graphql, operationName, operationType }] of statements) {

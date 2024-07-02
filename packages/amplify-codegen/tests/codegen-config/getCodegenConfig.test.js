@@ -17,34 +17,40 @@ const MOCK_CODEGEN_CONFIG_PROJECT = {
       generatedFileName: 'src/API.ts',
       docsFilePath: 'src/graphql',
       maxDepth: 4,
-      version: 3
-    }
-  }
+      version: 3,
+    },
+  },
 };
 
 const MOCK_CODEGEN_CONFIG = {
   config: { ...MOCK_CODEGEN_CONFIG_PROJECT },
-  getProjects: jest.fn().mockReturnValue([MOCK_CODEGEN_CONFIG_PROJECT])
+  getProjects: jest.fn().mockReturnValue([MOCK_CODEGEN_CONFIG_PROJECT]),
 };
 
 describe('get codegen configuration', () => {
-  beforeEach(()=> {
+  beforeEach(() => {
     jest.resetAllMocks();
   });
 
   it('throws error for non-existent project path', () => {
-    expect(() => { getCodegenConfig() } ).toThrowError();
+    expect(() => {
+      getCodegenConfig();
+    }).toThrowError();
   });
 
   it('throws error for invalid project path', () => {
-    expect(() => { getCodegenConfig(MOCK_PROJECT_ROOT) } ).toThrowError();
+    expect(() => {
+      getCodegenConfig(MOCK_PROJECT_ROOT);
+    }).toThrowError();
   });
 
   it('throws error for non-existent config file at project path', () => {
-    fs.existsSync = jest.fn().mockImplementationOnce( (path) => {
-      return path === MOCK_PROJECT_ROOT
+    fs.existsSync = jest.fn().mockImplementationOnce((path) => {
+      return path === MOCK_PROJECT_ROOT;
     });
-    expect(() => { getCodegenConfig(MOCK_PROJECT_ROOT) } ).toThrowError();
+    expect(() => {
+      getCodegenConfig(MOCK_PROJECT_ROOT);
+    }).toThrowError();
   });
 
   it('correctly returns the generated documents path', () => {

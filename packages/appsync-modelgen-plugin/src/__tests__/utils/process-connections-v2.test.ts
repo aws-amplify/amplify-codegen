@@ -20,42 +20,42 @@ describe('GraphQL V2 process connections tests', () => {
 
     beforeEach(() => {
       const hasOneWithFieldsSchema = /* GraphQL */ `
-          type BatteryCharger @model {
-            chargerID: ID!
-            powerSourceID: ID
-            powerSource: PowerSource @hasOne(fields: ["powerSourceID"])
-          }
-  
-          type PowerSource @model {
-            sourceID: ID! @primaryKey
-            amps: Float!
-            volts: Float!
-          }
-        `;
+        type BatteryCharger @model {
+          chargerID: ID!
+          powerSourceID: ID
+          powerSource: PowerSource @hasOne(fields: ["powerSourceID"])
+        }
+
+        type PowerSource @model {
+          sourceID: ID! @primaryKey
+          amps: Float!
+          volts: Float!
+        }
+      `;
 
       const hasOneNoFieldsSchema = /* GraphQL */ `
-          type BatteryCharger @model {
-            powerSource: PowerSource @hasOne
-          }
-  
-          type PowerSource @model {
-            id: ID!
-            amps: Float!
-            volts: Float!
-          }
-        `;
+        type BatteryCharger @model {
+          powerSource: PowerSource @hasOne
+        }
+
+        type PowerSource @model {
+          id: ID!
+          amps: Float!
+          volts: Float!
+        }
+      `;
 
       const v2Schema = /* GraphQL */ `
-          type Post @model {
-            comments: [Comment] @hasMany(fields: ["id"])
-          }
-          
-          type Comment @model {
-            postID: ID! @primaryKey(sortKeyFields: ["content"])
-            content: String!
-            post: Post @belongsTo(fields:["postID"])
-          }
-        `;
+        type Post @model {
+          comments: [Comment] @hasMany(fields: ["id"])
+        }
+
+        type Comment @model {
+          postID: ID! @primaryKey(sortKeyFields: ["content"])
+          content: String!
+          post: Post @belongsTo(fields: ["postID"])
+        }
+      `;
 
       const v2IndexSchema = /* graphQL */ `
           type Post @model {
@@ -82,14 +82,14 @@ describe('GraphQL V2 process connections tests', () => {
               isNullable: false,
               isList: false,
               name: 'chargerID',
-              directives: []
+              directives: [],
             },
             {
               type: 'ID',
               isNullable: true,
               isList: false,
               name: 'powerSourceID',
-              directives: []
+              directives: [],
             },
             {
               type: 'PowerSource',
@@ -155,7 +155,7 @@ describe('GraphQL V2 process connections tests', () => {
               isNullable: false,
               isList: false,
               name: 'id',
-              directives: []
+              directives: [],
             },
             {
               type: 'Float',
@@ -200,7 +200,7 @@ describe('GraphQL V2 process connections tests', () => {
               isNullable: false,
               isList: false,
               name: 'postID',
-              directives: [{name: 'primaryKey', arguments: { sortKeyFields: ['content'] } }],
+              directives: [{ name: 'primaryKey', arguments: { sortKeyFields: ['content'] } }],
             },
             {
               type: 'String',
@@ -266,7 +266,7 @@ describe('GraphQL V2 process connections tests', () => {
               isNullable: false,
               isList: false,
               name: 'postID',
-              directives: [{name: 'index', arguments: { name: 'byPost', sortKeyFields: ['content'] }}],
+              directives: [{ name: 'index', arguments: { name: 'byPost', sortKeyFields: ['content'] } }],
             },
             {
               type: 'String',
@@ -283,7 +283,7 @@ describe('GraphQL V2 process connections tests', () => {
     describe('Has many comparison', () => {
       it('should support connection with @primaryKey on BELONGS_TO side', () => {
         const postField = v2ModelMap.Comment.fields[2];
-        const connectionInfo = (processConnectionsV2(postField, v2ModelMap.Comment, v2ModelMap) as any) as CodeGenFieldConnectionBelongsTo;
+        const connectionInfo = processConnectionsV2(postField, v2ModelMap.Comment, v2ModelMap) as any as CodeGenFieldConnectionBelongsTo;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
         expect(connectionInfo.targetName).toEqual(v2ModelMap.Comment.fields[0].name);
@@ -292,7 +292,7 @@ describe('GraphQL V2 process connections tests', () => {
 
       it('should support connection with @primaryKey on HAS_MANY side', () => {
         const commentsField = v2ModelMap.Post.fields[0];
-        const connectionInfo = (processConnectionsV2(commentsField, v2ModelMap.Post, v2ModelMap) as any) as CodeGenFieldConnectionHasMany;
+        const connectionInfo = processConnectionsV2(commentsField, v2ModelMap.Post, v2ModelMap) as any as CodeGenFieldConnectionHasMany;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
         expect(connectionInfo.connectedModel).toEqual(v2ModelMap.Comment);
@@ -301,7 +301,11 @@ describe('GraphQL V2 process connections tests', () => {
 
       it('Should support connection with @index on BELONGS_TO side', () => {
         const commentsField = v2IndexModelMap.Post.fields[2];
-        const connectionInfo = (processConnectionsV2(commentsField, v2IndexModelMap.Post, v2IndexModelMap) as any) as CodeGenFieldConnectionHasMany;
+        const connectionInfo = processConnectionsV2(
+          commentsField,
+          v2IndexModelMap.Post,
+          v2IndexModelMap,
+        ) as any as CodeGenFieldConnectionHasMany;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
         expect(connectionInfo.connectedModel).toEqual(v2IndexModelMap.Comment);
@@ -312,7 +316,11 @@ describe('GraphQL V2 process connections tests', () => {
     describe('Has one testing', () => {
       it('Should support @hasOne with no explicit primary key', () => {
         const powerSourceField = hasOneNoFieldsModelMap.BatteryCharger.fields[0];
-        const connectionInfo = (processConnectionsV2(powerSourceField, hasOneNoFieldsModelMap.BatteryCharger, hasOneNoFieldsModelMap)) as CodeGenFieldConnectionHasOne;
+        const connectionInfo = processConnectionsV2(
+          powerSourceField,
+          hasOneNoFieldsModelMap.BatteryCharger,
+          hasOneNoFieldsModelMap,
+        ) as CodeGenFieldConnectionHasOne;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
         expect(connectionInfo.connectedModel).toEqual(hasOneNoFieldsModelMap.PowerSource);
@@ -320,7 +328,11 @@ describe('GraphQL V2 process connections tests', () => {
       });
       it('Should support @hasOne with an explicit primary key', () => {
         const powerSourceField = hasOneWithFieldsModelMap.BatteryCharger.fields[2];
-        const connectionInfo = (processConnectionsV2(powerSourceField, hasOneWithFieldsModelMap.BatteryCharger, hasOneWithFieldsModelMap)) as CodeGenFieldConnectionHasOne;
+        const connectionInfo = processConnectionsV2(
+          powerSourceField,
+          hasOneWithFieldsModelMap.BatteryCharger,
+          hasOneWithFieldsModelMap,
+        ) as CodeGenFieldConnectionHasOne;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
         expect(connectionInfo.connectedModel).toEqual(hasOneWithFieldsModelMap.PowerSource);
@@ -403,7 +415,7 @@ describe('GraphQL V2 process connections tests', () => {
           id: ID!
           name: String!
           project: Project2! @belongsTo
-        }`
+        }`;
 
       const belongsToModelMap: CodeGenModelMap = {
         Project2: {
@@ -466,7 +478,11 @@ describe('GraphQL V2 process connections tests', () => {
 
       it('Should support belongsTo and detect connected field', () => {
         const projectField = belongsToModelMap.Team2.fields[2];
-        const connectionInfo = (processConnectionsV2(projectField, belongsToModelMap.Team2, belongsToModelMap)) as CodeGenFieldConnectionHasOne;
+        const connectionInfo = processConnectionsV2(
+          projectField,
+          belongsToModelMap.Team2,
+          belongsToModelMap,
+        ) as CodeGenFieldConnectionHasOne;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
         expect(connectionInfo.connectedModel).toEqual(belongsToModelMap.Project2);
@@ -591,7 +607,7 @@ describe('GraphQL V2 process connections tests', () => {
 
       it('Should detect first has many', () => {
         const postField = hasManyModelMap.Blog.fields[2];
-        const connectionInfo = (processConnectionsV2(postField, hasManyModelMap.Blog, hasManyModelMap)) as CodeGenFieldConnectionHasOne;
+        const connectionInfo = processConnectionsV2(postField, hasManyModelMap.Blog, hasManyModelMap) as CodeGenFieldConnectionHasOne;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
         expect(connectionInfo.connectedModel).toEqual(hasManyModelMap.Post);
@@ -600,7 +616,7 @@ describe('GraphQL V2 process connections tests', () => {
 
       it('Should detect second has many', () => {
         const commentField = hasManyModelMap.Post.fields[3];
-        const connectionInfo = (processConnectionsV2(commentField, hasManyModelMap.Post, hasManyModelMap)) as CodeGenFieldConnectionHasOne;
+        const connectionInfo = processConnectionsV2(commentField, hasManyModelMap.Post, hasManyModelMap) as CodeGenFieldConnectionHasOne;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
         expect(connectionInfo.connectedModel).toEqual(hasManyModelMap.Comment);
@@ -609,7 +625,7 @@ describe('GraphQL V2 process connections tests', () => {
 
       it('Should detect first belongsTo', () => {
         const blogField = hasManyModelMap.Post.fields[2];
-        const connectionInfo = (processConnectionsV2(blogField, hasManyModelMap.Post, hasManyModelMap)) as CodeGenFieldConnectionHasOne;
+        const connectionInfo = processConnectionsV2(blogField, hasManyModelMap.Post, hasManyModelMap) as CodeGenFieldConnectionHasOne;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
         expect(connectionInfo.connectedModel).toEqual(hasManyModelMap.Blog);
@@ -618,7 +634,7 @@ describe('GraphQL V2 process connections tests', () => {
 
       it('Should detect second belongsTo', () => {
         const postField = hasManyModelMap.Comment.fields[1];
-        const connectionInfo = (processConnectionsV2(postField, hasManyModelMap.Comment, hasManyModelMap)) as CodeGenFieldConnectionHasOne;
+        const connectionInfo = processConnectionsV2(postField, hasManyModelMap.Comment, hasManyModelMap) as CodeGenFieldConnectionHasOne;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
         expect(connectionInfo.connectedModel).toEqual(hasManyModelMap.Post);
@@ -634,11 +650,11 @@ describe('Connection process with custom Primary Key support tests', () => {
       usePipelinedTransformer: true,
       isTimestampFieldsAdded: true,
       respectPrimaryKeyAttributesOnConnectionField: true,
-      transformerVersion: 2
+      transformerVersion: 2,
     };
     const ast = parse(schema);
-    const directives = DefaultDirectives.map(directive => directive.definition).join('\n');
-    const builtSchema = buildSchema([schema, directives, scalars].join('\n'))
+    const directives = DefaultDirectives.map((directive) => directive.definition).join('\n');
+    const builtSchema = buildSchema([schema, directives, scalars].join('\n'));
     const visitor = new AppSyncModelVisitor(
       builtSchema,
       { directives, target: 'general', ...visitorConfig },
@@ -651,19 +667,19 @@ describe('Connection process with custom Primary Key support tests', () => {
     it('should return correct connection info in hasOne uni direction', () => {
       const schema = /* GraphQL */ `
         type Project @model {
-          projectId: ID! @primaryKey(sortKeyFields:["name"])
+          projectId: ID! @primaryKey(sortKeyFields: ["name"])
           name: String!
           team: Team @hasOne
         }
         type Team @model {
-          teamId: ID! @primaryKey(sortKeyFields:["name"])
+          teamId: ID! @primaryKey(sortKeyFields: ["name"])
           name: String!
         }
       `;
       const modelMap: CodeGenModelMap = createBaseVisitorWithCustomPrimaryKeyEnabled(schema).models;
       const project: CodeGenModel = modelMap.Project;
       const team: CodeGenModel = modelMap.Team;
-      const projectTeamField = project.fields.find(f => f.name === 'team')!;
+      const projectTeamField = project.fields.find((f) => f.name === 'team')!;
       const hasOneRelationInfo = processConnectionsV2(projectTeamField, project, modelMap, false, true);
       expect(hasOneRelationInfo).toEqual({
         kind: CodeGenConnectionType.HAS_ONE,
@@ -678,12 +694,12 @@ describe('Connection process with custom Primary Key support tests', () => {
     it('should return correct connection info in hasOne/belongsTo bi direction', () => {
       const schema = /* GraphQL */ `
         type Project @model {
-          projectId: ID! @primaryKey(sortKeyFields:["name"])
+          projectId: ID! @primaryKey(sortKeyFields: ["name"])
           name: String!
           team: Team @hasOne
         }
         type Team @model {
-          teamId: ID! @primaryKey(sortKeyFields:["name"])
+          teamId: ID! @primaryKey(sortKeyFields: ["name"])
           name: String!
           project: Project @belongsTo
         }
@@ -691,8 +707,8 @@ describe('Connection process with custom Primary Key support tests', () => {
       const modelMap: CodeGenModelMap = createBaseVisitorWithCustomPrimaryKeyEnabled(schema).models;
       const project: CodeGenModel = modelMap.Project;
       const team: CodeGenModel = modelMap.Team;
-      const projectTeamField = project.fields.find(f => f.name === 'team')!;
-      const teamProjectField = team.fields.find(f => f.name === 'project')!;
+      const projectTeamField = project.fields.find((f) => f.name === 'team')!;
+      const teamProjectField = team.fields.find((f) => f.name === 'project')!;
       const hasOneRelationInfo = processConnectionsV2(projectTeamField, project, modelMap, false, true);
       expect(hasOneRelationInfo).toEqual({
         kind: CodeGenConnectionType.HAS_ONE,
@@ -718,19 +734,19 @@ describe('Connection process with custom Primary Key support tests', () => {
     it('should return correct connection info in hasMany uni direction', () => {
       const schema = /* GraphQL */ `
         type Post @model {
-          postId: ID! @primaryKey(sortKeyFields:["title"])
+          postId: ID! @primaryKey(sortKeyFields: ["title"])
           title: String!
           comments: [Comment] @hasMany
         }
         type Comment @model {
-          commentId: ID! @primaryKey(sortKeyFields:["content"])
+          commentId: ID! @primaryKey(sortKeyFields: ["content"])
           content: String!
         }
       `;
       const modelMap: CodeGenModelMap = createBaseVisitorWithCustomPrimaryKeyEnabled(schema).models;
       const post: CodeGenModel = modelMap.Post;
       const comment: CodeGenModel = modelMap.Comment;
-      const postCommentsField = post.fields.find(f => f.name === 'comments')!;
+      const postCommentsField = post.fields.find((f) => f.name === 'comments')!;
       const hasManyRelationInfo = processConnectionsV2(postCommentsField, post, modelMap, false, true);
       const postCommentsPKField: CodeGenField = {
         name: 'postCommentsPostId',
@@ -738,14 +754,14 @@ describe('Connection process with custom Primary Key support tests', () => {
         isNullable: true,
         isList: false,
         directives: [],
-      }
+      };
       const postCommentsSKField: CodeGenField = {
         name: 'postCommentsTitle',
         type: 'String',
         isNullable: true,
         isList: false,
         directives: [],
-      }
+      };
       expect(hasManyRelationInfo).toEqual({
         kind: CodeGenConnectionType.HAS_MANY,
         associatedWith: postCommentsPKField,
@@ -757,12 +773,12 @@ describe('Connection process with custom Primary Key support tests', () => {
     it('should return correct connection info in hasMany/belongsTo bi direction when in native platforms', () => {
       const schema = /* GraphQL */ `
         type Post @model {
-          postId: ID! @primaryKey(sortKeyFields:["title"])
+          postId: ID! @primaryKey(sortKeyFields: ["title"])
           title: String!
           comments: [Comment] @hasMany
         }
         type Comment @model {
-          commentId: ID! @primaryKey(sortKeyFields:["content"])
+          commentId: ID! @primaryKey(sortKeyFields: ["content"])
           content: String!
           post: Post @belongsTo
         }
@@ -770,8 +786,8 @@ describe('Connection process with custom Primary Key support tests', () => {
       const modelMap: CodeGenModelMap = createBaseVisitorWithCustomPrimaryKeyEnabled(schema).models;
       const post: CodeGenModel = modelMap.Post;
       const comment: CodeGenModel = modelMap.Comment;
-      const postCommentsField = post.fields.find(f => f.name === 'comments')!;
-      const commentPostField = comment.fields.find(f => f.name === 'post')!;
+      const postCommentsField = post.fields.find((f) => f.name === 'comments')!;
+      const commentPostField = comment.fields.find((f) => f.name === 'post')!;
       //Model name field is used in asscociatedWith in native platforms
       const hasManyRelationInfo = processConnectionsV2(postCommentsField, post, modelMap, true, true);
       expect(hasManyRelationInfo).toEqual({
@@ -781,11 +797,11 @@ describe('Connection process with custom Primary Key support tests', () => {
         connectedModel: comment,
         isConnectingFieldAutoCreated: true,
       });
-      const belongsToRelationInfo = processConnectionsV2(commentPostField, comment, modelMap, false, true)
+      const belongsToRelationInfo = processConnectionsV2(commentPostField, comment, modelMap, false, true);
       expect(belongsToRelationInfo).toEqual({
         kind: CodeGenConnectionType.BELONGS_TO,
-        targetName: "postCommentsPostId",
-        targetNames: ["postCommentsPostId", "postCommentsTitle"],
+        targetName: 'postCommentsPostId',
+        targetNames: ['postCommentsPostId', 'postCommentsTitle'],
         connectedModel: post,
         isConnectingFieldAutoCreated: false,
         isUsingReferences: false,
@@ -794,12 +810,12 @@ describe('Connection process with custom Primary Key support tests', () => {
     it('should return correct connection info in hasMany/belongsTo bi direction when in JS platforms', () => {
       const schema = /* GraphQL */ `
         type Post @model {
-          postId: ID! @primaryKey(sortKeyFields:["title"])
+          postId: ID! @primaryKey(sortKeyFields: ["title"])
           title: String!
           comments: [Comment] @hasMany
         }
         type Comment @model {
-          commentId: ID! @primaryKey(sortKeyFields:["content"])
+          commentId: ID! @primaryKey(sortKeyFields: ["content"])
           content: String!
           post: Post @belongsTo
         }
@@ -807,22 +823,22 @@ describe('Connection process with custom Primary Key support tests', () => {
       const modelMap: CodeGenModelMap = createBaseVisitorWithCustomPrimaryKeyEnabled(schema).models;
       const post: CodeGenModel = modelMap.Post;
       const comment: CodeGenModel = modelMap.Comment;
-      const postCommentsField = post.fields.find(f => f.name === 'comments')!;
-      const commentPostField = comment.fields.find(f => f.name === 'post')!;
+      const postCommentsField = post.fields.find((f) => f.name === 'comments')!;
+      const commentPostField = comment.fields.find((f) => f.name === 'post')!;
       const postCommentsPKField: CodeGenField = {
         name: 'postCommentsPostId',
         type: 'ID',
         isNullable: true,
         isList: false,
         directives: [],
-      }
+      };
       const postCommentsSKField: CodeGenField = {
         name: 'postCommentsTitle',
         type: 'String',
         isNullable: true,
         isList: false,
         directives: [],
-      }
+      };
       //Model name field is used in asscociatedWith in native platforms
       const hasManyRelationInfo = processConnectionsV2(postCommentsField, post, modelMap, false, true);
       expect(hasManyRelationInfo).toEqual({
@@ -832,11 +848,11 @@ describe('Connection process with custom Primary Key support tests', () => {
         connectedModel: comment,
         isConnectingFieldAutoCreated: true,
       });
-      const belongsToRelationInfo = processConnectionsV2(commentPostField, comment, modelMap, false, true)
+      const belongsToRelationInfo = processConnectionsV2(commentPostField, comment, modelMap, false, true);
       expect(belongsToRelationInfo).toEqual({
         kind: CodeGenConnectionType.BELONGS_TO,
-        targetName: "postCommentsPostId",
-        targetNames: ["postCommentsPostId", "postCommentsTitle"],
+        targetName: 'postCommentsPostId',
+        targetNames: ['postCommentsPostId', 'postCommentsTitle'],
         connectedModel: post,
         isConnectingFieldAutoCreated: false,
         isUsingReferences: false,
@@ -845,23 +861,23 @@ describe('Connection process with custom Primary Key support tests', () => {
     it('should return correct connection info in hasMany/belongsTo bi direction when index is defined', () => {
       const schema = /* GraphQL */ `
         type Post @model {
-          postId: ID! @primaryKey(sortKeyFields:["title"])
+          postId: ID! @primaryKey(sortKeyFields: ["title"])
           title: String!
-          comments: [Comment] @hasMany(indexName: "byPost", fields:["postId", "title"])
+          comments: [Comment] @hasMany(indexName: "byPost", fields: ["postId", "title"])
         }
         type Comment @model {
-          commentId: ID! @primaryKey(sortKeyFields:["content"])
+          commentId: ID! @primaryKey(sortKeyFields: ["content"])
           content: String!
-          post: Post @belongsTo(fields:["postId", "postTitle"])
-          postId: ID! @index(name: "byPost", sortKeyFields:["postTitle"])
+          post: Post @belongsTo(fields: ["postId", "postTitle"])
+          postId: ID! @index(name: "byPost", sortKeyFields: ["postTitle"])
           postTitle: String!
         }
       `;
       const modelMap: CodeGenModelMap = createBaseVisitorWithCustomPrimaryKeyEnabled(schema).models;
       const post: CodeGenModel = modelMap.Post;
       const comment: CodeGenModel = modelMap.Comment;
-      const postCommentsField = post.fields.find(f => f.name === 'comments')!;
-      const commentPostField = comment.fields.find(f => f.name === 'post')!;
+      const postCommentsField = post.fields.find((f) => f.name === 'comments')!;
+      const commentPostField = comment.fields.find((f) => f.name === 'post')!;
       const hasManyRelationInfo = processConnectionsV2(postCommentsField, post, modelMap, false, true);
       expect(hasManyRelationInfo).toEqual({
         kind: CodeGenConnectionType.HAS_MANY,
@@ -870,11 +886,11 @@ describe('Connection process with custom Primary Key support tests', () => {
         connectedModel: comment,
         isConnectingFieldAutoCreated: false,
       });
-      const belongsToRelationInfo = processConnectionsV2(commentPostField, comment, modelMap, false, true)
+      const belongsToRelationInfo = processConnectionsV2(commentPostField, comment, modelMap, false, true);
       expect(belongsToRelationInfo).toEqual({
         kind: CodeGenConnectionType.BELONGS_TO,
-        targetName: "postId",
-        targetNames: ["postId", "postTitle"],
+        targetName: 'postId',
+        targetNames: ['postId', 'postTitle'],
         connectedModel: post,
         isConnectingFieldAutoCreated: false,
         isUsingReferences: false,
@@ -883,22 +899,22 @@ describe('Connection process with custom Primary Key support tests', () => {
     it('should return correct connection info in hasMany uni direction when index is defined', () => {
       const schema = /* GraphQL */ `
         type Post @model {
-          postId: ID! @primaryKey(sortKeyFields:["title"])
+          postId: ID! @primaryKey(sortKeyFields: ["title"])
           title: String!
-          comments: [Comment] @hasMany(indexName: "byPost", fields:["postId", "title"])
+          comments: [Comment] @hasMany(indexName: "byPost", fields: ["postId", "title"])
         }
         type Comment @model {
-          commentId: ID! @primaryKey(sortKeyFields:["content"])
+          commentId: ID! @primaryKey(sortKeyFields: ["content"])
           content: String!
-          postId: ID! @index(name: "byPost", sortKeyFields:["postTitle"])
+          postId: ID! @index(name: "byPost", sortKeyFields: ["postTitle"])
           postTitle: String!
         }
       `;
       const modelMap: CodeGenModelMap = createBaseVisitorWithCustomPrimaryKeyEnabled(schema).models;
       const post: CodeGenModel = modelMap.Post;
       const comment: CodeGenModel = modelMap.Comment;
-      const postCommentsField = post.fields.find(f => f.name === 'comments')!;
-      const commentPostIdField = comment.fields.find(f => f.name === 'postId')!;
+      const postCommentsField = post.fields.find((f) => f.name === 'comments')!;
+      const commentPostIdField = comment.fields.find((f) => f.name === 'postId')!;
       const hasManyRelationInfo = processConnectionsV2(postCommentsField, post, modelMap, false, true);
       expect(hasManyRelationInfo).toEqual({
         kind: CodeGenConnectionType.HAS_MANY,
@@ -914,13 +930,13 @@ describe('Connection process with custom Primary Key support tests', () => {
     it('should return correct connection info in multiple hasOne defined in parent', () => {
       const schema = /* GraphQL */ `
         type Project @model {
-          projectId: ID! @primaryKey(sortKeyFields:["name"])
+          projectId: ID! @primaryKey(sortKeyFields: ["name"])
           name: String!
           devTeam: Team @hasOne
           productTeam: Team @hasOne
         }
         type Team @model {
-          teamId: ID! @primaryKey(sortKeyFields:["name"])
+          teamId: ID! @primaryKey(sortKeyFields: ["name"])
           name: String!
           project: Project @belongsTo
         }
@@ -928,9 +944,9 @@ describe('Connection process with custom Primary Key support tests', () => {
       const modelMap: CodeGenModelMap = createBaseVisitorWithCustomPrimaryKeyEnabled(schema).models;
       const project: CodeGenModel = modelMap.Project;
       const team: CodeGenModel = modelMap.Team;
-      const projectDevTeamField = project.fields.find(f => f.name === 'devTeam')!;
-      const projectProductTeamField = project.fields.find(f => f.name === 'productTeam')!;
-      const teamProjectField = team.fields.find(f => f.name === 'project')!;
+      const projectDevTeamField = project.fields.find((f) => f.name === 'devTeam')!;
+      const projectProductTeamField = project.fields.find((f) => f.name === 'productTeam')!;
+      const teamProjectField = team.fields.find((f) => f.name === 'project')!;
       const hasOneRelationInfoDevTeam = processConnectionsV2(projectDevTeamField, project, modelMap, false, true);
       const hasOneRelationInfoProductTeam = processConnectionsV2(projectProductTeamField, project, modelMap, false, true);
       expect(hasOneRelationInfoDevTeam).toEqual({
@@ -978,9 +994,9 @@ describe('Connection process with custom Primary Key support tests', () => {
       const modelMap: CodeGenModelMap = createBaseVisitorWithCustomPrimaryKeyEnabled(schema).models;
       const compositeOwner: CodeGenModel = modelMap.CompositeOwner;
       const compositeDog: CodeGenModel = modelMap.CompositeDog;
-      const hasOneField = compositeOwner.fields.find(f => f.name === 'compositeDog')!;
-      const belongsToField = compositeDog.fields.find(f => f.name === 'compositeOwner')!;
-      const hasOneAssociatedWithFields = compositeDog.fields.filter(f => f.name === 'name' || f.name === 'description')!;
+      const hasOneField = compositeOwner.fields.find((f) => f.name === 'compositeDog')!;
+      const belongsToField = compositeDog.fields.find((f) => f.name === 'compositeOwner')!;
+      const hasOneAssociatedWithFields = compositeDog.fields.filter((f) => f.name === 'name' || f.name === 'description')!;
       const hasOneRelationInfo = processConnectionsV2(hasOneField, compositeOwner, modelMap, false, true, true);
       const belongsToRelationInfo = processConnectionsV2(belongsToField, compositeDog, modelMap, false, true, true);
       expect(hasOneRelationInfo).toEqual({
@@ -1018,9 +1034,9 @@ describe('Connection process with custom Primary Key support tests', () => {
       const modelMap: CodeGenModelMap = createBaseVisitorWithCustomPrimaryKeyEnabled(schema).models;
       const boringOwner: CodeGenModel = modelMap.BoringOwner;
       const boringDog: CodeGenModel = modelMap.BoringDog;
-      const hasOneField = boringOwner.fields.find(f => f.name === 'boringDog')!;
-      const belongsToField = boringDog.fields.find(f => f.name === 'boringOwner')!;
-      const hasOneAssociatedWithFields = boringDog.fields.filter(f => f.name === 'id')!;
+      const hasOneField = boringOwner.fields.find((f) => f.name === 'boringDog')!;
+      const belongsToField = boringDog.fields.find((f) => f.name === 'boringOwner')!;
+      const hasOneAssociatedWithFields = boringDog.fields.filter((f) => f.name === 'id')!;
       const hasOneRelationInfo = processConnectionsV2(hasOneField, boringOwner, modelMap, false, true, true);
       const belongsToRelationInfo = processConnectionsV2(belongsToField, boringDog, modelMap, false, true, true);
       expect(hasOneRelationInfo).toEqual({
@@ -1041,5 +1057,5 @@ describe('Connection process with custom Primary Key support tests', () => {
         isUsingReferences: false,
       });
     });
-  })
+  });
 });

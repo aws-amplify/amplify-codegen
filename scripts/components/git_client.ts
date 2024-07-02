@@ -103,7 +103,7 @@ export class GitClient {
         .split(EOL)
         .filter((line: string) => line.trim().length > 0)
         // filter out packages not published to npm
-        .filter((tag: string) => !privatePackages.some(name => tag.includes(name)))
+        .filter((tag: string) => !privatePackages.some((name) => tag.includes(name)))
     );
   };
 
@@ -140,7 +140,7 @@ export class GitClient {
     const releaseTags = await this.getTagsAtCommit(releaseCommitHash);
 
     // create a set of just the package names (strip off the version suffix) associated with this release commit
-    const packageNamesRemaining = new Set(releaseTags.map(releaseTagToNameAndVersion).map(nameAndVersion => nameAndVersion.packageName));
+    const packageNamesRemaining = new Set(releaseTags.map(releaseTagToNameAndVersion).map((nameAndVersion) => nameAndVersion.packageName));
 
     let releaseCommitCursor = releaseCommitHash;
 
@@ -151,7 +151,7 @@ export class GitClient {
       try {
         releaseCommitCursor = await this.getNearestReleaseCommit(releaseCommitCursor, { inclusive: false });
         const releaseTagsAtCursor = await this.getTagsAtCommit(releaseCommitCursor);
-        releaseTagsAtCursor.forEach(releaseTag => {
+        releaseTagsAtCursor.forEach((releaseTag) => {
           const { packageName } = releaseTagToNameAndVersion(releaseTag);
           if (packageNamesRemaining.has(packageName)) {
             // this means we've found the previous version of "packageNameRemaining" that was released in releaseCommitHash

@@ -5,7 +5,7 @@ const uuid = require('uuid');
 const mutex = throat(1);
 export const run = async (globalConfig, config, environment, runtime, testPath) => {
   const CLITestRunner = {};
-  environment.global.addCLITestRunnerLogs = logs => {
+  environment.global.addCLITestRunnerLogs = (logs) => {
     CLITestRunner.logs = logs;
   };
 

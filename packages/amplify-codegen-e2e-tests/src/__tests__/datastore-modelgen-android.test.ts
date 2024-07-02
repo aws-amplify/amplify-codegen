@@ -5,21 +5,21 @@ import * as path from 'path';
 const schema = 'modelgen/model_gen_schema_with_aws_scalars.graphql';
 
 describe('Datastore Modelgen tests - Android', () => {
-    let projectRoot: string;
+  let projectRoot: string;
 
-    beforeEach(async () => {
-        projectRoot = await createNewProjectDir('datastoreModelgenAndroid');
-    });
+  beforeEach(async () => {
+    projectRoot = await createNewProjectDir('datastoreModelgenAndroid');
+  });
 
-    afterEach(async () => {
-        await deleteAmplifyProject(projectRoot);
-    });
+  afterEach(async () => {
+    await deleteAmplifyProject(projectRoot);
+  });
 
-    it(`should generate files at desired location and not delete src files`, async () => {
-        await testCodegenModels(DEFAULT_ANDROID_CONFIG, projectRoot, schema);
-    });
+  it(`should generate files at desired location and not delete src files`, async () => {
+    await testCodegenModels(DEFAULT_ANDROID_CONFIG, projectRoot, schema);
+  });
 
-    it('Should generate files at overridden output path', async () => {
-        await testCodegenModels(DEFAULT_ANDROID_CONFIG, projectRoot, schema, path.join('app', 'src', 'main', 'guava'));
-    });
+  it('Should generate files at overridden output path', async () => {
+    await testCodegenModels(DEFAULT_ANDROID_CONFIG, projectRoot, schema, path.join('app', 'src', 'main', 'guava'));
+  });
 });

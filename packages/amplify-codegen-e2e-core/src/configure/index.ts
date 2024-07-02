@@ -31,7 +31,7 @@ export const amplifyRegions = [
   'us-west-1',
   'us-west-2',
   'eu-north-1',
-  "eu-south-1",
+  'eu-south-1',
   'eu-west-1',
   'eu-west-2',
   'eu-west-3',
@@ -49,8 +49,7 @@ export const amplifyRegions = [
 const configurationOptions = ['Project information', 'AWS Profile setting', 'Advanced: Container-based deployments'];
 const profileOptions = ['No', 'Update AWS Profile', 'Remove AWS Profile'];
 const authenticationOptions = ['AWS profile', 'AWS access keys'];
-const javaScriptFrameworkList = [ 'none', 'angular', 'ember', 'ionic', 'react', 'react-native', 'vue' ];
-
+const javaScriptFrameworkList = ['none', 'angular', 'ember', 'ionic', 'react', 'react-native', 'vue'];
 
 const MANDATORY_PARAMS = ['accessKeyId', 'secretAccessKey', 'region'];
 
@@ -142,13 +141,8 @@ export function amplifyConfigureProject(settings: {
   });
 }
 
-export function amplifyConfigureProjectInfo(settings: {
-  cwd: string,
-  frontendType: string,
-}): Promise<void> {
-  const {
-    cwd,
-  } = settings;
+export function amplifyConfigureProjectInfo(settings: { cwd: string; frontendType: string }): Promise<void> {
+  const { cwd } = settings;
   const s = { ...defaultProjectSettings, ...settings };
   return new Promise((resolve, reject) => {
     const chain = spawn(getCLIPath(), ['configure', 'project'], { cwd, stripColors: true }).wait('Which setting do you want to configure?');
@@ -176,29 +170,23 @@ export function amplifyConfigureProjectInfo(settings: {
           .sendLine(s.startCmd);
         break;
       case 'android':
-        chain
-          .wait('Where is your Res directory')
-          .sendLine(s.srcDir);
+        chain.wait('Where is your Res directory').sendLine(s.srcDir);
         break;
       case 'ios':
         break;
       case 'flutter':
-        chain
-          .wait('Where do you want to store your configuration file?')
-          .sendLine(s.srcDir);
+        chain.wait('Where do you want to store your configuration file?').sendLine(s.srcDir);
         break;
       default:
         throw new Error(`Frontend type ${s.frontendType} is not supported.`);
     }
 
-    chain
-      .wait('Successfully made configuration changes to your project.')
-      .run((err: Error) => {
-        if (!err) {
-          resolve();
-        } else {
-          reject(err);
-        }
-      });
-  })
+    chain.wait('Successfully made configuration changes to your project.').run((err: Error) => {
+      if (!err) {
+        resolve();
+      } else {
+        reject(err);
+      }
+    });
+  });
 }

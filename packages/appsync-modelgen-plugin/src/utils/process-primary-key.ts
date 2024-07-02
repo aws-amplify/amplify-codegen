@@ -7,12 +7,12 @@ import { getDirective } from './fieldUtils';
  */
 export const processPrimaryKey = (model: CodeGenModel) => {
   const alreadyHasPrimaryKeySanityCheck = model.directives.some(
-    directive => directive.name === 'key' && directive.arguments.name === undefined,
+    (directive) => directive.name === 'key' && directive.arguments.name === undefined,
   );
   if (alreadyHasPrimaryKeySanityCheck) {
     return;
   }
-  const primaryKeyField = model.fields.find(field => getDirective(field)('primaryKey'));
+  const primaryKeyField = model.fields.find((field) => getDirective(field)('primaryKey'));
   if (!primaryKeyField) {
     return;
   }

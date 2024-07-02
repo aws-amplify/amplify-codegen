@@ -43,7 +43,7 @@ export function generateSource(context: CompilerContext, outputIndividualFiles: 
       generator.fileHeader();
 
       generator.namespaceDeclaration(context.options.namespace, () => {
-        context.typesUsed.forEach(type => {
+        context.typesUsed.forEach((type) => {
           generator.typeDeclarationForGraphQLType(type);
         });
       });
@@ -55,11 +55,11 @@ export function generateSource(context: CompilerContext, outputIndividualFiles: 
 
     const inputFilePaths = new Set<string>();
 
-    Object.values(context.operations).forEach(operation => {
+    Object.values(context.operations).forEach((operation) => {
       inputFilePaths.add(operation.filePath);
     });
 
-    Object.values(context.fragments).forEach(fragment => {
+    Object.values(context.fragments).forEach((fragment) => {
       inputFilePaths.add(fragment.filePath);
     });
 
@@ -70,13 +70,13 @@ export function generateSource(context: CompilerContext, outputIndividualFiles: 
         generator.fileHeader();
 
         generator.namespaceExtensionDeclaration(context.options.namespace, () => {
-          Object.values(context.operations).forEach(operation => {
+          Object.values(context.operations).forEach((operation) => {
             if (operation.filePath === inputFilePath) {
               generator.classDeclarationForOperation(operation);
             }
           });
 
-          Object.values(context.fragments).forEach(fragment => {
+          Object.values(context.fragments).forEach((fragment) => {
             if (fragment.filePath === inputFilePath) {
               generator.structDeclarationForFragment(fragment);
             }
@@ -88,15 +88,15 @@ export function generateSource(context: CompilerContext, outputIndividualFiles: 
     generator.fileHeader();
 
     generator.namespaceDeclaration(context.options.namespace, () => {
-      context.typesUsed.forEach(type => {
+      context.typesUsed.forEach((type) => {
         generator.typeDeclarationForGraphQLType(type);
       });
 
-      Object.values(context.operations).forEach(operation => {
+      Object.values(context.operations).forEach((operation) => {
         generator.classDeclarationForOperation(operation);
       });
 
-      Object.values(context.fragments).forEach(fragment => {
+      Object.values(context.fragments).forEach((fragment) => {
         generator.structDeclarationForFragment(fragment);
       });
     });
@@ -177,7 +177,7 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
         if (fragmentsReferenced.size > 0) {
           this.printNewlineIfNeeded();
           this.printOnNewline('public static var requestString: String { return operationString');
-          fragmentsReferenced.forEach(fragmentName => {
+          fragmentsReferenced.forEach((fragmentName) => {
             this.print(`.appending(${this.helpers.structNameForFragmentName(fragmentName)}.fragmentString)`);
           });
           this.print(' }');
@@ -203,9 +203,12 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
             this.printOnNewline(
               wrap(
                 `return [`,
-                join(properties.map(({ name, propertyName }) => `"${name}": ${escapeIdentifierIfNeeded(propertyName)}`), ', ') || ':',
-                `]`
-              )
+                join(
+                  properties.map(({ name, propertyName }) => `"${name}": ${escapeIdentifierIfNeeded(propertyName)}`),
+                  ', ',
+                ) || ':',
+                `]`,
+              ),
             );
           });
         } else {
@@ -216,7 +219,7 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
           structName: 'Data',
           selectionSet,
         });
-      }
+      },
     );
   }
 
@@ -236,7 +239,7 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
             this.multilineString(source);
           });
         }
-      }
+      },
     );
   }
 
@@ -250,7 +253,7 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
       adoptedProtocols?: string[];
       selectionSet: SelectionSet;
     },
-    before?: Function
+    before?: Function,
   ) {
     const typeCase = typeCaseForSelectionSet(selectionSet, this.context.options.mergeInFieldsFromFragmentSpreads);
 
@@ -273,7 +276,7 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
             variant,
           });
         }
-      }
+      },
     );
   }
 
@@ -290,7 +293,7 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
       typeCase?: TypeCase;
     },
     before?: Function,
-    after?: Function
+    after?: Function,
   ) {
     this.structDeclaration({ structName, adoptedProtocols }, () => {
       if (before) {
@@ -299,7 +302,12 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
 
       this.printNewlineIfNeeded();
       this.printOnNewline('public static let possibleTypes = [');
-      this.print(join(variant.possibleTypes.map(type => `"${type.name}"`), ', '));
+      this.print(
+        join(
+          variant.possibleTypes.map((type) => `"${type.name}"`),
+          ', ',
+        ),
+      );
       this.print(']');
 
       this.printNewlineIfNeeded();
@@ -329,12 +337,12 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
         this.initializersForVariant(variant);
       }
 
-      const fields = collectAndMergeFields(variant, this.context.options.mergeInFieldsFromFragmentSpreads).map(field =>
-        this.helpers.propertyFromField(field as Field)
+      const fields = collectAndMergeFields(variant, this.context.options.mergeInFieldsFromFragmentSpreads).map((field) =>
+        this.helpers.propertyFromField(field as Field),
       );
 
-      const fragmentSpreads = variant.fragmentSpreads.map(fragmentSpread => {
-        const isConditional = variant.possibleTypes.some(type => !fragmentSpread.selectionSet.possibleTypes.includes(type));
+      const fragmentSpreads = variant.fragmentSpreads.map((fragmentSpread) => {
+        const isConditional = variant.possibleTypes.some((type) => !fragmentSpread.selectionSet.possibleTypes.includes(type));
 
         return this.helpers.propertyFromFragmentSpread(fragmentSpread, isConditional);
       });
@@ -389,7 +397,7 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
                 });
               });
             }
-          }
+          },
         );
       }
 
@@ -436,8 +444,8 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
           wrap(
             `self.init(snapshot: [`,
             join([`"__typename": "${variant.possibleTypes[0]}"`, ...properties.map(this.propertyAssignmentForField, this)], ', ') || ':',
-            `])`
-          )
+            `])`,
+          ),
         );
       });
     } else {
@@ -449,7 +457,7 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
             possibleTypes: [possibleType],
             selections: variant.selections,
           },
-          namespace
+          namespace,
         );
 
         if (!properties) continue;
@@ -466,8 +474,8 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
             wrap(
               `return ${structName}(snapshot: [`,
               join([`"__typename": "${possibleType}"`, ...properties.map(this.propertyAssignmentForField, this)], ', ') || ':',
-              `])`
-            )
+              `])`,
+            ),
           );
         });
       }
@@ -477,7 +485,7 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
   propertyAssignmentForField(field: { responseKey: string; propertyName: string; type: GraphQLType }) {
     const { responseKey, propertyName, type } = field;
     const valueExpression = isCompositeType(getNamedType(type))
-      ? this.helpers.mapExpressionForType(type, identifier => `${identifier}.snapshot`, escapeIdentifierIfNeeded(propertyName))
+      ? this.helpers.mapExpressionForType(type, (identifier) => `${identifier}.snapshot`, escapeIdentifierIfNeeded(propertyName))
       : escapeIdentifierIfNeeded(propertyName);
     return `"${responseKey}": ${valueExpression}`;
   }
@@ -507,12 +515,12 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
             } else {
               getter = `return (snapshot["${responseKey}"] as! ${snapshotTypeName})`;
             }
-            getter += this.helpers.mapExpressionForType(type, identifier => `${structName}(snapshot: ${identifier})`);
+            getter += this.helpers.mapExpressionForType(type, (identifier) => `${structName}(snapshot: ${identifier})`);
             this.printOnNewline(getter);
           });
           this.printOnNewline('set');
           this.withinBlock(() => {
-            let newValueExpression = this.helpers.mapExpressionForType(type, identifier => `${identifier}.snapshot`, 'newValue');
+            let newValueExpression = this.helpers.mapExpressionForType(type, (identifier) => `${identifier}.snapshot`, 'newValue');
             this.printOnNewline(`snapshot.updateValue(${newValueExpression}, forKey: "${responseKey}")`);
           });
         } else {
@@ -587,10 +595,10 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
     this.print(
       join(
         properties.map(({ propertyName, typeName, isOptional }) =>
-          join([`${escapeIdentifierIfNeeded(propertyName)}: ${typeName}`, isOptional && ' = nil'])
+          join([`${escapeIdentifierIfNeeded(propertyName)}: ${typeName}`, isOptional && ' = nil']),
         ),
-        ', '
-      )
+        ', ',
+      ),
     );
     this.print(')');
   }
@@ -608,11 +616,11 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
         this.printOnNewline(`variants: [`);
         this.print(
           typeCase.variants
-            .flatMap(variant => {
+            .flatMap((variant) => {
               const structName = this.helpers.structNameForVariant(variant);
-              return variant.possibleTypes.map(type => `"${type}": ${structName}.selections`);
+              return variant.possibleTypes.map((type) => `"${type}": ${structName}.selections`);
             })
-            .join(', ')
+            .join(', '),
         );
         this.print('],');
         this.printOnNewline(`default: `);
@@ -642,8 +650,8 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
                   args && args.length && `arguments: ${this.helpers.dictionaryLiteralForFieldArguments(args)}`,
                   `type: ${this.helpers.fieldTypeEnum(type, structName)}`,
                 ],
-                ', '
-              )
+                ', ',
+              ),
             );
             this.print('),');
             break;
@@ -658,9 +666,15 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
             this.printOnNewline(`GraphQLTypeCondition(`);
             this.print(
               join(
-                [`possibleTypes: [${join(selection.selectionSet.possibleTypes.map(type => `"${type.name}"`), ', ')}]`, 'selections: '],
-                ', '
-              )
+                [
+                  `possibleTypes: [${join(
+                    selection.selectionSet.possibleTypes.map((type) => `"${type.name}"`),
+                    ', ',
+                  )}]`,
+                  'selections: ',
+                ],
+                ', ',
+              ),
             );
             this.selectionSetInitialization(selection.selectionSet);
             this.print('),');
@@ -695,7 +709,7 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
     this.withinBlock(() => {
       this.printOnNewline('public typealias RawValue = String');
 
-      values.forEach(value => {
+      values.forEach((value) => {
         this.comment(value.description || undefined);
         this.deprecationAttributes(value.isDeprecated, value.deprecationReason || undefined);
         this.printOnNewline(`case ${escapeIdentifierIfNeeded(this.helpers.enumCaseName(value.name))}`);
@@ -708,7 +722,7 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
       this.withinBlock(() => {
         this.printOnNewline('switch rawValue');
         this.withinBlock(() => {
-          values.forEach(value => {
+          values.forEach((value) => {
             this.printOnNewline(`case "${value.value}": self = ${escapeIdentifierIfNeeded(this.helpers.enumDotCaseName(value.name))}`);
           });
           this.printOnNewline(`default: self = .unknown(rawValue)`);
@@ -720,7 +734,7 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
       this.withinBlock(() => {
         this.printOnNewline('switch self');
         this.withinBlock(() => {
-          values.forEach(value => {
+          values.forEach((value) => {
             this.printOnNewline(`case ${escapeIdentifierIfNeeded(this.helpers.enumDotCaseName(value.name))}: return "${value.value}"`);
           });
           this.printOnNewline(`case .unknown(let value): return value`);
@@ -732,7 +746,7 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
       this.withinBlock(() => {
         this.printOnNewline('switch (lhs, rhs)');
         this.withinBlock(() => {
-          values.forEach(value => {
+          values.forEach((value) => {
             const enumDotCaseName = escapeIdentifierIfNeeded(this.helpers.enumDotCaseName(value.name));
             const tuple = `(${enumDotCaseName}, ${enumDotCaseName})`;
             this.printOnNewline(`case ${tuple}: return true`);
@@ -755,7 +769,7 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
     if (isS3Field(type)) {
       properties = [
         ...properties,
-        ...(properties.find(p => p.name === 'localUri')
+        ...(properties.find((p) => p.name === 'localUri')
           ? []
           : [
               {
@@ -766,7 +780,7 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
                 description: '',
               },
             ]),
-        ...(properties.find(p => p.name === 'mimeType')
+        ...(properties.find((p) => p.name === 'mimeType')
           ? []
           : [
               {
@@ -789,10 +803,10 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
       this.print(
         join(
           properties.map(({ propertyName, typeName, isOptional }) =>
-            join([`${escapeIdentifierIfNeeded(propertyName)}: ${typeName}`, isOptional && ' = nil'])
+            join([`${escapeIdentifierIfNeeded(propertyName)}: ${typeName}`, isOptional && ' = nil']),
           ),
-          ', '
-        )
+          ', ',
+        ),
       );
       this.print(')');
 
@@ -800,9 +814,12 @@ export class SwiftAPIGenerator extends SwiftGenerator<CompilerContext> {
         this.printOnNewline(
           wrap(
             `graphQLMap = [`,
-            join(properties.map(({ name, propertyName }) => `"${name}": ${escapeIdentifierIfNeeded(propertyName)}`), ', ') || ':',
-            `]`
-          )
+            join(
+              properties.map(({ name, propertyName }) => `"${name}": ${escapeIdentifierIfNeeded(propertyName)}`),
+              ', ',
+            ) || ':',
+            `]`,
+          ),
         );
       });
 

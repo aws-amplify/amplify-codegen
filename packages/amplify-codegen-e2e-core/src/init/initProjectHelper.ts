@@ -22,7 +22,7 @@ const defaultSettings = {
   providerConfig: undefined,
 };
 
-const javaScriptFrameworkList = [ 'none', 'angular', 'ember', 'ionic', 'react', 'react-native', 'vue' ];
+const javaScriptFrameworkList = ['none', 'angular', 'ember', 'ionic', 'react', 'react-native', 'vue'];
 
 export function initJSProjectWithProfile(cwd: string, settings: Object = {}): Promise<void> {
   const s = { ...defaultSettings, ...settings };
@@ -455,7 +455,5 @@ export async function initProjectWithQuickstart(cwd: string, settings: any): Pro
 export function createRandomName() {
   const length = 20;
   const regExp = new RegExp('-', 'g');
-  return uuid()
-    .replace(regExp, '')
-    .substring(0, length);
+  return uuid().replace(regExp, '').substring(0, length);
 }

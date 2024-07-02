@@ -18,9 +18,9 @@ function toMatchSelectionSet(
   this: jest.MatcherUtils,
   received: SelectionSet,
   possibleTypeNames: string[],
-  expectedResponseKeys: string[]
+  expectedResponseKeys: string[],
 ): { message(): string; pass: boolean } {
-  const actualResponseKeys = collectAndMergeFields(received).map(field => field.responseKey);
+  const actualResponseKeys = collectAndMergeFields(received).map((field) => field.responseKey);
 
   const pass = this.equals(actualResponseKeys, expectedResponseKeys);
 
@@ -51,10 +51,13 @@ function toContainSelectionSetMatching(
   this: jest.MatcherUtils,
   received: SelectionSet[],
   possibleTypeNames: string[],
-  expectedResponseKeys: string[]
+  expectedResponseKeys: string[],
 ): { message(): string; pass: boolean } {
-  const variant = received.find(variant => {
-    return this.equals(Array.from(variant.possibleTypes).map(type => type.name), possibleTypeNames);
+  const variant = received.find((variant) => {
+    return this.equals(
+      Array.from(variant.possibleTypes).map((type) => type.name),
+      possibleTypeNames,
+    );
   });
 
   if (!variant) {
@@ -65,10 +68,10 @@ function toContainSelectionSetMatching(
         `But only found variants for:\n` +
         received
           .map(
-            variant =>
+            (variant) =>
               `  ${this.utils.printReceived(variant.possibleTypes)} -> ${this.utils.printReceived(
-                collectAndMergeFields(variant).map(field => field.name)
-              )}`
+                collectAndMergeFields(variant).map((field) => field.name),
+              )}`,
           )
           .join('\n'),
       pass: false,

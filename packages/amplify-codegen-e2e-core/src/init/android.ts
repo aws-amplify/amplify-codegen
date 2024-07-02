@@ -25,7 +25,7 @@ export function androidBuild(cwd: string, settings: Object = {}): Promise<void> 
       }
     });
   });
-};
+}
 
 export function acceptLicenses(cwd: string, settings: Object = {}): Promise<void> {
   return new Promise((resolve, reject) => {
@@ -34,10 +34,10 @@ export function acceptLicenses(cwd: string, settings: Object = {}): Promise<void
     const chain = spawn('sdkmanager', ['--licenses'], {
       cwd,
       stripColors: true,
-      disableCIDetection: s.disableCIDetection
+      disableCIDetection: s.disableCIDetection,
     })
-    .wait("Review licenses that have not been accepted (y/N)?")
-    .sendLine("y");
+      .wait('Review licenses that have not been accepted (y/N)?')
+      .sendLine('y');
 
     chain.run((err: Error) => {
       if (err) {
@@ -47,4 +47,4 @@ export function acceptLicenses(cwd: string, settings: Object = {}): Promise<void
       }
     });
   });
-};
+}

@@ -10,7 +10,7 @@ export function buildSchema(schema: string): GraphQLSchema {
     case SchemaType.INTROSPECTION:
       return buildIntrospectionSchema(schema);
     default:
-      throw new Error("Please provide either SDL or Introspection schema as input to build it");
+      throw new Error('Please provide either SDL or Introspection schema as input to build it');
   }
 }
 
@@ -24,7 +24,7 @@ function buildIntrospectionSchema(schema: string): GraphQLSchema {
 }
 
 function buildSDLSchema(schema: string): GraphQLSchema {
-  const extendedSchema = [schema, AWS_APPSYNC_SDL].join("\n");
+  const extendedSchema = [schema, AWS_APPSYNC_SDL].join('\n');
   const graphQLDocument = parse(new Source(extendedSchema));
   return buildASTSchema(graphQLDocument);
 }

@@ -48,7 +48,7 @@ export async function testValidGraphQLConfig(
   expect(existsSync(getGraphQLConfigFilePath(projectRoot))).toBe(true);
 
   const generatedConfig = load(readFileSync(getGraphQLConfigFilePath(projectRoot)).toString());
-  Object.keys(generatedConfig['projects']).forEach(projectName => {
+  Object.keys(generatedConfig['projects']).forEach((projectName) => {
     const projectConfig = generatedConfig['projects'][projectName];
     const expectedProjectConfig = constructGraphQLConfig(projectName, config, maxDepth, region, isConfigured);
     // check if the graphql codegen configuration is valid

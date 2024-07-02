@@ -33,21 +33,21 @@ export function validatePushedVersion(
 ) {
   const layerData = getLayerDataFromTeamProviderInfo(projRoot, layerName, envName);
   const storedPermissions: LayerPermission[] = _.get(layerData, ['layerVersionMap', `${version}`, 'permissions']);
-  permissions.forEach(perm => expect(storedPermissions).toContainEqual(perm));
+  permissions.forEach((perm) => expect(storedPermissions).toContainEqual(perm));
 }
 
 export async function validateLayerMetadata(projRoot: string, layerName: string, meta: any, envName: string) {
   const { Arn: arn, Region: region } = meta.function[layerName].output;
   const localLayerData = getLayerDataFromTeamProviderInfo(projRoot, layerName, envName);
   const runtimes = getLayerRuntimes(projRoot, layerName);
-  const runtimeValues = Object.keys(runtimes).map(key => runtimes[key].cloudTemplateValue);
+  const runtimeValues = Object.keys(runtimes).map((key) => runtimes[key].cloudTemplateValue);
   const localVersions = Object.keys(localLayerData.layerVersionMap);
 
   expect(arn).toBeDefined();
   expect(region).toBeDefined();
   const cloudData = await getLayerVersion(arn, region);
   const { LayerVersions: Versions } = await listVersions(`${layerName}-${envName}`, region);
-  const cloudVersions = Versions.map(version => version.Version);
+  const cloudVersions = Versions.map((version) => version.Version);
   expect(cloudVersions.map(String).sort()).toEqual(localVersions.sort());
   expect(cloudData.LayerVersionArn).toEqual(arn);
   expect(cloudData.CompatibleRuntimes).toEqual(runtimeValues);
@@ -172,7 +172,7 @@ function getLayerRuntimes(projRoot: string, layerName: string) {
 }
 
 function getRuntimeDisplayNames(runtimes: LayerRuntimes[]) {
-  return runtimes.map(runtime => getLayerRuntimeInfo(runtime).displayName);
+  return runtimes.map((runtime) => getLayerRuntimeInfo(runtime).displayName);
 }
 
 function getLayerRuntimeInfo(runtime: LayerRuntimes) {

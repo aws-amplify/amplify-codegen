@@ -4,7 +4,7 @@ const featureName = 'model-introspection';
 
 module.exports = {
   name: featureName,
-  run: async context => {
+  run: async (context) => {
     try {
       await codeGen.generateModelIntrospection(context);
     } catch (ex) {

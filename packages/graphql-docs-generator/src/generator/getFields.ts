@@ -35,11 +35,11 @@ export default function getFields(
   }
 
   const fields: Array<GQLTemplateField> = Object.keys(subFields)
-    .map(fieldName => {
+    .map((fieldName) => {
       const subField = subFields[fieldName];
       return getFields(subField, schema, adjustDepth(subField, depth), options);
     })
-    .filter(f => f);
+    .filter((f) => f);
 
   // add __typename to selection set.
   // getFields() does not include __typename because __typename is implicitly included on all object types.
@@ -54,8 +54,8 @@ export default function getFields(
     });
   }
   const fragments: Array<GQLTemplateFragment> = Object.keys(subFragments)
-    .map(fragment => getFragment(subFragments[fragment], schema, depth, fields, null, false, options))
-    .filter(f => f);
+    .map((fragment) => getFragment(subFragments[fragment], schema, depth, fields, null, false, options))
+    .filter((f) => f);
 
   // Special treatment for S3 input
   // Swift SDK needs S3 Object to have fragment

@@ -94,7 +94,10 @@ describe('TypeCase', () => {
     const typeCase = typeCaseForSelectionSet(selectionSet);
 
     expect(typeCase.default).toMatchSelectionSet(['Human', 'Droid'], ['id', 'name', 'appearsIn']);
-    expect(typeCase.default.fragmentSpreads.map(fragmentSpread => fragmentSpread.fragmentName)).toEqual(['HeroDetails', 'MoreHeroDetails']);
+    expect(typeCase.default.fragmentSpreads.map((fragmentSpread) => fragmentSpread.fragmentName)).toEqual([
+      'HeroDetails',
+      'MoreHeroDetails',
+    ]);
 
     expect(typeCase.variants).toHaveLength(0);
 
@@ -121,7 +124,7 @@ describe('TypeCase', () => {
     const typeCase = typeCaseForSelectionSet(selectionSet);
 
     expect(typeCase.default).toMatchSelectionSet(['Human', 'Droid'], ['name']);
-    expect(typeCase.default.fragmentSpreads.map(fragmentSpread => fragmentSpread.fragmentName)).toEqual(['CharacterName']);
+    expect(typeCase.default.fragmentSpreads.map((fragmentSpread) => fragmentSpread.fragmentName)).toEqual(['CharacterName']);
 
     expect(typeCase.variants).toHaveLength(0);
   });
@@ -147,11 +150,12 @@ describe('TypeCase', () => {
     `);
 
     const selectionSet = (context.operations['Hero'].selectionSet.selections[0] as Field).selectionSet as SelectionSet;
-    const typeCase = typeCaseForSelectionSet(collectAndMergeFields(typeCaseForSelectionSet(selectionSet).variants[0])[0]
-      .selectionSet as SelectionSet);
+    const typeCase = typeCaseForSelectionSet(
+      collectAndMergeFields(typeCaseForSelectionSet(selectionSet).variants[0])[0].selectionSet as SelectionSet,
+    );
 
     expect(typeCase.default).toMatchSelectionSet(['Human', 'Droid'], ['name']);
-    expect(typeCase.default.fragmentSpreads.map(fragmentSpread => fragmentSpread.fragmentName)).toEqual(['CharacterName']);
+    expect(typeCase.default.fragmentSpreads.map((fragmentSpread) => fragmentSpread.fragmentName)).toEqual(['CharacterName']);
   });
 
   it('should ignore type modifiers when matching the parent type', () => {
@@ -183,7 +187,7 @@ describe('TypeCase', () => {
         }
       }
     `,
-      schema
+      schema,
     );
 
     const selectionSet = (context.operations['Hero'].selectionSet.selections[0] as Field).selectionSet as SelectionSet;
@@ -321,7 +325,7 @@ describe('TypeCase', () => {
         }
       }
     `,
-      animalSchema
+      animalSchema,
     );
 
     const selectionSet = (context.operations['Animal'].selectionSet.selections[0] as Field).selectionSet as SelectionSet;
@@ -359,7 +363,7 @@ describe('TypeCase', () => {
         }
       }
     `,
-      animalSchema
+      animalSchema,
     );
 
     const selectionSet = (context.operations['Animal'].selectionSet.selections[0] as Field).selectionSet as SelectionSet;
@@ -391,7 +395,7 @@ describe('TypeCase', () => {
         }
       }
     `,
-      animalSchema
+      animalSchema,
     );
 
     const selectionSet = (context.operations['Animal'].selectionSet.selections[0] as Field).selectionSet as SelectionSet;

@@ -46,7 +46,7 @@ export function isMetaFieldName(name: string) {
 export function removeConnectionDirectives(ast: ASTNode) {
   return visit(ast, {
     Directive(node: DirectiveNode): DirectiveNode | null {
-      switch(node.name.value) {
+      switch (node.name.value) {
         // TODO: remove reference to 'connection' on transformer vNext release
         case 'connection':
           return null;
@@ -68,7 +68,7 @@ export function removeConnectionDirectives(ast: ASTNode) {
 export function removeClientDirectives(ast: ASTNode) {
   return visit(ast, {
     Field(node: FieldNode): FieldNode | null {
-      if (node.directives && node.directives.find(directive => directive.name.value === 'client')) return null;
+      if (node.directives && node.directives.find((directive) => directive.name.value === 'client')) return null;
       return node;
     },
     OperationDefinition: {
@@ -92,7 +92,7 @@ export function withTypenameFieldAddedWhereNeeded(ast: ASTNode) {
         return {
           ...node,
           selections: node.selections.filter(
-            selection => !(selection.kind === 'Field' && (selection as FieldNode).name.value === '__typename')
+            (selection) => !(selection.kind === 'Field' && (selection as FieldNode).name.value === '__typename'),
           ),
         };
       },
@@ -138,13 +138,10 @@ export function valueFromValueNode(valueNode: ValueNode): any | { kind: 'Variabl
     case 'ListValue':
       return valueNode.values.map(valueFromValueNode);
     case 'ObjectValue':
-      return valueNode.fields.reduce(
-        (object, field) => {
-          object[field.name.value] = valueFromValueNode(field.value);
-          return object;
-        },
-        {} as any
-      );
+      return valueNode.fields.reduce((object, field) => {
+        object[field.name.value] = valueFromValueNode(field.value);
+        return object;
+      }, {} as any);
     case 'Variable':
       return { kind: 'Variable', variableName: valueNode.name.value };
     default:
@@ -155,7 +152,7 @@ export function valueFromValueNode(valueNode: ValueNode): any | { kind: 'Variabl
 export function isTypeProperSuperTypeOf(schema: GraphQLSchema, maybeSuperType: GraphQLCompositeType, subType: GraphQLCompositeType) {
   return (
     isEqualType(maybeSuperType, subType) ||
-    (subType instanceof GraphQLObjectType && (isAbstractType(maybeSuperType) && schema.isPossibleType(maybeSuperType, subType)))
+    (subType instanceof GraphQLObjectType && isAbstractType(maybeSuperType) && schema.isPossibleType(maybeSuperType, subType))
   );
 }
 
@@ -193,7 +190,7 @@ export function getOperationRootType(schema: GraphQLSchema, operation: Operation
 export function getFieldDef(
   schema: GraphQLSchema,
   parentType: GraphQLCompositeType,
-  fieldAST: FieldNode
+  fieldAST: FieldNode,
 ): GraphQLField<any, any> | undefined {
   const name = fieldAST.name.value;
   if (name === SchemaMetaFieldDef.name && schema.getQueryType() === parentType) {

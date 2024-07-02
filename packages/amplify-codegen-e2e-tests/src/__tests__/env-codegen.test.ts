@@ -1,14 +1,14 @@
-import { 
-  createNewProjectDir, 
+import {
+  createNewProjectDir,
   deleteProjectDir,
   deleteProject,
   initJSProjectWithProfile,
   amplifyPush,
   generateModels,
   addApiWithoutSchema,
-  updateApiSchema
-} from "@aws-amplify/amplify-codegen-e2e-core";
-import { addEnvironment, checkoutEnvironment } from "../environment/env";
+  updateApiSchema,
+} from '@aws-amplify/amplify-codegen-e2e-core';
+import { addEnvironment, checkoutEnvironment } from '../environment/env';
 const schema = 'simple_model.graphql';
 const schemaWithError = 'modelgen/model_gen_schema_with_errors.graphql';
 const apiName = 'envtest';
@@ -34,7 +34,7 @@ describe('env codegen tests', () => {
     //create new envb
     await addEnvironment(projectRoot, { envName: 'envb' });
     //update schema to a invalid one in envb and generate models
-    updateApiSchema(projectRoot, apiName, schemaWithError)
+    updateApiSchema(projectRoot, apiName, schemaWithError);
     await expect(generateModels(projectRoot, undefined, { errMessage: 'Unknown type' }));
     //checkout back to enva and generate models
     await checkoutEnvironment(projectRoot, { envName: 'enva', withRestore: true });

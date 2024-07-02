@@ -29,7 +29,7 @@ const getVisitor = ({
   directives?: readonly Directive[];
 }) => {
   const ast = parse(schema);
-  const stringDirectives = directives.map(directive => directive.definition).join('\n');
+  const stringDirectives = directives.map((directive) => directive.definition).join('\n');
   const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
   const visitor = new AppSyncModelDartVisitor(
     builtSchema,
@@ -258,7 +258,7 @@ describe('AppSync Dart Visitor', () => {
 
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
-    })
+    });
   });
 
   describe('Model with Connection Directive', () => {
@@ -275,8 +275,12 @@ describe('AppSync Dart Visitor', () => {
         }
       `;
       const outputModels: string[] = ['Todo', 'Task'];
-      outputModels.forEach(model => {
-        const generatedCode = getVisitor({schema, selectedType: model, directives: [...AppSyncDirectives, ...V1Directives, DeprecatedDirective] }).generate();
+      outputModels.forEach((model) => {
+        const generatedCode = getVisitor({
+          schema,
+          selectedType: model,
+          directives: [...AppSyncDirectives, ...V1Directives, DeprecatedDirective],
+        }).generate();
         expect(generatedCode).toMatchSnapshot();
       });
     });
@@ -304,8 +308,12 @@ describe('AppSync Dart Visitor', () => {
         }
       `;
       const outputModels: string[] = ['Blog', 'Comment', 'Post'];
-      outputModels.forEach(model => {
-        const generatedCode = getVisitor({ schema, selectedType: model, directives: [...AppSyncDirectives, ...V1Directives, DeprecatedDirective] }).generate();
+      outputModels.forEach((model) => {
+        const generatedCode = getVisitor({
+          schema,
+          selectedType: model,
+          directives: [...AppSyncDirectives, ...V1Directives, DeprecatedDirective],
+        }).generate();
         expect(generatedCode).toMatchSnapshot();
       });
     });
@@ -325,7 +333,7 @@ describe('AppSync Dart Visitor', () => {
         }
       `;
       const outputModels: string[] = ['SimpleModel', 'Status'];
-      outputModels.forEach(model => {
+      outputModels.forEach((model) => {
         const generatedCode = getVisitor({ schema, selectedType: model }).generate();
         expect(generatedCode).toMatchSnapshot();
       });
@@ -405,7 +413,7 @@ describe('AppSync Dart Visitor', () => {
           name: String
         }
       `;
-      const visitor = getVisitor({schema, generate: CodeGenGenerateEnum.loader });
+      const visitor = getVisitor({ schema, generate: CodeGenGenerateEnum.loader });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -460,8 +468,12 @@ describe('AppSync Dart Visitor', () => {
         }
       `;
       const outputModels: string[] = ['Blog', 'Comment', 'Post'];
-      outputModels.forEach(model => {
-        const generatedCode = getVisitor({ schema, selectedType: model, directives: [...AppSyncDirectives, ...V1Directives, DeprecatedDirective] }).generate();
+      outputModels.forEach((model) => {
+        const generatedCode = getVisitor({
+          schema,
+          selectedType: model,
+          directives: [...AppSyncDirectives, ...V1Directives, DeprecatedDirective],
+        }).generate();
         expect(generatedCode).toMatchSnapshot();
       });
     });
@@ -534,41 +546,45 @@ describe('AppSync Dart Visitor', () => {
 
   describe('CustomType (non-model) Tests', () => {
     const schema = /* GraphQL */ `
-        type Person @model {
-          name: String!
-          phone: Phone!
-          mailingAddresses: [Address]
-        }
+      type Person @model {
+        name: String!
+        phone: Phone!
+        mailingAddresses: [Address]
+      }
 
-        type Contact {
-          contactName: String!
-          phone: Phone!
-          mailingAddresses: [Address]
-        }
+      type Contact {
+        contactName: String!
+        phone: Phone!
+        mailingAddresses: [Address]
+      }
 
-        type Phone {
-          countryCode: String!
-          areaCode: String!
-          number: String!
-        }
+      type Phone {
+        countryCode: String!
+        areaCode: String!
+        number: String!
+      }
 
-        type Address {
-          line1: String!
-          line2: String
-          city: String!
-          state: String!
-          postalCode: String!
-        }
-      `;
+      type Address {
+        line1: String!
+        line2: String
+        city: String!
+        state: String!
+        postalCode: String!
+      }
+    `;
 
     const models = [undefined, 'Person', 'Contact', 'Address'];
 
-    models.forEach(type => {
+    models.forEach((type) => {
       it(`should generate correct dart class for ${!type ? 'ModelProvider' : type} with nullsafety`, () => {
-        const generatedCode = getVisitor({schema, selectedType: type, generate: !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code }).generate();
+        const generatedCode = getVisitor({
+          schema,
+          selectedType: type,
+          generate: !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code,
+        }).generate();
 
         expect(generatedCode).toMatchSnapshot();
-      })
+      });
     });
   });
 
@@ -594,8 +610,7 @@ describe('AppSync Dart Visitor', () => {
           name: String
         }
       `;
-      const visitor = getVisitor({ schema, isTimestampFieldsAdded: true  });
-
+      const visitor = getVisitor({ schema, isTimestampFieldsAdded: true });
 
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
@@ -624,7 +639,7 @@ describe('AppSync Dart Visitor', () => {
   });
 
   describe('Amplify Core dependency used in imports', () => {
-    const schema = /* GraphQL */`
+    const schema = /* GraphQL */ `
       enum PostStatus {
         ACTIVE
         INACTIVE
@@ -674,13 +689,13 @@ describe('AppSync Dart Visitor', () => {
         }
       `;
 
-      ['ModelWithImplicitID', 'ModelWithExplicitID', 'ModelWithExplicitIDAndSDI'].forEach(modelName => {
+      ['ModelWithImplicitID', 'ModelWithExplicitID', 'ModelWithExplicitIDAndSDI'].forEach((modelName) => {
         const generatedCode = getVisitor({
           schema,
           selectedType: modelName,
           isTimestampFieldsAdded: true,
           respectPrimaryKeyAttributesOnConnectionField: true,
-          transformerVersion: 2
+          transformerVersion: 2,
         }).generate();
 
         expect(generatedCode).toMatchSnapshot();
@@ -720,19 +735,17 @@ describe('AppSync Dart Visitor', () => {
         }
       `;
 
-      ['ModelWithExplicitlyDefinedPK', 'ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey'].forEach(
-        modelName => {
-          const generatedCode = getVisitor({
-            schema,
-            selectedType: modelName,
-            isTimestampFieldsAdded: true,
-            respectPrimaryKeyAttributesOnConnectionField: true,
-            transformerVersion: 2,
-          }).generate();
+      ['ModelWithExplicitlyDefinedPK', 'ModelWithExplicitlyDefinedPKPlusSortKeysAsCompositeKey'].forEach((modelName) => {
+        const generatedCode = getVisitor({
+          schema,
+          selectedType: modelName,
+          isTimestampFieldsAdded: true,
+          respectPrimaryKeyAttributesOnConnectionField: true,
+          transformerVersion: 2,
+        }).generate();
 
-          expect(generatedCode).toMatchSnapshot();
-        },
-      );
+        expect(generatedCode).toMatchSnapshot();
+      });
     });
 
     it('should generate correct models for hasOne/belongsTo relation when custom PK is enabled', () => {
@@ -757,11 +770,10 @@ describe('AppSync Dart Visitor', () => {
           name: String!
           belongsToParentID: ID
           belongsToParentName: String
-          belongsToParent: CpkOneToOneBidirectionalParent
-            @belongsTo(fields: ["belongsToParentID", "belongsToParentName"])
+          belongsToParent: CpkOneToOneBidirectionalParent @belongsTo(fields: ["belongsToParentID", "belongsToParentName"])
         }
       `;
-      ['Project', 'Team', 'CpkOneToOneBidirectionalParent', 'CpkOneToOneBidirectionalChildExplicit'].forEach(modelName => {
+      ['Project', 'Team', 'CpkOneToOneBidirectionalParent', 'CpkOneToOneBidirectionalChildExplicit'].forEach((modelName) => {
         const generatedCode = getVisitor({
           schema,
           selectedType: modelName,
@@ -784,7 +796,7 @@ describe('AppSync Dart Visitor', () => {
           content: String!
         }
       `;
-      ['Post', 'Comment'].forEach(modelName => {
+      ['Post', 'Comment'].forEach((modelName) => {
         const generatedCode = getVisitor({
           schema,
           selectedType: modelName,
@@ -793,8 +805,8 @@ describe('AppSync Dart Visitor', () => {
           transformerVersion: 2,
         }).generate();
         expect(generatedCode).toMatchSnapshot();
-      })
-    })
+      });
+    });
   });
 
   describe('custom references', () => {
@@ -805,7 +817,7 @@ describe('AppSync Dart Visitor', () => {
           content: String
           related: [SqlRelated!] @hasMany(references: ["primaryId"])
         }
-  
+
         type SqlRelated @refersTo(name: "sql_related") @model {
           id: Int! @primaryKey
           content: String
@@ -813,8 +825,8 @@ describe('AppSync Dart Visitor', () => {
           primary: SqlPrimary @belongsTo(references: ["primaryId"])
         }
       `;
-  
-      ['SqlPrimary', 'SqlRelated'].forEach(modelName => {
+
+      ['SqlPrimary', 'SqlRelated'].forEach((modelName) => {
         const generatedCode = getVisitor({
           schema,
           selectedType: modelName,
@@ -825,7 +837,7 @@ describe('AppSync Dart Visitor', () => {
         expect(generatedCode).toMatchSnapshot();
       });
     });
-  
+
     test('sets the association to the references field for hasOne/belongsTo', () => {
       const schema = /* GraphQL */ `
         type SqlPrimary @refersTo(name: "sql_primary") @model {
@@ -833,7 +845,7 @@ describe('AppSync Dart Visitor', () => {
           content: String
           related: SqlRelated @hasOne(references: ["primaryId"])
         }
-  
+
         type SqlRelated @refersTo(name: "sql_related") @model {
           id: Int! @primaryKey
           content: String
@@ -841,8 +853,8 @@ describe('AppSync Dart Visitor', () => {
           primary: SqlPrimary @belongsTo(references: ["primaryId"])
         }
       `;
-  
-      ['SqlPrimary', 'SqlRelated'].forEach(modelName => {
+
+      ['SqlPrimary', 'SqlRelated'].forEach((modelName) => {
         const generatedCode = getVisitor({
           schema,
           selectedType: modelName,
@@ -853,7 +865,7 @@ describe('AppSync Dart Visitor', () => {
         expect(generatedCode).toMatchSnapshot();
       });
     });
-  
+
     test('sets the association to the references field for hasOne and hasMany', () => {
       const schema = /* GraphQL */ `
         type Primary @model {
@@ -861,20 +873,20 @@ describe('AppSync Dart Visitor', () => {
           relatedMany: [RelatedMany] @hasMany(references: ["primaryId"])
           relatedOne: RelatedOne @hasOne(references: ["primaryId"])
         }
-        
+
         type RelatedMany @model {
           id: ID! @primaryKey
           primaryId: ID!
           primary: Primary @belongsTo(references: ["primaryId"])
         }
-        
+
         type RelatedOne @model {
           id: ID! @primaryKey
           primaryId: ID!
           primary: Primary @belongsTo(references: ["primaryId"])
         }
       `;
-      ['Primary', 'RelatedOne', 'RelatedMany'].forEach(modelName => {
+      ['Primary', 'RelatedOne', 'RelatedMany'].forEach((modelName) => {
         const generatedCode = getVisitor({
           schema,
           selectedType: modelName,
@@ -885,7 +897,7 @@ describe('AppSync Dart Visitor', () => {
         expect(generatedCode).toMatchSnapshot();
       });
     });
-  
+
     test('double linked references', () => {
       const schema = /* GraphQL */ `
         type Foo @model {
@@ -893,7 +905,7 @@ describe('AppSync Dart Visitor', () => {
           bar1: Bar @hasOne(references: ["bar1Id"])
           bar2: Bar @hasOne(references: ["bar2Id"])
         }
-        
+
         type Bar @model {
           id: ID!
           bar1Id: ID
@@ -902,8 +914,8 @@ describe('AppSync Dart Visitor', () => {
           foo2: Foo @belongsTo(references: ["bar2Id"])
         }
       `;
-  
-      ['Foo', 'Bar'].forEach(modelName => {
+
+      ['Foo', 'Bar'].forEach((modelName) => {
         const generatedCode = getVisitor({
           schema,
           selectedType: modelName,
@@ -914,7 +926,7 @@ describe('AppSync Dart Visitor', () => {
         expect(generatedCode).toMatchSnapshot();
       });
     });
-  
+
     test('hasMany with sortKeyFields on primary key', () => {
       const schema = /* GraphQL */ `
         type Primary @model {
@@ -924,7 +936,7 @@ describe('AppSync Dart Visitor', () => {
           content: String
           related: [Related!] @hasMany(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
         }
-        
+
         type Related @model {
           content: String
           primaryTenantId: ID!
@@ -933,8 +945,8 @@ describe('AppSync Dart Visitor', () => {
           primary: Primary @belongsTo(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
         }
       `;
-  
-      ['Primary', 'Related'].forEach(modelName => {
+
+      ['Primary', 'Related'].forEach((modelName) => {
         const generatedCode = getVisitor({
           schema,
           selectedType: modelName,
@@ -955,7 +967,7 @@ describe('AppSync Dart Visitor', () => {
           content: String
           related: Related @hasOne(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
         }
-        
+
         type Related @model {
           content: String
           primaryTenantId: ID!
@@ -964,7 +976,7 @@ describe('AppSync Dart Visitor', () => {
           primary: Primary @belongsTo(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
         }
       `;
-      ['Primary', 'Related'].forEach(modelName => {
+      ['Primary', 'Related'].forEach((modelName) => {
         const generatedCode = getVisitor({
           schema,
           selectedType: modelName,

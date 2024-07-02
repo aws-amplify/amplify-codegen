@@ -19,15 +19,17 @@ export const processIndex = (model: CodeGenModel) => {
   const keyList: CodeGenDirective[] = Object.entries(indexMap).map(([fieldName, directive]) => ({
     name: 'key',
     arguments: {
-      name: directive.arguments.name ?? generateDefaultIndexName(model.name, [fieldName].concat((directive.arguments.sortKeyFields as string[]) ?? [])),
+      name:
+        directive.arguments.name ??
+        generateDefaultIndexName(model.name, [fieldName].concat((directive.arguments.sortKeyFields as string[]) ?? [])),
       queryField: directive.arguments.queryField,
       fields: [fieldName].concat((directive.arguments.sortKeyFields as string[]) ?? []),
     },
   }));
   const existingIndexNames = model.directives
-    .filter(directive => directive.name === 'key' && !!directive.arguments.name)
-    .map(directive => directive.arguments.name);
-  const deDupedKeyList = keyList.filter(key => !existingIndexNames.includes(key.arguments.name));
+    .filter((directive) => directive.name === 'key' && !!directive.arguments.name)
+    .map((directive) => directive.arguments.name);
+  const deDupedKeyList = keyList.filter((key) => !existingIndexNames.includes(key.arguments.name));
   model.directives.push(...deDupedKeyList);
 };
 

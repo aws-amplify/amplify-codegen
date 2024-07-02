@@ -42,7 +42,7 @@ const generateJavaPreset = (
     : [options.baseOutputDir, ...GENERATED_PACKAGE_NAME.split('.')];
 
   // Only generate lazy models if feature flag enabled and datastore is not being used.
-  const generateAPILazyModels = options.config.generateModelsForLazyLoadAndCustomSelectionSet && !options.config.isDataStoreEnabled
+  const generateAPILazyModels = options.config.generateModelsForLazyLoadAndCustomSelectionSet && !options.config.isDataStoreEnabled;
 
   // Class loader
   config.push({
@@ -55,7 +55,7 @@ const generateJavaPreset = (
     },
   });
 
-  models.forEach(model => {
+  models.forEach((model) => {
     const modelName = model.name.value;
     config.push({
       ...options,
@@ -87,19 +87,19 @@ const generateJavaPreset = (
 
   // Create ModelPath's only if lazy models are generated
   if (generateAPILazyModels) {
-    manyToManyJoinModels.forEach(joinModel => {
+    manyToManyJoinModels.forEach((joinModel) => {
       config.push({
         ...options,
         filename: join(...modelFolder, `${joinModel.name.value}Path.java`),
         config: {
           ...options.config,
-          scalars: {...JAVA_SCALAR_MAP, ...options.config.scalars},
+          scalars: { ...JAVA_SCALAR_MAP, ...options.config.scalars },
           generate: 'metadata',
           selectedType: joinModel.name.value,
         },
       });
     });
-  };
+  }
 
   return config;
 };
@@ -110,7 +110,7 @@ const generateSwiftPreset = (
 ): Types.GenerateOptions[] => {
   const config: Types.GenerateOptions[] = [];
   const modelFolder = options.config.overrideOutputDir ? options.config.overrideOutputDir : options.baseOutputDir;
-  models.forEach(model => {
+  models.forEach((model) => {
     const modelName = model.name.value;
     config.push({
       ...options,
@@ -239,7 +239,7 @@ const generateDartPreset = (
 ): Types.GenerateOptions[] => {
   const config: Types.GenerateOptions[] = [];
   const modelFolder = options.config.overrideOutputDir ?? options.baseOutputDir;
-  models.forEach(model => {
+  models.forEach((model) => {
     const modelName = model.name.value;
     config.push({
       ...options,
@@ -267,12 +267,12 @@ const generateDartPreset = (
 const generateManyToManyModelStubs = (options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>): TypeDefinitionNode[] => {
   let models = new Array<TypeDefinitionNode>();
   let manyToManySet = new Set<string>();
-  options.schema.definitions.forEach(def => {
+  options.schema.definitions.forEach((def) => {
     if (def.kind === 'ObjectTypeDefinition') {
-      def?.fields?.forEach(field => {
-        field?.directives?.forEach(dir => {
+      def?.fields?.forEach((field) => {
+        field?.directives?.forEach((dir) => {
           if (dir?.name?.value === 'manyToMany') {
-            dir?.arguments?.forEach(arg => {
+            dir?.arguments?.forEach((arg) => {
               if (arg.name.value === 'relationName' && arg.value.kind === 'StringValue') {
                 manyToManySet.add(graphqlName(toUpper(arg.value.value)));
               }
@@ -282,7 +282,7 @@ const generateManyToManyModelStubs = (options: Types.PresetFnArgs<AppSyncModelCo
       });
     }
   });
-  manyToManySet.forEach(modelName => {
+  manyToManySet.forEach((modelName) => {
     models.push({
       kind: 'ObjectTypeDefinition',
       name: {
@@ -317,7 +317,7 @@ export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
     const codeGenTarget = options.config.target;
     const typesToSkip: string[] = ['Query', 'Mutation', 'Subscription'];
     const models: TypeDefinitionNode[] = options.schema.definitions.filter(
-      t =>
+      (t) =>
         (t.kind === 'ObjectTypeDefinition' && !typesToSkip.includes(t.name.value)) ||
         (t.kind === 'EnumTypeDefinition' && !t.name.value.startsWith('__')),
     ) as any;

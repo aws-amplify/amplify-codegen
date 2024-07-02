@@ -11,7 +11,6 @@ import {
 import { AppSyncJSONVisitor, AssociationHasMany, JSONSchemaNonModel } from '../../visitors/appsync-json-metadata-visitor';
 import { CodeGenEnum, CodeGenField, CodeGenModel } from '../../visitors/appsync-visitor';
 
-
 const defaultJSONVisitorSettings = {
   isTimestampFieldsAdded: true,
   respectPrimaryKeyAttributesOnConnectionField: false,
@@ -30,11 +29,18 @@ const getVisitor = (
 ): AppSyncJSONVisitor => {
   const visitorConfig = { ...defaultJSONVisitorSettings, ...settings };
   const ast = parse(schema);
-  const stringDirectives = directives.map(directive => directive.definition).join('\n');
+  const stringDirectives = directives.map((directive) => directive.definition).join('\n');
   const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
   const visitor = new AppSyncJSONVisitor(
     builtSchema,
-    { directives: stringDirectives, target: 'metadata', scalars: TYPESCRIPT_SCALAR_MAP, metadataTarget: target, codegenVersion: '1.0.0', ...visitorConfig },
+    {
+      directives: stringDirectives,
+      target: 'metadata',
+      scalars: TYPESCRIPT_SCALAR_MAP,
+      metadataTarget: target,
+      codegenVersion: '1.0.0',
+      ...visitorConfig,
+    },
     {},
   );
   visit(ast, { leave: visitor });

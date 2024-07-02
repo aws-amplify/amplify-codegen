@@ -24,7 +24,7 @@ describe('Validate amplify flutter version tests', () => {
   });
 
   describe(`should return true if the resolved version meets the version constrain: ${MINIMUM_SUPPORTED_VERSION_CONSTRAINT}`, () => {
-    ['0.6.0', '0.6.12', '1.0.0', '1.0.1', '1.1.0', '2.0.0'].forEach(version => {
+    ['0.6.0', '0.6.12', '1.0.0', '1.0.1', '1.1.0', '2.0.0'].forEach((version) => {
       test(`when the resolved version is ${version}`, () => {
         const lockFile = {
           packages: {
@@ -40,7 +40,7 @@ describe('Validate amplify flutter version tests', () => {
   });
 
   describe(`should return false if the resolved version does NOT meet the version constrain: ${MINIMUM_SUPPORTED_VERSION_CONSTRAINT}`, () => {
-    ['0.2.0', '0.3.9', '0.5.0'].forEach(version => {
+    ['0.2.0', '0.3.9', '0.5.0'].forEach((version) => {
       test(`when the resolved version is ${version}`, () => {
         const lockFile = {
           packages: {
