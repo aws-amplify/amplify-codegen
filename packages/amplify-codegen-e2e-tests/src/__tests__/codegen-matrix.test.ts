@@ -1,5 +1,19 @@
-import { DEFAULT_JS_CONFIG, createNewProjectDir, initProjectWithProfile, createRandomName, addApiWithoutSchema, updateApiSchema, apiGqlCompile, removeCodegen, amplifyConfigureProjectInfo, AmplifyFrontend, DEFAULT_FLUTTER_CONFIG, DEFAULT_IOS_CONFIG, DEFAULT_ANDROID_CONFIG } from "@aws-amplify/amplify-codegen-e2e-core";
-import { CodegenMatrixTestProps, deleteAmplifyProject, testAddCodegenMatrix } from "../codegen-tests-base";
+import {
+  DEFAULT_JS_CONFIG,
+  createNewProjectDir,
+  initProjectWithProfile,
+  createRandomName,
+  addApiWithoutSchema,
+  updateApiSchema,
+  apiGqlCompile,
+  removeCodegen,
+  amplifyConfigureProjectInfo,
+  AmplifyFrontend,
+  DEFAULT_FLUTTER_CONFIG,
+  DEFAULT_IOS_CONFIG,
+  DEFAULT_ANDROID_CONFIG,
+} from '@aws-amplify/amplify-codegen-e2e-core';
+import { CodegenMatrixTestProps, deleteAmplifyProject, testAddCodegenMatrix } from '../codegen-tests-base';
 
 const schema = 'simple_model.graphql';
 
@@ -16,15 +30,13 @@ describe('JS codegen matrix test', () => {
     await updateApiSchema(projectRoot, projectName, schema);
     await apiGqlCompile(projectRoot);
   });
-  beforeEach(async () => {
-
-  });
+  beforeEach(async () => {});
   afterEach(async () => {
     await removeCodegen(projectRoot);
-    await amplifyConfigureProjectInfo({ cwd: projectRoot, frontendType: 'flutter'} )
+    await amplifyConfigureProjectInfo({ cwd: projectRoot, frontendType: 'flutter' });
   });
   afterAll(async () => {
-      await deleteAmplifyProject(projectRoot);
+    await deleteAmplifyProject(projectRoot);
   });
 
   it('Flutter - no statements or types', async () => {
@@ -32,7 +44,7 @@ describe('JS codegen matrix test', () => {
       ...DEFAULT_FLUTTER_CONFIG,
       isStatementGenerated: false,
       isTypeGenerated: false,
-    }
+    };
     await testAddCodegenMatrix(config, projectRoot);
   });
 
@@ -40,21 +52,21 @@ describe('JS codegen matrix test', () => {
     config = {
       ...DEFAULT_ANDROID_CONFIG,
       isTypeGenerated: false,
-    }
+    };
     await testAddCodegenMatrix(config, projectRoot);
   });
 
   it('iOS - single file path as type name', async () => {
     config = {
       ...DEFAULT_IOS_CONFIG,
-    }
+    };
     await testAddCodegenMatrix(config, projectRoot);
   });
   it('iOS - folder as type name', async () => {
     config = {
       ...DEFAULT_IOS_CONFIG,
       typeFileName: 'apiType', // directory name
-    }
+    };
     await testAddCodegenMatrix(config, projectRoot);
   });
 
@@ -63,7 +75,7 @@ describe('JS codegen matrix test', () => {
       ...DEFAULT_JS_CONFIG,
       framework: 'angular',
       codegenTarget: 'angular',
-    }
+    };
     await testAddCodegenMatrix(config, projectRoot);
   });
   it('JavaScript - angular - typescript', async () => {
@@ -71,7 +83,7 @@ describe('JS codegen matrix test', () => {
       ...DEFAULT_JS_CONFIG,
       framework: 'angular',
       codegenTarget: 'typescript',
-    }
+    };
     await testAddCodegenMatrix(config, projectRoot);
   });
 
@@ -80,7 +92,7 @@ describe('JS codegen matrix test', () => {
       ...DEFAULT_JS_CONFIG,
       framework: 'ionic',
       codegenTarget: 'angular',
-    }
+    };
     await testAddCodegenMatrix(config, projectRoot);
   });
   it('JavaScript - ionic - typescript', async () => {
@@ -88,7 +100,7 @@ describe('JS codegen matrix test', () => {
       ...DEFAULT_JS_CONFIG,
       framework: 'ionic',
       codegenTarget: 'typescript',
-    }
+    };
     await testAddCodegenMatrix(config, projectRoot);
   });
 
@@ -96,21 +108,21 @@ describe('JS codegen matrix test', () => {
     config = {
       ...DEFAULT_JS_CONFIG,
       isTypeGenerated: false,
-    }
+    };
     await testAddCodegenMatrix(config, projectRoot);
   });
   it('JavaScript - none - typescript', async () => {
     config = {
       ...DEFAULT_JS_CONFIG,
       codegenTarget: 'typescript',
-    }
+    };
     await testAddCodegenMatrix(config, projectRoot);
   });
   it('JavaScript - none - flow', async () => {
     config = {
       ...DEFAULT_JS_CONFIG,
       codegenTarget: 'flow',
-    }
+    };
     await testAddCodegenMatrix(config, projectRoot);
   });
 
@@ -120,7 +132,7 @@ describe('JS codegen matrix test', () => {
       framework: 'react',
       codegenTarget: 'javascript',
       isTypeGenerated: false,
-    }
+    };
     await testAddCodegenMatrix(config, projectRoot);
   });
   it('JavaScript - react - typescript', async () => {
@@ -128,7 +140,7 @@ describe('JS codegen matrix test', () => {
       ...DEFAULT_JS_CONFIG,
       framework: 'react',
       codegenTarget: 'typescript',
-    }
+    };
     await testAddCodegenMatrix(config, projectRoot);
   });
   it('JavaScript - react - flow', async () => {
@@ -136,7 +148,7 @@ describe('JS codegen matrix test', () => {
       ...DEFAULT_JS_CONFIG,
       framework: 'react',
       codegenTarget: 'flow',
-    }
+    };
     await testAddCodegenMatrix(config, projectRoot);
   });
 
@@ -146,7 +158,7 @@ describe('JS codegen matrix test', () => {
       framework: 'react-native',
       codegenTarget: 'javascript',
       isTypeGenerated: false,
-    }
+    };
     await testAddCodegenMatrix(config, projectRoot);
   });
   it('JavaScript - react native - typescript', async () => {
@@ -154,7 +166,7 @@ describe('JS codegen matrix test', () => {
       ...DEFAULT_JS_CONFIG,
       framework: 'react-native',
       codegenTarget: 'typescript',
-    }
+    };
     await testAddCodegenMatrix(config, projectRoot);
   });
   it('JavaScript - react native - flow', async () => {
@@ -162,7 +174,7 @@ describe('JS codegen matrix test', () => {
       ...DEFAULT_JS_CONFIG,
       framework: 'react-native',
       codegenTarget: 'flow',
-    }
+    };
     await testAddCodegenMatrix(config, projectRoot);
   });
 
@@ -172,7 +184,7 @@ describe('JS codegen matrix test', () => {
       framework: 'ember',
       codegenTarget: 'javascript',
       isTypeGenerated: false,
-    }
+    };
     await testAddCodegenMatrix(config, projectRoot);
   });
   it('JavaScript - ember - typescript', async () => {
@@ -180,7 +192,7 @@ describe('JS codegen matrix test', () => {
       ...DEFAULT_JS_CONFIG,
       framework: 'ember',
       codegenTarget: 'typescript',
-    }
+    };
     await testAddCodegenMatrix(config, projectRoot);
   });
   it('JavaScript - ember - flow', async () => {
@@ -188,7 +200,7 @@ describe('JS codegen matrix test', () => {
       ...DEFAULT_JS_CONFIG,
       framework: 'ember',
       codegenTarget: 'flow',
-    }
+    };
     await testAddCodegenMatrix(config, projectRoot);
   });
 
@@ -198,7 +210,7 @@ describe('JS codegen matrix test', () => {
       framework: 'vue',
       codegenTarget: 'javascript',
       isTypeGenerated: false,
-    }
+    };
     await testAddCodegenMatrix(config, projectRoot);
   });
   it('JavaScript - vue - typescript', async () => {
@@ -206,7 +218,7 @@ describe('JS codegen matrix test', () => {
       ...DEFAULT_JS_CONFIG,
       framework: 'vue',
       codegenTarget: 'typescript',
-    }
+    };
     await testAddCodegenMatrix(config, projectRoot);
   });
   it('JavaScript - vue - flow', async () => {
@@ -214,7 +226,7 @@ describe('JS codegen matrix test', () => {
       ...DEFAULT_JS_CONFIG,
       framework: 'vue',
       codegenTarget: 'flow',
-    }
+    };
     await testAddCodegenMatrix(config, projectRoot);
   });
 });

@@ -166,10 +166,10 @@ export function compileToIR(schema: GraphQLSchema, document: DocumentNode, optio
     }
 
     // Compute the intersection between the possible,types of the fragment spread and the fragment.
-    const possibleTypes = fragment.selectionSet.possibleTypes.filter(type => fragmentSpread.selectionSet.possibleTypes.includes(type));
+    const possibleTypes = fragment.selectionSet.possibleTypes.filter((type) => fragmentSpread.selectionSet.possibleTypes.includes(type));
 
     fragmentSpread.isConditional = fragment.selectionSet.possibleTypes.some(
-      type => !fragmentSpread.selectionSet.possibleTypes.includes(type),
+      (type) => !fragmentSpread.selectionSet.possibleTypes.includes(type),
     );
 
     fragmentSpread.selectionSet = {
@@ -243,7 +243,7 @@ class Compiler {
     const operationName = operationDefinition.name.value;
     const operationType = operationDefinition.operation;
 
-    const variables = (operationDefinition.variableDefinitions || []).map(node => {
+    const variables = (operationDefinition.variableDefinitions || []).map((node) => {
       const name = node.variable.name.value;
       const type = typeFromAST(this.schema, node.type as NonNullTypeNode);
       this.addTypeUsed(getNamedType(type as GraphQLType));
@@ -293,14 +293,14 @@ class Compiler {
     return {
       possibleTypes,
       selections: selectionSetNode.selections
-        .map(selectionNode =>
+        .map((selectionNode) =>
           wrapInBooleanConditionsIfNeeded(
             this.compileSelection(selectionNode, parentType, possibleTypes, visitedFragments),
             selectionNode,
             possibleTypes,
           ),
         )
-        .filter(x => x) as Selection[],
+        .filter((x) => x) as Selection[],
     };
   }
 
@@ -331,9 +331,9 @@ class Compiler {
 
         const args =
           selectionNode.arguments && selectionNode.arguments.length > 0
-            ? selectionNode.arguments.map(arg => {
+            ? selectionNode.arguments.map((arg) => {
                 const name = arg.name.value;
-                const argDef = fieldDef.args.find(argDef => argDef.name === arg.name.value);
+                const argDef = fieldDef.args.find((argDef) => argDef.name === arg.name.value);
                 return {
                   name,
                   value: valueFromValueNode(arg.value),
@@ -367,7 +367,7 @@ class Compiler {
       case Kind.INLINE_FRAGMENT: {
         const typeNode = selectionNode.typeCondition;
         const type = typeNode ? (typeFromAST(this.schema, typeNode) as GraphQLCompositeType) : parentType;
-        const possibleTypesForTypeCondition = this.possibleTypesForType(type).filter(type => possibleTypes.includes(type));
+        const possibleTypesForTypeCondition = this.possibleTypesForType(type).filter((type) => possibleTypes.includes(type));
         return {
           kind: 'TypeCondition',
           type,

@@ -5,7 +5,7 @@
  * print all items together separated by separator if provided
  */
 export function join(maybeArray?: any[], separator?: string) {
-  return maybeArray ? maybeArray.filter(x => x).join(separator || '') : '';
+  return maybeArray ? maybeArray.filter((x) => x).join(separator || '') : '';
 }
 
 /**

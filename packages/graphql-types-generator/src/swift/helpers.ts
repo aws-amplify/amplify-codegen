@@ -37,8 +37,8 @@ const builtInScalarMap = {
 
 const INFLECTOR_BLACK_LIST = ['delta'];
 
-(Inflector as any).inflections('en', function(inflect: any) {
-  INFLECTOR_BLACK_LIST.forEach(w => {
+(Inflector as any).inflections('en', function (inflect: any) {
+  INFLECTOR_BLACK_LIST.forEach((w) => {
     inflect.uncountable(w, w);
   });
 });
@@ -117,7 +117,7 @@ export class Helpers {
   }
 
   structNameForVariant(variant: SelectionSet) {
-    return 'As' + variant.possibleTypes.map(type => pascalCase(type.name)).join('Or');
+    return 'As' + variant.possibleTypes.map((type) => pascalCase(type.name)).join('Or');
   }
 
   // Properties
@@ -182,20 +182,20 @@ export class Helpers {
         isOptional: !(field.type instanceof GraphQLNonNull),
         description: field.description || null,
         name: field.name,
-      }
+      },
     );
   }
 
   propertiesForSelectionSet(selectionSet: SelectionSet, namespace?: string): (Field & Property)[] | undefined {
     const properties = collectAndMergeFields(selectionSet, true)
-      .filter(field => field.name !== '__typename')
-      .map(field => this.propertyFromField(field, namespace));
+      .filter((field) => field.name !== '__typename')
+      .map((field) => this.propertyFromField(field, namespace));
 
     // If we're not merging in fields from fragment spreads, there is no guarantee there will a generated
     // type for a composite field, so to avoid compiler errors we skip the initializer for now.
     if (
-      selectionSet.selections.some(selection => selection.kind === 'FragmentSpread') &&
-      properties.some(property => isCompositeType(getNamedType(property.type)))
+      selectionSet.selections.some((selection) => selection.kind === 'FragmentSpread') &&
+      properties.some((property) => isCompositeType(getNamedType(property.type)))
     ) {
       return undefined;
     }
@@ -218,9 +218,9 @@ export class Helpers {
             Object.entries(value).map(([key, value]) => {
               return `"${key}": ${expressionFromValue(value)}`;
             }),
-            ', '
+            ', ',
           ) || ':',
-          ']'
+          ']',
         );
       } else {
         return JSON.stringify(value);
@@ -230,12 +230,12 @@ export class Helpers {
     return wrap(
       '[',
       join(
-        args.map(arg => {
+        args.map((arg) => {
           return `"${arg.name}": ${expressionFromValue(arg.value)}`;
         }),
-        ', '
+        ', ',
       ) || ':',
-      ']'
+      ']',
     );
   }
 

@@ -122,7 +122,7 @@ export class TypeScriptDeclarationBlock {
 
   public withEnumValues(values: { [name: string]: string } | string[]): TypeScriptDeclarationBlock {
     if (Array.isArray(values)) {
-      values.forEach(val => this.addEnumValue(val));
+      values.forEach((val) => this.addEnumValue(val));
     } else {
       Object.entries(values).forEach(([name, val]) => this.addEnumValue(name, val));
     }
@@ -202,11 +202,11 @@ export class TypeScriptDeclarationBlock {
     }
     const body: string[] = [this.generateProperties(), this.generateMethods()];
 
-    return [`${header.filter(h => h).join(' ')}`, indentMultiline(body.join('\n')), '}'].join('\n');
+    return [`${header.filter((h) => h).join(' ')}`, indentMultiline(body.join('\n')), '}'].join('\n');
   }
 
   protected generateProperties(): string {
-    const props = this._properties.map(prop => {
+    const props = this._properties.map((prop) => {
       const result: string[] = [];
       if (prop.access !== 'DEFAULT') {
         result.push(prop.access);
@@ -223,11 +223,11 @@ export class TypeScriptDeclarationBlock {
 
       return result.join(' ');
     });
-    return props.map(propDeclaration => `${propDeclaration};`).join('\n');
+    return props.map((propDeclaration) => `${propDeclaration};`).join('\n');
   }
 
   protected generateMethods(): string {
-    const methods: string[] = this._methods.map(method => {
+    const methods: string[] = this._methods.map((method) => {
       const methodAccessAndName = [];
       if (method.access !== 'DEFAULT') {
         methodAccessAndName.push(method.access);
@@ -238,7 +238,7 @@ export class TypeScriptDeclarationBlock {
       methodAccessAndName.push(method.name);
 
       const args = method.args
-        .map(arg => {
+        .map((arg) => {
           return `${arg.name}${arg.type ? `: ${arg.type}` : ''}`;
         })
         .join(', ');
@@ -271,7 +271,7 @@ export class TypeScriptDeclarationBlock {
     }
     const body: string[] = [this.generateProperties()];
 
-    return [`${header.filter(h => h).join(' ')}`, indentMultiline(body.join('\n')), '}'].join('\n');
+    return [`${header.filter((h) => h).join(' ')}`, indentMultiline(body.join('\n')), '}'].join('\n');
   }
 
   protected generatePropertyName(property: Property): string {

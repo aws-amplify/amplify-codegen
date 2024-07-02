@@ -83,8 +83,8 @@ class AmplifyCodeGenConfig {
     }
     const updatedProj = {};
     updatedProj.schemaPath = slash(proj.schemaPath);
-    updatedProj.includes = (proj.includes || []).map(p => slash(p));
-    updatedProj.excludes = (proj.excludes || []).map(p => slash(p));
+    updatedProj.includes = (proj.includes || []).map((p) => slash(p));
+    updatedProj.excludes = (proj.excludes || []).map((p) => slash(p));
     const amplifyExtension = {
       ...proj.extensions.amplify,
     };
@@ -107,7 +107,7 @@ class AmplifyCodeGenConfig {
       return;
     }
     cfg.projects = cfg.projects || {};
-    Object.keys(cfg).forEach(key => {
+    Object.keys(cfg).forEach((key) => {
       const proj = cfg[key];
       if (proj.extensions && proj.extensions.amplify) {
         delete cfg[key];
@@ -121,7 +121,7 @@ class AmplifyCodeGenConfig {
       }
     });
 
-    Object.keys(cfg.projects || {}).forEach(projName => {
+    Object.keys(cfg.projects || {}).forEach((projName) => {
       cfg.projects[projName] = this.constructor.normalizePath(cfg.projects[projName]);
     });
     cfg.extensions = {

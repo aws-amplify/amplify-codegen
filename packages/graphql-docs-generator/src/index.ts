@@ -36,7 +36,7 @@ export function generateGraphQLDocuments<INCLUDE_META extends boolean>(
     fragments: new Map<string, string>(),
   };
 
-  ['queries', 'mutations', 'subscriptions'].forEach(op => {
+  ['queries', 'mutations', 'subscriptions'].forEach((op) => {
     const ops = gqlOperations[op];
     if (ops.length) {
       const renderedOperations = renderOperations(gqlOperations[op], options.includeMetaData);
@@ -96,7 +96,7 @@ function renderOperations<INCLUDE_META extends boolean>(
 ): Map<string, MapValueType<INCLUDE_META>> {
   const renderedOperations = new Map<string, MapValueType<INCLUDE_META>>();
   if (operations?.length) {
-    operations.forEach(op => {
+    operations.forEach((op) => {
       const name = op.fieldName || op.name;
       const gql = renderOperation(op);
       if (includeMetaData) {
@@ -127,7 +127,7 @@ function renderOperation(operation: GQLTemplateOp): string {
 function renderFragments(fragments: Array<GQLTemplateFragment>, useExternalFragmentForS3Object: boolean): Map<string, string> {
   const renderedFragments = new Map<string, string>();
   if (fragments?.length) {
-    fragments.forEach(fragment => {
+    fragments.forEach((fragment) => {
       const name = fragment.name;
       const gql = renderFragment(fragment, useExternalFragmentForS3Object);
       renderedFragments.set(name, gql);

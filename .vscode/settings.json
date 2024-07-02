@@ -18,5 +18,11 @@
   },
   "jest.enableInlineErrorMessages": true,
   "jest.showCoverageOnLoad": true,
-  "jest.runAllTestsFirst": false
+  "jest.runAllTestsFirst": false,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

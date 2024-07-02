@@ -10,7 +10,7 @@
 /**
  * Root Schema Representation
  */
- export type ModelIntrospectionSchema = {
+export type ModelIntrospectionSchema = {
   version: 1;
   models: SchemaModels;
   nonModels: SchemaNonModels;
@@ -51,7 +51,7 @@ export type SchemaQuery = Pick<Field, 'name' | 'type' | 'isArray' | 'isRequired'
 export type SchemaMutation = SchemaQuery;
 export type SchemaSubscription = SchemaQuery;
 
-export type ModelAttribute = { type: string; properties?: {[key: string]: any} };
+export type ModelAttribute = { type: string; properties?: { [key: string]: any } };
 /**
  * Field Definition
  */
@@ -67,7 +67,8 @@ export type Field = {
   association?: AssociationType;
   arguments?: Arguments;
 };
-export type ScalarType = 'ID'
+export type ScalarType =
+  | 'ID'
   | 'String'
   | 'Int'
   | 'Float'
@@ -81,13 +82,8 @@ export type ScalarType = 'ID'
   | 'Boolean'
   | 'AWSJSON'
   | 'AWSPhone';
-export type InputFieldType = ScalarType
-  | { enum: string }
-  | { input: string };
-export type FieldType = ScalarType
-  | { enum: string }
-  | { model: string }
-  | { nonModel: string };
+export type InputFieldType = ScalarType | { enum: string } | { input: string };
+export type FieldType = ScalarType | { enum: string } | { model: string } | { nonModel: string };
 export type FieldAttribute = ModelAttribute;
 /**
  * Input Definition
@@ -95,7 +91,7 @@ export type FieldAttribute = ModelAttribute;
 export type Input = {
   name: string;
   attributes: Arguments;
-}
+};
 /**
  * Field-level Relationship Definitions
  */
@@ -122,9 +118,7 @@ export type AssociationBelongsTo = AssociationBaseType & {
   connectionType: CodeGenConnectionType.BELONGS_TO;
   targetNames: string[];
 };
-export type AssociationType = AssociationHasMany
-| AssociationHasOne
-| AssociationBelongsTo;
+export type AssociationType = AssociationHasMany | AssociationHasOne | AssociationBelongsTo;
 
 export type PrimaryKeyInfo = {
   isCustomPrimaryKey: boolean;
@@ -138,4 +132,4 @@ export type Argument = {
   isArray: boolean;
   isRequired: boolean;
   isArrayNullable?: boolean;
-}
+};

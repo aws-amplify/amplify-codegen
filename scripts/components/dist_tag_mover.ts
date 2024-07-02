@@ -38,7 +38,7 @@ export class DistTagMover {
         if (versionAtTag !== sourceVersion) {
           return;
         }
-        const destReleaseTag = destReleaseTags.find(releaseTag => releaseTag.includes(packageName));
+        const destReleaseTag = destReleaseTags.find((releaseTag) => releaseTag.includes(packageName));
         if (!destReleaseTag) {
           console.warn(`No corresponding destination release tag found for ${sourceReleaseTag}. latest tag not moved.`);
         } else {

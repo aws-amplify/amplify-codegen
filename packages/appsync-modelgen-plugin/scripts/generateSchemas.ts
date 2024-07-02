@@ -27,9 +27,9 @@ const force = process.argv.includes(forceFlag);
 
 // schema generation configs. See https://www.npmjs.com/package/ts-json-schema-generator
 
-typeDefs.forEach(typeDef => {
-  const config = { path: typeDef.path, type: typeDef.typeName, expose: "all", topRef: false } as Config;
-  const typeSchema = createGenerator(config).createSchema(config.type)
+typeDefs.forEach((typeDef) => {
+  const config = { path: typeDef.path, type: typeDef.typeName, expose: 'all', topRef: false } as Config;
+  const typeSchema = createGenerator(config).createSchema(config.type);
   const version = (typeSchema.properties!.version as Definition).const! as number;
   const schemaFilePath = path.resolve(path.join(schemaFilesRoot, typeDef.category, version.toString(), schemaFileName(typeDef.typeName)));
   if (!force && fs.existsSync(schemaFilePath)) {
@@ -43,5 +43,3 @@ typeDefs.forEach(typeDef => {
   fs.writeFileSync(schemaFilePath, JSON.stringify(typeSchema, undefined, 4) + '\n');
   console.log(`Schema version ${version} written for type ${typeDef.typeName}.`);
 });
-
-

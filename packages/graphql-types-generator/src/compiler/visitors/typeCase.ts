@@ -9,7 +9,7 @@ export class Variant implements SelectionSet {
   constructor(
     public possibleTypes: GraphQLObjectType[],
     public selections: Selection[] = [],
-    public fragmentSpreads: FragmentSpread[] = []
+    public fragmentSpreads: FragmentSpread[] = [],
   ) {}
 
   get fields(): Field[] {
@@ -17,8 +17,8 @@ export class Variant implements SelectionSet {
   }
 
   inspect() {
-    return `${inspect(this.possibleTypes)} -> ${inspect(collectAndMergeFields(this, false).map(field => field.responseKey))} ${inspect(
-      this.fragmentSpreads.map(fragmentSpread => fragmentSpread.fragmentName)
+    return `${inspect(this.possibleTypes)} -> ${inspect(collectAndMergeFields(this, false).map((field) => field.responseKey))} ${inspect(
+      this.fragmentSpreads.map((fragmentSpread) => fragmentSpread.fragmentName),
     )}\n`;
   }
 }
@@ -34,7 +34,7 @@ export function typeCaseForSelectionSet(selectionSet: SelectionSet, mergeInFragm
         }
         break;
       case 'FragmentSpread':
-        if (typeCase.default.fragmentSpreads.some(fragmentSpread => fragmentSpread.fragmentName === selection.fragmentName)) continue;
+        if (typeCase.default.fragmentSpreads.some((fragmentSpread) => fragmentSpread.fragmentName === selection.fragmentName)) continue;
 
         for (const variant of typeCase.disjointVariantsFor(selectionSet.possibleTypes)) {
           variant.fragmentSpreads.push(selection);
@@ -47,11 +47,11 @@ export function typeCaseForSelectionSet(selectionSet: SelectionSet, mergeInFragm
           typeCase.merge(
             typeCaseForSelectionSet(
               {
-                possibleTypes: selectionSet.possibleTypes.filter(type => selection.selectionSet.possibleTypes.includes(type)),
+                possibleTypes: selectionSet.possibleTypes.filter((type) => selection.selectionSet.possibleTypes.includes(type)),
                 selections: selection.selectionSet.selections,
               },
-              mergeInFragmentSpreads
-            )
+              mergeInFragmentSpreads,
+            ),
           );
         }
         break;
@@ -59,15 +59,15 @@ export function typeCaseForSelectionSet(selectionSet: SelectionSet, mergeInFragm
         typeCase.merge(
           typeCaseForSelectionSet(
             {
-              possibleTypes: selectionSet.possibleTypes.filter(type => selection.selectionSet.possibleTypes.includes(type)),
+              possibleTypes: selectionSet.possibleTypes.filter((type) => selection.selectionSet.possibleTypes.includes(type)),
               selections: selection.selectionSet.selections,
             },
-            mergeInFragmentSpreads
-          )
+            mergeInFragmentSpreads,
+          ),
         );
         break;
       case 'BooleanCondition':
-        typeCase.merge(typeCaseForSelectionSet(selection.selectionSet, mergeInFragmentSpreads), selectionSet => [
+        typeCase.merge(typeCaseForSelectionSet(selection.selectionSet, mergeInFragmentSpreads), (selectionSet) => [
           {
             ...selection,
             selectionSet,
@@ -94,11 +94,11 @@ export class TypeCase {
   }
 
   get remainder(): Variant | undefined {
-    if (this.default.possibleTypes.some(type => !this.variantsByType.has(type))) {
+    if (this.default.possibleTypes.some((type) => !this.variantsByType.has(type))) {
       return new Variant(
-        this.default.possibleTypes.filter(type => !this.variantsByType.has(type)),
+        this.default.possibleTypes.filter((type) => !this.variantsByType.has(type)),
         this.default.selections,
-        this.default.fragmentSpreads
+        this.default.fragmentSpreads,
       );
     } else {
       return undefined;
@@ -127,7 +127,7 @@ export class TypeCase {
   disjointVariantsFor(possibleTypes: GraphQLObjectType[]): Variant[] {
     const variants: Variant[] = [];
 
-    const matchesDefault = this.default.possibleTypes.every(type => possibleTypes.includes(type));
+    const matchesDefault = this.default.possibleTypes.every((type) => possibleTypes.includes(type));
 
     if (matchesDefault) {
       variants.push(this.default);
@@ -173,7 +173,7 @@ export class TypeCase {
         if (otherVariant.fragmentSpreads.length > 0) {
           // Union of variant.fragmentSpreads and otherVariant.fragmentSpreads
           variant.fragmentSpreads = [...variant.fragmentSpreads, ...otherVariant.fragmentSpreads].filter(
-            (a, index, array) => array.findIndex(b => b.fragmentName == a.fragmentName) == index
+            (a, index, array) => array.findIndex((b) => b.fragmentName == a.fragmentName) == index,
           );
         }
         variant.selections.push(...(transform ? transform(otherVariant) : otherVariant.selections));
@@ -182,6 +182,6 @@ export class TypeCase {
   }
 
   inspect() {
-    return `TypeCase\n` + `  default -> ${inspect(this.default)}\n` + this.variants.map(variant => `  ${inspect(variant)}\n`).join('');
+    return `TypeCase\n` + `  default -> ${inspect(this.default)}\n` + this.variants.map((variant) => `  ${inspect(variant)}\n`).join('');
   }
 }

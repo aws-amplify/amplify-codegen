@@ -1,4 +1,10 @@
-import { generateQueries, generateMutations, generateSubscriptions, capitalizeFirstLetter, lowerCaseFirstLetter } from '../../src/generator/generateAllOperations';
+import {
+  generateQueries,
+  generateMutations,
+  generateSubscriptions,
+  capitalizeFirstLetter,
+  lowerCaseFirstLetter,
+} from '../../src/generator/generateAllOperations';
 
 import generateOperation from '../../src/generator/generateOperation';
 import { GQLDocsGenOptions } from '../../src/generator/types';
@@ -73,7 +79,7 @@ describe('generateAllOperations', () => {
   });
 });
 
-describe('test capitalizeFirstLetter', () =>{
+describe('test capitalizeFirstLetter', () => {
   it('test capitalize first letter with empty string', () => {
     expect(capitalizeFirstLetter('')).toEqual('');
   });
@@ -103,7 +109,7 @@ describe('test capitalizeFirstLetter', () =>{
   });
 });
 
-describe('test lowerCaseFirstLetter', () =>{
+describe('test lowerCaseFirstLetter', () => {
   it('test lower casing first letter with empty string', () => {
     expect(lowerCaseFirstLetter('')).toEqual('');
   });

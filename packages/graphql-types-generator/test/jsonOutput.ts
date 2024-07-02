@@ -13,8 +13,8 @@ function compileFromSource(source: string, schema: GraphQLSchema = starWarsSchem
   });
 }
 
-describe('JSON output', function() {
-  test(`should generate JSON output for a query with an enum variable`, function() {
+describe('JSON output', function () {
+  test(`should generate JSON output for a query with an enum variable`, function () {
     const context = compileFromSource(`
       query HeroName($episode: Episode) {
         hero(episode: $episode) {
@@ -28,7 +28,7 @@ describe('JSON output', function() {
     expect(output).toMatchSnapshot();
   });
 
-  test(`should generate JSON output for a query with a nested selection set`, function() {
+  test(`should generate JSON output for a query with a nested selection set`, function () {
     const context = compileFromSource(`
       query HeroAndFriendsNames {
         hero {
@@ -45,7 +45,7 @@ describe('JSON output', function() {
     expect(output).toMatchSnapshot();
   });
 
-  test(`should generate JSON output for a query with a fragment spread and nested inline fragments`, function() {
+  test(`should generate JSON output for a query with a fragment spread and nested inline fragments`, function () {
     const context = compileFromSource(`
       query HeroAndDetails {
         hero {
@@ -70,7 +70,7 @@ describe('JSON output', function() {
     expect(output).toMatchSnapshot();
   });
 
-  test(`should generate JSON output for a mutation with an enum and an input object variable`, function() {
+  test(`should generate JSON output for a mutation with an enum and an input object variable`, function () {
     const context = compileFromSource(`
       mutation CreateReview($episode: Episode, $review: ReviewInput) {
         createReview(episode: $episode, review: $review) {
@@ -85,7 +85,7 @@ describe('JSON output', function() {
     expect(output).toMatchSnapshot();
   });
 
-  test(`should generate JSON output for an input object type with default field values`, function() {
+  test(`should generate JSON output for an input object type with default field values`, function () {
     const schema = buildSchema(`
       type Query {
         someField(input: ComplexInput!): String!
@@ -115,7 +115,7 @@ describe('JSON output', function() {
         someField(input: $input)
       }
       `,
-      schema
+      schema,
     );
 
     const output = serializeToJSON(context);

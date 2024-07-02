@@ -65,7 +65,7 @@ the MIS (abridged to show relationship information only) looks like:
           "attributes": [],
           "association": {
             "connectionType": "HAS_ONE",
-            "associatedWith": ["primaryId"],
+            "associatedWith": ["primaryId"]
           }
         }
       }
@@ -126,16 +126,16 @@ the MIS (abridged to show relationship information only) looks like:
 
 ## Glossary
 
-* **Associated type** - In a field decorated with a `@hasMany`, `@hasOne`, or `@belongsTo` directive, the model “pointed to” by the directive. In the sample schema:
-    * `Related` is the **associated type** for the `@hasMany` directive on `Primary.related`
-    * `Primary` is the **associated type** for the `@belongsTo` directive on `Related.primary` 
-* **Association field** - See **Connection field**
-* **Connection field** - In any model type, the field that is decorated with a `@hasMany`, `@hasOne`, or `@belongsTo` directive. In the sample schema:
-    * `Primary.related` is the **connection field** in the `Primary` model, for the relationship `Primary -> Related` defined by the `@hasMany` on `Primary.related` and the `@belongsTo` on `Related.primary`
-    * `Related.primary` is the **connection field** in the `Related` model, for the relationship `Primary -> Related` defined by the `@hasMany` on `Primary.related` and the `@belongsTo` on `Related.primary`
-* **Source type** - In a field decorated with a `@hasMany`, `@hasOne`, or `@belongsTo` directive, the model containing the directive. In the sample schema:
-    * `Primary` is the **source type** for the `@hasMany` directive on `Primary.related` 
-    * `Related` is the **source type** for the `@belongsTo` directive on `Related.primary`
+- **Associated type** - In a field decorated with a `@hasMany`, `@hasOne`, or `@belongsTo` directive, the model “pointed to” by the directive. In the sample schema:
+  - `Related` is the **associated type** for the `@hasMany` directive on `Primary.related`
+  - `Primary` is the **associated type** for the `@belongsTo` directive on `Related.primary`
+- **Association field** - See **Connection field**
+- **Connection field** - In any model type, the field that is decorated with a `@hasMany`, `@hasOne`, or `@belongsTo` directive. In the sample schema:
+  - `Primary.related` is the **connection field** in the `Primary` model, for the relationship `Primary -> Related` defined by the `@hasMany` on `Primary.related` and the `@belongsTo` on `Related.primary`
+  - `Related.primary` is the **connection field** in the `Related` model, for the relationship `Primary -> Related` defined by the `@hasMany` on `Primary.related` and the `@belongsTo` on `Related.primary`
+- **Source type** - In a field decorated with a `@hasMany`, `@hasOne`, or `@belongsTo` directive, the model containing the directive. In the sample schema:
+  - `Primary` is the **source type** for the `@hasMany` directive on `Primary.related`
+  - `Related` is the **source type** for the `@belongsTo` directive on `Related.primary`
 
 ## Structure
 
@@ -153,26 +153,26 @@ enum CodeGenConnectionType {
 type CodeGenConnectionTypeBase = {
   kind: CodeGenConnectionType;
   connectedModel: CodeGenModel;
-    // ^-- Type not shown
+  // ^-- Type not shown
 };
 
 type CodeGenFieldConnectionBelongsTo = CodeGenConnectionTypeBase & {
   kind: CodeGenConnectionType.BELONGS_TO;
   targetNames: string[];
-}
+};
 
 type CodeGenFieldConnectionHasOne = CodeGenConnectionTypeBase & {
   kind: CodeGenConnectionType.HAS_ONE;
   associatedWith: CodeGenField[];
-    // ^-- Type not shown -- rendered in MIS as a string array
+  // ^-- Type not shown -- rendered in MIS as a string array
   targetNames: string[];
-}
+};
 
 export type CodeGenFieldConnectionHasMany = CodeGenConnectionTypeBase & {
   kind: CodeGenConnectionType.HAS_MANY;
   associatedWith: CodeGenField[];
-    // ^-- Type not shown -- rendered in MIS as a string array
-}
+  // ^-- Type not shown -- rendered in MIS as a string array
+};
 ```
 
 Considering a snippet of the above sample:
@@ -232,31 +232,27 @@ Considering a snippet of the above sample:
 - `models.RelatedMany.fields.primary.association.targetNames` - A list of fields on the **source type** (that is, the current type) that hold the primary key of the **associated** record. This is an array so we can support composite primary keys.
 - `models.RelatedMany.fields.primaryId` - The field pointed to by `targetNames` above, containing the primary key of the **associated** record for the `RelatedOne.primary` relationship.
 
-
 ## Navigating relationships
 
 We will describe the steps to resolve the record in pseudo-sql
 
 ### From source record to associated record
 
-* If the source model has an `associatedWith` but no `targetNames`:
-    ```
-    SELECT *
-    FROM <associated type>
-    WHERE <associatedWith fields> = <source type>.primaryKey
-    ```
-* If the source model has an `associatedWith` AND `targetNames`:
-    ```
-    SELECT *
-    FROM <associated type>
-    WHERE <associatedWith fields> = <source type>.<targetNames fields>
-    ```
-* If the source model has a `targetNames` but no `associatedWith`:
-    ```
-    SELECT *
-    FROM <associated type>
-    WHERE <source type>.<targetNames fields> = <associated type>.primaryKey
-    ```
-
-
-
+- If the source model has an `associatedWith` but no `targetNames`:
+  ```
+  SELECT *
+  FROM <associated type>
+  WHERE <associatedWith fields> = <source type>.primaryKey
+  ```
+- If the source model has an `associatedWith` AND `targetNames`:
+  ```
+  SELECT *
+  FROM <associated type>
+  WHERE <associatedWith fields> = <source type>.<targetNames fields>
+  ```
+- If the source model has a `targetNames` but no `associatedWith`:
+  ```
+  SELECT *
+  FROM <associated type>
+  WHERE <source type>.<targetNames fields> = <associated type>.primaryKey
+  ```

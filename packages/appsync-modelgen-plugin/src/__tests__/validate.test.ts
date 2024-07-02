@@ -1,13 +1,13 @@
 const validateModelIntrospectionSchema = require('../validate-cjs');
-import { ModelIntrospectionSchema } from '../interfaces/introspection'
+import { ModelIntrospectionSchema } from '../interfaces/introspection';
 
 describe('Standalone validation function', () => {
   const validSchema: ModelIntrospectionSchema = {
-    version: 1, 
+    version: 1,
     models: {},
     nonModels: {},
     enums: {},
-  }
+  };
   it('should pass on the valid schema', () => {
     const result = validateModelIntrospectionSchema(validSchema);
     expect(result).toBe(true);
@@ -16,7 +16,7 @@ describe('Standalone validation function', () => {
     it('invalid version', () => {
       const schema = {
         ...validSchema,
-        version: 100, 
+        version: 100,
       };
       const result = validateModelIntrospectionSchema(schema);
       expect(result).toBe(false);
@@ -24,7 +24,7 @@ describe('Standalone validation function', () => {
     it('invalid fields', () => {
       const schema = {
         ...validSchema,
-        invalidField: {}
+        invalidField: {},
       };
       const result = validateModelIntrospectionSchema(schema);
       expect(result).toBe(false);

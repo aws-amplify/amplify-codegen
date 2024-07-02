@@ -2,13 +2,7 @@ import React from 'react';
 import App from './App';
 
 const operations = ['queries', 'mutations', 'subscriptions'];
-const operationPrefixes = [
-  'create', 
-  'update', 
-  'delete',
-  'get',
-  'list'
-];
+const operationPrefixes = ['create', 'update', 'delete', 'get', 'list'];
 
 describe('Testing browser compatibility of Documents Generation', () => {
   beforeEach(() => {

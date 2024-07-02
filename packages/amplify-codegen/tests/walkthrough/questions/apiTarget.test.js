@@ -21,7 +21,7 @@ describe('askAppSyncAPITarget', () => {
     const api = await askAppSyncAPITarget(mockContext, appSyncAPIs, selectedAPI);
     expect(api).toEqual(selectedAPI);
     const promptParams = inquirer.prompt.mock.calls[0][0];
-    const expectedChoices = appSyncAPIs.map(a => ({ name: a.name, value: a.id }));
+    const expectedChoices = appSyncAPIs.map((a) => ({ name: a.name, value: a.id }));
     expect(promptParams[0].choices).toEqual(expectedChoices);
     expect(promptParams[0].type).toEqual('list');
   });

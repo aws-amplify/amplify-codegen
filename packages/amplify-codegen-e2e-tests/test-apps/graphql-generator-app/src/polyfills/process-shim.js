@@ -1,6 +1,6 @@
 // polyfil for window.performance.now
 
-const performanceNow = function() {
+const performanceNow = function () {
   return new Date().getTime();
 };
 

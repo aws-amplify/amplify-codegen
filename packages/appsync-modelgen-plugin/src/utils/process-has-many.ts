@@ -11,7 +11,6 @@ import {
 } from './process-connections';
 import { getConnectedFieldV2, getConnectedFieldForReferences } from './process-connections-v2';
 
-
 export function processHasManyConnection(
   field: CodeGenField,
   model: CodeGenModel,
@@ -21,7 +20,7 @@ export function processHasManyConnection(
   isCustomPKEnabled: boolean = false,
 ): CodeGenFieldConnection | undefined {
   if (!field.isList) {
-    throw new Error("A field with hasMany must be a list type");
+    throw new Error('A field with hasMany must be a list type');
   }
   const otherSide = modelMap[field.type];
   const connectionFields = connectionDirective.arguments.fields || [];
@@ -31,8 +30,8 @@ export function processHasManyConnection(
     // native uses the connected field instead of associatedWithFields
     // when using references associatedWithFields and associatedWithNative are not the same
     // getConnectedFieldForRerences also ensures there is a matching belongsTo field with references
-    const associatedWithNativeReferences = getConnectedFieldForReferences(field, model, otherSide, connectionDirective.name)
-    const associatedWithFields = references.map((reference: string) => otherSide.fields.find((field) => reference === field.name))
+    const associatedWithNativeReferences = getConnectedFieldForReferences(field, model, otherSide, connectionDirective.name);
+    const associatedWithFields = references.map((reference: string) => otherSide.fields.find((field) => reference === field.name));
     return {
       kind: CodeGenConnectionType.HAS_MANY,
       associatedWith: associatedWithFields[0],
@@ -59,7 +58,7 @@ export function processHasManyConnection(
     associatedWithFields: otherSideFields,
     isConnectingFieldAutoCreated,
     connectedModel: otherSide,
-  }
+  };
 }
 
 /**
@@ -74,7 +73,7 @@ export function getConnectedFieldsForHasMany(
   field: CodeGenField,
   model: CodeGenModel,
   connectedModel: CodeGenModel,
-  shouldUseModelNameFieldInHasManyAndBelongsTo: boolean
+  shouldUseModelNameFieldInHasManyAndBelongsTo: boolean,
 ): CodeGenField[] {
   const hasManyDir = getDirective(field)(TransformerV2DirectiveName.HAS_MANY);
   if (!hasManyDir) {
@@ -89,7 +88,7 @@ export function getConnectedFieldsForHasMany(
     const otherSideFieldDirectives: CodeGenFieldDirective[] = flattenFieldDirectives(connectedModel);
     // Find gsi on other side if index is defined
     if (indexName) {
-      otherSideConnectedDir = otherSideFieldDirectives.find(dir => {
+      otherSideConnectedDir = otherSideFieldDirectives.find((dir) => {
         return dir.name === TransformerV2DirectiveName.INDEX && dir.arguments.name === indexName;
       });
       if (!otherSideConnectedDir) {
@@ -100,28 +99,27 @@ export function getConnectedFieldsForHasMany(
     }
     // Otherwise find the pk on other side
     else {
-      otherSideConnectedDir = otherSideFieldDirectives.find(dir => {
+      otherSideConnectedDir = otherSideFieldDirectives.find((dir) => {
         return dir.name === TransformerV2DirectiveName.PRIMARY_KEY;
       });
     }
     // Find other side connected field name
-    const otherSideConnectedFieldName = otherSideConnectedDir?.fieldName ?? getOtherSideBelongsToField(model.name, connectedModel)?.name ?? DEFAULT_HASH_KEY_FIELD;
+    const otherSideConnectedFieldName =
+      otherSideConnectedDir?.fieldName ?? getOtherSideBelongsToField(model.name, connectedModel)?.name ?? DEFAULT_HASH_KEY_FIELD;
     // First check if it is a bi-connection and find the belongsTo field on the other side with fields[0] matching connected field name
     otherSideConnectedField = connectedModel.fields
-      .filter(f => f.type === model.name)
-      .find(f =>
+      .filter((f) => f.type === model.name)
+      .find((f) =>
         f.directives.find(
-          d =>
-            (d.name === TransformerV2DirectiveName.BELONGS_TO) &&
-            d.arguments.fields &&
-            d.arguments.fields[0] === otherSideConnectedFieldName,
+          (d) =>
+            d.name === TransformerV2DirectiveName.BELONGS_TO && d.arguments.fields && d.arguments.fields[0] === otherSideConnectedFieldName,
         ),
       );
     if (otherSideConnectedField) {
       return [otherSideConnectedField];
     }
     // Otherwise find the field matching other side connected field name
-    otherSideConnectedField = connectedModel.fields.find(f => f.name === otherSideConnectedFieldName);
+    otherSideConnectedField = connectedModel.fields.find((f) => f.name === otherSideConnectedFieldName);
     if (!otherSideConnectedField) {
       throw new Error(`Can not find key field ${otherSideConnectedFieldName} in ${connectedModel.name}`);
     }
@@ -133,31 +131,32 @@ export function getConnectedFieldsForHasMany(
   // All platforms except for JS use field with @belongsTo as connected field in hasMany/belongsTo bi-direction connection
   if (shouldUseModelNameFieldInHasManyAndBelongsTo) {
     otherSideConnectedField = connectedModel.fields
-      .filter(f => f.type === model.name)
-      .find(f => f.directives.find(d => d.name === TransformerV2DirectiveName.BELONGS_TO));
+      .filter((f) => f.type === model.name)
+      .find((f) => f.directives.find((d) => d.name === TransformerV2DirectiveName.BELONGS_TO));
     if (otherSideConnectedField) {
       return [otherSideConnectedField];
     }
   }
   // Otherwise use auto-generated foreign keys
-  return getModelPrimaryKeyComponentFields(model)
-    .map(compField => {
-      const foreignKeyFieldName = makeConnectionAttributeName(model.name, field.name, compField.name);
-      otherSideConnectedField = connectedModel.fields.find(f => f.name === foreignKeyFieldName);
-      return otherSideConnectedField ?? {
+  return getModelPrimaryKeyComponentFields(model).map((compField) => {
+    const foreignKeyFieldName = makeConnectionAttributeName(model.name, field.name, compField.name);
+    otherSideConnectedField = connectedModel.fields.find((f) => f.name === foreignKeyFieldName);
+    return (
+      otherSideConnectedField ?? {
         name: foreignKeyFieldName,
         directives: [],
         type: compField.type,
         isList: false,
         isNullable: true,
       }
-    });
+    );
+  });
 }
 
 /**
  * Helper to add a key directive to a given model.
  */
- function addKeyToModel(model: CodeGenModel, name: string, fields: string[]): void {
+function addKeyToModel(model: CodeGenModel, name: string, fields: string[]): void {
   model.directives.push({
     name: 'key',
     arguments: {
@@ -172,9 +171,10 @@ export function getConnectedFieldsForHasMany(
  * Returns a list of fields of at least length 1.
  */
 function getConnectionAssociatedFields(hasManyConnection: CodeGenFieldConnectionHasMany): CodeGenField[] {
-  const associatedFields = hasManyConnection.associatedWithFields && hasManyConnection.associatedWithFields.length > 0
-  ? hasManyConnection.associatedWithFields
-  : [hasManyConnection.associatedWith]
+  const associatedFields =
+    hasManyConnection.associatedWithFields && hasManyConnection.associatedWithFields.length > 0
+      ? hasManyConnection.associatedWithFields
+      : [hasManyConnection.associatedWith];
   if (associatedFields.length === 0) {
     throw new Error('Expected at least one associated field for the hasMany relationship.');
   }
@@ -186,18 +186,18 @@ function getConnectionAssociatedFields(hasManyConnection: CodeGenFieldConnection
  * directive attached to it.
  */
 function doesHasManyConnectionHaveCorrespondingBelongsTo(model: CodeGenModel, hasManyConnection: CodeGenFieldConnectionHasMany): boolean {
-  const fieldReferencingParent = hasManyConnection.connectedModel.fields.find(f => f.type === model.name);
+  const fieldReferencingParent = hasManyConnection.connectedModel.fields.find((f) => f.type === model.name);
   if (!fieldReferencingParent) {
     return false;
   }
-  return fieldReferencingParent.directives.some(d => d.name === TransformerV2DirectiveName.BELONGS_TO);
+  return fieldReferencingParent.directives.some((d) => d.name === TransformerV2DirectiveName.BELONGS_TO);
 }
 
 /**
  * Check if the @hasMany directive on this field specifies an indexName.
  */
 function doesHasManySpecifyIndexName(field: CodeGenField): boolean {
-  return field.directives.some(d => d.name === TransformerV2DirectiveName.HAS_MANY && d.arguments.indexName);
+  return field.directives.some((d) => d.name === TransformerV2DirectiveName.HAS_MANY && d.arguments.indexName);
 }
 
 /**
@@ -215,7 +215,7 @@ export function hasManyHasImplicitKey(field: CodeGenField, model: CodeGenModel, 
  * the related model.
  */
 export function addHasManyKey(field: CodeGenField, model: CodeGenModel, hasManyConnection: CodeGenFieldConnectionHasMany): void {
-  const associatedFieldNames = getConnectionAssociatedFields(hasManyConnection).map(f => f.name);
+  const associatedFieldNames = getConnectionAssociatedFields(hasManyConnection).map((f) => f.name);
   const connectedModel = hasManyConnection.connectedModel;
   // Applying consistent auto-naming as the transformer does today
   // https://github.com/aws-amplify/amplify-category-api/blob/main/packages/amplify-graphql-relational-transformer/src/resolvers.ts#L334-L396

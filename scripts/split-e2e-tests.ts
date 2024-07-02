@@ -21,13 +21,13 @@ const REPO_ROOT = join(__dirname, '..');
 const TEST_TIMINGS_PATH = join(REPO_ROOT, 'scripts', 'test-timings.data.json');
 const CODEBUILD_CONFIG_BASE_PATH = join(REPO_ROOT, '.codebuild', 'e2e_workflow_base.yml');
 const CODEBUILD_GENERATE_CONFIG_PATH = join(REPO_ROOT, '.codebuild', 'e2e_workflow.yml');
-const CODEBUILD_DEBUG_CONFIG_PATH = join (REPO_ROOT, '.codebuild', 'debug_workflow.yml');
+const CODEBUILD_DEBUG_CONFIG_PATH = join(REPO_ROOT, '.codebuild', 'debug_workflow.yml');
 const RUN_SOLO = [];
 const EXCLUDE_TESTS = [
   'src/__tests__/build-app-swift.test.ts',
   'src/__tests__/build-app-android.test.ts',
   'src/__tests__/codegen-matrix.test.ts',
-  'src/__tests__/graphql-generator-gen2.test.ts'
+  'src/__tests__/graphql-generator-gen2.test.ts',
 ];
 const DEBUG_FLAG = '--debug';
 
@@ -89,19 +89,9 @@ const createJob = (os: OS_TYPE, jobIdx: number, runSolo: boolean = false): Candi
 const getTestNameFromPath = (testSuitePath: string): string => {
   const startIndex = testSuitePath.lastIndexOf('/') + 1;
   const endIndex = testSuitePath.lastIndexOf('.test');
-  return testSuitePath
-    .substring(startIndex, endIndex)
-    .split('.e2e')
-    .join('')
-    .split('.')
-    .join('-');
+  return testSuitePath.substring(startIndex, endIndex).split('.e2e').join('').split('.').join('-');
 };
-const splitTests = (
-  baseJobLinux: any,
-  baseJobWindows: any,
-  testDirectory: string,
-  pickTests?: ((testSuites: string[]) => string[]),
-) => {
+const splitTests = (baseJobLinux: any, baseJobWindows: any, testDirectory: string, pickTests?: (testSuites: string[]) => string[]) => {
   const output: any[] = [];
   let testSuites = getTestFiles(testDirectory);
   if (pickTests && typeof pickTests === 'function') {
@@ -113,8 +103,8 @@ const splitTests = (
   const testFileRunTimes = loadTestTimings().timingData;
 
   testSuites.sort((a, b) => {
-    const runtimeA = testFileRunTimes.find((t:any) => t.test === a)?.medianRuntime ?? 30;
-    const runtimeB = testFileRunTimes.find((t:any) => t.test === b)?.medianRuntime ?? 30;
+    const runtimeA = testFileRunTimes.find((t: any) => t.test === a)?.medianRuntime ?? 30;
+    const runtimeB = testFileRunTimes.find((t: any) => t.test === b)?.medianRuntime ?? 30;
     return runtimeA - runtimeB;
   });
   const generateJobsForOS = (os: OS_TYPE) => {
@@ -195,7 +185,7 @@ function basicE2EJob(inputJob: any, baseJob: string) {
 function getIdentifier(os: string, names: string) {
   const jobName = `${os}_${names.replace(/-/g, '_')}`.substring(0, 127);
   return jobName;
-};
+}
 
 function main(): void {
   const filteredTests = process.argv.slice(2);
@@ -220,20 +210,17 @@ function main(): void {
     'depend-on': ['publish_to_local_registry', 'build_windows'],
   };
 
-  const splitE2ETests = splitTests(
-    baseJobLinux,
-    baseJobWindows,
-    join(REPO_ROOT, 'packages', 'amplify-codegen-e2e-tests'),
-    (testSuites) => testSuites.filter((ts) => !EXCLUDE_TESTS.includes(ts)),
+  const splitE2ETests = splitTests(baseJobLinux, baseJobWindows, join(REPO_ROOT, 'packages', 'amplify-codegen-e2e-tests'), (testSuites) =>
+    testSuites.filter((ts) => !EXCLUDE_TESTS.includes(ts)),
   );
 
   let outputPath = CODEBUILD_GENERATE_CONFIG_PATH;
   let allBuilds = [...splitE2ETests];
   if (filteredTests.length > 0) {
-    allBuilds = allBuilds.filter(build => filteredTests.includes(build.identifier));
+    allBuilds = allBuilds.filter((build) => filteredTests.includes(build.identifier));
     if (filteredTests.includes(DEBUG_FLAG)) {
-      allBuilds = allBuilds.map(build => {
-        return { ...build, 'debug-session': true}
+      allBuilds = allBuilds.map((build) => {
+        return { ...build, 'debug-session': true };
       });
       outputPath = CODEBUILD_DEBUG_CONFIG_PATH;
     }
@@ -242,11 +229,11 @@ function main(): void {
     identifier: 'cleanup_e2e_resources',
     buildspec: '.codebuild/cleanup_e2e_resources.yml',
     env: {
-      'compute-type': 'BUILD_GENERAL1_MEDIUM'
+      'compute-type': 'BUILD_GENERAL1_MEDIUM',
     },
     'depend-on': allBuilds.length > 0 ? [allBuilds[0].identifier] : ['publish_to_local_registry'],
-  }
-  console.log(`Total number of splitted jobs: ${allBuilds.length}`)
+  };
+  console.log(`Total number of splitted jobs: ${allBuilds.length}`);
   let currentBatch = [...baseBuildGraph, ...allBuilds, cleanupResources];
   configBase.batch['build-graph'] = currentBatch;
   saveConfig(configBase, outputPath);

@@ -12,7 +12,7 @@ import { CodeGenerator } from '../../src/utilities/CodeGenerator';
 
 import { compileToLegacyIR } from '../../src/compiler/legacyIR';
 
-describe('TypeScript code generation', function() {
+describe('TypeScript code generation', function () {
   let generator;
   let compileFromSource;
   let addFragment;
@@ -27,7 +27,7 @@ describe('TypeScript code generation', function() {
 
     generator = new CodeGenerator(context);
 
-    compileFromSource = source => {
+    compileFromSource = (source) => {
       const document = parse(source);
       const context = compileToLegacyIR(schema, document, {
         mergeInFieldsFromFragmentSpreads: true,
@@ -37,15 +37,15 @@ describe('TypeScript code generation', function() {
       return context;
     };
 
-    addFragment = fragment => {
+    addFragment = (fragment) => {
       generator.context.fragments[fragment.fragmentName] = fragment;
     };
 
     return { generator, compileFromSource, addFragment };
   }
 
-  describe('#generateSource()', function() {
-    test(`should generate simple query operations`, function() {
+  describe('#generateSource()', function () {
+    test(`should generate simple query operations`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         query HeroName {
@@ -59,7 +59,7 @@ describe('TypeScript code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate simple query operations including input variables`, function() {
+    test(`should generate simple query operations including input variables`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         query HeroName($episode: Episode) {
@@ -73,7 +73,7 @@ describe('TypeScript code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate simple nested query operations including input variables`, function() {
+    test(`should generate simple nested query operations including input variables`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         query HeroAndFriendsNames($episode: Episode) {
@@ -90,7 +90,7 @@ describe('TypeScript code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate simple nested with required elements in lists`, function() {
+    test(`should generate simple nested with required elements in lists`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         query StarshipCoords {
@@ -104,7 +104,7 @@ describe('TypeScript code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate fragmented query operations`, function() {
+    test(`should generate fragmented query operations`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         query HeroAndFriendsNames {
@@ -125,7 +125,7 @@ describe('TypeScript code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate query operations with inline fragments`, function() {
+    test(`should generate query operations with inline fragments`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         query HeroAndDetails {
@@ -149,7 +149,7 @@ describe('TypeScript code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate mutation operations with complex input types`, function() {
+    test(`should generate mutation operations with complex input types`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         mutation ReviewMovie($episode: Episode, $review: ReviewInput) {
@@ -164,7 +164,7 @@ describe('TypeScript code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate correct list with custom fragment`, function() {
+    test(`should generate correct list with custom fragment`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         fragment Friend on Character {

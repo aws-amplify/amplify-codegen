@@ -133,9 +133,7 @@ export function amplifyPushWithCodegenAdd(cwd: string, settings: any = {}, testi
       .wait('Enter maximum statement depth [increase from default if your schema is deeply')
       .sendCarriageReturn();
     if (settings.frontendType === AmplifyFrontend.ios) {
-      chain
-        .wait('Enter the file name for the generated code')
-        .sendCarriageReturn();
+      chain.wait('Enter the file name for the generated code').sendCarriageReturn();
     }
     chain.run((err: Error) => {
       if (!err) {
@@ -158,11 +156,11 @@ export function amplifyPushWithCodegenUpdate(cwd: string, settings: any = {}, te
       .wait('Do you want to generate GraphQL statements (queries, mutations and subscription) based on your schema types?')
       .sendCarriageReturn()
       .run((err: Error) => {
-      if (!err) {
-        resolve();
-      } else {
-        reject(err);
-      }
-    });
+        if (!err) {
+          resolve();
+        } else {
+          reject(err);
+        }
+      });
   });
 }

@@ -35,12 +35,12 @@ export function generateSource(context: LegacyCompilerContext) {
   generator.printOnNewline('/* eslint-disable */');
   generator.printOnNewline('//  This file was automatically generated and should not be edited.');
 
-  context.typesUsed.forEach(type => typeDeclarationForGraphQLType(generator, type));
-  Object.values(context.operations).forEach(operation => {
+  context.typesUsed.forEach((type) => typeDeclarationForGraphQLType(generator, type));
+  Object.values(context.operations).forEach((operation) => {
     interfaceVariablesDeclarationForOperation(generator, operation);
     interfaceDeclarationForOperation(generator, operation);
   });
-  Object.values(context.fragments).forEach(operation => interfaceDeclarationForFragment(generator, operation));
+  Object.values(context.fragments).forEach((operation) => interfaceDeclarationForFragment(generator, operation));
 
   generator.printNewline();
 
@@ -67,17 +67,17 @@ function enumerationDeclaration(generator: CodeGenerator, type: GraphQLEnumType)
 
   generator.printNewlineIfNeeded();
   if (description) {
-    description.split('\n').forEach(line => {
+    description.split('\n').forEach((line) => {
       generator.printOnNewline(`// ${line.trim()}`);
     });
   }
   generator.printOnNewline(`export enum ${name} {`);
-  values.forEach(value => {
+  values.forEach((value) => {
     if (!value.description || value.description.indexOf('\n') === -1) {
       generator.printOnNewline(`  ${value.value} = "${value.value}",${wrap(' // ', value.description || '')}`);
     } else {
       if (value.description) {
-        value.description.split('\n').forEach(line => {
+        value.description.split('\n').forEach((line) => {
           generator.printOnNewline(`  // ${line.trim()}`);
         });
       }
@@ -92,12 +92,12 @@ function unionDeclaration(generator: CodeGenerator, type: GraphQLUnionType) {
   const { name, description } = type;
   const value = type
     .getTypes()
-    .map(type => type.name)
+    .map((type) => type.name)
     .join(' | ');
 
   generator.printNewlineIfNeeded();
   if (description) {
-    description.split('\n').forEach(line => {
+    description.split('\n').forEach((line) => {
       generator.printOnNewline(`// ${line.trim()}`);
     });
   }
@@ -114,7 +114,7 @@ function structDeclarationForInputObjectType(generator: CodeGenerator, type: Gra
     },
     () => {
       const properties = propertiesFromFields(generator.context, Object.values(type.getFields()));
-      properties.forEach(property => propertyDeclaration(generator, { ...property }));
+      properties.forEach((property) => propertyDeclaration(generator, { ...property }));
     },
   );
 }
@@ -129,7 +129,7 @@ function structDeclarationForObjectType(generator: CodeGenerator, type: GraphQLO
     () => {
       const properties = propertiesFromFields(generator.context, Object.values(type.getFields()));
       propertyDeclaration(generator, { fieldName: '__typename', typeName: `"${interfaceName}"` });
-      properties.forEach(property => propertyDeclaration(generator, { ...property }));
+      properties.forEach((property) => propertyDeclaration(generator, { ...property }));
     },
   );
 }
@@ -144,7 +144,7 @@ function structDeclarationForInterfaceType(generator: CodeGenerator, type: Graph
     () => {
       const properties = propertiesFromFields(generator.context, Object.values(type.getFields()));
       propertyDeclaration(generator, { fieldName: '__typename', typeName: `"${interfaceName}"` });
-      properties.forEach(property => propertyDeclaration(generator, { ...property }));
+      properties.forEach((property) => propertyDeclaration(generator, { ...property }));
     },
   );
 }
@@ -173,7 +173,7 @@ export function interfaceVariablesDeclarationForOperation(
   generator: CodeGenerator,
   { operationName, operationType, variables }: LegacyOperation,
 ) {
-  const interfaceName = interfaceVariablesNameFromOperation({operationName, operationType});
+  const interfaceName = interfaceVariablesNameFromOperation({ operationName, operationType });
 
   interfaceDeclaration(
     generator,
@@ -200,7 +200,7 @@ function getObjectTypeName(type: GraphQLType): string {
   if (isUnionType(type)) {
     return type
       .getTypes()
-      .map(type => getObjectTypeName(type))
+      .map((type) => getObjectTypeName(type))
       .join(' | ');
   }
   return `"${type.name}"`;
@@ -209,7 +209,7 @@ function getObjectTypeName(type: GraphQLType): string {
 export function updateTypeNameField(rootField: LegacyField): LegacyField {
   const fields =
     rootField.fields &&
-    rootField.fields.map(field => {
+    rootField.fields.map((field) => {
       if (field.fieldName === '__typename') {
         const objectTypeName = getObjectTypeName(rootField.type);
         return {
@@ -233,7 +233,7 @@ export function updateTypeNameField(rootField: LegacyField): LegacyField {
 
 export function interfaceDeclarationForOperation(generator: CodeGenerator, { operationName, operationType, fields }: LegacyOperation) {
   const interfaceName = interfaceNameFromOperation({ operationName, operationType });
-  fields = fields.map(field => updateTypeNameField(field));
+  fields = fields.map((field) => updateTypeNameField(field));
   const properties = propertiesFromFields(generator.context, fields);
   interfaceDeclaration(
     generator,
@@ -259,16 +259,16 @@ export function interfaceDeclarationForFragment(generator: CodeGenerator, fragme
     },
     () => {
       if (isAbstractType(typeCondition)) {
-        const propertySets = fragment.possibleTypes.map(type => {
+        const propertySets = fragment.possibleTypes.map((type) => {
           // NOTE: inlineFragment currently consists of the merged fields
           // from both inline fragments and fragment spreads.
           // TODO: Rename inlineFragments in the IR.
-          const inlineFragment = inlineFragments.find(inlineFragment => {
+          const inlineFragment = inlineFragments.find((inlineFragment) => {
             return inlineFragment.typeCondition.toString() == type.toString();
           });
 
           if (inlineFragment) {
-            const fields = inlineFragment.fields.map(field => {
+            const fields = inlineFragment.fields.map((field) => {
               if (field.fieldName === '__typename') {
                 return {
                   ...field,
@@ -282,7 +282,7 @@ export function interfaceDeclarationForFragment(generator: CodeGenerator, fragme
 
             return propertiesFromFields(generator.context, fields);
           } else {
-            const fragmentFields = fields.map(field => {
+            const fragmentFields = fields.map((field) => {
               if (field.fieldName === '__typename') {
                 return {
                   ...field,
@@ -300,7 +300,7 @@ export function interfaceDeclarationForFragment(generator: CodeGenerator, fragme
 
         pickedPropertySetsDeclaration(generator, fragment, propertySets, true);
       } else {
-        const fragmentFields = fields.map(field => {
+        const fragmentFields = fields.map((field) => {
           if (field.fieldName === '__typename') {
             return {
               ...field,
@@ -331,7 +331,7 @@ export function propertiesFromFields(
     fieldName?: string;
   }[],
 ) {
-  return fields.map(field => propertyFromField(context, field));
+  return fields.map((field) => propertyFromField(context, field));
 }
 
 export function propertyFromField(
@@ -401,17 +401,17 @@ export function propertyFromField(
 // pickedPropertyDeclarations declares specific properties selected by execution schemas or fragment schemas.
 export function pickedPropertyDeclarations(generator: CodeGenerator, properties: Property[], isOptional = false) {
   if (!properties) return;
-  properties.forEach(property => {
+  properties.forEach((property) => {
     if (isAbstractType(getNamedType(property.type || property.fieldType!))) {
-      const propertySets = getPossibleTypeNames(generator, property).map(type => {
+      const propertySets = getPossibleTypeNames(generator, property).map((type) => {
         const inlineFragment =
           property.inlineFragments &&
-          property.inlineFragments.find(inlineFragment => {
+          property.inlineFragments.find((inlineFragment) => {
             return inlineFragment.typeCondition.toString() == type;
           });
 
         if (inlineFragment) {
-          const fields = inlineFragment.fields.map(field => {
+          const fields = inlineFragment.fields.map((field) => {
             if (field.fieldName === '__typename') {
               return {
                 ...field,
@@ -425,7 +425,7 @@ export function pickedPropertyDeclarations(generator: CodeGenerator, properties:
 
           return propertiesFromFields(generator.context, fields);
         } else {
-          const fields = property.fields!.map(field => {
+          const fields = property.fields!.map((field) => {
             if (field.fieldName === '__typename') {
               return {
                 ...field,
@@ -468,7 +468,7 @@ function getPossibleTypeNames(generator: CodeGenerator<LegacyCompilerContext>, p
   const type = getNamedType(property.fieldType || property.type!);
 
   if (isUnionType(type) || isInterfaceType(type)) {
-    return generator.context.schema.getPossibleTypes(type).map(type => type.name);
+    return generator.context.schema.getPossibleTypes(type).map((type) => type.name);
   }
 
   return [];

@@ -1,23 +1,28 @@
 import { buildSchema, parse, visit } from 'graphql';
 import { AppSyncDirectives, DefaultDirectives, V1Directives, DeprecatedDirective, Directive } from '@aws-amplify/graphql-directives';
 import { scalars } from '../../scalars/supported-scalars';
-import { CodeGenConnectionType, CodeGenFieldConnectionBelongsTo, CodeGenFieldConnectionHasMany, CodeGenFieldConnectionHasOne } from '../../utils/process-connections';
+import {
+  CodeGenConnectionType,
+  CodeGenFieldConnectionBelongsTo,
+  CodeGenFieldConnectionHasMany,
+  CodeGenFieldConnectionHasOne,
+} from '../../utils/process-connections';
 import { AppSyncModelVisitor, CodeGenGenerateEnum, CodeGenPrimaryKeyType } from '../../visitors/appsync-visitor';
 
 const defaultBaseVisitorSettings = {
   usePipelinedTransformer: false,
   isTimestampFieldsAdded: true,
-  respectPrimaryKeyAttributesOnConnectionField: false
-}
+  respectPrimaryKeyAttributesOnConnectionField: false,
+};
 
 const buildSchemaWithDirectives = (schema: String, directives: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
 const createAndGenerateVisitor = (schema: string, settings: any = {}, directives: readonly Directive[] = DefaultDirectives) => {
-  const visitorConfig = {...defaultBaseVisitorSettings, ...settings}
+  const visitorConfig = { ...defaultBaseVisitorSettings, ...settings };
   const ast = parse(schema);
-  const stringDirectives = directives.map(directive => directive.definition).join('\n');
+  const stringDirectives = directives.map((directive) => directive.definition).join('\n');
   const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
   const visitor = new AppSyncModelVisitor(
     builtSchema,
@@ -43,9 +48,13 @@ describe('AppSyncModelVisitor', () => {
       }
     `;
     const ast = parse(schema);
-    const stringDirectives = DefaultDirectives.map(directive => directive.definition).join('\n');
+    const stringDirectives = DefaultDirectives.map((directive) => directive.definition).join('\n');
     const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
-    const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+    const visitor = new AppSyncModelVisitor(
+      builtSchema,
+      { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code },
+      {},
+    );
     visit(ast, { leave: visitor });
     expect(visitor.models.Post).toBeDefined();
 
@@ -65,9 +74,13 @@ describe('AppSyncModelVisitor', () => {
       }
     `;
     const ast = parse(schema);
-    const stringDirectives = DefaultDirectives.map(directive => directive.definition).join('\n');
+    const stringDirectives = DefaultDirectives.map((directive) => directive.definition).join('\n');
     const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
-    const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'general', generate: CodeGenGenerateEnum.code }, {});
+    const visitor = new AppSyncModelVisitor(
+      builtSchema,
+      { directives: stringDirectives, target: 'general', generate: CodeGenGenerateEnum.code },
+      {},
+    );
     expect(() => visit(ast, { leave: visitor })).not.toThrowError();
   });
   it('should change field to non-nullable when schema has id of nullable type', () => {
@@ -79,7 +92,7 @@ describe('AppSyncModelVisitor', () => {
       }
     `;
     const { models } = createAndGenerateVisitor(schema);
-    const idField = models.Post.fields.find(f => f.name === 'id')!;
+    const idField = models.Post.fields.find((f) => f.name === 'id')!;
     expect(idField.isNullable).toBe(false);
   });
   it('should have id as the first field to ensure arity of constructors', () => {
@@ -91,9 +104,13 @@ describe('AppSyncModelVisitor', () => {
       }
     `;
     const ast = parse(schema);
-    const stringDirectives = DefaultDirectives.map(directive => directive.definition).join('\n');
+    const stringDirectives = DefaultDirectives.map((directive) => directive.definition).join('\n');
     const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
-    const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+    const visitor = new AppSyncModelVisitor(
+      builtSchema,
+      { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code },
+      {},
+    );
     visit(ast, { leave: visitor });
     const postFields = visitor.models.Post.fields;
     expect(postFields[0].name).toEqual('id');
@@ -212,16 +229,22 @@ describe('AppSyncModelVisitor', () => {
       `;
       it('one to many connection', () => {
         const ast = parse(schema);
-        const stringDirectives = [...AppSyncDirectives, ...V1Directives, DeprecatedDirective].map(directive => directive.definition).join('\n');
+        const stringDirectives = [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]
+          .map((directive) => directive.definition)
+          .join('\n');
         const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
-        const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+        const visitor = new AppSyncModelVisitor(
+          builtSchema,
+          { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code },
+          {},
+        );
         visit(ast, { leave: visitor });
         visitor.generate();
-        const commentsField = visitor.models.Post.fields.find(f => f.name === 'comments');
-        const postField = visitor.models.Comment.fields.find(f => f.name === 'post');
+        const commentsField = visitor.models.Post.fields.find((f) => f.name === 'comments');
+        const postField = visitor.models.Comment.fields.find((f) => f.name === 'post');
         expect(commentsField).toBeDefined();
         expect(commentsField!.connectionInfo).toBeDefined();
-        const connectionInfo = (commentsField!.connectionInfo as any) as CodeGenFieldConnectionHasMany;
+        const connectionInfo = commentsField!.connectionInfo as any as CodeGenFieldConnectionHasMany;
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
         expect(connectionInfo.associatedWith).toEqual(postField);
         expect(connectionInfo.connectedModel).toEqual(visitor.models.Comment);
@@ -229,16 +252,22 @@ describe('AppSyncModelVisitor', () => {
 
       it('many to one connection', () => {
         const ast = parse(schema);
-        const stringDirectives = [...AppSyncDirectives, ...V1Directives, DeprecatedDirective].map(directive => directive.definition).join('\n');
+        const stringDirectives = [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]
+          .map((directive) => directive.definition)
+          .join('\n');
         const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
-        const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+        const visitor = new AppSyncModelVisitor(
+          builtSchema,
+          { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code },
+          {},
+        );
         visit(ast, { leave: visitor });
         visitor.generate();
-        const commentsField = visitor.models.Post.fields.find(f => f.name === 'comments');
-        const postField = visitor.models.Comment.fields.find(f => f.name === 'post');
+        const commentsField = visitor.models.Post.fields.find((f) => f.name === 'comments');
+        const postField = visitor.models.Comment.fields.find((f) => f.name === 'post');
         expect(postField).toBeDefined();
         expect(postField!.connectionInfo).toBeDefined();
-        const connectionInfo = (postField!.connectionInfo as any) as CodeGenFieldConnectionBelongsTo;
+        const connectionInfo = postField!.connectionInfo as any as CodeGenFieldConnectionBelongsTo;
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
         expect(connectionInfo.connectedModel).toEqual(visitor.models.Post);
       });
@@ -262,17 +291,23 @@ describe('AppSyncModelVisitor', () => {
 
       it('one to many connection', () => {
         const ast = parse(schema);
-        const stringDirectives = [...AppSyncDirectives, ...V1Directives, DeprecatedDirective].map(directive => directive.definition).join('\n');
+        const stringDirectives = [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]
+          .map((directive) => directive.definition)
+          .join('\n');
         const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
-        const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+        const visitor = new AppSyncModelVisitor(
+          builtSchema,
+          { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code },
+          {},
+        );
         visit(ast, { leave: visitor });
         visitor.generate();
-        const commentsField = visitor.models.Post.fields.find(f => f.name === 'comments');
-        const commentIdField = visitor.models.Post.fields.find(f => f.name === 'id');
-        const postField = visitor.models.Comment.fields.find(f => f.name === 'post');
+        const commentsField = visitor.models.Post.fields.find((f) => f.name === 'comments');
+        const commentIdField = visitor.models.Post.fields.find((f) => f.name === 'id');
+        const postField = visitor.models.Comment.fields.find((f) => f.name === 'post');
         expect(commentsField).toBeDefined();
         expect(commentsField!.connectionInfo).toBeDefined();
-        const connectionInfo = (commentsField!.connectionInfo as any) as CodeGenFieldConnectionHasMany;
+        const connectionInfo = commentsField!.connectionInfo as any as CodeGenFieldConnectionHasMany;
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
         expect(connectionInfo.associatedWith).toEqual(commentIdField);
         expect(connectionInfo.connectedModel).toEqual(visitor.models.Comment);
@@ -280,16 +315,22 @@ describe('AppSyncModelVisitor', () => {
 
       it('many to one connection', () => {
         const ast = parse(schema);
-        const stringDirectives = [...AppSyncDirectives, ...V1Directives, DeprecatedDirective].map(directive => directive.definition).join('\n');
+        const stringDirectives = [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]
+          .map((directive) => directive.definition)
+          .join('\n');
         const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
-        const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+        const visitor = new AppSyncModelVisitor(
+          builtSchema,
+          { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code },
+          {},
+        );
         visit(ast, { leave: visitor });
         visitor.generate();
 
-        const postField = visitor.models.Comment.fields.find(f => f.name === 'post');
+        const postField = visitor.models.Comment.fields.find((f) => f.name === 'post');
         expect(postField).toBeDefined();
         expect(postField!.connectionInfo).toBeDefined();
-        const connectionInfo = (postField!.connectionInfo as any) as CodeGenFieldConnectionBelongsTo;
+        const connectionInfo = postField!.connectionInfo as any as CodeGenFieldConnectionBelongsTo;
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
         expect(connectionInfo.connectedModel).toEqual(visitor.models.Post);
       });
@@ -313,12 +354,18 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const ast = parse(schema);
-      const stringDirectives = [...AppSyncDirectives, ...V1Directives, DeprecatedDirective].map(directive => directive.definition).join('\n');
+      const stringDirectives = [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]
+        .map((directive) => directive.definition)
+        .join('\n');
       const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
-      const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+      const visitor = new AppSyncModelVisitor(
+        builtSchema,
+        { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code },
+        {},
+      );
       visit(ast, { leave: visitor });
       visitor.generate();
-      const postFields = visitor.models.Post.fields.map(field => field.name);
+      const postFields = visitor.models.Post.fields.map((field) => field.name);
       expect(postFields).not.toContain('comments');
     });
 
@@ -338,12 +385,18 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const ast = parse(schema);
-      const stringDirectives = [...AppSyncDirectives, ...V1Directives, DeprecatedDirective].map(directive => directive.definition).join('\n');
+      const stringDirectives = [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]
+        .map((directive) => directive.definition)
+        .join('\n');
       const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
-      const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+      const visitor = new AppSyncModelVisitor(
+        builtSchema,
+        { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code },
+        {},
+      );
       visit(ast, { leave: visitor });
       visitor.generate();
-      const commentsField = visitor.models.Comment.fields.map(field => field.name);
+      const commentsField = visitor.models.Comment.fields.map((field) => field.name);
       expect(commentsField).not.toContain('post');
       expect(commentsField).toContain('postCommentsId'); // because of connection from Post.comments
     });
@@ -361,7 +414,7 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const ast = parse(schema);
-      const stringDirectives = DefaultDirectives.map(directive => directive.definition).join('\n');
+      const stringDirectives = DefaultDirectives.map((directive) => directive.definition).join('\n');
       const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
       const visitor = new AppSyncModelVisitor(
         builtSchema,
@@ -370,7 +423,7 @@ describe('AppSyncModelVisitor', () => {
       );
       visit(ast, { leave: visitor });
       visitor.generate();
-      const projectTeamIdField = visitor.models.Project.fields.find(field => {
+      const projectTeamIdField = visitor.models.Project.fields.find((field) => {
         return field.name === 'projectTeamId';
       });
       expect(projectTeamIdField).toBeDefined();
@@ -394,7 +447,7 @@ describe('AppSyncModelVisitor', () => {
       `;
       const visitor = createAndGeneratePipelinedTransformerVisitor(schema);
       visitor.generate();
-      const projectKeyDirective = visitor.models.Project.directives.find(directive => directive.name === 'key');
+      const projectKeyDirective = visitor.models.Project.directives.find((directive) => directive.name === 'key');
       expect(projectKeyDirective).toEqual({
         name: 'key',
         arguments: {
@@ -402,7 +455,7 @@ describe('AppSyncModelVisitor', () => {
           fields: ['name', 'team'],
         },
       });
-      const teamKeyDirective = visitor.models.Team.directives.find(directive => directive.name === 'key');
+      const teamKeyDirective = visitor.models.Team.directives.find((directive) => directive.name === 'key');
       expect(teamKeyDirective).toEqual({
         name: 'key',
         arguments: {
@@ -427,14 +480,14 @@ describe('AppSyncModelVisitor', () => {
       `;
       const visitor = createAndGeneratePipelinedTransformerVisitor(schema);
       visitor.generate();
-      const projectKeyDirective = visitor.models.Project.directives.find(directive => directive.name === 'key');
+      const projectKeyDirective = visitor.models.Project.directives.find((directive) => directive.name === 'key');
       expect(projectKeyDirective).toEqual({
         name: 'key',
         arguments: {
           fields: ['name', 'team'],
         },
       });
-      const teamKeyDirective = visitor.models.Team.directives.find(directive => directive.name === 'key');
+      const teamKeyDirective = visitor.models.Team.directives.find((directive) => directive.name === 'key');
       expect(teamKeyDirective).toEqual({
         name: 'key',
         arguments: {
@@ -452,7 +505,7 @@ describe('AppSyncModelVisitor', () => {
       `;
       const visitor = createAndGeneratePipelinedTransformerVisitor(schema);
       visitor.generate();
-      const projectKeyDirective = visitor.models.Project.directives.find(directive => directive.name === 'key');
+      const projectKeyDirective = visitor.models.Project.directives.find((directive) => directive.name === 'key');
       expect(projectKeyDirective).toEqual({
         name: 'key',
         arguments: {
@@ -474,13 +527,17 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const ast = parse(schema);
-      const stringDirectives = DefaultDirectives.map(directive => directive.definition).join('\n');
+      const stringDirectives = DefaultDirectives.map((directive) => directive.definition).join('\n');
       const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
-      const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+      const visitor = new AppSyncModelVisitor(
+        builtSchema,
+        { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code },
+        {},
+      );
       visit(ast, { leave: visitor });
       visitor.generate();
       const postModel = visitor.models.Post;
-      const authDirective = postModel.directives.find(d => d.name === 'auth');
+      const authDirective = postModel.directives.find((d) => d.name === 'auth');
       expect(authDirective).toBeDefined();
       const authRules = authDirective!.arguments.rules;
       expect(authRules).toBeDefined();
@@ -503,13 +560,17 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const ast = parse(schema);
-      const stringDirectives = DefaultDirectives.map(directive => directive.definition).join('\n');
+      const stringDirectives = DefaultDirectives.map((directive) => directive.definition).join('\n');
       const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
-      const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+      const visitor = new AppSyncModelVisitor(
+        builtSchema,
+        { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code },
+        {},
+      );
       visit(ast, { leave: visitor });
       visitor.generate();
       const postModel = visitor.models.Post;
-      const authDirective = postModel.directives.find(d => d.name === 'auth');
+      const authDirective = postModel.directives.find((d) => d.name === 'auth');
       expect(authDirective).toBeDefined();
       const authRules = authDirective!.arguments.rules;
       expect(authRules).toBeDefined();
@@ -535,14 +596,18 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const ast = parse(schema);
-      const stringDirectives = DefaultDirectives.map(directive => directive.definition).join('\n');
+      const stringDirectives = DefaultDirectives.map((directive) => directive.definition).join('\n');
       const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
-      const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+      const visitor = new AppSyncModelVisitor(
+        builtSchema,
+        { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code },
+        {},
+      );
       visit(ast, { leave: visitor });
       visitor.generate();
 
-      const ssnField = visitor.models.Employee.fields.find(f => f.name === 'ssn');
-      const authDirective = ssnField?.directives.find(d => d.name === 'auth');
+      const ssnField = visitor.models.Employee.fields.find((f) => f.name === 'ssn');
+      const authDirective = ssnField?.directives.find((d) => d.name === 'auth');
       expect(authDirective).toBeDefined();
       const authRules = authDirective!.arguments.rules;
       expect(authRules).toBeDefined();
@@ -567,9 +632,13 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const ast = parse(schema);
-      const stringDirectives = DefaultDirectives.map(directive => directive.definition).join('\n');
+      const stringDirectives = DefaultDirectives.map((directive) => directive.definition).join('\n');
       const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
-      visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+      visitor = new AppSyncModelVisitor(
+        builtSchema,
+        { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code },
+        {},
+      );
       visit(ast, { leave: visitor });
       visitor.generate();
     });
@@ -621,9 +690,9 @@ describe('AppSyncModelVisitor', () => {
       expect(visitor.models.Post).toBeDefined();
 
       const postFields = visitor.models.Post.fields;
-      const createdAtField = postFields.find(field => field.name === 'createdAt');
+      const createdAtField = postFields.find((field) => field.name === 'createdAt');
       expect(createdAtField).toMatchObject(createdAtFieldObj);
-      const updatedAtField = postFields.find(field => field.name === 'updatedAt');
+      const updatedAtField = postFields.find((field) => field.name === 'updatedAt');
       expect(updatedAtField).toMatchObject(updatedAtFieldObj);
     });
     it('should add user defined timestamp fields in model directives', () => {
@@ -650,9 +719,9 @@ describe('AppSyncModelVisitor', () => {
       expect(visitor.models.Post).toBeDefined();
 
       const postFields = visitor.models.Post.fields;
-      const createdAtField = postFields.find(field => field.name === 'createdOn');
+      const createdAtField = postFields.find((field) => field.name === 'createdOn');
       expect(createdAtField).toMatchObject(createdAtFieldObj);
-      const updatedAtField = postFields.find(field => field.name === 'updatedOn');
+      const updatedAtField = postFields.find((field) => field.name === 'updatedOn');
       expect(updatedAtField).toMatchObject(updatedAtFieldObj);
     });
     it('should not override original fields if user define them explicitly in schema', () => {
@@ -679,10 +748,10 @@ describe('AppSyncModelVisitor', () => {
       expect(visitor.models.Post).toBeDefined();
 
       const postFields = visitor.models.Post.fields;
-      const createdAtField = postFields.find(field => field.name === 'createdAt');
+      const createdAtField = postFields.find((field) => field.name === 'createdAt');
       expect(createdAtField).toMatchObject(createdAtFieldObj);
       expect(createdAtField?.isReadOnly).not.toBeDefined();
-      const updatedAtField = postFields.find(field => field.name === 'updatedAt');
+      const updatedAtField = postFields.find((field) => field.name === 'updatedAt');
       expect(updatedAtField).toMatchObject(updatedAtFieldObj);
     });
     it('should not override original fields if users define them explicitly in schema and use timestamps params in @model', () => {
@@ -709,10 +778,10 @@ describe('AppSyncModelVisitor', () => {
       expect(visitor.models.Post).toBeDefined();
 
       const postFields = visitor.models.Post.fields;
-      const createdAtField = postFields.find(field => field.name === 'createdOn');
+      const createdAtField = postFields.find((field) => field.name === 'createdOn');
       expect(createdAtField).toMatchObject(createdAtFieldObj);
       expect(createdAtField?.isReadOnly).not.toBeDefined();
-      const updatedAtField = postFields.find(field => field.name === 'updatedOn');
+      const updatedAtField = postFields.find((field) => field.name === 'updatedOn');
       expect(updatedAtField).toMatchObject(updatedAtFieldObj);
     });
     it('should not generate timestamp fields if "timestamps:null" is defined in @model', () => {
@@ -725,9 +794,9 @@ describe('AppSyncModelVisitor', () => {
       expect(visitor.models.Post).toBeDefined();
 
       const postFields = visitor.models.Post.fields;
-      const createdAtField = postFields.find(field => field.name === 'createdAt');
+      const createdAtField = postFields.find((field) => field.name === 'createdAt');
       expect(createdAtField).not.toBeDefined();
-      const updatedAtField = postFields.find(field => field.name === 'updatedAt');
+      const updatedAtField = postFields.find((field) => field.name === 'updatedAt');
       expect(updatedAtField).not.toBeDefined();
     });
   });
@@ -928,13 +997,13 @@ describe('AppSyncModelVisitor', () => {
       expect(visitor.models.Models).toBeDefined();
       expect(visitor.models.Models.fields.length).toEqual(5);
 
-      const modelA = visitor.models.Models.fields.find(f => f.name === 'modelA')!;
+      const modelA = visitor.models.Models.fields.find((f) => f.name === 'modelA')!;
       expect(modelA).toBeDefined();
       expect(modelA.directives[0].name).toEqual('belongsTo');
       expect(modelA.directives[0].arguments.fields.length).toEqual(1);
       expect(modelA.directives[0].arguments.fields[0]).toEqual('modelAID');
 
-      const modelB = visitor.models.Models.fields.find(f => f.name === 'modelB')!;
+      const modelB = visitor.models.Models.fields.find((f) => f.name === 'modelB')!;
       expect(modelB).toBeDefined();
       expect(modelB.directives[0].name).toEqual('belongsTo');
       expect(modelB.directives[0].arguments.fields.length).toEqual(1);
@@ -962,40 +1031,48 @@ describe('AppSyncModelVisitor', () => {
       }
     `;
     // ManyToMany sort key feature needs custom pk support
-    const { models } = createAndGenerateVisitor(schema, { usePipelinedTransformer: true, respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 });
+    const { models } = createAndGenerateVisitor(schema, {
+      usePipelinedTransformer: true,
+      respectPrimaryKeyAttributesOnConnectionField: true,
+      transformerVersion: 2,
+    });
     const { ModelAModelB, ModelA, ModelB } = models;
     it('should generate correct fields and secondary keys for intermediate type', () => {
       expect(ModelAModelB).toBeDefined();
       expect(ModelAModelB.fields.length).toEqual(9);
-      const modelASortKeyField = ModelAModelB.fields.find(f => f.name === 'modelAsortId')!;
+      const modelASortKeyField = ModelAModelB.fields.find((f) => f.name === 'modelAsortId')!;
       expect(modelASortKeyField).toBeDefined();
       expect(modelASortKeyField.type).toEqual('ID');
       expect(modelASortKeyField.isNullable).toBe(true);
-      const modelBSortKeyField = ModelAModelB.fields.find(f => f.name === 'modelBsortId')!;
+      const modelBSortKeyField = ModelAModelB.fields.find((f) => f.name === 'modelBsortId')!;
       expect(modelBSortKeyField).toBeDefined();
       expect(modelBSortKeyField.type).toEqual('ID');
       expect(modelBSortKeyField.isNullable).toBe(true);
-      const modelAIndexDirective = ModelAModelB.directives.find(d => d.name === 'key' && d.arguments.name === 'byModelA')!;
+      const modelAIndexDirective = ModelAModelB.directives.find((d) => d.name === 'key' && d.arguments.name === 'byModelA')!;
       expect(modelAIndexDirective).toBeDefined();
       expect(modelAIndexDirective.arguments.fields).toEqual(['modelACustomId', 'modelAsortId']);
-      const modelBIndexDirective = ModelAModelB.directives.find(d => d.name === 'key' && d.arguments.name === 'byModelB')!;
+      const modelBIndexDirective = ModelAModelB.directives.find((d) => d.name === 'key' && d.arguments.name === 'byModelB')!;
       expect(modelBIndexDirective).toBeDefined();
       expect(modelBIndexDirective.arguments.fields).toEqual(['modelBCustomId', 'modelBsortId']);
-      const modelABelongsToDirective = ModelAModelB.fields.find(f => f.name === 'modelA')!.directives.find(d => d.name === 'belongsTo')!;
+      const modelABelongsToDirective = ModelAModelB.fields
+        .find((f) => f.name === 'modelA')!
+        .directives.find((d) => d.name === 'belongsTo')!;
       expect(modelABelongsToDirective).toBeDefined();
       expect(modelABelongsToDirective.arguments.fields).toEqual(['modelACustomId', 'modelAsortId']);
-      const modelBBelongsToDirective = ModelAModelB.fields.find(f => f.name === 'modelB')!.directives.find(d => d.name === 'belongsTo')!;
+      const modelBBelongsToDirective = ModelAModelB.fields
+        .find((f) => f.name === 'modelB')!
+        .directives.find((d) => d.name === 'belongsTo')!;
       expect(modelBBelongsToDirective).toBeDefined();
       expect(modelBBelongsToDirective.arguments.fields).toEqual(['modelBCustomId', 'modelBsortId']);
     });
     it('should generate correct hasMany fields for original models', () => {
       expect(ModelA).toBeDefined();
-      const modelAHasManyDirective = ModelA.fields.find(f => f.name === 'models')!.directives.find(d => d.name === 'hasMany')!;
+      const modelAHasManyDirective = ModelA.fields.find((f) => f.name === 'models')!.directives.find((d) => d.name === 'hasMany')!;
       expect(modelAHasManyDirective).toBeDefined();
       expect(modelAHasManyDirective.arguments.indexName).toEqual('byModelA');
       expect(modelAHasManyDirective.arguments.fields).toEqual(['customId', 'sortId']);
       expect(ModelB).toBeDefined();
-      const modelBHasManyDirective = ModelB.fields.find(f => f.name === 'models')!.directives.find(d => d.name === 'hasMany')!;
+      const modelBHasManyDirective = ModelB.fields.find((f) => f.name === 'models')!.directives.find((d) => d.name === 'hasMany')!;
       expect(modelBHasManyDirective).toBeDefined();
       expect(modelBHasManyDirective.arguments.indexName).toEqual('byModelB');
       expect(modelBHasManyDirective.arguments.fields).toEqual(['customId', 'sortId']);
@@ -1005,37 +1082,41 @@ describe('AppSyncModelVisitor', () => {
   describe('manyToMany with @auth directive', () => {
     it('should correctly process @auth directive in manyToMany relation', () => {
       const schema = /* GraphQL */ `
-        type Post @model @auth(rules: [
-          { allow: groups, groups: ["Admins"] },
-          { allow: public, operations: [read] },
-          { allow: private, operations: [create] }
-        ]){
+        type Post
+          @model
+          @auth(
+            rules: [{ allow: groups, groups: ["Admins"] }, { allow: public, operations: [read] }, { allow: private, operations: [create] }]
+          ) {
           slug: ID! @primaryKey
           title: String!
           content: String!
           tags: [Tag] @manyToMany(relationName: "PostTag")
         }
-  
-        type Tag @model @auth(rules: [
-          { allow: groups, groups: ["Admins"] },
-          { allow: public, operations: [read] },
-          { allow: private, operations: [create] }
-        ]){
+
+        type Tag
+          @model
+          @auth(
+            rules: [{ allow: groups, groups: ["Admins"] }, { allow: public, operations: [read] }, { allow: private, operations: [create] }]
+          ) {
           name: ID! @primaryKey
           posts: [Post] @manyToMany(relationName: "PostTag")
         }
       `;
-  
-      const { models } = createAndGenerateVisitor(schema, { usePipelinedTransformer: true, respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 });
-  
+
+      const { models } = createAndGenerateVisitor(schema, {
+        usePipelinedTransformer: true,
+        respectPrimaryKeyAttributesOnConnectionField: true,
+        transformerVersion: 2,
+      });
+
       const jointTableModel = models.PostTag;
-      const authDirective = jointTableModel.directives.find(d => d.name === 'auth');
-  
+      const authDirective = jointTableModel.directives.find((d) => d.name === 'auth');
+
       expect(authDirective).toBeDefined();
       expect(authDirective!.arguments.rules).toEqual([
-        { 
-          allow: 'groups', 
-          groups: ['Admins'], 
+        {
+          allow: 'groups',
+          groups: ['Admins'],
           operations: ['create', 'update', 'delete', 'read'],
           groupClaim: 'cognito:groups',
           groupField: undefined,
@@ -1078,51 +1159,55 @@ describe('AppSyncModelVisitor', () => {
           id: ID!
         }
       `;
-      const { models, nonModels } = createAndGenerateVisitor(schemaV1, { respectPrimaryKeyAttributesOnConnectionField: true }, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+      const { models, nonModels } = createAndGenerateVisitor(schemaV1, { respectPrimaryKeyAttributesOnConnectionField: true }, [
+        ...AppSyncDirectives,
+        ...V1Directives,
+        DeprecatedDirective,
+      ]);
       it('should have id field as primary key when no custom PK defined', () => {
-        const primaryKeyField = models.WorkItem0.fields.find(field => field.name === 'id')!;
+        const primaryKeyField = models.WorkItem0.fields.find((field) => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
         expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
         expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(0);
       });
       it('should have correct primary key info when custom primary key and sort key defined', () => {
-        const primaryKeyField = models.WorkItem1.fields.find(field => field.name === 'project')!;
+        const primaryKeyField = models.WorkItem1.fields.find((field) => field.name === 'project')!;
         expect(primaryKeyField).toBeDefined();
         expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
         expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(1);
       });
       it('should have correct primary key info when custom primary key defined', () => {
-        const primaryKeyField = models.WorkItem2.fields.find(field => field.name === 'project')!;
+        const primaryKeyField = models.WorkItem2.fields.find((field) => field.name === 'project')!;
         expect(primaryKeyField).toBeDefined();
         expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
         expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(0);
       });
       it('should have correct primary key info when custom primary key is defined as "id"', () => {
-        const primaryKeyField = models.WorkItem3.fields.find(field => field.name === 'id')!;
+        const primaryKeyField = models.WorkItem3.fields.find((field) => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
         expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.OptionallyManagedId);
         expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(0);
       });
       it('should have correct primary key info when custom primary key is defined as "id" and sort key defined', () => {
-        const primaryKeyField = models.WorkItem4.fields.find(field => field.name === 'id')!;
+        const primaryKeyField = models.WorkItem4.fields.find((field) => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
         expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
         expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(1);
       });
       it('should have correct primary key info in explicit simple model', () => {
-        const primaryKeyField = models.WorkItem5.fields.find(field => field.name === 'id')!;
+        const primaryKeyField = models.WorkItem5.fields.find((field) => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
         expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
         expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(0);
       });
       it('should have correct primary key info in implicit simple model', () => {
-        const primaryKeyField = models.WorkItem6.fields.find(field => field.name === 'id')!;
+        const primaryKeyField = models.WorkItem6.fields.find((field) => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
         expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
         expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(0);
       });
       it('should not have primary key info in non model', () => {
-        const primaryKeyField = nonModels.WorkItem7.fields.find(field => field.name === 'id')!;
+        const primaryKeyField = nonModels.WorkItem7.fields.find((field) => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
         expect(primaryKeyField.primaryKeyInfo).not.toBeDefined();
       });
@@ -1158,51 +1243,54 @@ describe('AppSyncModelVisitor', () => {
           id: ID!
         }
       `;
-      const { models, nonModels } = createAndGenerateVisitor(schemaV2, { respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 });
+      const { models, nonModels } = createAndGenerateVisitor(schemaV2, {
+        respectPrimaryKeyAttributesOnConnectionField: true,
+        transformerVersion: 2,
+      });
       it('should have id field as primary key when no custom PK defined', () => {
-        const primaryKeyField = models.WorkItem0.fields.find(field => field.name === 'id')!;
+        const primaryKeyField = models.WorkItem0.fields.find((field) => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
         expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
         expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(0);
       });
       it('should have correct primary key info when custom primary key and sort key defined', () => {
-        const primaryKeyField = models.WorkItem1.fields.find(field => field.name === 'project')!;
+        const primaryKeyField = models.WorkItem1.fields.find((field) => field.name === 'project')!;
         expect(primaryKeyField).toBeDefined();
         expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
         expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(1);
       });
       it('should have correct primary key info when custom primary key defined', () => {
-        const primaryKeyField = models.WorkItem2.fields.find(field => field.name === 'project')!;
+        const primaryKeyField = models.WorkItem2.fields.find((field) => field.name === 'project')!;
         expect(primaryKeyField).toBeDefined();
         expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
         expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(0);
       });
       it('should have correct primary key info when custom primary key is defined as "id"', () => {
-        const primaryKeyField = models.WorkItem3.fields.find(field => field.name === 'id')!;
+        const primaryKeyField = models.WorkItem3.fields.find((field) => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
         expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.OptionallyManagedId);
         expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(0);
       });
       it('should have correct primary key info when custom primary key is defined as "id" and sort key defined', () => {
-        const primaryKeyField = models.WorkItem4.fields.find(field => field.name === 'id')!;
+        const primaryKeyField = models.WorkItem4.fields.find((field) => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
         expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.CustomId);
         expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(1);
       });
       it('should have correct primary key info in explicit simple model', () => {
-        const primaryKeyField = models.WorkItem5.fields.find(field => field.name === 'id')!;
+        const primaryKeyField = models.WorkItem5.fields.find((field) => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
         expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
         expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(0);
       });
       it('should have correct primary key info in implicit simple model', () => {
-        const primaryKeyField = models.WorkItem6.fields.find(field => field.name === 'id')!;
+        const primaryKeyField = models.WorkItem6.fields.find((field) => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
         expect(primaryKeyField.primaryKeyInfo?.primaryKeyType).toBe(CodeGenPrimaryKeyType.ManagedId);
         expect(primaryKeyField.primaryKeyInfo?.sortKeyFields.length).toBe(0);
       });
       it('should not have primary key info in non model', () => {
-        const primaryKeyField = nonModels.WorkItem7.fields.find(field => field.name === 'id')!;
+        const primaryKeyField = nonModels.WorkItem7.fields.find((field) => field.name === 'id')!;
         expect(primaryKeyField).toBeDefined();
         expect(primaryKeyField.primaryKeyInfo).not.toBeDefined();
       });
@@ -1248,11 +1336,15 @@ describe('AppSyncModelVisitor', () => {
           project: Project @belongsTo
         }
       `;
-      const { models } = createAndGenerateVisitor(schema, { usePipelinedTransformer: true, respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 });
+      const { models } = createAndGenerateVisitor(schema, {
+        usePipelinedTransformer: true,
+        respectPrimaryKeyAttributesOnConnectionField: true,
+        transformerVersion: 2,
+      });
       //hasOne for Project
-      const projectTeamField = models.Project.fields.find(field => field.name === 'team')!;
-      const teamProjectField = models.Team.fields.find(field => field.name === 'project')!;
-      const projectTeamHasOneConnectionInfo = (projectTeamField.connectionInfo!) as CodeGenFieldConnectionHasOne;
+      const projectTeamField = models.Project.fields.find((field) => field.name === 'team')!;
+      const teamProjectField = models.Team.fields.find((field) => field.name === 'project')!;
+      const projectTeamHasOneConnectionInfo = projectTeamField.connectionInfo! as CodeGenFieldConnectionHasOne;
       expect(projectTeamHasOneConnectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
       expect(projectTeamHasOneConnectionInfo.targetName).toEqual('projectTeamTeamId');
       expect(projectTeamHasOneConnectionInfo.targetNames.length).toBe(2);
@@ -1261,20 +1353,20 @@ describe('AppSyncModelVisitor', () => {
       expect(projectTeamHasOneConnectionInfo.associatedWith).toEqual(teamProjectField);
       expect(projectTeamHasOneConnectionInfo.associatedWithFields).toEqual([teamProjectField]);
       //hasOne foreign key fields
-      const projectTeamTeamIdField = models.Project.fields.find(field => field.name === 'projectTeamTeamId')!;
-      const projectTeamNameField = models.Project.fields.find(field => field.name === 'projectTeamName')!;
+      const projectTeamTeamIdField = models.Project.fields.find((field) => field.name === 'projectTeamTeamId')!;
+      const projectTeamNameField = models.Project.fields.find((field) => field.name === 'projectTeamName')!;
       expect(projectTeamTeamIdField.type).toBe('ID');
       expect(projectTeamNameField.type).toBe('String');
       //belongsTo for Team
-      const teamProjectBelongsToConnectionInfo = (teamProjectField.connectionInfo!) as CodeGenFieldConnectionBelongsTo;
+      const teamProjectBelongsToConnectionInfo = teamProjectField.connectionInfo! as CodeGenFieldConnectionBelongsTo;
       expect(teamProjectBelongsToConnectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
       expect(teamProjectBelongsToConnectionInfo.targetName).toEqual('teamProjectProjectId');
       expect(teamProjectBelongsToConnectionInfo.targetNames.length).toBe(2);
       expect(teamProjectBelongsToConnectionInfo.targetNames[0]).toBe('teamProjectProjectId');
       expect(teamProjectBelongsToConnectionInfo.targetNames[1]).toBe('teamProjectName');
       //belongsTo foreign key fields
-      const teamProjectProjectIdField = models.Team.fields.find(field => field.name === 'teamProjectProjectId')!;
-      const teamProjectNameField = models.Team.fields.find(field => field.name === 'teamProjectName')!;
+      const teamProjectProjectIdField = models.Team.fields.find((field) => field.name === 'teamProjectProjectId')!;
+      const teamProjectNameField = models.Team.fields.find((field) => field.name === 'teamProjectName')!;
       expect(teamProjectProjectIdField.type).toBe('ID');
       expect(teamProjectNameField.type).toBe('String');
     });
@@ -1290,20 +1382,24 @@ describe('AppSyncModelVisitor', () => {
           content: String!
         }
       `;
-      const { models } = createAndGenerateVisitor(schema, { usePipelinedTransformer: true, respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 });
-      const postCommentsField = models.Post.fields.find(field => field.name === 'comments')!;
-      const postCommentsConnectionInfo = (postCommentsField.connectionInfo!) as CodeGenFieldConnectionHasMany;
+      const { models } = createAndGenerateVisitor(schema, {
+        usePipelinedTransformer: true,
+        respectPrimaryKeyAttributesOnConnectionField: true,
+        transformerVersion: 2,
+      });
+      const postCommentsField = models.Post.fields.find((field) => field.name === 'comments')!;
+      const postCommentsConnectionInfo = postCommentsField.connectionInfo! as CodeGenFieldConnectionHasMany;
       expect(postCommentsConnectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
       expect(postCommentsConnectionInfo.associatedWith.name).toEqual('postCommentsId');
-      const associatedWithFieldNames = postCommentsConnectionInfo.associatedWithFields.map(f => f.name);
+      const associatedWithFieldNames = postCommentsConnectionInfo.associatedWithFields.map((f) => f.name);
       expect(associatedWithFieldNames.length).toEqual(2);
       expect(associatedWithFieldNames[0]).toBe('postCommentsId');
       expect(associatedWithFieldNames[1]).toBe('postCommentsTitle');
       const commetModelFields = models.Comment.fields;
       expect(commetModelFields.length).toBe(6);
       //hasMany foreign key fields
-      const postCommentsIdField = commetModelFields.find(f => f.name === 'postCommentsId')!;
-      const postCommentsTitleField = commetModelFields.find(f => f.name === 'postCommentsTitle')!;
+      const postCommentsIdField = commetModelFields.find((f) => f.name === 'postCommentsId')!;
+      const postCommentsTitleField = commetModelFields.find((f) => f.name === 'postCommentsTitle')!;
       expect(postCommentsIdField.type).toBe('ID');
       expect(postCommentsTitleField.type).toBe('String');
     });
@@ -1319,12 +1415,16 @@ describe('AppSyncModelVisitor', () => {
           name: String!
         }
       `;
-      const { models } = createAndGenerateVisitor(schema, { usePipelinedTransformer: true, respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 });
+      const { models } = createAndGenerateVisitor(schema, {
+        usePipelinedTransformer: true,
+        respectPrimaryKeyAttributesOnConnectionField: true,
+        transformerVersion: 2,
+      });
       //hasOne for Project
-      const projectTeamField = models.Project.fields.find(field => field.name === 'team')!;
-      const teamPKField = models.Team.fields.find(field => field.name === 'teamId')!;
-      const teamSKField = models.Team.fields.find(field => field.name === 'name')!;
-      const projectTeamHasOneConnectionInfo = (projectTeamField.connectionInfo!) as CodeGenFieldConnectionHasOne;
+      const projectTeamField = models.Project.fields.find((field) => field.name === 'team')!;
+      const teamPKField = models.Team.fields.find((field) => field.name === 'teamId')!;
+      const teamSKField = models.Team.fields.find((field) => field.name === 'name')!;
+      const projectTeamHasOneConnectionInfo = projectTeamField.connectionInfo! as CodeGenFieldConnectionHasOne;
       expect(projectTeamHasOneConnectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
       expect(projectTeamHasOneConnectionInfo.targetName).toEqual('projectTeamTeamId');
       expect(projectTeamHasOneConnectionInfo.targetNames.length).toBe(2);
@@ -1333,13 +1433,13 @@ describe('AppSyncModelVisitor', () => {
       expect(projectTeamHasOneConnectionInfo.associatedWith).toEqual(teamPKField);
       expect(projectTeamHasOneConnectionInfo.associatedWithFields).toEqual([teamPKField, teamSKField]);
       //hasOne foreign key field
-      const projectTeamTeamIdField = models.Project.fields.find(field => field.name === 'projectTeamTeamId')!;
-      const projectTeamNameField = models.Project.fields.find(field => field.name === 'projectTeamName')!;
+      const projectTeamTeamIdField = models.Project.fields.find((field) => field.name === 'projectTeamTeamId')!;
+      const projectTeamNameField = models.Project.fields.find((field) => field.name === 'projectTeamName')!;
       expect(projectTeamTeamIdField.type).toBe('ID');
       expect(projectTeamNameField.type).toBe('String');
     });
   });
-  
+
   describe('Other GraphQL types', () => {
     const schema = /* GraphQL*/ `
       input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
@@ -1393,8 +1493,11 @@ describe('AppSyncModelVisitor', () => {
         onMutate(msg: String): [Todo!]
       }
     `;
-    const { queries, mutations, subscriptions, inputs, unions, interfaces }
-      = createAndGenerateVisitor(schema, { usePipelinedTransformer: true, respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 });
+    const { queries, mutations, subscriptions, inputs, unions, interfaces } = createAndGenerateVisitor(schema, {
+      usePipelinedTransformer: true,
+      respectPrimaryKeyAttributesOnConnectionField: true,
+      transformerVersion: 2,
+    });
     it('shoud support query, mutation and subscription types', () => {
       expect(queries).toMatchSnapshot();
       expect(mutations).toMatchSnapshot();
@@ -1409,23 +1512,23 @@ describe('AppSyncModelVisitor', () => {
     it('should support interface types', () => {
       expect(interfaces).toMatchSnapshot();
     });
-  })
+  });
 
   describe('references field on hasOne, hasMany, and belongsTo directive', () => {
     test('converts string argument to list of string', () => {
       const schema = /* GraphQL */ `
-        type Primary @model  {
+        type Primary @model {
           id: ID! @primaryKey
           relatedMany: [RelatedMany] @hasMany(references: "primaryId")
           relatedOne: RelatedOne @hasOne(references: "primaryId")
         }
-        
+
         type RelatedMany @model {
           id: ID! @primaryKey
           primaryId: ID!
           primary: Primary @belongsTo(references: "primaryId")
         }
-        
+
         type RelatedOne @model {
           id: ID! @primaryKey
           primaryId: ID!
@@ -1433,9 +1536,13 @@ describe('AppSyncModelVisitor', () => {
         }
       `;
       const ast = parse(schema);
-      const stringDirectives = DefaultDirectives.map(directive => directive.definition).join('\n');
+      const stringDirectives = DefaultDirectives.map((directive) => directive.definition).join('\n');
       const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
-      const visitor = new AppSyncModelVisitor(builtSchema, { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code }, {});
+      const visitor = new AppSyncModelVisitor(
+        builtSchema,
+        { directives: stringDirectives, target: 'android', generate: CodeGenGenerateEnum.code },
+        {},
+      );
       visit(ast, { leave: visitor });
       expect(visitor.models.Primary.fields[1].directives[0].arguments).toEqual({ references: ['primaryId'] });
       expect(visitor.models.Primary.fields[2].directives[0].arguments).toEqual({ references: ['primaryId'] });

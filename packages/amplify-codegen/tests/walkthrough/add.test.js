@@ -68,7 +68,7 @@ describe('Add walk-through', () => {
     getFrontEndHandler.mockReturnValue('android');
     const results = await add(MOCK_CONTEXT);
     expect(askCodegenTargetLanguage).not.toHaveBeenCalled();
-    expect(askCodegneQueryFilePattern).toHaveBeenCalledWith([join('src','graphql','**','*.js')]);
+    expect(askCodegneQueryFilePattern).toHaveBeenCalledWith([join('src', 'graphql', '**', '*.js')]);
     expect(askGeneratedFileName).not.toHaveBeenCalled();
     expect(results).toEqual({
       includePattern: MOCK_INCLUDE_PATTERN,

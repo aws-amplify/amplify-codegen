@@ -4,7 +4,7 @@ export function comment(generator, comment) {
   const split = comment ? comment.split('\n') : [];
   if (split.length > 0) {
     generator.printOnNewline('/**');
-    split.forEach(line => {
+    split.forEach((line) => {
       generator.printOnNewline(` * ${line.trim()}`);
     });
 
@@ -30,8 +30,8 @@ export function caseClassDeclaration(generator, { caseClassName, description, su
   generator.printNewlineIfNeeded();
   comment(generator, description);
   generator.printOnNewline(
-    `case class ${caseClassName}(${(params || []).map(v => v.name + ': ' + v.type).join(', ')})` +
-      (superclass ? ` extends ${superclass}` : '')
+    `case class ${caseClassName}(${(params || []).map((v) => v.name + ': ' + v.type).join(', ')})` +
+      (superclass ? ` extends ${superclass}` : ''),
   );
   generator.pushScope({ typeName: caseClassName });
   generator.withinBlock(closure);
@@ -45,7 +45,7 @@ export function propertyDeclaration(generator, { propertyName, typeName, descrip
 }
 
 export function propertyDeclarations(generator, declarations) {
-  declarations.forEach(o => {
+  declarations.forEach((o) => {
     propertyDeclaration(generator, o);
   });
 }
@@ -73,7 +73,7 @@ const reservedKeywords = new Set(
   'val',
   'var',
   'while',
-  'with'
+  'with',
 );
 
 export function escapeIdentifierIfNeeded(identifier) {

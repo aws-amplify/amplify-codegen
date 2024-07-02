@@ -1,4 +1,4 @@
-import { toCamelCase } from "../../utils/fieldUtils";
+import { toCamelCase } from '../../utils/fieldUtils';
 
 describe('Field util function tests', () => {
   describe('toCamelCase test', () => {

@@ -20,23 +20,23 @@ function setup(schema) {
 
   const generator = new CodeGenerator(context);
 
-  const compileFromSource = source => {
+  const compileFromSource = (source) => {
     const document = parse(source);
     const context = compileToLegacyIR(schema, document, { mergeInFieldsFromFragmentSpreads: true, addTypename: true });
     generator.context = context;
     return context;
   };
 
-  const addFragment = fragment => {
+  const addFragment = (fragment) => {
     generator.context.fragments[fragment.fragmentName] = fragment;
   };
 
   return { generator, compileFromSource, addFragment };
 }
 
-describe('Flow code generation', function() {
-  describe('#generateSource()', function() {
-    test(`should generate simple query operations`, function() {
+describe('Flow code generation', function () {
+  describe('#generateSource()', function () {
+    test(`should generate simple query operations`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         query HeroName {
@@ -50,7 +50,7 @@ describe('Flow code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate simple query operations including input variables`, function() {
+    test(`should generate simple query operations including input variables`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         query HeroName($episode: Episode) {
@@ -64,7 +64,7 @@ describe('Flow code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate simple nested query operations including input variables`, function() {
+    test(`should generate simple nested query operations including input variables`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         query HeroAndFriendsNames($episode: Episode) {
@@ -81,7 +81,7 @@ describe('Flow code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate array query operations`, function() {
+    test(`should generate array query operations`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         query ReviewsStars {
@@ -95,7 +95,7 @@ describe('Flow code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate simple nested with required elements in lists`, function() {
+    test(`should generate simple nested with required elements in lists`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         query StarshipCoords {
@@ -109,7 +109,7 @@ describe('Flow code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate fragmented query operations`, function() {
+    test(`should generate fragmented query operations`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         query HeroAndFriendsNames {
@@ -130,7 +130,7 @@ describe('Flow code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate query operations with inline fragments`, function() {
+    test(`should generate query operations with inline fragments`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         query HeroAndDetails {
@@ -154,7 +154,7 @@ describe('Flow code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate mutation operations with complex input types`, function() {
+    test(`should generate mutation operations with complex input types`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         mutation ReviewMovie($episode: Episode, $review: ReviewInput) {
@@ -169,7 +169,7 @@ describe('Flow code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate correct typedefs with a single custom fragment`, function() {
+    test(`should generate correct typedefs with a single custom fragment`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         fragment Friend on Character {
@@ -190,7 +190,7 @@ describe('Flow code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should generate correct typedefs with a multiple custom fragments`, function() {
+    test(`should generate correct typedefs with a multiple custom fragments`, function () {
       const { compileFromSource } = setup(starWarsSchema);
       const context = compileFromSource(`
         fragment Friend on Character {
@@ -216,7 +216,7 @@ describe('Flow code generation', function() {
       expect(source).toMatchSnapshot();
     });
 
-    test(`should annotate custom scalars as string`, function() {
+    test(`should annotate custom scalars as string`, function () {
       const { compileFromSource } = setup(miscSchema);
       const context = compileFromSource(`
         query CustomScalar {

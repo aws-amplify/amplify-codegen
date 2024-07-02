@@ -36,7 +36,7 @@ describe('getFragments', () => {
 
   beforeEach(() => {
     jest.resetAllMocks();
-    getFields.mockImplementation(field => ({ name: field.name }));
+    getFields.mockImplementation((field) => ({ name: field.name }));
   });
 
   it('should call getField on each field of interface implimentation', () => {

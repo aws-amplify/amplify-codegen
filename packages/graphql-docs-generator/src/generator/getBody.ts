@@ -7,9 +7,9 @@ export default function getBody(
   op: GraphQLField<any, any>,
   schema: GraphQLSchema,
   maxDepth: number = 3,
-  options: GQLDocsGenOptions
+  options: GQLDocsGenOptions,
 ): GQLTemplateOpBody {
-  const args: Array<GQLTemplateArgInvocation> = op.args.map(arg => ({
+  const args: Array<GQLTemplateArgInvocation> = op.args.map((arg) => ({
     name: arg.name,
     value: `\$${arg.name}`,
   }));

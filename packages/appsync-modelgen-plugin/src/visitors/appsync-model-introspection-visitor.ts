@@ -1,20 +1,49 @@
-import { DEFAULT_SCALARS, NormalizedScalarsMap } from "@graphql-codegen/visitor-plugin-common";
-import { GraphQLSchema } from "graphql";
-import { Argument, AssociationType, Field, Fields, FieldType, ModelAttribute, ModelIntrospectionSchema, PrimaryKeyInfo, SchemaEnum, SchemaModel, SchemaMutation, SchemaNonModel, SchemaQuery, SchemaSubscription, Input, InputFieldType } from "../interfaces/introspection";
-import { METADATA_SCALAR_MAP } from "../scalars";
-import { CodeGenConnectionType } from "../utils/process-connections";
-import { RawAppSyncModelConfig, ParsedAppSyncModelConfig, AppSyncModelVisitor, CodeGenEnum, CodeGenField, CodeGenModel, CodeGenPrimaryKeyType, CodeGenQuery, CodeGenSubscription, CodeGenMutation, CodeGenInputObject } from "./appsync-visitor";
+import { DEFAULT_SCALARS, NormalizedScalarsMap } from '@graphql-codegen/visitor-plugin-common';
+import { GraphQLSchema } from 'graphql';
+import {
+  Argument,
+  AssociationType,
+  Field,
+  Fields,
+  FieldType,
+  ModelAttribute,
+  ModelIntrospectionSchema,
+  PrimaryKeyInfo,
+  SchemaEnum,
+  SchemaModel,
+  SchemaMutation,
+  SchemaNonModel,
+  SchemaQuery,
+  SchemaSubscription,
+  Input,
+  InputFieldType,
+} from '../interfaces/introspection';
+import { METADATA_SCALAR_MAP } from '../scalars';
+import { CodeGenConnectionType } from '../utils/process-connections';
+import {
+  RawAppSyncModelConfig,
+  ParsedAppSyncModelConfig,
+  AppSyncModelVisitor,
+  CodeGenEnum,
+  CodeGenField,
+  CodeGenModel,
+  CodeGenPrimaryKeyType,
+  CodeGenQuery,
+  CodeGenSubscription,
+  CodeGenMutation,
+  CodeGenInputObject,
+} from './appsync-visitor';
 
 const validateModelIntrospectionSchema = require('../validate-cjs');
 
 type UnionFieldType = { union: string };
 type InterfaceFieldType = { interface: string };
 
-export interface RawAppSyncModelIntrospectionConfig extends RawAppSyncModelConfig {};
-export interface ParsedAppSyncModelIntrospectionConfig extends ParsedAppSyncModelConfig {};
+export interface RawAppSyncModelIntrospectionConfig extends RawAppSyncModelConfig {}
+export interface ParsedAppSyncModelIntrospectionConfig extends ParsedAppSyncModelConfig {}
 export class AppSyncModelIntrospectionVisitor<
   TRawConfig extends RawAppSyncModelIntrospectionConfig = RawAppSyncModelIntrospectionConfig,
-  TPluginConfig extends ParsedAppSyncModelIntrospectionConfig = ParsedAppSyncModelIntrospectionConfig
+  TPluginConfig extends ParsedAppSyncModelIntrospectionConfig = ParsedAppSyncModelIntrospectionConfig,
 > extends AppSyncModelVisitor<TRawConfig, TPluginConfig> {
   private readonly introspectionVersion = 1;
   constructor(
@@ -34,12 +63,16 @@ export class AppSyncModelIntrospectionVisitor<
     this.processDirectives(
       shouldUseModelNameFieldInHasManyAndBelongsTo,
       shouldImputeKeyForUniDirectionalHasMany,
-      shouldUseFieldsInAssociatedWithInHasOne
+      shouldUseFieldsInAssociatedWithInHasOne,
     );
 
     const modelIntrosepctionSchema = this.generateModelIntrospectionSchema();
     if (!validateModelIntrospectionSchema(modelIntrosepctionSchema)) {
-      throw new Error(`Data did not validate against the supplied schema. Underlying errors were ${JSON.stringify(validateModelIntrospectionSchema.errors)}`);
+      throw new Error(
+        `Data did not validate against the supplied schema. Underlying errors were ${JSON.stringify(
+          validateModelIntrospectionSchema.errors,
+        )}`,
+      );
     }
     return JSON.stringify(modelIntrosepctionSchema, null, 4);
   }
@@ -70,7 +103,7 @@ export class AppSyncModelIntrospectionVisitor<
         return acc;
       }
       return { ...acc, [queryObj.name]: this.generateGraphQLOperationMetadata<CodeGenQuery, SchemaQuery>(queryObj) };
-    }, {})
+    }, {});
     const mutations = Object.values(this.mutationMap).reduce((acc, mutationObj: CodeGenMutation) => {
       // Skip the field if the field type is union/interface
       // TODO: Remove this skip once these types are supported for stakeholder usages
@@ -87,7 +120,10 @@ export class AppSyncModelIntrospectionVisitor<
       if (this.isUnionFieldType(fieldType) || this.isInterfaceFieldType(fieldType)) {
         return acc;
       }
-      return { ...acc, [subscriptionObj.name]: this.generateGraphQLOperationMetadata<CodeGenSubscription, SchemaSubscription>(subscriptionObj) };
+      return {
+        ...acc,
+        [subscriptionObj.name]: this.generateGraphQLOperationMetadata<CodeGenSubscription, SchemaSubscription>(subscriptionObj),
+      };
     }, {});
     const inputs = Object.values(this.inputObjectMap).reduce((acc, inputObj: CodeGenInputObject) => {
       return { ...acc, [inputObj.name]: this.generateGraphQLInputMetadata(inputObj) };
@@ -102,7 +138,7 @@ export class AppSyncModelIntrospectionVisitor<
       result = { ...result, subscriptions };
     }
     if (Object.keys(inputs).length > 0) {
-      result = { ...result, inputs }
+      result = { ...result, inputs };
     }
     return result;
   }
@@ -112,10 +148,10 @@ export class AppSyncModelIntrospectionVisitor<
       const { connectionInfo } = field;
       const connectionAttribute: any = { connectionType: connectionInfo.kind };
       if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
-        connectionAttribute.associatedWith = connectionInfo.associatedWithFields.map(f => this.getFieldName(f));
+        connectionAttribute.associatedWith = connectionInfo.associatedWithFields.map((f) => this.getFieldName(f));
       } else if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
-          connectionAttribute.associatedWith = connectionInfo.associatedWithFields.map(f => this.getFieldName(f));
-          connectionAttribute.targetNames = connectionInfo.targetNames ?? [];
+        connectionAttribute.associatedWith = connectionInfo.associatedWithFields.map((f) => this.getFieldName(f));
+        connectionAttribute.targetNames = connectionInfo.targetNames ?? [];
       } else {
         connectionAttribute.targetNames = connectionInfo.targetNames;
       }
@@ -124,7 +160,7 @@ export class AppSyncModelIntrospectionVisitor<
   }
 
   private generateModelAttributes(model: CodeGenModel): ModelAttribute[] {
-    return model.directives.map(d => ({
+    return model.directives.map((d) => ({
       type: d.name,
       properties: d.arguments,
     }));
@@ -189,19 +225,19 @@ export class AppSyncModelIntrospectionVisitor<
   private generateGraphQLInputMetadata(inputObj: CodeGenInputObject): Input {
     return {
       name: inputObj.name,
-      attributes: inputObj.inputValues.reduce((acc, param ) => {
+      attributes: inputObj.inputValues.reduce((acc, param) => {
         const arg: Argument = {
           name: param.name,
           isArray: param.isList,
           type: this.getType(param.type) as InputFieldType,
-          isRequired: !param.isNullable
+          isRequired: !param.isNullable,
         };
         if (param.isListNullable !== undefined) {
           arg.isArrayNullable = param.isListNullable;
         }
         return { ...acc, [param.name]: arg };
       }, {}),
-    }
+    };
   }
 
   /**
@@ -215,23 +251,23 @@ export class AppSyncModelIntrospectionVisitor<
       isArray: operationObj.isList,
       type: this.getType(operationObj.type),
       isRequired: !operationObj.isNullable,
-    }
+    };
     if (operationObj.isListNullable !== undefined) {
       (operationMeta as V).isArrayNullable = operationObj.isListNullable;
     }
     if (operationObj.parameters && operationObj.parameters.length > 0) {
-      (operationMeta as V).arguments = operationObj.parameters.reduce((acc, param ) => {
+      (operationMeta as V).arguments = operationObj.parameters.reduce((acc, param) => {
         const arg: Argument = {
           name: param.name,
           isArray: param.isList,
           type: this.getType(param.type) as InputFieldType,
-          isRequired: !param.isNullable
+          isRequired: !param.isNullable,
         };
         if (param.isListNullable !== undefined) {
           arg.isArrayNullable = param.isListNullable;
         }
         return { ...acc, [param.name]: arg };
-      }, {})
+      }, {});
     }
     return operationMeta as V;
   }
@@ -251,13 +287,13 @@ export class AppSyncModelIntrospectionVisitor<
       return { model: gqlType };
     }
     if (gqlType in this.inputObjectMap) {
-      return { input: gqlType }
+      return { input: gqlType };
     }
     if (gqlType in this.unionMap) {
-      return { union: gqlType }
+      return { union: gqlType };
     }
     if (gqlType in this.interfaceMap) {
-      return { interface: gqlType }
+      return { interface: gqlType };
     }
     throw new Error(`Unknown type ${gqlType} found during model introspection schema generation`);
   }
@@ -269,7 +305,7 @@ export class AppSyncModelIntrospectionVisitor<
       return {
         isCustomPrimaryKey: primaryKeyType === CodeGenPrimaryKeyType.CustomId,
         primaryKeyFieldName: this.getFieldName(primaryKeyField),
-        sortKeyFieldNames: sortKeyFields.map(field => this.getFieldName(field))
+        sortKeyFieldNames: sortKeyFields.map((field) => this.getFieldName(field)),
       };
     }
     throw new Error(`No primary key found for model ${model.name}`);
@@ -277,8 +313,8 @@ export class AppSyncModelIntrospectionVisitor<
 
   private isUnionFieldType = (obj: any): obj is UnionFieldType => {
     return typeof obj === 'object' && typeof obj.union === 'string';
-  }
+  };
   private isInterfaceFieldType = (obj: any): obj is InterfaceFieldType => {
     return typeof obj === 'object' && typeof obj.interface === 'string';
-  }
+  };
 }

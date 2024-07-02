@@ -25,9 +25,9 @@ export function dictionaryLiteralForFieldArguments(args) {
           Object.entries(value).map(([key, value]) => {
             return `"${key}": ${expressionFromValue(value)}`;
           }),
-          ', '
+          ', ',
         ) || ':',
-        ']'
+        ']',
       );
     } else {
       return JSON.stringify(value);
@@ -37,11 +37,11 @@ export function dictionaryLiteralForFieldArguments(args) {
   return wrap(
     '[',
     join(
-      args.map(arg => {
+      args.map((arg) => {
         return `"${arg.name}": ${expressionFromValue(arg.value)}`;
       }),
-      ', '
+      ', ',
     ) || ':',
-    ']'
+    ']',
   );
 }

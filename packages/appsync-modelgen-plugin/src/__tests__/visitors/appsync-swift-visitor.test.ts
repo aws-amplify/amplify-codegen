@@ -29,7 +29,7 @@ const getVisitor = (
 ) => {
   const visitorConfig = { ...defaultIosVisitorSetings, ...settings };
   const ast = parse(schema);
-  const stringDirectives = directives.map(directive => directive.definition).join('\n');
+  const stringDirectives = directives.map((directive) => directive.definition).join('\n');
   const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
   const visitor = new AppSyncSwiftVisitor(
     builtSchema,
@@ -332,7 +332,11 @@ describe('AppSyncSwiftVisitor', () => {
         book: String
       }
     `;
-    const visitor = getVisitor(schema, 'authorBook', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+    const visitor = getVisitor(schema, 'authorBook', CodeGenGenerateEnum.code, {}, [
+      ...AppSyncDirectives,
+      ...V1Directives,
+      DeprecatedDirective,
+    ]);
     const generatedCode = visitor.generate();
     expect(generatedCode).toMatchInlineSnapshot(`
       "// swiftlint:disable all
@@ -379,7 +383,11 @@ describe('AppSyncSwiftVisitor', () => {
       }"
     `);
 
-    const metadataVisitor = getVisitor(schema, 'authorBook', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+    const metadataVisitor = getVisitor(schema, 'authorBook', CodeGenGenerateEnum.metadata, {}, [
+      ...AppSyncDirectives,
+      ...V1Directives,
+      DeprecatedDirective,
+    ]);
     const generatedMetadata = metadataVisitor.generate();
     expect(generatedMetadata).toMatchInlineSnapshot(`
       "// swiftlint:disable all
@@ -471,14 +479,22 @@ describe('AppSyncSwiftVisitor', () => {
         book: String
       }
     `;
-    const visitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+    const visitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.code, {}, [
+      ...AppSyncDirectives,
+      ...V1Directives,
+      DeprecatedDirective,
+    ]);
     const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook');
     const version1Code = visitorV1.generate();
     const version2Code = visitorV2.generate();
 
     expect(version1Code).toMatch(version2Code);
 
-    const metadataVisitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+    const metadataVisitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.metadata, {}, [
+      ...AppSyncDirectives,
+      ...V1Directives,
+      DeprecatedDirective,
+    ]);
     const metadataVisitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook', CodeGenGenerateEnum.metadata);
     const version1Metadata = metadataVisitorV1.generate();
     const version2Metadata = metadataVisitorV2.generate();
@@ -505,14 +521,22 @@ describe('AppSyncSwiftVisitor', () => {
         book: String
       }
     `;
-    const visitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+    const visitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.code, {}, [
+      ...AppSyncDirectives,
+      ...V1Directives,
+      DeprecatedDirective,
+    ]);
     const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook');
     const version1Code = visitorV1.generate();
     const version2Code = visitorV2.generate();
 
     expect(version1Code).toMatch(version2Code);
 
-    const metadataVisitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+    const metadataVisitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.metadata, {}, [
+      ...AppSyncDirectives,
+      ...V1Directives,
+      DeprecatedDirective,
+    ]);
     const metadataVisitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook', CodeGenGenerateEnum.metadata);
     const version1Metadata = metadataVisitorV1.generate();
     const version2Metadata = metadataVisitorV2.generate();
@@ -583,14 +607,26 @@ describe('AppSyncSwiftVisitor', () => {
     const generatedCode = visitor.generate();
     expect(generatedCode).toMatchSnapshot();
 
-    const metadataVisitor = getVisitor(schema, 'Todo', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+    const metadataVisitor = getVisitor(schema, 'Todo', CodeGenGenerateEnum.metadata, {}, [
+      ...AppSyncDirectives,
+      ...V1Directives,
+      DeprecatedDirective,
+    ]);
     const generatedMetadata = metadataVisitor.generate();
     expect(generatedMetadata).toMatchSnapshot();
 
-    const taskVisitor = getVisitor(schema, 'task', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+    const taskVisitor = getVisitor(schema, 'task', CodeGenGenerateEnum.code, {}, [
+      ...AppSyncDirectives,
+      ...V1Directives,
+      DeprecatedDirective,
+    ]);
     expect(taskVisitor.generate()).toMatchSnapshot();
 
-    const taskMetadataVisitor = getVisitor(schema, 'task', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+    const taskMetadataVisitor = getVisitor(schema, 'task', CodeGenGenerateEnum.metadata, {}, [
+      ...AppSyncDirectives,
+      ...V1Directives,
+      DeprecatedDirective,
+    ]);
     const generatedTaskMetadata = taskMetadataVisitor.generate();
     expect(generatedTaskMetadata).toMatchSnapshot();
   });
@@ -619,7 +655,11 @@ describe('AppSyncSwiftVisitor', () => {
         }
       `;
       it('should generate one side of the connection', () => {
-        const visitor = getVisitor(schema, 'Todo', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+        const visitor = getVisitor(schema, 'Todo', CodeGenGenerateEnum.code, {}, [
+          ...AppSyncDirectives,
+          ...V1Directives,
+          DeprecatedDirective,
+        ]);
         const generatedCode = visitor.generate();
         expect(generatedCode).toMatchInlineSnapshot(`
           "// swiftlint:disable all
@@ -681,7 +721,11 @@ describe('AppSyncSwiftVisitor', () => {
           }"
         `);
 
-        const metadataVisitor = getVisitor(schema, 'Todo', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+        const metadataVisitor = getVisitor(schema, 'Todo', CodeGenGenerateEnum.metadata, {}, [
+          ...AppSyncDirectives,
+          ...V1Directives,
+          DeprecatedDirective,
+        ]);
         const generatedMetadata = metadataVisitor.generate();
         expect(generatedMetadata).toMatchInlineSnapshot(`
           "// swiftlint:disable all
@@ -765,7 +809,11 @@ describe('AppSyncSwiftVisitor', () => {
       });
 
       it('should generate many side of the connection', () => {
-        const visitor = getVisitor(schema, 'task', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+        const visitor = getVisitor(schema, 'task', CodeGenGenerateEnum.code, {}, [
+          ...AppSyncDirectives,
+          ...V1Directives,
+          DeprecatedDirective,
+        ]);
         const generatedCode = visitor.generate();
         expect(generatedCode).toMatchInlineSnapshot(`
           "// swiftlint:disable all
@@ -847,7 +895,11 @@ describe('AppSyncSwiftVisitor', () => {
           }"
         `);
 
-        const metadataVisitor = getVisitor(schema, 'task', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+        const metadataVisitor = getVisitor(schema, 'task', CodeGenGenerateEnum.metadata, {}, [
+          ...AppSyncDirectives,
+          ...V1Directives,
+          DeprecatedDirective,
+        ]);
         const generatedMetadata = metadataVisitor.generate();
         expect(generatedMetadata).toMatchInlineSnapshot(`
           "// swiftlint:disable all
@@ -949,7 +1001,11 @@ describe('AppSyncSwiftVisitor', () => {
             posts: [PostEditor] @connection(keyName: "byEditor", fields: ["id"])
           }
         `;
-        const postVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+        const postVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.code, {}, [
+          ...AppSyncDirectives,
+          ...V1Directives,
+          DeprecatedDirective,
+        ]);
         expect(() => postVisitor.generate()).not.toThrowError();
       });
 
@@ -981,7 +1037,11 @@ describe('AppSyncSwiftVisitor', () => {
           }
         `;
 
-        const postVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+        const postVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.code, {}, [
+          ...AppSyncDirectives,
+          ...V1Directives,
+          DeprecatedDirective,
+        ]);
         expect(postVisitor.generate()).toMatchInlineSnapshot(`
           "// swiftlint:disable all
           import Amplify
@@ -1017,7 +1077,11 @@ describe('AppSyncSwiftVisitor', () => {
           }"
         `);
 
-        const postSchemaVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+        const postSchemaVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.metadata, {}, [
+          ...AppSyncDirectives,
+          ...V1Directives,
+          DeprecatedDirective,
+        ]);
         expect(postSchemaVisitor.generate()).toMatchInlineSnapshot(`
           "// swiftlint:disable all
           import Amplify
@@ -1073,7 +1137,11 @@ describe('AppSyncSwiftVisitor', () => {
           }"
         `);
 
-        const postEditorVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+        const postEditorVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.code, {}, [
+          ...AppSyncDirectives,
+          ...V1Directives,
+          DeprecatedDirective,
+        ]);
         expect(postEditorVisitor.generate()).toMatchInlineSnapshot(`
           "// swiftlint:disable all
           import Amplify
@@ -1109,7 +1177,11 @@ describe('AppSyncSwiftVisitor', () => {
           }"
         `);
 
-        const postEditorSchemaVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+        const postEditorSchemaVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.metadata, {}, [
+          ...AppSyncDirectives,
+          ...V1Directives,
+          DeprecatedDirective,
+        ]);
         expect(postEditorSchemaVisitor.generate()).toMatchInlineSnapshot(`
           "// swiftlint:disable all
           import Amplify
@@ -2985,7 +3057,7 @@ describe('AppSyncSwiftVisitor', () => {
           content: String
           related: [SqlRelated!] @hasMany(references: ["primaryId"])
         }
-  
+
         type SqlRelated @refersTo(name: "sql_related") @model {
           id: Int! @primaryKey
           content: String
@@ -2993,20 +3065,28 @@ describe('AppSyncSwiftVisitor', () => {
           primary: SqlPrimary @belongsTo(references: ["primaryId"])
         }
       `;
-      expect(getVisitorPipelinedTransformer(schema, 'SqlPrimary', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'SqlPrimary', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'SqlRelated', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'SqlRelated', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'SqlPrimary', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'SqlPrimary', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'SqlRelated', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'SqlRelated', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
     });
-  
+
     test('sets the association to the references field for hasOne/belongsTo', () => {
       const schema = /* GraphQL */ `
         type SqlPrimary @refersTo(name: "sql_primary") @model {
@@ -3014,7 +3094,7 @@ describe('AppSyncSwiftVisitor', () => {
           content: String
           related: SqlRelated @hasOne(references: ["primaryId"])
         }
-  
+
         type SqlRelated @refersTo(name: "sql_related") @model {
           id: Int! @primaryKey
           content: String
@@ -3022,20 +3102,28 @@ describe('AppSyncSwiftVisitor', () => {
           primary: SqlPrimary @belongsTo(references: ["primaryId"])
         }
       `;
-      expect(getVisitorPipelinedTransformer(schema, 'SqlPrimary', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'SqlPrimary', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'SqlRelated', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'SqlRelated', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'SqlPrimary', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'SqlPrimary', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'SqlRelated', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'SqlRelated', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
     });
-  
+
     test('sets the association to the references field for hasOne and hasMany', () => {
       const schema = /* GraphQL */ `
         type Primary @model {
@@ -3043,39 +3131,51 @@ describe('AppSyncSwiftVisitor', () => {
           relatedMany: [RelatedMany] @hasMany(references: ["primaryId"])
           relatedOne: RelatedOne @hasOne(references: ["primaryId"])
         }
-        
+
         type RelatedMany @model {
           id: ID! @primaryKey
           primaryId: ID!
           primary: Primary @belongsTo(references: ["primaryId"])
         }
-        
+
         type RelatedOne @model {
           id: ID! @primaryKey
           primaryId: ID!
           primary: Primary @belongsTo(references: ["primaryId"])
         }
       `;
-      expect(getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'RelatedMany', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'RelatedMany', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'RelatedOne', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'RelatedOne', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'RelatedMany', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'RelatedMany', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'RelatedOne', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'RelatedOne', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
     });
-  
+
     test('double linked references', () => {
       const schema = /* GraphQL */ `
         type Foo @model {
@@ -3083,7 +3183,7 @@ describe('AppSyncSwiftVisitor', () => {
           bar1: Bar @hasOne(references: ["bar1Id"])
           bar2: Bar @hasOne(references: ["bar2Id"])
         }
-        
+
         type Bar @model {
           id: ID!
           bar1Id: ID
@@ -3092,20 +3192,28 @@ describe('AppSyncSwiftVisitor', () => {
           foo2: Foo @belongsTo(references: ["bar2Id"])
         }
       `;
-      expect(getVisitorPipelinedTransformer(schema, 'Foo', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'Foo', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'Bar', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'Bar', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Foo', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Foo', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Bar', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Bar', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
     });
-  
+
     test('hasMany with sortKeyFields on primary key', () => {
       const schema = /* GraphQL */ `
         type Primary @model {
@@ -3115,7 +3223,7 @@ describe('AppSyncSwiftVisitor', () => {
           content: String
           related: [Related!] @hasMany(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
         }
-        
+
         type Related @model {
           content: String
           primaryTenantId: ID!
@@ -3124,21 +3232,29 @@ describe('AppSyncSwiftVisitor', () => {
           primary: Primary @belongsTo(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
         }
       `;
-  
-      expect(getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'Related', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'Related', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
+
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Related', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Related', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
     });
- 
+
     test('hasOne with sortKeyFields on primary key', () => {
       const schema = /* GraphQL */ `
         type Primary @model {
@@ -3148,7 +3264,7 @@ describe('AppSyncSwiftVisitor', () => {
           content: String
           related: Related @hasOne(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
         }
-        
+
         type Related @model {
           content: String
           primaryTenantId: ID!
@@ -3157,19 +3273,27 @@ describe('AppSyncSwiftVisitor', () => {
           primary: Primary @belongsTo(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
         }
       `;
-  
-      expect(getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'Related', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'Related', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
+
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Related', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Related', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
     });
   });
 });

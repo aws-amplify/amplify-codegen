@@ -21,7 +21,7 @@ export type CodeGenFieldConnectionBelongsTo = CodeGenConnectionTypeBase & {
 };
 export type CodeGenFieldConnectionHasOne = CodeGenConnectionTypeBase & {
   kind: CodeGenConnectionType.HAS_ONE;
-  associatedWith: CodeGenField;// Legacy field remained for backward compatability
+  associatedWith: CodeGenField; // Legacy field remained for backward compatability
   associatedWithNativeReferences?: CodeGenField; // native uses the connected field instead of associatedWithFields
   associatedWithFields: CodeGenField[]; // New attribute for v2 custom pk support
   targetName?: string; // Legacy field remained for backward compatability
@@ -30,7 +30,7 @@ export type CodeGenFieldConnectionHasOne = CodeGenConnectionTypeBase & {
 
 export type CodeGenFieldConnectionHasMany = CodeGenConnectionTypeBase & {
   kind: CodeGenConnectionType.HAS_MANY;
-  associatedWith: CodeGenField;// Legacy field remained for backward compatability
+  associatedWith: CodeGenField; // Legacy field remained for backward compatability
   associatedWithNativeReferences?: CodeGenField; // native uses the connected field instead of associatedWithFields
   associatedWithFields: CodeGenField[]; // New attribute for v2 custom pk support
 };
@@ -45,8 +45,8 @@ export function makeConnectionAttributeName(type: string, field?: string, otherS
 
 export function flattenFieldDirectives(model: CodeGenModel) {
   let totalDirectives: CodeGenFieldDirective[] = new Array<CodeGenFieldDirective>();
-  model.fields.forEach(field => {
-    field.directives.forEach(dir => {
+  model.fields.forEach((field) => {
+    field.directives.forEach((dir) => {
       let fieldDir = dir as CodeGenFieldDirective;
       fieldDir.fieldName = field.name;
       totalDirectives.push(fieldDir);
@@ -67,7 +67,7 @@ export function getConnectedField(field: CodeGenField, model: CodeGenModel, conn
   if (connectionFields) {
     let keyDirective;
     if (keyName) {
-      keyDirective = connectedModel.directives.find(dir => {
+      keyDirective = connectedModel.directives.find((dir) => {
         return dir.name === 'key' && dir.arguments.name === keyName;
       });
       if (!keyDirective) {
@@ -76,7 +76,7 @@ export function getConnectedField(field: CodeGenField, model: CodeGenModel, conn
         );
       }
     } else {
-      keyDirective = connectedModel.directives.find(dir => {
+      keyDirective = connectedModel.directives.find((dir) => {
         return dir.name === 'key' && typeof dir.arguments.name === 'undefined';
       });
     }
@@ -85,8 +85,8 @@ export function getConnectedField(field: CodeGenField, model: CodeGenModel, conn
     const connectedFieldName = keyDirective ? keyDirective.arguments.fields[0] : DEFAULT_HASH_KEY_FIELD;
 
     // Find a field on the other side which connected by a @connection and has the same fields[0] as keyName field
-    const otherSideConnectedField = connectedModel.fields.find(f => {
-      return f.directives.find(d => {
+    const otherSideConnectedField = connectedModel.fields.find((f) => {
+      return f.directives.find((d) => {
         return d.name === 'connection' && d.arguments.fields && d.arguments.fields[0] === connectedFieldName;
       });
     });
@@ -94,7 +94,7 @@ export function getConnectedField(field: CodeGenField, model: CodeGenModel, conn
       return otherSideConnectedField;
     }
     // If there are no field with @connection with keyName then try to find a field that has same name as connection name
-    const connectedField = connectedModel.fields.find(f => f.name === connectedFieldName);
+    const connectedField = connectedModel.fields.find((f) => f.name === connectedFieldName);
 
     if (!connectedField) {
       throw new Error(`Can not find key field ${connectedFieldName} in ${connectedModel}`);
@@ -102,8 +102,8 @@ export function getConnectedField(field: CodeGenField, model: CodeGenModel, conn
     return connectedField;
   } else if (connectionName) {
     // when the connection is named
-    const connectedField = connectedModel.fields.find(f =>
-      f.directives.find(d => d.name === 'connection' && d.arguments.name === connectionName && f !== field),
+    const connectedField = connectedModel.fields.find((f) =>
+      f.directives.find((d) => d.name === 'connection' && d.arguments.name === connectionName && f !== field),
     );
     if (!connectedField) {
       throw new Error(`Can not find key field with connection name ${connectionName} in ${connectedModel}`);
@@ -112,7 +112,7 @@ export function getConnectedField(field: CodeGenField, model: CodeGenModel, conn
   }
   // un-named connection. Use an existing field or generate a new field
   const connectedFieldName = makeConnectionAttributeName(model.name, field.name);
-  const connectedField = connectedModel.fields.find(f => f.name === connectedFieldName);
+  const connectedField = connectedModel.fields.find((f) => f.name === connectedFieldName);
   return connectedField
     ? connectedField
     : {
@@ -129,7 +129,7 @@ export function processConnections(
   model: CodeGenModel,
   modelMap: CodeGenModelMap,
 ): CodeGenFieldConnection | undefined {
-  const connectionDirective = field.directives.find(d => d.name === 'connection');
+  const connectionDirective = field.directives.find((d) => d.name === 'connection');
   if (connectionDirective) {
     const otherSide = modelMap[field.type];
     const connectionFields = connectionDirective.arguments.fields || [];
@@ -165,7 +165,7 @@ export function processConnections(
           connectedModel: otherSide,
           isConnectingFieldAutoCreated,
           targetName: connectionFields[0] || makeConnectionAttributeName(model.name, field.name),
-          targetNames: [] // New attribute for v2 custom pk support. Not used in v1 so use empty array.
+          targetNames: [], // New attribute for v2 custom pk support. Not used in v1 so use empty array.
         };
       } else if (!field.isList && !otherSideField.isList) {
         // One to One
@@ -187,7 +187,7 @@ export function processConnections(
             connectedModel: otherSide,
             isConnectingFieldAutoCreated,
             targetName: connectionFields[0] || makeConnectionAttributeName(model.name, field.name),
-            targetNames: [] // New attribute for v2 custom pk support. Not used in v1 so use empty array.
+            targetNames: [], // New attribute for v2 custom pk support. Not used in v1 so use empty array.
           };
         } else if (field.isNullable && !otherSideField.isNullable) {
           /*
@@ -207,7 +207,7 @@ export function processConnections(
             connectedModel: otherSide,
             isConnectingFieldAutoCreated,
             targetName: connectionFields[0] || makeConnectionAttributeName(model.name, field.name),
-            targetNames: [] // New attribute for v2 custom pk support. Not used in v1 so use empty array.
+            targetNames: [], // New attribute for v2 custom pk support. Not used in v1 so use empty array.
           };
         } else {
           /*
@@ -229,7 +229,7 @@ export function processConnections(
       // one way connection
       if (field.isList) {
         const connectionFieldName = makeConnectionAttributeName(model.name, field.name);
-        const existingConnectionField = otherSide.fields.find(f => f.name === connectionFieldName);
+        const existingConnectionField = otherSide.fields.find((f) => f.name === connectionFieldName);
         return {
           kind: CodeGenConnectionType.HAS_MANY,
           connectedModel: otherSide,
@@ -253,7 +253,7 @@ export function processConnections(
           connectedModel: otherSide,
           isConnectingFieldAutoCreated,
           targetName: connectionFields[0] || makeConnectionAttributeName(model.name, field.name),
-          targetNames: [] // New attribute for v2 custom pk support. Not used in v1 so use empty array.
+          targetNames: [], // New attribute for v2 custom pk support. Not used in v1 so use empty array.
         };
       }
     }

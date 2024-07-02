@@ -16,14 +16,12 @@ import { Property, interfaceDeclaration } from '../typescript/language';
 import { isList } from '../utilities/graphql';
 import { propertyDeclarations } from '../flow/codeGeneration';
 
-export function generateSource(context: LegacyCompilerContext, options?: { isAngularV6: boolean  }) {
+export function generateSource(context: LegacyCompilerContext, options?: { isAngularV6: boolean }) {
   const isAngularV6: boolean = options?.isAngularV6 ?? false;
   const importApiStatement = isAngularV6
     ? `import { Client, generateClient, GraphQLResult } from 'aws-amplify/api';`
-    : `import API, { graphqlOperation, GraphQLResult } from '@aws-amplify/api-graphql';`
-  const importObservable = isAngularV6
-    ? `import { Observable } from 'rxjs';`
-    : `import { Observable } from 'zen-observable-ts';`;
+    : `import API, { graphqlOperation, GraphQLResult } from '@aws-amplify/api-graphql';`;
+  const importObservable = isAngularV6 ? `import { Observable } from 'rxjs';` : `import { Observable } from 'zen-observable-ts';`;
 
   const generator = new CodeGenerator<LegacyCompilerContext>(context);
 
@@ -44,7 +42,7 @@ export function generateSource(context: LegacyCompilerContext, options?: { isAng
   return prettier.format(generator.output, { parser: 'typescript' });
 }
 
-function generateTypes(generator: CodeGenerator, context: LegacyCompilerContext, options?: { isAngularV6: boolean  }) {
+function generateTypes(generator: CodeGenerator, context: LegacyCompilerContext, options?: { isAngularV6: boolean }) {
   const isAngularV6: boolean = options?.isAngularV6 ?? false;
   // if subscription operations exist create subscriptionResponse interface
   // https://github.com/aws-amplify/amplify-cli/issues/5284
@@ -58,13 +56,13 @@ function generateTypes(generator: CodeGenerator, context: LegacyCompilerContext,
     }
     generateSubscriptionOperationTypes(generator, context);
   }
-  context.typesUsed.forEach(type => typeDeclarationForGraphQLType(generator, type));
+  context.typesUsed.forEach((type) => typeDeclarationForGraphQLType(generator, type));
 
-  Object.values(context.operations).forEach(operation => {
+  Object.values(context.operations).forEach((operation) => {
     interfaceDeclarationForOperation(generator, operation);
   });
 
-  Object.values(context.fragments).forEach(operation => interfaceDeclarationForFragment(generator, operation));
+  Object.values(context.fragments).forEach((operation) => interfaceDeclarationForFragment(generator, operation));
 }
 
 function generateSubscriptionResponseWrapper(generator: CodeGenerator) {
@@ -78,8 +76,8 @@ function generateSubscriptionOperationTypes(generator: CodeGenerator, context: L
   const typeName = '__SubscriptionContainer';
   const properties: Property[] = [];
   Object.values(context.operations)
-    .filter(operation => operation.operationType === 'subscription')
-    .forEach(operation => {
+    .filter((operation) => operation.operationType === 'subscription')
+    .forEach((operation) => {
       const { operationName, operationType } = operation;
       const typeName = interfaceNameFromOperation({ operationName, operationType });
       if (operation.fields.length) {
@@ -101,7 +99,7 @@ function generateSubscriptionOperationTypes(generator: CodeGenerator, context: L
 
 function interfaceDeclarationForOperation(generator: CodeGenerator, { operationName, operationType, fields }: LegacyOperation) {
   const interfaceName = interfaceNameFromOperation({ operationName, operationType });
-  fields = fields.map(field => updateTypeNameField(field));
+  fields = fields.map((field) => updateTypeNameField(field));
 
   // Graphql result includes the name of operation as the top level key in response JSON
   // We are only interested in the shape of the response object and not the name of operation
@@ -167,7 +165,7 @@ function getReturnTypeName(generator: CodeGenerator, op: LegacyOperation): Strin
   }
 }
 
-function generateAngularService(generator: CodeGenerator, context: LegacyCompilerContext, options?: { isAngularV6: boolean  }) {
+function generateAngularService(generator: CodeGenerator, context: LegacyCompilerContext, options?: { isAngularV6: boolean }) {
   const isAngularV6: boolean = options?.isAngularV6 ?? false;
   const operations = context.operations;
   generator.printOnNewline(`@Injectable({
@@ -201,7 +199,7 @@ function generateServiceConstructor(generator: CodeGenerator) {
   generator.printOnNewline('}');
 }
 
-function generateSubscriptionOperation(generator: CodeGenerator, op: LegacyOperation, options?: { isAngularV6: boolean  }) {
+function generateSubscriptionOperation(generator: CodeGenerator, op: LegacyOperation, options?: { isAngularV6: boolean }) {
   const isAngularV6: boolean = options?.isAngularV6 ?? false;
   const statement = formatTemplateString(generator, op.source);
   const { operationName } = op;
@@ -234,9 +232,7 @@ function generateSubscriptionOperation(generator: CodeGenerator, op: LegacyOpera
       variableAssignmentToInput(generator, vars);
       params.push('gqlAPIServiceArguments');
       if (isAngularV6) {
-        generator.printOnNewline(
-          `return this.client.graphql({ query: statement, variables: gqlAPIServiceArguments }) as any;`,
-        );
+        generator.printOnNewline(`return this.client.graphql({ query: statement, variables: gqlAPIServiceArguments }) as any;`);
       } else {
         generator.printOnNewline(
           `return API.graphql(graphqlOperation(${params.join(', ')})) as Observable<SubscriptionResponse<${returnType}>>;`,
@@ -249,7 +245,7 @@ function generateSubscriptionOperation(generator: CodeGenerator, op: LegacyOpera
   generator.printNewline();
 }
 
-function generateQueryOrMutationOperation(generator: CodeGenerator, op: LegacyOperation, options?: { isAngularV6: boolean  }) {
+function generateQueryOrMutationOperation(generator: CodeGenerator, op: LegacyOperation, options?: { isAngularV6: boolean }) {
   const isAngularV6: boolean = options?.isAngularV6 ?? false;
   const statement = formatTemplateString(generator, op.source);
   const vars = variablesFromField(generator.context, op.variables);
@@ -270,7 +266,11 @@ function generateQueryOrMutationOperation(generator: CodeGenerator, op: LegacyOp
       params.push('gqlAPIServiceArguments');
     }
     if (isAngularV6) {
-      generator.printOnNewline(`const response = await this.client.graphql({ query: statement, ${op.variables.length ? `variables: gqlAPIServiceArguments, `: ''}}) as any;`);
+      generator.printOnNewline(
+        `const response = await this.client.graphql({ query: statement, ${
+          op.variables.length ? `variables: gqlAPIServiceArguments, ` : ''
+        }}) as any;`,
+      );
     } else {
       generator.printOnNewline(`const response = await API.graphql(graphqlOperation(${params.join(', ')})) as any;`);
     }
@@ -291,7 +291,7 @@ export function variablesFromField(
     fieldName?: string;
   }[],
 ) {
-  return fields.map(field => propertyFromVar(context, field));
+  return fields.map((field) => propertyFromVar(context, field));
 }
 
 export function propertyFromVar(
@@ -333,7 +333,7 @@ function variableDeclaration(generator: CodeGenerator, properties: Property[]) {
       }
       return 0;
     })
-    .forEach(property => {
+    .forEach((property) => {
       const { fieldName, typeName, isArray, isNullable } = property;
       generator.print(fieldName);
       if (isNullable) {
@@ -358,8 +358,8 @@ function variableAssignmentToInput(generator: CodeGenerator, vars: Property[]) {
       () => {
         // non nullable arguments
         vars
-          .filter(v => !v.isNullable)
-          .forEach(v => {
+          .filter((v) => !v.isNullable)
+          .forEach((v) => {
             generator.printOnNewline(`${v.fieldName},`);
           });
       },
@@ -368,8 +368,8 @@ function variableAssignmentToInput(generator: CodeGenerator, vars: Property[]) {
     );
     // null able arguments
     vars
-      .filter(v => v.isNullable)
-      .forEach(v => {
+      .filter((v) => v.isNullable)
+      .forEach((v) => {
         generator.printOnNewline(`if (${v.fieldName}) `);
         generator.withinBlock(
           () => {

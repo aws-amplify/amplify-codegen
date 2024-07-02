@@ -486,7 +486,7 @@ export function addApi(projectDir: string, settings?: any) {
 
         chain.wait('Configure additional auth types?').sendConfirmYes();
 
-        authTypesToSelectFrom = authTypesToSelectFrom.filter(x => x !== defaultType);
+        authTypesToSelectFrom = authTypesToSelectFrom.filter((x) => x !== defaultType);
 
         multiSelect(
           chain.wait('Choose the additional authorization types you want to configure for the API'),
@@ -494,7 +494,7 @@ export function addApi(projectDir: string, settings?: any) {
           authTypesToSelectFrom,
         );
 
-        authTypesToAdd.forEach(authType => {
+        authTypesToAdd.forEach((authType) => {
           setupAuthType(authType, chain, settings);
         });
       } else {
@@ -648,7 +648,7 @@ export function rebuildApi(projDir: string, apiName: string) {
       .wait('Type the name of the API to confirm you want to continue')
       .sendLine(apiName)
       .wait('All resources are updated in the cloud')
-      .run(err => (err ? reject(err) : resolve()));
+      .run((err) => (err ? reject(err) : resolve()));
   });
 }
 

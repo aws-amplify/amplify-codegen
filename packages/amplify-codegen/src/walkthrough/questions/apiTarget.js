@@ -3,7 +3,7 @@ const inquirer = require('inquirer');
 const constants = require('../../constants');
 
 async function askAppSyncAPITarget(context, apis, selectedApi = null) {
-  const choices = apis.map(api => ({ name: api.name, value: api.id }));
+  const choices = apis.map((api) => ({ name: api.name, value: api.id }));
   if (apis.length === 1) {
     return apis[0].id;
   }

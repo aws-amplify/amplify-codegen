@@ -5,3 +5,4 @@ phases:
   build:
     commands:
       - source ./shared-scripts.sh && _lint
+      - yarn prettier-check

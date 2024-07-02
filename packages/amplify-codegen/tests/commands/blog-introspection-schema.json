@@ -4378,11 +4378,7 @@
         {
           "name": "include",
           "description": "Directs the executor to include this field or fragment only when the `if` argument is true",
-          "locations": [
-            "FIELD",
-            "FRAGMENT_SPREAD",
-            "INLINE_FRAGMENT"
-          ],
+          "locations": ["FIELD", "FRAGMENT_SPREAD", "INLINE_FRAGMENT"],
           "args": [
             {
               "name": "if",
@@ -4406,11 +4402,7 @@
         {
           "name": "skip",
           "description": "Directs the executor to skip this field or fragment when the `if`'argument is true.",
-          "locations": [
-            "FIELD",
-            "FRAGMENT_SPREAD",
-            "INLINE_FRAGMENT"
-          ],
+          "locations": ["FIELD", "FRAGMENT_SPREAD", "INLINE_FRAGMENT"],
           "args": [
             {
               "name": "if",
@@ -4434,9 +4426,7 @@
         {
           "name": "defer",
           "description": "This directive allows results to be deferred during execution",
-          "locations": [
-            "FIELD"
-          ],
+          "locations": ["FIELD"],
           "args": [],
           "onOperation": false,
           "onFragment": false,
@@ -4445,10 +4435,7 @@
         {
           "name": "deprecated",
           "description": null,
-          "locations": [
-            "FIELD_DEFINITION",
-            "ENUM_VALUE"
-          ],
+          "locations": ["FIELD_DEFINITION", "ENUM_VALUE"],
           "args": [
             {
               "name": "reason",
@@ -4468,10 +4455,7 @@
         {
           "name": "aws_api_key",
           "description": "Tells the service this field/object has access authorized by an API key.",
-          "locations": [
-            "OBJECT",
-            "FIELD_DEFINITION"
-          ],
+          "locations": ["OBJECT", "FIELD_DEFINITION"],
           "args": [],
           "onOperation": false,
           "onFragment": false,
@@ -4480,10 +4464,7 @@
         {
           "name": "aws_cognito_user_pools",
           "description": "Tells the service this field/object has access authorized by a Cognito User Pools token.",
-          "locations": [
-            "OBJECT",
-            "FIELD_DEFINITION"
-          ],
+          "locations": ["OBJECT", "FIELD_DEFINITION"],
           "args": [
             {
               "name": "cognito_groups",
@@ -4507,10 +4488,7 @@
         {
           "name": "aws_lambda",
           "description": "Tells the service this field/object has access authorized by a Lambda Authorizer.",
-          "locations": [
-            "OBJECT",
-            "FIELD_DEFINITION"
-          ],
+          "locations": ["OBJECT", "FIELD_DEFINITION"],
           "args": [],
           "onOperation": false,
           "onFragment": false,
@@ -4519,9 +4497,7 @@
         {
           "name": "aws_auth",
           "description": "Directs the schema to enforce authorization on a field",
-          "locations": [
-            "FIELD_DEFINITION"
-          ],
+          "locations": ["FIELD_DEFINITION"],
           "args": [
             {
               "name": "cognito_groups",
@@ -4545,9 +4521,7 @@
         {
           "name": "aws_publish",
           "description": "Tells the service which subscriptions will be published to when this mutation is called. This directive is deprecated use @aws_susbscribe directive instead.",
-          "locations": [
-            "FIELD_DEFINITION"
-          ],
+          "locations": ["FIELD_DEFINITION"],
           "args": [
             {
               "name": "subscriptions",
@@ -4571,9 +4545,7 @@
         {
           "name": "aws_subscribe",
           "description": "Tells the service which mutation triggers this subscription.",
-          "locations": [
-            "FIELD_DEFINITION"
-          ],
+          "locations": ["FIELD_DEFINITION"],
           "args": [
             {
               "name": "mutations",
@@ -4597,10 +4569,7 @@
         {
           "name": "aws_iam",
           "description": "Tells the service this field/object has access authorized by sigv4 signing.",
-          "locations": [
-            "OBJECT",
-            "FIELD_DEFINITION"
-          ],
+          "locations": ["OBJECT", "FIELD_DEFINITION"],
           "args": [],
           "onOperation": false,
           "onFragment": false,
@@ -4609,10 +4578,7 @@
         {
           "name": "aws_oidc",
           "description": "Tells the service this field/object has access authorized by an OIDC token.",
-          "locations": [
-            "OBJECT",
-            "FIELD_DEFINITION"
-          ],
+          "locations": ["OBJECT", "FIELD_DEFINITION"],
           "args": [],
           "onOperation": false,
           "onFragment": false,
