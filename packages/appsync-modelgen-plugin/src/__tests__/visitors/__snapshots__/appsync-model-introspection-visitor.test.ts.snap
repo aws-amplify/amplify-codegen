@@ -1,5 +1,106 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Conversation Route Introspection Visitor Metadata snapshot should generate correct model intropection file validated by JSON schema 1`] = `
+"{
+    \\"version\\": 1,
+    \\"models\\": {},
+    \\"enums\\": {},
+    \\"nonModels\\": {},
+    \\"conversationRoutes\\": {
+        \\"pirateChat\\": {
+            \\"conversation\\": {
+                \\"create\\": {
+                    \\"name\\": \\"createConversationpirateChat\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"ConversationpirateChat\\"
+                    },
+                    \\"isRequired\\": false
+                },
+                \\"get\\": {
+                    \\"name\\": \\"getConversationpirateChat\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"ConversationpirateChat\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"arguments\\": {
+                        \\"id\\": {
+                            \\"name\\": \\"id\\",
+                            \\"isArray\\": false,
+                            \\"isRequired\\": true,
+                            \\"type\\": \\"String\\"
+                        }
+                    }
+                },
+                \\"delete\\": {
+                    \\"name\\": \\"deleteConversationpirateChat\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"ConversationpirateChat\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"arguments\\": {
+                        \\"id\\": {
+                            \\"name\\": \\"id\\",
+                            \\"isArray\\": false,
+                            \\"isRequired\\": true,
+                            \\"type\\": \\"String\\"
+                        }
+                    }
+                },
+                \\"list\\": {
+                    \\"name\\": \\"listConversationpirateChat\\",
+                    \\"isArray\\": true,
+                    \\"type\\": {
+                        \\"model\\": \\"ConversationpirateChat\\"
+                    },
+                    \\"isRequired\\": false
+                }
+            },
+            \\"message\\": {
+                \\"send\\": {
+                    \\"name\\": \\"pirateChat\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"arguments\\": {
+                        \\"sessionId\\": {
+                            \\"name\\": \\"sessionId\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"ID\\",
+                            \\"isRequired\\": false
+                        },
+                        \\"content\\": {
+                            \\"name\\": \\"content\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"String\\",
+                            \\"isRequired\\": false
+                        }
+                    }
+                },
+                \\"subscribe\\": {
+                    \\"isArray\\": false,
+                    \\"isRequired\\": false,
+                    \\"name\\": \\"onAssistantMessageResponsepirateChat\\",
+                    \\"type\\": {
+                        \\"model\\": \\"ConversationMessagepirateChat\\"
+                    },
+                    \\"arguments\\": {
+                        \\"sessionId\\": {
+                            \\"name\\": \\"sessionId\\",
+                            \\"isArray\\": false,
+                            \\"isRequired\\": true,
+                            \\"type\\": \\"ID\\"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}"
+`;
+
 exports[`Custom primary key tests should generate correct model intropection file validated by JSON schema and not throw error when custom PK is enabled 1`] = `
 "{
     \\"version\\": 1,

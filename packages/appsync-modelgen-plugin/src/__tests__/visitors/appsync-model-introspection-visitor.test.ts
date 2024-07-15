@@ -28,6 +28,32 @@ const getVisitor = (schema: string, settings: any = {}, directives: readonly Dir
   return visitor;
 };
 
+describe('Conversation Route Introspection Visitor', () => {
+  const schema = /* GraphQL */ `
+    type Mutation {
+      pirateChat(sessionId: ID, content: String): String
+      @conversation(aiModel: "Claude3Haiku", functionName: "conversation-handler")
+    }
+  `;
+  // TODO: Update to amplify-graphql-directives version that includes conversation directive
+  const conversationDirective: Directive = {
+    name: 'conversation',
+    definition: /* GraphQL */ `
+      directive @conversation(
+        aiModel: String,
+        functionName: String
+      ) on FIELD_DEFINITION
+    `,
+    defaults: {},
+  }
+  const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, {}, [...DefaultDirectives, conversationDirective]);
+  describe('Metadata snapshot', () => {
+    it('should generate correct model intropection file validated by JSON schema', () => {
+      expect(visitor.generate()).toMatchSnapshot();
+    });
+  });
+});
+
 describe('Model Introspection Visitor', () => {
   const schema = /* GraphQL */ `
     type SimpleModel @model {
@@ -253,7 +279,7 @@ describe('Primary Key Info tests', () => {
     const result = JSON.parse(getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true }).generate());
     const { models: { Like, EnthusiastLikes } } = result;
     expect(result).toMatchSnapshot();
-    
+
     // name
     expect(Like.primaryKeyInfo.primaryKeyFieldName).toEqual('name');
     expect(EnthusiastLikes.fields.like.association.targetNames[0]).toEqual('likeName');
@@ -372,7 +398,7 @@ describe('Custom queries/mutations/subscriptions & input type tests', () => {
     }
     # The member types of a Union type must all be Object base types.
     union CustomUnion = Todo | Phone
-    
+
     type Query {
       getAllTodo(msg: String, input: CustomInput): String
       echo(msg: String): String
@@ -383,7 +409,7 @@ describe('Custom queries/mutations/subscriptions & input type tests', () => {
       echo6(customInput: CustomInput): String!
       echo7: [ICustom]!
       echo8(msg: [Float], msg2: [Int!], enumType: BillingSource, enumList: [BillingSource], inputType: [CustomInput]): [String]
-      echo9(msg: [Float]!, msg2: [Int!]!, enumType: BillingSource!, enumList: [BillingSource!]!, inputType: [CustomInput!]!): [String!]!    
+      echo9(msg: [Float]!, msg2: [Int!]!, enumType: BillingSource!, enumList: [BillingSource!]!, inputType: [CustomInput!]!): [String!]!
     }
     type Mutation {
       mutate(msg: [String!]!): Todo
@@ -410,7 +436,7 @@ describe('custom fields', () => {
         relatedId: ID
         related: RelatedLegacy @hasOne(fields: [relatedId])
       }
-      
+
       type RelatedLegacy @model {
         id: ID!
         primary: PrimaryLegacy @belongsTo
@@ -427,7 +453,7 @@ describe('custom fields', () => {
         relatedId: ID
         related: [RelatedLegacy] @hasMany(fields: [relatedId])
       }
-      
+
       type RelatedLegacy @model {
         id: ID!
         primary: PrimaryLegacy @belongsTo
@@ -443,7 +469,7 @@ describe('custom fields', () => {
         id: ID!
         related: RelatedLegacy @hasOne
       }
-      
+
       type RelatedLegacy @model {
         id: ID!
         primaryId: ID!
@@ -460,7 +486,7 @@ describe('custom fields', () => {
         id: ID!
         related: [RelatedLegacy] @hasMany
       }
-      
+
       type RelatedLegacy @model {
         id: ID!
         primaryId: ID!
@@ -478,7 +504,7 @@ describe('custom fields', () => {
         relatedId: ID
         related: RelatedLegacy @hasOne(fields: [relatedId])
       }
-      
+
       type RelatedLegacy @model {
         id: ID!
         primaryId: ID!
@@ -496,7 +522,7 @@ describe('custom fields', () => {
         relatedId: ID
         related: [RelatedLegacy] @hasMany(fields: [relatedId])
       }
-      
+
       type RelatedLegacy @model {
         id: ID!
         primaryId: ID!
@@ -554,13 +580,13 @@ describe('custom references', () => {
         relatedMany: [RelatedMany] @hasMany(references: ["primaryId"])
         relatedOne: RelatedOne @hasOne(references: ["primaryId"])
       }
-      
+
       type RelatedMany @model {
         id: ID! @primaryKey
         primaryId: ID!
         primary: Primary @belongsTo(references: ["primaryId"])
       }
-      
+
       type RelatedOne @model {
         id: ID! @primaryKey
         primaryId: ID!
@@ -578,7 +604,7 @@ describe('custom references', () => {
         bar1: Bar @hasOne(references: ["bar1Id"])
         bar2: Bar @hasOne(references: ["bar2Id"])
       }
-      
+
       type Bar @model {
         id: ID!
         bar1Id: ID
@@ -601,7 +627,7 @@ describe('custom references', () => {
         content: String
         related: [Related!] @hasMany(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
       }
-      
+
       type Related @model {
         content: String
         primaryTenantId: ID!
@@ -624,7 +650,7 @@ describe('custom references', () => {
         content: String
         related: Related @hasOne(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
       }
-      
+
       type Related @model {
         content: String
         primaryTenantId: ID!
