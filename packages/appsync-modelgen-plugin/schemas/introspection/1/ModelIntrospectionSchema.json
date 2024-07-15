@@ -26,6 +26,9 @@
         },
         "inputs": {
             "$ref": "#/definitions/SchemaInputs"
+        },
+        "conversationRoutes": {
+            "$ref": "#/definitions/SchemaConversationRoutes"
         }
     },
     "required": [
@@ -532,6 +535,71 @@
             ],
             "additionalProperties": false,
             "description": "Input Definition"
+        },
+        "SchemaConversationRoutes": {
+            "$ref": "#/definitions/Record%3Cstring%2CSchemaConversationRoute%3E"
+        },
+        "Record<string,SchemaConversationRoute>": {
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/definitions/SchemaConversationRoute"
+            }
+        },
+        "SchemaConversationRoute": {
+            "type": "object",
+            "properties": {
+                "conversation": {
+                    "$ref": "#/definitions/SchemaConversation"
+                },
+                "message": {
+                    "$ref": "#/definitions/SchemaConversationMessage"
+                }
+            },
+            "required": [
+                "conversation",
+                "message"
+            ],
+            "additionalProperties": false
+        },
+        "SchemaConversation": {
+            "type": "object",
+            "properties": {
+                "create": {
+                    "$ref": "#/definitions/SchemaMutation"
+                },
+                "get": {
+                    "$ref": "#/definitions/SchemaQuery"
+                },
+                "delete": {
+                    "$ref": "#/definitions/SchemaMutation"
+                },
+                "list": {
+                    "$ref": "#/definitions/SchemaQuery"
+                }
+            },
+            "required": [
+                "create",
+                "get",
+                "delete",
+                "list"
+            ],
+            "additionalProperties": false
+        },
+        "SchemaConversationMessage": {
+            "type": "object",
+            "properties": {
+                "subscribe": {
+                    "$ref": "#/definitions/SchemaSubscription"
+                },
+                "send": {
+                    "$ref": "#/definitions/SchemaMutation"
+                }
+            },
+            "required": [
+                "subscribe",
+                "send"
+            ],
+            "additionalProperties": false
         }
     }
 }
