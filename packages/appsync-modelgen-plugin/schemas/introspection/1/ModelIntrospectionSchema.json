@@ -27,7 +27,7 @@
         "inputs": {
             "$ref": "#/definitions/SchemaInputs"
         },
-        "conversationRoutes": {
+        "conversations": {
             "$ref": "#/definitions/SchemaConversationRoutes"
         }
     },
@@ -588,6 +588,9 @@
         "SchemaConversationMessage": {
             "type": "object",
             "properties": {
+                "list": {
+                    "$ref": "#/definitions/SchemaQuery"
+                },
                 "subscribe": {
                     "$ref": "#/definitions/SchemaSubscription"
                 },
@@ -596,6 +599,7 @@
                 }
             },
             "required": [
+                "list",
                 "subscribe",
                 "send"
             ],

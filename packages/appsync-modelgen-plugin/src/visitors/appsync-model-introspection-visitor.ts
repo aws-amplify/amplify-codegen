@@ -3,7 +3,8 @@ import { GraphQLSchema } from "graphql";
 import { Argument, AssociationType, Field, Fields, FieldType, ModelAttribute, ModelIntrospectionSchema, PrimaryKeyInfo, SchemaEnum, SchemaModel, SchemaMutation, SchemaNonModel, SchemaQuery, SchemaSubscription, Input, InputFieldType, SchemaConversationRoute } from "../interfaces/introspection";
 import { METADATA_SCALAR_MAP } from "../scalars";
 import { CodeGenConnectionType } from "../utils/process-connections";
-import { RawAppSyncModelConfig, ParsedAppSyncModelConfig, AppSyncModelVisitor, CodeGenEnum, CodeGenField, CodeGenModel, CodeGenPrimaryKeyType, CodeGenQuery, CodeGenSubscription, CodeGenMutation, CodeGenInputObject } from "./appsync-visitor";
+import { RawAppSyncModelConfig, ParsedAppSyncModelConfig, AppSyncModelVisitor, CodeGenEnum, CodeGenField, CodeGenModel, CodeGenPrimaryKeyType, CodeGenQuery, CodeGenSubscription, CodeGenMutation, CodeGenInputObject, CodeGenInputObjectMap } from "./appsync-visitor";
+import { pascalCase } from "change-case";
 
 const validateModelIntrospectionSchema = require('../validate-cjs');
 
@@ -80,11 +81,12 @@ export class AppSyncModelIntrospectionVisitor<
       }
       return { ...acc, [mutationObj.name]: this.generateGraphQLOperationMetadata<CodeGenMutation, SchemaMutation>(mutationObj) };
     }, {});
-    const conversationRoutes = Object.values(this.mutationMap).reduce((acc, mutationObj: CodeGenMutation) => {
+    const conversations = Object.values(this.mutationMap).reduce((acc, mutationObj: CodeGenMutation) => {
       if (!mutationObj.directives.find((directive) => directive.name === 'conversation')) {
         return acc;
       }
-      return { ...acc, [mutationObj.name]: this.generateConversationMetadata(mutationObj) }
+      const { route, inputs } = this.generateConversationMetadata(mutationObj)
+      return { ...acc, [mutationObj.name]: route }
     }, {});
     const subscriptions = Object.values(this.subscriptionMap).reduce((acc, subscriptionObj: CodeGenSubscription) => {
       // Skip the field if the field type is union/interface
@@ -104,8 +106,8 @@ export class AppSyncModelIntrospectionVisitor<
     if (Object.keys(mutations).length > 0) {
       result = { ...result, mutations };
     }
-    if (Object.keys(conversationRoutes).length > 0) {
-      result = { ...result, conversationRoutes }
+    if (Object.keys(conversations).length > 0) {
+      result = { ...result, conversations }
     }
     if (Object.keys(subscriptions).length > 0) {
       result = { ...result, subscriptions };
@@ -245,21 +247,22 @@ export class AppSyncModelIntrospectionVisitor<
     return operationMeta as V;
   }
 
-  private generateConversationMetadata(mutationObj: CodeGenMutation): SchemaConversationRoute {
-    const conversationRoute: SchemaConversationRoute = {
+  private generateConversationMetadata(mutationObj: CodeGenMutation): { route: SchemaConversationRoute, inputs: CodeGenInputObjectMap} {
+    const routeName = pascalCase(mutationObj.name)
+    const route: SchemaConversationRoute = {
       conversation: {
         create: {
-          name: `createConversation${mutationObj.name}`,
+          name: `createConversation${routeName}`,
           isArray: false,
           type: {
-            model: `Conversation${mutationObj.name}`
+            model: `Conversation${routeName}`
           },
           isRequired: false,
         },
         get: {
-          name: `getConversation${mutationObj.name}`,
+          name: `getConversation${routeName}`,
           isArray: false,
-          type: { model: `Conversation${mutationObj.name}` },
+          type: { model: `Conversation${routeName}` },
           isRequired: false,
           arguments: {
             'id': {
@@ -271,9 +274,9 @@ export class AppSyncModelIntrospectionVisitor<
           }
         },
         delete: {
-          name: `deleteConversation${mutationObj.name}`,
+          name: `deleteConversation${routeName}`,
           isArray: false,
-          type: { model: `Conversation${mutationObj.name}` },
+          type: { model: `Conversation${routeName}` },
           isRequired: false,
           arguments: {
             'id': {
@@ -285,27 +288,21 @@ export class AppSyncModelIntrospectionVisitor<
           }
         },
         list: {
-          name: `listConversation${mutationObj.name}`,
+          name: `listConversation${routeName}`,
           isArray: true,
           type: {
-            model: `Conversation${mutationObj.name}`
+            model: `Conversation${routeName}`
           },
           isRequired: false,
         }
       },
       message: {
         send: this.generateGraphQLOperationMetadata<CodeGenMutation, SchemaMutation>(mutationObj),
-        // send: {
-        //   name: mutationObj.name,
-        //   isArray: false,
-        //   type: 'String',
-        //   isRequired: false,
-        // },
         subscribe: {
           isArray: false,
           isRequired: false,
-          name: `onAssistantMessageResponse${mutationObj.name}`,
-          type: { model: `ConversationMessage${mutationObj.name}` },
+          name: `onAssistantMessageResponse${routeName}`,
+          type: { model: `ConversationMessage${routeName}` },
           arguments: {
             'sessionId': {
               name: 'sessionId',
@@ -314,10 +311,82 @@ export class AppSyncModelIntrospectionVisitor<
               type: 'ID',
             },
           }
+        },
+        list: {
+          name: `listConversationMessage${routeName}`,
+          isArray: true,
+          type: {
+            nonModel: `ModelConversationMessage${routeName}Connection`
+          },
+          isRequired: false,
+          arguments: {
+            filter: {
+              name: 'filter',
+              isArray: false,
+              isRequired: false,
+              type: {
+                input: `ModelConversationMessage${routeName}FilterInput`
+              },
+            },
+            limit: {
+              name: 'limit',
+              type: 'Int',
+              isArray: false,
+              isRequired: false,
+            },
+            nextToken: {
+              name: 'nextToken',
+              isRequired: false,
+              type: 'String',
+              isArray: false
+            }
+          }
         }
       }
     };
-    return conversationRoute;
+
+    const listMessagesReturnTypeName = `ModelConversationMessage${routeName}Connection`
+    const nonModelTypes: Record<string, SchemaNonModel> = {
+      [listMessagesReturnTypeName]: {
+        name: listMessagesReturnTypeName,
+        fields: {
+          items: {
+            isArray: true,
+            isRequired: true,
+            name: 'items',
+            type: {
+              model: `ConversationMessage${routeName}`
+            },
+          },
+          nextToken: {
+            isArray: false,
+            isRequired: false,
+            name: 'nextToken',
+            type: 'String',
+          }
+        },
+      }
+    }
+
+
+    const listMessagesInputName = `ModelConversationMessage${routeName}FilterInput`;
+    const inputs: CodeGenInputObjectMap = {
+      [listMessagesInputName]: {
+        name: listMessagesInputName,
+        inputValues: [
+          {
+            name: 'conversationId',
+            type: 'ModelIdInput',
+            isList: false,
+            isNullable: true,
+            directives: [],
+          }
+        ],
+        type: 'input'
+      }
+    };
+
+    return { route, inputs };
   }
 
   protected getType(gqlType: string): FieldType | InputFieldType | UnionFieldType | InterfaceFieldType {
