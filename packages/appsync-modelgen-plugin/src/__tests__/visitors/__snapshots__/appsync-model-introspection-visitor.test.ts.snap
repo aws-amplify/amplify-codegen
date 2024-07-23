@@ -6,59 +6,248 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
     \\"models\\": {},
     \\"enums\\": {},
     \\"nonModels\\": {},
-    \\"conversationRoutes\\": {
+    \\"conversations\\": {
         \\"pirateChat\\": {
-            \\"conversation\\": {
-                \\"create\\": {
-                    \\"name\\": \\"createConversationpirateChat\\",
-                    \\"isArray\\": false,
-                    \\"type\\": {
-                        \\"model\\": \\"ConversationpirateChat\\"
-                    },
-                    \\"isRequired\\": false
-                },
-                \\"get\\": {
-                    \\"name\\": \\"getConversationpirateChat\\",
-                    \\"isArray\\": false,
-                    \\"type\\": {
-                        \\"model\\": \\"ConversationpirateChat\\"
-                    },
-                    \\"isRequired\\": false,
-                    \\"arguments\\": {
+            \\"name\\": \\"pirateChat\\",
+            \\"models\\": {
+                \\"ConversationPirateChat\\": {
+                    \\"name\\": \\"ConversationPirateChat\\",
+                    \\"fields\\": {
                         \\"id\\": {
                             \\"name\\": \\"id\\",
                             \\"isArray\\": false,
+                            \\"type\\": \\"ID\\",
                             \\"isRequired\\": true,
-                            \\"type\\": \\"String\\"
+                            \\"attributes\\": []
+                        },
+                        \\"name\\": {
+                            \\"name\\": \\"name\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"String\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": []
+                        },
+                        \\"metadata\\": {
+                            \\"name\\": \\"metadata\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"AWSJSON\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": []
+                        },
+                        \\"messages\\": {
+                            \\"name\\": \\"messages\\",
+                            \\"isArray\\": true,
+                            \\"type\\": {
+                                \\"model\\": \\"ConversationMessagePirateChat\\"
+                            },
+                            \\"isRequired\\": false,
+                            \\"attributes\\": [],
+                            \\"isArrayNullable\\": true,
+                            \\"association\\": {
+                                \\"connectionType\\": \\"HAS_MANY\\",
+                                \\"associatedWith\\": [
+                                    \\"conversationid\\"
+                                ]
+                            }
+                        },
+                        \\"createdAt\\": {
+                            \\"name\\": \\"createdAt\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"AWSDateTime\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": [],
+                            \\"isReadOnly\\": true
+                        },
+                        \\"updatedAt\\": {
+                            \\"name\\": \\"updatedAt\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"AWSDateTime\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": [],
+                            \\"isReadOnly\\": true
                         }
+                    },
+                    \\"syncable\\": true,
+                    \\"pluralName\\": \\"ConversationPirateChats\\",
+                    \\"attributes\\": [
+                        {
+                            \\"type\\": \\"model\\",
+                            \\"properties\\": {
+                                \\"subscriptions\\": {
+                                    \\"level\\": \\"off\\"
+                                },
+                                \\"mutations\\": {
+                                    \\"update\\": null
+                                }
+                            }
+                        },
+                        {
+                            \\"type\\": \\"auth\\",
+                            \\"properties\\": {
+                                \\"rules\\": [
+                                    {
+                                        \\"provider\\": \\"userPools\\",
+                                        \\"ownerField\\": \\"owner\\",
+                                        \\"allow\\": \\"owner\\",
+                                        \\"identityClaim\\": \\"cognito:username\\",
+                                        \\"operations\\": [
+                                            \\"create\\",
+                                            \\"update\\",
+                                            \\"delete\\",
+                                            \\"read\\"
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    \\"primaryKeyInfo\\": {
+                        \\"isCustomPrimaryKey\\": false,
+                        \\"primaryKeyFieldName\\": \\"id\\",
+                        \\"sortKeyFieldNames\\": []
                     }
                 },
-                \\"delete\\": {
-                    \\"name\\": \\"deleteConversationpirateChat\\",
-                    \\"isArray\\": false,
-                    \\"type\\": {
-                        \\"model\\": \\"ConversationpirateChat\\"
-                    },
-                    \\"isRequired\\": false,
-                    \\"arguments\\": {
+                \\"ConversationMessagePirateChat\\": {
+                    \\"name\\": \\"ConversationMessagePirateChat\\",
+                    \\"fields\\": {
                         \\"id\\": {
                             \\"name\\": \\"id\\",
                             \\"isArray\\": false,
+                            \\"type\\": \\"ID\\",
                             \\"isRequired\\": true,
-                            \\"type\\": \\"String\\"
+                            \\"attributes\\": []
+                        },
+                        \\"conversationId\\": {
+                            \\"name\\": \\"conversationId\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"ID\\",
+                            \\"isRequired\\": true,
+                            \\"attributes\\": []
+                        },
+                        \\"conversation\\": {
+                            \\"name\\": \\"conversation\\",
+                            \\"isArray\\": false,
+                            \\"type\\": {
+                                \\"model\\": \\"ConversationPirateChat\\"
+                            },
+                            \\"isRequired\\": false,
+                            \\"attributes\\": [],
+                            \\"association\\": {
+                                \\"connectionType\\": \\"BELONGS_TO\\",
+                                \\"targetNames\\": [
+                                    \\"conversationId\\"
+                                ]
+                            }
+                        },
+                        \\"sender\\": {
+                            \\"name\\": \\"sender\\",
+                            \\"isArray\\": false,
+                            \\"type\\": {
+                                \\"enum\\": \\"ConversationMessageSender\\"
+                            },
+                            \\"isRequired\\": false,
+                            \\"attributes\\": []
+                        },
+                        \\"content\\": {
+                            \\"name\\": \\"content\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"String\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": []
+                        },
+                        \\"context\\": {
+                            \\"name\\": \\"context\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"AWSJSON\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": []
+                        },
+                        \\"uiComponents\\": {
+                            \\"name\\": \\"uiComponents\\",
+                            \\"isArray\\": true,
+                            \\"type\\": \\"AWSJSON\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": [],
+                            \\"isArrayNullable\\": true
+                        },
+                        \\"assistantContent\\": {
+                            \\"name\\": \\"assistantContent\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"String\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": []
+                        },
+                        \\"createdAt\\": {
+                            \\"name\\": \\"createdAt\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"AWSDateTime\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": [],
+                            \\"isReadOnly\\": true
+                        },
+                        \\"updatedAt\\": {
+                            \\"name\\": \\"updatedAt\\",
+                            \\"isArray\\": false,
+                            \\"type\\": \\"AWSDateTime\\",
+                            \\"isRequired\\": false,
+                            \\"attributes\\": [],
+                            \\"isReadOnly\\": true
                         }
-                    }
-                },
-                \\"list\\": {
-                    \\"name\\": \\"listConversationpirateChat\\",
-                    \\"isArray\\": true,
-                    \\"type\\": {
-                        \\"model\\": \\"ConversationpirateChat\\"
                     },
-                    \\"isRequired\\": false
+                    \\"syncable\\": true,
+                    \\"pluralName\\": \\"ConversationMessagePirateChats\\",
+                    \\"attributes\\": [
+                        {
+                            \\"type\\": \\"model\\",
+                            \\"properties\\": {
+                                \\"subscriptions\\": {},
+                                \\"mutations\\": {
+                                    \\"update\\": null
+                                }
+                            }
+                        },
+                        {
+                            \\"type\\": \\"auth\\",
+                            \\"properties\\": {
+                                \\"rules\\": [
+                                    {
+                                        \\"provider\\": \\"userPools\\",
+                                        \\"ownerField\\": \\"owner\\",
+                                        \\"allow\\": \\"owner\\",
+                                        \\"identityClaim\\": \\"cognito:username\\",
+                                        \\"operations\\": [
+                                            \\"create\\",
+                                            \\"update\\",
+                                            \\"delete\\",
+                                            \\"read\\"
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    \\"primaryKeyInfo\\": {
+                        \\"isCustomPrimaryKey\\": false,
+                        \\"primaryKeyFieldName\\": \\"id\\",
+                        \\"sortKeyFieldNames\\": []
+                    }
                 }
             },
+            \\"nonModels\\": {},
+            \\"enums\\": {
+                \\"ConversationMessageSender\\": {
+                    \\"name\\": \\"ConversationMessageSender\\",
+                    \\"values\\": [
+                        \\"user\\",
+                        \\"assistant\\"
+                    ]
+                }
+            },
+            \\"conversation\\": {
+                \\"modelName\\": \\"ConversationPirateChat\\"
+            },
             \\"message\\": {
+                \\"modelName\\": \\"ConversationMessagePirateChat\\",
                 \\"send\\": {
                     \\"name\\": \\"pirateChat\\",
                     \\"isArray\\": false,
@@ -82,13 +271,13 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                 \\"subscribe\\": {
                     \\"isArray\\": false,
                     \\"isRequired\\": false,
-                    \\"name\\": \\"onAssistantMessageResponsepirateChat\\",
+                    \\"name\\": \\"onAssistantMessageResponsePirateChat\\",
                     \\"type\\": {
-                        \\"model\\": \\"ConversationMessagepirateChat\\"
+                        \\"model\\": \\"ConversationMessagePirateChat\\"
                     },
                     \\"arguments\\": {
-                        \\"sessionId\\": {
-                            \\"name\\": \\"sessionId\\",
+                        \\"conversationId\\": {
+                            \\"name\\": \\"conversationId\\",
                             \\"isArray\\": false,
                             \\"isRequired\\": true,
                             \\"type\\": \\"ID\\"
