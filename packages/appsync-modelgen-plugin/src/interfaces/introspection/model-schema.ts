@@ -19,7 +19,7 @@
   mutations?: SchemaMutations;
   subscriptions?: SchemaSubscriptions;
   inputs?: SchemaInputs;
-  conversationRoutes?: SchemaConversationRoutes;
+  conversations?: SchemaConversationRoutes;
 };
 /**
  * Top-level Entities on a Schema
@@ -46,6 +46,7 @@ export type SchemaConversation = {
 }
 
 export type SchemaConversationMessage = {
+  list: SchemaQuery;
   subscribe: SchemaSubscription;
   send: SchemaMutation;
 }
