@@ -46,7 +46,7 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                             \\"association\\": {
                                 \\"connectionType\\": \\"HAS_MANY\\",
                                 \\"associatedWith\\": [
-                                    \\"conversationid\\"
+                                    \\"sessionId\\"
                                 ]
                             }
                         },
@@ -117,15 +117,15 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                             \\"isRequired\\": true,
                             \\"attributes\\": []
                         },
-                        \\"conversationId\\": {
-                            \\"name\\": \\"conversationId\\",
+                        \\"sessionId\\": {
+                            \\"name\\": \\"sessionId\\",
                             \\"isArray\\": false,
                             \\"type\\": \\"ID\\",
                             \\"isRequired\\": true,
                             \\"attributes\\": []
                         },
-                        \\"conversation\\": {
-                            \\"name\\": \\"conversation\\",
+                        \\"session\\": {
+                            \\"name\\": \\"session\\",
                             \\"isArray\\": false,
                             \\"type\\": {
                                 \\"model\\": \\"ConversationPirateChat\\"
@@ -135,7 +135,7 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                             \\"association\\": {
                                 \\"connectionType\\": \\"BELONGS_TO\\",
                                 \\"targetNames\\": [
-                                    \\"conversationId\\"
+                                    \\"sessionId\\"
                                 ]
                             }
                         },
@@ -276,8 +276,8 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                         \\"model\\": \\"ConversationMessagePirateChat\\"
                     },
                     \\"arguments\\": {
-                        \\"conversationId\\": {
-                            \\"name\\": \\"conversationId\\",
+                        \\"sessionId\\": {
+                            \\"name\\": \\"sessionId\\",
                             \\"isArray\\": false,
                             \\"isRequired\\": true,
                             \\"type\\": \\"ID\\"

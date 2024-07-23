@@ -293,7 +293,7 @@ export class AppSyncModelIntrospectionVisitor<
         association: {
           connectionType: CodeGenConnectionType.HAS_MANY,
           associatedWith: [
-            'conversationid'
+            'sessionId'
           ]
         }
       },
@@ -365,15 +365,15 @@ export class AppSyncModelIntrospectionVisitor<
         isRequired: true,
         attributes: []
       },
-      conversationId: {
-        name: 'conversationId',
+      sessionId: {
+        name: 'sessionId',
         isArray: false,
         type: 'ID',
         isRequired: true,
         attributes: []
       },
-      conversation: {
-        name: 'conversation',
+      session: {
+        name: 'session',
         isArray: false,
         type: {
           model: conversationModelName
@@ -383,7 +383,7 @@ export class AppSyncModelIntrospectionVisitor<
         association: {
           connectionType: CodeGenConnectionType.BELONGS_TO,
           targetNames: [
-            'conversationId'
+            'sessionId'
           ]
         }
       },
@@ -506,8 +506,8 @@ export class AppSyncModelIntrospectionVisitor<
         name: `onAssistantMessageResponse${routeName}`,
         type: { model: `ConversationMessage${routeName}` },
         arguments: {
-          'conversationId': {
-            name: 'conversationId',
+          'sessionId': {
+            name: 'sessionId',
             isArray: false,
             isRequired: true,
             type: 'ID',
