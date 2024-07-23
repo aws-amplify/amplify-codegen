@@ -548,6 +548,18 @@
         "SchemaConversationRoute": {
             "type": "object",
             "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "models": {
+                    "$ref": "#/definitions/SchemaModels"
+                },
+                "nonModels": {
+                    "$ref": "#/definitions/SchemaNonModels"
+                },
+                "enums": {
+                    "$ref": "#/definitions/SchemaEnums"
+                },
                 "conversation": {
                     "$ref": "#/definitions/SchemaConversation"
                 },
@@ -556,6 +568,10 @@
                 }
             },
             "required": [
+                "name",
+                "models",
+                "nonModels",
+                "enums",
                 "conversation",
                 "message"
             ],
@@ -564,32 +580,20 @@
         "SchemaConversation": {
             "type": "object",
             "properties": {
-                "create": {
-                    "$ref": "#/definitions/SchemaMutation"
-                },
-                "get": {
-                    "$ref": "#/definitions/SchemaQuery"
-                },
-                "delete": {
-                    "$ref": "#/definitions/SchemaMutation"
-                },
-                "list": {
-                    "$ref": "#/definitions/SchemaQuery"
+                "modelName": {
+                    "type": "string"
                 }
             },
             "required": [
-                "create",
-                "get",
-                "delete",
-                "list"
+                "modelName"
             ],
             "additionalProperties": false
         },
         "SchemaConversationMessage": {
             "type": "object",
             "properties": {
-                "list": {
-                    "$ref": "#/definitions/SchemaQuery"
+                "modelName": {
+                    "type": "string"
                 },
                 "subscribe": {
                     "$ref": "#/definitions/SchemaSubscription"
@@ -599,7 +603,7 @@
                 }
             },
             "required": [
-                "list",
+                "modelName",
                 "subscribe",
                 "send"
             ],

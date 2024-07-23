@@ -34,19 +34,20 @@ export type SchemaInputs = Record<string, Input>;
 export type SchemaConversationRoutes = Record<string, SchemaConversationRoute>;
 
 export type SchemaConversationRoute = {
+  name: string;
+  models: SchemaModels;
+  nonModels: SchemaNonModels;
+  enums: SchemaEnums;
   conversation: SchemaConversation;
   message: SchemaConversationMessage;
 }
 
 export type SchemaConversation = {
-  create: SchemaMutation;
-  get: SchemaQuery;
-  delete: SchemaMutation;
-  list: SchemaQuery;
+  modelName: string;
 }
 
 export type SchemaConversationMessage = {
-  list: SchemaQuery;
+  modelName: string;
   subscribe: SchemaSubscription;
   send: SchemaMutation;
 }
