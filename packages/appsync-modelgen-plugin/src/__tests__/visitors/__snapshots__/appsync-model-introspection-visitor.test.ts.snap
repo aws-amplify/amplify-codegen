@@ -4,7 +4,15 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
 "{
     \\"version\\": 1,
     \\"models\\": {},
-    \\"enums\\": {},
+    \\"enums\\": {
+        \\"ConversationMessageSender\\": {
+            \\"name\\": \\"ConversationMessageSender\\",
+            \\"values\\": [
+                \\"user\\",
+                \\"assistant\\"
+            ]
+        }
+    },
     \\"nonModels\\": {},
     \\"conversations\\": {
         \\"pirateChat\\": {
@@ -251,7 +259,9 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                 \\"send\\": {
                     \\"name\\": \\"pirateChat\\",
                     \\"isArray\\": false,
-                    \\"type\\": \\"String\\",
+                    \\"type\\": {
+                        \\"model\\": \\"ConversationMessagePirateChat\\"
+                    },
                     \\"isRequired\\": false,
                     \\"arguments\\": {
                         \\"sessionId\\": {

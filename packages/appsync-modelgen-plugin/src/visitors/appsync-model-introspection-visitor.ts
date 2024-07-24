@@ -248,274 +248,274 @@ export class AppSyncModelIntrospectionVisitor<
   }
 
   private generateConversationMetadata(mutationObj: CodeGenMutation): SchemaConversationRoute {
-  const routeName = pascalCase(mutationObj.name)
-  const conversationModelName = `Conversation${routeName}`;
-  const pluarlizedConversationModelName = plural(conversationModelName);
-  const conversationMessageModelName = `ConversationMessage${routeName}`;
-  const pluarlizedConversationMessageModelName = plural(conversationMessageModelName);
-  // TODO: clean up schema model definition. Use utilities and/or move to a separate function.
-  // The conversation / conversation message model definitions shouldn't be repeated here.
-  // There should be a single source of truth within the transformer that's imported here -
-  // similar to how the directive definitions work today.
-  const conversationModel: SchemaModel = {
-    name: conversationModelName,
-    fields: {
-      id: {
-        name: 'id',
-        isArray: false,
-        type: 'ID',
-        isRequired: true,
-        attributes: []
-      },
-      name: {
-        name: 'name',
-        isArray: false,
-        type: 'String',
-        isRequired: false,
-        attributes: []
-      },
-      metadata: {
-        name: 'metadata',
-        isArray: false,
-        type: 'AWSJSON',
-        isRequired: false,
-        attributes: []
-      },
-      messages: {
-        name: 'messages',
-        isArray: true,
-        type: {
-          model: conversationMessageModelName
+    const routeName = pascalCase(mutationObj.name)
+    const conversationModelName = `Conversation${routeName}`;
+    const pluarlizedConversationModelName = plural(conversationModelName);
+    const conversationMessageModelName = `ConversationMessage${routeName}`;
+    const pluarlizedConversationMessageModelName = plural(conversationMessageModelName);
+    // TODO: clean up schema model definition. Use utilities and/or move to a separate function.
+    // The conversation / conversation message model definitions shouldn't be repeated here.
+    // There should be a single source of truth within the transformer that's imported here -
+    // similar to how the directive definitions work today.
+    const conversationModel: SchemaModel = {
+      name: conversationModelName,
+      fields: {
+        id: {
+          name: 'id',
+          isArray: false,
+          type: 'ID',
+          isRequired: true,
+          attributes: []
         },
-        isRequired: false,
-        attributes: [],
-        isArrayNullable: true,
-        association: {
-          connectionType: CodeGenConnectionType.HAS_MANY,
-          associatedWith: [
-            'sessionId'
-          ]
+        name: {
+          name: 'name',
+          isArray: false,
+          type: 'String',
+          isRequired: false,
+          attributes: []
+        },
+        metadata: {
+          name: 'metadata',
+          isArray: false,
+          type: 'AWSJSON',
+          isRequired: false,
+          attributes: []
+        },
+        messages: {
+          name: 'messages',
+          isArray: true,
+          type: {
+            model: conversationMessageModelName
+          },
+          isRequired: false,
+          attributes: [],
+          isArrayNullable: true,
+          association: {
+            connectionType: CodeGenConnectionType.HAS_MANY,
+            associatedWith: [
+              'sessionId'
+            ]
+          }
+        },
+        createdAt: {
+          name: 'createdAt',
+          isArray: false,
+          type: 'AWSDateTime',
+          isRequired: false,
+          attributes: [],
+          isReadOnly: true
+        },
+        updatedAt: {
+          name: 'updatedAt',
+          isArray: false,
+          type: 'AWSDateTime',
+          isRequired: false,
+          attributes: [],
+          isReadOnly: true
         }
       },
-      createdAt: {
-        name: 'createdAt',
-        isArray: false,
-        type: 'AWSDateTime',
-        isRequired: false,
-        attributes: [],
-        isReadOnly: true
-      },
-      updatedAt: {
-        name: 'updatedAt',
-        isArray: false,
-        type: 'AWSDateTime',
-        isRequired: false,
-        attributes: [],
-        isReadOnly: true
-      }
-    },
-    syncable: true,
-    pluralName: pluarlizedConversationModelName,
-    attributes: [
-      {
-        type: 'model',
-        properties: {
-          subscriptions: {
-            level: 'off'
-          },
-          mutations: {
-            update: null
+      syncable: true,
+      pluralName: pluarlizedConversationModelName,
+      attributes: [
+        {
+          type: 'model',
+          properties: {
+            subscriptions: {
+              level: 'off'
+            },
+            mutations: {
+              update: null
+            }
+          }
+        },
+        {
+          type: 'auth',
+          properties: {
+            rules: [
+              {
+                provider: 'userPools',
+                ownerField: 'owner',
+                allow: 'owner',
+                identityClaim: 'cognito:username',
+                operations: [
+                  'create',
+                  'update',
+                  'delete',
+                  'read'
+                ]
+              }
+            ]
           }
         }
-      },
-      {
-        type: 'auth',
-        properties: {
-          rules: [
-            {
-              provider: 'userPools',
-              ownerField: 'owner',
-              allow: 'owner',
-              identityClaim: 'cognito:username',
-              operations: [
-                'create',
-                'update',
-                'delete',
-                'read'
-              ]
-            }
-          ]
-        }
+      ],
+      primaryKeyInfo: {
+        isCustomPrimaryKey: false,
+        primaryKeyFieldName: 'id',
+        sortKeyFieldNames: []
       }
-    ],
-    primaryKeyInfo: {
-      isCustomPrimaryKey: false,
-      primaryKeyFieldName: 'id',
-      sortKeyFieldNames: []
     }
-  }
 
-  const conversationMessageModel: SchemaModel = {
-    name: conversationMessageModelName,
-    fields: {
-      id: {
-        name: 'id',
-        isArray: false,
-        type: 'ID',
-        isRequired: true,
-        attributes: []
-      },
-      sessionId: {
-        name: 'sessionId',
-        isArray: false,
-        type: 'ID',
-        isRequired: true,
-        attributes: []
-      },
-      session: {
-        name: 'session',
-        isArray: false,
-        type: {
-          model: conversationModelName
+    const conversationMessageModel: SchemaModel = {
+      name: conversationMessageModelName,
+      fields: {
+        id: {
+          name: 'id',
+          isArray: false,
+          type: 'ID',
+          isRequired: true,
+          attributes: []
         },
-        isRequired: false,
-        attributes: [],
-        association: {
-          connectionType: CodeGenConnectionType.BELONGS_TO,
-          targetNames: [
-            'sessionId'
-          ]
+        sessionId: {
+          name: 'sessionId',
+          isArray: false,
+          type: 'ID',
+          isRequired: true,
+          attributes: []
+        },
+        session: {
+          name: 'session',
+          isArray: false,
+          type: {
+            model: conversationModelName
+          },
+          isRequired: false,
+          attributes: [],
+          association: {
+            connectionType: CodeGenConnectionType.BELONGS_TO,
+            targetNames: [
+              'sessionId'
+            ]
+          }
+        },
+        sender: {
+          name: 'sender',
+          isArray: false,
+          type: {
+            enum: 'ConversationMessageSender'
+          },
+          isRequired: false,
+          attributes: []
+        },
+        content: {
+          name: 'content',
+          isArray: false,
+          type: 'String',
+          isRequired: false,
+          attributes: []
+        },
+        context: {
+          name: 'context',
+          isArray: false,
+          type: 'AWSJSON',
+          isRequired: false,
+          attributes: []
+        },
+        uiComponents: {
+          name: 'uiComponents',
+          isArray: true,
+          type: 'AWSJSON',
+          isRequired: false,
+          attributes: [],
+          isArrayNullable: true
+        },
+        assistantContent: {
+          name: 'assistantContent',
+          isArray: false,
+          type: 'String',
+          isRequired: false,
+          attributes: []
+        },
+        createdAt: {
+          name: 'createdAt',
+          isArray: false,
+          type: 'AWSDateTime',
+          isRequired: false,
+          attributes: [],
+          isReadOnly: true
+        },
+        updatedAt: {
+          name: 'updatedAt',
+          isArray: false,
+          type: 'AWSDateTime',
+          isRequired: false,
+          attributes: [],
+          isReadOnly: true
         }
       },
-      sender: {
-        name: 'sender',
-        isArray: false,
-        type: {
-          enum: 'ConversationMessageSender'
+      syncable: true,
+      pluralName: pluarlizedConversationMessageModelName,
+      attributes: [
+        {
+          type: 'model',
+          properties: {
+            subscriptions: {},
+            mutations: {
+              update: null
+            }
+          }
         },
-        isRequired: false,
-        attributes: []
-      },
-      content: {
-        name: 'content',
-        isArray: false,
-        type: 'String',
-        isRequired: false,
-        attributes: []
-      },
-      context: {
-        name: 'context',
-        isArray: false,
-        type: 'AWSJSON',
-        isRequired: false,
-        attributes: []
-      },
-      uiComponents: {
-        name: 'uiComponents',
-        isArray: true,
-        type: 'AWSJSON',
-        isRequired: false,
-        attributes: [],
-        isArrayNullable: true
-      },
-      assistantContent: {
-        name: 'assistantContent',
-        isArray: false,
-        type: 'String',
-        isRequired: false,
-        attributes: []
-      },
-      createdAt: {
-        name: 'createdAt',
-        isArray: false,
-        type: 'AWSDateTime',
-        isRequired: false,
-        attributes: [],
-        isReadOnly: true
-      },
-      updatedAt: {
-        name: 'updatedAt',
-        isArray: false,
-        type: 'AWSDateTime',
-        isRequired: false,
-        attributes: [],
-        isReadOnly: true
-      }
-    },
-    syncable: true,
-    pluralName: pluarlizedConversationMessageModelName,
-    attributes: [
-      {
-        type: 'model',
-        properties: {
-          subscriptions: {},
-          mutations: {
-            update: null
+        {
+          type: 'auth',
+          properties: {
+            rules: [
+              {
+                provider: 'userPools',
+                ownerField: 'owner',
+                allow: 'owner',
+                identityClaim: 'cognito:username',
+                operations: [
+                  'create',
+                  'update',
+                  'delete',
+                  'read'
+                ]
+              }
+            ]
           }
         }
-      },
-      {
-        type: 'auth',
-        properties: {
-          rules: [
-            {
-              provider: 'userPools',
-              ownerField: 'owner',
-              allow: 'owner',
-              identityClaim: 'cognito:username',
-              operations: [
-                'create',
-                'update',
-                'delete',
-                'read'
-              ]
-            }
-          ]
-        }
+      ],
+      primaryKeyInfo: {
+        isCustomPrimaryKey: false,
+        primaryKeyFieldName: 'id',
+        sortKeyFieldNames: []
       }
-    ],
-    primaryKeyInfo: {
-      isCustomPrimaryKey: false,
-      primaryKeyFieldName: 'id',
-      sortKeyFieldNames: []
-    }
-  };
+    };
 
-  const route: SchemaConversationRoute = {
-    name: mutationObj.name,
-    models: {
-      [conversationModelName]: conversationModel,
-      [conversationMessageModelName]: conversationMessageModel
-    },
-    nonModels: {},
-    enums: {
-      ConversationMessageSender: {
-        name: 'ConversationMessageSender',
-        values: ['user', 'assistant'],
-      }
-    },
-    conversation: {
-      modelName: conversationModelName
-    },
-    message: {
-      modelName: conversationMessageModelName,
-      send: this.generateGraphQLOperationMetadata<CodeGenMutation, SchemaMutation>(mutationObj),
-      subscribe: {
-        isArray: false,
-        isRequired: false,
-        name: `onAssistantMessageResponse${routeName}`,
-        type: { model: `ConversationMessage${routeName}` },
-        arguments: {
-          'sessionId': {
-            name: 'sessionId',
-            isArray: false,
-            isRequired: true,
-            type: 'ID',
-          },
+    const route: SchemaConversationRoute = {
+      name: mutationObj.name,
+      models: {
+        [conversationModelName]: conversationModel,
+        [conversationMessageModelName]: conversationMessageModel
+      },
+      nonModels: {},
+      enums: {
+        ConversationMessageSender: {
+          name: 'ConversationMessageSender',
+          values: ['user', 'assistant'],
+        }
+      },
+      conversation: {
+        modelName: conversationModelName
+      },
+      message: {
+        modelName: conversationMessageModelName,
+        send: { ...this.generateGraphQLOperationMetadata<CodeGenMutation, SchemaMutation>(mutationObj), type: { model: conversationMessageModelName } },
+        subscribe: {
+          isArray: false,
+          isRequired: false,
+          name: `onAssistantMessageResponse${routeName}`,
+          type: { model: `ConversationMessage${routeName}` },
+          arguments: {
+            'sessionId': {
+              name: 'sessionId',
+              isArray: false,
+              isRequired: true,
+              type: 'ID',
+            },
+          }
         }
       }
-    }
-  };
+    };
 
 
     return route;
@@ -523,48 +523,48 @@ export class AppSyncModelIntrospectionVisitor<
 
 
   protected getType(gqlType: string): FieldType | InputFieldType | UnionFieldType | InterfaceFieldType {
-  // Todo: Handle unlisted scalars
-  if (gqlType in METADATA_SCALAR_MAP) {
-    return METADATA_SCALAR_MAP[gqlType] as FieldType;
+    // Todo: Handle unlisted scalars
+    if (gqlType in METADATA_SCALAR_MAP) {
+      return METADATA_SCALAR_MAP[gqlType] as FieldType;
+    }
+    if (gqlType in this.enumMap) {
+      return { enum: this.enumMap[gqlType].name };
+    }
+    if (gqlType in this.nonModelMap) {
+      return { nonModel: gqlType };
+    }
+    if (gqlType in this.modelMap) {
+      return { model: gqlType };
+    }
+    if (gqlType in this.inputObjectMap) {
+      return { input: gqlType }
+    }
+    if (gqlType in this.unionMap) {
+      return { union: gqlType }
+    }
+    if (gqlType in this.interfaceMap) {
+      return { interface: gqlType }
+    }
+    throw new Error(`Unknown type ${gqlType} found during model introspection schema generation`);
   }
-  if (gqlType in this.enumMap) {
-    return { enum: this.enumMap[gqlType].name };
-  }
-  if (gqlType in this.nonModelMap) {
-    return { nonModel: gqlType };
-  }
-  if (gqlType in this.modelMap) {
-    return { model: gqlType };
-  }
-  if (gqlType in this.inputObjectMap) {
-    return { input: gqlType }
-  }
-  if (gqlType in this.unionMap) {
-    return { union: gqlType }
-  }
-  if (gqlType in this.interfaceMap) {
-    return { interface: gqlType }
-  }
-  throw new Error(`Unknown type ${gqlType} found during model introspection schema generation`);
-}
 
   private generateModelPrimaryKeyInfo(model: CodeGenModel): PrimaryKeyInfo {
-  const primaryKeyField = this.getModelPrimaryKeyField(model);
-  if (primaryKeyField && primaryKeyField.primaryKeyInfo) {
-    const { primaryKeyType, sortKeyFields } = primaryKeyField.primaryKeyInfo;
-    return {
-      isCustomPrimaryKey: primaryKeyType === CodeGenPrimaryKeyType.CustomId,
-      primaryKeyFieldName: this.getFieldName(primaryKeyField),
-      sortKeyFieldNames: sortKeyFields.map(field => this.getFieldName(field))
-    };
+    const primaryKeyField = this.getModelPrimaryKeyField(model);
+    if (primaryKeyField && primaryKeyField.primaryKeyInfo) {
+      const { primaryKeyType, sortKeyFields } = primaryKeyField.primaryKeyInfo;
+      return {
+        isCustomPrimaryKey: primaryKeyType === CodeGenPrimaryKeyType.CustomId,
+        primaryKeyFieldName: this.getFieldName(primaryKeyField),
+        sortKeyFieldNames: sortKeyFields.map(field => this.getFieldName(field))
+      };
+    }
+    throw new Error(`No primary key found for model ${model.name}`);
   }
-  throw new Error(`No primary key found for model ${model.name}`);
-}
 
   private isUnionFieldType = (obj: any): obj is UnionFieldType => {
-  return typeof obj === 'object' && typeof obj.union === 'string';
-}
+    return typeof obj === 'object' && typeof obj.union === 'string';
+  }
   private isInterfaceFieldType = (obj: any): obj is InterfaceFieldType => {
-  return typeof obj === 'object' && typeof obj.interface === 'string';
-}
+    return typeof obj === 'object' && typeof obj.interface === 'string';
+  }
 }
