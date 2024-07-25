@@ -281,7 +281,7 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                 \\"subscribe\\": {
                     \\"isArray\\": false,
                     \\"isRequired\\": false,
-                    \\"name\\": \\"onAssistantMessageResponsePirateChat\\",
+                    \\"name\\": \\"onCreateAssistantResponsePirateChat\\",
                     \\"type\\": {
                         \\"model\\": \\"ConversationMessagePirateChat\\"
                     },
