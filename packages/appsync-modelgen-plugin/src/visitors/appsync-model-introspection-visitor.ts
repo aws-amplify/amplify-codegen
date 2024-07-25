@@ -503,7 +503,7 @@ export class AppSyncModelIntrospectionVisitor<
         subscribe: {
           isArray: false,
           isRequired: false,
-          name: `onAssistantMessageResponse${routeName}`,
+          name: `onCreateAssistantResponse${routeName}`,
           type: { model: `ConversationMessage${routeName}` },
           arguments: {
             'sessionId': {
