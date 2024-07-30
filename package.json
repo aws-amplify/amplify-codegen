@@ -131,7 +131,8 @@
     "glob-parent": "^6.0.2",
     "parse-url": "^8.1.0",
     "graphql": "15.8.0",
-    "xml2js": "0.5.0"
+    "xml2js": "0.5.0",
+    "fast-xml-parser": "^4.4.1"
   },
   "config": {
     "commitizen": {
