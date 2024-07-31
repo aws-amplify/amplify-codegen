@@ -20,10 +20,6 @@ const schema = a.schema({
     'PROGRESS',
     'COMPLETED',
   ]),
-  EchoQueryStatus: a.enum([
-    'PROGRESS',
-    'COMPLETED',
-  ]),
   // Non model type
   EchoResponse: a.customType({
     content: a.string(),
