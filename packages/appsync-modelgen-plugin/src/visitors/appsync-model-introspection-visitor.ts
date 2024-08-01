@@ -293,7 +293,7 @@ export class AppSyncModelIntrospectionVisitor<
           association: {
             connectionType: CodeGenConnectionType.HAS_MANY,
             associatedWith: [
-              'sessionId'
+              'conversationId'
             ]
           }
         },
@@ -365,15 +365,15 @@ export class AppSyncModelIntrospectionVisitor<
           isRequired: true,
           attributes: []
         },
-        sessionId: {
-          name: 'sessionId',
+        conversationId: {
+          name: 'conversationId',
           isArray: false,
           type: 'ID',
           isRequired: true,
           attributes: []
         },
-        session: {
-          name: 'session',
+        conversation: {
+          name: 'conversation',
           isArray: false,
           type: {
             model: conversationModelName
@@ -383,23 +383,23 @@ export class AppSyncModelIntrospectionVisitor<
           association: {
             connectionType: CodeGenConnectionType.BELONGS_TO,
             targetNames: [
-              'sessionId'
+              'conversationId'
             ]
           }
         },
-        sender: {
-          name: 'sender',
+        role: {
+          name: 'role',
           isArray: false,
           type: {
-            enum: 'ConversationMessageSender'
+            enum: 'ConversationParticipantRole'
           },
           isRequired: false,
           attributes: []
         },
         content: {
           name: 'content',
-          isArray: false,
-          type: 'String',
+          isArray: true,
+          type: { nonModel: 'ContentBlock' },
           isRequired: false,
           attributes: []
         },
@@ -421,7 +421,7 @@ export class AppSyncModelIntrospectionVisitor<
         assistantContent: {
           name: 'assistantContent',
           isArray: false,
-          type: 'String',
+          type: { nonModel: 'ContentBlock' },
           isRequired: false,
           attributes: []
         },
@@ -489,8 +489,8 @@ export class AppSyncModelIntrospectionVisitor<
       },
       nonModels: {},
       enums: {
-        ConversationMessageSender: {
-          name: 'ConversationMessageSender',
+        ConversationParticipantRole: {
+          name: 'ConversationParticipantRole',
           values: ['user', 'assistant'],
         }
       },
@@ -506,8 +506,8 @@ export class AppSyncModelIntrospectionVisitor<
           name: `onCreateAssistantResponse${routeName}`,
           type: { model: `ConversationMessage${routeName}` },
           arguments: {
-            'sessionId': {
-              name: 'sessionId',
+            'conversationId': {
+              name: 'conversationId',
               isArray: false,
               isRequired: true,
               type: 'ID',

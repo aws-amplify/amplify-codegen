@@ -5,8 +5,8 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
     \\"version\\": 1,
     \\"models\\": {},
     \\"enums\\": {
-        \\"ConversationMessageSender\\": {
-            \\"name\\": \\"ConversationMessageSender\\",
+        \\"ConversationParticipantRole\\": {
+            \\"name\\": \\"ConversationParticipantRole\\",
             \\"values\\": [
                 \\"user\\",
                 \\"assistant\\"
@@ -54,7 +54,7 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                             \\"association\\": {
                                 \\"connectionType\\": \\"HAS_MANY\\",
                                 \\"associatedWith\\": [
-                                    \\"sessionId\\"
+                                    \\"conversationId\\"
                                 ]
                             }
                         },
@@ -125,15 +125,15 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                             \\"isRequired\\": true,
                             \\"attributes\\": []
                         },
-                        \\"sessionId\\": {
-                            \\"name\\": \\"sessionId\\",
+                        \\"conversationId\\": {
+                            \\"name\\": \\"conversationId\\",
                             \\"isArray\\": false,
                             \\"type\\": \\"ID\\",
                             \\"isRequired\\": true,
                             \\"attributes\\": []
                         },
-                        \\"session\\": {
-                            \\"name\\": \\"session\\",
+                        \\"conversation\\": {
+                            \\"name\\": \\"conversation\\",
                             \\"isArray\\": false,
                             \\"type\\": {
                                 \\"model\\": \\"ConversationPirateChat\\"
@@ -143,23 +143,25 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                             \\"association\\": {
                                 \\"connectionType\\": \\"BELONGS_TO\\",
                                 \\"targetNames\\": [
-                                    \\"sessionId\\"
+                                    \\"conversationId\\"
                                 ]
                             }
                         },
-                        \\"sender\\": {
-                            \\"name\\": \\"sender\\",
+                        \\"role\\": {
+                            \\"name\\": \\"role\\",
                             \\"isArray\\": false,
                             \\"type\\": {
-                                \\"enum\\": \\"ConversationMessageSender\\"
+                                \\"enum\\": \\"ConversationParticipantRole\\"
                             },
                             \\"isRequired\\": false,
                             \\"attributes\\": []
                         },
                         \\"content\\": {
                             \\"name\\": \\"content\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"String\\",
+                            \\"isArray\\": true,
+                            \\"type\\": {
+                                \\"nonModel\\": \\"ContentBlock\\"
+                            },
                             \\"isRequired\\": false,
                             \\"attributes\\": []
                         },
@@ -181,7 +183,9 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                         \\"assistantContent\\": {
                             \\"name\\": \\"assistantContent\\",
                             \\"isArray\\": false,
-                            \\"type\\": \\"String\\",
+                            \\"type\\": {
+                                \\"nonModel\\": \\"ContentBlock\\"
+                            },
                             \\"isRequired\\": false,
                             \\"attributes\\": []
                         },
@@ -243,8 +247,8 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
             },
             \\"nonModels\\": {},
             \\"enums\\": {
-                \\"ConversationMessageSender\\": {
-                    \\"name\\": \\"ConversationMessageSender\\",
+                \\"ConversationParticipantRole\\": {
+                    \\"name\\": \\"ConversationParticipantRole\\",
                     \\"values\\": [
                         \\"user\\",
                         \\"assistant\\"
@@ -264,8 +268,8 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                     },
                     \\"isRequired\\": false,
                     \\"arguments\\": {
-                        \\"sessionId\\": {
-                            \\"name\\": \\"sessionId\\",
+                        \\"conversationId\\": {
+                            \\"name\\": \\"conversationId\\",
                             \\"isArray\\": false,
                             \\"type\\": \\"ID\\",
                             \\"isRequired\\": false
@@ -286,8 +290,8 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                         \\"model\\": \\"ConversationMessagePirateChat\\"
                     },
                     \\"arguments\\": {
-                        \\"sessionId\\": {
-                            \\"name\\": \\"sessionId\\",
+                        \\"conversationId\\": {
+                            \\"name\\": \\"conversationId\\",
                             \\"isArray\\": false,
                             \\"isRequired\\": true,
                             \\"type\\": \\"ID\\"

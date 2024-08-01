@@ -30,22 +30,24 @@ const getVisitor = (schema: string, settings: any = {}, directives: readonly Dir
 
 describe('Conversation Route Introspection Visitor', () => {
   const schema = /* GraphQL */ `
-    enum ConversationMessageSender {
+    enum ConversationParticipantRole {
       user
       assistant
     }
 
     interface ConversationMessage {
       id: ID!
-      sessionId: ID!
-      sender: ConversationMessageSender
+      conversationId: ID!
+      role: ConversationParticipantRole
+      # TODO: Update to ContentBlock -- need the types
       content: String
       context: AWSJSON
       uiComponents: [AWSJSON]
     }
 
     type Mutation {
-      pirateChat(sessionId: ID, content: String): ConversationMessage
+      # TODO: Update to ContentBlock -- need the types
+      pirateChat(conversationId: ID, content: String): ConversationMessage
       @conversation(aiModel: "Claude3Haiku", functionName: "conversation-handler")
     }
   `;
