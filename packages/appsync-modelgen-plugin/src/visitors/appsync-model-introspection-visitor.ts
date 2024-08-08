@@ -418,13 +418,13 @@ export class AppSyncModelIntrospectionVisitor<
           attributes: [],
           isArrayNullable: true
         },
-        assistantContent: {
-          name: 'assistantContent',
-          isArray: false,
-          type: { nonModel: 'ContentBlock' },
-          isRequired: false,
-          attributes: []
-        },
+        // assistantContent: {
+        //   name: 'assistantContent',
+        //   isArray: false,
+        //   type: { nonModel: 'ContentBlock' },
+        //   isRequired: false,
+        //   attributes: []
+        // },
         createdAt: {
           name: 'createdAt',
           isArray: false,
