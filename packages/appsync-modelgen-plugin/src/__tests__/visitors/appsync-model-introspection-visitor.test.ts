@@ -39,15 +39,17 @@ describe('Conversation Route Introspection Visitor', () => {
       id: ID!
       conversationId: ID!
       role: ConversationParticipantRole
-      # TODO: Update to ContentBlock -- need the types
-      content: String
-      context: AWSJSON
-      uiComponents: [AWSJSON]
+      content: [ContentBlock]
+      aiContext: AWSJSON
+      toolConfiguration: ToolConfiguration
+      createdAt: AWSDateTime
+      updatedAt: AWSDateTime
+      owner: String
     }
 
     type Mutation {
       # TODO: Update to ContentBlock -- need the types
-      pirateChat(conversationId: ID, content: String): ConversationMessage
+      pirateChat(conversationId: ID, content: [ContentBlockInput], aiContext: AWSJSON, toolConfiguration: ToolConfigurationInput): ConversationMessage
       @conversation(aiModel: "Claude3Haiku", functionName: "conversation-handler")
     }
   `;

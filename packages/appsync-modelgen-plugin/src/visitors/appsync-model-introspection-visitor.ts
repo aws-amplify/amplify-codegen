@@ -403,17 +403,17 @@ export class AppSyncModelIntrospectionVisitor<
           isRequired: false,
           attributes: []
         },
-        context: {
-          name: 'context',
+        aiContext: {
+          name: 'aiContext',
           isArray: false,
           type: 'AWSJSON',
           isRequired: false,
           attributes: []
         },
-        uiComponents: {
-          name: 'uiComponents',
-          isArray: true,
-          type: 'AWSJSON',
+        toolConfiguration: {
+          name: 'toolConfiguration',
+          isArray: false,
+          type: { nonModel: 'ToolConfiguration' },
           isRequired: false,
           attributes: [],
           isArrayNullable: true
