@@ -29,6 +29,9 @@
         },
         "conversations": {
             "$ref": "#/definitions/SchemaConversationRoutes"
+        },
+        "generations": {
+            "$ref": "#/definitions/SchemaQueries"
         }
     },
     "required": [

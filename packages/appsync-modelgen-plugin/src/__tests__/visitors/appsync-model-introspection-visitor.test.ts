@@ -28,11 +28,56 @@ const getVisitor = (schema: string, settings: any = {}, directives: readonly Dir
   return visitor;
 };
 
+describe('Generation Route Introspection Visitor', () => {
+  const schema = /* GraphQL */ `
+    type Recipe {
+      name: String
+      ingredients: [String]
+      instructions: String
+    }
+
+    type Query {
+      generateRecipe(description: String): Recipe
+      @generation(aiModel: "Claude3Haiku", systemPrompt: "You are a recipe generator.")
+    }
+  `;
+  // TODO: Update to amplify-graphql-directives version that includes generation directive
+  const generationDirective: Directive = {
+    name: 'generation',
+    definition: /* GraphQL */ `
+      directive @generation(
+        aiModel: String,
+        systemPrompt: String
+      ) on FIELD_DEFINITION
+    `,
+    defaults: {},
+  }
+  const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, {}, [...DefaultDirectives, generationDirective]);
+  describe('Metadata snapshot', () => {
+    it('should generate correct model intropection file validated by JSON schema', () => {
+      expect(visitor.generate()).toMatchSnapshot();
+    });
+  });
+});
+
 describe('Conversation Route Introspection Visitor', () => {
   const schema = /* GraphQL */ `
     enum ConversationParticipantRole {
       user
       assistant
+    }
+
+    type ContentBlock {
+      type: String
+    }
+    type ToolConfiguration {
+      type: String
+    }
+    input ContentBlockInput {
+      type: String
+    }
+    input ToolConfigurationInput {
+      type: String
     }
 
     interface ConversationMessage {

@@ -20,6 +20,7 @@
   subscriptions?: SchemaSubscriptions;
   inputs?: SchemaInputs;
   conversations?: SchemaConversationRoutes;
+  generations?: SchemaQueries;
 };
 /**
  * Top-level Entities on a Schema

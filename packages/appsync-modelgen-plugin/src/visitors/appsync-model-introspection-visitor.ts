@@ -68,11 +68,17 @@ export class AppSyncModelIntrospectionVisitor<
       // Skip the field if the field type is union/interface
       // TODO: Remove this skip once these types are supported for stakeholder usages
       const fieldType = this.getType(queryObj.type) as any;
-      if (this.isUnionFieldType(fieldType) || this.isInterfaceFieldType(fieldType)) {
+      if (this.isUnionFieldType(fieldType) || this.isInterfaceFieldType(fieldType) || queryObj.directives.find((directive) => directive.name === 'generation')) {
         return acc;
       }
       return { ...acc, [queryObj.name]: this.generateGraphQLOperationMetadata<CodeGenQuery, SchemaQuery>(queryObj) };
     }, {})
+    const generations = Object.values(this.queryMap).reduce((acc, queryObj: CodeGenQuery) => {
+      if (!queryObj.directives.find((directive) => directive.name === 'generation')) {
+        return acc;
+      }
+      return { ...acc, [queryObj.name]: this.generateGenerationMetadata(queryObj) };
+    }, {});
     const mutations = Object.values(this.mutationMap).reduce((acc, mutationObj: CodeGenMutation) => {
       // Skip the field if the field type is union/interface
       // TODO: Remove this skip once these types are supported for stakeholder usages
@@ -108,6 +114,9 @@ export class AppSyncModelIntrospectionVisitor<
     }
     if (Object.keys(conversations).length > 0) {
       result = { ...result, conversations }
+    }
+    if (Object.keys(generations).length > 0) {
+      result = { ...result, generations };
     }
     if (Object.keys(subscriptions).length > 0) {
       result = { ...result, subscriptions };
@@ -245,6 +254,10 @@ export class AppSyncModelIntrospectionVisitor<
       }, {})
     }
     return operationMeta as V;
+  }
+
+  private generateGenerationMetadata(generationObj: CodeGenQuery): SchemaQuery {
+    return this.generateGraphQLOperationMetadata<CodeGenQuery, SchemaQuery>(generationObj);
   }
 
   private generateConversationMetadata(mutationObj: CodeGenMutation): SchemaConversationRoute {
