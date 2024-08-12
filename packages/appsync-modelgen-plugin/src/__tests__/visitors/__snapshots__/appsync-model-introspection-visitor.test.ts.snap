@@ -13,7 +13,32 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
             ]
         }
     },
-    \\"nonModels\\": {},
+    \\"nonModels\\": {
+        \\"ContentBlock\\": {
+            \\"name\\": \\"ContentBlock\\",
+            \\"fields\\": {
+                \\"type\\": {
+                    \\"name\\": \\"type\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                }
+            }
+        },
+        \\"ToolConfiguration\\": {
+            \\"name\\": \\"ToolConfiguration\\",
+            \\"fields\\": {
+                \\"type\\": {
+                    \\"name\\": \\"type\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                }
+            }
+        }
+    },
     \\"conversations\\": {
         \\"pirateChat\\": {
             \\"name\\": \\"pirateChat\\",
@@ -182,15 +207,6 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                             \\"attributes\\": [],
                             \\"isArrayNullable\\": true
                         },
-                        \\"assistantContent\\": {
-                            \\"name\\": \\"assistantContent\\",
-                            \\"isArray\\": false,
-                            \\"type\\": {
-                                \\"nonModel\\": \\"ContentBlock\\"
-                            },
-                            \\"isRequired\\": false,
-                            \\"attributes\\": []
-                        },
                         \\"createdAt\\": {
                             \\"name\\": \\"createdAt\\",
                             \\"isArray\\": false,
@@ -278,8 +294,25 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                         },
                         \\"content\\": {
                             \\"name\\": \\"content\\",
+                            \\"isArray\\": true,
+                            \\"type\\": {
+                                \\"input\\": \\"ContentBlockInput\\"
+                            },
+                            \\"isRequired\\": false,
+                            \\"isArrayNullable\\": true
+                        },
+                        \\"aiContext\\": {
+                            \\"name\\": \\"aiContext\\",
                             \\"isArray\\": false,
-                            \\"type\\": \\"String\\",
+                            \\"type\\": \\"AWSJSON\\",
+                            \\"isRequired\\": false
+                        },
+                        \\"toolConfiguration\\": {
+                            \\"name\\": \\"toolConfiguration\\",
+                            \\"isArray\\": false,
+                            \\"type\\": {
+                                \\"input\\": \\"ToolConfigurationInput\\"
+                            },
                             \\"isRequired\\": false
                         }
                     }
@@ -299,6 +332,30 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                             \\"type\\": \\"ID\\"
                         }
                     }
+                }
+            }
+        }
+    },
+    \\"inputs\\": {
+        \\"ContentBlockInput\\": {
+            \\"name\\": \\"ContentBlockInput\\",
+            \\"attributes\\": {
+                \\"type\\": {
+                    \\"name\\": \\"type\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false
+                }
+            }
+        },
+        \\"ToolConfigurationInput\\": {
+            \\"name\\": \\"ToolConfigurationInput\\",
+            \\"attributes\\": {
+                \\"type\\": {
+                    \\"name\\": \\"type\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false
                 }
             }
         }
@@ -2275,6 +2332,61 @@ exports[`Custom queries/mutations/subscriptions & input type tests should genera
                     \\"isArray\\": false,
                     \\"type\\": \\"String\\",
                     \\"isRequired\\": true
+                }
+            }
+        }
+    }
+}"
+`;
+
+exports[`Generation Route Introspection Visitor Metadata snapshot should generate correct model intropection file validated by JSON schema 1`] = `
+"{
+    \\"version\\": 1,
+    \\"models\\": {},
+    \\"enums\\": {},
+    \\"nonModels\\": {
+        \\"Recipe\\": {
+            \\"name\\": \\"Recipe\\",
+            \\"fields\\": {
+                \\"name\\": {
+                    \\"name\\": \\"name\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"ingredients\\": {
+                    \\"name\\": \\"ingredients\\",
+                    \\"isArray\\": true,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isArrayNullable\\": true
+                },
+                \\"instructions\\": {
+                    \\"name\\": \\"instructions\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                }
+            }
+        }
+    },
+    \\"generations\\": {
+        \\"generateRecipe\\": {
+            \\"name\\": \\"generateRecipe\\",
+            \\"isArray\\": false,
+            \\"type\\": {
+                \\"nonModel\\": \\"Recipe\\"
+            },
+            \\"isRequired\\": false,
+            \\"arguments\\": {
+                \\"description\\": {
+                    \\"name\\": \\"description\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false
                 }
             }
         }
