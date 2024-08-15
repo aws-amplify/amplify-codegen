@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.9.5-raven.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.9.4...amplify-codegen@4.9.5-raven.0) (2024-08-15)
+
+**Note:** Version bump only for package amplify-codegen
+
 ## [4.9.4](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.9.3...amplify-codegen@4.9.4) (2024-07-01)
 
 **Note:** Version bump only for package amplify-codegen
