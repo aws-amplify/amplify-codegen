@@ -100,6 +100,8 @@ export type FieldType = ScalarType | {
     model: string;
 } | {
     nonModel: string;
+} | {
+    interface: string;
 };
 
 // @public (undocumented)
@@ -133,6 +135,8 @@ export type ModelIntrospectionSchema = {
     mutations?: SchemaMutations;
     subscriptions?: SchemaSubscriptions;
     inputs?: SchemaInputs;
+    conversations?: SchemaConversationRoutes;
+    generations?: SchemaQueries;
 };
 
 // Warning: (ae-forgotten-export) The symbol "RawAppSyncModelConfig" needs to be exported by the entry point index.d.ts
@@ -152,6 +156,31 @@ export type PrimaryKeyInfo = {
 
 // @public (undocumented)
 export type ScalarType = 'ID' | 'String' | 'Int' | 'Float' | 'AWSDate' | 'AWSTime' | 'AWSDateTime' | 'AWSTimestamp' | 'AWSEmail' | 'AWSURL' | 'AWSIPAddress' | 'Boolean' | 'AWSJSON' | 'AWSPhone';
+
+// @public (undocumented)
+export type SchemaConversation = {
+    modelName: string;
+};
+
+// @public (undocumented)
+export type SchemaConversationMessage = {
+    modelName: string;
+    subscribe: SchemaSubscription;
+    send: SchemaMutation;
+};
+
+// @public (undocumented)
+export type SchemaConversationRoute = {
+    name: string;
+    models: SchemaModels;
+    nonModels: SchemaNonModels;
+    enums: SchemaEnums;
+    conversation: SchemaConversation;
+    message: SchemaConversationMessage;
+};
+
+// @public (undocumented)
+export type SchemaConversationRoutes = Record<string, SchemaConversationRoute>;
 
 // @public (undocumented)
 export type SchemaEnum = {
