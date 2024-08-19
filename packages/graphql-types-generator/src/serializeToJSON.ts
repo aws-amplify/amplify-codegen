@@ -31,7 +31,7 @@ export default function serializeToJSON(context: LegacyCompilerContext) {
 export function serializeAST(ast: any, space?: string) {
   return JSON.stringify(
     ast,
-    function(_, value) {
+    function (_, value) {
       if (isType(value)) {
         return String(value);
       } else {
@@ -68,7 +68,7 @@ function serializeEnumType(type: GraphQLEnumType) {
     kind: 'EnumType',
     name,
     description,
-    values: values.map(value => ({
+    values: values.map((value) => ({
       name: value.name,
       description: value.description,
       isDeprecated: value.isDeprecated,
@@ -85,7 +85,7 @@ function serializeUnionType(type: GraphQLUnionType) {
     kind: 'UnionType',
     name,
     description,
-    types: types.map(type => ({
+    types: types.map((type) => ({
       name: type.name,
       description: type.description,
     })),
@@ -100,7 +100,7 @@ function serializeInputObjectType(type: GraphQLInputObjectType) {
     kind: 'InputObjectType',
     name,
     description,
-    fields: fields.map(field => ({
+    fields: fields.map((field) => ({
       name: field.name,
       type: String(field.type),
       description: field.description,
@@ -118,11 +118,11 @@ function serializeObjectType(type: GraphQLObjectType) {
     kind: 'ObjectType',
     name,
     description,
-    ifaces: ifaces.map(iface => ({
+    ifaces: ifaces.map((iface) => ({
       name: iface.name,
       description: iface.description,
     })),
-    fields: fields.map(field => ({
+    fields: fields.map((field) => ({
       name: field.name,
       type: String(field.type),
       description: field.description,
@@ -138,7 +138,7 @@ function serializeInterfaceType(type: GraphQLInterfaceType) {
     kind: 'InterfaceType',
     name,
     description,
-    fields: fields.map(field => ({
+    fields: fields.map((field) => ({
       name: field.name,
       type: String(field.type),
       description: field.description,

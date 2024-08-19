@@ -18,8 +18,7 @@ async function setupAmplify() {
     if (process.env.AWS_SESSION_TOKEN) {
       injectSessionToken('amplify-integ-test-user');
     }
-  }
-  else {
+  } else {
     console.log('AWS Profile is already configured');
   }
 }

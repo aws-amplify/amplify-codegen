@@ -10,8 +10,8 @@ export type MemberFlags = {
   final?: boolean;
   volatile?: boolean;
   static?: boolean;
-  synchronized?: boolean,
-  isListNullable?: boolean
+  synchronized?: boolean;
+  isListNullable?: boolean;
 };
 export type ClassMember = {
   value: string;
@@ -127,40 +127,40 @@ export class JavaDeclarationBlock {
       flags.transient ? 'transient' : null,
       flags.volatile ? 'volatile' : null,
       flags.synchronized ? 'synchronized' : null,
-      ...(member.annotations || []).map(annotation => `@${annotation}`),
+      ...(member.annotations || []).map((annotation) => `@${annotation}`),
       member.type,
       member.name,
-    ].filter(f => f);
+    ].filter((f) => f);
 
     return pieces.join(' ') + (member.value ? ` = ${member.value}` : '');
   }
 
   private printMethod(method: ClassMethod): string {
     const pieces = [
-      ...method.methodAnnotations.map(a => `@${a}\n`),
+      ...method.methodAnnotations.map((a) => `@${a}\n`),
       method.access,
       method.flags.static ? 'static' : null,
       method.flags.final ? 'final' : null,
       method.flags.transient ? 'transient' : null,
       method.flags.volatile ? 'volatile' : null,
       method.flags.synchronized ? 'synchronized' : null,
-      ...(method.returnTypeAnnotations || []).map(annotation => `@${annotation}`),
+      ...(method.returnTypeAnnotations || []).map((annotation) => `@${annotation}`),
       method.returnType,
       method.name,
-    ].filter(f => f);
+    ].filter((f) => f);
 
-    const args = method.args.map(arg => this.printMember(arg)).join(', ');
+    const args = method.args.map((arg) => this.printMember(arg)).join(', ');
     const comment = method.comment ? transformComment(method.comment) : '';
     const possibleException = method.exception && method.exception.length ? ` throws ${method.exception.join(', ')}` : '';
     return [
       comment,
-      [pieces.join(' '), '(', args, ')', possibleException, ' ', '{'].filter(p => p).join(''),
+      [pieces.join(' '), '(', args, ')', possibleException, ' ', '{'].filter((p) => p).join(''),
       '\n',
       indentMultiline(method.implementation),
       '\n',
       '}',
     ]
-      .filter(p => p)
+      .filter((p) => p)
       .join('');
   }
 
@@ -170,7 +170,7 @@ export class JavaDeclarationBlock {
     value: string,
     typeAnnotations: string[] = [],
     access: Access = 'protected',
-    flags: MemberFlags = {}
+    flags: MemberFlags = {},
   ): JavaDeclarationBlock {
     this._members.push({
       name,
@@ -200,7 +200,7 @@ export class JavaDeclarationBlock {
     flags: MemberFlags = {},
     methodAnnotations: string[] = [],
     exception?: string[],
-    comment?: string
+    comment?: string,
   ): JavaDeclarationBlock {
     this._methods.push({
       name,
@@ -249,22 +249,22 @@ export class JavaDeclarationBlock {
       }
 
       if (this._annotations.length > 0) {
-        annotatesStr = this._annotations.map(a => `@${a}`).join('\n') + '\n';
+        annotatesStr = this._annotations.map((a) => `@${a}`).join('\n') + '\n';
       }
 
       result += `${annotatesStr}${this._access}${isStatic}${final} ${this._kind} ${name}${extendStr}${implementsStr} `;
     }
 
     const members = this._members.length
-      ? indentMultiline(stripIndent(this._members.map(member => this.printMember(member) + ';').join('\n')))
+      ? indentMultiline(stripIndent(this._members.map((member) => this.printMember(member) + ';').join('\n')))
       : null;
     const methods = this._methods.length
-      ? indentMultiline(stripIndent(this._methods.map(method => this.printMethod(method)).join('\n\n')))
+      ? indentMultiline(stripIndent(this._methods.map((method) => this.printMethod(method)).join('\n\n')))
       : null;
-    const nestedClasses = this._nestedClasses.length ? this._nestedClasses.map(c => indentMultiline(c.string)).join('\n\n') : null;
+    const nestedClasses = this._nestedClasses.length ? this._nestedClasses.map((c) => indentMultiline(c.string)).join('\n\n') : null;
     const before = '{';
     const after = '}';
-    const block = [before, members, methods, nestedClasses, this._block, after].filter(f => f).join('\n');
+    const block = [before, members, methods, nestedClasses, this._block, after].filter((f) => f).join('\n');
     result += block;
 
     return (this._comment ? this._comment : '') + result + '\n';

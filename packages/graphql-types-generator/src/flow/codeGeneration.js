@@ -32,12 +32,12 @@ export function generateSource(context) {
   generator.printOnNewline('/* @flow */');
   generator.printOnNewline('/* eslint-disable */');
   generator.printOnNewline('//  This file was automatically generated and should not be edited.');
-  typeDeclarationForGraphQLType(context.typesUsed.forEach(type => typeDeclarationForGraphQLType(generator, type)));
-  Object.values(context.operations).forEach(operation => {
+  typeDeclarationForGraphQLType(context.typesUsed.forEach((type) => typeDeclarationForGraphQLType(generator, type)));
+  Object.values(context.operations).forEach((operation) => {
     interfaceVariablesDeclarationForOperation(generator, operation);
     typeDeclarationForOperation(generator, operation);
   });
-  Object.values(context.fragments).forEach(fragment => {
+  Object.values(context.fragments).forEach((fragment) => {
     typeDeclarationForFragment(generator, fragment);
   });
 
@@ -58,7 +58,7 @@ function enumerationDeclaration(generator, type) {
 
   generator.printNewlineIfNeeded();
   if (description) {
-    description.split('\n').forEach(line => {
+    description.split('\n').forEach((line) => {
       generator.printOnNewline(`// ${line.trim()}`);
     });
   }
@@ -69,7 +69,7 @@ function enumerationDeclaration(generator, type) {
       generator.printOnNewline(`  "${value.value}"${i === nValues - 1 ? ';' : ' |'}${wrap(' // ', value.description)}`);
     } else {
       if (value.description) {
-        value.description.split('\n').forEach(line => {
+        value.description.split('\n').forEach((line) => {
           generator.printOnNewline(`  // ${line.trim()}`);
         });
       }
@@ -143,7 +143,7 @@ function getObjectTypeName(type) {
   if (type instanceof GraphQLUnionType) {
     return type
       .getTypes()
-      .map(type => getObjectTypeName(type))
+      .map((type) => getObjectTypeName(type))
       .join(' | ');
   }
   return `"${type.name}"`;
@@ -154,10 +154,10 @@ export function typeDeclarationForOperation(
   { operationName, operationType, variables, fields, fragmentSpreads, fragmentsReferenced, source },
 ) {
   const interfaceName = interfaceNameFromOperation({ operationName, operationType });
-  fields = fields.map(rootField => {
+  fields = fields.map((rootField) => {
     const fields =
       rootField.fields &&
-      rootField.fields.map(field => {
+      rootField.fields.map((field) => {
         if (field.fieldName === '__typename') {
           const objectTypeName = getObjectTypeName(rootField.type);
           return {
@@ -198,16 +198,16 @@ export function typeDeclarationForFragment(generator, fragment) {
     },
     () => {
       if (isAbstractType(typeCondition)) {
-        const propertySets = fragment.possibleTypes.map(type => {
+        const propertySets = fragment.possibleTypes.map((type) => {
           // NOTE: inlineFragment currently consists of the merged fields
           // from both inline fragments and fragment spreads.
           // TODO: Rename inlineFragments in the IR.
-          const inlineFragment = inlineFragments.find(inlineFragment => {
+          const inlineFragment = inlineFragments.find((inlineFragment) => {
             return inlineFragment.typeCondition.toString() == type;
           });
 
           if (inlineFragment) {
-            const fields = inlineFragment.fields.map(field => {
+            const fields = inlineFragment.fields.map((field) => {
               if (field.fieldName === '__typename') {
                 return {
                   ...field,
@@ -221,7 +221,7 @@ export function typeDeclarationForFragment(generator, fragment) {
 
             return propertiesFromFields(generator, fields);
           } else {
-            const fragmentFields = fields.map(field => {
+            const fragmentFields = fields.map((field) => {
               if (field.fieldName === '__typename') {
                 return {
                   ...field,
@@ -239,7 +239,7 @@ export function typeDeclarationForFragment(generator, fragment) {
 
         propertySetsDeclaration(generator, fragment, propertySets, true);
       } else {
-        const fragmentFields = fields.map(field => {
+        const fragmentFields = fields.map((field) => {
           if (field.fieldName === '__typename') {
             return {
               ...field,
@@ -258,7 +258,7 @@ export function typeDeclarationForFragment(generator, fragment) {
 }
 
 export function propertiesFromFields(context, fields) {
-  return fields.map(field => propertyFromField(context, field));
+  return fields.map((field) => propertyFromField(context, field));
 }
 
 export function propertyFromField(context, field) {
@@ -310,15 +310,15 @@ export function propertyFromField(context, field) {
 
 export function propertyDeclarations(generator, properties, isOptional) {
   if (!properties) return;
-  properties.forEach(property => {
+  properties.forEach((property) => {
     if (isAbstractType(getNamedType(property.type || property.fieldType))) {
-      const propertySets = getPossibleTypeNames(generator, property).map(type => {
-        const inlineFragment = property.inlineFragments.find(inlineFragment => {
+      const propertySets = getPossibleTypeNames(generator, property).map((type) => {
+        const inlineFragment = property.inlineFragments.find((inlineFragment) => {
           return inlineFragment.typeCondition.toString() == type;
         });
 
         if (inlineFragment) {
-          const fields = inlineFragment.fields.map(field => {
+          const fields = inlineFragment.fields.map((field) => {
             if (field.fieldName === '__typename') {
               return {
                 ...field,
@@ -332,7 +332,7 @@ export function propertyDeclarations(generator, properties, isOptional) {
 
           return propertiesFromFields(generator, fields);
         } else {
-          const fields = property.fields.map(field => {
+          const fields = property.fields.map((field) => {
             if (field.fieldName === '__typename') {
               return {
                 ...field,
@@ -372,5 +372,5 @@ export function propertyDeclarations(generator, properties, isOptional) {
  * a set of fields per type condition unless fragments are used within the selection set.
  */
 function getPossibleTypeNames(generator, property) {
-  return generator.context.schema.getPossibleTypes(getNamedType(property.fieldType || property.type)).map(type => type.name);
+  return generator.context.schema.getPossibleTypes(getNamedType(property.fieldType || property.type)).map((type) => type.name);
 }

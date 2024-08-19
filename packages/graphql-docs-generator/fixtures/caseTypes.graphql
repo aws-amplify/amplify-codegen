@@ -159,7 +159,13 @@ type Query {
   listSnake_cases(filter: Modelsnake_caseFilterInput, limit: Int, nextToken: String): Modelsnake_caseConnection
   getUPPER_SNAKE_CASE(id: ID!): UPPER_SNAKE_CASE
   listUPPER_SNAKE_CASEs(filter: ModelUPPER_SNAKE_CASEFilterInput, limit: Int, nextToken: String): ModelUPPER_SNAKE_CASEConnection
-  queryByOwner(owner: String, sortDirection: ModelSortDirection, filter: ModelUPPERCASEFilterInput, limit: Int, nextToken: String): ModelUPPERCASEConnection
+  queryByOwner(
+    owner: String
+    sortDirection: ModelSortDirection
+    filter: ModelUPPERCASEFilterInput
+    limit: Int
+    nextToken: String
+  ): ModelUPPERCASEConnection
 }
 
 input CreateUPPERCASEInput {

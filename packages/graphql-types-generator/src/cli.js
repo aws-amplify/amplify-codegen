@@ -11,7 +11,7 @@ import { ToolError, logError } from './errors';
 import 'source-map-support/register';
 
 // Make sure unhandled errors in async code are propagated correctly
-process.on('unhandledRejection', error => {
+process.on('unhandledRejection', (error) => {
   throw error;
 });
 
@@ -99,7 +99,7 @@ yargs
         choices: ['yes', 'no', 'auto'],
       },
     },
-    argv => {
+    (argv) => {
       let { input } = argv;
 
       // Use glob if the user's shell was unable to expand the pattern
@@ -108,7 +108,7 @@ yargs
       }
 
       const inputPaths = input
-        .map(input => path.resolve(input))
+        .map((input) => path.resolve(input))
         // Sort to normalize different glob expansions between different terminals.
         .sort();
 
@@ -125,7 +125,7 @@ yargs
       generate(inputPaths, argv.schema, argv.output, argv.only, argv.target, argv.tagName, options);
     },
   )
-  .fail(function(message, error) {
+  .fail(function (message, error) {
     handleError(error ? error : new ToolError(message));
   })
   .help()

@@ -7,10 +7,10 @@ describe('getOutputDirParam', () => {
   const createContextWithOptions = (options) => ({
     amplify: {
       getEnvInfo: () => ({
-        projectPath: PROJECT_PATH
+        projectPath: PROJECT_PATH,
       }),
     },
-    ...(options ? { parameters: { options } } : {})
+    ...(options ? { parameters: { options } } : {}),
   });
 
   it('should throw on missing flag when required is set', () => {

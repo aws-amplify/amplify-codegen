@@ -3,7 +3,7 @@ import { SelectionSet, Fragment } from '../';
 export function collectFragmentsReferenced(
   selectionSet: SelectionSet,
   fragments: { [fragmentName: string]: Fragment },
-  fragmentsReferenced: Set<string> = new Set()
+  fragmentsReferenced: Set<string> = new Set(),
 ): Set<string> {
   for (const selection of selectionSet.selections) {
     switch (selection.kind) {

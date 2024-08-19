@@ -3,7 +3,7 @@ const inquirer = require('inquirer');
 const constants = require('../../constants');
 
 async function selectRegions(regions, currentRegion) {
-  const regionMap = Object.keys(regions).map(r => ({
+  const regionMap = Object.keys(regions).map((r) => ({
     value: r,
     name: regions[r],
   }));

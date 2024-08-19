@@ -5,7 +5,7 @@ import { TYPESCRIPT_SCALAR_MAP } from '../../../scalars';
 import { AppSyncModelJavascriptVisitor } from '../../../visitors/appsync-javascript-visitor';
 import { JavaScriptVisitorConfig } from '../appsync-javascript-visitor.test';
 
-const directives = DefaultDirectives.map(directive => directive.definition).join('\n');
+const directives = DefaultDirectives.map((directive) => directive.definition).join('\n');
 
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
@@ -15,13 +15,10 @@ const defaultJavaScriptVisitorConfigV2: JavaScriptVisitorConfig = {
   isDeclaration: false,
   isTimestampFieldsAdded: true,
   respectPrimaryKeyAttributesOnConnectionField: false,
-  transformerVersion: 2
-}
+  transformerVersion: 2,
+};
 
-const getGQLv2Visitor = (
-  schema: string,
-  settings: JavaScriptVisitorConfig = {},
-): AppSyncModelJavascriptVisitor => {
+const getGQLv2Visitor = (schema: string, settings: JavaScriptVisitorConfig = {}): AppSyncModelJavascriptVisitor => {
   const config = { ...defaultJavaScriptVisitorConfigV2, ...settings };
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
@@ -49,15 +46,17 @@ describe('AppSyncJavascriptVisitor - GQLv2 Regression Tests', () => {
   });
 
   it('Works on record creation and updating timestamp', () => {
-    const schema = /* GraphQL */ `  
-      type Todo @model(timestamps: { createdAt: "createdOn", updatedAt: "updatedOn" }) {content: String}
+    const schema = /* GraphQL */ `
+      type Todo @model(timestamps: { createdAt: "createdOn", updatedAt: "updatedOn" }) {
+        content: String
+      }
     `;
     expect(getGQLv2Visitor(schema).generate()).toMatchSnapshot();
     expect(getGQLv2Visitor(schema, { isDeclaration: true }).generate()).toMatchSnapshot();
   });
 
   it('Works on uni-directional implicit has one relationship @hasOne', () => {
-    const schema = /* GraphQL */ `  
+    const schema = /* GraphQL */ `
       # Implicit field
       type Project @model {
         id: ID!
@@ -75,7 +74,7 @@ describe('AppSyncJavascriptVisitor - GQLv2 Regression Tests', () => {
   });
 
   it('Works on uni-directional explicit has one relationship @hasOne', () => {
-    const schema = /* GraphQL */ `  
+    const schema = /* GraphQL */ `
       # Explicit field
       type Project2 @model {
         id: ID!
@@ -94,7 +93,7 @@ describe('AppSyncJavascriptVisitor - GQLv2 Regression Tests', () => {
   });
 
   it('Works on uni-directional implicit has many relationship @hasMany', () => {
-    const schema = /* GraphQL */ `  
+    const schema = /* GraphQL */ `
       # Implicit
       type Post @model {
         id: ID!
@@ -112,7 +111,7 @@ describe('AppSyncJavascriptVisitor - GQLv2 Regression Tests', () => {
   });
 
   it('Works on uni-directional explicit has many relationship @hasMany', () => {
-    const schema = /* GraphQL */ `  
+    const schema = /* GraphQL */ `
       # Explicit
       type Post2 @model {
         id: ID!
@@ -131,7 +130,7 @@ describe('AppSyncJavascriptVisitor - GQLv2 Regression Tests', () => {
   });
 
   it('Works on many to many relationship @manyToMany', () => {
-    const schema = /* GraphQL */ `  
+    const schema = /* GraphQL */ `
       type Post @model {
         id: ID!
         title: String!
@@ -150,7 +149,7 @@ describe('AppSyncJavascriptVisitor - GQLv2 Regression Tests', () => {
   });
 
   it('Works on implicit hasOne belongs to relationship @belongsTo', () => {
-    const schema = /* GraphQL */ `  
+    const schema = /* GraphQL */ `
       # Implicit
       type Project @model {
         id: ID!
@@ -169,7 +168,7 @@ describe('AppSyncJavascriptVisitor - GQLv2 Regression Tests', () => {
   });
 
   it('Works on explicit hasOne belongs to relationship @belongsTo', () => {
-    const schema = /* GraphQL */ `  
+    const schema = /* GraphQL */ `
       # Explicit
       type Project2 @model {
         id: ID!
@@ -189,7 +188,7 @@ describe('AppSyncJavascriptVisitor - GQLv2 Regression Tests', () => {
   });
 
   it('Works on explicit hasMany belongs to relationship @belongsTo', () => {
-    const schema = /* GraphQL */ `  
+    const schema = /* GraphQL */ `
       # Explicit - Bi-directional Has Many
       type Post @model {
         id: ID!
@@ -209,7 +208,7 @@ describe('AppSyncJavascriptVisitor - GQLv2 Regression Tests', () => {
   });
 
   it('Works on implicit hasMany belongs to relationship @belongsTo (extended)', () => {
-    const schema = /* GraphQL */ `  
+    const schema = /* GraphQL */ `
       # 7 - Blog Post Comment
       type Blog7V2 @model {
         id: ID!

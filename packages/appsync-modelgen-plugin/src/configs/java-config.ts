@@ -10,7 +10,7 @@ const JAVA_UTIL_PACKAGES = ['java.util.List', 'java.util.UUID', 'java.util.Objec
 
 const ANDROIDX_CORE_PACKAGES = ['androidx.core.util.ObjectsCompat'];
 
-const ANDROIDX_ANNOTATION_PACKAGES = ['androidx.annotation.NonNull', 'androidx.annotation.Nullable']
+const ANDROIDX_ANNOTATION_PACKAGES = ['androidx.annotation.NonNull', 'androidx.annotation.Nullable'];
 
 const AMPLIFY_FRAMEWORK_PACKAGES = [
   'com.amplifyframework.core.model.Model',
@@ -88,8 +88,8 @@ export const CUSTOM_PRIMARY_KEY_IMPORT_PACKAGE = 'com.amplifyframework.core.mode
 
 export const LAZY_MODEL_IMPORT_PACKAGES = [
   'com.amplifyframework.core.model.ModelReference',
-  'com.amplifyframework.core.model.LoadedModelReferenceImpl'
-]
+  'com.amplifyframework.core.model.LoadedModelReferenceImpl',
+];
 
 export const CONNECTION_RELATIONSHIP_LAZY_LOAD_IMPORTS: { [key in CodeGenConnectionType]: string[] } = {
   BELONGS_TO: LAZY_MODEL_IMPORT_PACKAGES,
@@ -97,18 +97,10 @@ export const CONNECTION_RELATIONSHIP_LAZY_LOAD_IMPORTS: { [key in CodeGenConnect
   HAS_ONE: LAZY_MODEL_IMPORT_PACKAGES,
 };
 
-export const MODEL_PATH_IMPORT_PACKAGES = [
-  'com.amplifyframework.core.model.ModelPath',
-  'com.amplifyframework.core.model.PropertyPath'
-]
+export const MODEL_PATH_IMPORT_PACKAGES = ['com.amplifyframework.core.model.ModelPath', 'com.amplifyframework.core.model.PropertyPath'];
 
 export function getModelPathClassImports(): string[] {
-  return [
-    ...ANDROIDX_ANNOTATION_PACKAGES,
-    '',
-    ...MODEL_PATH_IMPORT_PACKAGES,
-    '',
-  ];
+  return [...ANDROIDX_ANNOTATION_PACKAGES, '', ...MODEL_PATH_IMPORT_PACKAGES, ''];
 }
 
 export const MODEL_PATH_CLASS_IMPORT_PACKAGES = getModelPathClassImports();

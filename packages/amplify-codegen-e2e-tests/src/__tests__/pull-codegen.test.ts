@@ -71,7 +71,7 @@ describe('Amplify pull in amplify app with codegen tests', () => {
       deleteProjectDir(emptyProjectRoot);
     });
 
-    frontendConfigs.forEach(config => {
+    frontendConfigs.forEach((config) => {
       // skip ios test on windows
       (isWindows() && config.frontendType === 'ios' ? it.skip : it)(
         `should generate models and do not delete user files by amplify pull in an empty folder of ${config.frontendType} app`,
@@ -117,7 +117,7 @@ describe('Amplify pull in sandbox app with codegen tests', () => {
     deleteProjectDir(projectRoot);
   });
 
-  frontendConfigs.forEach(config => {
+  frontendConfigs.forEach((config) => {
     it(`should pull sandbox, download schema and generate models without deleting user files in ${config.frontendType} project`, async () => {
       //generate pre existing user file
       const userSourceCodePath = generateSourceCode(projectRoot, config.srcDir);

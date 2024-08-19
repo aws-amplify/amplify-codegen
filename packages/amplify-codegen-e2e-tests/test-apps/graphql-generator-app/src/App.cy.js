@@ -14,7 +14,7 @@ describe('graphql-generator does not crash in browser', () => {
     'generate-models-introspection',
   ];
 
-  testCases.forEach(testCase => {
+  testCases.forEach((testCase) => {
     it(testCase, {}, () => {
       cy.get(`#${testCase}_button`).click();
       cy.get(`#${testCase}_result`).contains('✅', { timeout: 5000 });

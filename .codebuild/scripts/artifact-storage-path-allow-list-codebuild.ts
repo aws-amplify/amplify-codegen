@@ -28,5 +28,5 @@
  */
 export const ARTIFACT_STORAGE_PATH_ALLOW_LIST_CODEBUILD = [
   '$CODEBUILD_SRC_DIR/packages/amplify-codegen-e2e-tests/',
-  '$CODEBUILD_SRC_DIR/packages/amplify-codegen-e2e-tests/amplify-e2e-reports'
+  '$CODEBUILD_SRC_DIR/packages/amplify-codegen-e2e-tests/amplify-e2e-reports',
 ];

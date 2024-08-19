@@ -1,11 +1,11 @@
 query hero {
   hero {
-    name,
+    name
     friends {
       name
     }
     friendsConnection {
-      totalCount,
+      totalCount
     }
     appearsIn
     ...HeroFragment

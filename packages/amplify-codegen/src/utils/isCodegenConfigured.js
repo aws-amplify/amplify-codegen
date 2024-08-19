@@ -4,7 +4,7 @@ function isCodegenConfigured(context, apiName) {
   const config = loadConfig(context);
   const projects = config.getProjects();
   if (apiName) {
-    const isConfigured = projects.find(p => p.projectName === apiName);
+    const isConfigured = projects.find((p) => p.projectName === apiName);
     return isConfigured !== undefined;
   }
 

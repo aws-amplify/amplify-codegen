@@ -21,7 +21,7 @@ async function remove(context) {
     const [proj] = config.getProjects();
     ({ projectName } = proj);
   } else {
-    const choices = projects.map(proj => proj.projectName);
+    const choices = projects.map((proj) => proj.projectName);
     ({ projectName } = await inquirer.prompt([
       {
         name: 'projectName',

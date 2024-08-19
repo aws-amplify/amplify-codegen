@@ -78,5 +78,5 @@ export type GQLDocsGenOptions = {
 
 export enum SchemaType {
   SDL,
-  INTROSPECTION
-};
+  INTROSPECTION,
+}

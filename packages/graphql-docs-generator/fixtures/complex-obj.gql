@@ -104,20 +104,8 @@ mutation DeletePost($input: DeletePostInput!) {
     version
   }
 }
-subscription OnCreatePost(
-  $id: ID
-  $author: String
-  $title: String
-  $content: String
-  $url: String
-) {
-  onCreatePost(
-    id: $id
-    author: $author
-    title: $title
-    content: $content
-    url: $url
-  ) {
+subscription OnCreatePost($id: ID, $author: String, $title: String, $content: String, $url: String) {
+  onCreatePost(id: $id, author: $author, title: $title, content: $content, url: $url) {
     id
     author
     title
@@ -131,20 +119,8 @@ subscription OnCreatePost(
     version
   }
 }
-subscription OnUpdatePost(
-  $id: ID
-  $author: String
-  $title: String
-  $content: String
-  $url: String
-) {
-  onUpdatePost(
-    id: $id
-    author: $author
-    title: $title
-    content: $content
-    url: $url
-  ) {
+subscription OnUpdatePost($id: ID, $author: String, $title: String, $content: String, $url: String) {
+  onUpdatePost(id: $id, author: $author, title: $title, content: $content, url: $url) {
     id
     author
     title
@@ -158,20 +134,8 @@ subscription OnUpdatePost(
     version
   }
 }
-subscription OnDeletePost(
-  $id: ID
-  $author: String
-  $title: String
-  $content: String
-  $url: String
-) {
-  onDeletePost(
-    id: $id
-    author: $author
-    title: $title
-    content: $content
-    url: $url
-  ) {
+subscription OnDeletePost($id: ID, $author: String, $title: String, $content: String, $url: String) {
+  onDeletePost(id: $id, author: $author, title: $title, content: $content, url: $url) {
     id
     author
     title

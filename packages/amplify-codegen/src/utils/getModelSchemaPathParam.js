@@ -8,7 +8,7 @@ const getProjectRoot = require('./getProjectRoot');
  */
 const getModelSchemaPathParam = (context) => {
   const modelSchemaPathParam = context.parameters?.options?.['model-schema'];
-  if ( !modelSchemaPathParam ) {
+  if (!modelSchemaPathParam) {
     return null;
   }
   return path.isAbsolute(modelSchemaPathParam) ? modelSchemaPathParam : path.join(getProjectRoot(context), modelSchemaPathParam);

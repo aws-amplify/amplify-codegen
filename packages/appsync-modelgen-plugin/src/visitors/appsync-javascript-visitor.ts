@@ -30,7 +30,7 @@ export interface ParsedAppSyncModelJavaScriptConfig extends ParsedAppSyncModelCo
 
 export class AppSyncModelJavascriptVisitor<
   TRawConfig extends RawAppSyncModelJavaScriptConfig = RawAppSyncModelJavaScriptConfig,
-  TPluginConfig extends ParsedAppSyncModelJavaScriptConfig = ParsedAppSyncModelJavaScriptConfig
+  TPluginConfig extends ParsedAppSyncModelJavaScriptConfig = ParsedAppSyncModelJavaScriptConfig,
 > extends AppSyncModelTypeScriptVisitor<TRawConfig, TPluginConfig> {
   constructor(
     schema: GraphQLSchema,
@@ -51,29 +51,29 @@ export class AppSyncModelJavascriptVisitor<
     this.processDirectives(
       shouldUseModelNameFieldInHasManyAndBelongsTo,
       shouldImputeKeyForUniDirectionalHasMany,
-      shouldUseFieldsInAssociatedWithInHasOne
+      shouldUseFieldsInAssociatedWithInHasOne,
     );
 
     if (this._parsedConfig.isDeclaration) {
       const enumDeclarations = Object.values(this.enumMap)
-        .map(enumObj => this.generateEnumDeclarations(enumObj, true))
+        .map((enumObj) => this.generateEnumDeclarations(enumObj, true))
         .join('\n\n');
 
       const modelDeclarations = Object.values(this.modelMap)
-        .map(typeObj => this.generateModelDeclaration(typeObj, true))
+        .map((typeObj) => this.generateModelDeclaration(typeObj, true))
         .join('\n\n');
 
       const nonModelDeclarations = Object.values(this.nonModelMap)
-        .map(typeObj => this.generateModelDeclaration(typeObj, true, false))
+        .map((typeObj) => this.generateModelDeclaration(typeObj, true, false))
         .join('\n\n');
 
       const imports = this.generateImports();
 
       if (!this.isCustomPKEnabled()) {
         const modelMetaData = Object.values(this.modelMap)
-          .map(typeObj => this.generateModelMetaData(typeObj))
+          .map((typeObj) => this.generateModelMetaData(typeObj))
           .join('\n\n');
-        return [imports, enumDeclarations, nonModelDeclarations, modelMetaData, modelDeclarations].filter(b => b).join('\n\n');
+        return [imports, enumDeclarations, nonModelDeclarations, modelMetaData, modelDeclarations].filter((b) => b).join('\n\n');
       }
 
       return [imports, enumDeclarations, nonModelDeclarations, modelDeclarations].join('\n\n');
@@ -113,7 +113,7 @@ export class AppSyncModelJavascriptVisitor<
    */
   protected generateEnumObject(enumObj: CodeGenEnum, exportEnum: boolean = false): string {
     const enumName = this.getEnumName(enumObj);
-    const header = [exportEnum ? 'export' : null, 'const', enumName].filter(h => h).join(' ');
+    const header = [exportEnum ? 'export' : null, 'const', enumName].filter((h) => h).join(' ');
 
     return `${header} = ${JSON.stringify(enumObj.values, null, 2)};`;
   }

@@ -68,7 +68,7 @@ function generateFromFile(
         }
       });
 
-      Object.keys(filesByOutputDirectory).forEach(outputDirectory => {
+      Object.keys(filesByOutputDirectory).forEach((outputDirectory) => {
         writeGeneratedFiles(filesByOutputDirectory[outputDirectory], outputDirectory);
       });
     } else if (isBasicGeneratedFileMap(output)) {
@@ -153,7 +153,7 @@ function generateTypesSwift(
   const context = compileToIR(schema, document, options);
   // Complex object suppport
   if (options.complexObjectSupport === 'auto') {
-    options.addS3Wrapper = context.typesUsed.some(typesUsed => hasS3Fields(typesUsed));
+    options.addS3Wrapper = context.typesUsed.some((typesUsed) => hasS3Fields(typesUsed));
   } else if (options.complexObjectSupport === 'yes') {
     options.addS3Wrapper = true;
   } else {

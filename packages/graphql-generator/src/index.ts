@@ -9,5 +9,5 @@ export type {
   GenerateTypesOptions,
   GenerateModelsOptions,
   GenerateStatementsOptions,
-  GeneratedOutput
+  GeneratedOutput,
 } from './typescript';

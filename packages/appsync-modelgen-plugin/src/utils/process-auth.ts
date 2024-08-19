@@ -52,9 +52,9 @@ export type AuthDirective = CodeGenDirective & {
 };
 
 export function processAuthDirective(directives: CodeGenDirectives): AuthDirective[] {
-  const authDirectives = directives.filter(d => d.name === 'auth');
+  const authDirectives = directives.filter((d) => d.name === 'auth');
 
-  return authDirectives.map(d => {
+  return authDirectives.map((d) => {
     // filter dynamic groups as they are not supported in subscription
     const authRules: AuthRule[] = d.arguments.rules || [];
     const processedRules: AuthRule[] = authRules

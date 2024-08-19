@@ -6,7 +6,7 @@ const featureName = 'models';
 
 module.exports = {
   name: featureName,
-  run: async context => {
+  run: async (context) => {
     try {
       await codeGen.generateModels(context, { overrideOutputDir: getOutputDirParam(context, false) });
     } catch (ex) {

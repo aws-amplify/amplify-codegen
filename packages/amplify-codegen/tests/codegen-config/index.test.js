@@ -6,8 +6,8 @@ jest.mock('../../src/codegen-config/AmplifyCodeGenConfig');
 const MOCK_PROJECT_ROOT = 'mockpath';
 const MOCK_CONTEXT = {
   amplify: {
-    getEnvInfo: jest.fn().mockReturnValue({ projectPath: MOCK_PROJECT_ROOT })
-  }
+    getEnvInfo: jest.fn().mockReturnValue({ projectPath: MOCK_PROJECT_ROOT }),
+  },
 };
 
 describe('codegen-config', () => {

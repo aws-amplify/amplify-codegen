@@ -35,14 +35,14 @@ function printEnumsAndInputObjects(generator: FlowAPIGenerator, context: Compile
   `);
 
   context.typesUsed
-    .filter(type => type instanceof GraphQLEnumType)
-    .forEach(enumType => {
+    .filter((type) => type instanceof GraphQLEnumType)
+    .forEach((enumType) => {
       generator.typeAliasForEnumType(enumType as GraphQLEnumType);
     });
 
   context.typesUsed
-    .filter(type => type instanceof GraphQLInputObjectType)
-    .forEach(inputObjectType => {
+    .filter((type) => type instanceof GraphQLInputObjectType)
+    .forEach((inputObjectType) => {
       generator.typeAliasForInputObjectType(inputObjectType as GraphQLInputObjectType);
     });
 
@@ -57,7 +57,7 @@ export function generateSource(context: CompilerContext) {
   const generator = new FlowAPIGenerator(context);
   const generatedFiles: { [filePath: string]: FlowGeneratedFile } = {};
 
-  Object.values(context.operations).forEach(operation => {
+  Object.values(context.operations).forEach((operation) => {
     generator.fileHeader();
     generator.typeAliasesForOperation(operation);
     printEnumsAndInputObjects(generator, context);
@@ -69,7 +69,7 @@ export function generateSource(context: CompilerContext) {
     generatedFiles[outputFilePath] = new FlowGeneratedFile(output);
   });
 
-  Object.values(context.fragments).forEach(fragment => {
+  Object.values(context.fragments).forEach((fragment) => {
     generator.fileHeader();
     generator.typeAliasesForFragment(fragment);
     printEnumsAndInputObjects(generator, context);
@@ -102,7 +102,7 @@ export class FlowAPIGenerator extends FlowGenerator {
       stripIndent`
         /* @flow */
         // This file was automatically generated and should not be edited.
-      `
+      `,
     );
   }
 
@@ -160,7 +160,7 @@ export class FlowAPIGenerator extends FlowGenerator {
       this.printer.enqueue(exportedTypeAlias);
     } else {
       const unionMembers: t.FlowTypeAnnotation[] = [];
-      variants.forEach(variant => {
+      variants.forEach((variant) => {
         this.scopeStackPush(variant.possibleTypes[0].toString());
         const properties = this.getPropertiesForVariant(variant);
 
@@ -175,7 +175,7 @@ export class FlowAPIGenerator extends FlowGenerator {
       });
 
       this.printer.enqueue(
-        this.exportDeclaration(this.typeAliasGenericUnion(this.annotationFromScopeStack(this.scopeStack).id.name, unionMembers))
+        this.exportDeclaration(this.typeAliasGenericUnion(this.annotationFromScopeStack(this.scopeStack).id.name, unionMembers)),
       );
     }
 
@@ -193,7 +193,7 @@ export class FlowAPIGenerator extends FlowGenerator {
   private getPropertiesForVariant(variant: Variant): ObjectProperty[] {
     const fields = collectAndMergeFields(variant, this.context.options.mergeInFieldsFromFragmentSpreads);
 
-    return fields.map(field => {
+    return fields.map((field) => {
       const fieldName = field.alias !== undefined ? field.alias : field.name;
       this.scopeStackPush(fieldName);
 
@@ -228,7 +228,7 @@ export class FlowAPIGenerator extends FlowGenerator {
       const properties = this.getPropertiesForVariant(variant);
       exportedTypeAlias = this.exportDeclaration(this.typeAliasObject(this.annotationFromScopeStack(this.scopeStack).id.name, properties));
     } else {
-      const propertySets = variants.map(variant => {
+      const propertySets = variants.map((variant) => {
         this.scopeStackPush(variant.possibleTypes[0].toString());
         const properties = this.getPropertiesForVariant(variant);
         this.scopeStackPop();
@@ -250,7 +250,7 @@ export class FlowAPIGenerator extends FlowGenerator {
   private handleFieldValue(field: Field, variant: Variant) {
     let res;
     if (field.name === '__typename') {
-      const annotations = variant.possibleTypes.map(type => {
+      const annotations = variant.possibleTypes.map((type) => {
         const annotation = t.stringLiteralTypeAnnotation();
         annotation.value = type.toString();
         return annotation;

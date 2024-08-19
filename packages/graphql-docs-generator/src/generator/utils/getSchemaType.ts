@@ -11,8 +11,7 @@ export const getSchemaType = (schema: string) => {
     if (schemaData.data || schemaData.__schema) {
       return SchemaType.INTROSPECTION;
     }
-  }
-  catch {
+  } catch {
     return SchemaType.SDL;
   }
-}
+};

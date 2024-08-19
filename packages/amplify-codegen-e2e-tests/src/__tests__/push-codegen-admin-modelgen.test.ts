@@ -1,5 +1,5 @@
-import { DEFAULT_JS_CONFIG, createNewProjectDir } from "@aws-amplify/amplify-codegen-e2e-core";
-import { deleteAmplifyProject, testPushAdminModelgen, testPushCodegen } from "../codegen-tests-base";
+import { DEFAULT_JS_CONFIG, createNewProjectDir } from '@aws-amplify/amplify-codegen-e2e-core';
+import { deleteAmplifyProject, testPushAdminModelgen, testPushCodegen } from '../codegen-tests-base';
 
 const schema = 'admin-modelgen.graphql';
 

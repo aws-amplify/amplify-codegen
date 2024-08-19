@@ -46,7 +46,7 @@ export function addEnvironmentWithImportedAuth(cwd: string, settings: { envName:
   });
 }
 
-export function checkoutEnvironment(cwd: string, settings: { envName: string, withRestore?: boolean }): Promise<void> {
+export function checkoutEnvironment(cwd: string, settings: { envName: string; withRestore?: boolean }): Promise<void> {
   const args = ['env', 'checkout', settings.envName];
   if (settings.withRestore) {
     args.push('--restore');
@@ -88,7 +88,7 @@ export function listEnvironment(cwd: string, settings: { numEnv?: number }): Pro
 // Get environment details and return them as JSON
 export function getEnvironment(cwd: string, settings: { envName: string }): Promise<string> {
   const envData = {};
-  let helper = output => {
+  let helper = (output) => {
     let keyVal = output.split(/:(.+)/); // Split string on first ':' only
     envData[keyVal[0].trim()] = keyVal[1].trim();
   };

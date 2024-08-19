@@ -56,7 +56,7 @@ describe('process connection', () => {
 
       it('should return HAS_MANY for Post.comments field connection info', () => {
         const commentsField = modelMap.Post.fields[0];
-        const connectionInfo = (processConnections(commentsField, modelMap.Post, modelMap) as any) as CodeGenFieldConnectionHasMany;
+        const connectionInfo = processConnections(commentsField, modelMap.Post, modelMap) as any as CodeGenFieldConnectionHasMany;
         expect(connectionInfo).toBeDefined();
 
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
@@ -66,7 +66,7 @@ describe('process connection', () => {
 
       it('should return BELONGS_TO for Comment.post field connection info', () => {
         const postField = modelMap.Comment.fields[0];
-        const connectionInfo = (processConnections(postField, modelMap.Comment, modelMap) as any) as CodeGenFieldConnectionBelongsTo;
+        const connectionInfo = processConnections(postField, modelMap.Comment, modelMap) as any as CodeGenFieldConnectionBelongsTo;
         expect(connectionInfo).toBeDefined();
 
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
@@ -120,7 +120,7 @@ describe('process connection', () => {
 
       it('should return HAS_ONE Person.license field', () => {
         const licenseField = modelMap.Person.fields[0];
-        const connectionInfo = (processConnections(licenseField, modelMap.Person, modelMap) as any) as CodeGenFieldConnectionHasOne;
+        const connectionInfo = processConnections(licenseField, modelMap.Person, modelMap) as any as CodeGenFieldConnectionHasOne;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
         expect(connectionInfo.associatedWith).toEqual(modelMap.License.fields[0]);
@@ -130,7 +130,7 @@ describe('process connection', () => {
 
       it('should return BELONGS_TO License.person field', () => {
         const personField = modelMap.License.fields[0];
-        const connectionInfo = (processConnections(personField, modelMap.License, modelMap) as any) as CodeGenFieldConnectionBelongsTo;
+        const connectionInfo = processConnections(personField, modelMap.License, modelMap) as any as CodeGenFieldConnectionBelongsTo;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
         expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(true);
@@ -192,7 +192,7 @@ describe('process connection', () => {
 
     it('should return HAS_MANY for Post.comments', () => {
       const commentsField = modelMap.Post.fields[0];
-      const connectionInfo = (processConnections(commentsField, modelMap.Post, modelMap) as any) as CodeGenFieldConnectionHasMany;
+      const connectionInfo = processConnections(commentsField, modelMap.Post, modelMap) as any as CodeGenFieldConnectionHasMany;
       expect(connectionInfo).toBeDefined();
 
       expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
@@ -208,7 +208,7 @@ describe('process connection', () => {
 
     it('should return BELONGS_TO for Comment.post', () => {
       const commentsField = modelMap.Comment.fields[0];
-      const connectionInfo = (processConnections(commentsField, modelMap.Comment, modelMap) as any) as CodeGenFieldConnectionBelongsTo;
+      const connectionInfo = processConnections(commentsField, modelMap.Comment, modelMap) as any as CodeGenFieldConnectionBelongsTo;
       expect(connectionInfo).toBeDefined();
 
       expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
@@ -285,7 +285,7 @@ describe('process connection', () => {
 
     it('should support connection with @key on BELONGS_TO side', () => {
       const postField = modelMap.Comment.fields[2];
-      const connectionInfo = (processConnections(postField, modelMap.Post, modelMap) as any) as CodeGenFieldConnectionBelongsTo;
+      const connectionInfo = processConnections(postField, modelMap.Post, modelMap) as any as CodeGenFieldConnectionBelongsTo;
       expect(connectionInfo).toBeDefined();
       expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
       expect(connectionInfo.targetName).toEqual(modelMap.Comment.fields[0].name);

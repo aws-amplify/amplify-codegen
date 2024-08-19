@@ -87,10 +87,7 @@ describe('command - types', () => {
 
   it('should generate types', async () => {
     const forceDownload = false;
-    fs.readFileSync
-      .mockReturnValueOnce('query 1')
-      .mockReturnValueOnce('query 2')
-      .mockReturnValueOnce('schema');
+    fs.readFileSync.mockReturnValueOnce('query 1').mockReturnValueOnce('query 2').mockReturnValueOnce('schema');
     await generateTypes(MOCK_CONTEXT, forceDownload);
     expect(getFrontEndHandler).toHaveBeenCalledWith(MOCK_CONTEXT);
     expect(loadConfig).toHaveBeenCalledWith(MOCK_CONTEXT, false);
@@ -111,10 +108,7 @@ describe('command - types', () => {
     MOCK_PROJECT.amplifyExtension.codeGenTarget = 'swift';
     MOCK_PROJECT.amplifyExtension.generatedFileName = 'typesDirectory';
     const forceDownload = false;
-    fs.readFileSync
-      .mockReturnValueOnce('query 1')
-      .mockReturnValueOnce('query 2')
-      .mockReturnValueOnce('schema');
+    fs.readFileSync.mockReturnValueOnce('query 1').mockReturnValueOnce('query 2').mockReturnValueOnce('schema');
     fs.existsSync.mockReturnValueOnce(true);
     fs.statSync.mockReturnValueOnce({
       isDirectory: jest.fn().mockReturnValue(true),
@@ -180,19 +174,16 @@ describe('command - types', () => {
 
   it('should show a warning if the amplifyJsLibraryVersion is invalid', async () => {
     const MOCK_ANGULAR_PROJECT = {
-      ...MOCK_ANGULAR_PROJECT_BASE
+      ...MOCK_ANGULAR_PROJECT_BASE,
     };
-    MOCK_ANGULAR_PROJECT.amplifyExtension.amplifyJsLibraryVersion = 7
-    fs.readFileSync
-      .mockReturnValueOnce('query 1')
-      .mockReturnValueOnce('query 2')
-      .mockReturnValueOnce('schema');
+    MOCK_ANGULAR_PROJECT.amplifyExtension.amplifyJsLibraryVersion = 7;
+    fs.readFileSync.mockReturnValueOnce('query 1').mockReturnValueOnce('query 2').mockReturnValueOnce('schema');
     loadConfig.mockReturnValue({
       getProjects: jest.fn().mockReturnValue([MOCK_ANGULAR_PROJECT]),
     });
     await generateTypes(MOCK_CONTEXT, false);
     expect(MOCK_CONTEXT.print.warning).toHaveBeenCalledWith(
-      'Amplify JS library version 7 is not supported. The current support JS library version is [5, 6]. Codegen will be executed for JS v6 instead.'
+      'Amplify JS library version 7 is not supported. The current support JS library version is [5, 6]. Codegen will be executed for JS v6 instead.',
     );
     expect(generateTypesHelper).toHaveBeenCalledWith({
       queries: [new Source('query 1', 'q1.gql'), new Source('query 2', 'q2.gql')],

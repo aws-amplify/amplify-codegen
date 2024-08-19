@@ -76,7 +76,7 @@ describe('Swift code generation: Types', () => {
       helpers.options.customScalarsPrefix = '';
 
       expect(helpers.typeNameFromGraphQLType(new GraphQLScalarType({ name: 'CustomScalarType', serialize: String }))).toBe(
-        'CustomScalarType?'
+        'CustomScalarType?',
       );
     });
 
@@ -85,7 +85,7 @@ describe('Swift code generation: Types', () => {
       helpers.options.customScalarsPrefix = 'My';
 
       expect(helpers.typeNameFromGraphQLType(new GraphQLScalarType({ name: 'CustomScalarType', serialize: String }))).toBe(
-        'MyCustomScalarType?'
+        'MyCustomScalarType?',
       );
     });
   });

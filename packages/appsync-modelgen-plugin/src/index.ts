@@ -14,7 +14,7 @@ export const addToSchema = (config: AppSyncModelPluginConfig) => {
     if (typeof config.scalars === 'string') {
       result.push(config.scalars);
     } else {
-      result.push(...Object.keys(config.scalars).map(scalar => `scalar ${scalar}`));
+      result.push(...Object.keys(config.scalars).map((scalar) => `scalar ${scalar}`));
     }
   }
   if (config.directives) {

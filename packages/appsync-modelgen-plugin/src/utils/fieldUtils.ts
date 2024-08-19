@@ -2,18 +2,20 @@ import { CodeGenDirective, CodeGenField, CodeGenModel } from '../visitors/appsyn
 import { TransformerV2DirectiveName } from './constants';
 
 export function addFieldToModel(model: CodeGenModel, field: CodeGenField): void {
-  const existingField = model.fields.find(f => f.name === field.name);
+  const existingField = model.fields.find((f) => f.name === field.name);
   if (!existingField) {
     model.fields.push(field);
   }
 }
 
 export function removeFieldFromModel(model: CodeGenModel, fieldName: string): void {
-  model.fields = model.fields.filter(field => field.name !== fieldName);
+  model.fields = model.fields.filter((field) => field.name !== fieldName);
 }
 
-export const getDirective = (fieldOrModel: CodeGenField | CodeGenModel) => (directiveName: string): CodeGenDirective | undefined =>
-  fieldOrModel.directives.find(d => d.name === directiveName);
+export const getDirective =
+  (fieldOrModel: CodeGenField | CodeGenModel) =>
+  (directiveName: string): CodeGenDirective | undefined =>
+    fieldOrModel.directives.find((d) => d.name === directiveName);
 
 // Function matching to GraphQL transformer so that the auto-generated field
 export function toCamelCase(words: string[]): string {
@@ -22,7 +24,9 @@ export function toCamelCase(words: string[]): string {
 }
 
 export function getOtherSideBelongsToField(type: string, otherSideModel: CodeGenModel): CodeGenField | undefined {
-  return otherSideModel.fields.filter(f => f.type === type).find(f => f.directives.find(d => d.name === TransformerV2DirectiveName.BELONGS_TO));
+  return otherSideModel.fields
+    .filter((f) => f.type === type)
+    .find((f) => f.directives.find((d) => d.name === TransformerV2DirectiveName.BELONGS_TO));
 }
 
 /**
@@ -31,13 +35,13 @@ export function getOtherSideBelongsToField(type: string, otherSideModel: CodeGen
  * @returns Array of primary and sort key codegen fields if present or an empty list
  */
 export function getModelPrimaryKeyComponentFields(model: CodeGenModel): CodeGenField[] {
-  const primaryKeyField = model.fields.find(field => field.primaryKeyInfo);
+  const primaryKeyField = model.fields.find((field) => field.primaryKeyInfo);
   const keyFields: CodeGenField[] = [];
   if (primaryKeyField) {
     keyFields.push(primaryKeyField);
-    if ( primaryKeyField?.primaryKeyInfo?.sortKeyFields ) {
+    if (primaryKeyField?.primaryKeyInfo?.sortKeyFields) {
       keyFields.push(...primaryKeyField.primaryKeyInfo.sortKeyFields);
-    };
+    }
   }
   return keyFields;
 }

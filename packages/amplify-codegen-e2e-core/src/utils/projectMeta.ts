@@ -66,7 +66,7 @@ function getTeamProviderInfo(projectRoot: string) {
 function getS3StorageBucketName(projectRoot: string) {
   const meta = getProjectMeta(projectRoot);
   const storage = meta['storage'];
-  const s3 = Object.keys(storage).filter(r => storage[r].service === 'S3');
+  const s3 = Object.keys(storage).filter((r) => storage[r].service === 'S3');
   const fStorageName = s3[0];
   return storage[fStorageName].output.BucketName;
 }
@@ -100,7 +100,7 @@ function isDeploymentSecretForEnvExists(projRoot: string, envName: string): bool
   const rootStackId = teamproviderInfo[envName].awscloudformation.StackId.split('/')[2];
   const resource = _.first(Object.keys(teamproviderInfo[envName].categories.auth));
   const deploymentSecrets = getDeploymentSecrets();
-  const deploymentSecretByAppId = _.find(deploymentSecrets.appSecrets, appSecret => appSecret.rootStackId === rootStackId);
+  const deploymentSecretByAppId = _.find(deploymentSecrets.appSecrets, (appSecret) => appSecret.rootStackId === rootStackId);
   if (deploymentSecretByAppId) {
     const path = [envName, 'auth', resource, 'hostedUIProviderCreds'];
     return _.has(deploymentSecretByAppId.environments, path);

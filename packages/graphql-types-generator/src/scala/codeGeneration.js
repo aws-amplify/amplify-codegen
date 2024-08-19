@@ -54,15 +54,15 @@ export function generateSource(context, options) {
     packageDeclaration(generator, context.namespace);
   }
 
-  context.typesUsed.forEach(type => {
+  context.typesUsed.forEach((type) => {
     typeDeclarationForGraphQLType(generator, type);
   });
 
-  Object.values(context.operations).forEach(operation => {
+  Object.values(context.operations).forEach((operation) => {
     classDeclarationForOperation(generator, operation);
   });
 
-  Object.values(context.fragments).forEach(fragment => {
+  Object.values(context.fragments).forEach((fragment) => {
     caseClassDeclarationForFragment(generator, fragment);
   });
 
@@ -83,7 +83,7 @@ export function classDeclarationForOperation(
     source,
     sourceWithFragments,
     operationId,
-  }
+  },
 ) {
   let objectName;
   let protocol;
@@ -121,7 +121,7 @@ export function classDeclarationForOperation(
       if (fragmentsReferenced && fragmentsReferenced.length > 0) {
         generator.printNewlineIfNeeded();
         generator.printOnNewline('val requestString: String = { operationString');
-        fragmentsReferenced.forEach(fragment => {
+        fragmentsReferenced.forEach((fragment) => {
           generator.print(` + ${caseClassNameForFragmentName(fragment)}.fragmentString`);
         });
         generator.print(' }');
@@ -146,14 +146,14 @@ export function classDeclarationForOperation(
           {
             caseClassName: 'Variables',
             description: '',
-            params: properties.map(p => {
+            params: properties.map((p) => {
               return {
                 name: p.propertyName,
                 type: p.typeName,
               };
             }),
           },
-          () => {}
+          () => {},
         );
       } else {
         generator.printOnNewline('type Variables = Unit');
@@ -166,13 +166,13 @@ export function classDeclarationForOperation(
         inlineFragments,
         fragmentSpreads,
       });
-    }
+    },
   );
 }
 
 export function caseClassDeclarationForFragment(
   generator,
-  { fragmentName, typeCondition, fields, inlineFragments, fragmentSpreads, source }
+  { fragmentName, typeCondition, fields, inlineFragments, fragmentSpreads, source },
 ) {
   const caseClassName = caseClassNameForFragmentName(fragmentName);
 
@@ -193,7 +193,7 @@ export function caseClassDeclarationForFragment(
           multilineString(generator, source);
         });
       }
-    }
+    },
   );
 }
 
@@ -201,37 +201,39 @@ export function caseClassDeclarationForSelectionSet(
   generator,
   { caseClassName, parentType, fields, inlineFragments, fragmentSpreads, viewableAs },
   beforeClosure,
-  objectClosure
+  objectClosure,
 ) {
   const possibleTypes = parentType ? possibleTypesForType(generator.context, parentType) : null;
 
   let properties;
 
   if (!possibleTypes || possibleTypes.length == 1) {
-    properties = fields.map(field => propertyFromField(generator.context, field)).filter(field => field.propertyName != '__typename');
+    properties = fields.map((field) => propertyFromField(generator.context, field)).filter((field) => field.propertyName != '__typename');
 
     caseClassDeclaration(
       generator,
       {
         caseClassName,
-        params: properties.map(p => {
+        params: properties.map((p) => {
           return {
             name: p.responseName,
             type: p.typeName,
           };
         }),
       },
-      () => {}
+      () => {},
     );
   } else {
     generator.printNewlineIfNeeded();
-    const properties = fields.map(field => propertyFromField(generator.context, field)).filter(field => field.propertyName != '__typename');
+    const properties = fields
+      .map((field) => propertyFromField(generator.context, field))
+      .filter((field) => field.propertyName != '__typename');
 
     caseClassDeclaration(
       generator,
       {
         caseClassName,
-        params: properties.map(p => {
+        params: properties.map((p) => {
           return {
             name: p.responseName,
             type: p.typeName,
@@ -241,20 +243,20 @@ export function caseClassDeclarationForSelectionSet(
       },
       () => {
         if (inlineFragments && inlineFragments.length > 0) {
-          inlineFragments.forEach(inlineFragment => {
+          inlineFragments.forEach((inlineFragment) => {
             const fragClass = caseClassNameForInlineFragment(inlineFragment);
             generator.printOnNewline(`def as${inlineFragment.typeCondition}`);
             generator.print(`: Option[${fragClass}] =`);
             generator.withinBlock(() => {
               generator.printOnNewline(
-                `if (${fragClass}.possibleTypes.contains(this.raw.__typename.asInstanceOf[String])) Some(implicitly[me.shadaj.slinky.core.Reader[${fragClass}]].read(this.raw)) else None`
+                `if (${fragClass}.possibleTypes.contains(this.raw.__typename.asInstanceOf[String])) Some(implicitly[me.shadaj.slinky.core.Reader[${fragClass}]].read(this.raw)) else None`,
               );
             });
           });
         }
 
         if (fragmentSpreads) {
-          fragmentSpreads.forEach(s => {
+          fragmentSpreads.forEach((s) => {
             const fragment = generator.context.fragments[s];
             const alwaysDefined = isTypeProperSuperTypeOf(generator.context.schema, fragment.typeCondition, parentType);
             if (!alwaysDefined) {
@@ -262,18 +264,18 @@ export function caseClassDeclarationForSelectionSet(
               generator.print(`: Option[${s}] =`);
               generator.withinBlock(() => {
                 generator.printOnNewline(
-                  `if (${s}.possibleTypes.contains(this.raw.__typename.asInstanceOf[String])) Some(implicitly[me.shadaj.slinky.core.Reader[${s}]].read(this.raw)) else None`
+                  `if (${s}.possibleTypes.contains(this.raw.__typename.asInstanceOf[String])) Some(implicitly[me.shadaj.slinky.core.Reader[${s}]].read(this.raw)) else None`,
                 );
               });
             }
           });
         }
-      }
+      },
     );
 
     // add types and implicit conversions
     if (inlineFragments && inlineFragments.length > 0) {
-      inlineFragments.forEach(inlineFragment => {
+      inlineFragments.forEach((inlineFragment) => {
         caseClassDeclarationForSelectionSet(generator, {
           caseClassName: caseClassNameForInlineFragment(inlineFragment),
           parentType: inlineFragment.typeCondition,
@@ -293,7 +295,12 @@ export function caseClassDeclarationForSelectionSet(
     if (possibleTypes) {
       generator.printNewlineIfNeeded();
       generator.printOnNewline('val possibleTypes = scala.collection.Set(');
-      generator.print(join(possibleTypes.map(type => `"${String(type)}"`), ', '));
+      generator.print(
+        join(
+          possibleTypes.map((type) => `"${String(type)}"`),
+          ', ',
+        ),
+      );
       generator.print(')');
     }
 
@@ -301,17 +308,19 @@ export function caseClassDeclarationForSelectionSet(
       generator.printOnNewline(
         `implicit def to${viewableAs.caseClassName}(a: ${caseClassName}): ${viewableAs.caseClassName} = ${
           viewableAs.caseClassName
-        }(${viewableAs.properties.map(p => 'a.' + p.responseName).join(', ')})`
+        }(${viewableAs.properties.map((p) => 'a.' + p.responseName).join(', ')})`,
       );
     }
 
     if (fragmentSpreads) {
-      fragmentSpreads.forEach(s => {
+      fragmentSpreads.forEach((s) => {
         const fragment = generator.context.fragments[s];
         const alwaysDefined = isTypeProperSuperTypeOf(generator.context.schema, fragment.typeCondition, parentType);
         if (alwaysDefined) {
           generator.printOnNewline(
-            `implicit def to${s}(a: ${caseClassName}): ${s} = ${s}(${(fragment.fields || []).map(p => 'a.' + p.responseName).join(', ')})`
+            `implicit def to${s}(a: ${caseClassName}): ${s} = ${s}(${(fragment.fields || [])
+              .map((p) => 'a.' + p.responseName)
+              .join(', ')})`,
           );
         }
       });
@@ -323,8 +332,8 @@ export function caseClassDeclarationForSelectionSet(
   });
 
   fields
-    .filter(field => isCompositeType(getNamedType(field.type)))
-    .forEach(field => {
+    .filter((field) => isCompositeType(getNamedType(field.type)))
+    .forEach((field) => {
       caseClassDeclarationForSelectionSet(generator, {
         caseClassName: caseClassNameForPropertyName(field.responseName),
         parentType: getNamedType(field.type),
@@ -360,7 +369,7 @@ function enumerationDeclaration(generator, type) {
   comment(generator, description);
   generator.printOnNewline(`object ${name}`);
   generator.withinBlock(() => {
-    values.forEach(value => {
+    values.forEach((value) => {
       comment(generator, value.description);
       generator.printOnNewline(`val ${escapeIdentifierIfNeeded(enumCaseName(value.name))} = "${value.value}"`);
     });
@@ -371,20 +380,20 @@ function enumerationDeclaration(generator, type) {
 function caseClassDeclarationForInputObjectType(generator, type) {
   const { name: caseClassName, description } = type;
   const fields = Object.values(type.getFields());
-  const properties = fields.map(field => propertyFromField(generator.context, field));
+  const properties = fields.map((field) => propertyFromField(generator.context, field));
 
   caseClassDeclaration(
     generator,
     {
       caseClassName,
       description,
-      params: properties.map(p => {
+      params: properties.map((p) => {
         return {
           name: p.propertyName,
           type: p.typeName,
         };
       }),
     },
-    () => {}
+    () => {},
   );
 }

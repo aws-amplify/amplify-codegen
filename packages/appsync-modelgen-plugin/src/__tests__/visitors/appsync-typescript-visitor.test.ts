@@ -5,7 +5,7 @@ import { TYPESCRIPT_SCALAR_MAP } from '../../scalars';
 import { scalars } from '../../scalars/supported-scalars';
 import { AppSyncModelTypeScriptVisitor } from '../../visitors/appsync-typescript-visitor';
 
-const directives = DefaultDirectives.map(directive => directive.definition).join('\n');
+const directives = DefaultDirectives.map((directive) => directive.definition).join('\n');
 
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));

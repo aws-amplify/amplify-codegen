@@ -9,6 +9,6 @@ const getProjectRoot = (context) => {
   } catch (_) {
     return process.cwd();
   }
-  };
+};
 
 module.exports = getProjectRoot;

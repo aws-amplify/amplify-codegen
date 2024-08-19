@@ -10,10 +10,10 @@ const getProjectRoot = require('./getProjectRoot');
  */
 function getOutputDirParam(context, isRequired) {
   const outputDirParam = context.parameters?.options?.['output-dir'];
-  if ( isRequired && !outputDirParam ) {
+  if (isRequired && !outputDirParam) {
     throw new Error('Expected --output-dir flag to be set');
   }
-  if ( !outputDirParam ) {
+  if (!outputDirParam) {
     return null;
   }
   return path.isAbsolute(outputDirParam) ? outputDirParam : path.join(getProjectRoot(context), outputDirParam);

@@ -31,7 +31,7 @@ import { validateFieldName } from '../utils/validate-field-name';
 
 export class AppSyncModelJavaVisitor<
   TRawConfig extends RawAppSyncModelConfig = RawAppSyncModelConfig,
-  TPluginConfig extends ParsedAppSyncModelConfig = ParsedAppSyncModelConfig
+  TPluginConfig extends ParsedAppSyncModelConfig = ParsedAppSyncModelConfig,
 > extends AppSyncModelVisitor<TRawConfig, TPluginConfig> {
   protected additionalPackages: Set<string> = new Set();
   protected usingAuth: boolean = false;
@@ -109,7 +109,7 @@ export class AppSyncModelJavaVisitor<
     @return a set of the model classes.`;
 
     const classList = Object.values(this.modelMap)
-      .map(model => `${this.getModelName(model)}.class`)
+      .map((model) => `${this.getModelName(model)}.class`)
       .join(', ');
     const modelsMethodImplementation = `final Set<Class<? extends Model>> modifiableSet = new HashSet<>(
       Arrays.<Class<? extends Model>>asList(${classList})
@@ -209,9 +209,9 @@ export class AppSyncModelJavaVisitor<
     }
 
     const queryFields = this.getWritableFields(model);
-    queryFields.forEach(field => this.generateQueryFields(model, field, classDeclarationBlock));
+    queryFields.forEach((field) => this.generateQueryFields(model, field, classDeclarationBlock));
     const nonConnectedFields = this.getNonConnectedField(model);
-    model.fields.forEach(field => {
+    model.fields.forEach((field) => {
       const value = nonConnectedFields.includes(field) ? '' : 'null';
       this.generateModelField(field, value, classDeclarationBlock);
     });
@@ -285,7 +285,7 @@ export class AppSyncModelJavaVisitor<
       .final();
 
     const nonConnectedFields = this.getNonConnectedField(nonModel);
-    nonModel.fields.forEach(field => {
+    nonModel.fields.forEach((field) => {
       const value = nonConnectedFields.includes(field) ? '' : 'null';
       this.generateNonModelField(field, value, classDeclarationBlock);
     });
@@ -342,7 +342,7 @@ export class AppSyncModelJavaVisitor<
    * @returns string
    */
   protected generateImportStatements(packages: string[]): string {
-    return packages.map(pkg => (pkg ? `import ${pkg};` : '')).join('\n');
+    return packages.map((pkg) => (pkg ? `import ${pkg};` : '')).join('\n');
   }
   /**
    * Add query field used for construction of conditions by SyncEngine
@@ -409,8 +409,8 @@ export class AppSyncModelJavaVisitor<
    *
    */
   protected generateStepBuilderInterfaces(model: CodeGenModel, isIdAsModelPrimaryKey: boolean = true): JavaDeclarationBlock[] {
-    const nonNullableFields = this.getWritableFields(model).filter(field => this.isRequiredField(field));
-    const nullableFields = this.getWritableFields(model).filter(field => !this.isRequiredField(field));
+    const nonNullableFields = this.getWritableFields(model).filter((field) => this.isRequiredField(field));
+    const nullableFields = this.getWritableFields(model).filter((field) => !this.isRequiredField(field));
     const requiredInterfaces = nonNullableFields.filter(
       (field: CodeGenField) => !(isIdAsModelPrimaryKey && this.READ_ONLY_FIELDS.includes(field.name)),
     );
@@ -423,10 +423,7 @@ export class AppSyncModelJavaVisitor<
       const methodName = this.getStepFunctionName(field);
       const argumentType = this.getNativeType(field, true);
       const argumentName = this.getStepFunctionArgumentName(field);
-      const interfaceDeclaration = new JavaDeclarationBlock()
-        .asKind('interface')
-        .withName(interfaceName)
-        .access('public');
+      const interfaceDeclaration = new JavaDeclarationBlock().asKind('interface').withName(interfaceName).access('public');
       interfaceDeclaration.withBlock(
         indent(`${this.getStepInterfaceName(returnType, types)} ${methodName}(${argumentType} ${argumentName});`),
       );
@@ -434,10 +431,7 @@ export class AppSyncModelJavaVisitor<
     });
 
     // Builder
-    const builder = new JavaDeclarationBlock()
-      .asKind('interface')
-      .withName(this.getStepInterfaceName('Build', types))
-      .access('public');
+    const builder = new JavaDeclarationBlock().asKind('interface').withName(this.getStepInterfaceName('Build', types)).access('public');
     const builderBody = [];
     // build method
     builderBody.push(`${this.getModelName(model)} build();`);
@@ -447,7 +441,7 @@ export class AppSyncModelJavaVisitor<
       builderBody.push(`${this.getStepInterfaceName('Build', types)} id(String id);`);
     }
 
-    nullableFields.forEach(field => {
+    nullableFields.forEach((field) => {
       const fieldName = this.getStepFunctionArgumentName(field);
       const methodName = this.getStepFunctionName(field);
       builderBody.push(`${this.getStepInterfaceName('Build', types)} ${methodName}(${this.getNativeType(field, true)} ${fieldName});`);
@@ -463,8 +457,8 @@ export class AppSyncModelJavaVisitor<
    * @returns JavaDeclarationBlock
    */
   protected generateBuilderClass(model: CodeGenModel, classDeclaration: JavaDeclarationBlock, isIdAsModelPrimaryKey: boolean = true): void {
-    const nonNullableFields = this.getWritableFields(model).filter(field => this.isRequiredField(field));
-    const nullableFields = this.getWritableFields(model).filter(field => !this.isRequiredField(field));
+    const nonNullableFields = this.getWritableFields(model).filter((field) => this.isRequiredField(field));
+    const nullableFields = this.getWritableFields(model).filter((field) => !this.isRequiredField(field));
     const stepFields = nonNullableFields.filter(
       (field: CodeGenField) => !(isIdAsModelPrimaryKey && this.READ_ONLY_FIELDS.includes(field.name)),
     );
@@ -485,22 +479,22 @@ export class AppSyncModelJavaVisitor<
     });
 
     // public builder constructor
-    builderClassDeclaration.addClassMethod("Builder", null, "", [], [], 'public');
+    builderClassDeclaration.addClassMethod('Builder', null, '', [], [], 'public');
 
     // private builder constructor for CopyOfBuilder
-    const constructorArguments = this.getWritableFields(model).map(field => ({
+    const constructorArguments = this.getWritableFields(model).map((field) => ({
       name: this.getFieldName(field),
       type: this.getNativeType(field),
     }));
     const constructorBody = dedent(
       this.getWritableFields(model)
-        .map(field => {
+        .map((field) => {
           const fieldName = this.getFieldName(field);
           return `this.${fieldName} = ${fieldName};`;
         })
         .join('\n'),
     ).trim();
-    builderClassDeclaration.addClassMethod("Builder", null, constructorBody, constructorArguments, [], 'private');
+    builderClassDeclaration.addClassMethod('Builder', null, constructorBody, constructorArguments, [], 'private');
 
     // methods
     // build();
@@ -508,7 +502,7 @@ export class AppSyncModelJavaVisitor<
       ? [`String id = this.id != null ? this.id : UUID.randomUUID().toString();`, '']
       : [''];
     const buildParams = this.getWritableFields(model)
-      .map(field => this.getFieldName(field))
+      .map((field) => this.getFieldName(field))
       .join(',\n');
     buildImplementation.push(`return new ${this.getModelName(model)}(\n${indentMultiline(buildParams)});`);
     builderClassDeclaration.addClassMethod(
@@ -530,9 +524,9 @@ export class AppSyncModelJavaVisitor<
       const returnType = isLastStep ? this.getStepInterfaceName('Build', types) : this.getStepInterfaceName(fields[idx + 1].name, types);
       const argumentType = this.getNativeType(field, true);
       const argumentName = this.getStepFunctionArgumentName(field);
-      const assignment = this.isModelReference(field) ?
-        `this.${fieldName} = new LoadedModelReferenceImpl<>(${argumentName});` :
-        `this.${fieldName} = ${argumentName};`;
+      const assignment = this.isModelReference(field)
+        ? `this.${fieldName} = new LoadedModelReferenceImpl<>(${argumentName});`
+        : `this.${fieldName} = ${argumentName};`;
       const body = [`Objects.requireNonNull(${argumentName});`, `${assignment}`, `return this;`].join('\n');
       builderClassDeclaration.addClassMethod(
         methodName,
@@ -553,9 +547,9 @@ export class AppSyncModelJavaVisitor<
       const returnType = this.getStepInterfaceName('Build', types);
       const argumentType = this.getNativeType(field, true);
       const argumentName = this.getStepFunctionArgumentName(field);
-      const assignment = this.isModelReference(field) ?
-        `this.${fieldName} = new LoadedModelReferenceImpl<>(${argumentName});` :
-        `this.${fieldName} = ${argumentName};`
+      const assignment = this.isModelReference(field)
+        ? `this.${fieldName} = new LoadedModelReferenceImpl<>(${argumentName});`
+        : `this.${fieldName} = ${argumentName};`;
       const body = [`${assignment}`, `return this;`].join('\n');
       builderClassDeclaration.addClassMethod(
         methodName,
@@ -615,25 +609,23 @@ export class AppSyncModelJavaVisitor<
       .extends(['Builder']);
 
     const nonNullableFields = this.getWritableFields(model)
-      .filter(field => this.isRequiredField(field))
-      .filter(f => (isIdAsModelPrimaryKey ? f.name !== 'id' : true));
-    const nullableFields = this.getWritableFields(model).filter(field => !this.isRequiredField(field));
+      .filter((field) => this.isRequiredField(field))
+      .filter((f) => (isIdAsModelPrimaryKey ? f.name !== 'id' : true));
+    const nullableFields = this.getWritableFields(model).filter((field) => !this.isRequiredField(field));
 
     // constructor
-    const constructorArguments = this.getWritableFields(model).map(field => ({
+    const constructorArguments = this.getWritableFields(model).map((field) => ({
       name: this.getStepFunctionArgumentName(field),
       type: this.getNativeType(field),
     }));
 
     const constructorNullChecks = dedent(
-      nonNullableFields.map(
-        field => `Objects.requireNonNull(${this.getFieldName(field)});`
-      ).join('\n')
-    ).trim()
+      nonNullableFields.map((field) => `Objects.requireNonNull(${this.getFieldName(field)});`).join('\n'),
+    ).trim();
 
     const superArgs = dedent(
       this.getWritableFields(model)
-        .map(field => this.getFieldName(field))
+        .map((field) => this.getFieldName(field))
         .join(', '),
     ).trim();
 
@@ -643,11 +635,11 @@ export class AppSyncModelJavaVisitor<
       `super(${superArgs});\n${constructorNullChecks}`,
       constructorArguments,
       [],
-      'private'
+      'private',
     );
 
     // Non-nullable field setters need to be added to NewClass as this is not a step builder
-    [...nonNullableFields, ...nullableFields].forEach(field => {
+    [...nonNullableFields, ...nullableFields].forEach((field) => {
       const methodName = this.getStepFunctionName(field);
       const argumentName = this.getStepFunctionArgumentName(field);
       const argumentType = this.getNativeType(field, true);
@@ -692,8 +684,11 @@ export class AppSyncModelJavaVisitor<
     primaryKeyClassDeclaration.addClassMember('serialVersionUID', 'long', '1L', [], 'private', { static: true, final: true });
     // constructor
     const primaryKeyComponentFields: CodeGenField[] = [primaryKeyField, ...sortKeyFields];
-    const constructorParams = primaryKeyComponentFields.map(field => ({ name: this.getFieldName(field), type: this.getNativeType(field) }));
-    const constructorImpl = `super(${primaryKeyComponentFields.map(field => this.getFieldName(field)).join(', ')});`;
+    const constructorParams = primaryKeyComponentFields.map((field) => ({
+      name: this.getFieldName(field),
+      type: this.getNativeType(field),
+    }));
+    const constructorImpl = `super(${primaryKeyComponentFields.map((field) => this.getFieldName(field)).join(', ')});`;
     primaryKeyClassDeclaration.addClassMethod(modelPrimaryKeyClassName, null, constructorImpl, constructorParams, [], 'public');
     classDeclaration.nestedClass(primaryKeyClassDeclaration);
   }
@@ -704,7 +699,7 @@ export class AppSyncModelJavaVisitor<
   protected generateCopyOfBuilderMethod(model: CodeGenModel, classDeclaration: JavaDeclarationBlock): void {
     const args = indentMultiline(
       this.getWritableFields(model)
-        .map(field => this.getFieldName(field))
+        .map((field) => this.getFieldName(field))
         .join(',\n'),
     ).trim();
     const methodBody = `return new CopyOfBuilder(${args});`;
@@ -725,7 +720,7 @@ export class AppSyncModelJavaVisitor<
           `if (${modelIdentifierClassFieldName} == null) {`,
           indent(
             `this.${modelIdentifierClassFieldName} = new ${this.getModelIdentifierClassName(model)}(${[primaryKeyField, ...sortKeyFields]
-              .map(f => this.getFieldName(f))
+              .map((f) => this.getFieldName(f))
               .join(', ')});`,
           ),
           '}',
@@ -814,7 +809,7 @@ export class AppSyncModelJavaVisitor<
       })
       .join('\n');
 
-    const constructorArguments = this.getWritableFields(model).map(field => ({
+    const constructorArguments = this.getWritableFields(model).map((field) => ({
       name: this.getFieldName(field),
       type: this.getNativeType(field),
     }));
@@ -827,14 +822,14 @@ export class AppSyncModelJavaVisitor<
     if (Object.keys(JAVA_TYPE_IMPORT_MAP).includes(nativeType)) {
       this.additionalPackages.add(JAVA_TYPE_IMPORT_MAP[nativeType]);
     }
-    if(!unwrapModelReference && this.isModelReference(field)) {
+    if (!unwrapModelReference && this.isModelReference(field)) {
       return `ModelReference<${nativeType}>`;
     }
     return nativeType;
   }
 
   protected getListType(typeStr: string, field: CodeGenField): string {
-    if(this.isModelList(field)) {
+    if (this.isModelList(field)) {
       return `ModelList<${typeStr}>`;
     } else {
       return super.getListType(typeStr, field);
@@ -848,7 +843,7 @@ export class AppSyncModelJavaVisitor<
       case CodeGenConnectionType.HAS_ONE:
         return true;
       default:
-      return false;
+        return false;
     }
   }
 
@@ -877,7 +872,7 @@ export class AppSyncModelJavaVisitor<
     body.push(`${className} ${instanceName} = (${className}) ${paramName};`);
     const propCheck = indentMultiline(
       this.getNonConnectedField(model)
-        .map(field => {
+        .map((field) => {
           const getterName = this.getFieldGetterName(field);
           return `ObjectsCompat.equals(${getterName}(), ${instanceName}.${getterName}())`;
         })
@@ -903,7 +898,7 @@ export class AppSyncModelJavaVisitor<
   protected generateHashCodeMethod(model: CodeGenModel, declarationBlock: JavaDeclarationBlock): void {
     const body = [
       'return new StringBuilder()',
-      ...this.getNonConnectedField(model).map(field => `.append(${this.getFieldGetterName(field)}())`),
+      ...this.getNonConnectedField(model).map((field) => `.append(${this.getFieldGetterName(field)}())`),
       '.toString()',
       '.hashCode();',
     ].join('\n');
@@ -911,7 +906,7 @@ export class AppSyncModelJavaVisitor<
   }
 
   protected generateToStringMethod(model: CodeGenModel, declarationBlock: JavaDeclarationBlock): void {
-    const fields = this.getNonConnectedField(model).map(field => {
+    const fields = this.getNonConnectedField(model).map((field) => {
       const fieldName = this.getFieldName(field);
       const fieldGetterName = this.getFieldGetterName(field);
 
@@ -947,7 +942,7 @@ export class AppSyncModelJavaVisitor<
     isIdAsModelPrimaryKey: boolean = true,
   ): void {
     const requiredFields = this.getWritableFields(model).filter(
-      field => this.isRequiredField(field) && !(isIdAsModelPrimaryKey && this.READ_ONLY_FIELDS.includes(field.name)),
+      (field) => this.isRequiredField(field) && !(isIdAsModelPrimaryKey && this.READ_ONLY_FIELDS.includes(field.name)),
     );
     const types = this.getTypesUsedByModel(model);
     const returnType = requiredFields.length
@@ -988,15 +983,15 @@ export class AppSyncModelJavaVisitor<
    * @return Set<string>
    */
   private getTypesUsedByModel(model: CodeGenModel): Set<string> {
-    return new Set(model.fields.map(field => field.type));
+    return new Set(model.fields.map((field) => field.type));
   }
 
   protected generateModelAnnotations(model: CodeGenModel): string[] {
-    const annotations: string[] = model.directives.map(directive => {
+    const annotations: string[] = model.directives.map((directive) => {
       switch (directive.name) {
         case 'model':
           const modelArgs: string[] = [];
-          const authDirectives: AuthDirective[] = model.directives.filter(d => d.name === 'auth') as AuthDirective[];
+          const authDirectives: AuthDirective[] = model.directives.filter((d) => d.name === 'auth') as AuthDirective[];
           const authRules = this.generateAuthRules(authDirectives);
           modelArgs.push(`pluralName = "${this.pluralizeModelName(model)}"`);
           if (this.isCustomPKEnabled()) {
@@ -1008,7 +1003,7 @@ export class AppSyncModelJavaVisitor<
             modelArgs.push(`authRules = ${authRules}`);
           }
           if (this.isGenerateModelsForLazyLoadAndCustomSelectionSet()) {
-            modelArgs.push(`hasLazySupport = true`)
+            modelArgs.push(`hasLazySupport = true`);
           }
           return `ModelConfig(${modelArgs.join(', ')})`;
         case 'key':
@@ -1022,7 +1017,7 @@ export class AppSyncModelJavaVisitor<
       return '';
     });
 
-    return ['SuppressWarnings("all")', ...annotations].filter(annotation => annotation);
+    return ['SuppressWarnings("all")', ...annotations].filter((annotation) => annotation);
   }
 
   protected generateAuthRules(authDirectives: AuthDirective[]): string {
@@ -1033,8 +1028,8 @@ export class AppSyncModelJavaVisitor<
       delete: 'ModelOperation.DELETE',
     };
     const rules: string[] = [];
-    authDirectives.forEach(directive => {
-      directive.arguments?.rules.forEach(rule => {
+    authDirectives.forEach((directive) => {
+      directive.arguments?.rules.forEach((rule) => {
         const authRule = [];
         switch (rule.allow) {
           case AuthStrategy.owner:
@@ -1052,7 +1047,7 @@ export class AppSyncModelJavaVisitor<
             authRule.push('allow = AuthStrategy.GROUPS');
             authRule.push(`groupClaim = "${rule.groupClaim}"`);
             if (rule.groups) {
-              authRule.push(`groups = { ${rule.groups?.map(group => `"${group}"`).join(', ')} }`);
+              authRule.push(`groups = { ${rule.groups?.map((group) => `"${group}"`).join(', ')} }`);
             } else {
               authRule.push(`groupsField = "${rule.groupField}"`);
             }
@@ -1064,7 +1059,7 @@ export class AppSyncModelJavaVisitor<
         if (rule.provider != null) {
           authRule.push(`provider = "${rule.provider}"`);
         }
-        authRule.push(`operations = { ${rule.operations?.map(op => operationMapping[op]).join(', ')} }`);
+        authRule.push(`operations = { ${rule.operations?.map((op) => operationMapping[op]).join(', ')} }`);
         rules.push(`@AuthRule(${authRule.join(', ')})`);
       });
     });
@@ -1078,11 +1073,11 @@ export class AppSyncModelJavaVisitor<
     const annotations: string[] = [];
     annotations.push(this.generateModelFieldAnnotation(field));
     annotations.push(this.generateConnectionAnnotation(field));
-    return annotations.filter(annotation => annotation);
+    return annotations.filter((annotation) => annotation);
   }
 
   protected generateModelFieldAnnotation(field: CodeGenField): string {
-    const authDirectives: AuthDirective[] = field.directives.filter(d => d.name === 'auth') as AuthDirective[];
+    const authDirectives: AuthDirective[] = field.directives.filter((d) => d.name === 'auth') as AuthDirective[];
     const authRules = this.generateAuthRules(authDirectives);
     if (authRules.length) {
       this.usingAuth = true;
@@ -1092,7 +1087,7 @@ export class AppSyncModelJavaVisitor<
       this.isRequiredField(field) ? 'isRequired = true' : '',
       authRules.length ? `authRules = ${authRules}` : '',
       field.isReadOnly ? 'isReadOnly = true' : '',
-    ].filter(arg => arg);
+    ].filter((arg) => arg);
 
     return `ModelField${annotationArgs.length ? `(${annotationArgs.join(', ')})` : ''}`;
   }
@@ -1101,8 +1096,8 @@ export class AppSyncModelJavaVisitor<
     const { connectionInfo } = field;
     // Add annotation to import
     this.additionalPackages.add(CONNECTION_RELATIONSHIP_IMPORTS[connectionInfo.kind]);
-    if(this.isGenerateModelsForLazyLoadAndCustomSelectionSet()) {
-      CONNECTION_RELATIONSHIP_LAZY_LOAD_IMPORTS[connectionInfo.kind].forEach(item => this.additionalPackages.add(item));
+    if (this.isGenerateModelsForLazyLoadAndCustomSelectionSet()) {
+      CONNECTION_RELATIONSHIP_LAZY_LOAD_IMPORTS[connectionInfo.kind].forEach((item) => this.additionalPackages.add(item));
     }
     let connectionDirectiveName: string = '';
     const connectionArguments: string[] = [];
@@ -1116,7 +1111,7 @@ export class AppSyncModelJavaVisitor<
           connectionArguments.push(`associatedWith = "${this.getFieldName(connectionInfo.associatedWith)}"`);
         }
         if (this.isCustomPKEnabled() && this.isGenerateModelsForLazyLoadAndCustomSelectionSet() && connectionInfo.targetNames) {
-          const hasOneTargetNamesArgs = `targetNames = {${connectionInfo.targetNames.map(target => `"${target}"`).join(', ')}}`;
+          const hasOneTargetNamesArgs = `targetNames = {${connectionInfo.targetNames.map((target) => `"${target}"`).join(', ')}}`;
           connectionArguments.push(hasOneTargetNamesArgs);
         }
         break;
@@ -1133,7 +1128,7 @@ export class AppSyncModelJavaVisitor<
         const belongsToTargetNameArgs = `targetName = "${connectionInfo.targetName}"`;
         connectionArguments.push(belongsToTargetNameArgs);
         if (this.isCustomPKEnabled()) {
-          const belongsToTargetNamesArgs = `targetNames = {${connectionInfo.targetNames.map(target => `"${target}"`).join(', ')}}`;
+          const belongsToTargetNamesArgs = `targetNames = {${connectionInfo.targetNames.map((target) => `"${target}"`).join(', ')}}`;
           connectionArguments.push(belongsToTargetNamesArgs);
         }
         break;
@@ -1171,7 +1166,7 @@ export class AppSyncModelJavaVisitor<
    * @param model
    */
   protected getNonConnectedField(model: CodeGenModel): CodeGenField[] {
-    return model.fields.filter(f => {
+    return model.fields.filter((f) => {
       if (!f.connectionInfo) return true;
       if (f.connectionInfo.kind == CodeGenConnectionType.BELONGS_TO) {
         return true;
@@ -1180,28 +1175,21 @@ export class AppSyncModelJavaVisitor<
   }
 
   protected getWritableFields(model: CodeGenModel): CodeGenField[] {
-    return this.getNonConnectedField(model).filter(f => !f.isReadOnly);
+    return this.getNonConnectedField(model).filter((f) => !f.isReadOnly);
   }
 
   protected getConnectedFields(model: CodeGenModel): CodeGenField[] {
-    return model.fields.filter(f => {
+    return model.fields.filter((f) => {
       if (f.connectionInfo) return true;
-     })
+    });
   }
 
   protected generateRootPath(model: CodeGenModel, classDeclarationBlock: JavaDeclarationBlock) {
     const modelPathName = this.generateModelPathName(model);
-    classDeclarationBlock.addClassMember(
-      "rootPath",
-      modelPathName,
-      `new ${modelPathName}("root", false, null)`,
-      [],
-      'public',
-      {
-        final: true,
-        static: true,
-      },
-    );
+    classDeclarationBlock.addClassMember('rootPath', modelPathName, `new ${modelPathName}("root", false, null)`, [], 'public', {
+      final: true,
+      static: true,
+    });
   }
 
   protected generateModelPathClasses(): string {
@@ -1228,19 +1216,18 @@ export class AppSyncModelJavaVisitor<
 
     // fields and getters
     const connectedFields = this.getConnectedFields(model);
-    connectedFields.forEach(field => this.generateModelPathField(field, classDeclarationBlock));
+    connectedFields.forEach((field) => this.generateModelPathField(field, classDeclarationBlock));
 
     return classDeclarationBlock.string;
   }
 
   protected generateModelPathName(model: CodeGenModel): string {
-    return this.getModelName(model) + "Path";
+    return this.getModelName(model) + 'Path';
   }
 
   protected generateModelPathField(field: CodeGenField, classDeclarationBlock: JavaDeclarationBlock): void {
-
     const fieldName = this.getFieldName(field);
-    const fieldType = this.generateModelPathName(this.modelMap[field.type])
+    const fieldType = this.generateModelPathName(this.modelMap[field.type]);
     classDeclarationBlock.addClassMember(fieldName, fieldType, '', [], 'private');
 
     const methodName = this.getFieldGetterName(field);
@@ -1253,7 +1240,7 @@ export class AppSyncModelJavaVisitor<
     classDeclarationBlock.addClassMethod(methodName, fieldType, modelPathFieldGetterBody, undefined, undefined, 'public', {
       synchronized: true,
     });
-  };
+  }
 
   protected generateModelPathPackageHeader(): string {
     const imports = this.generateImportStatements(MODEL_PATH_CLASS_IMPORT_PACKAGES);
@@ -1266,17 +1253,16 @@ export class AppSyncModelJavaVisitor<
    * @param declarationsBlock Class Declaration block to which constructor will be added
    */
   protected generateModelPathConstructor(model: CodeGenModel, declarationsBlock: JavaDeclarationBlock): void {
-    const modelPathName = this.generateModelPathName(model)
+    const modelPathName = this.generateModelPathName(model);
 
     const constructorArguments = [
-      { name: "name", type: "@NonNull String" },
-      { name: "isCollection", type: "@NonNull Boolean" },
-      { name: "parent", type: "@Nullable PropertyPath" }
-    ]
+      { name: 'name', type: '@NonNull String' },
+      { name: 'isCollection', type: '@NonNull Boolean' },
+      { name: 'parent', type: '@Nullable PropertyPath' },
+    ];
 
-    const body = `super(name, isCollection, parent, ${this.getModelName(model)}.class);`
+    const body = `super(name, isCollection, parent, ${this.getModelName(model)}.class);`;
 
     declarationsBlock.addClassMethod(modelPathName, null, body, constructorArguments, undefined, '');
   }
-
 }

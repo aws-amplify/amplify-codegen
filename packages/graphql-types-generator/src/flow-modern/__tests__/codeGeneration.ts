@@ -12,7 +12,7 @@ function compile(
   options: CompilerOptions = {
     mergeInFieldsFromFragmentSpreads: true,
     addTypename: true,
-  }
+  },
 ): CompilerContext {
   const document = parse(source);
   return compileToIR(schema, document, options);
@@ -21,9 +21,9 @@ function compile(
 function matchOutputSnapshot(output: any): void {
   expect(output).toBeInstanceOf(Object);
 
-  Object.keys(output).forEach(filePath => {
+  Object.keys(output).forEach((filePath) => {
     // convert the windows style path to unix style
-    expect(filePath.replace(/\\/g, "/")).toMatchSnapshot();
+    expect(filePath.replace(/\\/g, '/')).toMatchSnapshot();
     expect(output[filePath]).toMatchSnapshot();
   });
 }

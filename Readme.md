@@ -12,19 +12,22 @@
 </p>
 
 ### Reporting Bugs/Feature Requests
+
 [![Open Bugs](https://img.shields.io/github/issues/aws-amplify/amplify-codegen/bug?color=d73a4a&label=bugs)](https://github.com/aws-amplify/amplify-codegen/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
 [![Feature Requests](https://img.shields.io/github/issues/aws-amplify/amplify-codegen/feature-request?color=ff9001&label=feature%20requests)](https://github.com/aws-amplify/amplify-codegen/issues?q=is%3Aissue+label%3Afeature-request+is%3Aopen)
 [![Enhancements](https://img.shields.io/github/issues/aws-amplify/amplify-codegen/enhancement?color=4287f5&label=enhancement)](https://github.com/aws-amplify/amplify-codegen/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement)
 [![Closed Issues](https://img.shields.io/github/issues-closed/aws-amplify/amplify-codegen?color=%2325CC00&label=issues%20closed)](https://github.com/aws-amplify/amplify-codegen/issues?q=is%3Aissue+is%3Aclosed+)
 
 # Amplify Codegen
+
 Amplify Codegen is a JavaScript toolkit library for frontend and mobile developers building amplify applications. Packages are mainly used for frontend code generation including:
-| Package                                                                | Description                                                                                                                                                                                                          |
+| Package | Description |
 | ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| amplify-codegen                                                        | Amplify plugin for code generation                                                                                                                              |
-| appsync-modelgen-plugin                                                | Model generator for Amplify Datastore                                                                                                                               |
-| graphql-docs-generator                                                | Generates statements from GraphQL schema                                                                                                                               |
-| graphql-types-generator                                                | Generates type annotations from GraphQL schema and statements                                                                                                                               |
+| amplify-codegen | Amplify plugin for code generation |
+| appsync-modelgen-plugin | Model generator for Amplify Datastore |
+| graphql-docs-generator | Generates statements from GraphQL schema |
+| graphql-types-generator | Generates type annotations from GraphQL schema and statements |
+
 ## Developing
 
 This section should get you running with **Amplify Codegen**. You will need to set [nodejs](https://nodejs.org/en/) to a version less than v16 on your system. Developing locally also requires [yarn](https://classic.yarnpkg.com/en/docs/install#mac-stable).
@@ -47,6 +50,7 @@ Before pushing code or sending a pull request, do the following:
 - If there are any remaining lint errors, resolve them manually. Linting your code is a best practice that ensures good code quality so it's important that you don't skip this step.
 
 ## Troubleshooting
+
 Errors sometimes occur when a different version of `amplify-cli-core` is installed, typically during the time the CLI is updated. To resolve the error, execute the following command from the top-level directory:
 
 `rm -rf yarn.lock && yarn clean && yarn setup-dev`

@@ -1,4 +1,10 @@
-import { addAuthWithDefault, amplifyPushWithoutCodegen, addApi, updateAuthAddUserGroups, amplifyPush } from '@aws-amplify/amplify-codegen-e2e-core';
+import {
+  addAuthWithDefault,
+  amplifyPushWithoutCodegen,
+  addApi,
+  updateAuthAddUserGroups,
+  amplifyPush,
+} from '@aws-amplify/amplify-codegen-e2e-core';
 
 import {
   getAppClientIDWeb,

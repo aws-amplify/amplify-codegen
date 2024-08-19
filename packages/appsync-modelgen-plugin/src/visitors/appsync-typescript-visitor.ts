@@ -17,7 +17,7 @@ export interface ParsedAppSyncModelTypeScriptConfig extends ParsedAppSyncModelCo
 
 export class AppSyncModelTypeScriptVisitor<
   TRawConfig extends RawAppSyncModelTypeScriptConfig = RawAppSyncModelTypeScriptConfig,
-  TPluginConfig extends ParsedAppSyncModelTypeScriptConfig = ParsedAppSyncModelTypeScriptConfig
+  TPluginConfig extends ParsedAppSyncModelTypeScriptConfig = ParsedAppSyncModelTypeScriptConfig,
 > extends AppSyncModelVisitor<TRawConfig, TPluginConfig> {
   protected SCALAR_TYPE_MAP: { [key: string]: string } = {
     String: 'string',
@@ -52,15 +52,15 @@ export class AppSyncModelTypeScriptVisitor<
     );
     const imports = this.generateImports();
     const enumDeclarations = Object.values(this.enumMap)
-      .map(enumObj => this.generateEnumDeclarations(enumObj))
+      .map((enumObj) => this.generateEnumDeclarations(enumObj))
       .join('\n\n');
 
     const modelDeclarations = Object.values(this.modelMap)
-      .map(typeObj => this.generateModelDeclaration(typeObj))
+      .map((typeObj) => this.generateModelDeclaration(typeObj))
       .join('\n\n');
 
     const nonModelDeclarations = Object.values(this.nonModelMap)
-      .map(typeObj => this.generateModelDeclaration(typeObj, true, false))
+      .map((typeObj) => this.generateModelDeclaration(typeObj, true, false))
       .join('\n\n');
 
     const modelInitialization = this.generateModelInitialization([...Object.values(this.modelMap), ...Object.values(this.nonModelMap)]);
@@ -91,10 +91,7 @@ export class AppSyncModelTypeScriptVisitor<
    */
   protected generateModelMetaData(modelObj: CodeGenModel): string {
     const modelName = this.generateModelTypeDeclarationName(modelObj);
-    const modelDeclarations = new TypeScriptDeclarationBlock()
-      .asKind('type')
-      .withName(`${modelName}MetaData`)
-      .export(false);
+    const modelDeclarations = new TypeScriptDeclarationBlock().asKind('type').withName(`${modelName}MetaData`).export(false);
 
     let readOnlyFieldNames: string[] = [];
 
@@ -135,7 +132,7 @@ export class AppSyncModelTypeScriptVisitor<
   }
 
   protected constructIdentifier(modelObj: CodeGenModel): string {
-    const primaryKeyField = modelObj.fields.find(f => f.primaryKeyInfo)!;
+    const primaryKeyField = modelObj.fields.find((f) => f.primaryKeyInfo)!;
     const { primaryKeyType, sortKeyFields } = primaryKeyField.primaryKeyInfo!;
     switch (primaryKeyType) {
       case CodeGenPrimaryKeyType.ManagedId:
@@ -145,9 +142,11 @@ export class AppSyncModelTypeScriptVisitor<
         this.BASE_DATASTORE_IMPORT.add('OptionallyManagedIdentifier');
         return `OptionallyManagedIdentifier<${modelObj.name}, '${primaryKeyField.name}'>`;
       case CodeGenPrimaryKeyType.CustomId:
-        const identifierFields: string[] = [primaryKeyField.name, ...sortKeyFields.map(f => f.name)].filter(f => f);
+        const identifierFields: string[] = [primaryKeyField.name, ...sortKeyFields.map((f) => f.name)].filter((f) => f);
         const identifierFieldsStr =
-          identifierFields.length === 1 ? `'${identifierFields[0]}'` : `[${identifierFields.map(fieldStr => `'${fieldStr}'`).join(', ')}]`;
+          identifierFields.length === 1
+            ? `'${identifierFields[0]}'`
+            : `[${identifierFields.map((fieldStr) => `'${fieldStr}'`).join(', ')}]`;
         if (identifierFields.length > 1) {
           this.BASE_DATASTORE_IMPORT.add('CompositeIdentifier');
           return `CompositeIdentifier<${modelObj.name}, ${identifierFieldsStr}>`;
@@ -224,7 +223,7 @@ export class AppSyncModelTypeScriptVisitor<
       return '';
     }
     const modelClasses = models
-      .map(model => [this.generateModelImportName(model), this.generateModelImportAlias(model)])
+      .map((model) => [this.generateModelImportName(model), this.generateModelImportAlias(model)])
       .map(([importName, aliasName]) => {
         return importName === aliasName ? importName : `${importName}: ${aliasName}`;
       });
@@ -232,7 +231,7 @@ export class AppSyncModelTypeScriptVisitor<
     const initializationResult = ['const', '{', modelClasses.join(', '), '}', '=', 'initSchema(schema)'];
     if (includeTypeInfo) {
       const typeInfo = models
-        .map(model => {
+        .map((model) => {
           return [this.generateModelImportName(model), this.generateModelTypeDeclarationName(model)];
         })
         .map(([importName, modelDeclarationName]) => `${importName}: PersistentModelConstructor<${modelDeclarationName}>;`);
@@ -244,7 +243,7 @@ export class AppSyncModelTypeScriptVisitor<
 
   protected generateExports(modelsOrEnum: (CodeGenModel | CodeGenEnum)[]): string {
     const exportStr = modelsOrEnum
-      .map(model => {
+      .map((model) => {
         if (model.type === 'model') {
           const modelClassName = this.generateModelImportAlias(model);
           const exportClassName = this.getModelName(model);

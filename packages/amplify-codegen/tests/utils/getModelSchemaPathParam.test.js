@@ -6,10 +6,10 @@ const PROJECT_PATH = path.join(__dirname, 'project');
 const createContextWithOptions = (options) => ({
   amplify: {
     getEnvInfo: () => ({
-      projectPath: PROJECT_PATH
+      projectPath: PROJECT_PATH,
     }),
   },
-  ...(options ? { parameters: { options } } : {})
+  ...(options ? { parameters: { options } } : {}),
 });
 
 describe('getModelSchemaPathParam', () => {

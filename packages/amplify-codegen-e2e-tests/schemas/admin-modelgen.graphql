@@ -1,5 +1,6 @@
-input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
-
+input AMPLIFY {
+  globalAuthRule: AuthRule = { allow: public }
+} # FOR TESTING ONLY!
 type Todo @model {
   id: ID!
   name: String!
@@ -42,8 +43,7 @@ type Query {
   echo6(customInput: CustomInput): String!
   echo7: [ICustom]!
   echo8(msg: [Float], msg2: [Int!], enumType: BillingSource, enumList: [BillingSource], inputType: [CustomInput]): [String]
-  echo9(msg: [Float]!, msg2: [Int!]!, enumType: BillingSource!, enumList: [BillingSource!]!, inputType: [CustomInput!]!): [String!]!    
-
+  echo9(msg: [Float]!, msg2: [Int!]!, enumType: BillingSource!, enumList: [BillingSource!]!, inputType: [CustomInput!]!): [String!]!
 }
 type Mutation {
   mutate(msg: [String!]!): Todo

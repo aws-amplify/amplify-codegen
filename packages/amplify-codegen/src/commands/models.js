@@ -104,7 +104,7 @@ const getApiResourcePath = async (context) => {
   try {
     const allApiResources = await context.amplify.getResourceStatus('api');
     const apiResource = allApiResources.allResources.find(
-      resource => resource.service === 'AppSync' && resource.providerPlugin === 'awscloudformation',
+      (resource) => resource.service === 'AppSync' && resource.providerPlugin === 'awscloudformation',
     );
     if (!apiResource) {
       context.print.info('No AppSync API configured. Please add an API');
@@ -114,7 +114,9 @@ const getApiResourcePath = async (context) => {
     const backendPath = await context.amplify.pathManager.getBackendDirPath();
     return path.join(backendPath, 'api', apiResource.resourceName);
   } catch (_) {
-    throw new Error('Schema resource path not found, if you are running this command from a directory without a local amplify directory, be sure to specify the path to your model schema file or folder via --model-schema.');
+    throw new Error(
+      'Schema resource path not found, if you are running this command from a directory without a local amplify directory, be sure to specify the path to your model schema file or folder via --model-schema.',
+    );
   }
 };
 
@@ -131,7 +133,7 @@ const getDirectives = async (context, apiResourcePath) => {
       resourceDir: apiResourcePath,
     });
   } catch {
-    return DefaultDirectives.map(directive => directive.definition).join('\n');
+    return DefaultDirectives.map((directive) => directive.definition).join('\n');
   }
 };
 
@@ -149,7 +151,7 @@ const getOutputDir = (context, projectRoot, overrideOutputDir) => {
   try {
     return path.join(projectRoot, getModelOutputPath(context.amplify.getProjectConfig()));
   } catch (_) {
-    throw new Error('Output directory could not be determined, to specify, set the --output-dir CLI property.')
+    throw new Error('Output directory could not be determined, to specify, set the --output-dir CLI property.');
   }
 };
 
@@ -166,7 +168,9 @@ const getFrontend = (context, isIntrospection) => {
   const targetParam = context.parameters?.options?.['target'];
   if (targetParam) {
     if (!modelgenFrontendToTargetMap[targetParam]) {
-      throw new Error(`Unexpected --target value ${targetParam} provided, expected one of ${JSON.stringify(Object.keys(modelgenFrontendToTargetMap))}`)
+      throw new Error(
+        `Unexpected --target value ${targetParam} provided, expected one of ${JSON.stringify(Object.keys(modelgenFrontendToTargetMap))}`,
+      );
     }
     return targetParam;
   }
@@ -174,7 +178,9 @@ const getFrontend = (context, isIntrospection) => {
   try {
     return context.amplify.getProjectConfig().frontend;
   } catch (_) {
-    throw new Error('Modelgen target not found, if you are running this command from a directory without a local amplify directory, be sure to specify the modelgen target via --target.');
+    throw new Error(
+      'Modelgen target not found, if you are running this command from a directory without a local amplify directory, be sure to specify the modelgen target via --target.',
+    );
   }
 };
 
@@ -268,7 +274,10 @@ async function generateModels(context, generateOptions = null) {
     emitAuthProvider: readFeatureFlag(context, 'codegen.emitAuthProvider'),
     useExperimentalPipelinedTransformer: readFeatureFlag(context, 'graphQLTransformer.useExperimentalPipelinedTransformer'),
     transformerVersion: readNumericFeatureFlag(context, 'graphQLTransformer.transformerVersion'),
-    respectPrimaryKeyAttributesOnConnectionField: readFeatureFlag(context, 'graphQLTransformer.respectPrimaryKeyAttributesOnConnectionField'),
+    respectPrimaryKeyAttributesOnConnectionField: readFeatureFlag(
+      context,
+      'graphQLTransformer.respectPrimaryKeyAttributesOnConnectionField',
+    ),
     improvePluralization: readFeatureFlag(context, 'graphQLTransformer.improvePluralization'),
     generateModelsForLazyLoadAndCustomSelectionSet: readFeatureFlag(context, 'codegen.generateModelsForLazyLoadAndCustomSelectionSet'),
     addTimestampFields: readFeatureFlag(context, 'codegen.addTimestampFields'),
@@ -307,7 +316,7 @@ function loadSchema(apiResourcePath) {
   if (fs.pathExistsSync(schemaDirectory) && fs.lstatSync(schemaDirectory).isDirectory()) {
     // search recursively for graphql schema files inside `schema` directory
     const schemas = globby.sync([path.join(schemaDirectory, '**/*.graphql')].map((path) => normalizePathForGlobPattern(path)));
-    return schemas.map(file => fs.readFileSync(file, 'utf8')).join('\n');
+    return schemas.map((file) => fs.readFileSync(file, 'utf8')).join('\n');
   }
 
   throw new Error('Could not load the schema');
@@ -358,7 +367,6 @@ function generateEslintIgnore(context) {
   if (projectConfig.frontend !== 'javascript') {
     return;
   }
-
 
   if (!projectPath) {
     return;

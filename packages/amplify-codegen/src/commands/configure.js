@@ -17,7 +17,7 @@ async function configure(context) {
   const project = await configureProjectWalkThrough(context, config.getProjects(), withoutInit);
   config.addProject(project);
   config.save();
-  console.log('Codegen configured. Remember to run "amplify codegen" to generate your types and statements.')
+  console.log('Codegen configured. Remember to run "amplify codegen" to generate your types and statements.');
 }
 
 module.exports = configure;

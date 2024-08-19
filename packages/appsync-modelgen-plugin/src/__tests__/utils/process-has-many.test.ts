@@ -26,9 +26,7 @@ describe('hasManyHasImplicitKey', () => {
     const fooModel: CodeGenModel = {
       name: 'Foo',
       type: 'model',
-      directives: [
-        { name: 'model', arguments: {} },
-      ],
+      directives: [{ name: 'model', arguments: {} }],
       fields: [
         {
           name: 'id',
@@ -50,9 +48,7 @@ describe('hasManyHasImplicitKey', () => {
     const barModel: CodeGenModel = {
       name: 'Bar',
       type: 'model',
-      directives: [
-        { name: 'model', arguments: {} },
-      ],
+      directives: [{ name: 'model', arguments: {} }],
       fields: [
         {
           name: 'id',
@@ -63,7 +59,7 @@ describe('hasManyHasImplicitKey', () => {
         },
         associationField,
       ],
-    }
+    };
     const connection: CodeGenFieldConnectionHasMany = {
       kind: CodeGenConnectionType.HAS_MANY,
       connectedModel: barModel,
@@ -94,13 +90,11 @@ describe('hasManyHasImplicitKey', () => {
       isList: true,
       isNullable: true,
       directives: [{ name: 'hasMany', arguments: {} }],
-    }
+    };
     const fooModel: CodeGenModel = {
       name: 'Foo',
       type: 'model',
-      directives: [
-        { name: 'model', arguments: {} },
-      ],
+      directives: [{ name: 'model', arguments: {} }],
       fields: [
         {
           name: 'id',
@@ -122,9 +116,7 @@ describe('hasManyHasImplicitKey', () => {
     const barModel: CodeGenModel = {
       name: 'Bar',
       type: 'model',
-      directives: [
-        { name: 'model', arguments: {} },
-      ],
+      directives: [{ name: 'model', arguments: {} }],
       fields: [
         {
           name: 'id',
@@ -142,7 +134,7 @@ describe('hasManyHasImplicitKey', () => {
         },
         associationField,
       ],
-    }
+    };
     const connection: CodeGenFieldConnectionHasMany = {
       kind: CodeGenConnectionType.HAS_MANY,
       connectedModel: barModel,
@@ -177,9 +169,7 @@ describe('hasManyHasImplicitKey', () => {
     const fooModel: CodeGenModel = {
       name: 'Foo',
       type: 'model',
-      directives: [
-        { name: 'model', arguments: {} },
-      ],
+      directives: [{ name: 'model', arguments: {} }],
       fields: [
         {
           name: 'id',
@@ -194,9 +184,7 @@ describe('hasManyHasImplicitKey', () => {
     const barModel: CodeGenModel = {
       name: 'Bar',
       type: 'model',
-      directives: [
-        { name: 'model', arguments: {} },
-      ],
+      directives: [{ name: 'model', arguments: {} }],
       fields: [
         {
           name: 'id',
@@ -213,7 +201,7 @@ describe('hasManyHasImplicitKey', () => {
           directives: [{ name: 'index', arguments: { name: 'byFoo' } }],
         },
       ],
-    }
+    };
     const associationField: CodeGenField = {
       type: 'ID',
       isList: false,
@@ -256,9 +244,7 @@ describe('addHasManyKey', () => {
     const fooModel: CodeGenModel = {
       name: 'Foo',
       type: 'model',
-      directives: [
-        { name: 'model', arguments: {} },
-      ],
+      directives: [{ name: 'model', arguments: {} }],
       fields: [
         {
           name: 'id',
@@ -280,9 +266,7 @@ describe('addHasManyKey', () => {
     const barModel: CodeGenModel = {
       name: 'Bar',
       type: 'model',
-      directives: [
-        { name: 'model', arguments: {} },
-      ],
+      directives: [{ name: 'model', arguments: {} }],
       fields: [
         {
           name: 'id',
@@ -331,9 +315,7 @@ describe('addHasManyKey', () => {
     const fooModel: CodeGenModel = {
       name: 'Foo',
       type: 'model',
-      directives: [
-        { name: 'model', arguments: {} },
-      ],
+      directives: [{ name: 'model', arguments: {} }],
       fields: [
         {
           name: 'id',
@@ -369,9 +351,7 @@ describe('addHasManyKey', () => {
     const barModel: CodeGenModel = {
       name: 'Bar',
       type: 'model',
-      directives: [
-        { name: 'model', arguments: {} },
-      ],
+      directives: [{ name: 'model', arguments: {} }],
       fields: [
         {
           name: 'id',
@@ -383,7 +363,7 @@ describe('addHasManyKey', () => {
         associationFieldPartitionKey,
         associationFieldSortKey,
       ],
-    }
+    };
     const connection: CodeGenFieldConnectionHasMany = {
       kind: CodeGenConnectionType.HAS_MANY,
       connectedModel: barModel,
@@ -408,9 +388,7 @@ describe('addHasManyKey', () => {
     const fooModel: CodeGenModel = {
       name: 'Foo',
       type: 'model',
-      directives: [
-        { name: 'model', arguments: {} },
-      ],
+      directives: [{ name: 'model', arguments: {} }],
       fields: [
         {
           name: 'id',
@@ -432,9 +410,7 @@ describe('addHasManyKey', () => {
     const barModel: CodeGenModel = {
       name: 'Bar',
       type: 'model',
-      directives: [
-        { name: 'model', arguments: {} },
-      ],
+      directives: [{ name: 'model', arguments: {} }],
       fields: [
         {
           name: 'id',
@@ -445,7 +421,7 @@ describe('addHasManyKey', () => {
         },
         associationField,
       ],
-    }
+    };
     const connection: CodeGenFieldConnectionHasMany = {
       kind: CodeGenConnectionType.HAS_MANY,
       connectedModel: barModel,
@@ -470,9 +446,7 @@ describe('addHasManyKey', () => {
     const fooModel: CodeGenModel = {
       name: 'Foo',
       type: 'model',
-      directives: [
-        { name: 'model', arguments: {} },
-      ],
+      directives: [{ name: 'model', arguments: {} }],
       fields: [
         {
           name: 'id',
@@ -494,9 +468,7 @@ describe('addHasManyKey', () => {
     const barModel: CodeGenModel = {
       name: 'Bar',
       type: 'model',
-      directives: [
-        { name: 'model', arguments: {} },
-      ],
+      directives: [{ name: 'model', arguments: {} }],
       fields: [
         {
           name: 'id',
@@ -507,7 +479,7 @@ describe('addHasManyKey', () => {
         },
         associationField,
       ],
-    }
+    };
     const connection: CodeGenFieldConnectionHasMany = {
       kind: CodeGenConnectionType.HAS_MANY,
       connectedModel: barModel,

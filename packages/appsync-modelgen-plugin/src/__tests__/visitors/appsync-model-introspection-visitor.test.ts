@@ -7,17 +7,21 @@ import { AppSyncModelIntrospectionVisitor } from '../../visitors/appsync-model-i
 const defaultModelIntropectionVisitorSettings = {
   isTimestampFieldsAdded: true,
   respectPrimaryKeyAttributesOnConnectionField: false,
-  transformerVersion: 2
-}
+  transformerVersion: 2,
+};
 
 const buildSchemaWithDirectives = (schema: String, directives: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-const getVisitor = (schema: string, settings: any = {}, directives: readonly Directive[] = DefaultDirectives): AppSyncModelIntrospectionVisitor => {
-  const visitorConfig = { ...defaultModelIntropectionVisitorSettings, ...settings }
+const getVisitor = (
+  schema: string,
+  settings: any = {},
+  directives: readonly Directive[] = DefaultDirectives,
+): AppSyncModelIntrospectionVisitor => {
+  const visitorConfig = { ...defaultModelIntropectionVisitorSettings, ...settings };
   const ast = parse(schema);
-  const stringDirectives = directives.map(directive => directive.definition).join('\n');
+  const stringDirectives = directives.map((directive) => directive.definition).join('\n');
   const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
   const visitor = new AppSyncModelIntrospectionVisitor(
     builtSchema,
@@ -101,89 +105,89 @@ describe('Model Introspection Visitor', () => {
 describe('Custom primary key tests', () => {
   const schema = /* GraphQL */ `
     type Project1 @model {
-      projectId: ID! @primaryKey(sortKeyFields:["name"])
+      projectId: ID! @primaryKey(sortKeyFields: ["name"])
       name: String!
       team: Team1 @hasOne
     }
     type Team1 @model {
-      teamId: ID! @primaryKey(sortKeyFields:["name"])
+      teamId: ID! @primaryKey(sortKeyFields: ["name"])
       name: String!
       project: Project1 @belongsTo
     }
     type Project2 @model {
-      projectId: ID! @primaryKey(sortKeyFields:["name"])
+      projectId: ID! @primaryKey(sortKeyFields: ["name"])
       name: String!
       team: Team2 @hasOne
     }
     type Team2 @model {
-      teamId: ID! @primaryKey(sortKeyFields:["name"])
+      teamId: ID! @primaryKey(sortKeyFields: ["name"])
       name: String!
     }
     type Project3 @model {
-      projectId: ID! @primaryKey(sortKeyFields:["name"])
+      projectId: ID! @primaryKey(sortKeyFields: ["name"])
       name: String!
-      team: Team3 @hasOne(fields:["teamId", "teamName"])
+      team: Team3 @hasOne(fields: ["teamId", "teamName"])
       teamId: ID # customized foreign key for child primary key
       teamName: String # customized foreign key for child sort key
     }
     type Team3 @model {
-      teamId: ID! @primaryKey(sortKeyFields:["name"])
+      teamId: ID! @primaryKey(sortKeyFields: ["name"])
       name: String!
-      project: Project3 @belongsTo(fields:["projectId", "projectName"])
+      project: Project3 @belongsTo(fields: ["projectId", "projectName"])
       projectId: ID # customized foreign key for parent primary key
       projectName: String # customized foreign key for parent sort key
     }
     type Project4 @model {
-      projectId: ID! @primaryKey(sortKeyFields:["name"])
+      projectId: ID! @primaryKey(sortKeyFields: ["name"])
       name: String!
-      team: Team4 @hasOne(fields:["teamId", "teamName"])
+      team: Team4 @hasOne(fields: ["teamId", "teamName"])
       teamId: ID # customized foreign key for child primary key
       teamName: String # customized foreign key for child sort key
     }
     type Team4 @model {
-      teamId: ID! @primaryKey(sortKeyFields:["name"])
+      teamId: ID! @primaryKey(sortKeyFields: ["name"])
       name: String!
     }
     type Post1 @model {
-      postId: ID! @primaryKey(sortKeyFields:["title"])
+      postId: ID! @primaryKey(sortKeyFields: ["title"])
       title: String!
       comments: [Comment1] @hasMany
     }
     type Comment1 @model {
-      commentId: ID! @primaryKey(sortKeyFields:["content"])
+      commentId: ID! @primaryKey(sortKeyFields: ["content"])
       content: String!
       post: Post1 @belongsTo
     }
     type Post2 @model {
-      postId: ID! @primaryKey(sortKeyFields:["title"])
+      postId: ID! @primaryKey(sortKeyFields: ["title"])
       title: String!
       comments: [Comment2] @hasMany
     }
     type Comment2 @model {
-      commentId: ID! @primaryKey(sortKeyFields:["content"])
+      commentId: ID! @primaryKey(sortKeyFields: ["content"])
       content: String!
     }
     type Post3 @model {
-      postId: ID! @primaryKey(sortKeyFields:["title"])
+      postId: ID! @primaryKey(sortKeyFields: ["title"])
       title: String!
-      comments: [Comment3] @hasMany(indexName:"byPost", fields:["postId", "title"])
+      comments: [Comment3] @hasMany(indexName: "byPost", fields: ["postId", "title"])
     }
     type Comment3 @model {
-      commentId: ID! @primaryKey(sortKeyFields:["content"])
+      commentId: ID! @primaryKey(sortKeyFields: ["content"])
       content: String!
-      post: Post3 @belongsTo(fields:["postId", "postTitle"])
-      postId: ID @index(name: "byPost", sortKeyFields:["postTitle"]) # customized foreign key for parent primary key
+      post: Post3 @belongsTo(fields: ["postId", "postTitle"])
+      postId: ID @index(name: "byPost", sortKeyFields: ["postTitle"]) # customized foreign key for parent primary key
       postTitle: String # customized foreign key for parent sort key
     }
     type Post4 @model {
-      postId: ID! @primaryKey(sortKeyFields:["title"])
+      postId: ID! @primaryKey(sortKeyFields: ["title"])
       title: String!
-      comments: [Comment4] @hasMany(indexName:"byPost", fields:["postId", "title"])
+      comments: [Comment4] @hasMany(indexName: "byPost", fields: ["postId", "title"])
     }
     type Comment4 @model {
-      commentId: ID! @primaryKey(sortKeyFields:["content"])
+      commentId: ID! @primaryKey(sortKeyFields: ["content"])
       content: String!
-      postId: ID @index(name: "byPost", sortKeyFields:["postTitle"]) # customized foreign key for parent primary key
+      postId: ID @index(name: "byPost", sortKeyFields: ["postTitle"]) # customized foreign key for parent primary key
       postTitle: String # customized foreign key for parent sort key
     }
     type Post @model {
@@ -193,9 +197,9 @@ describe('Custom primary key tests', () => {
       tags: [Tag] @manyToMany(relationName: "PostTags")
     }
     type Tag @model {
-        customTagId: ID! @primaryKey(sortKeyFields: ["label"])
-        label: String!
-        posts: [Post] @manyToMany(relationName: "PostTags")
+      customTagId: ID! @primaryKey(sortKeyFields: ["label"])
+      label: String!
+      posts: [Post] @manyToMany(relationName: "PostTags")
     }
   `;
   it('should generate correct model intropection file validated by JSON schema and not throw error when custom PK is enabled', () => {
@@ -210,11 +214,11 @@ describe('Primary Key Info tests', () => {
       todoId: ID! @primaryKey
     }
     type Todo2 @model {
-      todoId: ID! @primaryKey(sortKeyFields:["title"])
+      todoId: ID! @primaryKey(sortKeyFields: ["title"])
       title: String!
     }
     type Todo3 @model {
-      id: ID! @primaryKey(sortKeyFields:["title"])
+      id: ID! @primaryKey(sortKeyFields: ["title"])
       title: String!
     }
     type Todo4 @model {
@@ -251,13 +255,14 @@ describe('Primary Key Info tests', () => {
       }
     `;
     const result = JSON.parse(getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true }).generate());
-    const { models: { Like, EnthusiastLikes } } = result;
+    const {
+      models: { Like, EnthusiastLikes },
+    } = result;
     expect(result).toMatchSnapshot();
-    
+
     // name
     expect(Like.primaryKeyInfo.primaryKeyFieldName).toEqual('name');
     expect(EnthusiastLikes.fields.like.association.targetNames[0]).toEqual('likeName');
-
 
     // sortKeyFieldOne
     expect(Like.primaryKeyInfo.sortKeyFieldNames[0]).toEqual('sortKeyFieldOne');
@@ -271,7 +276,6 @@ describe('Primary Key Info tests', () => {
     expect(Like.primaryKeyInfo.sortKeyFieldNames[2]).toEqual('sortKeyFieldThree');
     expect(EnthusiastLikes.fields.like.association.targetNames[3]).toEqual('likesortKeyFieldThree');
   });
-
 });
 
 describe('Primary key info within a belongsTo model tests', () => {
@@ -294,53 +298,64 @@ describe('Primary key info within a belongsTo model tests', () => {
 
 describe('schemas with pk on a belongsTo fk', () => {
   it('works for v1', () => {
-    expect(getVisitor(/* GraphQL */ `
-      type Blog @model {
-        id: ID!
-        title: String
-        posts: [Post] @connection(fields: ["id"])
-      }
+    expect(
+      getVisitor(
+        /* GraphQL */ `
+          type Blog @model {
+            id: ID!
+            title: String
+            posts: [Post] @connection(fields: ["id"])
+          }
 
-      type Post @model @key(fields: ["blogId", "title", "description"]) {
-        id: ID!
-        blogId: ID!
-        title: String!
-        description: String!
-        blog: Blog @connection(fields: ["blogId"])
-      }
-    `, {
-      transformerVersion: 1,
-      usePipelinedTransformer: false,
-    }, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]).generate()).toMatchSnapshot();
-
+          type Post @model @key(fields: ["blogId", "title", "description"]) {
+            id: ID!
+            blogId: ID!
+            title: String!
+            description: String!
+            blog: Blog @connection(fields: ["blogId"])
+          }
+        `,
+        {
+          transformerVersion: 1,
+          usePipelinedTransformer: false,
+        },
+        [...AppSyncDirectives, ...V1Directives, DeprecatedDirective],
+      ).generate(),
+    ).toMatchSnapshot();
   });
 
   it('works for v2', () => {
-    expect(getVisitor(/* GraphQL */ `
-      type Blog @model {
-        id: ID!
-        title: String
-        posts: [Post] @hasMany(fields: ["id"])
-      }
+    expect(
+      getVisitor(
+        /* GraphQL */ `
+          type Blog @model {
+            id: ID!
+            title: String
+            posts: [Post] @hasMany(fields: ["id"])
+          }
 
-      type Post @model {
-        id: ID!
-        blogId: ID! @primaryKey(sortKeyFields: ["title", "description"])
-        title: String!
-        description: String!
-        blog: Blog @belongsTo(fields: ["blogId"])
-      }
-    `, {
-      transformerVersion: 2,
-      usePipelinedTransformer: true,
-    }).generate()).toMatchSnapshot();
+          type Post @model {
+            id: ID!
+            blogId: ID! @primaryKey(sortKeyFields: ["title", "description"])
+            title: String!
+            description: String!
+            blog: Blog @belongsTo(fields: ["blogId"])
+          }
+        `,
+        {
+          transformerVersion: 2,
+          usePipelinedTransformer: true,
+        },
+      ).generate(),
+    ).toMatchSnapshot();
   });
 });
 
 describe('Custom queries/mutations/subscriptions & input type tests', () => {
   const schema = /* GraphQL */ `
-    input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
-
+    input AMPLIFY {
+      globalAuthRule: AuthRule = { allow: public }
+    } # FOR TESTING ONLY!
     type Todo @model {
       id: ID!
       name: String!
@@ -372,7 +387,7 @@ describe('Custom queries/mutations/subscriptions & input type tests', () => {
     }
     # The member types of a Union type must all be Object base types.
     union CustomUnion = Todo | Phone
-    
+
     type Query {
       getAllTodo(msg: String, input: CustomInput): String
       echo(msg: String): String
@@ -383,7 +398,7 @@ describe('Custom queries/mutations/subscriptions & input type tests', () => {
       echo6(customInput: CustomInput): String!
       echo7: [ICustom]!
       echo8(msg: [Float], msg2: [Int!], enumType: BillingSource, enumList: [BillingSource], inputType: [CustomInput]): [String]
-      echo9(msg: [Float]!, msg2: [Int!]!, enumType: BillingSource!, enumList: [BillingSource!]!, inputType: [CustomInput!]!): [String!]!    
+      echo9(msg: [Float]!, msg2: [Int!]!, enumType: BillingSource!, enumList: [BillingSource!]!, inputType: [CustomInput!]!): [String!]!
     }
     type Mutation {
       mutate(msg: [String!]!): Todo
@@ -410,7 +425,7 @@ describe('custom fields', () => {
         relatedId: ID
         related: RelatedLegacy @hasOne(fields: [relatedId])
       }
-      
+
       type RelatedLegacy @model {
         id: ID!
         primary: PrimaryLegacy @belongsTo
@@ -427,7 +442,7 @@ describe('custom fields', () => {
         relatedId: ID
         related: [RelatedLegacy] @hasMany(fields: [relatedId])
       }
-      
+
       type RelatedLegacy @model {
         id: ID!
         primary: PrimaryLegacy @belongsTo
@@ -443,7 +458,7 @@ describe('custom fields', () => {
         id: ID!
         related: RelatedLegacy @hasOne
       }
-      
+
       type RelatedLegacy @model {
         id: ID!
         primaryId: ID!
@@ -460,7 +475,7 @@ describe('custom fields', () => {
         id: ID!
         related: [RelatedLegacy] @hasMany
       }
-      
+
       type RelatedLegacy @model {
         id: ID!
         primaryId: ID!
@@ -478,7 +493,7 @@ describe('custom fields', () => {
         relatedId: ID
         related: RelatedLegacy @hasOne(fields: [relatedId])
       }
-      
+
       type RelatedLegacy @model {
         id: ID!
         primaryId: ID!
@@ -496,7 +511,7 @@ describe('custom fields', () => {
         relatedId: ID
         related: [RelatedLegacy] @hasMany(fields: [relatedId])
       }
-      
+
       type RelatedLegacy @model {
         id: ID!
         primaryId: ID!
@@ -554,13 +569,13 @@ describe('custom references', () => {
         relatedMany: [RelatedMany] @hasMany(references: ["primaryId"])
         relatedOne: RelatedOne @hasOne(references: ["primaryId"])
       }
-      
+
       type RelatedMany @model {
         id: ID! @primaryKey
         primaryId: ID!
         primary: Primary @belongsTo(references: ["primaryId"])
       }
-      
+
       type RelatedOne @model {
         id: ID! @primaryKey
         primaryId: ID!
@@ -578,7 +593,7 @@ describe('custom references', () => {
         bar1: Bar @hasOne(references: ["bar1Id"])
         bar2: Bar @hasOne(references: ["bar2Id"])
       }
-      
+
       type Bar @model {
         id: ID!
         bar1Id: ID
@@ -601,7 +616,7 @@ describe('custom references', () => {
         content: String
         related: [Related!] @hasMany(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
       }
-      
+
       type Related @model {
         content: String
         primaryTenantId: ID!
@@ -624,7 +639,7 @@ describe('custom references', () => {
         content: String
         related: Related @hasOne(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
       }
-      
+
       type Related @model {
         content: String
         primaryTenantId: ID!
@@ -654,8 +669,7 @@ describe('custom references', () => {
     `;
 
     const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
-    expect(() => visitor.generate())
-      .toThrowError(`'fields' and 'references' cannot be used together.`);
+    expect(() => visitor.generate()).toThrowError(`'fields' and 'references' cannot be used together.`);
   });
 
   test('throws error when using fields and references on belongsTo', () => {
@@ -675,8 +689,7 @@ describe('custom references', () => {
     `;
 
     const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
-    expect(() => visitor.generate())
-      .toThrowError(`'fields' and 'references' cannot be used together.`);
+    expect(() => visitor.generate()).toThrowError(`'fields' and 'references' cannot be used together.`);
   });
 
   test('throws error when using fields and references on hasOne', () => {
@@ -696,8 +709,7 @@ describe('custom references', () => {
     `;
 
     const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
-    expect(() => visitor.generate())
-      .toThrowError(`'fields' and 'references' cannot be used together.`);
+    expect(() => visitor.generate()).toThrowError(`'fields' and 'references' cannot be used together.`);
   });
 
   test('throws error when missing references on hasOne related model', () => {
@@ -717,8 +729,9 @@ describe('custom references', () => {
     `;
 
     const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
-    expect(() => visitor.generate())
-      .toThrowError(`Error processing @hasOne directive on SqlPrimary.related. @belongsTo directive with references ["primaryId"] was not found in connected model SqlRelated`);
+    expect(() => visitor.generate()).toThrowError(
+      `Error processing @hasOne directive on SqlPrimary.related. @belongsTo directive with references ["primaryId"] was not found in connected model SqlRelated`,
+    );
   });
 
   test('throws error when missing references on hasOne primary model', () => {
@@ -738,8 +751,9 @@ describe('custom references', () => {
     `;
 
     const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
-    expect(() => visitor.generate())
-      .toThrowError(`Error processing @belongsTo directive on SqlRelated.primary. @hasOne or @hasMany directive with references ["primaryId"] was not found in connected model SqlPrimary`);
+    expect(() => visitor.generate()).toThrowError(
+      `Error processing @belongsTo directive on SqlRelated.primary. @hasOne or @hasMany directive with references ["primaryId"] was not found in connected model SqlPrimary`,
+    );
   });
 
   test('throws error when missing references on hasMany related model when custom pk is disabled', () => {
@@ -759,10 +773,10 @@ describe('custom references', () => {
     `;
 
     const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: false });
-    expect(() => visitor.generate())
-      .toThrowError(`Error processing @hasMany directive on SqlPrimary.related. @belongsTo directive with references ["primaryId"] was not found in connected model SqlRelated`);
+    expect(() => visitor.generate()).toThrowError(
+      `Error processing @hasMany directive on SqlPrimary.related. @belongsTo directive with references ["primaryId"] was not found in connected model SqlRelated`,
+    );
   });
-
 
   test('throws error when missing references on hasMany related model', () => {
     const schema = /* GraphQL */ `
@@ -781,8 +795,9 @@ describe('custom references', () => {
     `;
 
     const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
-    expect(() => visitor.generate())
-      .toThrowError(`Error processing @hasMany directive on SqlPrimary.related. @belongsTo directive with references ["primaryId"] was not found in connected model SqlRelated`);
+    expect(() => visitor.generate()).toThrowError(
+      `Error processing @hasMany directive on SqlPrimary.related. @belongsTo directive with references ["primaryId"] was not found in connected model SqlRelated`,
+    );
   });
 
   test('throws error when missing references on hasMany primary model', () => {
@@ -802,7 +817,8 @@ describe('custom references', () => {
     `;
 
     const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
-    expect(() => visitor.generate())
-      .toThrowError(`Error processing @belongsTo directive on SqlRelated.primary. @hasOne or @hasMany directive with references ["primaryId"] was not found in connected model SqlPrimary`);
+    expect(() => visitor.generate()).toThrowError(
+      `Error processing @belongsTo directive on SqlRelated.primary. @hasOne or @hasMany directive with references ["primaryId"] was not found in connected model SqlPrimary`,
+    );
   });
 });

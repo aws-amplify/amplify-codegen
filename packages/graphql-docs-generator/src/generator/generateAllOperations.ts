@@ -1,13 +1,7 @@
 import { GraphQLObjectType, GraphQLSchema } from 'graphql';
 
 import generateOperation from './generateOperation';
-import {
-  GQLTemplateOp,
-  GQLOperationTypeEnum,
-  GQLTemplateField,
-  GQLTemplateFragment,
-  GQLDocsGenOptions,
-} from './types';
+import { GQLTemplateOp, GQLOperationTypeEnum, GQLTemplateField, GQLTemplateFragment, GQLDocsGenOptions } from './types';
 
 export function generateQueries(
   queries: GraphQLObjectType,
@@ -17,7 +11,7 @@ export function generateQueries(
 ): Array<GQLTemplateOp> | undefined {
   if (queries) {
     const allQueries = queries.getFields();
-    const processedQueries: Array<GQLTemplateOp> = Object.keys(allQueries).map(queryName => {
+    const processedQueries: Array<GQLTemplateOp> = Object.keys(allQueries).map((queryName) => {
       const type: GQLOperationTypeEnum = GQLOperationTypeEnum.QUERY;
       const op = generateOperation(allQueries[queryName], schema, maxDepth, options);
       const name: string = capitalizeFirstLetter(queryName);
@@ -36,7 +30,7 @@ export function generateMutations(
 ): Array<any> {
   if (mutations) {
     const allMutations = mutations.getFields();
-    const processedMutations = Object.keys(allMutations).map(mutationName => {
+    const processedMutations = Object.keys(allMutations).map((mutationName) => {
       const type: GQLOperationTypeEnum = GQLOperationTypeEnum.MUTATION;
       const op = generateOperation(allMutations[mutationName], schema, maxDepth, options);
       const name: string = capitalizeFirstLetter(mutationName);
@@ -55,7 +49,7 @@ export function generateSubscriptions(
 ): Array<any> {
   if (subscriptions) {
     const allSubscriptions = subscriptions.getFields();
-    const processedSubscriptions = Object.keys(allSubscriptions).map(subscriptionName => {
+    const processedSubscriptions = Object.keys(allSubscriptions).map((subscriptionName) => {
       const type: GQLOperationTypeEnum = GQLOperationTypeEnum.SUBSCRIPTION;
       const op = generateOperation(allSubscriptions[subscriptionName], schema, maxDepth, options);
       const name: string = capitalizeFirstLetter(subscriptionName);
@@ -68,7 +62,7 @@ export function generateSubscriptions(
 
 export function collectExternalFragments(operations: GQLTemplateOp[] = []): GQLTemplateFragment[] {
   const fragments = {};
-  operations.forEach(op => {
+  operations.forEach((op) => {
     getExternalFragment(op.body, fragments);
   });
   return Object.values(fragments);
@@ -76,12 +70,12 @@ export function collectExternalFragments(operations: GQLTemplateOp[] = []): GQLT
 
 function getExternalFragment(field: GQLTemplateField, externalFragments: object = {}) {
   field.fragments
-    .filter(fragment => fragment.external)
+    .filter((fragment) => fragment.external)
     .reduce((acc, val) => {
       acc[val.name] = val;
       return acc;
     }, externalFragments);
-  field.fields.forEach(f => {
+  field.fields.forEach((f) => {
     getExternalFragment(f, externalFragments);
   });
 

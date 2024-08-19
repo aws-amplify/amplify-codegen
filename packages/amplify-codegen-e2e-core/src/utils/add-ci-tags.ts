@@ -13,7 +13,7 @@ export const addCITags = (projectPath: string): void => {
   if (process.env && process.env['CODEBUILD']) {
     addCodeBuildCITags(projectPath);
   }
-}
+};
 
 /**
  * Add CI tags for code build
@@ -24,7 +24,7 @@ export const addCodeBuildCITags = (projectPath: string): void => {
   const tags = stateManager.getProjectTags(projectPath);
 
   const addTagIfNotExist = (key: string, value: string): void => {
-    if (!tags.find(t => t.Key === key)) {
+    if (!tags.find((t) => t.Key === key)) {
       tags.push({
         Key: key,
         Value: value,

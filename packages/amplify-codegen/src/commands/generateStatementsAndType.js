@@ -23,7 +23,7 @@ async function generateStatementsAndTypes(context, forceDownloadSchema, maxDepth
     throw new NoAppSyncAPIAvailableError(constants.ERROR_CODEGEN_NO_API_CONFIGURED);
   }
   const project = projects[0];
-  const schemaPath = ['schema.graphql', 'schema.json'].map(p => path.join(process.cwd(), p)).find(p => fs.existsSync(p));
+  const schemaPath = ['schema.graphql', 'schema.json'].map((p) => path.join(process.cwd(), p)).find((p) => fs.existsSync(p));
   if (withoutInit && !project && !schemaPath) {
     throw Error(
       `Please download the schema.graphql or schema.json and place in ${process.cwd()} before adding codegen when not in an amplify project`,
@@ -51,7 +51,7 @@ async function generateStatementsAndTypes(context, forceDownloadSchema, maxDepth
   let downloadPromises;
   if (apis.length) {
     downloadPromises = projects.map(
-      async cfg =>
+      async (cfg) =>
         await ensureIntrospectionSchema(context, join(projectPath, cfg.schema), apis[0], cfg.amplifyExtension.region, forceDownloadSchema),
     );
     await Promise.all(downloadPromises);

@@ -82,9 +82,9 @@ export class FlowGenerator {
           t.identifier(
             // Nullable fields on input objects do not have to be defined
             // as well, so allow these fields to be "undefined"
-            isInputObject && annotation.type === 'NullableTypeAnnotation' ? name + '?' : name
+            isInputObject && annotation.type === 'NullableTypeAnnotation' ? name + '?' : name,
           ),
-          annotation
+          annotation,
         );
 
         if (description) {
@@ -97,7 +97,7 @@ export class FlowGenerator {
         }
 
         return objectTypeProperty;
-      })
+      }),
     );
 
     if (this.options.useFlowExactObjects) {
@@ -116,10 +116,10 @@ export class FlowGenerator {
       t.identifier(name),
       undefined,
       t.unionTypeAnnotation(
-        members.map(member => {
+        members.map((member) => {
           return this.objectTypeAnnotation(member);
-        })
-      )
+        }),
+      ),
     );
   }
 

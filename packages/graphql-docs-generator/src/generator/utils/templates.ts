@@ -1,12 +1,12 @@
-export const getTemplatePartials = ():{[key: string]: string;} => {
+export const getTemplatePartials = (): { [key: string]: string } => {
   return {
     renderArgDeclaration: argDeclarationPartial,
     renderCallArgs: callArgsPartial,
     renderExternalFragment: externalFragmentPartial,
     renderFields: fieldsPartial,
     renderFragment: fragmentsPartial,
-    renderOp: operationPartial
-  }
+    renderOp: operationPartial,
+  };
 };
 
 export const getOperationPartial = (): string => {

@@ -12,39 +12,39 @@ function imgToBase64(imgPath) {
   return undefined;
 }
 
-const filterBlock = blocks => blocks.filter(block => block.logs.length);
-const getLogs = blocks => filterBlock(blocks).reduce((sum, b) => [...sum, ...b.logs], []);
+const filterBlock = (blocks) => blocks.filter((block) => block.logs.length);
+const getLogs = (blocks) => filterBlock(blocks).reduce((sum, b) => [...sum, ...b.logs], []);
 const mergeCliLog = (result, logs, ancestorTitles = [], prefix = '') => {
   let before = [];
   let after = [];
   let children = [];
   if (ancestorTitles.length) {
     const describeBlockName = ancestorTitles[0];
-    const describeBlock = logs.find(l => l.type === 'describe' && l.name === describeBlockName);
+    const describeBlock = logs.find((l) => l.type === 'describe' && l.name === describeBlockName);
     if (describeBlock) {
       const prefixStr = prefix ? `${prefix} -> ${describeBlockName}` : describeBlockName;
       if (describeBlock.hooks.beforeAll) {
-        before = getLogs(describeBlock.hooks.beforeAll).map(bfa => ({ ...bfa, name: `${prefixStr} -> BeforeAll` }));
+        before = getLogs(describeBlock.hooks.beforeAll).map((bfa) => ({ ...bfa, name: `${prefixStr} -> BeforeAll` }));
       }
       children = mergeCliLog(result, describeBlock.children, ancestorTitles.slice(1), prefixStr);
       if (describeBlock.hooks.afterAll) {
-        after = getLogs(describeBlock.hooks.afterAll).map(afa => ({ ...afa, name: `${prefixStr} --> AfterAll` }));
+        after = getLogs(describeBlock.hooks.afterAll).map((afa) => ({ ...afa, name: `${prefixStr} --> AfterAll` }));
       }
     }
   } else {
-    const testBlock = logs.find(l => l.type === 'test' && l.name === result.title);
+    const testBlock = logs.find((l) => l.type === 'test' && l.name === result.title);
     if (testBlock) {
       const prefixStr = prefix ? `${prefix} -> ${testBlock.name}` : testBlock.name;
 
       if (testBlock.hooks.beforeEach) {
-        before = getLogs(testBlock.hooks.beforeEach).map(bfe => ({ ...bfe, name: `${prefixStr} -> BeforeEach` }));
+        before = getLogs(testBlock.hooks.beforeEach).map((bfe) => ({ ...bfe, name: `${prefixStr} -> BeforeEach` }));
       }
 
       if (filterBlock([testBlock]).length) {
-        children = testBlock.logs.map(log => ({ ...log, name: prefixStr }));
+        children = testBlock.logs.map((log) => ({ ...log, name: prefixStr }));
       }
       if (testBlock.hooks.afterEach) {
-        after = getLogs(testBlock.hooks.afterEach).map(afe => ({ ...afe, name: `${prefixStr} --> AfterEach` }));
+        after = getLogs(testBlock.hooks.afterEach).map((afe) => ({ ...afe, name: `${prefixStr} --> AfterEach` }));
       }
     }
   }
@@ -65,15 +65,15 @@ class AmplifyCLIExecutionReporter {
     const reportPath = path.join(publicPath, runIdx);
     fs.ensureDirSync(reportPath);
 
-    const processedResults = results.testResults.map(result => {
+    const processedResults = results.testResults.map((result) => {
       const resultCopy = { ...result };
       delete resultCopy.CLITestRunner;
       return {
         ...resultCopy,
-        testResults: result.testResults.map(r => {
+        testResults: result.testResults.map((r) => {
           const recordings = mergeCliLog(r, result.CLITestRunner.logs.children, r.ancestorTitles);
 
-          const recordingWithPath = recordings.map(r => {
+          const recordingWithPath = recordings.map((r) => {
             const castFile = `${uuid.v4()}.cast`;
             const castFilePath = path.join(reportPath, castFile);
             fs.writeFileSync(castFilePath, r.recording);

@@ -32,7 +32,7 @@ export interface RawAppSyncModelDartConfig extends RawAppSyncModelConfig {}
 export interface ParsedAppSyncModelDartConfig extends ParsedAppSyncModelConfig {}
 export class AppSyncModelDartVisitor<
   TRawConfig extends RawAppSyncModelDartConfig = RawAppSyncModelDartConfig,
-  TPluginConfig extends ParsedAppSyncModelDartConfig = ParsedAppSyncModelDartConfig
+  TPluginConfig extends ParsedAppSyncModelDartConfig = ParsedAppSyncModelDartConfig,
 > extends AppSyncModelVisitor<TRawConfig, TPluginConfig> {
   constructor(
     schema: GraphQLSchema,
@@ -66,7 +66,7 @@ export class AppSyncModelDartVisitor<
       if (DART_RESERVED_KEYWORDS.includes(name)) {
         throw new Error(`Type name '${name}' is a reserved word in dart. Please use a non-reserved name instead.`);
       }
-      obj.fields.forEach(field => {
+      obj.fields.forEach((field) => {
         const fieldName = this.getFieldName(field);
         if (DART_RESERVED_KEYWORDS.includes(fieldName)) {
           throw new Error(
@@ -79,7 +79,7 @@ export class AppSyncModelDartVisitor<
       if (DART_RESERVED_KEYWORDS.includes(name)) {
         throw new Error(`Enum name '${name}' is a reserved word in dart. Please use a non-reserved name instead.`);
       }
-      Object.values(enumVal.values).forEach(val => {
+      Object.values(enumVal.values).forEach((val) => {
         if (DART_RESERVED_KEYWORDS.includes(val)) {
           throw new Error(`Enum value '${val}' in enum '${name}' is a reserved word in dart. Please use a non-reserved name instead.`);
         }
@@ -113,14 +113,14 @@ export class AppSyncModelDartVisitor<
       .addClassMember(
         'modelSchemas',
         `List<${DART_AMPLIFY_CORE_TYPES.ModelSchema}>`,
-        `[${modelNames.map(m => `${m}.schema`).join(', ')}]`,
+        `[${modelNames.map((m) => `${m}.schema`).join(', ')}]`,
         undefined,
         ['override'],
       )
       .addClassMember(
         'customTypeSchemas',
         `List<${DART_AMPLIFY_CORE_TYPES.ModelSchema}>`,
-        `[${nonModelNames.map(nm => `${nm}.schema`).join(', ')}]`,
+        `[${nonModelNames.map((nm) => `${nm}.schema`).join(', ')}]`,
         undefined,
         ['override'],
       )
@@ -131,7 +131,7 @@ export class AppSyncModelDartVisitor<
     if (modelNames.length) {
       const getModelTypeImplStr = [
         'switch(modelName) {',
-        ...modelNames.map(modelName => [indent(`case "${modelName}":`), indent(`return ${modelName}.classType;`, 2)].join('\n')),
+        ...modelNames.map((modelName) => [indent(`case "${modelName}":`), indent(`return ${modelName}.classType;`, 2)].join('\n')),
         indent('default:'),
         indent('throw Exception("Failed to find model in model provider for model name: " + modelName);', 2),
         '}',
@@ -144,11 +144,11 @@ export class AppSyncModelDartVisitor<
       );
     }
 
-    const processedPackageImports = packageImports.map(p => `import '${p}.dart';`);
+    const processedPackageImports = packageImports.map((p) => `import '${p}.dart';`);
     processedPackageImports.unshift(`import '${flutterDatastorePackage}.dart' as ${AMPLIFY_CORE_PREFIX};`);
 
     result.push(processedPackageImports.join('\n'));
-    result.push(packageExports.map(p => `export '${p}.dart';`).join('\n'));
+    result.push(packageExports.map((p) => `export '${p}.dart';`).join('\n'));
     result.push(classDeclarationBlock.string);
     result.push(MODEL_FILED_VALUE_CLASS);
     return result.join('\n\n');
@@ -226,7 +226,7 @@ export class AppSyncModelDartVisitor<
   protected generatePackageHeader(): string {
     let usingCollection = false;
     Object.entries({ ...this.getSelectedModels(), ...this.getSelectedNonModels() }).forEach(([name, model]) => {
-      model.fields.forEach(f => {
+      model.fields.forEach((f) => {
         if (f.isList) {
           usingCollection = true;
         }
@@ -234,8 +234,8 @@ export class AppSyncModelDartVisitor<
     });
     const flutterDatastorePackage = FLUTTER_AMPLIFY_CORE_IMPORT;
     const packagesImports = [usingCollection ? COLLECTION_PACKAGE : '', `${LOADER_CLASS_NAME}.dart`]
-      .filter(f => f)
-      .map(pckg => `import '${pckg}';`);
+      .filter((f) => f)
+      .map((pckg) => `import '${pckg}';`);
     packagesImports.push(`import '${flutterDatastorePackage}.dart' as ${AMPLIFY_CORE_PREFIX};`);
     return packagesImports.sort().join('\n') + '\n';
   }
@@ -250,7 +250,7 @@ export class AppSyncModelDartVisitor<
     //model type field
     classDeclarationBlock.addClassMember('classType', '', `const _${this.getModelName(model)}ModelType()`, { static: true, const: true });
     //model fields
-    model.fields.forEach(field => {
+    model.fields.forEach((field) => {
       this.generateModelField(field, '', classDeclarationBlock);
     });
     //getInstanceType
@@ -284,7 +284,7 @@ export class AppSyncModelDartVisitor<
       .withName(this.getModelName(model))
       .withComment(`This is an auto generated class representing the ${model.name} type in your schema.`);
     //model fields
-    model.fields.forEach(field => {
+    model.fields.forEach((field) => {
       this.generateModelField(field, '', classDeclarationBlock);
     });
     //getters
@@ -337,11 +337,11 @@ export class AppSyncModelDartVisitor<
       .implements([`${DART_AMPLIFY_CORE_TYPES.ModelIdentifier}<${modelName}>`])
       .withComment(['This is an auto generated class representing the model identifier', `of [${modelName}] in your schema.`].join('\n'));
 
-    identifierFields.forEach(field => {
+    identifierFields.forEach((field) => {
       classDeclarationBlock.addClassMember(field.name, this.getNativeType(field), '', { final: true });
     });
 
-    const constructorArgs = `{\n${indentMultiline(identifierFields.map(field => `required this.${field.name}`).join(',\n'))}}`;
+    const constructorArgs = `{\n${indentMultiline(identifierFields.map((field) => `required this.${field.name}`).join(',\n'))}}`;
 
     classDeclarationBlock.addClassMethod(
       `${modelName}ModelIdentifier`,
@@ -355,11 +355,11 @@ export class AppSyncModelDartVisitor<
         identifierFields.length > 1
           ? `And ${identifierFields
               .slice(1)
-              .map(field => `[${field.name}]`)
+              .map((field) => `[${field.name}]`)
               .join(', ')} the sort key${identifierFields.length == 2 ? '' : 's'}.`
           : undefined,
       ]
-        .filter(comment => comment)
+        .filter((comment) => comment)
         .join('\n'),
     );
 
@@ -367,9 +367,11 @@ export class AppSyncModelDartVisitor<
       'serializeAsMap',
       'Map<String, dynamic>',
       [],
-      [' => (<String, dynamic>{', indentMultiline(identifierFields.map(field => `'${field.name}': ${field.name}`).join(',\n')), '});'].join(
-        '\n',
-      ),
+      [
+        ' => (<String, dynamic>{',
+        indentMultiline(identifierFields.map((field) => `'${field.name}': ${field.name}`).join(',\n')),
+        '});',
+      ].join('\n'),
       { isBlock: false },
       ['override'],
     );
@@ -403,7 +405,7 @@ export class AppSyncModelDartVisitor<
       'toString',
       'String',
       undefined,
-      ` => '${modelName}ModelIdentifier(${identifierFields.map(field => `${field.name}: $${field.name}`).join(', ')})';`,
+      ` => '${modelName}ModelIdentifier(${identifierFields.map((field) => `${field.name}: $${field.name}`).join(', ')})';`,
       { isBlock: false },
       ['override'],
     );
@@ -413,7 +415,7 @@ export class AppSyncModelDartVisitor<
       indent('return true;'),
       '}\n',
       `return other is ${modelName}ModelIdentifier &&`,
-      indentMultiline(`${identifierFields.map(field => `${field.name} == other.${field.name}`).join(' &&\n')};`),
+      indentMultiline(`${identifierFields.map((field) => `${field.name} == other.${field.name}`).join(' &&\n')};`),
     ].join('\n');
 
     classDeclarationBlock.addClassMethod('operator ==', 'bool', [{ name: 'Object other' }], equalOperatorImpl, undefined, ['override']);
@@ -422,7 +424,7 @@ export class AppSyncModelDartVisitor<
       'get hashCode',
       'int',
       undefined,
-      ` =>\n${indentMultiline(identifierFields.map(field => `${field.name}.hashCode`).join(' ^\n'))};`,
+      ` =>\n${indentMultiline(identifierFields.map((field) => `${field.name}.hashCode`).join(' ^\n'))};`,
       { isBlock: false, isGetter: true },
       ['override'],
     );
@@ -475,7 +477,7 @@ export class AppSyncModelDartVisitor<
       this.generateModelIdentifierGetter(model, declarationBlock, forceCastException);
     }
 
-    model.fields.forEach(field => {
+    model.fields.forEach((field) => {
       const fieldName = this.getFieldName(field);
       const fieldType = this.getNativeType(field);
       const returnType = this.isFieldRequired(field) ? fieldType : `${fieldType}?`;
@@ -499,7 +501,7 @@ export class AppSyncModelDartVisitor<
       indent(`return ${modelName}ModelIdentifier(`),
       indentMultiline(
         identifierFields
-          .map(field => {
+          .map((field) => {
             const isManagedIdField = field.name === 'id';
             return indent(`${field.name}: ${isManagedIdField ? '' : '_'}${field.name}${isManagedIdField ? '' : '!'}`);
           })
@@ -510,7 +512,7 @@ export class AppSyncModelDartVisitor<
       isSingleManagedIDField ? undefined : indent(forceCastException),
       isSingleManagedIDField ? undefined : '}',
     ]
-      .filter(line => line)
+      .filter((line) => line)
       .join('\n');
 
     declarationBlock.addClassMethod(`get modelIdentifier`, `${modelName}ModelIdentifier`, undefined, getterImpl, {
@@ -522,11 +524,11 @@ export class AppSyncModelDartVisitor<
   protected generateConstructor(model: CodeGenModel, declarationBlock: DartDeclarationBlock): void {
     //Model._internal
     const args = `{${model.fields
-      .map(f => `${this.isFieldRequired(f) ? 'required ' : ''}${this.getFieldName(f) === 'id' ? 'this.' : ''}${this.getFieldName(f)}`)
+      .map((f) => `${this.isFieldRequired(f) ? 'required ' : ''}${this.getFieldName(f) === 'id' ? 'this.' : ''}${this.getFieldName(f)}`)
       .join(', ')}}`;
-    const internalFields = model.fields.filter(f => this.getFieldName(f) !== 'id');
+    const internalFields = model.fields.filter((f) => this.getFieldName(f) !== 'id');
     const internalImpl = internalFields.length
-      ? `: ${internalFields.map(f => `_${this.getFieldName(f)} = ${this.getFieldName(f)}`).join(', ')};`
+      ? `: ${internalFields.map((f) => `_${this.getFieldName(f)} = ${this.getFieldName(f)}`).join(', ')};`
       : ';';
     declarationBlock.addClassMethod(`${this.getModelName(model)}._internal`, '', [{ name: args }], internalImpl, {
       const: true,
@@ -535,7 +537,7 @@ export class AppSyncModelDartVisitor<
     //factory Model
     const writableFields: CodeGenField[] = this.getWritableFields(model);
     const returnParamStr = writableFields
-      .map(field => {
+      .map((field) => {
         const fieldName = this.getFieldName(field);
         if (fieldName === 'id') {
           return `id: id == null ? ${DART_AMPLIFY_CORE_TYPES.UUID}.getUUID() : id`;
@@ -548,7 +550,7 @@ export class AppSyncModelDartVisitor<
       .join(',\n');
     const factoryImpl = [`return ${this.getModelName(model)}._internal(`, indentMultiline(`${returnParamStr});`)].join('\n');
     const factoryParam = `{${writableFields
-      .map(f => {
+      .map((f) => {
         if (this.getFieldName(f) === 'id' || !this.isFieldRequired(f)) {
           return `${this.getNativeType(f)}? ${this.getFieldName(f)}`;
         }
@@ -567,7 +569,7 @@ export class AppSyncModelDartVisitor<
       `return other is ${this.getModelName(model)} &&`,
       indentMultiline(
         `${this.getWritableFields(model)
-          .map(f => {
+          .map((f) => {
             const fieldName = `${f.name !== 'id' ? '_' : ''}${this.getFieldName(f)}`;
             return f.isList ? `DeepCollectionEquality().equals(${fieldName}, other.${fieldName})` : `${fieldName} == other.${fieldName}`;
           })
@@ -638,7 +640,7 @@ export class AppSyncModelDartVisitor<
   protected generateCopyWithMethod(model: CodeGenModel, declarationBlock: DartDeclarationBlock): void {
     //copyWith
     const writableFields = this.getWritableFields(model, this.isCustomPKEnabled());
-    const copyParam = `{${writableFields.map(f => `${this.getNativeType(f)}? ${this.getFieldName(f)}`).join(', ')}}`;
+    const copyParam = `{${writableFields.map((f) => `${this.getNativeType(f)}? ${this.getFieldName(f)}`).join(', ')}}`;
     declarationBlock.addClassMethod(
       'copyWith',
       this.getModelName(model),
@@ -647,10 +649,10 @@ export class AppSyncModelDartVisitor<
         `return ${this.getModelName(model)}${this.config.isTimestampFieldsAdded ? '._internal' : ''}(`,
         indentMultiline(
           `${this.getWritableFields(model)
-            .map(field => {
+            .map((field) => {
               const fieldName = this.getFieldName(field);
               return `${fieldName}: ${
-                writableFields.findIndex(field => field.name === fieldName) > -1 ? `${fieldName} ?? this.` : ''
+                writableFields.findIndex((field) => field.name === fieldName) > -1 ? `${fieldName} ?? this.` : ''
               }${fieldName}`;
             })
             .join(',\n')});`,
@@ -663,7 +665,7 @@ export class AppSyncModelDartVisitor<
     // copyWithModelFieldValues
     const writableFields = this.getWritableFields(model, this.isCustomPKEnabled());
     const copyParameters = writableFields.map(
-      field => `ModelFieldValue<${this.getNativeType(field)}${field.isNullable ? '?' : ''}>? ${this.getFieldName(field)}`,
+      (field) => `ModelFieldValue<${this.getNativeType(field)}${field.isNullable ? '?' : ''}>? ${this.getFieldName(field)}`,
     );
     const copyParameterStr = `{\n${indentMultiline(copyParameters.join(',\n'))}\n}`;
     declarationBlock.addClassMethod(
@@ -674,10 +676,10 @@ export class AppSyncModelDartVisitor<
         `return ${this.getModelName(model)}${this.config.isTimestampFieldsAdded ? '._internal' : ''}(`,
         indentMultiline(
           `${this.getWritableFields(model, false)
-            .map(field => {
+            .map((field) => {
               const fieldName = this.getFieldName(field);
               return `${fieldName}: ${
-                writableFields.findIndex(field => field.name === fieldName) > -1
+                writableFields.findIndex((field) => field.name === fieldName) > -1
                   ? `${fieldName} == null ? this.${fieldName} : ${fieldName}.value`
                   : `${fieldName}`
               }`;
@@ -693,7 +695,7 @@ export class AppSyncModelDartVisitor<
     //serialization: Model.fromJson
     const serializationImpl = `\n: ${indentMultiline(
       model.fields
-        .map(field => {
+        .map((field) => {
           const varName = this.getFieldName(field);
           const fieldName = `${field.name !== 'id' ? '_' : ''}${this.getFieldName(field)}`;
           //model type
@@ -710,18 +712,24 @@ export class AppSyncModelDartVisitor<
                 indent(`: (json['${varName}'] is List`),
                 indent(`? (json['${varName}'] as List)`, 2),
                 indent(`.where((e) => e?['serializedData'] != null)`, 4),
-                indent(`.map((e) => ${this.getNativeType({ ...field, isList: false })}.fromJson(new Map<String, dynamic>.from(e?['serializedData'])))`, 4),
+                indent(
+                  `.map((e) => ${this.getNativeType({
+                    ...field,
+                    isList: false,
+                  })}.fromJson(new Map<String, dynamic>.from(e?['serializedData'])))`,
+                  4,
+                ),
                 indent(`.toList()`, 4),
                 indent(`: null)`, 2),
               ]
-                .filter(e => e !== undefined)
+                .filter((e) => e !== undefined)
                 .join('\n');
             }
             return [
               `${fieldName} = json['${varName}'] != null`,
               indent(`? json['${varName}']['serializedData'] != null`),
               indent(`? ${this.getNativeType(field)}.fromJson(new Map<String, dynamic>.from(json['${varName}']['serializedData']))`, 2),
-              indent(`: ${this.getNativeType(field)}.fromJson(new Map<String, dynamic>.from(json['${varName}']))`,2),
+              indent(`: ${this.getNativeType(field)}.fromJson(new Map<String, dynamic>.from(json['${varName}']))`, 2),
               indent(`: null`),
             ].join('\n');
           }
@@ -746,13 +754,16 @@ export class AppSyncModelDartVisitor<
                 `${fieldName} = json['${varName}'] is List`,
                 indent(`? (json['${varName}'] as List)`),
                 indent(`.where((e) => e != null)`, 2),
-                indent(`.map((e) => ${this.getNativeType({ ...field, isList: false })}.fromJson(new Map<String, dynamic>.from(${
-                  this.isNonModelType(field) ? "e['serializedData'] ?? e" : 'e'
-                })))`, 2),
+                indent(
+                  `.map((e) => ${this.getNativeType({ ...field, isList: false })}.fromJson(new Map<String, dynamic>.from(${
+                    this.isNonModelType(field) ? "e['serializedData'] ?? e" : 'e'
+                  })))`,
+                  2,
+                ),
                 indent(`.toList()`, 2),
                 indent(`: null`),
               ]
-                .filter(e => e !== undefined)
+                .filter((e) => e !== undefined)
                 .join('\n');
             }
             // single non-model i.e. embedded
@@ -761,7 +772,7 @@ export class AppSyncModelDartVisitor<
               indent(`? json['${varName}']['serializedData'] != null`, 2),
               indent(`? ${this.getNativeType(field)}.fromJson(new Map<String, dynamic>.from(json['${varName}']['serializedData']))`, 4),
               indent(`: ${this.getNativeType(field)}.fromJson(new Map<String, dynamic>.from(json['${varName}']))`, 4),
-              indent(`: null`,),
+              indent(`: null`),
             ].join('\n');
           }
           //regular type
@@ -806,7 +817,7 @@ export class AppSyncModelDartVisitor<
     );
     //deserialization: toJson
     const toJsonFields = model.fields
-      .map(field => {
+      .map((field) => {
         const varName = this.getFieldName(field);
         const fieldName = `${field.name !== 'id' ? '_' : ''}${this.getFieldName(field)}`;
         if (this.isModelType(field) || this.isNonModelType(field)) {
@@ -841,7 +852,7 @@ export class AppSyncModelDartVisitor<
     declarationBlock.addClassMethod('toJson', 'Map<String, dynamic>', [], deserializationImpl, { isBlock: false });
 
     const toMapFields = model.fields
-      .map(field => {
+      .map((field) => {
         const varName = this.getFieldName(field);
         const fieldName = `${field.name !== 'id' ? '_' : ''}${this.getFieldName(field)}`;
         return `'${varName}': ${fieldName}`;
@@ -866,7 +877,7 @@ export class AppSyncModelDartVisitor<
     }
 
     //QueryField
-    this.getWritableFields(model).forEach(field => {
+    this.getWritableFields(model).forEach((field) => {
       this.generateQueryField(model, field, schemaDeclarationBlock);
     });
     //schema
@@ -919,7 +930,7 @@ export class AppSyncModelDartVisitor<
           this.generateIndexes(model),
           isNonModel ? this.generateNonModelAddFields(model) : this.generateAddFields(model),
         ]
-          .filter(f => f)
+          .filter((f) => f)
           .join('\n\n'),
       ),
       '})',
@@ -928,11 +939,11 @@ export class AppSyncModelDartVisitor<
   }
 
   protected generateAuthRules(model: CodeGenModel): string {
-    const authDirectives: AuthDirective[] = model.directives.filter(d => d.name === 'auth') as AuthDirective[];
+    const authDirectives: AuthDirective[] = model.directives.filter((d) => d.name === 'auth') as AuthDirective[];
     if (authDirectives.length) {
       const rules: string[] = [];
-      authDirectives.forEach(directive => {
-        directive.arguments?.rules.forEach(rule => {
+      authDirectives.forEach((directive) => {
+        directive.arguments?.rules.forEach((rule) => {
           const authRule: string[] = [];
           const authStrategy = `authStrategy: ${DART_AMPLIFY_CORE_TYPES.AuthStrategy}.${rule.allow.toUpperCase()}`;
           switch (rule.allow) {
@@ -949,7 +960,7 @@ export class AppSyncModelDartVisitor<
               authRule.push(authStrategy);
               authRule.push(`groupClaim: "${rule.groupClaim}"`);
               if (rule.groups) {
-                authRule.push(`groups: [ ${rule.groups?.map(group => `"${group}"`).join(', ')} ]`);
+                authRule.push(`groups: [ ${rule.groups?.map((group) => `"${group}"`).join(', ')} ]`);
               } else {
                 authRule.push(`groupsField: "${rule.groupField}"`);
               }
@@ -964,7 +975,7 @@ export class AppSyncModelDartVisitor<
           authRule.push(
             [
               'operations: const [',
-              indentMultiline(rule.operations.map(op => `${DART_AMPLIFY_CORE_TYPES.ModelOperation}.${op.toUpperCase()}`).join(',\n')),
+              indentMultiline(rule.operations.map((op) => `${DART_AMPLIFY_CORE_TYPES.ModelOperation}.${op.toUpperCase()}`).join(',\n')),
               ']',
             ].join('\n'),
           );
@@ -980,8 +991,8 @@ export class AppSyncModelDartVisitor<
 
   protected generateIndexes(model: CodeGenModel): string {
     const indexes = model.directives
-      .filter(directive => directive.name === 'key')
-      .map(directive => {
+      .filter((directive) => directive.name === 'key')
+      .map((directive) => {
         const name = directive.arguments.name ? `"${directive.arguments.name}"` : 'null';
         const fields: string = directive.arguments.fields.map((field: string) => `"${field}"`).join(', ');
         return `${DART_AMPLIFY_CORE_TYPES.ModelIndex}(fields: const [${fields}], name: ${name})`;
@@ -997,7 +1008,7 @@ export class AppSyncModelDartVisitor<
   protected generateAddFields(model: CodeGenModel): string {
     if (model.fields.length) {
       const fieldsToAdd: string[] = [];
-      model.fields.forEach(field => {
+      model.fields.forEach((field) => {
         const fieldName = this.getFieldName(field);
         const modelName = this.getModelName(model);
         const queryFieldName = this.getQueryFieldName(field);
@@ -1013,7 +1024,9 @@ export class AppSyncModelDartVisitor<
             case CodeGenConnectionType.HAS_ONE: {
               let associatedString = `associatedKey: ${connectedModelName}.${this.getQueryFieldName(field.connectionInfo.associatedWith)}`;
               if (field.connectionInfo.associatedWithNativeReferences) {
-                associatedString = `associatedKey: ${connectedModelName}.${this.getQueryFieldName(field.connectionInfo.associatedWithNativeReferences)}`;
+                associatedString = `associatedKey: ${connectedModelName}.${this.getQueryFieldName(
+                  field.connectionInfo.associatedWithNativeReferences,
+                )}`;
               }
               fieldParam = [
                 `key: ${modelName}.${queryFieldName}`,
@@ -1027,7 +1040,9 @@ export class AppSyncModelDartVisitor<
             case CodeGenConnectionType.HAS_MANY: {
               let associatedString = `associatedKey: ${connectedModelName}.${this.getQueryFieldName(field.connectionInfo.associatedWith)}`;
               if (field.connectionInfo.associatedWithNativeReferences) {
-                associatedString = `associatedKey: ${connectedModelName}.${this.getQueryFieldName(field.connectionInfo.associatedWithNativeReferences)}`;
+                associatedString = `associatedKey: ${connectedModelName}.${this.getQueryFieldName(
+                  field.connectionInfo.associatedWithNativeReferences,
+                )}`;
               }
               fieldParam = [
                 `key: ${modelName}.${queryFieldName}`,
@@ -1043,7 +1058,7 @@ export class AppSyncModelDartVisitor<
                 `key: ${modelName}.${queryFieldName}`,
                 `isRequired: ${!field.isNullable}`,
                 this.isCustomPKEnabled()
-                  ? `targetNames: [${field.connectionInfo.targetNames.map(target => `'${target}'`).join(', ')}]`
+                  ? `targetNames: [${field.connectionInfo.targetNames.map((target) => `'${target}'`).join(', ')}]`
                   : `targetName: '${field.connectionInfo.targetName}'`,
                 `ofModelName: '${connectedModelName}'`,
               ].join(',\n');
@@ -1075,7 +1090,7 @@ export class AppSyncModelDartVisitor<
             field.isReadOnly ? 'isReadOnly: true' : '',
             ofTypeStr,
           ]
-            .filter(f => f)
+            .filter((f) => f)
             .join(',\n');
 
           fieldsToAdd.push(
@@ -1089,7 +1104,7 @@ export class AppSyncModelDartVisitor<
           );
         }
       });
-      return fieldsToAdd.map(field => `modelSchemaDefinition.addField(${field});`).join('\n\n');
+      return fieldsToAdd.map((field) => `modelSchemaDefinition.addField(${field});`).join('\n\n');
     }
     return '';
   }
@@ -1100,7 +1115,7 @@ export class AppSyncModelDartVisitor<
     }
 
     const fieldsToAdd: string[] = [];
-    model.fields.forEach(field => {
+    model.fields.forEach((field) => {
       const fieldName = this.getFieldName(field);
       const ofType = this.getOfType(field);
       let ofTypeStr: string;
@@ -1123,7 +1138,7 @@ export class AppSyncModelDartVisitor<
         field.isList ? 'isArray: true' : '',
         ofTypeStr,
       ]
-        .filter(f => f)
+        .filter((f) => f)
         .join(',\n');
 
       fieldsToAdd.push(
@@ -1135,7 +1150,7 @@ export class AppSyncModelDartVisitor<
       );
     });
 
-    return fieldsToAdd.map(field => `modelSchemaDefinition.addField(${field});`).join('\n\n');
+    return fieldsToAdd.map((field) => `modelSchemaDefinition.addField(${field});`).join('\n\n');
   }
 
   protected getOfType(field: CodeGenField): string {
@@ -1160,7 +1175,7 @@ export class AppSyncModelDartVisitor<
    * @param model
    */
   protected getNonConnectedField(model: CodeGenModel): CodeGenField[] {
-    return model.fields.filter(f => {
+    return model.fields.filter((f) => {
       if (!f.connectionInfo) {
         return true;
       }
@@ -1175,7 +1190,7 @@ export class AppSyncModelDartVisitor<
       return [];
     }
     if (!this.config.respectPrimaryKeyAttributesOnConnectionField) {
-      return [model.fields.find(f => f.name === 'id')!];
+      return [model.fields.find((f) => f.name === 'id')!];
     }
     const primaryKeyField = this.getModelPrimaryKeyField(model);
     const { sortKeyFields } = primaryKeyField.primaryKeyInfo!;
@@ -1202,12 +1217,12 @@ export class AppSyncModelDartVisitor<
 
   protected getWritableFields(model: CodeGenModel, excludeIdentifierFields: boolean = false): CodeGenField[] {
     const identifierFields = this.getModelIdentifierFields(model);
-    return model.fields.filter(f => {
+    return model.fields.filter((f) => {
       if (!excludeIdentifierFields && !f.isReadOnly) {
         return true;
       }
 
-      return !f.isReadOnly && identifierFields.findIndex(field => field.name == f.name) == -1;
+      return !f.isReadOnly && identifierFields.findIndex((field) => field.name == f.name) == -1;
     });
   }
 }

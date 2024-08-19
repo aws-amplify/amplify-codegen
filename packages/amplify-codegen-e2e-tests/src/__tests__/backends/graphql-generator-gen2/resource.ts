@@ -1,10 +1,10 @@
 import { type ClientSchema, a, defineData, defineFunction } from '@aws-amplify/backend';
 
 const echoQueryHandler = defineFunction({
-  entry: './handlers/query.ts'
+  entry: './handlers/query.ts',
 });
 const echoMutationHandler = defineFunction({
-  entry: './handlers/mutation.ts'
+  entry: './handlers/mutation.ts',
 });
 
 const schema = a.schema({
@@ -16,14 +16,11 @@ const schema = a.schema({
     })
     .authorization((allow) => [allow.guest()]),
   // Enum Type
-  Status: a.enum([
-    'PROGRESS',
-    'COMPLETED',
-  ]),
+  Status: a.enum(['PROGRESS', 'COMPLETED']),
   // Non model type
   EchoResponse: a.customType({
     content: a.string(),
-    executionDuration: a.float()
+    executionDuration: a.float(),
   }),
   // Custom query and mutation
   echoQuery: a
@@ -33,15 +30,15 @@ const schema = a.schema({
       status: a.enum(['PROGRESS', 'COMPLETED']),
     })
     .returns(a.ref('EchoResponse'))
-    .authorization(allow => [allow.authenticated()])
+    .authorization((allow) => [allow.authenticated()])
     .handler(a.handler.function(echoQueryHandler)),
   echoMutation: a
     .mutation()
     .arguments({
-      requiredContent: a.string().required()
+      requiredContent: a.string().required(),
     })
     .returns(a.ref('Todo').required())
-    .authorization(allow => [allow.authenticated()])
+    .authorization((allow) => [allow.authenticated()])
     .handler(a.handler.function(echoMutationHandler)),
 });
 

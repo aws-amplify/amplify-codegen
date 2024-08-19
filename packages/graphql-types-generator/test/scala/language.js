@@ -4,14 +4,14 @@ import { CodeGenerator } from '../../src/utilities/CodeGenerator';
 
 import { objectDeclaration, caseClassDeclaration, propertyDeclaration } from '../../src/scala/language';
 
-describe('Scala code generation: Basic language constructs', function() {
+describe('Scala code generation: Basic language constructs', function () {
   let generator;
 
-  beforeEach(function() {
+  beforeEach(function () {
     generator = new CodeGenerator();
   });
 
-  test(`should generate a object declaration`, function() {
+  test(`should generate a object declaration`, function () {
     objectDeclaration(generator, { objectName: 'Hero' }, () => {
       propertyDeclaration(generator, { propertyName: 'name', typeName: 'String' }, () => {});
       propertyDeclaration(generator, { propertyName: 'age', typeName: 'Int' }, () => {});
@@ -26,11 +26,17 @@ describe('Scala code generation: Basic language constructs', function() {
       }`);
   });
 
-  test(`should generate a case class declaration`, function() {
+  test(`should generate a case class declaration`, function () {
     caseClassDeclaration(
       generator,
-      { caseClassName: 'Hero', params: [{ name: 'name', type: 'String' }, { name: 'age', type: 'Int' }] },
-      () => {}
+      {
+        caseClassName: 'Hero',
+        params: [
+          { name: 'name', type: 'String' },
+          { name: 'age', type: 'Int' },
+        ],
+      },
+      () => {},
     );
 
     expect(generator.output).toBe(stripIndent`
@@ -38,13 +44,19 @@ describe('Scala code generation: Basic language constructs', function() {
       }`);
   });
 
-  test(`should generate nested case class declarations`, function() {
+  test(`should generate nested case class declarations`, function () {
     caseClassDeclaration(
       generator,
-      { caseClassName: 'Hero', params: [{ name: 'name', type: 'String' }, { name: 'age', type: 'Int' }] },
+      {
+        caseClassName: 'Hero',
+        params: [
+          { name: 'name', type: 'String' },
+          { name: 'age', type: 'Int' },
+        ],
+      },
       () => {
         caseClassDeclaration(generator, { caseClassName: 'Friend', params: [{ name: 'name', type: 'String' }] }, () => {});
-      }
+      },
     );
 
     expect(generator.output).toBe(stripIndent`
@@ -59,12 +71,12 @@ describe('Scala code generation: Basic language constructs', function() {
       propertyDeclaration(
         generator,
         { propertyName: 'name', typeName: 'String', description: `A multiline comment \n on the hero's name.` },
-        () => {}
+        () => {},
       );
       propertyDeclaration(
         generator,
         { propertyName: 'age', typeName: 'String', description: `A multiline comment \n on the hero's age.` },
-        () => {}
+        () => {},
       );
     });
 

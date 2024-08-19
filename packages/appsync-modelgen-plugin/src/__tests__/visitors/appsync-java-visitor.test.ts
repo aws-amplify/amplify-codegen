@@ -21,7 +21,7 @@ const buildSchemaWithDirectives = (schema: String, directives: string): GraphQLS
 const getVisitor = (schema: string, selectedType?: string, settings: any = {}, directives: readonly Directive[] = DefaultDirectives) => {
   const visitorConfig = { ...defaultJavaVisitorSettings, ...settings };
   const ast = parse(schema);
-  const stringDirectives = directives.map(directive => directive.definition).join('\n');
+  const stringDirectives = directives.map((directive) => directive.definition).join('\n');
   const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
   const visitor = new AppSyncModelJavaVisitor(
     builtSchema,
@@ -813,7 +813,7 @@ describe('AppSyncModelVisitor', () => {
           content: String
           related: [SqlRelated!] @hasMany(references: ["primaryId"])
         }
-  
+
         type SqlRelated @refersTo(name: "sql_related") @model {
           id: Int! @primaryKey
           content: String
@@ -821,14 +821,18 @@ describe('AppSyncModelVisitor', () => {
           primary: SqlPrimary @belongsTo(references: ["primaryId"])
         }
       `;
-      expect(getVisitorPipelinedTransformer(schema, 'SqlPrimary', {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'SqlRelated', {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'SqlPrimary', {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'SqlRelated', {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
     });
-  
+
     test('sets the association to the references field for hasOne/belongsTo', () => {
       const schema = /* GraphQL */ `
         type SqlPrimary @refersTo(name: "sql_primary") @model {
@@ -836,7 +840,7 @@ describe('AppSyncModelVisitor', () => {
           content: String
           related: SqlRelated @hasOne(references: ["primaryId"])
         }
-  
+
         type SqlRelated @refersTo(name: "sql_related") @model {
           id: Int! @primaryKey
           content: String
@@ -844,14 +848,18 @@ describe('AppSyncModelVisitor', () => {
           primary: SqlPrimary @belongsTo(references: ["primaryId"])
         }
       `;
-      expect(getVisitorPipelinedTransformer(schema, 'SqlPrimary', {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'SqlRelated', {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'SqlPrimary', {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'SqlRelated', {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
     });
-  
+
     test('sets the association to the references field for hasOne and hasMany', () => {
       const schema = /* GraphQL */ `
         type Primary @model {
@@ -859,30 +867,36 @@ describe('AppSyncModelVisitor', () => {
           relatedMany: [RelatedMany] @hasMany(references: ["primaryId"])
           relatedOne: RelatedOne @hasOne(references: ["primaryId"])
         }
-        
+
         type RelatedMany @model {
           id: ID! @primaryKey
           primaryId: ID!
           primary: Primary @belongsTo(references: ["primaryId"])
         }
-        
+
         type RelatedOne @model {
           id: ID! @primaryKey
           primaryId: ID!
           primary: Primary @belongsTo(references: ["primaryId"])
         }
       `;
-      expect(getVisitorPipelinedTransformer(schema, 'Primary', {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'RelatedMany', {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'RelatedOne', {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Primary', {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'RelatedMany', {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'RelatedOne', {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
     });
-  
+
     test('double linked references', () => {
       const schema = /* GraphQL */ `
         type Foo @model {
@@ -890,7 +904,7 @@ describe('AppSyncModelVisitor', () => {
           bar1: Bar @hasOne(references: ["bar1Id"])
           bar2: Bar @hasOne(references: ["bar2Id"])
         }
-        
+
         type Bar @model {
           id: ID!
           bar1Id: ID
@@ -899,14 +913,18 @@ describe('AppSyncModelVisitor', () => {
           foo2: Foo @belongsTo(references: ["bar2Id"])
         }
       `;
-      expect(getVisitorPipelinedTransformer(schema, 'Foo', {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'Bar', {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Foo', {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Bar', {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
     });
-  
+
     test('hasMany with sortKeyFields on primary key', () => {
       const schema = /* GraphQL */ `
         type Primary @model {
@@ -916,7 +934,7 @@ describe('AppSyncModelVisitor', () => {
           content: String
           related: [Related!] @hasMany(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
         }
-        
+
         type Related @model {
           content: String
           primaryTenantId: ID!
@@ -925,13 +943,17 @@ describe('AppSyncModelVisitor', () => {
           primary: Primary @belongsTo(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
         }
       `;
-  
-      expect(getVisitorPipelinedTransformer(schema, 'Primary', {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'Related', {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
+
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Primary', {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Related', {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
     });
 
     test('hasOne with sortKeyFields on primary key', () => {
@@ -943,7 +965,7 @@ describe('AppSyncModelVisitor', () => {
           content: String
           related: Related @hasOne(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
         }
-        
+
         type Related @model {
           content: String
           primaryTenantId: ID!
@@ -952,12 +974,16 @@ describe('AppSyncModelVisitor', () => {
           primary: Primary @belongsTo(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
         }
       `;
-      expect(getVisitorPipelinedTransformer(schema, 'Primary', {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'Related', {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Primary', {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Related', {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
     });
   });
 });

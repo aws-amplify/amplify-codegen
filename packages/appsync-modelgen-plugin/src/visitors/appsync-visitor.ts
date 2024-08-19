@@ -193,7 +193,7 @@ export type CodeGenFieldDirective = CodeGenDirective & {
 export type CodeGenInputValue = TypeInfo & {
   name: string;
   directives: CodeGenDirectives;
-}
+};
 
 export type CodeGenDirectives = CodeGenDirective[];
 export type CodeGenInputValues = CodeGenInputValue[];
@@ -256,16 +256,16 @@ export type CodeGenSubscription = CodeGenField & {
 export type CodeGenInputObject = {
   name: string;
   type: 'input';
-  inputValues: CodeGenInputValues
-}
+  inputValues: CodeGenInputValues;
+};
 export type CodeGenSubscriptionMap = Record<string, CodeGenSubscription>;
 
-export type CodeGenInputObjectMap = Record<string, CodeGenInputObject>
+export type CodeGenInputObjectMap = Record<string, CodeGenInputObject>;
 
 export type CodeGenUnion = {
   name: string;
   type: 'union';
-  typeNames: string[]
+  typeNames: string[];
 };
 export type CodeGenUnionMap = Record<string, CodeGenUnion>;
 
@@ -285,7 +285,7 @@ type ManyToManyContext = {
 
 export class AppSyncModelVisitor<
   TRawConfig extends RawAppSyncModelConfig = RawAppSyncModelConfig,
-  TPluginConfig extends ParsedAppSyncModelConfig = ParsedAppSyncModelConfig
+  TPluginConfig extends ParsedAppSyncModelConfig = ParsedAppSyncModelConfig,
 > extends BaseVisitor<TRawConfig, TPluginConfig> {
   protected READ_ONLY_FIELDS = ['id'];
   protected SCALAR_TYPE_MAP: Record<string, string> = {};
@@ -338,8 +338,8 @@ export class AppSyncModelVisitor<
       return;
     }
     const directives = this.getDirectives(node.directives);
-    const fields = (node.fields as unknown) as CodeGenField[];
-    const modelDirective = directives.find(directive => directive.name === 'model');
+    const fields = node.fields as unknown as CodeGenField[];
+    const modelDirective = directives.find((directive) => directive.name === 'model');
     if (modelDirective) {
       // Todo: Add validation for each directives
       // @model would add the id: ID! if missing or throw error if there is an id of different type
@@ -359,32 +359,28 @@ export class AppSyncModelVisitor<
       this.addTimestampFields(model, modelDirective);
       this.sortFields(model);
       this.modelMap[node.name.value] = model;
-    }
-    else if (node.name.value ===  this._schema.getQueryType()?.name) {
-      fields.forEach(field => {
+    } else if (node.name.value === this._schema.getQueryType()?.name) {
+      fields.forEach((field) => {
         this.queryMap[field.name] = {
           ...field,
           operationType: 'query',
-        }
+        };
       });
-    }
-    else if (node.name.value ===  this._schema.getMutationType()?.name) {
-      fields.forEach(field => {
+    } else if (node.name.value === this._schema.getMutationType()?.name) {
+      fields.forEach((field) => {
         this.mutationMap[field.name] = {
           ...field,
           operationType: 'mutation',
-        }
+        };
       });
-    }
-    else if (node.name.value ===  this._schema.getSubscriptionType()?.name) {
-      fields.forEach(field => {
+    } else if (node.name.value === this._schema.getSubscriptionType()?.name) {
+      fields.forEach((field) => {
         this.subscriptionMap[field.name] = {
           ...field,
           operationType: 'subscription',
-        }
+        };
       });
-    }
-    else {
+    } else {
       const nonModel: CodeGenModel = {
         name: node.name.value,
         type: 'model',
@@ -397,7 +393,7 @@ export class AppSyncModelVisitor<
 
   FieldDefinition(node: FieldDefinitionNode): CodeGenField {
     const directive = this.getDirectives(node.directives);
-    const parameters = ((node.arguments as unknown) as CodeGenInputValue[]) ?? [];
+    const parameters = (node.arguments as unknown as CodeGenInputValue[]) ?? [];
     return {
       name: node.name.value,
       directives: directive,
@@ -410,8 +406,8 @@ export class AppSyncModelVisitor<
     if (this.typesToSkip.includes(node.name.value)) {
       return;
     }
-    const inputValues = (node.fields as unknown) as CodeGenInputValue[];
-    const inputObject: CodeGenInputObject =  {
+    const inputValues = node.fields as unknown as CodeGenInputValue[];
+    const inputObject: CodeGenInputObject = {
       name: node.name.value,
       type: 'input',
       inputValues,
@@ -425,7 +421,7 @@ export class AppSyncModelVisitor<
       name: node.name.value,
       directives,
       ...getTypeInfo(node.type, this._schema),
-    }
+    };
   }
 
   EnumTypeDefinition(node: EnumTypeDefinitionNode): void {
@@ -454,8 +450,8 @@ export class AppSyncModelVisitor<
     const unionObject: CodeGenUnion = {
       name: node.name.value,
       type: 'union',
-      typeNames: node.types?.map(type => type.name.value) ?? [],
-    }
+      typeNames: node.types?.map((type) => type.name.value) ?? [],
+    };
     this.unionMap[node.name.value] = unionObject;
   }
 
@@ -463,7 +459,7 @@ export class AppSyncModelVisitor<
     if (this.typesToSkip.includes(node.name.value)) {
       return;
     }
-    const fields = (node.fields as unknown) as CodeGenField[];
+    const fields = node.fields as unknown as CodeGenField[];
     const interfaceEntry: CodeGenInterface = {
       name: node.name.value,
       type: 'interface',
@@ -478,14 +474,14 @@ export class AppSyncModelVisitor<
     // This flag is going to be used to tight-trigger on JS implementations only.
     shouldImputeKeyForUniDirectionalHasMany: boolean,
     // This flag is currently used in JS/TS and Model introspection generation only.
-    shouldUseFieldsInAssociatedWithInHasOne: boolean = false
+    shouldUseFieldsInAssociatedWithInHasOne: boolean = false,
   ) {
     if (this.config.usePipelinedTransformer || this.config.transformerVersion === 2) {
       this.processV2KeyDirectives();
       this.processConnectionDirectivesV2(
         shouldUseModelNameFieldInHasManyAndBelongsTo,
         shouldImputeKeyForUniDirectionalHasMany,
-        shouldUseFieldsInAssociatedWithInHasOne
+        shouldUseFieldsInAssociatedWithInHasOne,
       );
     } else {
       this.processConnectionDirective();
@@ -503,7 +499,7 @@ export class AppSyncModelVisitor<
 
   private getDirectives(directives: readonly DirectiveNode[] | undefined): CodeGenDirectives {
     if (directives) {
-      return directives.map(d => ({
+      return directives.map((d) => ({
         name: d.name.value,
         arguments: this.getDirectiveArguments(d),
       }));
@@ -626,7 +622,7 @@ export class AppSyncModelVisitor<
   }
 
   protected getModelPrimaryKeyField(model: CodeGenModel): CodeGenField {
-    return model.fields.find(field => field.primaryKeyInfo)!;
+    return model.fields.find((field) => field.primaryKeyInfo)!;
   }
 
   protected isEnumType(field: CodeGenField): boolean {
@@ -651,16 +647,16 @@ export class AppSyncModelVisitor<
       // include only key directive as we don't care about others for versioning
       const directives =
         this.config.usePipelinedTransformer || this.config.transformerVersion === 2
-          ? obj.directives.filter(dir => dir.name === 'primaryKey' || dir.name === 'index')
-          : obj.directives.filter(dir => dir.name === 'key');
+          ? obj.directives.filter((dir) => dir.name === 'primaryKey' || dir.name === 'index')
+          : obj.directives.filter((dir) => dir.name === 'key');
       const fields = obj.fields
         .map((field: CodeGenField) => {
           // include only connection field and type
           const fieldDirectives = this.config.usePipelinedTransformer
             ? field.directives.filter(
-                field => field.name === 'hasOne' || field.name === 'belongsTo' || field.name === 'hasMany' || field.name === 'manyToMany',
+                (field) => field.name === 'hasOne' || field.name === 'belongsTo' || field.name === 'hasMany' || field.name === 'manyToMany',
               )
-            : field.directives.filter(field => field.name === 'connection');
+            : field.directives.filter((field) => field.name === 'connection');
           return {
             name: field.name,
             directives: fieldDirectives,
@@ -678,11 +674,7 @@ export class AppSyncModelVisitor<
       });
     });
     typeArr.sort(sortFields);
-    return crypto
-      .createHash('MD5')
-      .update(JSON.stringify(typeArr))
-      .digest()
-      .toString('hex');
+    return crypto.createHash('MD5').update(JSON.stringify(typeArr)).digest().toString('hex');
   }
 
   /**
@@ -725,7 +717,7 @@ export class AppSyncModelVisitor<
   protected ensurePrimaryKeyFieldV2(model: CodeGenModel, directives: CodeGenDirective[]) {
     let primaryKeyFieldName: string;
     let primaryKeyField: CodeGenField;
-    const fieldWithPrimaryKeyDirective = model.fields.find(f => f.directives.find(dir => dir.name === 'primaryKey'));
+    const fieldWithPrimaryKeyDirective = model.fields.find((f) => f.directives.find((dir) => dir.name === 'primaryKey'));
     //No @primaryKey found, default to 'id' field
     if (!fieldWithPrimaryKeyDirective) {
       primaryKeyFieldName = DEFAULT_HASH_KEY_FIELD;
@@ -739,9 +731,9 @@ export class AppSyncModelVisitor<
     } else {
       primaryKeyFieldName = fieldWithPrimaryKeyDirective.name;
       primaryKeyField = this.getPrimaryKeyFieldByName(model, primaryKeyFieldName);
-      const sortKeyFieldNames: string[] = flattenFieldDirectives(model).find(d => d.name === 'primaryKey')?.arguments.sortKeyFields;
+      const sortKeyFieldNames: string[] = flattenFieldDirectives(model).find((d) => d.name === 'primaryKey')?.arguments.sortKeyFields;
       const sortKeyFields =
-        sortKeyFieldNames?.length > 0 ? sortKeyFieldNames.map(fieldName => model.fields.find(f => f.name === fieldName)!) : [];
+        sortKeyFieldNames?.length > 0 ? sortKeyFieldNames.map((fieldName) => model.fields.find((f) => f.name === fieldName)!) : [];
       primaryKeyField.primaryKeyInfo = {
         primaryKeyType:
           primaryKeyFieldName === DEFAULT_HASH_KEY_FIELD && sortKeyFields.length === 0
@@ -760,13 +752,13 @@ export class AppSyncModelVisitor<
   protected ensurePrimaryKeyFieldV1(model: CodeGenModel, directives: CodeGenDirective[]) {
     let primaryKeyFieldName: string;
     let primaryKeyField: CodeGenField;
-    const keyDirective = directives.find(d => d.name === 'key' && !d.arguments.name);
+    const keyDirective = directives.find((d) => d.name === 'key' && !d.arguments.name);
     if (keyDirective) {
       primaryKeyFieldName = keyDirective.arguments.fields[0]!;
       primaryKeyField = this.getPrimaryKeyFieldByName(model, primaryKeyFieldName);
       const sortKeyFieldNames: string[] = keyDirective.arguments.fields.slice(1);
       const sortKeyFields =
-        sortKeyFieldNames?.length > 0 ? sortKeyFieldNames.map(fieldName => model.fields.find(f => f.name === fieldName)!) : [];
+        sortKeyFieldNames?.length > 0 ? sortKeyFieldNames.map((fieldName) => model.fields.find((f) => f.name === fieldName)!) : [];
       primaryKeyField.primaryKeyInfo = {
         primaryKeyType:
           primaryKeyFieldName === DEFAULT_HASH_KEY_FIELD && sortKeyFields.length === 0
@@ -789,7 +781,7 @@ export class AppSyncModelVisitor<
   }
 
   protected getPrimaryKeyFieldByName(model: CodeGenModel, primaryKeyFieldName: string): CodeGenField {
-    const primaryKeyField = model.fields.find(f => f.name === primaryKeyFieldName);
+    const primaryKeyField = model.fields.find((f) => f.name === primaryKeyFieldName);
     if (!primaryKeyField) {
       throw new Error(`Cannot find primary key field in type ${model.name}`);
     }
@@ -800,7 +792,7 @@ export class AppSyncModelVisitor<
   }
 
   protected ensureIdField(model: CodeGenModel) {
-    const idField = model.fields.find(field => field.name === DEFAULT_HASH_KEY_FIELD);
+    const idField = model.fields.find((field) => field.name === DEFAULT_HASH_KEY_FIELD);
     if (idField) {
       // Make id field required
       idField.isNullable = false;
@@ -816,8 +808,8 @@ export class AppSyncModelVisitor<
   }
 
   protected processConnectionDirective(): void {
-    Object.values(this.modelMap).forEach(model => {
-      model.fields.forEach(field => {
+    Object.values(this.modelMap).forEach((model) => {
+      model.fields.forEach((field) => {
         const connectionInfo = processConnections(field, model, this.modelMap);
         if (connectionInfo) {
           if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY || connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
@@ -832,8 +824,8 @@ export class AppSyncModelVisitor<
       });
 
       // Should remove the fields that are of Model type and are not connected to ensure there are no phantom input fields
-      const modelTypes = Object.values(this.modelMap).map(model => model.name);
-      model.fields = model.fields.filter(field => {
+      const modelTypes = Object.values(this.modelMap).map((model) => model.name);
+      model.fields = model.fields.filter((field) => {
         const fieldType = field.type;
         const connectionInfo = field.connectionInfo;
         if (modelTypes.includes(fieldType) && connectionInfo === undefined) {
@@ -875,12 +867,12 @@ export class AppSyncModelVisitor<
               name: 'index',
               arguments: {
                 name: 'by' + firstModel.name,
-                sortKeyFields: firstModelSortKeyFields.map(f => this.generateIntermediateModelSortKeyFieldName(firstModel, f)),
+                sortKeyFields: firstModelSortKeyFields.map((f) => this.generateIntermediateModelSortKeyFieldName(firstModel, f)),
               },
             },
           ],
         },
-        ...firstModelSortKeyFields.map(field => {
+        ...firstModelSortKeyFields.map((field) => {
           return {
             type: field.type,
             isNullable: true,
@@ -899,12 +891,12 @@ export class AppSyncModelVisitor<
               name: 'index',
               arguments: {
                 name: 'by' + secondModel.name,
-                sortKeyFields: secondModelSortKeyFields.map(f => this.generateIntermediateModelSortKeyFieldName(secondModel, f)),
+                sortKeyFields: secondModelSortKeyFields.map((f) => this.generateIntermediateModelSortKeyFieldName(secondModel, f)),
               },
             },
           ],
         },
-        ...secondModelSortKeyFields.map(field => {
+        ...secondModelSortKeyFields.map((field) => {
           return {
             type: field.type,
             isNullable: true,
@@ -924,7 +916,7 @@ export class AppSyncModelVisitor<
               arguments: {
                 fields: [
                   firstModelKeyFieldName,
-                  ...firstModelSortKeyFields.map(f => this.generateIntermediateModelSortKeyFieldName(firstModel, f)),
+                  ...firstModelSortKeyFields.map((f) => this.generateIntermediateModelSortKeyFieldName(firstModel, f)),
                 ],
               },
             },
@@ -941,7 +933,7 @@ export class AppSyncModelVisitor<
               arguments: {
                 fields: [
                   secondModelKeyFieldName,
-                  ...secondModelSortKeyFields.map(f => this.generateIntermediateModelSortKeyFieldName(secondModel, f)),
+                  ...secondModelSortKeyFields.map((f) => this.generateIntermediateModelSortKeyFieldName(secondModel, f)),
                 ],
               },
             },
@@ -955,7 +947,7 @@ export class AppSyncModelVisitor<
 
   protected generateIntermediateModelPrimaryKeyFieldName(model: CodeGenModel): string {
     if (this.isCustomPKEnabled()) {
-      const primaryKeyField = model.fields.find(f => f.primaryKeyInfo)!;
+      const primaryKeyField = model.fields.find((f) => f.primaryKeyInfo)!;
       return toCamelCase([model.name, primaryKeyField.name]);
     }
     return `${camelCase(model.name)}ID`;
@@ -967,16 +959,16 @@ export class AppSyncModelVisitor<
   }
 
   protected getSortKeyFields(model: CodeGenModel): CodeGenField[] {
-    const keyDirective = model.directives.find(d => d.name === 'key' && !d.arguments.name);
+    const keyDirective = model.directives.find((d) => d.name === 'key' && !d.arguments.name);
     return keyDirective
-      ? (keyDirective.arguments.fields as string[]).slice(1).map(fieldName => model.fields.find(f => f.name === fieldName)!)
+      ? (keyDirective.arguments.fields as string[]).slice(1).map((fieldName) => model.fields.find((f) => f.name === fieldName)!)
       : [];
   }
 
   protected determinePrimaryKeyFieldname(model: CodeGenModel): string {
     let primaryKeyFieldName = 'id';
-    model.fields.forEach(field => {
-      field.directives.forEach(dir => {
+    model.fields.forEach((field) => {
+      field.directives.forEach((dir) => {
         if (dir.name === 'primaryKey') {
           primaryKeyFieldName = field.name;
         }
@@ -987,7 +979,7 @@ export class AppSyncModelVisitor<
 
   protected convertManyToManyDirectives(contexts: ManyToManyContext[]): void {
     // Responsible for stripping the manyToMany directives off provided models and replacing them with hasMany, after intermediate models are added
-    contexts.forEach(context => {
+    contexts.forEach((context) => {
       let directiveIndex = context.field.directives.indexOf(context.directive, 0);
       if (directiveIndex > -1) {
         context.field.directives.splice(directiveIndex, 1);
@@ -998,7 +990,7 @@ export class AppSyncModelVisitor<
             indexName: `by${context.model.name}`,
             fields: [
               this.determinePrimaryKeyFieldname(context.model),
-              ...this.getSortKeyFields(context.model).map(f => this.getFieldName(f)),
+              ...this.getSortKeyFields(context.model).map((f) => this.getFieldName(f)),
             ],
           },
         });
@@ -1011,9 +1003,9 @@ export class AppSyncModelVisitor<
   protected processManyToManyDirectives(): void {
     // Data pattern: key is the name of the model, value is the field that has a manyToMany directive on it
     let manyDirectiveMap: Map<string, Array<ManyToManyContext>> = new Map<string, Array<ManyToManyContext>>();
-    Object.values(this.modelMap).forEach(model => {
-      model.fields.forEach(field => {
-        field.directives.forEach(dir => {
+    Object.values(this.modelMap).forEach((model) => {
+      model.fields.forEach((field) => {
+        field.directives.forEach((dir) => {
           if (dir.name === 'manyToMany') {
             let relationName = graphqlName(toUpper(dir.arguments.relationName));
             let existingRelation = manyDirectiveMap.get(relationName);
@@ -1040,20 +1032,21 @@ export class AppSyncModelVisitor<
         graphqlName(toUpper(value[0].directive.arguments.relationName)),
       );
 
-      const extractedAuthDirectives = [...value[0].model.directives, ...value[1].model.directives]
-        .filter(directive => directive.name === 'auth');
-
-      const serializedDirectives = extractedAuthDirectives.map(directive => JSON.stringify(directive));
-
-      const uniqueSerializedDirectives = serializedDirectives.filter((serializedDirective, index, array) =>
-        array.indexOf(serializedDirective) === index
+      const extractedAuthDirectives = [...value[0].model.directives, ...value[1].model.directives].filter(
+        (directive) => directive.name === 'auth',
       );
 
-      const authDirectives = uniqueSerializedDirectives.map(serializedDirective => JSON.parse(serializedDirective));
+      const serializedDirectives = extractedAuthDirectives.map((directive) => JSON.stringify(directive));
+
+      const uniqueSerializedDirectives = serializedDirectives.filter(
+        (serializedDirective, index, array) => array.indexOf(serializedDirective) === index,
+      );
+
+      const authDirectives = uniqueSerializedDirectives.map((serializedDirective) => JSON.parse(serializedDirective));
 
       intermediateModel.directives = [...intermediateModel.directives, ...authDirectives];
 
-      const modelDirective = intermediateModel.directives.find(directive => directive.name === 'model');
+      const modelDirective = intermediateModel.directives.find((directive) => directive.name === 'model');
       if (modelDirective) {
         // Maps @primaryKey and @index of intermediate model to old @key
         processPrimaryKey(intermediateModel);
@@ -1073,27 +1066,29 @@ export class AppSyncModelVisitor<
     shouldUseModelNameFieldInHasManyAndBelongsTo: boolean,
     // This flag is going to be used to tight-trigger on JS implementations only.
     shouldImputeKeyForUniDirectionalHasMany: boolean,
-    shouldUseFieldsInAssociatedWithInHasOne: boolean
+    shouldUseFieldsInAssociatedWithInHasOne: boolean,
   ): void {
     this.processManyToManyDirectives();
 
     const isCustomPKEnabled = this.isCustomPKEnabled();
 
-    Object.values(this.modelMap).forEach(model => {
-      model.fields.forEach(field => {
+    Object.values(this.modelMap).forEach((model) => {
+      model.fields.forEach((field) => {
         const connectionInfo = processConnectionsV2(
           field,
           model,
           this.modelMap,
           shouldUseModelNameFieldInHasManyAndBelongsTo,
           isCustomPKEnabled,
-          shouldUseFieldsInAssociatedWithInHasOne
+          shouldUseFieldsInAssociatedWithInHasOne,
         );
         if (connectionInfo) {
           if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
             // Need to update the other side of the connection even if there is no connection directive
             if (isCustomPKEnabled) {
-              connectionInfo.associatedWithFields.forEach(associateField => addFieldToModel(connectionInfo.connectedModel, associateField));
+              connectionInfo.associatedWithFields.forEach((associateField) =>
+                addFieldToModel(connectionInfo.connectedModel, associateField),
+              );
             } else {
               addFieldToModel(connectionInfo.connectedModel, connectionInfo.associatedWith);
             }
@@ -1154,8 +1149,8 @@ export class AppSyncModelVisitor<
       });
 
       // Should remove the fields that are of Model type and are not connected to ensure there are no phantom input fields
-      const modelTypes = Object.values(this.modelMap).map(model => model.name);
-      model.fields = model.fields.filter(field => {
+      const modelTypes = Object.values(this.modelMap).map((model) => model.name);
+      model.fields = model.fields.filter((field) => {
         const fieldType = field.type;
         const connectionInfo = field.connectionInfo;
         if (modelTypes.includes(fieldType) && connectionInfo === undefined) {
@@ -1173,8 +1168,8 @@ export class AppSyncModelVisitor<
     if (isCustomPKEnabled) {
       // The native platforms need to remove targetNames fields in belongsTo model
       if (['java', 'swift', 'dart'].includes(this.config.target ?? '')) {
-        Object.values(this.modelMap).forEach(model => {
-          model.fields.forEach(field => {
+        Object.values(this.modelMap).forEach((model) => {
+          model.fields.forEach((field) => {
             const connectionInfo = field.connectionInfo;
             if (
               connectionInfo &&
@@ -1184,16 +1179,16 @@ export class AppSyncModelVisitor<
               connectionInfo.targetName !== 'id'
             ) {
               // Need to remove the field that is targetName
-              connectionInfo.targetNames.forEach(targetName => removeFieldFromModel(model, targetName));
+              connectionInfo.targetNames.forEach((targetName) => removeFieldFromModel(model, targetName));
             }
           });
         });
       }
     } else {
-      Object.values(this.modelMap).forEach(model => {
+      Object.values(this.modelMap).forEach((model) => {
         const primaryKeyFields = getModelPrimaryKeyComponentFields(model);
-        const primaryKeyName = (primaryKeyFields?.length > 0) ? this.getFieldName(primaryKeyFields[0]) : undefined;
-        model.fields.forEach(field => {
+        const primaryKeyName = primaryKeyFields?.length > 0 ? this.getFieldName(primaryKeyFields[0]) : undefined;
+        model.fields.forEach((field) => {
           const connectionInfo = field.connectionInfo;
           if (
             connectionInfo &&
@@ -1202,8 +1197,7 @@ export class AppSyncModelVisitor<
             connectionInfo.targetName &&
             connectionInfo.targetName !== 'id' &&
             !connectionInfo.isUsingReferences &&
-            !(this.config.target === 'introspection' &&
-              primaryKeyName && primaryKeyName === connectionInfo.targetName)
+            !(this.config.target === 'introspection' && primaryKeyName && primaryKeyName === connectionInfo.targetName)
           ) {
             // Need to remove the field that is targetName
             removeFieldFromModel(model, connectionInfo.targetName);
@@ -1214,7 +1208,7 @@ export class AppSyncModelVisitor<
   }
 
   protected processV2KeyDirectives(): void {
-    Object.values(this.modelMap).forEach(model => {
+    Object.values(this.modelMap).forEach((model) => {
       processPrimaryKey(model);
       processIndex(model);
     });
@@ -1222,14 +1216,14 @@ export class AppSyncModelVisitor<
 
   protected processAuthDirectives(): void {
     //model @auth process
-    Object.values(this.modelMap).forEach(model => {
-      const filteredDirectives = model.directives.filter(d => d.name !== 'auth');
+    Object.values(this.modelMap).forEach((model) => {
+      const filteredDirectives = model.directives.filter((d) => d.name !== 'auth');
       const authDirectives = processAuthDirective(model.directives);
       model.directives = [...filteredDirectives, ...authDirectives];
 
       //field @auth process
-      model.fields.forEach(field => {
-        const nonAuthDirectives = field.directives.filter(d => d.name != 'auth');
+      model.fields.forEach((field) => {
+        const nonAuthDirectives = field.directives.filter((d) => d.name != 'auth');
         const authDirectives = processAuthDirective(field.directives);
         field.directives = [...nonAuthDirectives, ...authDirectives];
       });

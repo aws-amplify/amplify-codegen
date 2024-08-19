@@ -74,7 +74,7 @@ export function extractDocumentFromJavascript(content: string, tagName: string =
 
 export function loadAndMergeQueryDocuments(inputPaths: string[], tagName: string = 'gql'): DocumentNode {
   const sources = inputPaths
-    .map(inputPath => {
+    .map((inputPath) => {
       const body = fs.readFileSync(inputPath, 'utf8');
       if (!body) {
         return null;
@@ -93,7 +93,7 @@ export function loadAndMergeQueryDocuments(inputPaths: string[], tagName: string
 }
 
 export function parseAndMergeQueryDocuments<SourceType extends Source>(sources: SourceType[]): DocumentNode {
-  const parsedSources = sources.map(source => {
+  const parsedSources = sources.map((source) => {
     try {
       return parse(source);
     } catch (err) {

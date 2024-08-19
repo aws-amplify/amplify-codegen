@@ -20,13 +20,17 @@ export function generateStatements(options: GenerateStatementsOptions): Generate
   return generatedOperationsToOutput(target, generatedOperations, relativeTypesPath);
 }
 
-function generatedOperationsToOutput(target: StatementsTarget, generatedStatements: GeneratedOperations<GraphQLWithMeta>, relativeTypesPath?: string): GeneratedOutput {
+function generatedOperationsToOutput(
+  target: StatementsTarget,
+  generatedStatements: GeneratedOperations<GraphQLWithMeta>,
+  relativeTypesPath?: string,
+): GeneratedOutput {
   const fileExtension = statementsTargetToFileExtensionMap[target];
   const operations: ['queries', 'mutations', 'subscriptions'] = ['queries', 'mutations', 'subscriptions'];
 
   const statements = operations
-    .filter(operation => generatedStatements[operation]?.size)
-    .map(operation => {
+    .filter((operation) => generatedStatements[operation]?.size)
+    .map((operation) => {
       const operationStatements = generatedStatements[operation];
       const formattedStatements = new GraphQLStatementsFormatter(target, operation, relativeTypesPath).format(operationStatements);
       const filepath = `${operation}.${fileExtension}`;

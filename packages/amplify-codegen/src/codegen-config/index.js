@@ -38,39 +38,37 @@ function getCodegenConfig(projectPath) {
   const cfg = projects[0];
   const includeFiles = cfg.includes[0];
 
-  const opsGenDirectory = cfg.amplifyExtension.docsFilePath
-    ? cfg.amplifyExtension.docsFilePath
-    : path.dirname(path.dirname(includeFiles));
+  const opsGenDirectory = cfg.amplifyExtension.docsFilePath ? cfg.amplifyExtension.docsFilePath : path.dirname(path.dirname(includeFiles));
 
   const { generatedFileName } = cfg.amplifyExtension || {};
   const { maxDepth } = cfg.amplifyExtension || {};
 
   return {
-    getGeneratedQueriesPath: function() {
+    getGeneratedQueriesPath: function () {
       return path.join(opsGenDirectory, 'queries');
     },
-    getGeneratedMutationsPath: function() {
+    getGeneratedMutationsPath: function () {
       return path.join(opsGenDirectory, 'mutations');
     },
-    getGeneratedSubscriptionsPath: function() {
+    getGeneratedSubscriptionsPath: function () {
       return path.join(opsGenDirectory, 'subscriptions');
     },
-    getGeneratedFragmentsPath: function() {
+    getGeneratedFragmentsPath: function () {
       return path.join(opsGenDirectory, 'fragments');
     },
-    getGeneratedTypesPath: function() {
+    getGeneratedTypesPath: function () {
       if (!generatedFileName || generatedFileName === '') {
         return;
       }
       return path.normalize(generatedFileName);
     },
-    getQueryMaxDepth: function() {
+    getQueryMaxDepth: function () {
       if (!maxDepth || !Number(maxDepth)) {
         return;
       }
       return Number(maxDepth);
-    }
-  }
+    },
+  };
 }
 
 module.exports = { loadConfig, getCodegenConfig };

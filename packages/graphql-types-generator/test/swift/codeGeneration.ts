@@ -127,7 +127,7 @@ describe('Swift code generation', () => {
           name
         }
       `,
-        { generateOperationIds: true, mergeInFieldsFromFragmentSpreads: true }
+        { generateOperationIds: true, mergeInFieldsFromFragmentSpreads: true },
       );
 
       generator.classDeclarationForOperation(operations['Hero']);
@@ -166,7 +166,7 @@ describe('Swift code generation', () => {
           responseKey: 'response_key',
           propertyName: 'propertyName',
           type: GraphQLString,
-        })
+        }),
       ).toBe('"response_key": propertyName');
     });
 
@@ -176,7 +176,7 @@ describe('Swift code generation', () => {
           responseKey: 'response_key',
           propertyName: 'propertyName',
           type: new GraphQLNonNull(GraphQLString),
-        })
+        }),
       ).toBe('"response_key": propertyName');
     });
 
@@ -186,7 +186,7 @@ describe('Swift code generation', () => {
           responseKey: 'response_key',
           propertyName: 'propertyName',
           type: new GraphQLList(GraphQLString),
-        })
+        }),
       ).toBe('"response_key": propertyName');
     });
 
@@ -196,7 +196,7 @@ describe('Swift code generation', () => {
           responseKey: 'response_key',
           propertyName: 'propertyName',
           type: new GraphQLList(new GraphQLNonNull(GraphQLString)),
-        })
+        }),
       ).toBe('"response_key": propertyName');
     });
 
@@ -206,7 +206,7 @@ describe('Swift code generation', () => {
           responseKey: 'response_key',
           propertyName: 'propertyName',
           type: new GraphQLNonNull(new GraphQLList(GraphQLString)),
-        })
+        }),
       ).toBe('"response_key": propertyName');
     });
 
@@ -216,7 +216,7 @@ describe('Swift code generation', () => {
           responseKey: 'response_key',
           propertyName: 'propertyName',
           type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(GraphQLString))),
-        })
+        }),
       ).toBe('"response_key": propertyName');
     });
 
@@ -226,7 +226,7 @@ describe('Swift code generation', () => {
           responseKey: 'response_key',
           propertyName: 'propertyName',
           type: schema.getType('Droid'),
-        })
+        }),
       ).toBe('"response_key": propertyName.flatMap { $0.snapshot }');
     });
 
@@ -236,7 +236,7 @@ describe('Swift code generation', () => {
           responseKey: 'response_key',
           propertyName: 'propertyName',
           type: new GraphQLNonNull(schema.getType('Droid')),
-        })
+        }),
       ).toBe('"response_key": propertyName.snapshot');
     });
 
@@ -246,7 +246,7 @@ describe('Swift code generation', () => {
           responseKey: 'response_key',
           propertyName: 'propertyName',
           type: new GraphQLList(schema.getType('Droid')),
-        })
+        }),
       ).toBe('"response_key": propertyName.flatMap { $0.map { $0.flatMap { $0.snapshot } } }');
     });
 
@@ -256,7 +256,7 @@ describe('Swift code generation', () => {
           responseKey: 'response_key',
           propertyName: 'propertyName',
           type: new GraphQLList(new GraphQLNonNull(schema.getType('Droid'))),
-        })
+        }),
       ).toBe('"response_key": propertyName.flatMap { $0.map { $0.snapshot } }');
     });
 
@@ -266,7 +266,7 @@ describe('Swift code generation', () => {
           responseKey: 'response_key',
           propertyName: 'propertyName',
           type: new GraphQLNonNull(new GraphQLList(schema.getType('Droid'))),
-        })
+        }),
       ).toBe('"response_key": propertyName.map { $0.flatMap { $0.snapshot } }');
     });
 
@@ -276,7 +276,7 @@ describe('Swift code generation', () => {
           responseKey: 'response_key',
           propertyName: 'propertyName',
           type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(schema.getType('Droid')))),
-        })
+        }),
       ).toBe('"response_key": propertyName.map { $0.snapshot }');
     });
   });
@@ -532,7 +532,7 @@ describe('Swift code generation', () => {
       const dictionaryLiteral = generator.helpers.dictionaryLiteralForFieldArguments(fieldArguments);
 
       expect(dictionaryLiteral).toBe(
-        '["episode": "JEDI", "review": ["stars": 2, "commentary": GraphQLVariable("commentary"), "favorite_color": ["red": GraphQLVariable("red"), "blue": 100, "green": 50]]]'
+        '["episode": "JEDI", "review": ["stars": 2, "commentary": GraphQLVariable("commentary"), "favorite_color": ["red": GraphQLVariable("red"), "blue": 100, "green": 50]]]',
       );
     });
   });

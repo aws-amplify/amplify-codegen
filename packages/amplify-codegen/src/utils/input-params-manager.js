@@ -20,7 +20,7 @@ function normalizeInputParams(context) {
   }
   if (inputParams) {
     const normalizedInputParams = {};
-    Object.keys(inputParams).forEach(key => {
+    Object.keys(inputParams).forEach((key) => {
       const normalizedKey = normalizeKey(key);
       const normalizedValue = normalizeValue(normalizedKey, inputParams[key]);
       normalizedInputParams[normalizedKey] = normalizedValue;

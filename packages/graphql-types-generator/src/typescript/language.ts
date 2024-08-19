@@ -50,7 +50,7 @@ export function propertyDeclaration(
   const name = fieldName || propertyName;
 
   if (description) {
-    description.split('\n').forEach(line => {
+    description.split('\n').forEach((line) => {
       generator.printOnNewline(`// ${line.trim()}`);
     });
   }
@@ -118,7 +118,7 @@ export function pickedPropertySetsDeclaration(
   const name = fieldName || propertyName;
 
   if (description) {
-    description.split('\n').forEach(line => {
+    description.split('\n').forEach((line) => {
       generator.printOnNewline(`// ${line.trim()}`);
     });
   }

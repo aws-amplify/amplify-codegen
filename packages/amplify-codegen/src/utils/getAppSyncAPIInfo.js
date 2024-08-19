@@ -12,8 +12,8 @@ async function getAppSyncAPIInfo(context, apiId, region) {
     let apiKeys;
 
     const additionalAuthenticationProviders = (graphqlApi.additionalAuthenticationProviders || [])
-      .map(provider => provider.authenticationType)
-      .filter(t => !!t);
+      .map((provider) => provider.authenticationType)
+      .filter((t) => !!t);
 
     if ([...additionalAuthenticationProviders, graphqlApi.authenticationType].includes('API_KEY')) {
       apiKeys = await getAPIKeys(context, apiId, region);

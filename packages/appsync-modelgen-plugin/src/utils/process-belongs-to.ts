@@ -1,13 +1,7 @@
 import { CodeGenDirective, CodeGenField, CodeGenModel, CodeGenModelMap } from '../visitors/appsync-visitor';
 import { getModelPrimaryKeyComponentFields } from './fieldUtils';
-import {
-  CodeGenConnectionType,
-  CodeGenFieldConnection,
-  flattenFieldDirectives,
-  makeConnectionAttributeName,
-} from './process-connections';
+import { CodeGenConnectionType, CodeGenFieldConnection, flattenFieldDirectives, makeConnectionAttributeName } from './process-connections';
 import { getConnectedFieldV2, getConnectedFieldForReferences } from './process-connections-v2';
-
 
 export function processBelongsToConnection(
   field: CodeGenField,
@@ -17,25 +11,23 @@ export function processBelongsToConnection(
   isCustomPKEnabled: boolean = false,
 ): CodeGenFieldConnection | undefined {
   if (field.isList) {
-    throw new Error(
-      `A list field does not support the 'belongsTo' relation`
-    );
+    throw new Error(`A list field does not support the 'belongsTo' relation`);
   }
   const otherSide = modelMap[field.type];
   const otherSideConnectedFields = getBelongsToConnectedFields(model, otherSide);
   if (otherSideConnectedFields.length === 0) {
-    throw new Error(
-      `A 'belongsTo' field should match to a corresponding 'hasMany' or 'hasOne' field`
-    );
+    throw new Error(`A 'belongsTo' field should match to a corresponding 'hasMany' or 'hasOne' field`);
   }
   const references = connectionDirective.arguments.references || [];
   const isUsingReferences = references.length > 0;
   if (isUsingReferences) {
     // ensure there is a matching hasOne/hasMany field with references
-    getConnectedFieldForReferences(field, model, otherSide, connectionDirective.name)
+    getConnectedFieldForReferences(field, model, otherSide, connectionDirective.name);
   }
 
-  const otherSideField = isCustomPKEnabled ? otherSideConnectedFields[0] : getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
+  const otherSideField = isCustomPKEnabled
+    ? otherSideConnectedFields[0]
+    : getConnectedFieldV2(field, model, otherSide, connectionDirective.name);
   const connectionFields = connectionDirective.arguments.fields || [];
 
   // if a type is connected using name, then amplify-graphql-relational-transformer adds a field to
@@ -44,16 +36,19 @@ export function processBelongsToConnection(
   // we are reusing the field and it should be preserved in selection set
   const otherSideHasMany = otherSideField.isList;
   // New metada type introduced by custom PK v2 support
-  let targetNames: string[] = [ ...connectionFields, ...references ];
+  let targetNames: string[] = [...connectionFields, ...references];
   if (targetNames.length === 0) {
     if (otherSideHasMany) {
       targetNames = isCustomPKEnabled
-        ? getModelPrimaryKeyComponentFields(otherSide).map(componentField => makeConnectionAttributeName(otherSide.name, otherSideField.name, componentField.name))
+        ? getModelPrimaryKeyComponentFields(otherSide).map((componentField) =>
+            makeConnectionAttributeName(otherSide.name, otherSideField.name, componentField.name),
+          )
         : [makeConnectionAttributeName(otherSide.name, otherSideField.name)];
-    }
-    else {
+    } else {
       targetNames = isCustomPKEnabled
-        ? getModelPrimaryKeyComponentFields(otherSide).map(componentField => makeConnectionAttributeName(model.name, field.name, componentField.name))
+        ? getModelPrimaryKeyComponentFields(otherSide).map((componentField) =>
+            makeConnectionAttributeName(model.name, field.name, componentField.name),
+          )
         : [makeConnectionAttributeName(model.name, field.name)];
     }
   }
@@ -75,12 +70,16 @@ export function processBelongsToConnection(
  * @returns Array of fields which are child model types with hasOne/hasMany diretives on connected model
  */
 export function getBelongsToConnectedFields(model: CodeGenModel, connectedModel: CodeGenModel): CodeGenField[] {
-  const otherSideDirectives = flattenFieldDirectives(connectedModel).filter(dir => {
-    const connectedField = connectedModel.fields.find(connField => { return connField.name === dir.fieldName; });
+  const otherSideDirectives = flattenFieldDirectives(connectedModel).filter((dir) => {
+    const connectedField = connectedModel.fields.find((connField) => {
+      return connField.name === dir.fieldName;
+    });
     const fieldType = connectedField?.type;
-    return ((dir.name === 'hasOne' && !connectedField?.isList) || (dir.name === 'hasMany' && connectedField?.isList)) && model.name === fieldType;
+    return (
+      ((dir.name === 'hasOne' && !connectedField?.isList) || (dir.name === 'hasMany' && connectedField?.isList)) && model.name === fieldType
+    );
   });
-  return otherSideDirectives.map(dir => {
-    return connectedModel.fields.find(connField => connField.name === dir.fieldName)!
+  return otherSideDirectives.map((dir) => {
+    return connectedModel.fields.find((connField) => connField.name === dir.fieldName)!;
   });
 }

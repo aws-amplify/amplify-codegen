@@ -42,7 +42,7 @@ export function collectAndMergeFields(selectionSet: SelectionSet, mergeInFragmen
           if (selection.kind === 'FragmentSpread' && !mergeInFragmentSpreads) continue;
 
           // Only merge fragment spreads and type conditions if they match all possible types.
-          if (!possibleTypes.every(type => selection.selectionSet.possibleTypes.includes(type))) continue;
+          if (!possibleTypes.every((type) => selection.selectionSet.possibleTypes.includes(type))) continue;
 
           visitSelectionSet(selection.selectionSet.selections, possibleTypes, conditions);
           break;
@@ -57,11 +57,11 @@ export function collectAndMergeFields(selectionSet: SelectionSet, mergeInFragmen
 
   // Merge selection sets
 
-  const fields = Array.from(groupedFields.values()).map(fields => {
-    const isFieldIncludedUnconditionally = fields.some(field => !field.isConditional);
+  const fields = Array.from(groupedFields.values()).map((fields) => {
+    const isFieldIncludedUnconditionally = fields.some((field) => !field.isConditional);
 
     return fields
-      .map(field => {
+      .map((field) => {
         if (isFieldIncludedUnconditionally && field.isConditional && field.selectionSet) {
           field.selectionSet.selections = wrapInBooleanConditionsIfNeeded(field.selectionSet.selections, field.conditions);
         }

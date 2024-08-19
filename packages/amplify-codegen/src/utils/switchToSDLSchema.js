@@ -8,7 +8,7 @@ function switchToSDLSchema(context, apiName) {
   }
   const config = loadConfig(context);
   const projects = config.getProjects();
-  const project = projects.find(p => p.projectName === apiName);
+  const project = projects.find((p) => p.projectName === apiName);
   if (project) {
     if (project.schema.endsWith('.json')) {
       project.schema = getSDLSchemaPath(apiName);

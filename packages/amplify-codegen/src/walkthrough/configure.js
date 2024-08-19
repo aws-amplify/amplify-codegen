@@ -11,7 +11,7 @@ function deepCopy(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
 async function configureProjectWalkThrough(context, amplifyConfig, withoutInit = false) {
-  const projects = amplifyConfig.map(cfg => ({
+  const projects = amplifyConfig.map((cfg) => ({
     name: cfg.projectName,
     value: cfg.amplifyExtension.graphQLApiId,
   }));
@@ -22,9 +22,9 @@ async function configureProjectWalkThrough(context, amplifyConfig, withoutInit =
 
   let selectedProjectConfig;
   if (!withoutInit) {
-    selectedProjectConfig = deepCopy(amplifyConfig.find(project => project.amplifyExtension.graphQLApiId === apiId));
+    selectedProjectConfig = deepCopy(amplifyConfig.find((project) => project.amplifyExtension.graphQLApiId === apiId));
   } else {
-    selectedProjectConfig = deepCopy(amplifyConfig.find(project => project.projectName === 'Codegen Project'));
+    selectedProjectConfig = deepCopy(amplifyConfig.find((project) => project.projectName === 'Codegen Project'));
   }
 
   let frontend;

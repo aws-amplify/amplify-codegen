@@ -12,45 +12,40 @@ const defaultJavaVisitorSettings = {
   transformerVersion: 2,
   generate: CodeGenGenerateEnum.code,
   respectPrimaryKeyAttributesOnConnectionField: false,
-  generateModelsForLazyLoadAndCustomSelectionSet: true
-}
+  generateModelsForLazyLoadAndCustomSelectionSet: true,
+};
 
-const directives = DefaultDirectives.map(directive => directive.definition).join('\n');
+const directives = DefaultDirectives.map((directive) => directive.definition).join('\n');
 
 const buildSchemaWithDirectives = (schema: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
 
-const getVisitor = (
-    schema: string,
-    selectedType?: string,
-    settings: any = {}
-) => {
+const getVisitor = (schema: string, selectedType?: string, settings: any = {}) => {
   const visitorConfig = { ...defaultJavaVisitorSettings, ...settings };
   const ast = parse(schema);
   const builtSchema = buildSchemaWithDirectives(schema);
   const visitor = new AppSyncModelJavaVisitor(
-      builtSchema,
-      {
-        directives,
-        target: 'java',
-        scalars: JAVA_SCALAR_MAP,
-        ...visitorConfig
-      },
-      { selectedType },
+    builtSchema,
+    {
+      directives,
+      target: 'java',
+      scalars: JAVA_SCALAR_MAP,
+      ...visitorConfig,
+    },
+    { selectedType },
   );
   visit(ast, { leave: visitor });
   return visitor;
 };
 
 describe('AppSyncModelVisitor', () => {
-
   const schemaHasOneParentChild = /* GraphQL */ `
     type HasOneParent @model {
       id: ID! @primaryKey
       child: HasOneChild @hasOne
     }
-    
+
     type HasOneChild @model {
       id: ID! @primaryKey
       content: String
@@ -63,7 +58,7 @@ describe('AppSyncModelVisitor', () => {
       content: String
       children: [DefaultPKChild] @hasMany
     }
-    
+
     type DefaultPKChild @model {
       id: ID! @primaryKey
       content: String
@@ -73,40 +68,41 @@ describe('AppSyncModelVisitor', () => {
 
   const schemaCompositePK = /* GraphQL */ `
     type CompositePKParent @model {
-      customId: ID! @primaryKey(sortKeyFields:["content"])
+      customId: ID! @primaryKey(sortKeyFields: ["content"])
       content: String!
-      children: [CompositePKChild] @hasMany(indexName:"byParent", fields:["customId", "content"])
+      children: [CompositePKChild] @hasMany(indexName: "byParent", fields: ["customId", "content"])
       implicitChildren: [ImplicitChild] @hasMany
       strangeChildren: [StrangeExplicitChild] @hasMany(indexName: "byCompositePKParentX", fields: ["customId", "content"])
       childrenSansBelongsTo: [ChildSansBelongsTo] @hasMany
     }
-    
+
     type CompositePKChild @model {
-      childId: ID! @primaryKey(sortKeyFields:["content"])
+      childId: ID! @primaryKey(sortKeyFields: ["content"])
       content: String!
-      parent: CompositePKParent @belongsTo(fields:["parentId", "parentTitle"])
-      parentId: ID @index(name: "byParent", sortKeyFields:["parentTitle"])
+      parent: CompositePKParent @belongsTo(fields: ["parentId", "parentTitle"])
+      parentId: ID @index(name: "byParent", sortKeyFields: ["parentTitle"])
       parentTitle: String
     }
-    
+
     type ImplicitChild @model {
-      childId: ID! @primaryKey(sortKeyFields:["content"])
+      childId: ID! @primaryKey(sortKeyFields: ["content"])
       content: String!
       parent: CompositePKParent! @belongsTo
     }
-    
+
     type StrangeExplicitChild @model {
-      strangeId: ID! @primaryKey(sortKeyFields:["content"])
+      strangeId: ID! @primaryKey(sortKeyFields: ["content"])
       content: String!
-      parent: CompositePKParent! @belongsTo(fields:["strangeParentId", "strangeParentTitle"])
-      strangeParentId: ID @index(name: "byCompositePKParentX", sortKeyFields:["strangeParentTitle"])
+      parent: CompositePKParent! @belongsTo(fields: ["strangeParentId", "strangeParentTitle"])
+      strangeParentId: ID @index(name: "byCompositePKParentX", sortKeyFields: ["strangeParentTitle"])
       strangeParentTitle: String # customized foreign key for parent sort key
     }
-    
+
     type ChildSansBelongsTo @model {
-      childId: ID! @primaryKey(sortKeyFields:["content"])
+      childId: ID! @primaryKey(sortKeyFields: ["content"])
       content: String!
-      compositePKParentChildrenSansBelongsToCustomId: ID! @index(name: "byParent", sortKeyFields: ["compositePKParentChildrenSansBelongsToContent"])
+      compositePKParentChildrenSansBelongsToCustomId: ID!
+        @index(name: "byParent", sortKeyFields: ["compositePKParentChildrenSansBelongsToContent"])
       compositePKParentChildrenSansBelongsToContent: String
     }
   `;
@@ -117,12 +113,12 @@ describe('AppSyncModelVisitor', () => {
       child: HasOneChild @hasOne
       children: [HasManyChild] @hasMany
     }
-    
+
     type HasOneChild @model {
       id: ID! @primaryKey
       content: String
     }
-    
+
     type HasManyChild @model {
       id: ID! @primaryKey
       content: String
@@ -132,12 +128,12 @@ describe('AppSyncModelVisitor', () => {
 
   const schemaProjectTeam = /* GraphQL */ `
     type Project @model {
-      projectId: ID! @primaryKey(sortKeyFields:["name"])
+      projectId: ID! @primaryKey(sortKeyFields: ["name"])
       name: String!
       team: Team @hasOne
     }
     type Team @model {
-      teamId: ID! @primaryKey(sortKeyFields:["name"])
+      teamId: ID! @primaryKey(sortKeyFields: ["name"])
       name: String!
       project: Project @belongsTo
     }
@@ -149,19 +145,19 @@ describe('AppSyncModelVisitor', () => {
       name: String!
       posts: [Post!]! @hasMany
     }
-    
+
     type Post @model {
-      postId: ID! @primaryKey(sortKeyFields:["title"])
+      postId: ID! @primaryKey(sortKeyFields: ["title"])
       title: String!
       blog: Blog! @belongsTo
       comments: [Comment]! @hasMany
     }
-    
+
     type Comment @model {
-      commentId: ID! @primaryKey(sortKeyFields:["content"])
+      commentId: ID! @primaryKey(sortKeyFields: ["content"])
       content: String!
       post: Post! @belongsTo
-}
+    }
   `;
 
   describe('DataStore Enabled', () => {
@@ -228,7 +224,7 @@ describe('AppSyncModelVisitor', () => {
     });
 
     it('should generate for Parent, HasOneChild, HasManyChild models', () => {
-      const visitor = getVisitor(schemaParentHasOneHasManyChild)
+      const visitor = getVisitor(schemaParentHasOneHasManyChild);
       const generatedCode = visitor.generate();
       expect(() => validateJava(generatedCode)).not.toThrow();
       expect(generatedCode).toMatchSnapshot();
@@ -247,4 +243,3 @@ describe('AppSyncModelVisitor', () => {
     });
   });
 });
-

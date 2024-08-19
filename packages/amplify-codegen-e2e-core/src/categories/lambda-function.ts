@@ -55,7 +55,7 @@ const additionalPermissions = (cwd: string, chain: ExecutionContext, settings: a
   }
 
   // n-resources repeated questions
-  settings.additionalPermissions.resources.forEach(elem => {
+  settings.additionalPermissions.resources.forEach((elem) => {
     const service = _.get(getBackendAmplifyMeta(cwd), ['api', elem, 'service']);
     const gqlpermff = !!_.get(loadFeatureFlags(cwd), ['features', 'appsync', 'generategraphqlpermissions']);
     const isAppSyncApi = service === 'AppSync';
@@ -292,12 +292,12 @@ const addLayerWalkthrough = (chain: ExecutionContext, options: LayerOptions) => 
   }
   chain.wait('Provide existing layers');
   multiSelect(chain, amendedSelection, prependedListOptions);
-  options.select.forEach(selection => {
+  options.select.forEach((selection) => {
     chain.wait(`Select a version for ${selection}`);
     singleSelect(
       chain,
       options.versions[selection].version.toString(),
-      options.versions[selection].expectedVersionOptions.map(op => op.toString()),
+      options.versions[selection].expectedVersionOptions.map((op) => op.toString()),
     );
   });
   if (hasCustomArns) {
@@ -410,7 +410,7 @@ export const functionMockAssert = (
       .wait(settings.successString)
       .wait('Finished execution.')
       .sendEof()
-      .run(err => (err ? reject(err) : resolve()));
+      .run((err) => (err ? reject(err) : resolve()));
   });
 };
 
