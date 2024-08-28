@@ -19,6 +19,7 @@
   mutations?: SchemaMutations;
   subscriptions?: SchemaSubscriptions;
   inputs?: SchemaInputs;
+  generations?: SchemaQueries;
 };
 /**
  * Top-level Entities on a Schema

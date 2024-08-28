@@ -1,4 +1,4 @@
-import { CodeGenDirective, CodeGenField, CodeGenModel } from '../visitors/appsync-visitor';
+import { CodeGenDirective, CodeGenField, CodeGenModel, CodeGenQuery } from '../visitors/appsync-visitor';
 import { TransformerV2DirectiveName } from './constants';
 
 export function addFieldToModel(model: CodeGenModel, field: CodeGenField): void {
@@ -40,4 +40,8 @@ export function getModelPrimaryKeyComponentFields(model: CodeGenModel): CodeGenF
     };
   }
   return keyFields;
+}
+
+export function containsGenerationDirective(queryField: CodeGenQuery): boolean {
+  return queryField.directives.some((directive) => directive.name === TransformerV2DirectiveName.GENERATION);
 }

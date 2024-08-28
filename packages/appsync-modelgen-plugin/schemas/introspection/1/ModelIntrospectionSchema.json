@@ -26,6 +26,9 @@
         },
         "inputs": {
             "$ref": "#/definitions/SchemaInputs"
+        },
+        "generations": {
+            "$ref": "#/definitions/SchemaQueries"
         }
     },
     "required": [
