@@ -66,6 +66,7 @@ export class AppSyncModelIntrospectionVisitor<
     const queries = Object.values(this.queryMap).reduce((acc, queryObj: CodeGenQuery) => {
       // Skip the field if the field type is union/interface
       // TODO: Remove this skip once these types are supported for stakeholder usages
+      // Also skip if this query has a generation directive. These are handled separately and keyed under `generations`.
       const fieldType = this.getType(queryObj.type) as any;
       if (this.isUnionFieldType(fieldType) || this.isInterfaceFieldType(fieldType) || containsGenerationDirective(queryObj)) {
         return acc;
@@ -73,7 +74,10 @@ export class AppSyncModelIntrospectionVisitor<
       return { ...acc, [queryObj.name]: this.generateGraphQLOperationMetadata<CodeGenQuery, SchemaQuery>(queryObj) };
     }, {})
     const generations = Object.values(this.queryMap).reduce((acc, queryObj: CodeGenQuery) => {
-      if (!containsGenerationDirective(queryObj)) {
+      // Skip the field if the field type is union/interface
+      // TODO: Remove this skip once these types are supported for stakeholder usages
+      const fieldType = this.getType(queryObj.type) as any;
+      if (this.isUnionFieldType(fieldType) || this.isInterfaceFieldType(fieldType) || !containsGenerationDirective(queryObj)) {
         return acc;
       }
       return { ...acc, [queryObj.name]: this.generateGenerationMetadata(queryObj) };
