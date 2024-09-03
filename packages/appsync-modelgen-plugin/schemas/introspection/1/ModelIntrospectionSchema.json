@@ -28,7 +28,7 @@
             "$ref": "#/definitions/SchemaInputs"
         },
         "generations": {
-            "$ref": "#/definitions/SchemaQueries"
+            "$ref": "#/definitions/SchemaGenerations"
         }
     },
     "required": [
@@ -535,6 +535,9 @@
             ],
             "additionalProperties": false,
             "description": "Input Definition"
+        },
+        "SchemaGenerations": {
+            "$ref": "#/definitions/SchemaQueries"
         }
     }
 }
