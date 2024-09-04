@@ -19,6 +19,7 @@
   mutations?: SchemaMutations;
   subscriptions?: SchemaSubscriptions;
   inputs?: SchemaInputs;
+  generations?: SchemaGenerations;
 };
 /**
  * Top-level Entities on a Schema
@@ -30,6 +31,7 @@ export type SchemaQueries = Record<string, SchemaQuery>;
 export type SchemaMutations = Record<string, SchemaMutation>;
 export type SchemaSubscriptions = Record<string, SchemaSubscription>;
 export type SchemaInputs = Record<string, Input>;
+export type SchemaGenerations = SchemaQueries;
 
 export type SchemaModel = {
   name: string;
