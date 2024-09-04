@@ -100,8 +100,6 @@ export type FieldType = ScalarType | {
     model: string;
 } | {
     nonModel: string;
-} | {
-    interface: string;
 };
 
 // @public (undocumented)
