@@ -1,6 +1,6 @@
 import { buildSchema, GraphQLSchema, parse, visit } from 'graphql';
 import { METADATA_SCALAR_MAP } from '../../scalars';
-import { AppSyncDirectives, DefaultDirectives, V1Directives, DeprecatedDirective, Directive } from '@aws-amplify/graphql-directives';
+import { AppSyncDirectives, DefaultDirectives, V1Directives, DeprecatedDirective, Directive, V2Directives } from '@aws-amplify/graphql-directives';
 import { scalars } from '../../scalars/supported-scalars';
 import { AppSyncModelIntrospectionVisitor } from '../../visitors/appsync-model-introspection-visitor';
 
@@ -860,5 +860,47 @@ describe('custom references', () => {
     const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { respectPrimaryKeyAttributesOnConnectionField: true });
     expect(() => visitor.generate())
       .toThrowError(`Error processing @belongsTo directive on SqlRelated.primary. @hasOne or @hasMany directive with references ["primaryId"] was not found in connected model SqlPrimary`);
+  });
+});
+
+describe('Generation Route Introspection Visitor', () => {
+  const schema = /* GraphQL */ `
+    type Recipe {
+      name: String
+      ingredients: [String]
+      instructions: String
+    }
+
+    type Query {
+      generateRecipe(description: String): Recipe
+      @generation(aiModel: "anthropic.claude-3-haiku-20240307-v1:0", systemPrompt: "You are a recipe generator.")
+
+      summarize(text: String): String
+      @generation(aiModel: "anthropic.claude-3-haiku-20240307-v1:0", systemPrompt: "You are a text summarizer.")
+    }
+  `;
+
+  const generationDirective: Directive = {
+    name: 'generation',
+    definition: /* GraphQL */ `
+      directive @generation(
+        aiModel: String!
+        systemPrompt: String!
+        inferenceConfiguration: GenerationInferenceConfiguration
+      ) on FIELD_DEFINITION
+
+      input GenerationInferenceConfiguration {
+        maxTokens: Int
+        temperature: Float
+        topP: Float
+      }
+    `,
+    defaults: {},
+  }
+  const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, {}, [...V2Directives, generationDirective]);
+  describe('Metadata snapshot', () => {
+    it('should generate correct model intropection file validated by JSON schema', () => {
+      expect(visitor.generate()).toMatchSnapshot();
+    });
   });
 });

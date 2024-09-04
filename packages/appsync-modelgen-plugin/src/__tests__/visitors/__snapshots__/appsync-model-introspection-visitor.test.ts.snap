@@ -2339,6 +2339,75 @@ exports[`Custom queries/mutations/subscriptions & input type tests should genera
 }"
 `;
 
+exports[`Generation Route Introspection Visitor Metadata snapshot should generate correct model intropection file validated by JSON schema 1`] = `
+"{
+    \\"version\\": 1,
+    \\"models\\": {},
+    \\"enums\\": {},
+    \\"nonModels\\": {
+        \\"Recipe\\": {
+            \\"name\\": \\"Recipe\\",
+            \\"fields\\": {
+                \\"name\\": {
+                    \\"name\\": \\"name\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                },
+                \\"ingredients\\": {
+                    \\"name\\": \\"ingredients\\",
+                    \\"isArray\\": true,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isArrayNullable\\": true
+                },
+                \\"instructions\\": {
+                    \\"name\\": \\"instructions\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": []
+                }
+            }
+        }
+    },
+    \\"generations\\": {
+        \\"generateRecipe\\": {
+            \\"name\\": \\"generateRecipe\\",
+            \\"isArray\\": false,
+            \\"type\\": {
+                \\"nonModel\\": \\"Recipe\\"
+            },
+            \\"isRequired\\": false,
+            \\"arguments\\": {
+                \\"description\\": {
+                    \\"name\\": \\"description\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false
+                }
+            }
+        },
+        \\"summarize\\": {
+            \\"name\\": \\"summarize\\",
+            \\"isArray\\": false,
+            \\"type\\": \\"String\\",
+            \\"isRequired\\": false,
+            \\"arguments\\": {
+                \\"text\\": {
+                    \\"name\\": \\"text\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"String\\",
+                    \\"isRequired\\": false
+                }
+            }
+        }
+    }
+}"
+`;
+
 exports[`Model Introspection Visitor Metadata snapshot should generate correct model intropection file validated by JSON schema 1`] = `
 "{
     \\"version\\": 1,

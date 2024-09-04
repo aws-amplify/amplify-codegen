@@ -27,6 +27,9 @@
         "inputs": {
             "$ref": "#/definitions/SchemaInputs"
         },
+        "generations": {
+            "$ref": "#/definitions/SchemaGenerations"
+        },
         "conversations": {
             "$ref": "#/definitions/SchemaConversationRoutes"
         }
@@ -535,6 +538,9 @@
             ],
             "additionalProperties": false,
             "description": "Input Definition"
+        },
+        "SchemaGenerations": {
+            "$ref": "#/definitions/SchemaQueries"
         },
         "SchemaConversationRoutes": {
             "$ref": "#/definitions/Record%3Cstring%2CSchemaConversationRoute%3E"

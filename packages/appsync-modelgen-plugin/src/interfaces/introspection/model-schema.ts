@@ -19,6 +19,7 @@
   mutations?: SchemaMutations;
   subscriptions?: SchemaSubscriptions;
   inputs?: SchemaInputs;
+  generations?: SchemaGenerations;
   conversations?: SchemaConversationRoutes;
 };
 /**
@@ -31,6 +32,7 @@ export type SchemaQueries = Record<string, SchemaQuery>;
 export type SchemaMutations = Record<string, SchemaMutation>;
 export type SchemaSubscriptions = Record<string, SchemaSubscription>;
 export type SchemaInputs = Record<string, Input>;
+export type SchemaGenerations = SchemaQueries;
 export type SchemaConversationRoutes = Record<string, SchemaConversationRoute>;
 
 export type SchemaConversationRoute = {
