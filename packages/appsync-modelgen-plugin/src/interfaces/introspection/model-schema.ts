@@ -108,8 +108,7 @@ export type InputFieldType = ScalarType
 export type FieldType = ScalarType
   | { enum: string }
   | { model: string }
-  | { nonModel: string }
-  | { interface: string };
+  | { nonModel: string };
 export type FieldAttribute = ModelAttribute;
 /**
  * Input Definition

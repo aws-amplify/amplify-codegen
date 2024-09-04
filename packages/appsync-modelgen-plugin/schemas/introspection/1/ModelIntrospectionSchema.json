@@ -190,18 +190,6 @@
                         "nonModel"
                     ],
                     "additionalProperties": false
-                },
-                {
-                    "type": "object",
-                    "properties": {
-                        "interface": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "interface"
-                    ],
-                    "additionalProperties": false
                 }
             ]
         },
