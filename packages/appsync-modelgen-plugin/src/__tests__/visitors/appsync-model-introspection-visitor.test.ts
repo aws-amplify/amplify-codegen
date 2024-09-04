@@ -61,7 +61,6 @@ describe('Conversation Route Introspection Visitor', () => {
     }
 
     type Mutation {
-      # TODO: Update to ContentBlock -- need the types
       pirateChat(conversationId: ID, content: [ContentBlockInput], aiContext: AWSJSON, toolConfiguration: ToolConfigurationInput): ConversationMessage
       @conversation(aiModel: "Claude3Haiku", functionName: "conversation-handler")
     }
