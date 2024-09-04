@@ -133,6 +133,7 @@ export type ModelIntrospectionSchema = {
     mutations?: SchemaMutations;
     subscriptions?: SchemaSubscriptions;
     inputs?: SchemaInputs;
+    generations?: SchemaGenerations;
     conversations?: SchemaConversationRoutes;
 };
 
@@ -187,6 +188,9 @@ export type SchemaEnum = {
 
 // @public (undocumented)
 export type SchemaEnums = Record<string, SchemaEnum>;
+
+// @public (undocumented)
+export type SchemaGenerations = SchemaQueries;
 
 // @public (undocumented)
 export type SchemaInputs = Record<string, Input>;
