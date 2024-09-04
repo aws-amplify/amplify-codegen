@@ -9,6 +9,7 @@ export const TransformerV2DirectiveName = {
   DEFAULT: 'default',
   SEARCHABLE: 'searchable',
   GENERATION: 'generation',
+  CONVERSATION: 'conversation',
 };
 export const DEFAULT_HASH_KEY_FIELD = 'id';
 export const DEFAULT_CREATED_TIME = 'createdAt';
