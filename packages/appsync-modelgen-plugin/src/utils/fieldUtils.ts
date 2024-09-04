@@ -1,4 +1,4 @@
-import { CodeGenDirective, CodeGenField, CodeGenModel } from '../visitors/appsync-visitor';
+import { CodeGenDirective, CodeGenField, CodeGenModel, CodeGenMutation } from '../visitors/appsync-visitor';
 import { TransformerV2DirectiveName } from './constants';
 
 export function addFieldToModel(model: CodeGenModel, field: CodeGenField): void {
@@ -40,4 +40,14 @@ export function getModelPrimaryKeyComponentFields(model: CodeGenModel): CodeGenF
     };
   }
   return keyFields;
+}
+
+/**
+ * Checks if a given mutation field contains the @conversation directive.
+ *
+ * @param {CodeGenMutation} queryField - The mutation field to check.
+ * @returns {boolean} True if the mutation field contains the @conversation directive, false otherwise.
+ */
+export function containsConversationDirective(queryField: CodeGenMutation): boolean {
+  return queryField.directives.some((directive) => directive.name === TransformerV2DirectiveName.CONVERSATION);
 }

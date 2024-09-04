@@ -19,6 +19,7 @@
   mutations?: SchemaMutations;
   subscriptions?: SchemaSubscriptions;
   inputs?: SchemaInputs;
+  conversations?: SchemaConversationRoutes;
 };
 /**
  * Top-level Entities on a Schema
@@ -30,6 +31,26 @@ export type SchemaQueries = Record<string, SchemaQuery>;
 export type SchemaMutations = Record<string, SchemaMutation>;
 export type SchemaSubscriptions = Record<string, SchemaSubscription>;
 export type SchemaInputs = Record<string, Input>;
+export type SchemaConversationRoutes = Record<string, SchemaConversationRoute>;
+
+export type SchemaConversationRoute = {
+  name: string;
+  models: SchemaModels;
+  nonModels: SchemaNonModels;
+  enums: SchemaEnums;
+  conversation: SchemaConversation;
+  message: SchemaConversationMessage;
+}
+
+export type SchemaConversation = {
+  modelName: string;
+}
+
+export type SchemaConversationMessage = {
+  modelName: string;
+  subscribe: SchemaSubscription;
+  send: SchemaMutation;
+}
 
 export type SchemaModel = {
   name: string;
@@ -87,7 +108,8 @@ export type InputFieldType = ScalarType
 export type FieldType = ScalarType
   | { enum: string }
   | { model: string }
-  | { nonModel: string };
+  | { nonModel: string }
+  | { interface: string };
 export type FieldAttribute = ModelAttribute;
 /**
  * Input Definition
