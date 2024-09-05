@@ -1,17 +1,20 @@
 import { DEFAULT_SCALARS, NormalizedScalarsMap } from "@graphql-codegen/visitor-plugin-common";
 import { GraphQLSchema } from "graphql";
-import { Argument, AssociationType, Field, Fields, FieldType, ModelAttribute, ModelIntrospectionSchema, PrimaryKeyInfo, SchemaEnum, SchemaModel, SchemaMutation, SchemaNonModel, SchemaQuery, SchemaSubscription, Input, InputFieldType } from "../interfaces/introspection";
+import { Argument, AssociationType, Field, Fields, FieldType, ModelAttribute, ModelIntrospectionSchema, PrimaryKeyInfo, SchemaEnum, SchemaModel, SchemaMutation, SchemaNonModel, SchemaQuery, SchemaSubscription, Input, InputFieldType, SchemaConversationRoute } from "../interfaces/introspection";
 import { METADATA_SCALAR_MAP } from "../scalars";
 import { CodeGenConnectionType } from "../utils/process-connections";
 import { RawAppSyncModelConfig, ParsedAppSyncModelConfig, AppSyncModelVisitor, CodeGenEnum, CodeGenField, CodeGenModel, CodeGenPrimaryKeyType, CodeGenQuery, CodeGenSubscription, CodeGenMutation, CodeGenInputObject } from "./appsync-visitor";
+import { containsGenerationDirective } from "../utils/fieldUtils";
+import { processConversationRoute } from "../utils/process-conversation";
+import { containsConversationDirective } from "../utils/fieldUtils";
 
 const validateModelIntrospectionSchema = require('../validate-cjs');
 
 type UnionFieldType = { union: string };
 type InterfaceFieldType = { interface: string };
 
-export interface RawAppSyncModelIntrospectionConfig extends RawAppSyncModelConfig {};
-export interface ParsedAppSyncModelIntrospectionConfig extends ParsedAppSyncModelConfig {};
+export interface RawAppSyncModelIntrospectionConfig extends RawAppSyncModelConfig { };
+export interface ParsedAppSyncModelIntrospectionConfig extends ParsedAppSyncModelConfig { };
 export class AppSyncModelIntrospectionVisitor<
   TRawConfig extends RawAppSyncModelIntrospectionConfig = RawAppSyncModelIntrospectionConfig,
   TPluginConfig extends ParsedAppSyncModelIntrospectionConfig = ParsedAppSyncModelIntrospectionConfig
@@ -65,20 +68,37 @@ export class AppSyncModelIntrospectionVisitor<
     const queries = Object.values(this.queryMap).reduce((acc, queryObj: CodeGenQuery) => {
       // Skip the field if the field type is union/interface
       // TODO: Remove this skip once these types are supported for stakeholder usages
+      // Also skip if this query has a generation directive. These are handled separately and keyed under `generations`.
       const fieldType = this.getType(queryObj.type) as any;
-      if (this.isUnionFieldType(fieldType) || this.isInterfaceFieldType(fieldType)) {
+      if (this.isUnionFieldType(fieldType) || this.isInterfaceFieldType(fieldType) || containsGenerationDirective(queryObj)) {
         return acc;
       }
       return { ...acc, [queryObj.name]: this.generateGraphQLOperationMetadata<CodeGenQuery, SchemaQuery>(queryObj) };
     }, {})
+    const generations = Object.values(this.queryMap).reduce((acc, queryObj: CodeGenQuery) => {
+      // Skip the field if the field type is union/interface
+      // TODO: Remove this skip once these types are supported for stakeholder usages
+      const fieldType = this.getType(queryObj.type) as any;
+      if (this.isUnionFieldType(fieldType) || this.isInterfaceFieldType(fieldType) || !containsGenerationDirective(queryObj)) {
+        return acc;
+      }
+      return { ...acc, [queryObj.name]: this.generateGenerationMetadata(queryObj) };
+    }, {});
     const mutations = Object.values(this.mutationMap).reduce((acc, mutationObj: CodeGenMutation) => {
       // Skip the field if the field type is union/interface
       // TODO: Remove this skip once these types are supported for stakeholder usages
+      // Additionally, skip the mutation if it contains the @conversation directive -- those are keyed under `conversations`
       const fieldType = this.getType(mutationObj.type) as any;
-      if (this.isUnionFieldType(fieldType) || this.isInterfaceFieldType(fieldType)) {
+      if (this.isUnionFieldType(fieldType) || this.isInterfaceFieldType(fieldType) || containsConversationDirective(mutationObj)) {
         return acc;
       }
       return { ...acc, [mutationObj.name]: this.generateGraphQLOperationMetadata<CodeGenMutation, SchemaMutation>(mutationObj) };
+    }, {});
+    const conversations = Object.values(this.mutationMap).reduce((acc, mutationObj: CodeGenMutation) => {
+      if (!containsConversationDirective(mutationObj)) {
+        return acc;
+      }
+      return { ...acc, [mutationObj.name]: this.generateConversationMetadata(mutationObj) }
     }, {});
     const subscriptions = Object.values(this.subscriptionMap).reduce((acc, subscriptionObj: CodeGenSubscription) => {
       // Skip the field if the field type is union/interface
@@ -95,8 +115,14 @@ export class AppSyncModelIntrospectionVisitor<
     if (Object.keys(queries).length > 0) {
       result = { ...result, queries };
     }
+    if (Object.keys(generations).length > 0) {
+      result = { ...result, generations };
+    }
     if (Object.keys(mutations).length > 0) {
       result = { ...result, mutations };
+    }
+    if (Object.keys(conversations).length > 0) {
+      result = { ...result, conversations }
     }
     if (Object.keys(subscriptions).length > 0) {
       result = { ...result, subscriptions };
@@ -114,8 +140,8 @@ export class AppSyncModelIntrospectionVisitor<
       if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY) {
         connectionAttribute.associatedWith = connectionInfo.associatedWithFields.map(f => this.getFieldName(f));
       } else if (connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
-          connectionAttribute.associatedWith = connectionInfo.associatedWithFields.map(f => this.getFieldName(f));
-          connectionAttribute.targetNames = connectionInfo.targetNames ?? [];
+        connectionAttribute.associatedWith = connectionInfo.associatedWithFields.map(f => this.getFieldName(f));
+        connectionAttribute.targetNames = connectionInfo.targetNames ?? [];
       } else {
         connectionAttribute.targetNames = connectionInfo.targetNames;
       }
@@ -189,7 +215,7 @@ export class AppSyncModelIntrospectionVisitor<
   private generateGraphQLInputMetadata(inputObj: CodeGenInputObject): Input {
     return {
       name: inputObj.name,
-      attributes: inputObj.inputValues.reduce((acc, param ) => {
+      attributes: inputObj.inputValues.reduce((acc, param) => {
         const arg: Argument = {
           name: param.name,
           isArray: param.isList,
@@ -220,7 +246,7 @@ export class AppSyncModelIntrospectionVisitor<
       (operationMeta as V).isArrayNullable = operationObj.isListNullable;
     }
     if (operationObj.parameters && operationObj.parameters.length > 0) {
-      (operationMeta as V).arguments = operationObj.parameters.reduce((acc, param ) => {
+      (operationMeta as V).arguments = operationObj.parameters.reduce((acc, param) => {
         const arg: Argument = {
           name: param.name,
           isArray: param.isList,
@@ -234,6 +260,14 @@ export class AppSyncModelIntrospectionVisitor<
       }, {})
     }
     return operationMeta as V;
+  }
+
+  private generateGenerationMetadata(generationObj: CodeGenQuery): SchemaQuery {
+    return this.generateGraphQLOperationMetadata<CodeGenQuery, SchemaQuery>(generationObj);
+  }
+
+  private generateConversationMetadata(mutationObj: CodeGenMutation): SchemaConversationRoute {
+    return processConversationRoute(mutationObj, this.generateGraphQLOperationMetadata);
   }
 
   protected getType(gqlType: string): FieldType | InputFieldType | UnionFieldType | InterfaceFieldType {
