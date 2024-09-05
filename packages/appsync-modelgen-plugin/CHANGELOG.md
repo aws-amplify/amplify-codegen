@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.13.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.12.3...@aws-amplify/appsync-modelgen-plugin@2.13.0) (2024-09-05)
+
+### Features
+
+- **appsync-modelgen-plugin:** add support for generation route definitions ([#869](https://github.com/aws-amplify/amplify-codegen/issues/869)) ([8c4be9a](https://github.com/aws-amplify/amplify-codegen/commit/8c4be9adf8b2ad4dd1ddec90abbbe04674092ecc))
+- **conversation:** add conversation route handling in mis ([#872](https://github.com/aws-amplify/amplify-codegen/issues/872)) ([b4821bd](https://github.com/aws-amplify/amplify-codegen/commit/b4821bd3e02b41d35f1cf00f8076c84740975659))
+
 ## [2.12.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.12.2...@aws-amplify/appsync-modelgen-plugin@2.12.3) (2024-07-01)
 
 **Note:** Version bump only for package @aws-amplify/appsync-modelgen-plugin
