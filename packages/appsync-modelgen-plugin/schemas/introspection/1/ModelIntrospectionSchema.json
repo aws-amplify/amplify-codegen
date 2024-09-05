@@ -26,6 +26,12 @@
         },
         "inputs": {
             "$ref": "#/definitions/SchemaInputs"
+        },
+        "generations": {
+            "$ref": "#/definitions/SchemaGenerations"
+        },
+        "conversations": {
+            "$ref": "#/definitions/SchemaConversationRoutes"
         }
     },
     "required": [
@@ -532,6 +538,82 @@
             ],
             "additionalProperties": false,
             "description": "Input Definition"
+        },
+        "SchemaGenerations": {
+            "$ref": "#/definitions/SchemaQueries"
+        },
+        "SchemaConversationRoutes": {
+            "$ref": "#/definitions/Record%3Cstring%2CSchemaConversationRoute%3E"
+        },
+        "Record<string,SchemaConversationRoute>": {
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/definitions/SchemaConversationRoute"
+            }
+        },
+        "SchemaConversationRoute": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "models": {
+                    "$ref": "#/definitions/SchemaModels"
+                },
+                "nonModels": {
+                    "$ref": "#/definitions/SchemaNonModels"
+                },
+                "enums": {
+                    "$ref": "#/definitions/SchemaEnums"
+                },
+                "conversation": {
+                    "$ref": "#/definitions/SchemaConversation"
+                },
+                "message": {
+                    "$ref": "#/definitions/SchemaConversationMessage"
+                }
+            },
+            "required": [
+                "name",
+                "models",
+                "nonModels",
+                "enums",
+                "conversation",
+                "message"
+            ],
+            "additionalProperties": false
+        },
+        "SchemaConversation": {
+            "type": "object",
+            "properties": {
+                "modelName": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "modelName"
+            ],
+            "additionalProperties": false
+        },
+        "SchemaConversationMessage": {
+            "type": "object",
+            "properties": {
+                "modelName": {
+                    "type": "string"
+                },
+                "subscribe": {
+                    "$ref": "#/definitions/SchemaSubscription"
+                },
+                "send": {
+                    "$ref": "#/definitions/SchemaMutation"
+                }
+            },
+            "required": [
+                "modelName",
+                "subscribe",
+                "send"
+            ],
+            "additionalProperties": false
         }
     }
 }
