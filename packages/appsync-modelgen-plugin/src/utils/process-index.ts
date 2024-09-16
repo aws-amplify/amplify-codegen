@@ -1,5 +1,5 @@
 import { CodeGenDirective, CodeGenModel } from '../visitors/appsync-visitor';
-import { getDirective } from './fieldUtils';
+import { getDirectives } from './fieldUtils';
 import pluralize from 'pluralize';
 import { toLower, toUpper } from './stringUtils';
 
@@ -9,21 +9,27 @@ import { toLower, toUpper } from './stringUtils';
  */
 export const processIndex = (model: CodeGenModel) => {
   const indexMap = model.fields.reduce((acc, field) => {
-    const indexDirective = getDirective(field)('index');
-    if (!indexDirective) {
+    const indexDirectives = getDirectives(field)('index');
+    if (!indexDirectives) {
       return acc;
     }
-    return { ...acc, [field.name]: indexDirective };
-  }, {} as Record<string, CodeGenDirective>);
+    return { ...acc, [field.name]: indexDirectives };
+  }, {} as Record<string, CodeGenDirective[]>);
 
-  const keyList: CodeGenDirective[] = Object.entries(indexMap).map(([fieldName, directive]) => ({
-    name: 'key',
-    arguments: {
-      name: directive.arguments.name ?? generateDefaultIndexName(model.name, [fieldName].concat((directive.arguments.sortKeyFields as string[]) ?? [])),
-      queryField: directive.arguments.queryField,
-      fields: [fieldName].concat((directive.arguments.sortKeyFields as string[]) ?? []),
-    },
-  }));
+  const keyList: CodeGenDirective[] = [];
+  Object.entries(indexMap).forEach(([fieldName, directives]) => {
+    directives.forEach(directive => {
+      keyList.push({
+        name: 'key',
+        arguments: {
+          name: directive.arguments.name ?? generateDefaultIndexName(model.name, [fieldName].concat((directive.arguments.sortKeyFields as string[]) ?? [])),
+          queryField: directive.arguments.queryField,
+          fields: [fieldName].concat((directive.arguments.sortKeyFields as string[]) ?? []),
+        },
+      });
+    });
+  });
+
   const existingIndexNames = model.directives
     .filter(directive => directive.name === 'key' && !!directive.arguments.name)
     .map(directive => directive.arguments.name);
