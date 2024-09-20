@@ -29,6 +29,7 @@ List any codegen parameters changed or added.
 
 - [ ] PR description included
 - [ ] `yarn test` passes
+- [ ] E2E test run linked
 - [ ] Tests are [changed or added](https://github.com/aws-amplify/amplify-codegen/blob/main/CONTRIBUTING.md#tests)
 - [ ] Relevant documentation is changed or added (and PR referenced)
 - [ ] Breaking changes to existing customers are released behind a feature flag or major version update
