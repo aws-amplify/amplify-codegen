@@ -15,6 +15,9 @@ export function removeFieldFromModel(model: CodeGenModel, fieldName: string): vo
 export const getDirective = (fieldOrModel: CodeGenField | CodeGenModel) => (directiveName: string): CodeGenDirective | undefined =>
   fieldOrModel.directives.find(d => d.name === directiveName);
 
+export const getDirectives = (fieldOrModel: CodeGenField | CodeGenModel) => (directiveName: string): CodeGenDirective[] | undefined =>
+  fieldOrModel.directives.filter(d => d.name === directiveName);
+
 // Function matching to GraphQL transformer so that the auto-generated field
 export function toCamelCase(words: string[]): string {
   const formatted = words.map((w, i) => (i === 0 ? w.charAt(0).toLowerCase() + w.slice(1) : w.charAt(0).toUpperCase() + w.slice(1)));

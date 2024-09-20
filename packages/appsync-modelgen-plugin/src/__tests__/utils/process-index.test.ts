@@ -68,6 +68,78 @@ describe('processIndex', () => {
     ]);
   });
 
+  it('support multiple @index directives on a field', () => {
+    const model: CodeGenModel = {
+      directives: [
+        {
+          name: 'model',
+          arguments: {},
+        },
+      ],
+      name: 'testModel',
+      type: 'model',
+      fields: [
+        {
+          type: 'field',
+          isList: false,
+          isNullable: true,
+          name: 'connectionField',
+          directives: [
+            {
+              name: 'index',
+              arguments: {
+                name: 'byItemAndSortField',
+                sortKeyFields: ['sortField'],
+              },
+            },
+            {
+              name: 'index',
+              arguments: {
+                name: 'byItemAndAnotherSortField',
+                sortKeyFields: ['anotherSortField'],
+              },
+            },
+            {
+              name: 'index',
+              arguments: {
+                name: 'byItemAndSomeOtherSortField',
+                sortKeyFields: ['someOtherSortField'],
+              },
+            },
+          ],
+        },
+      ],
+    };
+    processIndex(model);
+    expect(model.directives).toEqual([
+      {
+        name: 'model',
+        arguments: {},
+      },
+      {
+        name: 'key',
+        arguments: {
+          name: 'byItemAndSortField',
+          fields: ['connectionField', 'sortField'],
+        },
+      },
+      {
+        name: 'key',
+        arguments: {
+          name: 'byItemAndAnotherSortField',
+          fields: ['connectionField', 'anotherSortField'],
+        },
+      },
+      {
+        name: 'key',
+        arguments: {
+          name: 'byItemAndSomeOtherSortField',
+          fields: ['connectionField', 'someOtherSortField'],
+        },
+      },
+    ]);
+  });
+
   it('adds simple @index directives as model key attributes', () => {
     const model: CodeGenModel = {
       directives: [
