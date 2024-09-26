@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.13.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.13.0...@aws-amplify/appsync-modelgen-plugin@2.13.1) (2024-09-26)
+
+### Bug Fixes
+
+- **amplify-codegen:** support multiple indexes on the same field in introspection schema ([#879](https://github.com/aws-amplify/amplify-codegen/issues/879)) ([60dd629](https://github.com/aws-amplify/amplify-codegen/commit/60dd62993241df56bb4f27afe79e1e7e1956d6ff))
+
 # [2.13.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.12.3...@aws-amplify/appsync-modelgen-plugin@2.13.0) (2024-09-05)
 
 ### Features
