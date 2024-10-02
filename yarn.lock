@@ -4875,16 +4875,6 @@
   resolved "https://registry.npmjs.org/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
 
-"@graphql-codegen/core@2.6.6":
-  version "2.6.6"
-  resolved "https://registry.npmjs.org/@graphql-codegen/core/-/core-2.6.6.tgz#e6ea99682230c5bbcf28cb247672da7f17e78578"
-  integrity sha512-gU2FUxoLGw2GfcPWfBVXuiN3aDODbZ6Z9I+IGxa2u1Rzxlacw4TMmcwr4/IjC6mkiYJEKTvdVspHaby+brhuAg==
-  dependencies:
-    "@graphql-codegen/plugin-helpers" "^2.7.2"
-    "@graphql-tools/schema" "^9.0.0"
-    "@graphql-tools/utils" "^9.1.1"
-    tslib "~2.4.0"
-
 "@graphql-codegen/core@^2.6.6":
   version "2.6.8"
   resolved "https://registry.npmjs.org/@graphql-codegen/core/-/core-2.6.8.tgz#00c4011e3619ddbc6af5e41b2f254d6f6759556e"
@@ -4905,18 +4895,6 @@
     import-from "4.0.0"
     lodash "~4.17.0"
     tslib "~2.3.0"
-
-"@graphql-codegen/plugin-helpers@^2.7.2":
-  version "2.7.2"
-  resolved "https://registry.npmjs.org/@graphql-codegen/plugin-helpers/-/plugin-helpers-2.7.2.tgz#6544f739d725441c826a8af6a49519f588ff9bed"
-  integrity sha512-kln2AZ12uii6U59OQXdjLk5nOlh1pHis1R98cDZGFnfaiAbX9V3fxcZ1MMJkB7qFUymTALzyjZoXXdyVmPMfRg==
-  dependencies:
-    "@graphql-tools/utils" "^8.8.0"
-    change-case-all "1.0.14"
-    common-tags "1.8.2"
-    import-from "4.0.0"
-    lodash "~4.17.0"
-    tslib "~2.4.0"
 
 "@graphql-codegen/plugin-helpers@^3.1.1", "@graphql-codegen/plugin-helpers@^3.1.2":
   version "3.1.2"
@@ -5065,13 +5043,6 @@
     "@ardatan/aggregate-error" "0.0.6"
     camel-case "4.1.2"
     tslib "~2.2.0"
-
-"@graphql-tools/utils@^8.8.0":
-  version "8.13.1"
-  resolved "https://registry.npmjs.org/@graphql-tools/utils/-/utils-8.13.1.tgz#b247607e400365c2cd87ff54654d4ad25a7ac491"
-  integrity sha512-qIh9yYpdUFmctVqovwMdheVNJqFh+DQNWIhX87FJStfXYnmweBUDATok9fWPleKeFwxnW8IapKmY8m8toJEkAw==
-  dependencies:
-    tslib "^2.4.0"
 
 "@graphql-tools/utils@^9.0.0", "@graphql-tools/utils@^9.1.1", "@graphql-tools/utils@^9.2.1":
   version "9.2.1"
