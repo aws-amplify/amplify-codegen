@@ -128,6 +128,7 @@ export function processConnections(
   field: CodeGenField,
   model: CodeGenModel,
   modelMap: CodeGenModelMap,
+  isDataStoreEnabled: boolean,
 ): CodeGenFieldConnection | undefined {
   const connectionDirective = field.directives.find(d => d.name === 'connection');
   if (connectionDirective) {
@@ -189,7 +190,7 @@ export function processConnections(
             targetName: connectionFields[0] || makeConnectionAttributeName(model.name, field.name),
             targetNames: [] // New attribute for v2 custom pk support. Not used in v1 so use empty array.
           };
-        } else if (field.isNullable && !otherSideField.isNullable) {
+        } else if ((field.isNullable && !otherSideField.isNullable) || !isDataStoreEnabled) {
           /*
           # model
           type License { # belongsTo
