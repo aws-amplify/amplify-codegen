@@ -169,7 +169,7 @@ export interface ParsedAppSyncModelConfig extends ParsedConfig {
   selectedType?: string;
   generate?: CodeGenGenerateEnum;
   target?: string;
-  isDataStoreEnabled?: string;
+  isDataStoreEnabled?: boolean;
   isTimestampFieldsAdded?: boolean;
   handleListNullabilityTransparently?: boolean;
   usePipelinedTransformer?: boolean;
@@ -818,7 +818,7 @@ export class AppSyncModelVisitor<
   protected processConnectionDirective(): void {
     Object.values(this.modelMap).forEach(model => {
       model.fields.forEach(field => {
-        const connectionInfo = processConnections(field, model, this.modelMap);
+        const connectionInfo = processConnections(field, model, this.modelMap, !!this.config.isDataStoreEnabled);
         if (connectionInfo) {
           if (connectionInfo.kind === CodeGenConnectionType.HAS_MANY || connectionInfo.kind === CodeGenConnectionType.HAS_ONE) {
             // Need to update the other side of the connection even if there is no connection directive
