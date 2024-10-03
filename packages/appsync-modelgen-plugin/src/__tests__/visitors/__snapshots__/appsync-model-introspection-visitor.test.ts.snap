@@ -2408,6 +2408,345 @@ exports[`Generation Route Introspection Visitor Metadata snapshot should generat
 }"
 `;
 
+exports[`Generation Route Introspection Visitor V1 Transformer uni-directional One:One connection with optional field and datastore is disabled 1`] = `
+"{
+    \\"version\\": 1,
+    \\"models\\": {
+        \\"User\\": {
+            \\"name\\": \\"User\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Users\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        },
+        \\"Session\\": {
+            \\"name\\": \\"Session\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"sessionUserId\\": {
+                    \\"name\\": \\"sessionUserId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"user\\": {
+                    \\"name\\": \\"user\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"User\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_ONE\\",
+                        \\"associatedWith\\": [],
+                        \\"targetNames\\": []
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Sessions\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        }
+    },
+    \\"enums\\": {},
+    \\"nonModels\\": {}
+}"
+`;
+
+exports[`Generation Route Introspection Visitor V1 Transformer uni-directional One:One connection with optional field and datastore is enabled 1`] = `
+"{
+    \\"version\\": 1,
+    \\"models\\": {
+        \\"User\\": {
+            \\"name\\": \\"User\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Users\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        },
+        \\"Session\\": {
+            \\"name\\": \\"Session\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"sessionUserId\\": {
+                    \\"name\\": \\"sessionUserId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"user\\": {
+                    \\"name\\": \\"user\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"User\\"
+                    },
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_ONE\\",
+                        \\"associatedWith\\": [],
+                        \\"targetNames\\": []
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Sessions\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        }
+    },
+    \\"enums\\": {},
+    \\"nonModels\\": {}
+}"
+`;
+
+exports[`Generation Route Introspection Visitor V1 Transformer uni-directional One:One connection with required field and datastore is disabled 1`] = `
+"{
+    \\"version\\": 1,
+    \\"models\\": {
+        \\"User\\": {
+            \\"name\\": \\"User\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Users\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        },
+        \\"Session\\": {
+            \\"name\\": \\"Session\\",
+            \\"fields\\": {
+                \\"id\\": {
+                    \\"name\\": \\"id\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"sessionUserId\\": {
+                    \\"name\\": \\"sessionUserId\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"ID\\",
+                    \\"isRequired\\": true,
+                    \\"attributes\\": []
+                },
+                \\"user\\": {
+                    \\"name\\": \\"user\\",
+                    \\"isArray\\": false,
+                    \\"type\\": {
+                        \\"model\\": \\"User\\"
+                    },
+                    \\"isRequired\\": true,
+                    \\"attributes\\": [],
+                    \\"association\\": {
+                        \\"connectionType\\": \\"HAS_ONE\\",
+                        \\"associatedWith\\": [],
+                        \\"targetNames\\": []
+                    }
+                },
+                \\"createdAt\\": {
+                    \\"name\\": \\"createdAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                },
+                \\"updatedAt\\": {
+                    \\"name\\": \\"updatedAt\\",
+                    \\"isArray\\": false,
+                    \\"type\\": \\"AWSDateTime\\",
+                    \\"isRequired\\": false,
+                    \\"attributes\\": [],
+                    \\"isReadOnly\\": true
+                }
+            },
+            \\"syncable\\": true,
+            \\"pluralName\\": \\"Sessions\\",
+            \\"attributes\\": [
+                {
+                    \\"type\\": \\"model\\",
+                    \\"properties\\": {}
+                }
+            ],
+            \\"primaryKeyInfo\\": {
+                \\"isCustomPrimaryKey\\": false,
+                \\"primaryKeyFieldName\\": \\"id\\",
+                \\"sortKeyFieldNames\\": []
+            }
+        }
+    },
+    \\"enums\\": {},
+    \\"nonModels\\": {}
+}"
+`;
+
 exports[`Model Introspection Visitor Metadata snapshot should generate correct model intropection file validated by JSON schema 1`] = `
 "{
     \\"version\\": 1,
