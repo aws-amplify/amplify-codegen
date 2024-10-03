@@ -145,7 +145,7 @@ describe('process connection', () => {
         }).toThrowError('DataStore does not support 1 to 1 connection with both sides of connection as optional field');
       });
 
-      it('uni-directional One:One connection with required field and datastore is not enabled', () => {
+      describe('Uni-directional connection', () => {
         const schema = /* GraphQL */ `
           type User @model {
             id: ID!
@@ -202,12 +202,36 @@ describe('process connection', () => {
           },
         };
 
-        modelMap.Session.fields[2]
+        it('uni-directional One:One connection with required field and datastore is not enabled', () => {
+          const connectionInfo = (processConnections(modelMap.Session.fields[2], modelMap.User, modelMap, false) as any) as CodeGenFieldConnectionBelongsTo;
+          expect(connectionInfo).toBeDefined();
+          expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
+          expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(false);
+        });
 
-        const connectionInfo = (processConnections(modelMap.Session.fields[2], modelMap.User, modelMap, false) as any) as CodeGenFieldConnectionBelongsTo;
-        expect(connectionInfo).toBeDefined();
-        expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
-        expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(false);
+        it('uni-directional One:One connection with optional field and datastore is not enabled', () => {
+          const field = { ...modelMap.Session.fields[2] };
+          field.isNullable = true;
+          const connectionInfo = (processConnections(field, modelMap.User, modelMap, false) as any) as CodeGenFieldConnectionBelongsTo;
+          expect(connectionInfo).toBeDefined();
+          expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
+          expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(false);
+        });
+
+        it('uni-directional One:One connection with required field and datastore is enabled', () => {
+          expect(() => {
+            processConnections(modelMap.Session.fields[2], modelMap.User, modelMap, true);
+          }).toThrowError('DataStore does not support 1 to 1 connection with both sides of connection as optional field');
+        });
+
+        it('uni-directional One:One connection with optional field and datastore is enabled', () => {
+          const field = { ...modelMap.Session.fields[2] };
+          field.isNullable = true;
+          const connectionInfo = (processConnections(field, modelMap.User, modelMap, false) as any) as CodeGenFieldConnectionBelongsTo;
+          expect(connectionInfo).toBeDefined();
+          expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
+          expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(false);
+        });
       });
     });
   });
