@@ -3,8 +3,6 @@ import { METADATA_SCALAR_MAP } from '../../scalars';
 import { AppSyncDirectives, DefaultDirectives, V1Directives, DeprecatedDirective, Directive, V2Directives } from '@aws-amplify/graphql-directives';
 import { scalars } from '../../scalars/supported-scalars';
 import { AppSyncModelIntrospectionVisitor } from '../../visitors/appsync-model-introspection-visitor';
-import { deprecate } from 'util';
-import { isDataStoreEnabled } from 'graphql-transformer-core';
 
 const defaultModelIntropectionVisitorSettings = {
   isTimestampFieldsAdded: true,
