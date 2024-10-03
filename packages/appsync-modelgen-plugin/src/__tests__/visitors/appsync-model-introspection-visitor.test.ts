@@ -3,6 +3,8 @@ import { METADATA_SCALAR_MAP } from '../../scalars';
 import { AppSyncDirectives, DefaultDirectives, V1Directives, DeprecatedDirective, Directive, V2Directives } from '@aws-amplify/graphql-directives';
 import { scalars } from '../../scalars/supported-scalars';
 import { AppSyncModelIntrospectionVisitor } from '../../visitors/appsync-model-introspection-visitor';
+import { deprecate } from 'util';
+import { isDataStoreEnabled } from 'graphql-transformer-core';
 
 const defaultModelIntropectionVisitorSettings = {
   isTimestampFieldsAdded: true,
@@ -900,6 +902,71 @@ describe('Generation Route Introspection Visitor', () => {
   const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, {}, [...V2Directives, generationDirective]);
   describe('Metadata snapshot', () => {
     it('should generate correct model intropection file validated by JSON schema', () => {
+      expect(visitor.generate()).toMatchSnapshot();
+    });
+  });
+
+  describe('V1 Transformer', () => {
+    it('uni-directional One:One connection with required field and datastore is enabled', () => {
+      const schema = /* GraphQL */ `
+        type User @model {
+          id: ID!
+        }
+        type Session @model {
+          id: ID!
+          sessionUserId: ID!
+          user: User! @connection(fields: ["sessionUserId"])
+        }
+      `;
+      // this should throw an error because the connection field is required
+      const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { transformerVersion: 1, isDataStoreEnabled: true }, [
+        ...V1Directives,
+        DeprecatedDirective,
+      ]);
+      expect(() => visitor.generate()).toThrowError(
+        'DataStore does not support 1 to 1 connection with both sides of connection as optional field: Session.user',
+      );
+    });
+    it('uni-directional One:One connection with optional field and datastore is enabled', () => {
+      const schema = /* GraphQL */ `
+        type User @model {
+          id: ID!
+        }
+        type Session @model {
+          id: ID!
+          sessionUserId: ID!
+          user: User @connection(fields: ["sessionUserId"])
+        }
+      `;
+      const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { transformerVersion: 1, isDataStoreEnabled: true }, [...V1Directives, DeprecatedDirective]);
+      expect(visitor.generate()).toMatchSnapshot();
+    });
+    it('uni-directional One:One connection with required field and datastore is disabled', () => {
+      const schema = /* GraphQL */ `
+        type User @model {
+          id: ID!
+        }
+        type Session @model {
+          id: ID!
+          sessionUserId: ID!
+          user: User! @connection(fields: ["sessionUserId"])
+        }
+      `;
+      const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { transformerVersion: 1, isDataStoreEnabled: false }, [...V1Directives, DeprecatedDirective]);
+      expect(visitor.generate()).toMatchSnapshot();
+    });
+    it('uni-directional One:One connection with optional field and datastore is disabled', () => {
+      const schema = /* GraphQL */ `
+        type User @model {
+          id: ID!
+        }
+        type Session @model {
+          id: ID!
+          sessionUserId: ID!
+          user: User @connection(fields: ["sessionUserId"])
+        }
+      `;
+      const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema, { transformerVersion: 1, isDataStoreEnabled: false }, [...V1Directives, DeprecatedDirective]);
       expect(visitor.generate()).toMatchSnapshot();
     });
   });
