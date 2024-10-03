@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.13.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.13.1...@aws-amplify/appsync-modelgen-plugin@2.13.2) (2024-10-03)
+
+### Bug Fixes
+
+- allow required uni-directional hasOne with [@connection](https://github.com/connection) when datastore is disabled ([#888](https://github.com/aws-amplify/amplify-codegen/issues/888)) ([648f2ed](https://github.com/aws-amplify/amplify-codegen/commit/648f2edd3393ba694eef0e40af43b2bad159104d))
+
 ## [2.13.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.13.0...@aws-amplify/appsync-modelgen-plugin@2.13.1) (2024-09-26)
 
 ### Bug Fixes
