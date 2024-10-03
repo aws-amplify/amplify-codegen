@@ -227,7 +227,7 @@ describe('process connection', () => {
         it('uni-directional One:One connection with optional field and datastore is enabled', () => {
           const field = { ...modelMap.Session.fields[2] };
           field.isNullable = true;
-          const connectionInfo = (processConnections(field, modelMap.User, modelMap, false) as any) as CodeGenFieldConnectionBelongsTo;
+          const connectionInfo = (processConnections(field, modelMap.User, modelMap, true) as any) as CodeGenFieldConnectionBelongsTo;
           expect(connectionInfo).toBeDefined();
           expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
           expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(false);
