@@ -2904,3 +2904,323 @@ extension ModelPath where ModelType == SqlRelated {
     }
 }"
 `;
+
+exports[`AppSyncSwiftVisitor lists decode optional list with nullable elements 1`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct MyModel: Model {
+  public let id: String
+  public var context: String?
+  public var myCustomTypes: [MyCustomType?]?
+  public var scalarArray: [String?]?
+  public var myOtherModelId: String
+  internal var _myOtherModel: LazyReference<MyOtherModel>
+  public var myOtherModel: MyOtherModel?   {
+      get async throws { 
+        try await _myOtherModel.get()
+      } 
+    }
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  
+  public init(id: String = UUID().uuidString,
+      context: String? = nil,
+      myCustomTypes: [MyCustomType?]? = nil,
+      scalarArray: [String?]? = nil,
+      myOtherModelId: String,
+      myOtherModel: MyOtherModel? = nil) {
+    self.init(id: id,
+      context: context,
+      myCustomTypes: myCustomTypes,
+      scalarArray: scalarArray,
+      myOtherModelId: myOtherModelId,
+      myOtherModel: myOtherModel,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(id: String = UUID().uuidString,
+      context: String? = nil,
+      myCustomTypes: [MyCustomType?]? = nil,
+      scalarArray: [String?]? = nil,
+      myOtherModelId: String,
+      myOtherModel: MyOtherModel? = nil,
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
+      self.id = id
+      self.context = context
+      self.myCustomTypes = myCustomTypes
+      self.scalarArray = scalarArray
+      self.myOtherModelId = myOtherModelId
+      self._myOtherModel = LazyReference(myOtherModel)
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+  }
+  public mutating func setMyOtherModel(_ myOtherModel: MyOtherModel? = nil) {
+    self._myOtherModel = LazyReference(myOtherModel)
+  }
+  public init(from decoder: Decoder) throws {
+      let values = try decoder.container(keyedBy: CodingKeys.self)
+      id = try values.decode(String.self, forKey: .id)
+      context = try? values.decode(String?.self, forKey: .context)
+      myCustomTypes = try? values.decode([MyCustomType].self, forKey: .myCustomTypes)
+      scalarArray = try? values.decode([String].self, forKey: .scalarArray)
+      myOtherModelId = try values.decode(String.self, forKey: .myOtherModelId)
+      _myOtherModel = try values.decodeIfPresent(LazyReference<MyOtherModel>.self, forKey: .myOtherModel) ?? LazyReference(identifiers: nil)
+      createdAt = try? values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try? values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
+  }
+  public func encode(to encoder: Encoder) throws {
+      var container = encoder.container(keyedBy: CodingKeys.self)
+      try container.encode(id, forKey: .id)
+      try container.encode(context, forKey: .context)
+      try container.encode(myCustomTypes, forKey: .myCustomTypes)
+      try container.encode(scalarArray, forKey: .scalarArray)
+      try container.encode(myOtherModelId, forKey: .myOtherModelId)
+      try container.encode(_myOtherModel, forKey: .myOtherModel)
+      try container.encode(createdAt, forKey: .createdAt)
+      try container.encode(updatedAt, forKey: .updatedAt)
+  }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor lists decode optional list with required elements 1`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct MyModel: Model {
+  public let id: String
+  public var context: String?
+  public var myCustomTypes: [MyCustomType]?
+  public var scalarArray: [String]?
+  public var myOtherModelId: String
+  internal var _myOtherModel: LazyReference<MyOtherModel>
+  public var myOtherModel: MyOtherModel?   {
+      get async throws { 
+        try await _myOtherModel.get()
+      } 
+    }
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  
+  public init(id: String = UUID().uuidString,
+      context: String? = nil,
+      myCustomTypes: [MyCustomType]? = nil,
+      scalarArray: [String]? = nil,
+      myOtherModelId: String,
+      myOtherModel: MyOtherModel? = nil) {
+    self.init(id: id,
+      context: context,
+      myCustomTypes: myCustomTypes,
+      scalarArray: scalarArray,
+      myOtherModelId: myOtherModelId,
+      myOtherModel: myOtherModel,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(id: String = UUID().uuidString,
+      context: String? = nil,
+      myCustomTypes: [MyCustomType]? = nil,
+      scalarArray: [String]? = nil,
+      myOtherModelId: String,
+      myOtherModel: MyOtherModel? = nil,
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
+      self.id = id
+      self.context = context
+      self.myCustomTypes = myCustomTypes
+      self.scalarArray = scalarArray
+      self.myOtherModelId = myOtherModelId
+      self._myOtherModel = LazyReference(myOtherModel)
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+  }
+  public mutating func setMyOtherModel(_ myOtherModel: MyOtherModel? = nil) {
+    self._myOtherModel = LazyReference(myOtherModel)
+  }
+  public init(from decoder: Decoder) throws {
+      let values = try decoder.container(keyedBy: CodingKeys.self)
+      id = try values.decode(String.self, forKey: .id)
+      context = try? values.decode(String?.self, forKey: .context)
+      myCustomTypes = try values.decode([MyCustomType].self, forKey: .myCustomTypes)
+      scalarArray = try values.decode([String].self, forKey: .scalarArray)
+      myOtherModelId = try values.decode(String.self, forKey: .myOtherModelId)
+      _myOtherModel = try values.decodeIfPresent(LazyReference<MyOtherModel>.self, forKey: .myOtherModel) ?? LazyReference(identifiers: nil)
+      createdAt = try? values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try? values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
+  }
+  public func encode(to encoder: Encoder) throws {
+      var container = encoder.container(keyedBy: CodingKeys.self)
+      try container.encode(id, forKey: .id)
+      try container.encode(context, forKey: .context)
+      try container.encode(myCustomTypes, forKey: .myCustomTypes)
+      try container.encode(scalarArray, forKey: .scalarArray)
+      try container.encode(myOtherModelId, forKey: .myOtherModelId)
+      try container.encode(_myOtherModel, forKey: .myOtherModel)
+      try container.encode(createdAt, forKey: .createdAt)
+      try container.encode(updatedAt, forKey: .updatedAt)
+  }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor lists decode required list with nullable elements 1`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct MyModel: Model {
+  public let id: String
+  public var context: String?
+  public var myCustomTypes: [MyCustomType?]
+  public var scalarArray: [String?]
+  public var myOtherModelId: String
+  internal var _myOtherModel: LazyReference<MyOtherModel>
+  public var myOtherModel: MyOtherModel?   {
+      get async throws { 
+        try await _myOtherModel.get()
+      } 
+    }
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  
+  public init(id: String = UUID().uuidString,
+      context: String? = nil,
+      myCustomTypes: [MyCustomType?] = [],
+      scalarArray: [String?] = [],
+      myOtherModelId: String,
+      myOtherModel: MyOtherModel? = nil) {
+    self.init(id: id,
+      context: context,
+      myCustomTypes: myCustomTypes,
+      scalarArray: scalarArray,
+      myOtherModelId: myOtherModelId,
+      myOtherModel: myOtherModel,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(id: String = UUID().uuidString,
+      context: String? = nil,
+      myCustomTypes: [MyCustomType?] = [],
+      scalarArray: [String?] = [],
+      myOtherModelId: String,
+      myOtherModel: MyOtherModel? = nil,
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
+      self.id = id
+      self.context = context
+      self.myCustomTypes = myCustomTypes
+      self.scalarArray = scalarArray
+      self.myOtherModelId = myOtherModelId
+      self._myOtherModel = LazyReference(myOtherModel)
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+  }
+  public mutating func setMyOtherModel(_ myOtherModel: MyOtherModel? = nil) {
+    self._myOtherModel = LazyReference(myOtherModel)
+  }
+  public init(from decoder: Decoder) throws {
+      let values = try decoder.container(keyedBy: CodingKeys.self)
+      id = try values.decode(String.self, forKey: .id)
+      context = try? values.decode(String?.self, forKey: .context)
+      myCustomTypes = try? values.decode([MyCustomType].self, forKey: .myCustomTypes)
+      scalarArray = try? values.decode([String].self, forKey: .scalarArray)
+      myOtherModelId = try values.decode(String.self, forKey: .myOtherModelId)
+      _myOtherModel = try values.decodeIfPresent(LazyReference<MyOtherModel>.self, forKey: .myOtherModel) ?? LazyReference(identifiers: nil)
+      createdAt = try? values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try? values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
+  }
+  public func encode(to encoder: Encoder) throws {
+      var container = encoder.container(keyedBy: CodingKeys.self)
+      try container.encode(id, forKey: .id)
+      try container.encode(context, forKey: .context)
+      try container.encode(myCustomTypes, forKey: .myCustomTypes)
+      try container.encode(scalarArray, forKey: .scalarArray)
+      try container.encode(myOtherModelId, forKey: .myOtherModelId)
+      try container.encode(_myOtherModel, forKey: .myOtherModel)
+      try container.encode(createdAt, forKey: .createdAt)
+      try container.encode(updatedAt, forKey: .updatedAt)
+  }
+}"
+`;
+
+exports[`AppSyncSwiftVisitor lists decode required list with required elements 1`] = `
+"// swiftlint:disable all
+import Amplify
+import Foundation
+
+public struct MyModel: Model {
+  public let id: String
+  public var context: String?
+  public var myCustomTypes: [MyCustomType]
+  public var scalarArray: [String]
+  public var myOtherModelId: String
+  internal var _myOtherModel: LazyReference<MyOtherModel>
+  public var myOtherModel: MyOtherModel?   {
+      get async throws { 
+        try await _myOtherModel.get()
+      } 
+    }
+  public var createdAt: Temporal.DateTime?
+  public var updatedAt: Temporal.DateTime?
+  
+  public init(id: String = UUID().uuidString,
+      context: String? = nil,
+      myCustomTypes: [MyCustomType] = [],
+      scalarArray: [String] = [],
+      myOtherModelId: String,
+      myOtherModel: MyOtherModel? = nil) {
+    self.init(id: id,
+      context: context,
+      myCustomTypes: myCustomTypes,
+      scalarArray: scalarArray,
+      myOtherModelId: myOtherModelId,
+      myOtherModel: myOtherModel,
+      createdAt: nil,
+      updatedAt: nil)
+  }
+  internal init(id: String = UUID().uuidString,
+      context: String? = nil,
+      myCustomTypes: [MyCustomType] = [],
+      scalarArray: [String] = [],
+      myOtherModelId: String,
+      myOtherModel: MyOtherModel? = nil,
+      createdAt: Temporal.DateTime? = nil,
+      updatedAt: Temporal.DateTime? = nil) {
+      self.id = id
+      self.context = context
+      self.myCustomTypes = myCustomTypes
+      self.scalarArray = scalarArray
+      self.myOtherModelId = myOtherModelId
+      self._myOtherModel = LazyReference(myOtherModel)
+      self.createdAt = createdAt
+      self.updatedAt = updatedAt
+  }
+  public mutating func setMyOtherModel(_ myOtherModel: MyOtherModel? = nil) {
+    self._myOtherModel = LazyReference(myOtherModel)
+  }
+  public init(from decoder: Decoder) throws {
+      let values = try decoder.container(keyedBy: CodingKeys.self)
+      id = try values.decode(String.self, forKey: .id)
+      context = try? values.decode(String?.self, forKey: .context)
+      myCustomTypes = try values.decode([MyCustomType].self, forKey: .myCustomTypes)
+      scalarArray = try values.decode([String].self, forKey: .scalarArray)
+      myOtherModelId = try values.decode(String.self, forKey: .myOtherModelId)
+      _myOtherModel = try values.decodeIfPresent(LazyReference<MyOtherModel>.self, forKey: .myOtherModel) ?? LazyReference(identifiers: nil)
+      createdAt = try? values.decode(Temporal.DateTime?.self, forKey: .createdAt)
+      updatedAt = try? values.decode(Temporal.DateTime?.self, forKey: .updatedAt)
+  }
+  public func encode(to encoder: Encoder) throws {
+      var container = encoder.container(keyedBy: CodingKeys.self)
+      try container.encode(id, forKey: .id)
+      try container.encode(context, forKey: .context)
+      try container.encode(myCustomTypes, forKey: .myCustomTypes)
+      try container.encode(scalarArray, forKey: .scalarArray)
+      try container.encode(myOtherModelId, forKey: .myOtherModelId)
+      try container.encode(_myOtherModel, forKey: .myOtherModel)
+      try container.encode(createdAt, forKey: .createdAt)
+      try container.encode(updatedAt, forKey: .updatedAt)
+  }
+}"
+`;

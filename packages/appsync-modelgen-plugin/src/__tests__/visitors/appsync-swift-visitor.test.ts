@@ -3006,7 +3006,7 @@ describe('AppSyncSwiftVisitor', () => {
         respectPrimaryKeyAttributesOnConnectionField: true,
       }).generate()).toMatchSnapshot();
     });
-  
+
     test('sets the association to the references field for hasOne/belongsTo', () => {
       const schema = /* GraphQL */ `
         type SqlPrimary @refersTo(name: "sql_primary") @model {
@@ -3035,7 +3035,7 @@ describe('AppSyncSwiftVisitor', () => {
         respectPrimaryKeyAttributesOnConnectionField: true,
       }).generate()).toMatchSnapshot();
     });
-  
+
     test('sets the association to the references field for hasOne and hasMany', () => {
       const schema = /* GraphQL */ `
         type Primary @model {
@@ -3075,7 +3075,7 @@ describe('AppSyncSwiftVisitor', () => {
         respectPrimaryKeyAttributesOnConnectionField: true,
       }).generate()).toMatchSnapshot();
     });
-  
+
     test('double linked references', () => {
       const schema = /* GraphQL */ `
         type Foo @model {
@@ -3105,7 +3105,7 @@ describe('AppSyncSwiftVisitor', () => {
         respectPrimaryKeyAttributesOnConnectionField: true,
       }).generate()).toMatchSnapshot();
     });
-  
+
     test('hasMany with sortKeyFields on primary key', () => {
       const schema = /* GraphQL */ `
         type Primary @model {
@@ -3124,7 +3124,7 @@ describe('AppSyncSwiftVisitor', () => {
           primary: Primary @belongsTo(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
         }
       `;
-  
+
       expect(getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.code, {
         respectPrimaryKeyAttributesOnConnectionField: true,
       }).generate()).toMatchSnapshot();
@@ -3138,7 +3138,7 @@ describe('AppSyncSwiftVisitor', () => {
         respectPrimaryKeyAttributesOnConnectionField: true,
       }).generate()).toMatchSnapshot();
     });
- 
+
     test('hasOne with sortKeyFields on primary key', () => {
       const schema = /* GraphQL */ `
         type Primary @model {
@@ -3157,7 +3157,7 @@ describe('AppSyncSwiftVisitor', () => {
           primary: Primary @belongsTo(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
         }
       `;
-  
+
       expect(getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.code, {
         respectPrimaryKeyAttributesOnConnectionField: true,
       }).generate()).toMatchSnapshot();
@@ -3170,6 +3170,105 @@ describe('AppSyncSwiftVisitor', () => {
       expect(getVisitorPipelinedTransformer(schema, 'Related', CodeGenGenerateEnum.metadata, {
         respectPrimaryKeyAttributesOnConnectionField: true,
       }).generate()).toMatchSnapshot();
+    });
+  });
+  describe('lists', () => {
+    test('decode required list with nullable elements', () => {
+      const schema = /* GraphQL */ `
+        type MyModel @model
+        {
+          context: String
+          myCustomTypes: [MyCustomType]!
+          scalarArray: [String]!
+          myOtherModelId: ID!
+          myOtherModel: MyOtherModel @belongsTo(references: ["myOtherModelId"])
+        }
+      
+        type MyOtherModel @model
+        {
+          context: String
+          myModel: MyModel @hasOne(references: ["myOtherModelId"])
+        }
+      
+        type MyCustomType 
+        {
+          context: String
+        }
+      `;
+      expect(getVisitorPipelinedTransformer(schema, 'MyModel', CodeGenGenerateEnum.code, {}).generate()).toMatchSnapshot();
+    });
+    test('decode optional list with required elements', () => {
+      const schema = /* GraphQL */ `
+        type MyModel @model
+        {
+          context: String
+          myCustomTypes: [MyCustomType!]
+          scalarArray: [String!]
+          myOtherModelId: ID!
+          myOtherModel: MyOtherModel @belongsTo(references: ["myOtherModelId"])
+        }
+      
+        type MyOtherModel @model
+        {
+          context: String
+          myModel: MyModel @hasOne(references: ["myOtherModelId"])
+        }
+      
+        type MyCustomType 
+        {
+          context: String
+        }
+      `;
+      expect(getVisitorPipelinedTransformer(schema, 'MyModel', CodeGenGenerateEnum.code, {}).generate()).toMatchSnapshot();
+    });
+    test('decode required list with required elements', () => {
+      const schema = /* GraphQL */ `
+        type MyModel @model
+        {
+          context: String
+          myCustomTypes: [MyCustomType!]!
+          scalarArray: [String!]!
+          myOtherModelId: ID!
+          myOtherModel: MyOtherModel @belongsTo(references: ["myOtherModelId"])
+        }
+      
+        type MyOtherModel @model
+        {
+          context: String
+          myModel: MyModel @hasOne(references: ["myOtherModelId"])
+        }
+      
+        type MyCustomType 
+        {
+          context: String
+        }
+      `;
+      expect(getVisitorPipelinedTransformer(schema, 'MyModel', CodeGenGenerateEnum.code, {}).generate()).toMatchSnapshot();
+    });
+
+    test('decode optional list with nullable elements', () => {
+      const schema = /* GraphQL */ `
+        type MyModel @model
+        {
+          context: String
+          myCustomTypes: [MyCustomType]
+          scalarArray: [String]
+          myOtherModelId: ID!
+          myOtherModel: MyOtherModel @belongsTo(references: ["myOtherModelId"])
+        }
+      
+        type MyOtherModel @model
+        {
+          context: String
+          myModel: MyModel @hasOne(references: ["myOtherModelId"])
+        }
+      
+        type MyCustomType 
+        {
+          context: String
+        }
+      `;
+      expect(getVisitorPipelinedTransformer(schema, 'MyModel', CodeGenGenerateEnum.code, {}).generate()).toMatchSnapshot();
     });
   });
 });
