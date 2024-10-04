@@ -557,7 +557,7 @@ export class AppSyncSwiftVisitor<
       const decodeMethod = field.connectionInfo ? 'decodeIfPresent' : 'decode';
       const defaultLazyReference = connectionHasOneOrBelongsTo ? ' ?? LazyReference(identifiers: nil)' : '';
       const defaultListReference = this.isHasManyConnectionField(field) ? ' ?? .init()' : '';
-      const optionalTry = !this.isFieldRequired(field) && !field.connectionInfo ? '?' : '';
+      const optionalTry = !field.connectionInfo && (field.isList ? field.isListNullable : !this.isFieldRequired(field)) ? '?' : '';
       result.push(
         indent(
           `${assignedFieldName} = try${optionalTry} values.${decodeMethod}(${fieldType}.self, forKey: .${escapedFieldName})${defaultLazyReference}${defaultListReference}`,
@@ -567,6 +567,12 @@ export class AppSyncSwiftVisitor<
 
     return result.join('\n');
   }
+  /*
+  [string!]! try [string]
+  [String]! try [String?]
+  [String!] try? [String]
+  [string] try [string]
+  */
 
   private getDecoderBodyFieldType(field: CodeGenField): string {
     const nativeType = this.getNativeType(field);
@@ -579,7 +585,7 @@ export class AppSyncSwiftVisitor<
       if (field.connectionInfo) {
         return `List<${nativeType}>${optionality}`;
       }
-      return `[${nativeType}]`;
+      return `[${nativeType}${optionality}]`;
     }
     return `${nativeType}${optionality}`;
   }
