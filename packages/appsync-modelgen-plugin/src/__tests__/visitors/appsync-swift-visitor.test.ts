@@ -3195,7 +3195,10 @@ describe('AppSyncSwiftVisitor', () => {
           context: String
         }
       `;
-      expect(getVisitorPipelinedTransformer(schema, 'MyModel', CodeGenGenerateEnum.code, {}).generate()).toMatchSnapshot();
+      const result = getVisitorPipelinedTransformer(schema, 'MyModel', CodeGenGenerateEnum.code, {}).generate();
+      expect(result).toContain('myCustomTypes = try values.decode([MyCustomType?].self, forKey: .myCustomTypes)');
+      expect(result).toContain('scalarArray = try values.decode([String?].self, forKey: .scalarArray)');
+      expect(result).toMatchSnapshot();
     });
     test('decode optional list with required elements', () => {
       const schema = /* GraphQL */ `
@@ -3219,7 +3222,10 @@ describe('AppSyncSwiftVisitor', () => {
           context: String
         }
       `;
-      expect(getVisitorPipelinedTransformer(schema, 'MyModel', CodeGenGenerateEnum.code, {}).generate()).toMatchSnapshot();
+      const result = getVisitorPipelinedTransformer(schema, 'MyModel', CodeGenGenerateEnum.code, {}).generate();
+      expect(result).toContain('myCustomTypes = try? values.decode([MyCustomType].self, forKey: .myCustomTypes)');
+      expect(result).toContain('scalarArray = try? values.decode([String].self, forKey: .scalarArray)');
+      expect(result).toMatchSnapshot();
     });
     test('decode required list with required elements', () => {
       const schema = /* GraphQL */ `
@@ -3243,7 +3249,10 @@ describe('AppSyncSwiftVisitor', () => {
           context: String
         }
       `;
-      expect(getVisitorPipelinedTransformer(schema, 'MyModel', CodeGenGenerateEnum.code, {}).generate()).toMatchSnapshot();
+      const result = getVisitorPipelinedTransformer(schema, 'MyModel', CodeGenGenerateEnum.code, {}).generate();
+      expect(result).toContain('myCustomTypes = try values.decode([MyCustomType].self, forKey: .myCustomTypes)');
+      expect(result).toContain('scalarArray = try values.decode([String].self, forKey: .scalarArray)');
+      expect(result).toMatchSnapshot();
     });
 
     test('decode optional list with nullable elements', () => {
@@ -3268,7 +3277,10 @@ describe('AppSyncSwiftVisitor', () => {
           context: String
         }
       `;
-      expect(getVisitorPipelinedTransformer(schema, 'MyModel', CodeGenGenerateEnum.code, {}).generate()).toMatchSnapshot();
+      const result = getVisitorPipelinedTransformer(schema, 'MyModel', CodeGenGenerateEnum.code, {}).generate();
+      expect(result).toContain('myCustomTypes = try? values.decode([MyCustomType?].self, forKey: .myCustomTypes)');
+      expect(result).toContain('scalarArray = try? values.decode([String?].self, forKey: .scalarArray)');
+      expect(result).toMatchSnapshot();
     });
   });
 });
