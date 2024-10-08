@@ -1,15 +1,14 @@
 import {
-  Types,
   isComplexPluginOutput,
   federationSpec,
   getCachedDocumentNodeFromSchema,
   AddToSchemaResult,
-  createNoopProfiler,
 } from '@graphql-codegen/plugin-helpers';
+import { createNoopProfiler } from '../../../profiler'
 import { visit, DefinitionNode, Kind, print, NameNode, specifiedRules, DocumentNode } from 'graphql';
-import { executePlugin } from './execute-plugin.js';
+import { executePlugin } from './execute-plugin';
 import { validateGraphQlDocuments, Source, asArray } from '@graphql-tools/utils';
-
+import { SyncTypes as Types } from '@aws-amplify/appsync-modelgen-plugin';
 import { mergeSchemas } from '@graphql-tools/schema';
 import {
   extractHashFromSchema,
@@ -19,16 +18,16 @@ import {
   prioritize,
   shouldValidateDocumentsAgainstSchema,
   shouldValidateDuplicateDocuments,
-} from './utils.js';
+} from './utils';
 
-export async function codegen(options: Types.GenerateOptions): Promise<string> {
+export function codegen(options: Types.GenerateOptions): string {
   const documents = options.documents || [];
-  const profiler = options.profiler ?? createNoopProfiler();
+  const profiler = createNoopProfiler();
 
   const skipDocumentsValidation = getSkipDocumentsValidationOption(options);
 
   if (documents.length > 0 && shouldValidateDuplicateDocuments(skipDocumentsValidation)) {
-    await profiler.run(async () => validateDuplicateDocuments(documents), 'validateDuplicateDocuments');
+    profiler.run(() => validateDuplicateDocuments(documents), 'validateDuplicateDocuments');
   }
 
   const pluginPackages = Object.keys(options.pluginMap).map(key => options.pluginMap[key]);
@@ -54,7 +53,7 @@ export async function codegen(options: Types.GenerateOptions): Promise<string> {
   // Use mergeSchemas, only if there is no GraphQLSchema provided or the schema should be extended
   const mergeNeeded = !options.schemaAst || additionalTypeDefs.length > 0;
 
-  const schemaInstance = await profiler.run(async () => {
+  const schemaInstance = profiler.run(() => {
     return mergeNeeded
       ? mergeSchemas({
           // If GraphQLSchema provided, use it
@@ -70,7 +69,7 @@ export async function codegen(options: Types.GenerateOptions): Promise<string> {
   }, 'Create schema instance');
 
   const schemaDocumentNode =
-    mergeNeeded || !options.schema ? getCachedDocumentNodeFromSchema(schemaInstance) : options.schema;
+    mergeNeeded || !options.schema ? getCachedDocumentNodeFromSchema(schemaInstance!) : options.schema;
 
   if (schemaInstance && documents.length > 0 && shouldValidateDocumentsAgainstSchema(skipDocumentsValidation)) {
     const ignored = ['NoUnusedFragments', 'NoUnusedVariables', 'KnownDirectives'];
@@ -80,36 +79,31 @@ export async function codegen(options: Types.GenerateOptions): Promise<string> {
     const extraFragments: { importFrom: string; node: DefinitionNode }[] =
       pickFlag('externalFragments', options.config) || [];
 
-    const errors = await profiler.run(() => {
+    const errors = profiler.run(() => {
       const fragments = extraFragments.map(f => ({
         location: f.importFrom,
         document: { kind: Kind.DOCUMENT, definitions: [f.node] } as DocumentNode,
       }));
       const rules = specifiedRules.filter(rule => !ignored.some(ignoredRule => rule.name.startsWith(ignoredRule)));
       const schemaHash = extractHashFromSchema(schemaInstance);
-
       if (!schemaHash || !options.cache || documents.some(d => typeof d.hash !== 'string')) {
-        return Promise.resolve(
-          validateGraphQlDocuments(
+        return validateGraphQlDocuments(
             schemaInstance,
-            [...documents.flatMap(d => d.document), ...fragments.flatMap(f => f.document)],
+            [...documents.flatMap(d => d.document!), ...fragments.flatMap(f => f.document!)],
             rules
-          )
-        );
+          );
       }
 
       const cacheKey = [schemaHash]
-        .concat(documents.map(doc => doc.hash))
+        .concat(documents.map(doc => doc.hash!))
         .concat(JSON.stringify(fragments))
         .join(',');
 
       return options.cache('documents-validation', cacheKey, () =>
-        Promise.resolve(
-          validateGraphQlDocuments(
-            schemaInstance,
-            [...documents.flatMap(d => d.document), ...fragments.flatMap(f => f.document)],
-            rules
-          )
+        validateGraphQlDocuments(
+          schemaInstance,
+          [...documents.flatMap(d => d.document!), ...fragments.flatMap(f => f.document!)],
+          rules
         )
       );
     }, 'Validate documents against schema');
@@ -125,8 +119,7 @@ export async function codegen(options: Types.GenerateOptions): Promise<string> {
   const prepend: Set<string> = new Set<string>();
   const append: Set<string> = new Set<string>();
 
-  const output = await Promise.all(
-    options.plugins.map(async plugin => {
+  const output = options.plugins.map(plugin => {
       const name = Object.keys(plugin)[0];
       const pluginPackage = options.pluginMap[name];
       const pluginConfig = plugin[name] || {};
@@ -138,8 +131,7 @@ export async function codegen(options: Types.GenerateOptions): Promise<string> {
               ...options.config,
               ...pluginConfig,
             };
-
-      const result = await profiler.run(
+      const result = profiler.run(
         () =>
           executePlugin(
             {
@@ -183,9 +175,7 @@ export async function codegen(options: Types.GenerateOptions): Promise<string> {
       }
 
       return '';
-    })
-  );
-
+    });
   return [...sortPrependValues(Array.from(prepend.values())), ...output, ...Array.from(append.values())]
     .filter(Boolean)
     .join('\n');
@@ -250,7 +240,7 @@ function validateDuplicateDocuments(files: Types.DocumentFile[]) {
       const definitionKindMap = definitionMap[node.kind];
 
       const length = definitionKindMap[node.name.value].contents.size;
-      definitionKindMap[node.name.value].paths.add(file.location);
+      definitionKindMap[node.name.value].paths.add(file.location!);
       definitionKindMap[node.name.value].contents.add(print(node));
       if (length === definitionKindMap[node.name.value].contents.size) {
         return null;
@@ -261,7 +251,7 @@ function validateDuplicateDocuments(files: Types.DocumentFile[]) {
 
   files.forEach(file => {
     const deduplicatedDefinitions = new Set<DefinitionNode>();
-    visit(file.document, {
+    visit(file.document!, {
       OperationDefinition(node) {
         addDefinition(file, node, deduplicatedDefinitions);
       },

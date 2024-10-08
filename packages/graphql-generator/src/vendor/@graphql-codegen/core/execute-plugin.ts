@@ -1,6 +1,8 @@
-import { Types, CodegenPlugin, Profiler, createNoopProfiler } from '@graphql-codegen/plugin-helpers';
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { Profiler } from '@graphql-codegen/plugin-helpers';
+import { SyncTypes as Types } from '@aws-amplify/appsync-modelgen-plugin';
 import { DocumentNode, GraphQLSchema, buildASTSchema } from 'graphql';
-
+import { createNoopProfiler } from '../../../profiler'
 export interface ExecutePluginOptions {
   name: string;
   config: Types.PluginConfig;
@@ -15,7 +17,7 @@ export interface ExecutePluginOptions {
   profiler?: Profiler;
 }
 
-export async function executePlugin(options: ExecutePluginOptions, plugin: CodegenPlugin): Promise<Types.PluginOutput> {
+export function executePlugin(options: ExecutePluginOptions, plugin: Types.CodegenPlugin): Types.PluginOutput {
   if (!plugin || !plugin.plugin || typeof plugin.plugin !== 'function') {
     throw new Error(
       `Invalid Custom Plugin "${options.name}" \n
@@ -35,14 +37,14 @@ export async function executePlugin(options: ExecutePluginOptions, plugin: Codeg
   const outputSchema: GraphQLSchema = options.schemaAst || buildASTSchema(options.schema, options.config as any);
   const documents = options.documents || [];
   const pluginContext = options.pluginContext || {};
-  const profiler = options.profiler ?? createNoopProfiler();
+  const profiler = createNoopProfiler();
 
   if (plugin.validate && typeof plugin.validate === 'function') {
     try {
       // FIXME: Sync validate signature with plugin signature
-      await profiler.run(
-        async () =>
-          plugin.validate(
+      profiler.run(
+        () =>
+          plugin.validate!(
             outputSchema,
             documents,
             options.config,
@@ -54,17 +56,14 @@ export async function executePlugin(options: ExecutePluginOptions, plugin: Codeg
       );
     } catch (e) {
       throw new Error(
-        `Plugin "${options.name}" validation failed: \n
-            ${e.message}
-          `
+        // @ts-ignore
+        `Plugin "${options.name}" validation failed: \n ${e.message}`
       );
     }
   }
 
   return profiler.run(
-    () =>
-      Promise.resolve(
-        plugin.plugin(
+    () => plugin.plugin(
           outputSchema,
           documents,
           typeof options.config === 'object' ? { ...options.config } : options.config,
@@ -73,8 +72,7 @@ export async function executePlugin(options: ExecutePluginOptions, plugin: Codeg
             allPlugins: options.allPlugins,
             pluginContext,
           }
-        )
-      ),
+        ),
     `Plugin ${options.name} execution`
   );
 }
