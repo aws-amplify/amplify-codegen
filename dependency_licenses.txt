@@ -9556,7 +9556,7 @@ The following software may be included in this product: change-case-all. A copy 
 
 MIT License
 
-Modified work: Copyright (c) 2020 Jonas Gnioui <btxtiger@outlook.com>
+Modified work: Copyright (c) 2020 Jonas Gnioui <btxtiger@icloud.com>
 
 Original work:
 
@@ -9586,7 +9586,7 @@ The following software may be included in this product: change-case-all. A copy 
 
 MIT License
 
-Modified work: Copyright (c) 2020 Jonas Gnioui <btxtiger@icloud.com>
+Modified work: Copyright (c) 2020 Jonas Gnioui <btxtiger@outlook.com>
 
 Original work:
 
