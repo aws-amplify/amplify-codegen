@@ -25,9 +25,9 @@ how to update to any specific version of `@graphql-codegen/core` so that any nee
 
 ### Step 2 - Remove all Promise/async patterns from the copied code
 
-For the code forked here most of the complexity of adapting `codegen` to be non-async is captured in type changes surfaced by `@aws-amplify/appsync-modelgen-plugin` as `SyncTypes`.
+For the code forked here most of the complexity of adapting `codegen` to be non-async is captured in type changes surfaced by `@aws-amplify/appsync-modelgen-plugin` as `SyncTypes`. If these base types change when we update the package, our derived types to support Sync execution may need to change as well
 
-These are the steps needed to adapt the codegen code to adhere to the sync types:
+These are the steps needed to adapt the `graphql-codegen-core` code to run non-async and adhere to the adapted `SyncTypes`:
 - Remove '.js' from all import statements
 - Replace "async " => ""
 - Replace "await " => ""
@@ -35,6 +35,7 @@ These are the steps needed to adapt the codegen code to adhere to the sync types
 - Replace "Promise.resolve(X)" => "X"
 - Replace "Promise.all(X)" => "X"
 - Change import of "createNoopProfiler" to "import { createNoopProfiler } from '../../../profiler'"
+  - We have a sync NoopProfiler internal to this package which allows minimal profiler related changes to the vendor code
 - Replace "options.profiler ?? createNoopProfiler()" => "createNoopProfiler()"
 - Change import of "Types" to "import { SyncTypes as Types } from '@aws-amplify/appsync-modelgen-plugin'
 - In the `executePlugin` function, replace "CodegenPlugin" with "Types.CodegenPlugin" and remove the unused import
