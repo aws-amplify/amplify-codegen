@@ -65,6 +65,6 @@ targets.forEach(target => {
     };
     const asyncGeneratorModels = await generateModels(options);
     const syncGeneratorModels = generateModelsSync(options);
-    expect(JSON.stringify(asyncGeneratorModels)).toEqual(JSON.stringify(syncGeneratorModels));
+    expect(asyncGeneratorModels).toEqual(syncGeneratorModels);
   });
 });
