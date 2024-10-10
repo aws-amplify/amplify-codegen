@@ -63,8 +63,8 @@ targets.forEach(target => {
       schema: readSchema('blog-model.graphql'),
       target,
     };
-    const asyncGeneratorModels = await runGenerator("generateModels", options);
-    const syncGeneratorModels = await runGenerator("generateModelsSync", options);
+    const asyncGeneratorModels = await generateModels(options);
+    const syncGeneratorModels = generateModelsSync(options);
     expect(JSON.stringify(asyncGeneratorModels)).toEqual(JSON.stringify(syncGeneratorModels));
   });
 });
