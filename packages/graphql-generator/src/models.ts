@@ -82,6 +82,9 @@ export async function generateModels(options: GenerateModelsOptions): Promise<Ge
   ).then((outputs: GeneratedOutput[]) => outputs.reduce((curr, next) => ({ ...curr, ...next }), {}));
 }
 
+/**
+ * @internal
+ */
 export function generateModelsSync(options: GenerateModelsOptions): GeneratedOutput {
   const appsyncLocalConfig = appSyncDataStoreCodeGen.presetSync.buildGeneratesSection({
     ...mapBuilderOptions(options),

@@ -11,6 +11,9 @@ import { AppSyncModelDartVisitor } from './visitors/appsync-dart-visitor';
 import { AppSyncModelIntrospectionVisitor } from './visitors/appsync-model-introspection-visitor';
 import { SyncTypes } from './types/sync';
 
+/**
+ * @internal
+ */
 export const pluginSync: SyncTypes.PluginFunction<RawAppSyncModelConfig> = (
   schema: GraphQLSchema,
   rawDocuments: Types.DocumentFile[],

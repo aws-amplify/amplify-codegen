@@ -17,6 +17,9 @@ export type SyncCache<Obj extends CacheContainer> = Omit<Obj, 'cache'> & {
     cache?: (<T>(namespace: string, key: string, factory: () => T) => T) | undefined
 };
 
+/**
+ * @internal
+ */
 export declare namespace SyncTypes {
     type GenerateOptions = SyncCache<SyncPluginMap<Types.GenerateOptions>>;
 

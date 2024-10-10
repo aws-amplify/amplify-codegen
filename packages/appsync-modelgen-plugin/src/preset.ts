@@ -351,6 +351,9 @@ const buildGenerations = (options: PresetFnArgs): GenerateOptions[] => {
     }
   };
 
+/**
+ * @internal
+ */
 export const presetSync: SyncTypes.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
   buildGeneratesSection: (options: SyncTypes.PresetFnArgs<AppSyncModelCodeGenPresetConfig>): SyncTypes.GenerateOptions[] => {
     const {cache, pluginMap, ...otherOptions} = options;
