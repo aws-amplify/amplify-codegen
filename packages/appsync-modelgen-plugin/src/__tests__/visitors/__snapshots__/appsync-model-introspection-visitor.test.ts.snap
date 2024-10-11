@@ -230,10 +230,7 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                         {
                             \\"type\\": \\"model\\",
                             \\"properties\\": {
-                                \\"subscriptions\\": {},
-                                \\"mutations\\": {
-                                    \\"update\\": null
-                                }
+                                \\"subscriptions\\": {}
                             }
                         },
                         {
