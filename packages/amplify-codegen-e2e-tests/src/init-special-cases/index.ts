@@ -1,5 +1,5 @@
 import path from 'path';
-import { nspawn as spawn, getCLIPath, singleSelect, amplifyRegions, addCITags, KEY_DOWN_ARROW } from '@aws-amplify/amplify-codegen-e2e-core';
+import { nspawn as spawn, getCLIPath, singleSelect, amplifyRegions, addCITags, KEY_DOWN_ARROW, confirmUsingGen1Amplify } from '@aws-amplify/amplify-codegen-e2e-core';
 import fs from 'fs-extra';
 import os from 'os';
 
@@ -52,6 +52,7 @@ async function initWorkflow(cwd: string, settings: { accessKeyId: string; secret
         CLI_DEV_INTERNAL_DISABLE_AMPLIFY_APP_CREATION: '1',
       },
     })
+      confirmUsingGen1Amplify(chain)
       .wait('Enter a name for the project')
       .sendCarriageReturn()
       .wait('Initialize the project with the above configuration?')

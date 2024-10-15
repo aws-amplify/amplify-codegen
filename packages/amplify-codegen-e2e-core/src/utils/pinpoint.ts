@@ -1,5 +1,5 @@
 import { Pinpoint } from 'aws-sdk';
-import { getCLIPath, nspawn as spawn, singleSelect, amplifyRegions, addCITags, KEY_DOWN_ARROW } from '..';
+import { getCLIPath, nspawn as spawn, singleSelect, amplifyRegions, addCITags, KEY_DOWN_ARROW, confirmUsingGen1Amplify } from '..';
 import _ from 'lodash';
 
 const settings = {
@@ -80,6 +80,7 @@ export function initProjectForPinpoint(cwd: string): Promise<void> {
         CLI_DEV_INTERNAL_DISABLE_AMPLIFY_APP_CREATION: '1',
       },
     })
+      confirmUsingGen1Amplify(chain)
       .wait('Enter a name for the project')
       .sendLine(settings.name)
       .wait('Initialize the project with the above configuration?')
