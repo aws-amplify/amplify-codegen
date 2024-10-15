@@ -133,7 +133,8 @@
     "graphql": "15.8.0",
     "xml2js": "0.5.0",
     "axios": "^1.7.4",
-    "**/@aws-amplify/amplify-codegen-e2e-tests/**/fast-xml-parser": "^4.4.1"
+    "**/@aws-amplify/amplify-codegen-e2e-tests/**/fast-xml-parser": "^4.4.1",
+    "**/@aws-amplify/amplify-codegen-e2e-tests/**/cookie": "^0.7.0"
   },
   "config": {
     "commitizen": {
