@@ -34,6 +34,9 @@ export type GenerateModelsOptions = {
 };
 
 // @public (undocumented)
+export function generateModelsSync(options: GenerateModelsOptions): GeneratedOutput;
+
+// @public (undocumented)
 export function generateStatements(options: GenerateStatementsOptions): GeneratedOutput;
 
 // @public (undocumented)

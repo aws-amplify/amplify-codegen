@@ -1,5 +1,6 @@
 const { generateModelIntrospection, getModelIntrospection } = require('../../src/commands/model-intropection');
 const graphqlGenerator = require('@aws-amplify/graphql-generator');
+const codegen_core = require('@graphql-codegen/core');
 const mockFs = require('mock-fs');
 const path = require('path');
 const fs = require('fs');
@@ -14,7 +15,6 @@ jest.mock('@aws-amplify/graphql-generator', () => {
 jest.mock('@graphql-codegen/core', () => {
   const originalModule = jest.requireActual('@graphql-codegen/core');
   const codegen = jest.fn();
-  codegen.mockReturnValue(MOCK_GENERATED_CODE);
   return {
     ...originalModule,
     codegen,
@@ -27,6 +27,7 @@ const MOCK_PROJECT_NAME = 'myapp';
 const MOCK_BACKEND_DIRECTORY = 'backend';
 const MOCK_GENERATED_INTROSPECTION = { schemaVersion: 1 };
 const MOCK_GENERATED_CODE = JSON.stringify(MOCK_GENERATED_INTROSPECTION);
+
 const MOCK_CONTEXT = {
   print: {
     info: jest.fn(),
@@ -55,7 +56,6 @@ const MOCK_CONTEXT = {
 };
 
 describe('generateModelIntrospection', () => {
-  graphqlGenerator.generateModels.mockReturnValue({ 'model-introspection.json': MOCK_GENERATED_CODE });
   const schemaFilePath = path.join(MOCK_BACKEND_DIRECTORY, 'api', MOCK_PROJECT_NAME);
   const outputDirectory = path.join(MOCK_PROJECT_ROOT, MOCK_OUTPUT_DIR);
   const mockedFiles = {};
@@ -63,6 +63,11 @@ describe('generateModelIntrospection', () => {
     'schema.graphql': ' type SimpleModel { id: ID! status: String } ',
   };
   mockedFiles[outputDirectory] = {};
+
+  beforeAll(() => {
+    codegen_core.codegen.mockReturnValue(MOCK_GENERATED_CODE);
+    graphqlGenerator.generateModels.mockReturnValue({ 'model-introspection.json': MOCK_GENERATED_CODE });
+  });
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -76,7 +81,7 @@ describe('generateModelIntrospection', () => {
       ...MOCK_CONTEXT,
       parameters: {
         options: {
-          ['output-dir']: MOCK_OUTPUT_DIR,
+          'output-dir': MOCK_OUTPUT_DIR,
         },
       },
     };
@@ -99,7 +104,7 @@ describe('generateModelIntrospection', () => {
 });
 
 describe('getModelIntrospection', () => {
-  graphqlGenerator.generateModels.mockReturnValue({ 'model-introspection.json': MOCK_GENERATED_CODE });
+
   const schemaFilePath = path.join(MOCK_BACKEND_DIRECTORY, 'api', MOCK_PROJECT_NAME);
   const outputDirectory = path.join(MOCK_PROJECT_ROOT, MOCK_OUTPUT_DIR);
   const mockedFiles = {};
@@ -107,6 +112,11 @@ describe('getModelIntrospection', () => {
     'schema.graphql': ' type SimpleModel { id: ID! status: String } ',
   };
   mockedFiles[outputDirectory] = {};
+
+  beforeAll(() => {
+    codegen_core.codegen.mockReturnValue(MOCK_GENERATED_CODE);
+    graphqlGenerator.generateModels.mockReturnValue({ 'model-introspection.json': MOCK_GENERATED_CODE });
+  });
 
   beforeEach(() => {
     jest.clearAllMocks();

@@ -4,6 +4,9 @@
 # API approval - public surface and dependencies.
 **/API.md @aws-amplify/amplify-data-admins
 
+# Vendor code changes
+packages/**/vendor/** @aws-amplify/amplify-data-admins
+
 # Dependency Licensing approval
 dependency_licenses.txt @aws-amplify/amplify-data-admins
 

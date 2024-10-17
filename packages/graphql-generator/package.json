@@ -17,11 +17,13 @@
     "aws"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && yarn check-codegen-version",
     "watch": "tsc -w",
     "test": "jest",
     "test-watch": "jest --watch",
-    "extract-api": "ts-node ../../scripts/extract-api.ts"
+    "extract-api": "ts-node ../../scripts/extract-api.ts",
+    "check-codegen-version": "bash ./scripts/check-codegen-version.sh"
+
   },
   "dependencies": {
     "@aws-amplify/appsync-modelgen-plugin": "2.13.2",
@@ -29,6 +31,9 @@
     "@aws-amplify/graphql-docs-generator": "4.2.1",
     "@aws-amplify/graphql-types-generator": "3.6.0",
     "@graphql-codegen/core": "^2.6.6",
+    "@graphql-tools/schema": "^9.0.0",
+    "@graphql-tools/utils": "^9.2.1",
+    "@graphql-codegen/plugin-helpers": "^3.1.1",
     "@graphql-tools/apollo-engine-loader": "^8.0.0",
     "graphql": "^15.5.0",
     "prettier": "^1.19.1"
@@ -49,7 +54,8 @@
     "collectCoverage": true,
     "collectCoverageFrom": [
       "src/**/*.ts",
-      "!src/__tests__/**/*.ts"
+      "!src/__tests__/**/*.ts",
+      "!src/vendor/**/*.ts"
     ],
     "coverageThreshold": {
       "global": {
