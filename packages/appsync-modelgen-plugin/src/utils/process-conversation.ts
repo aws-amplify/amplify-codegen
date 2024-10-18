@@ -103,8 +103,7 @@ function generateConversationMessageModel(conversationModelName: string, modelNa
       {
         type: 'model',
         properties: {
-          subscriptions: {},
-          mutations: { update: null }
+          subscriptions: {}
         }
       },
       generateAuthAttribute()
