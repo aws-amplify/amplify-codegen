@@ -1,5 +1,5 @@
 import { nspawn as spawn, getCLIPath, singleSelect, addCITags } from '..';
-import { KEY_DOWN_ARROW, AmplifyFrontend } from '../utils';
+import { KEY_DOWN_ARROW, AmplifyFrontend, ExecutionContext } from '../utils';
 import { amplifyRegions } from '../configure';
 import { v4 as uuid } from 'uuid';
 
@@ -44,6 +44,7 @@ export function initJSProjectWithProfile(cwd: string, settings: Object = {}): Pr
 
   return new Promise((resolve, reject) => {
     const chain = spawn(getCLIPath(), cliArgs, { cwd, stripColors: true, env, disableCIDetection: s.disableCIDetection })
+      confirmUsingGen1Amplify(chain)
       .wait('Enter a name for the project')
       .sendLine(s.name)
       .wait('Initialize the project with the above configuration?')
@@ -91,19 +92,28 @@ export function initJSProjectWithProfile(cwd: string, settings: Object = {}): Pr
   });
 }
 
+export const confirmUsingGen1Amplify = (executionContext: ExecutionContext): ExecutionContext => {
+  return executionContext
+  .wait('Do you want to continue with Amplify Gen 1?')
+  .sendConfirmYes()
+  .wait('Why would you like to use Amplify Gen 1?')
+  .sendCarriageReturn()
+}
+
 export function initAndroidProjectWithProfile(cwd: string, settings: Object): Promise<void> {
   const s = { ...defaultSettings, ...settings };
 
   addCITags(cwd);
 
   return new Promise((resolve, reject) => {
-    spawn(getCLIPath(), ['init'], {
+    const chain = spawn(getCLIPath(), ['init'], {
       cwd,
       stripColors: true,
       env: {
         CLI_DEV_INTERNAL_DISABLE_AMPLIFY_APP_CREATION: '1',
       },
     })
+      confirmUsingGen1Amplify(chain)
       .wait('Enter a name for the project')
       .sendLine(s.name)
       .wait('Initialize the project with the above configuration?')
@@ -141,13 +151,14 @@ export function initIosProjectWithProfile(cwd: string, settings: Object): Promis
   addCITags(cwd);
 
   return new Promise((resolve, reject) => {
-    spawn(getCLIPath(), ['init'], {
+    const chain = spawn(getCLIPath(), ['init'], {
       cwd,
       stripColors: true,
       env: {
         CLI_DEV_INTERNAL_DISABLE_AMPLIFY_APP_CREATION: '1',
       },
     })
+      confirmUsingGen1Amplify(chain)
       .wait('Enter a name for the project')
       .sendLine(s.name)
       .wait('Initialize the project with the above configuration?')
@@ -178,6 +189,7 @@ export function initFlutterProjectWithProfile(cwd: string, settings: Object): Pr
 
   return new Promise((resolve, reject) => {
     let chain = spawn(getCLIPath(), ['init'], { cwd, stripColors: true })
+      confirmUsingGen1Amplify(chain)
       .wait('Enter a name for the project')
       .sendLine(s.name)
       .wait('Initialize the project with the above configuration?')
@@ -228,6 +240,7 @@ export function initProjectWithAccessKey(
         CLI_DEV_INTERNAL_DISABLE_AMPLIFY_APP_CREATION: '1',
       },
     })
+      confirmUsingGen1Amplify(chain)
       .wait('Enter a name for the project')
       .sendLine(s.name)
       .wait('Initialize the project with the above configuration?')

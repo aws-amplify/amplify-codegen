@@ -56,7 +56,7 @@ describe('process connection', () => {
 
       it('should return HAS_MANY for Post.comments field connection info', () => {
         const commentsField = modelMap.Post.fields[0];
-        const connectionInfo = (processConnections(commentsField, modelMap.Post, modelMap) as any) as CodeGenFieldConnectionHasMany;
+        const connectionInfo = (processConnections(commentsField, modelMap.Post, modelMap, true) as any) as CodeGenFieldConnectionHasMany;
         expect(connectionInfo).toBeDefined();
 
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
@@ -66,7 +66,7 @@ describe('process connection', () => {
 
       it('should return BELONGS_TO for Comment.post field connection info', () => {
         const postField = modelMap.Comment.fields[0];
-        const connectionInfo = (processConnections(postField, modelMap.Comment, modelMap) as any) as CodeGenFieldConnectionBelongsTo;
+        const connectionInfo = (processConnections(postField, modelMap.Comment, modelMap, true) as any) as CodeGenFieldConnectionBelongsTo;
         expect(connectionInfo).toBeDefined();
 
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
@@ -120,7 +120,7 @@ describe('process connection', () => {
 
       it('should return HAS_ONE Person.license field', () => {
         const licenseField = modelMap.Person.fields[0];
-        const connectionInfo = (processConnections(licenseField, modelMap.Person, modelMap) as any) as CodeGenFieldConnectionHasOne;
+        const connectionInfo = (processConnections(licenseField, modelMap.Person, modelMap, true) as any) as CodeGenFieldConnectionHasOne;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
         expect(connectionInfo.associatedWith).toEqual(modelMap.License.fields[0]);
@@ -130,7 +130,7 @@ describe('process connection', () => {
 
       it('should return BELONGS_TO License.person field', () => {
         const personField = modelMap.License.fields[0];
-        const connectionInfo = (processConnections(personField, modelMap.License, modelMap) as any) as CodeGenFieldConnectionBelongsTo;
+        const connectionInfo = (processConnections(personField, modelMap.License, modelMap, true) as any) as CodeGenFieldConnectionBelongsTo;
         expect(connectionInfo).toBeDefined();
         expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
         expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(true);
@@ -141,8 +141,97 @@ describe('process connection', () => {
         // Make person field optional
         personField.isNullable = true;
         expect(() => {
-          processConnections(personField, modelMap.License, modelMap);
+          processConnections(personField, modelMap.License, modelMap, true);
         }).toThrowError('DataStore does not support 1 to 1 connection with both sides of connection as optional field');
+      });
+
+      describe('Uni-directional connection', () => {
+        const schema = /* GraphQL */ `
+          type User @model {
+            id: ID!
+          }
+          type Session @model {
+            id: ID!
+            sessionUserId: ID!
+            user: User! @connection(fields: ["sessionUserId"])
+          }
+        `;
+
+        const modelMap: CodeGenModelMap = {
+          User: {
+            name: 'User',
+            type: 'model',
+            directives: [],
+            fields: [
+              {
+                type: 'ID',
+                isNullable: false,
+                isList: false,
+                name: 'id',
+                directives: [],
+              },
+            ],
+          },
+          Session: {
+            name: 'Session',
+            type: 'model',
+            directives: [],
+            fields: [
+              {
+                type: 'ID',
+                isNullable: false,
+                isList: false,
+                name: 'id',
+                directives: [],
+              },
+              {
+                type: 'ID',
+                isNullable: false,
+                isList: false,
+                name: 'sessionUserId',
+                directives: [],
+              },
+              {
+                type: 'User',
+                isNullable: false,
+                isList: false,
+                name: 'user',
+                directives: [{ name: 'connection', arguments: { fields: ['sessionUserId'] } }],
+              },
+            ],
+          },
+        };
+
+        it('uni-directional One:One connection with required field and datastore is not enabled', () => {
+          const connectionInfo = (processConnections(modelMap.Session.fields[2], modelMap.User, modelMap, false) as any) as CodeGenFieldConnectionBelongsTo;
+          expect(connectionInfo).toBeDefined();
+          expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
+          expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(false);
+        });
+
+        it('uni-directional One:One connection with optional field and datastore is not enabled', () => {
+          const field = { ...modelMap.Session.fields[2] };
+          field.isNullable = true;
+          const connectionInfo = (processConnections(field, modelMap.User, modelMap, false) as any) as CodeGenFieldConnectionBelongsTo;
+          expect(connectionInfo).toBeDefined();
+          expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
+          expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(false);
+        });
+
+        it('uni-directional One:One connection with required field and datastore is enabled', () => {
+          expect(() => {
+            processConnections(modelMap.Session.fields[2], modelMap.User, modelMap, true);
+          }).toThrowError('DataStore does not support 1 to 1 connection with both sides of connection as optional field');
+        });
+
+        it('uni-directional One:One connection with optional field and datastore is enabled', () => {
+          const field = { ...modelMap.Session.fields[2] };
+          field.isNullable = true;
+          const connectionInfo = (processConnections(field, modelMap.User, modelMap, true) as any) as CodeGenFieldConnectionBelongsTo;
+          expect(connectionInfo).toBeDefined();
+          expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_ONE);
+          expect(connectionInfo.isConnectingFieldAutoCreated).toEqual(false);
+        });
       });
     });
   });
@@ -192,7 +281,7 @@ describe('process connection', () => {
 
     it('should return HAS_MANY for Post.comments', () => {
       const commentsField = modelMap.Post.fields[0];
-      const connectionInfo = (processConnections(commentsField, modelMap.Post, modelMap) as any) as CodeGenFieldConnectionHasMany;
+      const connectionInfo = (processConnections(commentsField, modelMap.Post, modelMap, true) as any) as CodeGenFieldConnectionHasMany;
       expect(connectionInfo).toBeDefined();
 
       expect(connectionInfo.kind).toEqual(CodeGenConnectionType.HAS_MANY);
@@ -208,7 +297,7 @@ describe('process connection', () => {
 
     it('should return BELONGS_TO for Comment.post', () => {
       const commentsField = modelMap.Comment.fields[0];
-      const connectionInfo = (processConnections(commentsField, modelMap.Comment, modelMap) as any) as CodeGenFieldConnectionBelongsTo;
+      const connectionInfo = (processConnections(commentsField, modelMap.Comment, modelMap, true) as any) as CodeGenFieldConnectionBelongsTo;
       expect(connectionInfo).toBeDefined();
 
       expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
@@ -280,12 +369,12 @@ describe('process connection', () => {
 
     it('should not throw error if connection directive has keyName', () => {
       const commentsField = modelMap.Post.fields[0];
-      expect(() => processConnections(commentsField, modelMap.Post, modelMap)).not.toThrowError();
+      expect(() => processConnections(commentsField, modelMap.Post, modelMap, true)).not.toThrowError();
     });
 
     it('should support connection with @key on BELONGS_TO side', () => {
       const postField = modelMap.Comment.fields[2];
-      const connectionInfo = (processConnections(postField, modelMap.Post, modelMap) as any) as CodeGenFieldConnectionBelongsTo;
+      const connectionInfo = (processConnections(postField, modelMap.Post, modelMap, true) as any) as CodeGenFieldConnectionBelongsTo;
       expect(connectionInfo).toBeDefined();
       expect(connectionInfo.kind).toEqual(CodeGenConnectionType.BELONGS_TO);
       expect(connectionInfo.targetName).toEqual(modelMap.Comment.fields[0].name);
