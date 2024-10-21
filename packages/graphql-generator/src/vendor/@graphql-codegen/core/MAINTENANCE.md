@@ -29,8 +29,8 @@ For the code forked here most of the complexity of adapting `codegen` to be non-
 
 These are the steps needed to adapt the `graphql-codegen-core` code to run non-async and adhere to the adapted `SyncTypes`:
 - Remove '`.js`' from all import statements
-- Replace "`async `" => "``"
-- Replace "`await `" => "``"
+- Replace "`async `" => ""
+- Replace "`await `" => ""
 - Replace "`Promise<X>`" => "`X`"
 - Replace "`Promise.resolve(X)`" => "`X`"
 - Replace "`Promise.all(X)`" => "`X`"
