@@ -32,6 +32,16 @@ export type AppSyncModelCodeGenPresetConfig = {
   isDataStoreEnabled?: boolean;
 };
 
+/**
+ * NOTE: The different codegen target presets restructure the options to meet the needs of the target plugin
+ * None of this remapping interacts with the pluginMap or cache interface, so we can reuse all logic if we strip out
+ * the pluginMap and cache, then re-introduce them in the returned preset.
+ */
+
+/**
+ * Internal types that represent the options without the pluginMap and cache, which we will use in each of our
+ * target preset option construction implementations
+ */
 type GenerateOptions = Omit<SyncTypes.GenerateOptions, 'cache' | 'pluginMap'>;
 type PresetFnArgs = Omit<SyncTypes.PresetFnArgs<AppSyncModelCodeGenPresetConfig>, 'cache' | 'pluginMap'>;
 
@@ -351,13 +361,18 @@ const buildGenerations = (options: PresetFnArgs): GenerateOptions[] => {
     }
   };
 
+
+
 /**
  * @internal
+ * The presetSync interface uses our SyncTypes __without__ promise/async typing
  */
 export const presetSync: SyncTypes.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
   buildGeneratesSection: (options: SyncTypes.PresetFnArgs<AppSyncModelCodeGenPresetConfig>): SyncTypes.GenerateOptions[] => {
+    // Extract cache and pluginMap from the options
     const {cache, pluginMap, ...otherOptions} = options;
 
+    // Generate the list of options and re-introduce the pluginMap and cache
     return buildGenerations(otherOptions).map((config: GenerateOptions) => ({
       pluginMap,
       cache,
@@ -366,10 +381,16 @@ export const presetSync: SyncTypes.OutputPreset<AppSyncModelCodeGenPresetConfig>
   }
 }
 
+/**
+ * @internal
+ * The preset interface uses the @graphql-codegen/core interfaces __with__ promise/async typing
+ */
 export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
   buildGeneratesSection: (options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>): Types.GenerateOptions[] => {
+    // Extract cache and pluginMap from the options
     const {cache, pluginMap, ...otherOptions} = options;
 
+    // Generate the list of options and re-introduce the pluginMap and cache
     return buildGenerations(otherOptions).map((config: GenerateOptions) => ({
       pluginMap,
       cache,

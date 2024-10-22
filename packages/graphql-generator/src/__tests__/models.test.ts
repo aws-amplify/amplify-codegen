@@ -2,6 +2,7 @@ import { generateModels, generateModelsSync, GenerateModelsOptions, ModelsTarget
 import { readSchema } from './utils';
 
 const generators = ['generateModels', 'generateModelsSync'] as const;
+const targets: ModelsTarget[] = ['java', 'swift', 'javascript', 'typescript', 'dart', 'introspection'];
 
 async function runGenerator(generator: (typeof generators)[number], options: GenerateModelsOptions) {
   if (generator === 'generateModels') {
@@ -11,30 +12,26 @@ async function runGenerator(generator: (typeof generators)[number], options: Gen
   }
 }
 
-generators.forEach((generator) => {
-  describe(generator, () => {
+describe.each(generators)('generateModels with', (generator) => {
     describe('targets', () => {
-      const targets: ModelsTarget[] = ['java', 'swift', 'javascript', 'typescript', 'dart', 'introspection'];
-      targets.forEach(target => {
-        test(`basic ${target}`, async () => {
-          const options: GenerateModelsOptions = {
-            schema: readSchema('blog-model.graphql'),
-            target,
-          };
-          const models = await runGenerator(generator, options);
-          expect(models).toMatchSnapshot();
-        });
-      });
-
-      test(`improve pluralization swift`, async () => {
+      test.each(targets)(`basic`, async (target) => {
         const options: GenerateModelsOptions = {
           schema: readSchema('blog-model.graphql'),
-          target: 'swift',
-          improvePluralization: true,
+          target,
         };
         const models = await runGenerator(generator, options);
         expect(models).toMatchSnapshot();
       });
+    });
+
+    test(`improve pluralization swift`, async () => {
+      const options: GenerateModelsOptions = {
+        schema: readSchema('blog-model.graphql'),
+        target: 'swift',
+        improvePluralization: true,
+      };
+      const models = await runGenerator(generator, options);
+      expect(models).toMatchSnapshot();
     });
 
     test('does not fail on custom directives', async () => {
@@ -54,9 +51,7 @@ generators.forEach((generator) => {
       expect(models).toMatchSnapshot();
     });
   });
-});
 
-const targets: ModelsTarget[] = ['java', 'swift', 'javascript', 'typescript', 'dart', 'introspection'];
 targets.forEach(target => {
   test(`both generates generate the same basic ${target}`, async () => {
     const options: GenerateModelsOptions = {

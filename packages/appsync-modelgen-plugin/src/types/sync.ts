@@ -3,17 +3,27 @@ import { Types, PluginFunction as PluginFunctionAsync, CodegenPlugin as CodegenP
 type PluginMapContainer = Pick<Types.GenerateOptions, 'pluginMap'>;
 type CacheContainer = Pick<Types.GenerateOptions, 'cache'>;
 
-export type SyncPluginMap<Obj extends PluginMapContainer> = Omit<Obj, 'pluginMap'> & {
+/**
+ * SyncPluginMap replaces the plugin function return type for all plugins in the plugin map
+ *   The object attribute we need to operate on is: Obj['pluginMap'][string]['plugin']
+ *   Use Omit to remove and & to replace each object layer
+ */
+type SyncPluginMap<Obj extends PluginMapContainer> = Omit<Obj, 'pluginMap'> & {
     pluginMap: {
-        [name: string]: Omit<Obj['pluginMap'][string], 'plugin'> & {
-        plugin: (
-            ...args: Parameters<Obj['pluginMap'][string]['plugin']>
-        ) => Awaited<ReturnType<Obj['pluginMap'][string]['plugin']>>;
-        };
+        [K in keyof Obj['pluginMap']]: Omit<Obj['pluginMap'][K], 'plugin'> & {
+            plugin: (
+                ...args: Parameters<Obj['pluginMap'][K]['plugin']>
+            ) => Awaited<ReturnType<Obj['pluginMap'][K]['plugin']>>;
+        }
     };
 };
 
-export type SyncCache<Obj extends CacheContainer> = Omit<Obj, 'cache'> & {
+/**
+ * SyncCache replaces the cache function return type
+ *   The object attribute we need to operate on is: Obj['cache']
+ *   Use Omit to remove and & to replace the object layer
+ */
+type SyncCache<Obj extends CacheContainer> = Omit<Obj, 'cache'> & {
     cache?: (<T>(namespace: string, key: string, factory: () => T) => T) | undefined
 };
 
