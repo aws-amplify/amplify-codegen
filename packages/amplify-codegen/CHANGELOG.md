@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.10.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.9.7...amplify-codegen@4.10.0) (2024-10-28)
+
+### Features
+
+- Sync codegen behavior implementation adding generateModelsSync ([#894](https://github.com/aws-amplify/amplify-codegen/issues/894)) ([fac63c1](https://github.com/aws-amplify/amplify-codegen/commit/fac63c1497b1e4b1f0f22e977500378afdd9a6d9))
+
 ## [4.9.7](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.9.6...amplify-codegen@4.9.7) (2024-10-03)
 
 **Note:** Version bump only for package amplify-codegen
