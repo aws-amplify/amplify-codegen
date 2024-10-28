@@ -60,6 +60,7 @@ function generateConversationModel(modelName: string, messageModelName: string):
       messages: generateMessagesField(messageModelName),
       createdAt: generateTimestampField('createdAt'),
       updatedAt: generateTimestampField('updatedAt'),
+      owner: generateField('owner', 'String'),
     },
     syncable: true,
     pluralName: plural(modelName),
@@ -103,8 +104,7 @@ function generateConversationMessageModel(conversationModelName: string, modelNa
       {
         type: 'model',
         properties: {
-          subscriptions: {},
-          mutations: { update: null }
+          subscriptions: {}
         }
       },
       generateAuthAttribute()

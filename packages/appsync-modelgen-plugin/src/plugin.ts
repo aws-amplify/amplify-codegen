@@ -9,7 +9,12 @@ import { AppSyncModelTypeScriptVisitor } from './visitors/appsync-typescript-vis
 import { AppSyncModelJavascriptVisitor } from './visitors/appsync-javascript-visitor';
 import { AppSyncModelDartVisitor } from './visitors/appsync-dart-visitor';
 import { AppSyncModelIntrospectionVisitor } from './visitors/appsync-model-introspection-visitor';
-export const plugin: PluginFunction<RawAppSyncModelConfig> = (
+import { SyncTypes } from './types/sync';
+
+/**
+ * @internal
+ */
+export const pluginSync: SyncTypes.PluginFunction<RawAppSyncModelConfig> = (
   schema: GraphQLSchema,
   rawDocuments: Types.DocumentFile[],
   config: RawAppSyncModelConfig,
@@ -58,4 +63,12 @@ export const plugin: PluginFunction<RawAppSyncModelConfig> = (
     return visitor.generate();
   }
   return '';
+};
+
+export const plugin: PluginFunction<RawAppSyncModelConfig> = (
+  schema: GraphQLSchema,
+  rawDocuments: Types.DocumentFile[],
+  config: RawAppSyncModelConfig,
+) => {
+  return pluginSync(schema, rawDocuments, config);
 };

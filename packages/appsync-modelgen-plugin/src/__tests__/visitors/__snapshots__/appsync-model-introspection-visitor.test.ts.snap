@@ -98,6 +98,13 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                             \\"isArray\\": false,
                             \\"isRequired\\": false,
                             \\"isReadOnly\\": true
+                        },
+                        \\"owner\\": {
+                            \\"name\\": \\"owner\\",
+                            \\"type\\": \\"String\\",
+                            \\"attributes\\": [],
+                            \\"isArray\\": false,
+                            \\"isRequired\\": false
                         }
                     },
                     \\"syncable\\": true,
@@ -230,10 +237,7 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                         {
                             \\"type\\": \\"model\\",
                             \\"properties\\": {
-                                \\"subscriptions\\": {},
-                                \\"mutations\\": {
-                                    \\"update\\": null
-                                }
+                                \\"subscriptions\\": {}
                             }
                         },
                         {

@@ -4,6 +4,7 @@
 
 ```ts
 
+import { CodegenPlugin } from '@graphql-codegen/plugin-helpers';
 import { PluginFunction } from '@graphql-codegen/plugin-helpers';
 import { RawConfig } from '@graphql-codegen/visitor-plugin-common';
 import { RawDocumentsConfig } from '@graphql-codegen/visitor-plugin-common';
@@ -143,7 +144,13 @@ export type ModelIntrospectionSchema = {
 export const plugin: PluginFunction<RawAppSyncModelConfig>;
 
 // @public (undocumented)
+export const pluginSync: SyncTypes.PluginFunction<RawAppSyncModelConfig>;
+
+// @public (undocumented)
 export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig>;
+
+// @public (undocumented)
+export const presetSync: SyncTypes.OutputPreset<AppSyncModelCodeGenPresetConfig>;
 
 // @public (undocumented)
 export type PrimaryKeyInfo = {
@@ -234,6 +241,39 @@ export type SchemaSubscription = SchemaQuery;
 
 // @public (undocumented)
 export type SchemaSubscriptions = Record<string, SchemaSubscription>;
+
+// @public (undocumented)
+export namespace SyncTypes {
+    // (undocumented)
+    export type CodegenPlugin<T = any> = Omit<CodegenPlugin<T>, 'plugin'> & {
+        plugin: PluginFunction<T>;
+    };
+    // (undocumented)
+    export type ConfiguredPlugin = Types.ConfiguredPlugin;
+    // (undocumented)
+    export type DocumentFile = Types.DocumentFile;
+    // Warning: (ae-forgotten-export) The symbol "SyncCache" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "SyncPluginMap" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    export type GenerateOptions = SyncCache<SyncPluginMap<Types.GenerateOptions>>;
+    // (undocumented)
+    export type OutputPreset<TPresetConfig = any> = {
+        buildGeneratesSection: (options: PresetFnArgs<TPresetConfig>) => GenerateOptions[];
+    };
+    // (undocumented)
+    export type PluginConfig = Types.PluginConfig;
+    // (undocumented)
+    export type PluginFunction<T> = (...args: Parameters<PluginFunction<T>>) => Awaited<ReturnType<PluginFunction<T>>>;
+    // (undocumented)
+    export type PluginOutput = Types.PluginOutput;
+    // (undocumented)
+    export type PresetFnArgs<Config = any, PluginConfig = {
+        [key: string]: any;
+    }> = SyncCache<SyncPluginMap<Types.PresetFnArgs<Config, PluginConfig>>>;
+    // (undocumented)
+    export type SkipDocumentsValidationOptions = Types.SkipDocumentsValidationOptions;
+}
 
 // @public (undocumented)
 export type Target = 'java' | 'swift' | 'javascript' | 'typescript' | 'dart' | 'introspection';
