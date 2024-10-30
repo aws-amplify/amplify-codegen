@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.14.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.13.2...@aws-amplify/appsync-modelgen-plugin@2.14.0) (2024-10-28)
+
+### Bug Fixes
+
+- add owner field to conversation model ([#893](https://github.com/aws-amplify/amplify-codegen/issues/893)) ([705ac3a](https://github.com/aws-amplify/amplify-codegen/commit/705ac3ad6c422cedb32428ad4970b04e58cf2984))
+
+### Features
+
+- remove `update: null` for conversation model in MIS ([#895](https://github.com/aws-amplify/amplify-codegen/issues/895)) ([bef8bb2](https://github.com/aws-amplify/amplify-codegen/commit/bef8bb2a94ed9cb60f36f861ce91fb1148f68bae))
+- Sync codegen behavior implementation adding generateModelsSync ([#894](https://github.com/aws-amplify/amplify-codegen/issues/894)) ([fac63c1](https://github.com/aws-amplify/amplify-codegen/commit/fac63c1497b1e4b1f0f22e977500378afdd9a6d9))
+
 ## [2.13.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.13.1...@aws-amplify/appsync-modelgen-plugin@2.13.2) (2024-10-03)
 
 ### Bug Fixes

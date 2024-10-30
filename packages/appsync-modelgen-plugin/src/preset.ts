@@ -4,6 +4,7 @@ import { join } from 'path';
 import { JAVA_SCALAR_MAP, SWIFT_SCALAR_MAP, TYPESCRIPT_SCALAR_MAP, DART_SCALAR_MAP, METADATA_SCALAR_MAP } from './scalars';
 import { LOADER_CLASS_NAME, GENERATED_PACKAGE_NAME } from './configs/java-config';
 import { graphqlName, toUpper } from 'graphql-transformer-common';
+import { SyncTypes } from './types/sync';
 
 const APPSYNC_DATA_STORE_CODEGEN_TARGETS = ['java', 'swift', 'javascript', 'typescript', 'dart', 'introspection'];
 
@@ -31,12 +32,25 @@ export type AppSyncModelCodeGenPresetConfig = {
   isDataStoreEnabled?: boolean;
 };
 
+/**
+ * NOTE: The different codegen target presets restructure the options to meet the needs of the target plugin
+ * None of this remapping interacts with the pluginMap or cache interface, so we can reuse all logic if we strip out
+ * the pluginMap and cache, then re-introduce them in the returned preset.
+ */
+
+/**
+ * Internal types that represent the options without the pluginMap and cache, which we will use in each of our
+ * target preset option construction implementations
+ */
+type GenerateOptions = Omit<SyncTypes.GenerateOptions, 'cache' | 'pluginMap'>;
+type PresetFnArgs = Omit<SyncTypes.PresetFnArgs<AppSyncModelCodeGenPresetConfig>, 'cache' | 'pluginMap'>;
+
 const generateJavaPreset = (
-  options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>,
+  options: PresetFnArgs,
   models: TypeDefinitionNode[],
   manyToManyJoinModels: TypeDefinitionNode[],
-): Types.GenerateOptions[] => {
-  const config: Types.GenerateOptions[] = [];
+): GenerateOptions[] => {
+  const config: GenerateOptions[] = [];
   const modelFolder = options.config.overrideOutputDir
     ? [options.config.overrideOutputDir]
     : [options.baseOutputDir, ...GENERATED_PACKAGE_NAME.split('.')];
@@ -105,10 +119,10 @@ const generateJavaPreset = (
 };
 
 const generateSwiftPreset = (
-  options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>,
+  options: PresetFnArgs,
   models: TypeDefinitionNode[],
-): Types.GenerateOptions[] => {
-  const config: Types.GenerateOptions[] = [];
+): GenerateOptions[] => {
+  const config: GenerateOptions[] = [];
   const modelFolder = options.config.overrideOutputDir ? options.config.overrideOutputDir : options.baseOutputDir;
   models.forEach(model => {
     const modelName = model.name.value;
@@ -152,10 +166,10 @@ const generateSwiftPreset = (
 };
 
 const generateTypeScriptPreset = (
-  options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>,
+  options: PresetFnArgs,
   models: TypeDefinitionNode[],
-): Types.GenerateOptions[] => {
-  const config: Types.GenerateOptions[] = [];
+): GenerateOptions[] => {
+  const config: GenerateOptions[] = [];
   const modelFolder = options.config.overrideOutputDir ? options.config.overrideOutputDir : join(options.baseOutputDir);
   config.push({
     ...options,
@@ -181,10 +195,10 @@ const generateTypeScriptPreset = (
 };
 
 const generateJavasScriptPreset = (
-  options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>,
+  options: PresetFnArgs,
   models: TypeDefinitionNode[],
-): Types.GenerateOptions[] => {
-  const config: Types.GenerateOptions[] = [];
+): GenerateOptions[] => {
+  const config: GenerateOptions[] = [];
   const modelFolder = options.config.overrideOutputDir ? options.config.overrideOutputDir : join(options.baseOutputDir);
   config.push({
     ...options,
@@ -234,10 +248,10 @@ const generateJavasScriptPreset = (
 };
 
 const generateDartPreset = (
-  options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>,
+  options: PresetFnArgs,
   models: TypeDefinitionNode[],
-): Types.GenerateOptions[] => {
-  const config: Types.GenerateOptions[] = [];
+): GenerateOptions[] => {
+  const config: GenerateOptions[] = [];
   const modelFolder = options.config.overrideOutputDir ?? options.baseOutputDir;
   models.forEach(model => {
     const modelName = model.name.value;
@@ -264,7 +278,7 @@ const generateDartPreset = (
   return config;
 };
 
-const generateManyToManyModelStubs = (options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>): TypeDefinitionNode[] => {
+const generateManyToManyModelStubs = (options: PresetFnArgs): TypeDefinitionNode[] => {
   let models = new Array<TypeDefinitionNode>();
   let manyToManySet = new Set<string>();
   options.schema.definitions.forEach(def => {
@@ -295,10 +309,10 @@ const generateManyToManyModelStubs = (options: Types.PresetFnArgs<AppSyncModelCo
 };
 
 const generateIntrospectionPreset = (
-  options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>,
+  options: PresetFnArgs,
   models: TypeDefinitionNode[],
-): Types.GenerateOptions[] => {
-  const config: Types.GenerateOptions[] = [];
+): GenerateOptions[] => {
+  const config: GenerateOptions[] = [];
   // model-intropection.json
   config.push({
     ...options,
@@ -312,8 +326,7 @@ const generateIntrospectionPreset = (
   return config;
 };
 
-export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
-  buildGeneratesSection: (options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>): Types.GenerateOptions[] => {
+const buildGenerations = (options: PresetFnArgs): GenerateOptions[] => {
     const codeGenTarget = options.config.target;
     const typesToSkip: string[] = ['Query', 'Mutation', 'Subscription'];
     const models: TypeDefinitionNode[] = options.schema.definitions.filter(
@@ -346,5 +359,42 @@ export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
           )}`,
         );
     }
-  },
-};
+  };
+
+
+
+/**
+ * @internal
+ * The presetSync interface uses our SyncTypes __without__ promise/async typing
+ */
+export const presetSync: SyncTypes.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
+  buildGeneratesSection: (options: SyncTypes.PresetFnArgs<AppSyncModelCodeGenPresetConfig>): SyncTypes.GenerateOptions[] => {
+    // Extract cache and pluginMap from the options
+    const {cache, pluginMap, ...otherOptions} = options;
+
+    // Generate the list of options and re-introduce the pluginMap and cache
+    return buildGenerations(otherOptions).map((config: GenerateOptions) => ({
+      pluginMap,
+      cache,
+      ...config,
+    }))
+  }
+}
+
+/**
+ * @internal
+ * The preset interface uses the @graphql-codegen/core interfaces __with__ promise/async typing
+ */
+export const preset: Types.OutputPreset<AppSyncModelCodeGenPresetConfig> = {
+  buildGeneratesSection: (options: Types.PresetFnArgs<AppSyncModelCodeGenPresetConfig>): Types.GenerateOptions[] => {
+    // Extract cache and pluginMap from the options
+    const {cache, pluginMap, ...otherOptions} = options;
+
+    // Generate the list of options and re-introduce the pluginMap and cache
+    return buildGenerations(otherOptions).map((config: GenerateOptions) => ({
+      pluginMap,
+      cache,
+      ...config,
+    }))
+  }
+}
