@@ -31,23 +31,23 @@ batch:
       debug-session: true
       depend-on:
         - publish_to_local_registry
-    - identifier: build_app_android
+    - identifier: build_app_android_us_east_1
       buildspec: .codebuild/run_android_modelgen_e2e_test.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
           TEST_SUITE: src/__tests__/build-app-android.test.ts
-          CLI_REGION: us-east-2
+          CLI_REGION: us-east-1
       debug-session: true
       depend-on:
         - publish_to_local_registry
-    - identifier: build_app_ts
+    - identifier: build_app_ts_us_east_1
       buildspec: .codebuild/run_e2e_tests.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
           TEST_SUITE: src/__tests__/build-app-ts.test.ts
-          CLI_REGION: ap-southeast-1
+          CLI_REGION: us-east-1
       debug-session: true
       depend-on:
         - publish_to_local_registry
@@ -56,4 +56,4 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_MEDIUM
       depend-on:
-        - publish_to_local_registry
+        - build_app_ts_us_east_1
