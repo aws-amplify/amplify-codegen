@@ -1,4 +1,4 @@
- version: 0.2
+version: 0.2
 env:
   shell: bash
   compute-type: BUILD_GENERAL1_LARGE
@@ -28,7 +28,6 @@ batch:
         variables:
           TEST_SUITE: src/__tests__/build-app-swift.test.ts
           CLI_REGION: us-east-1
-      debug-session: true
       depend-on:
         - publish_to_local_registry
     - identifier: build_app_android_us_east_1
@@ -38,7 +37,6 @@ batch:
         variables:
           TEST_SUITE: src/__tests__/build-app-android.test.ts
           CLI_REGION: us-east-1
-      debug-session: true
       depend-on:
         - publish_to_local_registry
     - identifier: build_app_ts_us_east_1
@@ -48,7 +46,6 @@ batch:
         variables:
           TEST_SUITE: src/__tests__/build-app-ts.test.ts
           CLI_REGION: us-east-1
-      debug-session: true
       depend-on:
         - publish_to_local_registry
     - identifier: cleanup_e2e_resources
