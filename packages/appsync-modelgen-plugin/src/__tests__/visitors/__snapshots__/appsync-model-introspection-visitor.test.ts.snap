@@ -326,7 +326,7 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                     \\"isRequired\\": false,
                     \\"name\\": \\"onCreateAssistantResponsePirateChat\\",
                     \\"type\\": {
-                        \\"model\\": \\"ConversationMessagePirateChat\\"
+                        \\"nonModel\\": \\"ConversationMessageStreamPart\\"
                     },
                     \\"arguments\\": {
                         \\"conversationId\\": {
