@@ -92,19 +92,10 @@ export const sandboxDeploy = async (cwd: string, props: Gen2DeployProps = {}): P
   };
 
   // Run sandbox deployment
-
-  /**
-   * For sandbox deployment, the nested ampx binary is retrieved instead of using npx
-   * On windows, the Ctrl-C signal is not returned correctly from npx binary, whose code is 1 and will fail nexpect check
-   * Therefore, the ampx binary is used for sandbox deployment instead of npx
-   */
-  const ampxCli = getAmpxPath(cwd)
   await
-    spawn(ampxCli, ['sandbox'], commandOptions)
+    spawn(getNpxPath(), ['ampx', 'sandbox'], commandOptions)
       .wait('Watching for file changes...')
       .sendCtrlC()
-      .wait('Would you like to delete all the resources in your sandbox environment')
-      .sendLine('N')
       .runAsync();
 };
 
