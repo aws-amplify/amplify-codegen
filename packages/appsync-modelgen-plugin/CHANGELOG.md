@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.15.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.14.0...@aws-amplify/appsync-modelgen-plugin@2.15.0) (2024-11-07)
+
+### Features
+
+- **ai:** support streaming ([#899](https://github.com/aws-amplify/amplify-codegen/issues/899)) ([7b8ee57](https://github.com/aws-amplify/amplify-codegen/commit/7b8ee574df3bc0ee8ac781f7809742063db66802))
+
 # [2.14.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.13.2...@aws-amplify/appsync-modelgen-plugin@2.14.0) (2024-10-28)
 
 ### Bug Fixes
