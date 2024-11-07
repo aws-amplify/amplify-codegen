@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPO_OWNER="aws-amplify"
+REPO_OWNER="tejas2008"
 REPO_NAME="amplify-codegen"
 
 # Function to get the latest workflow run ID

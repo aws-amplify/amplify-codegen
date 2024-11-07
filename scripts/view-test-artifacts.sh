@@ -21,8 +21,8 @@ function convertArnToUri {
 
 function downloadS3Artifact {
   # Get temporary access for the account
-  E2E_ROLE_NAME=CodebuildDeveloper
-  E2E_PROFILE_NAME=AmplifyAPIE2EProd
+  E2E_ROLE_NAME=Admin
+  E2E_PROFILE_NAME=CodebuildTesting
   authenticate $E2E_ACCOUNT_PROD $E2E_ROLE_NAME "$E2E_PROFILE_NAME"
   echo "Fetching artifact location from build"
   s3_arn=$(aws codebuild batch-get-builds --profile="$E2E_PROFILE_NAME" --ids "$1" --region us-east-1 --query 'builds[0].artifacts.location')
