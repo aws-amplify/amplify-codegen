@@ -185,7 +185,7 @@ function generateSubscriptionMetadata(routeName: string, modelName: string): Sch
     isArray: false,
     isRequired: false,
     name: `onCreateAssistantResponse${routeName}`,
-    type: { model: modelName },
+    type: { nonModel: 'ConversationMessageStreamPart' },
     arguments: {
       'conversationId': {
         name: 'conversationId',
