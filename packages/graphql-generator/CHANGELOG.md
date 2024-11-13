@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.2-ai-next.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.5.1...@aws-amplify/graphql-generator@0.5.2-ai-next.0) (2024-11-13)
+
+**Note:** Version bump only for package @aws-amplify/graphql-generator
+
 ## [0.5.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-generator@0.5.0...@aws-amplify/graphql-generator@0.5.1) (2024-11-07)
 
 **Note:** Version bump only for package @aws-amplify/graphql-generator

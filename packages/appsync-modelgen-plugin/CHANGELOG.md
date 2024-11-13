@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.15.1-ai-next.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.15.0...@aws-amplify/appsync-modelgen-plugin@2.15.1-ai-next.0) (2024-11-13)
+
+### Bug Fixes
+
+- **conversation:** prefix supporting types with AmplifyAI ([33c076c](https://github.com/aws-amplify/amplify-codegen/commit/33c076c6b2c00966294ee86a90ec98ee6f391ccb))
+
 # [2.15.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.14.0...@aws-amplify/appsync-modelgen-plugin@2.15.0) (2024-11-07)
 
 ### Features

@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.10.2-ai-next.0](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.10.1...amplify-codegen@4.10.2-ai-next.0) (2024-11-13)
+
+**Note:** Version bump only for package amplify-codegen
+
 ## [4.10.1](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.10.0...amplify-codegen@4.10.1) (2024-11-07)
 
 **Note:** Version bump only for package amplify-codegen
