@@ -182,7 +182,7 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                         \\"role\\": {
                             \\"name\\": \\"role\\",
                             \\"type\\": {
-                                \\"enum\\": \\"ConversationParticipantRole\\"
+                                \\"enum\\": \\"AmplifyAIConversationParticipantRole\\"
                             },
                             \\"attributes\\": [],
                             \\"isArray\\": false,
@@ -191,7 +191,7 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                         \\"content\\": {
                             \\"name\\": \\"content\\",
                             \\"type\\": {
-                                \\"nonModel\\": \\"ContentBlock\\"
+                                \\"nonModel\\": \\"AmplifyAIContentBlock\\"
                             },
                             \\"attributes\\": [],
                             \\"isArray\\": true,
@@ -207,7 +207,7 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                         \\"toolConfiguration\\": {
                             \\"name\\": \\"toolConfiguration\\",
                             \\"type\\": {
-                                \\"nonModel\\": \\"ToolConfiguration\\"
+                                \\"nonModel\\": \\"AmplifyAIToolConfiguration\\"
                             },
                             \\"attributes\\": [],
                             \\"isArray\\": true,
@@ -270,7 +270,7 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
             \\"nonModels\\": {},
             \\"enums\\": {
                 \\"ConversationParticipantRole\\": {
-                    \\"name\\": \\"ConversationParticipantRole\\",
+                    \\"name\\": \\"AmplifyAIConversationParticipantRole\\",
                     \\"values\\": [
                         \\"user\\",
                         \\"assistant\\"
@@ -326,7 +326,7 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                     \\"isRequired\\": false,
                     \\"name\\": \\"onCreateAssistantResponsePirateChat\\",
                     \\"type\\": {
-                        \\"nonModel\\": \\"ConversationMessageStreamPart\\"
+                        \\"nonModel\\": \\"AmplifyAIConversationMessageStreamPart\\"
                     },
                     \\"arguments\\": {
                         \\"conversationId\\": {
