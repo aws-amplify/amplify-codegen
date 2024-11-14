@@ -26,7 +26,7 @@ export function processConversationRoute(
     nonModels: {},
     enums: {
       ConversationParticipantRole: {
-        name: 'ConversationParticipantRole',
+        name: 'AmplifyAIConversationParticipantRole',
         values: ['user', 'assistant'],
       }
     },
@@ -91,10 +91,10 @@ function generateConversationMessageModel(conversationModelName: string, modelNa
       id: generateField('id', 'ID', { isRequired: true }),
       conversationId: generateField('conversationId', 'ID', { isRequired: true }),
       conversation: generateConversationField(conversationModelName),
-      role: generateField('role', { enum: 'ConversationParticipantRole' }),
-      content: generateField('content', { nonModel: 'ContentBlock' }, { isArray: true }),
+      role: generateField('role', { enum: 'AmplifyAIConversationParticipantRole' }),
+      content: generateField('content', { nonModel: 'AmplifyAIContentBlock' }, { isArray: true }),
       aiContext: generateField('aiContext', 'AWSJSON'),
-      toolConfiguration: generateField('toolConfiguration', { nonModel: 'ToolConfiguration' }, { isArray: true, isArrayNullable: true }),
+      toolConfiguration: generateField('toolConfiguration', { nonModel: 'AmplifyAIToolConfiguration' }, { isArray: true, isArrayNullable: true }),
       createdAt: generateTimestampField('createdAt'),
       updatedAt: generateTimestampField('updatedAt'),
     },
@@ -185,7 +185,7 @@ function generateSubscriptionMetadata(routeName: string, modelName: string): Sch
     isArray: false,
     isRequired: false,
     name: `onCreateAssistantResponse${routeName}`,
-    type: { nonModel: 'ConversationMessageStreamPart' },
+    type: { nonModel: 'AmplifyAIConversationMessageStreamPart' },
     arguments: {
       'conversationId': {
         name: 'conversationId',
