@@ -103,8 +103,6 @@ export const sandboxDeploy = async (cwd: string, props: Gen2DeployProps = {}): P
     spawn(ampxCli, ['sandbox'], commandOptions)
       .wait('Watching for file changes...')
       .sendCtrlC()
-      .wait('Would you like to delete all the resources in your sandbox environment')
-      .sendLine('N')
       .runAsync();
 };
 
