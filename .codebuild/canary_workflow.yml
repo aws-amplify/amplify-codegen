@@ -22,7 +22,7 @@ batch:
       depend-on:
         - build_linux
     - identifier: build_app_swift_us_east_1
-      buildspec: .codebuild/run_ios_modelgen_e2e_test.yml
+      buildspec: .codebuild/run_canary_ios_modelgen_e2e_test.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
@@ -31,7 +31,7 @@ batch:
       depend-on:
         - publish_to_local_registry
     - identifier: build_app_android_us_east_1
-      buildspec: .codebuild/run_android_modelgen_e2e_test.yml
+      buildspec: .codebuild/run_canary_android_modelgen_e2e_test.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
@@ -40,7 +40,7 @@ batch:
       depend-on:
         - publish_to_local_registry
     - identifier: build_app_ts_us_east_1
-      buildspec: .codebuild/run_e2e_tests.yml
+      buildspec: .codebuild/run_canary_e2e_tests.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:

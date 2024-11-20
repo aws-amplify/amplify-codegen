@@ -492,3 +492,14 @@ function _deprecate {
   yarn deprecate
   unsetNpmRegistryUrl
 }
+
+function _emitCodegenCanaryMetric {
+  aws cloudwatch \
+    put-metric-data \
+    --metric-name CodegenCanarySuccessRate \
+    --namespace amplify-codegen-canary-e2e-tests \
+    --unit Count \
+    --value $CODEBUILD_BUILD_SUCCEEDING \
+    --dimensions branch=release \
+    --region us-west-2
+}
