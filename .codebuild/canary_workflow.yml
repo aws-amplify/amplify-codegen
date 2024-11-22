@@ -46,6 +46,7 @@ batch:
         variables:
           TEST_SUITE: src/__tests__/build-app-ts.test.ts
           CLI_REGION: us-east-1
+          DISABLE_ESLINT_PLUGIN: true
       depend-on:
         - publish_to_local_registry
     - identifier: cleanup_e2e_resources
