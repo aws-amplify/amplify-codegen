@@ -13,7 +13,7 @@ env:
 jobs:
   Build-Swift-Modelgen:
     name: Build
-    runs-on: macos-13-xl
+    runs-on: macos-13-xlarge
     permissions:
       actions: read
       contents: read
