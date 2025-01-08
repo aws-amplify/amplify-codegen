@@ -500,6 +500,6 @@ function _emitCodegenCanaryMetric {
     --namespace amplify-codegen-canary-e2e-tests \
     --unit Count \
     --value $CODEBUILD_BUILD_SUCCEEDING \
-    --dimensions branch=release \
+    --dimensions branch=release,test=$(basename "$TEST_SUITE" .test.ts | sed "s/build-app-//") \
     --region us-west-2
 }
