@@ -1184,7 +1184,11 @@ export class AppSyncModelVisitor<
               connectionInfo.targetName !== 'id'
             ) {
               // Need to remove the field that is targetName
-              connectionInfo.targetNames.forEach(targetName => removeFieldFromModel(model, targetName));
+              const primaryKeyFieldNames = getModelPrimaryKeyComponentFields(model).map(field => field.name);
+              connectionInfo.targetNames
+                // Don't remove the field if it is part of the primary key field on the parent model
+                .filter(targetName => !primaryKeyFieldNames.includes(targetName))
+                .forEach(targetName => removeFieldFromModel(model, targetName));
             }
           });
         });
