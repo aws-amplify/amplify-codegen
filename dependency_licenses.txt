@@ -11836,7 +11836,7 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: end-of-stream, pump, tar-stream. A copy of the source code may be downloaded from git://github.com/mafintosh/end-of-stream.git (end-of-stream), git://github.com/mafintosh/pump.git (pump), git+https://github.com/mafintosh/tar-stream.git (tar-stream). This software contains the following license and notice below:
+The following software may be included in this product: end-of-stream, tar-stream. A copy of the source code may be downloaded from git://github.com/mafintosh/end-of-stream.git (end-of-stream), git+https://github.com/mafintosh/tar-stream.git (tar-stream). This software contains the following license and notice below:
 
 The MIT License (MIT)
 
