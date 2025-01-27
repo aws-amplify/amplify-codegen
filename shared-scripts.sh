@@ -180,6 +180,27 @@ function _lint {
   chmod +x .codebuild/scripts/lint_pr.sh && ./.codebuild/scripts/lint_pr.sh
 }
 
+function _setupNodeVersion {
+  local version=$1  # Version number passed as an argument
+  
+  echo "Installing NVM and setting Node.js version to $version"
+  
+  # Install NVM
+  curl -o - https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+  
+  # Load NVM
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  
+  # Install and use the specified Node.js version
+  nvm install "$version"
+  nvm use "$version"
+  
+  # Verify the Node.js version in use
+  echo "Node.js version in use:"
+  node -v
+}
+
 function _publishToLocalRegistry {
     echo "Publish To Local Registry"
     loadCacheFromLinuxBuildJob
@@ -274,6 +295,8 @@ function _setupE2ETestsWindows {
 
 function _setupGen2E2ETestsLinux {
     echo "Setup Gen2 E2E Tests Linux"
+    # Set Node.js version to v18.20.6 because execa requires later version
+    _setupNodeVersion v18.20.4
     loadCacheFromLinuxBuildJob
     loadCache verdaccio-cache $CODEBUILD_SRC_DIR/../verdaccio-cache
     _loadTestAccountCredentials
@@ -282,6 +305,8 @@ function _setupGen2E2ETestsLinux {
 
 function _setupGen2E2ETestsWindows {
     echo "Setup Gen2 E2E Tests Windows"
+    # Set Node.js version to v18.20.6 because execa requires later version
+    _setupNodeVersion v18.20.4
     loadCacheFromWindowsBuildJob
     loadCache verdaccio-cache $CODEBUILD_SRC_DIR/../verdaccio-cache windows
     _loadTestAccountCredentials
