@@ -82,6 +82,7 @@ batch:
       buildspec: .codebuild/run_gen2_e2e_test.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
+        image: 671107461633.dkr.ecr.us-east-1.amazonaws.com/amplify-cli-codebuild-testing-stack-prod-amplifyclie2eecrc5fd2bba-ke8oxaimjhf2:1.0.3
         variables:
           TEST_SUITE: src/__tests__/graphql-generator-gen2.test.ts
           CLI_REGION: us-west-2
@@ -91,7 +92,7 @@ batch:
       buildspec: .codebuild/run_gen2_e2e_test_windows.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
-        image: $WINDOWS_IMAGE_2019
+        image: 671107461633.dkr.ecr.us-east-1.amazonaws.com/amplify-cli-codebuild-testing-stack-prod-amplifyclie2eecrc5fd2bba-ke8oxaimjhf2:1.0.3-1
         type: WINDOWS_SERVER_2019_CONTAINER
         variables:
           TEST_SUITE: src/__tests__/graphql-generator-gen2.test.ts
