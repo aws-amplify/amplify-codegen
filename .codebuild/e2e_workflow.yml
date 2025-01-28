@@ -15,13 +15,15 @@ batch:
       env:
         type: WINDOWS_SERVER_2019_CONTAINER
         compute-type: BUILD_GENERAL1_LARGE
-        image: $WINDOWS_IMAGE_2019
+        image: >-
+          671107461633.dkr.ecr.us-east-1.amazonaws.com/amplify-cli-codebuild-testing-stack-prod-amplifyclie2eecrc5fd2bba-ke8oxaimjhf2:1.0.3-1
     - identifier: test_windows
       buildspec: .codebuild/test_windows.yml
       env:
         type: WINDOWS_SERVER_2019_CONTAINER
         compute-type: BUILD_GENERAL1_LARGE
-        image: $WINDOWS_IMAGE_2019
+        image: >-
+          671107461633.dkr.ecr.us-east-1.amazonaws.com/amplify-cli-codebuild-testing-stack-prod-amplifyclie2eecrc5fd2bba-ke8oxaimjhf2:1.0.3-1
       depend-on:
         - build_windows
     - identifier: test
@@ -83,7 +85,7 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_LARGE
         image: >-
-          671107461633.dkr.ecr.us-east-1.amazonaws.com/amplify-cli-codebuild-testing-stack-prod-amplifyclie2eecrc5fd2bba-ke8oxaimjhf2:1.0.3
+          671107461633.dkr.ecr.us-east-1.amazonaws.com/amplify-cli-codebuild-testing-stack-prod-amplifyclie2eecrc5fd2bba-ke8oxaimjhf2:1.0.4-node-22-rc
         variables:
           TEST_SUITE: src/__tests__/graphql-generator-gen2.test.ts
           CLI_REGION: us-west-2
