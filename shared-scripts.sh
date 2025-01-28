@@ -295,8 +295,8 @@ function _setupE2ETestsWindows {
 
 function _setupGen2E2ETestsLinux {
     echo "Setup Gen2 E2E Tests Linux"
-    # Set Node.js version to v20.9.0 because execa dep in `npm create amplify` requires later version
-    _setupNodeVersion v20.9.0
+    # Set Node.js version to v18.20.4 because execa dep in `npm create amplify` requires later version
+    _setupNodeVersion v18.20.4
     loadCacheFromLinuxBuildJob
     loadCache verdaccio-cache $CODEBUILD_SRC_DIR/../verdaccio-cache
     _loadTestAccountCredentials
@@ -305,8 +305,8 @@ function _setupGen2E2ETestsLinux {
 
 function _setupGen2E2ETestsWindows {
     echo "Setup Gen2 E2E Tests Windows"
-    # Set Node.js version to v20.9.0 because execa dep in `npm create amplify` requires later version
-    _setupNodeVersion v20.9.0
+    # Set Node.js version to v18.20.4 because execa dep in `npm create amplify` requires later version
+    _setupNodeVersion v18.20.4
     loadCacheFromWindowsBuildJob
     loadCache verdaccio-cache $CODEBUILD_SRC_DIR/../verdaccio-cache windows
     _loadTestAccountCredentials
