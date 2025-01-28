@@ -11,6 +11,8 @@ env:
 phases:
   install:
     commands:
+      # Corretto PGP Key has expired. Fetch the renewed key. https://github.com/corretto/corretto-21/issues/83
+      - sudo rm /usr/share/keyrings/corretto-keyring.gpg && wget -O - https://apt.corretto.aws/corretto.key | sudo gpg --dearmor -o /usr/share/keyrings/corretto-keyring.gpg
       - sudo apt update
       - yes | sudo apt install android-sdk
       - export ANDROID_HOME=/usr/lib/android-sdk
