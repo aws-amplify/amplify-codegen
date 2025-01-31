@@ -5,6 +5,7 @@ phases:
   build:
     commands:
       - source ./shared-scripts.sh && _buildLinux
+      - node --version
 artifacts:
   files:
     - 'shared-scripts.sh'
