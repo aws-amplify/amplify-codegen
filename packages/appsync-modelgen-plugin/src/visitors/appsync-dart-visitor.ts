@@ -26,6 +26,7 @@ import {
 import { generateLicense } from '../utils/generateLicense';
 import { GraphQLSchema } from 'graphql';
 import { DART_SCALAR_MAP } from '../scalars';
+import { pascalCase } from 'change-case';
 
 export interface RawAppSyncModelDartConfig extends RawAppSyncModelConfig {}
 
@@ -166,7 +167,7 @@ export class AppSyncModelDartVisitor<
     //Enum
     Object.entries(this.getSelectedEnums()).forEach(([name, enumVal]) => {
       const body = Object.values(enumVal.values).join(',\n');
-      result.push([`enum ${name} {`, indentMultiline(body), '}'].join('\n'));
+      result.push([`enum ${pascalCase(name)} {`, indentMultiline(body), '}'].join('\n'));
     });
     return result.join('\n\n');
   }
