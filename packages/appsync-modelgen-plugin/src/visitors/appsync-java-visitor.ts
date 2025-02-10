@@ -158,7 +158,7 @@ export class AppSyncModelJavaVisitor<
       const enumDeclaration = new JavaDeclarationBlock()
         .asKind('enum')
         .access('public')
-        .withName(this.getEnumName(enumValue))
+        .withName(pascalCase(this.getEnumName(enumValue)))
         .annotate(['SuppressWarnings("all")'])
         .withComment('Auto generated enum from GraphQL schema.');
       const body = Object.values(enumValue.values);
