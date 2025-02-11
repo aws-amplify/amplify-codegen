@@ -2,6 +2,7 @@ import { DEFAULT_SCALARS, NormalizedScalarsMap } from '@graphql-codegen/visitor-
 import { GraphQLSchema } from 'graphql';
 import { AppSyncModelTypeScriptVisitor } from './appsync-typescript-visitor';
 import { CodeGenEnum, CodeGenModel, ParsedAppSyncModelConfig, RawAppSyncModelConfig } from './appsync-visitor';
+import { pascalCase } from 'change-case';
 
 export interface RawAppSyncModelJavaScriptConfig extends RawAppSyncModelConfig {
   /**
@@ -112,7 +113,7 @@ export class AppSyncModelJavascriptVisitor<
    * @param exportEnum: boolean export the enum object
    */
   protected generateEnumObject(enumObj: CodeGenEnum, exportEnum: boolean = false): string {
-    const enumName = this.getEnumName(enumObj);
+    const enumName = pascalCase(this.getEnumName(enumObj));
     const header = [exportEnum ? 'export' : null, 'const', enumName].filter(h => h).join(' ');
 
     return `${header} = ${JSON.stringify(enumObj.values, null, 2)};`;
