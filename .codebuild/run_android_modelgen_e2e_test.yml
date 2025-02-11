@@ -19,6 +19,7 @@ phases:
       - yes | sudo apt install sdkmanager
       # Review SDK licenses
       - yes | sudo sdkmanager --licenses
+      - ls -l $ANDROID_HOME/licenses
 
   build:
     commands:
