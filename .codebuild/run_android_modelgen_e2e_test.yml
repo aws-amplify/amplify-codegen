@@ -18,7 +18,7 @@ phases:
       - export ANDROID_HOME=/usr/lib/android-sdk
       - yes | sudo apt install sdkmanager
       # Review SDK licenses
-      - echo y | sudo sdkmanager --licenses
+      - printf 'Y\n' | sudo sdkmanager --licenses"
 
   build:
     commands:
