@@ -38,7 +38,7 @@ describe('build app - Android', () => {
     await addCodegen(projectRoot, {
       frontendType: AmplifyFrontend.android,
     });
-    // await acceptLicenses(projectRoot);
+    await acceptLicenses(projectRoot);
   });
 
   afterAll(async () => {
