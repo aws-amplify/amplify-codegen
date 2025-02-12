@@ -17,8 +17,9 @@ phases:
       - yes | sudo apt install android-sdk
       - export ANDROID_HOME=/usr/lib/android-sdk
       - yes | sudo apt install sdkmanager
-      # Review SDK licenses
-      - yes | sudo sdkmanager --licenses
+      # Licenses acceptance is needed for Android project build.
+      # "sdkmanager --licenses" is handled in test beforeAll setup,
+      # and this ensures the project accepts all licenses needed.
 
   build:
     commands:
