@@ -1,3 +1,4 @@
+# auto generated file. DO NOT EDIT manually
 version: 0.2
 env:
   shell: bash
@@ -21,8 +22,18 @@ batch:
         compute-type: BUILD_GENERAL1_MEDIUM
       depend-on:
         - build_linux
+    - identifier: build_app_android_ap_east_1
+      buildspec: .codebuild/run_regionalized_android_modelgen_e2e_test.yml
+      env:
+        compute-type: BUILD_GENERAL1_LARGE
+        variables:
+          TEST_SUITE: src/__tests__/build-app-android.test.ts
+          CLI_REGION: ap-east-1
+          CANARY_METRIC_NAME: AndroidAppBuildCodegenSuccessRate
+      depend-on:
+        - publish_to_local_registry
     - identifier: build_app_android_ap_northeast_1
-      buildspec: .codebuild/run_canary_android_modelgen_e2e_test.yml
+      buildspec: .codebuild/run_regionalized_android_modelgen_e2e_test.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
@@ -32,7 +43,7 @@ batch:
       depend-on:
         - publish_to_local_registry
     - identifier: build_app_android_ap_northeast_2
-      buildspec: .codebuild/run_canary_android_modelgen_e2e_test.yml
+      buildspec: .codebuild/run_regionalized_android_modelgen_e2e_test.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
@@ -41,8 +52,18 @@ batch:
           CANARY_METRIC_NAME: AndroidAppBuildCodegenSuccessRate
       depend-on:
         - publish_to_local_registry
+    - identifier: build_app_android_ap_northeast_3
+      buildspec: .codebuild/run_regionalized_android_modelgen_e2e_test.yml
+      env:
+        compute-type: BUILD_GENERAL1_LARGE
+        variables:
+          TEST_SUITE: src/__tests__/build-app-android.test.ts
+          CLI_REGION: ap-northeast-3
+          CANARY_METRIC_NAME: AndroidAppBuildCodegenSuccessRate
+      depend-on:
+        - publish_to_local_registry
     - identifier: build_app_android_ap_south_1
-      buildspec: .codebuild/run_canary_android_modelgen_e2e_test.yml
+      buildspec: .codebuild/run_regionalized_android_modelgen_e2e_test.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
@@ -52,7 +73,7 @@ batch:
       depend-on:
         - publish_to_local_registry
     - identifier: build_app_android_ap_southeast_1
-      buildspec: .codebuild/run_canary_android_modelgen_e2e_test.yml
+      buildspec: .codebuild/run_regionalized_android_modelgen_e2e_test.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
@@ -62,7 +83,7 @@ batch:
       depend-on:
         - publish_to_local_registry
     - identifier: build_app_android_ap_southeast_2
-      buildspec: .codebuild/run_canary_android_modelgen_e2e_test.yml
+      buildspec: .codebuild/run_regionalized_android_modelgen_e2e_test.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
@@ -72,7 +93,7 @@ batch:
       depend-on:
         - publish_to_local_registry
     - identifier: build_app_android_ca_central_1
-      buildspec: .codebuild/run_canary_android_modelgen_e2e_test.yml
+      buildspec: .codebuild/run_regionalized_android_modelgen_e2e_test.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
@@ -82,7 +103,7 @@ batch:
       depend-on:
         - publish_to_local_registry
     - identifier: build_app_android_eu_central_1
-      buildspec: .codebuild/run_canary_android_modelgen_e2e_test.yml
+      buildspec: .codebuild/run_regionalized_android_modelgen_e2e_test.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
@@ -92,7 +113,7 @@ batch:
       depend-on:
         - publish_to_local_registry
     - identifier: build_app_android_eu_north_1
-      buildspec: .codebuild/run_canary_android_modelgen_e2e_test.yml
+      buildspec: .codebuild/run_regionalized_android_modelgen_e2e_test.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
@@ -101,8 +122,18 @@ batch:
           CANARY_METRIC_NAME: AndroidAppBuildCodegenSuccessRate
       depend-on:
         - publish_to_local_registry
+    - identifier: build_app_android_eu_south_1
+      buildspec: .codebuild/run_regionalized_android_modelgen_e2e_test.yml
+      env:
+        compute-type: BUILD_GENERAL1_LARGE
+        variables:
+          TEST_SUITE: src/__tests__/build-app-android.test.ts
+          CLI_REGION: eu-south-1
+          CANARY_METRIC_NAME: AndroidAppBuildCodegenSuccessRate
+      depend-on:
+        - publish_to_local_registry
     - identifier: build_app_android_eu_west_1
-      buildspec: .codebuild/run_canary_android_modelgen_e2e_test.yml
+      buildspec: .codebuild/run_regionalized_android_modelgen_e2e_test.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
@@ -112,7 +143,7 @@ batch:
       depend-on:
         - publish_to_local_registry
     - identifier: build_app_android_eu_west_2
-      buildspec: .codebuild/run_canary_android_modelgen_e2e_test.yml
+      buildspec: .codebuild/run_regionalized_android_modelgen_e2e_test.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
@@ -122,7 +153,7 @@ batch:
       depend-on:
         - publish_to_local_registry
     - identifier: build_app_android_eu_west_3
-      buildspec: .codebuild/run_canary_android_modelgen_e2e_test.yml
+      buildspec: .codebuild/run_regionalized_android_modelgen_e2e_test.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
@@ -131,8 +162,18 @@ batch:
           CANARY_METRIC_NAME: AndroidAppBuildCodegenSuccessRate
       depend-on:
         - publish_to_local_registry
+    - identifier: build_app_android_me_south_1
+      buildspec: .codebuild/run_regionalized_android_modelgen_e2e_test.yml
+      env:
+        compute-type: BUILD_GENERAL1_LARGE
+        variables:
+          TEST_SUITE: src/__tests__/build-app-android.test.ts
+          CLI_REGION: me-south-1
+          CANARY_METRIC_NAME: AndroidAppBuildCodegenSuccessRate
+      depend-on:
+        - publish_to_local_registry
     - identifier: build_app_android_sa_east_1
-      buildspec: .codebuild/run_canary_android_modelgen_e2e_test.yml
+      buildspec: .codebuild/run_regionalized_android_modelgen_e2e_test.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
@@ -142,7 +183,7 @@ batch:
       depend-on:
         - publish_to_local_registry
     - identifier: build_app_android_us_east_1
-      buildspec: .codebuild/run_canary_android_modelgen_e2e_test.yml
+      buildspec: .codebuild/run_regionalized_android_modelgen_e2e_test.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
@@ -152,7 +193,7 @@ batch:
       depend-on:
         - publish_to_local_registry
     - identifier: build_app_android_us_east_2
-      buildspec: .codebuild/run_canary_android_modelgen_e2e_test.yml
+      buildspec: .codebuild/run_regionalized_android_modelgen_e2e_test.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
@@ -162,7 +203,7 @@ batch:
       depend-on:
         - publish_to_local_registry
     - identifier: build_app_android_us_west_1
-      buildspec: .codebuild/run_canary_android_modelgen_e2e_test.yml
+      buildspec: .codebuild/run_regionalized_android_modelgen_e2e_test.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
@@ -172,7 +213,7 @@ batch:
       depend-on:
         - publish_to_local_registry
     - identifier: build_app_android_us_west_2
-      buildspec: .codebuild/run_canary_android_modelgen_e2e_test.yml
+      buildspec: .codebuild/run_regionalized_android_modelgen_e2e_test.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
@@ -186,4 +227,4 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_MEDIUM
       depend-on:
-        - build_app_ts_us_east_1
+        - build_app_android_ap_east_1

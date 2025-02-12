@@ -1,0 +1,35 @@
+version: 0.2
+env:
+  shell: bash
+  variables:
+    AMPLIFY_DIR: /root/.npm-global/lib/node_modules/@aws-amplify/cli-internal/bin
+    AMPLIFY_PATH: /root/.npm-global/lib/node_modules/@aws-amplify/cli-internal/bin/amplify
+    CI: true
+    CODEBUILD: true
+    NODE_OPTIONS: --max-old-space-size=8096
+
+phases:
+  install:
+    commands:
+      - sudo apt update
+      - yes | sudo apt install android-sdk
+      - export ANDROID_HOME=/usr/lib/android-sdk
+      - yes | sudo apt install sdkmanager
+      # Review SDK licenses
+      - yes | sudo sdkmanager --licenses
+
+  build:
+    commands:
+      - source ./shared-scripts.sh && _setupE2ETestsLinux
+      - codebuild-breakpoint
+      - source ./shared-scripts.sh && _runE2ETestsLinux
+  post_build:
+    commands:
+      - source ./shared-scripts.sh && _unassumeTestAccountCredentials
+      - aws sts get-caller-identity
+      - source ./shared-scripts.sh && _scanArtifacts && _emitRegionalizedCanaryMetric
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: $CODEBUILD_SRC_DIR/packages/amplify-codegen-e2e-tests/amplify-e2e-reports
