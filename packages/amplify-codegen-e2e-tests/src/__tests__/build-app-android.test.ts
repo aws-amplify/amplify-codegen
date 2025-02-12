@@ -38,6 +38,8 @@ describe('build app - Android', () => {
     await addCodegen(projectRoot, {
       frontendType: AmplifyFrontend.android,
     });
+
+    // Required to accept all licenses needed per this test project build
     await acceptLicenses(projectRoot);
   });
 
