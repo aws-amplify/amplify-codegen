@@ -503,3 +503,14 @@ function _emitCodegenCanaryMetric {
     --dimensions branch=release,test=$(basename "$TEST_SUITE" .test.ts | sed "s/build-app-//") \
     --region us-west-2
 }
+
+function _emitRegionalizedCanaryMetric {
+  aws cloudwatch \
+    put-metric-data \
+    --metric-name $CANARY_METRIC_NAME \
+    --namespace amplify-codegen-canary-e2e-tests \
+    --unit Count \
+    --value $CODEBUILD_BUILD_SUCCEEDING \
+    --dimensions branch=release,region=$CLI_REGION \
+    --region us-west-2
+}

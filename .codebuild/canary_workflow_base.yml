@@ -1,0 +1,23 @@
+version: 0.2
+env:
+  shell: bash
+  compute-type: BUILD_GENERAL1_LARGE
+batch:
+  fast-fail: false
+  build-graph:
+    - identifier: build_linux
+      buildspec: .codebuild/build_linux.yml
+      env:
+        compute-type: BUILD_GENERAL1_LARGE
+    - identifier: test
+      buildspec: .codebuild/test.yml
+      env:
+        compute-type: BUILD_GENERAL1_LARGE
+      depend-on:
+        - build_linux
+    - identifier: publish_to_local_registry
+      buildspec: .codebuild/publish_to_local_registry.yml
+      env:
+        compute-type: BUILD_GENERAL1_MEDIUM
+      depend-on:
+        - build_linux

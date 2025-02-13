@@ -42,6 +42,7 @@
     "cloud-e2e": "source scripts/cloud-utils.sh && cloudE2E",
     "cloud-e2e-beta": "source scripts/cloud-utils.sh && cloudE2EBeta",
     "split-e2e-tests": "yarn ts-node ./scripts/split-e2e-tests.ts && git add .codebuild/e2e_workflow.yml",
+    "split-canary-tests": "yarn ts-node ./scripts/split-canary-tests.ts && git add .codebuild/ts_canary_workflow.yml && git add .codebuild/ios_canary_workflow.yml && git add .codebuild/android_canary_workflow.yml",
     "view-test-artifacts": "yarn authenticate-e2e-profile && yarn ts-node ./scripts/view-test-artifacts.ts",
     "cloud-e2e-debug": "source scripts/cloud-utils.sh && cloudE2EDebug",
     "authenticate-e2e-profile": "source scripts/cloud-utils.sh && authenticateWithE2EProfile",
@@ -63,7 +64,7 @@
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-push": "npm run lint && npm run test-changed",
-      "pre-commit": "yarn split-e2e-tests && yarn extract-dependency-licenses"
+      "pre-commit": "yarn split-e2e-tests && yarn split-canary-tests && yarn extract-dependency-licenses"
     }
   },
   "author": "Amazon Web Services",
