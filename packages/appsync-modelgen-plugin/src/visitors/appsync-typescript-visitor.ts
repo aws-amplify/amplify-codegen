@@ -9,6 +9,7 @@ import {
   ParsedAppSyncModelConfig,
   RawAppSyncModelConfig,
 } from './appsync-visitor';
+import { pascalCase } from 'change-case';
 
 export interface RawAppSyncModelTypeScriptConfig extends RawAppSyncModelConfig {}
 export interface ParsedAppSyncModelTypeScriptConfig extends ParsedAppSyncModelConfig {
@@ -77,7 +78,7 @@ export class AppSyncModelTypeScriptVisitor<
   protected generateEnumDeclarations(enumObj: CodeGenEnum, exportEnum: boolean = false): string {
     const enumDeclarations = new TypeScriptDeclarationBlock()
       .asKind('enum')
-      .withName(this.getEnumName(enumObj))
+      .withName(pascalCase(this.getEnumName(enumObj)))
       .withEnumValues(enumObj.values)
       .export(exportEnum);
 

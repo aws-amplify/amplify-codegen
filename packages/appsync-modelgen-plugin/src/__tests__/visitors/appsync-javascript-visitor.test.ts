@@ -87,6 +87,25 @@ describe('Javascript visitor', () => {
       `);
     });
 
+    it('should pascal case enum', () => {
+      const schema = /* GraphQL */ `
+      enum status {
+        pending
+        done
+      }`;
+
+      const visitor = getVisitor(schema)
+      const enumObj = (visitor as any).enumMap['status'];
+      const statusEnum = (visitor as any).generateEnumObject(enumObj, true);
+      validateTs(statusEnum);
+      expect(statusEnum).toMatchInlineSnapshot(`
+        "export const Status = {
+          \\"PENDING\\": \\"pending\\",
+          \\"DONE\\": \\"done\\"
+        };"
+      `);
+    });
+
     it('should generate import statements', () => {
       const imports = (visitor as any).generateImportsJavaScriptImplementation();
       validateTs(imports);

@@ -276,7 +276,7 @@ describe('AppSync Dart Visitor', () => {
       `;
       const outputModels: string[] = ['Todo', 'Task'];
       outputModels.forEach(model => {
-        const generatedCode = getVisitor({schema, selectedType: model, directives: [...AppSyncDirectives, ...V1Directives, DeprecatedDirective] }).generate();
+        const generatedCode = getVisitor({ schema, selectedType: model, directives: [...AppSyncDirectives, ...V1Directives, DeprecatedDirective] }).generate();
         expect(generatedCode).toMatchSnapshot();
       });
     });
@@ -330,6 +330,26 @@ describe('AppSync Dart Visitor', () => {
         expect(generatedCode).toMatchSnapshot();
       });
     });
+
+    it('should pascal case enum', () => {
+      const schema = /* GraphQL */ `
+        enum status {
+            yes
+            no
+            maybe
+        }`;
+
+      const generatedCode = getVisitor({ schema, selectedType: 'status' }).generate();
+      const statusEnum = generatedCode.split('\n').slice(-5).join('\n')
+      expect(statusEnum).toMatchInlineSnapshot(`
+        "enum Status {
+          yes,
+          no,
+          maybe
+        }"
+      `);
+
+    })
   });
 
   describe('Field tests', () => {
@@ -405,7 +425,7 @@ describe('AppSync Dart Visitor', () => {
           name: String
         }
       `;
-      const visitor = getVisitor({schema, generate: CodeGenGenerateEnum.loader });
+      const visitor = getVisitor({ schema, generate: CodeGenGenerateEnum.loader });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -565,7 +585,7 @@ describe('AppSync Dart Visitor', () => {
 
     models.forEach(type => {
       it(`should generate correct dart class for ${!type ? 'ModelProvider' : type} with nullsafety`, () => {
-        const generatedCode = getVisitor({schema, selectedType: type, generate: !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code }).generate();
+        const generatedCode = getVisitor({ schema, selectedType: type, generate: !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code }).generate();
 
         expect(generatedCode).toMatchSnapshot();
       })
@@ -594,7 +614,7 @@ describe('AppSync Dart Visitor', () => {
           name: String
         }
       `;
-      const visitor = getVisitor({ schema, isTimestampFieldsAdded: true  });
+      const visitor = getVisitor({ schema, isTimestampFieldsAdded: true });
 
 
       const generatedCode = visitor.generate();
@@ -871,7 +891,7 @@ describe('AppSync Dart Visitor', () => {
           content: String
           related: [SqlRelated!] @hasMany(references: ["primaryId"])
         }
-  
+
         type SqlRelated @refersTo(name: "sql_related") @model {
           id: Int! @primaryKey
           content: String
@@ -899,7 +919,7 @@ describe('AppSync Dart Visitor', () => {
           content: String
           related: SqlRelated @hasOne(references: ["primaryId"])
         }
-  
+
         type SqlRelated @refersTo(name: "sql_related") @model {
           id: Int! @primaryKey
           content: String
@@ -927,13 +947,13 @@ describe('AppSync Dart Visitor', () => {
           relatedMany: [RelatedMany] @hasMany(references: ["primaryId"])
           relatedOne: RelatedOne @hasOne(references: ["primaryId"])
         }
-        
+
         type RelatedMany @model {
           id: ID! @primaryKey
           primaryId: ID!
           primary: Primary @belongsTo(references: ["primaryId"])
         }
-        
+
         type RelatedOne @model {
           id: ID! @primaryKey
           primaryId: ID!
@@ -959,7 +979,7 @@ describe('AppSync Dart Visitor', () => {
           bar1: Bar @hasOne(references: ["bar1Id"])
           bar2: Bar @hasOne(references: ["bar2Id"])
         }
-        
+
         type Bar @model {
           id: ID!
           bar1Id: ID
@@ -990,7 +1010,7 @@ describe('AppSync Dart Visitor', () => {
           content: String
           related: [Related!] @hasMany(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
         }
-        
+
         type Related @model {
           content: String
           primaryTenantId: ID!
@@ -1021,7 +1041,7 @@ describe('AppSync Dart Visitor', () => {
           content: String
           related: Related @hasOne(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
         }
-        
+
         type Related @model {
           content: String
           primaryTenantId: ID!
