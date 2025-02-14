@@ -67,16 +67,24 @@ export class AppSyncModelJavascriptVisitor<
         .map(typeObj => this.generateModelDeclaration(typeObj, true, false))
         .join('\n\n');
 
+      const interfaceDeclarations = Object.values(this.interfaceMap)
+        .map(typeObj => this.generateInterfaceDeclaration(typeObj))
+        .join('\n\n');
+
+      const unionDeclarations = Object.values(this.unionMap)
+        .map(typeObj => this.generateUnionDeclaration(typeObj))
+        .join('\n\n');
+
       const imports = this.generateImports();
 
       if (!this.isCustomPKEnabled()) {
         const modelMetaData = Object.values(this.modelMap)
           .map(typeObj => this.generateModelMetaData(typeObj))
           .join('\n\n');
-        return [imports, enumDeclarations, nonModelDeclarations, modelMetaData, modelDeclarations].filter(b => b).join('\n\n');
+        return [imports, enumDeclarations, interfaceDeclarations, unionDeclarations, nonModelDeclarations, modelMetaData, modelDeclarations].filter(b => b).join('\n\n');
       }
 
-      return [imports, enumDeclarations, nonModelDeclarations, modelDeclarations].join('\n\n');
+      return [imports, enumDeclarations, interfaceDeclarations, unionDeclarations, nonModelDeclarations, modelDeclarations].filter(b => b).join('\n\n');
     } else {
       const imports = this.generateImportsJavaScriptImplementation();
       const enumDeclarations = Object.values(this.enumMap)

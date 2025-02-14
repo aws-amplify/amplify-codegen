@@ -4,8 +4,10 @@ import {
   AppSyncModelVisitor,
   CodeGenEnum,
   CodeGenField,
+  CodeGenInterface,
   CodeGenModel,
   CodeGenPrimaryKeyType,
+  CodeGenUnion,
   ParsedAppSyncModelConfig,
   RawAppSyncModelConfig,
 } from './appsync-visitor';
@@ -63,11 +65,19 @@ export class AppSyncModelTypeScriptVisitor<
       .map(typeObj => this.generateModelDeclaration(typeObj, true, false))
       .join('\n\n');
 
+    const unionDeclarations = Object.values(this.unionMap)
+      .map(unionObj => this.generateUnionDeclaration(unionObj))
+      .join('\n\n');
+
+    const interfaceDeclarations = Object.values(this.interfaceMap)
+      .map(interfaceObj => this.generateInterfaceDeclaration(interfaceObj))
+      .join('\n\n');
+
     const modelInitialization = this.generateModelInitialization([...Object.values(this.modelMap), ...Object.values(this.nonModelMap)]);
 
     const modelExports = this.generateExports(Object.values(this.modelMap));
 
-    return [imports, enumDeclarations, modelDeclarations, nonModelDeclarations, modelInitialization, modelExports].join('\n\n');
+    return [imports, enumDeclarations, unionDeclarations, interfaceDeclarations, modelDeclarations, nonModelDeclarations, modelInitialization, modelExports].join('\n\n');
   }
 
   protected generateImports(): string {
@@ -215,6 +225,26 @@ export class AppSyncModelTypeScriptVisitor<
     return [eagerModelDeclaration.string, lazyModelDeclaration.string, conditionalType, modelVariable].join('\n\n');
   }
 
+  protected generateInterfaceDeclaration(interfaceObj: CodeGenInterface): string {
+    const declaration = new TypeScriptDeclarationBlock()
+      .asKind('interface')
+      .withName(interfaceObj.name)
+      .export(true);
+
+    interfaceObj.fields.forEach(field => {
+      declaration.addProperty(field.name, this.getNativeType(field), undefined, 'DEFAULT', {
+        readonly: true,
+        optional: field.isList ? field.isListNullable : field.isNullable,
+      });
+    });
+
+    return declaration.string;
+  }
+
+  protected generateUnionDeclaration(unionObj: CodeGenUnion): string {
+    return `export declare type ${unionObj.name} = ${unionObj.typeNames.join(' | ')};`;
+  }
+
   /**
    * Generate model Declaration using classCreator
    * @param model
@@ -242,15 +272,15 @@ export class AppSyncModelTypeScriptVisitor<
     return `${initializationResult.join(' ')};`;
   }
 
-  protected generateExports(modelsOrEnum: (CodeGenModel | CodeGenEnum)[]): string {
-    const exportStr = modelsOrEnum
-      .map(model => {
-        if (model.type === 'model') {
-          const modelClassName = this.generateModelImportAlias(model);
-          const exportClassName = this.getModelName(model);
+  protected generateExports(types: (CodeGenModel | CodeGenEnum | CodeGenInterface | CodeGenUnion)[]): string {
+    const exportStr = types
+      .map(type => {
+        if (type.type === 'model') {
+          const modelClassName = this.generateModelImportAlias(type);
+          const exportClassName = this.getModelName(type);
           return modelClassName !== exportClassName ? `${modelClassName} as ${exportClassName}` : modelClassName;
         }
-        return model.name;
+        return type.name;
       })
       .join(',\n');
     return ['export {', indentMultiline(exportStr), '};'].join('\n');
