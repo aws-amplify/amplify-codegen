@@ -25,6 +25,7 @@ enum ComputeType {
 }
 type PlatformConfig = {
   platform: string;
+  testName: string;
   metric: string;
   outputPath: string;
 }
@@ -66,16 +67,19 @@ const getPlatformsConfig = (): PlatformConfig[] => {
   return [
     {
       platform: 'ts',
+      testName: 'ts',
       metric: 'TsAppBuildCodegenSuccessRate',
       outputPath: getOutputPath('ts_canary_workflow.yml')
     },
     {
       platform: 'ios',
+      testName: 'swift',
       metric: 'IosAppBuildCodegenSuccessRate',
       outputPath: getOutputPath('ios_canary_workflow.yml')
     },
     {
       platform: 'android',
+      testName: 'android',
       metric: 'AndroidAppBuildCodegenSuccessRate',
       outputPath: getOutputPath('android_canary_workflow.yml')
     },
@@ -129,7 +133,7 @@ const getBuildspec = (jobConfig: JobConfig): string => {
 };
 
 const getTestSuite = (jobConfig: JobConfig): string => {
-  return `src/__tests__/build-app-${jobConfig.platformConfig.platform}.test.ts`;
+  return `src/__tests__/build-app-${jobConfig.platformConfig.testName}.test.ts`;
 };
 
 const main = (): void => {
