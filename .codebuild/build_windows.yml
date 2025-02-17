@@ -2,6 +2,12 @@ version: 0.2
 env:
   shell: powershell.exe
 phases:
+  pre_build:
+    commands:
+      - choco install -fy nodejs-lts --version=18.20.4
+      - |
+        $nodeVersion = node -v
+        Write-Host "Node version: $nodeVersion"
   build:
     commands:
       # commands need to be run in stand-alone bash scripts so that bash can be used on windows
