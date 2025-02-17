@@ -288,7 +288,6 @@ function _setupGen2E2ETestsWindows {
     _setShell
 }
 
-
 function _runE2ETestsLinux {
     echo "RUN E2E Tests Linux"
     retry runE2eTest
