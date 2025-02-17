@@ -339,19 +339,35 @@ function _unassumeTestAccountCredentials {
 function useChildAccountCredentials {
     if [ -z "$USE_PARENT_ACCOUNT" ]; then
         export AWS_PAGER=""
+        export AWS_MAX_ATTEMPTS=5
+        export AWS_STS_REGIONAL_ENDPOINTS=regional
         parent_acct=$(aws sts get-caller-identity | jq -cr '.Account')
         child_accts=$(aws organizations list-accounts | jq -c "[.Accounts[].Id | select(. != \"$parent_acct\")]")
         org_size=$(echo $child_accts | jq 'length')
-        pick_acct=$(echo $child_accts | jq -cr ".[$RANDOM % $org_size]")
+        opt_in_regions=$(jq -r '.[] | select(.optIn == true) | .name' $CODEBUILD_SRC_DIR/scripts/e2e-test-regions.json)
+        if echo "$opt_in_regions" | grep -qw "$CLI_REGION"; then
+            child_accts=$(echo $child_accts | jq -cr '.[]')
+            for child_acct in $child_accts; do
+                # Get enabled opt-in regions for the child account
+                enabled_regions=$(aws account list-regions --account-id $child_acct --region-opt-status-contains ENABLED)
+                # Check if given opt-in region is enabled for the child account
+                if echo "$enabled_regions" | jq -e ".Regions[].RegionName == \"$CLI_REGION\""; then
+                    pick_acct=$child_acct
+                    break
+                fi
+            done
+        else
+            pick_acct=$(echo $child_accts | jq -cr ".[$RANDOM % $org_size]")
+        fi
         session_id=$((1 + $RANDOM % 10000))
         if [[ -z "$pick_acct" || -z "$session_id" ]]; then
-          echo "Unable to find a child account. Falling back to parent AWS account"
-          return
+          echo "Unable to find a child account. Fatal error and test run aborted"
+          exit 1
         fi
         creds=$(aws sts assume-role --role-arn arn:aws:iam::${pick_acct}:role/OrganizationAccountAccessRole --role-session-name testSession${session_id} --duration-seconds 3600)
         if [ -z $(echo $creds | jq -c -r '.AssumedRoleUser.Arn') ]; then
-            echo "Unable to assume child account role. Falling back to parent AWS account"
-            return
+            echo "Unable to assume child account role. Fatal error and test run aborted"
+            exit 1
         fi
         export ORGANIZATION_SIZE=$org_size
         export CREDS=$creds

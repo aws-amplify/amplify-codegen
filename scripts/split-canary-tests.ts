@@ -16,8 +16,8 @@ const CODEBUILD_CONFIG_BASE_PATH: string = join(CODEBUILD_CONFIG_PATH, 'canary_w
  * - amplify-codegen/scripts/split-e2e-tests.ts
  * - amplify-codegen/packages/amplify-codegen-e2e-tests/src/cleanup-e2e-resources.ts
  */
-const SUPPORTED_REGIONS_PATH: string = join(REPO_ROOT, 'scripts', 'support-test-regions.json');
-const AWS_REGIONS_TO_RUN_TESTS: string[] = JSON.parse(fs.readFileSync(SUPPORTED_REGIONS_PATH, 'utf-8'));
+const SUPPORTED_REGIONS_PATH: string = join(REPO_ROOT, 'scripts', 'e2e-test-regions.json');
+const AWS_REGIONS_TO_RUN_TESTS: string[] = JSON.parse(fs.readFileSync(SUPPORTED_REGIONS_PATH, 'utf-8')).map(region => region.name);
 
 enum ComputeType {
   MEDIUM = 'BUILD_GENERAL1_MEDIUM',
@@ -25,6 +25,7 @@ enum ComputeType {
 }
 type PlatformConfig = {
   platform: string;
+  testName: string;
   metric: string;
   outputPath: string;
 }
@@ -66,16 +67,19 @@ const getPlatformsConfig = (): PlatformConfig[] => {
   return [
     {
       platform: 'ts',
+      testName: 'ts',
       metric: 'TsAppBuildCodegenSuccessRate',
       outputPath: getOutputPath('ts_canary_workflow.yml')
     },
     {
       platform: 'ios',
+      testName: 'swift',
       metric: 'IosAppBuildCodegenSuccessRate',
       outputPath: getOutputPath('ios_canary_workflow.yml')
     },
     {
       platform: 'android',
+      testName: 'android',
       metric: 'AndroidAppBuildCodegenSuccessRate',
       outputPath: getOutputPath('android_canary_workflow.yml')
     },
@@ -129,7 +133,7 @@ const getBuildspec = (jobConfig: JobConfig): string => {
 };
 
 const getTestSuite = (jobConfig: JobConfig): string => {
-  return `src/__tests__/build-app-${jobConfig.platformConfig.platform}.test.ts`;
+  return `src/__tests__/build-app-${jobConfig.platformConfig.testName}.test.ts`;
 };
 
 const main = (): void => {

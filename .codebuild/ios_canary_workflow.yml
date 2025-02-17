@@ -27,7 +27,7 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
-          TEST_SUITE: src/__tests__/build-app-ios.test.ts
+          TEST_SUITE: src/__tests__/build-app-swift.test.ts
           CLI_REGION: ap-east-1
           CANARY_METRIC_NAME: IosAppBuildCodegenSuccessRate
       depend-on:
@@ -37,7 +37,7 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
-          TEST_SUITE: src/__tests__/build-app-ios.test.ts
+          TEST_SUITE: src/__tests__/build-app-swift.test.ts
           CLI_REGION: ap-northeast-1
           CANARY_METRIC_NAME: IosAppBuildCodegenSuccessRate
       depend-on:
@@ -47,7 +47,7 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
-          TEST_SUITE: src/__tests__/build-app-ios.test.ts
+          TEST_SUITE: src/__tests__/build-app-swift.test.ts
           CLI_REGION: ap-northeast-2
           CANARY_METRIC_NAME: IosAppBuildCodegenSuccessRate
       depend-on:
@@ -57,7 +57,7 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
-          TEST_SUITE: src/__tests__/build-app-ios.test.ts
+          TEST_SUITE: src/__tests__/build-app-swift.test.ts
           CLI_REGION: ap-northeast-3
           CANARY_METRIC_NAME: IosAppBuildCodegenSuccessRate
       depend-on:
@@ -67,7 +67,7 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
-          TEST_SUITE: src/__tests__/build-app-ios.test.ts
+          TEST_SUITE: src/__tests__/build-app-swift.test.ts
           CLI_REGION: ap-south-1
           CANARY_METRIC_NAME: IosAppBuildCodegenSuccessRate
       depend-on:
@@ -77,7 +77,7 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
-          TEST_SUITE: src/__tests__/build-app-ios.test.ts
+          TEST_SUITE: src/__tests__/build-app-swift.test.ts
           CLI_REGION: ap-southeast-1
           CANARY_METRIC_NAME: IosAppBuildCodegenSuccessRate
       depend-on:
@@ -87,7 +87,7 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
-          TEST_SUITE: src/__tests__/build-app-ios.test.ts
+          TEST_SUITE: src/__tests__/build-app-swift.test.ts
           CLI_REGION: ap-southeast-2
           CANARY_METRIC_NAME: IosAppBuildCodegenSuccessRate
       depend-on:
@@ -97,7 +97,7 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
-          TEST_SUITE: src/__tests__/build-app-ios.test.ts
+          TEST_SUITE: src/__tests__/build-app-swift.test.ts
           CLI_REGION: ca-central-1
           CANARY_METRIC_NAME: IosAppBuildCodegenSuccessRate
       depend-on:
@@ -107,7 +107,7 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
-          TEST_SUITE: src/__tests__/build-app-ios.test.ts
+          TEST_SUITE: src/__tests__/build-app-swift.test.ts
           CLI_REGION: eu-central-1
           CANARY_METRIC_NAME: IosAppBuildCodegenSuccessRate
       depend-on:
@@ -117,7 +117,7 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
-          TEST_SUITE: src/__tests__/build-app-ios.test.ts
+          TEST_SUITE: src/__tests__/build-app-swift.test.ts
           CLI_REGION: eu-north-1
           CANARY_METRIC_NAME: IosAppBuildCodegenSuccessRate
       depend-on:
@@ -127,7 +127,7 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
-          TEST_SUITE: src/__tests__/build-app-ios.test.ts
+          TEST_SUITE: src/__tests__/build-app-swift.test.ts
           CLI_REGION: eu-south-1
           CANARY_METRIC_NAME: IosAppBuildCodegenSuccessRate
       depend-on:
@@ -137,7 +137,7 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
-          TEST_SUITE: src/__tests__/build-app-ios.test.ts
+          TEST_SUITE: src/__tests__/build-app-swift.test.ts
           CLI_REGION: eu-west-1
           CANARY_METRIC_NAME: IosAppBuildCodegenSuccessRate
       depend-on:
@@ -147,7 +147,7 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
-          TEST_SUITE: src/__tests__/build-app-ios.test.ts
+          TEST_SUITE: src/__tests__/build-app-swift.test.ts
           CLI_REGION: eu-west-2
           CANARY_METRIC_NAME: IosAppBuildCodegenSuccessRate
       depend-on:
@@ -157,7 +157,7 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
-          TEST_SUITE: src/__tests__/build-app-ios.test.ts
+          TEST_SUITE: src/__tests__/build-app-swift.test.ts
           CLI_REGION: eu-west-3
           CANARY_METRIC_NAME: IosAppBuildCodegenSuccessRate
       depend-on:
@@ -167,7 +167,7 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
-          TEST_SUITE: src/__tests__/build-app-ios.test.ts
+          TEST_SUITE: src/__tests__/build-app-swift.test.ts
           CLI_REGION: me-south-1
           CANARY_METRIC_NAME: IosAppBuildCodegenSuccessRate
       depend-on:
@@ -177,7 +177,7 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
-          TEST_SUITE: src/__tests__/build-app-ios.test.ts
+          TEST_SUITE: src/__tests__/build-app-swift.test.ts
           CLI_REGION: sa-east-1
           CANARY_METRIC_NAME: IosAppBuildCodegenSuccessRate
       depend-on:
@@ -187,7 +187,7 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
-          TEST_SUITE: src/__tests__/build-app-ios.test.ts
+          TEST_SUITE: src/__tests__/build-app-swift.test.ts
           CLI_REGION: us-east-1
           CANARY_METRIC_NAME: IosAppBuildCodegenSuccessRate
       depend-on:
@@ -197,7 +197,7 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
-          TEST_SUITE: src/__tests__/build-app-ios.test.ts
+          TEST_SUITE: src/__tests__/build-app-swift.test.ts
           CLI_REGION: us-east-2
           CANARY_METRIC_NAME: IosAppBuildCodegenSuccessRate
       depend-on:
@@ -207,7 +207,7 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
-          TEST_SUITE: src/__tests__/build-app-ios.test.ts
+          TEST_SUITE: src/__tests__/build-app-swift.test.ts
           CLI_REGION: us-west-1
           CANARY_METRIC_NAME: IosAppBuildCodegenSuccessRate
       depend-on:
@@ -217,7 +217,7 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
-          TEST_SUITE: src/__tests__/build-app-ios.test.ts
+          TEST_SUITE: src/__tests__/build-app-swift.test.ts
           CLI_REGION: us-west-2
           CANARY_METRIC_NAME: IosAppBuildCodegenSuccessRate
       depend-on:

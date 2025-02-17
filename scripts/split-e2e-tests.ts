@@ -25,11 +25,11 @@ const DEBUG_FLAG = '--debug';
  *
  * NOTE: The list of supported regions must be kept in sync amongst all of:
  * - the internal pipeline that publishes new lambda layer versions
- * - amplify-codegen/scripts/split-e2e-tests.ts
+ * - amplify-codegen/scripts/split-canary-tests.ts
  * - amplify-codegen/packages/amplify-codegen-e2e-tests/src/cleanup-e2e-resources.ts
  */
-const SUPPORTED_REGIONS_PATH: string = join(REPO_ROOT, 'scripts', 'support-test-regions.json');
-const AWS_REGIONS_TO_RUN_TESTS: string[] = JSON.parse(fs.readFileSync(SUPPORTED_REGIONS_PATH, 'utf-8'));
+const SUPPORTED_REGIONS_PATH: string = join(REPO_ROOT, 'scripts', 'e2e-test-regions.json');
+const AWS_REGIONS_TO_RUN_TESTS: string[] = JSON.parse(fs.readFileSync(SUPPORTED_REGIONS_PATH, 'utf-8')).map(region => region.name);
 
 export function loadConfigBase() {
   return yaml.load(fs.readFileSync(CODEBUILD_CONFIG_BASE_PATH, 'utf8'));
