@@ -16,8 +16,8 @@ const CODEBUILD_CONFIG_BASE_PATH: string = join(CODEBUILD_CONFIG_PATH, 'canary_w
  * - amplify-codegen/scripts/split-e2e-tests.ts
  * - amplify-codegen/packages/amplify-codegen-e2e-tests/src/cleanup-e2e-resources.ts
  */
-const SUPPORTED_REGIONS_PATH: string = join(REPO_ROOT, 'scripts', 'support-test-regions.json');
-const AWS_REGIONS_TO_RUN_TESTS: string[] = JSON.parse(fs.readFileSync(SUPPORTED_REGIONS_PATH, 'utf-8'));
+const SUPPORTED_REGIONS_PATH: string = join(REPO_ROOT, 'scripts', 'e2e-test-regions.json');
+const AWS_REGIONS_TO_RUN_TESTS: string[] = JSON.parse(fs.readFileSync(SUPPORTED_REGIONS_PATH, 'utf-8')).map(region => region.name);
 
 enum ComputeType {
   MEDIUM = 'BUILD_GENERAL1_MEDIUM',
