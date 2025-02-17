@@ -361,13 +361,13 @@ function useChildAccountCredentials {
         fi
         session_id=$((1 + $RANDOM % 10000))
         if [[ -z "$pick_acct" || -z "$session_id" ]]; then
-          echo "Unable to find a child account. Falling back to parent AWS account"
-          return
+          echo "Unable to find a child account. Fatal error and test run aborted"
+          exit 1
         fi
         creds=$(aws sts assume-role --role-arn arn:aws:iam::${pick_acct}:role/OrganizationAccountAccessRole --role-session-name testSession${session_id} --duration-seconds 3600)
         if [ -z $(echo $creds | jq -c -r '.AssumedRoleUser.Arn') ]; then
-            echo "Unable to assume child account role. Falling back to parent AWS account"
-            return
+            echo "Unable to assume child account role. Fatal error and test run aborted"
+            exit 1
         fi
         export ORGANIZATION_SIZE=$org_size
         export CREDS=$creds
