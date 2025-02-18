@@ -535,6 +535,9 @@ function _setupNodeVersionLinux {
   # Install and use the specified Node.js version
   nvm install "$version"
   nvm use "$version"
+
+  # Refresh environment variables
+  source ~/.bashrc  # Or source the appropriate shell profile file like ~/.bash_profile or ~/.zshrc
   
   # Verify the Node.js version in use
   echo "Node.js version in use:"
