@@ -549,6 +549,9 @@ function _setupNodeVersionWindows {
   # Install Node.js using Chocolatey
   choco install -fy nodejs-lts --version=$version
   
+  # Refresh environment variables
+  refreshenv
+  
   # Verify the Node.js version in use
   nodeVersion=$(node -v)
   echo "Node version: $nodeVersion"
