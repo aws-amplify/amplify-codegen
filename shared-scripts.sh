@@ -133,7 +133,6 @@ function _setShell {
 
 function _buildLinux {
   _setShell
-  _setupNodeVersion $AMPLIFY_NODE_VERSION
   echo "Linux Build"
   yarn run production-build
   storeCacheForLinuxBuildJob
@@ -276,6 +275,8 @@ function _setupE2ETestsWindows {
 }
 
 function _setupGen2E2ETestsLinux {
+    echo "Setup Node Version"
+    _setupNodeVersion $AMPLIFY_NODE_VERSION
     echo "Setup Gen2 E2E Tests Linux"
     loadCacheFromLinuxBuildJob
     loadCache verdaccio-cache $CODEBUILD_SRC_DIR/../verdaccio-cache
