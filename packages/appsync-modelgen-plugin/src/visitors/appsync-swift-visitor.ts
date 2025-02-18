@@ -1,5 +1,5 @@
 import { indent, indentMultiline, NormalizedScalarsMap } from '@graphql-codegen/visitor-plugin-common';
-import { camelCase } from 'change-case';
+import { camelCase, pascalCase } from 'change-case';
 import { GraphQLSchema } from 'graphql';
 import { lowerCaseFirst } from 'lower-case-first';
 import { plurality } from 'graphql-transformer-common';
@@ -305,7 +305,7 @@ export class AppSyncSwiftVisitor<
         .asKind('enum')
         .access('public')
         .withProtocols(['String', 'EnumPersistable'])
-        .withName(this.getEnumName(enumValue));
+        .withName(pascalCase(this.getEnumName(enumValue)));
 
       Object.entries(enumValue.values).forEach(([name, value]) => {
         enumDeclaration.addEnumValue(name, value);

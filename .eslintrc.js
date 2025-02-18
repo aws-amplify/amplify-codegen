@@ -257,7 +257,7 @@ module.exports = {
     '__mocks__',
     '__e2e__',
     'coverage',
-    
+
     // Ignore project/file templates
     'function-template-dir',
 
@@ -271,6 +271,8 @@ module.exports = {
     'test-apps',
 
     // Ignore lint for standalone JSON validation function
-    '/packages/appsync-modelgen-plugin/src/validate-cjs.js'
+    '/packages/appsync-modelgen-plugin/src/validate-cjs.js',
+
+    '.eslintrc.js'
   ]
 };
