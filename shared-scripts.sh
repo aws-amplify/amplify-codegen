@@ -276,7 +276,7 @@ function _setupE2ETestsWindows {
 
 function _setupGen2E2ETestsLinux {
     echo "Setup Node Version"
-    _setupNodeVersion $AMPLIFY_NODE_VERSION
+    _setupNodeVersionLinux $AMPLIFY_NODE_VERSION
     echo "Setup Gen2 E2E Tests Linux"
     loadCacheFromLinuxBuildJob
     loadCache verdaccio-cache $CODEBUILD_SRC_DIR/../verdaccio-cache
@@ -285,6 +285,8 @@ function _setupGen2E2ETestsLinux {
 }
 
 function _setupGen2E2ETestsWindows {
+    echo "Setup Node Version"
+    _setupNodeVersionWindows $AMPLIFY_NODE_VERSION
     echo "Setup Gen2 E2E Tests Windows"
     loadCacheFromWindowsBuildJob
     loadCache verdaccio-cache $CODEBUILD_SRC_DIR/../verdaccio-cache windows
@@ -518,7 +520,7 @@ function _emitRegionalizedCanaryMetric {
     --region us-west-2
 }
 
-function _setupNodeVersion {
+function _setupNodeVersionLinux {
   local version=$1  # Version number passed as an argument
   
   echo "Installing NVM and setting Node.js version to $version"
@@ -537,4 +539,17 @@ function _setupNodeVersion {
   # Verify the Node.js version in use
   echo "Node.js version in use:"
   node -v
+}
+
+function _setupNodeVersionWindows {
+  local version=$1  # Version number passed as an argument
+  
+  echo "Installing Node.js version $version on Windows"
+  
+  # Install Node.js using Chocolatey
+  choco install -fy nodejs-lts --version=$version
+  
+  # Verify the Node.js version in use
+  nodeVersion=$(node -v)
+  echo "Node version: $nodeVersion"
 }
