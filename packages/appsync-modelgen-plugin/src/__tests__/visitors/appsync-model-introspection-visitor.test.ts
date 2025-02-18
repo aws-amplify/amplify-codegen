@@ -115,7 +115,7 @@ describe('Model Introspection Visitor', () => {
     interface SimpleInterface {
       firstName: String!
     }
-    enum camel {
+    enum camelCase {
       bactrian
       dromedary
     }
@@ -148,7 +148,7 @@ describe('Model Introspection Visitor', () => {
     });
 
     it('should not pascal case enum', () => {
-      expect((visitor as any).getType('camel')).toEqual({ enum: 'camel' })
+      expect((visitor as any).getType('camelCase')).toEqual({ enum: 'camelCase' })
     })
 
     it('should throw error for unknown type', () => {
