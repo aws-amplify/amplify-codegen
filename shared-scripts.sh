@@ -549,8 +549,8 @@ function _setupNodeVersionWindows {
   # Install Node.js using Chocolatey
   choco install -fy nodejs-lts --version=$version
   
-  # Refresh environment variables
-  refreshenv
+  # Refresh environment variables (in PowerShell)
+  $env:Path = [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::Process)
   
   # Verify the Node.js version in use
   nodeVersion=$(node -v)
