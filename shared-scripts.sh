@@ -275,8 +275,6 @@ function _setupE2ETestsWindows {
 }
 
 function _setupGen2E2ETestsLinux {
-    echo "Setup Node Version"
-    _setupNodeVersionLinux $AMPLIFY_NODE_VERSION
     echo "Setup Gen2 E2E Tests Linux"
     loadCacheFromLinuxBuildJob
     loadCache verdaccio-cache $CODEBUILD_SRC_DIR/../verdaccio-cache
@@ -285,8 +283,6 @@ function _setupGen2E2ETestsLinux {
 }
 
 function _setupGen2E2ETestsWindows {
-    echo "Setup Node Version"
-    _setupNodeVersionWindows $AMPLIFY_NODE_VERSION
     echo "Setup Gen2 E2E Tests Windows"
     loadCacheFromWindowsBuildJob
     loadCache verdaccio-cache $CODEBUILD_SRC_DIR/../verdaccio-cache windows
@@ -306,11 +302,15 @@ function _runE2ETestsWindows {
 
 function _runGen2E2ETestsLinux {
     echo "RUN Gen2 E2E Tests Linux"
+    echo "Setup Node Version"
+    _setupNodeVersionLinux $AMPLIFY_NODE_VERSION
     retry runGen2E2eTest
 }
 
 function _runGen2E2ETestsWindows {
     echo "RUN Gen2 E2E Tests Windows"
+    echo "Setup Node Version"
+    _setupNodeVersionWindows $AMPLIFY_NODE_VERSION
     retry runGen2E2eTest
 }
 
