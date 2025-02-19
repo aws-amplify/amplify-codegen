@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker, camelcase, @typescript-eslint/no-explicit-any */
-import { CodeBuild } from 'aws-sdk';
+import { CodeBuild, Account } from 'aws-sdk';
 import { config } from 'dotenv';
 import yargs from 'yargs';
 import * as aws from 'aws-sdk';
@@ -251,38 +251,45 @@ const getStackDetails = async (stackName: string, account: AWSAccountInfo, regio
   };
 };
 
+const isRegionEnabled = async (config: unknown, region: string): Promise<boolean> => {
+  try {
+    const account = new Account(config);
+    const response = await account.getRegionOptStatus({ RegionName: region }).promise();
+
+    return response.RegionOptStatus === 'ENABLED' || response.RegionOptStatus === 'ENABLED_BY_DEFAULT';
+  } catch (e) {
+    console.error(`Error checking region status: ${e}`);
+    throw e;
+  }
+};
+
 const getStacks = async (account: AWSAccountInfo, region: string): Promise<StackInfo[]> => {
   const cfnClient = new aws.CloudFormation(getAWSConfig(account, region));
-  const results: StackInfo[] = [];
-  let stacks;
-  try {
-    stacks = await cfnClient
-      .listStacks({
-        StackStatusFilter: [
-          'CREATE_COMPLETE',
-          'ROLLBACK_FAILED',
-          'DELETE_FAILED',
-          'UPDATE_COMPLETE',
-          'UPDATE_ROLLBACK_FAILED',
-          'UPDATE_ROLLBACK_COMPLETE',
-          'IMPORT_COMPLETE',
-          'IMPORT_ROLLBACK_FAILED',
-          'IMPORT_ROLLBACK_COMPLETE',
-        ],
-      })
-      .promise();
-  } catch (e) {
-    if (e?.code === 'InvalidClientTokenId') {
-      // Do not fail the cleanup and continue
-      console.log(`Listing stacks for account ${account.accountId}-${region} failed with error with code ${e?.code}. Skipping.`);
-      return results;
-    } else {
-      throw e;
-    }
+
+  const regionEnabled = await isRegionEnabled(getAWSConfig(account), region);
+  if (!regionEnabled) {
+    return [];
   }
+
+  const stacks = await cfnClient
+    .listStacks({
+      StackStatusFilter: [
+        'CREATE_COMPLETE',
+        'ROLLBACK_FAILED',
+        'DELETE_FAILED',
+        'UPDATE_COMPLETE',
+        'UPDATE_ROLLBACK_FAILED',
+        'UPDATE_ROLLBACK_COMPLETE',
+        'IMPORT_COMPLETE',
+        'IMPORT_ROLLBACK_FAILED',
+        'IMPORT_ROLLBACK_COMPLETE',
+      ],
+    })
+    .promise();
 
   // We are interested in only the root stacks that are deployed by amplify-cli
   const rootStacks = stacks.StackSummaries.filter(stack => !stack.RootId);
+  const results: StackInfo[] = [];
   for (const stack of rootStacks) {
     try {
       const details = await getStackDetails(stack.StackName, account, region);
