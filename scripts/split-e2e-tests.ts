@@ -22,11 +22,17 @@ const DEBUG_FLAG = '--debug';
 /**
  * Supported regions:
  * - All Amplify regions, as reported https://docs.aws.amazon.com/general/latest/gr/amplify.html
+ * 
+ * NOTE:
+ * - 'ap-east-1' is not included in the list due to known discrepancy in Amplify CLI 'configure' command dropdown and supported regions
+ * - Since 'ap-east-1' is not available via 'amplify configure', test $CLI_REGION with 'ap-east-1' will run in 'us-east-1'
+ * and fail Amplify profile assertion in test setup phase
  *
- * NOTE: The list of supported regions must be kept in sync amongst all of:
+ * The list of supported regions must be kept in sync amongst all of:
+ * - Amplify CLI 'amplify configure' command regions dropdown
  * - the internal pipeline that publishes new lambda layer versions
+ * - amplify-codegen/scripts/e2e-test-regions.json
  * - amplify-codegen/scripts/split-canary-tests.ts
- * - amplify-codegen/packages/amplify-codegen-e2e-tests/src/cleanup-e2e-resources.ts
  */
 const SUPPORTED_REGIONS_PATH: string = join(REPO_ROOT, 'scripts', 'e2e-test-regions.json');
 const AWS_REGIONS_TO_RUN_TESTS: string[] = JSON.parse(fs.readFileSync(SUPPORTED_REGIONS_PATH, 'utf-8')).map(region => region.name);

@@ -25,6 +25,21 @@ const defaultProjectSettings = {
   startCmd: '\r',
 };
 
+/**
+ * Supported regions:
+ * - All Amplify regions, as reported https://docs.aws.amazon.com/general/latest/gr/amplify.html
+ * 
+ * NOTE:
+ * - The list is used to configure correct region in Amplify profile as env var $CLI_REGION
+ * - 'ap-east-1' is not included in the list due to known discrepancy in Amplify CLI 'configure' command dropdown and supported regions
+ *
+ * The list of supported regions must be kept in sync amongst all of:
+ * - Amplify CLI 'amplify configure' command regions dropdown
+ * - the internal pipeline that publishes new lambda layer versions
+ * - amplify-codegen/scripts/e2e-test-regions.json
+ * - amplify-codegen/scripts/split-canary-tests.ts
+ * - amplify-codegen/scripts/split-e2e-tests.ts
+ */
 export const amplifyRegions = [
   'us-east-1',
   'us-east-2',
@@ -38,6 +53,7 @@ export const amplifyRegions = [
   'eu-central-1',
   'ap-northeast-1',
   'ap-northeast-2',
+  'ap-northeast-3',
   'ap-southeast-1',
   'ap-southeast-2',
   'ap-south-1',

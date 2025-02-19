@@ -107,7 +107,7 @@ batch:
         variables:
           TEST_SUITE: >-
             src/__tests__/add-codegen-ios.test.ts|src/__tests__/configure-codegen-android.test.ts|src/__tests__/configure-codegen-js.test.ts|src/__tests__/graphql-codegen-android.test.ts
-          CLI_REGION: ap-east-1
+          CLI_REGION: ap-northeast-1
       depend-on:
         - publish_to_local_registry
     - identifier: >-
@@ -118,7 +118,7 @@ batch:
         variables:
           TEST_SUITE: >-
             src/__tests__/graphql-codegen-js.test.ts|src/__tests__/remove-codegen-android.test.ts|src/__tests__/remove-codegen-ios.test.ts|src/__tests__/add-codegen-android.test.ts
-          CLI_REGION: ap-northeast-1
+          CLI_REGION: ap-northeast-2
       depend-on:
         - publish_to_local_registry
     - identifier: >-
@@ -129,7 +129,7 @@ batch:
         variables:
           TEST_SUITE: >-
             src/__tests__/configure-codegen-ios.test.ts|src/__tests__/datastore-modelgen-android.test.ts|src/__tests__/datastore-modelgen-js.test.ts|src/__tests__/feature-flags.test.ts
-          CLI_REGION: ap-northeast-2
+          CLI_REGION: ap-northeast-3
       depend-on:
         - publish_to_local_registry
     - identifier: >-
@@ -140,7 +140,7 @@ batch:
         variables:
           TEST_SUITE: >-
             src/__tests__/graphql-codegen-ios.test.ts|src/__tests__/add-codegen-js.test.ts|src/__tests__/datastore-modelgen-ios.test.ts|src/__tests__/remove-codegen-js.test.ts
-          CLI_REGION: ap-northeast-3
+          CLI_REGION: ap-south-1
       depend-on:
         - publish_to_local_registry
     - identifier: >-
@@ -151,7 +151,7 @@ batch:
         variables:
           TEST_SUITE: >-
             src/__tests__/datastore-modelgen-flutter.test.ts|src/__tests__/env-codegen.test.ts|src/__tests__/model-introspection-codegen.test.ts|src/__tests__/pull-codegen.test.ts
-          CLI_REGION: ap-south-1
+          CLI_REGION: ap-southeast-1
       depend-on:
         - publish_to_local_registry
     - identifier: >-
@@ -162,7 +162,7 @@ batch:
         variables:
           TEST_SUITE: >-
             src/__tests__/push-codegen-ios.test.ts|src/__tests__/push-codegen-android.test.ts|src/__tests__/graphql-documents-generator.test.ts|src/__tests__/push-codegen-js.test.ts
-          CLI_REGION: ap-southeast-1
+          CLI_REGION: ap-southeast-2
       depend-on:
         - publish_to_local_registry
     - identifier: >-
@@ -173,7 +173,7 @@ batch:
         variables:
           TEST_SUITE: >-
             src/__tests__/build-app-ts.test.ts|src/__tests__/graphql-generator-app.test.ts|src/__tests__/push-codegen-admin-modelgen.test.ts|src/__tests__/uninitialized-project-codegen-js.test.ts
-          CLI_REGION: ap-southeast-2
+          CLI_REGION: ca-central-1
           DISABLE_ESLINT_PLUGIN: true
       depend-on:
         - publish_to_local_registry
@@ -185,7 +185,7 @@ batch:
         variables:
           TEST_SUITE: >-
             src/__tests__/uninitialized-project-modelgen-android.test.ts|src/__tests__/uninitialized-project-modelgen-flutter.test.ts|src/__tests__/uninitialized-project-modelgen-ios.test.ts|src/__tests__/uninitialized-project-modelgen-js.test.ts
-          CLI_REGION: ca-central-1
+          CLI_REGION: eu-central-1
       depend-on:
         - publish_to_local_registry
     - identifier: >-
