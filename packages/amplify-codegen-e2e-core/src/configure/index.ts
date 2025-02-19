@@ -28,7 +28,7 @@ const defaultProjectSettings = {
 /**
  * Supported regions:
  * - All Amplify regions, as reported https://docs.aws.amazon.com/general/latest/gr/amplify.html
- * 
+ *
  * NOTE:
  * - The list is used to configure correct region in Amplify profile as env var $CLI_REGION
  * - 'ap-east-1' is not included in the list due to known discrepancy in Amplify CLI 'configure' command dropdown and supported regions

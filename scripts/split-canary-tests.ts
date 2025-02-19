@@ -10,7 +10,7 @@ const CODEBUILD_CONFIG_BASE_PATH: string = join(CODEBUILD_CONFIG_PATH, 'canary_w
 /**
  * Supported regions:
  * - All Amplify regions, as reported https://docs.aws.amazon.com/general/latest/gr/amplify.html
- * 
+ *
  * NOTE:
  * - 'ap-east-1' is not included in the list due to known discrepancy in Amplify CLI 'configure' command dropdown and supported regions
  * - Since 'ap-east-1' is not available via 'amplify configure', test $CLI_REGION with 'ap-east-1' will run in 'us-east-1'
