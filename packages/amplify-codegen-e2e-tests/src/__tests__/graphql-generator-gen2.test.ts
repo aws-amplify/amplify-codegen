@@ -56,8 +56,7 @@ describe('GraphQL generator for Gen2 e2e tests', () => {
       });
     }).flat();
     graphqlCodegenConfigs.forEach(config => {
-      // TODO: skip these tests as it will fail due to the duplicate graphql module. Will enable them once the issue is resolved
-      it.skip(`should not throw error when generating GraphQL client code in format ${config.format} with type ${config.typeTarget} and statement ${config.statementTarget}`, async () => {
+      it(`should not throw error when generating GraphQL client code in format ${config.format} with type ${config.typeTarget} and statement ${config.statementTarget}`, async () => {
         await testGraphqlClientCodegen(projRoot, config);
       });
     })
