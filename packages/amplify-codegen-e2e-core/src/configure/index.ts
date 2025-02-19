@@ -25,6 +25,13 @@ const defaultProjectSettings = {
   startCmd: '\r',
 };
 
+/**
+ * This is a list with regions same as Amplify CLI 'configure' dropdown.
+ * We need to keep order of regions in this list and sync with Amplify CLI regions to prevent
+ * configuration from failing.
+ * 
+ * For CI: $CLI_REGION will be selected from this list.
+ */
 export const amplifyRegions = [
   'us-east-1',
   'us-east-2',
@@ -38,6 +45,7 @@ export const amplifyRegions = [
   'eu-central-1',
   'ap-northeast-1',
   'ap-northeast-2',
+  'ap-northeast-3',
   'ap-southeast-1',
   'ap-southeast-2',
   'ap-south-1',
