@@ -19,7 +19,7 @@
   "scripts": {
     "e2e": "npm run setup-profile && jest --verbose --forceExit",
     "e2e-gen2": "jest --verbose --forceExit",
-    "setup-profile": "ts-node ./src/configure_tests.ts",
+    "setup-profile": "ts-node ./src/configure_tests.ts && cat ~/.aws/config && cat ~/.aws/credentials",
     "clean-e2e-resources": "ts-node ./src/cleanup-e2e-resources.ts"
   },
   "dependencies": {

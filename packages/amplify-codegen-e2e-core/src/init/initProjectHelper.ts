@@ -75,7 +75,7 @@ export function initJSProjectWithProfile(cwd: string, settings: Object = {}): Pr
         .wait('Select the authentication method you want to use:')
         .sendCarriageReturn()
         .wait('Please choose the profile you want to use')
-        .sendLine('amplify-integ-test-user');
+        .sendLine(s.profileName);
     }
 
     chain
