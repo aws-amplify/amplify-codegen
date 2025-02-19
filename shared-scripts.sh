@@ -380,6 +380,9 @@ function useChildAccountCredentials {
         echo "Using parent account credentials."
     fi
     echo "Region is set to use $CLI_REGION"
+    
+    export AWS_REGION=$CLI_REGION
+    export AWS_DEFAULT_REGION=$CLI_REGION
 }
 
 function retry {
