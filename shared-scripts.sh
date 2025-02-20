@@ -551,6 +551,7 @@ function _setupNodeVersionWindows {
   
   # Install Node.js using Chocolatey
   choco install -fy nodejs-lts --version=$version
+  cmd //c refreshenv
   
   # Refresh environment variables
   export PATH=$PATH
