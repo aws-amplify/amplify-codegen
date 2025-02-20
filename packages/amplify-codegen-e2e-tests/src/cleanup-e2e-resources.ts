@@ -281,7 +281,7 @@ const getStackDetails = async (stackName: string, account: AWSAccountInfo, regio
 };
 
 const isRegionEnabled = async (accountInfo: AWSAccountInfo, region: string): Promise<boolean> => {
-  const account = new Account(accountInfo);
+  const account = new Account(getAWSConfig(accountInfo, region));
   const optStatus = await account.getRegionOptStatus({
     RegionName: region,
     AccountId: accountInfo.accountId,
