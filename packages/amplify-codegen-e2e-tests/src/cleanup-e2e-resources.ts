@@ -12,8 +12,15 @@ import { deleteS3Bucket, sleep } from '@aws-amplify/amplify-codegen-e2e-core';
  * Supported regions:
  * - All Amplify regions, as reported https://docs.aws.amazon.com/general/latest/gr/amplify.html
  *
- * NOTE: The list of supported regions must be kept in sync amongst all of:
+ * NOTE:
+ * - 'ap-east-1' is not included in the list due to known discrepancy in Amplify CLI 'configure' command dropdown and supported regions
+ * - Since 'ap-east-1' is not available via 'amplify configure', test $CLI_REGION with 'ap-east-1' will run in 'us-east-1'
+ * and fail Amplify profile assertion in test setup phase
+ *
+ * The list of supported regions must be kept in sync amongst all of:
+ * - Amplify CLI 'amplify configure' command regions dropdown
  * - the internal pipeline that publishes new lambda layer versions
+ * - amplify-codegen/scripts/e2e-test-regions.json
  * - amplify-codegen/scripts/split-canary-tests.ts
  * - amplify-codegen/scripts/split-e2e-tests.ts
  */
