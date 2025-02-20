@@ -30,25 +30,25 @@ import { deleteS3Bucket, sleep } from '@aws-amplify/amplify-codegen-e2e-core';
 // const AWS_REGIONS_TO_RUN_TESTS = AWS_REGIONS_TO_RUN_TESTS_METADATA.map(region => region.name);
 
 const AWS_REGIONS_TO_RUN_TESTS = [
-  'us-east-1',
-  'us-east-2',
-  'us-west-1',
-  'us-west-2',
+  'ap-northeast-1',
+  'ap-northeast-2',
+  'ap-northeast-3',
+  'ap-south-1',
+  'ap-southeast-1',
+  'ap-southeast-2',
+  'ca-central-1',
+  'eu-central-1',
   'eu-north-1',
   'eu-south-1',
   'eu-west-1',
   'eu-west-2',
   'eu-west-3',
-  'eu-central-1',
-  'ap-northeast-1',
-  'ap-northeast-2',
-  'ap-northeast-3',
-  'ap-southeast-1',
-  'ap-southeast-2',
-  'ap-south-1',
-  'ca-central-1',
   'me-south-1',
   'sa-east-1',
+  'us-east-1',
+  'us-east-2',
+  'us-west-1',
+  'us-west-2',
 ];
 
 type TestRegion = {
@@ -280,11 +280,6 @@ const isRegionEnabled = async (accountInfo: AWSAccountInfo, region: string): Pro
   const optStatus = await account.getRegionOptStatus({ RegionName: region }).promise();
 
   return optStatus.RegionOptStatus === 'ENABLED' || optStatus.RegionOptStatus === 'ENABLED_BY_DEFAULT';
-
-
-  // const response = await account.listRegions().promise();
-  // const enabledRegions = response.Regions.map(r => (r.RegionOptStatus === 'ENABLED' ? r.RegionName : null)).filter(Boolean);
-  // return enabledRegions.includes(region);
 };
 
 const getStacks = async (account: AWSAccountInfo, region: string): Promise<StackInfo[]> => {
