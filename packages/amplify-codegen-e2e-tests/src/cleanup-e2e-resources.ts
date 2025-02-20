@@ -200,18 +200,13 @@ const getOrphanTestIamRoles = async (account: AWSAccountInfo): Promise<IamRoleIn
 const getAmplifyApps = async (account: AWSAccountInfo, region: string): Promise<AmplifyAppInfo[]> => {
   const amplifyClient = new aws.Amplify(getAWSConfig(account, region));
   const result: AmplifyAppInfo[] = [];
-  let amplifyApps = { apps: [] };
-  try {
-    amplifyApps = await amplifyClient.listApps({ maxResults: 50 }).promise(); // keeping it to 50 as max supported is 50
-  } catch (e) {
-    if (e?.code === 'UnrecognizedClientException') {
-      // Do not fail the cleanup and continue
-      console.log(`Listing apps for account ${account.accountId}-${region} failed with error with code ${e?.code}. Skipping.`);
-      return result;
-    } else {
-      throw e;
-    }
+
+  const optStatus = await isRegionEnabled(account, region);
+  if (!optStatus) {
+    return result;
   }
+
+  const amplifyApps = await amplifyClient.listApps({ maxResults: 50 }).promise(); // keeping it to 50 as max supported is 50
 
   for (const app of amplifyApps.apps) {
     const backends: Record<string, StackInfo> = {};
@@ -294,41 +289,34 @@ const isRegionEnabled = async (accountInfo: AWSAccountInfo, region: string): Pro
 
 const getStacks = async (account: AWSAccountInfo, region: string): Promise<StackInfo[]> => {
   const cfnClient = new aws.CloudFormation(getAWSConfig(account, region));
+  const results: StackInfo[] = [];
 
   const optStatus = await isRegionEnabled(account, region);
-  console.log('---------');
-  console.log(optStatus);
-  console.log(account);
-  console.log(region);
-  console.log('---------');
-
-  const results: StackInfo[] = [];
-  let stacks;
-  try {
-    stacks = await cfnClient
-      .listStacks({
-        StackStatusFilter: [
-          'CREATE_COMPLETE',
-          'ROLLBACK_FAILED',
-          'DELETE_FAILED',
-          'UPDATE_COMPLETE',
-          'UPDATE_ROLLBACK_FAILED',
-          'UPDATE_ROLLBACK_COMPLETE',
-          'IMPORT_COMPLETE',
-          'IMPORT_ROLLBACK_FAILED',
-          'IMPORT_ROLLBACK_COMPLETE',
-        ],
-      })
-      .promise();
-  } catch (e) {
-    if (e?.code === 'InvalidClientTokenId') {
-      // Do not fail the cleanup and continue
-      console.log(`Listing stacks for account ${account.accountId}-${region} failed with error with code ${e?.code}. Skipping.`);
-      return results;
-    } else {
-      throw e;
-    }
+  if (!optStatus) {
+    return results;
   }
+
+  // console.log('---------');
+  // console.log(optStatus);
+  // console.log(account);
+  // console.log(region);
+  // console.log('---------');
+
+  const stacks = await cfnClient
+    .listStacks({
+      StackStatusFilter: [
+        'CREATE_COMPLETE',
+        'ROLLBACK_FAILED',
+        'DELETE_FAILED',
+        'UPDATE_COMPLETE',
+        'UPDATE_ROLLBACK_FAILED',
+        'UPDATE_ROLLBACK_COMPLETE',
+        'IMPORT_COMPLETE',
+        'IMPORT_ROLLBACK_FAILED',
+        'IMPORT_ROLLBACK_COMPLETE',
+      ],
+    })
+    .promise();
 
   // We are interested in only the root stacks that are deployed by amplify-cli
   const rootStacks = stacks.StackSummaries.filter(stack => !stack.RootId);
