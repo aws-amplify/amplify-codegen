@@ -31,6 +31,7 @@ const defaultProjectSettings = {
  *
  * NOTE:
  * - The list is used to configure correct region in Amplify profile as env var $CLI_REGION
+ * - The list much be in the same order as 'amplify configure' regions selection dropdown
  * - 'ap-east-1' is not included in the list due to known discrepancy in Amplify CLI 'configure' command dropdown and supported regions
  *
  * The list of supported regions must be kept in sync amongst all of:
