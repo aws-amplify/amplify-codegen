@@ -32,7 +32,8 @@ const getAmpxPath = (cwd: string): string => {
   console.log(`DEBUG: Resolved npx path: ${npxPath}`);
 
   // Execute the command to find 'ampx'
-  const spawnResult = spawnSync(npxPath, ['which', 'ampx'], { cwd, env: process.env, stdio: 'pipe' });
+  // Use shell: true to properly execute the .cmd file on Windows
+  const spawnResult = spawnSync(npxPath, ['which', 'ampx'], { cwd, env: process.env, stdio: 'pipe', shell: true });
 
   // Log the entire result of spawnSync for inspection
   console.log('DEBUG: spawnSync result:', spawnResult);
