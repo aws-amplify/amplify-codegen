@@ -556,10 +556,6 @@ function _setupNodeVersionWindows {
   # Refresh environment variables
   echo "Refreshing environment variables"
   export PATH=$PATH
-
-  # # Manually update PATH
-  # echo "Updating PATH to include Node.js"
-  # export PATH="/c/Program Files/nodejs:$PATH"
   
   # Verify the Node.js version in use
   nodeVersion=$(node -v)
