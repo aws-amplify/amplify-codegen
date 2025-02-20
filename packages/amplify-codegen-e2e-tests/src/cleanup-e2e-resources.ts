@@ -292,6 +292,14 @@ const isRegionEnabled = async (accountInfo: AWSAccountInfo, region: string): Pro
 
 const getStacks = async (account: AWSAccountInfo, region: string): Promise<StackInfo[]> => {
   const cfnClient = new aws.CloudFormation(getAWSConfig(account, region));
+
+  const optStatus = await isRegionEnabled(account, region);
+  console.log('---------');
+  console.log(optStatus);
+  console.log(account);
+  console.log(region);
+  console.log('---------');
+
   const results: StackInfo[] = [];
   let stacks;
   try {
