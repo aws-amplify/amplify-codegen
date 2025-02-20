@@ -550,11 +550,12 @@ function _setupNodeVersionWindows {
   echo "Installing Node.js version $version on Windows"
   
   # Install Node.js using Chocolatey
+  echo "Installing Node.js version $version using Chocolatey"
   choco install -fy nodejs-lts --version=$version
-  cmd //c refreshenv
-  
-  # Refresh environment variables
-  export PATH=$PATH
+
+  # Manually update PATH
+  echo "Updating PATH to include Node.js"
+  export PATH="/c/Program Files/nodejs:$PATH"
   
   # Verify the Node.js version in use
   nodeVersion=$(node -v)
