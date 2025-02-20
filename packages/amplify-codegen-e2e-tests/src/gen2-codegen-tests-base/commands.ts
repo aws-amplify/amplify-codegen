@@ -7,57 +7,18 @@ import { spawnSync } from 'child_process';
  * Retrieve the path to the `npx` executable for interacting with the amplify gen2 cli.
  * @returns the local `npx` executable path.
  */
-const getNpxPath = (): string => {
-  console.log(`DEBUG: process.platform is: ${process.platform}`);
-  if (process.platform === 'win32') {
-    const scriptRunnerPath = getScriptRunnerPath();
-    console.log(`DEBUG: getScriptRunnerPath() returned: ${scriptRunnerPath}`);
-    const npxPath = scriptRunnerPath.replace('node.exe', 'npx.cmd');
-    console.log(`DEBUG: Resolved npxPath for Windows: ${npxPath}`);
-    return npxPath;
-  } else {
-    console.log(`DEBUG: Non-Windows platform; using 'npx'`);
-    return 'npx';
-  }
-};
+const getNpxPath = (): string => (process.platform === 'win32' ? getScriptRunnerPath().replace('node.exe', 'npx.cmd') : 'npx');
 
 /**
  * Retrieve the path to the `ampx` executable for interacting with the amplify gen2 cli.
  * @param cwd current working directory
  * @returns the local `ampx` executable path
+ *
+ * Note:
+ * Use shell: true to properly execute the .cmd file on Windows
  */
-const getAmpxPath = (cwd: string): string => {
-  // Retrieve the path to npx
-  const npxPath = getNpxPath();
-  console.log(`DEBUG: Resolved npx path: ${npxPath}`);
-
-  // Execute the command to find 'ampx'
-  // Use shell: true to properly execute the .cmd file on Windows
-  const spawnResult = spawnSync(npxPath, ['which', 'ampx'], { cwd, env: process.env, stdio: 'pipe', shell: true });
-
-  // Log the entire result of spawnSync for inspection
-  console.log('DEBUG: spawnSync result:', spawnResult);
-
-  if (spawnResult.error) {
-    console.error('DEBUG: spawnSync encountered an error:', spawnResult.error);
-  }
-
-  // Log stderr if available
-  if (spawnResult.stderr) {
-    console.error('DEBUG: spawnSync stderr:', spawnResult.stderr.toString());
-  }
-
-  // Ensure stdout exists before converting to string
-  const stdout = spawnResult.stdout;
-  if (!stdout) {
-    console.error('DEBUG: No stdout received from spawnSync.');
-    return '';
-  }
-
-  const result = stdout.toString().trim();
-  console.log(`DEBUG: Parsed output: "${result}"`);
-  return result;
-};
+const getAmpxPath = (cwd: string): string =>
+  spawnSync(getNpxPath(), ['which', 'ampx'], { cwd, env: process.env, stdio: 'pipe', shell: true }).stdout.toString().trim();
 
 const codegenPackagesInGen2 = [
   '@aws-amplify/graphql-generator',
