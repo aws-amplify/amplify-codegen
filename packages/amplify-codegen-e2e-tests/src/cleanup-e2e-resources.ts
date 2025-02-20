@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker, camelcase, @typescript-eslint/no-explicit-any */
-import { CodeBuild } from 'aws-sdk';
+import { CodeBuild, Account } from 'aws-sdk';
 import { config } from 'dotenv';
 import yargs from 'yargs';
 import * as aws from 'aws-sdk';
@@ -8,29 +8,24 @@ import fs from 'fs-extra';
 import path from 'path';
 import { deleteS3Bucket, sleep } from '@aws-amplify/amplify-codegen-e2e-core';
 
-// Ensure to update scripts/split-e2e-tests.ts is also updated this gets updated
-const AWS_REGIONS_TO_RUN_TESTS = [
-  'ap-east-1',
-  'ap-northeast-1',
-  'ap-northeast-2',
-  'ap-northeast-3',
-  'ap-south-1',
-  'ap-southeast-1',
-  'ap-southeast-2',
-  'ca-central-1',
-  'eu-central-1',
-  'eu-north-1',
-  'eu-south-1',
-  'eu-west-1',
-  'eu-west-2',
-  'eu-west-3',
-  'me-south-1',
-  'sa-east-1',
-  'us-east-1',
-  'us-east-2',
-  'us-west-1',
-  'us-west-2',
-];
+/**
+ * Supported regions:
+ * - All Amplify regions, as reported https://docs.aws.amazon.com/general/latest/gr/amplify.html
+ *
+ * NOTE: The list of supported regions must be kept in sync amongst all of:
+ * - the internal pipeline that publishes new lambda layer versions
+ * - amplify-codegen/scripts/split-canary-tests.ts
+ * - amplify-codegen/scripts/split-e2e-tests.ts
+ */
+const REPO_ROOT = path.join(__dirname, '..', '..', '..');
+const SUPPORTED_REGIONS_PATH = path.join(REPO_ROOT, 'scripts', 'e2e-test-regions.json');
+const AWS_REGIONS_TO_RUN_TESTS_METADATA: TestRegion[] = JSON.parse(fs.readFileSync(SUPPORTED_REGIONS_PATH, 'utf-8'));
+const AWS_REGIONS_TO_RUN_TESTS = AWS_REGIONS_TO_RUN_TESTS_METADATA.map(region => region.name);
+
+type TestRegion = {
+  name: string;
+  optIn: boolean;
+};
 
 const reportPathDir = path.normalize(path.join(__dirname, '..', 'amplify-e2e-reports'));
 
@@ -110,6 +105,19 @@ const handleExpiredTokenException = (): void => {
 };
 
 /**
+ * Check if given region is enabled in the account info provided
+ * @param accountInfo aws account to check region
+ * @param region aws region to check
+ * @returns true if region is enabled in that account, false otherwise
+ */
+const isRegionEnabled = async (accountInfo: AWSAccountInfo, region: string): Promise<boolean> => {
+  const account = new Account(getAWSConfig(accountInfo, region));
+  const optStatus = await account.getRegionOptStatus({ RegionName: region }).promise();
+
+  return optStatus.RegionOptStatus === 'ENABLED' || optStatus.RegionOptStatus === 'ENABLED_BY_DEFAULT';
+};
+
+/**
  * We define a resource as viable for deletion if it matches TEST_REGEX in the name, and if it is > STALE_DURATION_MS old.
  */
 const testBucketStalenessFilter = (resource: aws.S3.Bucket): boolean => {
@@ -175,6 +183,13 @@ const getOrphanTestIamRoles = async (account: AWSAccountInfo): Promise<IamRoleIn
  */
 const getAmplifyApps = async (account: AWSAccountInfo, region: string): Promise<AmplifyAppInfo[]> => {
   const amplifyClient = new aws.Amplify(getAWSConfig(account, region));
+
+  const optStatus = await isRegionEnabled(account, region);
+  if (!optStatus) {
+    console.error(`Listing apps for account ${account.accountId}-${region} failed since ${region} is not enabled. Skipping.`);
+    return [];
+  }
+
   const amplifyApps = await amplifyClient.listApps({ maxResults: 50 }).promise(); // keeping it to 50 as max supported is 50
   const result: AmplifyAppInfo[] = [];
   for (const app of amplifyApps.apps) {
@@ -246,6 +261,13 @@ const getStackDetails = async (stackName: string, account: AWSAccountInfo, regio
 
 const getStacks = async (account: AWSAccountInfo, region: string): Promise<StackInfo[]> => {
   const cfnClient = new aws.CloudFormation(getAWSConfig(account, region));
+
+  const optStatus = await isRegionEnabled(account, region);
+  if (!optStatus) {
+    console.error(`Listing stacks for account ${account.accountId}-${region} failed since ${region} is not enabled. Skipping.`);
+    return [];
+  }
+
   const stacks = await cfnClient
     .listStacks({
       StackStatusFilter: [
