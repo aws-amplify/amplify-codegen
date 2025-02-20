@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker, camelcase, @typescript-eslint/no-explicit-any */
-import { CodeBuild } from 'aws-sdk';
+import { CodeBuild, Account } from 'aws-sdk';
 import { config } from 'dotenv';
 import yargs from 'yargs';
 import * as aws from 'aws-sdk';
@@ -12,15 +12,44 @@ import { deleteS3Bucket, sleep } from '@aws-amplify/amplify-codegen-e2e-core';
  * Supported regions:
  * - All Amplify regions, as reported https://docs.aws.amazon.com/general/latest/gr/amplify.html
  *
- * NOTE: The list of supported regions must be kept in sync amongst all of:
+ * NOTE:
+ * - The list is used to configure correct region in Amplify profile as env var $CLI_REGION
+ * - 'ap-east-1' is not included in the list due to known discrepancy in Amplify CLI 'configure' command dropdown and supported regions
+ *
+ * The list of supported regions must be kept in sync amongst all of:
+ * - Amplify CLI 'amplify configure' command regions dropdown
  * - the internal pipeline that publishes new lambda layer versions
+ * - amplify-codegen/scripts/e2e-test-regions.json
  * - amplify-codegen/scripts/split-canary-tests.ts
  * - amplify-codegen/scripts/split-e2e-tests.ts
+ * - amplify-codegen-e2e-core/src/configure/index.ts
  */
-const REPO_ROOT = path.join(__dirname, '..', '..', '..');
-const SUPPORTED_REGIONS_PATH = path.join(REPO_ROOT, 'scripts', 'e2e-test-regions.json');
-const AWS_REGIONS_TO_RUN_TESTS_METADATA: TestRegion[] = JSON.parse(fs.readFileSync(SUPPORTED_REGIONS_PATH, 'utf-8'));
-const AWS_REGIONS_TO_RUN_TESTS = AWS_REGIONS_TO_RUN_TESTS_METADATA.map(region => region.name);
+// const REPO_ROOT = path.join(__dirname, '..', '..', '..');
+// const SUPPORTED_REGIONS_PATH = path.join(REPO_ROOT, 'scripts', 'e2e-test-regions.json');
+// const AWS_REGIONS_TO_RUN_TESTS_METADATA: TestRegion[] = JSON.parse(fs.readFileSync(SUPPORTED_REGIONS_PATH, 'utf-8'));
+// const AWS_REGIONS_TO_RUN_TESTS = AWS_REGIONS_TO_RUN_TESTS_METADATA.map(region => region.name);
+
+const AWS_REGIONS_TO_RUN_TESTS = [
+  'us-east-1',
+  'us-east-2',
+  'us-west-1',
+  'us-west-2',
+  'eu-north-1',
+  'eu-south-1',
+  'eu-west-1',
+  'eu-west-2',
+  'eu-west-3',
+  'eu-central-1',
+  'ap-northeast-1',
+  'ap-northeast-2',
+  'ap-northeast-3',
+  'ap-southeast-1',
+  'ap-southeast-2',
+  'ap-south-1',
+  'ca-central-1',
+  'me-south-1',
+  'sa-east-1',
+];
 
 type TestRegion = {
   name: string;
@@ -249,6 +278,16 @@ const getStackDetails = async (stackName: string, account: AWSAccountInfo, regio
     tags: tags.reduce((acc, tag) => ({ ...acc, [tag.Key]: tag.Value }), {}),
     jobId
   };
+};
+
+const isRegionEnabled = async (accountInfo: AWSAccountInfo, region: string): Promise<boolean> => {
+  const account = new Account(accountInfo);
+  const optStatus = await account.getRegionOptStatus({
+    RegionName: region,
+    AccountId: accountInfo.accountId,
+  }).promise();
+
+  return optStatus.RegionOptStatus === 'ENABLED' || optStatus.RegionOptStatus === 'ENABLED_BY_DEFAULT';
 };
 
 const getStacks = async (account: AWSAccountInfo, region: string): Promise<StackInfo[]> => {
