@@ -282,17 +282,14 @@ const getStackDetails = async (stackName: string, account: AWSAccountInfo, regio
 
 const isRegionEnabled = async (accountInfo: AWSAccountInfo, region: string): Promise<boolean> => {
   const account = new Account(getAWSConfig(accountInfo, region));
-  // const optStatus = await account.getRegionOptStatus({
-  //   RegionName: region,
-  //   AccountId: accountInfo.accountId,
-  // }).promise();
+  const optStatus = await account.getRegionOptStatus({ RegionName: region }).promise();
 
-  // return optStatus.RegionOptStatus === 'ENABLED' || optStatus.RegionOptStatus === 'ENABLED_BY_DEFAULT';
+  return optStatus.RegionOptStatus === 'ENABLED' || optStatus.RegionOptStatus === 'ENABLED_BY_DEFAULT';
 
 
-  const response = await account.listRegions().promise();
-  const enabledRegions = response.Regions.map(r => (r.RegionOptStatus === 'ENABLED' ? r.RegionName : null)).filter(Boolean);
-  return enabledRegions.includes(region);
+  // const response = await account.listRegions().promise();
+  // const enabledRegions = response.Regions.map(r => (r.RegionOptStatus === 'ENABLED' ? r.RegionName : null)).filter(Boolean);
+  // return enabledRegions.includes(region);
 };
 
 const getStacks = async (account: AWSAccountInfo, region: string): Promise<StackInfo[]> => {
