@@ -117,11 +117,25 @@ const handleExpiredTokenException = (): void => {
  * @param region aws region to check
  * @returns true if region is enabled in that account, false otherwise
  */
-const isRegionEnabled = async (accountInfo: AWSAccountInfo, region: string): Promise<boolean> => {
-  const account = new Account({ ...accountInfo, region: 'us-east-1' });
-  const optStatus = await account.getRegionOptStatus({ RegionName: region }).promise();
+const isRegionEnabled = async (accountInfo: AWSAccountInfo, region: string, maxRetries = 3): Promise<boolean> => {
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      const account = new Account({ ...accountInfo, region: 'us-east-1' });
+      const optStatus = await account.getRegionOptStatus({ RegionName: region }).promise();
 
-  return optStatus.RegionOptStatus === 'ENABLED' || optStatus.RegionOptStatus === 'ENABLED_BY_DEFAULT';
+      return optStatus.RegionOptStatus === 'ENABLED' || optStatus.RegionOptStatus === 'ENABLED_BY_DEFAULT';
+    } catch (error) {
+      if (error.code === 'TooManyRequestsException') {
+        const backoffTime = Math.pow(2, attempt) * 1000; // exponential backoff: 1s, 2s, 4s
+        if (attempt < maxRetries - 1) {
+          await sleep(backoffTime);
+          continue;
+        }
+      }
+      throw error; // rethrow if it's not a TooManyRequestsException or we're out of retries
+    }
+  }
+  throw new Error('Max retries exceeded while checking region status');
 };
 
 /**
