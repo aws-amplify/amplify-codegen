@@ -118,7 +118,7 @@ const handleExpiredTokenException = (): void => {
  * @returns true if region is enabled in that account, false otherwise
  */
 const isRegionEnabled = async (accountInfo: AWSAccountInfo, region: string): Promise<boolean> => {
-  const account = new Account(getAWSConfig(accountInfo, region));
+  const account = new Account({ ...accountInfo, region: 'us-east-1' });
   const optStatus = await account.getRegionOptStatus({ RegionName: region }).promise();
 
   return optStatus.RegionOptStatus === 'ENABLED' || optStatus.RegionOptStatus === 'ENABLED_BY_DEFAULT';
