@@ -112,33 +112,6 @@ const handleExpiredTokenException = (): void => {
 };
 
 /**
- * Check if given region is enabled in the account info provided
- * @param accountInfo aws account to check region
- * @param region aws region to check
- * @returns true if region is enabled in that account, false otherwise
- */
-const isRegionEnabled = async (accountInfo: AWSAccountInfo, region: string, maxRetries = 3): Promise<boolean> => {
-  for (let attempt = 0; attempt < maxRetries; attempt++) {
-    try {
-      const account = new Account({ ...accountInfo, region: 'us-east-1' });
-      const optStatus = await account.getRegionOptStatus({ RegionName: region }).promise();
-
-      return optStatus.RegionOptStatus === 'ENABLED' || optStatus.RegionOptStatus === 'ENABLED_BY_DEFAULT';
-    } catch (error) {
-      if (error.code === 'TooManyRequestsException') {
-        const backoffTime = Math.pow(2, attempt) * 1000; // exponential backoff: 1s, 2s, 4s
-        if (attempt < maxRetries - 1) {
-          await sleep(backoffTime);
-          continue;
-        }
-      }
-      throw error; // rethrow if it's not a TooManyRequestsException or we're out of retries
-    }
-  }
-  throw new Error('Max retries exceeded while checking region status');
-};
-
-/**
  * We define a resource as viable for deletion if it matches TEST_REGEX in the name, and if it is > STALE_DURATION_MS old.
  */
 const testBucketStalenessFilter = (resource: aws.S3.Bucket): boolean => {
@@ -193,7 +166,23 @@ const getOrphanTestIamRoles = async (account: AWSAccountInfo): Promise<IamRoleIn
   },
   ...(region ? { region } : {}),
   maxRetries: 10,
-});
+ });
+
+ /**
+ * Returns a list of regions enabled given the AWS account information
+ * @param accountInfo aws account to check region
+ * @returns Promise<string[]> a list of AWS regions enabled by the account
+ */
+const getRegionsEnabled = async (accountInfo: AWSAccountInfo): Promise<string[]> => {
+  // Specify service region to avoid possible endpoint unavailable error
+  const account = new Account({ ...accountInfo, region: 'us-east-1' });
+  const response = await account.listRegions().promise();
+  const enabledRegions = response.Regions.map(r =>
+    r.RegionOptStatus === 'ENABLED' || r.RegionOptStatus === 'ENABLED_BY_DEFAULT' ? r.RegionName : null,
+  ).filter(Boolean);
+
+  return enabledRegions;
+};
 
 /**
  * Returns a list of Amplify Apps in the region. The apps includes information about the CI build that created the app
@@ -202,11 +191,10 @@ const getOrphanTestIamRoles = async (account: AWSAccountInfo): Promise<IamRoleIn
  * @param region aws region to query for amplify Apps
  * @returns Promise<AmplifyAppInfo[]> a list of Amplify Apps in the region with build info
  */
-const getAmplifyApps = async (account: AWSAccountInfo, region: string): Promise<AmplifyAppInfo[]> => {
+const getAmplifyApps = async (account: AWSAccountInfo, region: string, regionsEnabled: string[]): Promise<AmplifyAppInfo[]> => {
   const amplifyClient = new aws.Amplify(getAWSConfig(account, region));
 
-  const optStatus = await isRegionEnabled(account, region);
-  if (!optStatus) {
+  if (!regionsEnabled.includes(region)) {
     console.error(`Listing apps for account ${account.accountId}-${region} failed since ${region} is not enabled. Skipping.`);
     return [];
   }
@@ -280,11 +268,10 @@ const getStackDetails = async (stackName: string, account: AWSAccountInfo, regio
   };
 };
 
-const getStacks = async (account: AWSAccountInfo, region: string): Promise<StackInfo[]> => {
+const getStacks = async (account: AWSAccountInfo, region: string, regionsEnabled: string[]): Promise<StackInfo[]> => {
   const cfnClient = new aws.CloudFormation(getAWSConfig(account, region));
 
-  const optStatus = await isRegionEnabled(account, region);
-  if (!optStatus) {
+  if (!regionsEnabled.includes(region)) {
     console.error(`Listing stacks for account ${account.accountId}-${region} failed since ${region} is not enabled. Skipping.`);
     return [];
   }
@@ -768,8 +755,10 @@ const getAccountsToCleanup = async (): Promise<AWSAccountInfo[]> => {
 };
 
 const cleanupAccount = async (account: AWSAccountInfo, accountIndex: number, filterPredicate: JobFilterPredicate): Promise<void> => {
-  const appPromises = AWS_REGIONS_TO_RUN_TESTS.map(region => getAmplifyApps(account, region));
-  const stackPromises = AWS_REGIONS_TO_RUN_TESTS.map(region => getStacks(account, region));
+  const regionsEnabled = await getRegionsEnabled(account);
+
+  const appPromises = AWS_REGIONS_TO_RUN_TESTS.map(region => getAmplifyApps(account, region, regionsEnabled));
+  const stackPromises = AWS_REGIONS_TO_RUN_TESTS.map(region => getStacks(account, region, regionsEnabled));
   const bucketPromise = getS3Buckets(account);
   const orphanBucketPromise = getOrphanS3TestBuckets(account);
   const orphanIamRolesPromise = getOrphanTestIamRoles(account);
