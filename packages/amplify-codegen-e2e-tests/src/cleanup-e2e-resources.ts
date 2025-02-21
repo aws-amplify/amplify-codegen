@@ -194,6 +194,7 @@ const getRegionsEnabled = async (accountInfo: AWSAccountInfo): Promise<string[]>
 const getAmplifyApps = async (account: AWSAccountInfo, region: string, regionsEnabled: string[]): Promise<AmplifyAppInfo[]> => {
   const amplifyClient = new aws.Amplify(getAWSConfig(account, region));
 
+  console.log(regionsEnabled);
   if (!regionsEnabled.includes(region)) {
     console.error(`Listing apps for account ${account.accountId}-${region} failed since ${region} is not enabled. Skipping.`);
     return [];
