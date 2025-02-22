@@ -180,8 +180,6 @@ const getRegionsEnabled = async (accountInfo: AWSAccountInfo): Promise<string[]>
     RegionOptStatusContains: ['ENABLED', 'ENABLED_BY_DEFAULT'],
     MaxResults: AWS_REGIONS_TO_RUN_TESTS.length,
   }).promise();
-  console.log(response);
-  console.log(response.Regions);
   const enabledRegions = response.Regions.map(r => r.RegionName).filter(Boolean);
 
   return enabledRegions;
