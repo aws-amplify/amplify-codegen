@@ -176,8 +176,9 @@ const getOrphanTestIamRoles = async (account: AWSAccountInfo): Promise<IamRoleIn
 const getRegionsEnabled = async (accountInfo: AWSAccountInfo): Promise<string[]> => {
   // Specify service region to avoid possible endpoint unavailable error
   const account = new Account({ ...accountInfo, region: 'us-east-1' });
-  const response = await account.listRegions().promise();
+  const response = await account.listRegions({ RegionOptStatusContains: ['ENABLED', 'ENABLED_BY_DEFAULT'] }).promise();
   console.log(response);
+  console.log(response.Regions);
   const enabledRegions = response.Regions.map(r =>
     r.RegionOptStatus === 'ENABLED' || r.RegionOptStatus === 'ENABLED_BY_DEFAULT' ? r.RegionName : null,
   ).filter(Boolean);
