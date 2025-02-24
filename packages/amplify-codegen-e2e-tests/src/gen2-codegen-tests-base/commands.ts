@@ -8,13 +8,30 @@ import { spawnSync } from 'child_process';
  * @returns the local `npx` executable path.
  */
 const getNpxPath = (): string => (process.platform === 'win32' ? getScriptRunnerPath().replace('node.exe', 'npx.cmd') : 'npx');
+
 /**
- * Retrieve the path to the `ampx` executable for interacting with the amplify gen2 cli.
+ * Retrieve the path to the `ampx` executable for interacting with the Amplify Gen2 CLI.
  * @param cwd current working directory
  * @returns the local `ampx` executable path
+ *
+ * Note:
+ * On Windows, batch files (like npx.cmd) must be executed through a shell.
+ * Therefore, this function uses `shell: process.platform === 'win32'` to ensure that the command
+ * is run via the shell on Windows. This change was required after upgrading to Node 18,
+ * where a security update now causes an EINVAL error if a .cmd file is executed without the shell option.
+ *
+ * See: https://nodejs.org/en/blog/vulnerability/april-2024-security-releases-2#command-injection-via-args-parameter-of-child_processspawn-without-shell-option-enabled-on-windows-cve-2024-27980---high
+ *
+ * Warning:
+ * Command arguments **must** be sanitized to avoid injection risks.
  */
 const getAmpxPath = (cwd: string): string =>
-  spawnSync(getNpxPath(), ['which', 'ampx'], { cwd, env: process.env, stdio: 'pipe' }).stdout.toString().trim();
+  spawnSync(getNpxPath(), ['which', 'ampx'], {
+    cwd,
+    env: process.env,
+    stdio: 'pipe',
+    shell: process.platform === 'win32',
+  }).stdout.toString().trim();
 
 const codegenPackagesInGen2 = [
   '@aws-amplify/graphql-generator',

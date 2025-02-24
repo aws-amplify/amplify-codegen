@@ -1,5 +1,7 @@
 #!/bin/bash
 
+AMPLIFY_NODE_VERSION=18.20.4
+
 # set exit on error to true
 set -e
 
@@ -131,6 +133,8 @@ function _setShell {
 
 function _buildLinux {
   _setShell
+  echo "Setup Node Version $AMPLIFY_NODE_VERSION for Linux"
+  _setupNodeVersionLinux $AMPLIFY_NODE_VERSION
   echo "Linux Build"
   yarn run production-build
   storeCacheForLinuxBuildJob
@@ -138,6 +142,8 @@ function _buildLinux {
 
 function _buildWindows {
   echo "Linux Build"
+  echo "Setup Node Version $AMPLIFY_NODE_VERSION for Windows"
+  _setupNodeVersionWindows $AMPLIFY_NODE_VERSION
   yarn run production-build
   storeCacheForWindowsBuildJob
 }
@@ -288,7 +294,6 @@ function _setupGen2E2ETestsWindows {
     _setShell
 }
 
-
 function _runE2ETestsLinux {
     echo "RUN E2E Tests Linux"
     retry runE2eTest
@@ -301,11 +306,15 @@ function _runE2ETestsWindows {
 
 function _runGen2E2ETestsLinux {
     echo "RUN Gen2 E2E Tests Linux"
+    echo "Setup Node Version"
+    _setupNodeVersionLinux $AMPLIFY_NODE_VERSION
     retry runGen2E2eTest
 }
 
 function _runGen2E2ETestsWindows {
     echo "RUN Gen2 E2E Tests Windows"
+    echo "Setup Node Version"
+    _setupNodeVersionWindows $AMPLIFY_NODE_VERSION
     retry runGen2E2eTest
 }
 
@@ -529,4 +538,46 @@ function _emitRegionalizedCanaryMetric {
     --value $CODEBUILD_BUILD_SUCCEEDING \
     --dimensions branch=release,region=$CLI_REGION \
     --region us-west-2
+}
+
+function _setupNodeVersionLinux {
+  local version=$1  # Version number passed as an argument
+  
+  echo "Installing NVM and setting Node.js version to $version"
+  
+  # Install NVM
+  curl -o - https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+  
+  # Load NVM
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  
+  # Install and use the specified Node.js version
+  nvm install "$version"
+  nvm use "$version"
+
+  # Refresh environment variables
+  source ~/.bashrc  # Or source the appropriate shell profile file like ~/.bash_profile or ~/.zshrc
+  
+  # Verify the Node.js version in use
+  echo "Node.js version in use:"
+  node -v
+}
+
+function _setupNodeVersionWindows {
+  local version=$1  # Version number passed as an argument
+  
+  echo "Installing Node.js version $version on Windows"
+  
+  # Install Node.js using Chocolatey
+  echo "Installing Node.js version $version using Chocolatey"
+  choco install -fy nodejs-lts --version=$version
+
+  # Refresh environment variables
+  echo "Refreshing environment variables"
+  export PATH=$PATH
+  
+  # Verify the Node.js version in use
+  nodeVersion=$(node -v)
+  echo "Node version: $nodeVersion"
 }
