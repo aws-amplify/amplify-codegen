@@ -167,7 +167,7 @@ const getOrphanTestIamRoles = async (account: AWSAccountInfo): Promise<IamRoleIn
   ...(region ? { region } : {}),
   maxRetries: 10,
  });
- 
+
  /**
  * Returns a list of regions enabled given the AWS account information
  * @param accountInfo aws account to check region
@@ -192,6 +192,7 @@ const getRegionsEnabled = async (accountInfo: AWSAccountInfo): Promise<string[]>
     enabledRegions.push(...response.Regions.map(r => r.RegionName).filter(Boolean));
   } while (nextToken);
 
+  console.log('All enabled regions fetched: ', enabledRegions);
   return enabledRegions;
 };
 
@@ -205,7 +206,6 @@ const getRegionsEnabled = async (accountInfo: AWSAccountInfo): Promise<string[]>
 const getAmplifyApps = async (account: AWSAccountInfo, region: string, regionsEnabled: string[]): Promise<AmplifyAppInfo[]> => {
   const amplifyClient = new aws.Amplify(getAWSConfig(account, region));
 
-  console.log(regionsEnabled);
   if (!regionsEnabled.includes(region)) {
     console.error(`Listing apps for account ${account.accountId}-${region} failed since ${region} is not enabled. Skipping.`);
     return [];
