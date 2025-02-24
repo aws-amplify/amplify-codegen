@@ -134,7 +134,7 @@ function _setShell {
 function _buildLinux {
   _setShell
   echo "Setup Node Version $AMPLIFY_NODE_VERSION for Linux"
-  setupNodeVersionLinux $AMPLIFY_NODE_VERSION
+  _setupNodeVersionLinux $AMPLIFY_NODE_VERSION
   echo "Linux Build"
   yarn run production-build
   storeCacheForLinuxBuildJob
@@ -143,7 +143,7 @@ function _buildLinux {
 function _buildWindows {
   echo "Linux Build"
   echo "Setup Node Version $AMPLIFY_NODE_VERSION for Windows"
-  setupNodeVersionWindows $AMPLIFY_NODE_VERSION
+  _setupNodeVersionWindows $AMPLIFY_NODE_VERSION
   yarn run production-build
   storeCacheForWindowsBuildJob
 }
