@@ -3,18 +3,6 @@ import * as fs from 'fs-extra';
 import { join } from 'path';
 import * as yaml from 'js-yaml';
 
-// Ensure to update packages/amplify-codegen-e2e-tests/src/cleanup-e2e-resources.ts is also updated this gets updated
-const AWS_REGIONS_TO_RUN_TESTS = [
-  'us-east-1',
-  'us-east-2',
-  'us-west-2',
-  'eu-west-2',
-  'eu-central-1',
-  'ap-northeast-1',
-  'ap-southeast-1',
-  'ap-southeast-2',
-];
-
 // some tests require additional time, the parent account can handle longer tests (up to 90 minutes)
 const USE_PARENT_ACCOUNT = [];
 const REPO_ROOT = join(__dirname, '..');
@@ -30,6 +18,24 @@ const EXCLUDE_TESTS = [
   'src/__tests__/graphql-generator-gen2.test.ts'
 ];
 const DEBUG_FLAG = '--debug';
+
+/**
+ * Supported regions:
+ * - All Amplify regions, as reported https://docs.aws.amazon.com/general/latest/gr/amplify.html
+ *
+ * NOTE:
+ * - 'ap-east-1' is not included in the list due to known discrepancy in Amplify CLI 'configure' command dropdown and supported regions
+ * - Since 'ap-east-1' is not available via 'amplify configure', test $CLI_REGION with 'ap-east-1' will run in 'us-east-1'
+ * and fail Amplify profile assertion in test setup phase
+ *
+ * The list of supported regions must be kept in sync amongst all of:
+ * - Amplify CLI 'amplify configure' command regions dropdown
+ * - the internal pipeline that publishes new lambda layer versions
+ * - amplify-codegen/scripts/e2e-test-regions.json
+ * - amplify-codegen/scripts/split-canary-tests.ts
+ */
+const SUPPORTED_REGIONS_PATH: string = join(REPO_ROOT, 'scripts', 'e2e-test-regions.json');
+const AWS_REGIONS_TO_RUN_TESTS: string[] = JSON.parse(fs.readFileSync(SUPPORTED_REGIONS_PATH, 'utf-8')).map(region => region.name);
 
 export function loadConfigBase() {
   return yaml.load(fs.readFileSync(CODEBUILD_CONFIG_BASE_PATH, 'utf8'));

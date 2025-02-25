@@ -23,9 +23,8 @@ phases:
       - cd $CODEBUILD_SRC_DIR && ./.codebuild/scripts/run-ios-modelgen-e2e-test.sh
   post_build:
     commands:
-      - source ./shared-scripts.sh && _unassumeTestAccountCredentials
       - aws sts get-caller-identity
-      - source ./shared-scripts.sh && _scanArtifacts
+      - source ./shared-scripts.sh && _scanArtifacts && _emitRegionalizedCanaryMetric
 
 artifacts:
   files:

@@ -2975,6 +2975,80 @@ describe('AppSyncSwiftVisitor', () => {
       expect(generatedCodeComment).toMatchSnapshot();
       expect(generatedMetaComment).toMatchSnapshot();
     });
+
+    describe('references fields as part of primary key', () => {
+      it('Should keep the references for belongs to when part of the primary key', () => {
+        const schema = /* GraphQL */ `
+          type Notice @model @auth(rules: [{ allow: public, provider: iam }]) {
+            content: String
+            NoticeStaff: [NoticeStaff] @hasMany(references: ["noticeId"])
+          }
+
+          type Staff @model @auth(rules: [{ allow: public, provider: iam }]) {
+            content: String
+            NoticeStaff: [NoticeStaff] @hasMany(references: ["staffId"])
+          }
+
+          type NoticeStaff @model @auth(rules: [{ allow: public, provider: iam }]) {
+            read_at: AWSDateTime
+            noticeId: ID! @primaryKey(sortKeyFields: ["staffId"])
+            staffId: ID!
+            notice: Notice @belongsTo(references: ["noticeId"])
+            staff: Staff @belongsTo(references: ["staffId"])
+          }
+        `;
+        const code = getVisitorPipelinedTransformer(schema, 'NoticeStaff', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate();
+        const metadata = getVisitorPipelinedTransformer(schema, 'NoticeStaff', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate();
+
+        expect(code).toContain('self.noticeId = noticeId');
+        expect(code).toContain('self.staffId = staffId');
+        expect(code).toMatchSnapshot();
+
+        expect(metadata).toContain('.field(noticeStaff.noticeId, is: .required, ofType: .string)');
+        expect(metadata).toContain('.field(noticeStaff.staffId, is: .required, ofType: .string),');
+        expect(metadata).toMatchSnapshot();
+      });
+
+      it('Should remove the references for belongs to when not part of the primary key', () => {
+        const schema = /* GraphQL */ `
+          type Notice @model @auth(rules: [{ allow: public, provider: iam }]) {
+            content: String
+            NoticeStaff: [NoticeStaff] @hasMany(references: ["noticeId"])
+          }
+
+          type Staff @model @auth(rules: [{ allow: public, provider: iam }]) {
+            content: String
+            NoticeStaff: [NoticeStaff] @hasMany(references: ["staffId"])
+          }
+
+          type NoticeStaff @model @auth(rules: [{ allow: public, provider: iam }]) {
+            read_at: AWSDateTime
+            noticeId: ID!
+            staffId: ID!
+            notice: Notice @belongsTo(references: ["noticeId"])
+            staff: Staff @belongsTo(references: ["staffId"])
+          }
+        `;
+        const code = getVisitorPipelinedTransformer(schema, 'NoticeStaff', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate();
+        const metadata = getVisitorPipelinedTransformer(schema, 'NoticeStaff', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate();
+
+        expect(code).not.toContain('self.noticeId = noticeId');
+        expect(code).not.toContain('self.staffId = staffId');
+        expect(code).toMatchSnapshot();
+
+        expect(metadata).not.toContain('.field(noticeStaff.noticeId, is: .required, ofType: .string)');
+        expect(metadata).not.toContain('.field(noticeStaff.staffId, is: .required, ofType: .string),');
+        expect(metadata).toMatchSnapshot();
+      });
+    });
   });
 
   describe('custom references', () => {
@@ -3006,7 +3080,7 @@ describe('AppSyncSwiftVisitor', () => {
         respectPrimaryKeyAttributesOnConnectionField: true,
       }).generate()).toMatchSnapshot();
     });
-  
+
     test('sets the association to the references field for hasOne/belongsTo', () => {
       const schema = /* GraphQL */ `
         type SqlPrimary @refersTo(name: "sql_primary") @model {
@@ -3035,7 +3109,7 @@ describe('AppSyncSwiftVisitor', () => {
         respectPrimaryKeyAttributesOnConnectionField: true,
       }).generate()).toMatchSnapshot();
     });
-  
+
     test('sets the association to the references field for hasOne and hasMany', () => {
       const schema = /* GraphQL */ `
         type Primary @model {
@@ -3075,7 +3149,7 @@ describe('AppSyncSwiftVisitor', () => {
         respectPrimaryKeyAttributesOnConnectionField: true,
       }).generate()).toMatchSnapshot();
     });
-  
+
     test('double linked references', () => {
       const schema = /* GraphQL */ `
         type Foo @model {
@@ -3105,7 +3179,7 @@ describe('AppSyncSwiftVisitor', () => {
         respectPrimaryKeyAttributesOnConnectionField: true,
       }).generate()).toMatchSnapshot();
     });
-  
+
     test('hasMany with sortKeyFields on primary key', () => {
       const schema = /* GraphQL */ `
         type Primary @model {
@@ -3124,7 +3198,7 @@ describe('AppSyncSwiftVisitor', () => {
           primary: Primary @belongsTo(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
         }
       `;
-  
+
       expect(getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.code, {
         respectPrimaryKeyAttributesOnConnectionField: true,
       }).generate()).toMatchSnapshot();
@@ -3138,7 +3212,7 @@ describe('AppSyncSwiftVisitor', () => {
         respectPrimaryKeyAttributesOnConnectionField: true,
       }).generate()).toMatchSnapshot();
     });
- 
+
     test('hasOne with sortKeyFields on primary key', () => {
       const schema = /* GraphQL */ `
         type Primary @model {
@@ -3157,7 +3231,7 @@ describe('AppSyncSwiftVisitor', () => {
           primary: Primary @belongsTo(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
         }
       `;
-  
+
       expect(getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.code, {
         respectPrimaryKeyAttributesOnConnectionField: true,
       }).generate()).toMatchSnapshot();

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+AMPLIFY_NODE_VERSION=18.20.4
+
 # set exit on error to true
 set -e
 
@@ -131,6 +133,8 @@ function _setShell {
 
 function _buildLinux {
   _setShell
+  echo "Setup Node Version $AMPLIFY_NODE_VERSION for Linux"
+  _setupNodeVersionLinux $AMPLIFY_NODE_VERSION
   echo "Linux Build"
   yarn run production-build
   storeCacheForLinuxBuildJob
@@ -138,6 +142,8 @@ function _buildLinux {
 
 function _buildWindows {
   echo "Linux Build"
+  echo "Setup Node Version $AMPLIFY_NODE_VERSION for Windows"
+  _setupNodeVersionWindows $AMPLIFY_NODE_VERSION
   yarn run production-build
   storeCacheForWindowsBuildJob
 }
@@ -288,7 +294,6 @@ function _setupGen2E2ETestsWindows {
     _setShell
 }
 
-
 function _runE2ETestsLinux {
     echo "RUN E2E Tests Linux"
     retry runE2eTest
@@ -301,11 +306,15 @@ function _runE2ETestsWindows {
 
 function _runGen2E2ETestsLinux {
     echo "RUN Gen2 E2E Tests Linux"
+    echo "Setup Node Version"
+    _setupNodeVersionLinux $AMPLIFY_NODE_VERSION
     retry runGen2E2eTest
 }
 
 function _runGen2E2ETestsWindows {
     echo "RUN Gen2 E2E Tests Windows"
+    echo "Setup Node Version"
+    _setupNodeVersionWindows $AMPLIFY_NODE_VERSION
     retry runGen2E2eTest
 }
 
@@ -339,19 +348,35 @@ function _unassumeTestAccountCredentials {
 function useChildAccountCredentials {
     if [ -z "$USE_PARENT_ACCOUNT" ]; then
         export AWS_PAGER=""
+        export AWS_MAX_ATTEMPTS=5
+        export AWS_STS_REGIONAL_ENDPOINTS=regional
         parent_acct=$(aws sts get-caller-identity | jq -cr '.Account')
         child_accts=$(aws organizations list-accounts | jq -c "[.Accounts[].Id | select(. != \"$parent_acct\")]")
         org_size=$(echo $child_accts | jq 'length')
-        pick_acct=$(echo $child_accts | jq -cr ".[$RANDOM % $org_size]")
+        opt_in_regions=$(jq -r '.[] | select(.optIn == true) | .name' $CODEBUILD_SRC_DIR/scripts/e2e-test-regions.json)
+        if echo "$opt_in_regions" | grep -qw "$CLI_REGION"; then
+            child_accts=$(echo $child_accts | jq -cr '.[]')
+            for child_acct in $child_accts; do
+                # Get enabled opt-in regions for the child account
+                enabled_regions=$(aws account list-regions --account-id $child_acct --region-opt-status-contains ENABLED)
+                # Check if given opt-in region is enabled for the child account
+                if echo "$enabled_regions" | jq -e ".Regions[].RegionName == \"$CLI_REGION\""; then
+                    pick_acct=$child_acct
+                    break
+                fi
+            done
+        else
+            pick_acct=$(echo $child_accts | jq -cr ".[$RANDOM % $org_size]")
+        fi
         session_id=$((1 + $RANDOM % 10000))
         if [[ -z "$pick_acct" || -z "$session_id" ]]; then
-          echo "Unable to find a child account. Falling back to parent AWS account"
-          return
+          echo "Unable to find a child account. Fatal error and test run aborted"
+          exit 1
         fi
         creds=$(aws sts assume-role --role-arn arn:aws:iam::${pick_acct}:role/OrganizationAccountAccessRole --role-session-name testSession${session_id} --duration-seconds 3600)
         if [ -z $(echo $creds | jq -c -r '.AssumedRoleUser.Arn') ]; then
-            echo "Unable to assume child account role. Falling back to parent AWS account"
-            return
+            echo "Unable to assume child account role. Fatal error and test run aborted"
+            exit 1
         fi
         export ORGANIZATION_SIZE=$org_size
         export CREDS=$creds
@@ -502,4 +527,57 @@ function _emitCodegenCanaryMetric {
     --value $CODEBUILD_BUILD_SUCCEEDING \
     --dimensions branch=release,test=$(basename "$TEST_SUITE" .test.ts | sed "s/build-app-//") \
     --region us-west-2
+}
+
+function _emitRegionalizedCanaryMetric {
+  aws cloudwatch \
+    put-metric-data \
+    --metric-name $CANARY_METRIC_NAME \
+    --namespace amplify-codegen-canary-e2e-tests \
+    --unit Count \
+    --value $CODEBUILD_BUILD_SUCCEEDING \
+    --dimensions branch=release,region=$CLI_REGION \
+    --region us-west-2
+}
+
+function _setupNodeVersionLinux {
+  local version=$1  # Version number passed as an argument
+  
+  echo "Installing NVM and setting Node.js version to $version"
+  
+  # Install NVM
+  curl -o - https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+  
+  # Load NVM
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  
+  # Install and use the specified Node.js version
+  nvm install "$version"
+  nvm use "$version"
+
+  # Refresh environment variables
+  source ~/.bashrc  # Or source the appropriate shell profile file like ~/.bash_profile or ~/.zshrc
+  
+  # Verify the Node.js version in use
+  echo "Node.js version in use:"
+  node -v
+}
+
+function _setupNodeVersionWindows {
+  local version=$1  # Version number passed as an argument
+  
+  echo "Installing Node.js version $version on Windows"
+  
+  # Install Node.js using Chocolatey
+  echo "Installing Node.js version $version using Chocolatey"
+  choco install -fy nodejs-lts --version=$version
+
+  # Refresh environment variables
+  echo "Refreshing environment variables"
+  export PATH=$PATH
+  
+  # Verify the Node.js version in use
+  nodeVersion=$(node -v)
+  echo "Node version: $nodeVersion"
 }

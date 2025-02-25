@@ -7,25 +7,18 @@ env:
     CI: true
     CODEBUILD: true
     NODE_OPTIONS: --max-old-space-size=8096
+
 phases:
   build:
     commands:
       - source ./shared-scripts.sh && _setupE2ETestsLinux
       - codebuild-breakpoint
       - source ./shared-scripts.sh && _runE2ETestsLinux
-      - unset AWS_ACCESS_KEY_ID
-      - unset AWS_SECRET_ACCESS_KEY
-      - unset AWS_SESSION_TOKEN
-      - export PATH_TO_MODELS=$CODEBUILD_SRC_DIR/packages/amplify-codegen-e2e-tests/test-apps/swift/amplify/generated
-      - cd $PATH_TO_MODELS && zip -r models.zip models
-      - aws s3 cp $PATH_TO_MODELS/models.zip s3://$ARTIFACT_BUCKET_NAME/models.zip
-      - export MODELS_S3_URL=$(aws s3 presign s3://$ARTIFACT_BUCKET_NAME/models.zip --expires-in 3600)
-      - cd $CODEBUILD_SRC_DIR && ./.codebuild/scripts/run-ios-modelgen-e2e-test.sh
   post_build:
     commands:
       - source ./shared-scripts.sh && _unassumeTestAccountCredentials
       - aws sts get-caller-identity
-      - source ./shared-scripts.sh && _scanArtifacts
+      - source ./shared-scripts.sh && _scanArtifacts && _emitRegionalizedCanaryMetric
 
 artifacts:
   files:

@@ -115,6 +115,10 @@ describe('Model Introspection Visitor', () => {
     interface SimpleInterface {
       firstName: String!
     }
+    enum camelCase {
+      bactrian
+      dromedary
+    }
     union SimpleUnion = SimpleModel | SimpleEnum | SimpleNonModelType | SimpleInput | SimpleInterface
   `;
   const visitor: AppSyncModelIntrospectionVisitor = getVisitor(schema);
@@ -142,6 +146,10 @@ describe('Model Introspection Visitor', () => {
     it('should return interface type for Interface', () => {
       expect((visitor as any).getType('SimpleInterface')).toEqual({ interface: 'SimpleInterface' });
     });
+
+    it('should not pascal case enum', () => {
+      expect((visitor as any).getType('camelCase')).toEqual({ enum: 'camelCase' })
+    })
 
     it('should throw error for unknown type', () => {
       expect(() => (visitor as any).getType('unknown')).toThrowError('Unknown type');

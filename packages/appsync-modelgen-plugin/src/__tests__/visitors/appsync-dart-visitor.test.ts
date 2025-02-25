@@ -276,7 +276,7 @@ describe('AppSync Dart Visitor', () => {
       `;
       const outputModels: string[] = ['Todo', 'Task'];
       outputModels.forEach(model => {
-        const generatedCode = getVisitor({schema, selectedType: model, directives: [...AppSyncDirectives, ...V1Directives, DeprecatedDirective] }).generate();
+        const generatedCode = getVisitor({ schema, selectedType: model, directives: [...AppSyncDirectives, ...V1Directives, DeprecatedDirective] }).generate();
         expect(generatedCode).toMatchSnapshot();
       });
     });
@@ -330,6 +330,26 @@ describe('AppSync Dart Visitor', () => {
         expect(generatedCode).toMatchSnapshot();
       });
     });
+
+    it('should pascal case enum', () => {
+      const schema = /* GraphQL */ `
+        enum status {
+            yes
+            no
+            maybe
+        }`;
+
+      const generatedCode = getVisitor({ schema, selectedType: 'status' }).generate();
+      const statusEnum = generatedCode.split('\n').slice(-5).join('\n')
+      expect(statusEnum).toMatchInlineSnapshot(`
+        "enum Status {
+          yes,
+          no,
+          maybe
+        }"
+      `);
+
+    })
   });
 
   describe('Field tests', () => {
@@ -405,7 +425,7 @@ describe('AppSync Dart Visitor', () => {
           name: String
         }
       `;
-      const visitor = getVisitor({schema, generate: CodeGenGenerateEnum.loader });
+      const visitor = getVisitor({ schema, generate: CodeGenGenerateEnum.loader });
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     });
@@ -565,7 +585,7 @@ describe('AppSync Dart Visitor', () => {
 
     models.forEach(type => {
       it(`should generate correct dart class for ${!type ? 'ModelProvider' : type} with nullsafety`, () => {
-        const generatedCode = getVisitor({schema, selectedType: type, generate: !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code }).generate();
+        const generatedCode = getVisitor({ schema, selectedType: type, generate: !type ? CodeGenGenerateEnum.loader : CodeGenGenerateEnum.code }).generate();
 
         expect(generatedCode).toMatchSnapshot();
       })
@@ -594,7 +614,7 @@ describe('AppSync Dart Visitor', () => {
           name: String
         }
       `;
-      const visitor = getVisitor({ schema, isTimestampFieldsAdded: true  });
+      const visitor = getVisitor({ schema, isTimestampFieldsAdded: true });
 
 
       const generatedCode = visitor.generate();
@@ -795,6 +815,72 @@ describe('AppSync Dart Visitor', () => {
         expect(generatedCode).toMatchSnapshot();
       })
     })
+
+    describe('references fields as part of primary key', () => {
+      it('Should keep the references for belongs to when part of the primary key', () => {
+        const schema = /* GraphQL */ `
+          type Notice @model @auth(rules: [{ allow: public, provider: iam }]) {
+            content: String
+            NoticeStaff: [NoticeStaff] @hasMany(references: ["noticeId"])
+          }
+
+          type Staff @model @auth(rules: [{ allow: public, provider: iam }]) {
+            content: String
+            NoticeStaff: [NoticeStaff] @hasMany(references: ["staffId"])
+          }
+
+          type NoticeStaff @model @auth(rules: [{ allow: public, provider: iam }]) {
+            read_at: AWSDateTime
+            noticeId: ID! @primaryKey(sortKeyFields: ["staffId"])
+            staffId: ID!
+            notice: Notice @belongsTo(references: ["noticeId"])
+            staff: Staff @belongsTo(references: ["staffId"])
+          }
+        `;
+        const code = getVisitor({
+          schema,
+          selectedType: 'NoticeStaff',
+          respectPrimaryKeyAttributesOnConnectionField: true,
+          transformerVersion: 2,
+        }).generate();
+
+        expect(code).toContain('final String? _noticeId');
+        expect(code).toContain('final String? _staffId');
+        expect(code).toMatchSnapshot();
+      });
+
+      it('Should remove the references for belongs to when not part of the primary key', () => {
+        const schema = /* GraphQL */ `
+          type Notice @model @auth(rules: [{ allow: public, provider: iam }]) {
+            content: String
+            NoticeStaff: [NoticeStaff] @hasMany(references: ["noticeId"])
+          }
+
+          type Staff @model @auth(rules: [{ allow: public, provider: iam }]) {
+            content: String
+            NoticeStaff: [NoticeStaff] @hasMany(references: ["staffId"])
+          }
+
+          type NoticeStaff @model @auth(rules: [{ allow: public, provider: iam }]) {
+            read_at: AWSDateTime
+            noticeId: ID!
+            staffId: ID!
+            notice: Notice @belongsTo(references: ["noticeId"])
+            staff: Staff @belongsTo(references: ["staffId"])
+          }
+        `;
+        const code = getVisitor({
+          schema,
+          selectedType: 'NoticeStaff',
+          respectPrimaryKeyAttributesOnConnectionField: true,
+          transformerVersion: 2,
+        }).generate();
+
+        expect(code).not.toContain('final String? _noticeId');
+        expect(code).not.toContain('final String? _staffId');
+        expect(code).toMatchSnapshot();
+      });
+    });
   });
 
   describe('custom references', () => {
@@ -805,7 +891,7 @@ describe('AppSync Dart Visitor', () => {
           content: String
           related: [SqlRelated!] @hasMany(references: ["primaryId"])
         }
-  
+
         type SqlRelated @refersTo(name: "sql_related") @model {
           id: Int! @primaryKey
           content: String
@@ -813,7 +899,7 @@ describe('AppSync Dart Visitor', () => {
           primary: SqlPrimary @belongsTo(references: ["primaryId"])
         }
       `;
-  
+
       ['SqlPrimary', 'SqlRelated'].forEach(modelName => {
         const generatedCode = getVisitor({
           schema,
@@ -825,7 +911,7 @@ describe('AppSync Dart Visitor', () => {
         expect(generatedCode).toMatchSnapshot();
       });
     });
-  
+
     test('sets the association to the references field for hasOne/belongsTo', () => {
       const schema = /* GraphQL */ `
         type SqlPrimary @refersTo(name: "sql_primary") @model {
@@ -833,7 +919,7 @@ describe('AppSync Dart Visitor', () => {
           content: String
           related: SqlRelated @hasOne(references: ["primaryId"])
         }
-  
+
         type SqlRelated @refersTo(name: "sql_related") @model {
           id: Int! @primaryKey
           content: String
@@ -841,7 +927,7 @@ describe('AppSync Dart Visitor', () => {
           primary: SqlPrimary @belongsTo(references: ["primaryId"])
         }
       `;
-  
+
       ['SqlPrimary', 'SqlRelated'].forEach(modelName => {
         const generatedCode = getVisitor({
           schema,
@@ -853,7 +939,7 @@ describe('AppSync Dart Visitor', () => {
         expect(generatedCode).toMatchSnapshot();
       });
     });
-  
+
     test('sets the association to the references field for hasOne and hasMany', () => {
       const schema = /* GraphQL */ `
         type Primary @model {
@@ -861,13 +947,13 @@ describe('AppSync Dart Visitor', () => {
           relatedMany: [RelatedMany] @hasMany(references: ["primaryId"])
           relatedOne: RelatedOne @hasOne(references: ["primaryId"])
         }
-        
+
         type RelatedMany @model {
           id: ID! @primaryKey
           primaryId: ID!
           primary: Primary @belongsTo(references: ["primaryId"])
         }
-        
+
         type RelatedOne @model {
           id: ID! @primaryKey
           primaryId: ID!
@@ -885,7 +971,7 @@ describe('AppSync Dart Visitor', () => {
         expect(generatedCode).toMatchSnapshot();
       });
     });
-  
+
     test('double linked references', () => {
       const schema = /* GraphQL */ `
         type Foo @model {
@@ -893,7 +979,7 @@ describe('AppSync Dart Visitor', () => {
           bar1: Bar @hasOne(references: ["bar1Id"])
           bar2: Bar @hasOne(references: ["bar2Id"])
         }
-        
+
         type Bar @model {
           id: ID!
           bar1Id: ID
@@ -902,7 +988,7 @@ describe('AppSync Dart Visitor', () => {
           foo2: Foo @belongsTo(references: ["bar2Id"])
         }
       `;
-  
+
       ['Foo', 'Bar'].forEach(modelName => {
         const generatedCode = getVisitor({
           schema,
@@ -914,7 +1000,7 @@ describe('AppSync Dart Visitor', () => {
         expect(generatedCode).toMatchSnapshot();
       });
     });
-  
+
     test('hasMany with sortKeyFields on primary key', () => {
       const schema = /* GraphQL */ `
         type Primary @model {
@@ -924,7 +1010,7 @@ describe('AppSync Dart Visitor', () => {
           content: String
           related: [Related!] @hasMany(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
         }
-        
+
         type Related @model {
           content: String
           primaryTenantId: ID!
@@ -933,7 +1019,7 @@ describe('AppSync Dart Visitor', () => {
           primary: Primary @belongsTo(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
         }
       `;
-  
+
       ['Primary', 'Related'].forEach(modelName => {
         const generatedCode = getVisitor({
           schema,
@@ -955,7 +1041,7 @@ describe('AppSync Dart Visitor', () => {
           content: String
           related: Related @hasOne(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
         }
-        
+
         type Related @model {
           content: String
           primaryTenantId: ID!

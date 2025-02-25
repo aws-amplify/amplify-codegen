@@ -6,7 +6,7 @@ import {
   ParsedConfig,
   RawConfig,
 } from '@graphql-codegen/visitor-plugin-common';
-import { camelCase, constantCase, pascalCase } from 'change-case';
+import { camelCase, constantCase } from 'change-case';
 import { plural } from 'pluralize';
 import crypto from 'crypto';
 import {
@@ -608,9 +608,9 @@ export class AppSyncModelVisitor<
 
   protected getEnumName(enumField: CodeGenEnum | string): string {
     if (typeof enumField === 'string') {
-      return pascalCase(enumField);
+      return enumField;
     }
-    return pascalCase(enumField.name);
+    return enumField.name;
   }
 
   protected getModelName(model: CodeGenModel) {
@@ -1184,7 +1184,11 @@ export class AppSyncModelVisitor<
               connectionInfo.targetName !== 'id'
             ) {
               // Need to remove the field that is targetName
-              connectionInfo.targetNames.forEach(targetName => removeFieldFromModel(model, targetName));
+              const primaryKeyFieldNames = getModelPrimaryKeyComponentFields(model).map(field => field.name);
+              connectionInfo.targetNames
+                // Don't remove the field if it is part of the primary key field on the parent model
+                .filter(targetName => !primaryKeyFieldNames.includes(targetName))
+                .forEach(targetName => removeFieldFromModel(model, targetName));
             }
           });
         });

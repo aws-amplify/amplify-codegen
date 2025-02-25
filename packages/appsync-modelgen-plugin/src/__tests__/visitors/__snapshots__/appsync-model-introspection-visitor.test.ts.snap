@@ -2971,6 +2971,13 @@ exports[`Model Introspection Visitor Metadata snapshot should generate correct m
                 \\"enumVal1\\",
                 \\"enumVal2\\"
             ]
+        },
+        \\"camelCase\\": {
+            \\"name\\": \\"camelCase\\",
+            \\"values\\": [
+                \\"bactrian\\",
+                \\"dromedary\\"
+            ]
         }
     },
     \\"nonModels\\": {

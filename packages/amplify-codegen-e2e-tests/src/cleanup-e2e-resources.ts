@@ -1,5 +1,5 @@
 /* eslint-disable spellcheck/spell-checker, camelcase, @typescript-eslint/no-explicit-any */
-import { CodeBuild } from 'aws-sdk';
+import { CodeBuild, Account } from 'aws-sdk';
 import { config } from 'dotenv';
 import yargs from 'yargs';
 import * as aws from 'aws-sdk';
@@ -8,17 +8,31 @@ import fs from 'fs-extra';
 import path from 'path';
 import { deleteS3Bucket, sleep } from '@aws-amplify/amplify-codegen-e2e-core';
 
-// Ensure to update scripts/split-e2e-tests.ts is also updated this gets updated
-const AWS_REGIONS_TO_RUN_TESTS = [
-  'us-east-1',
-  'us-east-2',
-  'us-west-2',
-  'eu-west-2',
-  'eu-central-1',
-  'ap-northeast-1',
-  'ap-southeast-1',
-  'ap-southeast-2',
-];
+/**
+ * Supported regions:
+ * - All Amplify regions, as reported https://docs.aws.amazon.com/general/latest/gr/amplify.html
+ *
+ * NOTE:
+ * - 'ap-east-1' is not included in the list due to known discrepancy in Amplify CLI 'configure' command dropdown and supported regions
+ * - Since 'ap-east-1' is not available via 'amplify configure', test $CLI_REGION with 'ap-east-1' will run in 'us-east-1'
+ * and fail Amplify profile assertion in test setup phase
+ *
+ * The list of supported regions must be kept in sync amongst all of:
+ * - Amplify CLI 'amplify configure' command regions dropdown
+ * - the internal pipeline that publishes new lambda layer versions
+ * - amplify-codegen/scripts/e2e-test-regions.json
+ * - amplify-codegen/scripts/split-canary-tests.ts
+ * - amplify-codegen/scripts/split-e2e-tests.ts
+ */
+const REPO_ROOT = path.join(__dirname, '..', '..', '..');
+const SUPPORTED_REGIONS_PATH = path.join(REPO_ROOT, 'scripts', 'e2e-test-regions.json');
+const AWS_REGIONS_TO_RUN_TESTS_METADATA: TestRegion[] = JSON.parse(fs.readFileSync(SUPPORTED_REGIONS_PATH, 'utf-8'));
+const AWS_REGIONS_TO_RUN_TESTS = AWS_REGIONS_TO_RUN_TESTS_METADATA.map(region => region.name);
+
+type TestRegion = {
+  name: string;
+  optIn: boolean;
+};
 
 const reportPathDir = path.normalize(path.join(__dirname, '..', 'amplify-e2e-reports'));
 
@@ -85,7 +99,7 @@ type AWSAccountInfo = {
 };
 
 const BUCKET_TEST_REGEX = /test/;
-const IAM_TEST_REGEX = /!RotateE2eAwsToken-e2eTestContextRole|-integtest$|^amplify-|^eu-|^us-|^ap-/;
+const IAM_TEST_REGEX = /-RotateE2eAwsToken-e2eTestContextRole|-integtest|^amplify-/;
 const STALE_DURATION_MS = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
 
 const isCI = (): boolean => process.env.CI && process.env.CODEBUILD ? true : false;
@@ -152,7 +166,35 @@ const getOrphanTestIamRoles = async (account: AWSAccountInfo): Promise<IamRoleIn
   },
   ...(region ? { region } : {}),
   maxRetries: 10,
-});
+ });
+
+ /**
+ * Returns a list of regions enabled given the AWS account information
+ * @param accountInfo aws account to check region
+ * @returns Promise<string[]> a list of AWS regions enabled by the account
+ */
+const getRegionsEnabled = async (accountInfo: AWSAccountInfo): Promise<string[]> => {
+  // Specify service region to avoid possible endpoint unavailable error
+  const account = new Account({ ...accountInfo, region: 'us-east-1' });
+
+  const enabledRegions: string[] = [];
+  let nextToken: string | undefined = undefined;
+
+  do {
+    const input: Account.Types.ListRegionsRequest = {
+      RegionOptStatusContains: ['ENABLED', 'ENABLED_BY_DEFAULT'],
+      NextToken: nextToken,
+    };
+
+    const response = await account.listRegions(input).promise();
+    nextToken = response.NextToken;
+
+    enabledRegions.push(...response.Regions.map(r => r.RegionName).filter(Boolean));
+  } while (nextToken);
+
+  console.log('All enabled regions fetched: ', enabledRegions);
+  return enabledRegions;
+};
 
 /**
  * Returns a list of Amplify Apps in the region. The apps includes information about the CI build that created the app
@@ -161,8 +203,14 @@ const getOrphanTestIamRoles = async (account: AWSAccountInfo): Promise<IamRoleIn
  * @param region aws region to query for amplify Apps
  * @returns Promise<AmplifyAppInfo[]> a list of Amplify Apps in the region with build info
  */
-const getAmplifyApps = async (account: AWSAccountInfo, region: string): Promise<AmplifyAppInfo[]> => {
+const getAmplifyApps = async (account: AWSAccountInfo, region: string, regionsEnabled: string[]): Promise<AmplifyAppInfo[]> => {
   const amplifyClient = new aws.Amplify(getAWSConfig(account, region));
+
+  if (!regionsEnabled.includes(region)) {
+    console.error(`Listing apps for account ${account.accountId}-${region} failed since ${region} is not enabled. Skipping.`);
+    return [];
+  }
+
   const amplifyApps = await amplifyClient.listApps({ maxResults: 50 }).promise(); // keeping it to 50 as max supported is 50
   const result: AmplifyAppInfo[] = [];
   for (const app of amplifyApps.apps) {
@@ -232,8 +280,14 @@ const getStackDetails = async (stackName: string, account: AWSAccountInfo, regio
   };
 };
 
-const getStacks = async (account: AWSAccountInfo, region: string): Promise<StackInfo[]> => {
+const getStacks = async (account: AWSAccountInfo, region: string, regionsEnabled: string[]): Promise<StackInfo[]> => {
   const cfnClient = new aws.CloudFormation(getAWSConfig(account, region));
+
+  if (!regionsEnabled.includes(region)) {
+    console.error(`Listing stacks for account ${account.accountId}-${region} failed since ${region} is not enabled. Skipping.`);
+    return [];
+  }
+
   const stacks = await cfnClient
     .listStacks({
       StackStatusFilter: [
@@ -713,8 +767,10 @@ const getAccountsToCleanup = async (): Promise<AWSAccountInfo[]> => {
 };
 
 const cleanupAccount = async (account: AWSAccountInfo, accountIndex: number, filterPredicate: JobFilterPredicate): Promise<void> => {
-  const appPromises = AWS_REGIONS_TO_RUN_TESTS.map(region => getAmplifyApps(account, region));
-  const stackPromises = AWS_REGIONS_TO_RUN_TESTS.map(region => getStacks(account, region));
+  const regionsEnabled = await getRegionsEnabled(account);
+
+  const appPromises = AWS_REGIONS_TO_RUN_TESTS.map(region => getAmplifyApps(account, region, regionsEnabled));
+  const stackPromises = AWS_REGIONS_TO_RUN_TESTS.map(region => getStacks(account, region, regionsEnabled));
   const bucketPromise = getS3Buckets(account);
   const orphanBucketPromise = getOrphanS3TestBuckets(account);
   const orphanIamRolesPromise = getOrphanTestIamRoles(account);
