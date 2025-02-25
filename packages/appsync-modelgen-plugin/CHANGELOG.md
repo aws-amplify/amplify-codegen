@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.15.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.15.1...@aws-amplify/appsync-modelgen-plugin@2.15.2) (2025-02-25)
+
+### Bug Fixes
+
+- keep foreign keys on native platforms when they are part of the primary key ([#887](https://github.com/aws-amplify/amplify-codegen/issues/887)) ([b4c4af5](https://github.com/aws-amplify/amplify-codegen/commit/b4c4af5aeadab8f7794bc3c980e649a729103793))
+- stop pascal casing enums for MIS ([#931](https://github.com/aws-amplify/amplify-codegen/issues/931)) ([f763085](https://github.com/aws-amplify/amplify-codegen/commit/f7630858151dbe2f9f5f22e907aa6f64c010462f))
+
 ## [2.15.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.15.0...@aws-amplify/appsync-modelgen-plugin@2.15.1) (2024-11-14)
 
 ### Bug Fixes

@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.7](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-core@1.6.6...@aws-amplify/amplify-codegen-e2e-core@1.6.7) (2025-02-25)
+
+### Bug Fixes
+
+- use correct region in amplify configure ([#939](https://github.com/aws-amplify/amplify-codegen/issues/939)) ([d791086](https://github.com/aws-amplify/amplify-codegen/commit/d79108689591e80a902ba8d5fcd3b2bc2282ca06))
+- use latest cli core ([#928](https://github.com/aws-amplify/amplify-codegen/issues/928)) ([d5d5102](https://github.com/aws-amplify/amplify-codegen/commit/d5d51028d64e69e47a051c980966d618af2cd133))
+
 ## [1.6.6](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-core@1.6.5...@aws-amplify/amplify-codegen-e2e-core@1.6.6) (2024-10-17)
 
 **Note:** Version bump only for package @aws-amplify/amplify-codegen-e2e-core

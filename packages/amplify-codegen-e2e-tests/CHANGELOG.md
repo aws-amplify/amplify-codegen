@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.46.0](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-tests@2.45.5...@aws-amplify/amplify-codegen-e2e-tests@2.46.0) (2025-02-25)
+
+### Bug Fixes
+
+- add script to use node 18.20 for e2e tests ([#937](https://github.com/aws-amplify/amplify-codegen/issues/937)) ([b115fe4](https://github.com/aws-amplify/amplify-codegen/commit/b115fe42ca2396337c0d6ea91a6d77b903df472e))
+- cleanup detection of regional availability ([#940](https://github.com/aws-amplify/amplify-codegen/issues/940)) ([9f37a8c](https://github.com/aws-amplify/amplify-codegen/commit/9f37a8c21e67ac95fd9d1058fb857a4e7025e6d7))
+- handle pagination when fetching region list in cleanup ([#941](https://github.com/aws-amplify/amplify-codegen/issues/941)) ([3d1151c](https://github.com/aws-amplify/amplify-codegen/commit/3d1151c8592c0bbbde8e4367f3975921848928a3))
+- remove dup licenses acceptance ([#933](https://github.com/aws-amplify/amplify-codegen/issues/933)) ([9f8111e](https://github.com/aws-amplify/amplify-codegen/commit/9f8111ef25be0549603cac97e76da396acd57f2d))
+- use latest cli core ([#928](https://github.com/aws-amplify/amplify-codegen/issues/928)) ([d5d5102](https://github.com/aws-amplify/amplify-codegen/commit/d5d51028d64e69e47a051c980966d618af2cd133))
+
+### Features
+
+- add regionalized build spec for three canaries ([#934](https://github.com/aws-amplify/amplify-codegen/issues/934)) ([f1c23f4](https://github.com/aws-amplify/amplify-codegen/commit/f1c23f4b1b2aaa6cc0f3693f986d16a5d17e4e70)), closes [#933](https://github.com/aws-amplify/amplify-codegen/issues/933)
+
 ## [2.45.5](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-tests@2.45.4...@aws-amplify/amplify-codegen-e2e-tests@2.45.5) (2024-11-14)
 
 **Note:** Version bump only for package @aws-amplify/amplify-codegen-e2e-tests
