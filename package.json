@@ -76,7 +76,7 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@aws-amplify/amplify-cli-core": "^4.3.11",
+    "@aws-amplify/amplify-cli-core": "^4.4.0",
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
     "@commitlint/config-lerna-scopes": "^17.0.2",
