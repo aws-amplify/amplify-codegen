@@ -10,6 +10,7 @@ import {
   addCodegen,
   AmplifyFrontend,
   apiGqlCompile,
+  deleteProject
 } from '@aws-amplify/amplify-codegen-e2e-core';
 const { schemas } = require('@aws-amplify/graphql-schema-test-library');
 import { existsSync, writeFileSync, readdirSync, rmSync } from 'fs';
@@ -37,6 +38,7 @@ describe('build app - JS', () => {
   });
 
   afterAll(async () => {
+    await deleteProject(projectRoot);
     await rmSync(path.join(projectRoot, 'amplify'), { recursive: true, force: true });
     rmSync(path.join(projectRoot, '.graphqlconfig.yml'), { recursive: true, force: true });
   });
