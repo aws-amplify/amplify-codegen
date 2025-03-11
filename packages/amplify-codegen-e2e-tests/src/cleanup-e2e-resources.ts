@@ -442,6 +442,7 @@ const mergeResourcesByCCIJob = async (
 
   const codeBuildJobIds: string[] = _.uniq([...Object.keys(stacksByJobId), ...Object.keys(bucketByJobId), ...Object.keys(amplifyAppByJobId)])
   .filter((jobId: string) => jobId !== UNKNOWN && jobId !== ORPHAN && jobId !== MULTI_JOB_APP)
+  console.log("codebuildJobIds: ", codeBuildJobIds);
   const buildInfos = await getJobCodeBuildDetails(codeBuildJobIds);
   const buildInfosByJobId = _.groupBy(buildInfos, (build: CodeBuild.Build) => _.get(build, ['id']));
   _.mergeWith(
