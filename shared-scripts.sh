@@ -141,9 +141,9 @@ function _buildLinux {
 }
 
 function _buildWindows {
-  echo "Linux Build"
   echo "Setup Node Version $AMPLIFY_NODE_VERSION for Windows"
   _setupNodeVersionWindows $AMPLIFY_NODE_VERSION
+  echo "Windows Build"
   yarn run production-build
   storeCacheForWindowsBuildJob
 }
