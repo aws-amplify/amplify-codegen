@@ -18,7 +18,7 @@ phases:
     commands:
       - source ./shared-scripts.sh && _unassumeTestAccountCredentials
       - aws sts get-caller-identity
-      - source ./shared-scripts.sh && _scanArtifacts && _emitRegionalizedCanaryMetric
+      - source ./shared-scripts.sh && _scanArtifacts
 
 artifacts:
   files:
