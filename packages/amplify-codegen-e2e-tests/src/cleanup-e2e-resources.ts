@@ -782,9 +782,13 @@ const cleanupAccount = async (account: AWSAccountInfo, accountIndex: number, fil
   const orphanIamRoles = await orphanIamRolesPromise;
 
   const allResources = await mergeResourcesByCCIJob(apps, stacks, buckets, orphanBuckets, orphanIamRoles);
+  console.log("**************startbefore******************");
   console.log(JSON.stringify(allResources, null, 2));
+  console.log("**************endbefore******************");
   const staleResources = _.pickBy(allResources, filterPredicate);
+  console.log("***********************startafter***********************");
   console.log(JSON.stringify(staleResources, null, 2));
+  console.log("***********************endafter***********************");
 
   generateReport(staleResources, accountIndex);
   await deleteResources(account, accountIndex, staleResources);
