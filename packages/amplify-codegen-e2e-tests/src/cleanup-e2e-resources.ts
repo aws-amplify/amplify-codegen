@@ -3,7 +3,7 @@ import { CodeBuild, Account } from 'aws-sdk';
 import { config } from 'dotenv';
 import yargs from 'yargs';
 import * as aws from 'aws-sdk';
-import _ from 'lodash';
+import _, { filter } from 'lodash';
 import fs from 'fs-extra';
 import path from 'path';
 import { deleteS3Bucket, sleep } from '@aws-amplify/amplify-codegen-e2e-core';
@@ -439,6 +439,7 @@ const mergeResourcesByCCIJob = async (
 
     return MULTI_JOB_APP;
   });
+
   const codeBuildJobIds: string[] = _.uniq([...Object.keys(stacksByJobId), ...Object.keys(bucketByJobId), ...Object.keys(amplifyAppByJobId)])
   .filter((jobId: string) => jobId !== UNKNOWN && jobId !== ORPHAN && jobId !== MULTI_JOB_APP)
   const buildInfos = await getJobCodeBuildDetails(codeBuildJobIds);
@@ -782,9 +783,9 @@ const cleanupAccount = async (account: AWSAccountInfo, accountIndex: number, fil
   const orphanIamRoles = await orphanIamRolesPromise;
 
   const allResources = await mergeResourcesByCCIJob(apps, stacks, buckets, orphanBuckets, orphanIamRoles);
-  console.log("**************startbefore******************");
-  console.log(JSON.stringify(allResources, null, 2));
-  console.log("**************endbefore******************");
+  // console.log("**************startbefore******************");
+  // console.log(JSON.stringify(allResources, null, 2));
+  // console.log("**************endbefore******************");
   const staleResources = _.pickBy(allResources, filterPredicate);
   console.log("***********************startafter***********************");
   console.log(JSON.stringify(staleResources, null, 2));
@@ -825,7 +826,11 @@ const cleanup = async (): Promise<void> => {
     .help().argv;
   config();
 
+  console.log("args: ", args);
+
   const filterPredicate = getFilterPredicate(args);
+
+  console.log("filterPredicate: ", filterPredicate);
   const accounts = await getAccountsToCleanup();
   accounts.map((account, i) => {
     console.log(`${generateAccountInfo(account, i)} is under cleanup`);
