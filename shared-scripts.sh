@@ -333,7 +333,7 @@ function _cleanupE2EResources {
   echo "Running clean up script"
   build_batch_arn=$(aws codebuild batch-get-builds --ids $CODEBUILD_BUILD_ID | jq -r -c '.builds[0].buildBatchArn')
   echo "Cleanup resources for all Stale resources"
-  yarn clean-e2e-resources *
+  yarn clean-e2e-resources
 }
 
 function _unassumeTestAccountCredentials {
