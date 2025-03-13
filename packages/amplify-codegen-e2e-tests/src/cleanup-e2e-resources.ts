@@ -310,9 +310,10 @@ const getStacks = async (account: AWSAccountInfo, region: string, regionsEnabled
   const rootStacks = stacks.StackSummaries.filter(stack => !stack.RootId && specificPattern.test(stack.StackName));
   const results: StackInfo[] = [];
   for (const stack of rootStacks) {
-    console.log("rootSTack", stack.StackName);
     try {
       const details = await getStackDetails(stack.StackName, account, region);
+      console.log("@@@@@@@@@@@@@@@@@@ROOT@@@@@@@@@@@");
+      console.log("rootStack", details);
       if (details) {
         results.push(details);
       }
