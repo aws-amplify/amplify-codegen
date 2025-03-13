@@ -689,7 +689,7 @@ const getFilterPredicate = (args: any): JobFilterPredicate => {
   const filterByJobId = (jobId: string) => (job: ReportEntry) => job.jobId === jobId;
   const filterByBuildBatchArn = (buildBatchArn: string) => (job: ReportEntry) => job.buildBatchArn === buildBatchArn;
   const filterAllStaleResources = () => (job: ReportEntry) => job.buildComplete || job.jobId === ORPHAN;
-
+  console.log(args._.length === 0);
   if (args._.length === 0) {
     return filterAllStaleResources();
   }
