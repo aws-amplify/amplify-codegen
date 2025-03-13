@@ -312,8 +312,8 @@ const getStacks = async (account: AWSAccountInfo, region: string, regionsEnabled
   for (const stack of rootStacks) {
     try {
       const details = await getStackDetails(stack.StackName, account, region);
-      console.log("@@@@@@@@@@@@@@@@@@ROOT@@@@@@@@@@@");
-      console.log("rootStack", details);
+      // console.log("@@@@@@@@@@@@@@@@@@ROOT@@@@@@@@@@@");
+      // console.log("rootStack", details);
       if (details) {
         results.push(details);
       }
@@ -689,7 +689,7 @@ const deleteResources = async (
 const getFilterPredicate = (args: any): JobFilterPredicate => {
   const filterByJobId = (jobId: string) => (job: ReportEntry) => job.jobId === jobId;
   const filterByBuildBatchArn = (buildBatchArn: string) => (job: ReportEntry) => job.buildBatchArn === buildBatchArn;
-  const filterAllStaleResources = () => (job: ReportEntry) => job.buildComplete || job.jobId === ORPHAN;
+  const filterAllStaleResources = () => (job: ReportEntry) => job.buildComplete || job.jobId === UNKNOWN;
   console.log(args._.length === 0);
   if (args._.length === 0) {
     return filterAllStaleResources();
@@ -799,7 +799,7 @@ const cleanupAccount = async (account: AWSAccountInfo, accountIndex: number, fil
   console.log(JSON.stringify(staleResources, null, 2));
   console.log("***********************endafter***********************");
 
-  // generateReport(staleResources, accountIndex);
+  generateReport(staleResources, accountIndex);
   // await deleteResources(account, accountIndex, staleResources);
   console.log(`${generateAccountInfo(account, accountIndex)} Cleanup done!`);
 };
