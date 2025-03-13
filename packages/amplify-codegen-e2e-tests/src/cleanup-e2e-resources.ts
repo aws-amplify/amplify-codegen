@@ -312,8 +312,6 @@ const getStacks = async (account: AWSAccountInfo, region: string, regionsEnabled
   for (const stack of rootStacks) {
     try {
       const details = await getStackDetails(stack.StackName, account, region);
-      // console.log("@@@@@@@@@@@@@@@@@@ROOT@@@@@@@@@@@");
-      // console.log("rootStack", details);
       if (details) {
         results.push(details);
       }
