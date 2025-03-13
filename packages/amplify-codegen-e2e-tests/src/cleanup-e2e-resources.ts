@@ -305,9 +305,12 @@ const getStacks = async (account: AWSAccountInfo, region: string, regionsEnabled
     .promise();
 
   // We are interested in only the root stacks that are deployed by amplify-cli
-  const rootStacks = stacks.StackSummaries.filter(stack => !stack.RootId);
+  const specificPattern = /amplify-.*-integtest-[a-z0-9]+/;
+  // const rootStacks = stacks.StackSummaries.filter(stack => !stack.RootId);
+  const rootStacks = stacks.StackSummaries.filter(stack => !stack.RootId && specificPattern.test(stack.StackName));
   const results: StackInfo[] = [];
   for (const stack of rootStacks) {
+    console.log("rootSTack", stack.StackName);
     try {
       const details = await getStackDetails(stack.StackName, account, region);
       if (details) {
@@ -437,12 +440,14 @@ const mergeResourcesByCCIJob = async (
       return Object.keys(buildIds)[0];
     }
 
+    // console.log("buildIds: ", buildIds);
+    // console.log("mutli job: ", MULTI_JOB_APP);
     return MULTI_JOB_APP;
   });
 
   const codeBuildJobIds: string[] = _.uniq([...Object.keys(stacksByJobId), ...Object.keys(bucketByJobId), ...Object.keys(amplifyAppByJobId)])
   .filter((jobId: string) => jobId !== UNKNOWN && jobId !== ORPHAN && jobId !== MULTI_JOB_APP)
-  console.log("codebuildJobIds: ", codeBuildJobIds);
+  // console.log("codebuildJobIds: ", codeBuildJobIds);
   const buildInfos = await getJobCodeBuildDetails(codeBuildJobIds);
   const buildInfosByJobId = _.groupBy(buildInfos, (build: CodeBuild.Build) => _.get(build, ['id']));
   _.mergeWith(
@@ -784,6 +789,7 @@ const cleanupAccount = async (account: AWSAccountInfo, accountIndex: number, fil
   const orphanIamRoles = await orphanIamRolesPromise;
 
   const allResources = await mergeResourcesByCCIJob(apps, stacks, buckets, orphanBuckets, orphanIamRoles);
+  // console.log("keys: ", Object.keys(allResources));
   // console.log("**************startbefore******************");
   // console.log(JSON.stringify(allResources, null, 2));
   // console.log("**************endbefore******************");
@@ -792,8 +798,8 @@ const cleanupAccount = async (account: AWSAccountInfo, accountIndex: number, fil
   console.log(JSON.stringify(staleResources, null, 2));
   console.log("***********************endafter***********************");
 
-  generateReport(staleResources, accountIndex);
-  await deleteResources(account, accountIndex, staleResources);
+  // generateReport(staleResources, accountIndex);
+  // await deleteResources(account, accountIndex, staleResources);
   console.log(`${generateAccountInfo(account, accountIndex)} Cleanup done!`);
 };
 

@@ -332,8 +332,8 @@ function _cleanupE2EResources {
   cd packages/amplify-codegen-e2e-tests
   echo "Running clean up script"
   build_batch_arn=$(aws codebuild batch-get-builds --ids $CODEBUILD_BUILD_ID | jq -r -c '.builds[0].buildBatchArn')
-  echo "Cleanup resources for batch build $build_batch_arn"
-  yarn clean-e2e-resources buildBatchArn $build_batch_arn
+  echo "Cleanup resources for all Stale resources"
+  yarn clean-e2e-resources *
 }
 
 function _unassumeTestAccountCredentials {
