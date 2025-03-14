@@ -637,7 +637,7 @@ const deleteCfnStack = async (account: AWSAccountInfo, accountIndex: number, sta
     // console.log("Deleting Stacks: ", stackName, account, region);
     const cfnClient = new aws.CloudFormation(getAWSConfig(account, region));
     await cfnClient.deleteStack({ StackName: stackName, RetainResources: resourceToRetain }).promise();
-    await cfnClient.waitFor('stackDeleteComplete', { StackName: stackName }).promise();
+    // await cfnClient.waitFor('stackDeleteComplete', { StackName: stackName }).promise();
   } catch (e) {
     console.log(`Deleting CloudFormation stack ${stackName} ${account.accountId} ${region} failed with error ${e.message}`);
     if (e.code === 'ExpiredTokenException') {
