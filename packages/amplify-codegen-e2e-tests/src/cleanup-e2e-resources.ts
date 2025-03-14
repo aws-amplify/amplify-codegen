@@ -304,10 +304,13 @@ const getStacks = async (account: AWSAccountInfo, region: string, regionsEnabled
     })
     .promise();
 
+    console.log(stacks);
+    console.log("*****fstack status filtering ****************")
+
   // We are interested in only the root stacks that are deployed by amplify-cli
-  const specificPattern = /amplify-.*-integtest-[a-z0-9]+/;
+  const specificPattern = /^amplify-.*-integtest-[a-z0-9]+$/;
   // const rootStacks = stacks.StackSummaries.filter(stack => !stack.RootId);
-  const rootStacks = stacks.StackSummaries.filter(stack => !stack.RootId && specificPattern.test(stack.StackName));
+  const rootStacks = stacks.StackSummaries.filter(stack => specificPattern.test(stack.StackName));
   const results: StackInfo[] = [];
   for (const stack of rootStacks) {
     try {
