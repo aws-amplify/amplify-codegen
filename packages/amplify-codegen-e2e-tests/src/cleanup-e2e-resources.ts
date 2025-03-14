@@ -836,7 +836,7 @@ const cleanup = async (): Promise<void> => {
   //   console.log(`${generateAccountInfo(account, i)} is under cleanup`);
   // });
   await Promise.all(accounts.map((account, i) => {
-    if(account.accountId == "582037449441") {
+    if(account.accountId == "535823242378") {
       console.log(`${generateAccountInfo(account, i)} is under cleanup`);
       cleanupAccount(account, i, filterPredicate)
     }
