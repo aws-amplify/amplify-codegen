@@ -632,7 +632,7 @@ const deleteCfnStacks = async (account: AWSAccountInfo, accountIndex: number, st
 const deleteCfnStack = async (account: AWSAccountInfo, accountIndex: number, stack: StackInfo): Promise<void> => {
   const { stackName, region, resourcesFailedToDelete } = stack;
   const resourceToRetain = resourcesFailedToDelete.length ? resourcesFailedToDelete : undefined;
-  console.log(`${generateAccountInfo(account, accountIndex)} Deleting CloudFormation stack ${stackName}`);
+  console.log(`${generateAccountInfo(account, accountIndex)} Deleting CloudFormation stack ${stackName} ${region}`);
   try {
     // console.log("Deleting Stacks: ", stackName, account, region);
     const cfnClient = new aws.CloudFormation(getAWSConfig(account, region));
