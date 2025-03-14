@@ -832,10 +832,15 @@ const cleanup = async (): Promise<void> => {
 
   console.log("filterPredicate: ", filterPredicate);
   const accounts = await getAccountsToCleanup();
-  accounts.map((account, i) => {
-    console.log(`${generateAccountInfo(account, i)} is under cleanup`);
-  });
-  await Promise.all(accounts.map((account, i) => {if (account.accountId == "582037449441") {cleanupAccount(account, i, filterPredicate)}}));
+  // accounts.map((account, i) => {
+  //   console.log(`${generateAccountInfo(account, i)} is under cleanup`);
+  // });
+  await Promise.all(accounts.map((account, i) => {
+    if(account.accountId == "582037449441") {
+      console.log(`${generateAccountInfo(account, i)} is under cleanup`);
+      cleanupAccount(account, i, filterPredicate)
+    }
+  }));
   console.log('Done cleaning all accounts!');
 };
 
