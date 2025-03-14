@@ -634,7 +634,7 @@ const deleteCfnStack = async (account: AWSAccountInfo, accountIndex: number, sta
   const resourceToRetain = resourcesFailedToDelete.length ? resourcesFailedToDelete : undefined;
   console.log(`${generateAccountInfo(account, accountIndex)} Deleting CloudFormation stack ${stackName}`);
   try {
-    console.log("Deleting Stacks: ", stackName, account, region);
+    // console.log("Deleting Stacks: ", stackName, account, region);
     const cfnClient = new aws.CloudFormation(getAWSConfig(account, region));
     await cfnClient.deleteStack({ StackName: stackName, RetainResources: resourceToRetain }).promise();
     await cfnClient.waitFor('stackDeleteComplete', { StackName: stackName }).promise();
@@ -835,7 +835,7 @@ const cleanup = async (): Promise<void> => {
   accounts.map((account, i) => {
     console.log(`${generateAccountInfo(account, i)} is under cleanup`);
   });
-  await Promise.all(accounts.map((account, i) => cleanupAccount(account, i, filterPredicate)));
+  await Promise.all(accounts.map((account, i) => {if (account.accountId == "582037449441") {cleanupAccount(account, i, filterPredicate)}}));
   console.log('Done cleaning all accounts!');
 };
 
