@@ -288,29 +288,60 @@ const getStacks = async (account: AWSAccountInfo, region: string, regionsEnabled
     return [];
   }
 
-  const stacks = await cfnClient
-    .listStacks({
-      StackStatusFilter: [
-        'CREATE_COMPLETE',
-        'ROLLBACK_FAILED',
-        'DELETE_FAILED',
-        'UPDATE_COMPLETE',
-        'UPDATE_ROLLBACK_FAILED',
-        'UPDATE_ROLLBACK_COMPLETE',
-        'IMPORT_COMPLETE',
-        'IMPORT_ROLLBACK_FAILED',
-        'IMPORT_ROLLBACK_COMPLETE',
-      ],
-    })
-    .promise();
+  // const stacks = await cfnClient
+  //   .listStacks({
+  //     StackStatusFilter: [
+  //       'CREATE_COMPLETE',
+  //       'ROLLBACK_FAILED',
+  //       'DELETE_FAILED',
+  //       'UPDATE_COMPLETE',
+  //       'UPDATE_ROLLBACK_FAILED',
+  //       'UPDATE_ROLLBACK_COMPLETE',
+  //       'IMPORT_COMPLETE',
+  //       'IMPORT_ROLLBACK_FAILED',
+  //       'IMPORT_ROLLBACK_COMPLETE',
+  //     ],
+  //   })
+  //   .promise();
+  let allStacks: AWS.CloudFormation.StackSummary[] = [];
+  let nextToken: string | undefined;
 
-    console.log(stacks);
-    console.log("*****fstack status filtering ****************")
+  do {
+    const response = await cfnClient
+      .listStacks({
+        StackStatusFilter: [
+          'CREATE_COMPLETE',
+          'ROLLBACK_FAILED',
+          'DELETE_FAILED',
+          'UPDATE_COMPLETE',
+          'UPDATE_ROLLBACK_FAILED',
+          'UPDATE_ROLLBACK_COMPLETE',
+          'IMPORT_COMPLETE',
+          'IMPORT_ROLLBACK_FAILED',
+          'IMPORT_ROLLBACK_COMPLETE',
+        ],
+        NextToken: nextToken
+      })
+      .promise();
+
+    if (response.StackSummaries) {
+      allStacks = allStacks.concat(response.StackSummaries);
+    }
+
+    nextToken = response.NextToken;
+    // Optional: Log progress
+    console.log(`Fetched ${response.StackSummaries?.length || 0} stacks. NextToken: ${nextToken ? 'Present' : 'None'}`);
+
+  } while (nextToken);
+
+
+    console.log(allStacks);
+    console.log("*****stack status filtering ****************", region)
 
   // We are interested in only the root stacks that are deployed by amplify-cli
   const specificPattern = /^amplify-.*-integtest-[a-z0-9]+$/;
   // const rootStacks = stacks.StackSummaries.filter(stack => !stack.RootId);
-  const rootStacks = stacks.StackSummaries.filter(stack => specificPattern.test(stack.StackName));
+  const rootStacks = allStacks.filter(stack => specificPattern.test(stack.StackName));
   const results: StackInfo[] = [];
   for (const stack of rootStacks) {
     try {
@@ -797,7 +828,7 @@ const cleanupAccount = async (account: AWSAccountInfo, accountIndex: number, fil
   const staleResources = _.pickBy(allResources, filterPredicate);
 
   generateReport(staleResources, accountIndex);
-  await deleteResources(account, accountIndex, stacks);
+  // await deleteResources(account, accountIndex, stacks);
   console.log(`${generateAccountInfo(account, accountIndex)} Cleanup done!`);
 };
 
