@@ -660,27 +660,27 @@ const generateReport = (jobs: _.Dictionary<ReportEntry>, accountIdx: number): vo
 const deleteResources = async (
   account: AWSAccountInfo,
   accountIndex: number,
-  staleResources: Record<string, ReportEntry>,
+  stacks: StackInfo[],
 ): Promise<void> => {
-  for (const jobId of Object.keys(staleResources)) {
-    const resources = staleResources[jobId];
-    if (resources.amplifyApps) {
-      await deleteAmplifyApps(account, accountIndex, Object.values(resources.amplifyApps));
-    }
+  // for (const jobId of Object.keys(staleResources)) {
+  //   const resources = staleResources[jobId];
+  //   if (resources.amplifyApps) {
+  //     await deleteAmplifyApps(account, accountIndex, Object.values(resources.amplifyApps));
+  //   }
 
-    if (resources.stacks) {
-      await deleteCfnStacks(account, accountIndex, Object.values(resources.stacks));
+    if (stacks) {
+      await deleteCfnStacks(account, accountIndex, stacks);
     }
 
     // if (resources.buckets) {
     //   await deleteBuckets(account, accountIndex, Object.values(resources.buckets));
     // }
 
-    if (resources.roles) {
-      await deleteIamRoles(account, accountIndex, Object.values(resources.roles));
-    }
-  }
-};
+    // if (resources.roles) {
+    //   await deleteIamRoles(account, accountIndex, Object.values(resources.roles));
+    // }
+  };
+// };
 
 /**
  * Grab the right CI filter based on args passed in.
@@ -785,17 +785,16 @@ const cleanupAccount = async (account: AWSAccountInfo, accountIndex: number, fil
 
   const apps = (await Promise.all(appPromises)).flat();
   const stacks = (await Promise.all(stackPromises)).flat();
+  console.log(stacks);
   const buckets = await bucketPromise;
   const orphanBuckets = await orphanBucketPromise;
   const orphanIamRoles = await orphanIamRolesPromise;
 
   const allResources = await mergeResourcesByCCIJob(apps, stacks, buckets, orphanBuckets, orphanIamRoles);
-  console.log("all: ", allResources);
   const staleResources = _.pickBy(allResources, filterPredicate);
-  console.log("stale: ", staleResources);
 
   generateReport(staleResources, accountIndex);
-  await deleteResources(account, accountIndex, staleResources);
+  await deleteResources(account, accountIndex, stacks);
   console.log(`${generateAccountInfo(account, accountIndex)} Cleanup done!`);
 };
 
