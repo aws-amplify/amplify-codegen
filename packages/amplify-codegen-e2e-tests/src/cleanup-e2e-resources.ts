@@ -335,7 +335,7 @@ const getStacks = async (account: AWSAccountInfo, region: string, regionsEnabled
   } while (nextToken);
 
 
-    console.log(allStacks);
+    // console.log(allStacks);
     console.log("*****stack status filtering ****************", region)
 
   // We are interested in only the root stacks that are deployed by amplify-cli
@@ -819,7 +819,6 @@ const cleanupAccount = async (account: AWSAccountInfo, accountIndex: number, fil
 
   const apps = (await Promise.all(appPromises)).flat();
   const stacks = (await Promise.all(stackPromises)).flat();
-  console.log(stacks);
   const buckets = await bucketPromise;
   const orphanBuckets = await orphanBucketPromise;
   const orphanIamRoles = await orphanIamRolesPromise;
@@ -828,7 +827,7 @@ const cleanupAccount = async (account: AWSAccountInfo, accountIndex: number, fil
   const staleResources = _.pickBy(allResources, filterPredicate);
 
   generateReport(staleResources, accountIndex);
-  // await deleteResources(account, accountIndex, stacks);
+  await deleteResources(account, accountIndex, stacks);
   console.log(`${generateAccountInfo(account, accountIndex)} Cleanup done!`);
 };
 
@@ -868,14 +867,12 @@ const cleanup = async (): Promise<void> => {
 
   console.log("filterPredicate: ", filterPredicate);
   const accounts = await getAccountsToCleanup();
-  // accounts.map((account, i) => {
-  //   console.log(`${generateAccountInfo(account, i)} is under cleanup`);
-  // });
+  accounts.map((account, i) => {
+    console.log(`${generateAccountInfo(account, i)} is under cleanup`);
+  });
   await Promise.all(accounts.map((account, i) => {
-    if(account.accountId == "535823242378") {
       console.log(`${generateAccountInfo(account, i)} is under cleanup`);
       cleanupAccount(account, i, filterPredicate)
-    }
   }));
   console.log('Done cleaning all accounts!');
 };
