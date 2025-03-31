@@ -52,7 +52,7 @@ main() {
     latest_run_id=$(get_latest_run_id)
     echo "Latest run ID: $latest_run_id"
     run_status=$(get_run_status "$latest_run_id")
-    timeout=$((SECONDS + 1200))  # 1200 seconds = 20 minutes
+    timeout=$((SECONDS + 1500))  # 1500 seconds = 25 minutes
 
     # Continuously check for status until completion
     while [[ "$run_status" != "completed"  && "$SECONDS" -lt "$timeout" ]]; do
