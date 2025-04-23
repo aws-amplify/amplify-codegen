@@ -22,13 +22,13 @@ batch:
         compute-type: BUILD_GENERAL1_MEDIUM
       depend-on:
         - build_linux
-    - identifier: build_app_ios_ca_central_1
+    - identifier: build_app_ios_eu_central_1
       buildspec: .codebuild/run_regionalized_ios_modelgen_e2e_test.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
           TEST_SUITE: src/__tests__/build-app-swift.test.ts
-          CLI_REGION: ca-central-1
+          CLI_REGION: eu-central-1
           CANARY_METRIC_NAME: IosAppBuildCodegenSuccessRate
       depend-on:
         - publish_to_local_registry
@@ -37,4 +37,4 @@ batch:
       env:
         compute-type: BUILD_GENERAL1_MEDIUM
       depend-on:
-        - build_app_ios_ca_central_1
+        - build_app_ios_eu_central_1
