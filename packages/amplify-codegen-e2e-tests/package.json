@@ -47,7 +47,7 @@
     "ts-node": "^8.10.1"
   },
   "peerDependencies": {
-    "@aws-amplify/amplify-cli-core": "^4.4.0",
+    "@aws-amplify/amplify-cli-core": "^4.4.1",
     "graphql-transformer-core": "^8.0.0"
   },
   "jest": {
