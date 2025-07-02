@@ -16,7 +16,7 @@ ada cred update --profile=AmplifyAPIE2EProd --account=$E2E_ACCOUNT_PROD --role=C
 RESULT=$(aws codebuild start-build-batch \
 --profile=AmplifyAPIE2EProd \
 --region us-east-1 \
---project-name amplify-category-api-pr-workflow \
+--project-name amplify-codegen-pr-workflow \
 --build-timeout-in-minutes-override 180 \
 --source-version "pr/$PR_NUMBER" \
 --debug-session-enabled \
@@ -24,4 +24,4 @@ RESULT=$(aws codebuild start-build-batch \
 --environment-variables-override name=AMPLIFY_CI_MANUAL_PR_BUILD,value=true,type=PLAINTEXT \
 --query 'buildBatch.id' --output text)
 
-echo "https://us-east-1.console.aws.amazon.com/codesuite/codebuild/$E2E_ACCOUNT_PROD/projects/amplify-category-api-pr-workflow/batch/$RESULT?region=us-east-1"
+echo "https://us-east-1.console.aws.amazon.com/codesuite/codebuild/$E2E_ACCOUNT_PROD/projects/amplify-codegen-pr-workflow/batch/$RESULT?region=us-east-1"
