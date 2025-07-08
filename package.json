@@ -39,6 +39,7 @@
     "trigger-deprecate-release": "source ./scripts/cloud-release.sh && deprecateRelease",
     "view-test-artifact": "./scripts/view-test-artifacts.sh",
     "cleanup-stale-resources": "source ./scripts/cloud-utils.sh && cleanupStaleResources",
+    "cloud-pr": "./scripts/cloud-pr.sh",
     "cloud-e2e": "source scripts/cloud-utils.sh && cloudE2E",
     "cloud-e2e-beta": "source scripts/cloud-utils.sh && cloudE2EBeta",
     "split-e2e-tests": "yarn ts-node ./scripts/split-e2e-tests.ts && git add .codebuild/e2e_workflow.yml",
