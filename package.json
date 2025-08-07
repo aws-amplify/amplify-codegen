@@ -130,16 +130,17 @@
     "@octokit/plugin-paginate-rest": "^9.2.2",
     "@octokit/request": "^8.4.1",
     "@octokit/request-error": "^5.1.1",
+    "aws-cdk-lib": "^2.189.1",
     "axios": "^1.7.4",
     "cross-fetch": "^2.2.6",
+    "form-data": "^4.0.4",
     "glob-parent": "^6.0.2",
     "graphql": "15.8.0",
     "lodash": "^4.17.21",
     "minimist": "^1.2.6",
     "node-fetch": "^2.6.7",
     "parse-url": "^8.1.0",
-    "xml2js": "0.5.0",
-    "aws-cdk-lib": "^2.189.1"
+    "xml2js": "0.5.0"    
   },
   "config": {
     "commitizen": {
