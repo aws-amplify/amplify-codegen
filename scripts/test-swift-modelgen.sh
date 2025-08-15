@@ -45,7 +45,7 @@ function createSwiftPackage() {
     rm -rf Package.swift
     echo '// swift-tools-version: 5.7
     import PackageDescription
-    let package = Package(name: "swiftapp", platforms: [.macOS(.v10_15)], dependencies: [.package(url: "https://github.com/aws-amplify/amplify-swift", from: "2.12.0")   ], targets: [ .executableTarget( name: "swiftapp",  dependencies: [ .product(name: "Amplify", package: "amplify-swift") ], path: "Sources")]
+    let package = Package(name: "swiftapp", platforms: [.macOS(.v12_0)], dependencies: [.package(url: "https://github.com/aws-amplify/amplify-swift", from: "2.12.0")   ], targets: [ .executableTarget( name: "swiftapp",  dependencies: [ .product(name: "Amplify", package: "amplify-swift") ], path: "Sources")]
     )' >> Package.swift
     cat Package.swift
 }
