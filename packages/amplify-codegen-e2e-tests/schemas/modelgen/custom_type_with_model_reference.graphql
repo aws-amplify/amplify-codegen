@@ -1,0 +1,16 @@
+type Product @model {
+  id: ID!
+  name: String!
+  price: Float!
+}
+
+type OrderSummary {
+  orderId: ID!
+  product: Product!
+  quantity: Int!
+}
+
+type Mutation {
+  createOrder(productId: ID!, quantity: Int!): OrderSummary
+    @function(name: "createOrder-${env}")
+}
