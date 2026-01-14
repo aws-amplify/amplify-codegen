@@ -1,6 +1,7 @@
 #!/bin/bash
 
 AMPLIFY_NODE_VERSION=18.20.4
+AMPLIFY_NODE_VERSION_WINDOWS=24.12.0
 
 # set exit on error to true
 set -e
@@ -141,8 +142,8 @@ function _buildLinux {
 }
 
 function _buildWindows {
-  echo "Setup Node Version $AMPLIFY_NODE_VERSION for Windows"
-  _setupNodeVersionWindows $AMPLIFY_NODE_VERSION
+  echo "Setup Node Version $AMPLIFY_NODE_VERSION_WINDOWS for Windows"
+  _setupNodeVersionWindows $AMPLIFY_NODE_VERSION_WINDOWS
   echo "Windows Build"
   yarn run production-build
   storeCacheForWindowsBuildJob
@@ -320,7 +321,7 @@ function _runGen2E2ETestsLinux {
 function _runGen2E2ETestsWindows {
     echo "RUN Gen2 E2E Tests Windows"
     echo "Setup Node Version"
-    _setupNodeVersionWindows $AMPLIFY_NODE_VERSION
+    _setupNodeVersionWindows $AMPLIFY_NODE_VERSION_WINDOWS
     retry runGen2E2eTest
 }
 
