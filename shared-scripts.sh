@@ -80,7 +80,9 @@ function storeCacheForLinuxBuildJob {
 
 function storeCacheForWindowsBuildJob {
   storeCache $CODEBUILD_SRC_DIR repo-windows windows
-  storeCache $HOME/AppData/Local/Yarn/Cache/v6 .cache-windows windows
+  # Use LOCALAPPDATA if available, otherwise construct the path
+  YARN_CACHE_PATH="${LOCALAPPDATA:-$HOME/AppData/Local}/Yarn/Cache/v6"
+  storeCache "$YARN_CACHE_PATH" .cache-windows windows
 }
 
 function loadCacheFromLinuxBuildJob {
@@ -93,7 +95,9 @@ function loadCacheFromLinuxBuildJob {
 function loadCacheFromWindowsBuildJob {
   # download [repo, .cache] from s3
   loadCache repo-windows $CODEBUILD_SRC_DIR windows
-  loadCache .cache-windows $HOME/AppData/Local/Yarn/Cache/v6 windows
+  # Use LOCALAPPDATA if available, otherwise construct the path
+  YARN_CACHE_PATH="${LOCALAPPDATA:-$HOME/AppData/Local}/Yarn/Cache/v6"
+  loadCache .cache-windows "$YARN_CACHE_PATH" windows
 }
 
 function storeCacheFile {
