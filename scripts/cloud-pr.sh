@@ -9,7 +9,7 @@ read PR_NUMBER
 if [[ -n $USE_FIDO_KEY ]] ; then
   mwinit -s -f
 else
-  mwinit -o
+  mwinit
 fi
 
 ada cred update --profile=AmplifyAPIE2EProd --account=$E2E_ACCOUNT_PROD --role=CodebuildDeveloper --provider=isengard --once
