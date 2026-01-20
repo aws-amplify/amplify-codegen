@@ -42,9 +42,9 @@ const OUTPUT_PATHS = {
   ios: 'amplify/generated/models',
   flutter: 'lib/models',
 };
-const MOCK_PROJECT_ROOT = path.resolve('project');
+const MOCK_PROJECT_ROOT = 'project';
 const MOCK_PROJECT_NAME = 'myapp';
-const MOCK_BACKEND_DIRECTORY = path.resolve('backend');
+const MOCK_BACKEND_DIRECTORY = 'backend';
 
 // Normalize paths for mock-fs (always use forward slashes)
 const normalizeMockPath = (p) => p.split(path.sep).join('/');

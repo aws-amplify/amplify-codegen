@@ -21,10 +21,10 @@ jest.mock('@graphql-codegen/core', () => {
   };
 });
 
-const MOCK_OUTPUT_DIR = path.resolve('output');
-const MOCK_PROJECT_ROOT = path.resolve('project');
+const MOCK_OUTPUT_DIR = 'output';
+const MOCK_PROJECT_ROOT = 'project';
 const MOCK_PROJECT_NAME = 'myapp';
-const MOCK_BACKEND_DIRECTORY = path.resolve('backend');
+const MOCK_BACKEND_DIRECTORY = 'backend';
 const MOCK_GENERATED_INTROSPECTION = { schemaVersion: 1 };
 const MOCK_GENERATED_CODE = JSON.stringify(MOCK_GENERATED_INTROSPECTION);
 
