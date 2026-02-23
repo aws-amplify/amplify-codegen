@@ -163,7 +163,7 @@ describe('command-models-generates models in expected output path', () => {
       MOCK_CONTEXT.amplify.getProjectConfig.mockImplementation(() => { throw new Error('getProjectConfig Internal Error') });
       MOCK_CONTEXT.amplify.getResourceStatus.mockImplementation(() => { throw new Error('getResourceStatus Internal Error') });
       MOCK_CONTEXT.amplify.executeProviderUtils.mockImplementation(() => { throw new Error('executeProviderUtils Internal Error') });
-      MOCK_CONTEXT.parameters.options = { target: frontend, 'model-schema': path.join(MOCK_PROJECT_ROOT, 'schema.graphql') };
+      MOCK_CONTEXT.parameters.options = { target: frontend, 'model-schema': normalizeMockPath(path.join(MOCK_PROJECT_ROOT, 'schema.graphql')) };
 
       // assert empty folder before generation
       expect(fs.readdirSync(overrideOutputDir).length).toEqual(0);
@@ -200,7 +200,7 @@ describe('command-models-generates models in expected output path', () => {
     MOCK_CONTEXT.amplify.getProjectConfig.mockImplementation(() => { throw new Error('getProjectConfig Internal Error') });
     MOCK_CONTEXT.amplify.getResourceStatus.mockImplementation(() => { throw new Error('getResourceStatus Internal Error') });
     MOCK_CONTEXT.amplify.executeProviderUtils.mockImplementation(() => { throw new Error('executeProviderUtils Internal Error') });
-    MOCK_CONTEXT.parameters.options = { target: 'clojure', 'model-schema': path.join(MOCK_PROJECT_ROOT, 'schema.graphql') };
+    MOCK_CONTEXT.parameters.options = { target: 'clojure', 'model-schema': normalizeMockPath(path.join(MOCK_PROJECT_ROOT, 'schema.graphql')) };
 
     await expect(() => generateModels(MOCK_CONTEXT, { overrideOutputDir }))
       .rejects
@@ -244,7 +244,7 @@ describe('command-models-generates models in expected output path', () => {
     MOCK_CONTEXT.amplify.getProjectConfig.mockImplementation(() => { throw new Error('getProjectConfig Internal Error') });
     MOCK_CONTEXT.amplify.getResourceStatus.mockImplementation(() => { throw new Error('getResourceStatus Internal Error') });
     MOCK_CONTEXT.amplify.executeProviderUtils.mockImplementation(() => { throw new Error('executeProviderUtils Internal Error') });
-    MOCK_CONTEXT.parameters.options = { 'model-schema': path.join(MOCK_PROJECT_ROOT, 'schema.graphql') };
+    MOCK_CONTEXT.parameters.options = { 'model-schema': normalizeMockPath(path.join(MOCK_PROJECT_ROOT, 'schema.graphql')) };
 
     await expect(() => generateModels(MOCK_CONTEXT, { overrideOutputDir }))
       .rejects
@@ -266,7 +266,7 @@ describe('command-models-generates models in expected output path', () => {
     MOCK_CONTEXT.amplify.getProjectConfig.mockImplementation(() => { throw new Error('getProjectConfig Internal Error') });
     MOCK_CONTEXT.amplify.getResourceStatus.mockImplementation(() => { throw new Error('getResourceStatus Internal Error') });
     MOCK_CONTEXT.amplify.executeProviderUtils.mockImplementation(() => { throw new Error('executeProviderUtils Internal Error') });
-    MOCK_CONTEXT.parameters.options = { target: 'javascript', 'model-schema': path.join(MOCK_PROJECT_ROOT, 'schema.graphql') };
+    MOCK_CONTEXT.parameters.options = { target: 'javascript', 'model-schema': normalizeMockPath(path.join(MOCK_PROJECT_ROOT, 'schema.graphql')) };
 
     await expect(() => generateModels(MOCK_CONTEXT))
       .rejects
