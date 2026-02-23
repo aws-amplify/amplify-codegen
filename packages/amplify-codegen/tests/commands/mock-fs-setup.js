@@ -2,9 +2,6 @@ const mockFs = require('mock-fs');
 const path = require('path');
 const { getOutputFileName } = require('@aws-amplify/graphql-types-generator');
 
-// Normalize paths for mock-fs (always use forward slashes)
-const normalizeMockPath = (p) => p.split(path.sep).join('/');
-
 /* Setup mocks for types and statements generation.
  * Create a mock filesystem so that output paths can be tested.
  * Mocks existence of `schema.json` using mocks fs
@@ -24,7 +21,7 @@ function setupMocks(mockFs, loadConfig, apiId, frontend, target, generatedFileNa
     // load actual prettier module to avoid error
     // Cannot find module './parser-graphql' from '../../node_modules/prettier/index.js'
     // It's not clear why other modules don't need to be loaded
-    [normalizeMockPath(nodeModulesPrettier)]: mockFs.load(nodeModulesPrettier, {
+    [nodeModulesPrettier]: mockFs.load(nodeModulesPrettier, {
       recursive: true,
       lazy: true,
     }),

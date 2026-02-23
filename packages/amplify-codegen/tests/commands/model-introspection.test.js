@@ -28,9 +28,6 @@ const MOCK_BACKEND_DIRECTORY = 'backend';
 const MOCK_GENERATED_INTROSPECTION = { schemaVersion: 1 };
 const MOCK_GENERATED_CODE = JSON.stringify(MOCK_GENERATED_INTROSPECTION);
 
-// Normalize paths for mock-fs (always use forward slashes)
-const normalizeMockPath = (p) => p.split(path.sep).join('/');
-
 const MOCK_CONTEXT = {
   print: {
     info: jest.fn(),
@@ -62,10 +59,10 @@ describe('generateModelIntrospection', () => {
   const schemaFilePath = path.join(MOCK_BACKEND_DIRECTORY, 'api', MOCK_PROJECT_NAME);
   const outputDirectory = path.join(MOCK_PROJECT_ROOT, MOCK_OUTPUT_DIR);
   const mockedFiles = {};
-  mockedFiles[normalizeMockPath(schemaFilePath)] = {
+  mockedFiles[schemaFilePath] = {
     'schema.graphql': ' type SimpleModel { id: ID! status: String } ',
   };
-  mockedFiles[normalizeMockPath(outputDirectory)] = {};
+  mockedFiles[outputDirectory] = {};
 
   beforeAll(() => {
     codegen_core.codegen.mockReturnValue(MOCK_GENERATED_CODE);
@@ -111,10 +108,10 @@ describe('getModelIntrospection', () => {
   const schemaFilePath = path.join(MOCK_BACKEND_DIRECTORY, 'api', MOCK_PROJECT_NAME);
   const outputDirectory = path.join(MOCK_PROJECT_ROOT, MOCK_OUTPUT_DIR);
   const mockedFiles = {};
-  mockedFiles[normalizeMockPath(schemaFilePath)] = {
+  mockedFiles[schemaFilePath] = {
     'schema.graphql': ' type SimpleModel { id: ID! status: String } ',
   };
-  mockedFiles[normalizeMockPath(outputDirectory)] = {};
+  mockedFiles[outputDirectory] = {};
 
   beforeAll(() => {
     codegen_core.codegen.mockReturnValue(MOCK_GENERATED_CODE);

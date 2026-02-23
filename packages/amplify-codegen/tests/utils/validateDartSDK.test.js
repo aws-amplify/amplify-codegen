@@ -5,8 +5,6 @@ const yaml = require('js-yaml');
 
 const MOCK_PROJECT_ROOT = 'project';
 const MOCK_PUBSPEC_FILE_PATH = join(MOCK_PROJECT_ROOT, PUBSPEC_FILE_NAME);
-// Normalize paths for mock-fs (always use forward slashes)
-const normalizeMockPath = (p) => p.split(join('a', 'b')[1]).join('/');
 const MOCK_CONTEXT = {
   print: {
     warning: jest.fn(),
@@ -25,7 +23,7 @@ describe('Validate Dart SDK version tests', () => {
           sdk: '2.12.0',
         },
       };
-      mockFs({ [normalizeMockPath(MOCK_PUBSPEC_FILE_PATH)]: yaml.dump(config) });
+      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
       expect(validateDartSDK(MOCK_CONTEXT, MOCK_PROJECT_ROOT)).toBe(true);
     });
 
@@ -35,7 +33,7 @@ describe('Validate Dart SDK version tests', () => {
           sdk: '^2.12.0',
         },
       };
-      mockFs({ [normalizeMockPath(MOCK_PUBSPEC_FILE_PATH)]: yaml.dump(config) });
+      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
       expect(validateDartSDK(MOCK_CONTEXT, MOCK_PROJECT_ROOT)).toBe(true);
     });
 
@@ -45,7 +43,7 @@ describe('Validate Dart SDK version tests', () => {
           sdk: '^2.18.0-release1',
         },
       };
-      mockFs({ [normalizeMockPath(MOCK_PUBSPEC_FILE_PATH)]: yaml.dump(config) });
+      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
       expect(validateDartSDK(MOCK_CONTEXT, MOCK_PROJECT_ROOT)).toBe(true);
     });
 
@@ -55,7 +53,7 @@ describe('Validate Dart SDK version tests', () => {
           sdk: '>=2.12.0 <3.0.0',
         },
       };
-      mockFs({ [normalizeMockPath(MOCK_PUBSPEC_FILE_PATH)]: yaml.dump(config) });
+      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
       expect(validateDartSDK(MOCK_CONTEXT, MOCK_PROJECT_ROOT)).toBe(true);
     });
 
@@ -65,7 +63,7 @@ describe('Validate Dart SDK version tests', () => {
           sdk: '>=2.18.0-release1 <3.0.0',
         },
       };
-      mockFs({ [normalizeMockPath(MOCK_PUBSPEC_FILE_PATH)]: yaml.dump(config) });
+      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
       expect(validateDartSDK(MOCK_CONTEXT, MOCK_PROJECT_ROOT)).toBe(true);
     });
   });
@@ -77,7 +75,7 @@ describe('Validate Dart SDK version tests', () => {
           sdk: '2.0.0',
         },
       };
-      mockFs({ [normalizeMockPath(MOCK_PUBSPEC_FILE_PATH)]: yaml.dump(config) });
+      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
       expect(validateDartSDK(MOCK_CONTEXT, MOCK_PROJECT_ROOT)).toBe(false);
     });
 
@@ -87,7 +85,7 @@ describe('Validate Dart SDK version tests', () => {
           sdk: '^2.0.0',
         },
       };
-      mockFs({ [normalizeMockPath(MOCK_PUBSPEC_FILE_PATH)]: yaml.dump(config) });
+      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
       expect(validateDartSDK(MOCK_CONTEXT, MOCK_PROJECT_ROOT)).toBe(false);
     });
 
@@ -97,7 +95,7 @@ describe('Validate Dart SDK version tests', () => {
           sdk: '^2.0.0-release1',
         },
       };
-      mockFs({ [normalizeMockPath(MOCK_PUBSPEC_FILE_PATH)]: yaml.dump(config) });
+      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
       expect(validateDartSDK(MOCK_CONTEXT, MOCK_PROJECT_ROOT)).toBe(false);
     });
 
@@ -107,7 +105,7 @@ describe('Validate Dart SDK version tests', () => {
           sdk: '>=2.0.0 <3.0.0',
         },
       };
-      mockFs({ [normalizeMockPath(MOCK_PUBSPEC_FILE_PATH)]: yaml.dump(config) });
+      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
       expect(validateDartSDK(MOCK_CONTEXT, MOCK_PROJECT_ROOT)).toBe(false);
     });
 
@@ -117,14 +115,14 @@ describe('Validate Dart SDK version tests', () => {
           sdk: '>=2.0.0-release1 <3.0.0',
         },
       };
-      mockFs({ [normalizeMockPath(MOCK_PUBSPEC_FILE_PATH)]: yaml.dump(config) });
+      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
       expect(validateDartSDK(MOCK_CONTEXT, MOCK_PROJECT_ROOT)).toBe(false);
     });
   });
 
   it('should return true if the sdk version cannot be found', () => {
     const config = {};
-    mockFs({ [normalizeMockPath(MOCK_PUBSPEC_FILE_PATH)]: yaml.dump(config) });
+    mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(config) });
     expect(validateDartSDK(MOCK_CONTEXT, MOCK_PROJECT_ROOT)).toBe(true);
   });
 });

@@ -9,8 +9,6 @@ const yaml = require('js-yaml');
 
 const MOCK_PROJECT_ROOT = 'project';
 const MOCK_PUBSPEC_FILE_PATH = join(MOCK_PROJECT_ROOT, PUBSPEC_LOCK_FILE_NAME);
-// Normalize paths for mock-fs (always use forward slashes)
-const normalizeMockPath = (p) => p.split(join('a', 'b')[1]).join('/');
 global.console = { log: jest.fn() };
 const mockErrorPrinter = console.log;
 
@@ -35,7 +33,7 @@ describe('Validate amplify flutter version tests', () => {
             },
           },
         };
-        mockFs({ [normalizeMockPath(MOCK_PUBSPEC_FILE_PATH)]: yaml.dump(lockFile) });
+        mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(lockFile) });
         expect(validateAmplifyFlutterMinSupportedVersion(MOCK_PROJECT_ROOT)).toBe(true);
       });
     });
@@ -51,7 +49,7 @@ describe('Validate amplify flutter version tests', () => {
             },
           },
         };
-        mockFs({ [normalizeMockPath(MOCK_PUBSPEC_FILE_PATH)]: yaml.dump(lockFile) });
+        mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(lockFile) });
         expect(validateAmplifyFlutterMinSupportedVersion(MOCK_PROJECT_ROOT)).toBe(false);
       });
     });
@@ -59,7 +57,7 @@ describe('Validate amplify flutter version tests', () => {
 
   it('should return false if the sdk version cannot be found', () => {
     const lockFile = {};
-    mockFs({ [normalizeMockPath(MOCK_PUBSPEC_FILE_PATH)]: yaml.dump(lockFile) });
+    mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(lockFile) });
     expect(validateAmplifyFlutterMinSupportedVersion(MOCK_PROJECT_ROOT)).toBe(false);
   });
 
@@ -80,7 +78,7 @@ describe('Validate amplify flutter version tests', () => {
 
     it('should print error when error is thrown while loading yaml file', () => {
       const lockFile = {};
-      mockFs({ [normalizeMockPath(MOCK_PUBSPEC_FILE_PATH)]: yaml.dump(lockFile) });
+      mockFs({ [MOCK_PUBSPEC_FILE_PATH]: yaml.dump(lockFile) });
 
       expect(validateAmplifyFlutterMinSupportedVersion(MOCK_PROJECT_ROOT)).toBe(false);
       expect(mockErrorPrinter).toHaveBeenCalledTimes(3);
