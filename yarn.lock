@@ -8596,10 +8596,10 @@ aws-appsync-auth-link@^2.0.8:
     apollo-link "1.2.5"
     debug "2.6.9"
 
-aws-appsync-subscription-link@^2.4.2:
-  version "2.4.2"
-  resolved "https://registry.npmjs.org/aws-appsync-subscription-link/-/aws-appsync-subscription-link-2.4.2.tgz#ea98c6a912d265f9f42515fc29b55a52330f11bd"
-  integrity sha512-r/PdEd/aLALB2os1MhFglXO9RWkwx7JTcFS6ARo2c8ObAErrfaKekzX/SQjVDzY1fAQeEdTny8WRCwbzMECEsA==
+aws-appsync-subscription-link@^2.4.3:
+  version "2.4.3"
+  resolved "https://registry.npmjs.org/aws-appsync-subscription-link/-/aws-appsync-subscription-link-2.4.3.tgz#39d1b2e6dadf166f3dfaa79d1cc261674c438123"
+  integrity sha512-+UeQAlxtNUwSThmeYSyqlGMPouw8agR+PgtT6dzHbznUYSaljmEx73xvxTbd+2V7Jas0MAf2tWFBsd8GFs+LyQ==
   dependencies:
     apollo-link "1.2.5"
     apollo-link-context "1.0.11"
@@ -8610,10 +8610,10 @@ aws-appsync-subscription-link@^2.4.2:
     url "^0.11.0"
     zen-observable-ts "^1.2.5"
 
-aws-appsync@^4.1.9:
-  version "4.1.9"
-  resolved "https://registry.npmjs.org/aws-appsync/-/aws-appsync-4.1.9.tgz#ec084d9b6a3a40334822e49864fed14fbf9558ef"
-  integrity sha512-YlOxC81Ij25UmSUVocbFF+TA5tItYAkL+04Y+gPBvZGCmrKI4+g/Z9b6c6IrX4IaG0eh4msizeZuwlUUjsEvlQ==
+aws-appsync@^4.1.10:
+  version "4.1.10"
+  resolved "https://registry.npmjs.org/aws-appsync/-/aws-appsync-4.1.10.tgz#24ac0feee98d5dea97106f32ab6cac9f6ccf4f04"
+  integrity sha512-UCDDYXmDfPLGQKvQMjR1l87BvwEYEQySBLkY+RQTPLn2gSobRJIZhj7N7SZMTrtqRLK8GY5l6qP0JESKoR/g9g==
   dependencies:
     "@aws-crypto/sha256-universal" "^1.1.1"
     "@aws-sdk/client-s3" "^3.25.0"
@@ -8627,7 +8627,7 @@ aws-appsync@^4.1.9:
     apollo-link-http "1.5.8"
     apollo-link-retry "2.2.7"
     aws-appsync-auth-link "^2.0.8"
-    aws-appsync-subscription-link "^2.4.2"
+    aws-appsync-subscription-link "^2.4.3"
     debug "2.6.9"
     redux "^3.7.2"
     redux-thunk "^2.2.0"

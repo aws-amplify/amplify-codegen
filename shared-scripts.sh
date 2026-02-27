@@ -282,11 +282,6 @@ function _setupE2ETestsLinux {
 
 function _setupE2ETestsWindows {
     echo "Setup E2E Tests Windows"
-    # Ensure HOME is set for Windows environments (VS 2022 containers may not set it)
-    if [ -z "$HOME" ]; then
-        export HOME="${USERPROFILE:-$CODEBUILD_SRC_DIR/..}"
-        echo "Set HOME to: $HOME"
-    fi
     loadCacheFromWindowsBuildJob
     loadCache verdaccio-cache $CODEBUILD_SRC_DIR/../verdaccio-cache windows
     _installCLIFromLocalRegistry windows
