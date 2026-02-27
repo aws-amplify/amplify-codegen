@@ -1,5 +1,5 @@
 const mockFs = require('mock-fs');
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 
 const generateTypes = require('../../src/commands/types');
