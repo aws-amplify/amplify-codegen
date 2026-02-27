@@ -2,6 +2,7 @@ name: Closed Issue Message
 on:
   issues:
     types: [closed]
+
 permissions:
   issues: write
 
