@@ -2,7 +2,7 @@
 //This test will faile due to a possible AppSync bug, see details below the test code
 import path from 'path';
 import fs from 'fs-extra';
-import aws from 'aws-sdk';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import gql from 'graphql-tag';
 import { addAuthWithDefault, addS3Storage, getBackendAmplifyMeta, addApi, amplifyPush } from '@aws-amplify/amplify-codegen-e2e-core';
 
@@ -42,11 +42,13 @@ export async function runTest(projectDir: string, testModule: any) {
 
 async function uploadImageFile(projectDir: string) {
   const imageFilePath = path.join(__dirname, 'predictions-usage-image.jpg');
-  const s3Client = new aws.S3({
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  const s3Client = new S3Client([{
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    },
     region: process.env.AWS_DEFAULT_REGION,
-  });
+  }]);
 
   const amplifyMeta = getBackendAmplifyMeta(projectDir);
   const storageResourceName = Object.keys(amplifyMeta.storage).find((key: any) => {
@@ -56,14 +58,13 @@ async function uploadImageFile(projectDir: string) {
   const bucketName = amplifyMeta.storage[storageResourceName].output.BucketName;
 
   const fileStream = fs.createReadStream(imageFilePath);
-  const uploadParams = {
+  await s3Client.send(new PutObjectCommand({
     Bucket: bucketName,
     Key: imageKey,
     Body: fileStream,
     ContentType: 'image/jpeg',
     ACL: 'public-read',
-  };
-  await s3Client.upload(uploadParams).promise();
+  }));
 }
 
 //schema
