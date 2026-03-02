@@ -279,7 +279,7 @@ const addAppClient = async (
   const authDetails = getAuthProjectDetails(projectRoot);
   const creds = fromIni({ profile: profileName });
 
-  const cognitoClient = new CognitoIdentityProviderClient({ 
+  const cognitoClient = new CognitoIdentityProviderClient({
     region: projectDetails.providers.awscloudformation.Region,
     credentials: creds
   });
@@ -315,7 +315,7 @@ export const deleteAppClient = async (profileName: string, projectRoot: string, 
   const projectDetails = getProjectMeta(projectRoot);
   const creds = fromIni({ profile: profileName });
 
-  const cognitoClient = new CognitoIdentityProviderClient({ 
+  const cognitoClient = new CognitoIdentityProviderClient({
     region: projectDetails.providers.awscloudformation.Region,
     credentials: creds
   });

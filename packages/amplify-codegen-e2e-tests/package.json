@@ -33,6 +33,7 @@
     "@aws-sdk/client-cloudformation": "^3.996.0",
     "@aws-sdk/client-codebuild": "^3.996.0",
     "@aws-sdk/client-cognito-identity-provider": "^3.996.0",
+    "@aws-sdk/credential-providers": "^3.996.0",
     "@aws-sdk/client-dynamodb": "^3.996.0",
     "@aws-sdk/client-iam": "^3.996.0",
     "@aws-sdk/client-organizations": "^3.996.0",
