@@ -181,7 +181,7 @@ const getOrphanTestIamRoles = async (account: AWSAccountInfo): Promise<IamRoleIn
  */
 const getRegionsEnabled = async (accountInfo: AWSAccountInfo): Promise<string[]> => {
   // Specify service region to avoid possible endpoint unavailable error
-  const account = new AccountClient({ ...accountInfo, region: 'us-east-1' });
+  const account = new AccountClient(getAWSConfig(accountInfo, 'us-east-1'));
 
   const enabledRegions: string[] = [];
   let nextToken: string | undefined = undefined;

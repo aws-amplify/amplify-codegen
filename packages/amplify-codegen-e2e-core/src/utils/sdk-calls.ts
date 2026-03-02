@@ -43,7 +43,8 @@ export const bucketNotExists = async (bucket: string) => {
 export const getDeploymentBucketObject = async (projectRoot: string, objectKey: string) => {
   const meta = getProjectMeta(projectRoot);
   const deploymentBucket = meta.providers.awscloudformation.DeploymentBucketName;
-  const s3 = new S3Client({});
+  const region = meta.providers.awscloudformation.Region;
+  const s3 = new S3Client({ region });
   const command = new GetObjectCommand({
     Bucket: deploymentBucket,
     Key: objectKey,
