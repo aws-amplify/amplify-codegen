@@ -5,7 +5,7 @@ const {
 } = require('../../src/utils/validateAmplifyFlutterMinSupportedVersion');
 const { DefaultDirectives } = require('@aws-amplify/graphql-directives');
 const mockFs = require('mock-fs');
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 
 jest.mock('../../src/utils/validateAmplifyFlutterMinSupportedVersion', () => {

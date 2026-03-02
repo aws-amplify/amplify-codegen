@@ -48,11 +48,19 @@ function unsetSudoNpmRegistryUrl {
 }
 
 function changeNpmGlobalPath {
-    mkdir -p ~/.npm-global
-    if [ -z $SKIP_SET_NPM_PREFIX ]; then
-        npm config set prefix '~/.npm-global'
+    if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
+        mkdir -p "$USERPROFILE/.npm-global"
+        if [ -z $SKIP_SET_NPM_PREFIX ]; then
+            npm config set prefix "$USERPROFILE/.npm-global"
+        fi
+        export PATH="$USERPROFILE/.npm-global/bin:$PATH"
+    else
+        mkdir -p ~/.npm-global
+        if [ -z $SKIP_SET_NPM_PREFIX ]; then
+            npm config set prefix '~/.npm-global'
+        fi
+        export PATH=~/.npm-global/bin:$PATH
     fi
-    export PATH=~/.npm-global/bin:$PATH
 }
 
 function changeSudoNpmGlobalPath {

@@ -221,7 +221,7 @@ function main(): void {
     env: {
       'compute-type': 'BUILD_GENERAL1_LARGE',
       image: '$WINDOWS_IMAGE_2019',
-      type: 'WINDOWS_SERVER_2019_CONTAINER',
+      type: 'WINDOWS_SERVER_2022_CONTAINER',
     },
     'depend-on': ['publish_to_local_registry', 'build_windows'],
   };

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 AMPLIFY_NODE_VERSION=18.20.4
+AMPLIFY_NODE_VERSION_WINDOWS=24.12.0
 
 # set exit on error to true
 set -e
@@ -79,7 +80,9 @@ function storeCacheForLinuxBuildJob {
 
 function storeCacheForWindowsBuildJob {
   storeCache $CODEBUILD_SRC_DIR repo-windows windows
-  storeCache $HOME/AppData/Local/Yarn/Cache/v6 .cache-windows windows
+  # Use LOCALAPPDATA if available, otherwise construct the path
+  YARN_CACHE_PATH="${LOCALAPPDATA:-$HOME/AppData/Local}/Yarn/Cache/v6"
+  storeCache "$YARN_CACHE_PATH" .cache-windows windows
 }
 
 function loadCacheFromLinuxBuildJob {
@@ -92,7 +95,9 @@ function loadCacheFromLinuxBuildJob {
 function loadCacheFromWindowsBuildJob {
   # download [repo, .cache] from s3
   loadCache repo-windows $CODEBUILD_SRC_DIR windows
-  loadCache .cache-windows $HOME/AppData/Local/Yarn/Cache/v6 windows
+  # Use LOCALAPPDATA if available, otherwise construct the path
+  YARN_CACHE_PATH="${LOCALAPPDATA:-$HOME/AppData/Local}/Yarn/Cache/v6"
+  loadCache .cache-windows "$YARN_CACHE_PATH" windows
 }
 
 function storeCacheFile {
@@ -141,8 +146,8 @@ function _buildLinux {
 }
 
 function _buildWindows {
-  echo "Setup Node Version $AMPLIFY_NODE_VERSION for Windows"
-  _setupNodeVersionWindows $AMPLIFY_NODE_VERSION
+  echo "Setup Node Version $AMPLIFY_NODE_VERSION_WINDOWS for Windows"
+  _setupNodeVersionWindows $AMPLIFY_NODE_VERSION_WINDOWS
   echo "Windows Build"
   yarn run production-build
   storeCacheForWindowsBuildJob
@@ -320,7 +325,7 @@ function _runGen2E2ETestsLinux {
 function _runGen2E2ETestsWindows {
     echo "RUN Gen2 E2E Tests Windows"
     echo "Setup Node Version"
-    _setupNodeVersionWindows $AMPLIFY_NODE_VERSION
+    _setupNodeVersionWindows $AMPLIFY_NODE_VERSION_WINDOWS
     retry runGen2E2eTest
 }
 
