@@ -473,24 +473,12 @@ function runE2eTest {
         cd $(pwd)/packages/amplify-codegen-e2e-tests
     fi
 
-    # Check if this is the problematic uninitialized-project-modelgen test suite
-    if [[ "$TEST_SUITE" == *"uninitialized-project-modelgen-android.test.ts"* && "$TEST_SUITE" == *"uninitialized-project-modelgen-js.test.ts"* ]]; then
-        echo "Running uninitialized-project-modelgen test suite sequentially to prevent hanging on Linux"
-        if [ -f  $FAILED_TEST_REGEX_FILE ]; then
-            # read the content of failed tests
-            failedTests=$(<$FAILED_TEST_REGEX_FILE)
-            npm run e2e --runInBand $TEST_SUITE -t "$failedTests"
-        else
-            npm run e2e --runInBand $TEST_SUITE
-        fi
+    if [ -f  $FAILED_TEST_REGEX_FILE ]; then
+        # read the content of failed tests
+        failedTests=$(<$FAILED_TEST_REGEX_FILE)
+        npm run e2e --maxWorkers=4 $TEST_SUITE -t "$failedTests"
     else
-        if [ -f  $FAILED_TEST_REGEX_FILE ]; then
-            # read the content of failed tests
-            failedTests=$(<$FAILED_TEST_REGEX_FILE)
-            npm run e2e --maxWorkers=4 $TEST_SUITE -t "$failedTests"
-        else
-            npm run e2e --maxWorkers=4 $TEST_SUITE
-        fi
+        npm run e2e --maxWorkers=4 $TEST_SUITE
     fi
 }
 
