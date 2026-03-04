@@ -306,11 +306,15 @@ function _setupGen2E2ETestsWindows {
 
 function _runE2ETestsLinux {
     echo "RUN E2E Tests Linux"
+    echo "Setup Node Version"
+    _setupNodeVersionLinux $AMPLIFY_NODE_VERSION
     retry runE2eTest
 }
 
 function _runE2ETestsWindows {
     echo "RUN E2E Tests Windows"
+    echo "Setup Node Version"
+    _setupNodeVersionWindows $AMPLIFY_NODE_VERSION
     retry runE2eTest
 }
 
