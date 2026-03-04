@@ -8,12 +8,19 @@ describe('Uninitialized Project Modelgen tests - IOS', () => {
     let projectRoot: string;
 
     beforeEach(async () => {
+        console.log('iOS test: Starting beforeEach');
         projectRoot = await createNewProjectDir('uninitializedProjectModelgenIOS');
+        console.log('iOS test: Completed beforeEach');
     });
 
-    afterEach(() => deleteProjectDir(projectRoot));
+    afterEach(() => {
+        console.log('iOS test: Starting afterEach');
+        deleteProjectDir(projectRoot);
+        console.log('iOS test: Completed afterEach');
+    });
 
     it(`should generate files at desired location and not delete src files`, async () => {
+        console.log('iOS test: Starting test - should generate files at desired location');
         await testUninitializedCodegenModels({
             config: DEFAULT_IOS_CONFIG,
             projectRoot,
@@ -37,14 +44,17 @@ describe('Uninitialized Project Modelgen tests - IOS', () => {
                 'User.swift',
             ],
         });
+        console.log('iOS test: Completed test - should generate files at desired location');
     });
 
     it(`should not generate files at desired location and not delete src files if no output dir is specified`, async () => {
+        console.log('iOS test: Starting test - should not generate files without output dir');
         await testUninitializedCodegenModels({
             config: DEFAULT_IOS_CONFIG,
             projectRoot,
             schemaName,
             shouldSucceed: false,
         });
+        console.log('iOS test: Completed test - should not generate files without output dir');
     });
 });

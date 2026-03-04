@@ -8,12 +8,19 @@ describe('Uninitialized Project Modelgen tests - Flutter', () => {
     let projectRoot: string;
 
     beforeEach(async () => {
+        console.log('Flutter test: Starting beforeEach');
         projectRoot = await createNewProjectDir('uninitializedProjectModelgenFlutter');
+        console.log('Flutter test: Completed beforeEach');
     });
 
-    afterEach(() => deleteProjectDir(projectRoot));
+    afterEach(() => {
+        console.log('Flutter test: Starting afterEach');
+        deleteProjectDir(projectRoot);
+        console.log('Flutter test: Completed afterEach');
+    });
 
     it(`should generate files at desired location and not delete src files`, async () => {
+        console.log('Flutter test: Starting test - should generate files at desired location');
         await testUninitializedCodegenModels({
             config: DEFAULT_FLUTTER_CONFIG,
             projectRoot,
@@ -31,14 +38,17 @@ describe('Uninitialized Project Modelgen tests - Flutter', () => {
                 'User.dart',
             ],
         });
+        console.log('Flutter test: Completed test - should generate files at desired location');
     });
 
     it(`should not generate files at desired location and not delete src files if no output dir is specified`, async () => {
+        console.log('Flutter test: Starting test - should not generate files without output dir');
         await testUninitializedCodegenModels({
             config: DEFAULT_FLUTTER_CONFIG,
             projectRoot,
             schemaName,
             shouldSucceed: false,
         });
+        console.log('Flutter test: Completed test - should not generate files without output dir');
     });
 });

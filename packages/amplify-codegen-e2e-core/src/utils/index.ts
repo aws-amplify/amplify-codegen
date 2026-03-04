@@ -30,7 +30,9 @@ export * from './isWindows';
 config();
 
 export function deleteProjectDir(root: string) {
+  console.log(`deleteProjectDir: Starting deletion of ${root}`);
   rimraf.sync(root);
+  console.log(`deleteProjectDir: Completed deletion of ${root}`);
 }
 
 export function deleteAmplifyDir(root: string) {

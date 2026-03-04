@@ -8,12 +8,19 @@ describe('Uninitialized Project Modelgen tests - Android', () => {
     let projectRoot: string;
 
     beforeEach(async () => {
+        console.log('Android test: Starting beforeEach');
         projectRoot = await createNewProjectDir('uninitializedProjectModelgenAndroid');
+        console.log('Android test: Completed beforeEach');
     });
 
-    afterEach(() => deleteProjectDir(projectRoot));
+    afterEach(() => {
+        console.log('Android test: Starting afterEach');
+        deleteProjectDir(projectRoot);
+        console.log('Android test: Completed afterEach');
+    });
 
     it(`should generate files at desired location and not delete src files`, async () => {
+        console.log('Android test: Starting test - should generate files at desired location');
         await testUninitializedCodegenModels({
             config: DEFAULT_ANDROID_CONFIG,
             projectRoot,
@@ -31,14 +38,17 @@ describe('Uninitialized Project Modelgen tests - Android', () => {
                 'User.java',
             ],
         });
+        console.log('Android test: Completed test - should generate files at desired location');
     });
 
     it(`should not generate files at desired location and not delete src files if no output dir is specified`, async () => {
+        console.log('Android test: Starting test - should not generate files without output dir');
         await testUninitializedCodegenModels({
             config: DEFAULT_ANDROID_CONFIG,
             projectRoot,
             schemaName,
             shouldSucceed: false,
         });
+        console.log('Android test: Completed test - should not generate files without output dir');
     });
 });

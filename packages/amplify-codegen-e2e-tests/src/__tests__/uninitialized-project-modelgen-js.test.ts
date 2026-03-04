@@ -8,12 +8,19 @@ describe('Uninitialized Project Modelgen tests - JS', () => {
     let projectRoot: string;
 
     beforeEach(async () => {
+        console.log('JS test: Starting beforeEach');
         projectRoot = await createNewProjectDir('uninitializedProjectModelgenJS');
+        console.log('JS test: Completed beforeEach');
     });
 
-    afterEach(() => deleteProjectDir(projectRoot));
+    afterEach(() => {
+        console.log('JS test: Starting afterEach');
+        deleteProjectDir(projectRoot);
+        console.log('JS test: Completed afterEach');
+    });
 
     it(`should generate files at desired location and not delete src files`, async () => {
+        console.log('JS test: Starting test - should generate files at desired location');
         await testUninitializedCodegenModels({
             config: DEFAULT_JS_CONFIG,
             projectRoot,
@@ -27,14 +34,17 @@ describe('Uninitialized Project Modelgen tests - JS', () => {
                 'schema.js',
             ],
         });
+        console.log('JS test: Completed test - should generate files at desired location');
     });
 
     it(`should not generate files at desired location and not delete src files if no output dir is specified`, async () => {
+        console.log('JS test: Starting test - should not generate files without output dir');
         await testUninitializedCodegenModels({
             config: DEFAULT_JS_CONFIG,
             projectRoot,
             schemaName,
             shouldSucceed: false,
         });
+        console.log('JS test: Completed test - should not generate files without output dir');
     });
 });
