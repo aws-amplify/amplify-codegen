@@ -10,7 +10,13 @@ const TEST_TIMINGS_PATH = join(REPO_ROOT, 'scripts', 'test-timings.data.json');
 const CODEBUILD_CONFIG_BASE_PATH = join(REPO_ROOT, '.codebuild', 'e2e_workflow_base.yml');
 const CODEBUILD_GENERATE_CONFIG_PATH = join(REPO_ROOT, '.codebuild', 'e2e_workflow.yml');
 const CODEBUILD_DEBUG_CONFIG_PATH = join (REPO_ROOT, '.codebuild', 'debug_workflow.yml');
-const RUN_SOLO = [];
+const RUN_SOLO = [
+  'src/__tests__/uninitialized-project-modelgen-android.test.ts',
+  'src/__tests__/uninitialized-project-modelgen-flutter.test.ts',
+  'src/__tests__/uninitialized-project-modelgen-ios.test.ts',
+  'src/__tests__/uninitialized-project-modelgen-js.test.ts',
+  'src/__tests__/uninitialized-project-modelgen-ts.test.ts',
+];
 const EXCLUDE_TESTS = [
   'src/__tests__/build-app-swift.test.ts',
   'src/__tests__/build-app-android.test.ts',

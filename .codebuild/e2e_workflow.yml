@@ -177,15 +177,40 @@ batch:
           DISABLE_ESLINT_PLUGIN: true
       depend-on:
         - publish_to_local_registry
-    - identifier: >-
-        l_uninitialized_project_modelgen_android_uninitialized_project_modelgen_flutter_uninitialized_project_modelgen_ios_uninitialize
+    - identifier: l_uninitialized_project_modelgen_android
       buildspec: .codebuild/run_e2e_tests.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
-          TEST_SUITE: >-
-            src/__tests__/uninitialized-project-modelgen-android.test.ts|src/__tests__/uninitialized-project-modelgen-flutter.test.ts|src/__tests__/uninitialized-project-modelgen-ios.test.ts|src/__tests__/uninitialized-project-modelgen-js.test.ts
-          CLI_REGION: eu-central-1
+          TEST_SUITE: src/__tests__/uninitialized-project-modelgen-android.test.ts
+          CLI_REGION: eu-north-1
+      depend-on:
+        - publish_to_local_registry
+    - identifier: l_uninitialized_project_modelgen_flutter
+      buildspec: .codebuild/run_e2e_tests.yml
+      env:
+        compute-type: BUILD_GENERAL1_LARGE
+        variables:
+          TEST_SUITE: src/__tests__/uninitialized-project-modelgen-flutter.test.ts
+          CLI_REGION: eu-south-1
+      depend-on:
+        - publish_to_local_registry
+    - identifier: l_uninitialized_project_modelgen_ios
+      buildspec: .codebuild/run_e2e_tests.yml
+      env:
+        compute-type: BUILD_GENERAL1_LARGE
+        variables:
+          TEST_SUITE: src/__tests__/uninitialized-project-modelgen-ios.test.ts
+          CLI_REGION: eu-west-1
+      depend-on:
+        - publish_to_local_registry
+    - identifier: l_uninitialized_project_modelgen_js
+      buildspec: .codebuild/run_e2e_tests.yml
+      env:
+        compute-type: BUILD_GENERAL1_LARGE
+        variables:
+          TEST_SUITE: src/__tests__/uninitialized-project-modelgen-js.test.ts
+          CLI_REGION: eu-west-2
       depend-on:
         - publish_to_local_registry
     - identifier: l_uninitialized_project_modelgen_ts
@@ -194,7 +219,7 @@ batch:
         compute-type: BUILD_GENERAL1_LARGE
         variables:
           TEST_SUITE: src/__tests__/uninitialized-project-modelgen-ts.test.ts
-          CLI_REGION: eu-north-1
+          CLI_REGION: eu-west-3
       depend-on:
         - publish_to_local_registry
     - identifier: >-
@@ -296,16 +321,50 @@ batch:
       depend-on:
         - publish_to_local_registry
         - build_windows
-    - identifier: >-
-        w_uninitialized_project_modelgen_android_uninitialized_project_modelgen_flutter_uninitialized_project_modelgen_ios_uninitialize
+    - identifier: w_uninitialized_project_modelgen_android
       buildspec: .codebuild/run_e2e_tests_windows.yml
       env:
         compute-type: BUILD_GENERAL1_LARGE
         image: $WINDOWS_IMAGE_2019
         type: WINDOWS_SERVER_2022_CONTAINER
         variables:
-          TEST_SUITE: >-
-            src/__tests__/uninitialized-project-modelgen-android.test.ts|src/__tests__/uninitialized-project-modelgen-flutter.test.ts|src/__tests__/uninitialized-project-modelgen-ios.test.ts|src/__tests__/uninitialized-project-modelgen-js.test.ts
+          TEST_SUITE: src/__tests__/uninitialized-project-modelgen-android.test.ts
+          CLI_REGION: us-east-1
+      depend-on:
+        - publish_to_local_registry
+        - build_windows
+    - identifier: w_uninitialized_project_modelgen_flutter
+      buildspec: .codebuild/run_e2e_tests_windows.yml
+      env:
+        compute-type: BUILD_GENERAL1_LARGE
+        image: $WINDOWS_IMAGE_2019
+        type: WINDOWS_SERVER_2022_CONTAINER
+        variables:
+          TEST_SUITE: src/__tests__/uninitialized-project-modelgen-flutter.test.ts
+          CLI_REGION: us-east-1
+      depend-on:
+        - publish_to_local_registry
+        - build_windows
+    - identifier: w_uninitialized_project_modelgen_ios
+      buildspec: .codebuild/run_e2e_tests_windows.yml
+      env:
+        compute-type: BUILD_GENERAL1_LARGE
+        image: $WINDOWS_IMAGE_2019
+        type: WINDOWS_SERVER_2022_CONTAINER
+        variables:
+          TEST_SUITE: src/__tests__/uninitialized-project-modelgen-ios.test.ts
+          CLI_REGION: us-east-1
+      depend-on:
+        - publish_to_local_registry
+        - build_windows
+    - identifier: w_uninitialized_project_modelgen_js
+      buildspec: .codebuild/run_e2e_tests_windows.yml
+      env:
+        compute-type: BUILD_GENERAL1_LARGE
+        image: $WINDOWS_IMAGE_2019
+        type: WINDOWS_SERVER_2022_CONTAINER
+        variables:
+          TEST_SUITE: src/__tests__/uninitialized-project-modelgen-js.test.ts
           CLI_REGION: us-east-1
       depend-on:
         - publish_to_local_registry
