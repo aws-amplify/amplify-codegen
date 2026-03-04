@@ -13,6 +13,8 @@ phases:
     commands:
       # Corretto PGP Key has expired. Fetch the renewed key. https://github.com/corretto/corretto-21/issues/83
       - sudo apt-key del A122542AB04F24E3 && sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys A122542AB04F24E3
+      # Add Yarn GPG key using new method (see https://github.com/yarnpkg/yarn/issues/9218)
+      - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo tee /etc/apt/keyrings/yarn-archive-keyring.gpg > /dev/null
       - sudo apt update
       - yes | sudo apt install android-sdk
       - export ANDROID_HOME=/usr/lib/android-sdk
