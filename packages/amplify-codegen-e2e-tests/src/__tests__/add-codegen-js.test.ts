@@ -1,4 +1,4 @@
-import { 
+import {
     createNewProjectDir,
     initProjectWithProfile,
     addCodegen,
@@ -62,9 +62,9 @@ describe('codegen add tests - JS', () => {
         // adding codegen succeeds and generates a config file
         await expect(addCodegen(projectRoot, { ...config })).resolves.not.toThrow();
         expect(existsSync(getGraphQLConfigFilePath(projectRoot))).toBe(true);
-        
+
         // adding codegen again gives appropriate message
-        const settings = { isCodegenAdded: true, ...config }; 
+        const settings = { isCodegenAdded: true, ...config };
         await expect(addCodegen(projectRoot, settings)).resolves.not.toThrow();
 
         // pre-existing file should still exist

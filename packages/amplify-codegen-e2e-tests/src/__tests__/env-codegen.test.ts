@@ -1,5 +1,5 @@
-import { 
-  createNewProjectDir, 
+import {
+  createNewProjectDir,
   deleteProjectDir,
   deleteProject,
   initJSProjectWithProfile,

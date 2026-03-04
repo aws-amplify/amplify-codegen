@@ -3,7 +3,7 @@ import { ModelIntrospectionSchema } from '../interfaces/introspection'
 
 describe('Standalone validation function', () => {
   const validSchema: ModelIntrospectionSchema = {
-    version: 1, 
+    version: 1,
     models: {},
     nonModels: {},
     enums: {},
@@ -16,7 +16,7 @@ describe('Standalone validation function', () => {
     it('invalid version', () => {
       const schema = {
         ...validSchema,
-        version: 100, 
+        version: 100,
       };
       const result = validateModelIntrospectionSchema(schema);
       expect(result).toBe(false);

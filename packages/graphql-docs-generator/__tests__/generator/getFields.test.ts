@@ -35,7 +35,7 @@ describe('getField', () => {
     expect(getFragment).not.toHaveBeenCalled();
   });
 
-  it('it should recursively resolve fields up to max depth', () => {
+  it('should recursively resolve fields up to max depth', () => {
     const queries = schema.getQueryType().getFields();
     expect(getFields(queries.nested, schema, 2, { useExternalFragmentForS3Object: false, typenameIntrospection: true })).toEqual({
       name: 'nested',
@@ -77,7 +77,7 @@ describe('getField', () => {
     });
   });
 
-  it('it should recorsively resolve fields without typename when typenameIntrospection is disabled', () => {
+  it('should recorsively resolve fields without typename when typenameIntrospection is disabled', () => {
     const queries = schema.getQueryType().getFields();
     expect(getFields(queries.nested, schema, 2, { useExternalFragmentForS3Object: false, typenameIntrospection: false })).toEqual({
       name: 'nested',

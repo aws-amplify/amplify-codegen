@@ -1,10 +1,7 @@
 import {
-  BooleanType,
-  CallbackURLsListType,
   OAuthFlowsType,
-  ScopeListType,
   SupportedIdentityProvidersListType,
-} from 'aws-sdk/clients/cognitoidentityserviceprovider';
+} from '@aws-sdk/client-cognito-identity-provider';
 
 import { $TSObject } from '@aws-amplify/amplify-cli-core';
 
@@ -93,9 +90,9 @@ export type DynamoDBProjectDetails = {
 
 export type AppClientSettings = {
   allowedOAuthFlows?: OAuthFlowsType;
-  callbackURLs?: CallbackURLsListType;
-  logoutURLs?: CallbackURLsListType;
-  allowedScopes?: ScopeListType;
+  callbackURLs?: string[];
+  logoutURLs?: string[];
+  allowedScopes?: string[];
   supportedIdentityProviders?: SupportedIdentityProvidersListType;
-  allowedOAuthFlowsUserPoolClient?: BooleanType;
+  allowedOAuthFlowsUserPoolClient?: boolean;
 };

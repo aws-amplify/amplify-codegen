@@ -1025,17 +1025,17 @@ describe('AppSyncModelVisitor', () => {
           posts: [Post] @manyToMany(relationName: "PostTag")
         }
       `;
-  
+
       const { models } = createAndGenerateVisitor(schema, { usePipelinedTransformer: true, respectPrimaryKeyAttributesOnConnectionField: true, transformerVersion: 2 });
-  
+
       const jointTableModel = models.PostTag;
       const authDirective = jointTableModel.directives.find(d => d.name === 'auth');
-  
+
       expect(authDirective).toBeDefined();
       expect(authDirective!.arguments.rules).toEqual([
-        { 
-          allow: 'groups', 
-          groups: ['Admins'], 
+        {
+          allow: 'groups',
+          groups: ['Admins'],
           operations: ['create', 'update', 'delete', 'read'],
           groupClaim: 'cognito:groups',
           groupField: undefined,
@@ -1339,7 +1339,7 @@ describe('AppSyncModelVisitor', () => {
       expect(projectTeamNameField.type).toBe('String');
     });
   });
-  
+
   describe('Other GraphQL types', () => {
     const schema = /* GraphQL*/ `
       input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!

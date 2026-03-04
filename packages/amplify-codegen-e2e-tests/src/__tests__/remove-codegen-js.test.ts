@@ -1,6 +1,6 @@
-import { 
-    createNewProjectDir, 
-    DEFAULT_JS_CONFIG, 
+import {
+    createNewProjectDir,
+    DEFAULT_JS_CONFIG,
     removeCodegen,
     initProjectWithProfile,
     addApiWithoutSchema,
@@ -28,7 +28,7 @@ describe('codegen remove tests - JS', () => {
         const projectName = createRandomName();
         await addApiWithoutSchema(projectRoot, { apiName: projectName });
         await updateApiSchema(projectRoot, projectName, schema);
-        
+
         // remove command should give expected message
         await expect(removeCodegen(projectRoot, false)).resolves.not.toThrow();
     });

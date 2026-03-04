@@ -1,4 +1,4 @@
-import { 
+import {
   createNewProjectDir,
   DEFAULT_JS_CONFIG
 } from "@aws-amplify/amplify-codegen-e2e-core";
@@ -13,7 +13,7 @@ describe('Amplify push with codegen tests - JS', () => {
   });
 
   afterEach(async () => {
-    await deleteAmplifyProject(projectRoot); 
+    await deleteAmplifyProject(projectRoot);
   });
 
   it(`should prompt codegen add/update and not delete user files`, async () => {
