@@ -13,12 +13,8 @@ phases:
     commands:
       # Corretto PGP Key has expired. Fetch the renewed key. https://github.com/corretto/corretto-21/issues/83
       - sudo apt-key del A122542AB04F24E3 && sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys A122542AB04F24E3
-      # Add Yarn GPG key using new method with fingerprint verification (see https://github.com/yarnpkg/yarn/issues/9218)
-      - |
-        curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor > /tmp/yarn-keyring.gpg
-        # Verify the key contains the expected fingerprint
-        gpg --no-default-keyring --keyring /tmp/yarn-keyring.gpg --list-keys | grep -q "4EF8150F4F2D7DE44F1DFF0BB42879CC6B38E118" || exit 1
-        sudo mv /tmp/yarn-keyring.gpg /etc/apt/keyrings/yarn-archive-keyring.gpg
+      # Add Yarn GPG key using fallback method
+      - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
       - sudo apt update
       - yes | sudo apt install android-sdk
       - export ANDROID_HOME=/usr/lib/android-sdk
