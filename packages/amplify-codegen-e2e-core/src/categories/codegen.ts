@@ -1,5 +1,6 @@
 import { AmplifyFrontend, singleSelect } from '../utils';
 import { getCLIPath, nspawn as spawn } from '..';
+import { spawn as nodeSpawn } from 'child_process';
 
 export function generateModels(cwd: string, outputDir?: string, settings: { errMessage?: string } = {}): Promise<void> {
   return new Promise((resolve, reject) => {
@@ -20,15 +21,46 @@ export function generateModels(cwd: string, outputDir?: string, settings: { errM
   });
 }
 
-export const generateModelsWithOptions = (cwd: string, options: Record<string, any>): Promise<void> => new Promise((resolve, reject) => {
-  spawn(getCLIPath(), ['codegen', 'models', ...(Object.entries(options).flat())], { cwd, stripColors: true }).run((err: Error) => {
-    if (!err) {
-      resolve();
-    } else {
-      reject(err);
-    }
-  });
-});
+export const generateModelsWithOptions = async (cwd: string, options: Record<string, any>): Promise<void> => {
+  const flatOptions = Object.entries(options).flat();
+  const command = ['codegen', 'models', ...flatOptions];
+
+  if (process.platform !== 'win32') {
+    console.log('generateModelsWithOptions: Using child_process on Unix systems');
+
+    await new Promise<void>((resolve, reject) => {
+      const childProcess = nodeSpawn(getCLIPath(), command, {
+        cwd,
+        stdio: 'inherit',
+        env: {
+          ...process.env,
+          NODE_OPTIONS: '--max_old_space_size=4096',
+        }
+      });
+
+      // Handle process completion
+      childProcess.on('close', (code) => {
+        console.log('generateModelsWithOptions: Process closed with code', code);
+        if (code === 0) {
+          resolve();
+        } else {
+          reject(new Error(`Process exited with code ${code}`));
+        }
+      });
+
+      // Handle process errors
+      childProcess.on('error', (error) => {
+        console.log('generateModelsWithOptions: Process error', error.message);
+        reject(error);
+      });
+    });
+  } else {
+    console.log('generateModelsWithOptions: Using node-pty on Windows');
+
+    const spawnProcess = spawn(getCLIPath(), command, { cwd, stripColors: true });
+    await spawnProcess.runAsync();
+  }
+};
 
 export function generateStatementsAndTypes(cwd: string, errorMessage?: string) : Promise<void> {
   return new Promise((resolve, reject) => {
