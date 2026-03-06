@@ -131,6 +131,7 @@
   "resolutions": {
     "**/@aws-amplify/amplify-codegen-e2e-tests/**/cookie": "^0.7.0",
     "**/@aws-amplify/amplify-codegen-e2e-tests/**/fast-xml-parser": "^4.4.1",
+    "@smithy/config-resolver": "^4.4.0",
     "@octokit/plugin-paginate-rest": "^9.2.2",
     "@octokit/request": "^8.4.1",
     "@octokit/request-error": "^5.1.1",
