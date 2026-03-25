@@ -95,6 +95,8 @@ function generateConversationMessageModel(conversationModelName: string, modelNa
       content: generateField('content', { nonModel: 'AmplifyAIContentBlock' }, { isArray: true }),
       aiContext: generateField('aiContext', 'AWSJSON'),
       toolConfiguration: generateField('toolConfiguration', { nonModel: 'AmplifyAIToolConfiguration' }, { isArray: true, isArrayNullable: true }),
+      metrics: generateField('metrics', { nonModel: 'AmplifyAIMetrics' }),
+      usage: generateField('usage', { nonModel: 'AmplifyAIUsage' }),
       createdAt: generateTimestampField('createdAt'),
       updatedAt: generateTimestampField('updatedAt'),
     },
