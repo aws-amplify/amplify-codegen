@@ -214,6 +214,24 @@ exports[`Conversation Route Introspection Visitor Metadata snapshot should gener
                             \\"isRequired\\": false,
                             \\"isArrayNullable\\": true
                         },
+                        \\"metrics\\": {
+                            \\"name\\": \\"metrics\\",
+                            \\"type\\": {
+                                \\"nonModel\\": \\"AmplifyAIMetrics\\"
+                            },
+                            \\"attributes\\": [],
+                            \\"isArray\\": false,
+                            \\"isRequired\\": false
+                        },
+                        \\"usage\\": {
+                            \\"name\\": \\"usage\\",
+                            \\"type\\": {
+                                \\"nonModel\\": \\"AmplifyAIUsage\\"
+                            },
+                            \\"attributes\\": [],
+                            \\"isArray\\": false,
+                            \\"isRequired\\": false
+                        },
                         \\"createdAt\\": {
                             \\"name\\": \\"createdAt\\",
                             \\"type\\": \\"AWSDateTime\\",

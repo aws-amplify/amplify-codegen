@@ -1,4 +1,14 @@
-import { CodeGenConnectionType, Field, FieldAttribute, FieldType, PrimaryKeyInfo, SchemaConversationRoute, SchemaModel, SchemaMutation, SchemaSubscription } from '../interfaces/introspection';
+import {
+  CodeGenConnectionType,
+  Field,
+  FieldAttribute,
+  FieldType,
+  PrimaryKeyInfo,
+  SchemaConversationRoute,
+  SchemaModel,
+  SchemaMutation,
+  SchemaSubscription,
+} from '../interfaces/introspection';
 import { pascalCase } from 'change-case';
 import { plural } from 'pluralize';
 import { CodeGenMutation } from '../visitors/appsync-visitor';
@@ -11,7 +21,7 @@ import { CodeGenMutation } from '../visitors/appsync-visitor';
  */
 export function processConversationRoute(
   mutationObj: CodeGenMutation,
-  generateGraphQLOperationMetadata: <T extends CodeGenMutation, V extends SchemaMutation>(operationObj: T) => V
+  generateGraphQLOperationMetadata: <T extends CodeGenMutation, V extends SchemaMutation>(operationObj: T) => V,
 ): SchemaConversationRoute {
   const routeName = pascalCase(mutationObj.name);
   const conversationModelName = `Conversation${routeName}`;
@@ -28,19 +38,19 @@ export function processConversationRoute(
       ConversationParticipantRole: {
         name: 'AmplifyAIConversationParticipantRole',
         values: ['user', 'assistant'],
-      }
+      },
     },
     conversation: {
-      modelName: conversationModelName
+      modelName: conversationModelName,
     },
     message: {
       modelName: conversationMessageModelName,
       send: {
         ...generateGraphQLOperationMetadata<CodeGenMutation, SchemaMutation>(mutationObj),
-        type: { model: conversationMessageModelName }
+        type: { model: conversationMessageModelName },
       },
       subscribe: generateSubscriptionMetadata(routeName, conversationMessageModelName),
-    }
+    },
   };
 }
 
@@ -69,10 +79,10 @@ function generateConversationModel(modelName: string, messageModelName: string):
         type: 'model',
         properties: {
           subscriptions: { level: 'off' },
-          mutations: { update: null }
-        }
+          mutations: { update: null },
+        },
       },
-      generateAuthAttribute()
+      generateAuthAttribute(),
     ],
     primaryKeyInfo: generatePrimaryKeyInfo(),
   };
@@ -94,7 +104,13 @@ function generateConversationMessageModel(conversationModelName: string, modelNa
       role: generateField('role', { enum: 'AmplifyAIConversationParticipantRole' }),
       content: generateField('content', { nonModel: 'AmplifyAIContentBlock' }, { isArray: true }),
       aiContext: generateField('aiContext', 'AWSJSON'),
-      toolConfiguration: generateField('toolConfiguration', { nonModel: 'AmplifyAIToolConfiguration' }, { isArray: true, isArrayNullable: true }),
+      toolConfiguration: generateField(
+        'toolConfiguration',
+        { nonModel: 'AmplifyAIToolConfiguration' },
+        { isArray: true, isArrayNullable: true },
+      ),
+      metrics: generateField('metrics', { nonModel: 'AmplifyAIMetrics' }),
+      usage: generateField('usage', { nonModel: 'AmplifyAIUsage' }),
       createdAt: generateTimestampField('createdAt'),
       updatedAt: generateTimestampField('updatedAt'),
     },
@@ -104,10 +120,10 @@ function generateConversationMessageModel(conversationModelName: string, modelNa
       {
         type: 'model',
         properties: {
-          subscriptions: {}
-        }
+          subscriptions: {},
+        },
       },
-      generateAuthAttribute()
+      generateAuthAttribute(),
     ],
     primaryKeyInfo: generatePrimaryKeyInfo(),
   };
@@ -115,7 +131,11 @@ function generateConversationMessageModel(conversationModelName: string, modelNa
 
 // Helper functions for generating common field structures
 
-function generateField(name: string, type: FieldType, options: { isRequired?: boolean; isArray?: boolean; isArrayNullable?: boolean, isReadOnly?: boolean } = {}): Field {
+function generateField(
+  name: string,
+  type: FieldType,
+  options: { isRequired?: boolean; isArray?: boolean; isArrayNullable?: boolean; isReadOnly?: boolean } = {},
+): Field {
   const { isRequired = false, isArray = false, isArrayNullable, isReadOnly } = options;
   return {
     name,
@@ -140,8 +160,8 @@ function generateMessagesField(messageModelName: string): Field {
     ...generateField('messages', { model: messageModelName }, { isArray: true, isArrayNullable: true }),
     association: {
       connectionType: CodeGenConnectionType.HAS_MANY,
-      associatedWith: ['conversationId']
-    }
+      associatedWith: ['conversationId'],
+    },
   };
 }
 
@@ -150,8 +170,8 @@ function generateConversationField(conversationModelName: string): Field {
     ...generateField('conversation', { model: conversationModelName }),
     association: {
       connectionType: CodeGenConnectionType.BELONGS_TO,
-      targetNames: ['conversationId']
-    }
+      targetNames: ['conversationId'],
+    },
   };
 }
 
@@ -165,10 +185,10 @@ function generateAuthAttribute(): FieldAttribute {
           ownerField: 'owner',
           allow: 'owner',
           identityClaim: 'cognito:username',
-          operations: ['create', 'update', 'delete', 'read']
-        }
-      ]
-    }
+          operations: ['create', 'update', 'delete', 'read'],
+        },
+      ],
+    },
   };
 }
 
@@ -176,7 +196,7 @@ function generatePrimaryKeyInfo(): PrimaryKeyInfo {
   return {
     isCustomPrimaryKey: false,
     primaryKeyFieldName: 'id',
-    sortKeyFieldNames: []
+    sortKeyFieldNames: [],
   };
 }
 
@@ -187,12 +207,12 @@ function generateSubscriptionMetadata(routeName: string, modelName: string): Sch
     name: `onCreateAssistantResponse${routeName}`,
     type: { nonModel: 'AmplifyAIConversationMessageStreamPart' },
     arguments: {
-      'conversationId': {
+      conversationId: {
         name: 'conversationId',
         isArray: false,
         isRequired: true,
         type: 'ID',
       },
-    }
+    },
   };
 }
