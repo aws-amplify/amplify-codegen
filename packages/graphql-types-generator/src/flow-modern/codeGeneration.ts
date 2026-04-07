@@ -154,17 +154,17 @@ export class FlowAPIGenerator extends FlowGenerator {
     if (variants.length === 1) {
       const properties = this.getPropertiesForVariant(variants[0]);
 
-      const name = this.annotationFromScopeStack(this.scopeStack).id.name;
+      const name = this.scopeName(this.scopeStack);
       const exportedTypeAlias = this.exportDeclaration(this.typeAliasObject(name, properties));
 
       this.printer.enqueue(exportedTypeAlias);
     } else {
-      const unionMembers: t.FlowTypeAnnotation[] = [];
+      const unionMembers: t.FlowType[] = [];
       variants.forEach(variant => {
         this.scopeStackPush(variant.possibleTypes[0].toString());
         const properties = this.getPropertiesForVariant(variant);
 
-        const name = this.annotationFromScopeStack(this.scopeStack).id.name;
+        const name = this.scopeName(this.scopeStack);
         const exportedTypeAlias = this.exportDeclaration(this.typeAliasObject(name, properties));
 
         this.printer.enqueue(exportedTypeAlias);
@@ -175,7 +175,7 @@ export class FlowAPIGenerator extends FlowGenerator {
       });
 
       this.printer.enqueue(
-        this.exportDeclaration(this.typeAliasGenericUnion(this.annotationFromScopeStack(this.scopeStack).id.name, unionMembers))
+        this.exportDeclaration(this.typeAliasGenericUnion(this.scopeName(this.scopeStack), unionMembers))
       );
     }
 
@@ -199,14 +199,10 @@ export class FlowAPIGenerator extends FlowGenerator {
 
       let res;
       if (field.selectionSet) {
-        const genericAnnotation = this.annotationFromScopeStack(this.scopeStack);
-        if (field.type instanceof GraphQLNonNull) {
-          genericAnnotation.id.name = genericAnnotation.id.name;
-        } else {
-          genericAnnotation.id.name = '?' + genericAnnotation.id.name;
-        }
+        const annotationName = field.type instanceof GraphQLNonNull ? this.scopeName(this.scopeStack) : `?${this.scopeName(this.scopeStack)}`;
+        const genericAnnotation = this.annotationFromName(annotationName);
 
-        res = this.handleFieldSelectionSetValue(genericAnnotation, field);
+        res = this.handleFieldSelectionSetValue(annotationName, genericAnnotation, field);
       } else {
         res = this.handleFieldValue(field, variant);
       }
@@ -216,7 +212,7 @@ export class FlowAPIGenerator extends FlowGenerator {
     });
   }
 
-  private handleFieldSelectionSetValue(genericAnnotation: t.GenericTypeAnnotation, field: Field) {
+  private handleFieldSelectionSetValue(annotationName: string, genericAnnotation: t.GenericTypeAnnotation, field: Field) {
     const { selectionSet } = field;
 
     const typeCase = this.getTypeCasesForSelectionSet(selectionSet as SelectionSet);
@@ -226,7 +222,7 @@ export class FlowAPIGenerator extends FlowGenerator {
     if (variants.length === 1) {
       const variant = variants[0];
       const properties = this.getPropertiesForVariant(variant);
-      exportedTypeAlias = this.exportDeclaration(this.typeAliasObject(this.annotationFromScopeStack(this.scopeStack).id.name, properties));
+      exportedTypeAlias = this.exportDeclaration(this.typeAliasObject(this.scopeName(this.scopeStack), properties));
     } else {
       const propertySets = variants.map(variant => {
         this.scopeStackPush(variant.possibleTypes[0].toString());
@@ -235,7 +231,7 @@ export class FlowAPIGenerator extends FlowGenerator {
         return properties;
       });
 
-      exportedTypeAlias = this.exportDeclaration(this.typeAliasObjectUnion(genericAnnotation.id.name, propertySets));
+      exportedTypeAlias = this.exportDeclaration(this.typeAliasObjectUnion(annotationName, propertySets));
     }
 
     this.printer.enqueue(exportedTypeAlias);
@@ -251,9 +247,7 @@ export class FlowAPIGenerator extends FlowGenerator {
     let res;
     if (field.name === '__typename') {
       const annotations = variant.possibleTypes.map(type => {
-        const annotation = t.stringLiteralTypeAnnotation();
-        annotation.value = type.toString();
-        return annotation;
+        return t.stringLiteralTypeAnnotation(type.toString());
       });
 
       res = {
