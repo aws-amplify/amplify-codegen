@@ -102,7 +102,8 @@ module.exports = {
     'object-shorthand': 'off',
     'prefer-const': 'off',
     'prefer-template': 'off',
-    '@typescript-eslint/no-empty-function': 'off',
+    'no-empty-function': 'off',
+    '@typescript-eslint/no-empty-function': ['error', { allow: ['constructors'] }],
     '@typescript-eslint/no-this-alias': 'off',
     'import/named': 'off',
     'import/newline-after-import': 'off',
@@ -130,7 +131,6 @@ module.exports = {
     'no-use-before-define': 'off', // https://eslint.org/docs/rules/no-use-before-define
     'prefer-destructuring': 'off', // https://eslint.org/docs/rules/prefer-destructuring
     'prefer-object-spread': 'off', // https://eslint.org/docs/rules/prefer-object-spread
-    '@typescript-eslint/camelcase': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
@@ -187,7 +187,6 @@ module.exports = {
     'default-case': 'off',
     'no-return-assign': 'off',
     'import/no-duplicates': 'off',
-    '@typescript-eslint/interface-name-prefix': 'off',
     'no-throw-literal': 'off',
     'react/static-property-placement': 'off',
     'import/no-extraneous-dependencies': ['error', {devDependencies: true}],
@@ -228,7 +227,7 @@ module.exports = {
   overrides: [
     {
       // edit rules here to modify test linting
-      files: ['__tests__/**', '*.test.ts', '*.test.js'],
+      files: ['**/__tests__/**', '**/test/**', '**/*.test.ts', '**/*.test.js'],
       plugins: ['jest'],
       extends: ['plugin:jest/recommended'],
       rules: {
@@ -246,6 +245,7 @@ module.exports = {
         'jest/no-identical-title': 'warn',
         'no-useless-computed-key': 'warn',
         '@typescript-eslint/ban-ts-comment': 'warn',
+        '@typescript-eslint/no-empty-function': 'off',
         'guard-for-in': 'warn',
       },
     },

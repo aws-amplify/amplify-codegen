@@ -1,20 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`generateTypes amplifyJsLibraryVersion generates angular types for v5 when value is 5 or undefined 1`] = `
-Object {
+{
   "api.service.ts": "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
-import { Observable } from \\"zen-observable-ts\\";
+import { Injectable } from "@angular/core";
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { Observable } from "zen-observable-ts";
 
 export interface SubscriptionResponse<T> {
   value: GraphQLResult<T>;
 }
 
 export type Blog = {
-  __typename: \\"Blog\\";
+  __typename: "Blog";
   id: string;
   name: string;
   posts?: ModelPostConnection | null;
@@ -23,13 +23,13 @@ export type Blog = {
 };
 
 export type ModelPostConnection = {
-  __typename: \\"ModelPostConnection\\";
+  __typename: "ModelPostConnection";
   items: Array<Post | null>;
   nextToken?: string | null;
 };
 
 export type Post = {
-  __typename: \\"Post\\";
+  __typename: "Post";
   id: string;
   title: string;
   blog?: Blog | null;
@@ -40,13 +40,13 @@ export type Post = {
 };
 
 export type ModelCommentConnection = {
-  __typename: \\"ModelCommentConnection\\";
+  __typename: "ModelCommentConnection";
   items: Array<Comment | null>;
   nextToken?: string | null;
 };
 
 export type Comment = {
-  __typename: \\"Comment\\";
+  __typename: "Comment";
   id: string;
   post?: Post | null;
   content: string;
@@ -56,11 +56,11 @@ export type Comment = {
 };
 
 export type GetBlogQuery = {
-  __typename: \\"Blog\\";
+  __typename: "Blog";
   id: string;
   name: string;
   posts?: {
-    __typename: \\"ModelPostConnection\\";
+    __typename: "ModelPostConnection";
     nextToken?: string | null;
   } | null;
   createdAt: string;
@@ -68,7 +68,7 @@ export type GetBlogQuery = {
 };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   async GetBlog(id: string): Promise<GetBlogQuery> {
@@ -99,16 +99,16 @@ export class APIService {
 `;
 
 exports[`generateTypes amplifyJsLibraryVersion generates angular types for v6 when value is 6 1`] = `
-Object {
+{
   "api.service.ts": "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import { Client, generateClient, GraphQLResult } from \\"aws-amplify/api\\";
-import { Observable } from \\"rxjs\\";
+import { Injectable } from "@angular/core";
+import { Client, generateClient, GraphQLResult } from "aws-amplify/api";
+import { Observable } from "rxjs";
 
 export type Blog = {
-  __typename: \\"Blog\\";
+  __typename: "Blog";
   id: string;
   name: string;
   posts?: ModelPostConnection | null;
@@ -117,13 +117,13 @@ export type Blog = {
 };
 
 export type ModelPostConnection = {
-  __typename: \\"ModelPostConnection\\";
+  __typename: "ModelPostConnection";
   items: Array<Post | null>;
   nextToken?: string | null;
 };
 
 export type Post = {
-  __typename: \\"Post\\";
+  __typename: "Post";
   id: string;
   title: string;
   blog?: Blog | null;
@@ -134,13 +134,13 @@ export type Post = {
 };
 
 export type ModelCommentConnection = {
-  __typename: \\"ModelCommentConnection\\";
+  __typename: "ModelCommentConnection";
   items: Array<Comment | null>;
   nextToken?: string | null;
 };
 
 export type Comment = {
-  __typename: \\"Comment\\";
+  __typename: "Comment";
   id: string;
   post?: Post | null;
   content: string;
@@ -150,11 +150,11 @@ export type Comment = {
 };
 
 export type GetBlogQuery = {
-  __typename: \\"Blog\\";
+  __typename: "Blog";
   id: string;
   name: string;
   posts?: {
-    __typename: \\"ModelPostConnection\\";
+    __typename: "ModelPostConnection";
     nextToken?: string | null;
   } | null;
   createdAt: string;
@@ -162,7 +162,7 @@ export type GetBlogQuery = {
 };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   public client: Client;
@@ -198,7 +198,7 @@ export class APIService {
 `;
 
 exports[`generateTypes multipleSwiftFiles generates multiple files 1`] = `
-Object {
+{
   "Types.graphql.swift": "//  This file was automatically generated and should not be edited.
 
 #if canImport(AWSAPIPlugin)
@@ -454,13 +454,13 @@ public enum JSONDecodingError: Error, LocalizedError {
   public var errorDescription: String? {
     switch self {
     case .missingValue:
-      return \\"Missing value\\"
+      return "Missing value"
     case .nullValue:
-      return \\"Unexpected null value\\"
+      return "Unexpected null value"
     case .wrongType:
-      return \\"Wrong type\\"
+      return "Wrong type"
     case .couldNotConvert(let value, let expectedType):
-      return \\"Could not convert \\\\\\"\\\\(value)\\\\\\" to \\\\(expectedType)\\"
+      return "Could not convert \\"\\(value)\\" to \\(expectedType)"
     }
   }
 }
@@ -565,7 +565,7 @@ extension Optional: JSONEncodable {
     case .some(let wrapped as JSONEncodable):
       return wrapped.jsonValue
     default:
-      fatalError(\\"Optional is only JSONEncodable if Wrapped is\\")
+      fatalError("Optional is only JSONEncodable if Wrapped is")
     }
   }
 }
@@ -581,7 +581,7 @@ extension Dictionary: JSONEncodable {
       if case let (key as String, value as JSONEncodable) = (key, value) {
         jsonObject[key] = value.jsonValue
       } else {
-        fatalError(\\"Dictionary is only JSONEncodable if Value is (and if Key is String)\\")
+        fatalError("Dictionary is only JSONEncodable if Value is (and if Key is String)")
       }
     }
     return jsonObject
@@ -594,7 +594,7 @@ extension Array: JSONEncodable {
       if case let element as JSONEncodable = element {
         return element.jsonValue
       } else {
-        fatalError(\\"Array is only JSONEncodable if Element is\\")
+        fatalError("Array is only JSONEncodable if Element is")
       }
     }
   }
@@ -877,13 +877,13 @@ public enum JSONDecodingError: Error, LocalizedError {
   public var errorDescription: String? {
     switch self {
     case .missingValue:
-      return \\"Missing value\\"
+      return "Missing value"
     case .nullValue:
-      return \\"Unexpected null value\\"
+      return "Unexpected null value"
     case .wrongType:
-      return \\"Wrong type\\"
+      return "Wrong type"
     case .couldNotConvert(let value, let expectedType):
-      return \\"Could not convert \\\\\\"\\\\(value)\\\\\\" to \\\\(expectedType)\\"
+      return "Could not convert \\"\\(value)\\" to \\(expectedType)"
     }
   }
 }
@@ -988,7 +988,7 @@ extension Optional: JSONEncodable {
     case .some(let wrapped as JSONEncodable):
       return wrapped.jsonValue
     default:
-      fatalError(\\"Optional is only JSONEncodable if Wrapped is\\")
+      fatalError("Optional is only JSONEncodable if Wrapped is")
     }
   }
 }
@@ -1004,7 +1004,7 @@ extension Dictionary: JSONEncodable {
       if case let (key as String, value as JSONEncodable) = (key, value) {
         jsonObject[key] = value.jsonValue
       } else {
-        fatalError(\\"Dictionary is only JSONEncodable if Value is (and if Key is String)\\")
+        fatalError("Dictionary is only JSONEncodable if Value is (and if Key is String)")
       }
     }
     return jsonObject
@@ -1017,7 +1017,7 @@ extension Array: JSONEncodable {
       if case let element as JSONEncodable = element {
         return element.jsonValue
       } else {
-        fatalError(\\"Array is only JSONEncodable if Element is\\")
+        fatalError("Array is only JSONEncodable if Element is")
       }
     }
   }
@@ -1048,7 +1048,7 @@ import AWSAppSync
 
 public final class GetBlogQuery: GraphQLQuery {
   public static let operationString =
-    \\"query GetBlog($id: ID!) {\\\\n  getBlog(id: $id) {\\\\n    __typename\\\\n    id\\\\n    name\\\\n    posts {\\\\n      __typename\\\\n      nextToken\\\\n    }\\\\n    createdAt\\\\n    updatedAt\\\\n  }\\\\n}\\"
+    "query GetBlog($id: ID!) {\\n  getBlog(id: $id) {\\n    __typename\\n    id\\n    name\\n    posts {\\n      __typename\\n      nextToken\\n    }\\n    createdAt\\n    updatedAt\\n  }\\n}"
 
   public var id: GraphQLID
 
@@ -1057,14 +1057,14 @@ public final class GetBlogQuery: GraphQLQuery {
   }
 
   public var variables: GraphQLMap? {
-    return [\\"id\\": id]
+    return ["id": id]
   }
 
   public struct Data: GraphQLSelectionSet {
-    public static let possibleTypes = [\\"Query\\"]
+    public static let possibleTypes = ["Query"]
 
     public static let selections: [GraphQLSelection] = [
-      GraphQLField(\\"getBlog\\", arguments: [\\"id\\": GraphQLVariable(\\"id\\")], type: .object(GetBlog.selections)),
+      GraphQLField("getBlog", arguments: ["id": GraphQLVariable("id")], type: .object(GetBlog.selections)),
     ]
 
     public var snapshot: Snapshot
@@ -1074,28 +1074,28 @@ public final class GetBlogQuery: GraphQLQuery {
     }
 
     public init(getBlog: GetBlog? = nil) {
-      self.init(snapshot: [\\"__typename\\": \\"Query\\", \\"getBlog\\": getBlog.flatMap { $0.snapshot }])
+      self.init(snapshot: ["__typename": "Query", "getBlog": getBlog.flatMap { $0.snapshot }])
     }
 
     public var getBlog: GetBlog? {
       get {
-        return (snapshot[\\"getBlog\\"] as? Snapshot).flatMap { GetBlog(snapshot: $0) }
+        return (snapshot["getBlog"] as? Snapshot).flatMap { GetBlog(snapshot: $0) }
       }
       set {
-        snapshot.updateValue(newValue?.snapshot, forKey: \\"getBlog\\")
+        snapshot.updateValue(newValue?.snapshot, forKey: "getBlog")
       }
     }
 
     public struct GetBlog: GraphQLSelectionSet {
-      public static let possibleTypes = [\\"Blog\\"]
+      public static let possibleTypes = ["Blog"]
 
       public static let selections: [GraphQLSelection] = [
-        GraphQLField(\\"__typename\\", type: .nonNull(.scalar(String.self))),
-        GraphQLField(\\"id\\", type: .nonNull(.scalar(GraphQLID.self))),
-        GraphQLField(\\"name\\", type: .nonNull(.scalar(String.self))),
-        GraphQLField(\\"posts\\", type: .object(Post.selections)),
-        GraphQLField(\\"createdAt\\", type: .nonNull(.scalar(String.self))),
-        GraphQLField(\\"updatedAt\\", type: .nonNull(.scalar(String.self))),
+        GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+        GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+        GraphQLField("name", type: .nonNull(.scalar(String.self))),
+        GraphQLField("posts", type: .object(Post.selections)),
+        GraphQLField("createdAt", type: .nonNull(.scalar(String.self))),
+        GraphQLField("updatedAt", type: .nonNull(.scalar(String.self))),
       ]
 
       public var snapshot: Snapshot
@@ -1105,69 +1105,69 @@ public final class GetBlogQuery: GraphQLQuery {
       }
 
       public init(id: GraphQLID, name: String, posts: Post? = nil, createdAt: String, updatedAt: String) {
-        self.init(snapshot: [\\"__typename\\": \\"Blog\\", \\"id\\": id, \\"name\\": name, \\"posts\\": posts.flatMap { $0.snapshot }, \\"createdAt\\": createdAt, \\"updatedAt\\": updatedAt])
+        self.init(snapshot: ["__typename": "Blog", "id": id, "name": name, "posts": posts.flatMap { $0.snapshot }, "createdAt": createdAt, "updatedAt": updatedAt])
       }
 
       public var __typename: String {
         get {
-          return snapshot[\\"__typename\\"]! as! String
+          return snapshot["__typename"]! as! String
         }
         set {
-          snapshot.updateValue(newValue, forKey: \\"__typename\\")
+          snapshot.updateValue(newValue, forKey: "__typename")
         }
       }
 
       public var id: GraphQLID {
         get {
-          return snapshot[\\"id\\"]! as! GraphQLID
+          return snapshot["id"]! as! GraphQLID
         }
         set {
-          snapshot.updateValue(newValue, forKey: \\"id\\")
+          snapshot.updateValue(newValue, forKey: "id")
         }
       }
 
       public var name: String {
         get {
-          return snapshot[\\"name\\"]! as! String
+          return snapshot["name"]! as! String
         }
         set {
-          snapshot.updateValue(newValue, forKey: \\"name\\")
+          snapshot.updateValue(newValue, forKey: "name")
         }
       }
 
       public var posts: Post? {
         get {
-          return (snapshot[\\"posts\\"] as? Snapshot).flatMap { Post(snapshot: $0) }
+          return (snapshot["posts"] as? Snapshot).flatMap { Post(snapshot: $0) }
         }
         set {
-          snapshot.updateValue(newValue?.snapshot, forKey: \\"posts\\")
+          snapshot.updateValue(newValue?.snapshot, forKey: "posts")
         }
       }
 
       public var createdAt: String {
         get {
-          return snapshot[\\"createdAt\\"]! as! String
+          return snapshot["createdAt"]! as! String
         }
         set {
-          snapshot.updateValue(newValue, forKey: \\"createdAt\\")
+          snapshot.updateValue(newValue, forKey: "createdAt")
         }
       }
 
       public var updatedAt: String {
         get {
-          return snapshot[\\"updatedAt\\"]! as! String
+          return snapshot["updatedAt"]! as! String
         }
         set {
-          snapshot.updateValue(newValue, forKey: \\"updatedAt\\")
+          snapshot.updateValue(newValue, forKey: "updatedAt")
         }
       }
 
       public struct Post: GraphQLSelectionSet {
-        public static let possibleTypes = [\\"ModelPostConnection\\"]
+        public static let possibleTypes = ["ModelPostConnection"]
 
         public static let selections: [GraphQLSelection] = [
-          GraphQLField(\\"__typename\\", type: .nonNull(.scalar(String.self))),
-          GraphQLField(\\"nextToken\\", type: .scalar(String.self)),
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("nextToken", type: .scalar(String.self)),
         ]
 
         public var snapshot: Snapshot
@@ -1177,24 +1177,24 @@ public final class GetBlogQuery: GraphQLQuery {
         }
 
         public init(nextToken: String? = nil) {
-          self.init(snapshot: [\\"__typename\\": \\"ModelPostConnection\\", \\"nextToken\\": nextToken])
+          self.init(snapshot: ["__typename": "ModelPostConnection", "nextToken": nextToken])
         }
 
         public var __typename: String {
           get {
-            return snapshot[\\"__typename\\"]! as! String
+            return snapshot["__typename"]! as! String
           }
           set {
-            snapshot.updateValue(newValue, forKey: \\"__typename\\")
+            snapshot.updateValue(newValue, forKey: "__typename")
           }
         }
 
         public var nextToken: String? {
           get {
-            return snapshot[\\"nextToken\\"] as? String
+            return snapshot["nextToken"] as? String
           }
           set {
-            snapshot.updateValue(newValue, forKey: \\"nextToken\\")
+            snapshot.updateValue(newValue, forKey: "nextToken")
           }
         }
       }
@@ -1205,20 +1205,20 @@ public final class GetBlogQuery: GraphQLQuery {
 `;
 
 exports[`generateTypes targets basic angular 1`] = `
-Object {
+{
   "api.service.ts": "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
-import { Observable } from \\"zen-observable-ts\\";
+import { Injectable } from "@angular/core";
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { Observable } from "zen-observable-ts";
 
 export interface SubscriptionResponse<T> {
   value: GraphQLResult<T>;
 }
 
 export type Blog = {
-  __typename: \\"Blog\\";
+  __typename: "Blog";
   id: string;
   name: string;
   posts?: ModelPostConnection | null;
@@ -1227,13 +1227,13 @@ export type Blog = {
 };
 
 export type ModelPostConnection = {
-  __typename: \\"ModelPostConnection\\";
+  __typename: "ModelPostConnection";
   items: Array<Post | null>;
   nextToken?: string | null;
 };
 
 export type Post = {
-  __typename: \\"Post\\";
+  __typename: "Post";
   id: string;
   title: string;
   blog?: Blog | null;
@@ -1244,13 +1244,13 @@ export type Post = {
 };
 
 export type ModelCommentConnection = {
-  __typename: \\"ModelCommentConnection\\";
+  __typename: "ModelCommentConnection";
   items: Array<Comment | null>;
   nextToken?: string | null;
 };
 
 export type Comment = {
-  __typename: \\"Comment\\";
+  __typename: "Comment";
   id: string;
   post?: Post | null;
   content: string;
@@ -1260,11 +1260,11 @@ export type Comment = {
 };
 
 export type GetBlogQuery = {
-  __typename: \\"Blog\\";
+  __typename: "Blog";
   id: string;
   name: string;
   posts?: {
-    __typename: \\"ModelPostConnection\\";
+    __typename: "ModelPostConnection";
     nextToken?: string | null;
   } | null;
   createdAt: string;
@@ -1272,7 +1272,7 @@ export type GetBlogQuery = {
 };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   async GetBlog(id: string): Promise<GetBlogQuery> {
@@ -1303,7 +1303,7 @@ export class APIService {
 `;
 
 exports[`generateTypes targets basic flow 1`] = `
-Object {
+{
   "API.js": "/* @flow */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
@@ -1314,7 +1314,7 @@ export type GetBlogQueryVariables = {|
 
 export type GetBlogQuery = {|
   getBlog: ? {|
-    __typename: \\"Blog\\",
+    __typename: "Blog",
     id: string,
     name: string,
     posts: ? {|
@@ -1329,7 +1329,7 @@ export type GetBlogQuery = {|
 `;
 
 exports[`generateTypes targets basic flow-modern 1`] = `
-Object {
+{
   "GetBlog.js": "
 
 /* @flow */
@@ -1340,12 +1340,12 @@ Object {
 // ====================================================
 
 export type GetBlog_getBlog_posts = {
-  __typename: \\"ModelPostConnection\\",
+  __typename: "ModelPostConnection",
   nextToken: ?string,
 };
 
 export type GetBlog_getBlog = {
-  __typename: \\"Blog\\",
+  __typename: "Blog",
   id: string,
   name: string,
   posts: ?GetBlog_getBlog_posts,
@@ -1371,267 +1371,267 @@ export type GetBlog = {
 `;
 
 exports[`generateTypes targets basic json 1`] = `
-Object {
+{
   "API": "{
-	\\"operations\\": [
+	"operations": [
 		{
-			\\"filePath\\": \\"GraphQL request\\",
-			\\"operationName\\": \\"GetBlog\\",
-			\\"operationType\\": \\"query\\",
-			\\"rootType\\": \\"Query\\",
-			\\"variables\\": [
+			"filePath": "GraphQL request",
+			"operationName": "GetBlog",
+			"operationType": "query",
+			"rootType": "Query",
+			"variables": [
 				{
-					\\"name\\": \\"id\\",
-					\\"type\\": \\"ID!\\"
+					"name": "id",
+					"type": "ID!"
 				}
 			],
-			\\"source\\": \\"query GetBlog($id: ID!) {\\\\n  getBlog(id: $id) {\\\\n    __typename\\\\n    id\\\\n    name\\\\n    posts {\\\\n      __typename\\\\n      nextToken\\\\n    }\\\\n    createdAt\\\\n    updatedAt\\\\n  }\\\\n}\\",
-			\\"fields\\": [
+			"source": "query GetBlog($id: ID!) {\\n  getBlog(id: $id) {\\n    __typename\\n    id\\n    name\\n    posts {\\n      __typename\\n      nextToken\\n    }\\n    createdAt\\n    updatedAt\\n  }\\n}",
+			"fields": [
 				{
-					\\"responseName\\": \\"getBlog\\",
-					\\"fieldName\\": \\"getBlog\\",
-					\\"type\\": \\"Blog\\",
-					\\"args\\": [
+					"responseName": "getBlog",
+					"fieldName": "getBlog",
+					"type": "Blog",
+					"args": [
 						{
-							\\"name\\": \\"id\\",
-							\\"value\\": {
-								\\"kind\\": \\"Variable\\",
-								\\"variableName\\": \\"id\\"
+							"name": "id",
+							"value": {
+								"kind": "Variable",
+								"variableName": "id"
 							},
-							\\"type\\": \\"ID!\\"
+							"type": "ID!"
 						}
 					],
-					\\"isConditional\\": false,
-					\\"isDeprecated\\": false,
-					\\"fields\\": [
+					"isConditional": false,
+					"isDeprecated": false,
+					"fields": [
 						{
-							\\"responseName\\": \\"__typename\\",
-							\\"fieldName\\": \\"__typename\\",
-							\\"type\\": \\"String!\\",
-							\\"isConditional\\": false,
-							\\"isDeprecated\\": false
+							"responseName": "__typename",
+							"fieldName": "__typename",
+							"type": "String!",
+							"isConditional": false,
+							"isDeprecated": false
 						},
 						{
-							\\"responseName\\": \\"id\\",
-							\\"fieldName\\": \\"id\\",
-							\\"type\\": \\"ID!\\",
-							\\"isConditional\\": false,
-							\\"isDeprecated\\": false
+							"responseName": "id",
+							"fieldName": "id",
+							"type": "ID!",
+							"isConditional": false,
+							"isDeprecated": false
 						},
 						{
-							\\"responseName\\": \\"name\\",
-							\\"fieldName\\": \\"name\\",
-							\\"type\\": \\"String!\\",
-							\\"isConditional\\": false,
-							\\"isDeprecated\\": false
+							"responseName": "name",
+							"fieldName": "name",
+							"type": "String!",
+							"isConditional": false,
+							"isDeprecated": false
 						},
 						{
-							\\"responseName\\": \\"posts\\",
-							\\"fieldName\\": \\"posts\\",
-							\\"type\\": \\"ModelPostConnection\\",
-							\\"isConditional\\": false,
-							\\"isDeprecated\\": false,
-							\\"fields\\": [
+							"responseName": "posts",
+							"fieldName": "posts",
+							"type": "ModelPostConnection",
+							"isConditional": false,
+							"isDeprecated": false,
+							"fields": [
 								{
-									\\"responseName\\": \\"__typename\\",
-									\\"fieldName\\": \\"__typename\\",
-									\\"type\\": \\"String!\\",
-									\\"isConditional\\": false,
-									\\"isDeprecated\\": false
+									"responseName": "__typename",
+									"fieldName": "__typename",
+									"type": "String!",
+									"isConditional": false,
+									"isDeprecated": false
 								},
 								{
-									\\"responseName\\": \\"nextToken\\",
-									\\"fieldName\\": \\"nextToken\\",
-									\\"type\\": \\"String\\",
-									\\"isConditional\\": false,
-									\\"isDeprecated\\": false
+									"responseName": "nextToken",
+									"fieldName": "nextToken",
+									"type": "String",
+									"isConditional": false,
+									"isDeprecated": false
 								}
 							],
-							\\"fragmentSpreads\\": [],
-							\\"inlineFragments\\": []
+							"fragmentSpreads": [],
+							"inlineFragments": []
 						},
 						{
-							\\"responseName\\": \\"createdAt\\",
-							\\"fieldName\\": \\"createdAt\\",
-							\\"type\\": \\"AWSDateTime!\\",
-							\\"isConditional\\": false,
-							\\"isDeprecated\\": false
+							"responseName": "createdAt",
+							"fieldName": "createdAt",
+							"type": "AWSDateTime!",
+							"isConditional": false,
+							"isDeprecated": false
 						},
 						{
-							\\"responseName\\": \\"updatedAt\\",
-							\\"fieldName\\": \\"updatedAt\\",
-							\\"type\\": \\"AWSDateTime!\\",
-							\\"isConditional\\": false,
-							\\"isDeprecated\\": false
+							"responseName": "updatedAt",
+							"fieldName": "updatedAt",
+							"type": "AWSDateTime!",
+							"isConditional": false,
+							"isDeprecated": false
 						}
 					],
-					\\"fragmentSpreads\\": [],
-					\\"inlineFragments\\": []
+					"fragmentSpreads": [],
+					"inlineFragments": []
 				}
 			],
-			\\"fragmentSpreads\\": [],
-			\\"inlineFragments\\": [],
-			\\"fragmentsReferenced\\": [],
-			\\"sourceWithFragments\\": \\"query GetBlog($id: ID!) {\\\\n  getBlog(id: $id) {\\\\n    __typename\\\\n    id\\\\n    name\\\\n    posts {\\\\n      __typename\\\\n      nextToken\\\\n    }\\\\n    createdAt\\\\n    updatedAt\\\\n  }\\\\n}\\",
-			\\"operationId\\": \\"5c7cef64646454bdbe2408d4cc48a54ba8d1f8a6e8a38b074feaeaa717803d7f\\"
+			"fragmentSpreads": [],
+			"inlineFragments": [],
+			"fragmentsReferenced": [],
+			"sourceWithFragments": "query GetBlog($id: ID!) {\\n  getBlog(id: $id) {\\n    __typename\\n    id\\n    name\\n    posts {\\n      __typename\\n      nextToken\\n    }\\n    createdAt\\n    updatedAt\\n  }\\n}",
+			"operationId": "5c7cef64646454bdbe2408d4cc48a54ba8d1f8a6e8a38b074feaeaa717803d7f"
 		}
 	],
-	\\"fragments\\": [],
-	\\"typesUsed\\": [
+	"fragments": [],
+	"typesUsed": [
 		{
-			\\"kind\\": \\"ObjectType\\",
-			\\"name\\": \\"Blog\\",
-			\\"description\\": null,
-			\\"ifaces\\": [],
-			\\"fields\\": [
+			"kind": "ObjectType",
+			"name": "Blog",
+			"description": null,
+			"ifaces": [],
+			"fields": [
 				{
-					\\"name\\": \\"id\\",
-					\\"type\\": \\"ID!\\",
-					\\"description\\": null
+					"name": "id",
+					"type": "ID!",
+					"description": null
 				},
 				{
-					\\"name\\": \\"name\\",
-					\\"type\\": \\"String!\\",
-					\\"description\\": null
+					"name": "name",
+					"type": "String!",
+					"description": null
 				},
 				{
-					\\"name\\": \\"posts\\",
-					\\"type\\": \\"ModelPostConnection\\",
-					\\"description\\": null
+					"name": "posts",
+					"type": "ModelPostConnection",
+					"description": null
 				},
 				{
-					\\"name\\": \\"createdAt\\",
-					\\"type\\": \\"AWSDateTime!\\",
-					\\"description\\": null
+					"name": "createdAt",
+					"type": "AWSDateTime!",
+					"description": null
 				},
 				{
-					\\"name\\": \\"updatedAt\\",
-					\\"type\\": \\"AWSDateTime!\\",
-					\\"description\\": null
+					"name": "updatedAt",
+					"type": "AWSDateTime!",
+					"description": null
 				}
 			]
 		},
 		{
-			\\"kind\\": \\"ObjectType\\",
-			\\"name\\": \\"ModelPostConnection\\",
-			\\"description\\": null,
-			\\"ifaces\\": [],
-			\\"fields\\": [
+			"kind": "ObjectType",
+			"name": "ModelPostConnection",
+			"description": null,
+			"ifaces": [],
+			"fields": [
 				{
-					\\"name\\": \\"items\\",
-					\\"type\\": \\"[Post]!\\",
-					\\"description\\": null
+					"name": "items",
+					"type": "[Post]!",
+					"description": null
 				},
 				{
-					\\"name\\": \\"nextToken\\",
-					\\"type\\": \\"String\\",
-					\\"description\\": null
+					"name": "nextToken",
+					"type": "String",
+					"description": null
 				}
 			]
 		},
 		{
-			\\"kind\\": \\"ObjectType\\",
-			\\"name\\": \\"Post\\",
-			\\"description\\": null,
-			\\"ifaces\\": [],
-			\\"fields\\": [
+			"kind": "ObjectType",
+			"name": "Post",
+			"description": null,
+			"ifaces": [],
+			"fields": [
 				{
-					\\"name\\": \\"id\\",
-					\\"type\\": \\"ID!\\",
-					\\"description\\": null
+					"name": "id",
+					"type": "ID!",
+					"description": null
 				},
 				{
-					\\"name\\": \\"title\\",
-					\\"type\\": \\"String!\\",
-					\\"description\\": null
+					"name": "title",
+					"type": "String!",
+					"description": null
 				},
 				{
-					\\"name\\": \\"blog\\",
-					\\"type\\": \\"Blog\\",
-					\\"description\\": null
+					"name": "blog",
+					"type": "Blog",
+					"description": null
 				},
 				{
-					\\"name\\": \\"comments\\",
-					\\"type\\": \\"ModelCommentConnection\\",
-					\\"description\\": null
+					"name": "comments",
+					"type": "ModelCommentConnection",
+					"description": null
 				},
 				{
-					\\"name\\": \\"createdAt\\",
-					\\"type\\": \\"AWSDateTime!\\",
-					\\"description\\": null
+					"name": "createdAt",
+					"type": "AWSDateTime!",
+					"description": null
 				},
 				{
-					\\"name\\": \\"updatedAt\\",
-					\\"type\\": \\"AWSDateTime!\\",
-					\\"description\\": null
+					"name": "updatedAt",
+					"type": "AWSDateTime!",
+					"description": null
 				},
 				{
-					\\"name\\": \\"blogPostsId\\",
-					\\"type\\": \\"ID\\",
-					\\"description\\": null
+					"name": "blogPostsId",
+					"type": "ID",
+					"description": null
 				}
 			]
 		},
 		{
-			\\"kind\\": \\"ObjectType\\",
-			\\"name\\": \\"ModelCommentConnection\\",
-			\\"description\\": null,
-			\\"ifaces\\": [],
-			\\"fields\\": [
+			"kind": "ObjectType",
+			"name": "ModelCommentConnection",
+			"description": null,
+			"ifaces": [],
+			"fields": [
 				{
-					\\"name\\": \\"items\\",
-					\\"type\\": \\"[Comment]!\\",
-					\\"description\\": null
+					"name": "items",
+					"type": "[Comment]!",
+					"description": null
 				},
 				{
-					\\"name\\": \\"nextToken\\",
-					\\"type\\": \\"String\\",
-					\\"description\\": null
+					"name": "nextToken",
+					"type": "String",
+					"description": null
 				}
 			]
 		},
 		{
-			\\"kind\\": \\"ObjectType\\",
-			\\"name\\": \\"Comment\\",
-			\\"description\\": null,
-			\\"ifaces\\": [],
-			\\"fields\\": [
+			"kind": "ObjectType",
+			"name": "Comment",
+			"description": null,
+			"ifaces": [],
+			"fields": [
 				{
-					\\"name\\": \\"id\\",
-					\\"type\\": \\"ID!\\",
-					\\"description\\": null
+					"name": "id",
+					"type": "ID!",
+					"description": null
 				},
 				{
-					\\"name\\": \\"post\\",
-					\\"type\\": \\"Post\\",
-					\\"description\\": null
+					"name": "post",
+					"type": "Post",
+					"description": null
 				},
 				{
-					\\"name\\": \\"content\\",
-					\\"type\\": \\"String!\\",
-					\\"description\\": null
+					"name": "content",
+					"type": "String!",
+					"description": null
 				},
 				{
-					\\"name\\": \\"createdAt\\",
-					\\"type\\": \\"AWSDateTime!\\",
-					\\"description\\": null
+					"name": "createdAt",
+					"type": "AWSDateTime!",
+					"description": null
 				},
 				{
-					\\"name\\": \\"updatedAt\\",
-					\\"type\\": \\"AWSDateTime!\\",
-					\\"description\\": null
+					"name": "updatedAt",
+					"type": "AWSDateTime!",
+					"description": null
 				},
 				{
-					\\"name\\": \\"postCommentsId\\",
-					\\"type\\": \\"ID\\",
-					\\"description\\": null
+					"name": "postCommentsId",
+					"type": "ID",
+					"description": null
 				}
 			]
 		},
 		{
-			\\"kind\\": \\"ScalarType\\",
-			\\"name\\": \\"AWSDateTime\\",
-			\\"description\\": \\"The \`AWSDateTime\` scalar type provided by AWS AppSync, represents a valid ***extended*** [ISO 8601 DateTime](https://en.wikipedia.org/wiki/ISO_8601#Combined_date_and_time_representations) string. In other words, this scalar type accepts datetime strings of the form \`YYYY-MM-DDThh:mm:ss.SSSZ\`.  The scalar can also accept \\\\\\"negative years\\\\\\" of the form \`-YYYY\` which correspond to years before \`0000\`. For example, \\\\\\"**-2017-01-01T00:00Z**\\\\\\" and \\\\\\"**-9999-01-01T00:00Z**\\\\\\" are both valid datetime strings.  The field after the two digit seconds field is a nanoseconds field. It can accept between 1 and 9 digits. So, for example, \\\\\\"**1970-01-01T12:00:00.2Z**\\\\\\", \\\\\\"**1970-01-01T12:00:00.277Z**\\\\\\" and \\\\\\"**1970-01-01T12:00:00.123456789Z**\\\\\\" are all valid datetime strings.  The seconds and nanoseconds fields are optional (the seconds field must be specified if the nanoseconds field is to be used).  The [time zone offset](https://en.wikipedia.org/wiki/ISO_8601#Time_zone_designators) is compulsory for this scalar. The time zone offset must either be \`Z\` (representing the UTC time zone) or be in the format \`±hh:mm:ss\`. The seconds field in the timezone offset will be considered valid even though it is not part of the ISO 8601 standard.\\"
+			"kind": "ScalarType",
+			"name": "AWSDateTime",
+			"description": "The \`AWSDateTime\` scalar type provided by AWS AppSync, represents a valid ***extended*** [ISO 8601 DateTime](https://en.wikipedia.org/wiki/ISO_8601#Combined_date_and_time_representations) string. In other words, this scalar type accepts datetime strings of the form \`YYYY-MM-DDThh:mm:ss.SSSZ\`.  The scalar can also accept \\"negative years\\" of the form \`-YYYY\` which correspond to years before \`0000\`. For example, \\"**-2017-01-01T00:00Z**\\" and \\"**-9999-01-01T00:00Z**\\" are both valid datetime strings.  The field after the two digit seconds field is a nanoseconds field. It can accept between 1 and 9 digits. So, for example, \\"**1970-01-01T12:00:00.2Z**\\", \\"**1970-01-01T12:00:00.277Z**\\" and \\"**1970-01-01T12:00:00.123456789Z**\\" are all valid datetime strings.  The seconds and nanoseconds fields are optional (the seconds field must be specified if the nanoseconds field is to be used).  The [time zone offset](https://en.wikipedia.org/wiki/ISO_8601#Time_zone_designators) is compulsory for this scalar. The time zone offset must either be \`Z\` (representing the UTC time zone) or be in the format \`±hh:mm:ss\`. The seconds field in the timezone offset will be considered valid even though it is not part of the ISO 8601 standard."
 		}
 	]
 }",
@@ -1639,239 +1639,239 @@ Object {
 `;
 
 exports[`generateTypes targets basic json 2`] = `
-Object {
+{
   "API": "{
-	\\"operations\\": [
+	"operations": [
 		{
-			\\"filePath\\": \\"GraphQL request\\",
-			\\"operationName\\": \\"GetBlog\\",
-			\\"operationType\\": \\"query\\",
-			\\"rootType\\": \\"Query\\",
-			\\"variables\\": [
+			"filePath": "GraphQL request",
+			"operationName": "GetBlog",
+			"operationType": "query",
+			"rootType": "Query",
+			"variables": [
 				{
-					\\"name\\": \\"id\\",
-					\\"type\\": \\"ID!\\"
+					"name": "id",
+					"type": "ID!"
 				}
 			],
-			\\"source\\": \\"query GetBlog($id: ID!) {\\\\n  getBlog(id: $id) {\\\\n    __typename\\\\n    id\\\\n    name\\\\n    posts {\\\\n      __typename\\\\n      nextToken\\\\n    }\\\\n    createdAt\\\\n    updatedAt\\\\n  }\\\\n}\\",
-			\\"fields\\": [
+			"source": "query GetBlog($id: ID!) {\\n  getBlog(id: $id) {\\n    __typename\\n    id\\n    name\\n    posts {\\n      __typename\\n      nextToken\\n    }\\n    createdAt\\n    updatedAt\\n  }\\n}",
+			"fields": [
 				{
-					\\"responseName\\": \\"getBlog\\",
-					\\"fieldName\\": \\"getBlog\\",
-					\\"type\\": \\"Blog\\",
-					\\"args\\": [
+					"responseName": "getBlog",
+					"fieldName": "getBlog",
+					"type": "Blog",
+					"args": [
 						{
-							\\"name\\": \\"id\\",
-							\\"value\\": {
-								\\"kind\\": \\"Variable\\",
-								\\"variableName\\": \\"id\\"
+							"name": "id",
+							"value": {
+								"kind": "Variable",
+								"variableName": "id"
 							},
-							\\"type\\": \\"ID!\\"
+							"type": "ID!"
 						}
 					],
-					\\"isConditional\\": false,
-					\\"isDeprecated\\": false,
-					\\"fields\\": [
+					"isConditional": false,
+					"isDeprecated": false,
+					"fields": [
 						{
-							\\"responseName\\": \\"__typename\\",
-							\\"fieldName\\": \\"__typename\\",
-							\\"type\\": \\"String!\\",
-							\\"isConditional\\": false,
-							\\"isDeprecated\\": false
+							"responseName": "__typename",
+							"fieldName": "__typename",
+							"type": "String!",
+							"isConditional": false,
+							"isDeprecated": false
 						},
 						{
-							\\"responseName\\": \\"id\\",
-							\\"fieldName\\": \\"id\\",
-							\\"type\\": \\"ID!\\",
-							\\"isConditional\\": false,
-							\\"isDeprecated\\": false
+							"responseName": "id",
+							"fieldName": "id",
+							"type": "ID!",
+							"isConditional": false,
+							"isDeprecated": false
 						},
 						{
-							\\"responseName\\": \\"name\\",
-							\\"fieldName\\": \\"name\\",
-							\\"type\\": \\"String!\\",
-							\\"isConditional\\": false,
-							\\"isDeprecated\\": false
+							"responseName": "name",
+							"fieldName": "name",
+							"type": "String!",
+							"isConditional": false,
+							"isDeprecated": false
 						},
 						{
-							\\"responseName\\": \\"posts\\",
-							\\"fieldName\\": \\"posts\\",
-							\\"type\\": \\"ModelPostConnection\\",
-							\\"isConditional\\": false,
-							\\"isDeprecated\\": false,
-							\\"fields\\": [
+							"responseName": "posts",
+							"fieldName": "posts",
+							"type": "ModelPostConnection",
+							"isConditional": false,
+							"isDeprecated": false,
+							"fields": [
 								{
-									\\"responseName\\": \\"__typename\\",
-									\\"fieldName\\": \\"__typename\\",
-									\\"type\\": \\"String!\\",
-									\\"isConditional\\": false,
-									\\"isDeprecated\\": false
+									"responseName": "__typename",
+									"fieldName": "__typename",
+									"type": "String!",
+									"isConditional": false,
+									"isDeprecated": false
 								},
 								{
-									\\"responseName\\": \\"nextToken\\",
-									\\"fieldName\\": \\"nextToken\\",
-									\\"type\\": \\"String\\",
-									\\"isConditional\\": false,
-									\\"isDeprecated\\": false
+									"responseName": "nextToken",
+									"fieldName": "nextToken",
+									"type": "String",
+									"isConditional": false,
+									"isDeprecated": false
 								}
 							],
-							\\"fragmentSpreads\\": [],
-							\\"inlineFragments\\": []
+							"fragmentSpreads": [],
+							"inlineFragments": []
 						},
 						{
-							\\"responseName\\": \\"createdAt\\",
-							\\"fieldName\\": \\"createdAt\\",
-							\\"type\\": \\"AWSDateTime!\\",
-							\\"isConditional\\": false,
-							\\"isDeprecated\\": false
+							"responseName": "createdAt",
+							"fieldName": "createdAt",
+							"type": "AWSDateTime!",
+							"isConditional": false,
+							"isDeprecated": false
 						},
 						{
-							\\"responseName\\": \\"updatedAt\\",
-							\\"fieldName\\": \\"updatedAt\\",
-							\\"type\\": \\"AWSDateTime!\\",
-							\\"isConditional\\": false,
-							\\"isDeprecated\\": false
+							"responseName": "updatedAt",
+							"fieldName": "updatedAt",
+							"type": "AWSDateTime!",
+							"isConditional": false,
+							"isDeprecated": false
 						}
 					],
-					\\"fragmentSpreads\\": [],
-					\\"inlineFragments\\": []
+					"fragmentSpreads": [],
+					"inlineFragments": []
 				}
 			],
-			\\"fragmentSpreads\\": [],
-			\\"inlineFragments\\": [],
-			\\"fragmentsReferenced\\": [],
-			\\"sourceWithFragments\\": \\"query GetBlog($id: ID!) {\\\\n  getBlog(id: $id) {\\\\n    __typename\\\\n    id\\\\n    name\\\\n    posts {\\\\n      __typename\\\\n      nextToken\\\\n    }\\\\n    createdAt\\\\n    updatedAt\\\\n  }\\\\n}\\",
-			\\"operationId\\": \\"5c7cef64646454bdbe2408d4cc48a54ba8d1f8a6e8a38b074feaeaa717803d7f\\"
+			"fragmentSpreads": [],
+			"inlineFragments": [],
+			"fragmentsReferenced": [],
+			"sourceWithFragments": "query GetBlog($id: ID!) {\\n  getBlog(id: $id) {\\n    __typename\\n    id\\n    name\\n    posts {\\n      __typename\\n      nextToken\\n    }\\n    createdAt\\n    updatedAt\\n  }\\n}",
+			"operationId": "5c7cef64646454bdbe2408d4cc48a54ba8d1f8a6e8a38b074feaeaa717803d7f"
 		}
 	],
-	\\"fragments\\": [],
-	\\"typesUsed\\": [
+	"fragments": [],
+	"typesUsed": [
 		{
-			\\"kind\\": \\"ObjectType\\",
-			\\"name\\": \\"Blog\\",
-			\\"ifaces\\": [],
-			\\"fields\\": [
+			"kind": "ObjectType",
+			"name": "Blog",
+			"ifaces": [],
+			"fields": [
 				{
-					\\"name\\": \\"id\\",
-					\\"type\\": \\"ID!\\"
+					"name": "id",
+					"type": "ID!"
 				},
 				{
-					\\"name\\": \\"name\\",
-					\\"type\\": \\"String!\\"
+					"name": "name",
+					"type": "String!"
 				},
 				{
-					\\"name\\": \\"posts\\",
-					\\"type\\": \\"ModelPostConnection\\"
+					"name": "posts",
+					"type": "ModelPostConnection"
 				},
 				{
-					\\"name\\": \\"createdAt\\",
-					\\"type\\": \\"AWSDateTime!\\"
+					"name": "createdAt",
+					"type": "AWSDateTime!"
 				},
 				{
-					\\"name\\": \\"updatedAt\\",
-					\\"type\\": \\"AWSDateTime!\\"
+					"name": "updatedAt",
+					"type": "AWSDateTime!"
 				}
 			]
 		},
 		{
-			\\"kind\\": \\"ObjectType\\",
-			\\"name\\": \\"ModelPostConnection\\",
-			\\"ifaces\\": [],
-			\\"fields\\": [
+			"kind": "ObjectType",
+			"name": "ModelPostConnection",
+			"ifaces": [],
+			"fields": [
 				{
-					\\"name\\": \\"items\\",
-					\\"type\\": \\"[Post]!\\"
+					"name": "items",
+					"type": "[Post]!"
 				},
 				{
-					\\"name\\": \\"nextToken\\",
-					\\"type\\": \\"String\\"
+					"name": "nextToken",
+					"type": "String"
 				}
 			]
 		},
 		{
-			\\"kind\\": \\"ObjectType\\",
-			\\"name\\": \\"Post\\",
-			\\"ifaces\\": [],
-			\\"fields\\": [
+			"kind": "ObjectType",
+			"name": "Post",
+			"ifaces": [],
+			"fields": [
 				{
-					\\"name\\": \\"id\\",
-					\\"type\\": \\"ID!\\"
+					"name": "id",
+					"type": "ID!"
 				},
 				{
-					\\"name\\": \\"title\\",
-					\\"type\\": \\"String!\\"
+					"name": "title",
+					"type": "String!"
 				},
 				{
-					\\"name\\": \\"blog\\",
-					\\"type\\": \\"Blog\\"
+					"name": "blog",
+					"type": "Blog"
 				},
 				{
-					\\"name\\": \\"comments\\",
-					\\"type\\": \\"ModelCommentConnection\\"
+					"name": "comments",
+					"type": "ModelCommentConnection"
 				},
 				{
-					\\"name\\": \\"createdAt\\",
-					\\"type\\": \\"AWSDateTime!\\"
+					"name": "createdAt",
+					"type": "AWSDateTime!"
 				},
 				{
-					\\"name\\": \\"updatedAt\\",
-					\\"type\\": \\"AWSDateTime!\\"
+					"name": "updatedAt",
+					"type": "AWSDateTime!"
 				},
 				{
-					\\"name\\": \\"blogPostsId\\",
-					\\"type\\": \\"ID\\"
+					"name": "blogPostsId",
+					"type": "ID"
 				}
 			]
 		},
 		{
-			\\"kind\\": \\"ObjectType\\",
-			\\"name\\": \\"ModelCommentConnection\\",
-			\\"ifaces\\": [],
-			\\"fields\\": [
+			"kind": "ObjectType",
+			"name": "ModelCommentConnection",
+			"ifaces": [],
+			"fields": [
 				{
-					\\"name\\": \\"items\\",
-					\\"type\\": \\"[Comment]!\\"
+					"name": "items",
+					"type": "[Comment]!"
 				},
 				{
-					\\"name\\": \\"nextToken\\",
-					\\"type\\": \\"String\\"
+					"name": "nextToken",
+					"type": "String"
 				}
 			]
 		},
 		{
-			\\"kind\\": \\"ObjectType\\",
-			\\"name\\": \\"Comment\\",
-			\\"ifaces\\": [],
-			\\"fields\\": [
+			"kind": "ObjectType",
+			"name": "Comment",
+			"ifaces": [],
+			"fields": [
 				{
-					\\"name\\": \\"id\\",
-					\\"type\\": \\"ID!\\"
+					"name": "id",
+					"type": "ID!"
 				},
 				{
-					\\"name\\": \\"post\\",
-					\\"type\\": \\"Post\\"
+					"name": "post",
+					"type": "Post"
 				},
 				{
-					\\"name\\": \\"content\\",
-					\\"type\\": \\"String!\\"
+					"name": "content",
+					"type": "String!"
 				},
 				{
-					\\"name\\": \\"createdAt\\",
-					\\"type\\": \\"AWSDateTime!\\"
+					"name": "createdAt",
+					"type": "AWSDateTime!"
 				},
 				{
-					\\"name\\": \\"updatedAt\\",
-					\\"type\\": \\"AWSDateTime!\\"
+					"name": "updatedAt",
+					"type": "AWSDateTime!"
 				},
 				{
-					\\"name\\": \\"postCommentsId\\",
-					\\"type\\": \\"ID\\"
+					"name": "postCommentsId",
+					"type": "ID"
 				}
 			]
 		},
 		{
-			\\"kind\\": \\"ScalarType\\",
-			\\"name\\": \\"AWSDateTime\\"
+			"kind": "ScalarType",
+			"name": "AWSDateTime"
 		}
 	]
 }",
@@ -1879,25 +1879,25 @@ Object {
 `;
 
 exports[`generateTypes targets basic scala 1`] = `
-Object {
+{
   "API": "//  This file was automatically generated and should not be edited.
 
 
 object GetBlogQuery extends com.apollographql.scalajs.GraphQLQuery {
   val operationString =
-    \\"query GetBlog($id: ID!) {\\" +
-    \\"  getBlog(id: $id) {\\" +
-    \\"    __typename\\" +
-    \\"    id\\" +
-    \\"    name\\" +
-    \\"    posts {\\" +
-    \\"      __typename\\" +
-    \\"      nextToken\\" +
-    \\"    }\\" +
-    \\"    createdAt\\" +
-    \\"    updatedAt\\" +
-    \\"  }\\" +
-    \\"}\\"
+    "query GetBlog($id: ID!) {" +
+    "  getBlog(id: $id) {" +
+    "    __typename" +
+    "    id" +
+    "    name" +
+    "    posts {" +
+    "      __typename" +
+    "      nextToken" +
+    "    }" +
+    "    createdAt" +
+    "    updatedAt" +
+    "  }" +
+    "}"
   val operation = com.apollographql.scalajs.gql(operationString)
 
 
@@ -1908,28 +1908,28 @@ object GetBlogQuery extends com.apollographql.scalajs.GraphQLQuery {
   }
 
   object Data {
-    val possibleTypes = scala.collection.Set(\\"Query\\")
+    val possibleTypes = scala.collection.Set("Query")
   }
 
   case class GetBlog(id: String, name: String, posts: Option[Post], createdAt: String, updatedAt: String) {
   }
 
   object GetBlog {
-    val possibleTypes = scala.collection.Set(\\"Blog\\")
+    val possibleTypes = scala.collection.Set("Blog")
   }
 
   case class Post(nextToken: Option[String]) {
   }
 
   object Post {
-    val possibleTypes = scala.collection.Set(\\"ModelPostConnection\\")
+    val possibleTypes = scala.collection.Set("ModelPostConnection")
   }
 }",
 }
 `;
 
 exports[`generateTypes targets basic swift 1`] = `
-Object {
+{
   "API.swift": "//  This file was automatically generated and should not be edited.
 
 #if canImport(AWSAPIPlugin)
@@ -2185,13 +2185,13 @@ public enum JSONDecodingError: Error, LocalizedError {
   public var errorDescription: String? {
     switch self {
     case .missingValue:
-      return \\"Missing value\\"
+      return "Missing value"
     case .nullValue:
-      return \\"Unexpected null value\\"
+      return "Unexpected null value"
     case .wrongType:
-      return \\"Wrong type\\"
+      return "Wrong type"
     case .couldNotConvert(let value, let expectedType):
-      return \\"Could not convert \\\\\\"\\\\(value)\\\\\\" to \\\\(expectedType)\\"
+      return "Could not convert \\"\\(value)\\" to \\(expectedType)"
     }
   }
 }
@@ -2296,7 +2296,7 @@ extension Optional: JSONEncodable {
     case .some(let wrapped as JSONEncodable):
       return wrapped.jsonValue
     default:
-      fatalError(\\"Optional is only JSONEncodable if Wrapped is\\")
+      fatalError("Optional is only JSONEncodable if Wrapped is")
     }
   }
 }
@@ -2312,7 +2312,7 @@ extension Dictionary: JSONEncodable {
       if case let (key as String, value as JSONEncodable) = (key, value) {
         jsonObject[key] = value.jsonValue
       } else {
-        fatalError(\\"Dictionary is only JSONEncodable if Value is (and if Key is String)\\")
+        fatalError("Dictionary is only JSONEncodable if Value is (and if Key is String)")
       }
     }
     return jsonObject
@@ -2325,7 +2325,7 @@ extension Array: JSONEncodable {
       if case let element as JSONEncodable = element {
         return element.jsonValue
       } else {
-        fatalError(\\"Array is only JSONEncodable if Element is\\")
+        fatalError("Array is only JSONEncodable if Element is")
       }
     }
   }
@@ -2356,7 +2356,7 @@ import AWSAppSync
 
 public final class GetBlogQuery: GraphQLQuery {
   public static let operationString =
-    \\"query GetBlog($id: ID!) {\\\\n  getBlog(id: $id) {\\\\n    __typename\\\\n    id\\\\n    name\\\\n    posts {\\\\n      __typename\\\\n      nextToken\\\\n    }\\\\n    createdAt\\\\n    updatedAt\\\\n  }\\\\n}\\"
+    "query GetBlog($id: ID!) {\\n  getBlog(id: $id) {\\n    __typename\\n    id\\n    name\\n    posts {\\n      __typename\\n      nextToken\\n    }\\n    createdAt\\n    updatedAt\\n  }\\n}"
 
   public var id: GraphQLID
 
@@ -2365,14 +2365,14 @@ public final class GetBlogQuery: GraphQLQuery {
   }
 
   public var variables: GraphQLMap? {
-    return [\\"id\\": id]
+    return ["id": id]
   }
 
   public struct Data: GraphQLSelectionSet {
-    public static let possibleTypes = [\\"Query\\"]
+    public static let possibleTypes = ["Query"]
 
     public static let selections: [GraphQLSelection] = [
-      GraphQLField(\\"getBlog\\", arguments: [\\"id\\": GraphQLVariable(\\"id\\")], type: .object(GetBlog.selections)),
+      GraphQLField("getBlog", arguments: ["id": GraphQLVariable("id")], type: .object(GetBlog.selections)),
     ]
 
     public var snapshot: Snapshot
@@ -2382,28 +2382,28 @@ public final class GetBlogQuery: GraphQLQuery {
     }
 
     public init(getBlog: GetBlog? = nil) {
-      self.init(snapshot: [\\"__typename\\": \\"Query\\", \\"getBlog\\": getBlog.flatMap { $0.snapshot }])
+      self.init(snapshot: ["__typename": "Query", "getBlog": getBlog.flatMap { $0.snapshot }])
     }
 
     public var getBlog: GetBlog? {
       get {
-        return (snapshot[\\"getBlog\\"] as? Snapshot).flatMap { GetBlog(snapshot: $0) }
+        return (snapshot["getBlog"] as? Snapshot).flatMap { GetBlog(snapshot: $0) }
       }
       set {
-        snapshot.updateValue(newValue?.snapshot, forKey: \\"getBlog\\")
+        snapshot.updateValue(newValue?.snapshot, forKey: "getBlog")
       }
     }
 
     public struct GetBlog: GraphQLSelectionSet {
-      public static let possibleTypes = [\\"Blog\\"]
+      public static let possibleTypes = ["Blog"]
 
       public static let selections: [GraphQLSelection] = [
-        GraphQLField(\\"__typename\\", type: .nonNull(.scalar(String.self))),
-        GraphQLField(\\"id\\", type: .nonNull(.scalar(GraphQLID.self))),
-        GraphQLField(\\"name\\", type: .nonNull(.scalar(String.self))),
-        GraphQLField(\\"posts\\", type: .object(Post.selections)),
-        GraphQLField(\\"createdAt\\", type: .nonNull(.scalar(String.self))),
-        GraphQLField(\\"updatedAt\\", type: .nonNull(.scalar(String.self))),
+        GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+        GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+        GraphQLField("name", type: .nonNull(.scalar(String.self))),
+        GraphQLField("posts", type: .object(Post.selections)),
+        GraphQLField("createdAt", type: .nonNull(.scalar(String.self))),
+        GraphQLField("updatedAt", type: .nonNull(.scalar(String.self))),
       ]
 
       public var snapshot: Snapshot
@@ -2413,69 +2413,69 @@ public final class GetBlogQuery: GraphQLQuery {
       }
 
       public init(id: GraphQLID, name: String, posts: Post? = nil, createdAt: String, updatedAt: String) {
-        self.init(snapshot: [\\"__typename\\": \\"Blog\\", \\"id\\": id, \\"name\\": name, \\"posts\\": posts.flatMap { $0.snapshot }, \\"createdAt\\": createdAt, \\"updatedAt\\": updatedAt])
+        self.init(snapshot: ["__typename": "Blog", "id": id, "name": name, "posts": posts.flatMap { $0.snapshot }, "createdAt": createdAt, "updatedAt": updatedAt])
       }
 
       public var __typename: String {
         get {
-          return snapshot[\\"__typename\\"]! as! String
+          return snapshot["__typename"]! as! String
         }
         set {
-          snapshot.updateValue(newValue, forKey: \\"__typename\\")
+          snapshot.updateValue(newValue, forKey: "__typename")
         }
       }
 
       public var id: GraphQLID {
         get {
-          return snapshot[\\"id\\"]! as! GraphQLID
+          return snapshot["id"]! as! GraphQLID
         }
         set {
-          snapshot.updateValue(newValue, forKey: \\"id\\")
+          snapshot.updateValue(newValue, forKey: "id")
         }
       }
 
       public var name: String {
         get {
-          return snapshot[\\"name\\"]! as! String
+          return snapshot["name"]! as! String
         }
         set {
-          snapshot.updateValue(newValue, forKey: \\"name\\")
+          snapshot.updateValue(newValue, forKey: "name")
         }
       }
 
       public var posts: Post? {
         get {
-          return (snapshot[\\"posts\\"] as? Snapshot).flatMap { Post(snapshot: $0) }
+          return (snapshot["posts"] as? Snapshot).flatMap { Post(snapshot: $0) }
         }
         set {
-          snapshot.updateValue(newValue?.snapshot, forKey: \\"posts\\")
+          snapshot.updateValue(newValue?.snapshot, forKey: "posts")
         }
       }
 
       public var createdAt: String {
         get {
-          return snapshot[\\"createdAt\\"]! as! String
+          return snapshot["createdAt"]! as! String
         }
         set {
-          snapshot.updateValue(newValue, forKey: \\"createdAt\\")
+          snapshot.updateValue(newValue, forKey: "createdAt")
         }
       }
 
       public var updatedAt: String {
         get {
-          return snapshot[\\"updatedAt\\"]! as! String
+          return snapshot["updatedAt"]! as! String
         }
         set {
-          snapshot.updateValue(newValue, forKey: \\"updatedAt\\")
+          snapshot.updateValue(newValue, forKey: "updatedAt")
         }
       }
 
       public struct Post: GraphQLSelectionSet {
-        public static let possibleTypes = [\\"ModelPostConnection\\"]
+        public static let possibleTypes = ["ModelPostConnection"]
 
         public static let selections: [GraphQLSelection] = [
-          GraphQLField(\\"__typename\\", type: .nonNull(.scalar(String.self))),
-          GraphQLField(\\"nextToken\\", type: .scalar(String.self)),
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("nextToken", type: .scalar(String.self)),
         ]
 
         public var snapshot: Snapshot
@@ -2485,24 +2485,24 @@ public final class GetBlogQuery: GraphQLQuery {
         }
 
         public init(nextToken: String? = nil) {
-          self.init(snapshot: [\\"__typename\\": \\"ModelPostConnection\\", \\"nextToken\\": nextToken])
+          self.init(snapshot: ["__typename": "ModelPostConnection", "nextToken": nextToken])
         }
 
         public var __typename: String {
           get {
-            return snapshot[\\"__typename\\"]! as! String
+            return snapshot["__typename"]! as! String
           }
           set {
-            snapshot.updateValue(newValue, forKey: \\"__typename\\")
+            snapshot.updateValue(newValue, forKey: "__typename")
           }
         }
 
         public var nextToken: String? {
           get {
-            return snapshot[\\"nextToken\\"] as? String
+            return snapshot["nextToken"] as? String
           }
           set {
-            snapshot.updateValue(newValue, forKey: \\"nextToken\\")
+            snapshot.updateValue(newValue, forKey: "nextToken")
           }
         }
       }
@@ -2513,13 +2513,13 @@ public final class GetBlogQuery: GraphQLQuery {
 `;
 
 exports[`generateTypes targets basic typescript 1`] = `
-Object {
+{
   "API.ts": "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
 export type Blog = {
-  __typename: \\"Blog\\",
+  __typename: "Blog",
   id: string,
   name: string,
   posts?: ModelPostConnection | null,
@@ -2528,13 +2528,13 @@ export type Blog = {
 };
 
 export type ModelPostConnection = {
-  __typename: \\"ModelPostConnection\\",
+  __typename: "ModelPostConnection",
   items:  Array<Post | null >,
   nextToken?: string | null,
 };
 
 export type Post = {
-  __typename: \\"Post\\",
+  __typename: "Post",
   id: string,
   title: string,
   blog?: Blog | null,
@@ -2545,13 +2545,13 @@ export type Post = {
 };
 
 export type ModelCommentConnection = {
-  __typename: \\"ModelCommentConnection\\",
+  __typename: "ModelCommentConnection",
   items:  Array<Comment | null >,
   nextToken?: string | null,
 };
 
 export type Comment = {
-  __typename: \\"Comment\\",
+  __typename: "Comment",
   id: string,
   post?: Post | null,
   content: string,
@@ -2566,11 +2566,11 @@ export type GetBlogQueryVariables = {
 
 export type GetBlogQuery = {
   getBlog?:  {
-    __typename: \\"Blog\\",
+    __typename: "Blog",
     id: string,
     name: string,
     posts?:  {
-      __typename: \\"ModelPostConnection\\",
+      __typename: "ModelPostConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,

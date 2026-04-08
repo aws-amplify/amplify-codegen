@@ -30,7 +30,7 @@
     "clean": "rimraf lib",
     "build": "tsc",
     "watch": "tsc -w",
-    "test": "jest",
+    "test": "jest --coverage --coverageReporters=clover --coverageReporters=text",
     "test:smoke": "npm install && npm run build && rimraf node_modules && npm install --prod && node ./lib/cli.js && echo 'Smoke Test Passed'",
     "extract-api": "ts-node ../../scripts/extract-api.ts"
   },
@@ -72,7 +72,6 @@
     "setupFiles": [
       "<rootDir>/src/polyfills.js"
     ],
-    "collectCoverage": true,
     "coverageThreshold": {
       "global": {
         "branches": 79,
@@ -80,11 +79,9 @@
         "lines": 80
       }
     },
-    "coverageReporters": [
-      "clover",
-      "text"
-    ],
-    "testURL": "http://localhost",
+    "testEnvironmentOptions": {
+      "url": "http://localhost"
+    },
     "setupFilesAfterEnv": [
       "<rootDir>/test/test-utils/matchers.ts"
     ],
@@ -99,16 +96,16 @@
       "<rootDir>/test/test-utils"
     ],
     "transform": {
-      "^.+\\.(ts|js)x?$": "ts-jest"
+      "^.+\\.(ts|js)x?$": [
+        "ts-jest",
+        {
+          "diagnostics": false
+        }
+      ]
     },
     "moduleFileExtensions": [
       "ts",
       "js"
-    ],
-    "globals": {
-      "ts-jest": {
-        "diagnostics": false
-      }
-    }
+    ]
   }
 }

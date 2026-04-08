@@ -1,19 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TypeScript visitor list enum 1`] = `
-"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
-import { initSchema } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplify/datastore";
+import { initSchema } from "@aws-amplify/datastore";
 
-import { schema } from \\"./schema\\";
+import { schema } from "./schema";
 
 export enum DayOfWeek {
-  MONDAY = \\"MONDAY\\",
-  TUESDAY = \\"TUESDAY\\",
-  WEDNESDAY = \\"WEDNESDAY\\",
-  THURSDAY = \\"THURSDAY\\",
-  FRIDAY = \\"FRIDAY\\",
-  SATURDAY = \\"SATURDAY\\",
-  SUNDAY = \\"SUNDAY\\"
+  MONDAY = "MONDAY",
+  TUESDAY = "TUESDAY",
+  WEDNESDAY = "WEDNESDAY",
+  THURSDAY = "THURSDAY",
+  FRIDAY = "FRIDAY",
+  SATURDAY = "SATURDAY",
+  SUNDAY = "SUNDAY"
 }
 
 
@@ -40,14 +40,14 @@ export {
 `;
 
 exports[`TypeScript visitor singular enum 1`] = `
-"import { ModelInit, MutableModel, PersistentModelConstructor } from \\"@aws-amplify/datastore\\";
-import { initSchema } from \\"@aws-amplify/datastore\\";
+"import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplify/datastore";
+import { initSchema } from "@aws-amplify/datastore";
 
-import { schema } from \\"./schema\\";
+import { schema } from "./schema";
 
 export enum Frequency {
-  YEARLY = \\"YEARLY\\",
-  WEEKLY = \\"WEEKLY\\"
+  YEARLY = "YEARLY",
+  WEEKLY = "WEEKLY"
 }
 
 

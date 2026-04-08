@@ -25,18 +25,18 @@ import com.amplifyframework.core.model.query.predicate.QueryField;
 import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the DefaultPKParent type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"DefaultPKParents\\", hasLazySupport = true)
-@Index(name = \\"undefined\\", fields = {\\"id\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "DefaultPKParents", hasLazySupport = true)
+@Index(name = "undefined", fields = {"id"})
 public final class DefaultPKParent implements Model {
-  public static final DefaultPKParentPath rootPath = new DefaultPKParentPath(\\"root\\", false, null);
-  public static final QueryField ID = field(\\"DefaultPKParent\\", \\"id\\");
-  public static final QueryField CONTENT = field(\\"DefaultPKParent\\", \\"content\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"String\\") String content;
-  private final @ModelField(targetType=\\"DefaultPKChild\\") @HasMany(associatedWith = \\"parent\\", type = DefaultPKChild.class) ModelList<DefaultPKChild> children = null;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final DefaultPKParentPath rootPath = new DefaultPKParentPath("root", false, null);
+  public static final QueryField ID = field("DefaultPKParent", "id");
+  public static final QueryField CONTENT = field("DefaultPKParent", "content");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="String") String content;
+  private final @ModelField(targetType="DefaultPKChild") @HasMany(associatedWith = "parent", type = DefaultPKChild.class) ModelList<DefaultPKChild> children = null;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -91,12 +91,12 @@ public final class DefaultPKParent implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"DefaultPKParent {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("DefaultPKParent {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("content=" + String.valueOf(getContent()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -183,19 +183,19 @@ public final class DefaultPKParent implements Model {
 }
 
 /** This is an auto generated class representing the DefaultPKChild type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"DefaultPKChildren\\", hasLazySupport = true)
-@Index(name = \\"undefined\\", fields = {\\"id\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "DefaultPKChildren", hasLazySupport = true)
+@Index(name = "undefined", fields = {"id"})
 public final class DefaultPKChild implements Model {
-  public static final DefaultPKChildPath rootPath = new DefaultPKChildPath(\\"root\\", false, null);
-  public static final QueryField ID = field(\\"DefaultPKChild\\", \\"id\\");
-  public static final QueryField CONTENT = field(\\"DefaultPKChild\\", \\"content\\");
-  public static final QueryField PARENT = field(\\"DefaultPKChild\\", \\"defaultPKParentChildrenId\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"String\\") String content;
-  private final @ModelField(targetType=\\"DefaultPKParent\\") @BelongsTo(targetName = \\"defaultPKParentChildrenId\\", type = DefaultPKParent.class) ModelReference<DefaultPKParent> parent;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final DefaultPKChildPath rootPath = new DefaultPKChildPath("root", false, null);
+  public static final QueryField ID = field("DefaultPKChild", "id");
+  public static final QueryField CONTENT = field("DefaultPKChild", "content");
+  public static final QueryField PARENT = field("DefaultPKChild", "defaultPKParentChildrenId");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="String") String content;
+  private final @ModelField(targetType="DefaultPKParent") @BelongsTo(targetName = "defaultPKParentChildrenId", type = DefaultPKParent.class) ModelReference<DefaultPKParent> parent;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -253,13 +253,13 @@ public final class DefaultPKChild implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"DefaultPKChild {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
-      .append(\\"parent=\\" + String.valueOf(getParent()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("DefaultPKChild {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("content=" + String.valueOf(getContent()) + ", ")
+      .append("parent=" + String.valueOf(getParent()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -387,18 +387,18 @@ import com.amplifyframework.core.model.query.predicate.QueryField;
 import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the HasOneParent type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"HasOneParents\\", hasLazySupport = true)
-@Index(name = \\"undefined\\", fields = {\\"id\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "HasOneParents", hasLazySupport = true)
+@Index(name = "undefined", fields = {"id"})
 public final class HasOneParent implements Model {
-  public static final HasOneParentPath rootPath = new HasOneParentPath(\\"root\\", false, null);
-  public static final QueryField ID = field(\\"HasOneParent\\", \\"id\\");
-  public static final QueryField HAS_ONE_PARENT_CHILD_ID = field(\\"HasOneParent\\", \\"hasOneParentChildId\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"HasOneChild\\") @HasOne(associatedWith = \\"id\\", type = HasOneChild.class) ModelReference<HasOneChild> child = null;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  private final @ModelField(targetType=\\"ID\\") String hasOneParentChildId;
+  public static final HasOneParentPath rootPath = new HasOneParentPath("root", false, null);
+  public static final QueryField ID = field("HasOneParent", "id");
+  public static final QueryField HAS_ONE_PARENT_CHILD_ID = field("HasOneParent", "hasOneParentChildId");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="HasOneChild") @HasOne(associatedWith = "id", type = HasOneChild.class) ModelReference<HasOneChild> child = null;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType="ID") String hasOneParentChildId;
   public String getId() {
       return id;
   }
@@ -453,12 +453,12 @@ public final class HasOneParent implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"HasOneParent {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
-      .append(\\"hasOneParentChildId=\\" + String.valueOf(getHasOneParentChildId()))
-      .append(\\"}\\")
+      .append("HasOneParent {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()) + ", ")
+      .append("hasOneParentChildId=" + String.valueOf(getHasOneParentChildId()))
+      .append("}")
       .toString();
   }
   
@@ -545,17 +545,17 @@ public final class HasOneParent implements Model {
 }
 
 /** This is an auto generated class representing the HasOneChild type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"HasOneChildren\\", hasLazySupport = true)
-@Index(name = \\"undefined\\", fields = {\\"id\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "HasOneChildren", hasLazySupport = true)
+@Index(name = "undefined", fields = {"id"})
 public final class HasOneChild implements Model {
-  public static final HasOneChildPath rootPath = new HasOneChildPath(\\"root\\", false, null);
-  public static final QueryField ID = field(\\"HasOneChild\\", \\"id\\");
-  public static final QueryField CONTENT = field(\\"HasOneChild\\", \\"content\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"String\\") String content;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final HasOneChildPath rootPath = new HasOneChildPath("root", false, null);
+  public static final QueryField ID = field("HasOneChild", "id");
+  public static final QueryField CONTENT = field("HasOneChild", "content");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="String") String content;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -606,12 +606,12 @@ public final class HasOneChild implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"HasOneChild {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("HasOneChild {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("content=" + String.valueOf(getContent()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -724,20 +724,20 @@ import com.amplifyframework.core.model.query.predicate.QueryField;
 import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Blog type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Blogs\\", hasLazySupport = true)
-@Index(name = \\"undefined\\", fields = {\\"blogId\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "Blogs", hasLazySupport = true)
+@Index(name = "undefined", fields = {"blogId"})
 public final class Blog implements Model {
-  public static final BlogPath rootPath = new BlogPath(\\"root\\", false, null);
-  public static final QueryField ID = field(\\"Blog\\", \\"id\\");
-  public static final QueryField BLOG_ID = field(\\"Blog\\", \\"blogId\\");
-  public static final QueryField NAME = field(\\"Blog\\", \\"name\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String blogId;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
-  private final @ModelField(targetType=\\"Post\\", isRequired = true) @HasMany(associatedWith = \\"blog\\", type = Post.class) ModelList<Post> posts = null;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final BlogPath rootPath = new BlogPath("root", false, null);
+  public static final QueryField ID = field("Blog", "id");
+  public static final QueryField BLOG_ID = field("Blog", "blogId");
+  public static final QueryField NAME = field("Blog", "name");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="String", isRequired = true) String blogId;
+  private final @ModelField(targetType="String", isRequired = true) String name;
+  private final @ModelField(targetType="Post", isRequired = true) @HasMany(associatedWith = "blog", type = Post.class) ModelList<Post> posts = null;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -799,13 +799,13 @@ public final class Blog implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"Blog {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"blogId=\\" + String.valueOf(getBlogId()) + \\", \\")
-      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("Blog {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("blogId=" + String.valueOf(getBlogId()) + ", ")
+      .append("name=" + String.valueOf(getName()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -920,22 +920,22 @@ public final class Blog implements Model {
 }
 
 /** This is an auto generated class representing the Post type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Posts\\", hasLazySupport = true)
-@Index(name = \\"undefined\\", fields = {\\"postId\\",\\"title\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "Posts", hasLazySupport = true)
+@Index(name = "undefined", fields = {"postId","title"})
 public final class Post implements Model {
-  public static final PostPath rootPath = new PostPath(\\"root\\", false, null);
-  public static final QueryField ID = field(\\"Post\\", \\"id\\");
-  public static final QueryField POST_ID = field(\\"Post\\", \\"postId\\");
-  public static final QueryField TITLE = field(\\"Post\\", \\"title\\");
-  public static final QueryField BLOG = field(\\"Post\\", \\"blogPostsId\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String postId;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String title;
-  private final @ModelField(targetType=\\"Blog\\", isRequired = true) @BelongsTo(targetName = \\"blogPostsId\\", type = Blog.class) ModelReference<Blog> blog;
-  private final @ModelField(targetType=\\"Comment\\", isRequired = true) @HasMany(associatedWith = \\"post\\", type = Comment.class) ModelList<Comment> comments = null;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final PostPath rootPath = new PostPath("root", false, null);
+  public static final QueryField ID = field("Post", "id");
+  public static final QueryField POST_ID = field("Post", "postId");
+  public static final QueryField TITLE = field("Post", "title");
+  public static final QueryField BLOG = field("Post", "blogPostsId");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="ID", isRequired = true) String postId;
+  private final @ModelField(targetType="String", isRequired = true) String title;
+  private final @ModelField(targetType="Blog", isRequired = true) @BelongsTo(targetName = "blogPostsId", type = Blog.class) ModelReference<Blog> blog;
+  private final @ModelField(targetType="Comment", isRequired = true) @HasMany(associatedWith = "post", type = Comment.class) ModelList<Comment> comments = null;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -1004,14 +1004,14 @@ public final class Post implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"Post {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"postId=\\" + String.valueOf(getPostId()) + \\", \\")
-      .append(\\"title=\\" + String.valueOf(getTitle()) + \\", \\")
-      .append(\\"blog=\\" + String.valueOf(getBlog()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("Post {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("postId=" + String.valueOf(getPostId()) + ", ")
+      .append("title=" + String.valueOf(getTitle()) + ", ")
+      .append("blog=" + String.valueOf(getBlog()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -1149,21 +1149,21 @@ public final class Post implements Model {
 }
 
 /** This is an auto generated class representing the Comment type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Comments\\", hasLazySupport = true)
-@Index(name = \\"undefined\\", fields = {\\"commentId\\",\\"content\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "Comments", hasLazySupport = true)
+@Index(name = "undefined", fields = {"commentId","content"})
 public final class Comment implements Model {
-  public static final CommentPath rootPath = new CommentPath(\\"root\\", false, null);
-  public static final QueryField ID = field(\\"Comment\\", \\"id\\");
-  public static final QueryField COMMENT_ID = field(\\"Comment\\", \\"commentId\\");
-  public static final QueryField CONTENT = field(\\"Comment\\", \\"content\\");
-  public static final QueryField POST = field(\\"Comment\\", \\"postCommentsId\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String commentId;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
-  private final @ModelField(targetType=\\"Post\\", isRequired = true) @BelongsTo(targetName = \\"postCommentsId\\", type = Post.class) ModelReference<Post> post;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final CommentPath rootPath = new CommentPath("root", false, null);
+  public static final QueryField ID = field("Comment", "id");
+  public static final QueryField COMMENT_ID = field("Comment", "commentId");
+  public static final QueryField CONTENT = field("Comment", "content");
+  public static final QueryField POST = field("Comment", "postCommentsId");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="ID", isRequired = true) String commentId;
+  private final @ModelField(targetType="String", isRequired = true) String content;
+  private final @ModelField(targetType="Post", isRequired = true) @BelongsTo(targetName = "postCommentsId", type = Post.class) ModelReference<Post> post;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -1228,14 +1228,14 @@ public final class Comment implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"Comment {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"commentId=\\" + String.valueOf(getCommentId()) + \\", \\")
-      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
-      .append(\\"post=\\" + String.valueOf(getPost()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("Comment {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("commentId=" + String.valueOf(getCommentId()) + ", ")
+      .append("content=" + String.valueOf(getContent()) + ", ")
+      .append("post=" + String.valueOf(getPost()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -1399,23 +1399,23 @@ import com.amplifyframework.core.model.query.predicate.QueryField;
 import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the CompositePKParent type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"CompositePKParents\\", hasLazySupport = true)
-@Index(name = \\"undefined\\", fields = {\\"customId\\",\\"content\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "CompositePKParents", hasLazySupport = true)
+@Index(name = "undefined", fields = {"customId","content"})
 public final class CompositePKParent implements Model {
-  public static final CompositePKParentPath rootPath = new CompositePKParentPath(\\"root\\", false, null);
-  public static final QueryField ID = field(\\"CompositePKParent\\", \\"id\\");
-  public static final QueryField CUSTOM_ID = field(\\"CompositePKParent\\", \\"customId\\");
-  public static final QueryField CONTENT = field(\\"CompositePKParent\\", \\"content\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String customId;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
-  private final @ModelField(targetType=\\"CompositePKChild\\") @HasMany(associatedWith = \\"parent\\", type = CompositePKChild.class) ModelList<CompositePKChild> children = null;
-  private final @ModelField(targetType=\\"ImplicitChild\\") @HasMany(associatedWith = \\"parent\\", type = ImplicitChild.class) ModelList<ImplicitChild> implicitChildren = null;
-  private final @ModelField(targetType=\\"StrangeExplicitChild\\") @HasMany(associatedWith = \\"parent\\", type = StrangeExplicitChild.class) ModelList<StrangeExplicitChild> strangeChildren = null;
-  private final @ModelField(targetType=\\"ChildSansBelongsTo\\") @HasMany(associatedWith = \\"compositePKParentChildrenSansBelongsToId\\", type = ChildSansBelongsTo.class) ModelList<ChildSansBelongsTo> childrenSansBelongsTo = null;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final CompositePKParentPath rootPath = new CompositePKParentPath("root", false, null);
+  public static final QueryField ID = field("CompositePKParent", "id");
+  public static final QueryField CUSTOM_ID = field("CompositePKParent", "customId");
+  public static final QueryField CONTENT = field("CompositePKParent", "content");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="ID", isRequired = true) String customId;
+  private final @ModelField(targetType="String", isRequired = true) String content;
+  private final @ModelField(targetType="CompositePKChild") @HasMany(associatedWith = "parent", type = CompositePKChild.class) ModelList<CompositePKChild> children = null;
+  private final @ModelField(targetType="ImplicitChild") @HasMany(associatedWith = "parent", type = ImplicitChild.class) ModelList<ImplicitChild> implicitChildren = null;
+  private final @ModelField(targetType="StrangeExplicitChild") @HasMany(associatedWith = "parent", type = StrangeExplicitChild.class) ModelList<StrangeExplicitChild> strangeChildren = null;
+  private final @ModelField(targetType="ChildSansBelongsTo") @HasMany(associatedWith = "compositePKParentChildrenSansBelongsToId", type = ChildSansBelongsTo.class) ModelList<ChildSansBelongsTo> childrenSansBelongsTo = null;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -1489,13 +1489,13 @@ public final class CompositePKParent implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"CompositePKParent {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"customId=\\" + String.valueOf(getCustomId()) + \\", \\")
-      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("CompositePKParent {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("customId=" + String.valueOf(getCustomId()) + ", ")
+      .append("content=" + String.valueOf(getContent()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -1610,24 +1610,24 @@ public final class CompositePKParent implements Model {
 }
 
 /** This is an auto generated class representing the CompositePKChild type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"CompositePKChildren\\", hasLazySupport = true)
-@Index(name = \\"undefined\\", fields = {\\"childId\\",\\"content\\"})
-@Index(name = \\"byParent\\", fields = {\\"parentId\\",\\"parentTitle\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "CompositePKChildren", hasLazySupport = true)
+@Index(name = "undefined", fields = {"childId","content"})
+@Index(name = "byParent", fields = {"parentId","parentTitle"})
 public final class CompositePKChild implements Model {
-  public static final CompositePKChildPath rootPath = new CompositePKChildPath(\\"root\\", false, null);
-  public static final QueryField ID = field(\\"CompositePKChild\\", \\"id\\");
-  public static final QueryField CHILD_ID = field(\\"CompositePKChild\\", \\"childId\\");
-  public static final QueryField CONTENT = field(\\"CompositePKChild\\", \\"content\\");
-  public static final QueryField PARENT = field(\\"CompositePKChild\\", \\"parentId\\");
-  public static final QueryField PARENT_TITLE = field(\\"CompositePKChild\\", \\"parentTitle\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String childId;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
-  private final @ModelField(targetType=\\"CompositePKParent\\") @BelongsTo(targetName = \\"parentId\\", type = CompositePKParent.class) ModelReference<CompositePKParent> parent;
-  private final @ModelField(targetType=\\"String\\") String parentTitle;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final CompositePKChildPath rootPath = new CompositePKChildPath("root", false, null);
+  public static final QueryField ID = field("CompositePKChild", "id");
+  public static final QueryField CHILD_ID = field("CompositePKChild", "childId");
+  public static final QueryField CONTENT = field("CompositePKChild", "content");
+  public static final QueryField PARENT = field("CompositePKChild", "parentId");
+  public static final QueryField PARENT_TITLE = field("CompositePKChild", "parentTitle");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="ID", isRequired = true) String childId;
+  private final @ModelField(targetType="String", isRequired = true) String content;
+  private final @ModelField(targetType="CompositePKParent") @BelongsTo(targetName = "parentId", type = CompositePKParent.class) ModelReference<CompositePKParent> parent;
+  private final @ModelField(targetType="String") String parentTitle;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -1699,15 +1699,15 @@ public final class CompositePKChild implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"CompositePKChild {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"childId=\\" + String.valueOf(getChildId()) + \\", \\")
-      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
-      .append(\\"parent=\\" + String.valueOf(getParent()) + \\", \\")
-      .append(\\"parentTitle=\\" + String.valueOf(getParentTitle()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("CompositePKChild {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("childId=" + String.valueOf(getChildId()) + ", ")
+      .append("content=" + String.valueOf(getContent()) + ", ")
+      .append("parent=" + String.valueOf(getParent()) + ", ")
+      .append("parentTitle=" + String.valueOf(getParentTitle()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -1856,21 +1856,21 @@ public final class CompositePKChild implements Model {
 }
 
 /** This is an auto generated class representing the ImplicitChild type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"ImplicitChildren\\", hasLazySupport = true)
-@Index(name = \\"undefined\\", fields = {\\"childId\\",\\"content\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "ImplicitChildren", hasLazySupport = true)
+@Index(name = "undefined", fields = {"childId","content"})
 public final class ImplicitChild implements Model {
-  public static final ImplicitChildPath rootPath = new ImplicitChildPath(\\"root\\", false, null);
-  public static final QueryField ID = field(\\"ImplicitChild\\", \\"id\\");
-  public static final QueryField CHILD_ID = field(\\"ImplicitChild\\", \\"childId\\");
-  public static final QueryField CONTENT = field(\\"ImplicitChild\\", \\"content\\");
-  public static final QueryField PARENT = field(\\"ImplicitChild\\", \\"compositePKParentImplicitChildrenId\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String childId;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
-  private final @ModelField(targetType=\\"CompositePKParent\\", isRequired = true) @BelongsTo(targetName = \\"compositePKParentImplicitChildrenId\\", type = CompositePKParent.class) ModelReference<CompositePKParent> parent;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final ImplicitChildPath rootPath = new ImplicitChildPath("root", false, null);
+  public static final QueryField ID = field("ImplicitChild", "id");
+  public static final QueryField CHILD_ID = field("ImplicitChild", "childId");
+  public static final QueryField CONTENT = field("ImplicitChild", "content");
+  public static final QueryField PARENT = field("ImplicitChild", "compositePKParentImplicitChildrenId");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="ID", isRequired = true) String childId;
+  private final @ModelField(targetType="String", isRequired = true) String content;
+  private final @ModelField(targetType="CompositePKParent", isRequired = true) @BelongsTo(targetName = "compositePKParentImplicitChildrenId", type = CompositePKParent.class) ModelReference<CompositePKParent> parent;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -1935,14 +1935,14 @@ public final class ImplicitChild implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"ImplicitChild {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"childId=\\" + String.valueOf(getChildId()) + \\", \\")
-      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
-      .append(\\"parent=\\" + String.valueOf(getParent()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("ImplicitChild {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("childId=" + String.valueOf(getChildId()) + ", ")
+      .append("content=" + String.valueOf(getContent()) + ", ")
+      .append("parent=" + String.valueOf(getParent()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -2080,24 +2080,24 @@ public final class ImplicitChild implements Model {
 }
 
 /** This is an auto generated class representing the StrangeExplicitChild type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"StrangeExplicitChildren\\", hasLazySupport = true)
-@Index(name = \\"undefined\\", fields = {\\"strangeId\\",\\"content\\"})
-@Index(name = \\"byCompositePKParentX\\", fields = {\\"strangeParentId\\",\\"strangeParentTitle\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "StrangeExplicitChildren", hasLazySupport = true)
+@Index(name = "undefined", fields = {"strangeId","content"})
+@Index(name = "byCompositePKParentX", fields = {"strangeParentId","strangeParentTitle"})
 public final class StrangeExplicitChild implements Model {
-  public static final StrangeExplicitChildPath rootPath = new StrangeExplicitChildPath(\\"root\\", false, null);
-  public static final QueryField ID = field(\\"StrangeExplicitChild\\", \\"id\\");
-  public static final QueryField STRANGE_ID = field(\\"StrangeExplicitChild\\", \\"strangeId\\");
-  public static final QueryField CONTENT = field(\\"StrangeExplicitChild\\", \\"content\\");
-  public static final QueryField PARENT = field(\\"StrangeExplicitChild\\", \\"strangeParentId\\");
-  public static final QueryField STRANGE_PARENT_TITLE = field(\\"StrangeExplicitChild\\", \\"strangeParentTitle\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String strangeId;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
-  private final @ModelField(targetType=\\"CompositePKParent\\", isRequired = true) @BelongsTo(targetName = \\"strangeParentId\\", type = CompositePKParent.class) ModelReference<CompositePKParent> parent;
-  private final @ModelField(targetType=\\"String\\") String strangeParentTitle;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final StrangeExplicitChildPath rootPath = new StrangeExplicitChildPath("root", false, null);
+  public static final QueryField ID = field("StrangeExplicitChild", "id");
+  public static final QueryField STRANGE_ID = field("StrangeExplicitChild", "strangeId");
+  public static final QueryField CONTENT = field("StrangeExplicitChild", "content");
+  public static final QueryField PARENT = field("StrangeExplicitChild", "strangeParentId");
+  public static final QueryField STRANGE_PARENT_TITLE = field("StrangeExplicitChild", "strangeParentTitle");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="ID", isRequired = true) String strangeId;
+  private final @ModelField(targetType="String", isRequired = true) String content;
+  private final @ModelField(targetType="CompositePKParent", isRequired = true) @BelongsTo(targetName = "strangeParentId", type = CompositePKParent.class) ModelReference<CompositePKParent> parent;
+  private final @ModelField(targetType="String") String strangeParentTitle;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -2169,15 +2169,15 @@ public final class StrangeExplicitChild implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"StrangeExplicitChild {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"strangeId=\\" + String.valueOf(getStrangeId()) + \\", \\")
-      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
-      .append(\\"parent=\\" + String.valueOf(getParent()) + \\", \\")
-      .append(\\"strangeParentTitle=\\" + String.valueOf(getStrangeParentTitle()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("StrangeExplicitChild {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("strangeId=" + String.valueOf(getStrangeId()) + ", ")
+      .append("content=" + String.valueOf(getContent()) + ", ")
+      .append("parent=" + String.valueOf(getParent()) + ", ")
+      .append("strangeParentTitle=" + String.valueOf(getStrangeParentTitle()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -2332,26 +2332,26 @@ public final class StrangeExplicitChild implements Model {
 }
 
 /** This is an auto generated class representing the ChildSansBelongsTo type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"ChildSansBelongsTos\\", hasLazySupport = true)
-@Index(name = \\"undefined\\", fields = {\\"childId\\",\\"content\\"})
-@Index(name = \\"byParent\\", fields = {\\"compositePKParentChildrenSansBelongsToCustomId\\",\\"compositePKParentChildrenSansBelongsToContent\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "ChildSansBelongsTos", hasLazySupport = true)
+@Index(name = "undefined", fields = {"childId","content"})
+@Index(name = "byParent", fields = {"compositePKParentChildrenSansBelongsToCustomId","compositePKParentChildrenSansBelongsToContent"})
 public final class ChildSansBelongsTo implements Model {
-  public static final ChildSansBelongsToPath rootPath = new ChildSansBelongsToPath(\\"root\\", false, null);
-  public static final QueryField ID = field(\\"ChildSansBelongsTo\\", \\"id\\");
-  public static final QueryField CHILD_ID = field(\\"ChildSansBelongsTo\\", \\"childId\\");
-  public static final QueryField CONTENT = field(\\"ChildSansBelongsTo\\", \\"content\\");
-  public static final QueryField COMPOSITE_PK_PARENT_CHILDREN_SANS_BELONGS_TO_CUSTOM_ID = field(\\"ChildSansBelongsTo\\", \\"compositePKParentChildrenSansBelongsToCustomId\\");
-  public static final QueryField COMPOSITE_PK_PARENT_CHILDREN_SANS_BELONGS_TO_CONTENT = field(\\"ChildSansBelongsTo\\", \\"compositePKParentChildrenSansBelongsToContent\\");
-  public static final QueryField COMPOSITE_PK_PARENT_CHILDREN_SANS_BELONGS_TO_ID = field(\\"ChildSansBelongsTo\\", \\"compositePKParentChildrenSansBelongsToId\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String childId;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String compositePKParentChildrenSansBelongsToCustomId;
-  private final @ModelField(targetType=\\"String\\") String compositePKParentChildrenSansBelongsToContent;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  private final @ModelField(targetType=\\"ID\\") String compositePKParentChildrenSansBelongsToId;
+  public static final ChildSansBelongsToPath rootPath = new ChildSansBelongsToPath("root", false, null);
+  public static final QueryField ID = field("ChildSansBelongsTo", "id");
+  public static final QueryField CHILD_ID = field("ChildSansBelongsTo", "childId");
+  public static final QueryField CONTENT = field("ChildSansBelongsTo", "content");
+  public static final QueryField COMPOSITE_PK_PARENT_CHILDREN_SANS_BELONGS_TO_CUSTOM_ID = field("ChildSansBelongsTo", "compositePKParentChildrenSansBelongsToCustomId");
+  public static final QueryField COMPOSITE_PK_PARENT_CHILDREN_SANS_BELONGS_TO_CONTENT = field("ChildSansBelongsTo", "compositePKParentChildrenSansBelongsToContent");
+  public static final QueryField COMPOSITE_PK_PARENT_CHILDREN_SANS_BELONGS_TO_ID = field("ChildSansBelongsTo", "compositePKParentChildrenSansBelongsToId");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="ID", isRequired = true) String childId;
+  private final @ModelField(targetType="String", isRequired = true) String content;
+  private final @ModelField(targetType="ID", isRequired = true) String compositePKParentChildrenSansBelongsToCustomId;
+  private final @ModelField(targetType="String") String compositePKParentChildrenSansBelongsToContent;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType="ID") String compositePKParentChildrenSansBelongsToId;
   public String getId() {
       return id;
   }
@@ -2430,16 +2430,16 @@ public final class ChildSansBelongsTo implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"ChildSansBelongsTo {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"childId=\\" + String.valueOf(getChildId()) + \\", \\")
-      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
-      .append(\\"compositePKParentChildrenSansBelongsToCustomId=\\" + String.valueOf(getCompositePkParentChildrenSansBelongsToCustomId()) + \\", \\")
-      .append(\\"compositePKParentChildrenSansBelongsToContent=\\" + String.valueOf(getCompositePkParentChildrenSansBelongsToContent()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
-      .append(\\"compositePKParentChildrenSansBelongsToId=\\" + String.valueOf(getCompositePkParentChildrenSansBelongsToId()))
-      .append(\\"}\\")
+      .append("ChildSansBelongsTo {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("childId=" + String.valueOf(getChildId()) + ", ")
+      .append("content=" + String.valueOf(getContent()) + ", ")
+      .append("compositePKParentChildrenSansBelongsToCustomId=" + String.valueOf(getCompositePkParentChildrenSansBelongsToCustomId()) + ", ")
+      .append("compositePKParentChildrenSansBelongsToContent=" + String.valueOf(getCompositePkParentChildrenSansBelongsToContent()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()) + ", ")
+      .append("compositePKParentChildrenSansBelongsToId=" + String.valueOf(getCompositePkParentChildrenSansBelongsToId()))
+      .append("}")
       .toString();
   }
   
@@ -2638,19 +2638,19 @@ import com.amplifyframework.core.model.query.predicate.QueryField;
 import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Parent type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Parents\\", hasLazySupport = true)
-@Index(name = \\"undefined\\", fields = {\\"id\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "Parents", hasLazySupport = true)
+@Index(name = "undefined", fields = {"id"})
 public final class Parent implements Model {
-  public static final ParentPath rootPath = new ParentPath(\\"root\\", false, null);
-  public static final QueryField ID = field(\\"Parent\\", \\"id\\");
-  public static final QueryField PARENT_CHILD_ID = field(\\"Parent\\", \\"parentChildId\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"HasOneChild\\") @HasOne(associatedWith = \\"id\\", type = HasOneChild.class) ModelReference<HasOneChild> child = null;
-  private final @ModelField(targetType=\\"HasManyChild\\") @HasMany(associatedWith = \\"parent\\", type = HasManyChild.class) ModelList<HasManyChild> children = null;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  private final @ModelField(targetType=\\"ID\\") String parentChildId;
+  public static final ParentPath rootPath = new ParentPath("root", false, null);
+  public static final QueryField ID = field("Parent", "id");
+  public static final QueryField PARENT_CHILD_ID = field("Parent", "parentChildId");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="HasOneChild") @HasOne(associatedWith = "id", type = HasOneChild.class) ModelReference<HasOneChild> child = null;
+  private final @ModelField(targetType="HasManyChild") @HasMany(associatedWith = "parent", type = HasManyChild.class) ModelList<HasManyChild> children = null;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType="ID") String parentChildId;
   public String getId() {
       return id;
   }
@@ -2709,12 +2709,12 @@ public final class Parent implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"Parent {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
-      .append(\\"parentChildId=\\" + String.valueOf(getParentChildId()))
-      .append(\\"}\\")
+      .append("Parent {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()) + ", ")
+      .append("parentChildId=" + String.valueOf(getParentChildId()))
+      .append("}")
       .toString();
   }
   
@@ -2801,17 +2801,17 @@ public final class Parent implements Model {
 }
 
 /** This is an auto generated class representing the HasOneChild type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"HasOneChildren\\", hasLazySupport = true)
-@Index(name = \\"undefined\\", fields = {\\"id\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "HasOneChildren", hasLazySupport = true)
+@Index(name = "undefined", fields = {"id"})
 public final class HasOneChild implements Model {
-  public static final HasOneChildPath rootPath = new HasOneChildPath(\\"root\\", false, null);
-  public static final QueryField ID = field(\\"HasOneChild\\", \\"id\\");
-  public static final QueryField CONTENT = field(\\"HasOneChild\\", \\"content\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"String\\") String content;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final HasOneChildPath rootPath = new HasOneChildPath("root", false, null);
+  public static final QueryField ID = field("HasOneChild", "id");
+  public static final QueryField CONTENT = field("HasOneChild", "content");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="String") String content;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -2862,12 +2862,12 @@ public final class HasOneChild implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"HasOneChild {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("HasOneChild {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("content=" + String.valueOf(getContent()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -2954,19 +2954,19 @@ public final class HasOneChild implements Model {
 }
 
 /** This is an auto generated class representing the HasManyChild type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"HasManyChildren\\", hasLazySupport = true)
-@Index(name = \\"undefined\\", fields = {\\"id\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "HasManyChildren", hasLazySupport = true)
+@Index(name = "undefined", fields = {"id"})
 public final class HasManyChild implements Model {
-  public static final HasManyChildPath rootPath = new HasManyChildPath(\\"root\\", false, null);
-  public static final QueryField ID = field(\\"HasManyChild\\", \\"id\\");
-  public static final QueryField CONTENT = field(\\"HasManyChild\\", \\"content\\");
-  public static final QueryField PARENT = field(\\"HasManyChild\\", \\"parentChildrenId\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"String\\") String content;
-  private final @ModelField(targetType=\\"Parent\\") @BelongsTo(targetName = \\"parentChildrenId\\", type = Parent.class) ModelReference<Parent> parent;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final HasManyChildPath rootPath = new HasManyChildPath("root", false, null);
+  public static final QueryField ID = field("HasManyChild", "id");
+  public static final QueryField CONTENT = field("HasManyChild", "content");
+  public static final QueryField PARENT = field("HasManyChild", "parentChildrenId");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="String") String content;
+  private final @ModelField(targetType="Parent") @BelongsTo(targetName = "parentChildrenId", type = Parent.class) ModelReference<Parent> parent;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -3024,13 +3024,13 @@ public final class HasManyChild implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"HasManyChild {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
-      .append(\\"parent=\\" + String.valueOf(getParent()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("HasManyChild {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("content=" + String.valueOf(getContent()) + ", ")
+      .append("parent=" + String.valueOf(getParent()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -3159,22 +3159,22 @@ import com.amplifyframework.core.model.query.predicate.QueryField;
 import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Project type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Projects\\", hasLazySupport = true)
-@Index(name = \\"undefined\\", fields = {\\"projectId\\",\\"name\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "Projects", hasLazySupport = true)
+@Index(name = "undefined", fields = {"projectId","name"})
 public final class Project implements Model {
-  public static final ProjectPath rootPath = new ProjectPath(\\"root\\", false, null);
-  public static final QueryField ID = field(\\"Project\\", \\"id\\");
-  public static final QueryField PROJECT_ID = field(\\"Project\\", \\"projectId\\");
-  public static final QueryField NAME = field(\\"Project\\", \\"name\\");
-  public static final QueryField PROJECT_TEAM_ID = field(\\"Project\\", \\"projectTeamId\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String projectId;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
-  private final @ModelField(targetType=\\"Team\\") @HasOne(associatedWith = \\"teamId\\", type = Team.class) ModelReference<Team> team = null;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  private final @ModelField(targetType=\\"ID\\") String projectTeamId;
+  public static final ProjectPath rootPath = new ProjectPath("root", false, null);
+  public static final QueryField ID = field("Project", "id");
+  public static final QueryField PROJECT_ID = field("Project", "projectId");
+  public static final QueryField NAME = field("Project", "name");
+  public static final QueryField PROJECT_TEAM_ID = field("Project", "projectTeamId");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="ID", isRequired = true) String projectId;
+  private final @ModelField(targetType="String", isRequired = true) String name;
+  private final @ModelField(targetType="Team") @HasOne(associatedWith = "teamId", type = Team.class) ModelReference<Team> team = null;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType="ID") String projectTeamId;
   public String getId() {
       return id;
   }
@@ -3243,14 +3243,14 @@ public final class Project implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"Project {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"projectId=\\" + String.valueOf(getProjectId()) + \\", \\")
-      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
-      .append(\\"projectTeamId=\\" + String.valueOf(getProjectTeamId()))
-      .append(\\"}\\")
+      .append("Project {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("projectId=" + String.valueOf(getProjectId()) + ", ")
+      .append("name=" + String.valueOf(getName()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()) + ", ")
+      .append("projectTeamId=" + String.valueOf(getProjectTeamId()))
+      .append("}")
       .toString();
   }
   
@@ -3382,21 +3382,21 @@ public final class Project implements Model {
 }
 
 /** This is an auto generated class representing the Team type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Teams\\", hasLazySupport = true)
-@Index(name = \\"undefined\\", fields = {\\"teamId\\",\\"name\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "Teams", hasLazySupport = true)
+@Index(name = "undefined", fields = {"teamId","name"})
 public final class Team implements Model {
-  public static final TeamPath rootPath = new TeamPath(\\"root\\", false, null);
-  public static final QueryField ID = field(\\"Team\\", \\"id\\");
-  public static final QueryField TEAM_ID = field(\\"Team\\", \\"teamId\\");
-  public static final QueryField NAME = field(\\"Team\\", \\"name\\");
-  public static final QueryField PROJECT = field(\\"Team\\", \\"teamProjectId\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String teamId;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
-  private final @ModelField(targetType=\\"Project\\") @BelongsTo(targetName = \\"teamProjectId\\", type = Project.class) ModelReference<Project> project;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final TeamPath rootPath = new TeamPath("root", false, null);
+  public static final QueryField ID = field("Team", "id");
+  public static final QueryField TEAM_ID = field("Team", "teamId");
+  public static final QueryField NAME = field("Team", "name");
+  public static final QueryField PROJECT = field("Team", "teamProjectId");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="ID", isRequired = true) String teamId;
+  private final @ModelField(targetType="String", isRequired = true) String name;
+  private final @ModelField(targetType="Project") @BelongsTo(targetName = "teamProjectId", type = Project.class) ModelReference<Project> project;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -3461,14 +3461,14 @@ public final class Team implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"Team {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"teamId=\\" + String.valueOf(getTeamId()) + \\", \\")
-      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
-      .append(\\"project=\\" + String.valueOf(getProject()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("Team {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("teamId=" + String.valueOf(getTeamId()) + ", ")
+      .append("name=" + String.valueOf(getName()) + ", ")
+      .append("project=" + String.valueOf(getProject()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -3623,17 +3623,17 @@ import com.amplifyframework.core.model.query.predicate.QueryField;
 import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the DefaultPKParent type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"DefaultPKParents\\")
-@Index(name = \\"undefined\\", fields = {\\"id\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "DefaultPKParents")
+@Index(name = "undefined", fields = {"id"})
 public final class DefaultPKParent implements Model {
-  public static final QueryField ID = field(\\"DefaultPKParent\\", \\"id\\");
-  public static final QueryField CONTENT = field(\\"DefaultPKParent\\", \\"content\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"String\\") String content;
-  private final @ModelField(targetType=\\"DefaultPKChild\\") @HasMany(associatedWith = \\"parent\\", type = DefaultPKChild.class) List<DefaultPKChild> children = null;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final QueryField ID = field("DefaultPKParent", "id");
+  public static final QueryField CONTENT = field("DefaultPKParent", "content");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="String") String content;
+  private final @ModelField(targetType="DefaultPKChild") @HasMany(associatedWith = "parent", type = DefaultPKChild.class) List<DefaultPKChild> children = null;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -3688,12 +3688,12 @@ public final class DefaultPKParent implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"DefaultPKParent {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("DefaultPKParent {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("content=" + String.valueOf(getContent()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -3780,18 +3780,18 @@ public final class DefaultPKParent implements Model {
 }
 
 /** This is an auto generated class representing the DefaultPKChild type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"DefaultPKChildren\\")
-@Index(name = \\"undefined\\", fields = {\\"id\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "DefaultPKChildren")
+@Index(name = "undefined", fields = {"id"})
 public final class DefaultPKChild implements Model {
-  public static final QueryField ID = field(\\"DefaultPKChild\\", \\"id\\");
-  public static final QueryField CONTENT = field(\\"DefaultPKChild\\", \\"content\\");
-  public static final QueryField PARENT = field(\\"DefaultPKChild\\", \\"defaultPKParentChildrenId\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"String\\") String content;
-  private final @ModelField(targetType=\\"DefaultPKParent\\") @BelongsTo(targetName = \\"defaultPKParentChildrenId\\", type = DefaultPKParent.class) DefaultPKParent parent;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final QueryField ID = field("DefaultPKChild", "id");
+  public static final QueryField CONTENT = field("DefaultPKChild", "content");
+  public static final QueryField PARENT = field("DefaultPKChild", "defaultPKParentChildrenId");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="String") String content;
+  private final @ModelField(targetType="DefaultPKParent") @BelongsTo(targetName = "defaultPKParentChildrenId", type = DefaultPKParent.class) DefaultPKParent parent;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -3849,13 +3849,13 @@ public final class DefaultPKChild implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"DefaultPKChild {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
-      .append(\\"parent=\\" + String.valueOf(getParent()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("DefaultPKChild {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("content=" + String.valueOf(getContent()) + ", ")
+      .append("parent=" + String.valueOf(getParent()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -3981,17 +3981,17 @@ import com.amplifyframework.core.model.query.predicate.QueryField;
 import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the HasOneParent type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"HasOneParents\\")
-@Index(name = \\"undefined\\", fields = {\\"id\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "HasOneParents")
+@Index(name = "undefined", fields = {"id"})
 public final class HasOneParent implements Model {
-  public static final QueryField ID = field(\\"HasOneParent\\", \\"id\\");
-  public static final QueryField HAS_ONE_PARENT_CHILD_ID = field(\\"HasOneParent\\", \\"hasOneParentChildId\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"HasOneChild\\") @HasOne(associatedWith = \\"id\\", type = HasOneChild.class) HasOneChild child = null;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  private final @ModelField(targetType=\\"ID\\") String hasOneParentChildId;
+  public static final QueryField ID = field("HasOneParent", "id");
+  public static final QueryField HAS_ONE_PARENT_CHILD_ID = field("HasOneParent", "hasOneParentChildId");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="HasOneChild") @HasOne(associatedWith = "id", type = HasOneChild.class) HasOneChild child = null;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType="ID") String hasOneParentChildId;
   public String getId() {
       return id;
   }
@@ -4046,12 +4046,12 @@ public final class HasOneParent implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"HasOneParent {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
-      .append(\\"hasOneParentChildId=\\" + String.valueOf(getHasOneParentChildId()))
-      .append(\\"}\\")
+      .append("HasOneParent {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()) + ", ")
+      .append("hasOneParentChildId=" + String.valueOf(getHasOneParentChildId()))
+      .append("}")
       .toString();
   }
   
@@ -4138,16 +4138,16 @@ public final class HasOneParent implements Model {
 }
 
 /** This is an auto generated class representing the HasOneChild type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"HasOneChildren\\")
-@Index(name = \\"undefined\\", fields = {\\"id\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "HasOneChildren")
+@Index(name = "undefined", fields = {"id"})
 public final class HasOneChild implements Model {
-  public static final QueryField ID = field(\\"HasOneChild\\", \\"id\\");
-  public static final QueryField CONTENT = field(\\"HasOneChild\\", \\"content\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"String\\") String content;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final QueryField ID = field("HasOneChild", "id");
+  public static final QueryField CONTENT = field("HasOneChild", "content");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="String") String content;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -4198,12 +4198,12 @@ public final class HasOneChild implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"HasOneChild {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("HasOneChild {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("content=" + String.valueOf(getContent()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -4313,19 +4313,19 @@ import com.amplifyframework.core.model.query.predicate.QueryField;
 import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Blog type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Blogs\\")
-@Index(name = \\"undefined\\", fields = {\\"blogId\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "Blogs")
+@Index(name = "undefined", fields = {"blogId"})
 public final class Blog implements Model {
-  public static final QueryField ID = field(\\"Blog\\", \\"id\\");
-  public static final QueryField BLOG_ID = field(\\"Blog\\", \\"blogId\\");
-  public static final QueryField NAME = field(\\"Blog\\", \\"name\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String blogId;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
-  private final @ModelField(targetType=\\"Post\\", isRequired = true) @HasMany(associatedWith = \\"blog\\", type = Post.class) List<Post> posts = null;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final QueryField ID = field("Blog", "id");
+  public static final QueryField BLOG_ID = field("Blog", "blogId");
+  public static final QueryField NAME = field("Blog", "name");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="String", isRequired = true) String blogId;
+  private final @ModelField(targetType="String", isRequired = true) String name;
+  private final @ModelField(targetType="Post", isRequired = true) @HasMany(associatedWith = "blog", type = Post.class) List<Post> posts = null;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -4387,13 +4387,13 @@ public final class Blog implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"Blog {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"blogId=\\" + String.valueOf(getBlogId()) + \\", \\")
-      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("Blog {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("blogId=" + String.valueOf(getBlogId()) + ", ")
+      .append("name=" + String.valueOf(getName()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -4508,21 +4508,21 @@ public final class Blog implements Model {
 }
 
 /** This is an auto generated class representing the Post type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Posts\\")
-@Index(name = \\"undefined\\", fields = {\\"postId\\",\\"title\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "Posts")
+@Index(name = "undefined", fields = {"postId","title"})
 public final class Post implements Model {
-  public static final QueryField ID = field(\\"Post\\", \\"id\\");
-  public static final QueryField POST_ID = field(\\"Post\\", \\"postId\\");
-  public static final QueryField TITLE = field(\\"Post\\", \\"title\\");
-  public static final QueryField BLOG = field(\\"Post\\", \\"blogPostsId\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String postId;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String title;
-  private final @ModelField(targetType=\\"Blog\\", isRequired = true) @BelongsTo(targetName = \\"blogPostsId\\", type = Blog.class) Blog blog;
-  private final @ModelField(targetType=\\"Comment\\", isRequired = true) @HasMany(associatedWith = \\"post\\", type = Comment.class) List<Comment> comments = null;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final QueryField ID = field("Post", "id");
+  public static final QueryField POST_ID = field("Post", "postId");
+  public static final QueryField TITLE = field("Post", "title");
+  public static final QueryField BLOG = field("Post", "blogPostsId");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="ID", isRequired = true) String postId;
+  private final @ModelField(targetType="String", isRequired = true) String title;
+  private final @ModelField(targetType="Blog", isRequired = true) @BelongsTo(targetName = "blogPostsId", type = Blog.class) Blog blog;
+  private final @ModelField(targetType="Comment", isRequired = true) @HasMany(associatedWith = "post", type = Comment.class) List<Comment> comments = null;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -4591,14 +4591,14 @@ public final class Post implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"Post {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"postId=\\" + String.valueOf(getPostId()) + \\", \\")
-      .append(\\"title=\\" + String.valueOf(getTitle()) + \\", \\")
-      .append(\\"blog=\\" + String.valueOf(getBlog()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("Post {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("postId=" + String.valueOf(getPostId()) + ", ")
+      .append("title=" + String.valueOf(getTitle()) + ", ")
+      .append("blog=" + String.valueOf(getBlog()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -4736,20 +4736,20 @@ public final class Post implements Model {
 }
 
 /** This is an auto generated class representing the Comment type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Comments\\")
-@Index(name = \\"undefined\\", fields = {\\"commentId\\",\\"content\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "Comments")
+@Index(name = "undefined", fields = {"commentId","content"})
 public final class Comment implements Model {
-  public static final QueryField ID = field(\\"Comment\\", \\"id\\");
-  public static final QueryField COMMENT_ID = field(\\"Comment\\", \\"commentId\\");
-  public static final QueryField CONTENT = field(\\"Comment\\", \\"content\\");
-  public static final QueryField POST = field(\\"Comment\\", \\"postCommentsId\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String commentId;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
-  private final @ModelField(targetType=\\"Post\\", isRequired = true) @BelongsTo(targetName = \\"postCommentsId\\", type = Post.class) Post post;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final QueryField ID = field("Comment", "id");
+  public static final QueryField COMMENT_ID = field("Comment", "commentId");
+  public static final QueryField CONTENT = field("Comment", "content");
+  public static final QueryField POST = field("Comment", "postCommentsId");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="ID", isRequired = true) String commentId;
+  private final @ModelField(targetType="String", isRequired = true) String content;
+  private final @ModelField(targetType="Post", isRequired = true) @BelongsTo(targetName = "postCommentsId", type = Post.class) Post post;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -4814,14 +4814,14 @@ public final class Comment implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"Comment {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"commentId=\\" + String.valueOf(getCommentId()) + \\", \\")
-      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
-      .append(\\"post=\\" + String.valueOf(getPost()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("Comment {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("commentId=" + String.valueOf(getCommentId()) + ", ")
+      .append("content=" + String.valueOf(getContent()) + ", ")
+      .append("post=" + String.valueOf(getPost()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -4982,22 +4982,22 @@ import com.amplifyframework.core.model.query.predicate.QueryField;
 import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the CompositePKParent type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"CompositePKParents\\")
-@Index(name = \\"undefined\\", fields = {\\"customId\\",\\"content\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "CompositePKParents")
+@Index(name = "undefined", fields = {"customId","content"})
 public final class CompositePKParent implements Model {
-  public static final QueryField ID = field(\\"CompositePKParent\\", \\"id\\");
-  public static final QueryField CUSTOM_ID = field(\\"CompositePKParent\\", \\"customId\\");
-  public static final QueryField CONTENT = field(\\"CompositePKParent\\", \\"content\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String customId;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
-  private final @ModelField(targetType=\\"CompositePKChild\\") @HasMany(associatedWith = \\"parent\\", type = CompositePKChild.class) List<CompositePKChild> children = null;
-  private final @ModelField(targetType=\\"ImplicitChild\\") @HasMany(associatedWith = \\"parent\\", type = ImplicitChild.class) List<ImplicitChild> implicitChildren = null;
-  private final @ModelField(targetType=\\"StrangeExplicitChild\\") @HasMany(associatedWith = \\"parent\\", type = StrangeExplicitChild.class) List<StrangeExplicitChild> strangeChildren = null;
-  private final @ModelField(targetType=\\"ChildSansBelongsTo\\") @HasMany(associatedWith = \\"compositePKParentChildrenSansBelongsToId\\", type = ChildSansBelongsTo.class) List<ChildSansBelongsTo> childrenSansBelongsTo = null;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final QueryField ID = field("CompositePKParent", "id");
+  public static final QueryField CUSTOM_ID = field("CompositePKParent", "customId");
+  public static final QueryField CONTENT = field("CompositePKParent", "content");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="ID", isRequired = true) String customId;
+  private final @ModelField(targetType="String", isRequired = true) String content;
+  private final @ModelField(targetType="CompositePKChild") @HasMany(associatedWith = "parent", type = CompositePKChild.class) List<CompositePKChild> children = null;
+  private final @ModelField(targetType="ImplicitChild") @HasMany(associatedWith = "parent", type = ImplicitChild.class) List<ImplicitChild> implicitChildren = null;
+  private final @ModelField(targetType="StrangeExplicitChild") @HasMany(associatedWith = "parent", type = StrangeExplicitChild.class) List<StrangeExplicitChild> strangeChildren = null;
+  private final @ModelField(targetType="ChildSansBelongsTo") @HasMany(associatedWith = "compositePKParentChildrenSansBelongsToId", type = ChildSansBelongsTo.class) List<ChildSansBelongsTo> childrenSansBelongsTo = null;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -5071,13 +5071,13 @@ public final class CompositePKParent implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"CompositePKParent {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"customId=\\" + String.valueOf(getCustomId()) + \\", \\")
-      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("CompositePKParent {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("customId=" + String.valueOf(getCustomId()) + ", ")
+      .append("content=" + String.valueOf(getContent()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -5192,23 +5192,23 @@ public final class CompositePKParent implements Model {
 }
 
 /** This is an auto generated class representing the CompositePKChild type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"CompositePKChildren\\")
-@Index(name = \\"undefined\\", fields = {\\"childId\\",\\"content\\"})
-@Index(name = \\"byParent\\", fields = {\\"parentId\\",\\"parentTitle\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "CompositePKChildren")
+@Index(name = "undefined", fields = {"childId","content"})
+@Index(name = "byParent", fields = {"parentId","parentTitle"})
 public final class CompositePKChild implements Model {
-  public static final QueryField ID = field(\\"CompositePKChild\\", \\"id\\");
-  public static final QueryField CHILD_ID = field(\\"CompositePKChild\\", \\"childId\\");
-  public static final QueryField CONTENT = field(\\"CompositePKChild\\", \\"content\\");
-  public static final QueryField PARENT = field(\\"CompositePKChild\\", \\"parentId\\");
-  public static final QueryField PARENT_TITLE = field(\\"CompositePKChild\\", \\"parentTitle\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String childId;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
-  private final @ModelField(targetType=\\"CompositePKParent\\") @BelongsTo(targetName = \\"parentId\\", type = CompositePKParent.class) CompositePKParent parent;
-  private final @ModelField(targetType=\\"String\\") String parentTitle;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final QueryField ID = field("CompositePKChild", "id");
+  public static final QueryField CHILD_ID = field("CompositePKChild", "childId");
+  public static final QueryField CONTENT = field("CompositePKChild", "content");
+  public static final QueryField PARENT = field("CompositePKChild", "parentId");
+  public static final QueryField PARENT_TITLE = field("CompositePKChild", "parentTitle");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="ID", isRequired = true) String childId;
+  private final @ModelField(targetType="String", isRequired = true) String content;
+  private final @ModelField(targetType="CompositePKParent") @BelongsTo(targetName = "parentId", type = CompositePKParent.class) CompositePKParent parent;
+  private final @ModelField(targetType="String") String parentTitle;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -5280,15 +5280,15 @@ public final class CompositePKChild implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"CompositePKChild {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"childId=\\" + String.valueOf(getChildId()) + \\", \\")
-      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
-      .append(\\"parent=\\" + String.valueOf(getParent()) + \\", \\")
-      .append(\\"parentTitle=\\" + String.valueOf(getParentTitle()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("CompositePKChild {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("childId=" + String.valueOf(getChildId()) + ", ")
+      .append("content=" + String.valueOf(getContent()) + ", ")
+      .append("parent=" + String.valueOf(getParent()) + ", ")
+      .append("parentTitle=" + String.valueOf(getParentTitle()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -5437,20 +5437,20 @@ public final class CompositePKChild implements Model {
 }
 
 /** This is an auto generated class representing the ImplicitChild type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"ImplicitChildren\\")
-@Index(name = \\"undefined\\", fields = {\\"childId\\",\\"content\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "ImplicitChildren")
+@Index(name = "undefined", fields = {"childId","content"})
 public final class ImplicitChild implements Model {
-  public static final QueryField ID = field(\\"ImplicitChild\\", \\"id\\");
-  public static final QueryField CHILD_ID = field(\\"ImplicitChild\\", \\"childId\\");
-  public static final QueryField CONTENT = field(\\"ImplicitChild\\", \\"content\\");
-  public static final QueryField PARENT = field(\\"ImplicitChild\\", \\"compositePKParentImplicitChildrenId\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String childId;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
-  private final @ModelField(targetType=\\"CompositePKParent\\", isRequired = true) @BelongsTo(targetName = \\"compositePKParentImplicitChildrenId\\", type = CompositePKParent.class) CompositePKParent parent;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final QueryField ID = field("ImplicitChild", "id");
+  public static final QueryField CHILD_ID = field("ImplicitChild", "childId");
+  public static final QueryField CONTENT = field("ImplicitChild", "content");
+  public static final QueryField PARENT = field("ImplicitChild", "compositePKParentImplicitChildrenId");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="ID", isRequired = true) String childId;
+  private final @ModelField(targetType="String", isRequired = true) String content;
+  private final @ModelField(targetType="CompositePKParent", isRequired = true) @BelongsTo(targetName = "compositePKParentImplicitChildrenId", type = CompositePKParent.class) CompositePKParent parent;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -5515,14 +5515,14 @@ public final class ImplicitChild implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"ImplicitChild {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"childId=\\" + String.valueOf(getChildId()) + \\", \\")
-      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
-      .append(\\"parent=\\" + String.valueOf(getParent()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("ImplicitChild {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("childId=" + String.valueOf(getChildId()) + ", ")
+      .append("content=" + String.valueOf(getContent()) + ", ")
+      .append("parent=" + String.valueOf(getParent()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -5660,23 +5660,23 @@ public final class ImplicitChild implements Model {
 }
 
 /** This is an auto generated class representing the StrangeExplicitChild type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"StrangeExplicitChildren\\")
-@Index(name = \\"undefined\\", fields = {\\"strangeId\\",\\"content\\"})
-@Index(name = \\"byCompositePKParentX\\", fields = {\\"strangeParentId\\",\\"strangeParentTitle\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "StrangeExplicitChildren")
+@Index(name = "undefined", fields = {"strangeId","content"})
+@Index(name = "byCompositePKParentX", fields = {"strangeParentId","strangeParentTitle"})
 public final class StrangeExplicitChild implements Model {
-  public static final QueryField ID = field(\\"StrangeExplicitChild\\", \\"id\\");
-  public static final QueryField STRANGE_ID = field(\\"StrangeExplicitChild\\", \\"strangeId\\");
-  public static final QueryField CONTENT = field(\\"StrangeExplicitChild\\", \\"content\\");
-  public static final QueryField PARENT = field(\\"StrangeExplicitChild\\", \\"strangeParentId\\");
-  public static final QueryField STRANGE_PARENT_TITLE = field(\\"StrangeExplicitChild\\", \\"strangeParentTitle\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String strangeId;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
-  private final @ModelField(targetType=\\"CompositePKParent\\", isRequired = true) @BelongsTo(targetName = \\"strangeParentId\\", type = CompositePKParent.class) CompositePKParent parent;
-  private final @ModelField(targetType=\\"String\\") String strangeParentTitle;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final QueryField ID = field("StrangeExplicitChild", "id");
+  public static final QueryField STRANGE_ID = field("StrangeExplicitChild", "strangeId");
+  public static final QueryField CONTENT = field("StrangeExplicitChild", "content");
+  public static final QueryField PARENT = field("StrangeExplicitChild", "strangeParentId");
+  public static final QueryField STRANGE_PARENT_TITLE = field("StrangeExplicitChild", "strangeParentTitle");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="ID", isRequired = true) String strangeId;
+  private final @ModelField(targetType="String", isRequired = true) String content;
+  private final @ModelField(targetType="CompositePKParent", isRequired = true) @BelongsTo(targetName = "strangeParentId", type = CompositePKParent.class) CompositePKParent parent;
+  private final @ModelField(targetType="String") String strangeParentTitle;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -5748,15 +5748,15 @@ public final class StrangeExplicitChild implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"StrangeExplicitChild {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"strangeId=\\" + String.valueOf(getStrangeId()) + \\", \\")
-      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
-      .append(\\"parent=\\" + String.valueOf(getParent()) + \\", \\")
-      .append(\\"strangeParentTitle=\\" + String.valueOf(getStrangeParentTitle()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("StrangeExplicitChild {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("strangeId=" + String.valueOf(getStrangeId()) + ", ")
+      .append("content=" + String.valueOf(getContent()) + ", ")
+      .append("parent=" + String.valueOf(getParent()) + ", ")
+      .append("strangeParentTitle=" + String.valueOf(getStrangeParentTitle()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -5911,25 +5911,25 @@ public final class StrangeExplicitChild implements Model {
 }
 
 /** This is an auto generated class representing the ChildSansBelongsTo type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"ChildSansBelongsTos\\")
-@Index(name = \\"undefined\\", fields = {\\"childId\\",\\"content\\"})
-@Index(name = \\"byParent\\", fields = {\\"compositePKParentChildrenSansBelongsToCustomId\\",\\"compositePKParentChildrenSansBelongsToContent\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "ChildSansBelongsTos")
+@Index(name = "undefined", fields = {"childId","content"})
+@Index(name = "byParent", fields = {"compositePKParentChildrenSansBelongsToCustomId","compositePKParentChildrenSansBelongsToContent"})
 public final class ChildSansBelongsTo implements Model {
-  public static final QueryField ID = field(\\"ChildSansBelongsTo\\", \\"id\\");
-  public static final QueryField CHILD_ID = field(\\"ChildSansBelongsTo\\", \\"childId\\");
-  public static final QueryField CONTENT = field(\\"ChildSansBelongsTo\\", \\"content\\");
-  public static final QueryField COMPOSITE_PK_PARENT_CHILDREN_SANS_BELONGS_TO_CUSTOM_ID = field(\\"ChildSansBelongsTo\\", \\"compositePKParentChildrenSansBelongsToCustomId\\");
-  public static final QueryField COMPOSITE_PK_PARENT_CHILDREN_SANS_BELONGS_TO_CONTENT = field(\\"ChildSansBelongsTo\\", \\"compositePKParentChildrenSansBelongsToContent\\");
-  public static final QueryField COMPOSITE_PK_PARENT_CHILDREN_SANS_BELONGS_TO_ID = field(\\"ChildSansBelongsTo\\", \\"compositePKParentChildrenSansBelongsToId\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String childId;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String content;
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String compositePKParentChildrenSansBelongsToCustomId;
-  private final @ModelField(targetType=\\"String\\") String compositePKParentChildrenSansBelongsToContent;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  private final @ModelField(targetType=\\"ID\\") String compositePKParentChildrenSansBelongsToId;
+  public static final QueryField ID = field("ChildSansBelongsTo", "id");
+  public static final QueryField CHILD_ID = field("ChildSansBelongsTo", "childId");
+  public static final QueryField CONTENT = field("ChildSansBelongsTo", "content");
+  public static final QueryField COMPOSITE_PK_PARENT_CHILDREN_SANS_BELONGS_TO_CUSTOM_ID = field("ChildSansBelongsTo", "compositePKParentChildrenSansBelongsToCustomId");
+  public static final QueryField COMPOSITE_PK_PARENT_CHILDREN_SANS_BELONGS_TO_CONTENT = field("ChildSansBelongsTo", "compositePKParentChildrenSansBelongsToContent");
+  public static final QueryField COMPOSITE_PK_PARENT_CHILDREN_SANS_BELONGS_TO_ID = field("ChildSansBelongsTo", "compositePKParentChildrenSansBelongsToId");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="ID", isRequired = true) String childId;
+  private final @ModelField(targetType="String", isRequired = true) String content;
+  private final @ModelField(targetType="ID", isRequired = true) String compositePKParentChildrenSansBelongsToCustomId;
+  private final @ModelField(targetType="String") String compositePKParentChildrenSansBelongsToContent;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType="ID") String compositePKParentChildrenSansBelongsToId;
   public String getId() {
       return id;
   }
@@ -6008,16 +6008,16 @@ public final class ChildSansBelongsTo implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"ChildSansBelongsTo {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"childId=\\" + String.valueOf(getChildId()) + \\", \\")
-      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
-      .append(\\"compositePKParentChildrenSansBelongsToCustomId=\\" + String.valueOf(getCompositePkParentChildrenSansBelongsToCustomId()) + \\", \\")
-      .append(\\"compositePKParentChildrenSansBelongsToContent=\\" + String.valueOf(getCompositePkParentChildrenSansBelongsToContent()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
-      .append(\\"compositePKParentChildrenSansBelongsToId=\\" + String.valueOf(getCompositePkParentChildrenSansBelongsToId()))
-      .append(\\"}\\")
+      .append("ChildSansBelongsTo {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("childId=" + String.valueOf(getChildId()) + ", ")
+      .append("content=" + String.valueOf(getContent()) + ", ")
+      .append("compositePKParentChildrenSansBelongsToCustomId=" + String.valueOf(getCompositePkParentChildrenSansBelongsToCustomId()) + ", ")
+      .append("compositePKParentChildrenSansBelongsToContent=" + String.valueOf(getCompositePkParentChildrenSansBelongsToContent()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()) + ", ")
+      .append("compositePKParentChildrenSansBelongsToId=" + String.valueOf(getCompositePkParentChildrenSansBelongsToId()))
+      .append("}")
       .toString();
   }
   
@@ -6213,18 +6213,18 @@ import com.amplifyframework.core.model.query.predicate.QueryField;
 import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Parent type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Parents\\")
-@Index(name = \\"undefined\\", fields = {\\"id\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "Parents")
+@Index(name = "undefined", fields = {"id"})
 public final class Parent implements Model {
-  public static final QueryField ID = field(\\"Parent\\", \\"id\\");
-  public static final QueryField PARENT_CHILD_ID = field(\\"Parent\\", \\"parentChildId\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"HasOneChild\\") @HasOne(associatedWith = \\"id\\", type = HasOneChild.class) HasOneChild child = null;
-  private final @ModelField(targetType=\\"HasManyChild\\") @HasMany(associatedWith = \\"parent\\", type = HasManyChild.class) List<HasManyChild> children = null;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  private final @ModelField(targetType=\\"ID\\") String parentChildId;
+  public static final QueryField ID = field("Parent", "id");
+  public static final QueryField PARENT_CHILD_ID = field("Parent", "parentChildId");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="HasOneChild") @HasOne(associatedWith = "id", type = HasOneChild.class) HasOneChild child = null;
+  private final @ModelField(targetType="HasManyChild") @HasMany(associatedWith = "parent", type = HasManyChild.class) List<HasManyChild> children = null;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType="ID") String parentChildId;
   public String getId() {
       return id;
   }
@@ -6283,12 +6283,12 @@ public final class Parent implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"Parent {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
-      .append(\\"parentChildId=\\" + String.valueOf(getParentChildId()))
-      .append(\\"}\\")
+      .append("Parent {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()) + ", ")
+      .append("parentChildId=" + String.valueOf(getParentChildId()))
+      .append("}")
       .toString();
   }
   
@@ -6375,16 +6375,16 @@ public final class Parent implements Model {
 }
 
 /** This is an auto generated class representing the HasOneChild type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"HasOneChildren\\")
-@Index(name = \\"undefined\\", fields = {\\"id\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "HasOneChildren")
+@Index(name = "undefined", fields = {"id"})
 public final class HasOneChild implements Model {
-  public static final QueryField ID = field(\\"HasOneChild\\", \\"id\\");
-  public static final QueryField CONTENT = field(\\"HasOneChild\\", \\"content\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"String\\") String content;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final QueryField ID = field("HasOneChild", "id");
+  public static final QueryField CONTENT = field("HasOneChild", "content");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="String") String content;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -6435,12 +6435,12 @@ public final class HasOneChild implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"HasOneChild {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("HasOneChild {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("content=" + String.valueOf(getContent()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -6527,18 +6527,18 @@ public final class HasOneChild implements Model {
 }
 
 /** This is an auto generated class representing the HasManyChild type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"HasManyChildren\\")
-@Index(name = \\"undefined\\", fields = {\\"id\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "HasManyChildren")
+@Index(name = "undefined", fields = {"id"})
 public final class HasManyChild implements Model {
-  public static final QueryField ID = field(\\"HasManyChild\\", \\"id\\");
-  public static final QueryField CONTENT = field(\\"HasManyChild\\", \\"content\\");
-  public static final QueryField PARENT = field(\\"HasManyChild\\", \\"parentChildrenId\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"String\\") String content;
-  private final @ModelField(targetType=\\"Parent\\") @BelongsTo(targetName = \\"parentChildrenId\\", type = Parent.class) Parent parent;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final QueryField ID = field("HasManyChild", "id");
+  public static final QueryField CONTENT = field("HasManyChild", "content");
+  public static final QueryField PARENT = field("HasManyChild", "parentChildrenId");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="String") String content;
+  private final @ModelField(targetType="Parent") @BelongsTo(targetName = "parentChildrenId", type = Parent.class) Parent parent;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -6596,13 +6596,13 @@ public final class HasManyChild implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"HasManyChild {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"content=\\" + String.valueOf(getContent()) + \\", \\")
-      .append(\\"parent=\\" + String.valueOf(getParent()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("HasManyChild {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("content=" + String.valueOf(getContent()) + ", ")
+      .append("parent=" + String.valueOf(getParent()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   
@@ -6729,21 +6729,21 @@ import com.amplifyframework.core.model.query.predicate.QueryField;
 import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Project type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Projects\\")
-@Index(name = \\"undefined\\", fields = {\\"projectId\\",\\"name\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "Projects")
+@Index(name = "undefined", fields = {"projectId","name"})
 public final class Project implements Model {
-  public static final QueryField ID = field(\\"Project\\", \\"id\\");
-  public static final QueryField PROJECT_ID = field(\\"Project\\", \\"projectId\\");
-  public static final QueryField NAME = field(\\"Project\\", \\"name\\");
-  public static final QueryField PROJECT_TEAM_ID = field(\\"Project\\", \\"projectTeamId\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String projectId;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
-  private final @ModelField(targetType=\\"Team\\") @HasOne(associatedWith = \\"teamId\\", type = Team.class) Team team = null;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
-  private final @ModelField(targetType=\\"ID\\") String projectTeamId;
+  public static final QueryField ID = field("Project", "id");
+  public static final QueryField PROJECT_ID = field("Project", "projectId");
+  public static final QueryField NAME = field("Project", "name");
+  public static final QueryField PROJECT_TEAM_ID = field("Project", "projectTeamId");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="ID", isRequired = true) String projectId;
+  private final @ModelField(targetType="String", isRequired = true) String name;
+  private final @ModelField(targetType="Team") @HasOne(associatedWith = "teamId", type = Team.class) Team team = null;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType="ID") String projectTeamId;
   public String getId() {
       return id;
   }
@@ -6812,14 +6812,14 @@ public final class Project implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"Project {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"projectId=\\" + String.valueOf(getProjectId()) + \\", \\")
-      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()) + \\", \\")
-      .append(\\"projectTeamId=\\" + String.valueOf(getProjectTeamId()))
-      .append(\\"}\\")
+      .append("Project {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("projectId=" + String.valueOf(getProjectId()) + ", ")
+      .append("name=" + String.valueOf(getName()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()) + ", ")
+      .append("projectTeamId=" + String.valueOf(getProjectTeamId()))
+      .append("}")
       .toString();
   }
   
@@ -6951,20 +6951,20 @@ public final class Project implements Model {
 }
 
 /** This is an auto generated class representing the Team type in your schema. */
-@SuppressWarnings(\\"all\\")
-@ModelConfig(pluralName = \\"Teams\\")
-@Index(name = \\"undefined\\", fields = {\\"teamId\\",\\"name\\"})
+@SuppressWarnings("all")
+@ModelConfig(pluralName = "Teams")
+@Index(name = "undefined", fields = {"teamId","name"})
 public final class Team implements Model {
-  public static final QueryField ID = field(\\"Team\\", \\"id\\");
-  public static final QueryField TEAM_ID = field(\\"Team\\", \\"teamId\\");
-  public static final QueryField NAME = field(\\"Team\\", \\"name\\");
-  public static final QueryField PROJECT = field(\\"Team\\", \\"teamProjectId\\");
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String id;
-  private final @ModelField(targetType=\\"ID\\", isRequired = true) String teamId;
-  private final @ModelField(targetType=\\"String\\", isRequired = true) String name;
-  private final @ModelField(targetType=\\"Project\\") @BelongsTo(targetName = \\"teamProjectId\\", type = Project.class) Project project;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime createdAt;
-  private @ModelField(targetType=\\"AWSDateTime\\", isReadOnly = true) Temporal.DateTime updatedAt;
+  public static final QueryField ID = field("Team", "id");
+  public static final QueryField TEAM_ID = field("Team", "teamId");
+  public static final QueryField NAME = field("Team", "name");
+  public static final QueryField PROJECT = field("Team", "teamProjectId");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="ID", isRequired = true) String teamId;
+  private final @ModelField(targetType="String", isRequired = true) String name;
+  private final @ModelField(targetType="Project") @BelongsTo(targetName = "teamProjectId", type = Project.class) Project project;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
+  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -7029,14 +7029,14 @@ public final class Team implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append(\\"Team {\\")
-      .append(\\"id=\\" + String.valueOf(getId()) + \\", \\")
-      .append(\\"teamId=\\" + String.valueOf(getTeamId()) + \\", \\")
-      .append(\\"name=\\" + String.valueOf(getName()) + \\", \\")
-      .append(\\"project=\\" + String.valueOf(getProject()) + \\", \\")
-      .append(\\"createdAt=\\" + String.valueOf(getCreatedAt()) + \\", \\")
-      .append(\\"updatedAt=\\" + String.valueOf(getUpdatedAt()))
-      .append(\\"}\\")
+      .append("Team {")
+      .append("id=" + String.valueOf(getId()) + ", ")
+      .append("teamId=" + String.valueOf(getTeamId()) + ", ")
+      .append("name=" + String.valueOf(getName()) + ", ")
+      .append("project=" + String.valueOf(getProject()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("}")
       .toString();
   }
   

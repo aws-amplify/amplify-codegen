@@ -4,12 +4,12 @@ exports[`Angular code generation should generate simple query operations 1`] = `
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import { Client, generateClient, GraphQLResult } from \\"aws-amplify/api\\";
-import { Observable } from \\"rxjs\\";
+import { Injectable } from "@angular/core";
+import { Client, generateClient, GraphQLResult } from "aws-amplify/api";
+import { Observable } from "rxjs";
 
 export type Character = {
-  __typename: \\"Character\\";
+  __typename: "Character";
   // The ID of the character
   id: string;
   // The name of the character
@@ -23,7 +23,7 @@ export type Character = {
 };
 
 export type Human = {
-  __typename: \\"Human\\";
+  __typename: "Human";
   // The ID of the human
   id: string;
   // What this human calls themselves
@@ -45,7 +45,7 @@ export type Human = {
 };
 
 export type FriendsConnection = {
-  __typename: \\"FriendsConnection\\";
+  __typename: "FriendsConnection";
   // The total number of friends
   totalCount?: number | null;
   // The edges for each of the character's friends.
@@ -57,7 +57,7 @@ export type FriendsConnection = {
 };
 
 export type FriendsEdge = {
-  __typename: \\"FriendsEdge\\";
+  __typename: "FriendsEdge";
   // A cursor used for pagination
   cursor: string;
   // The character represented by this friendship edge
@@ -65,7 +65,7 @@ export type FriendsEdge = {
 };
 
 export type PageInfo = {
-  __typename: \\"PageInfo\\";
+  __typename: "PageInfo";
   startCursor?: string | null;
   endCursor?: string | null;
   hasNextPage: boolean;
@@ -73,13 +73,13 @@ export type PageInfo = {
 
 // The episodes in the Star Wars trilogy
 export enum Episode {
-  NEWHOPE = \\"NEWHOPE\\", // Star Wars Episode IV: A New Hope, released in 1977.
-  EMPIRE = \\"EMPIRE\\", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
-  JEDI = \\"JEDI\\" // Star Wars Episode VI: Return of the Jedi, released in 1983.
+  NEWHOPE = "NEWHOPE", // Star Wars Episode IV: A New Hope, released in 1977.
+  EMPIRE = "EMPIRE", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
+  JEDI = "JEDI" // Star Wars Episode VI: Return of the Jedi, released in 1983.
 }
 
 export type Starship = {
-  __typename: \\"Starship\\";
+  __typename: "Starship";
   // The ID of the starship
   id: string;
   // The name of the starship
@@ -90,7 +90,7 @@ export type Starship = {
 };
 
 export type Droid = {
-  __typename: \\"Droid\\";
+  __typename: "Droid";
   // The ID of the droid
   id: string;
   // What others call this droid
@@ -106,13 +106,13 @@ export type Droid = {
 };
 
 export type HeroNameQuery = {
-  __typename: \\"Character\\";
+  __typename: "Character";
   // The name of the character
   name: string;
 };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   public client: Client;
@@ -137,19 +137,19 @@ exports[`Angular code generation should generate simple query operations includi
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import { Client, generateClient, GraphQLResult } from \\"aws-amplify/api\\";
-import { Observable } from \\"rxjs\\";
+import { Injectable } from "@angular/core";
+import { Client, generateClient, GraphQLResult } from "aws-amplify/api";
+import { Observable } from "rxjs";
 
 // The episodes in the Star Wars trilogy
 export enum Episode {
-  NEWHOPE = \\"NEWHOPE\\", // Star Wars Episode IV: A New Hope, released in 1977.
-  EMPIRE = \\"EMPIRE\\", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
-  JEDI = \\"JEDI\\" // Star Wars Episode VI: Return of the Jedi, released in 1983.
+  NEWHOPE = "NEWHOPE", // Star Wars Episode IV: A New Hope, released in 1977.
+  EMPIRE = "EMPIRE", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
+  JEDI = "JEDI" // Star Wars Episode VI: Return of the Jedi, released in 1983.
 }
 
 export type Character = {
-  __typename: \\"Character\\";
+  __typename: "Character";
   // The ID of the character
   id: string;
   // The name of the character
@@ -163,7 +163,7 @@ export type Character = {
 };
 
 export type Human = {
-  __typename: \\"Human\\";
+  __typename: "Human";
   // The ID of the human
   id: string;
   // What this human calls themselves
@@ -185,7 +185,7 @@ export type Human = {
 };
 
 export type FriendsConnection = {
-  __typename: \\"FriendsConnection\\";
+  __typename: "FriendsConnection";
   // The total number of friends
   totalCount?: number | null;
   // The edges for each of the character's friends.
@@ -197,7 +197,7 @@ export type FriendsConnection = {
 };
 
 export type FriendsEdge = {
-  __typename: \\"FriendsEdge\\";
+  __typename: "FriendsEdge";
   // A cursor used for pagination
   cursor: string;
   // The character represented by this friendship edge
@@ -205,14 +205,14 @@ export type FriendsEdge = {
 };
 
 export type PageInfo = {
-  __typename: \\"PageInfo\\";
+  __typename: "PageInfo";
   startCursor?: string | null;
   endCursor?: string | null;
   hasNextPage: boolean;
 };
 
 export type Starship = {
-  __typename: \\"Starship\\";
+  __typename: "Starship";
   // The ID of the starship
   id: string;
   // The name of the starship
@@ -223,7 +223,7 @@ export type Starship = {
 };
 
 export type Droid = {
-  __typename: \\"Droid\\";
+  __typename: "Droid";
   // The ID of the droid
   id: string;
   // What others call this droid
@@ -239,13 +239,13 @@ export type Droid = {
 };
 
 export type HeroNameQuery = {
-  __typename: \\"Character\\";
+  __typename: "Character";
   // The name of the character
   name: string;
 };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   public client: Client;
@@ -277,16 +277,16 @@ exports[`Angular code generation should generate subscriptions 1`] = `
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import { Client, generateClient, GraphQLResult } from \\"aws-amplify/api\\";
-import { Observable } from \\"rxjs\\";
+import { Injectable } from "@angular/core";
+import { Client, generateClient, GraphQLResult } from "aws-amplify/api";
+import { Observable } from "rxjs";
 
 export type __SubscriptionContainer = {
   onCreateRestaurant: OnCreateRestaurantSubscription;
 };
 
 export type Restaurant = {
-  __typename: \\"Restaurant\\";
+  __typename: "Restaurant";
   id: string;
   name: string;
   description: string;
@@ -294,7 +294,7 @@ export type Restaurant = {
 };
 
 export type OnCreateRestaurantSubscription = {
-  __typename: \\"Restaurant\\";
+  __typename: "Restaurant";
   id: string;
   name: string;
   description: string;
@@ -302,7 +302,7 @@ export type OnCreateRestaurantSubscription = {
 };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   public client: Client;
@@ -310,7 +310,7 @@ export class APIService {
     this.client = generateClient();
   }
   OnCreateRestaurantListener(): Observable<
-    GraphQLResult<Pick<__SubscriptionContainer, \\"onCreateRestaurant\\">>
+    GraphQLResult<Pick<__SubscriptionContainer, "onCreateRestaurant">>
   > {
     return this.client.graphql({
       query: \`subscription OnCreateRestaurant {
@@ -332,16 +332,16 @@ exports[`Angular code generation should generate subscriptions with parameters 1
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import { Client, generateClient, GraphQLResult } from \\"aws-amplify/api\\";
-import { Observable } from \\"rxjs\\";
+import { Injectable } from "@angular/core";
+import { Client, generateClient, GraphQLResult } from "aws-amplify/api";
+import { Observable } from "rxjs";
 
 export type __SubscriptionContainer = {
   onCreateRestaurant: OnCreateRestaurantSubscription;
 };
 
 export type Restaurant = {
-  __typename: \\"Restaurant\\";
+  __typename: "Restaurant";
   id: string;
   name: string;
   description: string;
@@ -352,7 +352,7 @@ export type Restaurant = {
 };
 
 export type OnCreateRestaurantSubscription = {
-  __typename: \\"Restaurant\\";
+  __typename: "Restaurant";
   id: string;
   name: string;
   description: string;
@@ -363,7 +363,7 @@ export type OnCreateRestaurantSubscription = {
 };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   public client: Client;
@@ -373,7 +373,7 @@ export class APIService {
   OnCreateRestaurantListener(
     owner: string
   ): Observable<
-    GraphQLResult<Pick<__SubscriptionContainer, \\"onCreateRestaurant\\">>
+    GraphQLResult<Pick<__SubscriptionContainer, "onCreateRestaurant">>
   > {
     const statement = \`subscription OnCreateRestaurant($owner: String!) {
         onCreateRestaurant(owner: $owner) {

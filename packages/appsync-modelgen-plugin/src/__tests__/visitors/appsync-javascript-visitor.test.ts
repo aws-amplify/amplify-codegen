@@ -5,7 +5,6 @@ import { TYPESCRIPT_SCALAR_MAP } from '../../scalars';
 import { scalars } from '../../scalars/supported-scalars';
 import { AppSyncModelJavascriptVisitor } from '../../visitors/appsync-javascript-visitor';
 
-
 const buildSchemaWithDirectives = (schema: String, directives: String): GraphQLSchema => {
   return buildSchema([schema, directives, scalars].join('\n'));
 };
@@ -21,7 +20,11 @@ const defaultJavaScriptVisitorConfig: JavaScriptVisitorConfig = {
   respectPrimaryKeyAttributesOnConnectionField: false,
   transformerVersion: 1,
 };
-const getVisitor = (schema: string, settings: JavaScriptVisitorConfig = {}, directives: readonly Directive[] = DefaultDirectives): AppSyncModelJavascriptVisitor => {
+const getVisitor = (
+  schema: string,
+  settings: JavaScriptVisitorConfig = {},
+  directives: readonly Directive[] = DefaultDirectives,
+): AppSyncModelJavascriptVisitor => {
   const config = { ...defaultJavaScriptVisitorConfig, ...settings };
   const ast = parse(schema);
   const stringDirectives = directives.map(directive => directive.definition).join('\n');
@@ -69,8 +72,8 @@ describe('Javascript visitor', () => {
       validateTs(enums);
       expect(enums).toMatchInlineSnapshot(`
         "const SimpleEnum = {
-          \\"ENUM_VAL1\\": \\"enumVal1\\",
-          \\"ENUM_VAL2\\": \\"enumVal2\\"
+          "ENUM_VAL1": "enumVal1",
+          "ENUM_VAL2": "enumVal2"
         };"
       `);
     });
@@ -81,27 +84,28 @@ describe('Javascript visitor', () => {
       validateTs(enums);
       expect(enums).toMatchInlineSnapshot(`
         "export const SimpleEnum = {
-          \\"ENUM_VAL1\\": \\"enumVal1\\",
-          \\"ENUM_VAL2\\": \\"enumVal2\\"
+          "ENUM_VAL1": "enumVal1",
+          "ENUM_VAL2": "enumVal2"
         };"
       `);
     });
 
     it('should pascal case enum', () => {
       const schema = /* GraphQL */ `
-      enum status {
-        pending
-        done
-      }`;
+        enum status {
+          pending
+          done
+        }
+      `;
 
-      const visitor = getVisitor(schema)
+      const visitor = getVisitor(schema);
       const enumObj = (visitor as any).enumMap['status'];
       const statusEnum = (visitor as any).generateEnumObject(enumObj, true);
       validateTs(statusEnum);
       expect(statusEnum).toMatchInlineSnapshot(`
         "export const Status = {
-          \\"PENDING\\": \\"pending\\",
-          \\"DONE\\": \\"done\\"
+          "PENDING": "pending",
+          "DONE": "done"
         };"
       `);
     });
@@ -130,13 +134,13 @@ describe('Javascript visitor', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel } from "@aws-amplify/datastore";
         // @ts-ignore
-        import { LazyLoading, LazyLoadingDisabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+        import { LazyLoading, LazyLoadingDisabled, AsyncCollection } from "@aws-amplify/datastore";
 
         export enum SimpleEnum {
-          ENUM_VAL1 = \\"enumVal1\\",
-          ENUM_VAL2 = \\"enumVal2\\"
+          ENUM_VAL1 = "enumVal1",
+          ENUM_VAL2 = "enumVal2"
         }
 
         type EagerSimpleNonModelType = {
@@ -211,20 +215,24 @@ describe('Javascript visitor', () => {
     });
 
     it('should generate Javascript declaration with model metadata types', () => {
-      const declarationVisitor = getVisitor(schema, { isDeclaration: true, isTimestampFieldsAdded: true }, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+      const declarationVisitor = getVisitor(schema, { isDeclaration: true, isTimestampFieldsAdded: true }, [
+        ...AppSyncDirectives,
+        ...V1Directives,
+        DeprecatedDirective,
+      ]);
       const generateImportSpy = jest.spyOn(declarationVisitor as any, 'generateImports');
       const generateEnumDeclarationsSpy = jest.spyOn(declarationVisitor as any, 'generateEnumDeclarations');
       const generateModelDeclarationSpy = jest.spyOn(declarationVisitor as any, 'generateModelDeclaration');
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel } from "@aws-amplify/datastore";
         // @ts-ignore
-        import { LazyLoading, LazyLoadingDisabled, AsyncCollection } from \\"@aws-amplify/datastore\\";
+        import { LazyLoading, LazyLoadingDisabled, AsyncCollection } from "@aws-amplify/datastore";
 
         export enum SimpleEnum {
-          ENUM_VAL1 = \\"enumVal1\\",
-          ENUM_VAL2 = \\"enumVal2\\"
+          ENUM_VAL1 = "enumVal1",
+          ENUM_VAL2 = "enumVal2"
         }
 
         type EagerSimpleNonModelType = {
@@ -324,8 +332,8 @@ describe('Javascript visitor', () => {
       import { schema } from './schema';
 
       const SimpleEnum = {
-        \\"ENUM_VAL1\\": \\"enumVal1\\",
-        \\"ENUM_VAL2\\": \\"enumVal2\\"
+        "ENUM_VAL1": "enumVal1",
+        "ENUM_VAL2": "enumVal2"
       };
 
       const { SimpleModel, Bar, SimpleNonModelType } = initSchema(schema);
@@ -389,13 +397,13 @@ describe('Javascript visitor with default owner auth', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel } from "@aws-amplify/datastore";
         // @ts-ignore
-        import { LazyLoading, LazyLoadingDisabled } from \\"@aws-amplify/datastore\\";
+        import { LazyLoading, LazyLoadingDisabled } from "@aws-amplify/datastore";
 
         export enum SimpleEnum {
-          ENUM_VAL1 = \\"enumVal1\\",
-          ENUM_VAL2 = \\"enumVal2\\"
+          ENUM_VAL1 = "enumVal1",
+          ENUM_VAL2 = "enumVal2"
         }
 
         type EagerSimpleNonModelType = {
@@ -483,13 +491,13 @@ describe('Javascript visitor with custom owner field auth', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel } from "@aws-amplify/datastore";
         // @ts-ignore
-        import { LazyLoading, LazyLoadingDisabled } from \\"@aws-amplify/datastore\\";
+        import { LazyLoading, LazyLoadingDisabled } from "@aws-amplify/datastore";
 
         export enum SimpleEnum {
-          ENUM_VAL1 = \\"enumVal1\\",
-          ENUM_VAL2 = \\"enumVal2\\"
+          ENUM_VAL1 = "enumVal1",
+          ENUM_VAL2 = "enumVal2"
         }
 
         type EagerSimpleNonModelType = {
@@ -579,13 +587,13 @@ describe('Javascript visitor with multiple owner field auth', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel } from "@aws-amplify/datastore";
         // @ts-ignore
-        import { LazyLoading, LazyLoadingDisabled } from \\"@aws-amplify/datastore\\";
+        import { LazyLoading, LazyLoadingDisabled } from "@aws-amplify/datastore";
 
         export enum SimpleEnum {
-          ENUM_VAL1 = \\"enumVal1\\",
-          ENUM_VAL2 = \\"enumVal2\\"
+          ENUM_VAL1 = "enumVal1",
+          ENUM_VAL2 = "enumVal2"
         }
 
         type EagerSimpleNonModelType = {
@@ -665,9 +673,9 @@ describe('Javascript visitor with auth directives in field level', () => {
       const declarations = declarationVisitor.generate();
       validateTs(declarations);
       expect(declarations).toMatchInlineSnapshot(`
-        "import { ModelInit, MutableModel } from \\"@aws-amplify/datastore\\";
+        "import { ModelInit, MutableModel } from "@aws-amplify/datastore";
         // @ts-ignore
-        import { LazyLoading, LazyLoadingDisabled } from \\"@aws-amplify/datastore\\";
+        import { LazyLoading, LazyLoadingDisabled } from "@aws-amplify/datastore";
 
         type EagerEmployee = {
           readonly id: string;
@@ -742,9 +750,9 @@ describe('Javascript visitor with custom primary key', () => {
     const declarations = visitor.generate();
     validateTs(declarations);
     expect(declarations).toMatchInlineSnapshot(`
-      "import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier, CompositeIdentifier, CustomIdentifier, OptionallyManagedIdentifier } from \\"@aws-amplify/datastore\\";
+      "import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier, CompositeIdentifier, CustomIdentifier, OptionallyManagedIdentifier } from "@aws-amplify/datastore";
       // @ts-ignore
-      import { LazyLoading, LazyLoadingDisabled } from \\"@aws-amplify/datastore\\";
+      import { LazyLoading, LazyLoadingDisabled } from "@aws-amplify/datastore";
 
 
 
@@ -974,9 +982,9 @@ describe('New model meta field test', () => {
     const declarations = visitor.generate();
     validateTs(declarations);
     expect(declarations).toMatchInlineSnapshot(`
-      "import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier, OptionallyManagedIdentifier, CompositeIdentifier, CustomIdentifier } from \\"@aws-amplify/datastore\\";
+      "import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier, OptionallyManagedIdentifier, CompositeIdentifier, CustomIdentifier } from "@aws-amplify/datastore";
       // @ts-ignore
-      import { LazyLoading, LazyLoadingDisabled } from \\"@aws-amplify/datastore\\";
+      import { LazyLoading, LazyLoadingDisabled } from "@aws-amplify/datastore";
 
 
 

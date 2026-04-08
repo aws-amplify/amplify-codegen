@@ -156,11 +156,11 @@ function chain(context: Context): ExecutionContext {
       return chain(context);
     },
 
-    wait: function (expectation: string | RegExp, callback = (data: string) => {}): ExecutionContext {
+    wait: function (expectation: string | RegExp, callback?: (data: string) => void): ExecutionContext {
       let _wait: ExecutionStep = {
         fn: (data) => {
           let val = testExpectation(data, expectation, context);
-          if (val === true && typeof callback === 'function') {
+          if (val === true && callback) {
             callback(data);
           }
           return val;

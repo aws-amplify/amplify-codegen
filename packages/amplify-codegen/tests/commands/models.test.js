@@ -201,7 +201,7 @@ describe('command-models-generates models in expected output path', () => {
 
     await expect(() => generateModels(MOCK_CONTEXT, { overrideOutputDir }))
       .rejects
-      .toThrowErrorMatchingInlineSnapshot('"Unexpected --target value clojure provided, expected one of [\\"android\\",\\"ios\\",\\"flutter\\",\\"javascript\\",\\"typescript\\",\\"introspection\\"]"');
+      .toThrowErrorMatchingInlineSnapshot('"Unexpected --target value clojure provided, expected one of ["android","ios","flutter","javascript","typescript","introspection"]"');
   });
 
   it('throws an understandable error on missing model-schema flag and uninitialized backend', async () => {

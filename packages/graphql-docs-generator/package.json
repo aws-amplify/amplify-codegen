@@ -25,7 +25,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage --coverageReporters=clover --coverageReporters=text",
     "test-watch": "jest --watch",
     "build": "tsc",
     "watch": "tsc -w",
@@ -45,11 +45,17 @@
   },
   "jest": {
     "transform": {
-      "^.+\\.tsx?$": "ts-jest"
+      "^.+\\.tsx?$": [
+        "ts-jest",
+        {
+          "diagnostics": false
+        }
+      ]
     },
-    "testURL": "http://localhost",
+    "testEnvironmentOptions": {
+      "url": "http://localhost"
+    },
     "testRegex": "(src/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "collectCoverage": true,
     "collectCoverageFrom": [
       "src/**/*.ts"
     ],
@@ -60,21 +66,12 @@
         "lines": 80
       }
     },
-    "coverageReporters": [
-      "clover",
-      "text"
-    ],
     "moduleFileExtensions": [
       "ts",
       "tsx",
       "js",
       "jsx",
       "node"
-    ],
-    "globals": {
-      "ts-jest": {
-        "diagnostics": false
-      }
-    }
+    ]
   }
 }

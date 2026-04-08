@@ -11,7 +11,6 @@ import {
 import { AppSyncJSONVisitor, AssociationHasMany, JSONSchemaNonModel } from '../../visitors/appsync-json-metadata-visitor';
 import { CodeGenEnum, CodeGenField, CodeGenModel } from '../../visitors/appsync-visitor';
 
-
 const defaultJSONVisitorSettings = {
   isTimestampFieldsAdded: true,
   respectPrimaryKeyAttributesOnConnectionField: false,
@@ -34,7 +33,14 @@ const getVisitor = (
   const builtSchema = buildSchemaWithDirectives(schema, stringDirectives);
   const visitor = new AppSyncJSONVisitor(
     builtSchema,
-    { directives: stringDirectives, target: 'metadata', scalars: TYPESCRIPT_SCALAR_MAP, metadataTarget: target, codegenVersion: '1.0.0', ...visitorConfig },
+    {
+      directives: stringDirectives,
+      target: 'metadata',
+      scalars: TYPESCRIPT_SCALAR_MAP,
+      metadataTarget: target,
+      codegenVersion: '1.0.0',
+      ...visitorConfig,
+    },
     {},
   );
   visit(ast, { leave: visitor });
@@ -293,57 +299,57 @@ describe('Metadata visitor', () => {
         const metadata = (visitor as any).generateMetadata();
 
         expect(metadata).toMatchInlineSnapshot(`
-          Object {
+          {
             "codegenVersion": "3.4.4",
-            "enums": Object {
-              "SimpleEnum": Object {
+            "enums": {
+              "SimpleEnum": {
                 "name": "SimpleEnum",
-                "values": Array [
+                "values": [
                   "enumVal1",
                   "enumVal2",
                 ],
               },
             },
-            "models": Object {
-              "SimpleModel": Object {
-                "attributes": Array [
-                  Object {
-                    "properties": Object {},
+            "models": {
+              "SimpleModel": {
+                "attributes": [
+                  {
+                    "properties": {},
                     "type": "model",
                   },
                 ],
-                "fields": Object {
-                  "bar": Object {
-                    "attributes": Array [],
+                "fields": {
+                  "bar": {
+                    "attributes": [],
                     "isArray": false,
                     "isRequired": false,
                     "name": "bar",
                     "type": "String",
                   },
-                  "createdAt": Object {
-                    "attributes": Array [],
+                  "createdAt": {
+                    "attributes": [],
                     "isArray": false,
                     "isReadOnly": true,
                     "isRequired": false,
                     "name": "createdAt",
                     "type": "AWSDateTime",
                   },
-                  "id": Object {
-                    "attributes": Array [],
+                  "id": {
+                    "attributes": [],
                     "isArray": false,
                     "isRequired": true,
                     "name": "id",
                     "type": "ID",
                   },
-                  "name": Object {
-                    "attributes": Array [],
+                  "name": {
+                    "attributes": [],
                     "isArray": false,
                     "isRequired": false,
                     "name": "name",
                     "type": "String",
                   },
-                  "updatedAt": Object {
-                    "attributes": Array [],
+                  "updatedAt": {
+                    "attributes": [],
                     "isArray": false,
                     "isReadOnly": true,
                     "isRequired": false,
@@ -356,18 +362,18 @@ describe('Metadata visitor', () => {
                 "syncable": true,
               },
             },
-            "nonModels": Object {
-              "SimpleNonModelType": Object {
-                "fields": Object {
-                  "id": Object {
-                    "attributes": Array [],
+            "nonModels": {
+              "SimpleNonModelType": {
+                "fields": {
+                  "id": {
+                    "attributes": [],
                     "isArray": false,
                     "isRequired": true,
                     "name": "id",
                     "type": "ID",
                   },
-                  "names": Object {
-                    "attributes": Array [],
+                  "names": {
+                    "attributes": [],
                     "isArray": true,
                     "isArrayNullable": true,
                     "isRequired": false,
@@ -395,185 +401,185 @@ describe('Metadata visitor', () => {
       const jsVisitor = getVisitor(schema, 'javascript');
       expect(jsVisitor.generate()).toMatchInlineSnapshot(`
         "export const schema = {
-            \\"models\\": {
-                \\"SimpleModel\\": {
-                    \\"name\\": \\"SimpleModel\\",
-                    \\"fields\\": {
-                        \\"id\\": {
-                            \\"name\\": \\"id\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"ID\\",
-                            \\"isRequired\\": true,
-                            \\"attributes\\": []
+            "models": {
+                "SimpleModel": {
+                    "name": "SimpleModel",
+                    "fields": {
+                        "id": {
+                            "name": "id",
+                            "isArray": false,
+                            "type": "ID",
+                            "isRequired": true,
+                            "attributes": []
                         },
-                        \\"name\\": {
-                            \\"name\\": \\"name\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"String\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": []
+                        "name": {
+                            "name": "name",
+                            "isArray": false,
+                            "type": "String",
+                            "isRequired": false,
+                            "attributes": []
                         },
-                        \\"bar\\": {
-                            \\"name\\": \\"bar\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"String\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": []
+                        "bar": {
+                            "name": "bar",
+                            "isArray": false,
+                            "type": "String",
+                            "isRequired": false,
+                            "attributes": []
                         },
-                        \\"createdAt\\": {
-                            \\"name\\": \\"createdAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": [],
-                            \\"isReadOnly\\": true
+                        "createdAt": {
+                            "name": "createdAt",
+                            "isArray": false,
+                            "type": "AWSDateTime",
+                            "isRequired": false,
+                            "attributes": [],
+                            "isReadOnly": true
                         },
-                        \\"updatedAt\\": {
-                            \\"name\\": \\"updatedAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": [],
-                            \\"isReadOnly\\": true
+                        "updatedAt": {
+                            "name": "updatedAt",
+                            "isArray": false,
+                            "type": "AWSDateTime",
+                            "isRequired": false,
+                            "attributes": [],
+                            "isReadOnly": true
                         }
                     },
-                    \\"syncable\\": true,
-                    \\"pluralName\\": \\"SimpleModels\\",
-                    \\"attributes\\": [
+                    "syncable": true,
+                    "pluralName": "SimpleModels",
+                    "attributes": [
                         {
-                            \\"type\\": \\"model\\",
-                            \\"properties\\": {}
+                            "type": "model",
+                            "properties": {}
                         }
                     ]
                 }
             },
-            \\"enums\\": {
-                \\"SimpleEnum\\": {
-                    \\"name\\": \\"SimpleEnum\\",
-                    \\"values\\": [
-                        \\"enumVal1\\",
-                        \\"enumVal2\\"
+            "enums": {
+                "SimpleEnum": {
+                    "name": "SimpleEnum",
+                    "values": [
+                        "enumVal1",
+                        "enumVal2"
                     ]
                 }
             },
-            \\"nonModels\\": {
-                \\"SimpleNonModelType\\": {
-                    \\"name\\": \\"SimpleNonModelType\\",
-                    \\"fields\\": {
-                        \\"id\\": {
-                            \\"name\\": \\"id\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"ID\\",
-                            \\"isRequired\\": true,
-                            \\"attributes\\": []
+            "nonModels": {
+                "SimpleNonModelType": {
+                    "name": "SimpleNonModelType",
+                    "fields": {
+                        "id": {
+                            "name": "id",
+                            "isArray": false,
+                            "type": "ID",
+                            "isRequired": true,
+                            "attributes": []
                         },
-                        \\"names\\": {
-                            \\"name\\": \\"names\\",
-                            \\"isArray\\": true,
-                            \\"type\\": \\"String\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": [],
-                            \\"isArrayNullable\\": true
+                        "names": {
+                            "name": "names",
+                            "isArray": true,
+                            "type": "String",
+                            "isRequired": false,
+                            "attributes": [],
+                            "isArrayNullable": true
                         }
                     }
                 }
             },
-            \\"codegenVersion\\": \\"3.4.4\\",
-            \\"version\\": \\"5eb36909e822fd40c657cc69b22c919a\\"
+            "codegenVersion": "3.4.4",
+            "version": "5eb36909e822fd40c657cc69b22c919a"
         };"
       `);
     });
     it('should generate for typescript', () => {
       const tsVisitor = getVisitor(schema, 'typescript');
       expect(tsVisitor.generate()).toMatchInlineSnapshot(`
-        "import { Schema } from \\"@aws-amplify/datastore\\";
+        "import { Schema } from "@aws-amplify/datastore";
 
         export const schema: Schema = {
-            \\"models\\": {
-                \\"SimpleModel\\": {
-                    \\"name\\": \\"SimpleModel\\",
-                    \\"fields\\": {
-                        \\"id\\": {
-                            \\"name\\": \\"id\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"ID\\",
-                            \\"isRequired\\": true,
-                            \\"attributes\\": []
+            "models": {
+                "SimpleModel": {
+                    "name": "SimpleModel",
+                    "fields": {
+                        "id": {
+                            "name": "id",
+                            "isArray": false,
+                            "type": "ID",
+                            "isRequired": true,
+                            "attributes": []
                         },
-                        \\"name\\": {
-                            \\"name\\": \\"name\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"String\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": []
+                        "name": {
+                            "name": "name",
+                            "isArray": false,
+                            "type": "String",
+                            "isRequired": false,
+                            "attributes": []
                         },
-                        \\"bar\\": {
-                            \\"name\\": \\"bar\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"String\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": []
+                        "bar": {
+                            "name": "bar",
+                            "isArray": false,
+                            "type": "String",
+                            "isRequired": false,
+                            "attributes": []
                         },
-                        \\"createdAt\\": {
-                            \\"name\\": \\"createdAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": [],
-                            \\"isReadOnly\\": true
+                        "createdAt": {
+                            "name": "createdAt",
+                            "isArray": false,
+                            "type": "AWSDateTime",
+                            "isRequired": false,
+                            "attributes": [],
+                            "isReadOnly": true
                         },
-                        \\"updatedAt\\": {
-                            \\"name\\": \\"updatedAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": [],
-                            \\"isReadOnly\\": true
+                        "updatedAt": {
+                            "name": "updatedAt",
+                            "isArray": false,
+                            "type": "AWSDateTime",
+                            "isRequired": false,
+                            "attributes": [],
+                            "isReadOnly": true
                         }
                     },
-                    \\"syncable\\": true,
-                    \\"pluralName\\": \\"SimpleModels\\",
-                    \\"attributes\\": [
+                    "syncable": true,
+                    "pluralName": "SimpleModels",
+                    "attributes": [
                         {
-                            \\"type\\": \\"model\\",
-                            \\"properties\\": {}
+                            "type": "model",
+                            "properties": {}
                         }
                     ]
                 }
             },
-            \\"enums\\": {
-                \\"SimpleEnum\\": {
-                    \\"name\\": \\"SimpleEnum\\",
-                    \\"values\\": [
-                        \\"enumVal1\\",
-                        \\"enumVal2\\"
+            "enums": {
+                "SimpleEnum": {
+                    "name": "SimpleEnum",
+                    "values": [
+                        "enumVal1",
+                        "enumVal2"
                     ]
                 }
             },
-            \\"nonModels\\": {
-                \\"SimpleNonModelType\\": {
-                    \\"name\\": \\"SimpleNonModelType\\",
-                    \\"fields\\": {
-                        \\"id\\": {
-                            \\"name\\": \\"id\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"ID\\",
-                            \\"isRequired\\": true,
-                            \\"attributes\\": []
+            "nonModels": {
+                "SimpleNonModelType": {
+                    "name": "SimpleNonModelType",
+                    "fields": {
+                        "id": {
+                            "name": "id",
+                            "isArray": false,
+                            "type": "ID",
+                            "isRequired": true,
+                            "attributes": []
                         },
-                        \\"names\\": {
-                            \\"name\\": \\"names\\",
-                            \\"isArray\\": true,
-                            \\"type\\": \\"String\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": [],
-                            \\"isArrayNullable\\": true
+                        "names": {
+                            "name": "names",
+                            "isArray": true,
+                            "type": "String",
+                            "isRequired": false,
+                            "attributes": [],
+                            "isArrayNullable": true
                         }
                     }
                 }
             },
-            \\"codegenVersion\\": \\"3.4.4\\",
-            \\"version\\": \\"5eb36909e822fd40c657cc69b22c919a\\"
+            "codegenVersion": "3.4.4",
+            "version": "5eb36909e822fd40c657cc69b22c919a"
         };"
       `);
     });
@@ -618,81 +624,81 @@ describe('Metadata visitor', () => {
       const jsVisitor = getVisitor(schema, 'javascript');
       expect(jsVisitor.generate()).toMatchInlineSnapshot(`
         "export const schema = {
-            \\"models\\": {
-                \\"SimpleModel\\": {
-                    \\"name\\": \\"SimpleModel\\",
-                    \\"fields\\": {
-                        \\"id\\": {
-                            \\"name\\": \\"id\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"ID\\",
-                            \\"isRequired\\": true,
-                            \\"attributes\\": []
+            "models": {
+                "SimpleModel": {
+                    "name": "SimpleModel",
+                    "fields": {
+                        "id": {
+                            "name": "id",
+                            "isArray": false,
+                            "type": "ID",
+                            "isRequired": true,
+                            "attributes": []
                         },
-                        \\"name\\": {
-                            \\"name\\": \\"name\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"String\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": []
+                        "name": {
+                            "name": "name",
+                            "isArray": false,
+                            "type": "String",
+                            "isRequired": false,
+                            "attributes": []
                         },
-                        \\"bar\\": {
-                            \\"name\\": \\"bar\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"String\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": []
+                        "bar": {
+                            "name": "bar",
+                            "isArray": false,
+                            "type": "String",
+                            "isRequired": false,
+                            "attributes": []
                         },
-                        \\"createdAt\\": {
-                            \\"name\\": \\"createdAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": [],
-                            \\"isReadOnly\\": true
+                        "createdAt": {
+                            "name": "createdAt",
+                            "isArray": false,
+                            "type": "AWSDateTime",
+                            "isRequired": false,
+                            "attributes": [],
+                            "isReadOnly": true
                         },
-                        \\"updatedAt\\": {
-                            \\"name\\": \\"updatedAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": [],
-                            \\"isReadOnly\\": true
+                        "updatedAt": {
+                            "name": "updatedAt",
+                            "isArray": false,
+                            "type": "AWSDateTime",
+                            "isRequired": false,
+                            "attributes": [],
+                            "isReadOnly": true
                         }
                     },
-                    \\"syncable\\": true,
-                    \\"pluralName\\": \\"SimpleModels\\",
-                    \\"attributes\\": [
+                    "syncable": true,
+                    "pluralName": "SimpleModels",
+                    "attributes": [
                         {
-                            \\"type\\": \\"model\\",
-                            \\"properties\\": {}
+                            "type": "model",
+                            "properties": {}
                         },
                         {
-                            \\"type\\": \\"auth\\",
-                            \\"properties\\": {
-                                \\"rules\\": [
+                            "type": "auth",
+                            "properties": {
+                                "rules": [
                                     {
-                                        \\"provider\\": \\"userPools\\",
-                                        \\"ownerField\\": \\"customOwnerField\\",
-                                        \\"allow\\": \\"owner\\",
-                                        \\"identityClaim\\": \\"cognito:username\\",
-                                        \\"operations\\": [
-                                            \\"create\\",
-                                            \\"update\\",
-                                            \\"delete\\",
-                                            \\"read\\"
+                                        "provider": "userPools",
+                                        "ownerField": "customOwnerField",
+                                        "allow": "owner",
+                                        "identityClaim": "cognito:username",
+                                        "operations": [
+                                            "create",
+                                            "update",
+                                            "delete",
+                                            "read"
                                         ]
                                     },
                                     {
-                                        \\"provider\\": \\"userPools\\",
-                                        \\"ownerField\\": \\"customOwnerField2\\",
-                                        \\"allow\\": \\"owner\\",
-                                        \\"identityClaim\\": \\"cognito:username\\",
-                                        \\"operations\\": [
-                                            \\"create\\",
-                                            \\"update\\",
-                                            \\"delete\\",
-                                            \\"read\\"
+                                        "provider": "userPools",
+                                        "ownerField": "customOwnerField2",
+                                        "allow": "owner",
+                                        "identityClaim": "cognito:username",
+                                        "operations": [
+                                            "create",
+                                            "update",
+                                            "delete",
+                                            "read"
                                         ]
                                     }
                                 ]
@@ -701,123 +707,123 @@ describe('Metadata visitor', () => {
                     ]
                 }
             },
-            \\"enums\\": {
-                \\"SimpleEnum\\": {
-                    \\"name\\": \\"SimpleEnum\\",
-                    \\"values\\": [
-                        \\"enumVal1\\",
-                        \\"enumVal2\\"
+            "enums": {
+                "SimpleEnum": {
+                    "name": "SimpleEnum",
+                    "values": [
+                        "enumVal1",
+                        "enumVal2"
                     ]
                 }
             },
-            \\"nonModels\\": {
-                \\"SimpleNonModelType\\": {
-                    \\"name\\": \\"SimpleNonModelType\\",
-                    \\"fields\\": {
-                        \\"id\\": {
-                            \\"name\\": \\"id\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"ID\\",
-                            \\"isRequired\\": true,
-                            \\"attributes\\": []
+            "nonModels": {
+                "SimpleNonModelType": {
+                    "name": "SimpleNonModelType",
+                    "fields": {
+                        "id": {
+                            "name": "id",
+                            "isArray": false,
+                            "type": "ID",
+                            "isRequired": true,
+                            "attributes": []
                         },
-                        \\"names\\": {
-                            \\"name\\": \\"names\\",
-                            \\"isArray\\": true,
-                            \\"type\\": \\"String\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": [],
-                            \\"isArrayNullable\\": true
+                        "names": {
+                            "name": "names",
+                            "isArray": true,
+                            "type": "String",
+                            "isRequired": false,
+                            "attributes": [],
+                            "isArrayNullable": true
                         }
                     }
                 }
             },
-            \\"codegenVersion\\": \\"3.4.4\\",
-            \\"version\\": \\"5eb36909e822fd40c657cc69b22c919a\\"
+            "codegenVersion": "3.4.4",
+            "version": "5eb36909e822fd40c657cc69b22c919a"
         };"
       `);
     });
     it('should generate for typescript', () => {
       const tsVisitor = getVisitor(schema, 'typescript');
       expect(tsVisitor.generate()).toMatchInlineSnapshot(`
-        "import { Schema } from \\"@aws-amplify/datastore\\";
+        "import { Schema } from "@aws-amplify/datastore";
 
         export const schema: Schema = {
-            \\"models\\": {
-                \\"SimpleModel\\": {
-                    \\"name\\": \\"SimpleModel\\",
-                    \\"fields\\": {
-                        \\"id\\": {
-                            \\"name\\": \\"id\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"ID\\",
-                            \\"isRequired\\": true,
-                            \\"attributes\\": []
+            "models": {
+                "SimpleModel": {
+                    "name": "SimpleModel",
+                    "fields": {
+                        "id": {
+                            "name": "id",
+                            "isArray": false,
+                            "type": "ID",
+                            "isRequired": true,
+                            "attributes": []
                         },
-                        \\"name\\": {
-                            \\"name\\": \\"name\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"String\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": []
+                        "name": {
+                            "name": "name",
+                            "isArray": false,
+                            "type": "String",
+                            "isRequired": false,
+                            "attributes": []
                         },
-                        \\"bar\\": {
-                            \\"name\\": \\"bar\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"String\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": []
+                        "bar": {
+                            "name": "bar",
+                            "isArray": false,
+                            "type": "String",
+                            "isRequired": false,
+                            "attributes": []
                         },
-                        \\"createdAt\\": {
-                            \\"name\\": \\"createdAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": [],
-                            \\"isReadOnly\\": true
+                        "createdAt": {
+                            "name": "createdAt",
+                            "isArray": false,
+                            "type": "AWSDateTime",
+                            "isRequired": false,
+                            "attributes": [],
+                            "isReadOnly": true
                         },
-                        \\"updatedAt\\": {
-                            \\"name\\": \\"updatedAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": [],
-                            \\"isReadOnly\\": true
+                        "updatedAt": {
+                            "name": "updatedAt",
+                            "isArray": false,
+                            "type": "AWSDateTime",
+                            "isRequired": false,
+                            "attributes": [],
+                            "isReadOnly": true
                         }
                     },
-                    \\"syncable\\": true,
-                    \\"pluralName\\": \\"SimpleModels\\",
-                    \\"attributes\\": [
+                    "syncable": true,
+                    "pluralName": "SimpleModels",
+                    "attributes": [
                         {
-                            \\"type\\": \\"model\\",
-                            \\"properties\\": {}
+                            "type": "model",
+                            "properties": {}
                         },
                         {
-                            \\"type\\": \\"auth\\",
-                            \\"properties\\": {
-                                \\"rules\\": [
+                            "type": "auth",
+                            "properties": {
+                                "rules": [
                                     {
-                                        \\"provider\\": \\"userPools\\",
-                                        \\"ownerField\\": \\"customOwnerField\\",
-                                        \\"allow\\": \\"owner\\",
-                                        \\"identityClaim\\": \\"cognito:username\\",
-                                        \\"operations\\": [
-                                            \\"create\\",
-                                            \\"update\\",
-                                            \\"delete\\",
-                                            \\"read\\"
+                                        "provider": "userPools",
+                                        "ownerField": "customOwnerField",
+                                        "allow": "owner",
+                                        "identityClaim": "cognito:username",
+                                        "operations": [
+                                            "create",
+                                            "update",
+                                            "delete",
+                                            "read"
                                         ]
                                     },
                                     {
-                                        \\"provider\\": \\"userPools\\",
-                                        \\"ownerField\\": \\"customOwnerField2\\",
-                                        \\"allow\\": \\"owner\\",
-                                        \\"identityClaim\\": \\"cognito:username\\",
-                                        \\"operations\\": [
-                                            \\"create\\",
-                                            \\"update\\",
-                                            \\"delete\\",
-                                            \\"read\\"
+                                        "provider": "userPools",
+                                        "ownerField": "customOwnerField2",
+                                        "allow": "owner",
+                                        "identityClaim": "cognito:username",
+                                        "operations": [
+                                            "create",
+                                            "update",
+                                            "delete",
+                                            "read"
                                         ]
                                     }
                                 ]
@@ -826,39 +832,39 @@ describe('Metadata visitor', () => {
                     ]
                 }
             },
-            \\"enums\\": {
-                \\"SimpleEnum\\": {
-                    \\"name\\": \\"SimpleEnum\\",
-                    \\"values\\": [
-                        \\"enumVal1\\",
-                        \\"enumVal2\\"
+            "enums": {
+                "SimpleEnum": {
+                    "name": "SimpleEnum",
+                    "values": [
+                        "enumVal1",
+                        "enumVal2"
                     ]
                 }
             },
-            \\"nonModels\\": {
-                \\"SimpleNonModelType\\": {
-                    \\"name\\": \\"SimpleNonModelType\\",
-                    \\"fields\\": {
-                        \\"id\\": {
-                            \\"name\\": \\"id\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"ID\\",
-                            \\"isRequired\\": true,
-                            \\"attributes\\": []
+            "nonModels": {
+                "SimpleNonModelType": {
+                    "name": "SimpleNonModelType",
+                    "fields": {
+                        "id": {
+                            "name": "id",
+                            "isArray": false,
+                            "type": "ID",
+                            "isRequired": true,
+                            "attributes": []
                         },
-                        \\"names\\": {
-                            \\"name\\": \\"names\\",
-                            \\"isArray\\": true,
-                            \\"type\\": \\"String\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": [],
-                            \\"isArrayNullable\\": true
+                        "names": {
+                            "name": "names",
+                            "isArray": true,
+                            "type": "String",
+                            "isRequired": false,
+                            "attributes": [],
+                            "isArrayNullable": true
                         }
                     }
                 }
             },
-            \\"codegenVersion\\": \\"3.4.4\\",
-            \\"version\\": \\"5eb36909e822fd40c657cc69b22c919a\\"
+            "codegenVersion": "3.4.4",
+            "version": "5eb36909e822fd40c657cc69b22c919a"
         };"
       `);
     });
@@ -884,90 +890,90 @@ describe('Metadata visitor for auth process in field level', () => {
       const jsVisitor = getVisitor(schema, 'javascript');
       expect(jsVisitor.generate()).toMatchInlineSnapshot(`
         "export const schema = {
-            \\"models\\": {
-                \\"Employee\\": {
-                    \\"name\\": \\"Employee\\",
-                    \\"fields\\": {
-                        \\"id\\": {
-                            \\"name\\": \\"id\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"ID\\",
-                            \\"isRequired\\": true,
-                            \\"attributes\\": []
+            "models": {
+                "Employee": {
+                    "name": "Employee",
+                    "fields": {
+                        "id": {
+                            "name": "id",
+                            "isArray": false,
+                            "type": "ID",
+                            "isRequired": true,
+                            "attributes": []
                         },
-                        \\"name\\": {
-                            \\"name\\": \\"name\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"String\\",
-                            \\"isRequired\\": true,
-                            \\"attributes\\": []
+                        "name": {
+                            "name": "name",
+                            "isArray": false,
+                            "type": "String",
+                            "isRequired": true,
+                            "attributes": []
                         },
-                        \\"address\\": {
-                            \\"name\\": \\"address\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"String\\",
-                            \\"isRequired\\": true,
-                            \\"attributes\\": []
+                        "address": {
+                            "name": "address",
+                            "isArray": false,
+                            "type": "String",
+                            "isRequired": true,
+                            "attributes": []
                         },
-                        \\"ssn\\": {
-                            \\"name\\": \\"ssn\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"String\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": []
+                        "ssn": {
+                            "name": "ssn",
+                            "isArray": false,
+                            "type": "String",
+                            "isRequired": false,
+                            "attributes": []
                         },
-                        \\"createdAt\\": {
-                            \\"name\\": \\"createdAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": [],
-                            \\"isReadOnly\\": true
+                        "createdAt": {
+                            "name": "createdAt",
+                            "isArray": false,
+                            "type": "AWSDateTime",
+                            "isRequired": false,
+                            "attributes": [],
+                            "isReadOnly": true
                         },
-                        \\"updatedAt\\": {
-                            \\"name\\": \\"updatedAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": [],
-                            \\"isReadOnly\\": true
+                        "updatedAt": {
+                            "name": "updatedAt",
+                            "isArray": false,
+                            "type": "AWSDateTime",
+                            "isRequired": false,
+                            "attributes": [],
+                            "isReadOnly": true
                         }
                     },
-                    \\"syncable\\": true,
-                    \\"pluralName\\": \\"Employees\\",
-                    \\"attributes\\": [
+                    "syncable": true,
+                    "pluralName": "Employees",
+                    "attributes": [
                         {
-                            \\"type\\": \\"model\\",
-                            \\"properties\\": {}
+                            "type": "model",
+                            "properties": {}
                         },
                         {
-                            \\"type\\": \\"auth\\",
-                            \\"properties\\": {
-                                \\"rules\\": [
+                            "type": "auth",
+                            "properties": {
+                                "rules": [
                                     {
-                                        \\"provider\\": \\"userPools\\",
-                                        \\"ownerField\\": \\"owner\\",
-                                        \\"allow\\": \\"owner\\",
-                                        \\"identityClaim\\": \\"cognito:username\\",
-                                        \\"operations\\": [
-                                            \\"create\\",
-                                            \\"update\\",
-                                            \\"delete\\",
-                                            \\"read\\"
+                                        "provider": "userPools",
+                                        "ownerField": "owner",
+                                        "allow": "owner",
+                                        "identityClaim": "cognito:username",
+                                        "operations": [
+                                            "create",
+                                            "update",
+                                            "delete",
+                                            "read"
                                         ]
                                     },
                                     {
-                                        \\"groupClaim\\": \\"cognito:groups\\",
-                                        \\"provider\\": \\"userPools\\",
-                                        \\"allow\\": \\"groups\\",
-                                        \\"groups\\": [
-                                            \\"Admins\\"
+                                        "groupClaim": "cognito:groups",
+                                        "provider": "userPools",
+                                        "allow": "groups",
+                                        "groups": [
+                                            "Admins"
                                         ],
-                                        \\"operations\\": [
-                                            \\"create\\",
-                                            \\"update\\",
-                                            \\"delete\\",
-                                            \\"read\\"
+                                        "operations": [
+                                            "create",
+                                            "update",
+                                            "delete",
+                                            "read"
                                         ]
                                     }
                                 ]
@@ -976,10 +982,10 @@ describe('Metadata visitor for auth process in field level', () => {
                     ]
                 }
             },
-            \\"enums\\": {},
-            \\"nonModels\\": {},
-            \\"codegenVersion\\": \\"3.4.4\\",
-            \\"version\\": \\"0fffb966ea9b8954eb89d00d74d474ac\\"
+            "enums": {},
+            "nonModels": {},
+            "codegenVersion": "3.4.4",
+            "version": "0fffb966ea9b8954eb89d00d74d474ac"
         };"
       `);
     });
@@ -987,93 +993,93 @@ describe('Metadata visitor for auth process in field level', () => {
     it('should generate for typescript', () => {
       const tsVisitor = getVisitor(schema, 'typescript');
       expect(tsVisitor.generate()).toMatchInlineSnapshot(`
-        "import { Schema } from \\"@aws-amplify/datastore\\";
+        "import { Schema } from "@aws-amplify/datastore";
 
         export const schema: Schema = {
-            \\"models\\": {
-                \\"Employee\\": {
-                    \\"name\\": \\"Employee\\",
-                    \\"fields\\": {
-                        \\"id\\": {
-                            \\"name\\": \\"id\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"ID\\",
-                            \\"isRequired\\": true,
-                            \\"attributes\\": []
+            "models": {
+                "Employee": {
+                    "name": "Employee",
+                    "fields": {
+                        "id": {
+                            "name": "id",
+                            "isArray": false,
+                            "type": "ID",
+                            "isRequired": true,
+                            "attributes": []
                         },
-                        \\"name\\": {
-                            \\"name\\": \\"name\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"String\\",
-                            \\"isRequired\\": true,
-                            \\"attributes\\": []
+                        "name": {
+                            "name": "name",
+                            "isArray": false,
+                            "type": "String",
+                            "isRequired": true,
+                            "attributes": []
                         },
-                        \\"address\\": {
-                            \\"name\\": \\"address\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"String\\",
-                            \\"isRequired\\": true,
-                            \\"attributes\\": []
+                        "address": {
+                            "name": "address",
+                            "isArray": false,
+                            "type": "String",
+                            "isRequired": true,
+                            "attributes": []
                         },
-                        \\"ssn\\": {
-                            \\"name\\": \\"ssn\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"String\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": []
+                        "ssn": {
+                            "name": "ssn",
+                            "isArray": false,
+                            "type": "String",
+                            "isRequired": false,
+                            "attributes": []
                         },
-                        \\"createdAt\\": {
-                            \\"name\\": \\"createdAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": [],
-                            \\"isReadOnly\\": true
+                        "createdAt": {
+                            "name": "createdAt",
+                            "isArray": false,
+                            "type": "AWSDateTime",
+                            "isRequired": false,
+                            "attributes": [],
+                            "isReadOnly": true
                         },
-                        \\"updatedAt\\": {
-                            \\"name\\": \\"updatedAt\\",
-                            \\"isArray\\": false,
-                            \\"type\\": \\"AWSDateTime\\",
-                            \\"isRequired\\": false,
-                            \\"attributes\\": [],
-                            \\"isReadOnly\\": true
+                        "updatedAt": {
+                            "name": "updatedAt",
+                            "isArray": false,
+                            "type": "AWSDateTime",
+                            "isRequired": false,
+                            "attributes": [],
+                            "isReadOnly": true
                         }
                     },
-                    \\"syncable\\": true,
-                    \\"pluralName\\": \\"Employees\\",
-                    \\"attributes\\": [
+                    "syncable": true,
+                    "pluralName": "Employees",
+                    "attributes": [
                         {
-                            \\"type\\": \\"model\\",
-                            \\"properties\\": {}
+                            "type": "model",
+                            "properties": {}
                         },
                         {
-                            \\"type\\": \\"auth\\",
-                            \\"properties\\": {
-                                \\"rules\\": [
+                            "type": "auth",
+                            "properties": {
+                                "rules": [
                                     {
-                                        \\"provider\\": \\"userPools\\",
-                                        \\"ownerField\\": \\"owner\\",
-                                        \\"allow\\": \\"owner\\",
-                                        \\"identityClaim\\": \\"cognito:username\\",
-                                        \\"operations\\": [
-                                            \\"create\\",
-                                            \\"update\\",
-                                            \\"delete\\",
-                                            \\"read\\"
+                                        "provider": "userPools",
+                                        "ownerField": "owner",
+                                        "allow": "owner",
+                                        "identityClaim": "cognito:username",
+                                        "operations": [
+                                            "create",
+                                            "update",
+                                            "delete",
+                                            "read"
                                         ]
                                     },
                                     {
-                                        \\"groupClaim\\": \\"cognito:groups\\",
-                                        \\"provider\\": \\"userPools\\",
-                                        \\"allow\\": \\"groups\\",
-                                        \\"groups\\": [
-                                            \\"Admins\\"
+                                        "groupClaim": "cognito:groups",
+                                        "provider": "userPools",
+                                        "allow": "groups",
+                                        "groups": [
+                                            "Admins"
                                         ],
-                                        \\"operations\\": [
-                                            \\"create\\",
-                                            \\"update\\",
-                                            \\"delete\\",
-                                            \\"read\\"
+                                        "operations": [
+                                            "create",
+                                            "update",
+                                            "delete",
+                                            "read"
                                         ]
                                     }
                                 ]
@@ -1082,10 +1088,10 @@ describe('Metadata visitor for auth process in field level', () => {
                     ]
                 }
             },
-            \\"enums\\": {},
-            \\"nonModels\\": {},
-            \\"codegenVersion\\": \\"3.4.4\\",
-            \\"version\\": \\"0fffb966ea9b8954eb89d00d74d474ac\\"
+            "enums": {},
+            "nonModels": {},
+            "codegenVersion": "3.4.4",
+            "version": "0fffb966ea9b8954eb89d00d74d474ac"
         };"
       `);
     });
@@ -1114,119 +1120,119 @@ describe('Metadata visitor has one relation', () => {
     const jsVisitor = getVisitor(schema, 'javascript', {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
     expect(jsVisitor.generate()).toMatchInlineSnapshot(`
       "export const schema = {
-          \\"models\\": {
-              \\"Project\\": {
-                  \\"name\\": \\"Project\\",
-                  \\"fields\\": {
-                      \\"id\\": {
-                          \\"name\\": \\"id\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"ID\\",
-                          \\"isRequired\\": true,
-                          \\"attributes\\": []
+          "models": {
+              "Project": {
+                  "name": "Project",
+                  "fields": {
+                      "id": {
+                          "name": "id",
+                          "isArray": false,
+                          "type": "ID",
+                          "isRequired": true,
+                          "attributes": []
                       },
-                      \\"name\\": {
-                          \\"name\\": \\"name\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"String\\",
-                          \\"isRequired\\": false,
-                          \\"attributes\\": []
+                      "name": {
+                          "name": "name",
+                          "isArray": false,
+                          "type": "String",
+                          "isRequired": false,
+                          "attributes": []
                       },
-                      \\"teamID\\": {
-                          \\"name\\": \\"teamID\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"ID\\",
-                          \\"isRequired\\": true,
-                          \\"attributes\\": []
+                      "teamID": {
+                          "name": "teamID",
+                          "isArray": false,
+                          "type": "ID",
+                          "isRequired": true,
+                          "attributes": []
                       },
-                      \\"team\\": {
-                          \\"name\\": \\"team\\",
-                          \\"isArray\\": false,
-                          \\"type\\": {
-                              \\"model\\": \\"Team\\"
+                      "team": {
+                          "name": "team",
+                          "isArray": false,
+                          "type": {
+                              "model": "Team"
                           },
-                          \\"isRequired\\": false,
-                          \\"attributes\\": [],
-                          \\"association\\": {
-                              \\"connectionType\\": \\"HAS_ONE\\",
-                              \\"associatedWith\\": \\"id\\",
-                              \\"targetName\\": \\"teamID\\"
+                          "isRequired": false,
+                          "attributes": [],
+                          "association": {
+                              "connectionType": "HAS_ONE",
+                              "associatedWith": "id",
+                              "targetName": "teamID"
                           }
                       },
-                      \\"createdAt\\": {
-                          \\"name\\": \\"createdAt\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"AWSDateTime\\",
-                          \\"isRequired\\": false,
-                          \\"attributes\\": [],
-                          \\"isReadOnly\\": true
+                      "createdAt": {
+                          "name": "createdAt",
+                          "isArray": false,
+                          "type": "AWSDateTime",
+                          "isRequired": false,
+                          "attributes": [],
+                          "isReadOnly": true
                       },
-                      \\"updatedAt\\": {
-                          \\"name\\": \\"updatedAt\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"AWSDateTime\\",
-                          \\"isRequired\\": false,
-                          \\"attributes\\": [],
-                          \\"isReadOnly\\": true
+                      "updatedAt": {
+                          "name": "updatedAt",
+                          "isArray": false,
+                          "type": "AWSDateTime",
+                          "isRequired": false,
+                          "attributes": [],
+                          "isReadOnly": true
                       }
                   },
-                  \\"syncable\\": true,
-                  \\"pluralName\\": \\"Projects\\",
-                  \\"attributes\\": [
+                  "syncable": true,
+                  "pluralName": "Projects",
+                  "attributes": [
                       {
-                          \\"type\\": \\"model\\",
-                          \\"properties\\": {}
+                          "type": "model",
+                          "properties": {}
                       }
                   ]
               },
-              \\"Team\\": {
-                  \\"name\\": \\"Team\\",
-                  \\"fields\\": {
-                      \\"id\\": {
-                          \\"name\\": \\"id\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"ID\\",
-                          \\"isRequired\\": true,
-                          \\"attributes\\": []
+              "Team": {
+                  "name": "Team",
+                  "fields": {
+                      "id": {
+                          "name": "id",
+                          "isArray": false,
+                          "type": "ID",
+                          "isRequired": true,
+                          "attributes": []
                       },
-                      \\"name\\": {
-                          \\"name\\": \\"name\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"String\\",
-                          \\"isRequired\\": true,
-                          \\"attributes\\": []
+                      "name": {
+                          "name": "name",
+                          "isArray": false,
+                          "type": "String",
+                          "isRequired": true,
+                          "attributes": []
                       },
-                      \\"createdAt\\": {
-                          \\"name\\": \\"createdAt\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"AWSDateTime\\",
-                          \\"isRequired\\": false,
-                          \\"attributes\\": [],
-                          \\"isReadOnly\\": true
+                      "createdAt": {
+                          "name": "createdAt",
+                          "isArray": false,
+                          "type": "AWSDateTime",
+                          "isRequired": false,
+                          "attributes": [],
+                          "isReadOnly": true
                       },
-                      \\"updatedAt\\": {
-                          \\"name\\": \\"updatedAt\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"AWSDateTime\\",
-                          \\"isRequired\\": false,
-                          \\"attributes\\": [],
-                          \\"isReadOnly\\": true
+                      "updatedAt": {
+                          "name": "updatedAt",
+                          "isArray": false,
+                          "type": "AWSDateTime",
+                          "isRequired": false,
+                          "attributes": [],
+                          "isReadOnly": true
                       }
                   },
-                  \\"syncable\\": true,
-                  \\"pluralName\\": \\"Teams\\",
-                  \\"attributes\\": [
+                  "syncable": true,
+                  "pluralName": "Teams",
+                  "attributes": [
                       {
-                          \\"type\\": \\"model\\",
-                          \\"properties\\": {}
+                          "type": "model",
+                          "properties": {}
                       }
                   ]
               }
           },
-          \\"enums\\": {},
-          \\"nonModels\\": {},
-          \\"codegenVersion\\": \\"3.4.4\\",
-          \\"version\\": \\"27c53665371915d89e2b47bb22ec29af\\"
+          "enums": {},
+          "nonModels": {},
+          "codegenVersion": "3.4.4",
+          "version": "27c53665371915d89e2b47bb22ec29af"
       };"
     `);
   });
@@ -1234,122 +1240,122 @@ describe('Metadata visitor has one relation', () => {
   it('should generate for TypeScript', () => {
     const tsVisitor = getVisitor(schema, 'typescript', {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
     expect(tsVisitor.generate()).toMatchInlineSnapshot(`
-      "import { Schema } from \\"@aws-amplify/datastore\\";
+      "import { Schema } from "@aws-amplify/datastore";
 
       export const schema: Schema = {
-          \\"models\\": {
-              \\"Project\\": {
-                  \\"name\\": \\"Project\\",
-                  \\"fields\\": {
-                      \\"id\\": {
-                          \\"name\\": \\"id\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"ID\\",
-                          \\"isRequired\\": true,
-                          \\"attributes\\": []
+          "models": {
+              "Project": {
+                  "name": "Project",
+                  "fields": {
+                      "id": {
+                          "name": "id",
+                          "isArray": false,
+                          "type": "ID",
+                          "isRequired": true,
+                          "attributes": []
                       },
-                      \\"name\\": {
-                          \\"name\\": \\"name\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"String\\",
-                          \\"isRequired\\": false,
-                          \\"attributes\\": []
+                      "name": {
+                          "name": "name",
+                          "isArray": false,
+                          "type": "String",
+                          "isRequired": false,
+                          "attributes": []
                       },
-                      \\"teamID\\": {
-                          \\"name\\": \\"teamID\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"ID\\",
-                          \\"isRequired\\": true,
-                          \\"attributes\\": []
+                      "teamID": {
+                          "name": "teamID",
+                          "isArray": false,
+                          "type": "ID",
+                          "isRequired": true,
+                          "attributes": []
                       },
-                      \\"team\\": {
-                          \\"name\\": \\"team\\",
-                          \\"isArray\\": false,
-                          \\"type\\": {
-                              \\"model\\": \\"Team\\"
+                      "team": {
+                          "name": "team",
+                          "isArray": false,
+                          "type": {
+                              "model": "Team"
                           },
-                          \\"isRequired\\": false,
-                          \\"attributes\\": [],
-                          \\"association\\": {
-                              \\"connectionType\\": \\"HAS_ONE\\",
-                              \\"associatedWith\\": \\"id\\",
-                              \\"targetName\\": \\"teamID\\"
+                          "isRequired": false,
+                          "attributes": [],
+                          "association": {
+                              "connectionType": "HAS_ONE",
+                              "associatedWith": "id",
+                              "targetName": "teamID"
                           }
                       },
-                      \\"createdAt\\": {
-                          \\"name\\": \\"createdAt\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"AWSDateTime\\",
-                          \\"isRequired\\": false,
-                          \\"attributes\\": [],
-                          \\"isReadOnly\\": true
+                      "createdAt": {
+                          "name": "createdAt",
+                          "isArray": false,
+                          "type": "AWSDateTime",
+                          "isRequired": false,
+                          "attributes": [],
+                          "isReadOnly": true
                       },
-                      \\"updatedAt\\": {
-                          \\"name\\": \\"updatedAt\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"AWSDateTime\\",
-                          \\"isRequired\\": false,
-                          \\"attributes\\": [],
-                          \\"isReadOnly\\": true
+                      "updatedAt": {
+                          "name": "updatedAt",
+                          "isArray": false,
+                          "type": "AWSDateTime",
+                          "isRequired": false,
+                          "attributes": [],
+                          "isReadOnly": true
                       }
                   },
-                  \\"syncable\\": true,
-                  \\"pluralName\\": \\"Projects\\",
-                  \\"attributes\\": [
+                  "syncable": true,
+                  "pluralName": "Projects",
+                  "attributes": [
                       {
-                          \\"type\\": \\"model\\",
-                          \\"properties\\": {}
+                          "type": "model",
+                          "properties": {}
                       }
                   ]
               },
-              \\"Team\\": {
-                  \\"name\\": \\"Team\\",
-                  \\"fields\\": {
-                      \\"id\\": {
-                          \\"name\\": \\"id\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"ID\\",
-                          \\"isRequired\\": true,
-                          \\"attributes\\": []
+              "Team": {
+                  "name": "Team",
+                  "fields": {
+                      "id": {
+                          "name": "id",
+                          "isArray": false,
+                          "type": "ID",
+                          "isRequired": true,
+                          "attributes": []
                       },
-                      \\"name\\": {
-                          \\"name\\": \\"name\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"String\\",
-                          \\"isRequired\\": true,
-                          \\"attributes\\": []
+                      "name": {
+                          "name": "name",
+                          "isArray": false,
+                          "type": "String",
+                          "isRequired": true,
+                          "attributes": []
                       },
-                      \\"createdAt\\": {
-                          \\"name\\": \\"createdAt\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"AWSDateTime\\",
-                          \\"isRequired\\": false,
-                          \\"attributes\\": [],
-                          \\"isReadOnly\\": true
+                      "createdAt": {
+                          "name": "createdAt",
+                          "isArray": false,
+                          "type": "AWSDateTime",
+                          "isRequired": false,
+                          "attributes": [],
+                          "isReadOnly": true
                       },
-                      \\"updatedAt\\": {
-                          \\"name\\": \\"updatedAt\\",
-                          \\"isArray\\": false,
-                          \\"type\\": \\"AWSDateTime\\",
-                          \\"isRequired\\": false,
-                          \\"attributes\\": [],
-                          \\"isReadOnly\\": true
+                      "updatedAt": {
+                          "name": "updatedAt",
+                          "isArray": false,
+                          "type": "AWSDateTime",
+                          "isRequired": false,
+                          "attributes": [],
+                          "isReadOnly": true
                       }
                   },
-                  \\"syncable\\": true,
-                  \\"pluralName\\": \\"Teams\\",
-                  \\"attributes\\": [
+                  "syncable": true,
+                  "pluralName": "Teams",
+                  "attributes": [
                       {
-                          \\"type\\": \\"model\\",
-                          \\"properties\\": {}
+                          "type": "model",
+                          "properties": {}
                       }
                   ]
               }
           },
-          \\"enums\\": {},
-          \\"nonModels\\": {},
-          \\"codegenVersion\\": \\"3.4.4\\",
-          \\"version\\": \\"27c53665371915d89e2b47bb22ec29af\\"
+          "enums": {},
+          "nonModels": {},
+          "codegenVersion": "3.4.4",
+          "version": "27c53665371915d89e2b47bb22ec29af"
       };"
     `);
   });

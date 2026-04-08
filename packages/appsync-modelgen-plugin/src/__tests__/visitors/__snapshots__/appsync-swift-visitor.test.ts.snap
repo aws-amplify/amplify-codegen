@@ -63,11 +63,11 @@ extension Post {
   public static let schema = defineSchema { model in
     let post = Post.keys
     
-    model.listPluralName = \\"Posts\\"
-    model.syncPluralName = \\"Posts\\"
+    model.listPluralName = "Posts"
+    model.syncPluralName = "Posts"
     
     model.attributes(
-      .index(fields: [\\"id\\", \\"title\\"], name: nil),
+      .index(fields: ["id", "title"], name: nil),
       .primaryKey(fields: [post.id, post.title])
     )
     
@@ -92,24 +92,24 @@ extension Post: ModelIdentifiable {
 extension Post.IdentifierProtocol {
   public static func identifier(id: String,
       title: String) -> Self {
-    .make(fields:[(name: \\"id\\", value: id), (name: \\"title\\", value: title)])
+    .make(fields:[(name: "id", value: id), (name: "title", value: title)])
   }
 }
 extension ModelPath where ModelType == Post {
   public var id: FieldPath<String>   {
-      string(\\"id\\") 
+      string("id") 
     }
   public var title: FieldPath<String>   {
-      string(\\"title\\") 
+      string("title") 
     }
   public var comments: ModelPath<Comment>   {
-      Comment.Path(name: \\"comments\\", isCollection: true, parent: self) 
+      Comment.Path(name: "comments", isCollection: true, parent: self) 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;
@@ -176,11 +176,11 @@ extension Comment {
   public static let schema = defineSchema { model in
     let comment = Comment.keys
     
-    model.listPluralName = \\"Comments\\"
-    model.syncPluralName = \\"Comments\\"
+    model.listPluralName = "Comments"
+    model.syncPluralName = "Comments"
     
     model.attributes(
-      .index(fields: [\\"id\\", \\"content\\"], name: nil),
+      .index(fields: ["id", "content"], name: nil),
       .primaryKey(fields: [comment.id, comment.content])
     )
     
@@ -206,27 +206,27 @@ extension Comment: ModelIdentifiable {
 extension Comment.IdentifierProtocol {
   public static func identifier(id: String,
       content: String) -> Self {
-    .make(fields:[(name: \\"id\\", value: id), (name: \\"content\\", value: content)])
+    .make(fields:[(name: "id", value: id), (name: "content", value: content)])
   }
 }
 extension ModelPath where ModelType == Comment {
   public var id: FieldPath<String>   {
-      string(\\"id\\") 
+      string("id") 
     }
   public var content: FieldPath<String>   {
-      string(\\"content\\") 
+      string("content") 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
   public var postCommentsId: FieldPath<String>   {
-      string(\\"postCommentsId\\") 
+      string("postCommentsId") 
     }
   public var postCommentsTitle: FieldPath<String>   {
-      string(\\"postCommentsTitle\\") 
+      string("postCommentsTitle") 
     }
 }"
 `;
@@ -287,11 +287,11 @@ extension ModelCompositePk {
   public static let schema = defineSchema { model in
     let modelCompositePk = ModelCompositePk.keys
     
-    model.listPluralName = \\"ModelCompositePks\\"
-    model.syncPluralName = \\"ModelCompositePks\\"
+    model.listPluralName = "ModelCompositePks"
+    model.syncPluralName = "ModelCompositePks"
     
     model.attributes(
-      .index(fields: [\\"id\\", \\"dob\\"], name: nil),
+      .index(fields: ["id", "dob"], name: nil),
       .primaryKey(fields: [modelCompositePk.id, modelCompositePk.dob])
     )
     
@@ -316,24 +316,24 @@ extension ModelCompositePk: ModelIdentifiable {
 extension ModelCompositePk.IdentifierProtocol {
   public static func identifier(id: String,
       dob: Temporal.DateTime) -> Self {
-    .make(fields:[(name: \\"id\\", value: id), (name: \\"dob\\", value: dob)])
+    .make(fields:[(name: "id", value: id), (name: "dob", value: dob)])
   }
 }
 extension ModelPath where ModelType == ModelCompositePk {
   public var id: FieldPath<String>   {
-      string(\\"id\\") 
+      string("id") 
     }
   public var dob: FieldPath<Temporal.DateTime>   {
-      datetime(\\"dob\\") 
+      datetime("dob") 
     }
   public var name: FieldPath<String>   {
-      string(\\"name\\") 
+      string("name") 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;
@@ -388,11 +388,11 @@ extension ModelExplicitCustomPk {
   public static let schema = defineSchema { model in
     let modelExplicitCustomPk = ModelExplicitCustomPk.keys
     
-    model.listPluralName = \\"ModelExplicitCustomPks\\"
-    model.syncPluralName = \\"ModelExplicitCustomPks\\"
+    model.listPluralName = "ModelExplicitCustomPks"
+    model.syncPluralName = "ModelExplicitCustomPks"
     
     model.attributes(
-      .index(fields: [\\"userId\\"], name: nil),
+      .index(fields: ["userId"], name: nil),
       .primaryKey(fields: [modelExplicitCustomPk.userId])
     )
     
@@ -415,21 +415,21 @@ extension ModelExplicitCustomPk: ModelIdentifiable {
 
 extension ModelExplicitCustomPk.IdentifierProtocol {
   public static func identifier(userId: String) -> Self {
-    .make(fields:[(name: \\"userId\\", value: userId)])
+    .make(fields:[(name: "userId", value: userId)])
   }
 }
 extension ModelPath where ModelType == ModelExplicitCustomPk {
   public var userId: FieldPath<String>   {
-      string(\\"userId\\") 
+      string("userId") 
     }
   public var name: FieldPath<String>   {
-      string(\\"name\\") 
+      string("name") 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;
@@ -484,11 +484,11 @@ extension ModelExplicitDefaultPk {
   public static let schema = defineSchema { model in
     let modelExplicitDefaultPk = ModelExplicitDefaultPk.keys
     
-    model.listPluralName = \\"ModelExplicitDefaultPks\\"
-    model.syncPluralName = \\"ModelExplicitDefaultPks\\"
+    model.listPluralName = "ModelExplicitDefaultPks"
+    model.syncPluralName = "ModelExplicitDefaultPks"
     
     model.attributes(
-      .index(fields: [\\"id\\"], name: nil),
+      .index(fields: ["id"], name: nil),
       .primaryKey(fields: [modelExplicitDefaultPk.id])
     )
     
@@ -510,16 +510,16 @@ extension ModelExplicitDefaultPk: ModelIdentifiable {
 }
 extension ModelPath where ModelType == ModelExplicitDefaultPk {
   public var id: FieldPath<String>   {
-      string(\\"id\\") 
+      string("id") 
     }
   public var name: FieldPath<String>   {
-      string(\\"name\\") 
+      string("name") 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;
@@ -574,8 +574,8 @@ extension ModelImplicitDefaultPk {
   public static let schema = defineSchema { model in
     let modelImplicitDefaultPk = ModelImplicitDefaultPk.keys
     
-    model.listPluralName = \\"ModelImplicitDefaultPks\\"
-    model.syncPluralName = \\"ModelImplicitDefaultPks\\"
+    model.listPluralName = "ModelImplicitDefaultPks"
+    model.syncPluralName = "ModelImplicitDefaultPks"
     
     model.attributes(
       .primaryKey(fields: [modelImplicitDefaultPk.id])
@@ -599,16 +599,16 @@ extension ModelImplicitDefaultPk: ModelIdentifiable {
 }
 extension ModelPath where ModelType == ModelImplicitDefaultPk {
   public var id: FieldPath<String>   {
-      string(\\"id\\") 
+      string("id") 
     }
   public var name: FieldPath<String>   {
-      string(\\"name\\") 
+      string("name") 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;
@@ -709,18 +709,18 @@ extension Project {
   public static let schema = defineSchema { model in
     let project = Project.keys
     
-    model.listPluralName = \\"Projects\\"
-    model.syncPluralName = \\"Projects\\"
+    model.listPluralName = "Projects"
+    model.syncPluralName = "Projects"
     
     model.attributes(
-      .index(fields: [\\"projectId\\", \\"name\\"], name: nil),
+      .index(fields: ["projectId", "name"], name: nil),
       .primaryKey(fields: [project.projectId, project.name])
     )
     
     model.fields(
       .field(project.projectId, is: .required, ofType: .string),
       .field(project.name, is: .required, ofType: .string),
-      .hasOne(project.team, is: .optional, ofType: Team.self, associatedWith: Team.keys.project, targetNames: [\\"projectTeamTeamId\\", \\"projectTeamName\\"]),
+      .hasOne(project.team, is: .optional, ofType: Team.self, associatedWith: Team.keys.project, targetNames: ["projectTeamTeamId", "projectTeamName"]),
       .field(project.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(project.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(project.projectTeamTeamId, is: .optional, ofType: .string),
@@ -740,30 +740,30 @@ extension Project: ModelIdentifiable {
 extension Project.IdentifierProtocol {
   public static func identifier(projectId: String,
       name: String) -> Self {
-    .make(fields:[(name: \\"projectId\\", value: projectId), (name: \\"name\\", value: name)])
+    .make(fields:[(name: "projectId", value: projectId), (name: "name", value: name)])
   }
 }
 extension ModelPath where ModelType == Project {
   public var projectId: FieldPath<String>   {
-      string(\\"projectId\\") 
+      string("projectId") 
     }
   public var name: FieldPath<String>   {
-      string(\\"name\\") 
+      string("name") 
     }
   public var team: ModelPath<Team>   {
-      Team.Path(name: \\"team\\", parent: self) 
+      Team.Path(name: "team", parent: self) 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
   public var projectTeamTeamId: FieldPath<String>   {
-      string(\\"projectTeamTeamId\\") 
+      string("projectTeamTeamId") 
     }
   public var projectTeamName: FieldPath<String>   {
-      string(\\"projectTeamName\\") 
+      string("projectTeamName") 
     }
 }"
 `;
@@ -848,18 +848,18 @@ extension Team {
   public static let schema = defineSchema { model in
     let team = Team.keys
     
-    model.listPluralName = \\"Teams\\"
-    model.syncPluralName = \\"Teams\\"
+    model.listPluralName = "Teams"
+    model.syncPluralName = "Teams"
     
     model.attributes(
-      .index(fields: [\\"teamId\\", \\"name\\"], name: nil),
+      .index(fields: ["teamId", "name"], name: nil),
       .primaryKey(fields: [team.teamId, team.name])
     )
     
     model.fields(
       .field(team.teamId, is: .required, ofType: .string),
       .field(team.name, is: .required, ofType: .string),
-      .belongsTo(team.project, is: .optional, ofType: Project.self, targetNames: [\\"teamProjectProjectId\\", \\"teamProjectName\\"]),
+      .belongsTo(team.project, is: .optional, ofType: Project.self, targetNames: ["teamProjectProjectId", "teamProjectName"]),
       .field(team.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(team.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -877,24 +877,24 @@ extension Team: ModelIdentifiable {
 extension Team.IdentifierProtocol {
   public static func identifier(teamId: String,
       name: String) -> Self {
-    .make(fields:[(name: \\"teamId\\", value: teamId), (name: \\"name\\", value: name)])
+    .make(fields:[(name: "teamId", value: teamId), (name: "name", value: name)])
   }
 }
 extension ModelPath where ModelType == Team {
   public var teamId: FieldPath<String>   {
-      string(\\"teamId\\") 
+      string("teamId") 
     }
   public var name: FieldPath<String>   {
-      string(\\"name\\") 
+      string("name") 
     }
   public var project: ModelPath<Project>   {
-      Project.Path(name: \\"project\\", parent: self) 
+      Project.Path(name: "project", parent: self) 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;
@@ -1007,11 +1007,11 @@ extension NoticeStaff {
       rule(allow: .public, provider: .iam, operations: [.create, .update, .delete, .read])
     ]
     
-    model.listPluralName = \\"NoticeStaffs\\"
-    model.syncPluralName = \\"NoticeStaffs\\"
+    model.listPluralName = "NoticeStaffs"
+    model.syncPluralName = "NoticeStaffs"
     
     model.attributes(
-      .index(fields: [\\"noticeId\\", \\"staffId\\"], name: nil),
+      .index(fields: ["noticeId", "staffId"], name: nil),
       .primaryKey(fields: [noticeStaff.noticeId, noticeStaff.staffId])
     )
     
@@ -1019,8 +1019,8 @@ extension NoticeStaff {
       .field(noticeStaff.read_at, is: .optional, ofType: .dateTime),
       .field(noticeStaff.noticeId, is: .required, ofType: .string),
       .field(noticeStaff.staffId, is: .required, ofType: .string),
-      .belongsTo(noticeStaff.notice, is: .optional, ofType: Notice.self, targetNames: [\\"noticeId\\"]),
-      .belongsTo(noticeStaff.staff, is: .optional, ofType: Staff.self, targetNames: [\\"staffId\\"]),
+      .belongsTo(noticeStaff.notice, is: .optional, ofType: Notice.self, targetNames: ["noticeId"]),
+      .belongsTo(noticeStaff.staff, is: .optional, ofType: Staff.self, targetNames: ["staffId"]),
       .field(noticeStaff.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(noticeStaff.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -1038,30 +1038,30 @@ extension NoticeStaff: ModelIdentifiable {
 extension NoticeStaff.IdentifierProtocol {
   public static func identifier(noticeId: String,
       staffId: String) -> Self {
-    .make(fields:[(name: \\"noticeId\\", value: noticeId), (name: \\"staffId\\", value: staffId)])
+    .make(fields:[(name: "noticeId", value: noticeId), (name: "staffId", value: staffId)])
   }
 }
 extension ModelPath where ModelType == NoticeStaff {
   public var read_at: FieldPath<Temporal.DateTime>   {
-      datetime(\\"read_at\\") 
+      datetime("read_at") 
     }
   public var noticeId: FieldPath<String>   {
-      string(\\"noticeId\\") 
+      string("noticeId") 
     }
   public var staffId: FieldPath<String>   {
-      string(\\"staffId\\") 
+      string("staffId") 
     }
   public var notice: ModelPath<Notice>   {
-      Notice.Path(name: \\"notice\\", parent: self) 
+      Notice.Path(name: "notice", parent: self) 
     }
   public var staff: ModelPath<Staff>   {
-      Staff.Path(name: \\"staff\\", parent: self) 
+      Staff.Path(name: "staff", parent: self) 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;
@@ -1166,8 +1166,8 @@ extension NoticeStaff {
       rule(allow: .public, provider: .iam, operations: [.create, .update, .delete, .read])
     ]
     
-    model.listPluralName = \\"NoticeStaffs\\"
-    model.syncPluralName = \\"NoticeStaffs\\"
+    model.listPluralName = "NoticeStaffs"
+    model.syncPluralName = "NoticeStaffs"
     
     model.attributes(
       .primaryKey(fields: [noticeStaff.id])
@@ -1176,8 +1176,8 @@ extension NoticeStaff {
     model.fields(
       .field(noticeStaff.id, is: .required, ofType: .string),
       .field(noticeStaff.read_at, is: .optional, ofType: .dateTime),
-      .belongsTo(noticeStaff.notice, is: .optional, ofType: Notice.self, targetNames: [\\"noticeId\\"]),
-      .belongsTo(noticeStaff.staff, is: .optional, ofType: Staff.self, targetNames: [\\"staffId\\"]),
+      .belongsTo(noticeStaff.notice, is: .optional, ofType: Notice.self, targetNames: ["noticeId"]),
+      .belongsTo(noticeStaff.staff, is: .optional, ofType: Staff.self, targetNames: ["staffId"]),
       .field(noticeStaff.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(noticeStaff.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -1193,22 +1193,22 @@ extension NoticeStaff: ModelIdentifiable {
 }
 extension ModelPath where ModelType == NoticeStaff {
   public var id: FieldPath<String>   {
-      string(\\"id\\") 
+      string("id") 
     }
   public var read_at: FieldPath<Temporal.DateTime>   {
-      datetime(\\"read_at\\") 
+      datetime("read_at") 
     }
   public var notice: ModelPath<Notice>   {
-      Notice.Path(name: \\"notice\\", parent: self) 
+      Notice.Path(name: "notice", parent: self) 
     }
   public var staff: ModelPath<Staff>   {
-      Staff.Path(name: \\"staff\\", parent: self) 
+      Staff.Path(name: "staff", parent: self) 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;
@@ -1305,8 +1305,8 @@ extension ListContainer {
   public static let schema = defineSchema { model in
     let listContainer = ListContainer.keys
     
-    model.listPluralName = \\"ListContainers\\"
-    model.syncPluralName = \\"ListContainers\\"
+    model.listPluralName = "ListContainers"
+    model.syncPluralName = "ListContainers"
     
     model.fields(
       .id(),
@@ -1328,31 +1328,31 @@ extension ListContainer {
 }
 extension ModelPath where ModelType == ListContainer {
   public var id: FieldPath<String>   {
-      string(\\"id\\") 
+      string("id") 
     }
   public var name: FieldPath<String>   {
-      string(\\"name\\") 
+      string("name") 
     }
   public var list: FieldPath<Int>   {
-      int(\\"list\\") 
+      int("list") 
     }
   public var requiredList: FieldPath<String>   {
-      string(\\"requiredList\\") 
+      string("requiredList") 
     }
   public var listOfRequired: FieldPath<Bool>   {
-      bool(\\"listOfRequired\\") 
+      bool("listOfRequired") 
     }
   public var requiredListOfRequiredDates: FieldPath<Temporal.Date>   {
-      date(\\"requiredListOfRequiredDates\\") 
+      date("requiredListOfRequiredDates") 
     }
   public var listOfRequiredFloats: FieldPath<Double>   {
-      double(\\"listOfRequiredFloats\\") 
+      double("listOfRequiredFloats") 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;
@@ -1445,8 +1445,8 @@ extension Todo {
   public static let schema = defineSchema { model in
     let todo = Todo.keys
     
-    model.listPluralName = \\"Todos\\"
-    model.syncPluralName = \\"Todos\\"
+    model.listPluralName = "Todos"
+    model.syncPluralName = "Todos"
     
     model.fields(
       .id(),
@@ -1465,28 +1465,28 @@ extension Todo {
 }
 extension ModelPath where ModelType == Todo {
   public var id: FieldPath<String>   {
-      string(\\"id\\") 
+      string("id") 
     }
   public var title: FieldPath<String>   {
-      string(\\"title\\") 
+      string("title") 
     }
   public var requiredListOfTasks: ModelPath<task>   {
-      task.Path(name: \\"requiredListOfTasks\\", isCollection: true, parent: self) 
+      task.Path(name: "requiredListOfTasks", isCollection: true, parent: self) 
     }
   public var listOfRequiredTasks: ModelPath<task>   {
-      task.Path(name: \\"listOfRequiredTasks\\", isCollection: true, parent: self) 
+      task.Path(name: "listOfRequiredTasks", isCollection: true, parent: self) 
     }
   public var listOfTasks: ModelPath<task>   {
-      task.Path(name: \\"listOfTasks\\", isCollection: true, parent: self) 
+      task.Path(name: "listOfTasks", isCollection: true, parent: self) 
     }
   public var requiredListOfRequiredTasks: ModelPath<task>   {
-      task.Path(name: \\"requiredListOfRequiredTasks\\", isCollection: true, parent: self) 
+      task.Path(name: "requiredListOfRequiredTasks", isCollection: true, parent: self) 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;
@@ -1571,13 +1571,13 @@ extension task {
   public static let schema = defineSchema { model in
     let task = task.keys
     
-    model.listPluralName = \\"tasks\\"
-    model.syncPluralName = \\"tasks\\"
+    model.listPluralName = "tasks"
+    model.syncPluralName = "tasks"
     
     model.fields(
       .id(),
       .field(task.title, is: .required, ofType: .string),
-      .belongsTo(task.todo, is: .optional, ofType: Todo.self, targetName: \\"taskTodoId\\"),
+      .belongsTo(task.todo, is: .optional, ofType: Todo.self, targetName: "taskTodoId"),
       .field(task.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(task.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -1588,19 +1588,19 @@ extension task {
 }
 extension ModelPath where ModelType == task {
   public var id: FieldPath<String>   {
-      string(\\"id\\") 
+      string("id") 
     }
   public var title: FieldPath<String>   {
-      string(\\"title\\") 
+      string("title") 
     }
   public var todo: ModelPath<Todo>   {
-      Todo.Path(name: \\"todo\\", parent: self) 
+      Todo.Path(name: "todo", parent: self) 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;
@@ -1693,8 +1693,8 @@ extension Foo {
   public static let schema = defineSchema { model in
     let foo = Foo.keys
     
-    model.listPluralName = \\"Foos\\"
-    model.syncPluralName = \\"Foos\\"
+    model.listPluralName = "Foos"
+    model.syncPluralName = "Foos"
     
     model.attributes(
       .primaryKey(fields: [foo.id])
@@ -1719,19 +1719,19 @@ extension Foo: ModelIdentifiable {
 }
 extension ModelPath where ModelType == Foo {
   public var id: FieldPath<String>   {
-      string(\\"id\\") 
+      string("id") 
     }
   public var bar1: ModelPath<Bar>   {
-      Bar.Path(name: \\"bar1\\", parent: self) 
+      Bar.Path(name: "bar1", parent: self) 
     }
   public var bar2: ModelPath<Bar>   {
-      Bar.Path(name: \\"bar2\\", parent: self) 
+      Bar.Path(name: "bar2", parent: self) 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;
@@ -1824,8 +1824,8 @@ extension Bar {
   public static let schema = defineSchema { model in
     let bar = Bar.keys
     
-    model.listPluralName = \\"Bars\\"
-    model.syncPluralName = \\"Bars\\"
+    model.listPluralName = "Bars"
+    model.syncPluralName = "Bars"
     
     model.attributes(
       .primaryKey(fields: [bar.id])
@@ -1833,8 +1833,8 @@ extension Bar {
     
     model.fields(
       .field(bar.id, is: .required, ofType: .string),
-      .belongsTo(bar.foo1, is: .optional, ofType: Foo.self, targetNames: [\\"bar1Id\\"]),
-      .belongsTo(bar.foo2, is: .optional, ofType: Foo.self, targetNames: [\\"bar2Id\\"]),
+      .belongsTo(bar.foo1, is: .optional, ofType: Foo.self, targetNames: ["bar1Id"]),
+      .belongsTo(bar.foo2, is: .optional, ofType: Foo.self, targetNames: ["bar2Id"]),
       .field(bar.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(bar.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -1850,19 +1850,19 @@ extension Bar: ModelIdentifiable {
 }
 extension ModelPath where ModelType == Bar {
   public var id: FieldPath<String>   {
-      string(\\"id\\") 
+      string("id") 
     }
   public var foo1: ModelPath<Foo>   {
-      Foo.Path(name: \\"foo1\\", parent: self) 
+      Foo.Path(name: "foo1", parent: self) 
     }
   public var foo2: ModelPath<Foo>   {
-      Foo.Path(name: \\"foo2\\", parent: self) 
+      Foo.Path(name: "foo2", parent: self) 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;
@@ -1935,11 +1935,11 @@ extension Primary {
   public static let schema = defineSchema { model in
     let primary = Primary.keys
     
-    model.listPluralName = \\"Primaries\\"
-    model.syncPluralName = \\"Primaries\\"
+    model.listPluralName = "Primaries"
+    model.syncPluralName = "Primaries"
     
     model.attributes(
-      .index(fields: [\\"tenantId\\", \\"instanceId\\", \\"recordId\\"], name: nil),
+      .index(fields: ["tenantId", "instanceId", "recordId"], name: nil),
       .primaryKey(fields: [primary.tenantId, primary.instanceId, primary.recordId])
     )
     
@@ -1967,30 +1967,30 @@ extension Primary.IdentifierProtocol {
   public static func identifier(tenantId: String,
       instanceId: String,
       recordId: String) -> Self {
-    .make(fields:[(name: \\"tenantId\\", value: tenantId), (name: \\"instanceId\\", value: instanceId), (name: \\"recordId\\", value: recordId)])
+    .make(fields:[(name: "tenantId", value: tenantId), (name: "instanceId", value: instanceId), (name: "recordId", value: recordId)])
   }
 }
 extension ModelPath where ModelType == Primary {
   public var tenantId: FieldPath<String>   {
-      string(\\"tenantId\\") 
+      string("tenantId") 
     }
   public var instanceId: FieldPath<String>   {
-      string(\\"instanceId\\") 
+      string("instanceId") 
     }
   public var recordId: FieldPath<String>   {
-      string(\\"recordId\\") 
+      string("recordId") 
     }
   public var content: FieldPath<String>   {
-      string(\\"content\\") 
+      string("content") 
     }
   public var related: ModelPath<Related>   {
-      Related.Path(name: \\"related\\", isCollection: true, parent: self) 
+      Related.Path(name: "related", isCollection: true, parent: self) 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;
@@ -2075,8 +2075,8 @@ extension Related {
   public static let schema = defineSchema { model in
     let related = Related.keys
     
-    model.listPluralName = \\"Relateds\\"
-    model.syncPluralName = \\"Relateds\\"
+    model.listPluralName = "Relateds"
+    model.syncPluralName = "Relateds"
     
     model.attributes(
       .primaryKey(fields: [related.id])
@@ -2085,7 +2085,7 @@ extension Related {
     model.fields(
       .field(related.id, is: .required, ofType: .string),
       .field(related.content, is: .optional, ofType: .string),
-      .belongsTo(related.primary, is: .optional, ofType: Primary.self, targetNames: [\\"primaryTenantId\\", \\"primaryInstanceId\\", \\"primaryRecordId\\"]),
+      .belongsTo(related.primary, is: .optional, ofType: Primary.self, targetNames: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"]),
       .field(related.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(related.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -2101,19 +2101,19 @@ extension Related: ModelIdentifiable {
 }
 extension ModelPath where ModelType == Related {
   public var id: FieldPath<String>   {
-      string(\\"id\\") 
+      string("id") 
     }
   public var content: FieldPath<String>   {
-      string(\\"content\\") 
+      string("content") 
     }
   public var primary: ModelPath<Primary>   {
-      Primary.Path(name: \\"primary\\", parent: self) 
+      Primary.Path(name: "primary", parent: self) 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;
@@ -2214,11 +2214,11 @@ extension Primary {
   public static let schema = defineSchema { model in
     let primary = Primary.keys
     
-    model.listPluralName = \\"Primaries\\"
-    model.syncPluralName = \\"Primaries\\"
+    model.listPluralName = "Primaries"
+    model.syncPluralName = "Primaries"
     
     model.attributes(
-      .index(fields: [\\"tenantId\\", \\"instanceId\\", \\"recordId\\"], name: nil),
+      .index(fields: ["tenantId", "instanceId", "recordId"], name: nil),
       .primaryKey(fields: [primary.tenantId, primary.instanceId, primary.recordId])
     )
     
@@ -2246,30 +2246,30 @@ extension Primary.IdentifierProtocol {
   public static func identifier(tenantId: String,
       instanceId: String,
       recordId: String) -> Self {
-    .make(fields:[(name: \\"tenantId\\", value: tenantId), (name: \\"instanceId\\", value: instanceId), (name: \\"recordId\\", value: recordId)])
+    .make(fields:[(name: "tenantId", value: tenantId), (name: "instanceId", value: instanceId), (name: "recordId", value: recordId)])
   }
 }
 extension ModelPath where ModelType == Primary {
   public var tenantId: FieldPath<String>   {
-      string(\\"tenantId\\") 
+      string("tenantId") 
     }
   public var instanceId: FieldPath<String>   {
-      string(\\"instanceId\\") 
+      string("instanceId") 
     }
   public var recordId: FieldPath<String>   {
-      string(\\"recordId\\") 
+      string("recordId") 
     }
   public var content: FieldPath<String>   {
-      string(\\"content\\") 
+      string("content") 
     }
   public var related: ModelPath<Related>   {
-      Related.Path(name: \\"related\\", parent: self) 
+      Related.Path(name: "related", parent: self) 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;
@@ -2354,8 +2354,8 @@ extension Related {
   public static let schema = defineSchema { model in
     let related = Related.keys
     
-    model.listPluralName = \\"Relateds\\"
-    model.syncPluralName = \\"Relateds\\"
+    model.listPluralName = "Relateds"
+    model.syncPluralName = "Relateds"
     
     model.attributes(
       .primaryKey(fields: [related.id])
@@ -2364,7 +2364,7 @@ extension Related {
     model.fields(
       .field(related.id, is: .required, ofType: .string),
       .field(related.content, is: .optional, ofType: .string),
-      .belongsTo(related.primary, is: .optional, ofType: Primary.self, targetNames: [\\"primaryTenantId\\", \\"primaryInstanceId\\", \\"primaryRecordId\\"]),
+      .belongsTo(related.primary, is: .optional, ofType: Primary.self, targetNames: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"]),
       .field(related.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(related.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -2380,19 +2380,19 @@ extension Related: ModelIdentifiable {
 }
 extension ModelPath where ModelType == Related {
   public var id: FieldPath<String>   {
-      string(\\"id\\") 
+      string("id") 
     }
   public var content: FieldPath<String>   {
-      string(\\"content\\") 
+      string("content") 
     }
   public var primary: ModelPath<Primary>   {
-      Primary.Path(name: \\"primary\\", parent: self) 
+      Primary.Path(name: "primary", parent: self) 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;
@@ -2453,11 +2453,11 @@ extension SqlPrimary {
   public static let schema = defineSchema { model in
     let sqlPrimary = SqlPrimary.keys
     
-    model.listPluralName = \\"SqlPrimaries\\"
-    model.syncPluralName = \\"SqlPrimaries\\"
+    model.listPluralName = "SqlPrimaries"
+    model.syncPluralName = "SqlPrimaries"
     
     model.attributes(
-      .index(fields: [\\"id\\"], name: nil),
+      .index(fields: ["id"], name: nil),
       .primaryKey(fields: [sqlPrimary.id])
     )
     
@@ -2480,19 +2480,19 @@ extension SqlPrimary: ModelIdentifiable {
 }
 extension ModelPath where ModelType == SqlPrimary {
   public var id: FieldPath<Int>   {
-      int(\\"id\\") 
+      int("id") 
     }
   public var content: FieldPath<String>   {
-      string(\\"content\\") 
+      string("content") 
     }
   public var related: ModelPath<SqlRelated>   {
-      SqlRelated.Path(name: \\"related\\", isCollection: true, parent: self) 
+      SqlRelated.Path(name: "related", isCollection: true, parent: self) 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;
@@ -2577,19 +2577,19 @@ extension SqlRelated {
   public static let schema = defineSchema { model in
     let sqlRelated = SqlRelated.keys
     
-    model.listPluralName = \\"SqlRelateds\\"
-    model.syncPluralName = \\"SqlRelateds\\"
+    model.listPluralName = "SqlRelateds"
+    model.syncPluralName = "SqlRelateds"
     
     model.attributes(
-      .index(fields: [\\"id\\"], name: nil),
-      .index(fields: [\\"primaryId\\"], name: \\"primary_id\\"),
+      .index(fields: ["id"], name: nil),
+      .index(fields: ["primaryId"], name: "primary_id"),
       .primaryKey(fields: [sqlRelated.id])
     )
     
     model.fields(
       .field(sqlRelated.id, is: .required, ofType: .int),
       .field(sqlRelated.content, is: .optional, ofType: .string),
-      .belongsTo(sqlRelated.primary, is: .optional, ofType: SqlPrimary.self, targetNames: [\\"primaryId\\"]),
+      .belongsTo(sqlRelated.primary, is: .optional, ofType: SqlPrimary.self, targetNames: ["primaryId"]),
       .field(sqlRelated.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(sqlRelated.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -2605,19 +2605,19 @@ extension SqlRelated: ModelIdentifiable {
 }
 extension ModelPath where ModelType == SqlRelated {
   public var id: FieldPath<Int>   {
-      int(\\"id\\") 
+      int("id") 
     }
   public var content: FieldPath<String>   {
-      string(\\"content\\") 
+      string("content") 
     }
   public var primary: ModelPath<SqlPrimary>   {
-      SqlPrimary.Path(name: \\"primary\\", parent: self) 
+      SqlPrimary.Path(name: "primary", parent: self) 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;
@@ -2702,11 +2702,11 @@ extension Primary {
   public static let schema = defineSchema { model in
     let primary = Primary.keys
     
-    model.listPluralName = \\"Primaries\\"
-    model.syncPluralName = \\"Primaries\\"
+    model.listPluralName = "Primaries"
+    model.syncPluralName = "Primaries"
     
     model.attributes(
-      .index(fields: [\\"id\\"], name: nil),
+      .index(fields: ["id"], name: nil),
       .primaryKey(fields: [primary.id])
     )
     
@@ -2729,19 +2729,19 @@ extension Primary: ModelIdentifiable {
 }
 extension ModelPath where ModelType == Primary {
   public var id: FieldPath<String>   {
-      string(\\"id\\") 
+      string("id") 
     }
   public var relatedMany: ModelPath<RelatedMany>   {
-      RelatedMany.Path(name: \\"relatedMany\\", isCollection: true, parent: self) 
+      RelatedMany.Path(name: "relatedMany", isCollection: true, parent: self) 
     }
   public var relatedOne: ModelPath<RelatedOne>   {
-      RelatedOne.Path(name: \\"relatedOne\\", parent: self) 
+      RelatedOne.Path(name: "relatedOne", parent: self) 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;
@@ -2818,17 +2818,17 @@ extension RelatedMany {
   public static let schema = defineSchema { model in
     let relatedMany = RelatedMany.keys
     
-    model.listPluralName = \\"RelatedManies\\"
-    model.syncPluralName = \\"RelatedManies\\"
+    model.listPluralName = "RelatedManies"
+    model.syncPluralName = "RelatedManies"
     
     model.attributes(
-      .index(fields: [\\"id\\"], name: nil),
+      .index(fields: ["id"], name: nil),
       .primaryKey(fields: [relatedMany.id])
     )
     
     model.fields(
       .field(relatedMany.id, is: .required, ofType: .string),
-      .belongsTo(relatedMany.primary, is: .optional, ofType: Primary.self, targetNames: [\\"primaryId\\"]),
+      .belongsTo(relatedMany.primary, is: .optional, ofType: Primary.self, targetNames: ["primaryId"]),
       .field(relatedMany.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(relatedMany.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -2844,16 +2844,16 @@ extension RelatedMany: ModelIdentifiable {
 }
 extension ModelPath where ModelType == RelatedMany {
   public var id: FieldPath<String>   {
-      string(\\"id\\") 
+      string("id") 
     }
   public var primary: ModelPath<Primary>   {
-      Primary.Path(name: \\"primary\\", parent: self) 
+      Primary.Path(name: "primary", parent: self) 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;
@@ -2930,17 +2930,17 @@ extension RelatedOne {
   public static let schema = defineSchema { model in
     let relatedOne = RelatedOne.keys
     
-    model.listPluralName = \\"RelatedOnes\\"
-    model.syncPluralName = \\"RelatedOnes\\"
+    model.listPluralName = "RelatedOnes"
+    model.syncPluralName = "RelatedOnes"
     
     model.attributes(
-      .index(fields: [\\"id\\"], name: nil),
+      .index(fields: ["id"], name: nil),
       .primaryKey(fields: [relatedOne.id])
     )
     
     model.fields(
       .field(relatedOne.id, is: .required, ofType: .string),
-      .belongsTo(relatedOne.primary, is: .optional, ofType: Primary.self, targetNames: [\\"primaryId\\"]),
+      .belongsTo(relatedOne.primary, is: .optional, ofType: Primary.self, targetNames: ["primaryId"]),
       .field(relatedOne.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(relatedOne.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -2956,16 +2956,16 @@ extension RelatedOne: ModelIdentifiable {
 }
 extension ModelPath where ModelType == RelatedOne {
   public var id: FieldPath<String>   {
-      string(\\"id\\") 
+      string("id") 
     }
   public var primary: ModelPath<Primary>   {
-      Primary.Path(name: \\"primary\\", parent: self) 
+      Primary.Path(name: "primary", parent: self) 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;
@@ -3050,11 +3050,11 @@ extension SqlPrimary {
   public static let schema = defineSchema { model in
     let sqlPrimary = SqlPrimary.keys
     
-    model.listPluralName = \\"SqlPrimaries\\"
-    model.syncPluralName = \\"SqlPrimaries\\"
+    model.listPluralName = "SqlPrimaries"
+    model.syncPluralName = "SqlPrimaries"
     
     model.attributes(
-      .index(fields: [\\"id\\"], name: nil),
+      .index(fields: ["id"], name: nil),
       .primaryKey(fields: [sqlPrimary.id])
     )
     
@@ -3077,19 +3077,19 @@ extension SqlPrimary: ModelIdentifiable {
 }
 extension ModelPath where ModelType == SqlPrimary {
   public var id: FieldPath<Int>   {
-      int(\\"id\\") 
+      int("id") 
     }
   public var content: FieldPath<String>   {
-      string(\\"content\\") 
+      string("content") 
     }
   public var related: ModelPath<SqlRelated>   {
-      SqlRelated.Path(name: \\"related\\", parent: self) 
+      SqlRelated.Path(name: "related", parent: self) 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;
@@ -3174,19 +3174,19 @@ extension SqlRelated {
   public static let schema = defineSchema { model in
     let sqlRelated = SqlRelated.keys
     
-    model.listPluralName = \\"SqlRelateds\\"
-    model.syncPluralName = \\"SqlRelateds\\"
+    model.listPluralName = "SqlRelateds"
+    model.syncPluralName = "SqlRelateds"
     
     model.attributes(
-      .index(fields: [\\"id\\"], name: nil),
-      .index(fields: [\\"primaryId\\"], name: \\"primary_id\\"),
+      .index(fields: ["id"], name: nil),
+      .index(fields: ["primaryId"], name: "primary_id"),
       .primaryKey(fields: [sqlRelated.id])
     )
     
     model.fields(
       .field(sqlRelated.id, is: .required, ofType: .int),
       .field(sqlRelated.content, is: .optional, ofType: .string),
-      .belongsTo(sqlRelated.primary, is: .optional, ofType: SqlPrimary.self, targetNames: [\\"primaryId\\"]),
+      .belongsTo(sqlRelated.primary, is: .optional, ofType: SqlPrimary.self, targetNames: ["primaryId"]),
       .field(sqlRelated.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
       .field(sqlRelated.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
@@ -3202,19 +3202,19 @@ extension SqlRelated: ModelIdentifiable {
 }
 extension ModelPath where ModelType == SqlRelated {
   public var id: FieldPath<Int>   {
-      int(\\"id\\") 
+      int("id") 
     }
   public var content: FieldPath<String>   {
-      string(\\"content\\") 
+      string("content") 
     }
   public var primary: ModelPath<SqlPrimary>   {
-      SqlPrimary.Path(name: \\"primary\\", parent: self) 
+      SqlPrimary.Path(name: "primary", parent: self) 
     }
   public var createdAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"createdAt\\") 
+      datetime("createdAt") 
     }
   public var updatedAt: FieldPath<Temporal.DateTime>   {
-      datetime(\\"updatedAt\\") 
+      datetime("updatedAt") 
     }
 }"
 `;

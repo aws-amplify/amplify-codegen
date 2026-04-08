@@ -12,15 +12,10 @@ describe('Validation', () => {
   });
   test(`should throw when a file has invalid gql snippets`, () => {
     const inputPaths = [path.join(__dirname, '.', 'fixtures', 'misc', 'invalid-gqlQueries.js')];
+    const expectedPath = path.relative(process.cwd(), inputPaths[0]);
+
     expect(() => {
       loadAndMergeQueryDocuments(inputPaths);
-    }).toThrowError(
-      `Could not parse graphql operations in ${path.join(
-        'test',
-        'fixtures',
-        'misc',
-        'invalid-gqlQueries.js',
-      )}\n  Failed on : world and other words`,
-    );
+    }).toThrowError(`Could not parse graphql operations in ${expectedPath}\n  Failed on : world and other words`);
   });
 });

@@ -5,7 +5,7 @@ exports[`GraphQL statements Formatter Generates formatted output and only remove
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-import * as APITypes from \\"../Components/Data/API\\";
+import * as APITypes from "../Components/Data/API";
 type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryInput: InputType;
   __generatedQueryOutput: OutputType;
@@ -93,7 +93,7 @@ exports[`GraphQL statements Formatter Generates formatted output for TS frontend
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-import * as APITypes from \\"../API\\";
+import * as APITypes from "../API";
 type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryInput: InputType;
   __generatedQueryOutput: OutputType;
@@ -119,7 +119,7 @@ exports[`GraphQL statements Formatter Generates formatted output for TS frontend
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-import * as APITypes from \\"./API\\";
+import * as APITypes from "./API";
 type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryInput: InputType;
   __generatedQueryOutput: OutputType;
@@ -145,7 +145,7 @@ exports[`GraphQL statements Formatter Generates formatted output for TS frontend
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-import * as APITypes from \\"../API\\";
+import * as APITypes from "../API";
 type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryInput: InputType;
   __generatedQueryOutput: OutputType;
@@ -171,7 +171,7 @@ exports[`GraphQL statements Formatter Generates formatted output for TS frontend
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-import * as APITypes from \\"./API\\";
+import * as APITypes from "./API";
 type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryInput: InputType;
   __generatedQueryOutput: OutputType;

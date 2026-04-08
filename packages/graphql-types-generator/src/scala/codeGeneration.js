@@ -152,8 +152,7 @@ export function classDeclarationForOperation(
                 type: p.typeName,
               };
             }),
-          },
-          () => {}
+          }
         );
       } else {
         generator.printOnNewline('type Variables = Unit');
@@ -185,14 +184,15 @@ export function caseClassDeclarationForFragment(
       inlineFragments,
       fragmentSpreads,
     },
-    () => {},
-    () => {
-      if (source) {
-        generator.printOnNewline('val fragmentString =');
-        generator.withIndent(() => {
-          multilineString(generator, source);
-        });
-      }
+    {
+      objectClosure: () => {
+        if (source) {
+          generator.printOnNewline('val fragmentString =');
+          generator.withIndent(() => {
+            multilineString(generator, source);
+          });
+        }
+      },
     }
   );
 }
@@ -200,8 +200,7 @@ export function caseClassDeclarationForFragment(
 export function caseClassDeclarationForSelectionSet(
   generator,
   { caseClassName, parentType, fields, inlineFragments, fragmentSpreads, viewableAs },
-  beforeClosure,
-  objectClosure
+  { beforeClosure, objectClosure } = {}
 ) {
   const possibleTypes = parentType ? possibleTypesForType(generator.context, parentType) : null;
 
@@ -220,8 +219,7 @@ export function caseClassDeclarationForSelectionSet(
             type: p.typeName,
           };
         }),
-      },
-      () => {}
+      }
     );
   } else {
     generator.printNewlineIfNeeded();
@@ -384,7 +382,6 @@ function caseClassDeclarationForInputObjectType(generator, type) {
           type: p.typeName,
         };
       }),
-    },
-    () => {}
+    }
   );
 }
