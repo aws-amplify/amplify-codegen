@@ -1,18 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AppSyncModelVisitor Other GraphQL types shoud support query, mutation and subscription types 1`] = `
-Object {
-  "echo": Object {
+{
+  "echo": {
     "baseType": "String",
-    "directives": Array [],
+    "directives": [],
     "isList": false,
     "isNullable": true,
     "name": "echo",
     "operationType": "query",
-    "parameters": Array [
-      Object {
+    "parameters": [
+      {
         "baseType": "String",
-        "directives": Array [],
+        "directives": [],
         "isList": false,
         "isNullable": true,
         "name": "msg",
@@ -21,17 +21,17 @@ Object {
     ],
     "type": "String",
   },
-  "echo2": Object {
+  "echo2": {
     "baseType": "Todo",
-    "directives": Array [],
+    "directives": [],
     "isList": false,
     "isNullable": true,
     "name": "echo2",
     "operationType": "query",
-    "parameters": Array [
-      Object {
+    "parameters": [
+      {
         "baseType": "ID",
-        "directives": Array [],
+        "directives": [],
         "isList": false,
         "isNullable": false,
         "name": "todoId",
@@ -40,28 +40,28 @@ Object {
     ],
     "type": "Todo",
   },
-  "echo3": Object {
+  "echo3": {
     "baseType": "Todo",
-    "directives": Array [],
+    "directives": [],
     "isList": true,
     "isListNullable": false,
     "isNullable": false,
     "name": "echo3",
     "operationType": "query",
-    "parameters": Array [],
+    "parameters": [],
     "type": "Todo",
   },
-  "echo4": Object {
+  "echo4": {
     "baseType": "Phone",
-    "directives": Array [],
+    "directives": [],
     "isList": false,
     "isNullable": true,
     "name": "echo4",
     "operationType": "query",
-    "parameters": Array [
-      Object {
+    "parameters": [
+      {
         "baseType": "String",
-        "directives": Array [],
+        "directives": [],
         "isList": false,
         "isNullable": true,
         "name": "number",
@@ -70,28 +70,28 @@ Object {
     ],
     "type": "Phone",
   },
-  "echo5": Object {
+  "echo5": {
     "baseType": "CustomUnion",
-    "directives": Array [],
+    "directives": [],
     "isList": true,
     "isListNullable": false,
     "isNullable": false,
     "name": "echo5",
     "operationType": "query",
-    "parameters": Array [],
+    "parameters": [],
     "type": "CustomUnion",
   },
-  "echo6": Object {
+  "echo6": {
     "baseType": "String",
-    "directives": Array [],
+    "directives": [],
     "isList": false,
     "isNullable": false,
     "name": "echo6",
     "operationType": "query",
-    "parameters": Array [
-      Object {
+    "parameters": [
+      {
         "baseType": "CustomInput",
-        "directives": Array [],
+        "directives": [],
         "isList": false,
         "isNullable": true,
         "name": "customInput",
@@ -100,36 +100,36 @@ Object {
     ],
     "type": "String",
   },
-  "echo7": Object {
+  "echo7": {
     "baseType": "ICustom",
-    "directives": Array [],
+    "directives": [],
     "isList": true,
     "isListNullable": false,
     "isNullable": true,
     "name": "echo7",
     "operationType": "query",
-    "parameters": Array [],
+    "parameters": [],
     "type": "ICustom",
   },
-  "getAllTodo": Object {
+  "getAllTodo": {
     "baseType": "String",
-    "directives": Array [],
+    "directives": [],
     "isList": false,
     "isNullable": true,
     "name": "getAllTodo",
     "operationType": "query",
-    "parameters": Array [
-      Object {
+    "parameters": [
+      {
         "baseType": "String",
-        "directives": Array [],
+        "directives": [],
         "isList": false,
         "isNullable": true,
         "name": "msg",
         "type": "String",
       },
-      Object {
+      {
         "baseType": "CustomInput",
-        "directives": Array [],
+        "directives": [],
         "isList": false,
         "isNullable": true,
         "name": "input",
@@ -142,18 +142,18 @@ Object {
 `;
 
 exports[`AppSyncModelVisitor Other GraphQL types shoud support query, mutation and subscription types 2`] = `
-Object {
-  "mutate": Object {
+{
+  "mutate": {
     "baseType": "Todo",
-    "directives": Array [],
+    "directives": [],
     "isList": false,
     "isNullable": true,
     "name": "mutate",
     "operationType": "mutation",
-    "parameters": Array [
-      Object {
+    "parameters": [
+      {
         "baseType": "String",
-        "directives": Array [],
+        "directives": [],
         "isList": true,
         "isListNullable": false,
         "isNullable": false,
@@ -167,19 +167,19 @@ Object {
 `;
 
 exports[`AppSyncModelVisitor Other GraphQL types shoud support query, mutation and subscription types 3`] = `
-Object {
-  "onMutate": Object {
+{
+  "onMutate": {
     "baseType": "Todo",
-    "directives": Array [],
+    "directives": [],
     "isList": true,
     "isListNullable": true,
     "isNullable": false,
     "name": "onMutate",
     "operationType": "subscription",
-    "parameters": Array [
-      Object {
+    "parameters": [
+      {
         "baseType": "String",
-        "directives": Array [],
+        "directives": [],
         "isList": false,
         "isNullable": true,
         "name": "msg",
@@ -192,28 +192,28 @@ Object {
 `;
 
 exports[`AppSyncModelVisitor Other GraphQL types should support input types 1`] = `
-Object {
-  "CustomInput": Object {
-    "inputValues": Array [
-      Object {
+{
+  "CustomInput": {
+    "inputValues": [
+      {
         "baseType": "String",
-        "directives": Array [],
+        "directives": [],
         "isList": false,
         "isNullable": false,
         "name": "customField1",
         "type": "String",
       },
-      Object {
+      {
         "baseType": "BillingSource",
-        "directives": Array [],
+        "directives": [],
         "isList": false,
         "isNullable": true,
         "name": "customField2",
         "type": "BillingSource",
       },
-      Object {
+      {
         "baseType": "NestedInput",
-        "directives": Array [],
+        "directives": [],
         "isList": false,
         "isNullable": false,
         "name": "customField3",
@@ -223,11 +223,11 @@ Object {
     "name": "CustomInput",
     "type": "input",
   },
-  "NestedInput": Object {
-    "inputValues": Array [
-      Object {
+  "NestedInput": {
+    "inputValues": [
+      {
         "baseType": "String",
-        "directives": Array [],
+        "directives": [],
         "isList": false,
         "isNullable": false,
         "name": "content",
@@ -241,50 +241,50 @@ Object {
 `;
 
 exports[`AppSyncModelVisitor Other GraphQL types should support interface types 1`] = `
-Object {
-  "ICustom": Object {
-    "fields": Array [
-      Object {
+{
+  "ICustom": {
+    "fields": [
+      {
         "baseType": "String",
-        "directives": Array [],
+        "directives": [],
         "isList": false,
         "isNullable": false,
         "name": "firstName",
-        "parameters": Array [],
+        "parameters": [],
         "type": "String",
       },
-      Object {
+      {
         "baseType": "String",
-        "directives": Array [],
+        "directives": [],
         "isList": false,
         "isNullable": true,
         "name": "lastName",
-        "parameters": Array [],
+        "parameters": [],
         "type": "String",
       },
-      Object {
+      {
         "baseType": "INestedCustom",
-        "directives": Array [],
+        "directives": [],
         "isList": true,
         "isListNullable": false,
         "isNullable": false,
         "name": "birthdays",
-        "parameters": Array [],
+        "parameters": [],
         "type": "INestedCustom",
       },
     ],
     "name": "ICustom",
     "type": "interface",
   },
-  "INestedCustom": Object {
-    "fields": Array [
-      Object {
+  "INestedCustom": {
+    "fields": [
+      {
         "baseType": "AWSDate",
-        "directives": Array [],
+        "directives": [],
         "isList": false,
         "isNullable": false,
         "name": "birthDay",
-        "parameters": Array [],
+        "parameters": [],
         "type": "AWSDate",
       },
     ],
@@ -295,11 +295,11 @@ Object {
 `;
 
 exports[`AppSyncModelVisitor Other GraphQL types should support union types 1`] = `
-Object {
-  "CustomUnion": Object {
+{
+  "CustomUnion": {
     "name": "CustomUnion",
     "type": "union",
-    "typeNames": Array [
+    "typeNames": [
       "Todo",
       "Phone",
     ],

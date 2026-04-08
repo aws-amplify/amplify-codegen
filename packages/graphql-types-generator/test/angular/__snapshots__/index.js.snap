@@ -4,19 +4,19 @@ exports[`Angular code generation #generateSource() should generate correct list 
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
-import { Observable } from \\"zen-observable-ts\\";
+import { Injectable } from "@angular/core";
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { Observable } from "zen-observable-ts";
 
 // The episodes in the Star Wars trilogy
 export enum Episode {
-  NEWHOPE = \\"NEWHOPE\\", // Star Wars Episode IV: A New Hope, released in 1977.
-  EMPIRE = \\"EMPIRE\\", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
-  JEDI = \\"JEDI\\" // Star Wars Episode VI: Return of the Jedi, released in 1983.
+  NEWHOPE = "NEWHOPE", // Star Wars Episode IV: A New Hope, released in 1977.
+  EMPIRE = "EMPIRE", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
+  JEDI = "JEDI" // Star Wars Episode VI: Return of the Jedi, released in 1983.
 }
 
 export type Character = {
-  __typename: \\"Character\\";
+  __typename: "Character";
   // The ID of the character
   id: string;
   // The name of the character
@@ -30,7 +30,7 @@ export type Character = {
 };
 
 export type Human = {
-  __typename: \\"Human\\";
+  __typename: "Human";
   // The ID of the human
   id: string;
   // What this human calls themselves
@@ -52,7 +52,7 @@ export type Human = {
 };
 
 export type FriendsConnection = {
-  __typename: \\"FriendsConnection\\";
+  __typename: "FriendsConnection";
   // The total number of friends
   totalCount?: number | null;
   // The edges for each of the character's friends.
@@ -64,7 +64,7 @@ export type FriendsConnection = {
 };
 
 export type FriendsEdge = {
-  __typename: \\"FriendsEdge\\";
+  __typename: "FriendsEdge";
   // A cursor used for pagination
   cursor: string;
   // The character represented by this friendship edge
@@ -72,14 +72,14 @@ export type FriendsEdge = {
 };
 
 export type PageInfo = {
-  __typename: \\"PageInfo\\";
+  __typename: "PageInfo";
   startCursor?: string | null;
   endCursor?: string | null;
   hasNextPage: boolean;
 };
 
 export type Starship = {
-  __typename: \\"Starship\\";
+  __typename: "Starship";
   // The ID of the starship
   id: string;
   // The name of the starship
@@ -90,7 +90,7 @@ export type Starship = {
 };
 
 export type Droid = {
-  __typename: \\"Droid\\";
+  __typename: "Droid";
   // The ID of the droid
   id: string;
   // What others call this droid
@@ -106,19 +106,19 @@ export type Droid = {
 };
 
 export type HeroAndFriendsNamesQuery = {
-  __typename: \\"Character\\";
+  __typename: "Character";
   // The name of the character
   name: string;
   // The friends of the character, or an empty list if they have none
   friends: Array<
     | (
         | {
-            __typename: \\"Human\\";
+            __typename: "Human";
             // The name of the character
             name: string;
           }
         | {
-            __typename: \\"Droid\\";
+            __typename: "Droid";
             // The name of the character
             name: string;
           }
@@ -129,18 +129,18 @@ export type HeroAndFriendsNamesQuery = {
 
 export type FriendFragment =
   | {
-      __typename: \\"Human\\";
+      __typename: "Human";
       // The name of the character
       name: string;
     }
   | {
-      __typename: \\"Droid\\";
+      __typename: "Droid";
       // The name of the character
       name: string;
     };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   async HeroAndFriendsNames(
@@ -173,12 +173,12 @@ exports[`Angular code generation #generateSource() should generate fragmented qu
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
-import { Observable } from \\"zen-observable-ts\\";
+import { Injectable } from "@angular/core";
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { Observable } from "zen-observable-ts";
 
 export type Character = {
-  __typename: \\"Character\\";
+  __typename: "Character";
   // The ID of the character
   id: string;
   // The name of the character
@@ -192,7 +192,7 @@ export type Character = {
 };
 
 export type Human = {
-  __typename: \\"Human\\";
+  __typename: "Human";
   // The ID of the human
   id: string;
   // What this human calls themselves
@@ -214,7 +214,7 @@ export type Human = {
 };
 
 export type FriendsConnection = {
-  __typename: \\"FriendsConnection\\";
+  __typename: "FriendsConnection";
   // The total number of friends
   totalCount?: number | null;
   // The edges for each of the character's friends.
@@ -226,7 +226,7 @@ export type FriendsConnection = {
 };
 
 export type FriendsEdge = {
-  __typename: \\"FriendsEdge\\";
+  __typename: "FriendsEdge";
   // A cursor used for pagination
   cursor: string;
   // The character represented by this friendship edge
@@ -234,7 +234,7 @@ export type FriendsEdge = {
 };
 
 export type PageInfo = {
-  __typename: \\"PageInfo\\";
+  __typename: "PageInfo";
   startCursor?: string | null;
   endCursor?: string | null;
   hasNextPage: boolean;
@@ -242,13 +242,13 @@ export type PageInfo = {
 
 // The episodes in the Star Wars trilogy
 export enum Episode {
-  NEWHOPE = \\"NEWHOPE\\", // Star Wars Episode IV: A New Hope, released in 1977.
-  EMPIRE = \\"EMPIRE\\", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
-  JEDI = \\"JEDI\\" // Star Wars Episode VI: Return of the Jedi, released in 1983.
+  NEWHOPE = "NEWHOPE", // Star Wars Episode IV: A New Hope, released in 1977.
+  EMPIRE = "EMPIRE", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
+  JEDI = "JEDI" // Star Wars Episode VI: Return of the Jedi, released in 1983.
 }
 
 export type Starship = {
-  __typename: \\"Starship\\";
+  __typename: "Starship";
   // The ID of the starship
   id: string;
   // The name of the starship
@@ -259,7 +259,7 @@ export type Starship = {
 };
 
 export type Droid = {
-  __typename: \\"Droid\\";
+  __typename: "Droid";
   // The ID of the droid
   id: string;
   // What others call this droid
@@ -275,19 +275,19 @@ export type Droid = {
 };
 
 export type HeroAndFriendsNamesQuery = {
-  __typename: \\"Character\\";
+  __typename: "Character";
   // The name of the character
   name: string;
   // The friends of the character, or an empty list if they have none
   friends: Array<
     | (
         | {
-            __typename: \\"Human\\";
+            __typename: "Human";
             // The name of the character
             name: string;
           }
         | {
-            __typename: \\"Droid\\";
+            __typename: "Droid";
             // The name of the character
             name: string;
           }
@@ -298,17 +298,17 @@ export type HeroAndFriendsNamesQuery = {
 
 export type heroFriendsFragment =
   | {
-      __typename: \\"Human\\";
+      __typename: "Human";
       // The friends of the character, or an empty list if they have none
       friends: Array<
         | (
             | {
-                __typename: \\"Human\\";
+                __typename: "Human";
                 // The name of the character
                 name: string;
               }
             | {
-                __typename: \\"Droid\\";
+                __typename: "Droid";
                 // The name of the character
                 name: string;
               }
@@ -317,17 +317,17 @@ export type heroFriendsFragment =
       > | null;
     }
   | {
-      __typename: \\"Droid\\";
+      __typename: "Droid";
       // The friends of the character, or an empty list if they have none
       friends: Array<
         | (
             | {
-                __typename: \\"Human\\";
+                __typename: "Human";
                 // The name of the character
                 name: string;
               }
             | {
-                __typename: \\"Droid\\";
+                __typename: "Droid";
                 // The name of the character
                 name: string;
               }
@@ -337,7 +337,7 @@ export type heroFriendsFragment =
     };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   async HeroAndFriendsNames(): Promise<HeroAndFriendsNamesQuery> {
@@ -359,15 +359,15 @@ exports[`Angular code generation #generateSource() should generate mutation oper
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
-import { Observable } from \\"zen-observable-ts\\";
+import { Injectable } from "@angular/core";
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { Observable } from "zen-observable-ts";
 
 // The episodes in the Star Wars trilogy
 export enum Episode {
-  NEWHOPE = \\"NEWHOPE\\", // Star Wars Episode IV: A New Hope, released in 1977.
-  EMPIRE = \\"EMPIRE\\", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
-  JEDI = \\"JEDI\\" // Star Wars Episode VI: Return of the Jedi, released in 1983.
+  NEWHOPE = "NEWHOPE", // Star Wars Episode IV: A New Hope, released in 1977.
+  EMPIRE = "EMPIRE", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
+  JEDI = "JEDI" // Star Wars Episode VI: Return of the Jedi, released in 1983.
 }
 
 export type ReviewInput = {
@@ -386,7 +386,7 @@ export type ColorInput = {
 };
 
 export type Review = {
-  __typename: \\"Review\\";
+  __typename: "Review";
   // The number of stars this review gave, 1-5
   stars: number;
   // Comment about the movie
@@ -394,7 +394,7 @@ export type Review = {
 };
 
 export type ReviewMovieMutation = {
-  __typename: \\"Review\\";
+  __typename: "Review";
   // The number of stars this review gave, 1-5
   stars: number;
   // Comment about the movie
@@ -402,7 +402,7 @@ export type ReviewMovieMutation = {
 };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   async ReviewMovie(
@@ -436,22 +436,22 @@ exports[`Angular code generation #generateSource() should generate queries retur
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
-import { Observable } from \\"zen-observable-ts\\";
+import { Injectable } from "@angular/core";
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { Observable } from "zen-observable-ts";
 
 export type QueryObject = {
-  __typename: \\"QueryObject\\";
+  __typename: "QueryObject";
   test?: string | null;
 };
 
 export type CustomScalarQuery = {
-  __typename: \\"QueryObject\\";
+  __typename: "QueryObject";
   test?: string | null;
 };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   async CustomScalar(): Promise<Array<CustomScalarQuery>> {
@@ -472,12 +472,12 @@ exports[`Angular code generation #generateSource() should generate query operati
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
-import { Observable } from \\"zen-observable-ts\\";
+import { Injectable } from "@angular/core";
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { Observable } from "zen-observable-ts";
 
 export type Character = {
-  __typename: \\"Character\\";
+  __typename: "Character";
   // The ID of the character
   id: string;
   // The name of the character
@@ -491,7 +491,7 @@ export type Character = {
 };
 
 export type Human = {
-  __typename: \\"Human\\";
+  __typename: "Human";
   // The ID of the human
   id: string;
   // What this human calls themselves
@@ -513,7 +513,7 @@ export type Human = {
 };
 
 export type FriendsConnection = {
-  __typename: \\"FriendsConnection\\";
+  __typename: "FriendsConnection";
   // The total number of friends
   totalCount?: number | null;
   // The edges for each of the character's friends.
@@ -525,7 +525,7 @@ export type FriendsConnection = {
 };
 
 export type FriendsEdge = {
-  __typename: \\"FriendsEdge\\";
+  __typename: "FriendsEdge";
   // A cursor used for pagination
   cursor: string;
   // The character represented by this friendship edge
@@ -533,7 +533,7 @@ export type FriendsEdge = {
 };
 
 export type PageInfo = {
-  __typename: \\"PageInfo\\";
+  __typename: "PageInfo";
   startCursor?: string | null;
   endCursor?: string | null;
   hasNextPage: boolean;
@@ -541,13 +541,13 @@ export type PageInfo = {
 
 // The episodes in the Star Wars trilogy
 export enum Episode {
-  NEWHOPE = \\"NEWHOPE\\", // Star Wars Episode IV: A New Hope, released in 1977.
-  EMPIRE = \\"EMPIRE\\", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
-  JEDI = \\"JEDI\\" // Star Wars Episode VI: Return of the Jedi, released in 1983.
+  NEWHOPE = "NEWHOPE", // Star Wars Episode IV: A New Hope, released in 1977.
+  EMPIRE = "EMPIRE", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
+  JEDI = "JEDI" // Star Wars Episode VI: Return of the Jedi, released in 1983.
 }
 
 export type Starship = {
-  __typename: \\"Starship\\";
+  __typename: "Starship";
   // The ID of the starship
   id: string;
   // The name of the starship
@@ -558,7 +558,7 @@ export type Starship = {
 };
 
 export type Droid = {
-  __typename: \\"Droid\\";
+  __typename: "Droid";
   // The ID of the droid
   id: string;
   // What others call this droid
@@ -574,25 +574,25 @@ export type Droid = {
 };
 
 export type HeroAndDetailsQuery = {
-  __typename: \\"Character\\";
+  __typename: "Character";
   // The name of the character
   name: string;
 };
 
 export type HeroDetailsFragment =
   | {
-      __typename: \\"Human\\";
+      __typename: "Human";
       // Height in the preferred unit, default is meters
       height?: number | null;
     }
   | {
-      __typename: \\"Droid\\";
+      __typename: "Droid";
       // This droid's primary function
       primaryFunction?: string | null;
     };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   async HeroAndDetails(): Promise<HeroAndDetailsQuery> {
@@ -614,19 +614,19 @@ exports[`Angular code generation #generateSource() should generate simple nested
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
-import { Observable } from \\"zen-observable-ts\\";
+import { Injectable } from "@angular/core";
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { Observable } from "zen-observable-ts";
 
 // The episodes in the Star Wars trilogy
 export enum Episode {
-  NEWHOPE = \\"NEWHOPE\\", // Star Wars Episode IV: A New Hope, released in 1977.
-  EMPIRE = \\"EMPIRE\\", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
-  JEDI = \\"JEDI\\" // Star Wars Episode VI: Return of the Jedi, released in 1983.
+  NEWHOPE = "NEWHOPE", // Star Wars Episode IV: A New Hope, released in 1977.
+  EMPIRE = "EMPIRE", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
+  JEDI = "JEDI" // Star Wars Episode VI: Return of the Jedi, released in 1983.
 }
 
 export type Character = {
-  __typename: \\"Character\\";
+  __typename: "Character";
   // The ID of the character
   id: string;
   // The name of the character
@@ -640,7 +640,7 @@ export type Character = {
 };
 
 export type Human = {
-  __typename: \\"Human\\";
+  __typename: "Human";
   // The ID of the human
   id: string;
   // What this human calls themselves
@@ -662,7 +662,7 @@ export type Human = {
 };
 
 export type FriendsConnection = {
-  __typename: \\"FriendsConnection\\";
+  __typename: "FriendsConnection";
   // The total number of friends
   totalCount?: number | null;
   // The edges for each of the character's friends.
@@ -674,7 +674,7 @@ export type FriendsConnection = {
 };
 
 export type FriendsEdge = {
-  __typename: \\"FriendsEdge\\";
+  __typename: "FriendsEdge";
   // A cursor used for pagination
   cursor: string;
   // The character represented by this friendship edge
@@ -682,14 +682,14 @@ export type FriendsEdge = {
 };
 
 export type PageInfo = {
-  __typename: \\"PageInfo\\";
+  __typename: "PageInfo";
   startCursor?: string | null;
   endCursor?: string | null;
   hasNextPage: boolean;
 };
 
 export type Starship = {
-  __typename: \\"Starship\\";
+  __typename: "Starship";
   // The ID of the starship
   id: string;
   // The name of the starship
@@ -700,7 +700,7 @@ export type Starship = {
 };
 
 export type Droid = {
-  __typename: \\"Droid\\";
+  __typename: "Droid";
   // The ID of the droid
   id: string;
   // What others call this droid
@@ -716,19 +716,19 @@ export type Droid = {
 };
 
 export type HeroAndFriendsNamesQuery = {
-  __typename: \\"Character\\";
+  __typename: "Character";
   // The name of the character
   name: string;
   // The friends of the character, or an empty list if they have none
   friends: Array<
     | (
         | {
-            __typename: \\"Human\\";
+            __typename: "Human";
             // The name of the character
             name: string;
           }
         | {
-            __typename: \\"Droid\\";
+            __typename: "Droid";
             // The name of the character
             name: string;
           }
@@ -738,7 +738,7 @@ export type HeroAndFriendsNamesQuery = {
 };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   async HeroAndFriendsNames(
@@ -771,12 +771,12 @@ exports[`Angular code generation #generateSource() should generate simple nested
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
-import { Observable } from \\"zen-observable-ts\\";
+import { Injectable } from "@angular/core";
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { Observable } from "zen-observable-ts";
 
 export type Starship = {
-  __typename: \\"Starship\\";
+  __typename: "Starship";
   // The ID of the starship
   id: string;
   // The name of the starship
@@ -787,12 +787,12 @@ export type Starship = {
 };
 
 export type StarshipCoordsQuery = {
-  __typename: \\"Starship\\";
+  __typename: "Starship";
   coordinates?: Array<Array<number>> | null;
 };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   async StarshipCoords(): Promise<StarshipCoordsQuery> {
@@ -813,12 +813,12 @@ exports[`Angular code generation #generateSource() should generate simple query 
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
-import { Observable } from \\"zen-observable-ts\\";
+import { Injectable } from "@angular/core";
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { Observable } from "zen-observable-ts";
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   async Echo(msg?: string): Promise<string | null> {
@@ -842,22 +842,22 @@ exports[`Angular code generation #generateSource() should generate simple query 
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
-import { Observable } from \\"zen-observable-ts\\";
+import { Injectable } from "@angular/core";
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { Observable } from "zen-observable-ts";
 
 export interface SubscriptionResponse<T> {
   value: GraphQLResult<T>;
 }
 
 export enum Status {
-  APPROVED = \\"APPROVED\\",
-  PENDING = \\"PENDING\\",
-  REJECTED = \\"REJECTED\\"
+  APPROVED = "APPROVED",
+  PENDING = "PENDING",
+  REJECTED = "REJECTED"
 }
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   async GetScalars(): Promise<Array<string | null>> {
@@ -896,12 +896,12 @@ exports[`Angular code generation #generateSource() should generate simple query 
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
-import { Observable } from \\"zen-observable-ts\\";
+import { Injectable } from "@angular/core";
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { Observable } from "zen-observable-ts";
 
 export type Character = {
-  __typename: \\"Character\\";
+  __typename: "Character";
   // The ID of the character
   id: string;
   // The name of the character
@@ -915,7 +915,7 @@ export type Character = {
 };
 
 export type Human = {
-  __typename: \\"Human\\";
+  __typename: "Human";
   // The ID of the human
   id: string;
   // What this human calls themselves
@@ -937,7 +937,7 @@ export type Human = {
 };
 
 export type FriendsConnection = {
-  __typename: \\"FriendsConnection\\";
+  __typename: "FriendsConnection";
   // The total number of friends
   totalCount?: number | null;
   // The edges for each of the character's friends.
@@ -949,7 +949,7 @@ export type FriendsConnection = {
 };
 
 export type FriendsEdge = {
-  __typename: \\"FriendsEdge\\";
+  __typename: "FriendsEdge";
   // A cursor used for pagination
   cursor: string;
   // The character represented by this friendship edge
@@ -957,7 +957,7 @@ export type FriendsEdge = {
 };
 
 export type PageInfo = {
-  __typename: \\"PageInfo\\";
+  __typename: "PageInfo";
   startCursor?: string | null;
   endCursor?: string | null;
   hasNextPage: boolean;
@@ -965,13 +965,13 @@ export type PageInfo = {
 
 // The episodes in the Star Wars trilogy
 export enum Episode {
-  NEWHOPE = \\"NEWHOPE\\", // Star Wars Episode IV: A New Hope, released in 1977.
-  EMPIRE = \\"EMPIRE\\", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
-  JEDI = \\"JEDI\\" // Star Wars Episode VI: Return of the Jedi, released in 1983.
+  NEWHOPE = "NEWHOPE", // Star Wars Episode IV: A New Hope, released in 1977.
+  EMPIRE = "EMPIRE", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
+  JEDI = "JEDI" // Star Wars Episode VI: Return of the Jedi, released in 1983.
 }
 
 export type Starship = {
-  __typename: \\"Starship\\";
+  __typename: "Starship";
   // The ID of the starship
   id: string;
   // The name of the starship
@@ -982,7 +982,7 @@ export type Starship = {
 };
 
 export type Droid = {
-  __typename: \\"Droid\\";
+  __typename: "Droid";
   // The ID of the droid
   id: string;
   // What others call this droid
@@ -998,13 +998,13 @@ export type Droid = {
 };
 
 export type HeroNameQuery = {
-  __typename: \\"Character\\";
+  __typename: "Character";
   // The name of the character
   name: string;
 };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   async HeroName(): Promise<HeroNameQuery> {
@@ -1025,19 +1025,19 @@ exports[`Angular code generation #generateSource() should generate simple query 
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
-import { Observable } from \\"zen-observable-ts\\";
+import { Injectable } from "@angular/core";
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { Observable } from "zen-observable-ts";
 
 // The episodes in the Star Wars trilogy
 export enum Episode {
-  NEWHOPE = \\"NEWHOPE\\", // Star Wars Episode IV: A New Hope, released in 1977.
-  EMPIRE = \\"EMPIRE\\", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
-  JEDI = \\"JEDI\\" // Star Wars Episode VI: Return of the Jedi, released in 1983.
+  NEWHOPE = "NEWHOPE", // Star Wars Episode IV: A New Hope, released in 1977.
+  EMPIRE = "EMPIRE", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
+  JEDI = "JEDI" // Star Wars Episode VI: Return of the Jedi, released in 1983.
 }
 
 export type Character = {
-  __typename: \\"Character\\";
+  __typename: "Character";
   // The ID of the character
   id: string;
   // The name of the character
@@ -1051,7 +1051,7 @@ export type Character = {
 };
 
 export type Human = {
-  __typename: \\"Human\\";
+  __typename: "Human";
   // The ID of the human
   id: string;
   // What this human calls themselves
@@ -1073,7 +1073,7 @@ export type Human = {
 };
 
 export type FriendsConnection = {
-  __typename: \\"FriendsConnection\\";
+  __typename: "FriendsConnection";
   // The total number of friends
   totalCount?: number | null;
   // The edges for each of the character's friends.
@@ -1085,7 +1085,7 @@ export type FriendsConnection = {
 };
 
 export type FriendsEdge = {
-  __typename: \\"FriendsEdge\\";
+  __typename: "FriendsEdge";
   // A cursor used for pagination
   cursor: string;
   // The character represented by this friendship edge
@@ -1093,14 +1093,14 @@ export type FriendsEdge = {
 };
 
 export type PageInfo = {
-  __typename: \\"PageInfo\\";
+  __typename: "PageInfo";
   startCursor?: string | null;
   endCursor?: string | null;
   hasNextPage: boolean;
 };
 
 export type Starship = {
-  __typename: \\"Starship\\";
+  __typename: "Starship";
   // The ID of the starship
   id: string;
   // The name of the starship
@@ -1111,7 +1111,7 @@ export type Starship = {
 };
 
 export type Droid = {
-  __typename: \\"Droid\\";
+  __typename: "Droid";
   // The ID of the droid
   id: string;
   // What others call this droid
@@ -1127,13 +1127,13 @@ export type Droid = {
 };
 
 export type HeroNameQuery = {
-  __typename: \\"Character\\";
+  __typename: "Character";
   // The name of the character
   name: string;
 };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   async HeroName(episode?: Episode): Promise<HeroNameQuery> {
@@ -1160,9 +1160,9 @@ exports[`Angular code generation #generateSource() should generate subscriptions
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
-import { Observable } from \\"zen-observable-ts\\";
+import { Injectable } from "@angular/core";
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { Observable } from "zen-observable-ts";
 
 export interface SubscriptionResponse<T> {
   value: GraphQLResult<T>;
@@ -1173,7 +1173,7 @@ export type __SubscriptionContainer = {
 };
 
 export type Restaurant = {
-  __typename: \\"Restaurant\\";
+  __typename: "Restaurant";
   id: string;
   name: string;
   description: string;
@@ -1181,7 +1181,7 @@ export type Restaurant = {
 };
 
 export type OnCreateRestaurantSubscription = {
-  __typename: \\"Restaurant\\";
+  __typename: "Restaurant";
   id: string;
   name: string;
   description: string;
@@ -1189,11 +1189,11 @@ export type OnCreateRestaurantSubscription = {
 };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   OnCreateRestaurantListener: Observable<
-    SubscriptionResponse<Pick<__SubscriptionContainer, \\"onCreateRestaurant\\">>
+    SubscriptionResponse<Pick<__SubscriptionContainer, "onCreateRestaurant">>
   > = API.graphql(
     graphqlOperation(
       \`subscription OnCreateRestaurant {
@@ -1207,7 +1207,7 @@ export class APIService {
       }\`
     )
   ) as Observable<
-    SubscriptionResponse<Pick<__SubscriptionContainer, \\"onCreateRestaurant\\">>
+    SubscriptionResponse<Pick<__SubscriptionContainer, "onCreateRestaurant">>
   >;
 }
 "
@@ -1217,9 +1217,9 @@ exports[`Angular code generation #generateSource() should generate subscriptions
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
-import { Observable } from \\"zen-observable-ts\\";
+import { Injectable } from "@angular/core";
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { Observable } from "zen-observable-ts";
 
 export interface SubscriptionResponse<T> {
   value: GraphQLResult<T>;
@@ -1230,7 +1230,7 @@ export type __SubscriptionContainer = {
 };
 
 export type Restaurant = {
-  __typename: \\"Restaurant\\";
+  __typename: "Restaurant";
   id: string;
   name: string;
   description: string;
@@ -1241,7 +1241,7 @@ export type Restaurant = {
 };
 
 export type OnCreateRestaurantSubscription = {
-  __typename: \\"Restaurant\\";
+  __typename: "Restaurant";
   id: string;
   name: string;
   description: string;
@@ -1252,13 +1252,13 @@ export type OnCreateRestaurantSubscription = {
 };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   OnCreateRestaurantListener(
     owner: string
   ): Observable<
-    SubscriptionResponse<Pick<__SubscriptionContainer, \\"onCreateRestaurant\\">>
+    SubscriptionResponse<Pick<__SubscriptionContainer, "onCreateRestaurant">>
   > {
     const statement = \`subscription OnCreateRestaurant($owner: String!) {
         onCreateRestaurant(owner: $owner) {
@@ -1278,7 +1278,7 @@ export class APIService {
     return API.graphql(
       graphqlOperation(statement, gqlAPIServiceArguments)
     ) as Observable<
-      SubscriptionResponse<Pick<__SubscriptionContainer, \\"onCreateRestaurant\\">>
+      SubscriptionResponse<Pick<__SubscriptionContainer, "onCreateRestaurant">>
     >;
   }
 }
@@ -1289,12 +1289,12 @@ exports[`Angular code generation #generateSource() should handle comments in enu
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
-import { Observable } from \\"zen-observable-ts\\";
+import { Injectable } from "@angular/core";
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { Observable } from "zen-observable-ts";
 
 export type CommentTest = {
-  __typename: \\"CommentTest\\";
+  __typename: "CommentTest";
   // This is a single-line comment
   singleLine?: string | null;
   // This is a multi-line
@@ -1304,19 +1304,19 @@ export type CommentTest = {
 };
 
 export enum EnumCommentTestCase {
-  first = \\"first\\", // This is a single-line comment
+  first = "first", // This is a single-line comment
   // This is a multi-line
   // comment.
-  second = \\"second\\"
+  second = "second"
 }
 
 export type CustomScalarQuery = {
-  __typename: \\"CommentTest\\";
+  __typename: "CommentTest";
   enumCommentTest?: EnumCommentTestCase | null;
 };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   async CustomScalar(): Promise<CustomScalarQuery> {
@@ -1337,34 +1337,34 @@ exports[`Angular code generation #generateSource() should handle interfaces at r
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
-import { Observable } from \\"zen-observable-ts\\";
+import { Injectable } from "@angular/core";
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { Observable } from "zen-observable-ts";
 
 export type InterfaceTestCase = {
-  __typename: \\"InterfaceTestCase\\";
+  __typename: "InterfaceTestCase";
   prop: string;
 };
 
 export type ImplA = {
-  __typename: \\"ImplA\\";
+  __typename: "ImplA";
   prop: string;
   propA: string;
 };
 
 export type ImplB = {
-  __typename: \\"ImplB\\";
+  __typename: "ImplB";
   prop: string;
   propB?: number | null;
 };
 
 export type CustomScalarQuery = {
-  __typename: \\"InterfaceTestCase\\";
+  __typename: "InterfaceTestCase";
   prop: string;
 };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   async CustomScalar(): Promise<CustomScalarQuery> {
@@ -1391,12 +1391,12 @@ exports[`Angular code generation #generateSource() should handle multi-line comm
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
-import { Observable } from \\"zen-observable-ts\\";
+import { Injectable } from "@angular/core";
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { Observable } from "zen-observable-ts";
 
 export type CommentTest = {
-  __typename: \\"CommentTest\\";
+  __typename: "CommentTest";
   // This is a single-line comment
   singleLine?: string | null;
   // This is a multi-line
@@ -1406,21 +1406,21 @@ export type CommentTest = {
 };
 
 export enum EnumCommentTestCase {
-  first = \\"first\\", // This is a single-line comment
+  first = "first", // This is a single-line comment
   // This is a multi-line
   // comment.
-  second = \\"second\\"
+  second = "second"
 }
 
 export type CustomScalarQuery = {
-  __typename: \\"CommentTest\\";
+  __typename: "CommentTest";
   // This is a multi-line
   // comment.
   multiLine?: string | null;
 };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   async CustomScalar(): Promise<CustomScalarQuery> {
@@ -1441,12 +1441,12 @@ exports[`Angular code generation #generateSource() should handle single line com
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
-import { Observable } from \\"zen-observable-ts\\";
+import { Injectable } from "@angular/core";
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { Observable } from "zen-observable-ts";
 
 export type CommentTest = {
-  __typename: \\"CommentTest\\";
+  __typename: "CommentTest";
   // This is a single-line comment
   singleLine?: string | null;
   // This is a multi-line
@@ -1456,20 +1456,20 @@ export type CommentTest = {
 };
 
 export enum EnumCommentTestCase {
-  first = \\"first\\", // This is a single-line comment
+  first = "first", // This is a single-line comment
   // This is a multi-line
   // comment.
-  second = \\"second\\"
+  second = "second"
 }
 
 export type CustomScalarQuery = {
-  __typename: \\"CommentTest\\";
+  __typename: "CommentTest";
   // This is a single-line comment
   singleLine?: string | null;
 };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   async CustomScalar(): Promise<CustomScalarQuery> {
@@ -1490,28 +1490,28 @@ exports[`Angular code generation #generateSource() should handle unions at root 
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
-import { Observable } from \\"zen-observable-ts\\";
+import { Injectable } from "@angular/core";
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { Observable } from "zen-observable-ts";
 
 export type UnionTestCase = PartialA | PartialB;
 
 export type PartialA = {
-  __typename: \\"PartialA\\";
+  __typename: "PartialA";
   prop: string;
 };
 
 export type PartialB = {
-  __typename: \\"PartialB\\";
+  __typename: "PartialB";
   prop: string;
 };
 
 export type CustomScalarQuery = {
-  __typename: \\"PartialA\\" | \\"PartialB\\";
+  __typename: "PartialA" | "PartialB";
 };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   async CustomScalar(): Promise<CustomScalarQuery> {
@@ -1537,12 +1537,12 @@ exports[`Angular code generation #generateSource() should have __typename value 
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
-import { Observable } from \\"zen-observable-ts\\";
+import { Injectable } from "@angular/core";
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { Observable } from "zen-observable-ts";
 
 export type Character = {
-  __typename: \\"Character\\";
+  __typename: "Character";
   // The ID of the character
   id: string;
   // The name of the character
@@ -1556,7 +1556,7 @@ export type Character = {
 };
 
 export type Human = {
-  __typename: \\"Human\\";
+  __typename: "Human";
   // The ID of the human
   id: string;
   // What this human calls themselves
@@ -1578,7 +1578,7 @@ export type Human = {
 };
 
 export type FriendsConnection = {
-  __typename: \\"FriendsConnection\\";
+  __typename: "FriendsConnection";
   // The total number of friends
   totalCount?: number | null;
   // The edges for each of the character's friends.
@@ -1590,7 +1590,7 @@ export type FriendsConnection = {
 };
 
 export type FriendsEdge = {
-  __typename: \\"FriendsEdge\\";
+  __typename: "FriendsEdge";
   // A cursor used for pagination
   cursor: string;
   // The character represented by this friendship edge
@@ -1598,7 +1598,7 @@ export type FriendsEdge = {
 };
 
 export type PageInfo = {
-  __typename: \\"PageInfo\\";
+  __typename: "PageInfo";
   startCursor?: string | null;
   endCursor?: string | null;
   hasNextPage: boolean;
@@ -1606,13 +1606,13 @@ export type PageInfo = {
 
 // The episodes in the Star Wars trilogy
 export enum Episode {
-  NEWHOPE = \\"NEWHOPE\\", // Star Wars Episode IV: A New Hope, released in 1977.
-  EMPIRE = \\"EMPIRE\\", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
-  JEDI = \\"JEDI\\" // Star Wars Episode VI: Return of the Jedi, released in 1983.
+  NEWHOPE = "NEWHOPE", // Star Wars Episode IV: A New Hope, released in 1977.
+  EMPIRE = "EMPIRE", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
+  JEDI = "JEDI" // Star Wars Episode VI: Return of the Jedi, released in 1983.
 }
 
 export type Starship = {
-  __typename: \\"Starship\\";
+  __typename: "Starship";
   // The ID of the starship
   id: string;
   // The name of the starship
@@ -1623,7 +1623,7 @@ export type Starship = {
 };
 
 export type Droid = {
-  __typename: \\"Droid\\";
+  __typename: "Droid";
   // The ID of the droid
   id: string;
   // What others call this droid
@@ -1639,25 +1639,25 @@ export type Droid = {
 };
 
 export type HeroNameQuery = {
-  __typename: \\"Character\\";
+  __typename: "Character";
   // The name of the character
   name: string;
 };
 
 export type HeroWithNameFragment =
   | {
-      __typename: \\"Human\\";
+      __typename: "Human";
       // The name of the character
       name: string;
     }
   | {
-      __typename: \\"Droid\\";
+      __typename: "Droid";
       // The name of the character
       name: string;
     };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   async HeroName(): Promise<HeroNameQuery> {
@@ -1678,12 +1678,12 @@ exports[`Angular code generation #generateSource() should have __typename value 
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
-import { Observable } from \\"zen-observable-ts\\";
+import { Injectable } from "@angular/core";
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { Observable } from "zen-observable-ts";
 
 export type Droid = {
-  __typename: \\"Droid\\";
+  __typename: "Droid";
   // The ID of the droid
   id: string;
   // What others call this droid
@@ -1699,7 +1699,7 @@ export type Droid = {
 };
 
 export type Character = {
-  __typename: \\"Character\\";
+  __typename: "Character";
   // The ID of the character
   id: string;
   // The name of the character
@@ -1713,7 +1713,7 @@ export type Character = {
 };
 
 export type Human = {
-  __typename: \\"Human\\";
+  __typename: "Human";
   // The ID of the human
   id: string;
   // What this human calls themselves
@@ -1735,7 +1735,7 @@ export type Human = {
 };
 
 export type FriendsConnection = {
-  __typename: \\"FriendsConnection\\";
+  __typename: "FriendsConnection";
   // The total number of friends
   totalCount?: number | null;
   // The edges for each of the character's friends.
@@ -1747,7 +1747,7 @@ export type FriendsConnection = {
 };
 
 export type FriendsEdge = {
-  __typename: \\"FriendsEdge\\";
+  __typename: "FriendsEdge";
   // A cursor used for pagination
   cursor: string;
   // The character represented by this friendship edge
@@ -1755,7 +1755,7 @@ export type FriendsEdge = {
 };
 
 export type PageInfo = {
-  __typename: \\"PageInfo\\";
+  __typename: "PageInfo";
   startCursor?: string | null;
   endCursor?: string | null;
   hasNextPage: boolean;
@@ -1763,13 +1763,13 @@ export type PageInfo = {
 
 // The episodes in the Star Wars trilogy
 export enum Episode {
-  NEWHOPE = \\"NEWHOPE\\", // Star Wars Episode IV: A New Hope, released in 1977.
-  EMPIRE = \\"EMPIRE\\", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
-  JEDI = \\"JEDI\\" // Star Wars Episode VI: Return of the Jedi, released in 1983.
+  NEWHOPE = "NEWHOPE", // Star Wars Episode IV: A New Hope, released in 1977.
+  EMPIRE = "EMPIRE", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
+  JEDI = "JEDI" // Star Wars Episode VI: Return of the Jedi, released in 1983.
 }
 
 export type Starship = {
-  __typename: \\"Starship\\";
+  __typename: "Starship";
   // The ID of the starship
   id: string;
   // The name of the starship
@@ -1780,19 +1780,19 @@ export type Starship = {
 };
 
 export type DroidNameQuery = {
-  __typename: \\"Droid\\";
+  __typename: "Droid";
   // What others call this droid
   name: string;
 };
 
 export type DroidWithNameFragment = {
-  __typename: \\"Droid\\";
+  __typename: "Droid";
   // What others call this droid
   name: string;
 };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   async DroidName(): Promise<DroidNameQuery> {
@@ -1813,12 +1813,12 @@ exports[`Angular code generation #generateSource() should have the correct __typ
 "/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
-import { Injectable } from \\"@angular/core\\";
-import API, { graphqlOperation, GraphQLResult } from \\"@aws-amplify/api-graphql\\";
-import { Observable } from \\"zen-observable-ts\\";
+import { Injectable } from "@angular/core";
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api-graphql";
+import { Observable } from "zen-observable-ts";
 
 export type Human = {
-  __typename: \\"Human\\";
+  __typename: "Human";
   // The ID of the human
   id: string;
   // What this human calls themselves
@@ -1840,7 +1840,7 @@ export type Human = {
 };
 
 export type Character = {
-  __typename: \\"Character\\";
+  __typename: "Character";
   // The ID of the character
   id: string;
   // The name of the character
@@ -1854,7 +1854,7 @@ export type Character = {
 };
 
 export type Droid = {
-  __typename: \\"Droid\\";
+  __typename: "Droid";
   // The ID of the droid
   id: string;
   // What others call this droid
@@ -1870,7 +1870,7 @@ export type Droid = {
 };
 
 export type FriendsConnection = {
-  __typename: \\"FriendsConnection\\";
+  __typename: "FriendsConnection";
   // The total number of friends
   totalCount?: number | null;
   // The edges for each of the character's friends.
@@ -1882,7 +1882,7 @@ export type FriendsConnection = {
 };
 
 export type FriendsEdge = {
-  __typename: \\"FriendsEdge\\";
+  __typename: "FriendsEdge";
   // A cursor used for pagination
   cursor: string;
   // The character represented by this friendship edge
@@ -1890,7 +1890,7 @@ export type FriendsEdge = {
 };
 
 export type PageInfo = {
-  __typename: \\"PageInfo\\";
+  __typename: "PageInfo";
   startCursor?: string | null;
   endCursor?: string | null;
   hasNextPage: boolean;
@@ -1898,13 +1898,13 @@ export type PageInfo = {
 
 // The episodes in the Star Wars trilogy
 export enum Episode {
-  NEWHOPE = \\"NEWHOPE\\", // Star Wars Episode IV: A New Hope, released in 1977.
-  EMPIRE = \\"EMPIRE\\", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
-  JEDI = \\"JEDI\\" // Star Wars Episode VI: Return of the Jedi, released in 1983.
+  NEWHOPE = "NEWHOPE", // Star Wars Episode IV: A New Hope, released in 1977.
+  EMPIRE = "EMPIRE", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
+  JEDI = "JEDI" // Star Wars Episode VI: Return of the Jedi, released in 1983.
 }
 
 export type Starship = {
-  __typename: \\"Starship\\";
+  __typename: "Starship";
   // The ID of the starship
   id: string;
   // The name of the starship
@@ -1915,14 +1915,14 @@ export type Starship = {
 };
 
 export type FindHumanQuery = {
-  __typename: \\"Human\\";
+  __typename: "Human";
   // The ID of the human
   id: string;
   // What this human calls themselves
   name: string;
   // A list of starships this person has piloted, or an empty list if none
   starships?: Array<{
-    __typename: \\"Starship\\";
+    __typename: "Starship";
     // The ID of the starship
     id: string;
     // The name of the starship
@@ -1931,14 +1931,14 @@ export type FindHumanQuery = {
 };
 
 export type humanDetailsFragment = {
-  __typename: \\"Human\\";
+  __typename: "Human";
   // The ID of the human
   id: string;
   // What this human calls themselves
   name: string;
   // A list of starships this person has piloted, or an empty list if none
   starships?: Array<{
-    __typename: \\"Starship\\";
+    __typename: "Starship";
     // The ID of the starship
     id: string;
     // The name of the starship
@@ -1947,7 +1947,7 @@ export type humanDetailsFragment = {
 };
 
 export type starshipDetailsFragment = {
-  __typename: \\"Starship\\";
+  __typename: "Starship";
   // The ID of the starship
   id: string;
   // The name of the starship
@@ -1955,7 +1955,7 @@ export type starshipDetailsFragment = {
 };
 
 @Injectable({
-  providedIn: \\"root\\"
+  providedIn: "root"
 })
 export class APIService {
   async FindHuman(id: string): Promise<FindHumanQuery> {

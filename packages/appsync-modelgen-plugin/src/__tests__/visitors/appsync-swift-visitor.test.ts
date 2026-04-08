@@ -123,8 +123,8 @@ describe('AppSyncSwiftVisitor', () => {
         public static let schema = defineSchema { model in
           let simpleModel = SimpleModel.keys
           
-          model.listPluralName = \\"SimpleModels\\"
-          model.syncPluralName = \\"SimpleModels\\"
+          model.listPluralName = "SimpleModels"
+          model.syncPluralName = "SimpleModels"
           
           model.fields(
             .id(),
@@ -140,19 +140,19 @@ describe('AppSyncSwiftVisitor', () => {
       }
       extension ModelPath where ModelType == SimpleModel {
         public var id: FieldPath<String>   {
-            string(\\"id\\") 
+            string("id") 
           }
         public var name: FieldPath<String>   {
-            string(\\"name\\") 
+            string("name") 
           }
         public var bar: FieldPath<String>   {
-            string(\\"bar\\") 
+            string("bar") 
           }
         public var createdAt: FieldPath<Temporal.DateTime>   {
-            datetime(\\"createdAt\\") 
+            datetime("createdAt") 
           }
         public var updatedAt: FieldPath<Temporal.DateTime>   {
-            datetime(\\"updatedAt\\") 
+            datetime("updatedAt") 
           }
       }"
     `);
@@ -250,8 +250,8 @@ describe('AppSyncSwiftVisitor', () => {
         public static let schema = defineSchema { model in
           let snake_case = snake_case.keys
           
-          model.listPluralName = \\"snake_cases\\"
-          model.syncPluralName = \\"snake_cases\\"
+          model.listPluralName = "snake_cases"
+          model.syncPluralName = "snake_cases"
           
           model.fields(
             .id(),
@@ -266,16 +266,16 @@ describe('AppSyncSwiftVisitor', () => {
       }
       extension ModelPath where ModelType == snake_case {
         public var id: FieldPath<String>   {
-            string(\\"id\\") 
+            string("id") 
           }
         public var name: FieldPath<String>   {
-            string(\\"name\\") 
+            string("name") 
           }
         public var createdAt: FieldPath<Temporal.DateTime>   {
-            datetime(\\"createdAt\\") 
+            datetime("createdAt") 
           }
         public var updatedAt: FieldPath<Temporal.DateTime>   {
-            datetime(\\"updatedAt\\") 
+            datetime("updatedAt") 
           }
       }"
     `);
@@ -332,7 +332,11 @@ describe('AppSyncSwiftVisitor', () => {
         book: String
       }
     `;
-    const visitor = getVisitor(schema, 'authorBook', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+    const visitor = getVisitor(schema, 'authorBook', CodeGenGenerateEnum.code, {}, [
+      ...AppSyncDirectives,
+      ...V1Directives,
+      DeprecatedDirective,
+    ]);
     const generatedCode = visitor.generate();
     expect(generatedCode).toMatchInlineSnapshot(`
       "// swiftlint:disable all
@@ -379,7 +383,11 @@ describe('AppSyncSwiftVisitor', () => {
       }"
     `);
 
-    const metadataVisitor = getVisitor(schema, 'authorBook', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+    const metadataVisitor = getVisitor(schema, 'authorBook', CodeGenGenerateEnum.metadata, {}, [
+      ...AppSyncDirectives,
+      ...V1Directives,
+      DeprecatedDirective,
+    ]);
     const generatedMetadata = metadataVisitor.generate();
     expect(generatedMetadata).toMatchInlineSnapshot(`
       "// swiftlint:disable all
@@ -404,12 +412,12 @@ describe('AppSyncSwiftVisitor', () => {
         public static let schema = defineSchema { model in
           let authorBook = authorBook.keys
           
-          model.listPluralName = \\"authorBooks\\"
-          model.syncPluralName = \\"authorBooks\\"
+          model.listPluralName = "authorBooks"
+          model.syncPluralName = "authorBooks"
           
           model.attributes(
-            .index(fields: [\\"author_id\\"], name: \\"byAuthor\\"),
-            .index(fields: [\\"book_id\\"], name: \\"byBook\\")
+            .index(fields: ["author_id"], name: "byAuthor"),
+            .index(fields: ["book_id"], name: "byBook")
           )
           
           model.fields(
@@ -428,25 +436,25 @@ describe('AppSyncSwiftVisitor', () => {
       }
       extension ModelPath where ModelType == authorBook {
         public var id: FieldPath<String>   {
-            string(\\"id\\") 
+            string("id") 
           }
         public var author_id: FieldPath<String>   {
-            string(\\"author_id\\") 
+            string("author_id") 
           }
         public var book_id: FieldPath<String>   {
-            string(\\"book_id\\") 
+            string("book_id") 
           }
         public var author: FieldPath<String>   {
-            string(\\"author\\") 
+            string("author") 
           }
         public var book: FieldPath<String>   {
-            string(\\"book\\") 
+            string("book") 
           }
         public var createdAt: FieldPath<Temporal.DateTime>   {
-            datetime(\\"createdAt\\") 
+            datetime("createdAt") 
           }
         public var updatedAt: FieldPath<Temporal.DateTime>   {
-            datetime(\\"updatedAt\\") 
+            datetime("updatedAt") 
           }
       }"
     `);
@@ -471,14 +479,22 @@ describe('AppSyncSwiftVisitor', () => {
         book: String
       }
     `;
-    const visitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+    const visitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.code, {}, [
+      ...AppSyncDirectives,
+      ...V1Directives,
+      DeprecatedDirective,
+    ]);
     const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook');
     const version1Code = visitorV1.generate();
     const version2Code = visitorV2.generate();
 
     expect(version1Code).toMatch(version2Code);
 
-    const metadataVisitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+    const metadataVisitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.metadata, {}, [
+      ...AppSyncDirectives,
+      ...V1Directives,
+      DeprecatedDirective,
+    ]);
     const metadataVisitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook', CodeGenGenerateEnum.metadata);
     const version1Metadata = metadataVisitorV1.generate();
     const version2Metadata = metadataVisitorV2.generate();
@@ -505,14 +521,22 @@ describe('AppSyncSwiftVisitor', () => {
         book: String
       }
     `;
-    const visitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+    const visitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.code, {}, [
+      ...AppSyncDirectives,
+      ...V1Directives,
+      DeprecatedDirective,
+    ]);
     const visitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook');
     const version1Code = visitorV1.generate();
     const version2Code = visitorV2.generate();
 
     expect(version1Code).toMatch(version2Code);
 
-    const metadataVisitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+    const metadataVisitorV1 = getVisitor(schemaV1, 'authorBook', CodeGenGenerateEnum.metadata, {}, [
+      ...AppSyncDirectives,
+      ...V1Directives,
+      DeprecatedDirective,
+    ]);
     const metadataVisitorV2 = getVisitorPipelinedTransformer(schemaV2, 'authorBook', CodeGenGenerateEnum.metadata);
     const version1Metadata = metadataVisitorV1.generate();
     const version2Metadata = metadataVisitorV2.generate();
@@ -583,14 +607,26 @@ describe('AppSyncSwiftVisitor', () => {
     const generatedCode = visitor.generate();
     expect(generatedCode).toMatchSnapshot();
 
-    const metadataVisitor = getVisitor(schema, 'Todo', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+    const metadataVisitor = getVisitor(schema, 'Todo', CodeGenGenerateEnum.metadata, {}, [
+      ...AppSyncDirectives,
+      ...V1Directives,
+      DeprecatedDirective,
+    ]);
     const generatedMetadata = metadataVisitor.generate();
     expect(generatedMetadata).toMatchSnapshot();
 
-    const taskVisitor = getVisitor(schema, 'task', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+    const taskVisitor = getVisitor(schema, 'task', CodeGenGenerateEnum.code, {}, [
+      ...AppSyncDirectives,
+      ...V1Directives,
+      DeprecatedDirective,
+    ]);
     expect(taskVisitor.generate()).toMatchSnapshot();
 
-    const taskMetadataVisitor = getVisitor(schema, 'task', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+    const taskMetadataVisitor = getVisitor(schema, 'task', CodeGenGenerateEnum.metadata, {}, [
+      ...AppSyncDirectives,
+      ...V1Directives,
+      DeprecatedDirective,
+    ]);
     const generatedTaskMetadata = taskMetadataVisitor.generate();
     expect(generatedTaskMetadata).toMatchSnapshot();
   });
@@ -619,7 +655,11 @@ describe('AppSyncSwiftVisitor', () => {
         }
       `;
       it('should generate one side of the connection', () => {
-        const visitor = getVisitor(schema, 'Todo', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+        const visitor = getVisitor(schema, 'Todo', CodeGenGenerateEnum.code, {}, [
+          ...AppSyncDirectives,
+          ...V1Directives,
+          DeprecatedDirective,
+        ]);
         const generatedCode = visitor.generate();
         expect(generatedCode).toMatchInlineSnapshot(`
           "// swiftlint:disable all
@@ -681,7 +721,11 @@ describe('AppSyncSwiftVisitor', () => {
           }"
         `);
 
-        const metadataVisitor = getVisitor(schema, 'Todo', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+        const metadataVisitor = getVisitor(schema, 'Todo', CodeGenGenerateEnum.metadata, {}, [
+          ...AppSyncDirectives,
+          ...V1Directives,
+          DeprecatedDirective,
+        ]);
         const generatedMetadata = metadataVisitor.generate();
         expect(generatedMetadata).toMatchInlineSnapshot(`
           "// swiftlint:disable all
@@ -709,8 +753,8 @@ describe('AppSyncSwiftVisitor', () => {
             public static let schema = defineSchema { model in
               let todo = Todo.keys
               
-              model.listPluralName = \\"Todos\\"
-              model.syncPluralName = \\"Todos\\"
+              model.listPluralName = "Todos"
+              model.syncPluralName = "Todos"
               
               model.fields(
                 .id(),
@@ -731,41 +775,45 @@ describe('AppSyncSwiftVisitor', () => {
           }
           extension ModelPath where ModelType == Todo {
             public var id: FieldPath<String>   {
-                string(\\"id\\") 
+                string("id") 
               }
             public var title: FieldPath<String>   {
-                string(\\"title\\") 
+                string("title") 
               }
             public var done: FieldPath<Bool>   {
-                bool(\\"done\\") 
+                bool("done") 
               }
             public var description: FieldPath<String>   {
-                string(\\"description\\") 
+                string("description") 
               }
             public var due_date: FieldPath<String>   {
-                string(\\"due_date\\") 
+                string("due_date") 
               }
             public var version: FieldPath<Int>   {
-                int(\\"version\\") 
+                int("version") 
               }
             public var value: FieldPath<Double>   {
-                double(\\"value\\") 
+                double("value") 
               }
             public var tasks: ModelPath<task>   {
-                task.Path(name: \\"tasks\\", isCollection: true, parent: self) 
+                task.Path(name: "tasks", isCollection: true, parent: self) 
               }
             public var createdAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"createdAt\\") 
+                datetime("createdAt") 
               }
             public var updatedAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"updatedAt\\") 
+                datetime("updatedAt") 
               }
           }"
         `);
       });
 
       it('should generate many side of the connection', () => {
-        const visitor = getVisitor(schema, 'task', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+        const visitor = getVisitor(schema, 'task', CodeGenGenerateEnum.code, {}, [
+          ...AppSyncDirectives,
+          ...V1Directives,
+          DeprecatedDirective,
+        ]);
         const generatedCode = visitor.generate();
         expect(generatedCode).toMatchInlineSnapshot(`
           "// swiftlint:disable all
@@ -847,7 +895,11 @@ describe('AppSyncSwiftVisitor', () => {
           }"
         `);
 
-        const metadataVisitor = getVisitor(schema, 'task', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+        const metadataVisitor = getVisitor(schema, 'task', CodeGenGenerateEnum.metadata, {}, [
+          ...AppSyncDirectives,
+          ...V1Directives,
+          DeprecatedDirective,
+        ]);
         const generatedMetadata = metadataVisitor.generate();
         expect(generatedMetadata).toMatchInlineSnapshot(`
           "// swiftlint:disable all
@@ -873,14 +925,14 @@ describe('AppSyncSwiftVisitor', () => {
             public static let schema = defineSchema { model in
               let task = task.keys
               
-              model.listPluralName = \\"tasks\\"
-              model.syncPluralName = \\"tasks\\"
+              model.listPluralName = "tasks"
+              model.syncPluralName = "tasks"
               
               model.fields(
                 .id(),
                 .field(task.title, is: .required, ofType: .string),
                 .field(task.done, is: .required, ofType: .bool),
-                .belongsTo(task.todo, is: .optional, ofType: Todo.self, targetName: \\"taskTodoId\\"),
+                .belongsTo(task.todo, is: .optional, ofType: Todo.self, targetName: "taskTodoId"),
                 .field(task.time, is: .optional, ofType: .time),
                 .field(task.createdOn, is: .optional, ofType: .date),
                 .field(task.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
@@ -893,28 +945,28 @@ describe('AppSyncSwiftVisitor', () => {
           }
           extension ModelPath where ModelType == task {
             public var id: FieldPath<String>   {
-                string(\\"id\\") 
+                string("id") 
               }
             public var title: FieldPath<String>   {
-                string(\\"title\\") 
+                string("title") 
               }
             public var done: FieldPath<Bool>   {
-                bool(\\"done\\") 
+                bool("done") 
               }
             public var todo: ModelPath<Todo>   {
-                Todo.Path(name: \\"todo\\", parent: self) 
+                Todo.Path(name: "todo", parent: self) 
               }
             public var time: FieldPath<Temporal.Time>   {
-                time(\\"time\\") 
+                time("time") 
               }
             public var createdOn: FieldPath<Temporal.Date>   {
-                date(\\"createdOn\\") 
+                date("createdOn") 
               }
             public var createdAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"createdAt\\") 
+                datetime("createdAt") 
               }
             public var updatedAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"updatedAt\\") 
+                datetime("updatedAt") 
               }
           }"
         `);
@@ -949,7 +1001,11 @@ describe('AppSyncSwiftVisitor', () => {
             posts: [PostEditor] @connection(keyName: "byEditor", fields: ["id"])
           }
         `;
-        const postVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+        const postVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.code, {}, [
+          ...AppSyncDirectives,
+          ...V1Directives,
+          DeprecatedDirective,
+        ]);
         expect(() => postVisitor.generate()).not.toThrowError();
       });
 
@@ -981,7 +1037,11 @@ describe('AppSyncSwiftVisitor', () => {
           }
         `;
 
-        const postVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+        const postVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.code, {}, [
+          ...AppSyncDirectives,
+          ...V1Directives,
+          DeprecatedDirective,
+        ]);
         expect(postVisitor.generate()).toMatchInlineSnapshot(`
           "// swiftlint:disable all
           import Amplify
@@ -1017,7 +1077,11 @@ describe('AppSyncSwiftVisitor', () => {
           }"
         `);
 
-        const postSchemaVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+        const postSchemaVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.metadata, {}, [
+          ...AppSyncDirectives,
+          ...V1Directives,
+          DeprecatedDirective,
+        ]);
         expect(postSchemaVisitor.generate()).toMatchInlineSnapshot(`
           "// swiftlint:disable all
           import Amplify
@@ -1039,8 +1103,8 @@ describe('AppSyncSwiftVisitor', () => {
             public static let schema = defineSchema { model in
               let post = Post.keys
               
-              model.listPluralName = \\"Posts\\"
-              model.syncPluralName = \\"Posts\\"
+              model.listPluralName = "Posts"
+              model.syncPluralName = "Posts"
               
               model.fields(
                 .id(),
@@ -1056,24 +1120,28 @@ describe('AppSyncSwiftVisitor', () => {
           }
           extension ModelPath where ModelType == Post {
             public var id: FieldPath<String>   {
-                string(\\"id\\") 
+                string("id") 
               }
             public var title: FieldPath<String>   {
-                string(\\"title\\") 
+                string("title") 
               }
             public var editors: ModelPath<PostEditor>   {
-                PostEditor.Path(name: \\"editors\\", isCollection: true, parent: self) 
+                PostEditor.Path(name: "editors", isCollection: true, parent: self) 
               }
             public var createdAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"createdAt\\") 
+                datetime("createdAt") 
               }
             public var updatedAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"updatedAt\\") 
+                datetime("updatedAt") 
               }
           }"
         `);
 
-        const postEditorVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.code, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+        const postEditorVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.code, {}, [
+          ...AppSyncDirectives,
+          ...V1Directives,
+          DeprecatedDirective,
+        ]);
         expect(postEditorVisitor.generate()).toMatchInlineSnapshot(`
           "// swiftlint:disable all
           import Amplify
@@ -1109,7 +1177,11 @@ describe('AppSyncSwiftVisitor', () => {
           }"
         `);
 
-        const postEditorSchemaVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.metadata, {}, [...AppSyncDirectives, ...V1Directives, DeprecatedDirective]);
+        const postEditorSchemaVisitor = getVisitor(schema, 'Post', CodeGenGenerateEnum.metadata, {}, [
+          ...AppSyncDirectives,
+          ...V1Directives,
+          DeprecatedDirective,
+        ]);
         expect(postEditorSchemaVisitor.generate()).toMatchInlineSnapshot(`
           "// swiftlint:disable all
           import Amplify
@@ -1131,8 +1203,8 @@ describe('AppSyncSwiftVisitor', () => {
             public static let schema = defineSchema { model in
               let post = Post.keys
               
-              model.listPluralName = \\"Posts\\"
-              model.syncPluralName = \\"Posts\\"
+              model.listPluralName = "Posts"
+              model.syncPluralName = "Posts"
               
               model.fields(
                 .id(),
@@ -1148,19 +1220,19 @@ describe('AppSyncSwiftVisitor', () => {
           }
           extension ModelPath where ModelType == Post {
             public var id: FieldPath<String>   {
-                string(\\"id\\") 
+                string("id") 
               }
             public var title: FieldPath<String>   {
-                string(\\"title\\") 
+                string("title") 
               }
             public var editors: ModelPath<PostEditor>   {
-                PostEditor.Path(name: \\"editors\\", isCollection: true, parent: self) 
+                PostEditor.Path(name: "editors", isCollection: true, parent: self) 
               }
             public var createdAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"createdAt\\") 
+                datetime("createdAt") 
               }
             public var updatedAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"updatedAt\\") 
+                datetime("updatedAt") 
               }
           }"
         `);
@@ -1268,8 +1340,8 @@ describe('AppSyncSwiftVisitor', () => {
         public static let schema = defineSchema { model in
           let objectWithNativeTypes = ObjectWithNativeTypes.keys
           
-          model.listPluralName = \\"ObjectWithNativeTypes\\"
-          model.syncPluralName = \\"ObjectWithNativeTypes\\"
+          model.listPluralName = "ObjectWithNativeTypes"
+          model.syncPluralName = "ObjectWithNativeTypes"
           
           model.fields(
             .id(),
@@ -1289,28 +1361,28 @@ describe('AppSyncSwiftVisitor', () => {
       }
       extension ModelPath where ModelType == ObjectWithNativeTypes {
         public var id: FieldPath<String>   {
-            string(\\"id\\") 
+            string("id") 
           }
         public var intArr: FieldPath<Int>   {
-            int(\\"intArr\\") 
+            int("intArr") 
           }
         public var strArr: FieldPath<String>   {
-            string(\\"strArr\\") 
+            string("strArr") 
           }
         public var floatArr: FieldPath<Double>   {
-            double(\\"floatArr\\") 
+            double("floatArr") 
           }
         public var boolArr: FieldPath<Bool>   {
-            bool(\\"boolArr\\") 
+            bool("boolArr") 
           }
         public var dateArr: FieldPath<Temporal.Date>   {
-            date(\\"dateArr\\") 
+            date("dateArr") 
           }
         public var createdAt: FieldPath<Temporal.DateTime>   {
-            datetime(\\"createdAt\\") 
+            datetime("createdAt") 
           }
         public var updatedAt: FieldPath<Temporal.DateTime>   {
-            datetime(\\"updatedAt\\") 
+            datetime("updatedAt") 
           }
       }"
     `);
@@ -1420,8 +1492,8 @@ describe('AppSyncSwiftVisitor', () => {
         public static let schema = defineSchema { model in
           let attraction = Attraction.keys
           
-          model.listPluralName = \\"Attractions\\"
-          model.syncPluralName = \\"Attractions\\"
+          model.listPluralName = "Attractions"
+          model.syncPluralName = "Attractions"
           
           model.fields(
             .id(),
@@ -1441,19 +1513,19 @@ describe('AppSyncSwiftVisitor', () => {
       }
       extension ModelPath where ModelType == Attraction {
         public var id: FieldPath<String>   {
-            string(\\"id\\") 
+            string("id") 
           }
         public var name: FieldPath<String>   {
-            string(\\"name\\") 
+            string("name") 
           }
         public var tags: FieldPath<String>   {
-            string(\\"tags\\") 
+            string("tags") 
           }
         public var createdAt: FieldPath<Temporal.DateTime>   {
-            datetime(\\"createdAt\\") 
+            datetime("createdAt") 
           }
         public var updatedAt: FieldPath<Temporal.DateTime>   {
-            datetime(\\"updatedAt\\") 
+            datetime("updatedAt") 
           }
       }"
     `);
@@ -1503,8 +1575,8 @@ describe('AppSyncSwiftVisitor', () => {
         public static let schema = defineSchema { model in
           let location = Location.keys
           
-          model.listPluralName = \\"Locations\\"
-          model.syncPluralName = \\"Locations\\"
+          model.listPluralName = "Locations"
+          model.syncPluralName = "Locations"
           
           model.fields(
             .field(location.lat, is: .required, ofType: .string),
@@ -1524,7 +1596,7 @@ describe('AppSyncSwiftVisitor', () => {
       // Contains the set of classes that conforms to the \`Model\` protocol. 
 
       final public class AmplifyModels: AmplifyModelRegistration {
-        public let version: String = \\"fcfad0bb5cf954c935899c0102689995\\"
+        public let version: String = "fcfad0bb5cf954c935899c0102689995"
         
         public func registerModels(registry: ModelRegistry.Type) {
           ModelRegistry.register(modelType: Attraction.self)
@@ -1688,11 +1760,11 @@ describe('AppSyncSwiftVisitor', () => {
               let post = Post.keys
               
               model.authRules = [
-                rule(allow: .owner, ownerField: \\"owner\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.create, .update, .delete, .read])
+                rule(allow: .owner, ownerField: "owner", identityClaim: "cognito:username", provider: .userPools, operations: [.create, .update, .delete, .read])
               ]
               
-              model.listPluralName = \\"Posts\\"
-              model.syncPluralName = \\"Posts\\"
+              model.listPluralName = "Posts"
+              model.syncPluralName = "Posts"
               
               model.fields(
                 .id(),
@@ -1708,19 +1780,19 @@ describe('AppSyncSwiftVisitor', () => {
           }
           extension ModelPath where ModelType == Post {
             public var id: FieldPath<String>   {
-                string(\\"id\\") 
+                string("id") 
               }
             public var title: FieldPath<String>   {
-                string(\\"title\\") 
+                string("title") 
               }
             public var owner: FieldPath<String>   {
-                string(\\"owner\\") 
+                string("owner") 
               }
             public var createdAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"createdAt\\") 
+                datetime("createdAt") 
               }
             public var updatedAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"updatedAt\\") 
+                datetime("updatedAt") 
               }
           }"
         `);
@@ -1758,11 +1830,11 @@ describe('AppSyncSwiftVisitor', () => {
               let post = Post.keys
               
               model.authRules = [
-                rule(allow: .owner, ownerField: \\"author\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.create, .update, .delete, .read])
+                rule(allow: .owner, ownerField: "author", identityClaim: "cognito:username", provider: .userPools, operations: [.create, .update, .delete, .read])
               ]
               
-              model.listPluralName = \\"Posts\\"
-              model.syncPluralName = \\"Posts\\"
+              model.listPluralName = "Posts"
+              model.syncPluralName = "Posts"
               
               model.fields(
                 .id(),
@@ -1778,19 +1850,19 @@ describe('AppSyncSwiftVisitor', () => {
           }
           extension ModelPath where ModelType == Post {
             public var id: FieldPath<String>   {
-                string(\\"id\\") 
+                string("id") 
               }
             public var title: FieldPath<String>   {
-                string(\\"title\\") 
+                string("title") 
               }
             public var author: FieldPath<String>   {
-                string(\\"author\\") 
+                string("author") 
               }
             public var createdAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"createdAt\\") 
+                datetime("createdAt") 
               }
             public var updatedAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"updatedAt\\") 
+                datetime("updatedAt") 
               }
           }"
         `);
@@ -1829,11 +1901,11 @@ describe('AppSyncSwiftVisitor', () => {
               let post = Post.keys
               
               model.authRules = [
-                rule(allow: .owner, ownerField: \\"author\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.create, .update, .delete])
+                rule(allow: .owner, ownerField: "author", identityClaim: "cognito:username", provider: .userPools, operations: [.create, .update, .delete])
               ]
               
-              model.listPluralName = \\"Posts\\"
-              model.syncPluralName = \\"Posts\\"
+              model.listPluralName = "Posts"
+              model.syncPluralName = "Posts"
               
               model.fields(
                 .id(),
@@ -1849,19 +1921,19 @@ describe('AppSyncSwiftVisitor', () => {
           }
           extension ModelPath where ModelType == Post {
             public var id: FieldPath<String>   {
-                string(\\"id\\") 
+                string("id") 
               }
             public var title: FieldPath<String>   {
-                string(\\"title\\") 
+                string("title") 
               }
             public var author: FieldPath<String>   {
-                string(\\"author\\") 
+                string("author") 
               }
             public var createdAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"createdAt\\") 
+                datetime("createdAt") 
               }
             public var updatedAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"updatedAt\\") 
+                datetime("updatedAt") 
               }
           }"
         `);
@@ -1900,11 +1972,11 @@ describe('AppSyncSwiftVisitor', () => {
               let post = Post.keys
               
               model.authRules = [
-                rule(allow: .owner, ownerField: \\"author\\", identityClaim: \\"sub\\", provider: .userPools, operations: [.create, .update, .delete, .read])
+                rule(allow: .owner, ownerField: "author", identityClaim: "sub", provider: .userPools, operations: [.create, .update, .delete, .read])
               ]
               
-              model.listPluralName = \\"Posts\\"
-              model.syncPluralName = \\"Posts\\"
+              model.listPluralName = "Posts"
+              model.syncPluralName = "Posts"
               
               model.fields(
                 .id(),
@@ -1920,19 +1992,19 @@ describe('AppSyncSwiftVisitor', () => {
           }
           extension ModelPath where ModelType == Post {
             public var id: FieldPath<String>   {
-                string(\\"id\\") 
+                string("id") 
               }
             public var title: FieldPath<String>   {
-                string(\\"title\\") 
+                string("title") 
               }
             public var author: FieldPath<String>   {
-                string(\\"author\\") 
+                string("author") 
               }
             public var createdAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"createdAt\\") 
+                datetime("createdAt") 
               }
             public var updatedAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"updatedAt\\") 
+                datetime("updatedAt") 
               }
           }"
         `);
@@ -1968,11 +2040,11 @@ describe('AppSyncSwiftVisitor', () => {
               let post = Post.keys
               
               model.authRules = [
-                rule(allow: .owner, ownerField: \\"owner\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.create, .update, .delete, .read])
+                rule(allow: .owner, ownerField: "owner", identityClaim: "cognito:username", provider: .userPools, operations: [.create, .update, .delete, .read])
               ]
               
-              model.listPluralName = \\"Posts\\"
-              model.syncPluralName = \\"Posts\\"
+              model.listPluralName = "Posts"
+              model.syncPluralName = "Posts"
               
               model.fields(
                 .id(),
@@ -1987,16 +2059,16 @@ describe('AppSyncSwiftVisitor', () => {
           }
           extension ModelPath where ModelType == Post {
             public var id: FieldPath<String>   {
-                string(\\"id\\") 
+                string("id") 
               }
             public var title: FieldPath<String>   {
-                string(\\"title\\") 
+                string("title") 
               }
             public var createdAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"createdAt\\") 
+                datetime("createdAt") 
               }
             public var updatedAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"updatedAt\\") 
+                datetime("updatedAt") 
               }
           }"
         `);
@@ -2032,11 +2104,11 @@ describe('AppSyncSwiftVisitor', () => {
               let post = Post.keys
               
               model.authRules = [
-                rule(allow: .owner, ownerField: \\"customField\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.create, .update, .delete, .read])
+                rule(allow: .owner, ownerField: "customField", identityClaim: "cognito:username", provider: .userPools, operations: [.create, .update, .delete, .read])
               ]
               
-              model.listPluralName = \\"Posts\\"
-              model.syncPluralName = \\"Posts\\"
+              model.listPluralName = "Posts"
+              model.syncPluralName = "Posts"
               
               model.fields(
                 .id(),
@@ -2051,16 +2123,16 @@ describe('AppSyncSwiftVisitor', () => {
           }
           extension ModelPath where ModelType == Post {
             public var id: FieldPath<String>   {
-                string(\\"id\\") 
+                string("id") 
               }
             public var title: FieldPath<String>   {
-                string(\\"title\\") 
+                string("title") 
               }
             public var createdAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"createdAt\\") 
+                datetime("createdAt") 
               }
             public var updatedAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"updatedAt\\") 
+                datetime("updatedAt") 
               }
           }"
         `);
@@ -2102,12 +2174,12 @@ describe('AppSyncSwiftVisitor', () => {
               let post = Post.keys
               
               model.authRules = [
-                rule(allow: .owner, ownerField: \\"author\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.create, .update, .delete, .read]),
-                rule(allow: .owner, ownerField: \\"editors\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.update, .read])
+                rule(allow: .owner, ownerField: "author", identityClaim: "cognito:username", provider: .userPools, operations: [.create, .update, .delete, .read]),
+                rule(allow: .owner, ownerField: "editors", identityClaim: "cognito:username", provider: .userPools, operations: [.update, .read])
               ]
               
-              model.listPluralName = \\"Posts\\"
-              model.syncPluralName = \\"Posts\\"
+              model.listPluralName = "Posts"
+              model.syncPluralName = "Posts"
               
               model.fields(
                 .id(),
@@ -2124,22 +2196,22 @@ describe('AppSyncSwiftVisitor', () => {
           }
           extension ModelPath where ModelType == Post {
             public var id: FieldPath<String>   {
-                string(\\"id\\") 
+                string("id") 
               }
             public var title: FieldPath<String>   {
-                string(\\"title\\") 
+                string("title") 
               }
             public var author: FieldPath<String>   {
-                string(\\"author\\") 
+                string("author") 
               }
             public var editors: FieldPath<String>   {
-                string(\\"editors\\") 
+                string("editors") 
               }
             public var createdAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"createdAt\\") 
+                datetime("createdAt") 
               }
             public var updatedAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"updatedAt\\") 
+                datetime("updatedAt") 
               }
           }"
         `);
@@ -2179,12 +2251,12 @@ describe('AppSyncSwiftVisitor', () => {
               let employee = Employee.keys
               
               model.authRules = [
-                rule(allow: .owner, ownerField: \\"owner\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.create, .update, .delete, .read]),
-                rule(allow: .groups, groupClaim: \\"cognito:groups\\", groups: [\\"Admins\\"], provider: .userPools, operations: [.create, .update, .delete, .read])
+                rule(allow: .owner, ownerField: "owner", identityClaim: "cognito:username", provider: .userPools, operations: [.create, .update, .delete, .read]),
+                rule(allow: .groups, groupClaim: "cognito:groups", groups: ["Admins"], provider: .userPools, operations: [.create, .update, .delete, .read])
               ]
               
-              model.listPluralName = \\"Employees\\"
-              model.syncPluralName = \\"Employees\\"
+              model.listPluralName = "Employees"
+              model.syncPluralName = "Employees"
               
               model.fields(
                 .id(),
@@ -2201,22 +2273,22 @@ describe('AppSyncSwiftVisitor', () => {
           }
           extension ModelPath where ModelType == Employee {
             public var id: FieldPath<String>   {
-                string(\\"id\\") 
+                string("id") 
               }
             public var name: FieldPath<String>   {
-                string(\\"name\\") 
+                string("name") 
               }
             public var address: FieldPath<String>   {
-                string(\\"address\\") 
+                string("address") 
               }
             public var ssn: FieldPath<String>   {
-                string(\\"ssn\\") 
+                string("ssn") 
               }
             public var createdAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"createdAt\\") 
+                datetime("createdAt") 
               }
             public var updatedAt: FieldPath<Temporal.DateTime>   {
-                datetime(\\"updatedAt\\") 
+                datetime("updatedAt") 
               }
           }"
         `);
@@ -2255,11 +2327,11 @@ describe('AppSyncSwiftVisitor', () => {
             let post = Post.keys
             
             model.authRules = [
-              rule(allow: .groups, groupClaim: \\"cognito:groups\\", groups: [\\"admin\\", \\"editors\\"], provider: .userPools, operations: [.create, .update, .delete, .read])
+              rule(allow: .groups, groupClaim: "cognito:groups", groups: ["admin", "editors"], provider: .userPools, operations: [.create, .update, .delete, .read])
             ]
             
-            model.listPluralName = \\"Posts\\"
-            model.syncPluralName = \\"Posts\\"
+            model.listPluralName = "Posts"
+            model.syncPluralName = "Posts"
             
             model.fields(
               .id(),
@@ -2274,16 +2346,16 @@ describe('AppSyncSwiftVisitor', () => {
         }
         extension ModelPath where ModelType == Post {
           public var id: FieldPath<String>   {
-              string(\\"id\\") 
+              string("id") 
             }
           public var title: FieldPath<String>   {
-              string(\\"title\\") 
+              string("title") 
             }
           public var createdAt: FieldPath<Temporal.DateTime>   {
-              datetime(\\"createdAt\\") 
+              datetime("createdAt") 
             }
           public var updatedAt: FieldPath<Temporal.DateTime>   {
-              datetime(\\"updatedAt\\") 
+              datetime("updatedAt") 
             }
         }"
       `);
@@ -2321,11 +2393,11 @@ describe('AppSyncSwiftVisitor', () => {
             let post = Post.keys
             
             model.authRules = [
-              rule(allow: .groups, groupClaim: \\"cognito:groups\\", groupsField: \\"groups\\", provider: .userPools, operations: [.create, .update, .delete, .read])
+              rule(allow: .groups, groupClaim: "cognito:groups", groupsField: "groups", provider: .userPools, operations: [.create, .update, .delete, .read])
             ]
             
-            model.listPluralName = \\"Posts\\"
-            model.syncPluralName = \\"Posts\\"
+            model.listPluralName = "Posts"
+            model.syncPluralName = "Posts"
             
             model.fields(
               .id(),
@@ -2341,19 +2413,19 @@ describe('AppSyncSwiftVisitor', () => {
         }
         extension ModelPath where ModelType == Post {
           public var id: FieldPath<String>   {
-              string(\\"id\\") 
+              string("id") 
             }
           public var title: FieldPath<String>   {
-              string(\\"title\\") 
+              string("title") 
             }
           public var groups: FieldPath<String>   {
-              string(\\"groups\\") 
+              string("groups") 
             }
           public var createdAt: FieldPath<Temporal.DateTime>   {
-              datetime(\\"createdAt\\") 
+              datetime("createdAt") 
             }
           public var updatedAt: FieldPath<Temporal.DateTime>   {
-              datetime(\\"updatedAt\\") 
+              datetime("updatedAt") 
             }
         }"
       `);
@@ -2390,11 +2462,11 @@ describe('AppSyncSwiftVisitor', () => {
             let post = Post.keys
             
             model.authRules = [
-              rule(allow: .groups, groupClaim: \\"cognito:groups\\", groups: [\\"admin\\"], provider: .userPools, operations: [.create, .update, .delete])
+              rule(allow: .groups, groupClaim: "cognito:groups", groups: ["admin"], provider: .userPools, operations: [.create, .update, .delete])
             ]
             
-            model.listPluralName = \\"Posts\\"
-            model.syncPluralName = \\"Posts\\"
+            model.listPluralName = "Posts"
+            model.syncPluralName = "Posts"
             
             model.fields(
               .id(),
@@ -2409,16 +2481,16 @@ describe('AppSyncSwiftVisitor', () => {
         }
         extension ModelPath where ModelType == Post {
           public var id: FieldPath<String>   {
-              string(\\"id\\") 
+              string("id") 
             }
           public var title: FieldPath<String>   {
-              string(\\"title\\") 
+              string("title") 
             }
           public var createdAt: FieldPath<Temporal.DateTime>   {
-              datetime(\\"createdAt\\") 
+              datetime("createdAt") 
             }
           public var updatedAt: FieldPath<Temporal.DateTime>   {
-              datetime(\\"updatedAt\\") 
+              datetime("updatedAt") 
             }
         }"
       `);
@@ -2455,11 +2527,11 @@ describe('AppSyncSwiftVisitor', () => {
             let post = Post.keys
             
             model.authRules = [
-              rule(allow: .groups, groupClaim: \\"custom:groups\\", groups: [\\"admin\\"], provider: .userPools, operations: [.create, .update, .delete, .read])
+              rule(allow: .groups, groupClaim: "custom:groups", groups: ["admin"], provider: .userPools, operations: [.create, .update, .delete, .read])
             ]
             
-            model.listPluralName = \\"Posts\\"
-            model.syncPluralName = \\"Posts\\"
+            model.listPluralName = "Posts"
+            model.syncPluralName = "Posts"
             
             model.fields(
               .id(),
@@ -2474,16 +2546,16 @@ describe('AppSyncSwiftVisitor', () => {
         }
         extension ModelPath where ModelType == Post {
           public var id: FieldPath<String>   {
-              string(\\"id\\") 
+              string("id") 
             }
           public var title: FieldPath<String>   {
-              string(\\"title\\") 
+              string("title") 
             }
           public var createdAt: FieldPath<Temporal.DateTime>   {
-              datetime(\\"createdAt\\") 
+              datetime("createdAt") 
             }
           public var updatedAt: FieldPath<Temporal.DateTime>   {
-              datetime(\\"updatedAt\\") 
+              datetime("updatedAt") 
             }
         }"
       `);
@@ -2522,8 +2594,8 @@ describe('AppSyncSwiftVisitor', () => {
               rule(allow: .private, operations: [.create, .update, .delete, .read])
             ]
             
-            model.listPluralName = \\"Posts\\"
-            model.syncPluralName = \\"Posts\\"
+            model.listPluralName = "Posts"
+            model.syncPluralName = "Posts"
             
             model.fields(
               .id(),
@@ -2538,16 +2610,16 @@ describe('AppSyncSwiftVisitor', () => {
         }
         extension ModelPath where ModelType == Post {
           public var id: FieldPath<String>   {
-              string(\\"id\\") 
+              string("id") 
             }
           public var title: FieldPath<String>   {
-              string(\\"title\\") 
+              string("title") 
             }
           public var createdAt: FieldPath<Temporal.DateTime>   {
-              datetime(\\"createdAt\\") 
+              datetime("createdAt") 
             }
           public var updatedAt: FieldPath<Temporal.DateTime>   {
-              datetime(\\"updatedAt\\") 
+              datetime("updatedAt") 
             }
         }"
       `);
@@ -2594,13 +2666,13 @@ describe('AppSyncSwiftVisitor', () => {
           let post = Post.keys
           
           model.authRules = [
-            rule(allow: .groups, groupClaim: \\"cognito:groups\\", groups: [\\"admin\\"], provider: .userPools, operations: [.create, .update, .delete, .read]),
-            rule(allow: .owner, ownerField: \\"owner\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.create, .update]),
+            rule(allow: .groups, groupClaim: "cognito:groups", groups: ["admin"], provider: .userPools, operations: [.create, .update, .delete, .read]),
+            rule(allow: .owner, ownerField: "owner", identityClaim: "cognito:username", provider: .userPools, operations: [.create, .update]),
             rule(allow: .public, operations: [.read])
           ]
           
-          model.listPluralName = \\"Posts\\"
-          model.syncPluralName = \\"Posts\\"
+          model.listPluralName = "Posts"
+          model.syncPluralName = "Posts"
           
           model.fields(
             .id(),
@@ -2616,19 +2688,19 @@ describe('AppSyncSwiftVisitor', () => {
       }
       extension ModelPath where ModelType == Post {
         public var id: FieldPath<String>   {
-            string(\\"id\\") 
+            string("id") 
           }
         public var title: FieldPath<String>   {
-            string(\\"title\\") 
+            string("title") 
           }
         public var owner: FieldPath<String>   {
-            string(\\"owner\\") 
+            string("owner") 
           }
         public var createdAt: FieldPath<Temporal.DateTime>   {
-            datetime(\\"createdAt\\") 
+            datetime("createdAt") 
           }
         public var updatedAt: FieldPath<Temporal.DateTime>   {
-            datetime(\\"updatedAt\\") 
+            datetime("updatedAt") 
           }
       }"
     `);
@@ -2675,13 +2747,13 @@ describe('AppSyncSwiftVisitor', () => {
           let post = Post.keys
           
           model.authRules = [
-            rule(allow: .groups, groupClaim: \\"cognito:groups\\", groups: [\\"admin\\"], provider: .userPools, operations: [.create, .update, .delete, .read]),
-            rule(allow: .owner, ownerField: \\"owner\\", identityClaim: \\"cognito:username\\", provider: .userPools, operations: [.create, .update]),
+            rule(allow: .groups, groupClaim: "cognito:groups", groups: ["admin"], provider: .userPools, operations: [.create, .update, .delete, .read]),
+            rule(allow: .owner, ownerField: "owner", identityClaim: "cognito:username", provider: .userPools, operations: [.create, .update]),
             rule(allow: .public, provider: .apiKey, operations: [.read])
           ]
           
-          model.listPluralName = \\"Posts\\"
-          model.syncPluralName = \\"Posts\\"
+          model.listPluralName = "Posts"
+          model.syncPluralName = "Posts"
           
           model.fields(
             .id(),
@@ -2697,19 +2769,19 @@ describe('AppSyncSwiftVisitor', () => {
       }
       extension ModelPath where ModelType == Post {
         public var id: FieldPath<String>   {
-            string(\\"id\\") 
+            string("id") 
           }
         public var title: FieldPath<String>   {
-            string(\\"title\\") 
+            string("title") 
           }
         public var owner: FieldPath<String>   {
-            string(\\"owner\\") 
+            string("owner") 
           }
         public var createdAt: FieldPath<Temporal.DateTime>   {
-            datetime(\\"createdAt\\") 
+            datetime("createdAt") 
           }
         public var updatedAt: FieldPath<Temporal.DateTime>   {
-            datetime(\\"updatedAt\\") 
+            datetime("updatedAt") 
           }
       }"
     `);
@@ -3059,7 +3131,7 @@ describe('AppSyncSwiftVisitor', () => {
           content: String
           related: [SqlRelated!] @hasMany(references: ["primaryId"])
         }
-  
+
         type SqlRelated @refersTo(name: "sql_related") @model {
           id: Int! @primaryKey
           content: String
@@ -3067,18 +3139,26 @@ describe('AppSyncSwiftVisitor', () => {
           primary: SqlPrimary @belongsTo(references: ["primaryId"])
         }
       `;
-      expect(getVisitorPipelinedTransformer(schema, 'SqlPrimary', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'SqlPrimary', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'SqlRelated', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'SqlRelated', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'SqlPrimary', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'SqlPrimary', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'SqlRelated', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'SqlRelated', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
     });
 
     test('sets the association to the references field for hasOne/belongsTo', () => {
@@ -3088,7 +3168,7 @@ describe('AppSyncSwiftVisitor', () => {
           content: String
           related: SqlRelated @hasOne(references: ["primaryId"])
         }
-  
+
         type SqlRelated @refersTo(name: "sql_related") @model {
           id: Int! @primaryKey
           content: String
@@ -3096,18 +3176,26 @@ describe('AppSyncSwiftVisitor', () => {
           primary: SqlPrimary @belongsTo(references: ["primaryId"])
         }
       `;
-      expect(getVisitorPipelinedTransformer(schema, 'SqlPrimary', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'SqlPrimary', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'SqlRelated', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'SqlRelated', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'SqlPrimary', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'SqlPrimary', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'SqlRelated', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'SqlRelated', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
     });
 
     test('sets the association to the references field for hasOne and hasMany', () => {
@@ -3117,37 +3205,49 @@ describe('AppSyncSwiftVisitor', () => {
           relatedMany: [RelatedMany] @hasMany(references: ["primaryId"])
           relatedOne: RelatedOne @hasOne(references: ["primaryId"])
         }
-        
+
         type RelatedMany @model {
           id: ID! @primaryKey
           primaryId: ID!
           primary: Primary @belongsTo(references: ["primaryId"])
         }
-        
+
         type RelatedOne @model {
           id: ID! @primaryKey
           primaryId: ID!
           primary: Primary @belongsTo(references: ["primaryId"])
         }
       `;
-      expect(getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'RelatedMany', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'RelatedMany', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'RelatedOne', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'RelatedOne', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'RelatedMany', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'RelatedMany', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'RelatedOne', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'RelatedOne', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
     });
 
     test('double linked references', () => {
@@ -3157,7 +3257,7 @@ describe('AppSyncSwiftVisitor', () => {
           bar1: Bar @hasOne(references: ["bar1Id"])
           bar2: Bar @hasOne(references: ["bar2Id"])
         }
-        
+
         type Bar @model {
           id: ID!
           bar1Id: ID
@@ -3166,18 +3266,26 @@ describe('AppSyncSwiftVisitor', () => {
           foo2: Foo @belongsTo(references: ["bar2Id"])
         }
       `;
-      expect(getVisitorPipelinedTransformer(schema, 'Foo', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'Foo', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'Bar', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'Bar', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Foo', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Foo', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Bar', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Bar', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
     });
 
     test('hasMany with sortKeyFields on primary key', () => {
@@ -3189,7 +3297,7 @@ describe('AppSyncSwiftVisitor', () => {
           content: String
           related: [Related!] @hasMany(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
         }
-        
+
         type Related @model {
           content: String
           primaryTenantId: ID!
@@ -3199,18 +3307,26 @@ describe('AppSyncSwiftVisitor', () => {
         }
       `;
 
-      expect(getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'Related', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'Related', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Related', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Related', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
     });
 
     test('hasOne with sortKeyFields on primary key', () => {
@@ -3222,7 +3338,7 @@ describe('AppSyncSwiftVisitor', () => {
           content: String
           related: Related @hasOne(references: ["primaryTenantId", "primaryInstanceId", "primaryRecordId"])
         }
-        
+
         type Related @model {
           content: String
           primaryTenantId: ID!
@@ -3232,18 +3348,26 @@ describe('AppSyncSwiftVisitor', () => {
         }
       `;
 
-      expect(getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'Related', CodeGenGenerateEnum.code, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
-      expect(getVisitorPipelinedTransformer(schema, 'Related', CodeGenGenerateEnum.metadata, {
-        respectPrimaryKeyAttributesOnConnectionField: true,
-      }).generate()).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Primary', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Related', CodeGenGenerateEnum.code, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
+      expect(
+        getVisitorPipelinedTransformer(schema, 'Related', CodeGenGenerateEnum.metadata, {
+          respectPrimaryKeyAttributesOnConnectionField: true,
+        }).generate(),
+      ).toMatchSnapshot();
     });
   });
 });

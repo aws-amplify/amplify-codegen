@@ -21,7 +21,7 @@
     "build": "yarn generate-schemas && yarn generate-standalone-validation-function && tsc",
     "watch": "tsc -w",
     "test-watch": "jest --watch",
-    "test": "jest",
+    "test": "jest --coverage --coverageReporters=clover --coverageReporters=text",
     "generate-schemas": "ts-node ./scripts/generateSchemas.ts --overwrite",
     "generate-standalone-validation-function": "ts-node ./scripts/generateStandaloneValidationFunction.ts",
     "extract-api": "ts-node ../../scripts/extract-api.ts"
@@ -61,9 +61,13 @@
   },
   "jest": {
     "transform": {
-      "^.+\\.tsx?$": "ts-jest"
+      "^.+\\.tsx?$": [
+        "ts-jest",
+        {
+          "diagnostics": false
+        }
+      ]
     },
-    "collectCoverage": true,
     "collectCoverageFrom": [
       "src/**/*.ts"
     ],
@@ -74,16 +78,7 @@
         "lines": 80
       }
     },
-    "coverageReporters": [
-      "clover",
-      "text"
-    ],
     "testRegex": "(src/__tests__/.*.test.ts)$",
-    "globals": {
-      "ts-jest": {
-        "diagnostics": false
-      }
-    },
     "moduleFileExtensions": [
       "ts",
       "js"

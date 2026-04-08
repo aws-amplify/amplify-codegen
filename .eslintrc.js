@@ -75,6 +75,7 @@ module.exports = {
     'function-paren-newline': 'off', // https://eslint.org/docs/rules/function-paren-newline
     'global-require': 'off', // https://eslint.org/docs/rules/global-require
     'import/no-dynamic-require': 'off', // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-dynamic-require.md
+    'no-empty-function': ['error', { allow: ['constructors', 'arrowFunctions'] }],
     'no-inner-declarations': 'off', // https://eslint.org/docs/rules/no-inner-declarations
 
     // New rules
@@ -130,7 +131,6 @@ module.exports = {
     'no-use-before-define': 'off', // https://eslint.org/docs/rules/no-use-before-define
     'prefer-destructuring': 'off', // https://eslint.org/docs/rules/prefer-destructuring
     'prefer-object-spread': 'off', // https://eslint.org/docs/rules/prefer-object-spread
-    '@typescript-eslint/camelcase': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
@@ -187,7 +187,6 @@ module.exports = {
     'default-case': 'off',
     'no-return-assign': 'off',
     'import/no-duplicates': 'off',
-    '@typescript-eslint/interface-name-prefix': 'off',
     'no-throw-literal': 'off',
     'react/static-property-placement': 'off',
     'import/no-extraneous-dependencies': ['error', {devDependencies: true}],

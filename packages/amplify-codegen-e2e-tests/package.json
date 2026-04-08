@@ -53,9 +53,9 @@
   },
   "devDependencies": {
     "@aws-amplify/backend": "^1.0.0",
-    "@types/jest": "^27.0.0",
+    "@types/jest": "^29.5.12",
     "graphql": "^15.8.0",
-    "ts-node": "^8.10.1"
+    "ts-node": "^10.9.2"
   },
   "peerDependencies": {
     "@aws-amplify/amplify-cli-core": "^4.4.1",
@@ -67,9 +67,16 @@
     "testRunner": "@aws-amplify/amplify-codegen-e2e-core/runner",
     "testEnvironment": "@aws-amplify/amplify-codegen-e2e-core/environment",
     "transform": {
-      "^.+\\.tsx?$": "ts-jest"
+      "^.+\\.tsx?$": [
+        "ts-jest",
+        {
+          "diagnostics": false
+        }
+      ]
     },
-    "testURL": "http://localhost",
+    "testEnvironmentOptions": {
+      "url": "http://localhost"
+    },
     "testRegex": "(src/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "testPathIgnorePatterns": [
       "/node_modules/",
@@ -106,10 +113,7 @@
       "<rootDir>/src/setup-tests.ts"
     ],
     "globals": {
-      "window": {},
-      "ts-jest": {
-        "diagnostics": false
-      }
+      "window": {}
     }
   },
   "jest-junit": {

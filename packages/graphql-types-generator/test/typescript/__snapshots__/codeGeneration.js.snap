@@ -7,14 +7,14 @@ exports[`TypeScript code generation #generateSource() should generate correct li
 
 // The episodes in the Star Wars trilogy
 export enum Episode {
-  NEWHOPE = \\"NEWHOPE\\", // Star Wars Episode IV: A New Hope, released in 1977.
-  EMPIRE = \\"EMPIRE\\", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
-  JEDI = \\"JEDI\\", // Star Wars Episode VI: Return of the Jedi, released in 1983.
+  NEWHOPE = "NEWHOPE", // Star Wars Episode IV: A New Hope, released in 1977.
+  EMPIRE = "EMPIRE", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
+  JEDI = "JEDI", // Star Wars Episode VI: Return of the Jedi, released in 1983.
 }
 
 
 export type Character = {
-  __typename: \\"Character\\",
+  __typename: "Character",
   // The ID of the character
   id: string,
   // The name of the character
@@ -28,7 +28,7 @@ export type Character = {
 };
 
 export type Human = {
-  __typename: \\"Human\\",
+  __typename: "Human",
   // The ID of the human
   id: string,
   // What this human calls themselves
@@ -50,7 +50,7 @@ export type Human = {
 };
 
 export type FriendsConnection = {
-  __typename: \\"FriendsConnection\\",
+  __typename: "FriendsConnection",
   // The total number of friends
   totalCount?: number | null,
   // The edges for each of the character's friends.
@@ -62,7 +62,7 @@ export type FriendsConnection = {
 };
 
 export type FriendsEdge = {
-  __typename: \\"FriendsEdge\\",
+  __typename: "FriendsEdge",
   // A cursor used for pagination
   cursor: string,
   // The character represented by this friendship edge
@@ -70,14 +70,14 @@ export type FriendsEdge = {
 };
 
 export type PageInfo = {
-  __typename: \\"PageInfo\\",
+  __typename: "PageInfo",
   startCursor?: string | null,
   endCursor?: string | null,
   hasNextPage: boolean,
 };
 
 export type Starship = {
-  __typename: \\"Starship\\",
+  __typename: "Starship",
   // The ID of the starship
   id: string,
   // The name of the starship
@@ -88,7 +88,7 @@ export type Starship = {
 };
 
 export type Droid = {
-  __typename: \\"Droid\\",
+  __typename: "Droid",
   // The ID of the droid
   id: string,
   // What others call this droid
@@ -109,31 +109,31 @@ export type HeroAndFriendsNamesQueryVariables = {
 
 export type HeroAndFriendsNamesQuery = {
   hero: ( {
-      __typename: \\"Human\\",
+      __typename: "Human",
       // The name of the character
       name: string,
       // The friends of the character, or an empty list if they have none
       friends:  Array<( {
-          __typename: \\"Human\\",
+          __typename: "Human",
           // The name of the character
           name: string,
         } | {
-          __typename: \\"Droid\\",
+          __typename: "Droid",
           // The name of the character
           name: string,
         }
       ) | null > | null,
     } | {
-      __typename: \\"Droid\\",
+      __typename: "Droid",
       // The name of the character
       name: string,
       // The friends of the character, or an empty list if they have none
       friends:  Array<( {
-          __typename: \\"Human\\",
+          __typename: "Human",
           // The name of the character
           name: string,
         } | {
-          __typename: \\"Droid\\",
+          __typename: "Droid",
           // The name of the character
           name: string,
         }
@@ -143,11 +143,11 @@ export type HeroAndFriendsNamesQuery = {
 };
 
 export type FriendFragment = ( {
-      __typename: \\"Human\\",
+      __typename: "Human",
       // The name of the character
       name: string,
     } | {
-      __typename: \\"Droid\\",
+      __typename: "Droid",
       // The name of the character
       name: string,
     }
@@ -161,7 +161,7 @@ exports[`TypeScript code generation #generateSource() should generate fragmented
 //  This file was automatically generated and should not be edited.
 
 export type Character = {
-  __typename: \\"Character\\",
+  __typename: "Character",
   // The ID of the character
   id: string,
   // The name of the character
@@ -175,7 +175,7 @@ export type Character = {
 };
 
 export type Human = {
-  __typename: \\"Human\\",
+  __typename: "Human",
   // The ID of the human
   id: string,
   // What this human calls themselves
@@ -197,7 +197,7 @@ export type Human = {
 };
 
 export type FriendsConnection = {
-  __typename: \\"FriendsConnection\\",
+  __typename: "FriendsConnection",
   // The total number of friends
   totalCount?: number | null,
   // The edges for each of the character's friends.
@@ -209,7 +209,7 @@ export type FriendsConnection = {
 };
 
 export type FriendsEdge = {
-  __typename: \\"FriendsEdge\\",
+  __typename: "FriendsEdge",
   // A cursor used for pagination
   cursor: string,
   // The character represented by this friendship edge
@@ -217,7 +217,7 @@ export type FriendsEdge = {
 };
 
 export type PageInfo = {
-  __typename: \\"PageInfo\\",
+  __typename: "PageInfo",
   startCursor?: string | null,
   endCursor?: string | null,
   hasNextPage: boolean,
@@ -225,14 +225,14 @@ export type PageInfo = {
 
 // The episodes in the Star Wars trilogy
 export enum Episode {
-  NEWHOPE = \\"NEWHOPE\\", // Star Wars Episode IV: A New Hope, released in 1977.
-  EMPIRE = \\"EMPIRE\\", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
-  JEDI = \\"JEDI\\", // Star Wars Episode VI: Return of the Jedi, released in 1983.
+  NEWHOPE = "NEWHOPE", // Star Wars Episode IV: A New Hope, released in 1977.
+  EMPIRE = "EMPIRE", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
+  JEDI = "JEDI", // Star Wars Episode VI: Return of the Jedi, released in 1983.
 }
 
 
 export type Starship = {
-  __typename: \\"Starship\\",
+  __typename: "Starship",
   // The ID of the starship
   id: string,
   // The name of the starship
@@ -243,7 +243,7 @@ export type Starship = {
 };
 
 export type Droid = {
-  __typename: \\"Droid\\",
+  __typename: "Droid",
   // The ID of the droid
   id: string,
   // What others call this droid
@@ -263,31 +263,31 @@ export type HeroAndFriendsNamesQueryVariables = {
 
 export type HeroAndFriendsNamesQuery = {
   hero: ( {
-      __typename: \\"Human\\",
+      __typename: "Human",
       // The name of the character
       name: string,
       // The friends of the character, or an empty list if they have none
       friends:  Array<( {
-          __typename: \\"Human\\",
+          __typename: "Human",
           // The name of the character
           name: string,
         } | {
-          __typename: \\"Droid\\",
+          __typename: "Droid",
           // The name of the character
           name: string,
         }
       ) | null > | null,
     } | {
-      __typename: \\"Droid\\",
+      __typename: "Droid",
       // The name of the character
       name: string,
       // The friends of the character, or an empty list if they have none
       friends:  Array<( {
-          __typename: \\"Human\\",
+          __typename: "Human",
           // The name of the character
           name: string,
         } | {
-          __typename: \\"Droid\\",
+          __typename: "Droid",
           // The name of the character
           name: string,
         }
@@ -297,27 +297,27 @@ export type HeroAndFriendsNamesQuery = {
 };
 
 export type heroFriendsFragment = ( {
-      __typename: \\"Human\\",
+      __typename: "Human",
       // The friends of the character, or an empty list if they have none
       friends:  Array<( {
-          __typename: \\"Human\\",
+          __typename: "Human",
           // The name of the character
           name: string,
         } | {
-          __typename: \\"Droid\\",
+          __typename: "Droid",
           // The name of the character
           name: string,
         }
       ) | null > | null,
     } | {
-      __typename: \\"Droid\\",
+      __typename: "Droid",
       // The friends of the character, or an empty list if they have none
       friends:  Array<( {
-          __typename: \\"Human\\",
+          __typename: "Human",
           // The name of the character
           name: string,
         } | {
-          __typename: \\"Droid\\",
+          __typename: "Droid",
           // The name of the character
           name: string,
         }
@@ -334,9 +334,9 @@ exports[`TypeScript code generation #generateSource() should generate mutation o
 
 // The episodes in the Star Wars trilogy
 export enum Episode {
-  NEWHOPE = \\"NEWHOPE\\", // Star Wars Episode IV: A New Hope, released in 1977.
-  EMPIRE = \\"EMPIRE\\", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
-  JEDI = \\"JEDI\\", // Star Wars Episode VI: Return of the Jedi, released in 1983.
+  NEWHOPE = "NEWHOPE", // Star Wars Episode IV: A New Hope, released in 1977.
+  EMPIRE = "EMPIRE", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
+  JEDI = "JEDI", // Star Wars Episode VI: Return of the Jedi, released in 1983.
 }
 
 
@@ -356,7 +356,7 @@ export type ColorInput = {
 };
 
 export type Review = {
-  __typename: \\"Review\\",
+  __typename: "Review",
   // The number of stars this review gave, 1-5
   stars: number,
   // Comment about the movie
@@ -370,7 +370,7 @@ export type ReviewMovieMutationVariables = {
 
 export type ReviewMovieMutation = {
   createReview?:  {
-    __typename: \\"Review\\",
+    __typename: "Review",
     // The number of stars this review gave, 1-5
     stars: number,
     // Comment about the movie
@@ -386,7 +386,7 @@ exports[`TypeScript code generation #generateSource() should generate query oper
 //  This file was automatically generated and should not be edited.
 
 export type Character = {
-  __typename: \\"Character\\",
+  __typename: "Character",
   // The ID of the character
   id: string,
   // The name of the character
@@ -400,7 +400,7 @@ export type Character = {
 };
 
 export type Human = {
-  __typename: \\"Human\\",
+  __typename: "Human",
   // The ID of the human
   id: string,
   // What this human calls themselves
@@ -422,7 +422,7 @@ export type Human = {
 };
 
 export type FriendsConnection = {
-  __typename: \\"FriendsConnection\\",
+  __typename: "FriendsConnection",
   // The total number of friends
   totalCount?: number | null,
   // The edges for each of the character's friends.
@@ -434,7 +434,7 @@ export type FriendsConnection = {
 };
 
 export type FriendsEdge = {
-  __typename: \\"FriendsEdge\\",
+  __typename: "FriendsEdge",
   // A cursor used for pagination
   cursor: string,
   // The character represented by this friendship edge
@@ -442,7 +442,7 @@ export type FriendsEdge = {
 };
 
 export type PageInfo = {
-  __typename: \\"PageInfo\\",
+  __typename: "PageInfo",
   startCursor?: string | null,
   endCursor?: string | null,
   hasNextPage: boolean,
@@ -450,14 +450,14 @@ export type PageInfo = {
 
 // The episodes in the Star Wars trilogy
 export enum Episode {
-  NEWHOPE = \\"NEWHOPE\\", // Star Wars Episode IV: A New Hope, released in 1977.
-  EMPIRE = \\"EMPIRE\\", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
-  JEDI = \\"JEDI\\", // Star Wars Episode VI: Return of the Jedi, released in 1983.
+  NEWHOPE = "NEWHOPE", // Star Wars Episode IV: A New Hope, released in 1977.
+  EMPIRE = "EMPIRE", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
+  JEDI = "JEDI", // Star Wars Episode VI: Return of the Jedi, released in 1983.
 }
 
 
 export type Starship = {
-  __typename: \\"Starship\\",
+  __typename: "Starship",
   // The ID of the starship
   id: string,
   // The name of the starship
@@ -468,7 +468,7 @@ export type Starship = {
 };
 
 export type Droid = {
-  __typename: \\"Droid\\",
+  __typename: "Droid",
   // The ID of the droid
   id: string,
   // What others call this droid
@@ -488,13 +488,13 @@ export type HeroAndDetailsQueryVariables = {
 
 export type HeroAndDetailsQuery = {
   hero: ( {
-      __typename: \\"Human\\",
+      __typename: "Human",
       // What this human calls themselves
       name: string,
       // Height in the preferred unit, default is meters
       height?: number | null,
     } | {
-      __typename: \\"Droid\\",
+      __typename: "Droid",
       // What others call this droid
       name: string,
       // This droid's primary function
@@ -504,11 +504,11 @@ export type HeroAndDetailsQuery = {
 };
 
 export type HeroDetailsFragment = ( {
-      __typename: \\"Human\\",
+      __typename: "Human",
       // Height in the preferred unit, default is meters
       height?: number | null,
     } | {
-      __typename: \\"Droid\\",
+      __typename: "Droid",
       // This droid's primary function
       primaryFunction?: string | null,
     }
@@ -523,14 +523,14 @@ exports[`TypeScript code generation #generateSource() should generate simple nes
 
 // The episodes in the Star Wars trilogy
 export enum Episode {
-  NEWHOPE = \\"NEWHOPE\\", // Star Wars Episode IV: A New Hope, released in 1977.
-  EMPIRE = \\"EMPIRE\\", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
-  JEDI = \\"JEDI\\", // Star Wars Episode VI: Return of the Jedi, released in 1983.
+  NEWHOPE = "NEWHOPE", // Star Wars Episode IV: A New Hope, released in 1977.
+  EMPIRE = "EMPIRE", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
+  JEDI = "JEDI", // Star Wars Episode VI: Return of the Jedi, released in 1983.
 }
 
 
 export type Character = {
-  __typename: \\"Character\\",
+  __typename: "Character",
   // The ID of the character
   id: string,
   // The name of the character
@@ -544,7 +544,7 @@ export type Character = {
 };
 
 export type Human = {
-  __typename: \\"Human\\",
+  __typename: "Human",
   // The ID of the human
   id: string,
   // What this human calls themselves
@@ -566,7 +566,7 @@ export type Human = {
 };
 
 export type FriendsConnection = {
-  __typename: \\"FriendsConnection\\",
+  __typename: "FriendsConnection",
   // The total number of friends
   totalCount?: number | null,
   // The edges for each of the character's friends.
@@ -578,7 +578,7 @@ export type FriendsConnection = {
 };
 
 export type FriendsEdge = {
-  __typename: \\"FriendsEdge\\",
+  __typename: "FriendsEdge",
   // A cursor used for pagination
   cursor: string,
   // The character represented by this friendship edge
@@ -586,14 +586,14 @@ export type FriendsEdge = {
 };
 
 export type PageInfo = {
-  __typename: \\"PageInfo\\",
+  __typename: "PageInfo",
   startCursor?: string | null,
   endCursor?: string | null,
   hasNextPage: boolean,
 };
 
 export type Starship = {
-  __typename: \\"Starship\\",
+  __typename: "Starship",
   // The ID of the starship
   id: string,
   // The name of the starship
@@ -604,7 +604,7 @@ export type Starship = {
 };
 
 export type Droid = {
-  __typename: \\"Droid\\",
+  __typename: "Droid",
   // The ID of the droid
   id: string,
   // What others call this droid
@@ -625,31 +625,31 @@ export type HeroAndFriendsNamesQueryVariables = {
 
 export type HeroAndFriendsNamesQuery = {
   hero: ( {
-      __typename: \\"Human\\",
+      __typename: "Human",
       // The name of the character
       name: string,
       // The friends of the character, or an empty list if they have none
       friends:  Array<( {
-          __typename: \\"Human\\",
+          __typename: "Human",
           // The name of the character
           name: string,
         } | {
-          __typename: \\"Droid\\",
+          __typename: "Droid",
           // The name of the character
           name: string,
         }
       ) | null > | null,
     } | {
-      __typename: \\"Droid\\",
+      __typename: "Droid",
       // The name of the character
       name: string,
       // The friends of the character, or an empty list if they have none
       friends:  Array<( {
-          __typename: \\"Human\\",
+          __typename: "Human",
           // The name of the character
           name: string,
         } | {
-          __typename: \\"Droid\\",
+          __typename: "Droid",
           // The name of the character
           name: string,
         }
@@ -666,7 +666,7 @@ exports[`TypeScript code generation #generateSource() should generate simple nes
 //  This file was automatically generated and should not be edited.
 
 export type Starship = {
-  __typename: \\"Starship\\",
+  __typename: "Starship",
   // The ID of the starship
   id: string,
   // The name of the starship
@@ -681,7 +681,7 @@ export type StarshipCoordsQueryVariables = {
 
 export type StarshipCoordsQuery = {
   starship?:  {
-    __typename: \\"Starship\\",
+    __typename: "Starship",
     coordinates?: Array< Array< number > > | null,
   } | null,
 };
@@ -694,7 +694,7 @@ exports[`TypeScript code generation #generateSource() should generate simple que
 //  This file was automatically generated and should not be edited.
 
 export type Character = {
-  __typename: \\"Character\\",
+  __typename: "Character",
   // The ID of the character
   id: string,
   // The name of the character
@@ -708,7 +708,7 @@ export type Character = {
 };
 
 export type Human = {
-  __typename: \\"Human\\",
+  __typename: "Human",
   // The ID of the human
   id: string,
   // What this human calls themselves
@@ -730,7 +730,7 @@ export type Human = {
 };
 
 export type FriendsConnection = {
-  __typename: \\"FriendsConnection\\",
+  __typename: "FriendsConnection",
   // The total number of friends
   totalCount?: number | null,
   // The edges for each of the character's friends.
@@ -742,7 +742,7 @@ export type FriendsConnection = {
 };
 
 export type FriendsEdge = {
-  __typename: \\"FriendsEdge\\",
+  __typename: "FriendsEdge",
   // A cursor used for pagination
   cursor: string,
   // The character represented by this friendship edge
@@ -750,7 +750,7 @@ export type FriendsEdge = {
 };
 
 export type PageInfo = {
-  __typename: \\"PageInfo\\",
+  __typename: "PageInfo",
   startCursor?: string | null,
   endCursor?: string | null,
   hasNextPage: boolean,
@@ -758,14 +758,14 @@ export type PageInfo = {
 
 // The episodes in the Star Wars trilogy
 export enum Episode {
-  NEWHOPE = \\"NEWHOPE\\", // Star Wars Episode IV: A New Hope, released in 1977.
-  EMPIRE = \\"EMPIRE\\", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
-  JEDI = \\"JEDI\\", // Star Wars Episode VI: Return of the Jedi, released in 1983.
+  NEWHOPE = "NEWHOPE", // Star Wars Episode IV: A New Hope, released in 1977.
+  EMPIRE = "EMPIRE", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
+  JEDI = "JEDI", // Star Wars Episode VI: Return of the Jedi, released in 1983.
 }
 
 
 export type Starship = {
-  __typename: \\"Starship\\",
+  __typename: "Starship",
   // The ID of the starship
   id: string,
   // The name of the starship
@@ -776,7 +776,7 @@ export type Starship = {
 };
 
 export type Droid = {
-  __typename: \\"Droid\\",
+  __typename: "Droid",
   // The ID of the droid
   id: string,
   // What others call this droid
@@ -796,11 +796,11 @@ export type HeroNameQueryVariables = {
 
 export type HeroNameQuery = {
   hero: ( {
-      __typename: \\"Human\\",
+      __typename: "Human",
       // The name of the character
       name: string,
     } | {
-      __typename: \\"Droid\\",
+      __typename: "Droid",
       // The name of the character
       name: string,
     }
@@ -816,14 +816,14 @@ exports[`TypeScript code generation #generateSource() should generate simple que
 
 // The episodes in the Star Wars trilogy
 export enum Episode {
-  NEWHOPE = \\"NEWHOPE\\", // Star Wars Episode IV: A New Hope, released in 1977.
-  EMPIRE = \\"EMPIRE\\", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
-  JEDI = \\"JEDI\\", // Star Wars Episode VI: Return of the Jedi, released in 1983.
+  NEWHOPE = "NEWHOPE", // Star Wars Episode IV: A New Hope, released in 1977.
+  EMPIRE = "EMPIRE", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
+  JEDI = "JEDI", // Star Wars Episode VI: Return of the Jedi, released in 1983.
 }
 
 
 export type Character = {
-  __typename: \\"Character\\",
+  __typename: "Character",
   // The ID of the character
   id: string,
   // The name of the character
@@ -837,7 +837,7 @@ export type Character = {
 };
 
 export type Human = {
-  __typename: \\"Human\\",
+  __typename: "Human",
   // The ID of the human
   id: string,
   // What this human calls themselves
@@ -859,7 +859,7 @@ export type Human = {
 };
 
 export type FriendsConnection = {
-  __typename: \\"FriendsConnection\\",
+  __typename: "FriendsConnection",
   // The total number of friends
   totalCount?: number | null,
   // The edges for each of the character's friends.
@@ -871,7 +871,7 @@ export type FriendsConnection = {
 };
 
 export type FriendsEdge = {
-  __typename: \\"FriendsEdge\\",
+  __typename: "FriendsEdge",
   // A cursor used for pagination
   cursor: string,
   // The character represented by this friendship edge
@@ -879,14 +879,14 @@ export type FriendsEdge = {
 };
 
 export type PageInfo = {
-  __typename: \\"PageInfo\\",
+  __typename: "PageInfo",
   startCursor?: string | null,
   endCursor?: string | null,
   hasNextPage: boolean,
 };
 
 export type Starship = {
-  __typename: \\"Starship\\",
+  __typename: "Starship",
   // The ID of the starship
   id: string,
   // The name of the starship
@@ -897,7 +897,7 @@ export type Starship = {
 };
 
 export type Droid = {
-  __typename: \\"Droid\\",
+  __typename: "Droid",
   // The ID of the droid
   id: string,
   // What others call this droid
@@ -918,11 +918,11 @@ export type HeroNameQueryVariables = {
 
 export type HeroNameQuery = {
   hero: ( {
-      __typename: \\"Human\\",
+      __typename: "Human",
       // The name of the character
       name: string,
     } | {
-      __typename: \\"Droid\\",
+      __typename: "Droid",
       // The name of the character
       name: string,
     }
@@ -937,7 +937,7 @@ exports[`TypeScript code generation #generateSource() should handle comments in 
 //  This file was automatically generated and should not be edited.
 
 export type CommentTest = {
-  __typename: \\"CommentTest\\",
+  __typename: "CommentTest",
   // This is a single-line comment
   singleLine?: string | null,
   // This is a multi-line
@@ -947,10 +947,10 @@ export type CommentTest = {
 };
 
 export enum EnumCommentTestCase {
-  first = \\"first\\", // This is a single-line comment
+  first = "first", // This is a single-line comment
   // This is a multi-line
   // comment.
-  second = \\"second\\",
+  second = "second",
 }
 
 
@@ -959,7 +959,7 @@ export type CustomScalarQueryVariables = {
 
 export type CustomScalarQuery = {
   commentTest?:  {
-    __typename: \\"CommentTest\\",
+    __typename: "CommentTest",
     enumCommentTest?: EnumCommentTestCase | null,
   } | null,
 };
@@ -972,18 +972,18 @@ exports[`TypeScript code generation #generateSource() should handle interfaces a
 //  This file was automatically generated and should not be edited.
 
 export type InterfaceTestCase = {
-  __typename: \\"InterfaceTestCase\\",
+  __typename: "InterfaceTestCase",
   prop: string,
 };
 
 export type ImplA = {
-  __typename: \\"ImplA\\",
+  __typename: "ImplA",
   prop: string,
   propA: string,
 };
 
 export type ImplB = {
-  __typename: \\"ImplB\\",
+  __typename: "ImplB",
   prop: string,
   propB?: number | null,
 };
@@ -993,11 +993,11 @@ export type CustomScalarQueryVariables = {
 
 export type CustomScalarQuery = {
   interfaceTest: ( {
-      __typename: \\"ImplA\\",
+      __typename: "ImplA",
       prop: string,
       propA: string,
     } | {
-      __typename: \\"ImplB\\",
+      __typename: "ImplB",
       prop: string,
       propB?: number | null,
     }
@@ -1012,7 +1012,7 @@ exports[`TypeScript code generation #generateSource() should handle multi-line c
 //  This file was automatically generated and should not be edited.
 
 export type CommentTest = {
-  __typename: \\"CommentTest\\",
+  __typename: "CommentTest",
   // This is a single-line comment
   singleLine?: string | null,
   // This is a multi-line
@@ -1022,10 +1022,10 @@ export type CommentTest = {
 };
 
 export enum EnumCommentTestCase {
-  first = \\"first\\", // This is a single-line comment
+  first = "first", // This is a single-line comment
   // This is a multi-line
   // comment.
-  second = \\"second\\",
+  second = "second",
 }
 
 
@@ -1034,7 +1034,7 @@ export type CustomScalarQueryVariables = {
 
 export type CustomScalarQuery = {
   commentTest?:  {
-    __typename: \\"CommentTest\\",
+    __typename: "CommentTest",
     // This is a multi-line
     // comment.
     multiLine?: string | null,
@@ -1049,7 +1049,7 @@ exports[`TypeScript code generation #generateSource() should handle single line 
 //  This file was automatically generated and should not be edited.
 
 export type CommentTest = {
-  __typename: \\"CommentTest\\",
+  __typename: "CommentTest",
   // This is a single-line comment
   singleLine?: string | null,
   // This is a multi-line
@@ -1059,10 +1059,10 @@ export type CommentTest = {
 };
 
 export enum EnumCommentTestCase {
-  first = \\"first\\", // This is a single-line comment
+  first = "first", // This is a single-line comment
   // This is a multi-line
   // comment.
-  second = \\"second\\",
+  second = "second",
 }
 
 
@@ -1071,7 +1071,7 @@ export type CustomScalarQueryVariables = {
 
 export type CustomScalarQuery = {
   commentTest?:  {
-    __typename: \\"CommentTest\\",
+    __typename: "CommentTest",
     // This is a single-line comment
     singleLine?: string | null,
   } | null,
@@ -1088,12 +1088,12 @@ export type UnionTestCase = PartialA | PartialB
 
 
 export type PartialA = {
-  __typename: \\"PartialA\\",
+  __typename: "PartialA",
   prop: string,
 };
 
 export type PartialB = {
-  __typename: \\"PartialB\\",
+  __typename: "PartialB",
   prop: string,
 };
 
@@ -1102,10 +1102,10 @@ export type CustomScalarQueryVariables = {
 
 export type CustomScalarQuery = {
   unionTest: ( {
-      __typename: \\"PartialA\\",
+      __typename: "PartialA",
       prop: string,
     } | {
-      __typename: \\"PartialB\\",
+      __typename: "PartialB",
       prop: string,
     }
   ) | null,
@@ -1119,7 +1119,7 @@ exports[`TypeScript code generation #generateSource() should have __typename val
 //  This file was automatically generated and should not be edited.
 
 export type Character = {
-  __typename: \\"Character\\",
+  __typename: "Character",
   // The ID of the character
   id: string,
   // The name of the character
@@ -1133,7 +1133,7 @@ export type Character = {
 };
 
 export type Human = {
-  __typename: \\"Human\\",
+  __typename: "Human",
   // The ID of the human
   id: string,
   // What this human calls themselves
@@ -1155,7 +1155,7 @@ export type Human = {
 };
 
 export type FriendsConnection = {
-  __typename: \\"FriendsConnection\\",
+  __typename: "FriendsConnection",
   // The total number of friends
   totalCount?: number | null,
   // The edges for each of the character's friends.
@@ -1167,7 +1167,7 @@ export type FriendsConnection = {
 };
 
 export type FriendsEdge = {
-  __typename: \\"FriendsEdge\\",
+  __typename: "FriendsEdge",
   // A cursor used for pagination
   cursor: string,
   // The character represented by this friendship edge
@@ -1175,7 +1175,7 @@ export type FriendsEdge = {
 };
 
 export type PageInfo = {
-  __typename: \\"PageInfo\\",
+  __typename: "PageInfo",
   startCursor?: string | null,
   endCursor?: string | null,
   hasNextPage: boolean,
@@ -1183,14 +1183,14 @@ export type PageInfo = {
 
 // The episodes in the Star Wars trilogy
 export enum Episode {
-  NEWHOPE = \\"NEWHOPE\\", // Star Wars Episode IV: A New Hope, released in 1977.
-  EMPIRE = \\"EMPIRE\\", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
-  JEDI = \\"JEDI\\", // Star Wars Episode VI: Return of the Jedi, released in 1983.
+  NEWHOPE = "NEWHOPE", // Star Wars Episode IV: A New Hope, released in 1977.
+  EMPIRE = "EMPIRE", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
+  JEDI = "JEDI", // Star Wars Episode VI: Return of the Jedi, released in 1983.
 }
 
 
 export type Starship = {
-  __typename: \\"Starship\\",
+  __typename: "Starship",
   // The ID of the starship
   id: string,
   // The name of the starship
@@ -1201,7 +1201,7 @@ export type Starship = {
 };
 
 export type Droid = {
-  __typename: \\"Droid\\",
+  __typename: "Droid",
   // The ID of the droid
   id: string,
   // What others call this droid
@@ -1221,11 +1221,11 @@ export type HeroNameQueryVariables = {
 
 export type HeroNameQuery = {
   hero: ( {
-      __typename: \\"Human\\",
+      __typename: "Human",
       // The name of the character
       name: string,
     } | {
-      __typename: \\"Droid\\",
+      __typename: "Droid",
       // The name of the character
       name: string,
     }
@@ -1233,11 +1233,11 @@ export type HeroNameQuery = {
 };
 
 export type HeroWithNameFragment = ( {
-      __typename: \\"Human\\",
+      __typename: "Human",
       // The name of the character
       name: string,
     } | {
-      __typename: \\"Droid\\",
+      __typename: "Droid",
       // The name of the character
       name: string,
     }
@@ -1251,7 +1251,7 @@ exports[`TypeScript code generation #generateSource() should have __typename val
 //  This file was automatically generated and should not be edited.
 
 export type Droid = {
-  __typename: \\"Droid\\",
+  __typename: "Droid",
   // The ID of the droid
   id: string,
   // What others call this droid
@@ -1267,7 +1267,7 @@ export type Droid = {
 };
 
 export type Character = {
-  __typename: \\"Character\\",
+  __typename: "Character",
   // The ID of the character
   id: string,
   // The name of the character
@@ -1281,7 +1281,7 @@ export type Character = {
 };
 
 export type Human = {
-  __typename: \\"Human\\",
+  __typename: "Human",
   // The ID of the human
   id: string,
   // What this human calls themselves
@@ -1303,7 +1303,7 @@ export type Human = {
 };
 
 export type FriendsConnection = {
-  __typename: \\"FriendsConnection\\",
+  __typename: "FriendsConnection",
   // The total number of friends
   totalCount?: number | null,
   // The edges for each of the character's friends.
@@ -1315,7 +1315,7 @@ export type FriendsConnection = {
 };
 
 export type FriendsEdge = {
-  __typename: \\"FriendsEdge\\",
+  __typename: "FriendsEdge",
   // A cursor used for pagination
   cursor: string,
   // The character represented by this friendship edge
@@ -1323,7 +1323,7 @@ export type FriendsEdge = {
 };
 
 export type PageInfo = {
-  __typename: \\"PageInfo\\",
+  __typename: "PageInfo",
   startCursor?: string | null,
   endCursor?: string | null,
   hasNextPage: boolean,
@@ -1331,14 +1331,14 @@ export type PageInfo = {
 
 // The episodes in the Star Wars trilogy
 export enum Episode {
-  NEWHOPE = \\"NEWHOPE\\", // Star Wars Episode IV: A New Hope, released in 1977.
-  EMPIRE = \\"EMPIRE\\", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
-  JEDI = \\"JEDI\\", // Star Wars Episode VI: Return of the Jedi, released in 1983.
+  NEWHOPE = "NEWHOPE", // Star Wars Episode IV: A New Hope, released in 1977.
+  EMPIRE = "EMPIRE", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
+  JEDI = "JEDI", // Star Wars Episode VI: Return of the Jedi, released in 1983.
 }
 
 
 export type Starship = {
-  __typename: \\"Starship\\",
+  __typename: "Starship",
   // The ID of the starship
   id: string,
   // The name of the starship
@@ -1353,14 +1353,14 @@ export type DroidNameQueryVariables = {
 
 export type DroidNameQuery = {
   droid?:  {
-    __typename: \\"Droid\\",
+    __typename: "Droid",
     // What others call this droid
     name: string,
   } | null,
 };
 
 export type DroidWithNameFragment = {
-  __typename: \\"Droid\\",
+  __typename: "Droid",
   // What others call this droid
   name: string,
 };
@@ -1373,7 +1373,7 @@ exports[`TypeScript code generation #generateSource() should have the correct __
 //  This file was automatically generated and should not be edited.
 
 export type Human = {
-  __typename: \\"Human\\",
+  __typename: "Human",
   // The ID of the human
   id: string,
   // What this human calls themselves
@@ -1395,7 +1395,7 @@ export type Human = {
 };
 
 export type Character = {
-  __typename: \\"Character\\",
+  __typename: "Character",
   // The ID of the character
   id: string,
   // The name of the character
@@ -1409,7 +1409,7 @@ export type Character = {
 };
 
 export type Droid = {
-  __typename: \\"Droid\\",
+  __typename: "Droid",
   // The ID of the droid
   id: string,
   // What others call this droid
@@ -1425,7 +1425,7 @@ export type Droid = {
 };
 
 export type FriendsConnection = {
-  __typename: \\"FriendsConnection\\",
+  __typename: "FriendsConnection",
   // The total number of friends
   totalCount?: number | null,
   // The edges for each of the character's friends.
@@ -1437,7 +1437,7 @@ export type FriendsConnection = {
 };
 
 export type FriendsEdge = {
-  __typename: \\"FriendsEdge\\",
+  __typename: "FriendsEdge",
   // A cursor used for pagination
   cursor: string,
   // The character represented by this friendship edge
@@ -1445,7 +1445,7 @@ export type FriendsEdge = {
 };
 
 export type PageInfo = {
-  __typename: \\"PageInfo\\",
+  __typename: "PageInfo",
   startCursor?: string | null,
   endCursor?: string | null,
   hasNextPage: boolean,
@@ -1453,14 +1453,14 @@ export type PageInfo = {
 
 // The episodes in the Star Wars trilogy
 export enum Episode {
-  NEWHOPE = \\"NEWHOPE\\", // Star Wars Episode IV: A New Hope, released in 1977.
-  EMPIRE = \\"EMPIRE\\", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
-  JEDI = \\"JEDI\\", // Star Wars Episode VI: Return of the Jedi, released in 1983.
+  NEWHOPE = "NEWHOPE", // Star Wars Episode IV: A New Hope, released in 1977.
+  EMPIRE = "EMPIRE", // Star Wars Episode V: The Empire Strikes Back, released in 1980.
+  JEDI = "JEDI", // Star Wars Episode VI: Return of the Jedi, released in 1983.
 }
 
 
 export type Starship = {
-  __typename: \\"Starship\\",
+  __typename: "Starship",
   // The ID of the starship
   id: string,
   // The name of the starship
@@ -1476,14 +1476,14 @@ export type FindHumanQueryVariables = {
 
 export type FindHumanQuery = {
   human?:  {
-    __typename: \\"Human\\",
+    __typename: "Human",
     // The ID of the human
     id: string,
     // What this human calls themselves
     name: string,
     // A list of starships this person has piloted, or an empty list if none
     starships?:  Array< {
-      __typename: \\"Starship\\",
+      __typename: "Starship",
       // The ID of the starship
       id: string,
       // The name of the starship
@@ -1493,14 +1493,14 @@ export type FindHumanQuery = {
 };
 
 export type humanDetailsFragment = {
-  __typename: \\"Human\\",
+  __typename: "Human",
   // The ID of the human
   id: string,
   // What this human calls themselves
   name: string,
   // A list of starships this person has piloted, or an empty list if none
   starships?:  Array< {
-    __typename: \\"Starship\\",
+    __typename: "Starship",
     // The ID of the starship
     id: string,
     // The name of the starship
@@ -1509,7 +1509,7 @@ export type humanDetailsFragment = {
 };
 
 export type starshipDetailsFragment = {
-  __typename: \\"Starship\\",
+  __typename: "Starship",
   // The ID of the starship
   id: string,
   // The name of the starship
