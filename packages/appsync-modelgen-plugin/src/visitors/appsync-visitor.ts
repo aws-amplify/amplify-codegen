@@ -161,7 +161,7 @@ export interface RawAppSyncModelConfig extends RawConfig {
    * @type string
    * @description semantic version of amplify-codegen package
    */
-  codegenVersion: string;
+  codegenVersion?: string;
 }
 
 // Todo: need to figure out how to share config
@@ -584,7 +584,7 @@ export class AppSyncModelVisitor<
     const typeName = field.type;
     let typeNameStr: string = '';
     if (typeName in this.scalars) {
-      typeNameStr = this.scalars[typeName];
+      typeNameStr = this.getScalarType(typeName);
     } else if (this.isModelType(field)) {
       typeNameStr = this.getModelName(this.modelMap[typeName]);
     } else if (this.isEnumType(field)) {
@@ -596,6 +596,14 @@ export class AppSyncModelVisitor<
     }
 
     return field.isList ? this.getListType(typeNameStr, field) : typeNameStr;
+  }
+
+  protected getScalarType(typeName: string, kind: 'input' | 'output' = 'output'): string {
+    const scalar = this.scalars[typeName];
+    if (!scalar) {
+      throw new Error(`Unknown scalar ${typeName}`);
+    }
+    return scalar[kind];
   }
 
   protected getListType(typeStr: string, field: CodeGenField): string {
