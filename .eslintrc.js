@@ -75,7 +75,6 @@ module.exports = {
     'function-paren-newline': 'off', // https://eslint.org/docs/rules/function-paren-newline
     'global-require': 'off', // https://eslint.org/docs/rules/global-require
     'import/no-dynamic-require': 'off', // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-dynamic-require.md
-    'no-empty-function': ['error', { allow: ['constructors', 'arrowFunctions'] }],
     'no-inner-declarations': 'off', // https://eslint.org/docs/rules/no-inner-declarations
 
     // New rules
@@ -103,7 +102,8 @@ module.exports = {
     'object-shorthand': 'off',
     'prefer-const': 'off',
     'prefer-template': 'off',
-    '@typescript-eslint/no-empty-function': 'off',
+    'no-empty-function': 'off',
+    '@typescript-eslint/no-empty-function': ['error', { allow: ['constructors'] }],
     '@typescript-eslint/no-this-alias': 'off',
     'import/named': 'off',
     'import/newline-after-import': 'off',
@@ -227,7 +227,7 @@ module.exports = {
   overrides: [
     {
       // edit rules here to modify test linting
-      files: ['__tests__/**', '*.test.ts', '*.test.js'],
+      files: ['**/__tests__/**', '**/test/**', '**/*.test.ts', '**/*.test.js'],
       plugins: ['jest'],
       extends: ['plugin:jest/recommended'],
       rules: {
@@ -245,6 +245,7 @@ module.exports = {
         'jest/no-identical-title': 'warn',
         'no-useless-computed-key': 'warn',
         '@typescript-eslint/ban-ts-comment': 'warn',
+        '@typescript-eslint/no-empty-function': 'off',
         'guard-for-in': 'warn',
       },
     },

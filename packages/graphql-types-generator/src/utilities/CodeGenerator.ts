@@ -64,7 +64,7 @@ export class GeneratedFile<Scope = any> implements BasicGeneratedFile {
     this.output += indentation;
   }
 
-  withIndent(closure: Function) {
+  withIndent(closure?: Function) {
     if (!closure) return;
 
     this.indentLevel++;
@@ -73,7 +73,7 @@ export class GeneratedFile<Scope = any> implements BasicGeneratedFile {
     this.indentLevel--;
   }
 
-  withinBlock(closure: Function, open = ' {', close = '}') {
+  withinBlock(closure?: Function, open = ' {', close = '}') {
     this.print(open);
     this.withIndent(closure);
     this.printOnNewline(close);
@@ -136,11 +136,11 @@ export class CodeGenerator<Context = any, Scope = any> {
     this.currentFile.printIndent();
   }
 
-  withIndent(closure: Function) {
+  withIndent(closure?: Function) {
     this.currentFile.withIndent(closure);
   }
 
-  withinBlock(closure: Function, open = ' {', close = '}') {
+  withinBlock(closure?: Function, open = ' {', close = '}') {
     this.currentFile.withinBlock(closure, open, close);
   }
 }

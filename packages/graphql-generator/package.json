@@ -19,7 +19,7 @@
   "scripts": {
     "build": "tsc && yarn check-codegen-version",
     "watch": "tsc -w",
-    "test": "jest",
+    "test": "jest --coverage --coverageReporters=clover --coverageReporters=text",
     "test-watch": "jest --watch",
     "extract-api": "ts-node ../../scripts/extract-api.ts",
     "check-codegen-version": "bash ./scripts/check-codegen-version.sh"
@@ -48,9 +48,13 @@
   },
   "jest": {
     "transform": {
-      "^.+\\.tsx?$": "ts-jest"
+      "^.+\\.tsx?$": [
+        "ts-jest",
+        {
+          "diagnostics": false
+        }
+      ]
     },
-    "collectCoverage": true,
     "collectCoverageFrom": [
       "src/**/*.ts",
       "!src/__tests__/**/*.ts",
@@ -63,16 +67,7 @@
         "lines": 90
       }
     },
-    "coverageReporters": [
-      "clover",
-      "text"
-    ],
     "testRegex": "(src/__tests__/.*.test.ts)$",
-    "globals": {
-      "ts-jest": {
-        "diagnostics": false
-      }
-    },
     "moduleFileExtensions": [
       "js",
       "ts"

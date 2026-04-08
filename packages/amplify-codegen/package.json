@@ -16,7 +16,7 @@
     "aws"
   ],
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage --coverageReporters=clover --coverageReporters=text",
     "test-watch": "jest --watch",
     "extract-api": "ts-node ../../scripts/extract-api.ts"
   },
@@ -44,7 +44,6 @@
     "graphql-transformer-core": "^8.0.0"
   },
   "jest": {
-    "collectCoverage": true,
     "coverageThreshold": {
       "global": {
         "branches": 54,
@@ -52,11 +51,9 @@
         "lines": 72
       }
     },
-    "coverageReporters": [
-      "clover",
-      "text"
-    ],
-    "testURL": "http://localhost",
+    "testEnvironmentOptions": {
+      "url": "http://localhost"
+    },
     "testRegex": "((\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [
       "js",

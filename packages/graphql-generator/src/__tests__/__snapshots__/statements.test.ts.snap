@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`generateStatements targets basic angular 1`] = `
-Object {
+{
   "mutations.graphql": "# this is an auto generated file. This will be overwritten
 
 mutation CreateBlog(
@@ -480,7 +480,7 @@ subscription OnDeleteComment($filter: ModelSubscriptionCommentFilterInput) {
 `;
 
 exports[`generateStatements targets basic flow 1`] = `
-Object {
+{
   "mutations.js": "// @flow
 // this is an auto generated file. This will be overwritten
 
@@ -989,7 +989,7 @@ export const onDeleteComment = /* GraphQL */ \`
 `;
 
 exports[`generateStatements targets basic graphql 1`] = `
-Object {
+{
   "mutations.graphql": "# this is an auto generated file. This will be overwritten
 
 mutation CreateBlog(
@@ -1468,7 +1468,7 @@ subscription OnDeleteComment($filter: ModelSubscriptionCommentFilterInput) {
 `;
 
 exports[`generateStatements targets basic javascript 1`] = `
-Object {
+{
   "mutations.js": "/* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
@@ -1977,7 +1977,7 @@ export const onDeleteComment = /* GraphQL */ \`
 `;
 
 exports[`generateStatements targets basic typescript 1`] = `
-Object {
+{
   "mutations.ts": "/* tslint:disable */
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
