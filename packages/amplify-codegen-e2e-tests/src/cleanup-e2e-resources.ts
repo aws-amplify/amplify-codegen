@@ -109,12 +109,29 @@ const IAM_TEST_REGEX = /-RotateE2eAwsToken-e2eTestContextRole|-integtest|^amplif
 const STALE_DURATION_MS = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
 
 const isCI = (): boolean => process.env.CI && process.env.CODEBUILD ? true : false;
-/*
- * Exit on expired token as all future requests will fail.
- */
+
+class ExpiredTokenError extends Error {
+  constructor(message = 'Token expired for this account') {
+    super(message);
+    this.name = 'ExpiredTokenError';
+  }
+}
+
+const isExpiredTokenError = (e: any): boolean => {
+  return e?.name === 'ExpiredTokenException' || e?.name === 'InvalidToken' || e?.code === 'ExpiredTokenException' || e?.code === 'InvalidToken';
+};
+
+const isStackDoesNotExistError = (e: any): boolean => {
+  return e?.name === 'ValidationError' && e?.message?.includes('does not exist');
+};
+
+const isNonJsonResponseError = (e: any): boolean => {
+  return e instanceof SyntaxError || (e?.name === 'SyntaxError' && e?.message?.includes('Unexpected token'));
+};
+
 const handleExpiredTokenException = (): void => {
-  console.log('Token expired. Exiting...');
-  process.exit();
+  console.log('Token expired for this account. Skipping remaining operations for this account.');
+  throw new ExpiredTokenError();
 };
 
 /**
@@ -264,26 +281,33 @@ const getJobId = (tags: Tag[] = []): string | undefined => {
  */
 const getStackDetails = async (stackName: string, account: AWSAccountInfo, region: string): Promise<StackInfo | void> => {
   const cfnClient = new CloudFormationClient(getAWSConfig(account, region));
-  const stack = await cfnClient.send(new DescribeStacksCommand({ StackName: stackName }));
-  const tags = stack.Stacks.length && stack.Stacks[0].Tags;
-  const stackStatus = stack.Stacks[0].StackStatus;
-  let resourcesFailedToDelete: string[] = [];
-  if (stackStatus === 'DELETE_FAILED') {
-    // TODO: We need to investigate if we should go ahead and remove the resources to prevent account getting cluttered
-    const resources = await cfnClient.send(new ListStackResourcesCommand({ StackName: stackName }));
-    resourcesFailedToDelete = resources.StackResourceSummaries.filter(r => r.ResourceStatus === 'DELETE_FAILED').map(
-      r => r.LogicalResourceId,
-    );
+  try {
+    const stack = await cfnClient.send(new DescribeStacksCommand({ StackName: stackName }));
+    const tags = stack.Stacks.length && stack.Stacks[0].Tags;
+    const stackStatus = stack.Stacks[0].StackStatus;
+    let resourcesFailedToDelete: string[] = [];
+    if (stackStatus === 'DELETE_FAILED') {
+      const resources = await cfnClient.send(new ListStackResourcesCommand({ StackName: stackName }));
+      resourcesFailedToDelete = resources.StackResourceSummaries.filter(r => r.ResourceStatus === 'DELETE_FAILED').map(
+        r => r.LogicalResourceId,
+      );
+    }
+    const jobId = getJobId(tags);
+    return {
+      stackName,
+      stackStatus,
+      resourcesFailedToDelete,
+      region,
+      tags: tags.reduce((acc, tag) => ({ ...acc, [tag.Key]: tag.Value }), {}),
+      jobId
+    };
+  } catch (e) {
+    if (isStackDoesNotExistError(e)) {
+      console.log(`Stack ${stackName} does not exist in ${region}. Skipping.`);
+      return;
+    }
+    throw e;
   }
-  const jobId = getJobId(tags);
-  return {
-    stackName,
-    stackStatus,
-    resourcesFailedToDelete,
-    region,
-    tags: tags.reduce((acc, tag) => ({ ...acc, [tag.Key]: tag.Value }), {}),
-    jobId
-  };
 };
 
 const getStacks = async (account: AWSAccountInfo, region: string, regionsEnabled: string[]): Promise<StackInfo[]> => {
@@ -336,12 +360,20 @@ const getJobCodeBuildDetails = async (jobIds: string[]): Promise<Build[]> => {
     return [];
   }
   const client = getCodeBuildClient();
-  try {
-    const { builds } = await client.send(new BatchGetBuildsCommand({ ids: jobIds }));
-    return builds;
-  } catch(e) {
-    console.log(e);
+  const allBuilds: Build[] = [];
+  const BATCH_SIZE = 100;
+  for (let i = 0; i < jobIds.length; i += BATCH_SIZE) {
+    const batch = jobIds.slice(i, i + BATCH_SIZE);
+    try {
+      const { builds } = await client.send(new BatchGetBuildsCommand({ ids: batch }));
+      if (builds) {
+        allBuilds.push(...builds);
+      }
+    } catch (e) {
+      console.log(`Failed to get CodeBuild details for batch starting at index ${i}:`, e);
+    }
   }
+  return allBuilds;
 };
 
 const getBucketRegion = async (account: AWSAccountInfo, bucketName: string): Promise<string> => {
@@ -376,17 +408,15 @@ const getS3Buckets = async (account: AWSAccountInfo): Promise<S3BucketInfo[]> =>
         });
       }
     } catch (e) {
-      // TODO: Why do we process the bucket even with these particular errors?
       if (e.name === 'NoSuchTagSet' || e.name === 'NoSuchBucket') {
         result.push({
           name: bucket.Name,
           region: region ?? 'us-east-1',
         });
-      } else if (e.name === 'InvalidToken') {
-        // We see some buckets in some accounts that were somehow created in an opt-in region different from the one to which the account is
-        // actually opted in. We don't quite know how this happened, but for now, we'll make a note of the inconsistency and continue
-        // processing the rest of the buckets.
+      } else if (e.name === 'InvalidToken' || isExpiredTokenError(e)) {
         console.error(`Skipping processing ${account.accountId}, bucket ${bucket.Name}`, e);
+      } else if (isNonJsonResponseError(e)) {
+        console.warn(`Received non-JSON response for bucket ${bucket.Name}. Skipping.`, e.message);
       } else {
         throw e;
       }
@@ -512,7 +542,7 @@ const deleteAmplifyApp = async (account: AWSAccountInfo, accountIndex: number, a
     await amplifyClient.send(new DeleteAppCommand({ appId }));
   } catch (e) {
     console.log(`${generateAccountInfo(account, accountIndex)} Deleting Amplify App ${appId} failed with the following error`, e);
-    if (e.code === 'ExpiredTokenException') {
+    if (isExpiredTokenError(e)) {
       handleExpiredTokenException();
     }
   }
@@ -539,7 +569,7 @@ const deleteIamRole = async (account: AWSAccountInfo, accountIndex: number, role
     await iamClient.send(new DeleteRoleCommand({ RoleName: roleName }));
   } catch (e) {
     console.log(`${generateAccountInfo(account, accountIndex)} Deleting iam role ${roleName} failed with error ${e.message}`);
-    if (e.code === 'ExpiredTokenException') {
+    if (isExpiredTokenError(e)) {
       handleExpiredTokenException();
     }
   }
@@ -567,7 +597,7 @@ const detachIamAttachedRolePolicy = async (
     await iamClient.send(new DetachRolePolicyCommand({ RoleName: roleName, PolicyArn: policy.PolicyArn }));
   } catch (e) {
     console.log(`${generateAccountInfo(account, accountIndex)} Detach iam role policy ${policy.PolicyName} failed with error ${e.message}`);
-    if (e.code === 'ExpiredTokenException') {
+    if (isExpiredTokenError(e)) {
       handleExpiredTokenException();
     }
   }
@@ -595,7 +625,7 @@ const deleteIamRolePolicy = async (
     await iamClient.send(new DeleteRolePolicyCommand({ RoleName: roleName, PolicyName: policyName }));
   } catch (e) {
     console.log(`${generateAccountInfo(account, accountIndex)} Deleting iam role policy ${policyName} failed with error ${e.message}`);
-    if (e.code === 'ExpiredTokenException') {
+    if (isExpiredTokenError(e)) {
       handleExpiredTokenException();
     }
   }
@@ -617,7 +647,7 @@ const deleteBucket = async (account: AWSAccountInfo, accountIndex: number, bucke
     await deleteS3Bucket(name, regionalizedS3Client);
   } catch (e) {
     console.log(`${generateAccountInfo(account, accountIndex)} Deleting bucket ${name} failed with error ${e.message}`);
-    if (e.code === 'ExpiredTokenException') {
+    if (isExpiredTokenError(e)) {
       handleExpiredTokenException();
     }
   }
@@ -636,8 +666,12 @@ const deleteCfnStack = async (account: AWSAccountInfo, accountIndex: number, sta
     await cfnClient.send(new DeleteStackCommand({ StackName: stackName, RetainResources: resourceToRetain }));
     await waitUntilStackDeleteComplete({ client: cfnClient, maxWaitTime: 3600 }, { StackName: stackName });
   } catch (e) {
+    if (isStackDoesNotExistError(e)) {
+      console.log(`${generateAccountInfo(account, accountIndex)} Stack ${stackName} does not exist. Already deleted. Skipping.`);
+      return;
+    }
     console.log(`Deleting CloudFormation stack ${stackName} failed with error ${e.message}`);
-    if (e.code === 'ExpiredTokenException') {
+    if (isExpiredTokenError(e)) {
       handleExpiredTokenException();
     }
   }
@@ -732,28 +766,34 @@ const getAccountsToCleanup = async (): Promise<AWSAccountInfo[]> => {
   });
   try {
     const orgAccounts = await orgApi.send(new ListAccountsCommand({}));
-    const accountCredentialPromises = orgAccounts.Accounts.map(async account => {
-      if (account.Id === parentAccountIdentity.Account) {
+    const accountCredentialPromises = orgAccounts.Accounts.map(async (account): Promise<AWSAccountInfo | null> => {
+      try {
+        if (account.Id === parentAccountIdentity.Account) {
+          return {
+            accountId: account.Id,
+            ...e2eParentAccountCred
+          };
+        }
+        const randomNumber = Math.floor(Math.random() * 100000);
+        const assumeRoleRes = await stsClientForE2E.send(new AssumeRoleCommand({
+            RoleArn: `arn:aws:iam::${account.Id}:role/OrganizationAccountAccessRole`,
+            RoleSessionName: `testSession${randomNumber}`,
+            // One hour
+            DurationSeconds: 1 * 60 * 60,
+          }));
         return {
           accountId: account.Id,
-          ...e2eParentAccountCred
+          accessKeyId: assumeRoleRes.Credentials.AccessKeyId,
+          secretAccessKey: assumeRoleRes.Credentials.SecretAccessKey,
+          sessionToken: assumeRoleRes.Credentials.SessionToken,
         };
+      } catch (e) {
+        console.warn(`Failed to assume role for account ${account.Id}. Skipping.`, e.message);
+        return null;
       }
-      const randomNumber = Math.floor(Math.random() * 100000);
-      const assumeRoleRes = await stsClientForE2E.send(new AssumeRoleCommand({
-          RoleArn: `arn:aws:iam::${account.Id}:role/OrganizationAccountAccessRole`,
-          RoleSessionName: `testSession${randomNumber}`,
-          // One hour
-          DurationSeconds: 1 * 60 * 60,
-        }));
-      return {
-        accountId: account.Id,
-        accessKeyId: assumeRoleRes.Credentials.AccessKeyId,
-        secretAccessKey: assumeRoleRes.Credentials.SecretAccessKey,
-        sessionToken: assumeRoleRes.Credentials.SessionToken,
-      };
     });
-    return await Promise.all(accountCredentialPromises);
+    const results = await Promise.all(accountCredentialPromises);
+    return results.filter((acct): acct is AWSAccountInfo => acct !== null);
   } catch (e) {
     console.error(e);
     console.log('Error assuming child account role. This could be because the script is already running from within a child account. Running on current AWS account only.');
@@ -767,26 +807,38 @@ const getAccountsToCleanup = async (): Promise<AWSAccountInfo[]> => {
 };
 
 const cleanupAccount = async (account: AWSAccountInfo, accountIndex: number, filterPredicate: JobFilterPredicate): Promise<void> => {
-  const regionsEnabled = await getRegionsEnabled(account);
+  try {
+    const regionsEnabled = await getRegionsEnabled(account);
 
-  const appPromises = AWS_REGIONS_TO_RUN_TESTS.map(region => getAmplifyApps(account, region, regionsEnabled));
-  const stackPromises = AWS_REGIONS_TO_RUN_TESTS.map(region => getStacks(account, region, regionsEnabled));
-  const bucketPromise = getS3Buckets(account);
-  const orphanBucketPromise = getOrphanS3TestBuckets(account);
-  const orphanIamRolesPromise = getOrphanTestIamRoles(account);
+    const appPromises = AWS_REGIONS_TO_RUN_TESTS.map(region => getAmplifyApps(account, region, regionsEnabled));
+    const stackPromises = AWS_REGIONS_TO_RUN_TESTS.map(region => getStacks(account, region, regionsEnabled));
+    const bucketPromise = getS3Buckets(account);
+    const orphanBucketPromise = getOrphanS3TestBuckets(account);
+    const orphanIamRolesPromise = getOrphanTestIamRoles(account);
 
-  const apps = (await Promise.all(appPromises)).flat();
-  const stacks = (await Promise.all(stackPromises)).flat();
-  const buckets = await bucketPromise;
-  const orphanBuckets = await orphanBucketPromise;
-  const orphanIamRoles = await orphanIamRolesPromise;
+    const apps = (await Promise.all(appPromises)).flat();
+    const stacks = (await Promise.all(stackPromises)).flat();
+    const buckets = await bucketPromise;
+    const orphanBuckets = await orphanBucketPromise;
+    const orphanIamRoles = await orphanIamRolesPromise;
 
-  const allResources = await mergeResourcesByCCIJob(apps, stacks, buckets, orphanBuckets, orphanIamRoles);
-  const staleResources = _.pickBy(allResources, filterPredicate);
+    const allResources = await mergeResourcesByCCIJob(apps, stacks, buckets, orphanBuckets, orphanIamRoles);
+    const staleResources = _.pickBy(allResources, filterPredicate);
 
-  generateReport(staleResources, accountIndex);
-  await deleteResources(account, accountIndex, staleResources);
-  console.log(`${generateAccountInfo(account, accountIndex)} Cleanup done!`);
+    generateReport(staleResources, accountIndex);
+    await deleteResources(account, accountIndex, staleResources);
+    console.log(`${generateAccountInfo(account, accountIndex)} Cleanup done!`);
+  } catch (e) {
+    if (e instanceof ExpiredTokenError || isExpiredTokenError(e)) {
+      console.warn(`${generateAccountInfo(account, accountIndex)} Auth token expired or invalid. Skipping this account.`);
+      return;
+    }
+    if (isNonJsonResponseError(e)) {
+      console.warn(`${generateAccountInfo(account, accountIndex)} Received non-JSON response from AWS API. Skipping this account.`, e.message);
+      return;
+    }
+    console.error(`${generateAccountInfo(account, accountIndex)} Cleanup failed with unexpected error:`, e);
+  }
 };
 
 const generateAccountInfo = (account: AWSAccountInfo, accountIndex: number): string => {
