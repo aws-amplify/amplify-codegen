@@ -14743,7 +14743,7 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: handlebars. A copy of the source code may be downloaded from https://github.com/wycats/handlebars.js.git. This software contains the following license and notice below:
+The following software may be included in this product: handlebars. A copy of the source code may be downloaded from https://github.com/handlebars-lang/handlebars.js.git. This software contains the following license and notice below:
 
 Copyright (C) 2011-2019 by Yehuda Katz
 
